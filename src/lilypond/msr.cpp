@@ -13454,7 +13454,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       "\", line " << inputLineNumber <<
       endl;
 
-  if (! fPartHarmonyTrack) {
+  if (! fPartHarmonyVoice) {
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> creating a harmony staff for part \"" <<
@@ -13462,10 +13462,9 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
         "\", line " << inputLineNumber <<
         endl;
 
-    S_msrStaff
-      harmonyStaff =
-        addStaffToPartByItsNumber (
-          inputLineNumber, 0);
+    fPartHarmonyStaff =
+      addStaffToPartByItsNumber (
+        inputLineNumber, 0);
       
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
@@ -13474,20 +13473,20 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
         "\", line " << inputLineNumber <<
         endl;
 
-    fPartHarmonyTrack =
+    fPartHarmonyVoice =
       msrVoice::create (
         inputLineNumber,
         msrVoice::kHarmonyTrackVoice,
         -1, // JMI
-        harmonyStaff);
+        fPartHarmonyStaff);
 
-    harmonyStaff->
+    fPartHarmonyStaff->
       registerHarmonlyTrackInStaff (
         inputLineNumber,
-        fPartHarmonyTrack );
+        fPartHarmonyVoice );
   }
     
-  fPartHarmonyTrack->
+  fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);
 }
 
@@ -13563,10 +13562,10 @@ void msrPart::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrPart::browseData()" << endl;
 
-  if (fPartHarmonyTrack) {
+  if (fPartHarmonyVoice) {
     // browse the harmony track
     msrBrowser<msrVoice> browser (v);
-    browser.browse (*fPartHarmonyTrack);
+    browser.browse (*fPartHarmonyVoice);
   }
   
   for (
@@ -13621,8 +13620,8 @@ void msrPart::print (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
-  // print the harmony track if any
-  if (fPartHarmonyTrack) {
+  // print the harmony voice if any
+  if (fPartHarmonyVoice) {
     os <<
       endl <<
       idtr <<
@@ -13630,7 +13629,7 @@ void msrPart::print (ostream& os)
       endl;
             
     idtr++;
-    os << idtr << fPartHarmonyTrack;
+    os << idtr << fPartHarmonyVoice;
     idtr--;
   }
 
@@ -13682,16 +13681,16 @@ void msrPart::printStructure (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
-  // print the harmony track if any
-  if (fPartHarmonyTrack) {
+  // print the harmony voice if any
+  if (fPartHarmonyVoice) {
     os <<
       endl <<
       idtr <<
-        "Harmony track" <<
+        "Harmony voice" <<
       endl;
             
     idtr++;
-    os << idtr << fPartHarmonyTrack;
+    os << idtr << fPartHarmonyVoice;
     idtr--;
   }
 

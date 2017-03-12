@@ -5679,8 +5679,8 @@ class EXP msrPart : public msrElement
     S_msrPartgroup  getPartPartgroupUplink () const
                         { return fPartPartgroupUplink; }
               
-    S_msrVoice      getPartHarmonyTrack () const
-                        { return fPartHarmonyTrack; }
+    S_msrVoice      getPartHarmonyVoice () const
+                        { return fPartHarmonyVoice; }
                   
     const map<int, S_msrStaff>&
                     getPartStavesMap ()
@@ -5695,18 +5695,18 @@ class EXP msrPart : public msrElement
     const int       getPartDivisionsPerWholeNote () const
                         { return fPartDivisionsPerWholeNote; }
           
-    S_msrClef       getPartClef () const { return fPartClef; };
-    S_msrKey        getPartKey  () const { return fPartKey; };
-    S_msrTime       getPartTime () const { return fPartTime; };
-    
-    S_msrTranspose  getPartTranspose () const { return fPartTranspose; };
-    
     void            setPartClef (S_msrClef clef);
     void            setPartKey  (S_msrKey  key);
     void            setPartTime (S_msrTime time);
 
+    S_msrClef       getPartClef () const { return fPartClef; };
+    S_msrKey        getPartKey  () const { return fPartKey; };
+    S_msrTime       getPartTime () const { return fPartTime; };
+    
     void            setPartTranspose (S_msrTranspose transpose);
 
+    S_msrTranspose  getPartTranspose () const { return fPartTranspose; };
+    
     // measure number
     void            setPartMeasureNumber (
                       int inputLineNumber,
@@ -5825,7 +5825,8 @@ class EXP msrPart : public msrElement
 
     S_msrTranspose          fPartTranspose;
 
-    S_msrVoice              fPartHarmonyTrack;
+    S_msrStaff              fPartHarmonyStaff;
+    S_msrVoice              fPartHarmonyVoice; // JMI
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
