@@ -1951,8 +1951,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
   
   fOstream <<
     "\"" <<
-    endl <<
-    idtr;
+    endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrClef& elt)
@@ -1982,7 +1981,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
       break;
   } // switch
   
-  fOstream << endl;
+  fOstream <<
+    endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrKey& elt)

@@ -10775,56 +10775,59 @@ void msrVoice::init (int inputLineNumber)
   fVoiceFirstSegment =
     fVoiceLastSegment;
 
-  // get the initial clef from the staff if any
-  {
-    S_msrClef
-      clef =
-        fVoiceStaffUplink->getStaffClef ();
-  
-    if (clef) {
-      // append it to the last segment
-      fVoiceLastSegment->
-        appendClefToSegment (clef);
-      }
-  }
+  // get information from fVoiceStaffUplink if any
+  if (fVoiceStaffUplink) {
+    // get the initial clef from the staff if any
+    {
+      S_msrClef
+        clef =
+          fVoiceStaffUplink->getStaffClef ();
     
-  // get the initial key from the staff if any
-  {
-    S_msrKey
-      key =
-        fVoiceStaffUplink->getStaffKey ();
-
-    if (key) {
-      // append it to the last segment
-      fVoiceLastSegment->
-        appendKeyToSegment (key);
+      if (clef) {
+        // append it to the last segment
+        fVoiceLastSegment->
+          appendClefToSegment (clef);
+        }
     }
-  }
+      
+    // get the initial key from the staff if any
+    {
+      S_msrKey
+        key =
+          fVoiceStaffUplink->getStaffKey ();
   
-  // get the initial time from the staff if any
-  {
-    S_msrTime
-      time =
-        fVoiceStaffUplink->getStaffTime ();
-
-    if (time) {
-      // append it to the last segment
-      fVoiceLastSegment->
-        appendTimeToSegment (time);
+      if (key) {
+        // append it to the last segment
+        fVoiceLastSegment->
+          appendKeyToSegment (key);
+      }
     }
-  }
+    
+    // get the initial time from the staff if any
+    {
+      S_msrTime
+        time =
+          fVoiceStaffUplink->getStaffTime ();
   
-  // get the initial transpose from the staff if any
-  {
-    S_msrTranspose
-      transpose =
-        fVoiceStaffUplink->getStaffTranspose ();
-        
-    if (transpose) {
-      // append it to the last segment
-      S_msrElement t = transpose;
-      fVoiceLastSegment->
-        appendOtherElementToSegment (transpose); //JMI
+      if (time) {
+        // append it to the last segment
+        fVoiceLastSegment->
+          appendTimeToSegment (time);
+      }
+    }
+    
+    // get the initial transpose from the staff if any
+    {
+      S_msrTranspose
+        transpose =
+          fVoiceStaffUplink->getStaffTranspose ();
+          
+      if (transpose) {
+        // append it to the last segment
+        S_msrElement t = transpose;
+        fVoiceLastSegment->
+          appendOtherElementToSegment (transpose); //JMI
+      }
     }
   }
 }
@@ -10846,9 +10849,12 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
         clonedStaff);
 
   // populate the voice clone
+  clone->fVoiceKind -
+    fVoiceKind;
+
   clone->fVoiceDivisionsPerWholeNote =
     fVoiceDivisionsPerWholeNote;
-
+    
   clone->fExternalVoiceNumber =
     fExternalVoiceNumber;
 
@@ -11852,6 +11858,27 @@ void msrVoice::browseData (basevisitor* v)
       "<== msrVoice::browseData()" << endl;
 }
 
+string msrVoice::voiceKindAsString (
+  msrVoiceKind voiceKind)
+{
+  string result;
+  
+  switch (voiceKind) {
+    case msrVoice::kRegularVoice:
+      result = "Regular";
+      break;
+    case msrVoice::kHarmonyTrackVoice:
+      result = "HarmonyTrackVoice";
+      break;
+    case msrVoice::kMasterVoice:
+      result = "MasterVoice";
+      break;
+  } // switch
+
+  return result;
+}
+      
+
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {
   elt->print (os);
@@ -11861,7 +11888,8 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 void msrVoice::print (ostream& os)
 {
   os <<
-    "Voice" " \"" << getVoiceName () <<
+    voiceKindAsString (fVoiceKind) <<
+    " voice \"" << getVoiceName () <<
     "\" (" <<
     singularOrPlural (
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
@@ -12145,20 +12173,20 @@ msrStaff::msrStaff (
       getPartDivisionsPerWholeNote ();
 
   // create the staff voice master with relative number 0
-  // and all 'gMaxStaffVoices' voices for this staff
-  // those that remain without music will be removed later
-  for (int i = 0; i <= gMaxStaffVoices; i++) {
-    addVoiceToStaffByItsRelativeNumber (
-      fInputLineNumber, i);
-  } // for
-
-  // set staff voice master
   fStaffVoiceMaster =
-    fStaffVoicesMap [0];
+    addVoiceMasterToStaff (
+      fInputLineNumber);
 
   // mark it as containing music, to prevent it from being removed
   fStaffVoiceMaster->
     setMusicHasBeenInsertedInVoice ();
+
+  // create all 'gMaxStaffVoices' voices for this staff
+  // those that remain without music will be removed later
+  for (int i = 1; i <= gMaxStaffVoices; i++) {
+    addVoiceToStaffByItsRelativeNumber (
+      fInputLineNumber, i);
+  } // for
 
   // get the initial clef from the staff if any
   {
@@ -12368,6 +12396,23 @@ void msrStaff::setStaffMeasureNumber (
   // propagate it to all staves
   setAllStaffVoicesMeasureNumber (
     inputLineNumber, measureNumber);  
+}
+
+S_msrVoice msrStaff::addVoiceMasterToStaff (
+  int inputLineNumber)
+{
+  // create the voice
+  S_msrVoice
+    voice =
+      msrVoice::createMasterVoice (
+        inputLineNumber,
+        this);
+
+  // add it to this staff as element '0'
+  fStaffVoicesMap [0] = voice;
+  
+  // return the voice
+  return voice;
 }
 
 S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
