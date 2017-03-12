@@ -10458,13 +10458,15 @@ void msrRepeat::print (ostream& os)
 
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
-  int        inputLineNumber,
-  int        externalVoiceNumber,
-  S_msrStaff voiceStaffUplink)
+  int          inputLineNumber,
+  msrVoiceKind voiceKind,
+  int          externalVoiceNumber,
+  S_msrStaff   voiceStaffUplink)
 {
   msrVoice* o =
     new msrVoice (
       inputLineNumber,
+      voiceKind,
       externalVoiceNumber,
       voiceStaffUplink);
   assert(o!=0);
@@ -10497,12 +10499,13 @@ S_msrVoice msrVoice::createMasterVoice (
 
 // for regular voices
 msrVoice::msrVoice (
-  int        inputLineNumber,
-  int        externalVoiceNumber,
-  S_msrStaff voiceStaffUplink)
+  int          inputLineNumber,
+  msrVoiceKind voiceKind,
+  int          externalVoiceNumber,
+  S_msrStaff   voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
-  fVoiceKind = kRegularVoice;
+  fVoiceKind = voiceKind;
   
   fExternalVoiceNumber = externalVoiceNumber;
   
@@ -10514,10 +10517,28 @@ msrVoice::msrVoice (
   fVoiceDivisionsPerWholeNote =
     fVoiceStaffUplink->
       getStaffDivisionsPerWholeNote ();
-    
+
+  // compute voice number
+  int voiceNumber =
+    gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
+      ? fStaffRelativeVoiceNumber
+      : fExternalVoiceNumber;
+
+  // compute suffix
+  string suffix =
+    fStaffRelativeVoiceNumber == 0
+      ? "MASTER"
+      : int2EnglishWord (voiceNumber);
+
+  // set voice name
+  fVoiceName =
+    fVoiceStaffUplink->getStaffName() +
+    "_Voice_" +
+    suffix;
+
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating voice \"" << getVoiceName () <<
+      "Creating voice \"" << fVoiceName <<
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
       ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
       endl;
@@ -10711,13 +10732,11 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
     clone =
       msrVoice::create (
         fInputLineNumber,
+        fVoiceKind,
         fExternalVoiceNumber,
         clonedStaff);
 
   // populate the voice clone
-  clone->fVoiceKind -
-    fVoiceKind;
-
   clone->fVoiceDivisionsPerWholeNote =
     fVoiceDivisionsPerWholeNote;
     
@@ -10739,6 +10758,9 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 
 string msrVoice::getVoiceName () const
 {
+  return fVoiceName;
+
+  /* 
   int voiceNumber =
     gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
       ? fStaffRelativeVoiceNumber
@@ -10753,6 +10775,7 @@ string msrVoice::getVoiceName () const
     fVoiceStaffUplink->getStaffName() +
     "_Voice_" +
     suffix;
+    */
 }
 
 void msrVoice::setVoiceDivisionsPerWholeNote (
@@ -12015,9 +12038,21 @@ msrStaff::msrStaff (
 
   fRegisteredVoicesCounter = 0;
 
+  // set staff name
+  fStaffName =
+    fStaffNumber == 0
+      ?
+        fStaffPartUplink->getPartMSRName () +
+        "_S_" +
+        "(MASTER)"
+      :
+        fStaffPartUplink->getPartMSRName () +
+        "_S_" +
+        int2EnglishWord (fStaffNumber);
+
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating staff \"" << getStaffName () <<
+      "Creating staff \"" << fStaffName <<
       "\" in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
@@ -12041,7 +12076,9 @@ msrStaff::msrStaff (
   // create the staff voice master with relative number 0
   fStaffVoiceMaster =
     addVoiceToStaffByItsRelativeNumber (
-      fInputLineNumber, 0);
+      fInputLineNumber,
+      msrVoice::kMasterVoice,
+      0);
 
   // mark it as containing music, to prevent it from being removed
   fStaffVoiceMaster->
@@ -12051,7 +12088,9 @@ msrStaff::msrStaff (
   // those that remain without music will be removed later
   for (int i = 1; i <= gMaxStaffVoices; i++) {
     addVoiceToStaffByItsRelativeNumber (
-      fInputLineNumber, i);
+      fInputLineNumber,
+      msrVoice::kRegularVoice,
+      i);
   } // for
 
   // get the initial clef from the staff if any
@@ -12202,6 +12241,9 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 
 string msrStaff::getStaffName () const
   {
+    return fStaffName;
+
+    /*
   return
     fStaffNumber == 0
       ?
@@ -12212,6 +12254,7 @@ string msrStaff::getStaffName () const
         fStaffPartUplink->getPartMSRName () +
         "_S_" +
         int2EnglishWord (fStaffNumber);
+        */
   }
 
 void msrStaff::setStaffDivisionsPerWholeNote (
@@ -12284,14 +12327,16 @@ S_msrVoice msrStaff::addVoiceMasterToStaff (
 */
 
 S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
-  int inputLineNumber,
-  int voiceRelativeNumber)
+  int                    inputLineNumber,
+  msrVoice::msrVoiceKind voiceKind,
+  int                    voiceRelativeNumber)
 {
   // create the voice
   S_msrVoice
     voice =
       msrVoice::create (
         inputLineNumber,
+        voiceKind,
         voiceRelativeNumber,
         this);
 
@@ -13399,6 +13444,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
     fPartHarmonyTrack =
       msrVoice::create (
         inputLineNumber,
+        msrVoice::kRegularVoice,
         -1, // JMI
         harmonyStaff);
 

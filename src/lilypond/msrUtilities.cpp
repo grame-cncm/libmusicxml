@@ -296,7 +296,7 @@ string int2EnglishWord (int n)
     s << "Minus_";
     n = -n;
 
-    assert(false); // JMI
+//    assert(false); // JMI
   }
 
   if     (n >= 1000) {

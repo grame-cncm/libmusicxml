@@ -4970,9 +4970,10 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrVoice> create (
-      int        inputLineNumber,
-      int        externalVoiceNumber,
-      S_msrStaff voiceStaffUplink);
+      int          inputLineNumber,
+      msrVoiceKind voiceKind,
+      int          externalVoiceNumber,
+      S_msrStaff   voiceStaffUplink);
 
 /*
     static SMARTP<msrVoice> createHarmonyTrack (
@@ -4993,9 +4994,10 @@ class EXP msrVoice : public msrElement
 
     // for regular voices
     msrVoice (
-      int        inputLineNumber,
-      int        externalVoiceNumber,
-      S_msrStaff voiceStaffUplink);
+      int          inputLineNumber,
+      msrVoiceKind voiceKind,
+      int          externalVoiceNumber,
+      S_msrStaff   voiceStaffUplink);
 
 /* JMI
     // for harmony tracks
@@ -5225,6 +5227,8 @@ class EXP msrVoice : public msrElement
   private:
 
     msrVoiceKind              fVoiceKind;
+
+    string                    fVoiceName;
     
     // voice numbers in MusicXML may be greater than 4
     // while there can only be 4 in a staff
@@ -5491,8 +5495,9 @@ class EXP msrStaff : public msrElement
   */
   
     S_msrVoice      addVoiceToStaffByItsRelativeNumber (
-                      int inputLineNumber,
-                      int voiceRelativeNumber);
+                      int                    inputLineNumber,
+                      msrVoice::msrVoiceKind voiceKind,
+                      int                    voiceRelativeNumber);
   
     S_msrVoice      registerVoiceInStaffByItsExternalNumber (
                       int inputLineNumber,
@@ -5558,6 +5563,8 @@ class EXP msrStaff : public msrElement
   private:
 
     // data
+
+    string                  fStaffName;
     
     msrStaffKind            fStaffKind;
     
