@@ -5261,7 +5261,7 @@ class EXP msrVoice : public msrElement
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment              fVoiceFirstSegment;
 
-    // fVoiceCurrentRepeat is always null or
+    // fVoiceCurrentRepeat is null or
     // the last msrRepeat in fVoiceRepeatsAndSegments
     S_msrRepeat               fVoiceCurrentRepeat;
 

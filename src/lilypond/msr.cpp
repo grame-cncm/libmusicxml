@@ -10770,6 +10770,9 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
         clonedStaff);
 
   // populate the voice clone
+  clone->fVoiceName =
+    fVoiceName;
+    
   clone->fVoiceDivisionsPerWholeNote =
     fVoiceDivisionsPerWholeNote;
     
@@ -12287,7 +12290,7 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of staff \"" <<
-      getStaffName () <<
+      fStaffName <<
       "\"" <<
       endl;
 
@@ -12299,8 +12302,9 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
         fStaffNumber,
         clonedPart);
 
-  clone->fStaffKind = fStaffKind;
-  
+  clone->fStaffName =
+    fStaffName;
+    
   return clone;
 }
 
