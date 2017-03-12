@@ -5508,7 +5508,11 @@ class EXP msrStaff : public msrElement
     void            registerVoiceInStaff (
                       int inputLineNumber,
                       S_msrVoice voice);
-    
+
+    void            registerHarmonlyTrackInStaff (
+                      int inputLineNumber,
+                      S_msrVoice harmonyTrack);
+
     S_msrVoice      fetchVoiceFromStaff (
                       int inputLineNumber, int externalVoiceNumber);
                               
@@ -5523,7 +5527,7 @@ class EXP msrStaff : public msrElement
     void            appendTransposeToAllStaffVoices (S_msrTranspose transpose);
 
     void            addStafftuningToStaff (
-                    S_msrStafftuning stafftuning)
+                      S_msrStafftuning stafftuning)
                         { fStafftuningsList.push_back (stafftuning); }
   
     void            removeStaffEmptyVoices ();
@@ -5748,7 +5752,7 @@ class EXP msrPart : public msrElement
                       int inputLineNumber,
                       int staffNumber);
     
-    void            addStaffToPart (S_msrStaff staff);
+    void            addStaffToPartClone (S_msrStaff staff);
 
     S_msrStaff      fetchStaffFromPart (int staffNumber);
 

@@ -514,7 +514,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
     
   // add it to the part clone
   fCurrentPartClone->
-    addStaffToPart (fCurrentStaffClone);
+    addStaffToPartClone (fCurrentStaffClone);
 
   // create a staff block
   fCurrentStaffBlock =
