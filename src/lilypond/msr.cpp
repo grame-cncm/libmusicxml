@@ -10536,6 +10536,7 @@ msrVoice::msrVoice (
   init (inputLineNumber);
 }
 
+/*
 // for harmony tracks
 msrVoice::msrVoice (
   int        inputLineNumber)
@@ -10580,7 +10581,7 @@ msrVoice::msrVoice (
   
   fVoiceStaffUplink = 0;
 
-/* ??? XXL
+/ * ??? XXL
   fVoiceDivisionsPerWholeNote =
     fVoiceStaffUplink->
       getStaffDivisionsPerWholeNote ();
@@ -10591,11 +10592,12 @@ msrVoice::msrVoice (
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
       ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
       endl;
-*/
+* /
 
   // initialize the voice
   init (inputLineNumber);
 }
+*/
 
 msrVoice::~msrVoice() {}
 
@@ -13391,8 +13393,10 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
         endl;
 
     fPartHarmonyTrack =
-      msrVoice::createHarmonyTrack (
-        inputLineNumber);
+      msrVoice::create (
+        inputLineNumber,
+        -1, // JMI
+        harmonyStaff);
 
     harmonyStaff->
       registerHarmonlyTrackInStaff (

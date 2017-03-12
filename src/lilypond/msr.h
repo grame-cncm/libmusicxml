@@ -4974,12 +4974,14 @@ class EXP msrVoice : public msrElement
       int        externalVoiceNumber,
       S_msrStaff voiceStaffUplink);
 
+/*
     static SMARTP<msrVoice> createHarmonyTrack (
       int           inputLineNumber);
 
     static SMARTP<msrVoice> createMasterVoice (
       int        inputLineNumber,
       S_msrStaff voiceStaffUplink);
+  */
     
     SMARTP<msrVoice> createVoiceBareClone (
       S_msrStaff clonedStaff);
@@ -4995,6 +4997,7 @@ class EXP msrVoice : public msrElement
       int        externalVoiceNumber,
       S_msrStaff voiceStaffUplink);
 
+/* JMI
     // for harmony tracks
     msrVoice (
       int        inputLineNumber);
@@ -5003,6 +5006,7 @@ class EXP msrVoice : public msrElement
     msrVoice (
       int        inputLineNumber,
       S_msrStaff voiceStaffUplink);
+*/
 
     virtual ~msrVoice();
 
