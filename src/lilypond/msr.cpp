@@ -10543,17 +10543,50 @@ msrVoice::msrVoice (
       ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
       endl;
 
-  // the external voice number should not be negative
-  // (0 is used for the part voice master)
-  if (externalVoiceNumber < 0) {
-    stringstream s;
-
-    s <<
-      "voice number " << externalVoiceNumber <<
-      " is not in the 0..4 range";
+  // check external voice number
+  switch (voiceKind) {
+    case msrVoice::kRegularVoice:
+      // the external voice number should not be negative
+      // (0 is used for the part voice master)
+      if (externalVoiceNumber < 0) {
+        stringstream s;
+    
+        s <<
+          "voice number " << externalVoiceNumber <<
+          " is not in the 0..4 range";
+          
+        msrMusicXMLError (
+          inputLineNumber, s.str());
+      }
+      break;
       
-    msrAssert (false, s.str());
-  }
+    case msrVoice::kHarmonyTrackVoice:
+      if (externalVoiceNumber != -1) {
+        stringstream s;
+    
+        s <<
+          "harmony track voice number " << externalVoiceNumber <<
+          " is not equal to -1";
+          
+        msrInternalError (
+          inputLineNumber, s.str());
+      }
+      break;
+      
+    case msrVoice::kMasterVoice:
+      if (externalVoiceNumber != 0) {
+        stringstream s;
+    
+        s <<
+          "master voice number " << externalVoiceNumber <<
+          " is not in the 0..4 range";
+          
+        msrInternalError (
+          inputLineNumber, s.str());
+      }
+      break;
+  } // switch
+
 
   // initialize the voice
   init (inputLineNumber);
@@ -13444,7 +13477,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
     fPartHarmonyTrack =
       msrVoice::create (
         inputLineNumber,
-        msrVoice::kRegularVoice,
+        msrVoice::kHarmonyTrackVoice,
         -1, // JMI
         harmonyStaff);
 
