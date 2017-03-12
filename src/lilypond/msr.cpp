@@ -9693,6 +9693,19 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
   appendOtherElementToSegment (time);
 }
 
+void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
+{
+  if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending harmony " << harmony->harmonyAsString () <<
+        " to segment " << segmentAsString () <<
+        endl;
+      
+  // append it to this segment
+  appendOtherElementToSegment (harmony);
+}
+
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {
   bool doAppendMeasure = true;
@@ -11050,7 +11063,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       endl;
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (harmony);
+    appendHarmonyToSegment (harmony);
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
@@ -13333,18 +13346,8 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       "\", line " << harmony->getInputLineNumber () <<
       endl;
 
-  fPartHarmoniesList.push_back (harmony);
-  
-  /* JMI
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->appendHarmonyToStaff (harmony);
-  } // for
-  */
-
-  
+  fPartHarmonyTrack->
+    appendHarmonyToVoice (harmony);
 }
 
 void msrPart:: handleBackup (int divisions)
@@ -13471,25 +13474,16 @@ void msrPart::print (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
-  // print the harmonies if any
-  if (fPartHarmoniesList.size()) {
+  // print the harmony track if any
+  if (fPartHarmonyTrack) {
     os <<
       endl <<
       idtr <<
-        "Harmonies list" <<
+        "Harmony trace" <<
       endl;
-      
-    list<S_msrElement>::const_iterator
-      iBegin = fPartHarmoniesList.begin(),
-      iEnd   = fPartHarmoniesList.end(),
-      i      = iBegin;
-      
+            
     idtr++;
-    for ( ; ; ) {
-      os << idtr << (*i);
-      if (++i == iEnd) break;
-  // JMI    os << endl;
-    } // for
+    os << idtr << fPartHarmonyTrack;
     idtr--;
   }
 
@@ -13541,27 +13535,20 @@ void msrPart::printStructure (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
-  if (fPartHarmoniesList.size()) {
+  // print the harmony track if any
+  if (fPartHarmonyTrack) {
     os <<
       endl <<
       idtr <<
-        "Harmonies list" <<
+        "Harmony track" <<
       endl;
-      
-    list<S_msrElement>::const_iterator
-      iBegin = fPartHarmoniesList.begin(),
-      iEnd   = fPartHarmoniesList.end(),
-      i      = iBegin;
-      
+            
     idtr++;
-    for ( ; ; ) {
-      os << idtr << (*i);
-      if (++i == iEnd) break;
-  // JMI    os << endl;
-    } // for
+    os << idtr << fPartHarmonyTrack;
     idtr--;
   }
 
+  // print the staves
   if (fPartStavesMap.size()) {
     os << endl;
     for (

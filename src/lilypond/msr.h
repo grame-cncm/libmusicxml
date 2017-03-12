@@ -72,6 +72,9 @@ typedef SMARTP<msrStanza> S_msrStanza;
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
 class msrSegment;
 typedef SMARTP<msrSegment> S_msrSegment;
 
@@ -1796,6 +1799,8 @@ class EXP msrSegment : public msrElement
     void          appendClefToSegment (S_msrClef clef);
     void          appendKeyToSegment (S_msrKey key);
     void          appendTimeToSegment (S_msrTime time);
+
+    void          appendHarmonyToSegment (S_msrHarmony harmony);
 
     void          appendNoteToSegment (S_msrNote note);
     void          appendChordToSegment (S_msrChord chord);
@@ -5577,148 +5582,145 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void          setPartID (string partID)
-                      { fPartID = partID; }
+    void            setPartID (string partID)
+                        { fPartID = partID; }
     
-    string        getPartID () const
-                      { return fPartID; }
+    string          getPartID () const
+                        { return fPartID; }
 
-    void          setPartMSRName (string partMSRName);
+    void            setPartMSRName (string partMSRName);
     
-    string        getPartMSRName () const
+    string          getPartMSRName () const
                       { return fPartMSRName; }
 
-    void          setPartName (string partName)
-                      { fPartName = partName; }
+    void            setPartName (string partName)
+                        { fPartName = partName; }
     
-    string        getPartName () const
-                      { return fPartName; }
+    string          getPartName () const
+                        { return fPartName; }
 
-    void          setPartAbbreviation (string partAbbreviation)
-                      { fPartAbbreviation = partAbbreviation; }
+    void            setPartAbbreviation (string partAbbreviation)
+                        { fPartAbbreviation = partAbbreviation; }
                 
-    string        getPartAbbreviation () const
-                      { return fPartAbbreviation; }
+    string          getPartAbbreviation () const
+                        { return fPartAbbreviation; }
                 
-    void          setPartInstrumentName (string partInstrumentName)
-                      { fPartInstrumentName = partInstrumentName; }
+    void            setPartInstrumentName (string partInstrumentName)
+                        { fPartInstrumentName = partInstrumentName; }
                               
-    string        getPartInstrumentName () const
-                      { return fPartInstrumentName; }
+    string          getPartInstrumentName () const
+                        { return fPartInstrumentName; }
                 
-    void          setPartInstrumentAbbreviation (
-                    string partInstrumentAbbreviation)
-                      {
-                        fPartInstrumentAbbreviation =
-                          partInstrumentAbbreviation;
-                      }
+    void            setPartInstrumentAbbreviation (
+                      string partInstrumentAbbreviation)
+                        {
+                          fPartInstrumentAbbreviation =
+                            partInstrumentAbbreviation;
+                        }
                               
-    string        getPartInstrumentAbbreviation() const
-                      { return fPartInstrumentAbbreviation; }
+    string          getPartInstrumentAbbreviation() const
+                        { return fPartInstrumentAbbreviation; }
                 
-    S_msrPartgroup
-                  getPartPartgroupUplink () const
-                      { return fPartPartgroupUplink; }
+    S_msrPartgroup  getPartPartgroupUplink () const
+                        { return fPartPartgroupUplink; }
               
-    const list<S_msrElement>&
-                  getPartHarmoniesList ()
-                      { return fPartHarmoniesList; }
-                
+    S_msrVoice      getPartHarmonyTrack () const
+                        { return fPartHarmonyTrack; }
+                  
     const map<int, S_msrStaff>&
-                  getPartStavesMap ()
-                      { return fPartStavesMap; }
+                    getPartStavesMap ()
+                        { return fPartStavesMap; }
 
-    string        getPartCombinedName () const;
+    string          getPartCombinedName () const;
 
     // divisions per whole note
-    void          setPartDivisionsPerWholeNote (
-                    int divisionsPerWholeNote);
+    void            setPartDivisionsPerWholeNote (
+                      int divisionsPerWholeNote);
                       
-    const int     getPartDivisionsPerWholeNote () const
-                      { return fPartDivisionsPerWholeNote; }
+    const int       getPartDivisionsPerWholeNote () const
+                        { return fPartDivisionsPerWholeNote; }
           
-    S_msrClef     getPartClef () const { return fPartClef; };
-    S_msrKey      getPartKey  () const { return fPartKey; };
-    S_msrTime     getPartTime () const { return fPartTime; };
+    S_msrClef       getPartClef () const { return fPartClef; };
+    S_msrKey        getPartKey  () const { return fPartKey; };
+    S_msrTime       getPartTime () const { return fPartTime; };
     
-    S_msrTranspose
-                  getPartTranspose () const { return fPartTranspose; };
+    S_msrTranspose  getPartTranspose () const { return fPartTranspose; };
     
-    void          setPartClef (S_msrClef clef);
-    void          setPartKey  (S_msrKey  key);
-    void          setPartTime (S_msrTime time);
+    void            setPartClef (S_msrClef clef);
+    void            setPartKey  (S_msrKey  key);
+    void            setPartTime (S_msrTime time);
 
-    void          setPartTranspose (S_msrTranspose transpose);
+    void            setPartTranspose (S_msrTranspose transpose);
 
     // measure number
-    void          setPartMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+    void            setPartMeasureNumber (
+                      int inputLineNumber,
+                      int measureNumber);
                       
-    const int     getPartMeasureNumber () const
-                      { return fPartMeasureNumber; }
+    const int       getPartMeasureNumber () const
+                        { return fPartMeasureNumber; }
 
-    const bool    getMeasureZeroHasBeenMetInPart () const
-                      { return fMeasureZeroHasBeenMetInPart; }
+    const bool      getMeasureZeroHasBeenMetInPart () const
+                        { return fMeasureZeroHasBeenMetInPart; }
 
-    void          setPartMeasurePositionHighTide (
-                    int position)
-                      { fPartMeasurePositionHighTide = position; }
+    void            setPartMeasurePositionHighTide (
+                      int position)
+                        { fPartMeasurePositionHighTide = position; }
                       
-    void          updatePartMeasurePositionHighTide (
-                    int inputLineNumber,
-                    int position);
+    void            updatePartMeasurePositionHighTide (
+                      int inputLineNumber,
+                      int position);
                     
-    const int     getPartMeasurePositionHighTide () const
-                      { return fPartMeasurePositionHighTide; }
+    const int       getPartMeasurePositionHighTide () const
+                        { return fPartMeasurePositionHighTide; }
 
-    const int     getPartMeasureNumberMin () const
-                      { return fPartMeasureNumberMin; }
+    const int       getPartMeasureNumberMin () const
+                        { return fPartMeasureNumberMin; }
                       
-    const int     getPartMeasureNumberMax () const
-                      { return fPartMeasureNumberMax; }
+    const int       getPartMeasureNumberMax () const
+                        { return fPartMeasureNumberMax; }
 
 /* JMI
     // voice master
     const S_msrVoice
-                  getPartVoicemaster () const
-                      { return fPartVoicemaster; }
+                    getPartVoicemaster () const
+                        { return fPartVoicemaster; }
 */
 
     // services
     // ------------------------------------------------------
 
-    void          setAllPartStavesDivisionsPerWholeNote (
-                    int divisionsPerWholeNote);
+    void            setAllPartStavesDivisionsPerWholeNote (
+                      int divisionsPerWholeNote);
     
-    void          setAllPartStavesMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+    void            setAllPartStavesMeasureNumber (
+                      int inputLineNumber,
+                      int measureNumber);
 
-    void          setAllPartStavesClef (S_msrClef clef); // JMI
-    void          setAllPartStavesKey  (S_msrKey  key); // JMI
-    void          setAllPartStavesTime (S_msrTime time); // JMI
+    void            setAllPartStavesClef (S_msrClef clef); // JMI
+    void            setAllPartStavesKey  (S_msrKey  key); // JMI
+    void            setAllPartStavesTime (S_msrTime time); // JMI
               
-    void          appendRepeatToPart (int inputLineNumber);
-    void          appendBarlineToPart (S_msrBarline barline);
+    void            appendRepeatToPart (int inputLineNumber);
+    void            appendBarlineToPart (S_msrBarline barline);
 
-    void          setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
+    void            setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
               
-    S_msrStaff    addStaffToPartByItsNumber (
-                    int inputLineNumber,
-                    int staffNumber);
+    S_msrStaff      addStaffToPartByItsNumber (
+                      int inputLineNumber,
+                      int staffNumber);
     
-    void          addStaffToPart (S_msrStaff staff);
+    void            addStaffToPart (S_msrStaff staff);
 
-    S_msrStaff    fetchStaffFromPart (int staffNumber);
+    S_msrStaff      fetchStaffFromPart (int staffNumber);
 
-    void          appendHarmonyToPart (S_msrHarmony harmony);
+    void            appendHarmonyToPart (S_msrHarmony harmony);
 
-    void          handleBackup (int divisions);
+    void            handleBackup (int divisions);
 
-    void          removePartEmptyVoices ();
+    void            removePartEmptyVoices ();
 
-    void          finalizeLastMeasureOfPart (int inputLineNumber);
+    void            finalizeLastMeasureOfPart (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -5768,7 +5770,7 @@ class EXP msrPart : public msrElement
 
     S_msrTranspose          fPartTranspose;
 
-    list<S_msrElement>      fPartHarmoniesList;
+    S_msrVoice              fPartHarmonyTrack;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
