@@ -7181,7 +7181,6 @@ void xml2MsrTranslator::handleRepeatStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-
   // get the current segment
   S_msrSegment
     currentSegment =
@@ -7202,6 +7201,7 @@ void xml2MsrTranslator::handleRepeatStart (
         currentVoice);
   }
 
+/* JMI
   // append the repeat to the current voice
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -7216,6 +7216,21 @@ void xml2MsrTranslator::handleRepeatStart (
   // append the bar line to the voice
   currentVoice->
     appendBarlineToVoice (barline);
+*/
+
+  // append the repeat to the current part
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending the repeat to part " <<
+      fCurrentPart->getPartCombinedName () <<
+      endl;
+
+  fCurrentPart->
+    appendRepeatToPart (fCurrentRepeat);
+
+  // append the bar line to the part
+  fCurrentPart->
+    appendBarlineToPart (barline);
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -7295,7 +7310,7 @@ void xml2MsrTranslator::handleRepeatEnd (
       // create the repeat
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
-          "Creating a repeat in voice \"" <<
+          "Creating an implicit repeat in voice \"" <<
           currentVoice->getVoiceName () << "\"" <<
           endl;
 

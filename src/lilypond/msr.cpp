@@ -12434,6 +12434,39 @@ void msrStaff::setStaffTime (S_msrTime time)
 
   // propagate it to all voices
   appendTimeToAllStaffVoices (time);
+}    
+
+void msrStaff::appendRepeatToStaff (S_msrRepeat repeat)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending repeat to staff " << fStaffNumber <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->appendRepeatToVoice (repeat);
+  } // for
+}
+
+void msrStaff::appendBarlineToStaff (S_msrBarline barline)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending barline '" << barline->barlineAsString () <<
+      "' to staff " << fStaffNumber <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
+    i != fStaffVoicesMap.end();
+    i++) {
+    (*i).second->appendBarlineToVoice (barline);
+  } // for
 }
 
 void msrStaff::setStaffTranspose (S_msrTranspose transpose)
@@ -13164,7 +13197,27 @@ void msrPart::setAllPartStavesTime  (S_msrTime time)
     (*i).second->setStaffTime (time);
   } // for
 }
-          
+
+void msrPart::appendRepeatToPart (S_msrRepeat repeat)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->appendRepeatToStaff (repeat);
+  } // for
+}
+
+void msrPart::appendBarlineToPart (S_msrBarline barline)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->appendBarlineToStaff (barline);
+  } // for
+}
+     
 void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
 {
   for (

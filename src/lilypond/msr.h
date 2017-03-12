@@ -5398,6 +5398,9 @@ class EXP msrStaff : public msrElement
     void          setStaffClef (S_msrClef clef);
     void          setStaffKey  (S_msrKey  key);
     void          setStaffTime (S_msrTime time);
+
+    void          appendRepeatToStaff (S_msrRepeat repeat);
+    void          appendBarlineToStaff (S_msrBarline barline);
     
     void          setStaffTranspose (S_msrTranspose transpose);
 
@@ -5467,6 +5470,8 @@ class EXP msrStaff : public msrElement
     void          appendClefToAllStaffVoices (S_msrClef clef);
     void          appendKeyToAllStaffVoices  (S_msrKey   key);
     void          appendTimeToAllStaffVoices (S_msrTime time);
+    
+    void          appendRepeatToAllStaffVoices (S_msrRepeat repeat);
     
     void          appendHarmonyToStaff (S_msrHarmony harmony);
 
@@ -5688,13 +5693,14 @@ class EXP msrPart : public msrElement
                     int inputLineNumber,
                     int measureNumber);
 
-    void          setAllPartStavesClef (S_msrClef clef);
+    void          setAllPartStavesClef (S_msrClef clef); // JMI
+    void          setAllPartStavesKey  (S_msrKey  key); // JMI
+    void          setAllPartStavesTime (S_msrTime time); // JMI
               
-    void          setAllPartStavesKey  (S_msrKey  key);
-              
-    void          setAllPartStavesTime (S_msrTime time);
-              
-    void          setAllPartStavesTranspose (S_msrTranspose transpose);
+    void          appendRepeatToPart (S_msrRepeat repeat);
+    void          appendBarlineToPart (S_msrBarline barline);
+
+    void          setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
               
     S_msrStaff    addStaffToPartByItsNumber (
                     int inputLineNumber,
