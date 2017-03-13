@@ -6509,7 +6509,23 @@ S_msrStanza msrStanza::create (
   return o;
 }
 
-msrStanza::msrStanza (
+string msrStanza::stanzaKindAsString ()
+msrStanza::msrStanza (msrStanzaKind stanzaKind)
+{
+ string result;
+  
+  switch (fHarmonyKind) {
+    case msrHarmony::kRegularStanza:
+      result = "regular";
+      break;
+    case msrHarmony::kMasterStanza:
+      result = "master";
+      break;
+  } // switch
+
+  return result;
+}
+
   int           inputLineNumber,
   int           stanzaNumber,
   msrStanzaKind stanzaKind,
@@ -6518,7 +6534,25 @@ msrStanza::msrStanza (
 {
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
+
+ switch (fStanzaKind) {
+    case kRegularStanza:
+      fStanzaName =
+        fStanzaVoiceUplink->getVoiceName() +
+        "_Stanza_" +
+        int2EnglishWord (fStanzaNumber);
+      break;
+      
+    case kMasterStanza:
+      fStanzaName =
+        fStanzaVoiceUplink->getVoiceName() +
+        "_Stanza_" +
+        "MASTER";
+      break;
+  } // switch
  
+  msrAssert(stanzaVoiceUplink != 0, "stanzaVoiceUplink is null"); // JMI
+
   fStanzaVoiceUplink  = stanzaVoiceUplink;
   
   if (gGeneralOptions->fTrace)
@@ -6530,21 +6564,7 @@ msrStanza::msrStanza (
 
 string msrStanza::getStanzaName () const
 {
-  // not stored in a field, // JMI
-  // because the stanza voice and staff may change name
-  // when the part they belong to is re-used
-
-  string
-    stanzaNameSuffix =
- //     fStanzaKind == kMasterStanza
-      fStanzaNumber == 0
-        ? "MASTER"
-        : int2EnglishWord (fStanzaNumber);
-        
-  return
-    fStanzaVoiceUplink->getVoiceName() +
-    "_Stanza_" +
-    stanzaNameSuffix;
+  return fStanzaName;
 }
 
 msrStanza::~msrStanza() {}
@@ -10488,6 +10508,8 @@ msrVoice::msrVoice (
   fStaffRelativeVoiceNumber = externalVoiceNumber;
     // may be changed afterwards
   
+  msrAssert(voiceStaffUplink != 0, "voiceStaffUplink is null"); // JMI
+
   fVoiceStaffUplink = voiceStaffUplink;
 
   fVoiceDivisionsPerWholeNote =
@@ -10512,13 +10534,13 @@ msrVoice::msrVoice (
     case msrVoice::kHarmonyVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_HARMONY";
+        "HARMONY";
       break;
       
     case msrVoice::kMasterVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_MASTER";
+        "MASTER";
       break;
   } // switch
 
@@ -12061,7 +12083,7 @@ msrStaff::msrStaff (
   
   fStaffNumber = staffNumber;
 
-  assert(staffPartUplink != 0); // JMI
+  msrAssert(staffPartUplink != 0, "staffPartUplink is null"); // JMI
   
   fStaffPartUplink   = staffPartUplink;
 
@@ -12091,8 +12113,7 @@ msrStaff::msrStaff (
     case msrStaff::kHarmonyStaff:
       fStaffName =
         fStaffPartUplink->getPartMSRName () +
-        "_Harm_" +
-        int2EnglishWord (fStaffNumber);
+        "_Harm_";
       break;
   } // switch
 
@@ -13126,7 +13147,7 @@ msrPart::msrPart (
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> creating a harmony staff " <<
+      "--> creating the harmony staff " <<
       " with number " << partHarmonyStaffNumber <<
       " for part \"" <<
       getPartName () <<
@@ -13144,7 +13165,7 @@ msrPart::msrPart (
   
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> creating a harmony track for part \"" <<
+      "--> creating the harmony voice for part \"" <<
       getPartName () <<
       "\", line " << inputLineNumber <<
       endl;
@@ -13322,10 +13343,6 @@ void msrPart::setPartClef (S_msrClef clef)
   // set part clef
   fPartClef = clef;
 
-  // propagate it to the part harmony staff
-  fPartHarmonyStaff->
-    setStaffClef (clef);
-
   // propagate it to all staves
   setAllPartStavesClef (clef);
 }
@@ -13341,10 +13358,6 @@ void msrPart::setPartKey  (S_msrKey  key)
   // set part key
   fPartKey = key;
 
-  // propagate it to the part harmony staff
-  fPartHarmonyStaff->
-    setStaffKey (key);
-
   // propagate it to all staves
   setAllPartStavesKey (key);
 }
@@ -13359,10 +13372,6 @@ void msrPart::setPartTime (S_msrTime time)
 
   // set part time
   fPartTime = time;
-
-  // propagate it to the part harmony staff
-  fPartHarmonyStaff->
-    setStaffTime (time);
 
   // propagate it to all staves
   setAllPartStavesTime (time);
@@ -13639,11 +13648,13 @@ void msrPart::browseData (basevisitor* v)
     cerr << idtr <<
       "==> msrPart::browseData()" << endl;
 
-  if (fPartHarmonyVoice) {
-    // browse the harmony track
-    msrBrowser<msrVoice> browser (v);
-    browser.browse (*fPartHarmonyVoice);
+/* JMI
+  if (fPartHarmonyStaff) {
+    // browse the harmony staff
+    msrBrowser<msrStaff> browser (v);
+    browser.browse (*fPartHarmonyStaff);
   }
+  */
   
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
@@ -13697,18 +13708,20 @@ void msrPart::print (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
-  // print the harmony voice if any
-  if (fPartHarmonyVoice) {
+/*
+  // print the harmony staff
+  if (fPartHarmonyStaff) {
     os <<
       endl <<
       idtr <<
-        "Harmony voice:" <<
+        "Harmony staff:" <<
       endl;
             
     idtr++;
-    os << idtr << fPartHarmonyVoice;
+    os << idtr << fPartHarmonyStaff;
     idtr--;
   }
+*/
 
   // print the staves
   if (fPartStavesMap.size()) {
@@ -13758,18 +13771,20 @@ void msrPart::printStructure (ostream& os)
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" << endl;
 
-  // print the harmony voice if any
-  if (fPartHarmonyVoice) {
+/*
+  // print the harmony staff
+  if (fPartHarmonyStaff) {
     os <<
       endl <<
       idtr <<
-        "Harmony voice" <<
+        "Harmony staff" <<
       endl;
             
     idtr++;
-    os << idtr << fPartHarmonyVoice;
+    os << idtr << fPartHarmonyStaff;
     idtr--;
   }
+*/
 
   // print the staves
   if (fPartStavesMap.size()) {

@@ -4103,6 +4103,8 @@ class EXP msrStanza : public msrElement
     int                   fStanzaNumber;
     msrStanzaKind         fStanzaKind;
 
+    string                fStanzaName;
+
     vector<S_msrSyllable> fSyllables;
 
     bool                  fStanzaTextPresent;
@@ -5687,6 +5689,9 @@ class EXP msrPart : public msrElement
     S_msrPartgroup  getPartPartgroupUplink () const
                         { return fPartPartgroupUplink; }
               
+    S_msrStaff      getPartHarmonyStaff () const
+                        { return fPartHarmonyStaff; }
+                  
     S_msrVoice      getPartHarmonyVoice () const
                         { return fPartHarmonyVoice; }
                   
