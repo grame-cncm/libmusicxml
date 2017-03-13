@@ -1237,13 +1237,13 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
     i++) {
 
     map<int, S_msrVoice>
-      staffVoicesMap =
+      staffAllVoicesMap =
         (*i).second->
-          getStaffVoicesMap ();
+          getStaffAllVoicesMap ();
           
     for (
-      map<int, S_msrVoice>::iterator j=staffVoicesMap.begin();
-      j!=staffVoicesMap.end();
+      map<int, S_msrVoice>::iterator j=staffAllVoicesMap.begin();
+      j!=staffAllVoicesMap.end();
       j++) {
 
       S_msrVoice voice = (*j).second;

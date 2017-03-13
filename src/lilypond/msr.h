@@ -5467,8 +5467,8 @@ class EXP msrStaff : public msrElement
                         { return fStaffVoicesCorrespondanceMap; }
 
     const map<int, S_msrVoice>&
-                    getStaffVoicesMap () const
-                        { return fStaffVoicesMap; }
+                    getStaffAllVoicesMap () const
+                        { return fStaffAllVoicesMap; }
 
     const list<S_msrStafftuning>&
                     getStafftuningsList ()
@@ -5585,7 +5585,7 @@ class EXP msrStaff : public msrElement
 
     map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
                               //numbered 1 to gMaxStaffVoices
-    map<int, S_msrVoice>    fStaffVoicesMap;
+    map<int, S_msrVoice>    fStaffAllVoicesMap;
                               // [0] is used for the staff voice master
 
  // JMI   string                  fStaffInstrumentName;

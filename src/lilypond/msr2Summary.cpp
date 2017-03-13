@@ -265,12 +265,12 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     fOstream << idtr <<
       "--> Start visiting msrStaff" << endl;
 
-  int staffVoicesMapSize = elt->getStaffVoicesMap ().size();
+  int staffAllVoicesMapSize = elt->getStaffAllVoicesMap ().size();
     
   fOstream << idtr <<
     "Staff" << " " << elt->getStaffName () <<
-    " contains " << staffVoicesMapSize;
-  if (staffVoicesMapSize == 1)
+    " contains " << staffAllVoicesMapSize;
+  if (staffAllVoicesMapSize == 1)
     fOstream << " voice";
   else
     fOstream << " voices";

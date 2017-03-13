@@ -11874,9 +11874,14 @@ void msrVoice::print (ostream& os)
       endl;
 
   // print the voice time // JMI
-  os << idtr <<
-    fVoiceTime->timeAsString () <<
-    endl;
+  if (fVoiceTime)
+    os << idtr <<
+      fVoiceTime->timeAsString () <<
+      endl;
+  else
+    os << idtr <<
+      "fVoiceTime == 0 !" << // JMI
+      endl;
     
   // print the voice repeats and segments
   if (fVoiceRepeatsAndSegments.size ()) {
@@ -12203,7 +12208,7 @@ msrStaff::msrStaff (
       i);
   } // for
 
-  // get the initial clef from the staff if any
+  // get the initial clef from the part if any
   {
     S_msrClef
       clef =
@@ -12217,15 +12222,7 @@ msrStaff::msrStaff (
           " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
-      fStaffClef = clef;
-
-      // is this a tablature or percussion staff?
-      if (clef->clefIsATablatureClef ())
-        fStaffKind = kTablatureStaff;
-      else if (clef->clefIsAPercussionClef ())
-        fStaffKind = kPercussionStaff;
-
-      appendClefToAllStaffVoices (clef);
+      setStaffClef (clef);
     }
     
     else {
@@ -12237,14 +12234,14 @@ msrStaff::msrStaff (
           endl;
 
       // create the implicit initial G line 2 clef
-      fStaffClef =
+      setStaffClef (
         msrClef::create (
           inputLineNumber,
-          msrClef::kTrebleClef);
+          msrClef::kTrebleClef));
     }
   }
     
-  // get the initial key from the staff if any
+  // get the initial key from the part if any
   {
     S_msrKey
       key =
@@ -12258,10 +12255,8 @@ msrStaff::msrStaff (
           " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
-      fStaffKey = key;
-      
-      appendKeyToAllStaffVoices (key);
-    }
+      setStaffKey (key);
+      }
     else {
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
@@ -12271,14 +12266,14 @@ msrStaff::msrStaff (
           endl;
           
       // create the implicit initial C major key
-      fStaffKey =
+      setStaffKey (
         msrKey::create (
           inputLineNumber,
-          0, "major", 0);
+          0, "major", 0));
     }
   }
   
-  // get the initial time from the staff if any
+  // get the initial time from the part if any
   {
     S_msrTime
       time =
@@ -12292,9 +12287,7 @@ msrStaff::msrStaff (
           " in part " << fStaffPartUplink->getPartCombinedName () <<
           endl;
 
-      fStaffTime = time;
-
-      appendTimeToAllStaffVoices (time);
+      setStaffTime (time);
     }
     else {
       if (gGeneralOptions->fTrace)
@@ -12305,14 +12298,14 @@ msrStaff::msrStaff (
           endl;
           
       // create the implicit initial 4/4 time signature
-      fStaffTime =
+      setStaffTime (
         msrTime::create (
           inputLineNumber,
-          4, 4);
+          4, 4));
     }
   }
   
-  // get the initial transpose from the staff if any
+  // get the initial transpose from the part if any
   {
     S_msrTranspose
       transpose =
@@ -12390,8 +12383,8 @@ void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
       setVoiceDivisionsPerWholeNote (
@@ -12431,7 +12424,7 @@ S_msrVoice msrStaff::addVoiceMasterToStaff (
         this);
 
   // add it to this staff as element '0'
-  fStaffVoicesMap [0] = voice;
+  fStaffAllVoicesMap [0] = voice;
   
   // return the voice
   return voice;
@@ -12453,7 +12446,7 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
         this);
 
   // add it to this staff
-  fStaffVoicesMap [voiceRelativeNumber] = voice;
+  fStaffAllVoicesMap [voiceRelativeNumber] = voice;
   
   // return the voice
   return voice;
@@ -12494,7 +12487,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   // fetch the voice
   S_msrVoice
     voice =
-      fStaffVoicesMap [fRegisteredVoicesCounter];
+      fStaffAllVoicesMap [fRegisteredVoicesCounter];
       
   // update it's voice number
   voice->
@@ -12584,7 +12577,7 @@ void msrStaff::registerVoiceInStaff (
       endl;
 
   // register is by its relative number
-  fStaffVoicesMap [fRegisteredVoicesCounter] =
+  fStaffAllVoicesMap [fRegisteredVoicesCounter] =
     voice;
 
   // register it by its number
@@ -12608,7 +12601,7 @@ void msrStaff::registerHarmonlyTrackInStaff (
       endl;
 
   // register is by its relative number
-  fStaffVoicesMap [harmonyTrackVoiceNumber] =
+  fStaffAllVoicesMap [harmonyTrackVoiceNumber] =
     harmonyTrack;
 
   // register it by its number
@@ -12680,8 +12673,8 @@ void msrStaff::appendRepeatToStaff (int inputLineNumber)
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendRepeatToVoice (inputLineNumber);
   } // for
@@ -12697,8 +12690,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendBarlineToVoice (barline);
   } // for
@@ -12723,8 +12716,8 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendClefToVoice (clef);
   } // for
@@ -12733,8 +12726,8 @@ void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendKeyToVoice (key);
   } // for
@@ -12743,8 +12736,8 @@ void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
 void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendTimeToVoice (time);
   } // for
@@ -12753,8 +12746,8 @@ void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
 void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendHarmonyToVoice (harmony);
   } // for
@@ -12763,8 +12756,8 @@ void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony)
 void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendTransposeToVoice (transpose);
   } // for
@@ -12783,8 +12776,8 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
       setVoiceMeasureNumber (
@@ -12795,13 +12788,13 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
 void msrStaff::removeStaffEmptyVoices ()
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
     if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
 // XXL
-      fStaffVoicesMap.erase (i);
+      fStaffAllVoicesMap.erase (i);
     }
   } // for
 }
@@ -12816,8 +12809,8 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-    i != fStaffVoicesMap.end();
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->finalizeLastMeasureOfVoice (inputLineNumber);
   } // for
@@ -12881,10 +12874,10 @@ void msrStaff::browseData (basevisitor* v)
     idtr--;
   }
 
-  if (fStaffVoicesMap.size ()) {
+  if (fStaffAllVoicesMap.size ()) {
     for (
-      map<int, S_msrVoice>::iterator i = fStaffVoicesMap.begin();
-      i != fStaffVoicesMap.end();
+      map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+      i != fStaffAllVoicesMap.end();
       i++) {
       if ((*i).second->getStaffRelativeVoiceNumber () != 0) {
         // browse the voice, but not if it is the master voice JMI
@@ -12941,7 +12934,7 @@ void msrStaff::print (ostream& os)
     ", " << staffKindAsString () <<
     " (" <<
     singularOrPlural (
-      fStaffVoicesMap.size(), "voice", "voices") <<
+      fStaffAllVoicesMap.size(), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -12992,10 +12985,10 @@ void msrStaff::print (ostream& os)
   os << endl;
 
   // print the registered voices
-  if (fStaffVoicesMap.size ()) {
+  if (fStaffAllVoicesMap.size ()) {
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoicesMap.begin(),
-      iEnd   = fStaffVoicesMap.end(),
+      iBegin = fStaffAllVoicesMap.begin(),
+      iEnd   = fStaffAllVoicesMap.end(),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -13016,7 +13009,7 @@ void msrStaff::printStructure (ostream& os)
     ", " << staffKindAsString () <<
     " (" <<
     singularOrPlural (
-      fStaffVoicesMap.size(), "voice", "voices") <<
+      fStaffAllVoicesMap.size(), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -13064,7 +13057,7 @@ void msrStaff::printStructure (ostream& os)
   }
 
   // print the registered voices names
-  if (fStaffVoicesMap.size ()) {
+  if (fStaffAllVoicesMap.size ()) {
     os << idtr <<
       "Voices:" <<
       endl;
@@ -13072,8 +13065,8 @@ void msrStaff::printStructure (ostream& os)
     idtr++;
     
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoicesMap.begin(),
-      iEnd   = fStaffVoicesMap.end(),
+      iBegin = fStaffAllVoicesMap.begin(),
+      iEnd   = fStaffAllVoicesMap.end(),
       i      = iBegin;
       
     for ( ; ; ) {
