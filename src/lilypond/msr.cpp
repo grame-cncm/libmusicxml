@@ -3190,7 +3190,9 @@ void msrNote::print (ostream& os)
   if (fNoteHarmony) {
     idtr++;
     os <<
-      idtr << fNoteHarmony;
+      idtr <<
+        fNoteHarmony <<
+        endl;
     idtr--;
   }
 }
@@ -3686,9 +3688,16 @@ void msrChord::print (ostream& os)
 
   // print the harmony if any
   if (fChordHarmony) {
+    os << idtr <<
+      "Chord harmony: " <<
+      endl;
+        
     idtr++;
-    os <<
-      idtr << fChordHarmony->harmonyAsString ();
+
+    os << idtr <<
+      fChordHarmony->harmonyAsString () <<
+      endl;
+      
     idtr--;
   }
 
