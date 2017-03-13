@@ -11049,6 +11049,8 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 
   fVoiceLastSegment->
     appendHarmonyToSegment (harmony);
+
+  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
@@ -11156,8 +11158,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       addSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteDivisions);
-
-  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
@@ -12907,8 +12907,7 @@ void msrStaff::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << idtr <<
-        (*i).second;
+      os << idtr << (*i).second;
       if (++i == iEnd) break;
       os << endl;
     } // for
