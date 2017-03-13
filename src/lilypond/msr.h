@@ -4867,88 +4867,6 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 /*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common part
-    - a vector of sequences of elements for the alternate endings
-*/
-//______________________________________________________________________________
-/*
-class EXP msrHarmonytrack : public msrElement
-{
-  public:
-        
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrHarmonytrack> create (
-      int       inputLineNumber,
-      S_msrPart harmonytrackPartUplink);
-    
-    SMARTP<msrHarmonytrack> createHarmonytrackBareClone (
-      S_msrPart partClone);
-
-    SMARTP<msrHarmonytrack> createSkipHarmonytrackClone (
-      S_msrPart partClone);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrHarmonytrack (
-      int       inputLineNumber,
-      S_msrPart harmonytrackPartUplink);
-      
-    virtual ~msrHarmonytrack();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    list<S_msrNote> const
-                  getHarmonytrackElements () const
-                      { return fHarmonytrackElements; }
-
-    // services
-    // ------------------------------------------------------
-
-    void          appendSkipToHarmonytrack (S_msrNote skip);
-    void          appendChordToVoice  (S_msrChord chord);
-
- // JMI   string        harmonytrackAsShortString ();
-    
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    // fHarmonytrackLastSegment contains the music
-    // not yet stored in fHarmonytrackRepeatsAndSegments,
-    // it is thus logically the end of the latter,
-    // and is created implicitly for every harmony track,
-    list<S_msrElement>  fHarmonytrackRepeatsAndSegments;
-    S_msrSegment        fHarmonytrackLastSegment;
-    
-    S_msrPart           fHarmonytrackPartUplink;
-};
-typedef SMARTP<msrHarmonytrack> S_msrHarmonytrack;
-EXP ostream& operator<< (ostream& os, const S_msrHarmonytrack& elt);
-*/
-
-/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents
@@ -4976,15 +4894,6 @@ class EXP msrVoice : public msrElement
       msrVoiceKind voiceKind,
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
-
-/*
-    static SMARTP<msrVoice> createHarmonyTrack (
-      int           inputLineNumber);
-
-    static SMARTP<msrVoice> createMasterVoice (
-      int        inputLineNumber,
-      S_msrStaff voiceStaffUplink);
-  */
     
     SMARTP<msrVoice> createVoiceBareClone (
       S_msrStaff clonedStaff);
@@ -5000,17 +4909,6 @@ class EXP msrVoice : public msrElement
       msrVoiceKind voiceKind,
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
-
-/* JMI
-    // for harmony tracks
-    msrVoice (
-      int        inputLineNumber);
-
-    // for master voices
-    msrVoice (
-      int        inputLineNumber,
-      S_msrStaff voiceStaffUplink);
-*/
 
     virtual ~msrVoice();
 
@@ -5527,12 +5425,6 @@ class EXP msrStaff : public msrElement
     void            registerVoiceInStaff (
                       int inputLineNumber,
                       S_msrVoice voice);
-
-/*
-    void            registerHarmonlyTrackInStaff (
-                      int inputLineNumber,
-                      S_msrVoice harmonyTrack);
-*/
 
     S_msrVoice      fetchVoiceFromStaff (
                       int inputLineNumber, int externalVoiceNumber);

@@ -6528,7 +6528,8 @@ msrStanza::msrStanza (
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
 
-  msrAssert(stanzaVoiceUplink != 0, "stanzaVoiceUplink is null"); // JMI
+  msrAssert(
+    stanzaVoiceUplink != 0, "stanzaVoiceUplink is null");
 
   fStanzaVoiceUplink  = stanzaVoiceUplink;
   
@@ -10525,7 +10526,8 @@ msrVoice::msrVoice (
   fStaffRelativeVoiceNumber = externalVoiceNumber;
     // may be changed afterwards
   
-  msrAssert(voiceStaffUplink != 0, "voiceStaffUplink is null"); // JMI
+  msrAssert(
+    voiceStaffUplink != 0, "voiceStaffUplink is null");
 
   fVoiceStaffUplink = voiceStaffUplink;
 
@@ -10551,13 +10553,13 @@ msrVoice::msrVoice (
     case msrVoice::kHarmonyVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "HARMONY";
+        "_HARMONY_VOICE";
       break;
       
     case msrVoice::kMasterVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "MASTER";
+        "_MASTER_VOICE";
       break;
   } // switch
 
@@ -10577,7 +10579,7 @@ msrVoice::msrVoice (
         stringstream s;
     
         s <<
-          "voice number " << externalVoiceNumber <<
+          "regular voice number " << externalVoiceNumber <<
           " is not in the 0..4 range";
           
         msrMusicXMLError (
@@ -10590,7 +10592,7 @@ msrVoice::msrVoice (
         stringstream s;
     
         s <<
-          "harmony track voice number " << externalVoiceNumber <<
+          "harmony voice number " << externalVoiceNumber <<
           " is not equal to -1";
           
         msrInternalError (
@@ -10616,69 +10618,6 @@ msrVoice::msrVoice (
   // initialize the voice
   init (inputLineNumber);
 }
-
-/*
-// for harmony tracks
-msrVoice::msrVoice (
-  int        inputLineNumber)
-    : msrElement (inputLineNumber)
-{
-  fVoiceKind = kHarmonyTrackVoice;
-  
-  fExternalVoiceNumber = 1000;
-  
-  fStaffRelativeVoiceNumber = 1000;
-    // may be changed afterwards
-  
-  fVoiceStaffUplink = 0;
-
-  fVoiceDivisionsPerWholeNote =
-    fVoiceStaffUplink->
-      getStaffDivisionsPerWholeNote ();
-    
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Creating harmony track \"" << getVoiceName () <<
-      "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
-      ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
-      endl;
-
-  // initialize the voice
-  init (inputLineNumber);
-}
-
-// for master voices
-msrVoice::msrVoice (
-  int        inputLineNumber,
-  S_msrStaff voiceStaffUplink)
-    : msrElement (inputLineNumber)
-{
-  fVoiceKind = kMasterVoice;
-  
-  fExternalVoiceNumber = 1000;
-  
-  fStaffRelativeVoiceNumber = 1000;
-    // may be changed afterwards
-  
-  fVoiceStaffUplink = 0;
-
-/ * ??? XXL
-  fVoiceDivisionsPerWholeNote =
-    fVoiceStaffUplink->
-      getStaffDivisionsPerWholeNote ();
-    
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Creating harmony track \"" << getVoiceName () <<
-      "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
-      ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
-      endl;
-* /
-
-  // initialize the voice
-  init (inputLineNumber);
-}
-*/
 
 msrVoice::~msrVoice() {}
 
@@ -12105,7 +12044,8 @@ msrStaff::msrStaff (
   
   fStaffNumber = staffNumber;
 
-  msrAssert(staffPartUplink != 0, "staffPartUplink is null"); // JMI
+  msrAssert(
+    staffPartUplink != 0, "staffPartUplink is null");
   
   fStaffPartUplink   = staffPartUplink;
 
@@ -12116,26 +12056,26 @@ msrStaff::msrStaff (
     case msrStaff::kRegularStaff:
       fStaffName =
         fStaffPartUplink->getPartMSRName () +
-        "_S_" +
+        "_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kTablatureStaff:
         fStaffPartUplink->getPartMSRName () +
-        "_Tab_" +
+        "_Tablature_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kPercussionStaff:
         fStaffPartUplink->getPartMSRName () +
-        "_Perc_" +
+        "_Percussion_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kHarmonyStaff:
       fStaffName =
         fStaffPartUplink->getPartMSRName () +
-        "_Harm_";
+        "_Harmony_Staff";
       break;
   } // switch
 
@@ -12584,31 +12524,6 @@ void msrStaff::registerVoiceInStaff (
   fStaffVoicesCorrespondanceMap [voice->getExternalVoiceNumber ()] =
     voice;
 }
-
-/*
-void msrStaff::registerHarmonlyTrackInStaff (
-  int inputLineNumber, S_msrVoice harmonyTrack)
-{
-  const int harmonyTrackVoiceNumber = -1;
-  
-  // register voice in this staff
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Registering harmony track \"" << harmonyTrack->getVoiceName () <<
-      " in staff \"" << getStaffName () <<
-      "\", line " << inputLineNumber <<
-// JMI       " in part " << fStaffPartUplink->getPartCombinedName () <<
-      endl;
-
-  // register is by its relative number
-  fStaffAllVoicesMap [harmonyTrackVoiceNumber] =
-    harmonyTrack;
-
-  // register it by its number
-  fStaffVoicesCorrespondanceMap [harmonyTrackVoiceNumber] =
-    harmonyTrack;
-}
-*/
 
 void msrStaff::setStaffClef (S_msrClef clef)
 {
@@ -14942,169 +14857,4 @@ void msrMidi::print (ostream& os)
       default: s << "Note" << fNoteMsrPitch << "???";
     } // switch
     */
-
-
-//______________________________________________________________________________
-/*
-S_msrHarmonytrack msrHarmonytrack::create (
-  int       inputLineNumber,
-  S_msrPart harmonytrackPartUplink)
-{
-  msrHarmonytrack* o =
-    new msrHarmonytrack (
-      inputLineNumber, HarmonytrackPartUplink);
-  assert(o!=0);
-  return o;
-}
-
-msrHarmonytrack::msrHarmonytrack (
-  int       inputLineNumber,
-  S_msrPart harmonytrackPartUplink)
-    : msrElement (inputLineNumber)
-{
-  fHarmonytrackPartUplink =
-    harmonytrackPartUplink;
-}
-
-msrHarmonytrack::~msrHarmonytrack() {}
-
-S_msrHarmonytrack msrHarmonytrack::createHarmonytrackBareClone (
-  S_msrPart partClone)
-{
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> creating a bare clone of harmony track" <<
-  // JMI    harmonytrackAsShortString () <<
-      endl;
-  
-  S_msrHarmonytrack
-    clone =
-      msrHarmonytrack::create (
-        fInputLineNumber,
-        partClone);
-    
-  return clone;
-}
-
-void msrHarmonytrack::appendNoteToHarmonytrack (S_msrNote note)
-{
-  / *
-  fHarmonytrackSegment->
-    appendNoteToSegment (note);
-    * /
-
-  fHarmonytrackElements.push_back (note);
-}
-
-void msrHarmonytrack::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrHarmonytrack::acceptIn()" << endl;
-      
-  if (visitor<S_msrHarmonytrack>*
-    p =
-      dynamic_cast<visitor<S_msrHarmonytrack>*> (v)) {
-        S_msrHarmonytrack elem = this;
-        
-        if (gGeneralOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrHarmonytrack::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrHarmonytrack::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrHarmonytrack::acceptOut()" << endl;
-
-  if (visitor<S_msrHarmonytrack>*
-    p =
-      dynamic_cast<visitor<S_msrHarmonytrack>*> (v)) {
-        S_msrHarmonytrack elem = this;
-      
-        if (gGeneralOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrHarmonytrack::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrHarmonytrack::browseData (basevisitor* v)
-{
-  list<S_msrNote>::const_iterator i;
-
-  for (
-    i=fHarmonytrackElements.begin();
-    i!=fHarmonytrackElements.end();
-    i++) {
-    // browse the note
-    msrBrowser<msrNote> browser (v);
-    browser.browse (*(*i));
-  } // for
-
-  / * JMI
-  // browse the segment
-  msrBrowser<msrSegment> browser (v);
-  browser.browse (*fHarmonytrackSegment);
-  * /
-}
-
-ostream& operator<< (ostream& os, const S_msrHarmonytrack& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrHarmonytrack::print (ostream& os)
-{
-  os <<
-    "Harmonytrack" <<
-    ", line " << fInputLineNumber <<
-    ", " <<
-    singularOrPlural (
-      fHarmonytrackElements.size (), "note", "notes") <<
-    endl;
-  
-  idtr++;
-  
- // JMI os << fHarmonytrackSegment;
-          
-  list<S_msrNote>::const_iterator
-    iBegin = fHarmonytrackElements.begin(),
-    iEnd   = fHarmonytrackElements.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    os << idtr << (*i);
-    if (++i == iEnd) break;
- // JMI   os << endl;
-  } // for
-
-  idtr--;
-}
-*/
-
-/*
-S_msrVoice msrVoice::createHarmonyTrack (
-  int inputLineNumber)
-{
-  msrVoice* o =
-    new msrVoice (
-      inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-S_msrVoice msrVoice::createMasterVoice (
-  int        inputLineNumber,
-  S_msrStaff voiceStaffUplink)
-{
-  msrVoice* o =
-    new msrVoice (
-      inputLineNumber,
-      voiceStaffUplink);
-  assert(o!=0);
-  return o;
-}
-*/
 

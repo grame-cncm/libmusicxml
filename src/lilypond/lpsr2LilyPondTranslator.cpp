@@ -1240,7 +1240,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       break;
   } // switch
 
- // if (voice->getStaffRelativeVoiceNumber () > 0) {
+ // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
     // don't include the master voice in the staff by default
     
     fOstream << idtr <<
