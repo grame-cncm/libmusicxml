@@ -6509,23 +6509,7 @@ S_msrStanza msrStanza::create (
   return o;
 }
 
-string msrStanza::stanzaKindAsString ()
-msrStanza::msrStanza (msrStanzaKind stanzaKind)
-{
- string result;
-  
-  switch (fHarmonyKind) {
-    case msrHarmony::kRegularStanza:
-      result = "regular";
-      break;
-    case msrHarmony::kMasterStanza:
-      result = "master";
-      break;
-  } // switch
-
-  return result;
-}
-
+msrStanza::msrStanza (
   int           inputLineNumber,
   int           stanzaNumber,
   msrStanzaKind stanzaKind,
@@ -7049,10 +7033,34 @@ ostream& operator<< (ostream& os, const S_msrStanza& elt)
   return os;
 }
 
+string msrStanza::stanzaKindAsString (
+  msrStanzaKind stanzaKind)
+{
+ string result;
+  
+  switch (stanzaKind) {
+    case msrStanza::kRegularStanza:
+      result = "regular";
+      break;
+      
+    case msrStanza::kMasterStanza:
+      result = "master";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrStanza::print (ostream& os)
-{  
+{
+  // getch stanza kind with an initial uppper case letter
+  string stanzaKind =
+    stanzaKindAsString (fStanzaKind);
+
+  stanzaKind [0] = toupper (stanzaKind [0]);
+  
   os <<
-    "Stanza" << " " << getStanzaName () <<
+    stanzaKind << " " "stanza" " " << getStanzaName () <<
     " (" << fSyllables.size () << " syllables)";
     
   if (! fStanzaTextPresent)
