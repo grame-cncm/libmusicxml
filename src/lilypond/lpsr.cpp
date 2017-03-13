@@ -1294,14 +1294,17 @@ void lpsrContext::browseData (basevisitor* v)
 void lpsrContext::print (ostream& os)
 {  
   os << "Context" << " ";
+  
   switch (fContextKind) {
     case kExistingContext:
       os << "existing";
       break;
+      
     case kNewContext:
       os << "new";
       break;
   } // switch
+  
   os << " " << fContextType;
   if (fContextName.size())
     os << " " << fContextName;

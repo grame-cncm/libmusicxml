@@ -678,6 +678,9 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     fOstream << idtr <<
       "--> Start visiting msrVoice" << endl;
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   idtr++;
 
   // create a voice clone
@@ -693,7 +696,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   // add it to the staff clone
   fCurrentStaffClone->
     registerVoiceInStaff (
-      elt->getInputLineNumber (), fCurrentVoiceClone);
+      inputLineNumber, fCurrentVoiceClone);
 
   // append the voice to the LPSR score elements list
   fLpsrScore ->
@@ -707,7 +710,41 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       break;
       
     case msrVoice::kHarmonyVoice:
-      // JMI
+      {
+        string voiceName =
+          elt->getVoiceName ();
+
+        string partCombinedName =
+          elt->getVoiceStaffUplink ()->
+            getStaffPartUplink ()->
+              getPartCombinedName ();
+                        
+        // create a ChordNames context command
+        if (gGeneralOptions->fTrace)
+          cerr << idtr <<
+            "Creating a ChordNames context for \"" << voiceName <<
+            "\" in part " << partCombinedName <<
+            endl;
+
+        S_lpsrContext
+          chordNamesContext =
+            lpsrContext::create (
+              inputLineNumber,
+              lpsrContext::kExistingContext,
+              "ChordNames",
+              voiceName);
+
+        // append it to the current part block
+        if (gGeneralOptions->fTrace)
+          cerr << idtr <<
+            "Appending the ChordNames context for \"" << voiceName <<
+            "\" in part " << partCombinedName <<
+            endl;
+
+        fCurrentPartBlock->
+          appendElementToPartBlock (
+            chordNamesContext);
+      }
       break;
       
     case msrVoice::kMasterVoice:
