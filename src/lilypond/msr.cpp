@@ -10473,30 +10473,6 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
-/*
-S_msrVoice msrVoice::createHarmonyTrack (
-  int inputLineNumber)
-{
-  msrVoice* o =
-    new msrVoice (
-      inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-S_msrVoice msrVoice::createMasterVoice (
-  int        inputLineNumber,
-  S_msrStaff voiceStaffUplink)
-{
-  msrVoice* o =
-    new msrVoice (
-      inputLineNumber,
-      voiceStaffUplink);
-  assert(o!=0);
-  return o;
-}
-*/
-
 // for regular voices
 msrVoice::msrVoice (
   int          inputLineNumber,
@@ -10523,18 +10499,28 @@ msrVoice::msrVoice (
     gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
       ? fStaffRelativeVoiceNumber
       : fExternalVoiceNumber;
-
-  // compute suffix
-  string suffix =
-    fStaffRelativeVoiceNumber == 0
-      ? "MASTER"
-      : int2EnglishWord (voiceNumber);
-
+  
   // set voice name
-  fVoiceName =
-    fVoiceStaffUplink->getStaffName() +
-    "_Voice_" +
-    suffix;
+  switch (voiceKind) {
+    case msrVoice::kRegularVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_Voice_" +
+        int2EnglishWord (voiceNumber);
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_HARMONY";
+      break;
+      
+    case msrVoice::kMasterVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_MASTER";
+      break;
+  } // switch
 
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -10754,7 +10740,7 @@ void msrVoice::init (int inputLineNumber)
 
 S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> Creating a bare clone of voice \"" <<
       getVoiceName () <<
@@ -12074,22 +12060,41 @@ msrStaff::msrStaff (
   fStaffKind = staffKind;
   
   fStaffNumber = staffNumber;
+
+  assert(staffPartUplink != 0); // JMI
   
   fStaffPartUplink   = staffPartUplink;
 
   fRegisteredVoicesCounter = 0;
 
   // set staff name
-  fStaffName =
-    fStaffNumber == 0
-      ?
-        fStaffPartUplink->getPartMSRName () +
-        "_S_" +
-        "(MASTER)"
-      :
+  switch (staffKind) {
+    case msrStaff::kRegularStaff:
+      fStaffName =
         fStaffPartUplink->getPartMSRName () +
         "_S_" +
         int2EnglishWord (fStaffNumber);
+      break;
+      
+    case msrStaff::kTablatureStaff:
+        fStaffPartUplink->getPartMSRName () +
+        "_Tab_" +
+        int2EnglishWord (fStaffNumber);
+      break;
+      
+    case msrStaff::kPercussionStaff:
+        fStaffPartUplink->getPartMSRName () +
+        "_Perc_" +
+        int2EnglishWord (fStaffNumber);
+      break;
+      
+    case msrStaff::kHarmonyStaff:
+      fStaffName =
+        fStaffPartUplink->getPartMSRName () +
+        "_Harm_" +
+        int2EnglishWord (fStaffNumber);
+      break;
+  } // switch
 
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -13697,7 +13702,7 @@ void msrPart::print (ostream& os)
     os <<
       endl <<
       idtr <<
-        "Harmony trace" <<
+        "Harmony voice:" <<
       endl;
             
     idtr++;
@@ -15053,3 +15058,28 @@ void msrHarmonytrack::print (ostream& os)
   idtr--;
 }
 */
+
+/*
+S_msrVoice msrVoice::createHarmonyTrack (
+  int inputLineNumber)
+{
+  msrVoice* o =
+    new msrVoice (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+S_msrVoice msrVoice::createMasterVoice (
+  int        inputLineNumber,
+  S_msrStaff voiceStaffUplink)
+{
+  msrVoice* o =
+    new msrVoice (
+      inputLineNumber,
+      voiceStaffUplink);
+  assert(o!=0);
+  return o;
+}
+*/
+
