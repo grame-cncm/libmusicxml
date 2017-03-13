@@ -565,7 +565,52 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       break;
       
     case msrStaff::kHarmonyStaff:
-      // JMI
+      {
+        // create a staff clone
+        fCurrentStaffClone =
+          elt->createStaffBareClone (fCurrentPartClone);
+          
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartClone (fCurrentStaffClone);
+
+      /* JMI
+        // create a staff block
+        fCurrentStaffBlock =
+          lpsrStaffBlock::create (
+            fCurrentStaffClone);
+      
+        string
+          partName =
+            fCurrentPartClone->getPartName (),
+          partAbbreviation =
+            fCurrentPartClone->getPartAbbreviation ();
+      
+        string staffBlockInstrumentName;
+        string staffBlockShortInstrumentName;
+      
+        // don't set instrument name nor short instrument name
+        // if the staff belongs to a piano part where they're already set
+        if (! partName.size ())
+          staffBlockInstrumentName = partName;
+        if (! partAbbreviation.size ())
+          staffBlockShortInstrumentName = partAbbreviation;
+      
+        if (staffBlockInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockInstrumentName (staffBlockInstrumentName);
+            
+        if (staffBlockShortInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+              
+        // append the staff block to the current part block
+        fCurrentPartBlock->
+          appendElementToPartBlock (fCurrentStaffBlock);
+      */
+      
+        fOnGoingStaff = true;
+      }
       break;
   } // switch
 }
@@ -654,9 +699,21 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   fLpsrScore ->
     appendVoiceToScoreElements (fCurrentVoiceClone);
 
-  // append a use of the voice to the current staff block
-  fCurrentStaffBlock->
-    appendVoiceUseToStaffBlock (fCurrentVoiceClone);
+  switch (elt->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      // append a use of the voice to the current staff block
+      fCurrentStaffBlock->
+        appendVoiceUseToStaffBlock (fCurrentVoiceClone);
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      // JMI
+      break;
+      
+    case msrVoice::kMasterVoice:
+      // JMI
+      break;
+  } // switch
 
   // clear the voice notes map
   fVoiceNotesMap.clear ();

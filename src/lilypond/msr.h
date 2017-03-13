@@ -4924,6 +4924,9 @@ class EXP msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    msrVoiceKind  getVoiceKind () const
+                      { return fVoiceKind; }
+
     int           getExternalVoiceNumber () const
                       { return fExternalVoiceNumber; }
                 
