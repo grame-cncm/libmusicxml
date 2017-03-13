@@ -5585,6 +5585,7 @@ class EXP msrStaff : public msrElement
 
     map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
                               //numbered 1 to gMaxStaffVoices
+                              
     map<int, S_msrVoice>    fStaffAllVoicesMap;
                               // [0] is used for the staff voice master
 

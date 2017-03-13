@@ -12879,11 +12879,11 @@ void msrStaff::browseData (basevisitor* v)
       map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
       i != fStaffAllVoicesMap.end();
       i++) {
-      if ((*i).second->getStaffRelativeVoiceNumber () != 0) {
+ // JMI     if ((*i).second->getStaffRelativeVoiceNumber () != 0) {
         // browse the voice, but not if it is the master voice JMI
         msrBrowser<msrVoice> browser (v);
         browser.browse (*((*i).second));
-      }
+  //    }
     } // for
   }
 
@@ -12984,7 +12984,7 @@ void msrStaff::print (ostream& os)
 
   os << endl;
 
-  // print the registered voices
+  // print the voices
   if (fStaffAllVoicesMap.size ()) {
     map<int, S_msrVoice>::const_iterator
       iBegin = fStaffAllVoicesMap.begin(),

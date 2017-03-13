@@ -1226,15 +1226,21 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     case msrStaff::kRegularStaff:
       voiceContextName = "\\context Staff";
       break;
+      
     case msrStaff::kTablatureStaff:
       voiceContextName = "\\context TabStaff";
       break;
+      
     case msrStaff::kPercussionStaff:
       voiceContextName = "\\context DrumVoice";
       break;
+      
+    case msrStaff::kHarmonyStaff:
+      voiceContextName = "\\context ChordNames";
+      break;
   } // switch
 
-  if (voice->getStaffRelativeVoiceNumber () > 0) {
+ // if (voice->getStaffRelativeVoiceNumber () > 0) {
     // don't include the master voice in the staff by default
     
     fOstream << idtr <<
@@ -1281,7 +1287,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     fOstream <<
       idtr << ">>" <<
       endl;
-  }
+ // }
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
