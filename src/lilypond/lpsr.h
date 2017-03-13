@@ -1176,6 +1176,15 @@ class EXP lpsrContext : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
+    lpsrContextKind   getContextKind () const
+                          { return fContextKind; }
+
+    string            getContextType () const
+                          { return fContextType; }
+
+    string            getContextName () const
+                          { return fContextName; }
+
     // services
     // ------------------------------------------------------
 

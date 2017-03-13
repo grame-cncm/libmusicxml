@@ -1365,7 +1365,21 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrContext& elt)
     fOstream << idtr <<
       "% --> Start visiting lpsrContext" << endl;
 
+  string contextName =
+    elt->getContextName ();
+    
+  fOstream << idtr <<
+    "\\context" " " << elt->getContextType () <<
+    " = \"" << contextName << "\"" <<
+    endl;
+
   idtr++;
+
+  fOstream << idtr <<
+    "\\" << contextName <<
+    endl << endl;
+    
+  idtr--;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrContext& elt)
@@ -1373,8 +1387,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrContext& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrContext" << endl;
-
-  idtr--;
 }
   
 //________________________________________________________________________
