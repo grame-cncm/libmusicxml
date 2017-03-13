@@ -508,48 +508,95 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 
   idtr++;
 
-  // create a staff clone
-  fCurrentStaffClone =
-    elt->createStaffBareClone (fCurrentPartClone);
-    
-  // add it to the part clone
-  fCurrentPartClone->
-    addStaffToPartClone (fCurrentStaffClone);
-
-  // create a staff block
-  fCurrentStaffBlock =
-    lpsrStaffBlock::create (
-      fCurrentStaffClone);
-
-  string
-    partName =
-      fCurrentPartClone->getPartName (),
-    partAbbreviation =
-      fCurrentPartClone->getPartAbbreviation ();
-
-  string staffBlockInstrumentName;
-  string staffBlockShortInstrumentName;
-
-  // don't set instrument name nor short instrument name
-  // if the staff belongs to a piano part where they're already set
-  if (! partName.size ())
-    staffBlockInstrumentName = partName;
-  if (! partAbbreviation.size ())
-    staffBlockShortInstrumentName = partAbbreviation;
-
-  if (staffBlockInstrumentName.size ())
-    fCurrentStaffBlock->
-      setStaffBlockInstrumentName (staffBlockInstrumentName);
+  switch (elt->getStaffKind ()) {
+    case msrStaff::kRegularStaff:
+      {
+        // create a staff clone
+        fCurrentStaffClone =
+          elt->createStaffBareClone (fCurrentPartClone);
+          
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartClone (fCurrentStaffClone);
       
-  if (staffBlockShortInstrumentName.size ())
-    fCurrentStaffBlock->
-      setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-        
-  // append the staff block to the current part block
-  fCurrentPartBlock->
-    appendElementToPartBlock (fCurrentStaffBlock);
+        // create a staff block
+        fCurrentStaffBlock =
+          lpsrStaffBlock::create (
+            fCurrentStaffClone);
+      
+        string
+          partName =
+            fCurrentPartClone->getPartName (),
+          partAbbreviation =
+            fCurrentPartClone->getPartAbbreviation ();
+      
+        string staffBlockInstrumentName;
+        string staffBlockShortInstrumentName;
+      
+        // don't set instrument name nor short instrument name
+        // if the staff belongs to a piano part where they're already set
+        if (! partName.size ())
+          staffBlockInstrumentName = partName;
+        if (! partAbbreviation.size ())
+          staffBlockShortInstrumentName = partAbbreviation;
+      
+        if (staffBlockInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockInstrumentName (staffBlockInstrumentName);
+            
+        if (staffBlockShortInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+              
+        // append the staff block to the current part block
+        fCurrentPartBlock->
+          appendElementToPartBlock (fCurrentStaffBlock);
+      
+        fOnGoingStaff = true;
+      }
+      break;
+      
+    case msrStaff::kTablatureStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kPercussionStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kHarmonyStaff:
+      // JMI
+      break;
+  } // switch
+}
 
-  fOnGoingStaff = true;
+void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
+{
+  idtr--;
+
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting S_msrStaff" << endl;
+
+  switch (elt->getStaffKind ()) {
+    case msrStaff::kRegularStaff:
+      {
+        fOnGoingStaff = false;
+      }
+      break;
+      
+    case msrStaff::kTablatureStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kPercussionStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kHarmonyStaff:
+      // JMI
+      break;
+  } // switch
 }
 
 //________________________________________________________________________
@@ -577,17 +624,6 @@ void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
   // append it to the current staff block
   fCurrentStaffBlock->
     appendElementToStaffBlock (newStafftuningBlock);
-}
-
-void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
-{
-  idtr--;
-
-  if (gGeneralOptions->fDebug)
-    fOstream << idtr <<
-      "--> End visiting S_msrStafftuning" << endl;
-
-  fOnGoingStaff = false;
 }
 
 //________________________________________________________________________

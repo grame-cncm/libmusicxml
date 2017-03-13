@@ -673,8 +673,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrLayout& elt)
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
 {
-  idtr--;
-
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting lpsrLayout" << endl;
@@ -703,6 +701,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
   fOstream << idtr <<
     "}" <<
     endl << endl;
+
+  idtr--;
 }
 
 //________________________________________________________________________

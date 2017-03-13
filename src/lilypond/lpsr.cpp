@@ -2266,8 +2266,8 @@ ostream& operator<< (ostream& os, const S_lpsrStaffBlock& scr)
 void lpsrStaffBlock::print (ostream& os)
 {
   os <<
-    "StaffBlock" << " " <<
-    "for staff \"" << fStaff->getStaffName () <<
+    "StaffBlock for staff \"" <<
+    fStaff->getStaffName () <<
     "\" (" << fStaff->staffKindAsString () <<
     "), " <<
     singularOrPlural (

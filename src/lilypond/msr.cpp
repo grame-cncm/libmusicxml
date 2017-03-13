@@ -6519,7 +6519,11 @@ msrStanza::msrStanza (
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
 
- switch (fStanzaKind) {
+  msrAssert(stanzaVoiceUplink != 0, "stanzaVoiceUplink is null"); // JMI
+
+  fStanzaVoiceUplink  = stanzaVoiceUplink;
+  
+  switch (fStanzaKind) {
     case kRegularStanza:
       fStanzaName =
         fStanzaVoiceUplink->getVoiceName() +
@@ -6535,10 +6539,6 @@ msrStanza::msrStanza (
       break;
   } // switch
  
-  msrAssert(stanzaVoiceUplink != 0, "stanzaVoiceUplink is null"); // JMI
-
-  fStanzaVoiceUplink  = stanzaVoiceUplink;
-  
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Creating stanza " << getStanzaName () << endl;
