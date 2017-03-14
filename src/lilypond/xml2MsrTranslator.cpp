@@ -7518,12 +7518,20 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         getVoiceLastSegment ();
     
   // create a hooked repeat ending from the current segment
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "--> creating a new hooked repeat ending for voice \"" <<
+      "Creating a new hooked repeat ending for voice \"" <<
       currentVoice->getVoiceName () << "\"" <<
       endl;
-      
+          
+  fCurrentPart->
+    appendRepeatendingToPart (
+      inputLineNumber,
+      fCurrentEndingNumber,
+      msrRepeatending::kHookedEnding);
+
+
+/* BOF
   S_msrRepeatending
     repeatEnding =
       msrRepeatending::create (
@@ -7533,7 +7541,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         currentSegment,
         0); // BOF fCurrentRepeat);
 
-/* BOF
   // add the repeat ending it to the current repeat
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -7655,12 +7662,19 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         getVoiceLastSegment ();
 
   // create a hookless repeat ending from the current segment
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "--> creating a new hookless repeat ending for voice " <<
+      "Creating a new hookless repeat ending for voice " <<
       currentVoice->getVoiceName () <<
       endl;
+                
+  fCurrentPart->
+    appendRepeatendingToPart (
+      inputLineNumber,
+      fCurrentEndingNumber,
+      msrRepeatending::kHooklessEnding);
       
+/* BOF
   S_msrRepeatending
     repeatEnding =
       msrRepeatending::create (
@@ -7670,7 +7684,6 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         currentSegment,
         0); // BOF fCurrentRepeat);
 
-/* BOF
   // add the repeat ending it to the current repeat
   if (gGeneralOptions->fDebug)
     cerr << idtr <<

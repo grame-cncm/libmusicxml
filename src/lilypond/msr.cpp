@@ -11535,7 +11535,49 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
   fVoiceRepeatsAndSegments.push_back (
     repeat);
 }
-    
+
+void msrVoice::appendRepeatendingToVoice (
+  int       inputLineNumber,
+  string    repeatendingNumber, // may be "1, 2"
+  msrRepeatending::msrRepeatendingKind
+            repeatendingKind)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending a repeat ending to voice \"" << getVoiceName () <<  "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  S_msrRepeatending
+    repeatEnding =
+      msrRepeatending::create (
+        inputLineNumber,
+        repeatendingNumber,
+        repeatendingKind,
+        fVoiceLastSegment,
+        fVoiceCurrentRepeat);
+
+  // add the repeat ending it to the voice current repeat
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending repeat ending to current repeat in voice " <<
+      fVoiceName <<
+      endl;
+      
+  fVoiceCurrentRepeat->
+    addRepeatending (repeatEnding);
+
+  // create a new segment for the voice
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating new last segment for voice " <<
+      fVoiceName <<
+      endl;
+      
+  createNewLastSegmentForVoice (
+    inputLineNumber);
+}
+
 void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
 {
   if (gGeneralOptions->fTrace)
@@ -12600,6 +12642,29 @@ void msrStaff::appendRepeatToStaff (int inputLineNumber)
   } // for
 }
 
+void msrStaff::appendRepeatendingToStaff (
+  int       inputLineNumber,
+  string    repeatendingNumber, // may be "1, 2"
+  msrRepeatending::msrRepeatendingKind
+            repeatendingKind)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending repeat ending to staff " << fStaffNumber <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->appendRepeatendingToVoice (
+      inputLineNumber,
+      repeatendingNumber,
+      repeatendingKind);
+  } // for
+}
+
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
   if (gGeneralOptions->fTrace)
@@ -13402,6 +13467,23 @@ void msrPart::appendRepeatToPart (int inputLineNumber)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->appendRepeatToStaff (inputLineNumber);
+  } // for
+}
+
+void msrPart::appendRepeatendingToPart (
+  int       inputLineNumber,
+  string    repeatendingNumber, // may be "1, 2"
+  msrRepeatending::msrRepeatendingKind
+            repeatendingKind)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->appendRepeatendingToStaff (
+      inputLineNumber,
+      repeatendingNumber,
+      repeatendingKind);
   } // for
 }
 

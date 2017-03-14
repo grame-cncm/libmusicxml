@@ -5020,102 +5020,102 @@ class EXP msrVoice : public msrElement
     void          prependGracenotesToVoice (
                     S_msrGracenotes gracenotes);
     
-    S_msrSyllable
-                  addTextSyllableToVoice (
-                    int       inputLineNumber,
-                    int       stanzaNumber,
-                    string    syllabic,
-                    msrSyllable::msrSyllableKind
-                              syllableKind,
-                    string    text,
-                    bool      elision,
-                    msrSyllable::msrSyllableExtendKind
-                              syllableExtendKind,
-                    int       divisions);
+    S_msrSyllable   addTextSyllableToVoice (
+                      int       inputLineNumber,
+                      int       stanzaNumber,
+                      string    syllabic,
+                      msrSyllable::msrSyllableKind
+                                syllableKind,
+                      string    text,
+                      bool      elision,
+                      msrSyllable::msrSyllableExtendKind
+                                syllableExtendKind,
+                      int       divisions);
     
-    S_msrSyllable
-                  addRestSyllableToVoice (
-                    int inputLineNumber,
-                    int stanzaNumber,
-                    int divisions);
+    S_msrSyllable   addRestSyllableToVoice (
+                      int inputLineNumber,
+                      int stanzaNumber,
+                      int divisions);
     
-    S_msrSyllable
-                  addSkipSyllableToVoice (
-                    int inputLineNumber,
-                    int stanzaNumber,
-                    int divisions);
+    S_msrSyllable   addSkipSyllableToVoice (
+                      int inputLineNumber,
+                      int stanzaNumber,
+                      int divisions);
     
-    S_msrSyllable
-                  addTiedSyllableToVoice (
-                    int inputLineNumber,
-                    int stanzaNumber,
-                    int divisions);
+    S_msrSyllable   addTiedSyllableToVoice (
+                      int inputLineNumber,
+                      int stanzaNumber,
+                      int divisions);
     
-    S_msrSyllable
-                  addSlurSyllableToVoice (
-                    int inputLineNumber,
-                    int stanzaNumber,
-                    int divisions);
+    S_msrSyllable   addSlurSyllableToVoice (
+                      int inputLineNumber,
+                      int stanzaNumber,
+                      int divisions);
     
-    S_msrSyllable
-                  addSlurBeyondEndSyllableToVoice (
-                    int inputLineNumber,
-                    int stanzaNumber,
-                    int divisions);
+    S_msrSyllable   addSlurBeyondEndSyllableToVoice (
+                      int inputLineNumber,
+                      int stanzaNumber,
+                      int divisions);
     
-    void          appendBarCheckToVoice (
-                    S_msrBarCheck barCheck);
+    void            appendBarCheckToVoice (
+                      S_msrBarCheck barCheck);
                     
-    void          appendBarnumberCheckToVoice (
-                    S_msrBarnumberCheck barNumberCheck);
+    void            appendBarnumberCheckToVoice (
+                      S_msrBarnumberCheck barNumberCheck);
 
-    void          appendBreakToVoice (S_msrBreak break_);
+    void            appendBreakToVoice (S_msrBreak break_);
 
-    void          appendRepeatToVoice (int inputLineNumber);
+    void            appendRepeatToVoice (int inputLineNumber);
     
-    void          appendRepeatCloneToVoice (S_msrRepeat repeatCLone);
+    void            appendRepeatCloneToVoice (S_msrRepeat repeatCLone);
     
-    void          prependBarlineToVoice (S_msrBarline barline);
-    void          appendBarlineToVoice (S_msrBarline barline);
+    void            appendRepeatendingToVoice (
+                      int       inputLineNumber,
+                      string    repeatendingNumber, // may be "1, 2"
+                      msrRepeatending::msrRepeatendingKind
+                                repeatendingKind);
+
+    void            prependBarlineToVoice (S_msrBarline barline);
+    void            appendBarlineToVoice (S_msrBarline barline);
     
-    void          appendSegnoToVoice (S_msrSegno segno);
-    void          appendCodaToVoice (S_msrCoda coda);
-    void          appendEyeglassesToVoice (
-                    S_msrEyeglasses eyeglasses);
-    void          appendPedalToVoice (S_msrPedal pedal);
+    void            appendSegnoToVoice (S_msrSegno segno);
+    void            appendCodaToVoice (S_msrCoda coda);
+    void            appendEyeglassesToVoice (
+                      S_msrEyeglasses eyeglasses);
+    void            appendPedalToVoice (S_msrPedal pedal);
     
-    void          appendOtherElementToVoice (S_msrElement elem);
+    void            appendOtherElementToVoice (S_msrElement elem);
                       // for other types of elements not known
                       // in this header file, such as LPSR elements
 
-    S_msrElement  removeLastElementFromVoice (
-                    int inputLineNumber);
+    S_msrElement    removeLastElementFromVoice (
+                      int inputLineNumber);
 
-    void          removeFirstChordNoteFromVoice (
-                    int       inputLineNumber,
-                    S_msrNote note);
+    void            removeFirstChordNoteFromVoice (
+                      int       inputLineNumber,
+                      S_msrNote note);
 
-    S_msrStanza   addStanzaToVoiceByItsNumber (
-                    int inputLineNumber,
-                    int stanzaNumber);
+    S_msrStanza     addStanzaToVoiceByItsNumber (
+                      int inputLineNumber,
+                      int stanzaNumber);
 
-    void          addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza);
+    void            addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza);
 
-    void          catchUpWithVoiceStanzaMaster (
-                    S_msrStanza stanza);
+    void            catchUpWithVoiceStanzaMaster (
+                      S_msrStanza stanza);
                     
-    void          addStanzaToVoiceWithCatchUp (S_msrStanza stanza);
+    void            addStanzaToVoiceWithCatchUp (S_msrStanza stanza);
 
-    S_msrStanza   createStanzaInVoiceIfNeeded (
-                    int inputLineNumber,
-                    int stanzaNumber);
+    S_msrStanza     createStanzaInVoiceIfNeeded (
+                      int inputLineNumber,
+                      int stanzaNumber);
     
-    bool          checkForIncompleteVoiceLastMeasure (
-                    int inputLineNumber);
+    bool            checkForIncompleteVoiceLastMeasure (
+                      int inputLineNumber);
 
-    void          createNewLastSegmentForVoice (int inputLineNumber);
+    void            createNewLastSegmentForVoice (int inputLineNumber);
 
-    void          finalizeLastMeasureOfVoice (int inputLineNumber);
+    void            finalizeLastMeasureOfVoice (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -5363,6 +5363,13 @@ class EXP msrStaff : public msrElement
     void            setStaffTime (S_msrTime time);
 
     void            appendRepeatToStaff (int inputLineNumber);
+    
+    void            appendRepeatendingToStaff (
+                      int       inputLineNumber,
+                      string    repeatendingNumber, // may be "1, 2"
+                      msrRepeatending::msrRepeatendingKind
+                                repeatendingKind);
+
     void            appendBarlineToStaff (S_msrBarline barline);
     
     void            setStaffTranspose (S_msrTranspose transpose);
@@ -5670,6 +5677,13 @@ class EXP msrPart : public msrElement
     void            setAllPartStavesTime (S_msrTime time); // JMI
               
     void            appendRepeatToPart (int inputLineNumber);
+    
+    void            appendRepeatendingToPart (
+                      int       inputLineNumber,
+                      string    repeatendingNumber, // may be "1, 2"
+                      msrRepeatending::msrRepeatendingKind
+                                repeatendingKind);
+    
     void            appendBarlineToPart (S_msrBarline barline);
 
     void            setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
