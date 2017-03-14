@@ -10630,7 +10630,8 @@ void msrVoice::init (int inputLineNumber)
   fMeasureNumberHasBeenSetInVoice = false;
   fMusicHasBeenInsertedInVoice    = false;
   
-  fVoiceActualNotesCounter = 0;
+  fVoiceActualNotesCounter     = 0;
+  fVoiceActualHarmoniesCounter = 0;
 
   // add the stanza master for this voice, to
   // collect skips along the way that are used as a 'prelude'
@@ -11050,6 +11051,8 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
   fVoiceLastSegment->
     appendHarmonyToSegment (harmony);
 
+  // register harmony
+  fVoiceActualHarmoniesCounter++;
   fMusicHasBeenInsertedInVoice = true;
 }
 
@@ -11767,7 +11770,6 @@ string msrVoice::voiceKindAsString (
   return result;
 }
       
-
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
 {
   elt->print (os);
@@ -11780,6 +11782,9 @@ void msrVoice::print (ostream& os)
     voiceKindAsString (fVoiceKind) <<
     " voice \"" << getVoiceName () <<
     "\" (" <<
+    singularOrPlural (
+      fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
+     ", " <<
     singularOrPlural (
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
      ", " <<
@@ -13487,7 +13492,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-  if (gGeneralOptions->fDebug)
+// JMI  if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> appending harmony " <<
       harmony->harmonyAsString () <<

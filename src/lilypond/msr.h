@@ -4955,6 +4955,9 @@ class EXP msrVoice : public msrElement
     int           getVoiceActualNotesCounter () const
                       { return fVoiceActualNotesCounter; }
 
+    int           getVoiceActualHarmoniesCounter () const
+                      { return fVoiceActualHarmoniesCounter; }
+
     int           getMeasureZeroHasBeenMetInVoice () const
                       { return fMeasureZeroHasBeenMetInVoice; }
 
@@ -5141,7 +5144,8 @@ class EXP msrVoice : public msrElement
 
     S_msrStaff                fVoiceStaffUplink;
 
-    bool                      fVoiceActualNotesCounter;
+    int                       fVoiceActualNotesCounter;
+    int                       fVoiceActualHarmoniesCounter;
 
     int                       fVoiceDivisionsPerWholeNote;
 

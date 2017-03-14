@@ -1571,17 +1571,19 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
     fOstream << idtr <<
       "% --> Start visiting msrHarmony" << endl;
 
-  if (fOnGoingNote) {
+ // if (fOnGoingNote) {
     fOstream <<
       "%{ " << elt->harmonyAsString () << " %}" <<
       endl <<
       idtr;
-  }
+ // }
 
+/* JMI
   else if (fOnGoingChord) {
     // don't generate code for the code harmony,
     // this will be done after the chord itself JMI
   }
+  */
 }
 
 //________________________________________________________________________
