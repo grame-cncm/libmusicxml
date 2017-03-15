@@ -5075,6 +5075,9 @@ class EXP msrVoice : public msrElement
                       msrRepeatending::msrRepeatendingKind
                                 repeatendingKind);
 
+    void            appendRepeatendingCloneToVoice (
+                      S_msrRepeatending repeatendingClone);
+
     void            prependBarlineToVoice (S_msrBarline barline);
     void            appendBarlineToVoice (S_msrBarline barline);
     
@@ -5449,7 +5452,7 @@ class EXP msrStaff : public msrElement
                                 repeatendingKind);
 
     void            appendRepeatendingCloneToStaff (
-                      S_msrRepeatending repeatendingCLone);
+                      S_msrRepeatending repeatendingClone);
 
     void            appendBarlineToStaff (S_msrBarline barline);
     

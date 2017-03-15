@@ -11597,6 +11597,30 @@ void msrVoice::appendRepeatendingToVoice (
     inputLineNumber);
 }
 
+void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
+  S_msrRepeatending repeatendingClone)
+{
+  // add the repeat ending it to the voice current repeat
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> appending repeat ending clone to current repeat in voice " <<
+      fVoiceName <<
+      endl;
+      
+  fVoiceCurrentRepeat->
+    addRepeatending (repeatendingClone);
+
+  // create a new segment for the voice
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating new last segment for voice " <<
+      fVoiceName <<
+      endl;
+      
+  createNewLastSegmentForVoice (
+    repeatendingClone->getInputLineNumber ());
+}
+
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
   if (gGeneralOptions->fTrace)
@@ -12684,11 +12708,12 @@ void msrStaff::appendRepeatCloneToStaff (S_msrRepeat repeatCLone)
   } // for
 }
 
-void msrStaff::appendRepeatendingToStaff (int inputLineNumber)
+void msrStaff::appendRepeatendingCloneToStaff (
+  S_msrRepeatending repeatendingClone)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Appending repeat to staff " << fStaffNumber <<
+      "Appending repeat ending clone to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
@@ -12696,7 +12721,7 @@ void msrStaff::appendRepeatendingToStaff (int inputLineNumber)
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatendingToVoice (inputLineNumber);
+    (*i).second->appendRepeatendingCloneToVoice (repeatendingClone);
   } // for
 }
 
