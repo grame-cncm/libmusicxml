@@ -49,6 +49,8 @@ msr2LpsrTranslator::msr2LpsrTranslator (
    
   fOnGoingStaff          = false;
 
+  fOnGoingHarmonyVoice   = false;
+
   fOnGoingNote           = false;
 
   fOnGoingChord          = false;
@@ -744,6 +746,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         fCurrentPartBlock->
           appendElementToPartBlock (
             chordNamesContext);
+
+        fOnGoingHarmonyVoice = true;
       }
       break;
       
@@ -765,6 +769,20 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "--> End visiting msrVoice" << endl;
+
+  switch (elt->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      // JMI
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fOnGoingHarmonyVoice = false;
+      break;
+      
+    case msrVoice::kMasterVoice:
+      // JMI
+      break;
+  } // switch
 }
 
 //________________________________________________________________________
@@ -816,9 +834,10 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fCurrentChordClone->
       setChordHarmony (elt); // JMI
 
-  // register the harmony in the part harmony
-  fCurrentPartClone->
-    appendHarmonyToPart (
+  else if (fOnGoingHarmonyVoice) // JMI
+    // register the harmony in the part harmony
+    fCurrentPartClone->
+      appendHarmonyToPart (
       elt);
 }
 

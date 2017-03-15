@@ -314,6 +314,7 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
     map<S_msrNote, S_msrNote> fVoiceNotesMap;
+    bool                      fOnGoingHarmonyVoice;
     
     // repeats
     // ------------------------------------------------------

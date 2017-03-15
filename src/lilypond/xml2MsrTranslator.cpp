@@ -7520,8 +7520,8 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   // create a hooked repeat ending from the current segment
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating a new hooked repeat ending for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
+      "Appending a new hookless repeat ending to part " <<
+      fCurrentPart->getPartCombinedName () <<
       endl;
           
   fCurrentPart->
@@ -7664,8 +7664,8 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   // create a hookless repeat ending from the current segment
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Creating a new hookless repeat ending for voice " <<
-      currentVoice->getVoiceName () <<
+      "Appending a new hookless repeat ending to part " <<
+      fCurrentPart->getPartCombinedName () <<
       endl;
                 
   fCurrentPart->
