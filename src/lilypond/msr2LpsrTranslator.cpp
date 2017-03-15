@@ -1914,7 +1914,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
-  
+
+        fCurrentPartClone->
+          appendRepeatCloneToPart (
+            fCurrentRepeatClone);
+            
+  /* JMI
         // get the current segment
         S_msrSegment
           currentSegment =
@@ -1947,6 +1952,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentVoiceClone->
           createNewLastSegmentForVoice (
             inputLineNumber);
+            */
       }
       break;
             
