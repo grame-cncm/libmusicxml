@@ -10197,7 +10197,8 @@ msrRepeatending::msrRepeatending (
   
   fRepeatendingKind = repeatendingKind;
   
-  fRepeatendingSegment   = segment;
+  fRepeatendingSegment = segment;
+  
   fRepeatendingRepeatUplink = repeatUplink;
 }
 
@@ -10216,7 +10217,7 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
         fInputLineNumber,
         fRepeatendingNumber,
         fRepeatendingKind,
-        clonedRepeat->getRepeatCommonPart (),
+        clonedRepeat->getRepeatCommonPart (), // JMI
         clonedRepeat);
   
   return clone;
@@ -10347,7 +10348,7 @@ msrRepeat::~msrRepeat() {}
 
 S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
-  S_msrSegment
+  S_msrSegment // JMI
     segment =
       msrSegment::create (
         fInputLineNumber,
@@ -10357,7 +10358,7 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> Creating a bare clone of a repeat" << endl;
+      "--> creating a bare clone of a repeat" << endl;
   
   S_msrRepeat
     clone =
@@ -11536,6 +11537,22 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
     repeat);
 }
 
+void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending repeat to voice clone \"" << getVoiceName () <<  "\"" <<
+      endl;
+
+  // register repeat as the (new) current one
+  fVoiceCurrentRepeat =
+    repeatCLone;
+
+  // append it to the list of repeats and segments
+  fVoiceRepeatsAndSegments.push_back (
+    repeatCLone);
+}
+    
 void msrVoice::appendRepeatendingToVoice (
   int       inputLineNumber,
   string    repeatendingNumber, // may be "1, 2"
@@ -11578,22 +11595,6 @@ void msrVoice::appendRepeatendingToVoice (
     inputLineNumber);
 }
 
-void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
-{
-  if (gGeneralOptions->fTrace)
-    cerr << idtr <<
-      "Appending repeat to voice clone \"" << getVoiceName () <<  "\"" <<
-      endl;
-
-  // register repeat as the (new) current one
-  fVoiceCurrentRepeat =
-    repeatCLone;
-
-  // append it to the list of repeats and segments
-  fVoiceRepeatsAndSegments.push_back (
-    repeatCLone);
-}
-    
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
   if (gGeneralOptions->fTrace)
@@ -12665,6 +12666,22 @@ void msrStaff::appendRepeatendingToStaff (
   } // for
 }
 
+void msrStaff::appendRepeatendingToStaff (int inputLineNumber)
+{
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending repeat to staff " << fStaffNumber <<
+      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->appendRepeatendingToVoice (inputLineNumber);
+  } // for
+}
+
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
   if (gGeneralOptions->fTrace)
@@ -13484,6 +13501,17 @@ void msrPart::appendRepeatendingToPart (
       inputLineNumber,
       repeatendingNumber,
       repeatendingKind);
+  } // for
+}
+
+void msrPart::appendRepeatendingCloneToPart (
+  S_msrRepeatending repeatendingCLone)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->appendRepeatendingCloneToStaff (repeatendingCLone);
   } // for
 }
 

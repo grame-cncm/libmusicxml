@@ -345,7 +345,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       
     case msrOrnament::kVerticalTurn:
       result =
-        "^\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" }";
+        "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" }";
           /* JMI
       {
         string message =
@@ -1041,11 +1041,17 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
     case msrStaff::kRegularStaff:
       staffContextName = "Staff";
       break;
+      
     case msrStaff::kTablatureStaff:
       staffContextName = "TabStaff";
       break;
+      
     case msrStaff::kPercussionStaff:
       staffContextName = "DrumStaff";
+      break;
+      
+    case msrStaff::kHarmonyStaff:
+      staffContextName = "kHarmonyStaff ???";
       break;
   } // switch
 

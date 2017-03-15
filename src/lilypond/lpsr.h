@@ -42,9 +42,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
-class lpsrRepeat;
-typedef SMARTP<lpsrRepeat> S_lpsrRepeat;
-
+// JMI
 
 /*!
 \internal

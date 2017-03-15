@@ -1270,7 +1270,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
     appendGracenotesToVoice (
       fCurrentGracenotesClone);
 
-  bool createSkipGracenotesInOtherVoices = false;
+// JMI  bool createSkipGracenotesInOtherVoices = false;
   
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
@@ -1790,15 +1790,14 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeat" << endl;
 
-  // create an LPSR repeat
-  fCurrentRepeatClone =
-    elt->createRepeatBareClone (
-      fCurrentVoiceClone);
+  // create a repeat clone
+ // JMI S_msrRepeat
+    fCurrentRepeatClone =
+      elt->createRepeatBareClone (
+        fCurrentVoiceClone);
 
-/* JMI
-  fCurrentVoiceClone->
-    appendRepeatCloneToVoice (fCurrentRepeatClone);
-*/
+  fCurrentPartClone->
+    appendRepeatCloneToPart (fCurrentRepeatClone);
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -1823,14 +1822,19 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 
-/* JMI
+  if (gGeneralOptions->fTrace)
+    cerr << idtr <<
+      "Appending a repeat ending clone to part " <<
+      fCurrentPartClone->getPartCombinedName () <<
+      endl;
+                
+  // create a repeat ending clone
   S_msrRepeatending
-    repeatending =
-      elt->createRepeatnendingBareClone (fCurrentRepeatClone);
+    repeatendingCLone =
+      elt->createRepeatendingBareClone (fCurrentRepeatClone);
 
-  fCurrentRepeatClone->
-    addRepeatending (repeatending);
-    */
+  fCurrentPartClone->
+    appendRepeatendingCloneToPart (repeatendingCLone);
 
   fCurrentRepeatEndingsNumber++;
 }
@@ -2064,10 +2068,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // create a repeat ending from the current segment
   //      if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> creating a new hookless ending for voice \"" <<
+            "--> appending a new hookless ending for voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
-            
+
+        /*    
         S_msrRepeatending
           repeatEnding =
             msrRepeatending::create (
@@ -2097,6 +2102,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentVoiceClone->
           createNewLastSegmentForVoice (
             inputLineNumber);
+            */
 
   /*
         // get the current segment

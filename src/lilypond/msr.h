@@ -4725,38 +4725,38 @@ class EXP msrRepeatending : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string        getRepeatendingNumber () const
-                      { return fRepeatendingNumber; }
+    string          getRepeatendingNumber () const
+                        { return fRepeatendingNumber; }
                 
-    void          setRepeatendingNumber (int repeatendingNumber)
-                      { fRepeatendingNumber = repeatendingNumber; }
+    void            setRepeatendingNumber (int repeatendingNumber)
+                        { fRepeatendingNumber = repeatendingNumber; }
 
-    void          setRepeatendingInternalNumber (
-                    int repeatendingInternalNumber)
-                      {
-                        fRepeatendingInternalNumber =
-                          repeatendingInternalNumber;
-                      }
+    void            setRepeatendingInternalNumber (
+                      int repeatendingInternalNumber)
+                        {
+                          fRepeatendingInternalNumber =
+                            repeatendingInternalNumber;
+                        }
                       
-    int           getRepeatendingInternalNumber () const
-                      { return fRepeatendingInternalNumber; }
+    int             getRepeatendingInternalNumber () const
+                        { return fRepeatendingInternalNumber; }
                 
     msrRepeatendingKind
-                  getRepeatendingKind () const
-                      { return fRepeatendingKind; }
+                    getRepeatendingKind () const
+                        { return fRepeatendingKind; }
                 
-    S_msrSegment  getRepeatendingSegment () const
-                      { return fRepeatendingSegment; }
+    S_msrSegment    getRepeatendingSegment () const
+                        { return fRepeatendingSegment; }
                 
-    S_msrRepeat   getRepeatendingRepeatUplink () const
-                    { return fRepeatendingRepeatUplink; }
+    S_msrRepeat     getRepeatendingRepeatUplink () const
+                        { return fRepeatendingRepeatUplink; }
 
     // services
     // ------------------------------------------------------
+  
+    string          repeatendingAsString () const;
 
-    string        repeatendingAsString () const;
-
-    void          appendElementToRepeatending (S_msrElement elem);
+    void            appendElementToRepeatending (S_msrElement elem);
                     
     // visitors
     // ------------------------------------------------------
@@ -4823,23 +4823,23 @@ class EXP msrRepeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void          setRepeatCommonPart (
-                    S_msrSegment repeatCommonPart);
+    void            setRepeatCommonPart (
+                      S_msrSegment repeatCommonPart);
                   
-    S_msrSegment  getRepeatCommonPart () const
-                      { return fRepeatCommonPart; }
+    S_msrSegment    getRepeatCommonPart () const
+                        { return fRepeatCommonPart; }
 
     const vector<S_msrRepeatending>&
-                  getRepeatEndings () const
-                    { return fRepeatEndings; }
+                    getRepeatEndings () const
+                      { return fRepeatEndings; }
 
-    S_msrVoice    getRepeatVoiceUplink () const
-                    { return fRepeatVoiceUplink; }
+    S_msrVoice      getRepeatVoiceUplink () const
+                      { return fRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    void          addRepeatending (S_msrRepeatending repeatending);
+    void            addRepeatending (S_msrRepeatending repeatending);
 
     // visitors
     // ------------------------------------------------------
@@ -5364,11 +5364,15 @@ class EXP msrStaff : public msrElement
 
     void            appendRepeatToStaff (int inputLineNumber);
     
+    void            appendRepeatCloneToStaff (S_msrRepeat repeatCLone);
+
     void            appendRepeatendingToStaff (
                       int       inputLineNumber,
                       string    repeatendingNumber, // may be "1, 2"
                       msrRepeatending::msrRepeatendingKind
                                 repeatendingKind);
+
+    void            appendRepeatendingToStaff (int inputLineNumber);
 
     void            appendBarlineToStaff (S_msrBarline barline);
     
@@ -5678,12 +5682,19 @@ class EXP msrPart : public msrElement
               
     void            appendRepeatToPart (int inputLineNumber);
     
+    void            appendRepeatCloneToPart (S_msrRepeat repeatCLone);
+    
     void            appendRepeatendingToPart (
                       int       inputLineNumber,
                       string    repeatendingNumber, // may be "1, 2"
                       msrRepeatending::msrRepeatendingKind
                                 repeatendingKind);
     
+    void            appendRepeatendingCloneToPart (
+                      S_msrRepeatending repeatendingCLone);
+
+//    void            appendRepeatendingToPart (int inputLineNumber);
+
     void            appendBarlineToPart (S_msrBarline barline);
 
     void            setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
