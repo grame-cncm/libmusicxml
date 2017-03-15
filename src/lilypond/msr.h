@@ -5362,20 +5362,6 @@ class EXP msrStaff : public msrElement
     void            setStaffKey  (S_msrKey  key);
     void            setStaffTime (S_msrTime time);
 
-    void            appendRepeatToStaff (int inputLineNumber);
-    
-    void            appendRepeatCloneToStaff (S_msrRepeat repeatCLone);
-
-    void            appendRepeatendingToStaff (
-                      int       inputLineNumber,
-                      string    repeatendingNumber, // may be "1, 2"
-                      msrRepeatending::msrRepeatendingKind
-                                repeatendingKind);
-
-    void            appendRepeatendingToStaff (int inputLineNumber);
-
-    void            appendBarlineToStaff (S_msrBarline barline);
-    
     void            setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
@@ -5399,8 +5385,8 @@ class EXP msrStaff : public msrElement
           
     // measure number
     void            setStaffMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+                      int inputLineNumber,
+                      int measureNumber);
                       
     const int       getPartMeasureNumber () const
                         { return fStaffMeasureNumber; }
@@ -5451,11 +5437,28 @@ class EXP msrStaff : public msrElement
     void            appendKeyToAllStaffVoices  (S_msrKey   key);
     void            appendTimeToAllStaffVoices (S_msrTime time);
     
+    void            appendRepeatToStaff (int inputLineNumber);
+    
+    void            appendRepeatCloneToStaff (
+                      S_msrRepeat repeatCLone);
+
+    void            appendRepeatendingToStaff (
+                      int       inputLineNumber,
+                      string    repeatendingNumber, // may be "1, 2"
+                      msrRepeatending::msrRepeatendingKind
+                                repeatendingKind);
+
+    void            appendRepeatendingCloneToStaff (
+                      S_msrRepeatending repeatendingCLone);
+
+    void            appendBarlineToStaff (S_msrBarline barline);
+    
     void            appendRepeatToAllStaffVoices (int inputLineNumber);
     
     void            appendHarmonyToStaff (S_msrHarmony harmony);
 
-    void            appendTransposeToAllStaffVoices (S_msrTranspose transpose);
+    void            appendTransposeToAllStaffVoices (
+                      S_msrTranspose transpose);
 
     void            addStafftuningToStaff (
                       S_msrStafftuning stafftuning)
