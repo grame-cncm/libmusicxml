@@ -11555,7 +11555,7 @@ void msrVoice::appendRepeatCloneToVoice (
       endl;
 
 
-  if (repeatCLone->getInputLineNumber () == 126) {
+  if (fVoiceName == "P_POne_Staff_One_Voice_One") {
     cerr <<
       endl << endl << endl <<
       "********************" <<
@@ -11589,7 +11589,7 @@ void msrVoice::appendRepeatCloneToVoice (
   createNewLastSegmentForVoice (
     inputLineNumber);
 
-  if (repeatCLone->getInputLineNumber () == 126) {
+  if (fVoiceName == "P_POne_Staff_One_Voice_One") {
     cerr <<
       endl << endl << endl <<
       "********************" <<
