@@ -8128,7 +8128,7 @@ string msrBarline::barlineAsString () const
   stringstream s;
 
   s <<
-    "Barline" <<
+    "Barline" << barlineCategoryAsString (fBarlineCategory) <<
     ", line " << fInputLineNumber <<
     ", EndingType" << " : " <<
     barlineEndingTypeAsString (fEndingType) <<
@@ -8141,15 +8141,14 @@ string msrBarline::barlineAsString () const
 void msrBarline::print (ostream& os)
 {
   os <<
-    "Barline" <<
-    ", line " << fInputLineNumber << ", ";
+    "Barline " << barlineCategoryAsString (fBarlineCategory) <<
+    ", line " << fInputLineNumber;
 
   if (fBarlineHasSegno)
-    os << "has segno, ";
+    os << ", has segno";
     
   if (fBarlineHasCoda)
-    os << "has coda, " <<
-      barlineCategoryAsString (fBarlineCategory);
+    os << ", has coda";
 
   os <<
     endl;
@@ -11538,6 +11537,16 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
   // append it to the list of repeats and segments
   fVoiceRepeatsAndSegments.push_back (
     repeat);
+
+  // create a new segment for the voice
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a new last segment for voice \"" <<
+      fVoiceName << "\"" <<
+      endl;
+      
+  createNewLastSegmentForVoice (
+    inputLineNumber);
 }
 
 void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
