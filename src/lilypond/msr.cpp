@@ -8128,7 +8128,7 @@ string msrBarline::barlineAsString () const
   stringstream s;
 
   s <<
-    "Barline" << barlineCategoryAsString (fBarlineCategory) <<
+    "Barline " << barlineCategoryAsString (fBarlineCategory) <<
     ", line " << fInputLineNumber <<
     ", EndingType" << " : " <<
     barlineEndingTypeAsString (fEndingType) <<
@@ -10111,7 +10111,10 @@ void msrSegment::print (ostream& os)
 {  
   os << idtr <<
     "Segment " << fSegmentAbsoluteNumber <<
-    " (" << fSegmentMeasuresList.size() << " measures)" <<
+    " (" <<
+    singularOrPlural (
+      fSegmentMeasuresList.size(), "measure", "measures") <<
+    ")" <<
     endl;
 
   idtr++;
@@ -11551,6 +11554,18 @@ void msrVoice::appendRepeatCloneToVoice (
       getVoiceName () <<  "\"" <<
       endl;
 
+
+  if (repeatCLone->getInputLineNumber () == 126) {
+    cerr <<
+      endl << endl << endl <<
+      "********************" <<
+      endl;
+    print (cerr);
+    cerr <<
+      "********************" <<
+      endl << endl << endl;
+  }
+  
   // set current segment as the repeat common part
   repeatCLone->
     setRepeatCommonPart (
@@ -11573,6 +11588,19 @@ void msrVoice::appendRepeatCloneToVoice (
       
   createNewLastSegmentForVoice (
     inputLineNumber);
+
+  if (repeatCLone->getInputLineNumber () == 126) {
+    cerr <<
+      endl << endl << endl <<
+      "********************" <<
+      endl;
+    print (cerr);
+    cerr <<
+      "********************" <<
+      endl << endl << endl;
+  
+    msrAssert(false, "FINI!");
+  }
 }
     
 void msrVoice::appendRepeatendingToVoice (
