@@ -10350,6 +10350,7 @@ msrRepeat::~msrRepeat() {}
 
 S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
+  /*
   S_msrSegment // JMI
     segment =
       msrSegment::create (
@@ -10357,6 +10358,7 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
         clonedVoice->
           getVoiceDivisionsPerWholeNote (),
         clonedVoice);
+*/
 
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -11557,6 +11559,11 @@ void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
       getVoiceName () <<  "\"" <<
       endl;
 
+  // set current segment as the repeat common part
+  repeatCLone->
+    setRepeatCommonPart (
+      fVoiceLastSegment);
+    
   // register repeat as the (new) current one
   fVoiceCurrentRepeat =
     repeatCLone;

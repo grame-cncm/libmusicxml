@@ -7191,6 +7191,7 @@ void xml2MsrTranslator::handleRepeatStart (
       currentVoice->
         getVoiceLastSegment ();
 
+/* JMI
   if (! fRepeatHasBeenCreatedForCurrentPart) {
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
@@ -7203,6 +7204,7 @@ void xml2MsrTranslator::handleRepeatStart (
 
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }
+*/
 
   // append the bar line to the part
   fCurrentPart->
@@ -7283,96 +7285,31 @@ void xml2MsrTranslator::handleRepeatEnd (
       prependBarlineToVoice (implicitBarline);
             
     if (! fRepeatHasBeenCreatedForCurrentPart) {
+  /*  JMI
       if (gGeneralOptions->fTrace)
         cerr << idtr <<
           "Appending an implicit repeat to part " <<
           fCurrentPart->getPartCombinedName () <<
           endl;
-    
+
       fCurrentPart->
         appendRepeatToPart (inputLineNumber);
   
       fRepeatHasBeenCreatedForCurrentPart = true;  
+*/
     }
-
-/*
-    if (! fRepeatHasBeenCreatedForCurrentPart) { // JMI
-      // create the repeat
-      if (gGeneralOptions->fTrace)
-        cerr << idtr <<
-          "Creating an implicit repeat in voice \"" <<
-          currentVoice->getVoiceName () << "\"" <<
-          endl;
-
-      fCurrentRepeat =
-        msrRepeat::create (
-          inputLineNumber);
-
-      // set current segment as the repeat common part
-      fCurrentRepeat->
-        setRepeatCommonPart (
-          currentSegment);
-        
-      // append the repeat to the current voice
-      if (gGeneralOptions->fDebug)
-        cerr << idtr <<
-          "--> appending the repeat to voice \"" <<
-          currentVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-    
-      fCurrentPart->
-        appendRepeatToPart (inputLineNumber);
-
-      fRepeatHasBeenCreatedForCurrentPart = true;
-    }
-    */
   }
 
-  else {
-    /* JMI
-    if (gGeneralOptions->fTrace)
-      cerr << idtr <<
-        "Fetching barline from pending barlines stack top" <<
-        endl;
-
-    // fetch pending barline top
-    S_msrBarline
-      barline =
-        fPendingBarlines.top ();
-
-    // prepend the barline to the current segment
-    currentVoice->
-      prependBarlineToVoice (barline);
-            
-    // pop the barline top off the stack
-    fPendingBarlines.pop ();
-    */
-  }
-
-/* BOF
-  // register current segment as current repeat's common part
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "--> registering last segment of voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      " as repeat common part" <<
+      "Appending an implicit repeat to part " <<
+      fCurrentPart->getPartCombinedName () <<
       endl;
 
-  fCurrentRepeat->
-    setRepeatCommonPart (currentSegment);
-  
-  // create a new segment for the voice
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> setting a new last segment for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-      
-  currentVoice->
-    createNewLastSegmentForVoice (
-      inputLineNumber);
-      */
+  fCurrentPart->
+    appendRepeatToPart (inputLineNumber);
+
+  fRepeatHasBeenCreatedForCurrentPart = true;  
 }
 
 //______________________________________________________________________________
