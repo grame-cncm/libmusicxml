@@ -10350,16 +10350,6 @@ msrRepeat::~msrRepeat() {}
 
 S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
-  /*
-  S_msrSegment // JMI
-    segment =
-      msrSegment::create (
-        fInputLineNumber,
-        clonedVoice->
-          getVoiceDivisionsPerWholeNote (),
-        clonedVoice);
-*/
-
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> creating a bare clone of a repeat" << endl;
@@ -11551,7 +11541,9 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
     inputLineNumber);
 }
 
-void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
+void msrVoice::appendRepeatCloneToVoice (
+  int         inputLineNumber,
+  S_msrRepeat repeatCLone)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -11571,6 +11563,16 @@ void msrVoice::appendRepeatCloneToVoice (S_msrRepeat repeatCLone)
   // append it to the list of repeats and segments
   fVoiceRepeatsAndSegments.push_back (
     repeatCLone);
+
+  // create a new segment for the voice
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> creating a new last segment for voice \"" <<
+      fVoiceName << "\"" <<
+      endl;
+      
+  createNewLastSegmentForVoice (
+    inputLineNumber);
 }
     
 void msrVoice::appendRepeatendingToVoice (
@@ -12711,7 +12713,9 @@ void msrStaff::appendRepeatendingToStaff (
   } // for
 }
 
-void msrStaff::appendRepeatCloneToStaff (S_msrRepeat repeatCLone)
+void msrStaff::appendRepeatCloneToStaff (
+  int         inputLineNumber,
+  S_msrRepeat repeatCLone)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
@@ -12723,7 +12727,8 @@ void msrStaff::appendRepeatCloneToStaff (S_msrRepeat repeatCLone)
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatCloneToVoice (repeatCLone);
+    (*i).second->appendRepeatCloneToVoice (
+      inputLineNumber, repeatCLone);
   } // for
 }
 
@@ -13566,13 +13571,16 @@ void msrPart::appendRepeatendingToPart (
   } // for
 }
 
-void msrPart::appendRepeatCloneToPart (S_msrRepeat repeatCLone)
+void msrPart::appendRepeatCloneToPart (
+  int         inputLineNumber,
+  S_msrRepeat repeatCLone)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendRepeatCloneToStaff (repeatCLone);
+    (*i).second->appendRepeatCloneToStaff (
+      inputLineNumber, repeatCLone);
   } // for
 }
 

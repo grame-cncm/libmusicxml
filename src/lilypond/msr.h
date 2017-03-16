@@ -5067,7 +5067,9 @@ class EXP msrVoice : public msrElement
 
     void            appendRepeatToVoice (int inputLineNumber);
     
-    void            appendRepeatCloneToVoice (S_msrRepeat repeatCLone);
+    void            appendRepeatCloneToVoice (
+                      int         inputLineNumber,
+                      S_msrRepeat repeatCLone);
     
     void            appendRepeatendingToVoice (
                       int       inputLineNumber,
@@ -5443,6 +5445,7 @@ class EXP msrStaff : public msrElement
     void            appendRepeatToStaff (int inputLineNumber);
     
     void            appendRepeatCloneToStaff (
+                      int         inputLineNumber,
                       S_msrRepeat repeatCLone);
 
     void            appendRepeatendingToStaff (
@@ -5688,7 +5691,9 @@ class EXP msrPart : public msrElement
               
     void            appendRepeatToPart (int inputLineNumber);
     
-    void            appendRepeatCloneToPart (S_msrRepeat repeatCLone);
+    void            appendRepeatCloneToPart (
+                      int         inputLineNumber,
+                      S_msrRepeat repeatCLone);
     
     void            appendRepeatendingToPart (
                       int       inputLineNumber,

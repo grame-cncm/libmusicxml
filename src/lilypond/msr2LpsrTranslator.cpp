@@ -1796,11 +1796,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       elt->createRepeatBareClone (
         fCurrentVoiceClone);
 
-/*
-  fCurrentPartClone->
-    appendRepeatCloneToPart (fCurrentRepeatClone);
-*/
-
   fCurrentRepeatEndingsNumber = 0;
   
   fOnGoingRepeat = true;
@@ -1923,7 +1918,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
   
         fCurrentPartClone->
           appendRepeatCloneToPart (
-            fCurrentRepeatClone);
+            inputLineNumber, fCurrentRepeatClone);
             
   /* JMI
         // get the current segment
