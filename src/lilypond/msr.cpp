@@ -10312,7 +10312,10 @@ string msrRepeatending::repeatendingAsString () const
 void msrRepeatending::print (ostream& os)
 {
   os <<
-    repeatendingAsString ();
+    endl <<
+    idtr << "Repeat ending" << repeatendingAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
  
   idtr++;
 
