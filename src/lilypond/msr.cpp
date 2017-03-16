@@ -11582,7 +11582,7 @@ void msrVoice::appendRepeatCloneToVoice (
   // create a new segment for the voice
 //  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "--> creating a new last segment for voice \"" <<
+      "--> creating a new last segment for voice BOF \"" <<
       fVoiceName << "\"" <<
       endl;
       
@@ -11599,7 +11599,7 @@ void msrVoice::appendRepeatCloneToVoice (
       "********************" <<
       endl << endl << endl;
   
-    msrAssert(false, "FINI!");
+ // JMI   msrAssert(false, "FINI!");
   }
 }
     
