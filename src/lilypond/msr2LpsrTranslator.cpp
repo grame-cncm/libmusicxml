@@ -1796,8 +1796,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       elt->createRepeatBareClone (
         fCurrentVoiceClone);
 
+/*
   fCurrentPartClone->
     appendRepeatCloneToPart (fCurrentRepeatClone);
+*/
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -1829,12 +1831,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       endl;
                 
   // create a repeat ending clone
-  S_msrRepeatending
-    repeatendingCLone =
-      elt->createRepeatendingBareClone (fCurrentRepeatClone);
-
-  fCurrentPartClone->
-    appendRepeatendingCloneToPart (repeatendingCLone);
+ // S_msrRepeatending
+    fCurrentRepeatendingClone =
+      elt->createRepeatendingBareClone (
+        fCurrentRepeatClone);
 
   fCurrentRepeatEndingsNumber++;
 }
@@ -1915,6 +1915,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
 
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> appending a repeat clone to part " <<
+            fCurrentPartClone->getPartCombinedName () << "\"" <<
+            endl;
+  
         fCurrentPartClone->
           appendRepeatCloneToPart (
             fCurrentRepeatClone);
@@ -1964,10 +1970,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
+/*
         if (fCurrentRepeatEndingsNumber == 1) {
-          /*
+          / *
             this is the FIRST hooked repeat ending of the current repeat
-          */
+          * /
           
           // get the current segment
           S_msrSegment
@@ -2019,9 +2026,9 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         }
 
         else {
-          /*
-            this is NOT the first hooked repeat ending of the current repeat
-          */
+          / *
+             this is NOT the first hooked repeat ending of the current repeat
+          * /
           
      //     if (gGeneralOptions->fDebug)
             cerr << idtr <<
@@ -2036,6 +2043,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
+          */
       }
       break;
       
@@ -2071,12 +2079,16 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
               fCurrentVoiceClone->
                 getVoiceLastSegment ();
     
-        // create a repeat ending from the current segment
-  //      if (gGeneralOptions->fDebug)
+   //     if (gGeneralOptions->fDebug)
           cerr << idtr <<
-            "--> appending a new hookless ending for voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
+            "--> appending a repeat ending clone to part " <<
+            fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
+
+        fCurrentPartClone->
+          appendRepeatendingCloneToPart (
+            fCurrentRepeatendingClone);
+      
 
         /*    
         S_msrRepeatending
@@ -2188,11 +2200,23 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
   
-        // no need to keep that barline in the MSR,
+        // no need to keep that barline in the LPSR,
         // LilyPond will take care of the repeat display
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
-  
+
+   //     if (gGeneralOptions->fDebug)
+          cerr << idtr <<
+            "--> appending a repeat ending clone to part " <<
+            fCurrentPartClone->getPartCombinedName () << "\"" <<
+            endl;
+
+        fCurrentPartClone->
+          appendRepeatendingCloneToPart (
+            fCurrentRepeatendingClone);
+      
+
+  /*
         // get the current segment
         S_msrSegment
           currentSegment =

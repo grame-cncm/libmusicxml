@@ -320,6 +320,7 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeatClone;
     bool                      fOnGoingRepeat;
+    S_msrRepeatending         fCurrentRepeatendingClone;
     int                       fCurrentRepeatEndingsNumber;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
 
