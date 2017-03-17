@@ -63,14 +63,11 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentText = "";
   fCurrentElision = false;
   
-  fCurrentSyllableKind =
-    msrSyllable::k_NoSyllable;
-  fCurrentSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
-  fOnGoingSyllableExtend = false;
+  fCurrentSyllableKind       = msrSyllable::k_NoSyllable;
+  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
+  fOnGoingSyllableExtend     = false;
 
-  fFirstSyllableInSlurKind =
-    msrSyllable::k_NoSyllable;
+  fFirstSyllableInSlurKind   = msrSyllable::k_NoSyllable;
   
   fCurrentBackupDuration = -1;
 
@@ -2789,29 +2786,36 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
 {
   string text = elt->getValue();
 
-  // text may be composed of only spaces, dont' skim them
-  /* JMI
+/* JMI
+  // text may be composed of only spaces, so:
   string dest;
   for_each (
     text.begin(), text.end(), stringSpaceRemover (dest));
+
+  if (fCurrentElision)
+    fCurrentText += " " + dest; // append to a list? JMI
+  else
+    fCurrentText = dest;
 */
 
-  fCurrentText = "";
+  string textToUse = "";
+  
+  // text may be composed of only spaces, dont' skim them
   for (
     string::const_iterator i = text.begin ();
     i != text.end ();
     i++) {
 
     if ((*i) == ' ')
-      fCurrentText += "@"; // TEMP JMI
+      textToUse += "@"; // TEMP JMI
     else
-      fCurrentText += (*i);
+      textToUse += (*i);
   } // for
 
   if (fCurrentElision)
-    fCurrentText += " " + text; // append to a list? JMI
+    fCurrentText += " " + textToUse; // append to a list? JMI
  // else
-    fCurrentText = text;
+    fCurrentText = textToUse;
 
   fCurrentStanzaHasText = true;
 
@@ -4225,16 +4229,14 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   
   fCurrentSyllabic = "";
   fCurrentText = "";
-  fCurrentSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
+  fCurrentSyllableKind = msrSyllable::kSingleSyllable;
+    // to handle properly a note without any <text/>
+  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
   
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
 
   fCurrentStem = 0;
-
-  fCurrentSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
 
   fCurrentTie = 0;
   fCurrentTiedOrientation = "";

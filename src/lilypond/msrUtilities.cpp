@@ -440,8 +440,10 @@ string stringNumbersToEnglishWords (string str)
     iBegin = str.begin(),
     iEnd   = str.end(),
     i      = iBegin;
+    
   for ( ; ; ) {
-    char ch = *i;
+    char ch = (*i);
+    
     if( isdigit(ch)) {
       // digit
       if (state != kWorkingOnDigits) {
@@ -492,7 +494,7 @@ int consumeDecimalNumber (
       "), " << *cursor << " is no decimal digit!" <<
       endl;
 
-  while (isdigit (* cursor)) {
+  while (isdigit (*cursor)) {
     if (debugMode)
       cerr <<
         "--> consumeDecimalNumber: cursor = |" <<
