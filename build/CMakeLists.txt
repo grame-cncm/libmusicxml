@@ -23,6 +23,10 @@ endif(UNIX)
 
 set (FMWK "true")
 set (libtype SHARED)
+
+#########################################
+# mac os specific part
+#########################################
 if(APPLE)
 	if ( IOS STREQUAL "yes" )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
@@ -40,16 +44,24 @@ if(APPLE)
 		endif()
 		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
 	endif()
-endif(APPLE)
 
-if(WIN32)
+#########################################
+# windows specific part
+#########################################
+elseif(WIN32)
  add_definitions(-DWINVER=0x0400 -DWIN32)
  if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
   add_definitions(-DVC6)
  elseif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 8 2005")
   add_definitions(-DVC2005)
  endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-endif(WIN32)
+
+#########################################
+# assume linux host
+#########################################
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 
 
 #######################################
