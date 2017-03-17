@@ -129,7 +129,7 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmltranspose)
 
 if(NOT APPLE OR NOT IOS STREQUAL "yes" )
