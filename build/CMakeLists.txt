@@ -14,7 +14,7 @@ set (STRVERS "v.3.11")
 set (SSTRVERS "3.11")
 
 #######################################
-option ( C++11 	"C++11 support" off )
+option ( C++11 	"C++11 support" on )
 
 
 if(UNIX)
@@ -57,7 +57,7 @@ endif(WIN32)
 set (LXML 		${CMAKE_CURRENT_SOURCE_DIR}/..)
 set (LXMLSRC 	${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
-set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors antescofo)
+set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors)
 
 foreach(folder ${SRCFOLDERS})
 	set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")			# add source files
