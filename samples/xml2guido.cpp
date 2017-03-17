@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 		err = musicxmlfile2guido(file, generateBars, cout);
 	if (err) {
 		cout << "conversion failed" << endl;
+		return -1;
 	}
 	return 0;
 }

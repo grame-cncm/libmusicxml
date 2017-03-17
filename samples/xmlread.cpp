@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
 			file->print(cout);
 			cout << endl;
 		}
+		else return -1;		// likely a syntax error
 	}
 	return 0;
 }
