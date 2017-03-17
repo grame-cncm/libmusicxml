@@ -10219,7 +10219,7 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
         fInputLineNumber,
         fRepeatendingNumber,
         fRepeatendingKind,
-        clonedRepeat->getRepeatCommonPart (), // JMI
+        clonedRepeat->getRepeatCommonSegment (), // JMI
         clonedRepeat);
   
   return clone;
@@ -10366,19 +10366,19 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
   return clone;
 }
 
-void msrRepeat::setRepeatCommonPart (
-  S_msrSegment repeatCommonPart)
+void msrRepeat::setRepeatCommonSegment (
+  S_msrSegment repeatCommonSegment)
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
       "Setting repeat common part containing " <<
       singularOrPlural (
-        repeatCommonPart->getSegmentMeasuresList ().size (),
+        repeatCommonSegment->getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
       
-  fRepeatCommonPart = repeatCommonPart;
+  fRepeatCommonSegment = repeatCommonSegment;
 }
 
 void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
@@ -10434,10 +10434,10 @@ void msrRepeat::acceptOut (basevisitor* v) {
 
 void msrRepeat::browseData (basevisitor* v)
 {
-  if (fRepeatCommonPart) {
-  // browse the common part
+  if (fRepeatCommonSegment) {
+  // browse the common segment
     msrBrowser<msrSegment> browser (v);
-    browser.browse (*fRepeatCommonPart);
+    browser.browse (*fRepeatCommonSegment);
   }
   
   // browse the alternatives
@@ -10468,14 +10468,40 @@ void msrRepeat::print (ostream& os)
   
   idtr++;
   
-  // print the common part
-  if (fRepeatCommonPart)
-    os <<
-      fRepeatCommonPart <<
+  // print the repeat common segment
+  os << idtr <<
+    "Common segment: ";
+  if (! fRepeatCommonSegment)
+    os << "none";
+  os <<
+    endl;
+
+  if (fRepeatCommonSegment) {
+    idtr++;
+    
+    os << idtr <<
+      fRepeatCommonSegment <<
       endl;
-  
+
+    idtr--;
+  }
+
   // print the repeat endings
-  if (fRepeatEndings.size ()) {
+  int endingsNumber =
+    fRepeatEndings.size ();
+    
+  os << idtr <<
+    "Repeat endings: ";
+  if (endingsNumber)
+    os << "(" << endingsNumber << ")";
+  else
+    os << "none";
+  os <<
+    endl;
+    
+  if (endingsNumber) {
+    idtr++;
+    
     vector<S_msrRepeatending>::const_iterator
       iBegin = fRepeatEndings.begin(),
       iEnd   = fRepeatEndings.end(),
@@ -10487,6 +10513,8 @@ void msrRepeat::print (ostream& os)
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
+
+    idtr--;
   }
       
   idtr--;
@@ -11514,7 +11542,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
 
   // set current segment as the repeat common part
   repeat->
-    setRepeatCommonPart (
+    setRepeatCommonSegment (
       fVoiceLastSegment);
     
   // append the repeat to the current voice
@@ -11568,7 +11596,7 @@ void msrVoice::appendRepeatCloneToVoice (
   
   // set current segment as the repeat common part
   repeatCLone->
-    setRepeatCommonPart (
+    setRepeatCommonSegment (
       fVoiceLastSegment);
     
   // register repeat as the (new) current one
@@ -11946,8 +11974,22 @@ void msrVoice::print (ostream& os)
       endl;
     
   // print the voice repeats and segments
-  if (fVoiceRepeatsAndSegments.size ()) {
-     list<S_msrElement>::const_iterator
+  int repeatsAndSegmentsNumber =
+    fVoiceRepeatsAndSegments.size ();
+    
+  os << idtr <<
+    "Repeats and segments: ";
+  if (repeatsAndSegmentsNumber)
+    os << "(" << repeatsAndSegmentsNumber << ")";
+  else
+    os << "none";
+  os <<
+    endl;
+    
+  if (repeatsAndSegmentsNumber) {
+    idtr++;
+
+    list<S_msrElement>::const_iterator
       iBegin = fVoiceRepeatsAndSegments.begin(),
       iEnd   = fVoiceRepeatsAndSegments.end(),
       i      = iBegin;
@@ -11958,10 +12000,17 @@ void msrVoice::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+
+    idtr--;
   }
   
   // print the segment
+  os << idtr <<
+    "Last segment:" <<
+    endl;
+  idtr++;
   os << fVoiceLastSegment;
+  idtr--;
   
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     // print the stanza master
