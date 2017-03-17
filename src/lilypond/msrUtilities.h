@@ -339,7 +339,7 @@ string noteTypeAsMSRDuration (
 
 //______________________________________________________________________________
 string quoteStringIfNonAlpha (
-  string     theString);
+  string theString);
 
 //______________________________________________________________________________
 string booleanAsString (bool value);

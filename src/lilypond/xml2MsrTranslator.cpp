@@ -2761,15 +2761,17 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
 {
   string text = elt->getValue();
 
-  // text may be composed of only spaces, so:
+  // text may be composed of only spaces, dont' skim them
+  /* JMI
   string dest;
   for_each (
     text.begin(), text.end(), stringSpaceRemover (dest));
+*/
 
   if (fCurrentElision)
-    fCurrentText += " " + dest; // append to a list? JMI
+    fCurrentText += " " + text; // append to a list? JMI
   else
-    fCurrentText = dest;
+    fCurrentText = text;
 
   fCurrentStanzaHasText = true;
 

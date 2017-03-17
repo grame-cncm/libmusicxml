@@ -1274,22 +1274,32 @@ string noteTypeAsMSRDuration (
 
 //______________________________________________________________________________
 string quoteStringIfNonAlpha (
-  string     theString)
+  string theString)
 {
   string result;
+  
   bool   stringShouldBeQuoted = false;
   
   for (
     string::const_iterator i = theString.begin ();
     i != theString.end ();
     i++) {
-    result += (*i);
 
-    if (! isalpha ((*i)))
-      stringShouldBeQuoted = true;
-      
-    if ((*i) == '"') {
-      result += '"';
+    if (
+      ((*i) >= 'a' && (*i) <= 'z')
+        ||
+      ((*i) >= 'A' && (*i) <= 'Z')) {
+      // (*i) is a letter
+      result += (*i);
+    }
+
+    else {
+      // (*i) is not a letter
+      if ((*i) == ' ')
+        result += "@"; // TEMP JMI
+      else
+        result += (*i);
+
       stringShouldBeQuoted = true;
     }
   } // for
