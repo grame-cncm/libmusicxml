@@ -2997,7 +2997,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           fCurrentSyllableExtendKind,
           fNoteData.fDivisions);
 
-    // the presense of a '<lyric />' ends the effect
+    // the presence of a '<lyric />' ends the effect
     // of an on going syllable extend
     fOnGoingSyllableExtend = false;
     
@@ -6330,6 +6330,43 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       fOnGoingChord = false;
     }
   }
+
+
+  // handle notes without any <text/>
+  if (! fCurrentText.size ()) {
+    
+ //   string syllableKindAsString; JMI
+    
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      /*
+      cerr <<
+        ", type = \"" << syllableKindAsString << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " to " << getStanzaName () << endl;
+*/
+    }
+
+    // create the syllable
+    S_msrSyllable
+      dummy = // JMI
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
+
+    // the presence of a '<lyric />' ends the effect
+    // of an on going syllable extend
+    fOnGoingSyllableExtend = false;
+    
+    if (fOnGoingSlur)
+      fOnGoingSlurHasStanza = true;
+      
+    fCurrentNoteHasStanza = true;
+  }
+
+
+
 
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
