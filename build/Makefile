@@ -61,8 +61,15 @@ help :
 	@echo "   linux     build the library for linux"
 	@echo "   android   build a static library for Android"	
 	@echo "   ios       build a static library for iOS"	
+	@echo "   js        build a javascript library"	
 	@echo "the platform targets is automatically evaluated by the default target."	
-	@echo "NOTE: windows targets are based on $(WIN32VS)"	
+	@echo "NOTE: windows targets are based on Visual Studio 10.0 or 12.0"	
+
+#===============================================================
+# building the javascript library
+#===============================================================
+js:
+	make -j 4 -C ../javascript/build 
 
 #===============================================================
 # building the library on Mac OS X
