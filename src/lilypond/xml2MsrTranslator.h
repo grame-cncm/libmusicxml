@@ -84,6 +84,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_top_margin>,
   public visitor<S_bottom_margin>,
 
+  public visitor<S_credit>,
   public visitor<S_credit_words>,
   
   public visitor<S_part_list>,
@@ -319,6 +320,8 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_top_margin& elt);
     virtual void visitStart ( S_bottom_margin& elt);
     
+    virtual void visitStart ( S_credit& elt);
+    virtual void visitEnd   ( S_credit& elt);
     virtual void visitStart ( S_credit_words& elt);
         
     virtual void visitStart ( S_part_list& elt);
@@ -564,7 +567,7 @@ class EXP xml2MsrTranslator :
     
     // credits handling
     // ------------------------------------------------------
-    list<string>              fCurrentCreditsList;
+    S_msrCredit               fCurrentCredit;
     
     // part group handling
     /*

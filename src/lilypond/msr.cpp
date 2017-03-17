@@ -5279,7 +5279,6 @@ void msrLayout::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrLayout::browseData (basevisitor* v)
 {
   int n1 = fVarValAssocs.size();
@@ -5315,6 +5314,213 @@ void msrLayout::print (ostream& os)
     os << idtr << fMsrSchemeVarValAssocs[i];
   } // for
   */
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_msrCreditWords msrCreditWords::create (
+  int     inputLineNumber,
+  string  creditWordsContents,
+  int     creditWordsFontSize)
+{
+  msrCreditWords* o =
+    new msrCreditWords (
+      inputLineNumber,
+      creditWordsContents,
+      creditWordsFontSize);
+  assert(o!=0);
+  return o;
+}
+
+msrCreditWords::msrCreditWords (
+  int     inputLineNumber,
+  string  creditWordsContents,
+  int     creditWordsFontSize)
+    : msrElement (inputLineNumber)
+{
+  fCreditWordsContents = creditWordsContents;
+
+  fCreditWordsFontSize = creditWordsFontSize;
+}
+
+msrCreditWords::~msrCreditWords() {}
+
+void msrCreditWords::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrCreditWords::acceptIn()" << endl;
+      
+  if (visitor<S_msrCreditWords>*
+    p =
+      dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
+        S_msrCreditWords elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrCreditWords::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrCreditWords::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrCreditWords::acceptOut()" << endl;
+
+  if (visitor<S_msrCreditWords>*
+    p =
+      dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
+        S_msrCreditWords elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrCreditWords::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrCreditWords::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrCreditWords& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrCreditWords::print (ostream& os)
+{
+  os <<
+    "CreditWords" <<
+    endl;
+
+  idtr++;
+  
+  os <<
+    idtr <<
+      setw(20) << "fCreditWordsContents" << " = " << fCreditWordsContents <<
+      endl <<
+    idtr <<
+      setw(20) << "fCreditWordsFontSize" << " = " << fCreditWordsFontSize <<
+      endl <<
+    endl;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_msrCredit msrCredit::create (
+  int inputLineNumber,
+  int creditPageNumber)
+{
+  msrCredit* o =
+    new msrCredit (
+      inputLineNumber, creditPageNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrCredit::msrCredit (
+  int inputLineNumber,
+  int creditPageNumber)
+    : msrElement (inputLineNumber)
+{
+  fCreditPageNumber = creditPageNumber;
+}
+
+msrCredit::~msrCredit() {}
+
+void msrCredit::appendCreditWordsToCredit (
+  int     inputLineNumber,
+  string  creditWordsContents,
+  int     creditWordsFontSize)
+{
+  S_msrCreditWords
+    creditWords =
+      msrCreditWords::create (
+        inputLineNumber,
+        creditWordsContents,
+        creditWordsFontSize);
+        
+  fCreditWordsList.push_back (creditWords);
+}
+
+void msrCredit::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrCredit::acceptIn()" << endl;
+      
+  if (visitor<S_msrCredit>*
+    p =
+      dynamic_cast<visitor<S_msrCredit>*> (v)) {
+        S_msrCredit elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrCredit::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrCredit::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrCredit::acceptOut()" << endl;
+
+  if (visitor<S_msrCredit>*
+    p =
+      dynamic_cast<visitor<S_msrCredit>*> (v)) {
+        S_msrCredit elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrCredit::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrCredit::browseData (basevisitor* v)
+{
+  int n1 = fCreditWordsList.size();
+  
+  for (int i = 0; i < n1; i++ ) {
+    // browse the credit words
+    msrBrowser<msrCreditWords> browser (v);
+    browser.browse (*fCreditWordsList [i]);
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_msrCredit& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrCredit::print (ostream& os)
+{
+  os <<
+    "Credit" <<
+    endl;
+
+  idtr++;
+  
+  os <<
+    idtr <<
+      setw(21) << "fCreditPageNumber" << " = " << fCreditPageNumber <<
+      endl <<
+    endl;
+
+  vector<S_msrCreditWords>::const_iterator
+    iBegin = fCreditWordsList.begin(),
+    iEnd   = fCreditWordsList.end(),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    os << idtr << (*i);
+    if (++i == iEnd) break;
+// JMI    os << endl;
+  } // for
   
   idtr--;
 }

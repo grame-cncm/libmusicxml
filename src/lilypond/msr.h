@@ -3277,7 +3277,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
   A layout is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrLayout : public msrElement
+class EXP msrLayout : public msrElement // JMI
 {
   public:
 
@@ -3327,6 +3327,150 @@ class EXP msrLayout : public msrElement
 };
 typedef SMARTP<msrLayout> S_msrLayout;
 EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
+
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP msrCreditWords : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrCreditWords> create (
+      int     inputLineNumber,
+      string  creditWordsContents,
+      int     creditWordsFontSize);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrCreditWords (
+      int     inputLineNumber,
+      string  creditWordsContents,
+      int     creditWordsFontSize);
+      
+    virtual ~msrCreditWords();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    string            getCreditWordsContents () const
+                          { return fCreditWordsContents; }
+
+    int               getCreditWordsFontSize () const
+                          { return fCreditWordsFontSize; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+/*
+    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
+*/
+
+    string                  fCreditWordsContents;
+    
+    int                     fCreditWordsFontSize;
+    
+    string                  fCreditFontWeight; // JMI
+    string                  fCreditJustify;
+    string                  fCreditVAlign;
+    string                  fCreditXMLLang;
+};
+typedef SMARTP<msrCreditWords> S_msrCreditWords;
+EXP ostream& operator<< (ostream& os, const S_msrCreditWords& elt);
+
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP msrCredit : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrCredit> create (
+      int inputLineNumber,
+      int creditPageNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrCredit (
+      int inputLineNumber,
+      int creditPageNumber);
+      
+    virtual ~msrCredit();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int               getCreditPageNumber () const
+                          { return fCreditPageNumber; }
+
+    const vector<S_msrCreditWords>&
+                      getCreditWordsList () const
+                          { return fCreditWordsList; }
+
+    // services
+    // ------------------------------------------------------
+
+    void              appendCreditWordsToCredit (
+                        int     inputLineNumber,
+                        string  creditWordsContents,
+                        int     creditWordsFontSizes);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int                       fCreditPageNumber;
+    
+    vector<S_msrCreditWords>  fCreditWordsList;
+};
+typedef SMARTP<msrCredit> S_msrCredit;
+EXP ostream& operator<< (ostream& os, const S_msrCredit& elt);
 
 /*!
 \brief A msr comment representation.
@@ -6122,9 +6266,6 @@ class EXP msrMidi : public msrElement
 };
 typedef SMARTP<msrMidi> S_msrMidi;
 EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
-
-
-
 
 
 /*! @} */

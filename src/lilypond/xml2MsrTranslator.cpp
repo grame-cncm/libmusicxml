@@ -483,11 +483,39 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 }
 
 //________________________________________________________________________
+void xml2MsrTranslator::visitStart ( S_credit& elt )
+{  
+  int creditPageNumber =
+    elt->getAttributeIntValue ("page", 0);
+
+  fCurrentCredit =
+    msrCredit::create (
+      elt->getInputLineNumber (),
+      creditPageNumber);
+}
+
+/*
+    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
+*/
+
 void xml2MsrTranslator::visitStart ( S_credit_words& elt )
 {
-  string credit = elt->getValue ();
+  string
+    creditWordsContents = elt->getValue ();
   
-  fCurrentCreditsList.push_back (credit);
+  int creditWordsFontSize =
+    elt->getAttributeIntValue ("font-size", 0);
+
+  fCurrentCredit->
+    appendCreditWordsToCredit (
+      elt->getInputLineNumber (),
+      creditWordsContents,
+      creditWordsFontSize);
+}
+
+void xml2MsrTranslator::visitEnd ( S_credit& elt )
+{
+  fCurrentCredit = 0;
 }
 
 //________________________________________________________________________
