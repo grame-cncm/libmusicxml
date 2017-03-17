@@ -10386,7 +10386,7 @@ void msrRepeat::setRepeatCommonSegment (
       endl;
       
   if (repeatCommonSegment->getSegmentAbsoluteNumber () == 38) { // JMI
-    msrAssert(false, "fSegmentAbsoluteNumber == 38");
+ //   msrAssert(false, "fSegmentAbsoluteNumber == 38");
   }
 
   fRepeatCommonSegment = repeatCommonSegment;
@@ -12513,13 +12513,41 @@ void msrStaff::setAllStaffVoicesDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
       setVoiceDivisionsPerWholeNote (
         divisionsPerWholeNote);
   } // for
+}
+
+const int msrStaff::getStaffNumberOfMusicVoices () const
+{
+  int result = 0;
+
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+      S_msrVoice
+        voice =
+          (*i).second;
+
+      switch (voice->getVoiceKind ()) {
+        case msrVoice::kRegularVoice:
+          if (voice->getMusicHasBeenInsertedInVoice ())
+            result++;
+          break;
+        case msrVoice::kHarmonyVoice:
+          break;
+        case msrVoice::kMasterVoice:
+          break;
+      } // switch
+      
+  } // for
+
+  return result;
 }
 
 void msrStaff::setStaffMeasureNumber (

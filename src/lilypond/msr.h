@@ -4917,108 +4917,107 @@ class EXP msrVoice : public msrElement
     // initialisation
     // ------------------------------------------------------
 
-    void          init (int inputLineNumber);
+    void            init (int inputLineNumber);
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrVoiceKind  getVoiceKind () const
-                      { return fVoiceKind; }
+    msrVoiceKind    getVoiceKind () const
+                        { return fVoiceKind; }
 
-    int           getExternalVoiceNumber () const
-                      { return fExternalVoiceNumber; }
+    int             getExternalVoiceNumber () const
+                        { return fExternalVoiceNumber; }
                 
-    void          setExternalVoiceNumber (int externalVoiceNumber)
-                      { fExternalVoiceNumber = externalVoiceNumber; }
+    void            setExternalVoiceNumber (int externalVoiceNumber)
+                        { fExternalVoiceNumber = externalVoiceNumber; }
 
-    int           getStaffRelativeVoiceNumber () const
-                      { return fStaffRelativeVoiceNumber; }
+    int             getStaffRelativeVoiceNumber () const
+                        { return fStaffRelativeVoiceNumber; }
                 
-    S_msrStaff    getVoiceStaffUplink () const
-                      { return fVoiceStaffUplink; }
+    S_msrStaff      getVoiceStaffUplink () const
+                        { return fVoiceStaffUplink; }
                 
     const map<int, S_msrStanza>&
-                  getVoiceStanzasMap () const
-                      { return fVoiceStanzasMap; }
+                    getVoiceStanzasMap () const
+                        { return fVoiceStanzasMap; }
 
-    string        getVoiceName () const;
+    string          getVoiceName () const;
 
-    S_msrSegment
-                  getVoiceLastSegment () const
-                      { return fVoiceLastSegment; }
+    S_msrSegment    getVoiceLastSegment () const
+                        { return fVoiceLastSegment; }
 
-    S_msrStanza   getVoiceStanzaMaster () const
-                      { return fVoiceStanzaMaster; }
+    S_msrStanza     getVoiceStanzaMaster () const
+                        { return fVoiceStanzaMaster; }
                
-    int           getVoiceActualNotesCounter () const
-                      { return fVoiceActualNotesCounter; }
+    int             getVoiceActualNotesCounter () const
+                        { return fVoiceActualNotesCounter; }
 
-    int           getVoiceActualHarmoniesCounter () const
-                      { return fVoiceActualHarmoniesCounter; }
+    int             getVoiceActualHarmoniesCounter () const
+                        { return fVoiceActualHarmoniesCounter; }
 
-    int           getMeasureZeroHasBeenMetInVoice () const
-                      { return fMeasureZeroHasBeenMetInVoice; }
+    int             getMeasureZeroHasBeenMetInVoice () const
+                        { return fMeasureZeroHasBeenMetInVoice; }
 
     // divisions per whole note
-    void          setVoiceDivisionsPerWholeNote (
-                    int divisionsPerWholeNote);
+    void            setVoiceDivisionsPerWholeNote (
+                      int divisionsPerWholeNote);
                       
-    const int     getVoiceDivisionsPerWholeNote () const
-                      { return fVoiceDivisionsPerWholeNote; }
+    const int       getVoiceDivisionsPerWholeNote () const
+                        { return fVoiceDivisionsPerWholeNote; }
 
-    S_msrTime     getVoiceTime () const
-                      { return fVoiceTime; }
+    S_msrTime       getVoiceTime () const
+                        { return fVoiceTime; }
                
      // measure number
-    void          setVoiceMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+    void            setVoiceMeasureNumber (
+                      int inputLineNumber,
+                      int measureNumber);
                       
-    const int     getVoiceMeasureNumber () const
-                      { return fVoiceMeasureNumber; }
+    const int       getVoiceMeasureNumber () const
+                        { return fVoiceMeasureNumber; }
 
     // has music been inserted in the voice?
-    void          setMusicHasBeenInsertedInVoice ()
-                      { fMusicHasBeenInsertedInVoice = true; }
+    void            setMusicHasBeenInsertedInVoice ()
+                        { fMusicHasBeenInsertedInVoice = true; }
 
-    bool          getMusicHasBeenInsertedInVoice () const
-                      { return fMusicHasBeenInsertedInVoice; }
+    bool            getMusicHasBeenInsertedInVoice () const
+                        { return fMusicHasBeenInsertedInVoice; }
 
     // services
     // ------------------------------------------------------
 
-    void          forceVoiceMeasureNumberTo (int measureNumber); // JMI
+    void            forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
-    void          appendClefToVoice (S_msrClef clef);
-    void          appendKeyToVoice  (S_msrKey  key);
-    void          appendTimeToVoice (S_msrTime time);
+    void            appendClefToVoice (S_msrClef clef);
+    void            appendKeyToVoice  (S_msrKey  key);
+    void            appendTimeToVoice (S_msrTime time);
     
-    void          appendHarmonyToVoice (S_msrHarmony harmony);
+    void            appendHarmonyToVoice (S_msrHarmony harmony);
 
-    void          appendTransposeToVoice (
-                    S_msrTranspose transpose);
+    void            appendTransposeToVoice (
+                      S_msrTranspose transpose);
 
 // JMI    void          appendWordsToVoice  (S_msrWords words);
     
-    void          appendTempoToVoice (
-                    S_msrTempo tempo);
+    void            appendTempoToVoice (
+                      S_msrTempo tempo);
     
-    void          appendRehearsalToVoice (
-                    S_msrRehearsal rehearsal);
+    void            appendRehearsalToVoice (
+                      S_msrRehearsal rehearsal);
     
-    void          appendOctaveShiftToVoice (
-                    S_msrOctaveShift octaveShift);
+    void            appendOctaveShiftToVoice (
+                      S_msrOctaveShift octaveShift);
     
-    void          appendNoteToVoice   (S_msrNote note);
-    void          appendChordToVoice  (S_msrChord chord);
-    void          appendTupletToVoice (S_msrTuplet tuplet);
+    void            appendNoteToVoice   (S_msrNote note);
+    void            appendChordToVoice  (S_msrChord chord);
+    void            appendTupletToVoice (S_msrTuplet tuplet);
 
-    void          appendGracenotesToVoice (
-                    S_msrGracenotes gracenotes);
-    void          prependGracenotesToVoice (
-                    S_msrGracenotes gracenotes);
+    void            appendGracenotesToVoice (
+                      S_msrGracenotes gracenotes);
+    void            prependGracenotesToVoice (
+                      S_msrGracenotes gracenotes);
     
     S_msrSyllable   addTextSyllableToVoice (
                       int       inputLineNumber,
@@ -5361,7 +5360,8 @@ class EXP msrStaff : public msrElement
     S_msrKey        getStaffKey  () const { return fStaffKey; };
     S_msrTime       getStaffTime () const { return fStaffTime; };
     
-    S_msrTranspose  getStaffTranspose () const { return fStaffTranspose; };
+    S_msrTranspose  getStaffTranspose () const
+                        { return fStaffTranspose; };
     
     void            setStaffClef (S_msrClef clef);
     void            setStaffKey  (S_msrKey  key);
@@ -5393,7 +5393,7 @@ class EXP msrStaff : public msrElement
                       int inputLineNumber,
                       int measureNumber);
                       
-    const int       getPartMeasureNumber () const
+    const int       getStaffMeasureNumber () const
                         { return fStaffMeasureNumber; }
 
     // voice master
@@ -5409,6 +5409,8 @@ class EXP msrStaff : public msrElement
                       int inputLineNumber);
   */
   
+    const int       getStaffNumberOfMusicVoices () const;
+
     S_msrVoice      addVoiceToStaffByItsRelativeNumber (
                       int                    inputLineNumber,
                       msrVoice::msrVoiceKind voiceKind,

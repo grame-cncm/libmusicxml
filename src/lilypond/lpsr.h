@@ -140,7 +140,8 @@ class EXP lpsrOptions : public smartable {
     bool            fKeepStaffSize;
 
     bool            fShowAllBarNumbers;
-    bool            fCompressFullBarRests; 
+    bool            fCompressFullBarRests;
+    bool            fBreakLinesAtIncompleteRightMeasures;
     
     bool            fGenerateNumericalTime;
     bool            fGenerateComments;

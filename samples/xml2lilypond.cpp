@@ -181,6 +181,10 @@ void printUsage (int exitStatus)
     "    --ncfbr, --dontCompressFullBarRests" << endl <<
     "          Comment the '\\compressFullBarRests' command at the beginning of voices" << endl <<
     endl <<
+    "    --blairm, --breakLinesAtIncompleteRightMeasures" << endl <<
+    "          Generate a '\\break' command at the end incomplete right measures" << endl <<
+    "          which is handy in popular folk dances and tunes." << endl <<
+    endl <<
     "    --as, --accidentalStyle style" << endl <<
     "          Choose the LilyPond accidental styles among " << endl <<
     "          'voice', 'modern', 'modern-cautionary', 'modern-voice', " <<  endl <<
@@ -266,7 +270,8 @@ void analyzeOptions (
 
   gLpsrOptions->fDontKeepLineBreaks                 = false;
   gLpsrOptions->fShowAllBarNumbers                  = false;
-  gLpsrOptions->fCompressFullBarRests               = false;;
+  gLpsrOptions->fCompressFullBarRests               = false;
+  gLpsrOptions->fBreakLinesAtIncompleteRightMeasures  = false;
   
   gLpsrOptions->fKeepStaffSize                      = false;
     
@@ -337,6 +342,7 @@ void analyzeOptions (
   int dontKeepLineBreaksPresent         = 0;
   int showAllBarNumbersPresent          = 0;
   int compressFullBarRestsPresent       = 0;
+  int breakLinesAtIncompleteRightMeasuresPresent  = 0;
 //  int fKeepStaffSizePresent             = 0; JMI
   
   int absolutePresent                   = 0;
@@ -551,6 +557,15 @@ void analyzeOptions (
     {
       "compressFullBarRests",
       no_argument, &compressFullBarRestsPresent, 1
+    },
+    
+    {
+      "blairm",
+      no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
+    },
+    {
+      "breakLinesAtIncompleteRightMeasures",
+      no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
     },
     
     {
@@ -940,6 +955,13 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions +=
             "--compressFullBarRests ";
           compressFullBarRestsPresent = false;
+        }
+
+        if (breakLinesAtIncompleteRightMeasuresPresent) {
+          gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--breakLinesAtIncompleteRightMeasures ";
+          breakLinesAtIncompleteRightMeasuresPresent = false;
         }
 
         if (dontKeepLineBreaksPresent) {

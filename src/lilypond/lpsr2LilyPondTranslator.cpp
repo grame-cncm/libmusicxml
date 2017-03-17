@@ -1262,7 +1262,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
         endl;
   
     if (staffKind == msrStaff::kRegularStaff) {
-      if (staff->getStaffVoicesCorrespondanceMap ().size () > 1) {
+      if (staff->getStaffNumberOfMusicVoices () > 1) {
         fOstream << idtr;
         switch (voice->getStaffRelativeVoiceNumber ()) {
           case 1:
@@ -1280,8 +1280,9 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
           default:
             {}
         } // switch
-        fOstream <<
-          endl;
+
+        fOstream << "% " << staff->getStaffNumberOfMusicVoices () << " music voices" << endl;
+        fOstream << endl;
       }
     }
   
@@ -1684,6 +1685,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       // we should set the score measure length in this case
       fOstream << idtr <<
         "\\set Score.measureLength = #(ly:make-moment 1/1)" <<
+        endl;
+
+      // should we generate a break?
+      if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
+      fOstream << idtr <<
+        "\\break" <<
         endl;
       }
       break;
