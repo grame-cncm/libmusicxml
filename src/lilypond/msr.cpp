@@ -8141,7 +8141,7 @@ string msrBarline::barlineAsString () const
 void msrBarline::print (ostream& os)
 {
   os <<
-    "Barline " << barlineCategoryAsString (fBarlineCategory) <<
+    "Barline, " << barlineCategoryAsString (fBarlineCategory) <<
     ", line " << fInputLineNumber;
 
   if (fBarlineHasSegno)
@@ -9172,6 +9172,13 @@ msrSegment::msrSegment (
   fSegmentTime =
     fSegmentVoicekUplink->
       getVoiceTime ();
+
+
+//  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> new segment gets absolute number " <<
+      fSegmentAbsoluteNumber <<
+      endl;
 
   if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
@@ -10378,6 +10385,10 @@ void msrRepeat::setRepeatCommonSegment (
         "measures") <<
       endl;
       
+  if (repeatCommonSegment->getSegmentAbsoluteNumber () == 38) { // JMI
+    msrAssert(false, "fSegmentAbsoluteNumber == 38");
+  }
+
   fRepeatCommonSegment = repeatCommonSegment;
 }
 
