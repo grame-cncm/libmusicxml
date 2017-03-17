@@ -4,6 +4,7 @@ xcode/
 *.o
 *.so
 
+samples/[a-zA-Z]*
 build/libmusicxml2*
 build/android/libs
 build/android/obj
