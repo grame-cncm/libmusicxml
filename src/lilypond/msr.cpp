@@ -15021,7 +15021,7 @@ void msrIdentification::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrScore msrScore::create (
-  int           inputLineNumber)
+  int inputLineNumber)
 {
   msrScore* o =
     new msrScore (
@@ -15031,7 +15031,7 @@ S_msrScore msrScore::create (
 }
 
 msrScore::msrScore (
-  int           inputLineNumber)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {
   fIdentification =

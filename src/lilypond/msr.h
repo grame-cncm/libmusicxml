@@ -6141,7 +6141,7 @@ class EXP msrScore : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrScore> create (
-      int           inputLineNumber);
+      int inputLineNumber);
 
     SMARTP<msrScore> createScoreBareClone ();
 
@@ -6151,7 +6151,7 @@ class EXP msrScore : public msrElement
     // ------------------------------------------------------
 
     msrScore (
-      int           inputLineNumber);
+      int inputLineNumber);
       
     virtual ~msrScore();
   
@@ -6161,16 +6161,19 @@ class EXP msrScore : public msrElement
     // ------------------------------------------------------
 
     S_msrIdentification
-                  getIdentification () const
-                      { return fIdentification; }
+                    getIdentification () const
+                        { return fIdentification; }
 
     S_msrPageGeometry
-                  getPageGeometry () const
-                      { return fPageGeometry; }
+                    getPageGeometry () const
+                        { return fPageGeometry; }
+    
+    S_msrCredit     getCredit () const
+                        { return fCredit; }
     
     const list<S_msrPartgroup>&
-                  getPartgroupsList () const
-                      { return fPartgroupsList; }
+                    getPartgroupsList () const
+                        { return fPartgroupsList; }
 
     // services
     // ------------------------------------------------------
@@ -6197,6 +6200,8 @@ class EXP msrScore : public msrElement
     S_msrIdentification  fIdentification;
 
     S_msrPageGeometry    fPageGeometry;
+    
+    S_msrCredit          fCredit;
     
     list<S_msrPartgroup> fPartgroupsList;
  };
