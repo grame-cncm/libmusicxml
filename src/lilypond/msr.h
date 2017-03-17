@@ -1511,7 +1511,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 \brief A msr repeat representation.
 
   A repeat is represented by:
-    - a sequence of elements for the common part
+    - a sequence of elements for the common segment
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
@@ -1875,7 +1875,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
 \brief A msr repeat representation.
 
   A repeat is represented by:
-    - a sequence of elements for the common part
+    - a sequence of elements for the common segment
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
@@ -1963,7 +1963,7 @@ EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
 \brief A msr repeat representation.
 
   A repeat is represented by:
-    - a sequence of elements for the common part
+    - a sequence of elements for the common segment
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
@@ -4675,7 +4675,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
 \brief A msr repeat representation.
 
   A repeat is represented by:
-    - a sequence of elements for the common part
+    - a sequence of elements for the common segment
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
@@ -4789,7 +4789,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
 \brief A msr repeat representation.
 
   A repeat is represented by:
-    - a sequence of elements for the common part
+    - a sequence of elements for the common segment
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________

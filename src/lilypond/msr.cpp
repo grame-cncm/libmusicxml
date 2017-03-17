@@ -10371,7 +10371,7 @@ void msrRepeat::setRepeatCommonSegment (
 {
   if (gGeneralOptions->fTrace)
     cerr << idtr <<
-      "Setting repeat common part containing " <<
+      "Setting repeat common segment containing " <<
       singularOrPlural (
         repeatCommonSegment->getSegmentMeasuresList ().size (),
         "measure",
@@ -10473,15 +10473,13 @@ void msrRepeat::print (ostream& os)
     "Common segment: ";
   if (! fRepeatCommonSegment)
     os << "none";
-  os <<
-    endl;
+  os << endl;
 
   if (fRepeatCommonSegment) {
     idtr++;
     
-    os << idtr <<
-      fRepeatCommonSegment <<
-      endl;
+    os <<
+      fRepeatCommonSegment;
 
     idtr--;
   }
@@ -10496,8 +10494,7 @@ void msrRepeat::print (ostream& os)
     os << "(" << endingsNumber << ")";
   else
     os << "none";
-  os <<
-    endl;
+  os << endl;
     
   if (endingsNumber) {
     idtr++;
@@ -10516,6 +10513,8 @@ void msrRepeat::print (ostream& os)
 
     idtr--;
   }
+
+  os << endl;
       
   idtr--;
 }
@@ -11540,7 +11539,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
         inputLineNumber,
         this);
 
-  // set current segment as the repeat common part
+  // set current segment as the repeat common segment
   repeat->
     setRepeatCommonSegment (
       fVoiceLastSegment);
@@ -11594,7 +11593,7 @@ void msrVoice::appendRepeatCloneToVoice (
       endl << endl << endl;
   }
   
-  // set current segment as the repeat common part
+  // set current segment as the repeat common segment
   repeatCLone->
     setRepeatCommonSegment (
       fVoiceLastSegment);
@@ -11972,6 +11971,8 @@ void msrVoice::print (ostream& os)
     os << idtr <<
       "fVoiceTime == 0 !" << // JMI
       endl;
+
+  os << endl;
     
   // print the voice repeats and segments
   int repeatsAndSegmentsNumber =
@@ -12008,8 +12009,13 @@ void msrVoice::print (ostream& os)
   os << idtr <<
     "Last segment:" <<
     endl;
+    
   idtr++;
-  os << fVoiceLastSegment;
+  
+  os <<
+    fVoiceLastSegment <<
+    endl;
+  
   idtr--;
   
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {

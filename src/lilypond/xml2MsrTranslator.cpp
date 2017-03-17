@@ -7379,7 +7379,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
       msrRepeat::create (
         inputLineNumber);
 
-    // set the repeat common part
+    // set the repeat common segment
     fCurrentRepeat->
       setRepeatCommonPart (currentSegment);
 
