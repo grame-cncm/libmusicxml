@@ -6375,7 +6375,7 @@ string msrSyllable::syllableAsString () const
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
-        ", " <<
+        ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
@@ -6388,7 +6388,7 @@ string msrSyllable::syllableAsString () const
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
-        ", " <<
+        ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
@@ -6401,7 +6401,7 @@ string msrSyllable::syllableAsString () const
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
-        ", " <<
+        ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
@@ -6414,7 +6414,7 @@ string msrSyllable::syllableAsString () const
         syllableNoteUplinkAsString () <<
         ", " << "\"" << fSyllableText << "\"";
       s <<
-        ", " <<
+        ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       

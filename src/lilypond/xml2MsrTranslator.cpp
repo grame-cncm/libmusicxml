@@ -2768,9 +2768,21 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
     text.begin(), text.end(), stringSpaceRemover (dest));
 */
 
+  fCurrentText = "";
+  for (
+    string::const_iterator i = text.begin ();
+    i != text.end ();
+    i++) {
+
+    if ((*i) == ' ')
+      fCurrentText += "@"; // TEMP JMI
+    else
+      fCurrentText += (*i);
+  } // for
+
   if (fCurrentElision)
     fCurrentText += " " + text; // append to a list? JMI
-  else
+ // else
     fCurrentText = text;
 
   fCurrentStanzaHasText = true;
