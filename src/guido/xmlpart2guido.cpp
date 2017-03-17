@@ -2071,7 +2071,7 @@ namespace MusicXML2
                                                    (fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)) );
                 }
             }else {
-                std::map<rational, std::vector<int>> inner;
+                std::map<rational, std::vector<int> > inner;
                 inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
                 timePositions.insert(std::make_pair(measureNum, inner));
             }
