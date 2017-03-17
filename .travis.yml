@@ -3,6 +3,9 @@ dist: xenial
 language: cpp
 compiler: gcc
 
+before_install:
+  - sudo apt-get -qq update
+
 branches:
   only:
   - dev
