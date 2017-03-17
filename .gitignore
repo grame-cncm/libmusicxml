@@ -1,6 +1,9 @@
 xcode/
 .DS_Store
-build/android/libmusicxml2.so
+
+*.o
+*.so
+
 build/libmusicxml2*
 build/android/libs
 build/android/obj
@@ -10,3 +13,4 @@ build/ios
 packages/libmusicxml-*
 doc/html
 doc/latex
+libmusicxml.js
