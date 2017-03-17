@@ -12004,8 +12004,9 @@ void msrVoice::print (ostream& os)
 
     idtr--;
   }
+  os << endl;
   
-  // print the segment
+  // print the last segment
   os << idtr <<
     "Last segment:" <<
     endl;
