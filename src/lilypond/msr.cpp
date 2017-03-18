@@ -6442,11 +6442,12 @@ ostream& operator<< (ostream& os, const S_msrSyllable& elt)
   return os;
 }
 
-string msrSyllable::syllableKindAsString () const
+string msrSyllable::syllableKindAsString (
+  msrSyllableKind syllableKind)
 {
   string result;
     
-  switch (fSyllableKind) {
+  switch (syllableKind) {
     case msrSyllable::kSingleSyllable:
       result = "single";
       break;
@@ -6492,13 +6493,16 @@ string msrSyllable::syllableKindAsString () const
       break;
       
     case msrSyllable::k_NoSyllable:
-      msrInternalError (
-        fInputLineNumber,
-        "syllable type has not been set");
+      result = "k_NoSyllable ???";
       break;
   } // switch
 
   return result;
+}
+
+string msrSyllable::syllableKindAsString () const
+{
+  return syllableKindAsString (fSyllableKind);
 }
 
 string msrSyllable::syllableExtendKindAsString (

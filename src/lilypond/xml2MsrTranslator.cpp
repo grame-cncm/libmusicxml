@@ -3021,10 +3021,20 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   }
 
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)    
+// JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)   
+    cerr <<
+      idtr <<
+        "@@@@@@@@@@ fCurrentSyllableKind = " <<
+        msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
+        endl;
+
+
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
    // create a syllable
    //     fCurrentElision ??? JMI
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+ // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
       cerr << idtr <<
         "--> creating a syllable"
         ", line " << inputLineNumber <<
