@@ -9014,9 +9014,9 @@ bool msrMeasure::checkForIncompleteMeasure (
   int                        inputLineNumber,
   msrMeasure::msrMeasureKind measureKind)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "Checking for incompleteness of measure  " <<
+      "--> checking for incompleteness of measure  " <<
       fMeasureNumber <<
       ", line " << inputLineNumber <<
       ", in voice \"" <<
@@ -9523,9 +9523,9 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
   int                        inputLineNumber,
   msrMeasure::msrMeasureKind measureKind)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "Checking for incomplete last measure in segment '" <<
+      "--> checking for incomplete last measure in segment '" <<
       segmentAsString () <<
       "', line " << inputLineNumber <<
       ", in voice \"" <<
@@ -9980,7 +9980,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       lastMeasureNumber =
         lastMeasure->getMeasureNumber ();
 
-//    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "### --> appendMeasureToSegment (" << measureNumber <<
         ") in segment " << segmentAsString () <<
@@ -10814,7 +10814,8 @@ msrVoice::msrVoice (
     cerr << idtr <<
       "Creating voice \"" << fVoiceName <<
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
-      ", fVoiceDivisionsPerWholeNote = " << fVoiceDivisionsPerWholeNote <<
+      ", " << fVoiceDivisionsPerWholeNote <<
+      " dpwn" <<
       endl;
 
   // check external voice number
@@ -11073,9 +11074,9 @@ void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
 bool msrVoice::checkForIncompleteVoiceLastMeasure (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fDebug)
     cerr << idtr <<
-      "Checking for incomplete last measure in voice \"" <<
+      "--> checking for incomplete last measure in voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;

@@ -211,6 +211,8 @@ S_msrScore buildMSRFromElementsTree (
       endl <<
       "Pass 2: translating the xmlelement tree into a MSR" <<
       endl <<
+      "(dpwn: divisions per whole note)" <<
+      endl <<
       idtr << separator <<
       endl;
   }
@@ -252,6 +254,10 @@ void displayMSR (
       idtr << separator <<
       endl <<
       "Optional pass: displaying the MSR as text" <<
+      endl <<
+      "(dpwn: divisions per whole note)" <<
+      endl <<
+      "(dpfm: divisions per full measure)" <<
       endl <<
       idtr << separator <<
       endl;

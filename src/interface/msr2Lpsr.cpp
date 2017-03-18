@@ -75,6 +75,8 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl <<
       "Pass 3: translating the MSR into a LPSR" <<
       endl <<
+      "(dpwn: divisions per whole note)" <<
+      endl <<
       idtr << separator <<
       endl;
   }
@@ -118,6 +120,10 @@ void displayLpsrScore (
       idtr << separator <<
       endl <<
       "Optional pass: displaying the LPSR" <<
+      endl <<
+      "(dpwn: divisions per whole note)" <<
+      endl <<
+      "(dpfm: divisions per full measure)" <<
       endl <<
       idtr << separator <<
       endl;
