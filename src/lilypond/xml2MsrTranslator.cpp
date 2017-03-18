@@ -4176,8 +4176,6 @@ The discontinue value is typically used for the last ending in a set, where ther
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_note& elt ) 
 {
-  //  cerr << "--> xml2MsrTranslator::visitStart ( S_note& elt ) " << endl;
-
   // initialize note data to a neutral state
   fNoteData.init ();
 
@@ -6315,6 +6313,325 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
+  S_msrNote newNote)
+{
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+    
+  // register note/rest kind
+  if (fNoteData.fNoteIsAGraceNote) {
+    newNote->
+      setNoteKind (msrNote::kGraceNote);
+  }
+  else {
+    // standalone note or rest
+    if (fNoteData.fStepIsARest)
+      newNote->
+        setNoteKind (msrNote::kRestNote);
+    else
+      newNote->
+        setNoteKind (msrNote::kStandaloneNote);
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      registerVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentVoiceNumber);
+    
+ // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+    idtr++; // JMI
+
+    cerr <<
+      idtr <<
+        "--> handleStandaloneOrGraceNoteOrRest: " <<
+        "newNote = " << newNote->noteAsString () <<
+        endl;
+
+    cerr <<
+      idtr <<
+        "--> in voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl <<
+      idtr <<
+        setw(31) << "--> inputLineNumber" << " = " <<
+        inputLineNumber <<
+        endl <<
+      idtr <<
+        setw(31) << "--> fNoteData.fNoteIsAGraceNote" << " = " <<
+        booleanAsString (fNoteData.fNoteIsAGraceNote) <<
+        endl <<
+      idtr <<
+        setw(31) << "--> fCurrentGracenotes" << " = ";
+        
+    if (fCurrentGracenotes)
+      cerr << fCurrentGracenotes;
+    else
+      cerr << "NULL"; // JMI
+
+    cerr <<
+      endl;
+
+    idtr--;
+  }
+
+  // handle the pending tuplets if any
+  handleTupletsPendingOnTupletStack (
+    inputLineNumber);
+
+  if (fNoteData.fNoteIsAGraceNote) {
+    if (! fCurrentGracenotes) {
+      // this is the first grace note in grace notes
+
+      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+        cerr <<  idtr <<
+          "--> creating grace notes for note " <<
+          newNote->noteAsString () <<
+          " in voice \"" <<
+          currentVoice->getVoiceName () << "\"" <<
+          endl;
+      }
+
+      // create grace notes
+      fCurrentGracenotes =
+        msrGracenotes::create (
+          inputLineNumber,
+          fCurrentGraceIsSlashed,
+          currentVoice);
+
+      // append it to the current voice
+      currentVoice->
+        appendGracenotesToVoice (
+          fCurrentGracenotes);
+    }
+
+    // append newNote to the current grace notes
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      cerr <<  idtr <<
+        "--> appending note " <<
+        newNote->noteAsString () <<
+        " to the grace notes in voice \"" <<
+        currentVoice->getVoiceName () << "\"" <<
+        endl;
+    }
+
+    // attach the pending elements, if any, to newNote
+    attachPendingElementsToNote (newNote);
+
+    fCurrentGracenotes->
+      appendNoteToGracenotes (newNote);
+  }
+
+  else {
+    // standalone note or rest
+
+    if (fCurrentGracenotes)
+      // this is the first note after the grace notes,
+      // forget about the latter
+      fCurrentGracenotes = 0;
+  
+    // attach the pending elements, if any, to the note
+    attachPendingElementsToNote (newNote);
+  
+    // append newNote to the current voice
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+      cerr <<  idtr <<
+        "--> adding standalone " <<
+        newNote->noteAsString () <<
+        ", line " << newNote->getInputLineNumber () <<
+        ", to voice \"" <<
+        currentVoice->getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+    
+    currentVoice->
+      appendNoteToVoice (newNote);
+
+    if (false) // XXL, syllable sans fSyllableNote assigne
+    /*
+xml2MsrTranslator.cpp:4249
+   switch (fSyllableKind) {
+    case kSingleSyllable:
+      s << left <<
+        setw(15) << "single" << ":" << fSyllableDivisions <<
+        ", line " << right << setw(5) << fInputLineNumber <<
+        ", " << fSyllableNote->notePitchAsString () <<
+        ":" << fSyllableNote->noteDivisionsAsMSRString () <<
+     */
+      cerr <<
+        endl << endl <<
+        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+        currentVoice->getVoiceName () <<
+        ") contents &&&&&&&&&&&&&&&&&&" <<
+        endl <<
+        currentVoice <<
+        endl << endl;
+  }
+
+  // lyric has to be handled in all cases
+  // in case they are empty at the beginning of the voice JMI
+  handleLyric (
+    currentVoice, newNote);
+
+  // take care of slurs JMI ???
+  if (fCurrentSlurKind == msrSlur::kStartSlur)
+    fFirstSyllableInSlurKind = fCurrentSyllableKind;
+    
+  if (fCurrentSlurKind == msrSlur::kStopSlur)
+    fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
+
+  // account for chord not being built
+  fOnGoingChord = false;
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::handleLyric (
+  S_msrVoice currentVoice,
+  S_msrNote newNote)
+{
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+
+  // handle notes without any <text/>
+  if (false && ! fCurrentText.size ()) {
+    
+ //   string syllableKindAsString; JMI
+    
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      /*
+      cerr <<
+        ", type = \"" << syllableKindAsString << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " to " << getStanzaName () << endl;
+*/
+    }
+
+/* JMI
+    // create the syllable
+    S_msrSyllable
+      syllable =
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
+*/
+
+    // the presence of a '<lyric />' ends the effect
+    // of an on going syllable extend
+    fOnGoingSyllableExtend = false;
+    
+    if (fOnGoingSlur)
+      fOnGoingSlurHasStanza = true;
+      
+    fCurrentNoteHasStanza = true;
+  }
+
+
+  if (fCurrentNoteSyllables.size ()) {
+    for (
+      list<S_msrSyllable>::const_iterator i =
+        fCurrentNoteSyllables.begin();
+      i != fCurrentNoteSyllables.end();
+      i++ ) {
+      // set syllables note uplink to newNote
+      (*i)->setSyllableNoteUplink (newNote);
+
+      // register syllable in current voice
+      currentVoice->
+        appendSyllableToVoice (
+          inputLineNumber,
+          fCurrentStanzaNumber,
+          (*i));
+
+    } // for
+
+    // forget all of newNote's syllables
+    fCurrentNoteSyllables.clear ();
+  }
+
+  else {
+    int inputLineNumber =
+      newNote->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        registerVoiceInStaffInCurrentPartIfNeeded (
+          inputLineNumber,
+          fCurrentNoteStaffNumber,
+          fCurrentVoiceNumber);
+
+/*
+ // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      cerr <<
+        idtr <<
+          "--> note \"" << newNote->noteAsString () << "\"" <<
+          ", line " << inputLineNumber <<
+          ", has no lyrics," <<
+          endl;
+
+      idtr++;
+
+      cerr <<
+        idtr <<
+          "  appending a skip syllable to voice \"" <<
+          currentVoice-> getVoiceName () <<
+          "\"" <<
+          ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
+          endl;
+
+      idtr--;
+      }
+
+    // append a skip syllable to the voice
+    S_msrSyllable
+      syllable =
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
+
+    // this ends the current syllable extension if any
+    fOnGoingSyllableExtend = false;
+*/
+  }
+
+
+ 
+  // is '<extend />' active for newNote?
+  switch (fCurrentSyllableExtendKind) {
+    case msrSyllable::kStandaloneSyllableExtend:
+      fOnGoingSyllableExtend = true;
+      break;
+    case msrSyllable::kStartSyllableExtend:
+      fOnGoingSyllableExtend = true;
+      break;
+    case msrSyllable::kContinueSyllableExtend:
+      // keep fOnGoingSyllableExtend unchanged
+      break;
+    case msrSyllable::kStopSyllableExtend:
+      fOnGoingSyllableExtend = false;
+      break;
+    case msrSyllable::k_NoSyllableExtend:
+      break;
+  } // switch
+
+  if (fOnGoingSyllableExtend) // JMI
+    // register newNote's extend kind
+    newNote->
+      setNoteSyllableExtendKind (
+        fCurrentSyllableExtendKind);
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::handleNoteBelongingToAChord (
   S_msrNote newChordNote)
 {
@@ -6754,183 +7071,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
-  S_msrNote newNote)
-{
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-    
-  // register note/rest kind
-  if (fNoteData.fNoteIsAGraceNote) {
-    newNote->
-      setNoteKind (msrNote::kGraceNote);
-  }
-  else {
-    // standalone note or rest
-    if (fNoteData.fStepIsARest)
-      newNote->
-        setNoteKind (msrNote::kRestNote);
-    else
-      newNote->
-        setNoteKind (msrNote::kStandaloneNote);
-  }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
-    
- // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
-    idtr++; // JMI
-
-    cerr <<
-      idtr <<
-        "--> handleStandaloneOrGraceNoteOrRest: " <<
-        "newNote = " << newNote->noteAsString () <<
-        endl;
-
-    cerr <<
-      idtr <<
-        "--> in voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl <<
-      idtr <<
-        setw(31) << "--> inputLineNumber" << " = " <<
-        inputLineNumber <<
-        endl <<
-      idtr <<
-        setw(31) << "--> fNoteData.fNoteIsAGraceNote" << " = " <<
-        booleanAsString (fNoteData.fNoteIsAGraceNote) <<
-        endl <<
-      idtr <<
-        setw(31) << "--> fCurrentGracenotes" << " = ";
-        
-    if (fCurrentGracenotes)
-      cerr << fCurrentGracenotes;
-    else
-      cerr << "NULL"; // JMI
-
-    cerr <<
-      endl;
-
-    idtr--;
-  }
-
-  // handle the pending tuplets if any
-  handleTupletsPendingOnTupletStack (
-    inputLineNumber);
-
-  if (fNoteData.fNoteIsAGraceNote) {
-    if (! fCurrentGracenotes) {
-      // this is the first grace note in grace notes
-
-      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-        cerr <<  idtr <<
-          "--> creating grace notes for note " <<
-          newNote->noteAsString () <<
-          " in voice \"" <<
-          currentVoice->getVoiceName () << "\"" <<
-          endl;
-      }
-
-      // create grace notes
-      fCurrentGracenotes =
-        msrGracenotes::create (
-          inputLineNumber,
-          fCurrentGraceIsSlashed,
-          currentVoice);
-
-      // append it to the current voice
-      currentVoice->
-        appendGracenotesToVoice (
-          fCurrentGracenotes);
-    }
-
-    // append newNote to the current grace notes
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      cerr <<  idtr <<
-        "--> appending note " <<
-        newNote->noteAsString () <<
-        " to the grace notes in voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl;
-    }
-
-    // attach the pending elements, if any, to newNote
-    attachPendingElementsToNote (newNote);
-
-    fCurrentGracenotes->
-      appendNoteToGracenotes (newNote);
-  }
-
-  else {
-    // standalone note or rest
-
-    if (fCurrentGracenotes)
-      // this is the first note after the grace notes,
-      // forget about the latter
-      fCurrentGracenotes = 0;
-  
-    // attach the pending elements, if any, to the note
-    attachPendingElementsToNote (newNote);
-  
-    // append newNote to the current voice
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-      cerr <<  idtr <<
-        "--> adding standalone " <<
-        newNote->noteAsString () <<
-        ", line " << newNote->getInputLineNumber () <<
-        ", to voice \"" <<
-        currentVoice->getVoiceName () <<
-        "\"" <<
-        endl;
-    }
-    
-    currentVoice->
-      appendNoteToVoice (newNote);
-
-    if (false) // XXL, syllable sans fSyllableNote assigne
-    /*
-xml2MsrTranslator.cpp:4249
-   switch (fSyllableKind) {
-    case kSingleSyllable:
-      s << left <<
-        setw(15) << "single" << ":" << fSyllableDivisions <<
-        ", line " << right << setw(5) << fInputLineNumber <<
-        ", " << fSyllableNote->notePitchAsString () <<
-        ":" << fSyllableNote->noteDivisionsAsMSRString () <<
-     */
-      cerr <<
-        endl << endl <<
-        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
-        currentVoice->getVoiceName () <<
-        ") contents &&&&&&&&&&&&&&&&&&" <<
-        endl <<
-        currentVoice <<
-        endl << endl;
-  }
-
-  // lyric has to be handled in all cases
-  // in case they are empty at the beginning of the voice JMI
-  handleLyric (
-    currentVoice, newNote);
-
-  // take care of slurs JMI ???
-  if (fCurrentSlurKind == msrSlur::kStartSlur)
-    fFirstSyllableInSlurKind = fCurrentSyllableKind;
-    
-  if (fCurrentSlurKind == msrSlur::kStopSlur)
-    fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
-
-  // account for chord not being built
-  fOnGoingChord = false;
-}
-
-//______________________________________________________________________________
 void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   int inputLineNumber)
 {
@@ -7073,148 +7213,6 @@ void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
 
   cerr <<
     endl;
-}
-
-//______________________________________________________________________________
-void xml2MsrTranslator::handleLyric (
-  S_msrVoice currentVoice,
-  S_msrNote newNote)
-{
-  int inputLineNumber =
-    newNote->getInputLineNumber ();
-
-  // handle notes without any <text/>
-  if (false && ! fCurrentText.size ()) {
-    
- //   string syllableKindAsString; JMI
-    
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      /*
-      cerr <<
-        ", type = \"" << syllableKindAsString << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " to " << getStanzaName () << endl;
-*/
-    }
-
-/* JMI
-    // create the syllable
-    S_msrSyllable
-      syllable =
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
-*/
-
-    // the presence of a '<lyric />' ends the effect
-    // of an on going syllable extend
-    fOnGoingSyllableExtend = false;
-    
-    if (fOnGoingSlur)
-      fOnGoingSlurHasStanza = true;
-      
-    fCurrentNoteHasStanza = true;
-  }
-
-
-  if (fCurrentNoteSyllables.size ()) {
-    for (
-      list<S_msrSyllable>::const_iterator i =
-        fCurrentNoteSyllables.begin();
-      i != fCurrentNoteSyllables.end();
-      i++ ) {
-      // set syllables note uplink to newNote
-      (*i)->setSyllableNoteUplink (newNote);
-
-      // register syllable in current voice
-      currentVoice->
-        appendSyllableToVoice (
-          inputLineNumber,
-          fCurrentStanzaNumber,
-          (*i));
-
-    } // for
-
-    // forget all of newNote's syllables
-    fCurrentNoteSyllables.clear ();
-  }
-
-  else {
-    int inputLineNumber =
-      newNote->getInputLineNumber ();
-      
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentVoiceNumber);
-
-/*
- // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      cerr <<
-        idtr <<
-          "--> note \"" << newNote->noteAsString () << "\"" <<
-          ", line " << inputLineNumber <<
-          ", has no lyrics," <<
-          endl;
-
-      idtr++;
-
-      cerr <<
-        idtr <<
-          "  appending a skip syllable to voice \"" <<
-          currentVoice-> getVoiceName () <<
-          "\"" <<
-          ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
-          endl;
-
-      idtr--;
-      }
-
-    // append a skip syllable to the voice
-    S_msrSyllable
-      syllable =
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
-
-    // this ends the current syllable extension if any
-    fOnGoingSyllableExtend = false;
-*/
-  }
-
-
- 
-  // is '<extend />' active for newNote?
-  switch (fCurrentSyllableExtendKind) {
-    case msrSyllable::kStandaloneSyllableExtend:
-      fOnGoingSyllableExtend = true;
-      break;
-    case msrSyllable::kStartSyllableExtend:
-      fOnGoingSyllableExtend = true;
-      break;
-    case msrSyllable::kContinueSyllableExtend:
-      // keep fOnGoingSyllableExtend unchanged
-      break;
-    case msrSyllable::kStopSyllableExtend:
-      fOnGoingSyllableExtend = false;
-      break;
-    case msrSyllable::k_NoSyllableExtend:
-      break;
-  } // switch
-
-  if (fOnGoingSyllableExtend) // JMI
-    // register newNote's extend kind
-    newNote->
-      setNoteSyllableExtendKind (
-        fCurrentSyllableExtendKind);
 }
 
 //______________________________________________________________________________
