@@ -356,60 +356,62 @@ nederlands
 
 void msrNoteData::print (ostream& os)
 {
+  const int width = 21;
+  
   os <<
     idtr << left <<
-      setw(29) <<
+      setw(width) <<
       "fStep" << " = " << fStep <<
       endl <<
     idtr << left <<
-      setw(29) << "fStepIsARest" << " = " <<
+      setw(width) << "fStepIsARest" << " = " <<
       fStepIsARest <<
       endl <<
     idtr << left <<
-      setw(29) << "fDiatonicPitch" << " = " <<
+      setw(width) << "fDiatonicPitch" << " = " <<
       diatonicPitchAsString (fDiatonicPitch) <<
       endl <<
     idtr << left <<
-      setw(29) << "fAlteration" << " = " <<
+      setw(width) << "fAlteration" << " = " <<
       fAlteration <<
       endl <<
     idtr << left <<
-      setw(29) << "fOctave" << " = " <<
+      setw(width) << "fOctave" << " = " <<
       fOctave <<
       endl <<
     idtr << left <<
-      setw(29) << "fDivisions" << " = " <<
+      setw(width) << "fDivisions" << " = " <<
       fDivisions <<
       endl <<
     idtr << left <<
-      setw(29) << "fDisplayDivisions" << " = " <<
+      setw(width) << "fDisplayDivisions" << " = " <<
       fDisplayDivisions <<
       endl <<
     idtr << left <<
-      setw(29) << "fDotsNumber" << " = " <<
+      setw(width) << "fDotsNumber" << " = " <<
       fDotsNumber <<
       endl <<
     idtr << left <<
-      setw(29) << "fType" << " = " <<
+      setw(width) << "fType" << " = " <<
       fType <<
       endl <<
       
     idtr << left <<
-      setw(29) << "fNoteBelongsToAChord" << " = " <<
+      setw(width) << "fNoteBelongsToAChord" << " = " <<
       fNoteBelongsToAChord <<
       endl <<
           
     idtr << left <<
-      setw(29) << "fNoteBelongsToATuplet" << " = " <<
+      setw(width) << "fNoteBelongsToATuplet" << " = " <<
       fNoteBelongsToATuplet <<
       endl <<
           
     idtr << left <<
-      setw(29) << "fStaffNumber" << " = " <<
+      setw(width) << "fStaffNumber" << " = " <<
       fStaffNumber <<
       endl <<
     idtr <<
-      setw(29) << "fVoiceNumber" << " = " <<
+      setw(width) << "fVoiceNumber" << " = " <<
       fVoiceNumber <<
       endl;
 };

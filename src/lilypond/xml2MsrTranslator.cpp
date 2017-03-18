@@ -2882,66 +2882,82 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     cerr <<
       endl <<
       idtr <<
-        "Handling lyric" <<
+        "visitEnd ( S_lyric& )" <<
         ", line = " << inputLineNumber << ", with:" <<
         endl;
 
     idtr++;
 
+    cerr << idtr <<
+      "Note data:" <<
+      endl;
+
+    idtr++;
+
     cerr <<
-      fNoteData <<
+      fNoteData;
+
+    idtr--;
         
+    cerr << idtr <<
+      "Lyric data:" <<
+      endl;
+
+    idtr++;
+
+    const int width = 26;
+
+    cerr <<
       idtr <<
-        setw(27) << "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
+        setw(width) << "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
       idtr <<
-        setw(27) << "fCurrentText" << " = \"" << fCurrentText <<
-        "\":" << fNoteData.fDivisions << ", " <<
+        setw(width) << "fCurrentText" << " = \"" << fCurrentText << "\"" <<
         endl <<
       idtr <<
-        setw(27) << "fCurrentElision" << " = " << fCurrentElision <<
+        setw(width) << "fCurrentElision" << " = " << fCurrentElision <<
         endl <<
       idtr <<
-        setw(27) << "fCurrentSyllableExtendKind" << " = " <<
+        setw(width) << "fCurrentSyllableExtendKind" << " = " <<
           fCurrentSyllableExtendKind <<
         endl <<
       idtr <<
-        setw(27) << "fNoteData.fStepIsARest" << " = " <<
+        setw(width) << "fNoteData.fStepIsARest" << " = " <<
         booleanAsString (fNoteData.fStepIsARest) <<
         endl;
 
     cerr <<
       idtr <<
-        setw(27) << "fCurrentTieKind" << " = " <<
+        setw(width) << "fCurrentTieKind" << " = " <<
         msrTie::tieKindAsString (fCurrentTieKind) <<
       endl;
         
     cerr <<
       idtr <<
-        setw(27) << "fCurrentSlurKind" << " = \"" <<
+        setw(width) << "fCurrentSlurKind" << " = \"" <<
         msrSlur::slurKindAsString (fCurrentSlurKind) <<
         "\"" <<
         endl;
 
     cerr <<
       idtr <<
-        setw(27) <<
+        setw(width) <<
         "fOnGoingSlur" << " = " << fOnGoingSlur <<
         endl <<
       idtr <<
-        setw(27) <<
+        setw(width) <<
         "fOnGoingSlurHasStanza" << " = " << fOnGoingSlurHasStanza <<
         endl;
 
     cerr <<
       idtr <<
-        setw(27) << "fFirstSyllableInSlurKind" << " = \"" <<
+        setw(width) << "fFirstSyllableInSlurKind" << " = \"" <<
         fFirstSyllableInSlurKind << // JMI->syllableKindAsString () <<
         "\"" << endl;
 
     cerr <<
       idtr <<
-        setw(27) << "fCurrentSyllableKind" << " = \""<<
+        setw(width) << "fCurrentSyllableKind" << " = \""<<
         fCurrentSyllableKind << // JMI ->syllableKindAsString () <<
         "\"" << endl;
         
@@ -3036,7 +3052,9 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
       cerr << idtr <<
-        "--> creating a syllable"
+        "--> creating a " <<
+        msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
+        " syllable"
         ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
         ", divisions = " << fNoteData.fDivisions << 
@@ -6499,9 +6517,9 @@ void xml2MsrTranslator::handleLyric (
 
   if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
  // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    cerr <<
+    cerr << idtr <<
       "Handling lyric" <<
-      ", currentVoice = " << currentVoice->voiceKindAsString () <<"\"" <<
+      ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
       ", newNote = \"" << newNote->noteAsShortString () << "\"" <<
       endl;
   }
