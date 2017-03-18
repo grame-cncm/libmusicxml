@@ -4184,11 +4184,9 @@ class EXP msrStanza : public msrElement
     // ------------------------------------------------------
 
     void            appendSyllableToStanza (
-                      int           inputLineNumber,
-                      int           stanzaNumber,
                       S_msrSyllable syllable);
 
-    S_msrSyllable addTextSyllableToStanza (
+    S_msrSyllable   addTextSyllableToStanza (
                     int       inputLineNumber,
                     string    syllabic,
                     msrSyllable::msrSyllableKind
@@ -4230,8 +4228,6 @@ class EXP msrStanza : public msrElement
     S_msrSyllable addBreakSyllableToStanza (
                     int inputLineNumber,
                     int divisions);
-
-    void          appendSyllableToStanza (S_msrSyllable syllable);
                 
     // visitors
     // ------------------------------------------------------

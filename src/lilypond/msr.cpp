@@ -6797,22 +6797,46 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 }
 
 void msrStanza::appendSyllableToStanza (
-  int           inputLineNumber,
-  int           stanzaNumber,
   S_msrSyllable syllable)
 {
-  // add syllable to this stanza
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    cerr << idtr <<
-      "--> appending syllable" <<
-      syllable->syllableAsString () <<
-      " to stanza \"" << fStanzaName << "\"" <<
+ // JMI if (gGeneralOptions->fDebug)
+    cerr <<
+      idtr <<
+        "--> appending syllable " << syllable <<
+      idtr <<
+        "to stanza" << getStanzaName () <<
       endl;
-  }
-
+      
   fSyllables.push_back (syllable);
 
-  fStanzaTextPresent = true;
+  // does this stanza contain text?
+  switch (syllable->getSyllableKind ()) {
+    
+    case msrSyllable::kSingleSyllable:
+    case msrSyllable::kBeginSyllable:
+    case msrSyllable::kMiddleSyllable:
+    case msrSyllable::kEndSyllable:
+      // only now, in case addSyllableToStanza() is called
+      // from LPSR for example
+      fStanzaTextPresent = true;
+      break;
+      
+    case msrSyllable::kRestSyllable:
+    case msrSyllable::kSkipSyllable:
+    case msrSyllable::kSlurSyllable:
+    case msrSyllable::kSlurBeyondEndSyllable:
+    case msrSyllable::kTiedSyllable:
+    case msrSyllable::kBarcheckSyllable:
+    case msrSyllable::kBarnumberCheckSyllable:
+    case msrSyllable::kBreakSyllable:
+      break;
+      
+    case msrSyllable::k_NoSyllable:
+      msrInternalError (
+        fInputLineNumber,
+        "syllable type has not been set");
+      break;
+  } // switch
 }
 
 S_msrSyllable msrStanza::addTextSyllableToStanza (
@@ -7159,48 +7183,6 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
 
   // and return it
   return syllable;
-}
-
-void msrStanza::addSyllableToStanza (S_msrSyllable syllable)
-{
- // JMI if (gGeneralOptions->fDebug)
-    cerr <<
-      idtr <<
-        "--> adding syllable " << syllable <<
-      idtr <<
-        "to stanza" << getStanzaName () <<
-      endl;
-      
-  fSyllables.push_back (syllable);
-
-  // does this stanza contain text?
-  switch (syllable->getSyllableKind ()) {
-    
-    case msrSyllable::kSingleSyllable:
-    case msrSyllable::kBeginSyllable:
-    case msrSyllable::kMiddleSyllable:
-    case msrSyllable::kEndSyllable:
-      // only now, in case addSyllableToStanza() is called
-      // from LPSR for example
-      this->setStanzaTextPresent ();
-      break;
-      
-    case msrSyllable::kRestSyllable:
-    case msrSyllable::kSkipSyllable:
-    case msrSyllable::kSlurSyllable:
-    case msrSyllable::kSlurBeyondEndSyllable:
-    case msrSyllable::kTiedSyllable:
-    case msrSyllable::kBarcheckSyllable:
-    case msrSyllable::kBarnumberCheckSyllable:
-    case msrSyllable::kBreakSyllable:
-      break;
-      
-    case msrSyllable::k_NoSyllable:
-      msrInternalError (
-        fInputLineNumber,
-        "syllable type has not been set");
-      break;
-  } // switch
 }
 
 void msrStanza::acceptIn (basevisitor* v) {
@@ -11206,7 +11188,7 @@ void msrVoice::catchUpWithVoiceStanzaMaster (S_msrStanza stanza)
       i != masterSyllables.end();
       i++) {
       // add syllable to stanza
-      stanza->addSyllableToStanza ((*i));
+      stanza->appendSyllableToStanza ((*i));
     } // for
   }
 }
@@ -11517,7 +11499,6 @@ void msrVoice::appendSyllableToVoice (
   // add the syllable to the stanza
   stanza->
     appendSyllableToStanza (
-      inputLineNumber,
       syllable);
 }
 
