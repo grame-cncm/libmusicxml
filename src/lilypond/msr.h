@@ -5167,44 +5167,7 @@ class EXP msrVoice : public msrElement
                       int           inputLineNumber,
                       int           stanzaNumber,
                       S_msrSyllable syllable);
-                      
-    S_msrSyllable   addTextSyllableToVoice (
-                      int       inputLineNumber,
-                      int       stanzaNumber,
-                      string    syllabic,
-                      msrSyllable::msrSyllableKind
-                                syllableKind,
-                      string    text,
-                      bool      elision,
-                      msrSyllable::msrSyllableExtendKind
-                                syllableExtendKind,
-                      int       divisions);
-    
-    S_msrSyllable   addRestSyllableToVoice (
-                      int inputLineNumber,
-                      int stanzaNumber,
-                      int divisions);
-    
-    S_msrSyllable   addSkipSyllableToVoice (
-                      int inputLineNumber,
-                      int stanzaNumber,
-                      int divisions);
-    
-    S_msrSyllable   addTiedSyllableToVoice (
-                      int inputLineNumber,
-                      int stanzaNumber,
-                      int divisions);
-    
-    S_msrSyllable   addSlurSyllableToVoice (
-                      int inputLineNumber,
-                      int stanzaNumber,
-                      int divisions);
-    
-    S_msrSyllable   addSlurBeyondEndSyllableToVoice (
-                      int inputLineNumber,
-                      int stanzaNumber,
-                      int divisions);
-    
+                              
     void            appendBarCheckToVoice (
                       S_msrBarCheck barCheck);
                     
