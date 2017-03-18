@@ -6843,57 +6843,6 @@ void msrStanza::appendSyllableToStanza (
   } // switch
 }
 
-S_msrSyllable msrStanza::addTextSyllableToStanza (
-  int       inputLineNumber,
-  string    syllabic,
-  msrSyllable::msrSyllableKind
-            syllableKind,
-  string    text,
-  bool      elision,
-  msrSyllable::msrSyllableExtendKind
-            syllableExtendKind,
-  int       divisions)
-{
-  // create a stanza text syllable
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffPartUplink ();
-    
-    cerr << idtr <<
-      "--> Adding text syllable"
-      ", line " << inputLineNumber <<
-      ", divisions = " << divisions << 
-      ", syllabic = \"" << syllabic << "\"" <<
-      ", text = \"" << text << "\"" <<
-      ", elision: " << elision << 
-      " to stanza " << getStanzaName () <<
-      endl;
-  }
-
-  // create text syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        syllableKind,
-        text,
-        syllableExtendKind,
-        divisions,
-        this);
-
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
-
-  fStanzaTextPresent = true;
-
-  // return new syllable
-  return syllable;
-}
-
 S_msrSyllable msrStanza::addRestSyllableToStanza (
   int inputLineNumber,
   int divisions)
