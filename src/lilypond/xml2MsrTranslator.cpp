@@ -2839,22 +2839,16 @@ void xml2MsrTranslator::visitStart ( S_extend& elt )
 
   if (fOnGoingLyric) {
     if      (fCurrentExtendType == "start") {
-      
       fCurrentSyllableExtendKind =
         msrSyllable::kStartSyllableExtend;
-      
     }
     else if (fCurrentExtendType == "continue") {
-      
       fCurrentSyllableExtendKind =
         msrSyllable::kContinueSyllableExtend;
-      
     }
     else if (fCurrentExtendType == "stop") {
-      
       fCurrentSyllableExtendKind =
         msrSyllable::kStopSyllableExtend;
-      
     }
     else if (fCurrentExtendType.size()) {
         stringstream s;
@@ -2948,18 +2942,6 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     idtr--;
   }
 
-  if      (fCurrentSyllabic == "single")
-    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
-  else if (fCurrentSyllabic == "begin")
-    fCurrentSyllableKind = msrSyllable::kBeginSyllable;
-  else if (fCurrentSyllabic == "middle")
-    fCurrentSyllableKind = msrSyllable::kMiddleSyllable;
-  else if (fCurrentSyllabic == "end")
-    fCurrentSyllableKind = msrSyllable::kEndSyllable;
-  else
-    // no <syllabic /> specified for this note
-    fCurrentSyllableKind = msrSyllable::k_NoSyllable;
-
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -2967,6 +2949,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
+
 
   S_msrSyllable
     syllable;
@@ -6331,43 +6314,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     }
   }
 
-
-  // handle notes without any <text/>
-  if (! fCurrentText.size ()) {
-    
- //   string syllableKindAsString; JMI
-    
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      /*
-      cerr <<
-        ", type = \"" << syllableKindAsString << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " to " << getStanzaName () << endl;
-*/
-    }
-
-    // create the syllable
-    S_msrSyllable
-      dummy = // JMI
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
-
-    // the presence of a '<lyric />' ends the effect
-    // of an on going syllable extend
-    fOnGoingSyllableExtend = false;
-    
-    if (fOnGoingSlur)
-      fOnGoingSlurHasStanza = true;
-      
-    fCurrentNoteHasStanza = true;
-  }
-
-
-
-
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
@@ -6987,7 +6933,7 @@ xml2MsrTranslator.cpp:4249
   }
 
   // lyric has to be handled in all cases
-  // in case they are empty at the beginning of the voice
+  // in case they are empty at the beginning of the voice JMI
   handleLyric (newNote);
 
   // take care of slurs JMI ???
@@ -7149,6 +7095,9 @@ void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
 //______________________________________________________________________________
 void xml2MsrTranslator::handleLyric (S_msrNote newNote)
 {
+  int inputLineNumber =
+    newNote->getInputLineNumber ();
+
   if (fCurrentNoteSyllables.size ()) {
     for (
       list<S_msrSyllable>::const_iterator i =
@@ -7211,6 +7160,56 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
     fOnGoingSyllableExtend = false;
 */
   }
+
+ 
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      registerVoiceInStaffInCurrentPartIfNeeded (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentVoiceNumber);
+
+
+
+
+  // handle notes without any <text/>
+  if (false && ! fCurrentText.size ()) {
+    
+ //   string syllableKindAsString; JMI
+    
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      /*
+      cerr <<
+        ", type = \"" << syllableKindAsString << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " to " << getStanzaName () << endl;
+*/
+    }
+
+    // create the syllable
+    S_msrSyllable
+      dummy = // JMI
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
+
+    // the presence of a '<lyric />' ends the effect
+    // of an on going syllable extend
+    fOnGoingSyllableExtend = false;
+    
+    if (fOnGoingSlur)
+      fOnGoingSlurHasStanza = true;
+      
+    fCurrentNoteHasStanza = true;
+  }
+
+
+
+
+
 
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
