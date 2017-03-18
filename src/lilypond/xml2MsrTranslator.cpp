@@ -3025,7 +3025,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)   
     cerr <<
       idtr <<
-        "@@@@@@@@@@ fCurrentSyllableKind = " <<
+        "@@@@@@@@@@ visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
         endl;
 
@@ -6497,30 +6497,55 @@ void xml2MsrTranslator::handleLyric (
   int inputLineNumber =
     newNote->getInputLineNumber ();
 
-  // handle notes without any <text/>
-  if (false && ! fCurrentText.size ()) {
-    
- //   string syllableKindAsString; JMI
-    
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      /*
-      cerr <<
-        ", type = \"" << syllableKindAsString << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " to " << getStanzaName () << endl;
-*/
-    }
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr <<
+      "Handling lyric" <<
+      ", currentVoice = " << currentVoice->voiceKindAsString () <<"\"" <<
+      ", newNote = \"" << newNote->noteAsShortString () << "\"" <<
+      endl;
+  }
 
-/* JMI
-    // create the syllable
+  // handle notes without any <text/>
+  if (fCurrentText.size ()) {
+        
+    // fetch stanzaNumber in current voice
+    S_msrStanza
+      stanza =
+        currentVoice->
+          createStanzaInVoiceIfNeeded (
+            inputLineNumber,
+            fCurrentStanzaNumber); // JMI
+
+    // create a syllable
+    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+ // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+      cerr << idtr <<
+        "--> creating a skip syllable"
+        ", line " << inputLineNumber <<
+        ", divisions = " << fNoteData.fDivisions << 
+        ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
+        ", text = \"" << fCurrentText << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " in stanza " << stanza->getStanzaName () <<
+        endl;
+    }
+    
+    fCurrentSyllableKind = msrSyllable::kRestSyllable;
+
     S_msrSyllable
       syllable =
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
-*/
+        msrSyllable::create (
+          inputLineNumber,
+          fCurrentSyllableKind,
+          "",
+          msrSyllable::k_NoSyllableExtend,
+          fNoteData.fDivisions,
+          stanza);
+
+    // register syllable in current note's syllables list
+    fCurrentNoteSyllables.push_back (syllable);
+
+// JMI ???
 
     // the presence of a '<lyric />' ends the effect
     // of an on going syllable extend

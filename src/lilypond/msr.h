@@ -5121,6 +5121,8 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
+    string          voiceKindAsString () const;
+
     void            forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
     void            appendClefToVoice (S_msrClef clef);

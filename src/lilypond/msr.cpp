@@ -6578,52 +6578,52 @@ string msrSyllable::syllableAsString () const
   switch (fSyllableKind) {
     case kSingleSyllable:
       s <<
-        "single" << ":" << syllableDivisionsAsString () <<
+        "single" <<
+        ", " << "\"" << fSyllableText << "\"" <<
+        ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
-        ", " << "\"" << fSyllableText << "\"";
-      s <<
         ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kBeginSyllable:
       s << 
-        "begin" << ":" << syllableDivisionsAsString () <<
+        "begin" <<
+        ", " << "\"" << fSyllableText << "\"" <<
+         ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
-        ", " << "\"" << fSyllableText << "\"";
-      s <<
         ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kMiddleSyllable:
       s << 
-        "middle" << ":" << syllableDivisionsAsString () <<
+        "middle" <<
+        ", " << "\"" << fSyllableText << "\"" <<
+        ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
-        ", " << "\"" << fSyllableText << "\"";
-      s <<
         ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kEndSyllable:
       s << 
-        "end" << ":" << syllableDivisionsAsString () <<
+        "end" <<
+        ", " << "\"" << fSyllableText << "\"" <<
+        ":" << syllableDivisionsAsString () <<
         " (" << fSyllableDivisions << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
-        ", " << "\"" << fSyllableText << "\"";
-      s <<
         ", NoteSyllableExtendKind: " <<
         syllableExtendKindAsString (fSyllableExtendKind);
       break;
@@ -6806,7 +6806,7 @@ void msrStanza::appendSyllableToStanza (
  // JMI if (gGeneralOptions->fDebug)
     cerr <<
       idtr <<
-        "--> appending syllable " << syllable <<
+        "--> appending syllable " << syllable->syllableAsString () <<
       idtr <<
         "to stanza" << getStanzaName () <<
       endl;
@@ -11438,7 +11438,7 @@ void msrVoice::appendSyllableToVoice (
   // append syllable to this voice
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr << idtr <<
-      "--> appending syllable" <<
+      "--> appending syllable " <<
       syllable->syllableAsString () <<
       " to voice \"" << fVoiceName << "\"" <<
       endl;
@@ -11900,6 +11900,11 @@ string msrVoice::voiceKindAsString (
   } // switch
 
   return result;
+}
+
+string msrVoice::voiceKindAsString () const
+{
+  return voiceKindAsString (fVoiceKind);
 }
       
 ostream& operator<< (ostream& os, const S_msrVoice& elt)
