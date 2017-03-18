@@ -2968,41 +2968,8 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable;
 
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
+    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
     
- //   string syllableKindAsString; JMI
-    
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      /*
-      cerr <<
-        ", type = \"" << syllableKindAsString << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " to " << getStanzaName () << endl;
-*/
-    }
-
-   // create a text syllable
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
-      cerr << idtr <<
-        "--> creating a syllable"
-        ", line " << inputLineNumber <<
-        ", divisions = " << fNoteData.fDivisions << 
-        ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", text = \"" << fCurrentText << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " in stanza " << stanza->getStanzaName () <<
-        endl;
-    }
-  
-    // create the syllable     fCurrentElision ??? JMI
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        fCurrentSyllableKind,
-        fCurrentText,
-        fCurrentSyllableExtendKind,
-        fNoteData.fDivisions,
-        stanza);
-
     // the presence of a '<lyric />' ends the effect
     // of an on going syllable extend
     fOnGoingSyllableExtend = false;
@@ -3023,24 +2990,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     
     if (fCurrentTieKind != msrTie::k_NoTie) {
       fCurrentSyllableKind = msrSyllable::kTiedSyllable;
-      
-      syllable =
-        currentVoice->
-          addTiedSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
     }
   
     else if (fNoteData.fStepIsARest) {
       fCurrentSyllableKind = msrSyllable::kRestSyllable;
-
-      syllable =
-        currentVoice->
-          addRestSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
     }
   
     else if (
@@ -3049,46 +3002,18 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       ! fCurrentText.size ()) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
-  
-        syllable =
-          currentVoice->
-            addSlurBeyondEndSyllableToVoice ( 
-              inputLineNumber,
-              fCurrentStanzaNumber,
-              fNoteData.fDivisions);
       }
       else {        
         fCurrentSyllableKind = msrSyllable::kSlurSyllable;
-  
-        syllable =
-          currentVoice->
-            addSlurSyllableToVoice ( 
-              inputLineNumber,
-              fCurrentStanzaNumber,
-              fNoteData.fDivisions);
       }
     }
     
     else if (fOnGoingSlur) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
-  
-        syllable =
-          currentVoice->
-            addSlurBeyondEndSyllableToVoice (
-              inputLineNumber,
-              fCurrentStanzaNumber,
-              fNoteData.fDivisions);
       }
       else {        
         fCurrentSyllableKind = msrSyllable::kSlurSyllable;
-  
-        syllable =
-          currentVoice->
-            addSlurSyllableToVoice ( 
-              inputLineNumber,
-              fCurrentStanzaNumber,
-              fNoteData.fDivisions);
       }
     }
     
@@ -3096,9 +3021,33 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   }
 
-  if (syllable)
+  if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
+   // create a syllable
+   //     fCurrentElision ??? JMI
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+      cerr << idtr <<
+        "--> creating a syllable"
+        ", line " << inputLineNumber <<
+        ", divisions = " << fNoteData.fDivisions << 
+        ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
+        ", text = \"" << fCurrentText << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " in stanza " << stanza->getStanzaName () <<
+        endl;
+    }
+    
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        fCurrentSyllableKind,
+        "",
+        msrSyllable::k_NoSyllableExtend,
+        fNoteData.fDivisions,
+        stanza);
+
     // register syllable in current note's syllables list
     fCurrentNoteSyllables.push_back (syllable);
+  }
 
   fOnGoingLyric = false;
 }
@@ -4235,8 +4184,8 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   
   fCurrentSyllabic = "";
   fCurrentText = "";
-  fCurrentSyllableKind = msrSyllable::kSingleSyllable;
-    // to handle properly a note without any <text/>
+  fCurrentSyllableKind = msrSyllable::k_NoSyllable;
+    // to handle properly a note without any <text/> JMI
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
   
   // assume this note hasn't got any stanzas until S_lyric is met

@@ -11642,7 +11642,7 @@ S_msrSyllable msrVoice::addTiedSyllableToVoice (
     syllable =
       stanza->
         addTiedSyllableToStanza (
-              inputLineNumber, divisions);
+          inputLineNumber, divisions);
 
   // and return it
   return syllable;
