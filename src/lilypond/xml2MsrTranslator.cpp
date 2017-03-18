@@ -2723,7 +2723,7 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
 { 
   int stanzaNumber =
     elt->getAttributeIntValue ("number", 0);
-
+  
   if (stanzaNumber < 0) {
     stringstream s;
 
@@ -2798,7 +2798,8 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
     fCurrentText = dest;
 */
 
-  string textToUse = "";
+/*
+  string textToUse;
   
   // text may be composed of only spaces, dont' skim them
   for (
@@ -2812,11 +2813,16 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
       textToUse += (*i);
   } // for
 
+  // there can be several <text/>'s in a row, hence the concatenation
   if (fCurrentElision)
     fCurrentText += " " + textToUse; // append to a list? JMI
- // else
-    fCurrentText = textToUse;
+  else
+    fCurrentText += textToUse;
+*/
 
+  // there can be several <text/>'s in a row, hence the concatenation
+  fCurrentText += text;
+  
   fCurrentStanzaHasText = true;
 
   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
@@ -2950,6 +2956,13 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
+  // fetch stanzaNumber in current voice
+  S_msrStanza
+    stanza =
+      currentVoice->
+        createStanzaInVoiceIfNeeded (
+          inputLineNumber,
+          fCurrentStanzaNumber);
 
   S_msrSyllable
     syllable;
@@ -2967,18 +2980,28 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 */
     }
 
-    // create the syllable
+   // create a text syllable
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+      cerr << idtr <<
+        "--> creating a syllable"
+        ", line " << inputLineNumber <<
+        ", divisions = " << fNoteData.fDivisions << 
+        ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
+        ", text = \"" << fCurrentText << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " in stanza " << stanza->getStanzaName () <<
+        endl;
+    }
+  
+    // create the syllable     fCurrentElision ??? JMI
     syllable =
-      currentVoice->
-        addTextSyllableToVoice (
-          inputLineNumber,
-          fCurrentStanzaNumber,
-          fCurrentSyllabic,
-          fCurrentSyllableKind,
-          fCurrentText,
-          fCurrentElision,
-          fCurrentSyllableExtendKind,
-          fNoteData.fDivisions);
+      msrSyllable::create (
+        inputLineNumber,
+        fCurrentSyllableKind,
+        fCurrentText,
+        fCurrentSyllableExtendKind,
+        fNoteData.fDivisions,
+        stanza);
 
     // the presence of a '<lyric />' ends the effect
     // of an on going syllable extend
@@ -6934,7 +6957,8 @@ xml2MsrTranslator.cpp:4249
 
   // lyric has to be handled in all cases
   // in case they are empty at the beginning of the voice JMI
-  handleLyric (newNote);
+  handleLyric (
+    currentVoice, newNote);
 
   // take care of slurs JMI ???
   if (fCurrentSlurKind == msrSlur::kStartSlur)
@@ -7093,10 +7117,48 @@ void xml2MsrTranslator::displayLastHandledTupletInVoice (string header)
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleLyric (S_msrNote newNote)
+void xml2MsrTranslator::handleLyric (
+  S_msrVoice currentVoice,
+  S_msrNote newNote)
 {
   int inputLineNumber =
     newNote->getInputLineNumber ();
+
+  // handle notes without any <text/>
+  if (false && ! fCurrentText.size ()) {
+    
+ //   string syllableKindAsString; JMI
+    
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      /*
+      cerr <<
+        ", type = \"" << syllableKindAsString << "\"" <<
+        ", elision: " << fCurrentElision << 
+        " to " << getStanzaName () << endl;
+*/
+    }
+
+/* JMI
+    // create the syllable
+    S_msrSyllable
+      syllable =
+        currentVoice->
+          addSkipSyllableToVoice (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fNoteData.fDivisions);
+*/
+
+    // the presence of a '<lyric />' ends the effect
+    // of an on going syllable extend
+    fOnGoingSyllableExtend = false;
+    
+    if (fOnGoingSlur)
+      fOnGoingSlurHasStanza = true;
+      
+    fCurrentNoteHasStanza = true;
+  }
+
 
   if (fCurrentNoteSyllables.size ()) {
     for (
@@ -7104,8 +7166,16 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
         fCurrentNoteSyllables.begin();
       i != fCurrentNoteSyllables.end();
       i++ ) {
-      // set syllable note uplink to newNote
+      // set syllables note uplink to newNote
       (*i)->setSyllableNoteUplink (newNote);
+
+      // register syllable in current voice
+      currentVoice->
+        appendSyllableToVoice (
+          inputLineNumber,
+          fCurrentStanzaNumber,
+          (*i));
+
     } // for
 
     // forget all of newNote's syllables
@@ -7161,56 +7231,8 @@ void xml2MsrTranslator::handleLyric (S_msrNote newNote)
 */
   }
 
+
  
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
-        inputLineNumber,
-        fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
-
-
-
-
-  // handle notes without any <text/>
-  if (false && ! fCurrentText.size ()) {
-    
- //   string syllableKindAsString; JMI
-    
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      /*
-      cerr <<
-        ", type = \"" << syllableKindAsString << "\"" <<
-        ", elision: " << fCurrentElision << 
-        " to " << getStanzaName () << endl;
-*/
-    }
-
-    // create the syllable
-    S_msrSyllable
-      dummy = // JMI
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fNoteData.fDivisions);
-
-    // the presence of a '<lyric />' ends the effect
-    // of an on going syllable extend
-    fOnGoingSyllableExtend = false;
-    
-    if (fOnGoingSlur)
-      fOnGoingSlurHasStanza = true;
-      
-    fCurrentNoteHasStanza = true;
-  }
-
-
-
-
-
-
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:

@@ -4158,31 +4158,35 @@ class EXP msrStanza : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getStanzaNumber () const
-                    { return fStanzaNumber; }
+    int             getStanzaNumber () const
+                        { return fStanzaNumber; }
                 
-    string      getStanzaName () const;
+    string          getStanzaName () const;
                 
-    S_msrVoice  getStanzaVoiceUplink () const
-                    { return fStanzaVoiceUplink; }
+    S_msrVoice      getStanzaVoiceUplink () const
+                        { return fStanzaVoiceUplink; }
                 
-    msrStanzaKind
-                getStanzaKind () const
-                    { return fStanzaKind; }
+    msrStanzaKind   getStanzaKind () const
+                        { return fStanzaKind; }
                 
     const vector<S_msrSyllable>&
-                getSyllables () const
-                    { return fSyllables; }
+                    getSyllables () const
+                        { return fSyllables; }
 
-    void        setStanzaTextPresent ()
-                    { fStanzaTextPresent = true; }
+    void            setStanzaTextPresent ()
+                        { fStanzaTextPresent = true; }
 
-    bool        getStanzaTextPresent () const
-                    { return fStanzaTextPresent; }
+    bool            getStanzaTextPresent () const
+                        { return fStanzaTextPresent; }
 
 
     // services
     // ------------------------------------------------------
+
+    void            appendSyllableToStanza (
+                      int           inputLineNumber,
+                      int           stanzaNumber,
+                      S_msrSyllable syllable);
 
     S_msrSyllable addTextSyllableToStanza (
                     int       inputLineNumber,
@@ -4227,7 +4231,7 @@ class EXP msrStanza : public msrElement
                     int inputLineNumber,
                     int divisions);
 
-    void          addSyllableToStanza (S_msrSyllable syllable);
+    void          appendSyllableToStanza (S_msrSyllable syllable);
                 
     // visitors
     // ------------------------------------------------------
@@ -5162,7 +5166,12 @@ class EXP msrVoice : public msrElement
                       S_msrGracenotes gracenotes);
     void            prependGracenotesToVoice (
                       S_msrGracenotes gracenotes);
-    
+
+    void            appendSyllableToVoice (
+                      int           inputLineNumber,
+                      int           stanzaNumber,
+                      S_msrSyllable syllable);
+                      
     S_msrSyllable   addTextSyllableToVoice (
                       int       inputLineNumber,
                       int       stanzaNumber,

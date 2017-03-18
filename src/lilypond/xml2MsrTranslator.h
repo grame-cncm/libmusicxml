@@ -756,7 +756,9 @@ class EXP xml2MsrTranslator :
 
     list<S_msrSyllable>       fCurrentNoteSyllables;
 
-    void                      handleLyric (S_msrNote newNote);
+    void                      handleLyric (
+                                S_msrVoice currentVoice,
+                                S_msrNote newNote);
 
     // harmony handling
     // ------------------------------------------------------

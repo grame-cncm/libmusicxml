@@ -6796,6 +6796,25 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
   return clone;
 }
 
+void msrStanza::appendSyllableToStanza (
+  int           inputLineNumber,
+  int           stanzaNumber,
+  S_msrSyllable syllable)
+{
+  // add syllable to this stanza
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> appending syllable" <<
+      syllable->syllableAsString () <<
+      " to stanza \"" << fStanzaName << "\"" <<
+      endl;
+  }
+
+  fSyllables.push_back (syllable);
+
+  fStanzaTextPresent = true;
+}
+
 S_msrSyllable msrStanza::addTextSyllableToStanza (
   int       inputLineNumber,
   string    syllabic,
@@ -11473,6 +11492,33 @@ void msrVoice::prependGracenotesToVoice (
     prependGracenotesToSegment (gracenotes);
 
   fMusicHasBeenInsertedInVoice = true;
+}
+
+void msrVoice::appendSyllableToVoice (
+  int           inputLineNumber,
+  int           stanzaNumber,
+  S_msrSyllable syllable)
+{
+  // append syllable to this voice
+  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    cerr << idtr <<
+      "--> appending syllable" <<
+      syllable->syllableAsString () <<
+      " to voice \"" << fVoiceName << "\"" <<
+      endl;
+  }
+
+  // fetch stanzaNumber in this voice
+  S_msrStanza
+    stanza =
+      createStanzaInVoiceIfNeeded (
+        inputLineNumber, stanzaNumber);
+
+  // add the syllable to the stanza
+  stanza->
+    appendSyllableToStanza (
+      inputLineNumber,
+      syllable);
 }
 
 S_msrSyllable msrVoice::addTextSyllableToVoice (
