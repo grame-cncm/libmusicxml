@@ -3037,10 +3037,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
       cerr << idtr <<
         "--> creating a syllable"
+        ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
         ", divisions = " << fNoteData.fDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", text = \"" << fCurrentText << "\"" <<
         ", elision: " << fCurrentElision << 
         " in stanza " << stanza->getStanzaName () <<
         endl;
@@ -3050,7 +3050,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       msrSyllable::create (
         inputLineNumber,
         fCurrentSyllableKind,
-        "",
+        fCurrentText,
         msrSyllable::k_NoSyllableExtend,
         fNoteData.fDivisions,
         stanza);
@@ -6497,7 +6497,8 @@ void xml2MsrTranslator::handleLyric (
   int inputLineNumber =
     newNote->getInputLineNumber ();
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+ // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
     cerr <<
       "Handling lyric" <<
       ", currentVoice = " << currentVoice->voiceKindAsString () <<"\"" <<
@@ -6506,7 +6507,7 @@ void xml2MsrTranslator::handleLyric (
   }
 
   // handle notes without any <text/>
-  if (fCurrentText.size ()) {
+  if (! fCurrentText.size ()) {
         
     // fetch stanzaNumber in current voice
     S_msrStanza
@@ -6520,11 +6521,11 @@ void xml2MsrTranslator::handleLyric (
     if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
       cerr << idtr <<
-        "--> creating a skip syllable"
+        "--> creating a skip syllable for missing lyric"
+        ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
         ", divisions = " << fNoteData.fDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", text = \"" << fCurrentText << "\"" <<
         ", elision: " << fCurrentElision << 
         " in stanza " << stanza->getStanzaName () <<
         endl;
@@ -6537,7 +6538,7 @@ void xml2MsrTranslator::handleLyric (
         msrSyllable::create (
           inputLineNumber,
           fCurrentSyllableKind,
-          "",
+          fCurrentText,
           msrSyllable::k_NoSyllableExtend,
           fNoteData.fDivisions,
           stanza);
