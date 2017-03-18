@@ -2728,7 +2728,7 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
     stringstream s;
 
     s <<
-      "lyric number " << fCurrentStanzaNumber <<
+      "lyric number " << stanzaNumber <<
       " is not positive";
 
     msrMusicXMLError (
@@ -2893,74 +2893,76 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       endl;
 
     idtr++;
-
     cerr <<
       fNoteData;
-
     idtr--;
         
     cerr << idtr <<
       "Lyric data:" <<
       endl;
 
-    idtr++;
+    {
+      idtr++;
 
-    const int width = 26;
-
-    cerr <<
-      idtr <<
-        setw(width) << "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
-        endl <<
-      idtr <<
-        setw(width) << "fCurrentText" << " = \"" << fCurrentText << "\"" <<
-        endl <<
-      idtr <<
-        setw(width) << "fCurrentElision" << " = " << fCurrentElision <<
-        endl <<
-      idtr <<
-        setw(width) << "fCurrentSyllableExtendKind" << " = " <<
-          fCurrentSyllableExtendKind <<
-        endl <<
-      idtr <<
-        setw(width) << "fNoteData.fStepIsARest" << " = " <<
-        booleanAsString (fNoteData.fStepIsARest) <<
+      const int width = 26;
+  
+      cerr <<
+        idtr <<
+          setw(width) << "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
+          endl <<
+        idtr <<
+          setw(width) << "fCurrentText" << " = \"" << fCurrentText << "\"" <<
+          endl <<
+        idtr <<
+          setw(width) << "fCurrentElision" << " = " << fCurrentElision <<
+          endl <<
+        idtr <<
+          setw(width) << "fCurrentSyllableExtendKind" << " = " <<
+            fCurrentSyllableExtendKind <<
+          endl <<
+        idtr <<
+          setw(width) << "fNoteData.fStepIsARest" << " = " <<
+          booleanAsString (fNoteData.fStepIsARest) <<
+          endl;
+  
+      cerr <<
+        idtr <<
+          setw(width) << "fCurrentTieKind" << " = " <<
+          msrTie::tieKindAsString (fCurrentTieKind) <<
         endl;
-
-    cerr <<
-      idtr <<
-        setw(width) << "fCurrentTieKind" << " = " <<
-        msrTie::tieKindAsString (fCurrentTieKind) <<
-      endl;
-        
-    cerr <<
-      idtr <<
-        setw(width) << "fCurrentSlurKind" << " = \"" <<
-        msrSlur::slurKindAsString (fCurrentSlurKind) <<
-        "\"" <<
-        endl;
-
-    cerr <<
-      idtr <<
-        setw(width) <<
-        "fOnGoingSlur" << " = " << fOnGoingSlur <<
-        endl <<
-      idtr <<
-        setw(width) <<
-        "fOnGoingSlurHasStanza" << " = " << fOnGoingSlurHasStanza <<
-        endl;
-
-    cerr <<
-      idtr <<
-        setw(width) << "fFirstSyllableInSlurKind" << " = \"" <<
-        fFirstSyllableInSlurKind << // JMI->syllableKindAsString () <<
-        "\"" << endl;
-
-    cerr <<
-      idtr <<
-        setw(width) << "fCurrentSyllableKind" << " = \""<<
-        fCurrentSyllableKind << // JMI ->syllableKindAsString () <<
-        "\"" << endl;
-        
+          
+      cerr <<
+        idtr <<
+          setw(width) << "fCurrentSlurKind" << " = \"" <<
+          msrSlur::slurKindAsString (fCurrentSlurKind) <<
+          "\"" <<
+          endl;
+  
+      cerr <<
+        idtr <<
+          setw(width) <<
+          "fOnGoingSlur" << " = " << fOnGoingSlur <<
+          endl <<
+        idtr <<
+          setw(width) <<
+          "fOnGoingSlurHasStanza" << " = " << fOnGoingSlurHasStanza <<
+          endl;
+  
+      cerr <<
+        idtr <<
+          setw(width) << "fFirstSyllableInSlurKind" << " = \"" <<
+          fFirstSyllableInSlurKind << // JMI->syllableKindAsString () <<
+          "\"" << endl;
+  
+      cerr <<
+        idtr <<
+          setw(width) << "fCurrentSyllableKind" << " = \""<<
+          fCurrentSyllableKind << // JMI ->syllableKindAsString () <<
+          "\"" << endl;
+          
+      idtr--;
+    }
+    
     idtr--;
   }
 
@@ -6524,6 +6526,7 @@ void xml2MsrTranslator::handleLyric (
       endl;
   }
 
+/* JMI catchup !!!
   // handle notes without any <text/>
   if (! fCurrentText.size ()) {
         
@@ -6575,6 +6578,7 @@ void xml2MsrTranslator::handleLyric (
       
     fCurrentNoteHasStanza = true;
   }
+  */
 
 
   if (fCurrentNoteSyllables.size ()) {
