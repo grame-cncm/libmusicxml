@@ -237,8 +237,8 @@ enum msrPitch {
   k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat, k_gNatural, k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
 enum msrNoteNamesLanguage {
-  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
-  kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
+  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
+  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
   
 /* JMI
 static map<string, msrNoteNamesLanguage> gMsrNoteNamesLanguageMap;
@@ -304,8 +304,8 @@ class EXP msrOptions : public smartable
     map<msrPitch, string> fDeutschPitchName;
     map<msrPitch, string> fEnglishPitchName;
     map<msrPitch, string> fEspanolPitchName;
-    map<msrPitch, string> fItalianoPitchName;
     map<msrPitch, string> fFrancaisPitchName;
+    map<msrPitch, string> fItalianoPitchName;
     map<msrPitch, string> fNorskPitchName;
     map<msrPitch, string> fPortuguesPitchName;
     map<msrPitch, string> fSuomiPitchName;
