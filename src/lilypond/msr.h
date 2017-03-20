@@ -228,13 +228,13 @@ static string alterationKindAsString (
   msrAlterationKind alterationKind);
 
 enum msrPitch {
-  k_aSesquiFlat, k_aFlat, k_aSemiFlat, k_aNatural, k_aSemiSharp, k_aSharp, k_aSesquiSharp,
-  k_bSesquiFlat, k_bFlat, k_bSemiFlat, k_bNatural, k_bih, k_bSharp, k_bSesquiSharp, 
-  k_cSesquiFlat, k_cFlat, k_cSemiFlat, k_cNatural, k_cih, k_cSharp, k_cSesquiSharp,
-  k_dSesquiFlat, k_dFlat, k_dSemiFlat, k_dNatural, k_dih, k_dSharp, k_dSesquiSharp,
-  k_eSesquiFlat, k_eFlat, k_eSemiFlat, k_eNatural, k_eih, k_eSharp, k_eSesquiSharp, 
-  k_fSesquiFlat, k_fFlat, k_fSemiFlat, k_fNatural, k_fih, k_fSharp, k_fSesquiSharp,
-  k_gSesquiFlat, k_gFlat, k_gSemiFlat, k_gNatural, k_gih, k_gSharp, k_gSesquiSharp};
+  k_aDoubleFlat, k_aSesquiFlat, k_aFlat, k_aSemiFlat, k_aNatural, k_aSemiSharp, k_aSharp, k_aSesquiSharp, k_aDoubleSharp,
+  k_bDoubleFlat, k_bSesquiFlat, k_bFlat, k_bSemiFlat, k_bNatural, k_bSemiSharp, k_bSharp, k_bSesquiSharp, k_bDoubleSharp, 
+  k_cDoubleFlat, k_cSesquiFlat, k_cFlat, k_cSemiFlat, k_cNatural, k_cSemiSharp, k_cSharp, k_cSesquiSharp, k_cDoubleSharp,
+  k_dDoubleFlat, k_dSesquiFlat, k_dFlat, k_dSemiFlat, k_dNatural, k_dSemiSharp, k_dSharp, k_dSesquiSharp, k_dDoubleSharp,
+  k_eDoubleFlat, k_eSesquiFlat, k_eFlat, k_eSemiFlat, k_eNatural, k_eSemiSharp, k_eSharp, k_eSesquiSharp, k_eDoubleSharp, 
+  k_fDoubleFlat, k_fSesquiFlat, k_fFlat, k_fSemiFlat, k_fNatural, k_fSemiSharp, k_fSharp, k_fSesquiSharp, k_fDoubleSharp,
+  k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat, k_gNatural, k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
 enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
