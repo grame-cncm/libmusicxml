@@ -108,6 +108,12 @@ void printUsage (int exitStatus)
     "  MSR:" << endl <<
     endl <<
 
+    "    --mnnl, --msrNoteNamesLanguage language" << endl <<
+    "          Use 'language' to display note names in the MSR logs and text views." << endl <<
+    "          'language' can be one of 'nederlands, 'catalan, 'deutsch, " << endl <<
+    "          'english, 'espanol, 'francais, 'italiano, 'norsk', 'portugues," << endl <<
+    "          'suomi', 'svenska' or 'vlaams. Default is 'nederlands'." << endl <<
+    endl <<
     "    --srvn, --staffRelativeVoiceNumbers" << endl <<
     "          Generate voices names with numbers relative to their staff." << endl <<
     "          By default, the voice numbers found are used, " << endl <<
