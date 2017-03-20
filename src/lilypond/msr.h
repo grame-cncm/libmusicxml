@@ -184,18 +184,59 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   assert(false); \
 }
 
-//______________________________________________________________________________
-/*!
-  \brief The LilyPond note names language.
+// data types
+// ------------------------------------------------------
+
+/*
+  The alter element represents chromatic alteration
+  in number of semitones (e.g., -1 for flat, 1 for sharp).
+  Decimal values like 0.5 (quarter tone sharp) are used for microtones.
+
+  The following table lists note names for quarter-tone accidentals
+  in various languages; here the pre- fixes semi- and sesqui-
+  respectively mean ‘half’ and ‘one and a half’.
+  
+  Languages that do not appear in this table do not provide special note names yet.
+  
+  Language    semi-sharp semi-flat sesqui-sharp sesqui-flat
+  --------    ---------- --------- ------------ -----------
+                 +0.5      -0.5        +1.5       -1.5
+  nederlands     -ih       -eh        -isih       -eseh
+
+  We use dutch pitches names for the enumeration below.
+  The following is a series of Cs with increasing pitches:
+    \relative c'' { ceseh ces ceh c cih cis cisih }
+
+  Given the duration of a note and the divisions attribute, a program can usually infer the symbolic note type (e.g. quarter note, dotted-eighth note). However, it is much easier for notation programs if this is represented explicitly, rather than making the program infer the correct symbolic value. In some cases, the intended note duration does not match what is written, be it some of Bach’s dotted notations, notes inégales, or jazz swing rhythms.
+  
+  The type element is used to indicate the symbolic note type, such as quarter, eighth, or 16th. MusicXML symbolic note types range from 256th notes to long notes: 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, and long. The type element may be followed by one or more empty dot elements to indicate dotted notes.
 */
+  
+enum msrDiatonicPitch {
+  // starting at C for LilyPond relative octave calculations
+  kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
+
+static string diatonicPitchAsString (
+  msrDiatonicPitch diatonicPitch);
+  
+enum msrAlterationKind {
+  kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
+  kNatural,
+  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
+
+static string alterationKindAsString (
+  msrAlterationKind alterationKind);
+      
 enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
   
+/* JMI
 static map<string, msrNoteNamesLanguage> gMsrNoteNamesLanguageMap;
 
 void initializeMsrNoteNamesLanguage ();
 msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
+*/
 
 //______________________________________________________________________________
 /*!
@@ -248,6 +289,12 @@ class EXP msrOptions : public smartable
 
     map<string, msrNoteNamesLanguage>
                           fNoteNamesLanguageMap;
+
+    map<pair<msrNoteNamesLanguage, msrDiatonicPitch>, string >
+                          fNoteNameInLanguage;
+
+    map<pair<msrNoteNamesLanguage, msrAlterationKind>, string >
+                          fNoteAccidentalInLanguage;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

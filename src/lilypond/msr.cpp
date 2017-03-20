@@ -45,6 +45,234 @@ msrOptions::msrOptions ()
   fNoteNamesLanguageMap ["suomi"]     = kSuomi;
   fNoteNamesLanguageMap ["svenska"]   = kSvenska;
   fNoteNamesLanguageMap ["vlaams"]    = kVlaams;
+
+
+  fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kNederlands, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kNederlands, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kNederlands, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kNederlands, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kNederlands, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kNederlands, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kCatalan, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kCatalan, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kCatalan, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kCatalan, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kCatalan, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kCatalan, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kCatalan, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kDeutsch, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kDeutsch, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kDeutsch, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kDeutsch, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kDeutsch, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kDeutsch, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kDeutsch, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kEnglish, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kEnglish, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kEnglish, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kEnglish, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kEnglish, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kEnglish, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kEnglish, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kEspanol, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kEspanol, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kEspanol, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kEspanol, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kEspanol, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kEspanol, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kEspanol, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kItaliano, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kItaliano, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kItaliano, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kItaliano, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kItaliano, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kItaliano, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kItaliano, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kFrancais, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kFrancais, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kFrancais, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kFrancais, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kFrancais, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kFrancais, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kFrancais, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kNorsk, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kNorsk, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kNorsk, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kNorsk, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kNorsk, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kNorsk, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kNorsk, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kPortugues, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kPortugues, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kPortugues, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kPortugues, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kPortugues, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kPortugues, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kPortugues, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kSuomi, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kSuomi, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kSuomi, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kSuomi, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kSuomi, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kSuomi, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kSuomi, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kSvenska, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kSvenska, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kSvenska, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kSvenska, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kSvenska, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kSvenska, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kSvenska, kG)] = "g";
+
+  fNoteNameInLanguage [make_pair (kVlaams, kA)] = "a";
+  fNoteNameInLanguage [make_pair (kVlaams, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kVlaams, kC)] = "c";
+  fNoteNameInLanguage [make_pair (kVlaams, kD)] = "d";
+  fNoteNameInLanguage [make_pair (kVlaams, kE)] = "e";
+  fNoteNameInLanguage [make_pair (kVlaams, kF)] = "f";
+  fNoteNameInLanguage [make_pair (kVlaams, kG)] = "g";
+
+  
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kNederlands, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kCatalan, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kDeutsch, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kEnglish, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kEspanol, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kItaliano, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kFrancais, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kNorsk, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kPortugues, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kSuomi, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kSvenska, kDoubleSharp)] = "isis";
+
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kDoubleFlat)]  = "eses";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kSesquiFlat)]  = "eseh";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kFlat)]        = "es";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kSemiFlat)]    = "eh";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kNatural)]     = "";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kSemiSharp)]   = "ih";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kSharp)]       = "is";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kSesquiSharp)] = "isih";
+  fNoteAccidentalInLanguage [make_pair (kVlaams, kDoubleSharp)] = "isis";
 }
 
 msrOptions::~msrOptions () {}
