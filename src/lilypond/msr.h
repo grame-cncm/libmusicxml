@@ -184,7 +184,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   assert(false); \
 }
 
-// data types
+// notes names languages
 // ------------------------------------------------------
 
 /*
@@ -216,7 +216,7 @@ enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
 
-static string diatonicPitchAsString (
+extern string diatonicPitchAsString (
   msrDiatonicPitch diatonicPitch);
   
 enum msrAlterationKind {
@@ -224,10 +224,11 @@ enum msrAlterationKind {
   kNatural,
   kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
-static string alterationKindAsString (
+extern string alterationKindAsString (
   msrAlterationKind alterationKind);
 
 enum msrPitch {
+  k_NoPitch,
   k_aDoubleFlat, k_aSesquiFlat, k_aFlat, k_aSemiFlat, k_aNatural, k_aSemiSharp, k_aSharp, k_aSesquiSharp, k_aDoubleSharp,
   k_bDoubleFlat, k_bSesquiFlat, k_bFlat, k_bSemiFlat, k_bNatural, k_bSemiSharp, k_bSharp, k_bSesquiSharp, k_bDoubleSharp, 
   k_cDoubleFlat, k_cSesquiFlat, k_cFlat, k_cSemiFlat, k_cNatural, k_cSemiSharp, k_cSharp, k_cSesquiSharp, k_cDoubleSharp,
@@ -240,12 +241,27 @@ enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
   
-/* JMI
-static map<string, msrNoteNamesLanguage> gMsrNoteNamesLanguageMap;
+extern map<string, msrNoteNamesLanguage>
+  gNoteNamesLanguagesMap;
+
+extern map<msrPitch, string> gNederlandsPitchName;
+extern map<msrPitch, string> gCatalanPitchName;
+extern map<msrPitch, string> gDeutschPitchName;
+extern map<msrPitch, string> gEnglishPitchName;
+extern map<msrPitch, string> gEspanolPitchName;
+extern map<msrPitch, string> gFrancaisPitchName;
+extern map<msrPitch, string> gItalianoPitchName;
+extern map<msrPitch, string> gNorskPitchName;
+extern map<msrPitch, string> gPortuguesPitchName;
+extern map<msrPitch, string> gSuomiPitchName;
+extern map<msrPitch, string> gSvenskaPitchName;
+extern map<msrPitch, string> gVlaamsPitchName;
+
+extern string msrPitchAsString (
+  msrNoteNamesLanguage noteNamesLanguage,
+  msrPitch             pitch);
 
 void initializeMsrNoteNamesLanguage ();
-msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
-*/
 
 //______________________________________________________________________________
 /*!
@@ -296,27 +312,6 @@ class EXP msrOptions : public smartable
 
   private:
 
-    map<string, msrNoteNamesLanguage>
-                          fNoteNamesLanguageMap;
-
-    map<msrPitch, string> fNederlandsPitchName;
-    map<msrPitch, string> fCatalanPitchName;
-    map<msrPitch, string> fDeutschPitchName;
-    map<msrPitch, string> fEnglishPitchName;
-    map<msrPitch, string> fEspanolPitchName;
-    map<msrPitch, string> fFrancaisPitchName;
-    map<msrPitch, string> fItalianoPitchName;
-    map<msrPitch, string> fNorskPitchName;
-    map<msrPitch, string> fPortuguesPitchName;
-    map<msrPitch, string> fSuomiPitchName;
-    map<msrPitch, string> fSvenskaPitchName;
-    map<msrPitch, string> fVlaamsPitchName;
-
-    map<pair<msrNoteNamesLanguage, msrDiatonicPitch>, string >
-                          fNoteNameInLanguage;
-
-    map<pair<msrNoteNamesLanguage, msrAlterationKind>, string >
-                          fNoteAccidentalInLanguage;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 
@@ -477,8 +472,14 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
     // initialisation
     // ------------------------------------------------------
 
-    void          init ();
+    void              init ();
     
+    // set and get
+    // ------------------------------------------------------
+
+    msrPitch          getNotePitch () const
+                          { return fNotePitch; }
+
   public:
 
     // services
@@ -500,7 +501,7 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
     // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
     msrDiatonicPitch          fDiatonicPitch;
     msrAlterationKind         fAlteration;
-                          
+    
     int                       fOctave;
 
     // MusicXML durations are in divisions per quarter note.
@@ -524,6 +525,10 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
                     
     int                       fVoiceNumber;
     int                       fStaffNumber;
+
+  private:
+
+    msrPitch                  fNotePitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 
