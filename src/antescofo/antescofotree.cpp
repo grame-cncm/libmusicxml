@@ -11,6 +11,7 @@
 
 
 #include <sstream>
+
 #include "antescofotree.h"
 
 using namespace std;
