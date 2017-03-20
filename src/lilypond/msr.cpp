@@ -46,7 +46,7 @@ msrOptions::msrOptions ()
   fNoteNamesLanguageMap ["svenska"]   = kSvenska;
   fNoteNamesLanguageMap ["vlaams"]    = kVlaams;
 
-
+  // nederlands
   fNederlandsPitchName [k_aeseh] = "aeseh";
   fNederlandsPitchName [k_aes]   = "aes";
   fNederlandsPitchName [k_aeh]   = "aeh";
@@ -103,64 +103,292 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_gis]   = "gis";
   fNederlandsPitchName [k_gisih] = "gisih";
 
- 
-  fCatalanPitchName [k_aeseh] = "aeseh";
-  fCatalanPitchName [k_aes]   = "aes";
+  // catalan
+  fCatalanPitchName [k_aeseh] = "labb";
+  fCatalanPitchName [k_aes]   = "lab";
   fCatalanPitchName [k_aeh]   = "aeh";
-  fCatalanPitchName [k_a]     = "a";
+  fCatalanPitchName [k_a]     = "la";
   fCatalanPitchName [k_aih]   = "aih";
-  fCatalanPitchName [k_ais]   = "ais";
-  fCatalanPitchName [k_aisih] = "aisih";
+  fCatalanPitchName [k_ais]   = "lad";
+  fCatalanPitchName [k_aisih] = "ladd";
     
-  fCatalanPitchName [k_beseh] = "beseh";
-  fCatalanPitchName [k_bes]   = "bes";
+  fCatalanPitchName [k_beseh] = "sibb";
+  fCatalanPitchName [k_bes]   = "sib";
   fCatalanPitchName [k_beh]   = "beh";
   fCatalanPitchName [k_b]     = "b";
   fCatalanPitchName [k_bih]   = "bih";
-  fCatalanPitchName [k_bis]   = "bis";
-  fCatalanPitchName [k_bisih] = "bisih";
+  fCatalanPitchName [k_bis]   = "sid";
+  fCatalanPitchName [k_bisih] = "sidd";
     
-  fCatalanPitchName [k_ceseh] = "ceseh";
-  fCatalanPitchName [k_ces]   = "ces";
+  fCatalanPitchName [k_ceseh] = "dobb";
+  fCatalanPitchName [k_ces]   = "dob";
   fCatalanPitchName [k_ceh]   = "ceh";
-  fCatalanPitchName [k_c]     = "c";
+  fCatalanPitchName [k_c]     = "do";
   fCatalanPitchName [k_cih]   = "cih";
-  fNederlandsPitchName [k_cis]   = "cis";
-  fCatalanPitchName [k_cisih] = "cisih";
+  fCatalanPitchName [k_cis]   = "dod";
+  fCatalanPitchName [k_cisih] = "dodd";
     
-  fCatalanPitchName [k_deseh] = "deseh";
-  fCatalanPitchName [k_des]   = "des";
+  fCatalanPitchName [k_deseh] = "rebb";
+  fCatalanPitchName [k_des]   = "reb";
   fCatalanPitchName [k_deh]   = "deh";
-  fCatalanPitchName [k_d]     = "d";
+  fCatalanPitchName [k_d]     = "re";
   fCatalanPitchName [k_dih]   = "dih";
-  fCatalanPitchName [k_dis]   = "dis";
-  fCatalanPitchName [k_disih] = "disih";
+  fCatalanPitchName [k_dis]   = "red";
+  fCatalanPitchName [k_disih] = "redd";
 
-  fCatalanPitchName [k_eeseh] = "eeseh";
-  fCatalanPitchName [k_ees]   = "ees";
+  fCatalanPitchName [k_eeseh] = "mibb";
+  fCatalanPitchName [k_ees]   = "mib";
   fCatalanPitchName [k_eeh]   = "eeh";
-  fCatalanPitchName [k_e]     = "e";
+  fCatalanPitchName [k_e]     = "mi";
   fCatalanPitchName [k_eih]   = "eih";
-  fCatalanPitchName [k_eis]   = "eis";
-  fCatalanPitchName [k_eisih] = "eisih";
+  fCatalanPitchName [k_eis]   = "mid";
+  fCatalanPitchName [k_eisih] = "midd";
     
-  fCatalanPitchName [k_feseh] = "feseh";
-  fCatalanPitchName [k_fes]   = "fes";
+  fCatalanPitchName [k_feseh] = "fabb";
+  fCatalanPitchName [k_fes]   = "fab";
   fCatalanPitchName [k_feh]   = "feh";
-  fCatalanPitchName [k_f_]    = "f";
+  fCatalanPitchName [k_f_]    = "fa";
   fCatalanPitchName [k_fih]   = "fih";
-  fCatalanPitchName [k_fis]   = "fis";
-  fCatalanPitchName [k_fisih] = "fisih";
+  fCatalanPitchName [k_fis]   = "fad";
+  fCatalanPitchName [k_fisih] = "fadd";
     
-  fCatalanPitchName [k_geseh] = "geseh";
-  fCatalanPitchName [k_ges]   = "ges";
+  fCatalanPitchName [k_geseh] = "solbb";
+  fCatalanPitchName [k_ges]   = "solb";
   fCatalanPitchName [k_geh]   = "geh";
-  fCatalanPitchName [k_g]     = "g";
+  fCatalanPitchName [k_g]     = "sol";
   fCatalanPitchName [k_gih]   = "gih";
-  fCatalanPitchName [k_gis]   = "gis";
-  fCatalanPitchName [k_gisih] = "gisih";
+  fCatalanPitchName [k_gis]   = "sold";
+  fCatalanPitchName [k_gisih] = "soldd";
 
- 
+  // deutsch
+  fDeutschPitchName [k_aeseh] = "aeseh";
+  fDeutschPitchName [k_aes]   = "aes";
+  fDeutschPitchName [k_aeh]   = "aeh";
+  fDeutschPitchName [k_a]     = "a";
+  fDeutschPitchName [k_aih]   = "aih";
+  fDeutschPitchName [k_ais]   = "ais";
+  fDeutschPitchName [k_aisih] = "aisih";
+    
+  fDeutschPitchName [k_beseh] = "beseh";
+  fDeutschPitchName [k_bes]   = "b";
+  fDeutschPitchName [k_beh]   = "beh";
+  fDeutschPitchName [k_b]     = "h";
+  fDeutschPitchName [k_bih]   = "bih";
+  fDeutschPitchName [k_bis]   = "bis";
+  fDeutschPitchName [k_bisih] = "bisih";
+    
+  fDeutschPitchName [k_ceseh] = "ceseh";
+  fDeutschPitchName [k_ces]   = "ces";
+  fDeutschPitchName [k_ceh]   = "ceh";
+  fDeutschPitchName [k_c]     = "c";
+  fDeutschPitchName [k_cih]   = "cih";
+  fDeutschPitchName [k_cis]   = "cis";
+  fDeutschPitchName [k_cisih] = "cisih";
+    
+  fDeutschPitchName [k_deseh] = "deseh";
+  fDeutschPitchName [k_des]   = "des";
+  fDeutschPitchName [k_deh]   = "deh";
+  fDeutschPitchName [k_d]     = "d";
+  fDeutschPitchName [k_dih]   = "dih";
+  fDeutschPitchName [k_dis]   = "dis";
+  fDeutschPitchName [k_disih] = "disih";
+
+  fDeutschPitchName [k_eeseh] = "eeseh";
+  fDeutschPitchName [k_ees]   = "ees";
+  fDeutschPitchName [k_eeh]   = "eeh";
+  fDeutschPitchName [k_e]     = "e";
+  fDeutschPitchName [k_eih]   = "eih";
+  fDeutschPitchName [k_eis]   = "eis";
+  fDeutschPitchName [k_eisih] = "eisih";
+    
+  fDeutschPitchName [k_feseh] = "feseh";
+  fDeutschPitchName [k_fes]   = "fes";
+  fDeutschPitchName [k_feh]   = "feh";
+  fDeutschPitchName [k_f_]    = "f";
+  fDeutschPitchName [k_fih]   = "fih";
+  fDeutschPitchName [k_fis]   = "fis";
+  fDeutschPitchName [k_fisih] = "fisih";
+    
+  fDeutschPitchName [k_geseh] = "geseh";
+  fDeutschPitchName [k_ges]   = "ges";
+  fDeutschPitchName [k_geh]   = "geh";
+  fDeutschPitchName [k_g]     = "g";
+  fDeutschPitchName [k_gih]   = "gih";
+  fDeutschPitchName [k_gis]   = "gis";
+  fDeutschPitchName [k_gisih] = "gisih";
+
+  // english
+  fEnglishPitchName [k_aeseh] = "afqf";
+  fEnglishPitchName [k_aes]   = "af";
+  fEnglishPitchName [k_aeh]   = "aqf";
+  fEnglishPitchName [k_a]     = "a";
+  fEnglishPitchName [k_aih]   = "aqs";
+  fEnglishPitchName [k_ais]   = "as";
+  fEnglishPitchName [k_aisih] = "asqs";
+    
+  fEnglishPitchName [k_beseh] = "bfqf";
+  fEnglishPitchName [k_bes]   = "bf";
+  fEnglishPitchName [k_beh]   = "bqf";
+  fEnglishPitchName [k_b]     = "b";
+  fEnglishPitchName [k_bih]   = "bqs";
+  fEnglishPitchName [k_bis]   = "bs";
+  fEnglishPitchName [k_bisih] = "bsqs";
+    
+  fEnglishPitchName [k_ceseh] = "cfqf";
+  fEnglishPitchName [k_ces]   = "cf";
+  fEnglishPitchName [k_ceh]   = "cqf";
+  fEnglishPitchName [k_c]     = "c";
+  fEnglishPitchName [k_cih]   = "cqs";
+  fEnglishPitchName [k_cis]   = "cs";
+  fEnglishPitchName [k_cisih] = "csqs";
+    
+  fEnglishPitchName [k_deseh] = "dfqf";
+  fEnglishPitchName [k_des]   = "df";
+  fEnglishPitchName [k_deh]   = "dqf";
+  fEnglishPitchName [k_d]     = "d";
+  fEnglishPitchName [k_dih]   = "dqs";
+  fEnglishPitchName [k_dis]   = "ds";
+  fEnglishPitchName [k_disih] = "dsqs";
+
+  fEnglishPitchName [k_eeseh] = "efqf";
+  fEnglishPitchName [k_ees]   = "ef";
+  fEnglishPitchName [k_eeh]   = "eqf";
+  fEnglishPitchName [k_e]     = "e";
+  fEnglishPitchName [k_eih]   = "eqs";
+  fEnglishPitchName [k_eis]   = "es";
+  fEnglishPitchName [k_eisih] = "esqs";
+    
+  fEnglishPitchName [k_feseh] = "ffqf";
+  fEnglishPitchName [k_fes]   = "ff";
+  fEnglishPitchName [k_feh]   = "fqf";
+  fEnglishPitchName [k_f_]    = "f";
+  fEnglishPitchName [k_fih]   = "fqs";
+  fEnglishPitchName [k_fis]   = "fs";
+  fEnglishPitchName [k_fisih] = "fsqs";
+    
+  fEnglishPitchName [k_geseh] = "gfqf";
+  fEnglishPitchName [k_ges]   = "gf";
+  fEnglishPitchName [k_geh]   = "gqf";
+  fEnglishPitchName [k_g]     = "g";
+  fEnglishPitchName [k_gih]   = "gqs";
+  fEnglishPitchName [k_gis]   = "gs";
+  fEnglishPitchName [k_gisih] = "gsqs";
+
+  // espanol
+  fEspanolPitchName [k_aeseh] = "labb";
+  fEspanolPitchName [k_aes]   = "lab";
+  fEspanolPitchName [k_aeh]   = "lacb";
+  fEspanolPitchName [k_a]     = "la";
+  fEspanolPitchName [k_aih]   = "lacs";
+  fEspanolPitchName [k_ais]   = "lad";
+  fEspanolPitchName [k_aisih] = "ladd";
+    
+  fEspanolPitchName [k_beseh] = "sibb";
+  fEspanolPitchName [k_bes]   = "sib";
+  fEspanolPitchName [k_beh]   = "sicb";
+  fEspanolPitchName [k_b]     = "si";
+  fEspanolPitchName [k_bih]   = "sics";
+  fEspanolPitchName [k_bis]   = "sid";
+  fEspanolPitchName [k_bisih] = "sidd";
+    
+  fEspanolPitchName [k_ceseh] = "dobb";
+  fEspanolPitchName [k_ces]   = "dob";
+  fEspanolPitchName [k_ceh]   = "docb";
+  fEspanolPitchName [k_c]     = "do";
+  fEspanolPitchName [k_cih]   = "docs";
+  fEspanolPitchName [k_cis]   = "dod";
+  fEspanolPitchName [k_cisih] = "dodd";
+    
+  fEspanolPitchName [k_deseh] = "rebb";
+  fEspanolPitchName [k_des]   = "reb";
+  fEspanolPitchName [k_deh]   = "recb";
+  fEspanolPitchName [k_d]     = "re";
+  fEspanolPitchName [k_dih]   = "recs";
+  fEspanolPitchName [k_dis]   = "red";
+  fEspanolPitchName [k_disih] = "redd";
+
+  fEspanolPitchName [k_eeseh] = "mibb";
+  fEspanolPitchName [k_ees]   = "mib";
+  fEspanolPitchName [k_eeh]   = "micb";
+  fEspanolPitchName [k_e]     = "mi";
+  fEspanolPitchName [k_eih]   = "mics";
+  fEspanolPitchName [k_eis]   = "mid";
+  fEspanolPitchName [k_eisih] = "midd";
+    
+  fEspanolPitchName [k_feseh] = "fabb";
+  fEspanolPitchName [k_fes]   = "fab";
+  fEspanolPitchName [k_feh]   = "facb";
+  fEspanolPitchName [k_f_]    = "fa";
+  fEspanolPitchName [k_fih]   = "facs";
+  fEspanolPitchName [k_fis]   = "fad";
+  fEspanolPitchName [k_fisih] = "fadd";
+    
+  fEspanolPitchName [k_geseh] = "solbb";
+  fEspanolPitchName [k_ges]   = "solb";
+  fEspanolPitchName [k_geh]   = "solcb";
+  fEspanolPitchName [k_g]     = "sol";
+  fEspanolPitchName [k_gih]   = "solcs";
+  fEspanolPitchName [k_gis]   = "sold";
+  fEspanolPitchName [k_gisih] = "soldd";
+
+  // francais
+  fFrancaisPitchName [k_aeseh] = "labb";
+  fFrancaisPitchName [k_aes]   = "lab";
+  fFrancaisPitchName [k_aeh]   = "lacb";
+  fFrancaisPitchName [k_a]     = "la";
+  fFrancaisPitchName [k_aih]   = "lacs";
+  fFrancaisPitchName [k_ais]   = "lad";
+  fFrancaisPitchName [k_aisih] = "ladd";
+    
+  fFrancaisPitchName [k_beseh] = "sibb";
+  fFrancaisPitchName [k_bes]   = "sib";
+  fFrancaisPitchName [k_beh]   = "sicb";
+  fFrancaisPitchName [k_b]     = "si";
+  fFrancaisPitchName [k_bih]   = "sics";
+  fFrancaisPitchName [k_bis]   = "sid";
+  fFrancaisPitchName [k_bisih] = "sidd";
+    
+  fFrancaisPitchName [k_ceseh] = "dobb";
+  fFrancaisPitchName [k_ces]   = "dob";
+  fFrancaisPitchName [k_ceh]   = "docb";
+  fFrancaisPitchName [k_c]     = "do";
+  fFrancaisPitchName [k_cih]   = "docs";
+  fFrancaisPitchName [k_cis]   = "dod";
+  fFrancaisPitchName [k_cisih] = "dodd";
+    
+  fFrancaisPitchName [k_deseh] = "rebb";
+  fFrancaisPitchName [k_des]   = "reb";
+  fFrancaisPitchName [k_deh]   = "recb";
+  fFrancaisPitchName [k_d]     = "re";
+  fFrancaisPitchName [k_dih]   = "recs";
+  fFrancaisPitchName [k_dis]   = "red";
+  fFrancaisPitchName [k_disih] = "redd";
+
+  fFrancaisPitchName [k_eeseh] = "mibb";
+  fFrancaisPitchName [k_ees]   = "mib";
+  fFrancaisPitchName [k_eeh]   = "micb";
+  fFrancaisPitchName [k_e]     = "mi";
+  fFrancaisPitchName [k_eih]   = "mics";
+  fFrancaisPitchName [k_eis]   = "mid";
+  fFrancaisPitchName [k_eisih] = "midd";
+    
+  fFrancaisPitchName [k_feseh] = "fabb";
+  fFrancaisPitchName [k_fes]   = "fab";
+  fFrancaisPitchName [k_feh]   = "facb";
+  fFrancaisPitchName [k_f_]    = "fa";
+  fFrancaisPitchName [k_fih]   = "facs";
+  fFrancaisPitchName [k_fis]   = "fad";
+  fFrancaisPitchName [k_fisih] = "fadd";
+    
+  fFrancaisPitchName [k_geseh] = "solbb";
+  fFrancaisPitchName [k_ges]   = "solb";
+  fFrancaisPitchName [k_geh]   = "solcb";
+  fFrancaisPitchName [k_g]     = "sol";
+  fFrancaisPitchName [k_gih]   = "solcs";
+  fFrancaisPitchName [k_gis]   = "sold";
+  fFrancaisPitchName [k_gisih] = "soldd";
+
+
   fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
   fNoteNameInLanguage [make_pair (kNederlands, kB)] = "b";
   fNoteNameInLanguage [make_pair (kNederlands, kC)] = "c";
