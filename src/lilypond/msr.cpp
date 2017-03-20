@@ -47,6 +47,69 @@ msrOptions::msrOptions ()
   fNoteNamesLanguageMap ["vlaams"]    = kVlaams;
 
 
+  /*
+    switch (fNoteMsrPitch) {
+      
+      case k_aeseh: s << "aeseh"; break;
+      case k_aes:   s << "aes"; break;
+      case k_aeh:   s << "aeh"; break;
+      case k_a:     s << "a"; break;
+      case k_aih:   s << "aih"; break;
+      case k_ais:   s << "ais"; break;
+      case k_aisih: s << "aisih"; break;
+        
+      case k_beseh: s << "beseh"; break;
+      case k_bes:   s << "bes"; break;
+      case k_beh:   s << "beh"; break;
+      case k_b:     s << "b"; break;
+      case k_bih:   s << "bih"; break;
+      case k_bis:   s << "bis"; break;
+      case k_bisih: s << "bisih"; break;
+        
+      case k_ceseh: s << "ceseh"; break;
+      case k_ces:   s << "ces"; break;
+      case k_ceh:   s << "ceh"; break;
+      case k_c:     s << "c"; break;
+      case k_cih:   s << "cih"; break;
+      case k_cis:   s << "cis"; break;
+      case k_cisih: s << "cisih"; break;
+        
+      case k_deseh: s << "deseh"; break;
+      case k_des:   s << "des"; break;
+      case k_deh:   s << "deh"; break;
+      case k_d:     s << "d"; break;
+      case k_dih:   s << "dih"; break;
+      case k_dis:   s << "dis"; break;
+      case k_disih: s << "disih"; break;
+  
+      case k_eeseh: s << "eeseh"; break;
+      case k_ees:   s << "ees"; break;
+      case k_eeh:   s << "eeh"; break;
+      case k_e:     s << "e"; break;
+      case k_eih:   s << "eih"; break;
+      case k_eis:   s << "eis"; break;
+      case k_eisih: s << "eisih"; break;
+        
+      case k_feseh: s << "feseh"; break;
+      case k_fes:   s << "fes"; break;
+      case k_feh:   s << "feh"; break;
+      case k_f:     s << "f"; break;
+      case k_fih:   s << "fih"; break;
+      case k_fis:   s << "fis"; break;
+      case k_fisih: s << "fisih"; break;
+        
+      case k_geseh: s << "geseh"; break;
+      case k_ges:   s << "ges"; break;
+      case k_geh:   s << "geh"; break;
+      case k_g:     s << "g"; break;
+      case k_gih:   s << "gih"; break;
+      case k_gis:   s << "gis"; break;
+      case k_gisih: s << "gisih"; break;
+      
+      default: s << "Note" << fNoteMsrPitch << "???";
+    } // switch
+    */
+
   fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
   fNoteNameInLanguage [make_pair (kNederlands, kB)] = "b";
   fNoteNameInLanguage [make_pair (kNederlands, kC)] = "c";
@@ -55,16 +118,16 @@ msrOptions::msrOptions ()
   fNoteNameInLanguage [make_pair (kNederlands, kF)] = "f";
   fNoteNameInLanguage [make_pair (kNederlands, kG)] = "g";
 
-  fNoteNameInLanguage [make_pair (kCatalan, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kCatalan, kB)] = "b";
-  fNoteNameInLanguage [make_pair (kCatalan, kC)] = "c";
-  fNoteNameInLanguage [make_pair (kCatalan, kD)] = "d";
-  fNoteNameInLanguage [make_pair (kCatalan, kE)] = "e";
-  fNoteNameInLanguage [make_pair (kCatalan, kF)] = "f";
-  fNoteNameInLanguage [make_pair (kCatalan, kG)] = "g";
+  fNoteNameInLanguage [make_pair (kCatalan, kA)] = "la";
+  fNoteNameInLanguage [make_pair (kCatalan, kB)] = "si";
+  fNoteNameInLanguage [make_pair (kCatalan, kC)] = "do";
+  fNoteNameInLanguage [make_pair (kCatalan, kD)] = "re";
+  fNoteNameInLanguage [make_pair (kCatalan, kE)] = "mi";
+  fNoteNameInLanguage [make_pair (kCatalan, kF)] = "fa";
+  fNoteNameInLanguage [make_pair (kCatalan, kG)] = "sol";
 
   fNoteNameInLanguage [make_pair (kDeutsch, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kDeutsch, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kDeutsch, kB)] = "h";
   fNoteNameInLanguage [make_pair (kDeutsch, kC)] = "c";
   fNoteNameInLanguage [make_pair (kDeutsch, kD)] = "d";
   fNoteNameInLanguage [make_pair (kDeutsch, kE)] = "e";
@@ -79,48 +142,49 @@ msrOptions::msrOptions ()
   fNoteNameInLanguage [make_pair (kEnglish, kF)] = "f";
   fNoteNameInLanguage [make_pair (kEnglish, kG)] = "g";
 
-  fNoteNameInLanguage [make_pair (kEspanol, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kEspanol, kB)] = "b";
-  fNoteNameInLanguage [make_pair (kEspanol, kC)] = "c";
-  fNoteNameInLanguage [make_pair (kEspanol, kD)] = "d";
-  fNoteNameInLanguage [make_pair (kEspanol, kE)] = "e";
-  fNoteNameInLanguage [make_pair (kEspanol, kF)] = "f";
-  fNoteNameInLanguage [make_pair (kEspanol, kG)] = "g";
-
-  fNoteNameInLanguage [make_pair (kItaliano, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kItaliano, kB)] = "b";
-  fNoteNameInLanguage [make_pair (kItaliano, kC)] = "c";
-  fNoteNameInLanguage [make_pair (kItaliano, kD)] = "d";
-  fNoteNameInLanguage [make_pair (kItaliano, kE)] = "e";
-  fNoteNameInLanguage [make_pair (kItaliano, kF)] = "f";
-  fNoteNameInLanguage [make_pair (kItaliano, kG)] = "g";
-
-  fNoteNameInLanguage [make_pair (kFrancais, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kFrancais, kB)] = "b";
-  fNoteNameInLanguage [make_pair (kFrancais, kC)] = "c";
-  fNoteNameInLanguage [make_pair (kFrancais, kD)] = "d";
-  fNoteNameInLanguage [make_pair (kFrancais, kE)] = "e";
-  fNoteNameInLanguage [make_pair (kFrancais, kF)] = "f";
-  fNoteNameInLanguage [make_pair (kFrancais, kG)] = "g";
+  fNoteNameInLanguage [make_pair (kEspanol, kA)] = "la";
+  fNoteNameInLanguage [make_pair (kEspanol, kB)] = "si";
+  fNoteNameInLanguage [make_pair (kEspanol, kC)] = "do";
+  fNoteNameInLanguage [make_pair (kEspanol, kD)] = "re";
+  fNoteNameInLanguage [make_pair (kEspanol, kE)] = "mi";
+  fNoteNameInLanguage [make_pair (kEspanol, kF)] = "fa";
+  fNoteNameInLanguage [make_pair (kEspanol, kG)] = "sol";
+  
+  fNoteNameInLanguage [make_pair (kItaliano, kA)] = "la";
+  fNoteNameInLanguage [make_pair (kItaliano, kB)] = "si";
+  fNoteNameInLanguage [make_pair (kItaliano, kC)] = "do";
+  fNoteNameInLanguage [make_pair (kItaliano, kD)] = "re";
+  fNoteNameInLanguage [make_pair (kItaliano, kE)] = "mi";
+  fNoteNameInLanguage [make_pair (kItaliano, kF)] = "fa";
+  fNoteNameInLanguage [make_pair (kItaliano, kG)] = "sol";
+  
+  fNoteNameInLanguage [make_pair (kFrancais, kA)] = "la";
+  fNoteNameInLanguage [make_pair (kFrancais, kB)] = "si";
+  fNoteNameInLanguage [make_pair (kFrancais, kC)] = "do";
+  fNoteNameInLanguage [make_pair (kFrancais, kD)] = "re";
+  fNoteNameInLanguage [make_pair (kFrancais, kE)] = "mi";
+  fNoteNameInLanguage [make_pair (kFrancais, kF)] = "fa";
+  fNoteNameInLanguage [make_pair (kFrancais, kG)] = "sol";
 
   fNoteNameInLanguage [make_pair (kNorsk, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kNorsk, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kNorsk, kB)] = "h";
   fNoteNameInLanguage [make_pair (kNorsk, kC)] = "c";
   fNoteNameInLanguage [make_pair (kNorsk, kD)] = "d";
   fNoteNameInLanguage [make_pair (kNorsk, kE)] = "e";
   fNoteNameInLanguage [make_pair (kNorsk, kF)] = "f";
   fNoteNameInLanguage [make_pair (kNorsk, kG)] = "g";
 
-  fNoteNameInLanguage [make_pair (kPortugues, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kPortugues, kB)] = "b";
-  fNoteNameInLanguage [make_pair (kPortugues, kC)] = "c";
-  fNoteNameInLanguage [make_pair (kPortugues, kD)] = "d";
-  fNoteNameInLanguage [make_pair (kPortugues, kE)] = "e";
-  fNoteNameInLanguage [make_pair (kPortugues, kF)] = "f";
-  fNoteNameInLanguage [make_pair (kPortugues, kG)] = "g";
+  fNoteNameInLanguage [make_pair (kPortugues, kA)] = "la";
+  fNoteNameInLanguage [make_pair (kPortugues, kB)] = "si";
+  fNoteNameInLanguage [make_pair (kPortugues, kC)] = "do";
+  fNoteNameInLanguage [make_pair (kPortugues, kD)] = "re";
+  fNoteNameInLanguage [make_pair (kPortugues, kE)] = "mi";
+  fNoteNameInLanguage [make_pair (kPortugues, kF)] = "fa";
+  fNoteNameInLanguage [make_pair (kPortugues, kG)] = "sol";
+
 
   fNoteNameInLanguage [make_pair (kSuomi, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kSuomi, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kSuomi, kB)] = "h";
   fNoteNameInLanguage [make_pair (kSuomi, kC)] = "c";
   fNoteNameInLanguage [make_pair (kSuomi, kD)] = "d";
   fNoteNameInLanguage [make_pair (kSuomi, kE)] = "e";
@@ -128,20 +192,20 @@ msrOptions::msrOptions ()
   fNoteNameInLanguage [make_pair (kSuomi, kG)] = "g";
 
   fNoteNameInLanguage [make_pair (kSvenska, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kSvenska, kB)] = "b";
+  fNoteNameInLanguage [make_pair (kSvenska, kB)] = "h";
   fNoteNameInLanguage [make_pair (kSvenska, kC)] = "c";
   fNoteNameInLanguage [make_pair (kSvenska, kD)] = "d";
   fNoteNameInLanguage [make_pair (kSvenska, kE)] = "e";
   fNoteNameInLanguage [make_pair (kSvenska, kF)] = "f";
   fNoteNameInLanguage [make_pair (kSvenska, kG)] = "g";
 
-  fNoteNameInLanguage [make_pair (kVlaams, kA)] = "a";
-  fNoteNameInLanguage [make_pair (kVlaams, kB)] = "b";
-  fNoteNameInLanguage [make_pair (kVlaams, kC)] = "c";
-  fNoteNameInLanguage [make_pair (kVlaams, kD)] = "d";
-  fNoteNameInLanguage [make_pair (kVlaams, kE)] = "e";
-  fNoteNameInLanguage [make_pair (kVlaams, kF)] = "f";
-  fNoteNameInLanguage [make_pair (kVlaams, kG)] = "g";
+  fNoteNameInLanguage [make_pair (kVlaams, kA)] = "la";
+  fNoteNameInLanguage [make_pair (kVlaams, kB)] = "si";
+  fNoteNameInLanguage [make_pair (kVlaams, kC)] = "do";
+  fNoteNameInLanguage [make_pair (kVlaams, kD)] = "re";
+  fNoteNameInLanguage [make_pair (kVlaams, kE)] = "mi";
+  fNoteNameInLanguage [make_pair (kVlaams, kF)] = "fa";
+  fNoteNameInLanguage [make_pair (kVlaams, kG)] = "sol";
 
   
   fNoteAccidentalInLanguage [make_pair (kNederlands, kDoubleFlat)]  = "eses";
@@ -15294,67 +15358,3 @@ void msrMidi::print (ostream& os)
 
 
 }
-
-  /*
-    switch (fNoteMsrPitch) {
-      
-      case k_aeseh: s << "aeseh"; break;
-      case k_aes:   s << "aes"; break;
-      case k_aeh:   s << "aeh"; break;
-      case k_a:     s << "a"; break;
-      case k_aih:   s << "aih"; break;
-      case k_ais:   s << "ais"; break;
-      case k_aisih: s << "aisih"; break;
-        
-      case k_beseh: s << "beseh"; break;
-      case k_bes:   s << "bes"; break;
-      case k_beh:   s << "beh"; break;
-      case k_b:     s << "b"; break;
-      case k_bih:   s << "bih"; break;
-      case k_bis:   s << "bis"; break;
-      case k_bisih: s << "bisih"; break;
-        
-      case k_ceseh: s << "ceseh"; break;
-      case k_ces:   s << "ces"; break;
-      case k_ceh:   s << "ceh"; break;
-      case k_c:     s << "c"; break;
-      case k_cih:   s << "cih"; break;
-      case k_cis:   s << "cis"; break;
-      case k_cisih: s << "cisih"; break;
-        
-      case k_deseh: s << "deseh"; break;
-      case k_des:   s << "des"; break;
-      case k_deh:   s << "deh"; break;
-      case k_d:     s << "d"; break;
-      case k_dih:   s << "dih"; break;
-      case k_dis:   s << "dis"; break;
-      case k_disih: s << "disih"; break;
-  
-      case k_eeseh: s << "eeseh"; break;
-      case k_ees:   s << "ees"; break;
-      case k_eeh:   s << "eeh"; break;
-      case k_e:     s << "e"; break;
-      case k_eih:   s << "eih"; break;
-      case k_eis:   s << "eis"; break;
-      case k_eisih: s << "eisih"; break;
-        
-      case k_feseh: s << "feseh"; break;
-      case k_fes:   s << "fes"; break;
-      case k_feh:   s << "feh"; break;
-      case k_f:     s << "f"; break;
-      case k_fih:   s << "fih"; break;
-      case k_fis:   s << "fis"; break;
-      case k_fisih: s << "fisih"; break;
-        
-      case k_geseh: s << "geseh"; break;
-      case k_ges:   s << "ges"; break;
-      case k_geh:   s << "geh"; break;
-      case k_g:     s << "g"; break;
-      case k_gih:   s << "gih"; break;
-      case k_gis:   s << "gis"; break;
-      case k_gisih: s << "gisih"; break;
-      
-      default: s << "Note" << fNoteMsrPitch << "???";
-    } // switch
-    */
-
