@@ -39,38 +39,6 @@ namespace MusicXML2
   \brief The LilyPond note names language.
 */
 
-// data types
-// ------------------------------------------------------
-
-enum msrDiatonicPitch {
-  // starting at C for LilyPond relative octave calculations
-  kC, kD, kE, kF, kG, kA, kB};
-
-static string diatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch);
-  
-enum msrAlterationKind {
-  k_NoAlteration, // for errors
-  kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
-  kNatural,
-  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
-
-static msrAlterationKind alterationFromAlter (
-  int   inputLineNumber,
-  float alter);
-
-static string alterationKindAsString (
-  msrAlterationKind alterationKind);
-      
-enum msrNoteNamesLanguage {
-  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
-  kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
-  
-static map<string, msrNoteNamesLanguage> gMsrNoteNamesLanguageMap;
-
-void initializeMsrNoteNamesLanguage ();
-msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
-
 //______________________________________________________________________________
 /*!
   \brief The general options.
@@ -95,9 +63,6 @@ class EXP msrGeneralOptions : public smartable
  
   public:
 
-    // note names language
-    msrNoteNamesLanguage  fNoteNamesLanguage;
-    
     // synthetic view
     string                fProgramName;
     string                fCommandLineOptions;

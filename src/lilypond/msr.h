@@ -188,19 +188,14 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 /*!
   \brief The LilyPond note names language.
 */
-/* JMI
 enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
-
-typedef map<string, msrNoteNamesLanguage>
-  msrNoteNamesLanguageMap;
   
-static msrNoteNamesLanguageMap gMsrNoteNamesLanguageMap;
+static map<string, msrNoteNamesLanguage> gMsrNoteNamesLanguageMap;
 
 void initializeMsrNoteNamesLanguage ();
 msrNoteNamesLanguage getMsrNoteNamesLanguage (string lang);
-*/
 
 //______________________________________________________________________________
 /*!
@@ -392,7 +387,6 @@ The type element is used to indicate the symbolic note type, such as quarter, ei
       msrDiatonicPitch diatonicPitch);
       
     enum msrAlterationKind {
-      k_NoAlteration, // for errors
       kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
