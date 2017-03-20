@@ -159,7 +159,7 @@ msrOptions::msrOptions ()
   fCatalanPitchName [k_dDoubleSharp] = "redd";
 
   fCatalanPitchName [k_eDoubleFlat]  = "mibb";
-  fCatalanPitchName [k_eSesquiFlat]  = "miSesquiFlat";
+  fCatalanPitchName [k_eSesquiFlat]  = "miSesquiFlat???";
   fCatalanPitchName [k_eFlat]        = "mib";
   fCatalanPitchName [k_eSemiFlat]    = "eSemiFlat???";
   fCatalanPitchName [k_eNatural]     = "mi";
@@ -543,75 +543,75 @@ msrOptions::msrOptions ()
   fItalianoPitchName [k_gSesquiSharp] = "soldsd";
   fItalianoPitchName [k_gDoubleSharp] = "soldd";
 
-  // nederlands
+  // norsk
   fNorskPitchName [k_aDoubleFlat]  = "aeses";
-  fNorskPitchName [k_aSesquiFlat]  = "aeseh";
+  fNorskPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
   fNorskPitchName [k_aFlat]        = "aes";
-  fNorskPitchName [k_aSemiFlat]    = "aeh";
+  fNorskPitchName [k_aSemiFlat]    = "aSemiFlat???";
   fNorskPitchName [k_aNatural]     = "a";
-  fNorskPitchName [k_aSemiSharp]   = "aih";
+  fNorskPitchName [k_aSemiSharp]   = "aSemiSharp???";
   fNorskPitchName [k_aSharp]       = "ais";
-  fNorskPitchName [k_aSesquiSharp] = "aisih";
+  fNorskPitchName [k_aSesquiSharp] = "aSesquiSharp???";
   fNorskPitchName [k_aDoubleSharp] = "aisis";
     
   fNorskPitchName [k_bDoubleFlat]  = "beses";
-  fNorskPitchName [k_bSesquiFlat]  = "beseh";
+  fNorskPitchName [k_bSesquiFlat]  = "bSesquiFlat???";
   fNorskPitchName [k_bFlat]        = "bes";
-  fNorskPitchName [k_bSemiFlat]    = "beh";
+  fNorskPitchName [k_bSemiFlat]    = "bSemiFlat???";
   fNorskPitchName [k_bNatural]     = "b";
-  fNorskPitchName [k_bSemiSharp]   = "bih";
+  fNorskPitchName [k_bSemiSharp]   = "bSemiSharp???";
   fNorskPitchName [k_bSharp]       = "bis";
-  fNorskPitchName [k_bSesquiSharp] = "bisih";
+  fNorskPitchName [k_bSesquiSharp] = "bSesquiSharp???";
   fNorskPitchName [k_bDoubleSharp] = "bisis";
     
   fNorskPitchName [k_cDoubleFlat]  = "ceses";
-  fNorskPitchName [k_cSesquiFlat]  = "ceseh";
+  fNorskPitchName [k_cSesquiFlat]  = "cSesquiFlat???";
   fNorskPitchName [k_cFlat]        = "ces";
-  fNorskPitchName [k_cSemiFlat]    = "ceh";
+  fNorskPitchName [k_cSemiFlat]    = "cSemiFlat???";
   fNorskPitchName [k_cNatural]     = "c";
-  fNorskPitchName [k_cSemiSharp]   = "cih";
+  fNorskPitchName [k_cSemiSharp]   = "cSemiSharp???";
   fNorskPitchName [k_cSharp]       = "cis";
-  fNorskPitchName [k_cSesquiSharp] = "cisih";
+  fNorskPitchName [k_cSesquiSharp] = "cSesquiSharp???";
   fNorskPitchName [k_cDoubleSharp] = "cisis";
     
   fNorskPitchName [k_dDoubleFlat]  = "deses";
-  fNorskPitchName [k_dSesquiFlat]  = "deseh";
+  fNorskPitchName [k_dSesquiFlat]  = "dSesquiFlat???";
   fNorskPitchName [k_dFlat]        = "des";
-  fNorskPitchName [k_dSemiFlat]    = "deh";
+  fNorskPitchName [k_dSemiFlat]    = "dSemiFlat???";
   fNorskPitchName [k_dNatural]     = "d";
-  fNorskPitchName [k_dSemiSharp]   = "dih";
+  fNorskPitchName [k_dSemiSharp]   = "dSemiSharp???";
   fNorskPitchName [k_dSharp]       = "dis";
-  fNorskPitchName [k_dSesquiSharp] = "disih";
+  fNorskPitchName [k_dSesquiSharp] = "dSesquiSharp???";
   fNorskPitchName [k_dDoubleSharp] = "disis";
 
   fNorskPitchName [k_eDoubleFlat]  = "eeses";
-  fNorskPitchName [k_eSesquiFlat]  = "eeseh";
+  fNorskPitchName [k_eSesquiFlat]  = "eSesquiFlat???";
   fNorskPitchName [k_eFlat]        = "ees";
-  fNorskPitchName [k_eSemiFlat]    = "eeh";
+  fNorskPitchName [k_eSemiFlat]    = "eSemiFlat???";
   fNorskPitchName [k_eNatural]     = "e";
-  fNorskPitchName [k_eSemiSharp]   = "eih";
+  fNorskPitchName [k_eSemiSharp]   = "eSemiSharp???";
   fNorskPitchName [k_eSharp]       = "eis";
-  fNorskPitchName [k_eSesquiSharp] = "eisih";
+  fNorskPitchName [k_eSesquiSharp] = "eSesquiSharp???";
   fNorskPitchName [k_eDoubleSharp] = "eisis";
     
   fNorskPitchName [k_fDoubleFlat]  = "feses";
-  fNorskPitchName [k_fSesquiFlat]  = "feseh";
+  fNorskPitchName [k_fSesquiFlat]  = "fSesquiFlat???";
   fNorskPitchName [k_fFlat]        = "fes";
-  fNorskPitchName [k_fSemiFlat]    = "feh";
+  fNorskPitchName [k_fSemiFlat]    = "fSemiFlat???";
   fNorskPitchName [k_fNatural]     = "f";
-  fNorskPitchName [k_fSemiSharp]   = "fih";
+  fNorskPitchName [k_fSemiSharp]   = "fSemiSharp???";
   fNorskPitchName [k_fSharp]       = "fis";
-  fNorskPitchName [k_fSesquiSharp] = "fisih";
+  fNorskPitchName [k_fSesquiSharp] = "fSesquiSharp???";
   fNorskPitchName [k_fDoubleSharp] = "fisis";
     
   fNorskPitchName [k_gDoubleFlat]  = "geses";
-  fNorskPitchName [k_gSesquiFlat]  = "geseh";
+  fNorskPitchName [k_gSesquiFlat]  = "gSesquiFlat???";
   fNorskPitchName [k_gFlat]        = "ges";
-  fNorskPitchName [k_gSemiFlat]    = "geh";
+  fNorskPitchName [k_gSemiFlat]    = "gSemiFlat???";
   fNorskPitchName [k_gNatural]     = "g";
-  fNorskPitchName [k_gSemiSharp]   = "gih";
+  fNorskPitchName [k_gSemiSharp]   = "gSemiSharp???";
   fNorskPitchName [k_gSharp]       = "gis";
-  fNorskPitchName [k_gSesquiSharp] = "gisih";
+  fNorskPitchName [k_gSesquiSharp] = "gSesquiSharp???";
   fNorskPitchName [k_gDoubleSharp] = "gisis";
 
   // portugues
@@ -684,6 +684,148 @@ msrOptions::msrOptions ()
   fPortuguesPitchName [k_gSharp]       = "sold";
   fPortuguesPitchName [k_gSesquiSharp] = "soldsd";
   fPortuguesPitchName [k_gDoubleSharp] = "soldd";
+
+  // suomi
+  fSuomiPitchName [k_aDoubleFlat]  = "asas";
+  fSuomiPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
+  fSuomiPitchName [k_aFlat]        = "as";
+  fSuomiPitchName [k_aSemiFlat]    = "aSemiFlat???";
+  fSuomiPitchName [k_aNatural]     = "a";
+  fSuomiPitchName [k_aSemiSharp]   = "aSemiSharp???";
+  fSuomiPitchName [k_aSharp]       = "ais";
+  fSuomiPitchName [k_aSesquiSharp] = "aSesquiSharp???";
+  fSuomiPitchName [k_aDoubleSharp] = "aisis";
+    
+  fSuomiPitchName [k_bDoubleFlat]  = "bes";
+  fSuomiPitchName [k_bSesquiFlat]  = "bSesquiFlat???";
+  fSuomiPitchName [k_bFlat]        = "b";
+  fSuomiPitchName [k_bSemiFlat]    = "bSemiFlat???";
+  fSuomiPitchName [k_bNatural]     = "h";
+  fSuomiPitchName [k_bSemiSharp]   = "bSemiSharp???";
+  fSuomiPitchName [k_bSharp]       = "his";
+  fSuomiPitchName [k_bSesquiSharp] = "bSesquiSharp???";
+  fSuomiPitchName [k_bDoubleSharp] = "hisis";
+    
+  fSuomiPitchName [k_cDoubleFlat]  = "ceses";
+  fSuomiPitchName [k_cSesquiFlat]  = "cSesquiFlat???";
+  fSuomiPitchName [k_cFlat]        = "ces";
+  fSuomiPitchName [k_cSemiFlat]    = "cSemiFlat???";
+  fSuomiPitchName [k_cNatural]     = "c";
+  fSuomiPitchName [k_cSemiSharp]   = "cSemiSharp???";
+  fSuomiPitchName [k_cSharp]       = "cis";
+  fSuomiPitchName [k_cSesquiSharp] = "cSesquiSharp???";
+  fSuomiPitchName [k_cDoubleSharp] = "cisis";
+    
+  fSuomiPitchName [k_dDoubleFlat]  = "deses";
+  fSuomiPitchName [k_dSesquiFlat]  = "dSesquiFlat???";
+  fSuomiPitchName [k_dFlat]        = "des";
+  fSuomiPitchName [k_dSemiFlat]    = "dSemiFlat???";
+  fSuomiPitchName [k_dNatural]     = "d";
+  fSuomiPitchName [k_dSemiSharp]   = "dSemiSharp???";
+  fSuomiPitchName [k_dSharp]       = "dis";
+  fSuomiPitchName [k_dSesquiSharp] = "dSesquiSharp???";
+  fSuomiPitchName [k_dDoubleSharp] = "disis";
+
+  fSuomiPitchName [k_eDoubleFlat]  = "eses";
+  fSuomiPitchName [k_eSesquiFlat]  = "eSesquiFlat???";
+  fSuomiPitchName [k_eFlat]        = "es";
+  fSuomiPitchName [k_eSemiFlat]    = "eSemiFlat???";
+  fSuomiPitchName [k_eNatural]     = "e";
+  fSuomiPitchName [k_eSemiSharp]   = "eSemiSharp???";
+  fSuomiPitchName [k_eSharp]       = "eis";
+  fSuomiPitchName [k_eSesquiSharp] = "eSesquiSharp???";
+  fSuomiPitchName [k_eDoubleSharp] = "eisis";
+    
+  fSuomiPitchName [k_fDoubleFlat]  = "feses";
+  fSuomiPitchName [k_fSesquiFlat]  = "fSesquiFlat???";
+  fSuomiPitchName [k_fFlat]        = "fes";
+  fSuomiPitchName [k_fSemiFlat]    = "fSemiFlat???";
+  fSuomiPitchName [k_fNatural]     = "f";
+  fSuomiPitchName [k_fSemiSharp]   = "fSemiSharp???";
+  fSuomiPitchName [k_fSharp]       = "fis";
+  fSuomiPitchName [k_fSesquiSharp] = "fSesquiSharp???";
+  fSuomiPitchName [k_fDoubleSharp] = "fisis";
+    
+  fSuomiPitchName [k_gDoubleFlat]  = "geses";
+  fSuomiPitchName [k_gSesquiFlat]  = "gSesquiFlat???";
+  fSuomiPitchName [k_gFlat]        = "ges";
+  fSuomiPitchName [k_gSemiFlat]    = "gSemiFlat???";
+  fSuomiPitchName [k_gNatural]     = "g";
+  fSuomiPitchName [k_gSemiSharp]   = "gSemiSharp???";
+  fSuomiPitchName [k_gSharp]       = "gis";
+  fSuomiPitchName [k_gSesquiSharp] = "gSesquiSharp???";
+  fSuomiPitchName [k_gDoubleSharp] = "gisis";
+
+  // svenska
+  fSvenskaPitchName [k_aDoubleFlat]  = "assess";
+  fSvenskaPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
+  fSvenskaPitchName [k_aFlat]        = "ass";
+  fSvenskaPitchName [k_aSemiFlat]    = "aSemiFlat???";
+  fSvenskaPitchName [k_aNatural]     = "a";
+  fSvenskaPitchName [k_aSemiSharp]   = "aSemiSharp???";
+  fSvenskaPitchName [k_aSharp]       = "aiss";
+  fSvenskaPitchName [k_aSesquiSharp] = "aSesquiSharp???";
+  fSvenskaPitchName [k_aDoubleSharp] = "aississ";
+    
+  fSvenskaPitchName [k_bDoubleFlat]  = "hessess";
+  fSvenskaPitchName [k_bSesquiFlat]  = "bSesquiFlat???";
+  fSvenskaPitchName [k_bFlat]        = "b";
+  fSvenskaPitchName [k_bSemiFlat]    = "bSemiFlat???";
+  fSvenskaPitchName [k_bNatural]     = "h";
+  fSvenskaPitchName [k_bSemiSharp]   = "bSemiSharp???";
+  fSvenskaPitchName [k_bSharp]       = "hiss";
+  fSvenskaPitchName [k_bSesquiSharp] = "bSesquiSharp???";
+  fSvenskaPitchName [k_bDoubleSharp] = "hississ";
+    
+  fSvenskaPitchName [k_cDoubleFlat]  = "cessess";
+  fSvenskaPitchName [k_cSesquiFlat]  = "cSesquiFlat???";
+  fSvenskaPitchName [k_cFlat]        = "cess";
+  fSvenskaPitchName [k_cSemiFlat]    = "cSemiFlat???";
+  fSvenskaPitchName [k_cNatural]     = "c";
+  fSvenskaPitchName [k_cSemiSharp]   = "cSemiSharp???";
+  fSvenskaPitchName [k_cSharp]       = "ciss";
+  fSvenskaPitchName [k_cSesquiSharp] = "cSesquiSharp???";
+  fSvenskaPitchName [k_cDoubleSharp] = "cississ";
+    
+  fSvenskaPitchName [k_dDoubleFlat]  = "dessess";
+  fSvenskaPitchName [k_dSesquiFlat]  = "dSesquiFlat???";
+  fSvenskaPitchName [k_dFlat]        = "dess";
+  fSvenskaPitchName [k_dSemiFlat]    = "dSemiFlat???";
+  fSvenskaPitchName [k_dNatural]     = "d";
+  fSvenskaPitchName [k_dSemiSharp]   = "dSemiSharp???";
+  fSvenskaPitchName [k_dSharp]       = "diss";
+  fSvenskaPitchName [k_dSesquiSharp] = "dSesquiSharp???";
+  fSvenskaPitchName [k_dDoubleSharp] = "dississ";
+
+  fSvenskaPitchName [k_eDoubleFlat]  = "essess";
+  fSvenskaPitchName [k_eSesquiFlat]  = "eSesquiFlat???";
+  fSvenskaPitchName [k_eFlat]        = "ess";
+  fSvenskaPitchName [k_eSemiFlat]    = "eSemiFlat???";
+  fSvenskaPitchName [k_eNatural]     = "e";
+  fSvenskaPitchName [k_eSemiSharp]   = "eSemiSharp???";
+  fSvenskaPitchName [k_eSharp]       = "eiss";
+  fSvenskaPitchName [k_eSesquiSharp] = "eSesquiSharp???";
+  fSvenskaPitchName [k_eDoubleSharp] = "eississ";
+    
+  fSvenskaPitchName [k_fDoubleFlat]  = "fessess";
+  fSvenskaPitchName [k_fSesquiFlat]  = "fSesquiFlat???";
+  fSvenskaPitchName [k_fFlat]        = "fess";
+  fSvenskaPitchName [k_fSemiFlat]    = "fSemiFlat???";
+  fSvenskaPitchName [k_fNatural]     = "f";
+  fSvenskaPitchName [k_fSemiSharp]   = "fSemiSharp???";
+  fSvenskaPitchName [k_fSharp]       = "fiss";
+  fSvenskaPitchName [k_fSesquiSharp] = "fSesquiSharp???";
+  fSvenskaPitchName [k_fDoubleSharp] = "fississ";
+    
+  fSvenskaPitchName [k_gDoubleFlat]  = "gessess";
+  fSvenskaPitchName [k_gSesquiFlat]  = "gSesquiFlat???";
+  fSvenskaPitchName [k_gFlat]        = "gess";
+  fSvenskaPitchName [k_gSemiFlat]    = "gSemiFlat???";
+  fSvenskaPitchName [k_gNatural]     = "g";
+  fSvenskaPitchName [k_gSemiSharp]   = "gSemiSharp???";
+  fSvenskaPitchName [k_gSharp]       = "giss";
+  fSvenskaPitchName [k_gSesquiSharp] = "gSesquiSharp???";
+  fSvenskaPitchName [k_gDoubleSharp] = "gississ";
 
 
   fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
