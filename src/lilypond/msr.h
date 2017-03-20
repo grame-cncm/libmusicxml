@@ -226,7 +226,16 @@ enum msrAlterationKind {
 
 static string alterationKindAsString (
   msrAlterationKind alterationKind);
-      
+
+enum msrPitch {
+  k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
+  k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
+  k_ceseh, k_ces, k_ceh, k_c, k_cih, k_cis, k_cisih,
+  k_deseh, k_des, k_deh, k_d, k_dih, k_dis, k_disih,
+  k_eeseh, k_ees, k_eeh, k_e, k_eih, k_eis, k_eisih, 
+  k_feseh, k_fes, k_feh, k_f, k_fih, k_fis, k_fisih,
+  k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih};
+
 enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
   kFrancais, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
@@ -289,6 +298,19 @@ class EXP msrOptions : public smartable
 
     map<string, msrNoteNamesLanguage>
                           fNoteNamesLanguageMap;
+
+    map<msrPitch, string> fNederlandsPitchName;
+    map<msrPitch, string> fCatalanPitchName;
+    map<msrPitch, string> fDeutschPitchName;
+    map<msrPitch, string> fEnglishPitchName;
+    map<msrPitch, string> fEspanolPitchName;
+    map<msrPitch, string> fItalianoPitchName;
+    map<msrPitch, string> fFrancaisPitchName;
+    map<msrPitch, string> fNorskPitchName;
+    map<msrPitch, string> fPortuguesPitchName;
+    map<msrPitch, string> fSuomiPitchName;
+    map<msrPitch, string> fSvenskaPitchName;
+    map<msrPitch, string> fVlaamsPitchName;
 
     map<pair<msrNoteNamesLanguage, msrDiatonicPitch>, string >
                           fNoteNameInLanguage;

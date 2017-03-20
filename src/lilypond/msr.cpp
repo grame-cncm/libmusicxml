@@ -47,69 +47,120 @@ msrOptions::msrOptions ()
   fNoteNamesLanguageMap ["vlaams"]    = kVlaams;
 
 
-  /*
-    switch (fNoteMsrPitch) {
-      
-      case k_aeseh: s << "aeseh"; break;
-      case k_aes:   s << "aes"; break;
-      case k_aeh:   s << "aeh"; break;
-      case k_a:     s << "a"; break;
-      case k_aih:   s << "aih"; break;
-      case k_ais:   s << "ais"; break;
-      case k_aisih: s << "aisih"; break;
-        
-      case k_beseh: s << "beseh"; break;
-      case k_bes:   s << "bes"; break;
-      case k_beh:   s << "beh"; break;
-      case k_b:     s << "b"; break;
-      case k_bih:   s << "bih"; break;
-      case k_bis:   s << "bis"; break;
-      case k_bisih: s << "bisih"; break;
-        
-      case k_ceseh: s << "ceseh"; break;
-      case k_ces:   s << "ces"; break;
-      case k_ceh:   s << "ceh"; break;
-      case k_c:     s << "c"; break;
-      case k_cih:   s << "cih"; break;
-      case k_cis:   s << "cis"; break;
-      case k_cisih: s << "cisih"; break;
-        
-      case k_deseh: s << "deseh"; break;
-      case k_des:   s << "des"; break;
-      case k_deh:   s << "deh"; break;
-      case k_d:     s << "d"; break;
-      case k_dih:   s << "dih"; break;
-      case k_dis:   s << "dis"; break;
-      case k_disih: s << "disih"; break;
-  
-      case k_eeseh: s << "eeseh"; break;
-      case k_ees:   s << "ees"; break;
-      case k_eeh:   s << "eeh"; break;
-      case k_e:     s << "e"; break;
-      case k_eih:   s << "eih"; break;
-      case k_eis:   s << "eis"; break;
-      case k_eisih: s << "eisih"; break;
-        
-      case k_feseh: s << "feseh"; break;
-      case k_fes:   s << "fes"; break;
-      case k_feh:   s << "feh"; break;
-      case k_f:     s << "f"; break;
-      case k_fih:   s << "fih"; break;
-      case k_fis:   s << "fis"; break;
-      case k_fisih: s << "fisih"; break;
-        
-      case k_geseh: s << "geseh"; break;
-      case k_ges:   s << "ges"; break;
-      case k_geh:   s << "geh"; break;
-      case k_g:     s << "g"; break;
-      case k_gih:   s << "gih"; break;
-      case k_gis:   s << "gis"; break;
-      case k_gisih: s << "gisih"; break;
-      
-      default: s << "Note" << fNoteMsrPitch << "???";
-    } // switch
-    */
+  fNederlandsPitchName [k_aeseh] = "aeseh";
+  fNederlandsPitchName [k_aes]   = "aes";
+  fNederlandsPitchName [k_aeh]   = "aeh";
+  fNederlandsPitchName [k_a]     = "a";
+  fNederlandsPitchName [k_aih]   = "aih";
+  fNederlandsPitchName [k_ais]   = "ais";
+  fNederlandsPitchName [k_aisih] = "aisih";
+    
+  fNederlandsPitchName [k_beseh] = "beseh";
+  fNederlandsPitchName [k_bes]   = "bes";
+  fNederlandsPitchName [k_beh]   = "beh";
+  fNederlandsPitchName [k_b]     = "b";
+  fNederlandsPitchName [k_bih]   = "bih";
+  fNederlandsPitchName [k_bis]   = "bis";
+  fNederlandsPitchName [k_bisih] = "bisih";
+    
+  fNederlandsPitchName [k_ceseh] = "ceseh";
+  fNederlandsPitchName [k_ces]   = "ces";
+  fNederlandsPitchName [k_ceh]   = "ceh";
+  fNederlandsPitchName [k_c]     = "c";
+  fNederlandsPitchName [k_cih]   = "cih";
+  fNederlandsPitchName [k_cis]   = "cis";
+  fNederlandsPitchName [k_cisih] = "cisih";
+    
+  fNederlandsPitchName [k_deseh] = "deseh";
+  fNederlandsPitchName [k_des]   = "des";
+  fNederlandsPitchName [k_deh]   = "deh";
+  fNederlandsPitchName [k_d]     = "d";
+  fNederlandsPitchName [k_dih]   = "dih";
+  fNederlandsPitchName [k_dis]   = "dis";
+  fNederlandsPitchName [k_disih] = "disih";
 
+  fNederlandsPitchName [k_eeseh] = "eeseh";
+  fNederlandsPitchName [k_ees]   = "ees";
+  fNederlandsPitchName [k_eeh]   = "eeh";
+  fNederlandsPitchName [k_e]     = "e";
+  fNederlandsPitchName [k_eih]   = "eih";
+  fNederlandsPitchName [k_eis]   = "eis";
+  fNederlandsPitchName [k_eisih] = "eisih";
+    
+  fNederlandsPitchName [k_feseh] = "feseh";
+  fNederlandsPitchName [k_fes]   = "fes";
+  fNederlandsPitchName [k_feh]   = "feh";
+  fNederlandsPitchName [k_f]     = "f";
+  fNederlandsPitchName [k_fih]   = "fih";
+  fNederlandsPitchName [k_fis]   = "fis";
+  fNederlandsPitchName [k_fisih] = "fisih";
+    
+  fNederlandsPitchName [k_geseh] = "geseh";
+  fNederlandsPitchName [k_ges]   = "ges";
+  fNederlandsPitchName [k_geh]   = "geh";
+  fNederlandsPitchName [k_g]     = "g";
+  fNederlandsPitchName [k_gih]   = "gih";
+  fNederlandsPitchName [k_gis]   = "gis";
+  fNederlandsPitchName [k_gisih] = "gisih";
+
+ 
+  fNederlandsPitchName [k_aeseh] = "aeseh";
+  fNederlandsPitchName [k_aes]   = "aes";
+  fNederlandsPitchName [k_aeh]   = "aeh";
+  fNederlandsPitchName [k_a]     = "a";
+  fNederlandsPitchName [k_aih]   = "aih";
+  fNederlandsPitchName [k_ais]   = "ais";
+  fNederlandsPitchName [k_aisih] = "aisih";
+    
+  fNederlandsPitchName [k_beseh] = "beseh";
+  fNederlandsPitchName [k_bes]   = "bes";
+  fNederlandsPitchName [k_beh]   = "beh";
+  fNederlandsPitchName [k_b]     = "b";
+  fNederlandsPitchName [k_bih]   = "bih";
+  fNederlandsPitchName [k_bis]   = "bis";
+  fNederlandsPitchName [k_bisih] = "bisih";
+    
+  fNederlandsPitchName [k_ceseh] = "ceseh";
+  fNederlandsPitchName [k_ces]   = "ces";
+  fNederlandsPitchName [k_ceh]   = "ceh";
+  fNederlandsPitchName [k_c]     = "c";
+  fNederlandsPitchName [k_cih]   = "cih";
+  fNederlandsPitchName [k_cis]   = "cis";
+  fNederlandsPitchName [k_cisih] = "cisih";
+    
+  fNederlandsPitchName [k_deseh] = "deseh";
+  fNederlandsPitchName [k_des]   = "des";
+  fNederlandsPitchName [k_deh]   = "deh";
+  fNederlandsPitchName [k_d]     = "d";
+  fNederlandsPitchName [k_dih]   = "dih";
+  fNederlandsPitchName [k_dis]   = "dis";
+  fNederlandsPitchName [k_disih] = "disih";
+
+  fNederlandsPitchName [k_eeseh] = "eeseh";
+  fNederlandsPitchName [k_ees]   = "ees";
+  fNederlandsPitchName [k_eeh]   = "eeh";
+  fNederlandsPitchName [k_e]     = "e";
+  fNederlandsPitchName [k_eih]   = "eih";
+  fNederlandsPitchName [k_eis]   = "eis";
+  fNederlandsPitchName [k_eisih] = "eisih";
+    
+  fNederlandsPitchName [k_feseh] = "feseh";
+  fNederlandsPitchName [k_fes]   = "fes";
+  fNederlandsPitchName [k_feh]   = "feh";
+  fNederlandsPitchName [k_f]     = "f";
+  fNederlandsPitchName [k_fih]   = "fih";
+  fNederlandsPitchName [k_fis]   = "fis";
+  fNederlandsPitchName [k_fisih] = "fisih";
+    
+  fNederlandsPitchName [k_geseh] = "geseh";
+  fNederlandsPitchName [k_ges]   = "ges";
+  fNederlandsPitchName [k_geh]   = "geh";
+  fNederlandsPitchName [k_g]     = "g";
+  fNederlandsPitchName [k_gih]   = "gih";
+  fNederlandsPitchName [k_gis]   = "gis";
+  fNederlandsPitchName [k_gisih] = "gisih";
+
+ 
   fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
   fNoteNameInLanguage [make_pair (kNederlands, kB)] = "b";
   fNoteNameInLanguage [make_pair (kNederlands, kC)] = "c";
