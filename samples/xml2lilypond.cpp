@@ -257,53 +257,62 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  gMsrOptions->setNoteNamesLanguage                 ("nederlands");
-  
-  gMsrOptions->fCreateStaffRelativeVoiceNumbers     = false;
-  
-  gMsrOptions->fDontDisplayMSRStanzas               = false;
+  initializeMsrNoteNamesLanguage ();
 
-  gMsrOptions->fDelayRestsDynamics                  = false;
+  if (
+    ! 
+      gMsrOptions->setNoteNamesLanguage ("nederlands")
+    ) {
+    optionError (
+      "INTERNAL INITIALIZATION ERROR: "
+      "language 'nederlands' is unknown");
+  }
   
-  gMsrOptions->fDisplayMSR                          = false;
+  gMsrOptions->fCreateStaffRelativeVoiceNumbers      = false;
+  
+  gMsrOptions->fDontDisplayMSRStanzas                = false;
 
-  gMsrOptions->fDisplayMSRSummary                   = false;
+  gMsrOptions->fDelayRestsDynamics                   = false;
+  
+  gMsrOptions->fDisplayMSR                           = false;
+
+  gMsrOptions->fDisplayMSRSummary                    = false;
 
   // LPSR options
   // ------------
 
-  gLpsrOptions->fDisplayLPSR                        = false;
+  gLpsrOptions->fDisplayLPSR                         = false;
 
-  gLpsrOptions->fDontKeepLineBreaks                 = false;
-  gLpsrOptions->fShowAllBarNumbers                  = false;
-  gLpsrOptions->fCompressFullBarRests               = false;
-  gLpsrOptions->fBreakLinesAtIncompleteRightMeasures  = false;
+  gLpsrOptions->fDontKeepLineBreaks                  = false;
+  gLpsrOptions->fShowAllBarNumbers                   = false;
+  gLpsrOptions->fCompressFullBarRests                = false;
+  gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = false;
   
-  gLpsrOptions->fKeepStaffSize                      = false;
+  gLpsrOptions->fKeepStaffSize                       = false;
     
-  gLpsrOptions->fGenerateAbsoluteOctaves            = false;
+  gLpsrOptions->fGenerateAbsoluteOctaves             = false;
 
-  gLpsrOptions->fGenerateNumericalTime              = false;
-  gLpsrOptions->fGenerateComments                   = false;
-  gLpsrOptions->fGenerateStems                      = false;
-  gLpsrOptions->fNoAutoBeaming                      = false;
-  gLpsrOptions->fGenerateInputLineNumbers           = false;
+  gLpsrOptions->fGenerateNumericalTime               = false;
+  gLpsrOptions->fGenerateComments                    = false;
+  gLpsrOptions->fGenerateStems                       = false;
+  gLpsrOptions->fNoAutoBeaming                       = false;
+  gLpsrOptions->fGenerateInputLineNumbers            = false;
   
-  gLpsrOptions->fAccidentalStyle                    = "";
+  gLpsrOptions->fAccidentalStyle                     = "";
 
-  gLpsrOptions->fDelayedOrnamentFractionNumerator   = 2;
-  gLpsrOptions->fDelayedOrnamentFractionDenominator = 3;
+  gLpsrOptions->fDelayedOrnamentFractionNumerator    = 2;
+  gLpsrOptions->fDelayedOrnamentFractionDenominator  = 3;
 
-  gLpsrOptions->fDontGenerateMidiCommand            = false;
+  gLpsrOptions->fDontGenerateMidiCommand             = false;
   
-  gLpsrOptions->fMidiTempoDuration                  = "4";
-  gLpsrOptions->fMidiTempoPerSecond                 = 100;
+  gLpsrOptions->fMidiTempoDuration                   = "4";
+  gLpsrOptions->fMidiTempoPerSecond                  = 100;
   
-  gLpsrOptions->fGenerateMasterVoices               = true;
+  gLpsrOptions->fGenerateMasterVoices                = true;
   
-  gLpsrOptions->fDontGenerateLilyPondLyrics         = false;
+  gLpsrOptions->fDontGenerateLilyPondLyrics          = false;
   
-  gLpsrOptions->fDontGenerateLilyPondCode           = false;
+  gLpsrOptions->fDontGenerateLilyPondCode            = false;
 
    // General options
   // ---------------

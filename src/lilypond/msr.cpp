@@ -978,6 +978,26 @@ bool msrOptions::setNoteNamesLanguage (string language)
         
   if (it == gNoteNamesLanguagesMap.end ()) {
     // no, language is unknown in the map
+
+/* JMI
+    cerr <<
+      endl << endl;
+
+    cerr <<
+      "gNoteNamesLanguagesMap.size () = " <<
+      gNoteNamesLanguagesMap.size () <<
+      endl << endl;
+      
+    for (
+      map<string, msrNoteNamesLanguage>::const_iterator i=gNoteNamesLanguagesMap.begin();
+      i!=gNoteNamesLanguagesMap.end();
+      i++) {
+      cerr <<
+        (*i).first << ": " << (*i).second <<
+        endl << endl;
+    } // for
+*/
+    
     return false;
   }
 
