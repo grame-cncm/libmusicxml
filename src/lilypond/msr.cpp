@@ -90,7 +90,7 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_feseh] = "feseh";
   fNederlandsPitchName [k_fes]   = "fes";
   fNederlandsPitchName [k_feh]   = "feh";
-  fNederlandsPitchName [k_f]     = "f";
+  fNederlandsPitchName [k_f_]    = "f";
   fNederlandsPitchName [k_fih]   = "fih";
   fNederlandsPitchName [k_fis]   = "fis";
   fNederlandsPitchName [k_fisih] = "fisih";
@@ -104,61 +104,61 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_gisih] = "gisih";
 
  
-  fNederlandsPitchName [k_aeseh] = "aeseh";
-  fNederlandsPitchName [k_aes]   = "aes";
-  fNederlandsPitchName [k_aeh]   = "aeh";
-  fNederlandsPitchName [k_a]     = "a";
-  fNederlandsPitchName [k_aih]   = "aih";
-  fNederlandsPitchName [k_ais]   = "ais";
-  fNederlandsPitchName [k_aisih] = "aisih";
+  fCatalanPitchName [k_aeseh] = "aeseh";
+  fCatalanPitchName [k_aes]   = "aes";
+  fCatalanPitchName [k_aeh]   = "aeh";
+  fCatalanPitchName [k_a]     = "a";
+  fCatalanPitchName [k_aih]   = "aih";
+  fCatalanPitchName [k_ais]   = "ais";
+  fCatalanPitchName [k_aisih] = "aisih";
     
-  fNederlandsPitchName [k_beseh] = "beseh";
-  fNederlandsPitchName [k_bes]   = "bes";
-  fNederlandsPitchName [k_beh]   = "beh";
-  fNederlandsPitchName [k_b]     = "b";
-  fNederlandsPitchName [k_bih]   = "bih";
-  fNederlandsPitchName [k_bis]   = "bis";
-  fNederlandsPitchName [k_bisih] = "bisih";
+  fCatalanPitchName [k_beseh] = "beseh";
+  fCatalanPitchName [k_bes]   = "bes";
+  fCatalanPitchName [k_beh]   = "beh";
+  fCatalanPitchName [k_b]     = "b";
+  fCatalanPitchName [k_bih]   = "bih";
+  fCatalanPitchName [k_bis]   = "bis";
+  fCatalanPitchName [k_bisih] = "bisih";
     
-  fNederlandsPitchName [k_ceseh] = "ceseh";
-  fNederlandsPitchName [k_ces]   = "ces";
-  fNederlandsPitchName [k_ceh]   = "ceh";
-  fNederlandsPitchName [k_c]     = "c";
-  fNederlandsPitchName [k_cih]   = "cih";
+  fCatalanPitchName [k_ceseh] = "ceseh";
+  fCatalanPitchName [k_ces]   = "ces";
+  fCatalanPitchName [k_ceh]   = "ceh";
+  fCatalanPitchName [k_c]     = "c";
+  fCatalanPitchName [k_cih]   = "cih";
   fNederlandsPitchName [k_cis]   = "cis";
-  fNederlandsPitchName [k_cisih] = "cisih";
+  fCatalanPitchName [k_cisih] = "cisih";
     
-  fNederlandsPitchName [k_deseh] = "deseh";
-  fNederlandsPitchName [k_des]   = "des";
-  fNederlandsPitchName [k_deh]   = "deh";
-  fNederlandsPitchName [k_d]     = "d";
-  fNederlandsPitchName [k_dih]   = "dih";
-  fNederlandsPitchName [k_dis]   = "dis";
-  fNederlandsPitchName [k_disih] = "disih";
+  fCatalanPitchName [k_deseh] = "deseh";
+  fCatalanPitchName [k_des]   = "des";
+  fCatalanPitchName [k_deh]   = "deh";
+  fCatalanPitchName [k_d]     = "d";
+  fCatalanPitchName [k_dih]   = "dih";
+  fCatalanPitchName [k_dis]   = "dis";
+  fCatalanPitchName [k_disih] = "disih";
 
-  fNederlandsPitchName [k_eeseh] = "eeseh";
-  fNederlandsPitchName [k_ees]   = "ees";
-  fNederlandsPitchName [k_eeh]   = "eeh";
-  fNederlandsPitchName [k_e]     = "e";
-  fNederlandsPitchName [k_eih]   = "eih";
-  fNederlandsPitchName [k_eis]   = "eis";
-  fNederlandsPitchName [k_eisih] = "eisih";
+  fCatalanPitchName [k_eeseh] = "eeseh";
+  fCatalanPitchName [k_ees]   = "ees";
+  fCatalanPitchName [k_eeh]   = "eeh";
+  fCatalanPitchName [k_e]     = "e";
+  fCatalanPitchName [k_eih]   = "eih";
+  fCatalanPitchName [k_eis]   = "eis";
+  fCatalanPitchName [k_eisih] = "eisih";
     
-  fNederlandsPitchName [k_feseh] = "feseh";
-  fNederlandsPitchName [k_fes]   = "fes";
-  fNederlandsPitchName [k_feh]   = "feh";
-  fNederlandsPitchName [k_f]     = "f";
-  fNederlandsPitchName [k_fih]   = "fih";
-  fNederlandsPitchName [k_fis]   = "fis";
-  fNederlandsPitchName [k_fisih] = "fisih";
+  fCatalanPitchName [k_feseh] = "feseh";
+  fCatalanPitchName [k_fes]   = "fes";
+  fCatalanPitchName [k_feh]   = "feh";
+  fCatalanPitchName [k_f_]    = "f";
+  fCatalanPitchName [k_fih]   = "fih";
+  fCatalanPitchName [k_fis]   = "fis";
+  fCatalanPitchName [k_fisih] = "fisih";
     
-  fNederlandsPitchName [k_geseh] = "geseh";
-  fNederlandsPitchName [k_ges]   = "ges";
-  fNederlandsPitchName [k_geh]   = "geh";
-  fNederlandsPitchName [k_g]     = "g";
-  fNederlandsPitchName [k_gih]   = "gih";
-  fNederlandsPitchName [k_gis]   = "gis";
-  fNederlandsPitchName [k_gisih] = "gisih";
+  fCatalanPitchName [k_geseh] = "geseh";
+  fCatalanPitchName [k_ges]   = "ges";
+  fCatalanPitchName [k_geh]   = "geh";
+  fCatalanPitchName [k_g]     = "g";
+  fCatalanPitchName [k_gih]   = "gih";
+  fCatalanPitchName [k_gis]   = "gis";
+  fCatalanPitchName [k_gisih] = "gisih";
 
  
   fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
