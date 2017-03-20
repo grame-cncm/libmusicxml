@@ -110,9 +110,9 @@ void printUsage (int exitStatus)
 
     "    --mnnl, --msrNoteNamesLanguage language" << endl <<
     "          Use 'language' to display note names in the MSR logs and text views." << endl <<
-    "          'language' can be one of 'nederlands, 'catalan, 'deutsch, " << endl <<
-    "          'english, 'espanol, 'francais, 'italiano, 'norsk', 'portugues," << endl <<
-    "          'suomi', 'svenska' or 'vlaams. Default is 'nederlands'." << endl <<
+    "          'language' can be one of 'nederlands', 'catalan', 'deutsch', " << endl <<
+    "          'english', 'espanol', 'francais', 'italiano', 'norsk', 'portugues'," << endl <<
+    "          'suomi', 'svenska' or 'vlaams'. Default is 'nederlands'." << endl <<
     endl <<
     "    --srvn, --staffRelativeVoiceNumbers" << endl <<
     "          Generate voices names with numbers relative to their staff." << endl <<
@@ -257,7 +257,7 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  gMsrOptions->setNoteNamesLanguage                 ("dutch");
+  gMsrOptions->setNoteNamesLanguage                 ("nederlands");
   
   gMsrOptions->fCreateStaffRelativeVoiceNumbers     = false;
   
@@ -326,7 +326,7 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  int languagePresent                   = 0;
+  int msrNoteNamesLanguagePresent       = 0;
 
   int staffRelativeVoiceNumbersPresent  = 0;
   
@@ -469,8 +469,12 @@ void analyzeOptions (
     // -----------
 
     {
-      "language",
-      required_argument, &languagePresent, 1
+      "mnnl",
+      required_argument, &msrNoteNamesLanguagePresent, 1
+    },
+    {
+      "msrNoteNamesLanguage",
+      required_argument, &msrNoteNamesLanguagePresent, 1
     },
     
     {
@@ -823,7 +827,7 @@ void analyzeOptions (
         // MSR options
         // -----------
         
-        if (languagePresent) {
+        if (msrNoteNamesLanguagePresent) {
           // optarg contains the language name
           string optargAsString;
           {
@@ -844,10 +848,10 @@ void analyzeOptions (
           }
           
           gGeneralOptions->fCommandLineOptions +=
-            "--language " +
+            "--msrNoteNamesLanguage " +
             optargAsString +
             " ";
-          languagePresent = false;
+          msrNoteNamesLanguagePresent = false;
           }
              
         if (staffRelativeVoiceNumbersPresent) {

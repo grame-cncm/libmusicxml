@@ -44,18 +44,18 @@ map<msrPitch, string> gVlaamsPitchName;
 
 void initializeMsrNoteNamesLanguage ()
 {
-  gNoteNamesLanguagesMap ["dutch"]     = kNederlands;
-  gNoteNamesLanguagesMap ["catalan"]   = kCatalan;
-  gNoteNamesLanguagesMap ["deutsch"]   = kDeutsch;
-  gNoteNamesLanguagesMap ["english"]   = kEnglish;
-  gNoteNamesLanguagesMap ["espanol"]   = kEspanol;
-  gNoteNamesLanguagesMap ["italiano"]  = kItaliano;
-  gNoteNamesLanguagesMap ["francais"]  = kFrancais;
-  gNoteNamesLanguagesMap ["norsk"]     = kNorsk;
-  gNoteNamesLanguagesMap ["portugues"] = kPortugues;
-  gNoteNamesLanguagesMap ["suomi"]     = kSuomi;
-  gNoteNamesLanguagesMap ["svenska"]   = kSvenska;
-  gNoteNamesLanguagesMap ["vlaams"]    = kVlaams;
+  gNoteNamesLanguagesMap ["nederlands"] = kNederlands;
+  gNoteNamesLanguagesMap ["catalan"]    = kCatalan;
+  gNoteNamesLanguagesMap ["deutsch"]    = kDeutsch;
+  gNoteNamesLanguagesMap ["english"]    = kEnglish;
+  gNoteNamesLanguagesMap ["espanol"]    = kEspanol;
+  gNoteNamesLanguagesMap ["italiano"]   = kItaliano;
+  gNoteNamesLanguagesMap ["francais"]   = kFrancais;
+  gNoteNamesLanguagesMap ["norsk"]      = kNorsk;
+  gNoteNamesLanguagesMap ["portugues"]  = kPortugues;
+  gNoteNamesLanguagesMap ["suomi"]      = kSuomi;
+  gNoteNamesLanguagesMap ["svenska"]    = kSvenska;
+  gNoteNamesLanguagesMap ["vlaams"]     = kVlaams;
 
   // nederlands
   gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
