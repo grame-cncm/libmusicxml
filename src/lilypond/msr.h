@@ -228,14 +228,13 @@ static string alterationKindAsString (
   msrAlterationKind alterationKind);
 
 enum msrPitch {
-  // k_f is already defined in elements/elements.h, hence k_f_
-  k_aeseh, k_aes, k_aeh, k_a, k_aih, k_ais, k_aisih,
-  k_beseh, k_bes, k_beh, k_b, k_bih, k_bis, k_bisih, 
-  k_ceseh, k_ces, k_ceh, k_c, k_cih, k_cis, k_cisih,
-  k_deseh, k_des, k_deh, k_d, k_dih, k_dis, k_disih,
-  k_eeseh, k_ees, k_eeh, k_e, k_eih, k_eis, k_eisih, 
-  k_feseh, k_fes, k_feh, k_f_, k_fih, k_fis, k_fisih,
-  k_geseh, k_ges, k_geh, k_g, k_gih, k_gis, k_gisih};
+  k_aSesquiFlat, k_aFlat, k_aSemiFlat, k_aNatural, k_aSemiSharp, k_aSharp, k_aSesquiSharp,
+  k_bSesquiFlat, k_bFlat, k_bSemiFlat, k_bNatural, k_bih, k_bSharp, k_bSesquiSharp, 
+  k_cSesquiFlat, k_cFlat, k_cSemiFlat, k_cNatural, k_cih, k_cSharp, k_cSesquiSharp,
+  k_dSesquiFlat, k_dFlat, k_dSemiFlat, k_dNatural, k_dih, k_dSharp, k_dSesquiSharp,
+  k_eSesquiFlat, k_eFlat, k_eSemiFlat, k_eNatural, k_eih, k_eSharp, k_eSesquiSharp, 
+  k_fSesquiFlat, k_fFlat, k_fSemiFlat, k_fNatural, k_fih, k_fSharp, k_fSesquiSharp,
+  k_gSesquiFlat, k_gFlat, k_gSemiFlat, k_gNatural, k_gih, k_gSharp, k_gSesquiSharp};
 
 enum msrNoteNamesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kItaliano, 
