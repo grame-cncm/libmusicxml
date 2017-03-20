@@ -47,7 +47,7 @@ msrOptions::msrOptions ()
   fNoteNamesLanguageMap ["vlaams"]    = kVlaams;
 
   // nederlands
-  fNederlandsPitchName [k_aSesquiFlat]  = "aeseh";
+  fNederlandsPitchName [k_aDoubleFlat]  = "aeses";
   fNederlandsPitchName [k_aSesquiFlat]  = "aeseh";
   fNederlandsPitchName [k_aFlat]        = "aes";
   fNederlandsPitchName [k_aSemiFlat]    = "aeh";
@@ -55,9 +55,9 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_aSemiSharp]   = "aih";
   fNederlandsPitchName [k_aSharp]       = "ais";
   fNederlandsPitchName [k_aSesquiSharp] = "aisih";
-  fNederlandsPitchName [k_aSesquiSharp] = "aisih";
+  fNederlandsPitchName [k_aDoubleSharp] = "aisis";
     
-  fNederlandsPitchName [k_bSesquiFlat]  = "beseh";
+  fNederlandsPitchName [k_bDoubleFlat]  = "beses";
   fNederlandsPitchName [k_bSesquiFlat]  = "beseh";
   fNederlandsPitchName [k_bFlat]        = "bes";
   fNederlandsPitchName [k_bSemiFlat]    = "beh";
@@ -65,9 +65,9 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_bSemiSharp]   = "bih";
   fNederlandsPitchName [k_bSharp]       = "bis";
   fNederlandsPitchName [k_bSesquiSharp] = "bisih";
-  fNederlandsPitchName [k_bSesquiSharp] = "bisih";
+  fNederlandsPitchName [k_bDoubleSharp] = "bisis";
     
-  fNederlandsPitchName [k_cSesquiFlat]  = "ceseh";
+  fNederlandsPitchName [k_cDoubleFlat]  = "ceses";
   fNederlandsPitchName [k_cSesquiFlat]  = "ceseh";
   fNederlandsPitchName [k_cFlat]        = "ces";
   fNederlandsPitchName [k_cSemiFlat]    = "ceh";
@@ -75,9 +75,9 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_cSemiSharp]   = "cih";
   fNederlandsPitchName [k_cSharp]       = "cis";
   fNederlandsPitchName [k_cSesquiSharp] = "cisih";
-  fNederlandsPitchName [k_cSesquiSharp] = "cisih";
+  fNederlandsPitchName [k_cDoubleSharp] = "cisis";
     
-  fNederlandsPitchName [k_dSesquiFlat]  = "deseh";
+  fNederlandsPitchName [k_dDoubleFlat]  = "deses";
   fNederlandsPitchName [k_dSesquiFlat]  = "deseh";
   fNederlandsPitchName [k_dFlat]        = "des";
   fNederlandsPitchName [k_dSemiFlat]    = "deh";
@@ -85,9 +85,9 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_dSemiSharp]   = "dih";
   fNederlandsPitchName [k_dSharp]       = "dis";
   fNederlandsPitchName [k_dSesquiSharp] = "disih";
-  fNederlandsPitchName [k_dSesquiSharp] = "disih";
+  fNederlandsPitchName [k_dDoubleSharp] = "disis";
 
-  fNederlandsPitchName [k_eSesquiFlat]  = "eeseh";
+  fNederlandsPitchName [k_eDoubleFlat]  = "eeses";
   fNederlandsPitchName [k_eSesquiFlat]  = "eeseh";
   fNederlandsPitchName [k_eFlat]        = "ees";
   fNederlandsPitchName [k_eSemiFlat]    = "eeh";
@@ -95,9 +95,9 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_eSemiSharp]   = "eih";
   fNederlandsPitchName [k_eSharp]       = "eis";
   fNederlandsPitchName [k_eSesquiSharp] = "eisih";
-  fNederlandsPitchName [k_eSesquiSharp] = "eisih";
+  fNederlandsPitchName [k_eDoubleSharp] = "eisis";
     
-  fNederlandsPitchName [k_fSesquiFlat]  = "feseh";
+  fNederlandsPitchName [k_fDoubleFlat]  = "feses";
   fNederlandsPitchName [k_fSesquiFlat]  = "feseh";
   fNederlandsPitchName [k_fFlat]        = "fes";
   fNederlandsPitchName [k_fSemiFlat]    = "feh";
@@ -105,9 +105,9 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_fSemiSharp]   = "fih";
   fNederlandsPitchName [k_fSharp]       = "fis";
   fNederlandsPitchName [k_fSesquiSharp] = "fisih";
-  fNederlandsPitchName [k_fSesquiSharp] = "fisih";
+  fNederlandsPitchName [k_fDoubleSharp] = "fisis";
     
-  fNederlandsPitchName [k_gSesquiFlat]  = "geseh";
+  fNederlandsPitchName [k_gDoubleFlat]  = "geses";
   fNederlandsPitchName [k_gSesquiFlat]  = "geseh";
   fNederlandsPitchName [k_gFlat]        = "ges";
   fNederlandsPitchName [k_gSemiFlat]    = "geh";
@@ -115,100 +115,101 @@ msrOptions::msrOptions ()
   fNederlandsPitchName [k_gSemiSharp]   = "gih";
   fNederlandsPitchName [k_gSharp]       = "gis";
   fNederlandsPitchName [k_gSesquiSharp] = "gisih";
-  fNederlandsPitchName [k_gSesquiSharp] = "gisih";
+  fNederlandsPitchName [k_gDoubleSharp] = "gisis";
 
   // catalan
-  fCatalanPitchName [k_aSesquiFlat]  = "labb";
-  fCatalanPitchName [k_aSesquiFlat]  = "labb";
+  fCatalanPitchName [k_aDoubleFlat]  = "labb";
+  fCatalanPitchName [k_aSesquiFlat]  = "labSesquiFlat???";
   fCatalanPitchName [k_aFlat]        = "lab";
-  fCatalanPitchName [k_aSemiFlat]    = "aeh";
+  fCatalanPitchName [k_aSemiFlat]    = "aSemiFlat???";
   fCatalanPitchName [k_aNatural]     = "la";
-  fCatalanPitchName [k_aSemiSharp]   = "aih";
+  fCatalanPitchName [k_aSemiSharp]   = "aSemiSharp???";
   fCatalanPitchName [k_aSharp]       = "lad";
-  fCatalanPitchName [k_aSesquiSharp] = "ladd";
-  fCatalanPitchName [k_aSesquiSharp] = "ladd";
+  fCatalanPitchName [k_aSesquiSharp] = "laSesquiSharp???";
+  fCatalanPitchName [k_aDoubleSharp] = "ladd";
     
-  fCatalanPitchName [k_bSemiFlat]    = "sibb";
+  fCatalanPitchName [k_bDoubleFlat]  = "sibb";
+  fCatalanPitchName [k_bSesquiFlat]  = "sibSesquiFlat???";
   fCatalanPitchName [k_bFlat]        = "sib";
-  fCatalanPitchName [k_bSemiFlat]    = "beh";
+  fCatalanPitchName [k_bSemiFlat]    = "bSemiFlat???";
   fCatalanPitchName [k_bNatural]     = "b";
-  fCatalanPitchName [k_bSemiSharp]   = "bSemiSharp";
+  fCatalanPitchName [k_bSemiSharp]   = "bSemiSharp???";
   fCatalanPitchName [k_bSharp]       = "sid";
-  fCatalanPitchName [k_bSesquiSharp] = "sidd";
-  fCatalanPitchName [k_bSesquiSharp] = "sidd";
+  fCatalanPitchName [k_bSesquiSharp] = "siSesquiSharp???";
+  fCatalanPitchName [k_bDoubleSharp] = "sidd";
     
-  fCatalanPitchName [k_cSesquiFlat]  = "dobb";
-  fCatalanPitchName [k_cSesquiFlat]  = "dobb";
+  fCatalanPitchName [k_cDoubleFlat]  = "dobb";
+  fCatalanPitchName [k_cSesquiFlat]  = "doSesquiFlat???";
   fCatalanPitchName [k_cFlat]        = "dob";
-  fCatalanPitchName [k_cSemiFlat]    = "ceh";
+  fCatalanPitchName [k_cSemiFlat]    = "cSemiFlat???";
   fCatalanPitchName [k_cNatural]     = "do";
-  fCatalanPitchName [k_cSemiSharp]   = "cih";
+  fCatalanPitchName [k_cSemiSharp]   = "cSemiSharp???";
   fCatalanPitchName [k_cSharp]       = "dod";
-  fCatalanPitchName [k_cSesquiSharp] = "dodd";
-  fCatalanPitchName [k_cSesquiSharp] = "dodd";
+  fCatalanPitchName [k_cSesquiSharp] = "doSesquiSharp???";
+  fCatalanPitchName [k_cDoubleSharp] = "dodd";
     
-  fCatalanPitchName [k_dSesquiFlat]  = "rebb";
-  fCatalanPitchName [k_dSesquiFlat]  = "rebb";
+  fCatalanPitchName [k_dDoubleFlat]  = "rebb";
+  fCatalanPitchName [k_dSesquiFlat]  = "reSesquiFlat???";
   fCatalanPitchName [k_dFlat]        = "reb";
-  fCatalanPitchName [k_dSemiFlat]    = "deh";
+  fCatalanPitchName [k_dSemiFlat]    = "dSemiFlat???";
   fCatalanPitchName [k_dNatural]     = "re";
-  fCatalanPitchName [k_dSemiSharp]   = "dih";
+  fCatalanPitchName [k_dSemiSharp]   = "dSemiSharp???";
   fCatalanPitchName [k_dSharp]       = "red";
-  fCatalanPitchName [k_dSesquiSharp] = "redd";
-  fCatalanPitchName [k_dSesquiSharp] = "redd";
+  fCatalanPitchName [k_dSesquiSharp] = "reSesquiSharp???";
+  fCatalanPitchName [k_dDoubleSharp] = "redd";
 
-  fCatalanPitchName [k_eSesquiFlat]  = "mibb";
-  fCatalanPitchName [k_eSesquiFlat]  = "mibb";
+  fCatalanPitchName [k_eDoubleFlat]  = "mibb";
+  fCatalanPitchName [k_eSesquiFlat]  = "miSesquiFlat";
   fCatalanPitchName [k_eFlat]        = "mib";
-  fCatalanPitchName [k_eSemiFlat]    = "eeh";
+  fCatalanPitchName [k_eSemiFlat]    = "eSemiFlat???";
   fCatalanPitchName [k_eNatural]     = "mi";
-  fCatalanPitchName [k_eSemiSharp]   = "eSemiSharp";
+  fCatalanPitchName [k_eSemiSharp]   = "eSemiSharp???";
   fCatalanPitchName [k_eSharp]       = "mid";
-  fCatalanPitchName [k_eSesquiSharp] = "midd";
-  fCatalanPitchName [k_eSesquiSharp] = "midd";
+  fCatalanPitchName [k_eSesquiSharp] = "miSesquiSharp???";
+  fCatalanPitchName [k_eDoubleSharp] = "midd";
     
-  fCatalanPitchName [k_fSesquiFlat]  = "fabb";
-  fCatalanPitchName [k_fSesquiFlat]  = "fabb";
+  fCatalanPitchName [k_fDoubleFlat]  = "fabb";
+  fCatalanPitchName [k_fSesquiFlat]  = "faSesquiFlat???";
   fCatalanPitchName [k_fFlat]        = "fab";
-  fCatalanPitchName [k_fSemiFlat]    = "feh";
+  fCatalanPitchName [k_fSemiFlat]    = "fSemiFlat???";
   fCatalanPitchName [k_fNatural]     = "fa";
-  fCatalanPitchName [k_fSemiSharp]   = "fih";
+  fCatalanPitchName [k_fSemiSharp]   = "fSemiSharp???";
   fCatalanPitchName [k_fSharp]       = "fad";
-  fCatalanPitchName [k_fSesquiSharp] = "fadd";
-  fCatalanPitchName [k_fSesquiSharp] = "fadd";
+  fCatalanPitchName [k_fSesquiSharp] = "faSesquiSharp???";
+  fCatalanPitchName [k_fDoubleSharp] = "fadd";
     
-  fCatalanPitchName [k_gSesquiFlat]  = "solbb";
-  fCatalanPitchName [k_gSesquiFlat]  = "solbb";
+  fCatalanPitchName [k_gDoubleFlat]  = "solbb";
+  fCatalanPitchName [k_gSesquiFlat]  = "solSesquiFlat???";
   fCatalanPitchName [k_gFlat]        = "solb";
-  fCatalanPitchName [k_gSemiFlat]    = "geh";
+  fCatalanPitchName [k_gSemiFlat]    = "gSemiFlat???";
   fCatalanPitchName [k_gNatural]     = "sol";
-  fCatalanPitchName [k_gSemiSharp]   = "gih";
+  fCatalanPitchName [k_gSemiSharp]   = "gSemiSharp???";
   fCatalanPitchName [k_gSharp]       = "sold";
-  fCatalanPitchName [k_gSesquiSharp] = "soldd";
-  fCatalanPitchName [k_gSesquiSharp] = "soldd";
+  fCatalanPitchName [k_gSesquiSharp] = "solSesquiSharp???";
+  fCatalanPitchName [k_gDoubleSharp] = "soldd";
 
   // deutsch
-  fDeutschPitchName [k_aSesquiFlat]  = "aeses";
-  fDeutschPitchName [k_aSesquiFlat]  = "aeseh";
-  fDeutschPitchName [k_aFlat]        = "aes";
+  fDeutschPitchName [k_aDoubleFlat]  = "asas";
+  fDeutschPitchName [k_aSesquiFlat]  = "asah";
+  fDeutschPitchName [k_aFlat]        = "as";
   fDeutschPitchName [k_aSemiFlat]    = "aeh";
   fDeutschPitchName [k_aNatural]     = "a";
   fDeutschPitchName [k_aSemiSharp]   = "aih";
   fDeutschPitchName [k_aSharp]       = "ais";
   fDeutschPitchName [k_aSesquiSharp] = "aisih";
-  fDeutschPitchName [k_aSesquiSharp] = "aisih";
+  fDeutschPitchName [k_aDoubleSharp] = "aisis";
     
-  fDeutschPitchName [k_bSesquiFlat]  = "beseh";
-  fDeutschPitchName [k_bSesquiFlat]  = "beseh";
+  fDeutschPitchName [k_bDoubleFlat]  = "heses";
+  fDeutschPitchName [k_bSesquiFlat]  = "heseh";
   fDeutschPitchName [k_bFlat]        = "b";
   fDeutschPitchName [k_bSemiFlat]    = "beh";
   fDeutschPitchName [k_bNatural]     = "h";
-  fDeutschPitchName [k_bSemiSharp]   = "bih";
-  fDeutschPitchName [k_bSharp]       = "bis";
-  fDeutschPitchName [k_bSesquiSharp] = "bisih";
-  fDeutschPitchName [k_bSesquiSharp] = "bisih";
+  fDeutschPitchName [k_bSemiSharp]   = "hih";
+  fDeutschPitchName [k_bSharp]       = "his";
+  fDeutschPitchName [k_bSesquiSharp] = "hisih";
+  fDeutschPitchName [k_bDoubleSharp] = "hisis";
     
-  fDeutschPitchName [k_cSesquiFlat]  = "ceseh";
+  fDeutschPitchName [k_cDoubleFlat]  = "ceses";
   fDeutschPitchName [k_cSesquiFlat]  = "ceseh";
   fDeutschPitchName [k_cFlat]        = "ces";
   fDeutschPitchName [k_cSemiFlat]    = "ceh";
@@ -216,9 +217,9 @@ msrOptions::msrOptions ()
   fDeutschPitchName [k_cSemiSharp]   = "cih";
   fDeutschPitchName [k_cSharp]       = "cis";
   fDeutschPitchName [k_cSesquiSharp] = "cisih";
-  fDeutschPitchName [k_cSesquiSharp] = "cisih";
+  fDeutschPitchName [k_cDoubleSharp] = "cisis";
     
-  fDeutschPitchName [k_dSesquiFlat]  = "deseh";
+  fDeutschPitchName [k_dDoubleFlat]  = "deses";
   fDeutschPitchName [k_dSesquiFlat]  = "deseh";
   fDeutschPitchName [k_dFlat]        = "des";
   fDeutschPitchName [k_dSemiFlat]    = "deh";
@@ -226,19 +227,19 @@ msrOptions::msrOptions ()
   fDeutschPitchName [k_dSemiSharp]   = "dih";
   fDeutschPitchName [k_dSharp]       = "dis";
   fDeutschPitchName [k_dSesquiSharp] = "disih";
-  fDeutschPitchName [k_dSesquiSharp] = "disih";
+  fDeutschPitchName [k_dDoubleSharp] = "disis";
 
-  fDeutschPitchName [k_eSesquiFlat]  = "eeseh";
-  fDeutschPitchName [k_eSesquiFlat]  = "eeseh";
-  fDeutschPitchName [k_eFlat]        = "ees";
+  fDeutschPitchName [k_eDoubleFlat]  = "eses";
+  fDeutschPitchName [k_eSesquiFlat]  = "esseh";
+  fDeutschPitchName [k_eFlat]        = "es";
   fDeutschPitchName [k_eSemiFlat]    = "eeh";
   fDeutschPitchName [k_eNatural]     = "e";
   fDeutschPitchName [k_eSemiSharp]   = "eih";
   fDeutschPitchName [k_eSharp]       = "eis";
   fDeutschPitchName [k_eSesquiSharp] = "eisih";
-  fDeutschPitchName [k_eSesquiSharp] = "eisih";
+  fDeutschPitchName [k_eDoubleSharp] = "eisis";
     
-  fDeutschPitchName [k_fSesquiFlat]  = "feseh";
+  fDeutschPitchName [k_fDoubleFlat]  = "feses";
   fDeutschPitchName [k_fSesquiFlat]  = "feseh";
   fDeutschPitchName [k_fFlat]        = "fes";
   fDeutschPitchName [k_fSemiFlat]    = "feh";
@@ -246,9 +247,9 @@ msrOptions::msrOptions ()
   fDeutschPitchName [k_fSemiSharp]   = "fih";
   fDeutschPitchName [k_fSharp]       = "fis";
   fDeutschPitchName [k_fSesquiSharp] = "fisih";
-  fDeutschPitchName [k_fSesquiSharp] = "fisih";
+  fDeutschPitchName [k_fDoubleSharp] = "fisis";
     
-  fDeutschPitchName [k_gSesquiFlat]  = "geseh";
+  fDeutschPitchName [k_gDoubleFlat]  = "geses";
   fDeutschPitchName [k_gSesquiFlat]  = "geseh";
   fDeutschPitchName [k_gFlat]        = "ges";
   fDeutschPitchName [k_gSemiFlat]    = "geh";
@@ -256,219 +257,220 @@ msrOptions::msrOptions ()
   fDeutschPitchName [k_gSemiSharp]   = "gih";
   fDeutschPitchName [k_gSharp]       = "gis";
   fDeutschPitchName [k_gSesquiSharp] = "gisih";
-  fDeutschPitchName [k_gSesquiSharp] = "gisih";
+  fDeutschPitchName [k_gDoubleSharp] = "gisis";
 
   // english
-  fEnglishPitchName [k_aSesquiFlat]  = "afqf";
-  fEnglishPitchName [k_aSesquiFlat]  = "afqf";
+  fEnglishPitchName [k_aDoubleFlat]  = "aff";
+  fEnglishPitchName [k_aSesquiFlat]  = "atqf";
   fEnglishPitchName [k_aFlat]        = "af";
   fEnglishPitchName [k_aSemiFlat]    = "aqf";
   fEnglishPitchName [k_aNatural]     = "a";
   fEnglishPitchName [k_aSemiSharp]   = "aqs";
   fEnglishPitchName [k_aSharp]       = "as";
-  fEnglishPitchName [k_aSesquiSharp] = "asqs";
-  fEnglishPitchName [k_aSesquiSharp] = "asqs";
+  fEnglishPitchName [k_aSesquiSharp] = "atqs";
+  fEnglishPitchName [k_aDoubleSharp] = "a";
     
-  fEnglishPitchName [k_bSesquiFlat]  = "bfqf";
-  fEnglishPitchName [k_bSesquiFlat]  = "bfqf";
+  fEnglishPitchName [k_bDoubleFlat]  = "bfqf";
+  fEnglishPitchName [k_bSesquiFlat]  = "btqf";
   fEnglishPitchName [k_bFlat]        = "bf";
   fEnglishPitchName [k_bSemiFlat]    = "bqf";
   fEnglishPitchName [k_bNatural]     = "b";
   fEnglishPitchName [k_bSemiSharp]   = "bqs";
   fEnglishPitchName [k_bSharp]       = "bs";
-  fEnglishPitchName [k_bSesquiSharp] = "bsqs";
-  fEnglishPitchName [k_bSesquiSharp] = "bsqs";
+  fEnglishPitchName [k_bSesquiSharp] = "btqs";
+  fEnglishPitchName [k_bDoubleSharp] = "bx";
     
-  fEnglishPitchName [k_cSesquiFlat]  = "cfqf";
-  fEnglishPitchName [k_cSesquiFlat]  = "cfqf";
+  fEnglishPitchName [k_cDoubleFlat]  = "cff";
+  fEnglishPitchName [k_cSesquiFlat]  = "ctqf";
   fEnglishPitchName [k_cFlat]        = "cf";
   fEnglishPitchName [k_cSemiFlat]    = "cqf";
   fEnglishPitchName [k_cNatural]     = "c";
   fEnglishPitchName [k_cSemiSharp]   = "cqs";
   fEnglishPitchName [k_cSharp]       = "cs";
-  fEnglishPitchName [k_cSesquiSharp] = "csqs";
-  fEnglishPitchName [k_cSesquiSharp] = "csqs";
+  fEnglishPitchName [k_cSesquiSharp] = "ctqs";
+  fEnglishPitchName [k_cDoubleSharp] = "cx";
     
-  fEnglishPitchName [k_dSemiFlat]    = "dfqf";
+  fEnglishPitchName [k_dDoubleFlat]  = "dff";
+  fEnglishPitchName [k_dSesquiFlat]  = "dtqf";
   fEnglishPitchName [k_dFlat]        = "df";
   fEnglishPitchName [k_dSemiFlat]    = "dqf";
   fEnglishPitchName [k_dNatural]     = "d";
   fEnglishPitchName [k_dSemiSharp]   = "dqs";
   fEnglishPitchName [k_dSharp]       = "ds";
-  fEnglishPitchName [k_dSesquiSharp] = "dsqs";
-  fEnglishPitchName [k_dSesquiSharp] = "dsqs";
+  fEnglishPitchName [k_dSesquiSharp] = "dtqs";
+  fEnglishPitchName [k_dDoubleSharp] = "dx";
 
-  fEnglishPitchName [k_eSesquiFlat]  = "efqf";
-  fEnglishPitchName [k_eSesquiFlat]  = "efqf";
+  fEnglishPitchName [k_eDoubleFlat]  = "eff";
+  fEnglishPitchName [k_eSesquiFlat]  = "etqf";
   fEnglishPitchName [k_eFlat]        = "ef";
   fEnglishPitchName [k_eSemiFlat]    = "eqf";
   fEnglishPitchName [k_eNatural]     = "e";
   fEnglishPitchName [k_eSemiSharp]   = "eqs";
   fEnglishPitchName [k_eSharp]       = "es";
-  fEnglishPitchName [k_eSesquiSharp] = "esqs";
-  fEnglishPitchName [k_eSesquiSharp] = "esqs";
+  fEnglishPitchName [k_eSesquiSharp] = "etqs";
+  fEnglishPitchName [k_eDoubleSharp] = "ex";
     
-  fEnglishPitchName [k_fSesquiFlat]  = "ffqf";
-  fEnglishPitchName [k_fSesquiFlat]  = "ffqf";
+  fEnglishPitchName [k_fDoubleFlat]  = "fff";
+  fEnglishPitchName [k_fSesquiFlat]  = "ftqf";
   fEnglishPitchName [k_fFlat]        = "ff";
   fEnglishPitchName [k_fSemiFlat]    = "fqf";
   fEnglishPitchName [k_fNatural]     = "f";
   fEnglishPitchName [k_fSemiSharp]   = "fqs";
   fEnglishPitchName [k_fSharp]       = "fs";
-  fEnglishPitchName [k_fSesquiSharp] = "fsqs";
-  fEnglishPitchName [k_fSesquiSharp] = "fsqs";
+  fEnglishPitchName [k_fSesquiSharp] = "ftqs";
+  fEnglishPitchName [k_fDoubleSharp] = "fx";
     
-  fEnglishPitchName [k_gSesquiFlat]  = "gfqf";
-  fEnglishPitchName [k_gSesquiFlat]  = "gfqf";
+  fEnglishPitchName [k_gDoubleFlat]  = "gff";
+  fEnglishPitchName [k_gSesquiFlat]  = "gtqf";
   fEnglishPitchName [k_gFlat]        = "gf";
   fEnglishPitchName [k_gSemiFlat]    = "gqf";
   fEnglishPitchName [k_gNatural]     = "g";
   fEnglishPitchName [k_gSemiSharp]   = "gqs";
   fEnglishPitchName [k_gSharp]       = "gs";
-  fEnglishPitchName [k_gSesquiSharp] = "gsqs";
-  fEnglishPitchName [k_gSesquiSharp] = "gsqs";
+  fEnglishPitchName [k_gSesquiSharp] = "gtqs";
+  fEnglishPitchName [k_gDoubleSharp] = "gx";
 
   // espanol
-  fEspanolPitchName [k_aSesquiFlat]  = "labb";
-  fEspanolPitchName [k_aSesquiFlat]  = "labb";
+  fEspanolPitchName [k_aDoubleFlat]  = "labb";
+  fEspanolPitchName [k_aSesquiFlat]  = "latcb";
   fEspanolPitchName [k_aFlat]        = "lab";
   fEspanolPitchName [k_aSemiFlat]    = "lacb";
   fEspanolPitchName [k_aNatural]     = "la";
   fEspanolPitchName [k_aSemiSharp]   = "lacs";
-  fEspanolPitchName [k_aSharp]       = "lad";
-  fEspanolPitchName [k_aSesquiSharp] = "ladd";
-  fEspanolPitchName [k_aSesquiSharp] = "ladd";
+  fEspanolPitchName [k_aSharp]       = "las";
+  fEspanolPitchName [k_aSesquiSharp] = "latcs";
+  fEspanolPitchName [k_aDoubleSharp] = "lax";
     
-  fEspanolPitchName [k_bSesquiFlat]  = "sibb";
-  fEspanolPitchName [k_bSesquiFlat]  = "sibb";
+  fEspanolPitchName [k_bDoubleFlat]  = "sibb";
+  fEspanolPitchName [k_bSesquiFlat]  = "sitcb";
   fEspanolPitchName [k_bFlat]        = "sib";
   fEspanolPitchName [k_bSemiFlat]    = "sicb";
   fEspanolPitchName [k_bNatural]     = "si";
   fEspanolPitchName [k_bSemiSharp]   = "sics";
-  fEspanolPitchName [k_bSharp]       = "sid";
-  fEspanolPitchName [k_bSesquiSharp] = "sidd";
-  fEspanolPitchName [k_bSesquiSharp] = "sidd";
+  fEspanolPitchName [k_bSharp]       = "sis";
+  fEspanolPitchName [k_bSesquiSharp] = "sitcs";
+  fEspanolPitchName [k_bDoubleSharp] = "six";
     
-  fEspanolPitchName [k_cSesquiFlat]  = "dobb";
-  fEspanolPitchName [k_cSesquiFlat]  = "dobb";
+  fEspanolPitchName [k_cDoubleFlat]  = "dobb";
+  fEspanolPitchName [k_cSesquiFlat]  = "dotcb";
   fEspanolPitchName [k_cFlat]        = "dob";
   fEspanolPitchName [k_cSemiFlat]    = "docb";
   fEspanolPitchName [k_cNatural]     = "do";
   fEspanolPitchName [k_cSemiSharp]   = "docs";
-  fEspanolPitchName [k_cSharp]       = "dod";
-  fEspanolPitchName [k_cSesquiSharp] = "dodd";
-  fEspanolPitchName [k_cSesquiSharp] = "dodd";
+  fEspanolPitchName [k_cSharp]       = "dos";
+  fEspanolPitchName [k_cSesquiSharp] = "dotcs";
+  fEspanolPitchName [k_cDoubleSharp] = "dox";
     
-  fEspanolPitchName [k_dSesquiFlat]  = "rebb";
-  fEspanolPitchName [k_dSesquiFlat]  = "rebb";
+  fEspanolPitchName [k_dDoubleFlat]  = "rebb";
+  fEspanolPitchName [k_dSesquiFlat]  = "retcb";
   fEspanolPitchName [k_dFlat]        = "reb";
   fEspanolPitchName [k_dSemiFlat]    = "recb";
   fEspanolPitchName [k_dNatural]     = "re";
   fEspanolPitchName [k_dSemiSharp]   = "recs";
-  fEspanolPitchName [k_dSharp]       = "red";
-  fEspanolPitchName [k_dSesquiSharp] = "redd";
-  fEspanolPitchName [k_dSesquiSharp] = "redd";
+  fEspanolPitchName [k_dSharp]       = "res";
+  fEspanolPitchName [k_dSesquiSharp] = "retcs";
+  fEspanolPitchName [k_dDoubleSharp] = "rex";
 
-  fEspanolPitchName [k_eSesquiFlat]  = "mibb";
-  fEspanolPitchName [k_eSesquiFlat]  = "mibb";
+  fEspanolPitchName [k_eDoubleFlat]  = "mibb";
+  fEspanolPitchName [k_eSesquiFlat]  = "mitcb";
   fEspanolPitchName [k_eFlat]        = "mib";
   fEspanolPitchName [k_eSemiFlat]    = "micb";
   fEspanolPitchName [k_eNatural]     = "mi";
   fEspanolPitchName [k_eSemiSharp]   = "mics";
-  fEspanolPitchName [k_eSharp]       = "mid";
-  fEspanolPitchName [k_eSesquiSharp] = "midd";
-  fEspanolPitchName [k_eSesquiSharp] = "midd";
+  fEspanolPitchName [k_eSharp]       = "mis";
+  fEspanolPitchName [k_eSesquiSharp] = "mitcs";
+  fEspanolPitchName [k_eDoubleSharp] = "mix";
     
-  fEspanolPitchName [k_fSesquiFlat]  = "fabb";
-  fEspanolPitchName [k_fSesquiFlat]  = "fabb";
+  fEspanolPitchName [k_fDoubleFlat]  = "fabb";
+  fEspanolPitchName [k_fSesquiFlat]  = "fatcb";
   fEspanolPitchName [k_fFlat]        = "fab";
   fEspanolPitchName [k_fSemiFlat]    = "facb";
   fEspanolPitchName [k_fNatural]     = "fa";
   fEspanolPitchName [k_fSemiSharp]   = "facs";
-  fEspanolPitchName [k_fSharp]       = "fad";
-  fEspanolPitchName [k_fSesquiSharp] = "fadd";
-  fEspanolPitchName [k_fSesquiSharp] = "fadd";
+  fEspanolPitchName [k_fSharp]       = "fas";
+  fEspanolPitchName [k_fSesquiSharp] = "fatcs";
+  fEspanolPitchName [k_fDoubleSharp] = "fax";
     
-  fEspanolPitchName [k_gSesquiFlat]  = "solbb";
-  fEspanolPitchName [k_gSesquiFlat]  = "solbb";
+  fEspanolPitchName [k_gDoubleFlat]  = "solbb";
+  fEspanolPitchName [k_gSesquiFlat]  = "soltcb";
   fEspanolPitchName [k_gFlat]        = "solb";
   fEspanolPitchName [k_gSemiFlat]    = "solcb";
   fEspanolPitchName [k_gNatural]     = "sol";
   fEspanolPitchName [k_gSemiSharp]   = "solcs";
-  fEspanolPitchName [k_gSharp]       = "sold";
-  fEspanolPitchName [k_gSesquiSharp] = "soldd";
-  fEspanolPitchName [k_gSesquiSharp] = "soldd";
+  fEspanolPitchName [k_gSharp]       = "sols";
+  fEspanolPitchName [k_gSesquiSharp] = "soltcs";
+  fEspanolPitchName [k_gDoubleSharp] = "solx";
 
   // francais
-  fFrancaisPitchName [k_aSesquiFlat]  = "labb";
-  fFrancaisPitchName [k_aSesquiFlat]  = "labb";
+  fFrancaisPitchName [k_aDoubleFlat]  = "labb";
+  fFrancaisPitchName [k_aSesquiFlat]  = "labsb";
   fFrancaisPitchName [k_aFlat]        = "lab";
   fFrancaisPitchName [k_aSemiFlat]    = "lasb";
   fFrancaisPitchName [k_aNatural]     = "la";
   fFrancaisPitchName [k_aSemiSharp]   = "lasd";
   fFrancaisPitchName [k_aSharp]       = "lad";
-  fFrancaisPitchName [k_aSesquiSharp] = "ladd";
-  fFrancaisPitchName [k_aSesquiSharp] = "ladd";
+  fFrancaisPitchName [k_aSesquiSharp] = "ladsd";
+  fFrancaisPitchName [k_aDoubleSharp] = "ladd";
     
-  fFrancaisPitchName [k_bSesquiFlat]  = "sibb";
-  fFrancaisPitchName [k_bSesquiFlat]  = "sibb";
+  fFrancaisPitchName [k_bDoubleFlat]  = "sibb";
+  fFrancaisPitchName [k_bSesquiFlat]  = "sibsb";
   fFrancaisPitchName [k_bFlat]        = "sib";
   fFrancaisPitchName [k_bSemiFlat]    = "sisb";
   fFrancaisPitchName [k_bNatural]     = "si";
   fFrancaisPitchName [k_bSemiSharp]   = "sisd";
   fFrancaisPitchName [k_bSharp]       = "sid";
-  fFrancaisPitchName [k_bSesquiSharp] = "sidd";
-  fFrancaisPitchName [k_bSesquiSharp] = "sidd";
+  fFrancaisPitchName [k_bSesquiSharp] = "sidsd";
+  fFrancaisPitchName [k_bDoubleSharp] = "sidd";
     
-  fFrancaisPitchName [k_cSesquiFlat]  = "dobb";
-  fFrancaisPitchName [k_cSesquiFlat]  = "dobb";
+  fFrancaisPitchName [k_cDoubleFlat]  = "dobb";
+  fFrancaisPitchName [k_cSesquiFlat]  = "dobsb";
   fFrancaisPitchName [k_cFlat]        = "dob";
   fFrancaisPitchName [k_cSemiFlat]    = "dosb";
   fFrancaisPitchName [k_cNatural]     = "do";
   fFrancaisPitchName [k_cSemiSharp]   = "dosd";
   fFrancaisPitchName [k_cSharp]       = "dod";
-  fFrancaisPitchName [k_cSesquiSharp] = "dodd";
-  fFrancaisPitchName [k_cSesquiSharp] = "dodd";
+  fFrancaisPitchName [k_cSesquiSharp] = "dodsd";
+  fFrancaisPitchName [k_cDoubleSharp] = "dodd";
     
-  fFrancaisPitchName [k_dSesquiFlat]  = "rebb";
-  fFrancaisPitchName [k_dSesquiFlat]  = "rebb";
+  fFrancaisPitchName [k_dDoubleFlat]  = "rebb";
+  fFrancaisPitchName [k_dSesquiFlat]  = "rebsb";
   fFrancaisPitchName [k_dFlat]        = "reb";
   fFrancaisPitchName [k_dSemiFlat]    = "resb";
   fFrancaisPitchName [k_dNatural]     = "re";
   fFrancaisPitchName [k_dSemiSharp]   = "resd";
   fFrancaisPitchName [k_dSharp]       = "red";
-  fFrancaisPitchName [k_dSesquiSharp] = "redd";
-  fFrancaisPitchName [k_dSesquiSharp] = "redd";
+  fFrancaisPitchName [k_dSesquiSharp] = "redsd";
+  fFrancaisPitchName [k_dDoubleSharp] = "redd";
 
-  fFrancaisPitchName [k_eSesquiFlat]  = "mibb";
-  fFrancaisPitchName [k_eSesquiFlat]  = "mibb";
+  fFrancaisPitchName [k_eDoubleFlat]  = "mibb";
+  fFrancaisPitchName [k_eSesquiFlat]  = "mibsb";
   fFrancaisPitchName [k_eFlat]        = "mib";
   fFrancaisPitchName [k_eSemiFlat]    = "misb";
   fFrancaisPitchName [k_eNatural]     = "mi";
   fFrancaisPitchName [k_eSemiSharp]   = "misd";
   fFrancaisPitchName [k_eSharp]       = "mid";
-  fFrancaisPitchName [k_eSesquiSharp] = "midd";
-  fFrancaisPitchName [k_eSesquiSharp] = "midd";
+  fFrancaisPitchName [k_eSesquiSharp] = "midsd";
+  fFrancaisPitchName [k_eDoubleSharp] = "midd";
     
-  fFrancaisPitchName [k_fSesquiFlat]  = "fabb";
-  fFrancaisPitchName [k_fSesquiFlat]  = "fabb";
+  fFrancaisPitchName [k_fDoubleFlat]  = "fabb";
+  fFrancaisPitchName [k_fSesquiFlat]  = "fabsb";
   fFrancaisPitchName [k_fFlat]        = "fab";
   fFrancaisPitchName [k_fSemiFlat]    = "fasb";
   fFrancaisPitchName [k_fNatural]     = "fa";
   fFrancaisPitchName [k_fSemiSharp]   = "fasd";
   fFrancaisPitchName [k_fSharp]       = "fad";
-  fFrancaisPitchName [k_fSesquiSharp] = "fadd";
-  fFrancaisPitchName [k_fSesquiSharp] = "fadd";
+  fFrancaisPitchName [k_fSesquiSharp] = "fadsd";
+  fFrancaisPitchName [k_fDoubleSharp] = "fadd";
     
-  fFrancaisPitchName [k_gSesquiFlat]  = "solbb";
-  fFrancaisPitchName [k_gSesquiFlat]  = "solbb";
+  fFrancaisPitchName [k_gDoubleFlat]  = "solbb";
+  fFrancaisPitchName [k_gSesquiFlat]  = "solbsb";
   fFrancaisPitchName [k_gFlat]        = "solb";
   fFrancaisPitchName [k_gSemiFlat]    = "solsb";
   fFrancaisPitchName [k_gNatural]     = "sol";
   fFrancaisPitchName [k_gSemiSharp]   = "solsd";
   fFrancaisPitchName [k_gSharp]       = "sold";
-  fFrancaisPitchName [k_gSesquiSharp] = "soldd";
-  fFrancaisPitchName [k_gSesquiSharp] = "soldd";
+  fFrancaisPitchName [k_gSesquiSharp] = "soldsd";
+  fFrancaisPitchName [k_gDoubleSharp] = "soldd";
 
 
   fNoteNameInLanguage [make_pair (kNederlands, kA)] = "a";
