@@ -1781,6 +1781,22 @@ msrNoteData::msrNoteData ()
   init ();
 }
 
+void msrNoteData::setNoteQuaterTonesPitch (
+  msrQuarterTonesPitch quarterTonesPitch)
+{
+  fNoteQuaterTonesPitch = quarterTonesPitch;
+
+  // set fNoteDiatonicPitch and fNoteAlteration accordingly
+}
+
+void msrNoteData::setNoteDiatonicPitch (
+  msrDiatonicPitch diatonicPitch)
+{
+  fNoteDiatonicPitch = diatonicPitch;
+
+  // set fNoteQuaterTonesPitch accordingly
+}
+
 void msrNoteData::print (ostream& os)
 {
   const int width = 21;

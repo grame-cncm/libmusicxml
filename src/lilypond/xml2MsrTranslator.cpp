@@ -4270,7 +4270,7 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
 {
   float alter = (float)(*elt);
 
-  fNoteData.fAlteration =
+  fNoteData.fNoteAlteration =
     msrAlterationFromMusicXMLAlter (
       alter);
       

@@ -445,26 +445,6 @@ class msrNoteData
 {
   public:
   
-    // data types
-    // ------------------------------------------------------
-
-/*
-    enum msrDiatonicPitch {
-      // starting at C for LilyPond relative octave calculations
-      kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
-
-    static string diatonicPitchAsString (
-      msrDiatonicPitch diatonicPitch);
-      
-    enum msrAlteration {
-      kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
-      kNatural,
-      kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
-
-    static string alterationKindAsString (
-      msrAlteration alterationKind);
-*/
-      
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -480,8 +460,17 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
+    void                  setNoteQuaterTonesPitch (
+                            msrQuarterTonesPitch quarterTonesPitch);
+                            
     msrQuarterTonesPitch  getNoteQuaterTonesPitch () const
                               { return fNoteQuaterTonesPitch; }
+
+    void                  setNoteDiatonicPitch (
+                            msrDiatonicPitch diatonicPitch);
+                            
+    msrDiatonicPitch      getNoteDiatonicPitch () const
+                              { return fNoteDiatonicPitch; }
 
   public:
 
@@ -499,12 +488,6 @@ class msrNoteData
     bool                      fStepIsARest;
     bool                      fStepIsUnpitched;
 
-    // The alter element represents chromatic alteration
-    // in number of semitones (e.g., -1 for flat, 1 for sharp).
-    // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
-    msrDiatonicPitch          fDiatonicPitch;
-    msrAlteration         fAlteration;
-    
     int                       fOctave;
 
     // MusicXML durations are in divisions per quarter note.
@@ -531,6 +514,10 @@ class msrNoteData
 
   private:
 
+    // these informations are private to enforce setting them
+    // thru the set methods, thus ensuring they are consistent
+    msrDiatonicPitch          fNoteDiatonicPitch;
+    msrAlteration             fNoteAlteration;
     msrQuarterTonesPitch      fNoteQuaterTonesPitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
@@ -2543,6 +2530,14 @@ class EXP msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    msrQuarterTonesPitch
+                  getQuaterTonesPitch () const
+                      { return fNoteData.getNoteQuaterTonesPitch (); }
+
+    msrDiatonicPitch
+                  getDiatonicPitch () const
+                      { return fNoteData.getNoteDiatonicPitch (); }
+
     bool          getNoteIsUnpitched () const
                     // useful for rest tuplet members
                       { return fNoteData.fStepIsUnpitched; }
@@ -2571,13 +2566,6 @@ class EXP msrNote : public msrElement
 
     int           getNoteDotsNumber () const
                       { return fNoteData.fDotsNumber; }
-
-    int           getNoteOctave () const
-                      { return fNoteData.fOctave; }
-
-    msrDiatonicPitch
-                  getDiatonicPitch () const
-                      { return fNoteData.fDiatonicPitch; }
 
     void          setNoteOccupiesAFullMeasure ()
                       { fNoteOccupiesAFullMeasure = true; }
