@@ -1380,7 +1380,7 @@ void printOptions ()
   
   cerr << left <<
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
-      quaterTonesPitchesLanguageAsString (
+      msrQuaterTonesPitchesLanguageAsString (
         gMsrOptions->fQuaterTonesPitchesLanguage) <<
         "\"" <<
         endl <<
@@ -1433,7 +1433,7 @@ void printOptions ()
   
   cerr << left <<
     idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
-      quaterTonesPitchesLanguageAsString (
+      msrQuaterTonesPitchesLanguageAsString (
         gLpsrOptions->fQuaterTonesPitchesLanguage) <<
         "\"" <<
         endl <<

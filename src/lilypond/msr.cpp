@@ -26,21 +26,21 @@ namespace MusicXML2
 // notes names languages
 // ------------------------------------------------------
 
-map<string, quaterTonesPitchesLanguage>
+map<string, msrQuaterTonesPitchesLanguage>
   gQuaterTonesPitchesLanguagesMap;
 
-map<quarterTonesPitch, string> gNederlandsPitchName;
-map<quarterTonesPitch, string> gCatalanPitchName;
-map<quarterTonesPitch, string> gDeutschPitchName;
-map<quarterTonesPitch, string> gEnglishPitchName;
-map<quarterTonesPitch, string> gEspanolPitchName;
-map<quarterTonesPitch, string> gFrancaisPitchName;
-map<quarterTonesPitch, string> gItalianoPitchName;
-map<quarterTonesPitch, string> gNorskPitchName;
-map<quarterTonesPitch, string> gPortuguesPitchName;
-map<quarterTonesPitch, string> gSuomiPitchName;
-map<quarterTonesPitch, string> gSvenskaPitchName;
-map<quarterTonesPitch, string> gVlaamsPitchName;
+map<msrQuarterTonesPitch, string> gNederlandsPitchName;
+map<msrQuarterTonesPitch, string> gCatalanPitchName;
+map<msrQuarterTonesPitch, string> gDeutschPitchName;
+map<msrQuarterTonesPitch, string> gEnglishPitchName;
+map<msrQuarterTonesPitch, string> gEspanolPitchName;
+map<msrQuarterTonesPitch, string> gFrancaisPitchName;
+map<msrQuarterTonesPitch, string> gItalianoPitchName;
+map<msrQuarterTonesPitch, string> gNorskPitchName;
+map<msrQuarterTonesPitch, string> gPortuguesPitchName;
+map<msrQuarterTonesPitch, string> gSuomiPitchName;
+map<msrQuarterTonesPitch, string> gSvenskaPitchName;
+map<msrQuarterTonesPitch, string> gVlaamsPitchName;
 
 void initializePitchesLanguages ()
 {
@@ -910,8 +910,8 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
-extern string quaterTonesPitchesLanguageAsString (
-  quaterTonesPitchesLanguage language)
+extern string msrQuaterTonesPitchesLanguageAsString (
+  msrQuaterTonesPitchesLanguage language)
 {
   string result;
   
@@ -957,9 +957,9 @@ extern string quaterTonesPitchesLanguageAsString (
   return result;
 }
 
-string quarterTonesPitchAsString (
-  quaterTonesPitchesLanguage language,
-  quarterTonesPitch          pitch)
+string msrQuarterTonesPitchAsString (
+  msrQuaterTonesPitchesLanguage language,
+  msrQuarterTonesPitch          pitch)
 {
   string result;
   
@@ -1019,7 +1019,7 @@ msrOptions::msrOptions ()
 bool msrOptions::setQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
-  map<string, quaterTonesPitchesLanguage>::const_iterator
+  map<string, msrQuaterTonesPitchesLanguage>::const_iterator
     it =
       gQuaterTonesPitchesLanguagesMap.find (language);
         

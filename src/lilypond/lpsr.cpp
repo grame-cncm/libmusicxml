@@ -73,7 +73,7 @@ lpsrOptions::~lpsrOptions() {}
 bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
-  map<string, quaterTonesPitchesLanguage>::const_iterator
+  map<string, msrQuaterTonesPitchesLanguage>::const_iterator
     it =
       gQuaterTonesPitchesLanguagesMap.find (language);
         
@@ -102,8 +102,7 @@ bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
     return false;
   }
 
-  fQuaterTonesPitchesLanguageAsString = (*it).first;
-  fQuaterTonesPitchesLanguage         = (*it).second;
+  fQuaterTonesPitchesLanguage = (*it).second;
   
   return true;
 }
