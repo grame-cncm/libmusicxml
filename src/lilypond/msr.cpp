@@ -923,7 +923,6 @@ string msrDiatonicPitchAsString (
     case kE: result = "e"; break;
     case kF: result = "f"; break;
     case kG: result = "g"; break;
-    default: result = "?";
   } // switch
 
   return result;
@@ -1071,6 +1070,244 @@ extern string msrAlterationAsString (
 
   return result;
 }
+
+msrQuarterTonesPitch msrDiatonicPitchToQuarterTonesPitch (
+  msrDiatonicPitch diatonicPitch,
+  msrAlteration    alteration)
+{
+  msrQuarterTonesPitch result;
+  
+  switch (diatonicPitch) {
+    case kA:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_aDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_aSesquiFlat;
+          break;
+        case kFlat:
+          result = k_aFlat;
+          break;
+        case kSemiFlat:
+          result = k_aSemiFlat;
+          break;
+        case kNatural:
+          result = k_aNatural;
+          break;
+        case kSemiSharp:
+          result = k_aSemiSharp;
+          break;
+        case kSharp:
+          result = k_aSharp;
+          break;
+        case kSesquiSharp:
+          result = k_aSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_aDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kB:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_bDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_bSesquiFlat;
+          break;
+        case kFlat:
+          result = k_bFlat;
+          break;
+        case kSemiFlat:
+          result = k_bSemiFlat;
+          break;
+        case kNatural:
+          result = k_bNatural;
+          break;
+        case kSemiSharp:
+          result = k_bSemiSharp;
+          break;
+        case kSharp:
+          result = k_bSharp;
+          break;
+        case kSesquiSharp:
+          result = k_bSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_bDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+      break;
+      
+    case kC:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_cDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_cSesquiFlat;
+          break;
+        case kFlat:
+          result = k_cFlat;
+          break;
+        case kSemiFlat:
+          result = k_cSemiFlat;
+          break;
+        case kNatural:
+          result = k_cNatural;
+          break;
+        case kSemiSharp:
+          result = k_cSemiSharp;
+          break;
+        case kSharp:
+          result = k_cSharp;
+          break;
+        case kSesquiSharp:
+          result = k_cSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_cDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kD:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_dDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_dSesquiFlat;
+          break;
+        case kFlat:
+          result = k_dFlat;
+          break;
+        case kSemiFlat:
+          result = k_dSemiFlat;
+          break;
+        case kNatural:
+          result = k_dNatural;
+          break;
+        case kSemiSharp:
+          result = k_dSemiSharp;
+          break;
+        case kSharp:
+          result = k_dSharp;
+          break;
+        case kSesquiSharp:
+          result = k_dSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_dDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kE:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_eDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_eSesquiFlat;
+          break;
+        case kFlat:
+          result = k_eFlat;
+          break;
+        case kSemiFlat:
+          result = k_eSemiFlat;
+          break;
+        case kNatural:
+          result = k_eNatural;
+          break;
+        case kSemiSharp:
+          result = k_eSemiSharp;
+          break;
+        case kSharp:
+          result = k_eSharp;
+          break;
+        case kSesquiSharp:
+          result = k_eSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_eDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kF:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_fDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_fSesquiFlat;
+          break;
+        case kFlat:
+          result = k_fFlat;
+          break;
+        case kSemiFlat:
+          result = k_fSemiFlat;
+          break;
+        case kNatural:
+          result = k_fNatural;
+          break;
+        case kSemiSharp:
+          result = k_fSemiSharp;
+          break;
+        case kSharp:
+          result = k_fSharp;
+          break;
+        case kSesquiSharp:
+          result = k_fSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_fDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kG:
+      switch (alteration) {
+        case kDoubleFlat:
+          result = k_gDoubleFlat;
+          break;
+        case kSesquiFlat:
+          result = k_gSesquiFlat;
+          break;
+        case kFlat:
+          result = k_gFlat;
+          break;
+        case kSemiFlat:
+          result = k_gSemiFlat;
+          break;
+        case kNatural:
+          result = k_gNatural;
+          break;
+        case kSemiSharp:
+          result = k_gSemiSharp;
+          break;
+        case kSharp:
+          result = k_gSharp;
+          break;
+        case kSesquiSharp:
+          result = k_gSesquiSharp;
+          break;
+        case kDoubleSharp:
+          result = k_gDoubleSharp;
+          break;
+      } // switch
+      break;
+  } // switch
+
+  return result;
+}
+
 
 string msrQuarterTonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
