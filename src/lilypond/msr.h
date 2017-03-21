@@ -214,7 +214,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   
 enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
-  kC, kD, kE, kF, kG, kA, kB}; // JMI, k_NoDiatonicPitch};
+  kC, kD, kE, kF, kG, kA, kB};
 
 extern string diatonicPitchAsString (
   msrDiatonicPitch diatonicPitch);
@@ -229,13 +229,34 @@ extern string alterationKindAsString (
 
 enum quarterTonesPitch {
   k_NoPitch,
-  k_aDoubleFlat, k_aSesquiFlat, k_aFlat, k_aSemiFlat, k_aNatural, k_aSemiSharp, k_aSharp, k_aSesquiSharp, k_aDoubleSharp,
-  k_bDoubleFlat, k_bSesquiFlat, k_bFlat, k_bSemiFlat, k_bNatural, k_bSemiSharp, k_bSharp, k_bSesquiSharp, k_bDoubleSharp, 
-  k_cDoubleFlat, k_cSesquiFlat, k_cFlat, k_cSemiFlat, k_cNatural, k_cSemiSharp, k_cSharp, k_cSesquiSharp, k_cDoubleSharp,
-  k_dDoubleFlat, k_dSesquiFlat, k_dFlat, k_dSemiFlat, k_dNatural, k_dSemiSharp, k_dSharp, k_dSesquiSharp, k_dDoubleSharp,
-  k_eDoubleFlat, k_eSesquiFlat, k_eFlat, k_eSemiFlat, k_eNatural, k_eSemiSharp, k_eSharp, k_eSesquiSharp, k_eDoubleSharp, 
-  k_fDoubleFlat, k_fSesquiFlat, k_fFlat, k_fSemiFlat, k_fNatural, k_fSemiSharp, k_fSharp, k_fSesquiSharp, k_fDoubleSharp,
-  k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat, k_gNatural, k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
+  
+  k_aDoubleFlat, k_aSesquiFlat, k_aFlat, k_aSemiFlat,
+  k_aNatural,
+  k_aSemiSharp, k_aSharp, k_aSesquiSharp, k_aDoubleSharp,
+  
+  k_bDoubleFlat, k_bSesquiFlat, k_bFlat, k_bSemiFlat,
+  k_bNatural,
+  k_bSemiSharp, k_bSharp, k_bSesquiSharp, k_bDoubleSharp,
+  
+  k_cDoubleFlat, k_cSesquiFlat, k_cFlat, k_cSemiFlat,
+  k_cNatural,
+  k_cSemiSharp, k_cSharp, k_cSesquiSharp, k_cDoubleSharp,
+  
+  k_dDoubleFlat, k_dSesquiFlat, k_dFlat, k_dSemiFlat,
+  k_dNatural,
+  k_dSemiSharp, k_dSharp, k_dSesquiSharp, k_dDoubleSharp,
+  
+  k_eDoubleFlat, k_eSesquiFlat, k_eFlat, k_eSemiFlat,
+  k_eNatural,
+  k_eSemiSharp, k_eSharp, k_eSesquiSharp, k_eDoubleSharp,
+  
+  k_fDoubleFlat, k_fSesquiFlat, k_fFlat, k_fSemiFlat,
+  k_fNatural,
+  k_fSemiSharp, k_fSharp, k_fSesquiSharp, k_fDoubleSharp,
+  
+  k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat,
+  k_gNatural,
+  k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
 enum quaterTonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
@@ -449,13 +470,13 @@ class msrNoteData
     // initialisation
     // ------------------------------------------------------
 
-    void              init ();
+    void                init ();
     
     // set and get
     // ------------------------------------------------------
 
-    quarterTonesPitch         getNotePitch () const
-                                  { return fNotePitch; }
+    quarterTonesPitch   getNoteQuaterTonesPitch () const
+                            { return fNoteQuaterTonesPitch; }
 
   public:
 
@@ -505,7 +526,7 @@ class msrNoteData
 
   private:
 
-    quarterTonesPitch         fNotePitch; 
+    quarterTonesPitch         fNoteQuaterTonesPitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 

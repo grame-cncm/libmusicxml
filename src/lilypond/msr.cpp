@@ -1126,7 +1126,7 @@ void msrNoteData::init ()
   
   fAlteration = kNatural;
 
-  fNotePitch = k_NoPitch;
+  fNoteQuaterTonesPitch = k_NoPitch;
   
   fOctave = -1;
 
