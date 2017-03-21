@@ -976,7 +976,7 @@ string msrQuaterTonesPitchesLanguageAsString (
   return result;
 }
 
-msrAlterationKind msrAlterationKindFromMusicXMLAlter (
+msrAlteration msrAlterationFromMusicXMLAlter (
   float alter)
 {
 
@@ -989,7 +989,7 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
       +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
 */
 
-  msrAlterationKind result;
+  msrAlteration result;
   
   if      (alter == 0 ) {
     result = kNatural;
@@ -1034,11 +1034,49 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   return result;
 }
 
+extern string msrAlterationAsString (
+  msrAlteration alteration)
+{
+  string result;
+  
+  switch (alteration) {
+    case kDoubleFlat:
+      result = "DoubleFlat";
+      break;
+    case kSesquiFlat:
+      result = "SesquiFlat";
+      break;
+    case kFlat:
+      result = "Flat";
+      break;
+    case kSemiFlat:
+      result = "SemiFlat";
+      break;
+    case kNatural:
+      result = "Natural";
+      break;
+    case kSemiSharp:
+      result = "SemiSharp";
+      break;
+    case kSharp:
+      result = "Sharp";
+      break;
+    case kSesquiSharp:
+      result = "SesquiSharp";
+      break;
+    case kDoubleSharp:
+      result = "DoubleSharp";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrQuarterTonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
   msrQuarterTonesPitch          pitch)
 {
-  string result;
+   string result;
   
   switch (language) {
     case kNederlands:
@@ -1251,7 +1289,7 @@ void msrNoteData::print (ostream& os)
       endl <<
     idtr << left <<
       setw(width) << "fDiatonicPitch" << " = " <<
-      diatonicPitchAsString (fDiatonicPitch) <<
+      msrDiatonicPitchAsString (fDiatonicPitch) <<
       endl <<
     idtr << left <<
       setw(width) << "fAlteration" << " = " <<
@@ -2942,7 +2980,7 @@ msrNote::msrNote (
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
       "--> fNoteData.fAlteration = " <<
-      msrNoteData::alterationKindAsString (
+      msrAlterationAsString (
         fNoteData.fAlteration) <<
       endl;
   }
@@ -3432,9 +3470,9 @@ string msrNote::notePitchAsString () const
   else {
 
     s <<
-      msrNoteData::diatonicPitchAsString (
+      msrDiatonicPitchAsString (
         fNoteData.fDiatonicPitch) <<    
-      msrNoteData::alterationKindAsString (
+      msrAlterationAsString (
         fNoteData.fAlteration);
   }
   
@@ -8138,12 +8176,12 @@ void msrStanza::print (ostream& os)
 S_msrHarmony msrHarmony::create (
   int                   inputLineNumber,
   char                  harmonyRootStep,
-  msrAlterationKind
+  msrAlteration
                         harmonyRootAlteration,
   msrHarmonyKind        harmonyKind,
   string                harmonyKindText,
   char                  harmonyBassStep,
-  msrAlterationKind
+  msrAlteration
                         harmonyBassAlteration,
   S_msrPart             harmonyPartUplink)
 {
@@ -8161,12 +8199,12 @@ S_msrHarmony msrHarmony::create (
 msrHarmony::msrHarmony (
   int                   inputLineNumber,
   char                  harmonyRootStep,
-  msrAlterationKind
+  msrAlteration
                         harmonyRootAlteration,
   msrHarmonyKind        harmonyKind,
   string                harmonyKindText,
   char                  harmonyBassStep,
-  msrAlterationKind
+  msrAlteration
                         harmonyBassAlteration,
   S_msrPart             harmonyPartUplink)
     : msrElement (inputLineNumber)
@@ -8295,7 +8333,7 @@ string msrHarmony::harmonyAsString () const
 
   s <<
     fHarmonyRootStep <<
-    msrNoteData::alterationKindAsString (
+    msrAlterationAsString (
       fHarmonyRootAlteration) <<
     harmonyKindAsShortString ();
 
@@ -8307,7 +8345,7 @@ string msrHarmony::harmonyAsString () const
     s <<
       "/" <<
       fHarmonyBassStep <<
-      msrNoteData::alterationKindAsString (
+      msrAlterationAsString (
         fHarmonyBassAlteration);
 
   return s.str();
@@ -8368,7 +8406,7 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
       fHarmonyRootStep <<
-      msrNoteData::alterationKindAsString (
+      msrAlterationAsString (
         fHarmonyRootAlteration) <<
       endl <<
     idtr <<
@@ -8382,7 +8420,7 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
       fHarmonyBassStep <<
-      msrNoteData::alterationKindAsString (
+      msrAlterationAsString (
         fHarmonyBassAlteration) <<
       endl;
 
@@ -12930,7 +12968,7 @@ S_msrStafftuning msrStafftuning::create (
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
-  msrAlterationKind
+  msrAlteration
                 staffTuningAlteration)
 {
   msrStafftuning* o =
@@ -12949,7 +12987,7 @@ msrStafftuning::msrStafftuning (
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
-  msrAlterationKind
+  msrAlteration
                 staffTuningAlteration)
     : msrElement (inputLineNumber)
 {
@@ -13033,7 +13071,7 @@ string msrStafftuning::stafftuningAsString () const
     ", " << fStafftuningStep <<
     ", octave " << fStafftuningOctave <<
     ", alteration " <<
-    msrNoteData::alterationKindAsString (
+    msrAlterationAsString (
       fStaffTuningAlteration);
     
   return s.str();
@@ -13062,7 +13100,7 @@ void msrStafftuning::print (ostream& os)
       endl <<
     idtr <<
       setw(21) << "StaffTuningAlteration" << " = " <<
-      msrNoteData::alterationKindAsString (
+      msrAlterationAsString (
         fStaffTuningAlteration) <<
       endl;
 

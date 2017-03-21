@@ -2225,7 +2225,7 @@ void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
   float tuningAlter = (float)(*elt);
 
   fCurrentStaffTuningAlteration =
-    msrAlterationKindFromMusicXMLAlter (
+    msrAlterationFromMusicXMLAlter (
       tuningAlter);
       
   if (fCurrentStaffTuningAlteration == k_NoAlteration) {
@@ -4271,7 +4271,7 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
   float alter = (float)(*elt);
 
   fNoteData.fAlteration =
-    msrAlterationKindFromMusicXMLAlter (
+    msrAlterationFromMusicXMLAlter (
       alter);
       
   if (fCurrentStaffTuningAlteration == k_NoAlteration) {
@@ -7887,7 +7887,7 @@ void xml2MsrTranslator::visitStart ( S_root_alter& elt )
   float rootAlter = (float)(*elt);
 
   fCurrentHarmonyRootAlteration =
-    msrAlterationKindFromMusicXMLAlter (
+    msrAlterationFromMusicXMLAlter (
       rootAlter);
       
   if (fCurrentStaffTuningAlteration == k_NoAlteration) {
@@ -7974,7 +7974,7 @@ void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
   float bassAlter = (float)(*elt);
 
   fCurrentHarmonyBassAlteration =
-    msrAlterationKindFromMusicXMLAlter (
+    msrAlterationFromMusicXMLAlter (
       bassAlter);
       
   if (fCurrentStaffTuningAlteration == k_NoAlteration) {
@@ -8000,7 +8000,7 @@ void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
   float degreeAlter = (float)(*elt);
 
   fCurrentHarmonyDegreeAlteration =
-    msrAlterationKindFromMusicXMLAlter (
+    msrAlterationFromMusicXMLAlter (
       degreeAlter);
       
   if (fCurrentStaffTuningAlteration == k_NoAlteration) {
@@ -8060,7 +8060,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         endl <<
       idtr <<
         "fCurrentHarmonyRootAlteration = " <<
-        msrAlterationKindAsString(
+        msrAlterationAsString(
           fCurrentHarmonyRootAlteration) <<
         endl <<
       idtr <<
@@ -8074,7 +8074,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         endl <<
       idtr <<
         "fCurrentHarmonyBassAlteration = " <<
-        msrAlterationKindAsString(
+        msrAlterationAsString(
           fCurrentHarmonyBassAlteration) <<
         endl;
         

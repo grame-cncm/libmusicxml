@@ -219,18 +219,18 @@ enum msrDiatonicPitch {
 extern string msrDiatonicPitchAsString (
   msrDiatonicPitch diatonicPitch);
   
-enum msrAlterationKind {
+enum msrAlteration {
   k_NoAlteration,
   
   kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
   kNatural,
   kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
-extern msrAlterationKind msrAlterationKindFromMusicXMLAlter (
+extern msrAlteration msrAlterationFromMusicXMLAlter (
   float alter);
 
-extern string msrAlterationKindAsString (
-  msrAlterationKind alterationKind);
+extern string msrAlterationAsString (
+  msrAlteration alteration);
 
 enum msrQuarterTonesPitch {
   k_NoPitch,
@@ -456,13 +456,13 @@ class msrNoteData
     static string diatonicPitchAsString (
       msrDiatonicPitch diatonicPitch);
       
-    enum msrAlterationKind {
+    enum msrAlteration {
       kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
     static string alterationKindAsString (
-      msrAlterationKind alterationKind);
+      msrAlteration alterationKind);
 */
       
     // constructors/destructor
@@ -503,7 +503,7 @@ class msrNoteData
     // in number of semitones (e.g., -1 for flat, 1 for sharp).
     // Decimal values like 0.5 (quarter tone sharp) are used for microtones.
     msrDiatonicPitch          fDiatonicPitch;
-    msrAlterationKind         fAlteration;
+    msrAlteration         fAlteration;
     
     int                       fOctave;
 
@@ -2386,12 +2386,12 @@ class EXP msrHarmony : public msrElement
     static SMARTP<msrHarmony> create (
       int                   inputLineNumber,
       char                  harmonyRootStep,
-      msrAlterationKind
+      msrAlteration
                             harmonyRootAlteration,
       msrHarmonyKind        harmonyKind,
       string                harmonyKindText,
       char                  harmonyBassStep,
-      msrAlterationKind
+      msrAlteration
                             harmonyBassAlteration,
       S_msrPart             harmonyPartUplink);
     
@@ -2406,12 +2406,12 @@ class EXP msrHarmony : public msrElement
     msrHarmony (
       int                   inputLineNumber,
       char                  harmonyRootStep,
-      msrAlterationKind
+      msrAlteration
                             harmonyRootAlteration,
       msrHarmonyKind        harmonyKind,
       string                harmonyKindText,
       char                  harmonyBassStep,
-      msrAlterationKind
+      msrAlteration
                             harmonyBassAlteration,
       S_msrPart             harmonyPartUplink);
 
@@ -2425,7 +2425,7 @@ class EXP msrHarmony : public msrElement
     char            getHarmonyRootStep () const
                         { return fHarmonyRootStep; }
                 
-    msrAlterationKind
+    msrAlteration
                     getHarmonyRootAlteration () const
                         { return fHarmonyRootAlteration; }
                 
@@ -2438,7 +2438,7 @@ class EXP msrHarmony : public msrElement
     char            getHarmonyBassStep () const
                         { return fHarmonyBassStep; }
                 
-    msrAlterationKind
+    msrAlteration
                     getHarmonyBassAlteration () const
                         { return fHarmonyBassAlteration; }
                 
@@ -2470,14 +2470,14 @@ class EXP msrHarmony : public msrElement
   private:
 
     char                      fHarmonyRootStep;
-    msrAlterationKind
+    msrAlteration
                               fHarmonyRootAlteration;
 
     msrHarmonyKind            fHarmonyKind;
     string                    fHarmonyKindText;
 
     char                      fHarmonyBassStep;
-    msrAlterationKind
+    msrAlteration
                               fHarmonyBassAlteration;
     
     S_msrPart                 fHarmonyPartUplink;
@@ -5386,7 +5386,7 @@ class EXP msrStafftuning : public msrElement
       int           stafftuningLineNumber,
       char          stafftuningStep,
       int           stafftuningOctave,
-      msrAlterationKind
+      msrAlteration
                     staffTuningAlteration);
     
     SMARTP<msrStafftuning> createStafftuningBareClone ();
@@ -5401,7 +5401,7 @@ class EXP msrStafftuning : public msrElement
       int           stafftuningLineNumber,
       char          stafftuningStep,
       int           stafftuningOctave,
-      msrAlterationKind
+      msrAlteration
                     staffTuningAlteration);
          
     ~ msrStafftuning ();
@@ -5420,7 +5420,7 @@ class EXP msrStafftuning : public msrElement
     int             getStafftuningOctave () const
                         { return fStafftuningOctave; }
 
-    msrAlterationKind
+    msrAlteration
                     getCurrentStaffTuningAlteration () const
                         { return fStaffTuningAlteration; }
 
@@ -5450,7 +5450,7 @@ class EXP msrStafftuning : public msrElement
     int               fStafftuningLineNumber;
     char              fStafftuningStep;
     int               fStafftuningOctave;
-    msrAlterationKind
+    msrAlteration
                       fStaffTuningAlteration;
 };
 typedef SMARTP<msrStafftuning> S_msrStafftuning;

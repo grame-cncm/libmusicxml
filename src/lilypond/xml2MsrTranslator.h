@@ -663,7 +663,7 @@ class EXP xml2MsrTranslator :
     int                       fCurrentStaffTuningLine;
     char                      fCurrentStaffTuningStep;
     int                       fCurrentStaffTuningOctave;
-    msrAlterationKind         fCurrentStaffTuningAlteration;
+    msrAlteration         fCurrentStaffTuningAlteration;
     
     int                       fCurrentStaffDetailsCapo;
     int                       fCurrentStaffDetailsStaffSize;
@@ -762,15 +762,15 @@ class EXP xml2MsrTranslator :
     // harmony handling
     // ------------------------------------------------------
     char                      fCurrentHarmonyRootStep;
-    msrAlterationKind         fCurrentHarmonyRootAlteration;
+    msrAlteration         fCurrentHarmonyRootAlteration;
     msrHarmony::msrHarmonyKind
                               fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
     char                      fCurrentHarmonyBassStep;
-    msrAlterationKind         fCurrentHarmonyBassAlteration;
+    msrAlteration         fCurrentHarmonyBassAlteration;
 
     int                       fCurrentHarmonyDegreeValue;
-    msrAlterationKind         fCurrentHarmonyDegreeAlteration;
+    msrAlteration         fCurrentHarmonyDegreeAlteration;
     S_msrHarmony              fCurrentHarmony;
 
 
