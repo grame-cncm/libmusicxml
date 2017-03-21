@@ -1033,7 +1033,7 @@ msrAlteration msrAlterationFromMusicXMLAlter (
   return result;
 }
 
-extern string msrAlterationAsString (
+string msrAlterationAsString (
   msrAlteration alteration)
 {
   string result;
@@ -1069,6 +1069,53 @@ extern string msrAlterationAsString (
   } // switch
 
   return result;
+}
+
+pair<msrDiatonicPitch, msrAlteration>
+msrDiatonicPitchAndAlterFromQuarterTonePitch (
+  msrQuarterTonesPitch quarterTonesPitch)
+{
+  pair<msrDiatonicPitch, msrAlteration> result;
+  
+  switch (quarterTonesPitch) {
+    case k_aDoubleFlat:
+      result.first  = kA;
+      result.second = kDoubleFlat;
+      break;
+    case k_aSesquiFlat:
+      result.first  = kA;
+      result.second = kSesquiFlat;
+      break;
+    case k_aFlat:
+      result.first  = kA;
+      result.second = kFlat;
+      break;
+    case k_aSemiFlat:
+      result.first  = kA;
+      result.second = kSemiFlat;
+      break;
+    case k_aNatural:
+      result.first  = kA;
+      result.second = kNatural;
+      break;
+    case k_aSemiSharp:
+      result.first  = kA;
+      result.second = kSemiSharp;
+      break;
+    case k_aSharp:
+      result.first  = kA;
+      result.second = kSharp;
+      break;
+    case k_aSesquiSharp:
+      result.first  = kA;
+      result.second = kSesquiSharp;
+      break;
+    case k_aDoubleSharp:
+      result.first  = kA;
+      result.second = kDoubleSharp;
+      break;
+
+  } // switch
 }
 
 msrQuarterTonesPitch msrDiatonicPitchToQuarterTonesPitch (
