@@ -85,13 +85,13 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingSlurHasStanza = false;
 
   fCurrentHarmonyRootStep         = '_';
-  fCurrentHarmonyRootAlteration   = msrNoteData::kNatural;
+  fCurrentHarmonyRootAlteration   = kNatural;
   fCurrentHarmonyKind             = msrHarmony::k_NoHarmony;
   fCurrentHarmonyKindText         = "";
   fCurrentHarmonyBassStep         = '_';
-  fCurrentHarmonyBassAlteration   = msrNoteData::kNatural;
+  fCurrentHarmonyBassAlteration   = kNatural;
   fCurrentHarmonyDegreeValue      = -1;
-  fCurrentHarmonyDegreeAlteration = msrNoteData::kNatural;
+  fCurrentHarmonyDegreeAlteration = kNatural;
 
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
@@ -101,7 +101,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingBackup  = false;
   fOnGoingForward = false;
 
-  fCurrentStaffTuningAlteration = msrNoteData::kNatural;
+  fCurrentStaffTuningAlteration = kNatural;
 }
 
 xml2MsrTranslator::~xml2MsrTranslator ()
@@ -2188,7 +2188,7 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
-  fCurrentStaffTuningAlteration = msrNoteData::kNatural;
+  fCurrentStaffTuningAlteration = kNatural;
   /* JMI
           <staff-tuning line="1">
             <tuning-step>E</tuning-step>
@@ -2225,9 +2225,20 @@ void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
   float tuningAlter = (float)(*elt);
 
   fCurrentStaffTuningAlteration =
-    msrNoteData::alterationFromAlter (
-      elt->getInputLineNumber (),
+    msrAlterationKindFromMusicXMLAlter (
       tuningAlter);
+      
+  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "tuning alter '" << tuningAlter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
@@ -4260,9 +4271,20 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
   float alter = (float)(*elt);
 
   fNoteData.fAlteration =
-    msrNoteData::alterationFromAlter (
-      elt->getInputLineNumber (),
+    msrAlterationKindFromMusicXMLAlter (
       alter);
+      
+  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "alter '" << alter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_octave& elt)
@@ -7865,9 +7887,20 @@ void xml2MsrTranslator::visitStart ( S_root_alter& elt )
   float rootAlter = (float)(*elt);
 
   fCurrentHarmonyRootAlteration =
-    msrNoteData::alterationFromAlter (
-      elt->getInputLineNumber (),
+    msrAlterationKindFromMusicXMLAlter (
       rootAlter);
+      
+  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "root alter '" << rootAlter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_kind& elt )
@@ -7941,9 +7974,20 @@ void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
   float bassAlter = (float)(*elt);
 
   fCurrentHarmonyBassAlteration =
-    msrNoteData::alterationFromAlter (
-      elt->getInputLineNumber (),
+    msrAlterationKindFromMusicXMLAlter (
       bassAlter);
+      
+  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "bass alter '" << bassAlter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_degree_value& elt )
@@ -7956,9 +8000,20 @@ void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
   float degreeAlter = (float)(*elt);
 
   fCurrentHarmonyDegreeAlteration =
-    msrNoteData::alterationFromAlter (
-      elt->getInputLineNumber (),
+    msrAlterationKindFromMusicXMLAlter (
       degreeAlter);
+      
+  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "degree alter '" << degreeAlter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_degree_type& elt )
@@ -8005,7 +8060,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         endl <<
       idtr <<
         "fCurrentHarmonyRootAlteration = " <<
-        msrNoteData::alterationKindAsString (
+        msrAlterationKindAsString(
           fCurrentHarmonyRootAlteration) <<
         endl <<
       idtr <<
@@ -8019,7 +8074,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         endl <<
       idtr <<
         "fCurrentHarmonyBassAlteration = " <<
-        msrNoteData::alterationKindAsString (
+        msrAlterationKindAsString(
           fCurrentHarmonyBassAlteration) <<
         endl;
         

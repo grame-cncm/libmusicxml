@@ -910,7 +910,26 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
-extern string msrQuaterTonesPitchesLanguageAsString (
+string msrDiatonicPitchAsString (
+  msrDiatonicPitch diatonicPitch)
+{
+  string result;
+  
+  switch (diatonicPitch) {
+    case kA: result = "a"; break;
+    case kB: result = "b"; break;
+    case kC: result = "c"; break;
+    case kD: result = "d"; break;
+    case kE: result = "e"; break;
+    case kF: result = "f"; break;
+    case kG: result = "g"; break;
+    default: result = "?";
+  } // switch
+
+  return result;
+}
+
+string msrQuaterTonesPitchesLanguageAsString (
   msrQuaterTonesPitchesLanguage language)
 {
   string result;
@@ -953,6 +972,64 @@ extern string msrQuaterTonesPitchesLanguageAsString (
       result = "vlaams";
       break;
   } // switch
+
+  return result;
+}
+
+msrAlterationKind msrAlterationKindFromMusicXMLAlter (
+  float alter)
+{
+
+/*
+  The alter element represents chromatic alteration
+  in number of semitones (e.g., -1 for flat, 1 for sharp).
+  Decimal values like 0.5 (quarter tone sharp) are used for microtones:
+
+  semi-sharp semi-flat sesqui-sharp sesqui-flat double-sharp double-flat
+      +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
+*/
+
+  msrAlterationKind result;
+  
+  if      (alter == 0 ) {
+    result = kNatural;
+  }
+  
+  else if (alter == -1 ) {
+    result = kFlat;
+  }
+  
+  else if (alter == 1 ) {
+    result = kSharp;
+  }
+  
+  else if (alter == -0.5 ) {
+    result = kSemiFlat;
+  }
+  
+  else if (alter == +0.5 ) {
+    result = kSemiSharp;
+  }
+  
+  else if (alter == -1.5 ) {
+    result = kSesquiFlat;
+  }
+  
+  else if (alter == +1.5 ) {
+    result = kSesquiSharp;
+  }
+  
+  else if (alter == -2 ) {
+    result = kDoubleFlat;
+  }
+  
+  else if (alter == +2 ) {
+    result = kDoubleSharp;
+  }
+  
+  else {
+    result = k_NoAlteration;
+  }
 
   return result;
 }
@@ -1157,163 +1234,6 @@ void msrNoteData::init ()
 msrNoteData::msrNoteData ()
 {
   init ();
-}
-
-string msrNoteData::diatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch)
-{
-  string result;
-  
-  switch (diatonicPitch) {
-    case msrNoteData::kA: result = "a"; break;
-    case msrNoteData::kB: result = "b"; break;
-    case msrNoteData::kC: result = "c"; break;
-    case msrNoteData::kD: result = "d"; break;
-    case msrNoteData::kE: result = "e"; break;
-    case msrNoteData::kF: result = "f"; break;
-    case msrNoteData::kG: result = "g"; break;
-    default:              result = "?";
-  } // switch
-
-  return result;
-}
-
-msrNoteData::msrAlterationKind msrNoteData::alterationFromAlter (
-  int   inputLineNumber,
-  float alter)
-{
-
-/*
-  The alter element represents chromatic alteration
-  in number of semitones (e.g., -1 for flat, 1 for sharp).
-  Decimal values like 0.5 (quarter tone sharp) are used for microtones:
-
-  semi-sharp semi-flat sesqui-sharp sesqui-flat double-sharp double-flat
-      +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
-*/
-
-  msrNoteData::msrAlterationKind result;
-  
-  if      (alter == 0 ) {
-    result = msrNoteData::kNatural;
-  }
-  
-  else if (alter == -1 ) {
-    result = msrNoteData::kFlat;
-  }
-  
-  else if (alter == 1 ) {
-    result = msrNoteData::kSharp;
-  }
-  
-  else if (alter == -0.5 ) {
-    result = msrNoteData::kSemiFlat;
-  }
-  
-  else if (alter == +0.5 ) {
-    result = msrNoteData::kSemiSharp;
-  }
-  
-  else if (alter == -1.5 ) {
-    result = msrNoteData::kSesquiFlat;
-  }
-  
-  else if (alter == +1.5 ) {
-    result = msrNoteData::kSesquiSharp;
-  }
-  
-  else if (alter == -2 ) {
-    result = msrNoteData::kDoubleFlat;
-  }
-  
-  else if (alter == +2 ) {
-    result = msrNoteData::kDoubleSharp;
-  }
-  
-  else {
-    stringstream s;
-    
-    s <<
-      " alter '" << alter <<
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
-      
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str());
-  }
-
-  return result;
-}
-
-string msrNoteData::alterationKindAsString (
-  msrAlterationKind alterationKind)
-{
-  /*
-    The alter element represents chromatic alteration
-    in number of semitones (e.g., -1 for flat, 1 for sharp).
-    Decimal values like 0.5 (quarter tone sharp) are used for microtones.
-  
-    We use dutch pitches names for the enumeration below.
-
-    The following is a series of Cs with increasing pitches:
-      \relative c'' { ceseh ces ceh c cih cis cisih }
-
-    The following table lists note names for quarter-tone accidentals
-    in various languages; here the pre- fixes semi- and sesqui-
-    respectively mean ‘half’ and ‘one and a half’.
-    
-    Languages that do not appear in this table do not provide
-    special note names yet.
-    
-  semi-sharp semi-flat sesqui-sharp sesqui-flat double-sharp double-flat
-      +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
-
-nederlands
-      -ih        -eh        -isih      -eseh       -isih        -eses
-    
-  */
-
-  string result;
-  
-  switch (alterationKind) {
-
-    case msrNoteData::kDoubleFlat:
-      result = "eses";
-      break;
-      
-    case msrNoteData::kSesquiFlat:
-      result = "eseh";
-      break;
-      
-    case msrNoteData::kFlat:
-      result = "es";
-      break;
-      
-    case msrNoteData::kSemiFlat:
-      result = "eh";
-      break;
-      
-    case msrNoteData::kNatural:
-      break;
-      
-    case msrNoteData::kSemiSharp:
-      result = "ih";
-      break;
-      
-    case msrNoteData::kSharp:
-      result = "is";
-      break;
-      
-    case msrNoteData::kSesquiSharp:
-      result = "isih";
-      break;
-      
-    case msrNoteData::kDoubleSharp:
-      result = "isis";
-      break;      
-  } // switch  
-
-  return result;
 }
 
 void msrNoteData::print (ostream& os)
@@ -2994,13 +2914,13 @@ msrNote::msrNote (
 // JMI
 
   switch (fNoteData.fStep) {
-    case 'A': fNoteData.fDiatonicPitch = msrNoteData::kA; break;
-    case 'B': fNoteData.fDiatonicPitch = msrNoteData::kB; break;
-    case 'C': fNoteData.fDiatonicPitch = msrNoteData::kC; break;
-    case 'D': fNoteData.fDiatonicPitch = msrNoteData::kD; break;
-    case 'E': fNoteData.fDiatonicPitch = msrNoteData::kE; break;
-    case 'F': fNoteData.fDiatonicPitch = msrNoteData::kF; break;
-    case 'G': fNoteData.fDiatonicPitch = msrNoteData::kG; break;
+    case 'A': fNoteData.fDiatonicPitch = kA; break;
+    case 'B': fNoteData.fDiatonicPitch = kB; break;
+    case 'C': fNoteData.fDiatonicPitch = kC; break;
+    case 'D': fNoteData.fDiatonicPitch = kD; break;
+    case 'E': fNoteData.fDiatonicPitch = kE; break;
+    case 'F': fNoteData.fDiatonicPitch = kF; break;
+    case 'G': fNoteData.fDiatonicPitch = kG; break;
     default: {}
   } // switch
 
@@ -3029,54 +2949,54 @@ msrNote::msrNote (
 
 /* JMI
   if      (fNoteData.fAlter == 0 ) {
-    fNoteData.fAlteration = msrNoteData::kNatural;
+    fNoteData.fAlteration = kNatural;
   }
   
   else if (fNoteData.fAlter == -1 ) {
-    fNoteData.fAlteration = msrNoteData::kFlat;
+    fNoteData.fAlteration = kFlat;
     noteQuatertonesFromA -= 2;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fNoteData.fAlter == 1 ) {
-    fNoteData.fAlteration = msrNoteData::kSharp;
+    fNoteData.fAlteration = kSharp;
     noteQuatertonesFromA += 2;
   }
   
   else if (fNoteData.fAlter == -0.5 ) {
-    fNoteData.fAlteration = msrNoteData::kSemiFlat;
+    fNoteData.fAlteration = kSemiFlat;
     noteQuatertonesFromA -= 1;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fNoteData.fAlter == +0.5 ) {
-    fNoteData.fAlteration = msrNoteData::kSemiSharp;
+    fNoteData.fAlteration = kSemiSharp;
     noteQuatertonesFromA += 1;
   }
   
   else if (fNoteData.fAlter == -1.5 ) {
-    fNoteData.fAlteration = msrNoteData::kSesquiFlat;
+    fNoteData.fAlteration = kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fNoteData.fAlter == +1.5 ) {
-    fNoteData.fAlteration = msrNoteData::kSesquiSharp;
+    fNoteData.fAlteration = kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
   
   else if (fNoteData.fAlter == -2 ) {
-    fNoteData.fAlteration = msrNoteData::kSesquiFlat;
+    fNoteData.fAlteration = kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
   else if (fNoteData.fAlter == +2 ) {
-    fNoteData.fAlteration = msrNoteData::kSesquiSharp;
+    fNoteData.fAlteration = kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
   
@@ -3516,7 +3436,6 @@ string msrNote::notePitchAsString () const
         fNoteData.fDiatonicPitch) <<    
       msrNoteData::alterationKindAsString (
         fNoteData.fAlteration);
-
   }
   
   return s.str();
@@ -3567,13 +3486,13 @@ string msrNote::noteDiatonicPitchAsString () const
 {
   // fNoteData.fStep is a char
   switch (fNoteData.fDiatonicPitch) {
-    case msrNoteData::kA: return "A"; break;
-    case msrNoteData::kB: return "B"; break;
-    case msrNoteData::kC: return "C"; break;
-    case msrNoteData::kD: return "D"; break;
-    case msrNoteData::kE: return "E"; break;
-    case msrNoteData::kF: return "F"; break;
-    case msrNoteData::kG: return "G"; break;
+    case kA: return "A"; break;
+    case kB: return "B"; break;
+    case kC: return "C"; break;
+    case kD: return "D"; break;
+    case kE: return "E"; break;
+    case kF: return "F"; break;
+    case kG: return "G"; break;
     default: return "?";
   } // switch
 }
@@ -8219,12 +8138,12 @@ void msrStanza::print (ostream& os)
 S_msrHarmony msrHarmony::create (
   int                   inputLineNumber,
   char                  harmonyRootStep,
-  msrNoteData::msrAlterationKind
+  msrAlterationKind
                         harmonyRootAlteration,
   msrHarmonyKind        harmonyKind,
   string                harmonyKindText,
   char                  harmonyBassStep,
-  msrNoteData::msrAlterationKind
+  msrAlterationKind
                         harmonyBassAlteration,
   S_msrPart             harmonyPartUplink)
 {
@@ -8242,12 +8161,12 @@ S_msrHarmony msrHarmony::create (
 msrHarmony::msrHarmony (
   int                   inputLineNumber,
   char                  harmonyRootStep,
-  msrNoteData::msrAlterationKind
+  msrAlterationKind
                         harmonyRootAlteration,
   msrHarmonyKind        harmonyKind,
   string                harmonyKindText,
   char                  harmonyBassStep,
-  msrNoteData::msrAlterationKind
+  msrAlterationKind
                         harmonyBassAlteration,
   S_msrPart             harmonyPartUplink)
     : msrElement (inputLineNumber)
@@ -13011,7 +12930,7 @@ S_msrStafftuning msrStafftuning::create (
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
-  msrNoteData::msrAlterationKind
+  msrAlterationKind
                 staffTuningAlteration)
 {
   msrStafftuning* o =
@@ -13030,7 +12949,7 @@ msrStafftuning::msrStafftuning (
   int           stafftuningLineNumber,
   char          stafftuningStep,
   int           stafftuningOctave,
-  msrNoteData::msrAlterationKind
+  msrAlterationKind
                 staffTuningAlteration)
     : msrElement (inputLineNumber)
 {

@@ -132,7 +132,7 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
-  msrNoteData::msrDiatonicPitch
+  msrDiatonicPitch
     noteDiatonicPitch =
       note->getDiatonicPitch ();
       
@@ -185,7 +185,7 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
     
     // generate LilyPond octave relative to fRelativeOctaveReference
 
-    msrNoteData::msrDiatonicPitch
+    msrDiatonicPitch
       referenceDiatonicPitch =
         fRelativeOctaveReference->getDiatonicPitch ();
 
@@ -207,12 +207,12 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
       noteAboluteDiatonicOrdinal =
         noteAbsoluteOctave * 7
           +
-        noteDiatonicPitch - msrNoteData::kC,
+        noteDiatonicPitch - kC,
         
       referenceAboluteDiatonicOrdinal =
         referenceAbsoluteOctave * 7
           +
-        referenceDiatonicPitch - msrNoteData::kC;
+        referenceDiatonicPitch - kC;
 
 //    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
     if (gGeneralOptions->fDebugDebug) {
