@@ -268,7 +268,7 @@ void analyzeOptions (
 
   if (
     ! 
-      gMsrOptions->setMsrPitchesLanguage ("nederlands")
+      gMsrOptions->setQuarterTonesPitchesLanguage ("nederlands")
     ) {
     optionError (
       "INTERNAL INITIALIZATION ERROR: "
@@ -290,7 +290,7 @@ void analyzeOptions (
 
   if (
     ! 
-      gLpsrOptions->setLpsrPitchesLanguage ("nederlands")
+      gLpsrOptions->setQuarterTonesPitchesLanguage ("nederlands")
     ) {
     optionError (
       "INTERNAL INITIALIZATION ERROR: "
@@ -872,7 +872,7 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gMsrOptions->setMsrPitchesLanguage (
+          if (! gMsrOptions->setQuarterTonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
@@ -984,7 +984,7 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gLpsrOptions->setLpsrPitchesLanguage (
+          if (! gLpsrOptions->setQuarterTonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
@@ -1379,8 +1379,11 @@ void printOptions ()
   idtr++;
   
   cerr << left <<
-    idtr << setw(fieldWidth) << "noteNamesLanguageName" << " : \"" <<
-      gMsrOptions->fNoteNamesLanguageAsString << "\"" << endl <<
+    idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+      quaterTonesPitchesLanguageAsString (
+        gMsrOptions->fQuaterTonesPitchesLanguage) <<
+        "\"" <<
+        endl <<
     
     idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
       booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
@@ -1429,6 +1432,12 @@ void printOptions ()
   idtr++;
   
   cerr << left <<
+    idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
+      quaterTonesPitchesLanguageAsString (
+        gLpsrOptions->fQuaterTonesPitchesLanguage) <<
+        "\"" <<
+        endl <<
+
     idtr << setw(fieldWidth) << "displayLPSR" << " : " <<
       booleanAsString (gLpsrOptions->fDisplayLPSR) <<
       endl <<

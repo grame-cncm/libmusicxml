@@ -227,7 +227,7 @@ enum msrAlterationKind {
 extern string alterationKindAsString (
   msrAlterationKind alterationKind);
 
-enum msrPitch {
+enum quarterTonesPitch {
   k_NoPitch,
   k_aDoubleFlat, k_aSesquiFlat, k_aFlat, k_aSemiFlat, k_aNatural, k_aSemiSharp, k_aSharp, k_aSesquiSharp, k_aDoubleSharp,
   k_bDoubleFlat, k_bSesquiFlat, k_bFlat, k_bSemiFlat, k_bNatural, k_bSemiSharp, k_bSharp, k_bSesquiSharp, k_bDoubleSharp, 
@@ -237,29 +237,32 @@ enum msrPitch {
   k_fDoubleFlat, k_fSesquiFlat, k_fFlat, k_fSemiFlat, k_fNatural, k_fSemiSharp, k_fSharp, k_fSesquiSharp, k_fDoubleSharp,
   k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat, k_gNatural, k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
-enum msrNoteNamesLanguage {
+enum quaterTonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
   
-extern map<string, msrNoteNamesLanguage>
-  gNoteNamesLanguagesMap;
+extern string quaterTonesPitchesLanguageAsString (
+  quaterTonesPitchesLanguage language);
 
-extern map<msrPitch, string> gNederlandsPitchName;
-extern map<msrPitch, string> gCatalanPitchName;
-extern map<msrPitch, string> gDeutschPitchName;
-extern map<msrPitch, string> gEnglishPitchName;
-extern map<msrPitch, string> gEspanolPitchName;
-extern map<msrPitch, string> gFrancaisPitchName;
-extern map<msrPitch, string> gItalianoPitchName;
-extern map<msrPitch, string> gNorskPitchName;
-extern map<msrPitch, string> gPortuguesPitchName;
-extern map<msrPitch, string> gSuomiPitchName;
-extern map<msrPitch, string> gSvenskaPitchName;
-extern map<msrPitch, string> gVlaamsPitchName;
+extern map<string, quaterTonesPitchesLanguage>
+  gQuaterTonesPitchesLanguagesMap;
 
-extern string msrPitchAsString (
-  msrNoteNamesLanguage noteNamesLanguage,
-  msrPitch             pitch);
+extern map<quarterTonesPitch, string> gNederlandsPitchName;
+extern map<quarterTonesPitch, string> gCatalanPitchName;
+extern map<quarterTonesPitch, string> gDeutschPitchName;
+extern map<quarterTonesPitch, string> gEnglishPitchName;
+extern map<quarterTonesPitch, string> gEspanolPitchName;
+extern map<quarterTonesPitch, string> gFrancaisPitchName;
+extern map<quarterTonesPitch, string> gItalianoPitchName;
+extern map<quarterTonesPitch, string> gNorskPitchName;
+extern map<quarterTonesPitch, string> gPortuguesPitchName;
+extern map<quarterTonesPitch, string> gSuomiPitchName;
+extern map<quarterTonesPitch, string> gSvenskaPitchName;
+extern map<quarterTonesPitch, string> gVlaamsPitchName;
+
+extern string quarterTonesPitchAsString (
+  quaterTonesPitchesLanguage language,
+  quarterTonesPitch          pitch);
 
 void initializePitchesLanguages ();
 
@@ -286,29 +289,29 @@ class EXP msrOptions : public smartable
     // set and get
     // ------------------------------------------------------
 
-    bool                  setMsrPitchesLanguage (string language);    
+    bool                        setQuarterTonesPitchesLanguage (
+                                  string language);    
  
   public:
 
     // languages
-    string                fNoteNamesLanguageAsString;
-    msrNoteNamesLanguage  fNoteNamesLanguage;
+    quaterTonesPitchesLanguage  fQuaterTonesPitchesLanguage;
     
     // advanced options
-    bool                  fCreateStaffRelativeVoiceNumbers;
-    bool                  fDelayRestsDynamics;
+    bool                        fCreateStaffRelativeVoiceNumbers;
+    bool                        fDelayRestsDynamics;
 
     // MSR display
-    bool                  fDisplayMSR;
+    bool                        fDisplayMSR;
 
     // stanza display
-    bool                  fDontDisplayMSRStanzas;
+    bool                        fDontDisplayMSRStanzas;
     
     // MSR score summary
-    bool                  fDisplayMSRSummary;
+    bool                        fDisplayMSRSummary;
 
     // parts renaming
-    map<string, string>   fPartsRenaming;
+    map<string, string>         fPartsRenaming;
 
   private:
 
@@ -451,8 +454,8 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
-    msrPitch          getNotePitch () const
-                          { return fNotePitch; }
+    quarterTonesPitch         getNotePitch () const
+                                  { return fNotePitch; }
 
   public:
 
@@ -502,7 +505,7 @@ class msrNoteData
 
   private:
 
-    msrPitch                  fNotePitch; 
+    quarterTonesPitch         fNotePitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 

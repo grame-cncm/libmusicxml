@@ -26,36 +26,36 @@ namespace MusicXML2
 // notes names languages
 // ------------------------------------------------------
 
-map<string, msrNoteNamesLanguage>
-  gNoteNamesLanguagesMap;
+map<string, quaterTonesPitchesLanguage>
+  gQuaterTonesPitchesLanguagesMap;
 
-map<msrPitch, string> gNederlandsPitchName;
-map<msrPitch, string> gCatalanPitchName;
-map<msrPitch, string> gDeutschPitchName;
-map<msrPitch, string> gEnglishPitchName;
-map<msrPitch, string> gEspanolPitchName;
-map<msrPitch, string> gFrancaisPitchName;
-map<msrPitch, string> gItalianoPitchName;
-map<msrPitch, string> gNorskPitchName;
-map<msrPitch, string> gPortuguesPitchName;
-map<msrPitch, string> gSuomiPitchName;
-map<msrPitch, string> gSvenskaPitchName;
-map<msrPitch, string> gVlaamsPitchName;
+map<quarterTonesPitch, string> gNederlandsPitchName;
+map<quarterTonesPitch, string> gCatalanPitchName;
+map<quarterTonesPitch, string> gDeutschPitchName;
+map<quarterTonesPitch, string> gEnglishPitchName;
+map<quarterTonesPitch, string> gEspanolPitchName;
+map<quarterTonesPitch, string> gFrancaisPitchName;
+map<quarterTonesPitch, string> gItalianoPitchName;
+map<quarterTonesPitch, string> gNorskPitchName;
+map<quarterTonesPitch, string> gPortuguesPitchName;
+map<quarterTonesPitch, string> gSuomiPitchName;
+map<quarterTonesPitch, string> gSvenskaPitchName;
+map<quarterTonesPitch, string> gVlaamsPitchName;
 
 void initializePitchesLanguages ()
 {
-  gNoteNamesLanguagesMap ["nederlands"] = kNederlands;
-  gNoteNamesLanguagesMap ["catalan"]    = kCatalan;
-  gNoteNamesLanguagesMap ["deutsch"]    = kDeutsch;
-  gNoteNamesLanguagesMap ["english"]    = kEnglish;
-  gNoteNamesLanguagesMap ["espanol"]    = kEspanol;
-  gNoteNamesLanguagesMap ["italiano"]   = kItaliano;
-  gNoteNamesLanguagesMap ["francais"]   = kFrancais;
-  gNoteNamesLanguagesMap ["norsk"]      = kNorsk;
-  gNoteNamesLanguagesMap ["portugues"]  = kPortugues;
-  gNoteNamesLanguagesMap ["suomi"]      = kSuomi;
-  gNoteNamesLanguagesMap ["svenska"]    = kSvenska;
-  gNoteNamesLanguagesMap ["vlaams"]     = kVlaams;
+  gQuaterTonesPitchesLanguagesMap ["nederlands"] = kNederlands;
+  gQuaterTonesPitchesLanguagesMap ["catalan"]    = kCatalan;
+  gQuaterTonesPitchesLanguagesMap ["deutsch"]    = kDeutsch;
+  gQuaterTonesPitchesLanguagesMap ["english"]    = kEnglish;
+  gQuaterTonesPitchesLanguagesMap ["espanol"]    = kEspanol;
+  gQuaterTonesPitchesLanguagesMap ["italiano"]   = kItaliano;
+  gQuaterTonesPitchesLanguagesMap ["francais"]   = kFrancais;
+  gQuaterTonesPitchesLanguagesMap ["norsk"]      = kNorsk;
+  gQuaterTonesPitchesLanguagesMap ["portugues"]  = kPortugues;
+  gQuaterTonesPitchesLanguagesMap ["suomi"]      = kSuomi;
+  gQuaterTonesPitchesLanguagesMap ["svenska"]    = kSvenska;
+  gQuaterTonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
 
   // nederlands
   gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
@@ -910,13 +910,60 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
-string msrPitchAsString (
-  msrNoteNamesLanguage noteNamesLanguage,
-  msrPitch             pitch)
+extern string quaterTonesPitchesLanguageAsString (
+  quaterTonesPitchesLanguage language)
 {
   string result;
   
-  switch (noteNamesLanguage) {
+  switch (language) {
+    case kNederlands:
+      result = "nederlands";
+      break;
+    case kCatalan:
+      result = "catalan";
+      break;
+    case kDeutsch:
+      result = "deutsch";
+      break;
+    case kEnglish:
+      result = "english";
+      break;
+    case kEspanol:
+      result = "espanol";
+      break;
+    case kFrancais:
+      result = "francais";
+      break;
+    case kItaliano:
+      result = "italiano";
+      break;
+    case kNorsk:
+      result = "norsk";
+      break;
+    case kPortugues:
+      result = "portugues";
+      break;
+    case kSuomi:
+      result = "suomi";
+      break;
+    case kSvenska:
+      result = "svenska";
+      break;
+    case kVlaams:
+      result = "vlaams";
+      break;
+  } // switch
+
+  return result;
+}
+
+string quarterTonesPitchAsString (
+  quaterTonesPitchesLanguage language,
+  quarterTonesPitch          pitch)
+{
+  string result;
+  
+  switch (language) {
     case kNederlands:
       result = gNederlandsPitchName [pitch];
       break;
@@ -969,14 +1016,14 @@ S_msrOptions msrOptions::create ()
 msrOptions::msrOptions ()
 {}
 
-bool msrOptions::setMsrPitchesLanguage (string language)
+bool msrOptions::setQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
-  map<string, msrNoteNamesLanguage>::const_iterator
+  map<string, quaterTonesPitchesLanguage>::const_iterator
     it =
-      gNoteNamesLanguagesMap.find (language);
+      gQuaterTonesPitchesLanguagesMap.find (language);
         
-  if (it == gNoteNamesLanguagesMap.end ()) {
+  if (it == gQuaterTonesPitchesLanguagesMap.end ()) {
     // no, language is unknown in the map
 
 /* JMI
@@ -984,13 +1031,13 @@ bool msrOptions::setMsrPitchesLanguage (string language)
       endl << endl;
 
     cerr <<
-      "gNoteNamesLanguagesMap.size () = " <<
-      gNoteNamesLanguagesMap.size () <<
+      "gQuaterTonesPitchesLanguagesMap.size () = " <<
+      gQuaterTonesPitchesLanguagesMap.size () <<
       endl << endl;
       
     for (
-      map<string, msrNoteNamesLanguage>::const_iterator i=gNoteNamesLanguagesMap.begin();
-      i!=gNoteNamesLanguagesMap.end();
+      map<string, quarterTonesPitchLanguage>::const_iterator i=gQuaterTonesPitchesLanguagesMap.begin();
+      i!=gQuaterTonesPitchesLanguagesMap.end();
       i++) {
       cerr <<
         (*i).first << ": " << (*i).second <<
@@ -1001,8 +1048,7 @@ bool msrOptions::setMsrPitchesLanguage (string language)
     return false;
   }
 
-  fNoteNamesLanguageAsString = (*it).first;
-  fNoteNamesLanguage         = (*it).second;
+  fQuaterTonesPitchesLanguage = (*it).second;
   
   return true;
 }
@@ -3452,7 +3498,7 @@ string msrNote::notePitchAsString () const
   /*
   cerr << "msrNote::notePitchAsString (), isRest = " <<
     fNoteData.fStepIsARest <<
-    ", fMsrPitch = " << fMsrPitch << endl;
+    ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
   */
   
   if (fNoteData.fStepIsARest)
