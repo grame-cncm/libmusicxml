@@ -1115,7 +1115,230 @@ msrDiatonicPitchAndAlterFromQuarterTonePitch (
       result.second = kDoubleSharp;
       break;
 
+    case k_bDoubleFlat:
+      result.first  = kB;
+      result.second = kDoubleFlat;
+      break;
+    case k_bSesquiFlat:
+      result.first  = kB;
+      result.second = kSesquiFlat;
+      break;
+    case k_bFlat:
+      result.first  = kB;
+      result.second = kFlat;
+      break;
+    case k_bSemiFlat:
+      result.first  = kB;
+      result.second = kSemiFlat;
+      break;
+    case k_bNatural:
+      result.first  = kB;
+      result.second = kNatural;
+      break;
+    case k_bSemiSharp:
+      result.first  = kB;
+      result.second = kSemiSharp;
+      break;
+    case k_bSharp:
+      result.first  = kB;
+      result.second = kSharp;
+      break;
+    case k_bSesquiSharp:
+      result.first  = kB;
+      result.second = kSesquiSharp;
+      break;
+    case k_bDoubleSharp:
+      result.first  = kB;
+      result.second = kDoubleSharp;
+      break;
+
+    case k_cDoubleFlat:
+      result.first  = kC;
+      result.second = kDoubleFlat;
+      break;
+    case k_cSesquiFlat:
+      result.first  = kC;
+      result.second = kSesquiFlat;
+      break;
+    case k_cFlat:
+      result.first  = kC;
+      result.second = kFlat;
+      break;
+    case k_cSemiFlat:
+      result.first  = kC;
+      result.second = kSemiFlat;
+      break;
+    case k_cNatural:
+      result.first  = kC;
+      result.second = kNatural;
+      break;
+    case k_cSemiSharp:
+      result.first  = kC;
+      result.second = kSemiSharp;
+      break;
+    case k_cSharp:
+      result.first  = kC;
+      result.second = kSharp;
+      break;
+    case k_cSesquiSharp:
+      result.first  = kC;
+      result.second = kSesquiSharp;
+      break;
+    case k_cDoubleSharp:
+      result.first  = kC;
+      result.second = kDoubleSharp;
+      break;
+
+    case k_dDoubleFlat:
+      result.first  = kD;
+      result.second = kDoubleFlat;
+      break;
+    case k_dSesquiFlat:
+      result.first  = kD;
+      result.second = kSesquiFlat;
+      break;
+    case k_dFlat:
+      result.first  = kD;
+      result.second = kFlat;
+      break;
+    case k_dSemiFlat:
+      result.first  = kD;
+      result.second = kSemiFlat;
+      break;
+    case k_dNatural:
+      result.first  = kD;
+      result.second = kNatural;
+      break;
+    case k_dSemiSharp:
+      result.first  = kD;
+      result.second = kSemiSharp;
+      break;
+    case k_dSharp:
+      result.first  = kD;
+      result.second = kSharp;
+      break;
+    case k_dSesquiSharp:
+      result.first  = kD;
+      result.second = kSesquiSharp;
+      break;
+    case k_dDoubleSharp:
+      result.first  = kD;
+      result.second = kDoubleSharp;
+      break;
+
+    case k_eDoubleFlat:
+      result.first  = kE;
+      result.second = kDoubleFlat;
+      break;
+    case k_eSesquiFlat:
+      result.first  = kE;
+      result.second = kSesquiFlat;
+      break;
+    case k_eFlat:
+      result.first  = kE;
+      result.second = kFlat;
+      break;
+    case k_eSemiFlat:
+      result.first  = kE;
+      result.second = kSemiFlat;
+      break;
+    case k_eNatural:
+      result.first  = kE;
+      result.second = kNatural;
+      break;
+    case k_eSemiSharp:
+      result.first  = kE;
+      result.second = kSemiSharp;
+      break;
+    case k_eSharp:
+      result.first  = kE;
+      result.second = kSharp;
+      break;
+    case k_eSesquiSharp:
+      result.first  = kE;
+      result.second = kSesquiSharp;
+      break;
+    case k_eDoubleSharp:
+      result.first  = kE;
+      result.second = kDoubleSharp;
+      break;
+
+    case k_fDoubleFlat:
+      result.first  = kF;
+      result.second = kDoubleFlat;
+      break;
+    case k_fSesquiFlat:
+      result.first  = kF;
+      result.second = kSesquiFlat;
+      break;
+    case k_fFlat:
+      result.first  = kF;
+      result.second = kFlat;
+      break;
+    case k_fSemiFlat:
+      result.first  = kF;
+      result.second = kSemiFlat;
+      break;
+    case k_fNatural:
+      result.first  = kF;
+      result.second = kNatural;
+      break;
+    case k_fSemiSharp:
+      result.first  = kF;
+      result.second = kSemiSharp;
+      break;
+    case k_fSharp:
+      result.first  = kF;
+      result.second = kSharp;
+      break;
+    case k_fSesquiSharp:
+      result.first  = kF;
+      result.second = kSesquiSharp;
+      break;
+    case k_fDoubleSharp:
+      result.first  = kF;
+      result.second = kDoubleSharp;
+      break;
+
+    case k_gDoubleFlat:
+      result.first  = kG;
+      result.second = kDoubleFlat;
+      break;
+    case k_gSesquiFlat:
+      result.first  = kG;
+      result.second = kSesquiFlat;
+      break;
+    case k_gFlat:
+      result.first  = kG;
+      result.second = kFlat;
+      break;
+    case k_gSemiFlat:
+      result.first  = kG;
+      result.second = kSemiFlat;
+      break;
+    case k_gNatural:
+      result.first  = kG;
+      result.second = kNatural;
+      break;
+    case k_gSemiSharp:
+      result.first  = kG;
+      result.second = kSemiSharp;
+      break;
+    case k_gSharp:
+      result.first  = kG;
+      result.second = kSharp;
+      break;
+    case k_gSesquiSharp:
+      result.first  = kG;
+      result.second = kSesquiSharp;
+      break;
+    case k_gDoubleSharp:
+      result.first  = kG;
+      result.second = kDoubleSharp;
+      break;
   } // switch
+
+  return result;
 }
 
 msrQuarterTonesPitch msrDiatonicPitchToQuarterTonesPitch (
