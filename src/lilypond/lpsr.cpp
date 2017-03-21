@@ -67,7 +67,46 @@ lpsrOptions::lpsrOptions()
   } // for
   */
 }
+
 lpsrOptions::~lpsrOptions() {}
+
+bool lpsrOptions::setLpsrPitchesLanguage (string language)
+{
+  // is language in the note names languages map?
+  map<string, msrNoteNamesLanguage>::const_iterator
+    it =
+      gNoteNamesLanguagesMap.find (language);
+        
+  if (it == gNoteNamesLanguagesMap.end ()) {
+    // no, language is unknown in the map
+
+/* JMI
+    cerr <<
+      endl << endl;
+
+    cerr <<
+      "gNoteNamesLanguagesMap.size () = " <<
+      gNoteNamesLanguagesMap.size () <<
+      endl << endl;
+      
+    for (
+      map<string, msrNoteNamesLanguage>::const_iterator i=gNoteNamesLanguagesMap.begin();
+      i!=gNoteNamesLanguagesMap.end();
+      i++) {
+      cerr <<
+        (*i).first << ": " << (*i).second <<
+        endl << endl;
+    } // for
+*/
+    
+    return false;
+  }
+
+  fNoteNamesLanguageAsString = (*it).first;
+  fNoteNamesLanguage         = (*it).second;
+  
+  return true;
+}
 
 bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
 {

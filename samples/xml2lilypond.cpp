@@ -67,6 +67,7 @@ void printUsage (int exitStatus)
 
     "  General:" << endl <<
     endl <<
+
     "    --h, --help" << endl <<
     "          Display this help and exit." << endl <<
     "    --v, --version" << endl <<
@@ -108,8 +109,8 @@ void printUsage (int exitStatus)
     "  MSR:" << endl <<
     endl <<
 
-    "    --mnnl, --msrNoteNamesLanguage language" << endl <<
-    "          Use 'language' to display note names in the MSR logs and text views." << endl <<
+    "    --mpl, --msrPitchesLanguage language" << endl <<
+    "          Use 'language' to display note pitches in the MSR logs and text views." << endl <<
     "          'language' can be one of 'nederlands', 'catalan', 'deutsch', " << endl <<
     "          'english', 'espanol', 'francais', 'italiano', 'norsk', 'portugues'," << endl <<
     "          'suomi', 'svenska' or 'vlaams'. Default is 'nederlands'." << endl <<
@@ -146,6 +147,14 @@ void printUsage (int exitStatus)
     endl <<
 
     "  LPSR:" << endl <<
+    endl <<
+
+    "    --lppl, --lpsrPitchesLanguage language" << endl <<
+    "          Use 'language' to display note pitches in the LPSR logs and views," << endl <<
+    "          as well as in the generated LilyPond code." << endl <<
+    "          'language' can be one of 'nederlands', 'catalan', 'deutsch', " << endl <<
+    "          'english', 'espanol', 'francais', 'italiano', 'norsk', 'portugues'," << endl <<
+    "          'suomi', 'svenska' or 'vlaams'. Default is 'nederlands'." << endl <<
     endl <<
 
     "    --lpsr, --displayLPSR" << endl <<
@@ -257,11 +266,9 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  initializeMsrNoteNamesLanguage ();
-
   if (
     ! 
-      gMsrOptions->setNoteNamesLanguage ("nederlands")
+      gMsrOptions->setMsrPitchesLanguage ("nederlands")
     ) {
     optionError (
       "INTERNAL INITIALIZATION ERROR: "
@@ -281,6 +288,15 @@ void analyzeOptions (
   // LPSR options
   // ------------
 
+  if (
+    ! 
+      gLpsrOptions->setLpsrPitchesLanguage ("nederlands")
+    ) {
+    optionError (
+      "INTERNAL INITIALIZATION ERROR: "
+      "language 'nederlands' is unknown");
+  }
+  
   gLpsrOptions->fDisplayLPSR                         = false;
 
   gLpsrOptions->fDontKeepLineBreaks                  = false;
@@ -335,7 +351,7 @@ void analyzeOptions (
   // MSR options
   // -----------
 
-  int msrNoteNamesLanguagePresent       = 0;
+  int msrPitchesLanguagePresent         = 0;
 
   int staffRelativeVoiceNumbersPresent  = 0;
   
@@ -352,6 +368,8 @@ void analyzeOptions (
   // LPSR options
   // ------------
 
+  int lpsrPitchesLanguagePresent        = 0;
+  
   int displayLPSRPresent                = 0;
 
   int dontKeepLineBreaksPresent         = 0;
@@ -478,12 +496,12 @@ void analyzeOptions (
     // -----------
 
     {
-      "mnnl",
-      required_argument, &msrNoteNamesLanguagePresent, 1
+      "mpl",
+      required_argument, &msrPitchesLanguagePresent, 1
     },
     {
-      "msrNoteNamesLanguage",
-      required_argument, &msrNoteNamesLanguagePresent, 1
+      "msrPitchesLanguage",
+      required_argument, &msrPitchesLanguagePresent, 1
     },
     
     {
@@ -543,6 +561,15 @@ void analyzeOptions (
     // LPSR options
     // ------------
 
+    {
+      "lppl",
+      required_argument, &lpsrPitchesLanguagePresent, 1
+    },
+    {
+      "lpsrPitchesLanguage",
+      required_argument, &lpsrPitchesLanguagePresent, 1
+    },
+    
     {
       "lpsr",
       no_argument, &displayLPSRPresent, 1},
@@ -836,7 +863,7 @@ void analyzeOptions (
         // MSR options
         // -----------
         
-        if (msrNoteNamesLanguagePresent) {
+        if (msrPitchesLanguagePresent) {
           // optarg contains the language name
           string optargAsString;
           {
@@ -845,7 +872,7 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gMsrOptions->setNoteNamesLanguage (
+          if (! gMsrOptions->setMsrPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
@@ -857,10 +884,10 @@ void analyzeOptions (
           }
           
           gGeneralOptions->fCommandLineOptions +=
-            "--msrNoteNamesLanguage " +
+            "--msrPitchesLanguage " +
             optargAsString +
             " ";
-          msrNoteNamesLanguagePresent = false;
+          msrPitchesLanguagePresent = false;
           }
              
         if (staffRelativeVoiceNumbersPresent) {
@@ -948,6 +975,33 @@ void analyzeOptions (
         // LPSR options
         // ------------
 
+        if (lpsrPitchesLanguagePresent) {
+          // optarg contains the language name
+          string optargAsString;
+          {
+            stringstream s;
+            s << optarg;
+            optargAsString = s.str();
+          }
+          
+          if (! gLpsrOptions->setLpsrPitchesLanguage (
+            optargAsString)) {
+            stringstream s;
+
+            s <<
+              "language name '" << optargAsString <<
+              "' is unknown";
+              
+            optionError (s.str());
+          }
+          
+          gGeneralOptions->fCommandLineOptions +=
+            "--lpsrPitchesLanguage " +
+            optargAsString +
+            " ";
+          lpsrPitchesLanguagePresent = false;
+          }
+             
         if (displayLPSRPresent) {
           gLpsrOptions->fDisplayLPSR = true;
           gGeneralOptions->fCommandLineOptions +=
@@ -1426,6 +1480,11 @@ int main (int argc, char *argv[])
   }
   */
 
+  // analyze the pitches languages variables
+  // ------------------------------------------------------
+
+  initializePitchesLanguages ();
+  
   // analyze the command line options
   // ------------------------------------------------------
 

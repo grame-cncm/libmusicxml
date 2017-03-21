@@ -261,7 +261,7 @@ extern string msrPitchAsString (
   msrNoteNamesLanguage noteNamesLanguage,
   msrPitch             pitch);
 
-void initializeMsrNoteNamesLanguage ();
+void initializePitchesLanguages ();
 
 //______________________________________________________________________________
 /*!
@@ -286,7 +286,7 @@ class EXP msrOptions : public smartable
     // set and get
     // ------------------------------------------------------
 
-    bool                  setNoteNamesLanguage (string language);    
+    bool                  setMsrPitchesLanguage (string language);    
  
   public:
 

@@ -42,7 +42,7 @@ map<msrPitch, string> gSuomiPitchName;
 map<msrPitch, string> gSvenskaPitchName;
 map<msrPitch, string> gVlaamsPitchName;
 
-void initializeMsrNoteNamesLanguage ()
+void initializePitchesLanguages ()
 {
   gNoteNamesLanguagesMap ["nederlands"] = kNederlands;
   gNoteNamesLanguagesMap ["catalan"]    = kCatalan;
@@ -969,7 +969,7 @@ S_msrOptions msrOptions::create ()
 msrOptions::msrOptions ()
 {}
 
-bool msrOptions::setNoteNamesLanguage (string language)
+bool msrOptions::setMsrPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrNoteNamesLanguage>::const_iterator
