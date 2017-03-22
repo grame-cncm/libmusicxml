@@ -661,9 +661,9 @@ class EXP xml2MsrTranslator :
     int                       fCurrentStaffTuningLinesNumber;
     
     int                       fCurrentStaffTuningLine;
-    char                      fCurrentStaffTuningStep;
+    msrDiatonicPitch          fCurrentStaffTuningDiatonicPitch;
+    msrAlteration             fCurrentStaffTuningAlteration;
     int                       fCurrentStaffTuningOctave;
-    msrAlteration         fCurrentStaffTuningAlteration;
     
     int                       fCurrentStaffDetailsCapo;
     int                       fCurrentStaffDetailsStaffSize;
@@ -849,6 +849,8 @@ class EXP xml2MsrTranslator :
 
     // note/rest handling
     // ------------------------------------------------------
+    msrDiatonicPitch          fCurrentNoteDiatonicPitch;
+    msrAlteration             fCurrentNoteAlteration;
     string                    fCurrentNoteType;
     bool                      fOnGoingNote;
     

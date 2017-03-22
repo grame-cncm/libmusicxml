@@ -910,7 +910,7 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
-string msrDiatonicPitchFromString (
+msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName)
 {
   msrDiatonicPitch result;
@@ -1109,6 +1109,239 @@ string msrAlterationAsString (
   } // switch
 
   return result;
+}
+
+msrQuarterTonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
+  msrDiatonicPitch diatonicPitch,
+  msrAlteration    alteration)
+{
+  switch (diatonicPitch) {
+    case kA:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_aDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_aSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_aFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_aSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_aNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_aSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_aSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_aSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_aDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kB:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_bDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_bSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_bFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_bSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_bNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_bSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_bSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_bSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_bDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+      break;
+      
+    case kC:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_cDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_cSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_cFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_cSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_cNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_cSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_cSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_cSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_cDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kD:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_dDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_dSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_dFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_dSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_dNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_dSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_dSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_dSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_dDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kE:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_eDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_eSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_eFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_eSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_eNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_eSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_eSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_eSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_eDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kF:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_fDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_fSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_fFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_fSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_fNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_fSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_fSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_fSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_fDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kG:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_gDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_gSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_gFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_gSemiFlat;
+          break;
+        case kNatural:
+          result = k_gNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_gSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_gSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_gSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_gDoubleSharp;
+          break;
+      } // switch
+      break;
+  } // switch
 }
 
 string msrQuarterTonesPitchAsString (
@@ -1584,7 +1817,6 @@ void msrNoteData::setPitch (
   return result;
 }
 
-
 void msrNoteData::setPitch (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
@@ -1592,233 +1824,9 @@ void msrNoteData::setPitch (
   fNoteDiatonicPitch = diatonicPitch;
 
   // set fNoteQuaterTonesPitch accordingly
-  switch (diatonicPitch) {
-    case kA:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_aDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_aSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_aFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_aSemiFlat;
-          break;
-        case kNatural:
-          fNoteQuaterTonesPitch = k_aNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_aSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_aSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_aSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_aDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kB:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_bDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_bSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_bFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_bSemiFlat;
-          break;
-        case kNatural:
-          fNoteQuaterTonesPitch = k_bNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_bSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_bSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_bSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_bDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-      break;
-      
-    case kC:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_cDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_cSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_cFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_cSemiFlat;
-          break;
-        case kNatural:
-          fNoteQuaterTonesPitch = k_cNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_cSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_cSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_cSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_cDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kD:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_dDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_dSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_dFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_dSemiFlat;
-          break;
-        case kNatural:
-          fNoteQuaterTonesPitch = k_dNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_dSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_dSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_dSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_dDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kE:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_eDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_eSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_eFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_eSemiFlat;
-          break;
-        case kNatural:
-          fNoteQuaterTonesPitch = k_eNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_eSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_eSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_eSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_eDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kF:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_fDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_fSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_fFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_fSemiFlat;
-          break;
-        case kNatural:
-          fNoteQuaterTonesPitch = k_fNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_fSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_fSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_fSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_fDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kG:
-      switch (alteration) {
-        case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_gDoubleFlat;
-          break;
-        case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_gSesquiFlat;
-          break;
-        case kFlat:
-          fNoteQuaterTonesPitch = k_gFlat;
-          break;
-        case kSemiFlat:
-          fNoteQuaterTonesPitch = k_gSemiFlat;
-          break;
-        case kNatural:
-          result = k_gNatural;
-          break;
-        case kSemiSharp:
-          fNoteQuaterTonesPitch = k_gSemiSharp;
-          break;
-        case kSharp:
-          fNoteQuaterTonesPitch = k_gSharp;
-          break;
-        case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_gSesquiSharp;
-          break;
-        case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_gDoubleSharp;
-          break;
-      } // switch
-      break;
-  } // switch
+  fNoteQuaterTonesPitch =
+    qaterTonesPitchFromDiatonicPitchAndAlteration (
+      diatonicPitch, alteration);
 }
 
 void msrNoteData::print (ostream& os)
@@ -13514,37 +13522,31 @@ void msrVoice::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrStafftuning msrStafftuning::create (
-  int           inputLineNumber,
-  int           stafftuningLineNumber,
-  char          stafftuningStep,
-  int           stafftuningOctave,
-  msrAlteration
-                staffTuningAlteration)
+  int                  inputLineNumber,
+  int                  stafftuningLineNumber,
+  msrQuarterTonesPitch quarterTonesPitch,
+  int                  stafftuningOctave)
 {
   msrStafftuning* o =
     new msrStafftuning (
       inputLineNumber,
       stafftuningLineNumber,
-      stafftuningStep,
-      stafftuningOctave,
-      staffTuningAlteration);
+      quarterTonesPitch,
+      stafftuningOctave);
   assert(o!=0);
   return o;
 }
 
 msrStafftuning::msrStafftuning (
-  int           inputLineNumber,
-  int           stafftuningLineNumber,
-  char          stafftuningStep,
-  int           stafftuningOctave,
-  msrAlteration
-                staffTuningAlteration)
+  int                  inputLineNumber,
+  int                  stafftuningLineNumber,
+  msrQuarterTonesPitch quarterTonesPitch,
+  int                  stafftuningOctave)
     : msrElement (inputLineNumber)
 {
-  fStafftuningLineNumber = stafftuningLineNumber;
-  fStafftuningStep       = stafftuningStep;
-  fStafftuningOctave     = stafftuningOctave;
-  fStaffTuningAlteration = staffTuningAlteration;
+  fStafftuningLineNumber        = stafftuningLineNumber;
+  fStafftuningQuarterTonesPitch = quarterTonesPitch;
+  fStafftuningOctave            = stafftuningOctave;
 }
 
 msrStafftuning::~ msrStafftuning ()
@@ -13562,9 +13564,8 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
       msrStafftuning::create (
         fInputLineNumber,
         fStafftuningLineNumber,
-        fStafftuningStep,
-        fStafftuningOctave,
-        fStaffTuningAlteration);
+        fStafftuningQuarterTonesPitch,
+        fStafftuningOctave);
   
   return clone;
 }
@@ -13618,11 +13619,11 @@ string msrStafftuning::stafftuningAsString () const
 
   s <<
     "line " << fStafftuningLineNumber <<
-    ", " << fStafftuningStep <<
-    ", octave " << fStafftuningOctave <<
-    ", alteration " <<
-    msrAlterationAsString (
-      fStaffTuningAlteration);
+    ", " <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fQuaterTonesPitchesLanguage,
+      fStafftuningQuarterTonesPitch) <<
+    ", octave " << fStafftuningOctave;
     
   return s.str();
 }
@@ -13641,17 +13642,14 @@ void msrStafftuning::print (ostream& os)
       fStafftuningLineNumber <<
       endl <<
     idtr <<
-      setw(21) << "StafftuningStep" << " = " <<
-      fStafftuningStep <<
+      setw(21) << "fStafftuningQuarterTonesPitch" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fQuaterTonesPitchesLanguage,
+        fStafftuningQuarterTonesPitch) <<
       endl <<
     idtr <<
       setw(21) << "StafftuningOctave" << " = " <<
       fStafftuningOctave <<
-      endl <<
-    idtr <<
-      setw(21) << "StaffTuningAlteration" << " = " <<
-      msrAlterationAsString (
-        fStaffTuningAlteration) <<
       endl;
 
   idtr--;

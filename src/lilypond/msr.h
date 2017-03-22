@@ -216,7 +216,7 @@ enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB};
 
-extern string msrDiatonicPitchFromString (
+extern msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName);
 
 extern string msrDiatonicPitchAsString (
@@ -267,6 +267,10 @@ enum msrQuarterTonesPitch {
   k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat,
   k_gNatural,
   k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
+
+msrQuarterTonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
+  msrDiatonicPitch diatonicPitch,
+  msrAlteration    alteration);
 
 enum msrQuaterTonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
@@ -5382,12 +5386,10 @@ class EXP msrStafftuning : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStafftuning> create (
-      int           inputLineNumber,
-      int           stafftuningLineNumber,
-      char          stafftuningStep,
-      int           stafftuningOctave,
-      msrAlteration
-                    staffTuningAlteration);
+      int                  inputLineNumber,
+      int                  stafftuningLineNumber,
+      msrQuarterTonesPitch quarterTonesPitch,
+      int                  stafftuningOctave);
     
     SMARTP<msrStafftuning> createStafftuningBareClone ();
 
@@ -5397,12 +5399,10 @@ class EXP msrStafftuning : public msrElement
     // ------------------------------------------------------
 
     msrStafftuning (
-      int           inputLineNumber,
-      int           stafftuningLineNumber,
-      char          stafftuningStep,
-      int           stafftuningOctave,
-      msrAlteration
-                    staffTuningAlteration);
+      int                  inputLineNumber,
+      int                  stafftuningLineNumber,
+      msrQuarterTonesPitch quarterTonesPitch,
+      int                  stafftuningOctave);
          
     ~ msrStafftuning ();
   
@@ -5414,15 +5414,12 @@ class EXP msrStafftuning : public msrElement
     int             getStafftuningLineNumber () const
                         { return fStafftuningLineNumber; }
 
-    char            getStafftuningStep () const
-                        { return fStafftuningStep; }
+    msrQuarterTonesPitch
+                    getStafftuningQuarterTonesPitch () const
+                        { return fStafftuningQuarterTonesPitch; }
 
     int             getStafftuningOctave () const
                         { return fStafftuningOctave; }
-
-    msrAlteration
-                    getCurrentStaffTuningAlteration () const
-                        { return fStaffTuningAlteration; }
 
     // services
     // ------------------------------------------------------
@@ -5447,11 +5444,10 @@ class EXP msrStafftuning : public msrElement
     // data
     // ------------------------------------------------------
     
-    int               fStafftuningLineNumber;
-    char              fStafftuningStep;
-    int               fStafftuningOctave;
-    msrAlteration
-                      fStaffTuningAlteration;
+    int                   fStafftuningLineNumber;
+    
+    msrQuarterTonesPitch  fStafftuningQuarterTonesPitch;
+    int                   fStafftuningOctave;
 };
 typedef SMARTP<msrStafftuning> S_msrStafftuning;
 EXP ostream& operator<< (ostream& os, const S_msrStafftuning& elt);

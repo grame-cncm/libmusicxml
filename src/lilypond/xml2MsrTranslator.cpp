@@ -53,6 +53,9 @@ xml2MsrTranslator::xml2MsrTranslator ()
   
   fCurrentWordsContents = "";
 
+  fCurrentNoteDiatonicPitch = k_NoPitch;
+  fCurrentNoteAlteration    = k_NoAlteration;
+
   fCurrentForwardStaffNumber = 1; // JMI
   fCurrentForwardVoiceNumber = 1; // JMI
   fCurrentVoiceNumber = 1; // JMI
@@ -101,7 +104,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingBackup  = false;
   fOnGoingForward = false;
 
-  fCurrentStaffTuningAlteration = kNatural;
+  fCurrentStaffTuningAlteration = k_NoAlteration;
+  fCurrentStaffTuningOctave     = -1;
 }
 
 xml2MsrTranslator::~xml2MsrTranslator ()
@@ -2188,12 +2192,8 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
-  fCurrentStaffTuningAlteration = kNatural;
-  /* JMI
-          <staff-tuning line="1">
-            <tuning-step>E</tuning-step>
-            <tuning-octave>2</tuning-octave>
-          </staff-tuning>  */
+  fCurrentStaffTuningAlteration = k_NoAlteration;
+  fCurrentStaffTuningOctave     = -1;
 }
     
 void xml2MsrTranslator::visitStart (S_tuning_step& elt )
@@ -2212,7 +2212,9 @@ void xml2MsrTranslator::visitStart (S_tuning_step& elt )
       s.str());
   }
 
-  fCurrentStaffTuningStep = tuningStep [0];
+  fCurrentStaffTuningDiatonicPitch =
+    msrDiatonicPitchFromString (
+      tuningStep [0]);
 }
 
 void xml2MsrTranslator::visitStart (S_tuning_octave& elt )
@@ -2243,12 +2245,22 @@ void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
 
 void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // fetch relevant staff
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNeeded (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fStaffDetailsStaffNumber);
+
+  msrQuarterTonesPitch
+    quarterTonesPitch =
+      quaterTonesPitchFromDiatonicPitchAndAlteration (
+        fCurrentStaffTuningDiatonicPitch,
+        fCurrentStaffTuningAlteration);
+    
 
   // create the staff tuning
   if (true || gGeneralOptions->fDebug) {
@@ -2262,15 +2274,27 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
 
     cerr <<
       idtr <<
-        setw(24) << "fCurrentStaffTuningLine" << " = " <<
+        setw(34) << "fCurrentStaffTuningLine" << " = " <<
         fCurrentStaffTuningLine <<
         endl <<
       idtr <<
-        setw(24) << "fCurrentStaffTuningStep" << " = " <<
-        fCurrentStaffTuningStep <<
+        setw(34) << "fCurrentStaffTuningDiatonicPitch" << " = " <<
+        msrDiatonicPitchAsString (
+          fCurrentStaffTuningDiatonicPitch) <<
         endl <<
       idtr <<
-        setw(24) << "CurrentStaffTuningOctave" << " = " <<
+        setw(34) << "fCurrentStaffTuningAlteration" << " = " <<
+        msrAlterationAsString (
+          fCurrentStaffTuningAlteration) <<
+        endl <<
+      idtr <<
+        setw(34) << "msrQuarterTonesPitch" << " = " <<
+        msrQuarterTonesPitchAsString (
+          gMsrOptions->fQuaterTonesPitchesLanguage,
+          quarterTonesPitch) <<
+        endl <<
+      idtr <<
+        setw(34) << "CurrentStaffTuningOctave" << " = " <<
         fCurrentStaffTuningOctave <<
         endl;
 
@@ -2280,11 +2304,10 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
   S_msrStafftuning
     stafftuning =
       msrStafftuning::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentStaffTuningLine,
-        fCurrentStaffTuningStep,
-        fCurrentStaffTuningOctave,
-        fCurrentStaffTuningAlteration);
+        msrQuarterTonesPitch,
+        fCurrentStaffTuningOctave);
         
   // add it to the staff
   staff->
@@ -4210,6 +4233,9 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // initialize note data to a neutral state
   fNoteData.init ();
 
+  fCurrentNoteDiatonicPitch = k_NoPitch;
+  fCurrentNoteAlteration    = k_NoAlteration;
+
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
 
@@ -4263,7 +4289,7 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
       s.str());
   }
 
-  fNoteData.setPitch (
+  fCurrentNoteDiatonicPitch =
     msrDiatonicPitchFromString (step [0]));
 }
 
@@ -4275,7 +4301,7 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
     msrAlterationFromMusicXMLAlter (
       alter);
       
-  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+  if (fNoteData.fNoteAlteration == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -6109,6 +6135,11 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // register note pitch
+  fNoteData.setPitch (
+    fCurrentNoteDiatonicPitch,
+    fCurrentNoteAlteration);
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -7880,7 +7911,8 @@ void xml2MsrTranslator::visitStart ( S_root_step& elt )
       s.str());
   }
 
-  fCurrentHarmonyRootStep = step [0];
+  fCurrentHarmonyRootStep =
+    msrDiatonicPitchFromString (step [0]);
 }
 
 void xml2MsrTranslator::visitStart ( S_root_alter& elt )
@@ -7891,7 +7923,7 @@ void xml2MsrTranslator::visitStart ( S_root_alter& elt )
     msrAlterationFromMusicXMLAlter (
       rootAlter);
       
-  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+  if (fCurrentHarmonyRootAlteration == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -7967,7 +7999,8 @@ void xml2MsrTranslator::visitStart ( S_bass_step& elt )
       s.str());
   }
 
-  fCurrentHarmonyBassStep = step [0];
+  fCurrentHarmonyBassStep =
+    msrDiatonicPitchFromString (step [0]);
 }
 
 void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
@@ -7978,7 +8011,7 @@ void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
     msrAlterationFromMusicXMLAlter (
       bassAlter);
       
-  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+  if (fCurrentHarmonyBassAlteration == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -8004,7 +8037,7 @@ void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
     msrAlterationFromMusicXMLAlter (
       degreeAlter);
       
-  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+  if (fCurrentHarmonyDegreeAlteration == k_NoAlteration) {
     stringstream s;
 
     s <<
