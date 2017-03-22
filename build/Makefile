@@ -5,22 +5,22 @@
 .PHONY : macos ios macc++11 android
 
 system	:= $(shell uname -s)
+system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 ifeq ($(system), Darwin)
 	TARGET ?= macos
+	OUTDIR = macos/Release
 else
-ifeq ($(system), MINGW32_NT-6.1)
-	TARGET ?= windows
-else
-ifeq ($(system), MINGW32_NT-6.2)
+ifeq ($(system), MINGW)
 	TARGET ?= windows
 else
 ifeq ($(system), Linux)
 	TARGET ?= linux
+	OUTDIR = linux
+else
+	TARGET = undefined
 endif
 endif
 endif
-endif
-
 
 OUT  := libmusicxml2.framework libmusicxml2.a
 MACX ?= macos
@@ -45,9 +45,13 @@ endif
 
 C++11 ?= no
 CMAKEOPT ?= -DC++11=$(C++11)
+TOOLS := RandomMusic readunrolled xml2midi xmlfactory xmlread xmlversion countnotes partsummary xml2guido xmlclone xmliter xmltranspose
 
 all :
 	make $(TARGET)
+
+undefined:
+	$(error System is undefined, not target available)
 
 help :
 	@echo libmusicxml makefile - Targets are :
@@ -64,6 +68,8 @@ help :
 	@echo "   js        build a javascript library"	
 	@echo "the platform targets is automatically evaluated by the default target."	
 	@echo "NOTE: windows targets are based on Visual Studio 10.0 or 12.0"	
+	@echo "Misc:"
+	@echo "   install   install the tools to ~/bin"	
 
 #===============================================================
 # building the javascript library
@@ -74,11 +80,11 @@ js:
 #===============================================================
 # building the library on Mac OS X
 #===============================================================
-.PHONY : $(MACX)/Release/libmusicxml2.framework $(IOS)/Release-iphoneos/libmusicxml2.a
+.PHONY : $(OUTDIR)/Release/libmusicxml2.framework $(IOS)/Release-iphoneos/libmusicxml2.a
 
 macos : $(MACX)/libmusicxml2.xcodeproj libmusicxml2.framework libmusicxml2.tgz
 
-libmusicxml2.framework :  macos/libmusicxml2.xcodeproj macos/Release/libmusicxml2.framework
+libmusicxml2.framework :  $(MACX)/libmusicxml2.xcodeproj $(MACX)/Release/libmusicxml2.framework
 	rm -rf libmusicxml2.framework
 	cp -R macos/Release/libmusicxml2.framework .
 
@@ -162,19 +168,19 @@ win64/libmusicxml2.sln : CMakeLists.txt
 #===============================================================
 .PHONY : $(LINUX) libmusicxml2.so
 
-linux : $(LINUX)/Makefile libmusicxml2.so
+linux : $(OUTDIR)/Makefile libmusicxml2.so
 
-libmusicxml2.so :  $(LINUX)/Makefile  $(LINUX)/libmusicxml2.so
+libmusicxml2.so :  $(OUTDIR)/Makefile  $(OUTDIR)/libmusicxml2.so
 	rm -rf libmusicxml2*.so*
-	make -C $(LINUX)
-	cp -R $(LINUX)/libmusicxml2*.so* .
+	make -C $(OUTDIR)
+	cp -R $(OUTDIR)/libmusicxml2*.so* .
 
-$(LINUX)/libmusicxml2.so : 
-	make -C $(LINUX)
+$(OUTDIR)/libmusicxml2.so : 
+	make -C $(OUTDIR)
 	
-$(LINUX)/Makefile : CMakeLists.txt
-	[ -d $(LINUX) ] || mkdir $(LINUX)
-	cd $(LINUX) && cmake .. -G "Unix Makefiles" -DMIDIEXPORT=yes
+$(OUTDIR)/Makefile : CMakeLists.txt
+	[ -d $(OUTDIR) ] || mkdir $(OUTDIR)
+	cd $(OUTDIR) && cmake .. -G "Unix Makefiles" -DMIDIEXPORT=yes
 
 #===============================================================
 # building the library for Android
@@ -182,3 +188,9 @@ $(LINUX)/Makefile : CMakeLists.txt
 android :
 	ndk-build -C android -j 4
 	cp -f android/libs/armeabi/libmusicxml2.so android/
+
+#===============================================================
+# install
+#===============================================================
+install:
+	cd $(OUTDIR) && cp $(TOOLS) $(HOME)/bin
