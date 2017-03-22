@@ -216,6 +216,9 @@ enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB};
 
+extern string msrDiatonicPitchFromString (
+  char diatonicNoteName);
+
 extern string msrDiatonicPitchAsString (
   msrDiatonicPitch diatonicPitch);
   
