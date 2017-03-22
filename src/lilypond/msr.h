@@ -290,7 +290,7 @@ extern map<msrQuarterTonesPitch, string> gVlaamsPitchName;
 
 extern string msrQuarterTonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
-  msrQuarterTonesPitch          pitch);
+  msrQuarterTonesPitch          quarterTonesPitch);
 
 void initializePitchesLanguages ();
 
@@ -460,6 +460,13 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
+    void                  setPitch (
+                            msrDiatonicPitch diatonicPitch,
+                            msrAlteration    alteration);
+  
+    void                  setPitch (
+                            msrQuarterTonesPitch quarterTonesPitch);
+
     void                  setNoteQuaterTonesPitch (
                             msrQuarterTonesPitch quarterTonesPitch);
                             
@@ -484,9 +491,8 @@ class msrNoteData
  
   public:
   
-    char                      fStep;
-    bool                      fStepIsARest;
-    bool                      fStepIsUnpitched;
+    bool                      fNoteIsARest;
+    bool                      fNoteIsUnpitched;
 
     int                       fOctave;
 
@@ -514,8 +520,11 @@ class msrNoteData
 
   private:
 
-    // these informations are private to enforce setting them
-    // thru the set methods, thus ensuring they are consistent
+    // diatonic pitches are used to handle relative pitches,
+    // and quaternotes ones are used to print the notes
+    
+    // these informations are thus private to enforce setting them
+    // thru the setPitch() methods, ensuring they are consistent
     msrDiatonicPitch          fNoteDiatonicPitch;
     msrAlteration             fNoteAlteration;
     msrQuarterTonesPitch      fNoteQuaterTonesPitch; 
@@ -2540,11 +2549,11 @@ class EXP msrNote : public msrElement
 
     bool          getNoteIsUnpitched () const
                     // useful for rest tuplet members
-                      { return fNoteData.fStepIsUnpitched; }
+                      { return fNoteData.fNoteIsUnpitched; }
                       
     bool          getNoteIsARest () const
                     // useful for rest tuplet members
-                      { return fNoteData.fStepIsARest; }
+                      { return fNoteData.fNoteIsARest; }
                       
     void          setNoteKind (msrNoteKind noteKind)
                       { fNoteKind = noteKind; }

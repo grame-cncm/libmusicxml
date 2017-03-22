@@ -2932,8 +2932,8 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
             fCurrentSyllableExtendKind <<
           endl <<
         idtr <<
-          setw(width) << "fNoteData.fStepIsARest" << " = " <<
-          booleanAsString (fNoteData.fStepIsARest) <<
+          setw(width) << "fNoteData.fNoteIsARest" << " = " <<
+          booleanAsString (fNoteData.fNoteIsARest) <<
           endl;
   
       cerr <<
@@ -3021,7 +3021,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       fCurrentSyllableKind = msrSyllable::kTiedSyllable;
     }
   
-    else if (fNoteData.fStepIsARest) {
+    else if (fNoteData.fNoteIsARest) {
       fCurrentSyllableKind = msrSyllable::kRestSyllable;
     }
   
@@ -4263,7 +4263,8 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
       s.str());
   }
 
-  fNoteData.fStep = step [0];
+  fNoteData.setPitch (
+    msrDiatonicPitchFromString (step [0]));
 }
 
 void xml2MsrTranslator::visitStart ( S_alter& elt)
@@ -5301,7 +5302,7 @@ void xml2MsrTranslator::visitStart ( S_rest& elt)
       </note>
 */
   //  cerr << "--> xml2MsrTranslator::visitStart ( S_rest& elt ) " << endl;
-  fNoteData.fStepIsARest = true;
+  fNoteData.fNoteIsARest = true;
 }
 
 //______________________________________________________________________________
@@ -5337,7 +5338,7 @@ void xml2MsrTranslator::visitEnd ( S_unpitched& elt)
           <display-octave>5</display-octave>
         </unpitched>
 */
-  fNoteData.fStepIsUnpitched = true;
+  fNoteData.fNoteIsUnpitched = true;
   fNoteData.fStep = fDisplayStep;
   fNoteData.fOctave = fDisplayOctave;
 }
@@ -5916,7 +5917,7 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fStepIsARest) {
+    if (fNoteData.fNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying dynamics attached to a rest until next note" << endl;
@@ -5954,7 +5955,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fStepIsARest) {
+    if (fNoteData.fNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying words attached to a rest until next note" << endl;
@@ -5997,7 +5998,7 @@ void xml2MsrTranslator::attachPendingSlursToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fStepIsARest) {
+    if (fNoteData.fNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying slur attached to a rest until next note" << endl;
@@ -6040,7 +6041,7 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fStepIsARest) {
+    if (fNoteData.fNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying wedge attached to a rest until next note" << endl;
@@ -6368,7 +6369,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   }
   else {
     // standalone note or rest
-    if (fNoteData.fStepIsARest)
+    if (fNoteData.fNoteIsARest)
       newNote->
         setNoteKind (msrNote::kRestNote);
     else
@@ -6723,7 +6724,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  if (fNoteData.fStepIsARest)
+  if (fNoteData.fNoteIsARest)
     msrMusicXMLError (
       inputLineNumber,
       "a rest cannot belong to a chord");
@@ -7011,7 +7012,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  if (fNoteData.fStepIsARest)
+  if (fNoteData.fNoteIsARest)
     msrMusicXMLError (
       inputLineNumber,
       "a rest cannot belong to a chord");

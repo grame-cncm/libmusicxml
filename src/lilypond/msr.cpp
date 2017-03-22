@@ -910,6 +910,46 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
+string msrDiatonicPitchFromString (
+  char diatonicNoteName)
+{
+  msrDiatonicPitch result;
+  
+  switch (diatonicNoteName) {
+    case 'a':
+    case 'A':
+      result = kA;
+       break;
+    case 'b':
+    case 'B':
+      result = kB;
+      break;
+    case 'c':
+    case 'C':
+      result = kC;
+      break;
+    case 'd':
+    case 'D':
+      result = kD;
+      break;
+    case 'e':
+    case 'E':
+      result = kE;
+      break;
+    case 'f':
+    case 'F':
+      result = kF;
+      break;
+    case 'g':
+    case 'G':
+      result = kG;
+      break;
+    default: {}
+  } // switch
+
+  return result;
+}
+
 string msrDiatonicPitchAsString (
   msrDiatonicPitch diatonicPitch)
 {
@@ -1071,556 +1111,48 @@ string msrAlterationAsString (
   return result;
 }
 
-pair<msrDiatonicPitch, msrAlteration>
-msrDiatonicPitchAndAlterFromQuarterTonePitch (
-  msrQuarterTonesPitch quarterTonesPitch)
-{
-  pair<msrDiatonicPitch, msrAlteration> result;
-  
-  switch (quarterTonesPitch) {
-    case k_aDoubleFlat:
-      result.first  = kA;
-      result.second = kDoubleFlat;
-      break;
-    case k_aSesquiFlat:
-      result.first  = kA;
-      result.second = kSesquiFlat;
-      break;
-    case k_aFlat:
-      result.first  = kA;
-      result.second = kFlat;
-      break;
-    case k_aSemiFlat:
-      result.first  = kA;
-      result.second = kSemiFlat;
-      break;
-    case k_aNatural:
-      result.first  = kA;
-      result.second = kNatural;
-      break;
-    case k_aSemiSharp:
-      result.first  = kA;
-      result.second = kSemiSharp;
-      break;
-    case k_aSharp:
-      result.first  = kA;
-      result.second = kSharp;
-      break;
-    case k_aSesquiSharp:
-      result.first  = kA;
-      result.second = kSesquiSharp;
-      break;
-    case k_aDoubleSharp:
-      result.first  = kA;
-      result.second = kDoubleSharp;
-      break;
-
-    case k_bDoubleFlat:
-      result.first  = kB;
-      result.second = kDoubleFlat;
-      break;
-    case k_bSesquiFlat:
-      result.first  = kB;
-      result.second = kSesquiFlat;
-      break;
-    case k_bFlat:
-      result.first  = kB;
-      result.second = kFlat;
-      break;
-    case k_bSemiFlat:
-      result.first  = kB;
-      result.second = kSemiFlat;
-      break;
-    case k_bNatural:
-      result.first  = kB;
-      result.second = kNatural;
-      break;
-    case k_bSemiSharp:
-      result.first  = kB;
-      result.second = kSemiSharp;
-      break;
-    case k_bSharp:
-      result.first  = kB;
-      result.second = kSharp;
-      break;
-    case k_bSesquiSharp:
-      result.first  = kB;
-      result.second = kSesquiSharp;
-      break;
-    case k_bDoubleSharp:
-      result.first  = kB;
-      result.second = kDoubleSharp;
-      break;
-
-    case k_cDoubleFlat:
-      result.first  = kC;
-      result.second = kDoubleFlat;
-      break;
-    case k_cSesquiFlat:
-      result.first  = kC;
-      result.second = kSesquiFlat;
-      break;
-    case k_cFlat:
-      result.first  = kC;
-      result.second = kFlat;
-      break;
-    case k_cSemiFlat:
-      result.first  = kC;
-      result.second = kSemiFlat;
-      break;
-    case k_cNatural:
-      result.first  = kC;
-      result.second = kNatural;
-      break;
-    case k_cSemiSharp:
-      result.first  = kC;
-      result.second = kSemiSharp;
-      break;
-    case k_cSharp:
-      result.first  = kC;
-      result.second = kSharp;
-      break;
-    case k_cSesquiSharp:
-      result.first  = kC;
-      result.second = kSesquiSharp;
-      break;
-    case k_cDoubleSharp:
-      result.first  = kC;
-      result.second = kDoubleSharp;
-      break;
-
-    case k_dDoubleFlat:
-      result.first  = kD;
-      result.second = kDoubleFlat;
-      break;
-    case k_dSesquiFlat:
-      result.first  = kD;
-      result.second = kSesquiFlat;
-      break;
-    case k_dFlat:
-      result.first  = kD;
-      result.second = kFlat;
-      break;
-    case k_dSemiFlat:
-      result.first  = kD;
-      result.second = kSemiFlat;
-      break;
-    case k_dNatural:
-      result.first  = kD;
-      result.second = kNatural;
-      break;
-    case k_dSemiSharp:
-      result.first  = kD;
-      result.second = kSemiSharp;
-      break;
-    case k_dSharp:
-      result.first  = kD;
-      result.second = kSharp;
-      break;
-    case k_dSesquiSharp:
-      result.first  = kD;
-      result.second = kSesquiSharp;
-      break;
-    case k_dDoubleSharp:
-      result.first  = kD;
-      result.second = kDoubleSharp;
-      break;
-
-    case k_eDoubleFlat:
-      result.first  = kE;
-      result.second = kDoubleFlat;
-      break;
-    case k_eSesquiFlat:
-      result.first  = kE;
-      result.second = kSesquiFlat;
-      break;
-    case k_eFlat:
-      result.first  = kE;
-      result.second = kFlat;
-      break;
-    case k_eSemiFlat:
-      result.first  = kE;
-      result.second = kSemiFlat;
-      break;
-    case k_eNatural:
-      result.first  = kE;
-      result.second = kNatural;
-      break;
-    case k_eSemiSharp:
-      result.first  = kE;
-      result.second = kSemiSharp;
-      break;
-    case k_eSharp:
-      result.first  = kE;
-      result.second = kSharp;
-      break;
-    case k_eSesquiSharp:
-      result.first  = kE;
-      result.second = kSesquiSharp;
-      break;
-    case k_eDoubleSharp:
-      result.first  = kE;
-      result.second = kDoubleSharp;
-      break;
-
-    case k_fDoubleFlat:
-      result.first  = kF;
-      result.second = kDoubleFlat;
-      break;
-    case k_fSesquiFlat:
-      result.first  = kF;
-      result.second = kSesquiFlat;
-      break;
-    case k_fFlat:
-      result.first  = kF;
-      result.second = kFlat;
-      break;
-    case k_fSemiFlat:
-      result.first  = kF;
-      result.second = kSemiFlat;
-      break;
-    case k_fNatural:
-      result.first  = kF;
-      result.second = kNatural;
-      break;
-    case k_fSemiSharp:
-      result.first  = kF;
-      result.second = kSemiSharp;
-      break;
-    case k_fSharp:
-      result.first  = kF;
-      result.second = kSharp;
-      break;
-    case k_fSesquiSharp:
-      result.first  = kF;
-      result.second = kSesquiSharp;
-      break;
-    case k_fDoubleSharp:
-      result.first  = kF;
-      result.second = kDoubleSharp;
-      break;
-
-    case k_gDoubleFlat:
-      result.first  = kG;
-      result.second = kDoubleFlat;
-      break;
-    case k_gSesquiFlat:
-      result.first  = kG;
-      result.second = kSesquiFlat;
-      break;
-    case k_gFlat:
-      result.first  = kG;
-      result.second = kFlat;
-      break;
-    case k_gSemiFlat:
-      result.first  = kG;
-      result.second = kSemiFlat;
-      break;
-    case k_gNatural:
-      result.first  = kG;
-      result.second = kNatural;
-      break;
-    case k_gSemiSharp:
-      result.first  = kG;
-      result.second = kSemiSharp;
-      break;
-    case k_gSharp:
-      result.first  = kG;
-      result.second = kSharp;
-      break;
-    case k_gSesquiSharp:
-      result.first  = kG;
-      result.second = kSesquiSharp;
-      break;
-    case k_gDoubleSharp:
-      result.first  = kG;
-      result.second = kDoubleSharp;
-      break;
-  } // switch
-
-  return result;
-}
-
-msrQuarterTonesPitch msrDiatonicPitchToQuarterTonesPitch (
-  msrDiatonicPitch diatonicPitch,
-  msrAlteration    alteration)
-{
-  msrQuarterTonesPitch result;
-  
-  switch (diatonicPitch) {
-    case kA:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_aDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_aSesquiFlat;
-          break;
-        case kFlat:
-          result = k_aFlat;
-          break;
-        case kSemiFlat:
-          result = k_aSemiFlat;
-          break;
-        case kNatural:
-          result = k_aNatural;
-          break;
-        case kSemiSharp:
-          result = k_aSemiSharp;
-          break;
-        case kSharp:
-          result = k_aSharp;
-          break;
-        case kSesquiSharp:
-          result = k_aSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_aDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kB:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_bDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_bSesquiFlat;
-          break;
-        case kFlat:
-          result = k_bFlat;
-          break;
-        case kSemiFlat:
-          result = k_bSemiFlat;
-          break;
-        case kNatural:
-          result = k_bNatural;
-          break;
-        case kSemiSharp:
-          result = k_bSemiSharp;
-          break;
-        case kSharp:
-          result = k_bSharp;
-          break;
-        case kSesquiSharp:
-          result = k_bSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_bDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-      break;
-      
-    case kC:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_cDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_cSesquiFlat;
-          break;
-        case kFlat:
-          result = k_cFlat;
-          break;
-        case kSemiFlat:
-          result = k_cSemiFlat;
-          break;
-        case kNatural:
-          result = k_cNatural;
-          break;
-        case kSemiSharp:
-          result = k_cSemiSharp;
-          break;
-        case kSharp:
-          result = k_cSharp;
-          break;
-        case kSesquiSharp:
-          result = k_cSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_cDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kD:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_dDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_dSesquiFlat;
-          break;
-        case kFlat:
-          result = k_dFlat;
-          break;
-        case kSemiFlat:
-          result = k_dSemiFlat;
-          break;
-        case kNatural:
-          result = k_dNatural;
-          break;
-        case kSemiSharp:
-          result = k_dSemiSharp;
-          break;
-        case kSharp:
-          result = k_dSharp;
-          break;
-        case kSesquiSharp:
-          result = k_dSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_dDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kE:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_eDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_eSesquiFlat;
-          break;
-        case kFlat:
-          result = k_eFlat;
-          break;
-        case kSemiFlat:
-          result = k_eSemiFlat;
-          break;
-        case kNatural:
-          result = k_eNatural;
-          break;
-        case kSemiSharp:
-          result = k_eSemiSharp;
-          break;
-        case kSharp:
-          result = k_eSharp;
-          break;
-        case kSesquiSharp:
-          result = k_eSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_eDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kF:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_fDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_fSesquiFlat;
-          break;
-        case kFlat:
-          result = k_fFlat;
-          break;
-        case kSemiFlat:
-          result = k_fSemiFlat;
-          break;
-        case kNatural:
-          result = k_fNatural;
-          break;
-        case kSemiSharp:
-          result = k_fSemiSharp;
-          break;
-        case kSharp:
-          result = k_fSharp;
-          break;
-        case kSesquiSharp:
-          result = k_fSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_fDoubleSharp;
-          break;
-      } // switch
-      break;
-      
-    case kG:
-      switch (alteration) {
-        case kDoubleFlat:
-          result = k_gDoubleFlat;
-          break;
-        case kSesquiFlat:
-          result = k_gSesquiFlat;
-          break;
-        case kFlat:
-          result = k_gFlat;
-          break;
-        case kSemiFlat:
-          result = k_gSemiFlat;
-          break;
-        case kNatural:
-          result = k_gNatural;
-          break;
-        case kSemiSharp:
-          result = k_gSemiSharp;
-          break;
-        case kSharp:
-          result = k_gSharp;
-          break;
-        case kSesquiSharp:
-          result = k_gSesquiSharp;
-          break;
-        case kDoubleSharp:
-          result = k_gDoubleSharp;
-          break;
-      } // switch
-      break;
-  } // switch
-
-  return result;
-}
-
-
 string msrQuarterTonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
-  msrQuarterTonesPitch          pitch)
+  msrQuarterTonesPitch          quarterTonesPitch)
 {
    string result;
   
   switch (language) {
     case kNederlands:
-      result = gNederlandsPitchName [pitch];
+      result = gNederlandsPitchName [quarterTonesPitch];
       break;
     case kCatalan:
-      result = gCatalanPitchName [pitch];
+      result = gCatalanPitchName [quarterTonesPitch];
       break;
     case kDeutsch:
-      result = gDeutschPitchName [pitch];
+      result = gDeutschPitchName [quarterTonesPitch];
       break;
     case kEnglish:
-      result = gEnglishPitchName [pitch];
+      result = gEnglishPitchName [quarterTonesPitch];
       break;
     case kEspanol:
-      result = gEspanolPitchName [pitch];
+      result = gEspanolPitchName [quarterTonesPitch];
       break;
     case kFrancais:
-      result = gFrancaisPitchName [pitch];
+      result = gFrancaisPitchName [quarterTonesPitch];
       break;
     case kItaliano:
-      result = gItalianoPitchName [pitch];
+      result = gItalianoPitchName [quarterTonesPitch];
       break;
     case kNorsk:
-      result = gNorskPitchName [pitch];
+      result = gNorskPitchName [quarterTonesPitch];
       break;
     case kPortugues:
-      result = gPortuguesPitchName [pitch];
+      result = gPortuguesPitchName [quarterTonesPitch];
       break;
     case kSuomi:
-      result = gSuomiPitchName [pitch];
+      result = gSuomiPitchName [quarterTonesPitch];
       break;
     case kSvenska:
-      result = gSvenskaPitchName [pitch];
+      result = gSvenskaPitchName [quarterTonesPitch];
       break;
     case kVlaams:
-      result = gVlaamsPitchName [pitch];
+      result = gVlaamsPitchName [quarterTonesPitch];
       break;
   } // switch
 
@@ -1742,13 +1274,13 @@ ostream& operator<< (ostream& os, msrNoteData& noteData)
 
 void msrNoteData::init ()
 {
-  fStep = '?';
-  fStepIsARest = false;;
-  fStepIsUnpitched = false;;
-  
-  fAlteration = kNatural;
-
+  fNoteDiatonicPitch    = kA; // any value would fit
+  fAlteration           = k_NoAlteration;
   fNoteQuaterTonesPitch = k_NoPitch;
+
+  fNoteIsARest = false;
+  
+  fNoteIsUnpitched = false;;
   
   fOctave = -1;
 
@@ -1781,20 +1313,512 @@ msrNoteData::msrNoteData ()
   init ();
 }
 
-void msrNoteData::setNoteQuaterTonesPitch (
+
+void msrNoteData::setPitch (
   msrQuarterTonesPitch quarterTonesPitch)
 {
   fNoteQuaterTonesPitch = quarterTonesPitch;
 
-  // set fNoteDiatonicPitch and fNoteAlteration accordingly
+  // set fNoteDiatonicPitch and fNoteAlteration accordingly  
+  switch (quarterTonesPitch) {
+    case k_aDoubleFlat:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_aSesquiFlat:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_aFlat:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_aSemiFlat:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_aNatural:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_aSemiSharp:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_aSharp:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_aSesquiSharp:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_aDoubleSharp:
+      fNoteDiatonicPitch = kA;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+
+    case k_bDoubleFlat:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_bSesquiFlat:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_bFlat:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_bSemiFlat:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_bNatural:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_bSemiSharp:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_bSharp:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_bSesquiSharp:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_bDoubleSharp:
+      fNoteDiatonicPitch = kB;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+
+    case k_cDoubleFlat:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_cSesquiFlat:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_cFlat:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_cSemiFlat:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_cNatural:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_cSemiSharp:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_cSharp:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_cSesquiSharp:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_cDoubleSharp:
+      fNoteDiatonicPitch = kC;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+
+    case k_dDoubleFlat:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_dSesquiFlat:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_dFlat:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_dSemiFlat:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_dNatural:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_dSemiSharp:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_dSharp:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_dSesquiSharp:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_dDoubleSharp:
+      fNoteDiatonicPitch = kD;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+
+    case k_eDoubleFlat:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_eSesquiFlat:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_eFlat:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_eSemiFlat:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_eNatural:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_eSemiSharp:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_eSharp:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_eSesquiSharp:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_eDoubleSharp:
+      fNoteDiatonicPitch = kE;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+
+    case k_fDoubleFlat:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_fSesquiFlat:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_fFlat:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_fSemiFlat:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_fNatural:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_fSemiSharp:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_fSharp:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_fSesquiSharp:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_fDoubleSharp:
+      fNoteDiatonicPitch = kF;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+
+    case k_gDoubleFlat:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kDoubleFlat;
+      break;
+    case k_gSesquiFlat:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kSesquiFlat;
+      break;
+    case k_gFlat:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kFlat;
+      break;
+    case k_gSemiFlat:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kSemiFlat;
+      break;
+    case k_gNatural:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kNatural;
+      break;
+    case k_gSemiSharp:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kSemiSharp;
+      break;
+    case k_gSharp:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kSharp;
+      break;
+    case k_gSesquiSharp:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kSesquiSharp;
+      break;
+    case k_gDoubleSharp:
+      fNoteDiatonicPitch = kG;
+      fNoteAlteration    = kDoubleSharp;
+      break;
+  } // switch
+
+  return result;
 }
 
-void msrNoteData::setNoteDiatonicPitch (
-  msrDiatonicPitch diatonicPitch)
+
+void msrNoteData::setPitch (
+  msrDiatonicPitch diatonicPitch,
+  msrAlteration    alteration)
 {
   fNoteDiatonicPitch = diatonicPitch;
 
   // set fNoteQuaterTonesPitch accordingly
+  switch (diatonicPitch) {
+    case kA:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_aDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_aSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_aFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_aSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_aNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_aSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_aSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_aSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_aDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kB:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_bDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_bSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_bFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_bSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_bNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_bSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_bSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_bSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_bDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+      break;
+      
+    case kC:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_cDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_cSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_cFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_cSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_cNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_cSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_cSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_cSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_cDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kD:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_dDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_dSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_dFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_dSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_dNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_dSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_dSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_dSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_dDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kE:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_eDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_eSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_eFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_eSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_eNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_eSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_eSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_eSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_eDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kF:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_fDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_fSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_fFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_fSemiFlat;
+          break;
+        case kNatural:
+          fNoteQuaterTonesPitch = k_fNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_fSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_fSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_fSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_fDoubleSharp;
+          break;
+      } // switch
+      break;
+      
+    case kG:
+      switch (alteration) {
+        case kDoubleFlat:
+          fNoteQuaterTonesPitch = k_gDoubleFlat;
+          break;
+        case kSesquiFlat:
+          fNoteQuaterTonesPitch = k_gSesquiFlat;
+          break;
+        case kFlat:
+          fNoteQuaterTonesPitch = k_gFlat;
+          break;
+        case kSemiFlat:
+          fNoteQuaterTonesPitch = k_gSemiFlat;
+          break;
+        case kNatural:
+          result = k_gNatural;
+          break;
+        case kSemiSharp:
+          fNoteQuaterTonesPitch = k_gSemiSharp;
+          break;
+        case kSharp:
+          fNoteQuaterTonesPitch = k_gSharp;
+          break;
+        case kSesquiSharp:
+          fNoteQuaterTonesPitch = k_gSesquiSharp;
+          break;
+        case kDoubleSharp:
+          fNoteQuaterTonesPitch = k_gDoubleSharp;
+          break;
+      } // switch
+      break;
+  } // switch
 }
 
 void msrNoteData::print (ostream& os)
@@ -1803,20 +1827,23 @@ void msrNoteData::print (ostream& os)
   
   os <<
     idtr << left <<
+      setw(width) << "fNoteIsARest" << " = " <<
+      fNoteIsARest <<
+      endl <<
+    idtr << left <<
+      setw(width) << "fNoteDiatonicPitch" << " = " <<
+      msrDiatonicPitchAsString (fNoteDiatonicPitch) <<
+      endl <<
+    idtr << left <<
+      setw(width) << "fNoteAlteration" << " = " <<
+      fNoteAlteration <<
+      endl <<
+    idtr << left <<
       setw(width) <<
-      "fStep" << " = " << fStep <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fStepIsARest" << " = " <<
-      fStepIsARest <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fDiatonicPitch" << " = " <<
-      msrDiatonicPitchAsString (fDiatonicPitch) <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fAlteration" << " = " <<
-      fAlteration <<
+      "fNoteQuaterTonesPitch" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fQuaterTonesPitchesLanguage,
+        fNoteQuaterTonesPitch) <<
       endl <<
     idtr << left <<
       setw(width) << "fOctave" << " = " <<
@@ -3457,7 +3484,7 @@ msrNote::msrNote (
     fNoteData.fStep < 'A'
       ||
     fNoteData.fStep > 'G') {
-    if (! fNoteData.fStepIsARest) {
+    if (! fNoteData.fNoteIsARest) {
       stringstream s;
       
       s <<
@@ -3789,7 +3816,7 @@ S_msrNote msrNote::createSkipNote (
   msrNoteData noteData;
 
   noteData.fStep = 's';
-  noteData.fStepIsARest = true;
+  noteData.fNoteIsARest = true;
   
   noteData.fDivisions = divisions;
   noteData.fDisplayDivisions = divisions;
@@ -3978,15 +4005,15 @@ string msrNote::notePitchAsString () const
   
   /*
   cerr << "msrNote::notePitchAsString (), isRest = " <<
-    fNoteData.fStepIsARest <<
+    fNoteData.fNoteIsARest <<
     ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
   */
   
-  if (fNoteData.fStepIsARest)
+  if (fNoteData.fNoteIsARest)
 
     s << "r"; // JMI R ???
 
-  else if (fNoteData.fStepIsUnpitched)
+  else if (fNoteData.fNoteIsUnpitched)
 
     s << "unpitched ";
 
@@ -4132,7 +4159,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         notePitchAsString ();
 
-      if (! fNoteData.fStepIsARest)
+      if (! fNoteData.fNoteIsARest)
         s <<
           "[" << fNoteData.fOctave << "]";
 
@@ -4207,7 +4234,7 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString ();
 
-      if (! fNoteData.fStepIsARest)
+      if (! fNoteData.fNoteIsARest)
         s <<
           "[" << fNoteData.fOctave << "]";
 
@@ -4283,7 +4310,7 @@ string msrNote::noteAsString () const
         "Tuplet member note"  " "<<
         notePitchAsString ();
 
-      if (! fNoteData.fStepIsARest)
+      if (! fNoteData.fNoteIsARest)
         s <<
           "[" << fNoteData.fOctave << "]";
 
