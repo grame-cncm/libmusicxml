@@ -8732,16 +8732,12 @@ void msrStanza::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
-  int                   inputLineNumber,
-  char                  harmonyRootStep,
-  msrAlteration
-                        harmonyRootAlteration,
-  msrHarmonyKind        harmonyKind,
-  string                harmonyKindText,
-  char                  harmonyBassStep,
-  msrAlteration
-                        harmonyBassAlteration,
-  S_msrPart             harmonyPartUplink)
+  int                 inputLineNumber,
+  msrQuaterNotesPitch harmonyRootQuaterNotesPitch,
+  msrHarmonyKind      harmonyKind,
+  string              harmonyKindText,
+  msrQuaterNotesPitch harmonyBassQuaterNotesPitch,
+  S_msrPart           harmonyPartUplink)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -8755,26 +8751,20 @@ S_msrHarmony msrHarmony::create (
 }
 
 msrHarmony::msrHarmony (
-  int                   inputLineNumber,
-  char                  harmonyRootStep,
-  msrAlteration
-                        harmonyRootAlteration,
-  msrHarmonyKind        harmonyKind,
-  string                harmonyKindText,
-  char                  harmonyBassStep,
-  msrAlteration
-                        harmonyBassAlteration,
-  S_msrPart             harmonyPartUplink)
+  int                 inputLineNumber,
+  msrQuaterNotesPitch harmonyRootQuaterNotesPitch,
+  msrHarmonyKind      harmonyKind,
+  string              harmonyKindText,
+  msrQuaterNotesPitch harmonyBassQuaterNotesPitch,
+  S_msrPart           harmonyPartUplink)
     : msrElement (inputLineNumber)
 {
-  fHarmonyRootStep       = harmonyRootStep;
-  fHarmonyRootAlteration = harmonyRootAlteration;
+  fHarmonyRootQuaterNotesPitch = harmonyRootQuaterNotesPitch;
  
-  fHarmonyKind           = harmonyKind;
-  fHarmonyKindText       = harmonyKindText;
+  fHarmonyKind                 = harmonyKind;
+  fHarmonyKindText             = harmonyKindText;
  
-  fHarmonyBassStep       = harmonyBassStep;
-  fHarmonyBassAlteration = harmonyBassAlteration;
+  fHarmonyBassQuaterNotesPitch = harmonyBassQuaterNotesPitch;
  
   fHarmonyPartUplink = harmonyPartUplink;
 }
@@ -8792,9 +8782,9 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
     clone =
       msrHarmony::create (
         fInputLineNumber,
-        fHarmonyRootStep, fHarmonyRootAlteration,
+        fHarmonyRootQuaterNotesPitch,
         fHarmonyKind, fHarmonyKindText,
-        fHarmonyBassStep, fHarmonyBassAlteration,
+        fHarmonyBassQuaterNotesPitch,
         clonedPart);
   
   return clone;

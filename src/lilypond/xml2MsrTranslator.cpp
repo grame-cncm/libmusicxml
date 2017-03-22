@@ -53,7 +53,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   
   fCurrentWordsContents = "";
 
-  fCurrentNoteDiatonicPitch = k_NoPitch;
+  fCurrentNoteDiatonicPitch = kA; // any value would fit
   fCurrentNoteAlteration    = k_NoAlteration;
 
   fCurrentForwardStaffNumber = 1; // JMI
@@ -87,14 +87,14 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingSlur          = false;
   fOnGoingSlurHasStanza = false;
 
-  fCurrentHarmonyRootStep         = '_';
-  fCurrentHarmonyRootAlteration   = kNatural;
-  fCurrentHarmonyKind             = msrHarmony::k_NoHarmony;
-  fCurrentHarmonyKindText         = "";
-  fCurrentHarmonyBassStep         = '_';
-  fCurrentHarmonyBassAlteration   = kNatural;
-  fCurrentHarmonyDegreeValue      = -1;
-  fCurrentHarmonyDegreeAlteration = kNatural;
+  fCurrentHarmonyRootDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyRootAlteration    = kNatural;
+  fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
+  fCurrentHarmonyKindText          = "";
+  fCurrentHarmonyBassStep          = '_';
+  fCurrentHarmonyBassAlteration    = kNatural;
+  fCurrentHarmonyDegreeValue       = -1;
+  fCurrentHarmonyDegreeAlteration  = kNatural;
 
   fOnGoingDirection     = true;
   fOnGoingDirectionType = false;
@@ -2288,7 +2288,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
           fCurrentStaffTuningAlteration) <<
         endl <<
       idtr <<
-        setw(34) << "msrQuarterTonesPitch" << " = " <<
+        setw(34) << "quarterTonesPitch" << " = " <<
         msrQuarterTonesPitchAsString (
           gMsrOptions->fQuaterTonesPitchesLanguage,
           quarterTonesPitch) <<
@@ -2299,14 +2299,14 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
         endl;
 
     idtr--;
-  } 
+  }
     
   S_msrStafftuning
     stafftuning =
       msrStafftuning::create (
         inputLineNumber,
         fCurrentStaffTuningLine,
-        msrQuarterTonesPitch,
+        quarterTonesPitch,
         fCurrentStaffTuningOctave);
         
   // add it to the staff
@@ -4233,7 +4233,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // initialize note data to a neutral state
   fNoteData.init ();
 
-  fCurrentNoteDiatonicPitch = k_NoPitch;
+  fCurrentNoteDiatonicPitch = kA; // any value would fit
   fCurrentNoteAlteration    = k_NoAlteration;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
@@ -4290,18 +4290,18 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
   }
 
   fCurrentNoteDiatonicPitch =
-    msrDiatonicPitchFromString (step [0]));
+    msrDiatonicPitchFromString (step [0]);
 }
 
 void xml2MsrTranslator::visitStart ( S_alter& elt)
 {
   float alter = (float)(*elt);
 
-  fNoteData.fNoteAlteration =
+  fCurrentNoteAlteration =
     msrAlterationFromMusicXMLAlter (
       alter);
       
-  if (fNoteData.fNoteAlteration == k_NoAlteration) {
+  if (fCurrentNoteAlteration == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -5348,7 +5348,8 @@ void xml2MsrTranslator::visitStart ( S_display_step& elt)
       s.str());
   }
 
-  fDisplayStep = displayStep[0];
+  fCurrentHarmonyRootStep =
+    msrDiatonicPitchFromString (displayStep [0]);
 }
 
 void xml2MsrTranslator::visitStart ( S_display_octave& elt)
@@ -5365,7 +5366,8 @@ void xml2MsrTranslator::visitEnd ( S_unpitched& elt)
         </unpitched>
 */
   fNoteData.fNoteIsUnpitched = true;
-  fNoteData.fStep = fDisplayStep;
+  fCurrentNoteDiatonicPitch = // JMI
+    fDisplayStep;
   fNoteData.fOctave = fDisplayOctave;
 }
 
@@ -7911,7 +7913,7 @@ void xml2MsrTranslator::visitStart ( S_root_step& elt )
       s.str());
   }
 
-  fCurrentHarmonyRootStep =
+  fCurrentHarmonyRootDiatonicPitch =
     msrDiatonicPitchFromString (step [0]);
 }
 
@@ -8090,24 +8092,25 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 
     cerr <<
       idtr <<
-        "fCurrentHarmonyRootStep = " << fCurrentHarmonyRootStep <<
+        setw(32) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
+        fCurrentHarmonyRootDiatonicPitch <<
         endl <<
       idtr <<
-        "fCurrentHarmonyRootAlteration = " <<
+        setw(32) << "fCurrentHarmonyRootAlteration" << " = " <<
         msrAlterationAsString(
           fCurrentHarmonyRootAlteration) <<
         endl <<
       idtr <<
-        "fCurrentHarmonyKind = " << fCurrentHarmonyKind <<
+        setw(32) << "fCurrentHarmonyKind" << " = " << fCurrentHarmonyKind <<
         endl <<
       idtr <<
-        "fCurrentHarmonyKindText = " << fCurrentHarmonyKindText <<
+        setw(32) << "fCurrentHarmonyKindText" << " = " << fCurrentHarmonyKindText <<
         endl <<
       idtr <<
-        "fCurrentHarmonyBassStep = " << fCurrentHarmonyBassStep <<
+        setw(32) << "fCurrentHarmonyBassStep" << " = " << fCurrentHarmonyBassStep <<
         endl <<
       idtr <<
-        "fCurrentHarmonyBassAlteration = " <<
+        setw(32) << "fCurrentHarmonyBassAlteration" << " = " <<
         msrAlterationAsString(
           fCurrentHarmonyBassAlteration) <<
         endl;

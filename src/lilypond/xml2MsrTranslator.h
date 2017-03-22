@@ -761,16 +761,16 @@ class EXP xml2MsrTranslator :
 
     // harmony handling
     // ------------------------------------------------------
-    char                      fCurrentHarmonyRootStep;
-    msrAlteration         fCurrentHarmonyRootAlteration;
+    msrDiatonicPitch          fCurrentHarmonyRootDiatonicPitch;
+    msrAlteration             fCurrentHarmonyRootAlteration;
     msrHarmony::msrHarmonyKind
                               fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
     char                      fCurrentHarmonyBassStep;
-    msrAlteration         fCurrentHarmonyBassAlteration;
+    msrAlteration             fCurrentHarmonyBassAlteration;
 
     int                       fCurrentHarmonyDegreeValue;
-    msrAlteration         fCurrentHarmonyDegreeAlteration;
+    msrAlteration             fCurrentHarmonyDegreeAlteration;
     S_msrHarmony              fCurrentHarmony;
 
 

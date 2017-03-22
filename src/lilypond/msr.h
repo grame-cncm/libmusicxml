@@ -2387,16 +2387,12 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrHarmony> create (
-      int                   inputLineNumber,
-      char                  harmonyRootStep,
-      msrAlteration
-                            harmonyRootAlteration,
-      msrHarmonyKind        harmonyKind,
-      string                harmonyKindText,
-      char                  harmonyBassStep,
-      msrAlteration
-                            harmonyBassAlteration,
-      S_msrPart             harmonyPartUplink);
+      int                 inputLineNumber,
+      msrQuaterNotesPitch harmonyRootQuaterNotesPitch,
+      msrHarmonyKind      harmonyKind,
+      string              harmonyKindText,
+      msrQuaterNotesPitch harmonyBassQuaterNotesPitch,
+      S_msrPart           harmonyPartUplink);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
       S_msrPart clonedPart);
@@ -2407,16 +2403,12 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
     msrHarmony (
-      int                   inputLineNumber,
-      char                  harmonyRootStep,
-      msrAlteration
-                            harmonyRootAlteration,
-      msrHarmonyKind        harmonyKind,
-      string                harmonyKindText,
-      char                  harmonyBassStep,
-      msrAlteration
-                            harmonyBassAlteration,
-      S_msrPart             harmonyPartUplink);
+      int                 inputLineNumber,
+      msrQuaterNotesPitch harmonyRootQuaterNotesPitch,
+      msrHarmonyKind      harmonyKind,
+      string              harmonyKindText,
+      msrQuaterNotesPitch harmonyBassQuaterNotesPitch,
+      S_msrPart           harmonyPartUplink);
 
     virtual ~msrHarmony();
   
@@ -2425,37 +2417,29 @@ class EXP msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    char            getHarmonyRootStep () const
-                        { return fHarmonyRootStep; }
+    msrQuaterNotesPitch getHarmonyRootQuaterNotesPitch () const
+                            { return fHarmonyRootQuaterNotesPitch; }
+                                
+    msrHarmonyKind      getHarmonyKind () const
+                            { return fHarmonyKind; }
                 
-    msrAlteration
-                    getHarmonyRootAlteration () const
-                        { return fHarmonyRootAlteration; }
+    string              getHarmonyKindText () const
+                            { return fHarmonyKindText; }
                 
-    msrHarmonyKind  getHarmonyKind () const
-                        { return fHarmonyKind; }
-                
-    string          getHarmonyKindText () const
-                        { return fHarmonyKindText; }
-                
-    char            getHarmonyBassStep () const
-                        { return fHarmonyBassStep; }
-                
-    msrAlteration
-                    getHarmonyBassAlteration () const
-                        { return fHarmonyBassAlteration; }
-                
-    S_msrPart       getHarmonyVoiceUplink () const
-                        { return fHarmonyPartUplink; }
+    msrQuaterNotesPitch fHarmonyBassQuaterNotesPitch () const
+                            { return fHarmonyBassQuaterNotesPitch; }
+                                
+    S_msrPart           getHarmonyVoiceUplink () const
+                            { return fHarmonyPartUplink; }
                 
 
     // services
     // ------------------------------------------------------
 
-    string          harmonyKindAsString () const;
-    string          harmonyKindAsShortString () const;
+    string              harmonyKindAsString () const;
+    string              harmonyKindAsShortString () const;
     
-    string          harmonyAsString () const;
+    string              harmonyAsString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -2472,16 +2456,12 @@ class EXP msrHarmony : public msrElement
 
   private:
 
-    char                      fHarmonyRootStep;
-    msrAlteration
-                              fHarmonyRootAlteration;
+    msrQuaterNotesPitch       fHarmonyRootQuaterNotesPitch;
 
     msrHarmonyKind            fHarmonyKind;
     string                    fHarmonyKindText;
 
-    char                      fHarmonyBassStep;
-    msrAlteration
-                              fHarmonyBassAlteration;
+    msrQuaterNotesPitch       fHarmonyBassQuaterNotesPitch;
     
     S_msrPart                 fHarmonyPartUplink;
 };
