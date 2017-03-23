@@ -184,7 +184,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   assert(false); \
 }
 
-// notes names languages
+// notes names and chords languages
 // ------------------------------------------------------
 
 /*
@@ -211,7 +211,8 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   
   The type element is used to indicate the symbolic note type, such as quarter, eighth, or 16th. MusicXML symbolic note types range from 256th notes to long notes: 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, and long. The type element may be followed by one or more empty dot elements to indicate dotted notes.
 */
-  
+
+// diatonic pitches
 enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB};
@@ -222,6 +223,7 @@ extern msrDiatonicPitch msrDiatonicPitchFromString (
 extern string msrDiatonicPitchAsString (
   msrDiatonicPitch diatonicPitch);
   
+// alterations
 enum msrAlteration {
   k_NoAlteration,
   
@@ -235,7 +237,8 @@ extern msrAlteration msrAlterationFromMusicXMLAlter (
 extern string msrAlterationAsString (
   msrAlteration alteration);
 
-enum msrQuarterTonesPitch {
+// quarter tones pitches
+enum msrQuartertonesPitch {
   k_NoPitch,
 
   k_Rest,
@@ -268,10 +271,11 @@ enum msrQuarterTonesPitch {
   k_gNatural,
   k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
-msrQuarterTonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
+msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration);
 
+// quarter tones pitches languages
 enum msrQuaterTonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
@@ -282,23 +286,31 @@ extern string msrQuaterTonesPitchesLanguageAsString (
 extern map<string, msrQuaterTonesPitchesLanguage>
   gQuaterTonesPitchesLanguagesMap;
 
-extern map<msrQuarterTonesPitch, string> gNederlandsPitchName;
-extern map<msrQuarterTonesPitch, string> gCatalanPitchName;
-extern map<msrQuarterTonesPitch, string> gDeutschPitchName;
-extern map<msrQuarterTonesPitch, string> gEnglishPitchName;
-extern map<msrQuarterTonesPitch, string> gEspanolPitchName;
-extern map<msrQuarterTonesPitch, string> gFrancaisPitchName;
-extern map<msrQuarterTonesPitch, string> gItalianoPitchName;
-extern map<msrQuarterTonesPitch, string> gNorskPitchName;
-extern map<msrQuarterTonesPitch, string> gPortuguesPitchName;
-extern map<msrQuarterTonesPitch, string> gSuomiPitchName;
-extern map<msrQuarterTonesPitch, string> gSvenskaPitchName;
-extern map<msrQuarterTonesPitch, string> gVlaamsPitchName;
+extern map<msrQuartertonesPitch, string> gNederlandsPitchName;
+extern map<msrQuartertonesPitch, string> gCatalanPitchName;
+extern map<msrQuartertonesPitch, string> gDeutschPitchName;
+extern map<msrQuartertonesPitch, string> gEnglishPitchName;
+extern map<msrQuartertonesPitch, string> gEspanolPitchName;
+extern map<msrQuartertonesPitch, string> gFrancaisPitchName;
+extern map<msrQuartertonesPitch, string> gItalianoPitchName;
+extern map<msrQuartertonesPitch, string> gNorskPitchName;
+extern map<msrQuartertonesPitch, string> gPortuguesPitchName;
+extern map<msrQuartertonesPitch, string> gSuomiPitchName;
+extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
+extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
-extern string msrQuarterTonesPitchAsString (
+extern string msrQuartertonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
-  msrQuarterTonesPitch          quarterTonesPitch);
+  msrQuartertonesPitch          quartertonesPitch);
 
+// chords languages
+enum msrChordsLanguage {
+  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
+  
+extern map<msrChordsLanguage, string>
+  gChordsLanguagesMap;
+
+// initialization
 void initializePitchesLanguages ();
 
 //______________________________________________________________________________
@@ -324,7 +336,7 @@ class EXP msrOptions : public smartable
     // set and get
     // ------------------------------------------------------
 
-    bool                          setQuarterTonesPitchesLanguage (
+    bool                          setQuartertonesPitchesLanguage (
                                     string language);    
  
   public:
@@ -472,12 +484,12 @@ class msrNoteData
                             msrAlteration    alteration);
   
     void                  setPitch (
-                            msrQuarterTonesPitch quarterTonesPitch);
+                            msrQuartertonesPitch quartertonesPitch);
 
     void                  setNoteQuaterTonesPitch (
-                            msrQuarterTonesPitch quarterTonesPitch);
+                            msrQuartertonesPitch quartertonesPitch);
                             
-    msrQuarterTonesPitch  getNoteQuaterTonesPitch () const
+    msrQuartertonesPitch  getNoteQuaterTonesPitch () const
                               { return fNoteQuaterTonesPitch; }
 
     void                  setNoteDiatonicPitch (
@@ -534,7 +546,7 @@ class msrNoteData
     // thru the setPitch() methods, ensuring they are consistent
     msrDiatonicPitch          fNoteDiatonicPitch;
     msrAlteration             fNoteAlteration;
-    msrQuarterTonesPitch      fNoteQuaterTonesPitch; 
+    msrQuartertonesPitch      fNoteQuaterTonesPitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 
@@ -2387,12 +2399,12 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrHarmony> create (
-      int                 inputLineNumber,
-      msrQuaterNotesPitch harmonyRootQuaterNotesPitch,
-      msrHarmonyKind      harmonyKind,
-      string              harmonyKindText,
-      msrQuaterNotesPitch harmonyBassQuaterNotesPitch,
-      S_msrPart           harmonyPartUplink);
+      int                  inputLineNumber,
+      msrQuartertonesPitch harmonyRootQuartertonesPitch,
+      msrHarmonyKind       harmonyKind,
+      string               harmonyKindText,
+      msrQuartertonesPitch harmonyBassQuartertonesPitch,
+      S_msrPart            harmonyPartUplink);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
       S_msrPart clonedPart);
@@ -2403,12 +2415,12 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
     msrHarmony (
-      int                 inputLineNumber,
-      msrQuaterNotesPitch harmonyRootQuaterNotesPitch,
-      msrHarmonyKind      harmonyKind,
-      string              harmonyKindText,
-      msrQuaterNotesPitch harmonyBassQuaterNotesPitch,
-      S_msrPart           harmonyPartUplink);
+      int                  inputLineNumber,
+      msrQuartertonesPitch harmonyRootQuartertonesPitch,
+      msrHarmonyKind       harmonyKind,
+      string               harmonyKindText,
+      msrQuartertonesPitch harmonyBassQuartertonesPitch,
+      S_msrPart            harmonyPartUplink);
 
     virtual ~msrHarmony();
   
@@ -2417,29 +2429,29 @@ class EXP msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrQuaterNotesPitch getHarmonyRootQuaterNotesPitch () const
-                            { return fHarmonyRootQuaterNotesPitch; }
+    msrQuartertonesPitch  getHarmonyRootQuartertonesPitch () const
+                              { return fHarmonyRootQuartertonesPitch; }
                                 
-    msrHarmonyKind      getHarmonyKind () const
-                            { return fHarmonyKind; }
+    msrHarmonyKind        getHarmonyKind () const
+                              { return fHarmonyKind; }
                 
-    string              getHarmonyKindText () const
-                            { return fHarmonyKindText; }
+    string                getHarmonyKindText () const
+                              { return fHarmonyKindText; }
                 
-    msrQuaterNotesPitch fHarmonyBassQuaterNotesPitch () const
-                            { return fHarmonyBassQuaterNotesPitch; }
+    msrQuartertonesPitch  getHarmonyBassQuartertonesPitch () const
+                            { return fHarmonyBassQuartertonesPitch; }
                                 
-    S_msrPart           getHarmonyVoiceUplink () const
-                            { return fHarmonyPartUplink; }
+    S_msrPart             getHarmonyVoiceUplink () const
+                              { return fHarmonyPartUplink; }
                 
 
     // services
     // ------------------------------------------------------
 
-    string              harmonyKindAsString () const;
-    string              harmonyKindAsShortString () const;
+    string                harmonyKindAsString () const;
+    string                harmonyKindAsShortString () const;
     
-    string              harmonyAsString () const;
+    string                harmonyAsString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -2456,12 +2468,12 @@ class EXP msrHarmony : public msrElement
 
   private:
 
-    msrQuaterNotesPitch       fHarmonyRootQuaterNotesPitch;
+    msrQuartertonesPitch      fHarmonyRootQuartertonesPitch;
 
     msrHarmonyKind            fHarmonyKind;
     string                    fHarmonyKindText;
 
-    msrQuaterNotesPitch       fHarmonyBassQuaterNotesPitch;
+    msrQuartertonesPitch      fHarmonyBassQuartertonesPitch;
     
     S_msrPart                 fHarmonyPartUplink;
 };
@@ -2526,7 +2538,7 @@ class EXP msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrQuarterTonesPitch
+    msrQuartertonesPitch
                   getQuaterTonesPitch () const
                       { return fNoteData.getNoteQuaterTonesPitch (); }
 
@@ -5368,7 +5380,7 @@ class EXP msrStafftuning : public msrElement
     static SMARTP<msrStafftuning> create (
       int                  inputLineNumber,
       int                  stafftuningLineNumber,
-      msrQuarterTonesPitch quarterTonesPitch,
+      msrQuartertonesPitch quartertonesPitch,
       int                  stafftuningOctave);
     
     SMARTP<msrStafftuning> createStafftuningBareClone ();
@@ -5381,7 +5393,7 @@ class EXP msrStafftuning : public msrElement
     msrStafftuning (
       int                  inputLineNumber,
       int                  stafftuningLineNumber,
-      msrQuarterTonesPitch quarterTonesPitch,
+      msrQuartertonesPitch quartertonesPitch,
       int                  stafftuningOctave);
          
     ~ msrStafftuning ();
@@ -5394,9 +5406,9 @@ class EXP msrStafftuning : public msrElement
     int             getStafftuningLineNumber () const
                         { return fStafftuningLineNumber; }
 
-    msrQuarterTonesPitch
-                    getStafftuningQuarterTonesPitch () const
-                        { return fStafftuningQuarterTonesPitch; }
+    msrQuartertonesPitch
+                    getStafftuningQuartertonesPitch () const
+                        { return fStafftuningQuartertonesPitch; }
 
     int             getStafftuningOctave () const
                         { return fStafftuningOctave; }
@@ -5426,7 +5438,7 @@ class EXP msrStafftuning : public msrElement
     
     int                   fStafftuningLineNumber;
     
-    msrQuarterTonesPitch  fStafftuningQuarterTonesPitch;
+    msrQuartertonesPitch  fStafftuningQuartertonesPitch;
     int                   fStafftuningOctave;
 };
 typedef SMARTP<msrStafftuning> S_msrStafftuning;
