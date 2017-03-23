@@ -1830,6 +1830,19 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
           inputLineNumber,
           s.str());
       }
+      
+    case k_NoPitch:
+      {
+        stringstream s;
+
+        s <<
+          "cannot get the diatonic pitch of a k_NoPitch"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
   } // switch
 
   return result;
@@ -3738,20 +3751,6 @@ msrNote::msrNote (
   } // switch
 */
 
-  // how many quater tones from A?s // JMI
-  int noteQuatertonesFromA;
-  
-  switch (fNoteData.getNoteDiatonicPitch ()) {
-    case 'A': noteQuatertonesFromA =  0; break;
-    case 'B': noteQuatertonesFromA =  4; break;
-    case 'C': noteQuatertonesFromA =  6; break;
-    case 'D': noteQuatertonesFromA = 10; break;
-    case 'E': noteQuatertonesFromA = 14; break;
-    case 'F': noteQuatertonesFromA = 16; break;
-    case 'G': noteQuatertonesFromA = 20; break;
-    default: {}    
-  } // switch
-
 //   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
@@ -3760,13 +3759,6 @@ msrNote::msrNote (
         fNoteData.getNoteAlteration ()) <<
       endl;
   }
-
-/* JMI
-  if (gGeneralOptions->fDebugDebug)
-    cerr <<
-      "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
-      endl;
-*/
 }
 
 msrNote::~msrNote()
@@ -7333,108 +7325,31 @@ void msrClef::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrKey msrKey::create (
-  int           inputLineNumber,
-  int           fifths,
-  string        mode,
-  int           cancel)
+  int                  inputLineNumber,
+  msrQuartertonesPitch keyTonicPitch,
+  msrKeyModeKind       keyModeKind,
+  int                  keyCancel)
 {
   msrKey* o =
     new msrKey (
-      inputLineNumber, fifths, mode, cancel);
+      inputLineNumber,
+      keyTonicPitch, keyModeKind,
+      keyCancel);
   assert (o!=0);
   return o;
 }
 
 msrKey::msrKey (
-  int           inputLineNumber,
-  int           fifths,
-  string        mode,
-  int           cancel)
+  int                  inputLineNumber,
+  msrQuartertonesPitch keyTonicPitch,
+  msrKeyModeKind       keyModeKind,
+  int                  keyCancel)
     : msrElement (inputLineNumber)
 {
-  fKeyFifths = fifths;
-  fKeyMode   = mode;
-  fKeyCancel = cancel;
-
-  string                 tonicNote;
-  msrKey::msrKeyModeKind keyModeKind;
+  fKeyTonicPitch = keyTonicPitch;
+  fKeyModeKind   = keyModeKind;
   
-  switch (fKeyFifths) {
-    case 0:
-      tonicNote = "c";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 1:
-      tonicNote = "g";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 2:
-      tonicNote = "d";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 3:
-      tonicNote = "a";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 4:
-      tonicNote = "e";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 5:
-      tonicNote = "b";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 6:
-       tonicNote = "fis";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case 7:
-      tonicNote = "cis";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -1:
-      tonicNote = "f";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -2:
-      tonicNote = "bes";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -3:
-      tonicNote = "ees";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -4:
-      tonicNote = "aes";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -5:
-      tonicNote = "des";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -6:
-      tonicNote = "ges";
-      keyModeKind = msrKey::kMajor;
-      break;
-    case -7:
-      tonicNote = "ces";
-      keyModeKind = msrKey::kMajor;
-      break;
-    default: // unknown key sign !!
-      {
-      stringstream s;
-      
-      s << 
-        "ERROR: unknown key sign \"" << fKeyFifths << "\"";
-        
-      msrMusicXMLError (
-        fInputLineNumber,
-        s.str());
-      }
-  } // switch
-  
-  fKeyTonic    = tonicNote;
-  fKeyModeKind = keyModeKind; 
+  fKeyCancel     = keyCancel;
 }
 
 msrKey::~msrKey() {}
@@ -7483,17 +7398,32 @@ ostream& operator<< (ostream& os, const S_msrKey& elt)
   return os;
 }
 
+string msrKey::keyModeKindAsString (
+  msrKeyModeKind keyModeKind)
+{
+  string result;
+  
+  switch (keyModeKind) {
+    case kMajorMode:
+      result = "major";
+      break;
+    case kMinorMode:
+      result = "minor";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrKey::keyAsString () const
 {
   stringstream s;
 
-  s << "Key \"" << fKeyTonic << " ";
-  if (fKeyModeKind == kMajor)
-    s << "major";
-  else
-    s << "minor";
-
   s <<
+    "Key \"" <<
+    fKeyTonicPitch <<
+    "\" " <<
+    keyModeKindAsString (fKeyModeKind) <<
     "\", line " << fInputLineNumber;
 
   return s.str();
@@ -14000,7 +13930,7 @@ msrStaff::msrStaff (
       setStaffKey (
         msrKey::create (
           inputLineNumber,
-          0, "major", 0));
+          k_aNatural, msrKey::kMajorMode, 0));
     }
   }
   
@@ -16712,3 +16642,27 @@ void msrMidi::print (ostream& os)
 
 
 }
+
+
+/*
+  // how many quater tones from A?s // JMI
+  int noteQuatertonesFromA;
+  
+  switch (fNoteData.getNoteDiatonicPitch ()) {
+    case 'A': noteQuatertonesFromA =  0; break;
+    case 'B': noteQuatertonesFromA =  4; break;
+    case 'C': noteQuatertonesFromA =  6; break;
+    case 'D': noteQuatertonesFromA = 10; break;
+    case 'E': noteQuatertonesFromA = 14; break;
+    case 'F': noteQuatertonesFromA = 16; break;
+    case 'G': noteQuatertonesFromA = 20; break;
+    default: {}    
+  } // switch
+*/
+
+/* JMI
+  if (gGeneralOptions->fDebugDebug)
+    cerr <<
+      "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
+      endl;
+*/

@@ -1465,7 +1465,7 @@ class EXP msrKey : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrKeyModeKind { kMajor, kMinor };
+    enum msrKeyModeKind { kMajorMode, kMinorMode };
 
     static string keyModeKindAsString (
       msrKeyModeKind keyModeKind);
@@ -1474,10 +1474,10 @@ class EXP msrKey : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrKey> create (
-      int           inputLineNumber,
-      int           fifths,
-      string        mode,
-      int           cancel);
+      int                  inputLineNumber,
+      msrQuartertonesPitch keyTonicPitch,
+      msrKeyModeKind       keyModeKind,
+      int                  keyCancel);
 
   protected:
 
@@ -1485,10 +1485,10 @@ class EXP msrKey : public msrElement
     // ------------------------------------------------------
 
     msrKey (
-      int           inputLineNumber,
-      int           fifths,
-      string        mode,
-      int           cancel);
+      int                  inputLineNumber,
+      msrQuartertonesPitch keyTonicPitch,
+      msrKeyModeKind       keyModeKind,
+      int                  keyCancel);
       
     virtual ~msrKey();
 
@@ -1497,22 +1497,19 @@ class EXP msrKey : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int             getKeyFifths () const
-                        { return fKeyFifths; }
-    string          getKeyMode () const
-                        { return fKeyMode; }
-    int             getKeyCancel () const
-                        { return fKeyCancel; }
-
-    string          getKeyTonic () const
-                        { return fKeyTonic; }
-    msrKeyModeKind  getKeyModeKind () const
-                        { return fKeyModeKind; }
+    msrQuartertonesPitch  getKeyTonicPitch () const
+                              { return fKeyTonicPitch; }
+                              
+    msrKeyModeKind        getKeyModeKind () const
+                              { return fKeyModeKind; }
+                            
+    int                   getKeyCancel () const
+                              { return fKeyCancel; }
 
     // services
     // ------------------------------------------------------
 
-    string      keyAsString () const;
+    string              keyAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1529,12 +1526,9 @@ class EXP msrKey : public msrElement
   
   private:
 
-    int                 fKeyFifths;
-    string              fKeyMode;
-    int                 fKeyCancel;
-
-    string              fKeyTonic;
-    msrKeyModeKind      fKeyModeKind;
+    msrQuartertonesPitch  fKeyTonicPitch;
+    msrKeyModeKind        fKeyModeKind;
+    int                   fKeyCancel;
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);

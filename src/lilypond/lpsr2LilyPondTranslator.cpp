@@ -2014,19 +2014,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
       "% --> Start visiting msrKey" << endl;
 
   fOstream << idtr <<
-    "\\key " << elt->getKeyTonic () << " ";
-
-  switch (elt->getKeyModeKind ()) {
-    case msrKey::kMajor:
-      fOstream << "\\major";
-      break;
-      
-    case msrKey::kMinor:
-      fOstream << "\\minor";
-      break;
-  } // switch
-  
-  fOstream <<
+    "\\key " <<
+    msrQuartertonesPitchAsString (
+      gMsrOptions->fQuatertonesPitchesLanguage,
+      elt->getKeyTonicPitch ()) <<
+    " \\" <<
+    msrKey::keyModeKindAsString (
+      elt->getKeyModeKind ()) <<
     endl;
 }
 
