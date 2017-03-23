@@ -491,7 +491,7 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
-    void                  setNoteQuarterTonesPitch (
+    void                  setNoteQuartertonesPitch (
                             msrQuartertonesPitch quartertonesPitch);
 
     void                  setNoteDiatonicPitchAndAlteration (

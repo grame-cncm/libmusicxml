@@ -1919,7 +1919,7 @@ msrNoteData::msrNoteData ()
 }
 
 
-void msrNoteData::setNoteQuarterTonesPitch (
+void msrNoteData::setNoteQuartertonesPitch (
   msrQuartertonesPitch quartertonesPitch)
 {
   fNoteQuatertonesPitch = quartertonesPitch;
@@ -3872,7 +3872,7 @@ S_msrNote msrNote::createSkipNote (
 {
   msrNoteData noteData;
 
-  noteData.setNoteQuatertonesPitch (k_NoPitch);
+  noteData.setNoteQuartertonesPitch (k_NoPitch);
   noteData.fNoteIsARest = true; // JMI
   
   noteData.fNoteDivisions = divisions;
@@ -4078,7 +4078,7 @@ string msrNote::notePitchAsString () const
 
     s <<
       msrDiatonicPitchAsString (
-        fNoteData.fNoteDiatonicPitch) <<    
+        fNoteData.getNoteDiatonicPitch ()) <<    
       msrAlterationAsString (
         fNoteData.getNoteAlteration ());
   }
