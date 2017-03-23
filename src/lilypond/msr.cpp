@@ -26,8 +26,8 @@ namespace MusicXML2
 // notes names languages
 // ------------------------------------------------------
 
-map<string, msrQuaterTonesPitchesLanguage>
-  gQuaterTonesPitchesLanguagesMap;
+map<string, msrQuatertonesPitchesLanguage>
+  gQuatertonesPitchesLanguagesMap;
 
 map<msrQuartertonesPitch, string> gNederlandsPitchName;
 map<msrQuartertonesPitch, string> gCatalanPitchName;
@@ -44,18 +44,18 @@ map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
 void initializePitchesLanguages ()
 {
-  gQuaterTonesPitchesLanguagesMap ["nederlands"] = kNederlands;
-  gQuaterTonesPitchesLanguagesMap ["catalan"]    = kCatalan;
-  gQuaterTonesPitchesLanguagesMap ["deutsch"]    = kDeutsch;
-  gQuaterTonesPitchesLanguagesMap ["english"]    = kEnglish;
-  gQuaterTonesPitchesLanguagesMap ["espanol"]    = kEspanol;
-  gQuaterTonesPitchesLanguagesMap ["italiano"]   = kItaliano;
-  gQuaterTonesPitchesLanguagesMap ["francais"]   = kFrancais;
-  gQuaterTonesPitchesLanguagesMap ["norsk"]      = kNorsk;
-  gQuaterTonesPitchesLanguagesMap ["portugues"]  = kPortugues;
-  gQuaterTonesPitchesLanguagesMap ["suomi"]      = kSuomi;
-  gQuaterTonesPitchesLanguagesMap ["svenska"]    = kSvenska;
-  gQuaterTonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
+  gQuatertonesPitchesLanguagesMap ["nederlands"] = kNederlands;
+  gQuatertonesPitchesLanguagesMap ["catalan"]    = kCatalan;
+  gQuatertonesPitchesLanguagesMap ["deutsch"]    = kDeutsch;
+  gQuatertonesPitchesLanguagesMap ["english"]    = kEnglish;
+  gQuatertonesPitchesLanguagesMap ["espanol"]    = kEspanol;
+  gQuatertonesPitchesLanguagesMap ["italiano"]   = kItaliano;
+  gQuatertonesPitchesLanguagesMap ["francais"]   = kFrancais;
+  gQuatertonesPitchesLanguagesMap ["norsk"]      = kNorsk;
+  gQuatertonesPitchesLanguagesMap ["portugues"]  = kPortugues;
+  gQuatertonesPitchesLanguagesMap ["suomi"]      = kSuomi;
+  gQuatertonesPitchesLanguagesMap ["svenska"]    = kSvenska;
+  gQuatertonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
 
   // nederlands
   gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
@@ -973,8 +973,8 @@ string msrDiatonicPitchAsString (
   return result;
 }
 
-string msrQuaterTonesPitchesLanguageAsString (
-  msrQuaterTonesPitchesLanguage language)
+string msrQuatertonesPitchesLanguageAsString (
+  msrQuatertonesPitchesLanguage language)
 {
   string result;
   
@@ -1116,39 +1116,41 @@ string msrAlterationAsString (
   return result;
 }
 
-msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
+msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
 {
+  msrQuartertonesPitch result;
+  
   switch (diatonicPitch) {
     case kA:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_aDoubleFlat;
+          result = k_aDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_aSesquiFlat;
+          result = k_aSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_aFlat;
+          result = k_aFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_aSemiFlat;
+          result = k_aSemiFlat;
           break;
         case kNatural:
-          fNoteQuaterTonesPitch = k_aNatural;
+          result = k_aNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_aSemiSharp;
+          result = k_aSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_aSharp;
+          result = k_aSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_aSesquiSharp;
+          result = k_aSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_aDoubleSharp;
+          result = k_aDoubleSharp;
           break;
       } // switch
       break;
@@ -1156,31 +1158,31 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
     case kB:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_bDoubleFlat;
+          result = k_bDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_bSesquiFlat;
+          result = k_bSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_bFlat;
+          result = k_bFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_bSemiFlat;
+          result = k_bSemiFlat;
           break;
         case kNatural:
-          fNoteQuaterTonesPitch = k_bNatural;
+          result = k_bNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_bSemiSharp;
+          result = k_bSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_bSharp;
+          result = k_bSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_bSesquiSharp;
+          result = k_bSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_bDoubleSharp;
+          result = k_bDoubleSharp;
           break;
       } // switch
       break;
@@ -1190,31 +1192,31 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
     case kC:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_cDoubleFlat;
+          result = k_cDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_cSesquiFlat;
+          result = k_cSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_cFlat;
+          result = k_cFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_cSemiFlat;
+          result = k_cSemiFlat;
           break;
         case kNatural:
-          fNoteQuaterTonesPitch = k_cNatural;
+          result = k_cNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_cSemiSharp;
+          result = k_cSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_cSharp;
+          result = k_cSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_cSesquiSharp;
+          result = k_cSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_cDoubleSharp;
+          result = k_cDoubleSharp;
           break;
       } // switch
       break;
@@ -1222,31 +1224,31 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
     case kD:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_dDoubleFlat;
+          result = k_dDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_dSesquiFlat;
+          result = k_dSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_dFlat;
+          result = k_dFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_dSemiFlat;
+          result = k_dSemiFlat;
           break;
         case kNatural:
-          fNoteQuaterTonesPitch = k_dNatural;
+          result = k_dNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_dSemiSharp;
+          result = k_dSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_dSharp;
+          result = k_dSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_dSesquiSharp;
+          result = k_dSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_dDoubleSharp;
+          result = k_dDoubleSharp;
           break;
       } // switch
       break;
@@ -1254,31 +1256,31 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
     case kE:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_eDoubleFlat;
+          result = k_eDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_eSesquiFlat;
+          result = k_eSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_eFlat;
+          result = k_eFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_eSemiFlat;
+          result = k_eSemiFlat;
           break;
         case kNatural:
-          fNoteQuaterTonesPitch = k_eNatural;
+          result = k_eNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_eSemiSharp;
+          result = k_eSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_eSharp;
+          result = k_eSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_eSesquiSharp;
+          result = k_eSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_eDoubleSharp;
+          result = k_eDoubleSharp;
           break;
       } // switch
       break;
@@ -1286,31 +1288,31 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
     case kF:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_fDoubleFlat;
+          result = k_fDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_fSesquiFlat;
+          result = k_fSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_fFlat;
+          result = k_fFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_fSemiFlat;
+          result = k_fSemiFlat;
           break;
         case kNatural:
-          fNoteQuaterTonesPitch = k_fNatural;
+          result = k_fNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_fSemiSharp;
+          result = k_fSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_fSharp;
+          result = k_fSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_fSesquiSharp;
+          result = k_fSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_fDoubleSharp;
+          result = k_fDoubleSharp;
           break;
       } // switch
       break;
@@ -1318,31 +1320,31 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
     case kG:
       switch (alteration) {
         case kDoubleFlat:
-          fNoteQuaterTonesPitch = k_gDoubleFlat;
+          result = k_gDoubleFlat;
           break;
         case kSesquiFlat:
-          fNoteQuaterTonesPitch = k_gSesquiFlat;
+          result = k_gSesquiFlat;
           break;
         case kFlat:
-          fNoteQuaterTonesPitch = k_gFlat;
+          result = k_gFlat;
           break;
         case kSemiFlat:
-          fNoteQuaterTonesPitch = k_gSemiFlat;
+          result = k_gSemiFlat;
           break;
         case kNatural:
           result = k_gNatural;
           break;
         case kSemiSharp:
-          fNoteQuaterTonesPitch = k_gSemiSharp;
+          result = k_gSemiSharp;
           break;
         case kSharp:
-          fNoteQuaterTonesPitch = k_gSharp;
+          result = k_gSharp;
           break;
         case kSesquiSharp:
-          fNoteQuaterTonesPitch = k_gSesquiSharp;
+          result = k_gSesquiSharp;
           break;
         case kDoubleSharp:
-          fNoteQuaterTonesPitch = k_gDoubleSharp;
+          result = k_gDoubleSharp;
           break;
       } // switch
       break;
@@ -1364,7 +1366,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_aSharp:
     case k_aSesquiSharp:
     case k_aDoubleSharp:
-      fNoteDiatonicPitch = kA;
+      result = kA;
       break;
 
     case k_bDoubleFlat:
@@ -1376,7 +1378,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_bSharp:
     case k_bSesquiSharp:
     case k_bDoubleSharp:
-      fNoteDiatonicPitch = kB;
+      result = kB;
       break;
 
     case k_cDoubleFlat:
@@ -1388,7 +1390,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_cSharp:
     case k_cSesquiSharp:
     case k_cDoubleSharp:
-      fNoteDiatonicPitch = kC;
+      result = kC;
       break;
 
     case k_dDoubleFlat:
@@ -1400,7 +1402,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_dSharp:
     case k_dSesquiSharp:
     case k_dDoubleSharp:
-      fNoteDiatonicPitch = kD;
+      result = kD;
       break;
 
     case k_eDoubleFlat:
@@ -1412,7 +1414,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_eSharp:
     case k_eSesquiSharp:
     case k_eDoubleSharp:
-      fNoteDiatonicPitch = kE;
+      result = kE;
       break;
 
     case k_fDoubleFlat:
@@ -1424,7 +1426,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_fSharp:
     case k_fSesquiSharp:
     case k_fDoubleSharp:
-      fNoteDiatonicPitch = kF;
+      result = kF;
       break;
 
     case k_gDoubleFlat:
@@ -1436,7 +1438,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_gSharp:
     case k_gSesquiSharp:
     case k_gDoubleSharp:
-      fNoteDiatonicPitch = kG;
+      result = kG;
       break;
   } // switch
 
@@ -1444,7 +1446,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
 }
 
 string msrQuartertonesPitchAsString (
-  msrQuaterTonesPitchesLanguage language,
+  msrQuatertonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch)
 {
    string result;
@@ -1505,11 +1507,11 @@ msrOptions::msrOptions ()
 bool msrOptions::setQuartertonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
-  map<string, msrQuaterTonesPitchesLanguage>::const_iterator
+  map<string, msrQuatertonesPitchesLanguage>::const_iterator
     it =
-      gQuaterTonesPitchesLanguagesMap.find (language);
+      gQuatertonesPitchesLanguagesMap.find (language);
         
-  if (it == gQuaterTonesPitchesLanguagesMap.end ()) {
+  if (it == gQuatertonesPitchesLanguagesMap.end ()) {
     // no, language is unknown in the map
 
 /* JMI
@@ -1517,13 +1519,13 @@ bool msrOptions::setQuartertonesPitchesLanguage (string language)
       endl << endl;
 
     cerr <<
-      "gQuaterTonesPitchesLanguagesMap.size () = " <<
-      gQuaterTonesPitchesLanguagesMap.size () <<
+      "gQuatertonesPitchesLanguagesMap.size () = " <<
+      gQuatertonesPitchesLanguagesMap.size () <<
       endl << endl;
       
     for (
-      map<string, quartertonesPitchLanguage>::const_iterator i=gQuaterTonesPitchesLanguagesMap.begin();
-      i!=gQuaterTonesPitchesLanguagesMap.end();
+      map<string, quartertonesPitchLanguage>::const_iterator i=gQuatertonesPitchesLanguagesMap.begin();
+      i!=gQuatertonesPitchesLanguagesMap.end();
       i++) {
       cerr <<
         (*i).first << ": " << (*i).second <<
@@ -1534,7 +1536,7 @@ bool msrOptions::setQuartertonesPitchesLanguage (string language)
     return false;
   }
 
-  fQuaterTonesPitchesLanguage = (*it).second;
+  fQuatertonesPitchesLanguage = (*it).second;
   
   return true;
 }
@@ -1607,28 +1609,28 @@ ostream& operator<< (ostream& os, msrNoteData& noteData)
 void msrNoteData::init ()
 {
   fNoteDiatonicPitch    = kA; // any value would fit
-  fAlteration           = k_NoAlteration;
-  fNoteQuaterTonesPitch = k_NoPitch;
+  fNoteAlteration           = k_NoAlteration;
+  fNoteQuatertonesPitch = k_NoPitch;
 
   fNoteIsARest = false;
   
   fNoteIsUnpitched = false;;
   
-  fOctave = -1;
+  fNoteOctave = -1;
 
   // MusicXML durations are in divisions per quarter note.
   // LilyPond durations are in whole notes,
   // hence the "* 4" multiplications
   
   // the note duration when played
-  fDivisions = -17;
+  fNoteDivisions = -17;
 
   // tuplets member notes need another value for display
-  fDisplayDivisions = -19;
+  fNoteDisplayDivisions = -19;
 
-  fDotsNumber = 0;
+  fNoteDotsNumber = 0;
   
-  fType = "";
+  fNoteType = "";
 
   fNoteIsAGraceNote = false;
   
@@ -1636,8 +1638,8 @@ void msrNoteData::init ()
   
   fNoteBelongsToATuplet = false;
 
-  fStaffNumber = 0;
-  fVoiceNumber = 0;
+  fNoteStaffNumber = 0;
+  fNoteVoiceNumber = 0;
 }
 
 msrNoteData::msrNoteData ()
@@ -1649,7 +1651,7 @@ msrNoteData::msrNoteData ()
 void msrNoteData::setPitch (
   msrQuartertonesPitch quartertonesPitch)
 {
-  fNoteQuaterTonesPitch = quartertonesPitch;
+  fNoteQuatertonesPitch = quartertonesPitch;
 
   // set fNoteDiatonicPitch and fNoteAlteration accordingly  
   switch (quartertonesPitch) {
@@ -1911,8 +1913,6 @@ void msrNoteData::setPitch (
       fNoteAlteration    = kDoubleSharp;
       break;
   } // switch
-
-  return result;
 }
 
 void msrNoteData::setPitch (
@@ -1921,9 +1921,9 @@ void msrNoteData::setPitch (
 {
   fNoteDiatonicPitch = diatonicPitch;
 
-  // set fNoteQuaterTonesPitch accordingly
-  fNoteQuaterTonesPitch =
-    qaterTonesPitchFromDiatonicPitchAndAlteration (
+  // set fNoteQuatertonesPitch accordingly
+  fNoteQuatertonesPitch =
+    quaterTonesPitchFromDiatonicPitchAndAlteration (
       diatonicPitch, alteration);
 }
 
@@ -1946,30 +1946,30 @@ void msrNoteData::print (ostream& os)
       endl <<
     idtr << left <<
       setw(width) <<
-      "fNoteQuaterTonesPitch" << " = " <<
+      "fNoteQuatertonesPitch" << " = " <<
       msrQuartertonesPitchAsString (
-        gMsrOptions->fQuaterTonesPitchesLanguage,
-        fNoteQuaterTonesPitch) <<
+        gMsrOptions->fQuatertonesPitchesLanguage,
+        fNoteQuatertonesPitch) <<
       endl <<
     idtr << left <<
       setw(width) << "fOctave" << " = " <<
-      fOctave <<
+      fNoteOctave <<
       endl <<
     idtr << left <<
       setw(width) << "fDivisions" << " = " <<
-      fDivisions <<
+      fNoteDivisions <<
       endl <<
     idtr << left <<
       setw(width) << "fDisplayDivisions" << " = " <<
-      fDisplayDivisions <<
+      fNoteDisplayDivisions <<
       endl <<
     idtr << left <<
       setw(width) << "fDotsNumber" << " = " <<
-      fDotsNumber <<
+      fNoteDotsNumber <<
       endl <<
     idtr << left <<
       setw(width) << "fType" << " = " <<
-      fType <<
+      fNoteType <<
       endl <<
       
     idtr << left <<
@@ -1984,11 +1984,11 @@ void msrNoteData::print (ostream& os)
           
     idtr << left <<
       setw(width) << "fStaffNumber" << " = " <<
-      fStaffNumber <<
+      fNoteStaffNumber <<
       endl <<
     idtr <<
       setw(width) << "fVoiceNumber" << " = " <<
-      fVoiceNumber <<
+      fNoteVoiceNumber <<
       endl;
 };
 
@@ -3587,14 +3587,14 @@ msrNote::msrNote (
   fNoteHasADelayedOrnament = false;
   
   if (
-    fNoteData.fStep < 'A'
+    fNoteData.fNoteStep < 'A'
       ||
-    fNoteData.fStep > 'G') {
+    fNoteData.fNoteStep > 'G') {
     if (! fNoteData.fNoteIsARest) {
       stringstream s;
       
       s <<
-        "step value " << fNoteData.fStep <<
+        "step value " << fNoteData.fNoteStep <<
         " is not a letter from A to G";
         
     msrMusicXMLError (
@@ -3607,21 +3607,21 @@ msrNote::msrNote (
 //  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentStep << endl;
 // JMI
 
-  switch (fNoteData.fStep) {
-    case 'A': fNoteData.fDiatonicPitch = kA; break;
-    case 'B': fNoteData.fDiatonicPitch = kB; break;
-    case 'C': fNoteData.fDiatonicPitch = kC; break;
-    case 'D': fNoteData.fDiatonicPitch = kD; break;
-    case 'E': fNoteData.fDiatonicPitch = kE; break;
-    case 'F': fNoteData.fDiatonicPitch = kF; break;
-    case 'G': fNoteData.fDiatonicPitch = kG; break;
+  switch (fNoteData.fNoteStep) {
+    case 'A': fNoteData.fNoteDiatonicPitch = kA; break;
+    case 'B': fNoteData.fNoteDiatonicPitch = kB; break;
+    case 'C': fNoteData.fNoteDiatonicPitch = kC; break;
+    case 'D': fNoteData.fNoteDiatonicPitch = kD; break;
+    case 'E': fNoteData.fNoteDiatonicPitch = kE; break;
+    case 'F': fNoteData.fNoteDiatonicPitch = kF; break;
+    case 'G': fNoteData.fNoteDiatonicPitch = kG; break;
     default: {}
   } // switch
 
   // how many quater tones from A?s // JMI
   int noteQuatertonesFromA;
   
-  switch (fNoteData.fStep) {
+  switch (fNoteData.fNoteStep) {
     case 'A': noteQuatertonesFromA =  0; break;
     case 'B': noteQuatertonesFromA =  4; break;
     case 'C': noteQuatertonesFromA =  6; break;
@@ -3635,62 +3635,62 @@ msrNote::msrNote (
 //   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "--> fNoteData.fAlteration = " <<
+      "--> fNoteData.fNoteAlteration = " <<
       msrAlterationAsString (
-        fNoteData.fAlteration) <<
+        fNoteData.fNoteAlteration) <<
       endl;
   }
 
 /* JMI
-  if      (fNoteData.fAlter == 0 ) {
-    fNoteData.fAlteration = kNatural;
+  if      (fNoteData.fNoteAlter == 0 ) {
+    fNoteData.fNoteAlteration = kNatural;
   }
   
-  else if (fNoteData.fAlter == -1 ) {
-    fNoteData.fAlteration = kFlat;
+  else if (fNoteData.fNoteAlter == -1 ) {
+    fNoteData.fNoteAlteration = kFlat;
     noteQuatertonesFromA -= 2;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fNoteData.fAlter == 1 ) {
-    fNoteData.fAlteration = kSharp;
+  else if (fNoteData.fNoteAlter == 1 ) {
+    fNoteData.fNoteAlteration = kSharp;
     noteQuatertonesFromA += 2;
   }
   
-  else if (fNoteData.fAlter == -0.5 ) {
-    fNoteData.fAlteration = kSemiFlat;
+  else if (fNoteData.fNoteAlter == -0.5 ) {
+    fNoteData.fNoteAlteration = kSemiFlat;
     noteQuatertonesFromA -= 1;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fNoteData.fAlter == +0.5 ) {
-    fNoteData.fAlteration = kSemiSharp;
+  else if (fNoteData.fNoteAlter == +0.5 ) {
+    fNoteData.fNoteAlteration = kSemiSharp;
     noteQuatertonesFromA += 1;
   }
   
-  else if (fNoteData.fAlter == -1.5 ) {
-    fNoteData.fAlteration = kSesquiFlat;
+  else if (fNoteData.fNoteAlter == -1.5 ) {
+    fNoteData.fNoteAlteration = kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fNoteData.fAlter == +1.5 ) {
-    fNoteData.fAlteration = kSesquiSharp;
+  else if (fNoteData.fNoteAlter == +1.5 ) {
+    fNoteData.fNoteAlteration = kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
   
-  else if (fNoteData.fAlter == -2 ) {
-    fNoteData.fAlteration = kSesquiFlat;
+  else if (fNoteData.fNoteAlter == -2 ) {
+    fNoteData.fNoteAlteration = kSesquiFlat;
     noteQuatertonesFromA -= 3;
     if (noteQuatertonesFromA < 0)
       noteQuatertonesFromA += 24; // it is below A
   }
   
-  else if (fNoteData.fAlter == +2 ) {
-    fNoteData.fAlteration = kSesquiSharp;
+  else if (fNoteData.fNoteAlter == +2 ) {
+    fNoteData.fNoteAlteration = kSesquiSharp;
     noteQuatertonesFromA += 3;
   }
   
@@ -3698,7 +3698,7 @@ msrNote::msrNote (
     stringstream s;
     
     s <<
-      " alter " << fNoteData.fAlter <<
+      " alter " << fNoteData.fNoteAlter <<
       " should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
       
     msrMusicXMLError (
@@ -3785,8 +3785,8 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
       ", line " << fInputLineNumber <<
       endl;
 
-  fNoteData.fDisplayDivisions =
-    fNoteData.fDisplayDivisions
+  fNoteData.fNoteDisplayDivisions =
+    fNoteData.fNoteDisplayDivisions
       *
     actualNotes
       /
@@ -4127,9 +4127,9 @@ string msrNote::notePitchAsString () const
 
     s <<
       msrDiatonicPitchAsString (
-        fNoteData.fDiatonicPitch) <<    
+        fNoteData.fNoteDiatonicPitch) <<    
       msrAlterationAsString (
-        fNoteData.fAlteration);
+        fNoteData.fNoteAlteration);
   }
   
   return s.str();
@@ -4143,9 +4143,9 @@ string msrNote::noteDivisionsAsMSRString () const
 
   result =
     divisionsAsMSRDuration (
-      fNoteData.fDisplayDivisions,
+      fNoteData.fNoteDisplayDivisions,
       fNoteDivisionsPerWholeNote,
-      fNoteData.fDotsNumber,
+      fNoteData.fNoteDotsNumber,
       computedNumberOfDots,
       errorMessage,
       false); // 'true' to debug it
@@ -4165,7 +4165,7 @@ string msrNote::noteTypeAsMSRString () const
 
   result =
     noteTypeAsMSRDuration (
-      fNoteData.fType,
+      fNoteData.fNoteType,
       errorMessage);
 
   if (errorMessage.size ())
@@ -4178,8 +4178,8 @@ string msrNote::noteTypeAsMSRString () const
 
 string msrNote::noteDiatonicPitchAsString () const
 {
-  // fNoteData.fStep is a char
-  switch (fNoteData.fDiatonicPitch) {
+  // fNoteData.fNoteStep is a char
+  switch (fNoteData.fNoteDiatonicPitch) {
     case kA: return "A"; break;
     case kB: return "B"; break;
     case kC: return "C"; break;
@@ -4204,13 +4204,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        fNoteData.fDivisions;
+        fNoteData.fNoteDivisions;
         
-      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fDisplayDivisions;
+          "_" << fNoteData.fNoteDisplayDivisions;
           
       s << " divs";
       break;
@@ -4218,11 +4218,11 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
         
-      for (int i = 0; i < fNoteData.fDotsNumber; i++) {
+      for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -4231,18 +4231,18 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "R" <<
         ":" <<
-        fNoteData.fDivisions << " divs";
+        fNoteData.fNoteDivisions << " divs";
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        fNoteData.fDivisions;
+        fNoteData.fNoteDivisions;
         
-      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fDisplayDivisions;
+          "_" << fNoteData.fNoteDisplayDivisions;
           
       s << " divs";
       break;
@@ -4250,13 +4250,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        fNoteData.fDivisions;
+        fNoteData.fNoteDivisions;
         
-      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fDisplayDivisions;
+          "_" << fNoteData.fNoteDisplayDivisions;
           
       s << " divs";
       break;
@@ -4267,15 +4267,15 @@ string msrNote::noteAsShortStringWithRawDivisions () const
 
       if (! fNoteData.fNoteIsARest)
         s <<
-          "[" << fNoteData.fOctave << "]";
+          "[" << fNoteData.fNoteOctave << "]";
 
       s <<
         ":" <<
-        fNoteData.fDivisions;
+        fNoteData.fNoteDivisions;
         
-      if (fNoteData.fDivisions != fNoteData.fDisplayDivisions)
+      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fDisplayDivisions;
+          "_" << fNoteData.fNoteDisplayDivisions;
             
         s << " divs";
       break;
@@ -4297,7 +4297,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -4305,11 +4305,11 @@ string msrNote::noteAsShortString () const
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
         
-      for (int i = 0; i < fNoteData.fDotsNumber; i++) {
+      for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -4331,7 +4331,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -4342,7 +4342,7 @@ string msrNote::noteAsShortString () const
 
       if (! fNoteData.fNoteIsARest)
         s <<
-          "[" << fNoteData.fOctave << "]";
+          "[" << fNoteData.fNoteOctave << "]";
 
       s <<
         ":" <<
@@ -4370,7 +4370,7 @@ string msrNote::noteAsString () const
       s <<
         "Standalone note" " "<<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -4379,11 +4379,11 @@ string msrNote::noteAsString () const
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteTypeAsMSRString ();
         
-      for (int i = 0; i < fNoteData.fDotsNumber; i++) {
+      for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -4406,7 +4406,7 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
-        "[" << fNoteData.fOctave << "]" <<
+        "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -4418,12 +4418,12 @@ string msrNote::noteAsString () const
 
       if (! fNoteData.fNoteIsARest)
         s <<
-          "[" << fNoteData.fOctave << "]";
+          "[" << fNoteData.fNoteOctave << "]";
 
       s <<
         ":";
 
-      if (fNoteData.fType.size ())
+      if (fNoteData.fNoteType.size ())
         s <<
           noteTypeAsMSRString ();
       else
@@ -4460,9 +4460,9 @@ void msrNote::print (ostream& os)
   os <<
     noteAsString ();
 
-  if (fNoteData.fType.size ())
+  if (fNoteData.fNoteType.size ())
     os <<
-      " (" << fNoteData.fType << ")" <<
+      " (" << fNoteData.fNoteType << ")" <<
       ", line " << fInputLineNumber;
 
   // print display divisions
@@ -4472,22 +4472,22 @@ void msrNote::print (ostream& os)
     
   if (fNoteKind == kGraceNote) {
     os <<
-      fNoteData.fDisplayDivisions;
+      fNoteData.fNoteDisplayDivisions;
   }
   
   else {
     if (
-        fNoteData.fDivisions
+        fNoteData.fNoteDivisions
           ==
-        fNoteData.fDisplayDivisions) {
+        fNoteData.fNoteDisplayDivisions) {
       os <<
-        fNoteData.fDivisions;
+        fNoteData.fNoteDivisions;
     }
     else {
       os <<
-        fNoteData.fDivisions <<
+        fNoteData.fNoteDivisions <<
         "_" <<
-        fNoteData.fDisplayDivisions;
+        fNoteData.fNoteDisplayDivisions;
     }
   }
 
@@ -13709,7 +13709,7 @@ string msrStafftuning::stafftuningAsString () const
     "line " << fStafftuningLineNumber <<
     ", " <<
     msrQuartertonesPitchAsString (
-      gMsrOptions->fQuaterTonesPitchesLanguage,
+      gMsrOptions->fQuatertonesPitchesLanguage,
       fStafftuningQuartertonesPitch) <<
     ", octave " << fStafftuningOctave;
     
@@ -13732,7 +13732,7 @@ void msrStafftuning::print (ostream& os)
     idtr <<
       setw(21) << "fStafftuningQuartertonesPitch" << " = " <<
       msrQuartertonesPitchAsString (
-        gMsrOptions->fQuaterTonesPitchesLanguage,
+        gMsrOptions->fQuatertonesPitchesLanguage,
         fStafftuningQuartertonesPitch) <<
       endl <<
     idtr <<

@@ -271,7 +271,7 @@ enum msrQuartertonesPitch {
   k_gNatural,
   k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
-msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
+msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration);
 
@@ -279,15 +279,15 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
   msrQuartertonesPitch quartertonesPitch);
 
 // quarter tones pitches languages
-enum msrQuaterTonesPitchesLanguage {
+enum msrQuatertonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
   
-string msrQuaterTonesPitchesLanguageAsString (
-  msrQuaterTonesPitchesLanguage language);
+string msrQuatertonesPitchesLanguageAsString (
+  msrQuatertonesPitchesLanguage language);
 
-extern map<string, msrQuaterTonesPitchesLanguage>
-  gQuaterTonesPitchesLanguagesMap;
+extern map<string, msrQuatertonesPitchesLanguage>
+  gQuatertonesPitchesLanguagesMap;
 
 extern map<msrQuartertonesPitch, string> gNederlandsPitchName;
 extern map<msrQuartertonesPitch, string> gCatalanPitchName;
@@ -303,11 +303,11 @@ extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
 extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
 string msrDiatonicPitchAsString (
-  msrQuaterTonesPitchesLanguage language,
+  msrQuatertonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch);
 
 string msrQuartertonesPitchAsString (
-  msrQuaterTonesPitchesLanguage language,
+  msrQuatertonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch);
 
 // chords languages
@@ -349,7 +349,7 @@ class EXP msrOptions : public smartable
   public:
 
     // languages
-    msrQuaterTonesPitchesLanguage fQuaterTonesPitchesLanguage;
+    msrQuatertonesPitchesLanguage fQuatertonesPitchesLanguage;
     
     // advanced options
     bool                          fCreateStaffRelativeVoiceNumbers;
@@ -493,11 +493,11 @@ class msrNoteData
     void                  setPitch (
                             msrQuartertonesPitch quartertonesPitch);
 
-    void                  setNoteQuaterTonesPitch (
+    void                  setNoteQuatertonesPitch (
                             msrQuartertonesPitch quartertonesPitch);
                             
-    msrQuartertonesPitch  getNoteQuaterTonesPitch () const
-                              { return fNoteQuaterTonesPitch; }
+    msrQuartertonesPitch  getNoteQuatertonesPitch () const
+                              { return fNoteQuatertonesPitch; }
 
     void                  setNoteDiatonicPitch (
                             msrDiatonicPitch diatonicPitch);
@@ -553,7 +553,7 @@ class msrNoteData
     // thru the setPitch() methods, ensuring they are consistent
     msrDiatonicPitch          fNoteDiatonicPitch;
     msrAlteration             fNoteAlteration;
-    msrQuartertonesPitch      fNoteQuaterTonesPitch; 
+    msrQuartertonesPitch      fNoteQuatertonesPitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 
@@ -2546,8 +2546,8 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrQuartertonesPitch
-                  getQuaterTonesPitch () const
-                      { return fNoteData.getNoteQuaterTonesPitch (); }
+                  getQuatertonesPitch () const
+                      { return fNoteData.getNoteQuatertonesPitch (); }
 
     msrDiatonicPitch
                   getDiatonicPitch () const

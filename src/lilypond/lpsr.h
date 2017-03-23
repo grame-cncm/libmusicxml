@@ -134,8 +134,8 @@ class EXP lpsrOptions : public smartable {
   public:
 
     // languages
-    msrQuaterTonesPitchesLanguage
-                                fQuaterTonesPitchesLanguage;
+    msrQuatertonesPitchesLanguage
+                                fQuatertonesPitchesLanguage;
     
     // LPSR display
     bool                        fDisplayLPSR;

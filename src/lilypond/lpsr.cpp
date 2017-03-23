@@ -73,11 +73,11 @@ lpsrOptions::~lpsrOptions() {}
 bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
-  map<string, msrQuaterTonesPitchesLanguage>::const_iterator
+  map<string, msrQuatertonesPitchesLanguage>::const_iterator
     it =
-      gQuaterTonesPitchesLanguagesMap.find (language);
+      gQuatertonesPitchesLanguagesMap.find (language);
         
-  if (it == gQuaterTonesPitchesLanguagesMap.end ()) {
+  if (it == gQuatertonesPitchesLanguagesMap.end ()) {
     // no, language is unknown in the map
 
 /* JMI
@@ -85,13 +85,13 @@ bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
       endl << endl;
 
     cerr <<
-      "gQuaterTonesPitchesLanguagesMap.size () = " <<
-      gQuaterTonesPitchesLanguagesMap.size () <<
+      "gQuatertonesPitchesLanguagesMap.size () = " <<
+      gQuatertonesPitchesLanguagesMap.size () <<
       endl << endl;
       
     for (
-      map<string, quarterTonesLanguage>::const_iterator i=gQuaterTonesPitchesLanguagesMap.begin();
-      i!=gQuaterTonesPitchesLanguagesMap.end();
+      map<string, quarterTonesLanguage>::const_iterator i=gQuatertonesPitchesLanguagesMap.begin();
+      i!=gQuatertonesPitchesLanguagesMap.end();
       i++) {
       cerr <<
         (*i).first << ": " << (*i).second <<
@@ -102,7 +102,7 @@ bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
     return false;
   }
 
-  fQuaterTonesPitchesLanguage = (*it).second;
+  fQuatertonesPitchesLanguage = (*it).second;
   
   return true;
 }

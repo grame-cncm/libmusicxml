@@ -2257,7 +2257,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
 
   msrQuartertonesPitch
     quartertonesPitch =
-      quaterTonesPitchFromDiatonicPitchAndAlteration (
+      quatertonesPitchFromDiatonicPitchAndAlteration (
         fCurrentStaffTuningDiatonicPitch,
         fCurrentStaffTuningAlteration);
     
@@ -2290,7 +2290,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
       idtr <<
         setw(34) << "quartertonesPitch" << " = " <<
         msrQuartertonesPitchAsString (
-          gMsrOptions->fQuaterTonesPitchesLanguage,
+          gMsrOptions->fQuatertonesPitchesLanguage,
           quartertonesPitch) <<
         endl <<
       idtr <<
@@ -8125,13 +8125,13 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 
   msrQuartertonesPitch
     harmonyRootQuartertonesPitch =
-      quaterTonesPitchFromDiatonicPitchAndAlteration (
+      quatertonesPitchFromDiatonicPitchAndAlteration (
         fCurrentHarmonyRootDiatonicPitch,
         fCurrentHarmonyRootAlteration);
         
   msrQuartertonesPitch
     harmonyBassQuartertonesPitch =
-      quaterTonesPitchFromDiatonicPitchAndAlteration (
+      quatertonesPitchFromDiatonicPitchAndAlteration (
         fCurrentHarmonyBassDiatonicPitch,
         fCurrentHarmonyBassAlteration);
         
