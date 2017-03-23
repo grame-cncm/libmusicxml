@@ -118,7 +118,7 @@ string lpsr2LilyPondTranslator::absoluteOctaveAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
+string lpsr2LilyPondTranslator::noteAsLilyPondString (
   S_msrNote& note)
 {
   int inputLineNumber =
@@ -131,7 +131,10 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
   if (note->getNoteIsUnpitched ())
     s << "unpitched ";
   else
-    s << note->notePitchAsString ();
+    s <<
+      msrQuartertonesPitchAsString (
+        gLpsrOptions->fQuatertonesPitchesLanguage,
+        note->getQuatertonesPitch ());
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
@@ -2359,7 +2362,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     case msrNote::kStandaloneNote:
       // print the note name
       fOstream <<
-        noteMsrPitchAsLilyPondString (elt);
+        noteAsLilyPondString (elt);
       
       // print the note duration
       fOstream <<
@@ -2392,7 +2395,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     case msrNote::kGraceNote:
       // print the note name
       fOstream <<
-        noteMsrPitchAsLilyPondString (elt);
+        noteAsLilyPondString (elt);
       
       // print the note duration
       fOstream <<
@@ -2449,7 +2452,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     case msrNote::kChordMemberNote:
       // print the note name
       fOstream <<
-        noteMsrPitchAsLilyPondString (elt);
+        noteAsLilyPondString (elt);
       
       // don't print the note duration,
       // it will be printed for the chord itself
@@ -2473,7 +2476,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       }
       else
         fOstream <<
-          noteMsrPitchAsLilyPondString (elt);
+          noteAsLilyPondString (elt);
       
       // print the note duration
       if (elt->getNoteType ().size ())

@@ -330,7 +330,7 @@ class lpsr2LilyPondTranslator :
     string      absoluteOctaveAsLilypondString (
                   int absoluteOctave);
 
-    string      noteMsrPitchAsLilyPondString (S_msrNote& note);
+    string      noteAsLilyPondString (S_msrNote& note);
 
     string      ornamentKindAsLilyPondString (
                   int                          inputLineNumber,
