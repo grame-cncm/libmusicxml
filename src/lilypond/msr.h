@@ -501,22 +501,9 @@ class msrNoteData
 
     void                  setNoteQuartertonesPitch ( // JMI
                             msrQuartertonesPitch quartertonesPitch);
-
-/*
-    void                  setNoteDiatonicPitchAndAlteration (
-                            int              inputLineNumber,
-                            msrDiatonicPitch diatonicPitch,
-                            msrAlteration    alteration);
-  */
                                                        
     msrQuartertonesPitch  getNoteQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
-
-/*
-
-    msrAlteration         getNoteAlteration () const
-                              { return fNoteAlteration; }
-*/
 
   public:
 
@@ -533,33 +520,33 @@ class msrNoteData
  
   public:
   
-    bool                      fNoteIsARest;
-    bool                      fNoteIsUnpitched;
+    bool                  fNoteIsARest;
+    bool                  fNoteIsUnpitched;
 
-    msrQuartertonesPitch      fNoteQuatertonesPitch; 
-    int                       fNoteOctave;
+    msrQuartertonesPitch  fNoteQuatertonesPitch; 
+    int                   fNoteOctave;
 
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
     // hence the "* 4" multiplications
     
     // the note duration when played
-    int                       fNoteDivisions;
+    int                   fNoteDivisions;
 
     // tuplets member notes need another value for display
-    int                       fNoteDisplayDivisions;
-    string                    fNoteType; // "whole", "32nd", ...
+    int                   fNoteDisplayDivisions;
+    string                fNoteType; // "whole", "32nd", ...
 
-    int                       fNoteDotsNumber;
+    int                   fNoteDotsNumber;
     
-    bool                      fNoteIsAGraceNote;
+    bool                  fNoteIsAGraceNote;
     
-    bool                      fNoteBelongsToAChord;
+    bool                  fNoteBelongsToAChord;
     
-    bool                      fNoteBelongsToATuplet;
+    bool                  fNoteBelongsToATuplet;
                     
-    int                       fNoteVoiceNumber;
-    int                       fNoteStaffNumber;
+    int                   fNoteVoiceNumber;
+    int                   fNoteStaffNumber;
 
   private:
 

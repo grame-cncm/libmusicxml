@@ -2085,7 +2085,7 @@ msrDiatonicPitch msrNoteData::noteDiatonicPitch (
   return
     msrDiatonicPitchFromQuatertonesPitch (
       inputLineNumber,
-      fNoteDiatonicPitch);
+      fNoteQuatertonesPitch);
 }
 
 void msrNoteData::print (ostream& os)
@@ -4247,12 +4247,24 @@ string msrNote::noteTypeAsMSRString () const
   return result;
 }
 
-string msrNote::noteDiatonicPitchAsString () const
+string msrNote::noteDiatonicPitchAsString (
+  int inputLineNumber) const
 {
   return
     msrDiatonicPitchAsString (
-      fNoteData.getNoteDiatonicPitch ());
+      gMsrOptions->fQuatertonesPitchesLanguage,
+      fNoteData.noteDiatonicPitch (
+        inputLineNumber));
+}
+
       /* JMI
+string msrNote::noteDiatonicPitchAsString (
+  int inputLineNumber) const
+{
+  return
+    msrDiatonicPitchAsString (
+      fNoteData.getDiatonicPitch (
+        inputLineNumber));
   // fNoteData.fNoteStep is a char
   switch () {
     case kA: return "A"; break;
@@ -4264,8 +4276,8 @@ string msrNote::noteDiatonicPitchAsString () const
     case kG: return "G"; break;
     default: return "?";
   } // switch
-  */
 }
+  */
 
 string msrNote::noteAsShortStringWithRawDivisions () const
 {
@@ -8993,6 +9005,7 @@ string msrHarmony::harmonyAsString () const
 
   s <<
     msrDiatonicPitchAsString (
+      gMsrOptions->fQuatertonesPitchesLanguage,
       msrDiatonicPitchFromQuatertonesPitch (
         fInputLineNumber,
         fHarmonyRootQuartertonesPitch)) <<        
@@ -9006,6 +9019,7 @@ string msrHarmony::harmonyAsString () const
     s <<
       "/" <<
       msrDiatonicPitchAsString (
+        gMsrOptions->fQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
           fHarmonyRootQuartertonesPitch));
@@ -9068,6 +9082,7 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
       msrDiatonicPitchAsString (
+        gMsrOptions->fQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
           fHarmonyRootQuartertonesPitch)) <<        
@@ -9083,6 +9098,7 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
       msrDiatonicPitchAsString (
+        gMsrOptions->fQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
           fHarmonyBassQuartertonesPitch)) <<        
