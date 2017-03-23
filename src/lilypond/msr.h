@@ -513,8 +513,6 @@ class msrNoteData
                               { return fNoteQuatertonesPitch; }
 
 /*
-    msrDiatonicPitch      getNoteDiatonicPitch () const
-                              { return fNoteDiatonicPitch; }
 
     msrAlteration         getNoteAlteration () const
                               { return fNoteAlteration; }
@@ -525,6 +523,9 @@ class msrNoteData
     // services
     // ------------------------------------------------------
 
+    msrDiatonicPitch      noteDiatonicPitch (
+                            int inputLineNumber) const;
+ 
     // print
     // ------------------------------------------------------
 
@@ -2764,7 +2765,8 @@ class EXP msrNote : public msrElement
     string                noteAsShortString () const;
     string                noteAsString () const;
       
-    string                noteDiatonicPitchAsString () const;
+    string                noteDiatonicPitchAsString (
+                            int inputLineNumber) const;
 
     string                noteDivisionsAsMSRString () const;
     string                noteTypeAsMSRString () const;

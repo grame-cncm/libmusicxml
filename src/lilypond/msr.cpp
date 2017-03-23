@@ -2012,8 +2012,8 @@ ostream& operator<< (ostream& os, msrNoteData& noteData)
 
 void msrNoteData::init ()
 {
-  fNoteDiatonicPitch    = kA; // any value would fit
-  fNoteAlteration           = k_NoAlteration;
+// JMI  fNoteDiatonicPitch    = kA; // any value would fit
+ // fNoteAlteration           = k_NoAlteration;
   fNoteQuatertonesPitch = k_NoPitch;
 
   fNoteIsARest = false;
@@ -2051,7 +2051,6 @@ msrNoteData::msrNoteData ()
   init ();
 }
 
-
 void msrNoteData::setNoteQuartertonesPitch (
   msrQuartertonesPitch quartertonesPitch)
 {
@@ -2079,6 +2078,15 @@ void msrNoteData::setNoteDiatonicPitchAndAlteration (
       diatonicPitch, alteration);
 }
 */
+
+msrDiatonicPitch msrNoteData::noteDiatonicPitch (
+  int inputLineNumber) const
+{
+  return
+    msrDiatonicPitchFromQuatertonesPitch (
+      inputLineNumber,
+      fNoteDiatonicPitch);
+}
 
 void msrNoteData::print (ostream& os)
 {
@@ -3755,7 +3763,7 @@ msrNote::msrNote (
     case 'G': fNoteData.fNoteDiatonicPitch = kG; break;
     default: {}
   } // switch
-*/
+
 
 //   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
@@ -3765,6 +3773,7 @@ msrNote::msrNote (
         fNoteData.getNoteAlteration ()) <<
       endl;
   }
+*/
 }
 
 msrNote::~msrNote()
@@ -3816,15 +3825,16 @@ S_msrNote msrNote::createNoteBareClone ()
 }
 
 msrDiatonicPitch msrNote::getDiatonicPitch (
-  int inputLineNumber) const;
-  {
-    return
-      msrDiatonicPitchFromQuatertonesPitch (
-        inputLineNumber,
-        fNoteData.fNoteQuatertonesPitch);
-  }
+  int inputLineNumber) const
+{
+  return
+    msrDiatonicPitchFromQuatertonesPitch (
+      inputLineNumber,
+      fNoteData.fNoteQuatertonesPitch);
+}
 
-void msrNote::setNoteBelongsToAChord () {
+void msrNote::setNoteBelongsToAChord ()
+{
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
       "--> note " << noteAsString () <<

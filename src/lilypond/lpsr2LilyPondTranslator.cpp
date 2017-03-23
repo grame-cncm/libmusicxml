@@ -121,6 +121,9 @@ string lpsr2LilyPondTranslator::absoluteOctaveAsLilypondString (
 string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
   S_msrNote& note)
 {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
   stringstream s;
   
   //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
@@ -175,7 +178,8 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
     
     // generate LilyPond absolute octave
     s <<
-      absoluteOctaveAsLilypondString (noteAbsoluteOctave);
+      absoluteOctaveAsLilypondString (
+        noteAbsoluteOctave);
 
   }
 
@@ -184,14 +188,22 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
     // generate LilyPond octave relative to fRelativeOctaveReference
 
     msrDiatonicPitch
+      noteDiatonicPitch =
+        note->
+          getDiatonicPitch (
+            inputLineNumber);
+
+    msrDiatonicPitch
       referenceDiatonicPitch =
         fRelativeOctaveReference->
           getDiatonicPitch (
-            note->getInputLineNumber ());
+            inputLineNumber);
 
     string
       referenceDiatonicPitchAsString =
-        fRelativeOctaveReference->noteDiatonicPitchAsString ();
+        fRelativeOctaveReference->
+          noteDiatonicPitchAsString (
+            inputLineNumber);
         
     int
       referenceAbsoluteOctave =
