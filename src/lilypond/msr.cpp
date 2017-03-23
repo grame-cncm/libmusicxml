@@ -1116,6 +1116,277 @@ string msrAlterationAsString (
   return result;
 }
 
+void setDiatonicPitchAndAlteration (
+  msrQuartertonesPitch quartertonesPitch,
+  msrDiatonicPitch& diatonicPitch,
+  msrAlteration& alteration)
+{
+  switch (quartertonesPitch) {
+    case k_aDoubleFlat:
+      diatonicPitch = kA;
+      alteration    = kDoubleFlat;
+      break;
+    case k_aSesquiFlat:
+      diatonicPitch = kA;
+      alteration    = kSesquiFlat;
+      break;
+    case k_aFlat:
+      diatonicPitch = kA;
+      alteration    = kFlat;
+      break;
+    case k_aSemiFlat:
+      diatonicPitch = kA;
+      alteration    = kSemiFlat;
+      break;
+    case k_aNatural:
+      diatonicPitch = kA;
+      alteration    = kNatural;
+      break;
+    case k_aSemiSharp:
+      diatonicPitch = kA;
+      alteration    = kSemiSharp;
+      break;
+    case k_aSharp:
+      diatonicPitch = kA;
+      alteration    = kSharp;
+      break;
+    case k_aSesquiSharp:
+      diatonicPitch = kA;
+      alteration    = kSesquiSharp;
+      break;
+    case k_aDoubleSharp:
+      diatonicPitch = kA;
+      alteration    = kDoubleSharp;
+      break;
+
+    case k_bDoubleFlat:
+      diatonicPitch = kB;
+      alteration    = kDoubleFlat;
+      break;
+    case k_bSesquiFlat:
+      diatonicPitch = kB;
+      alteration    = kSesquiFlat;
+      break;
+    case k_bFlat:
+      diatonicPitch = kB;
+      alteration    = kFlat;
+      break;
+    case k_bSemiFlat:
+      diatonicPitch = kB;
+      alteration    = kSemiFlat;
+      break;
+    case k_bNatural:
+      diatonicPitch = kB;
+      alteration    = kNatural;
+      break;
+    case k_bSemiSharp:
+      diatonicPitch = kB;
+      alteration    = kSemiSharp;
+      break;
+    case k_bSharp:
+      diatonicPitch = kB;
+      alteration    = kSharp;
+      break;
+    case k_bSesquiSharp:
+      diatonicPitch = kB;
+      alteration    = kSesquiSharp;
+      break;
+    case k_bDoubleSharp:
+      diatonicPitch = kB;
+      alteration    = kDoubleSharp;
+      break;
+
+    case k_cDoubleFlat:
+      diatonicPitch = kC;
+      alteration    = kDoubleFlat;
+      break;
+    case k_cSesquiFlat:
+      diatonicPitch = kC;
+      alteration    = kSesquiFlat;
+      break;
+    case k_cFlat:
+      diatonicPitch = kC;
+      alteration    = kFlat;
+      break;
+    case k_cSemiFlat:
+      diatonicPitch = kC;
+      alteration    = kSemiFlat;
+      break;
+    case k_cNatural:
+      diatonicPitch = kC;
+      alteration    = kNatural;
+      break;
+    case k_cSemiSharp:
+      diatonicPitch = kC;
+      alteration    = kSemiSharp;
+      break;
+    case k_cSharp:
+      diatonicPitch = kC;
+      alteration    = kSharp;
+      break;
+    case k_cSesquiSharp:
+      diatonicPitch = kC;
+      alteration    = kSesquiSharp;
+      break;
+    case k_cDoubleSharp:
+      diatonicPitch = kC;
+      alteration    = kDoubleSharp;
+      break;
+
+    case k_dDoubleFlat:
+      diatonicPitch = kD;
+      alteration    = kDoubleFlat;
+      break;
+    case k_dSesquiFlat:
+      diatonicPitch = kD;
+      alteration    = kSesquiFlat;
+      break;
+    case k_dFlat:
+      diatonicPitch = kD;
+      alteration    = kFlat;
+      break;
+    case k_dSemiFlat:
+      diatonicPitch = kD;
+      alteration    = kSemiFlat;
+      break;
+    case k_dNatural:
+      diatonicPitch = kD;
+      alteration    = kNatural;
+      break;
+    case k_dSemiSharp:
+      diatonicPitch = kD;
+      alteration    = kSemiSharp;
+      break;
+    case k_dSharp:
+      diatonicPitch = kD;
+      alteration    = kSharp;
+      break;
+    case k_dSesquiSharp:
+      diatonicPitch = kD;
+      alteration    = kSesquiSharp;
+      break;
+    case k_dDoubleSharp:
+      diatonicPitch = kD;
+      alteration    = kDoubleSharp;
+      break;
+
+    case k_eDoubleFlat:
+      diatonicPitch = kE;
+      alteration    = kDoubleFlat;
+      break;
+    case k_eSesquiFlat:
+      diatonicPitch = kE;
+      alteration    = kSesquiFlat;
+      break;
+    case k_eFlat:
+      diatonicPitch = kE;
+      alteration    = kFlat;
+      break;
+    case k_eSemiFlat:
+      diatonicPitch = kE;
+      alteration    = kSemiFlat;
+      break;
+    case k_eNatural:
+      diatonicPitch = kE;
+      alteration    = kNatural;
+      break;
+    case k_eSemiSharp:
+      diatonicPitch = kE;
+      alteration    = kSemiSharp;
+      break;
+    case k_eSharp:
+      diatonicPitch = kE;
+      alteration    = kSharp;
+      break;
+    case k_eSesquiSharp:
+      diatonicPitch = kE;
+      alteration    = kSesquiSharp;
+      break;
+    case k_eDoubleSharp:
+      diatonicPitch = kE;
+      alteration    = kDoubleSharp;
+      break;
+
+    case k_fDoubleFlat:
+      diatonicPitch = kF;
+      alteration    = kDoubleFlat;
+      break;
+    case k_fSesquiFlat:
+      diatonicPitch = kF;
+      alteration    = kSesquiFlat;
+      break;
+    case k_fFlat:
+      diatonicPitch = kF;
+      alteration    = kFlat;
+      break;
+    case k_fSemiFlat:
+      diatonicPitch = kF;
+      alteration    = kSemiFlat;
+      break;
+    case k_fNatural:
+      diatonicPitch = kF;
+      alteration    = kNatural;
+      break;
+    case k_fSemiSharp:
+      diatonicPitch = kF;
+      alteration    = kSemiSharp;
+      break;
+    case k_fSharp:
+      diatonicPitch = kF;
+      alteration    = kSharp;
+      break;
+    case k_fSesquiSharp:
+      diatonicPitch = kF;
+      alteration    = kSesquiSharp;
+      break;
+    case k_fDoubleSharp:
+      diatonicPitch = kF;
+      alteration    = kDoubleSharp;
+      break;
+
+    case k_gDoubleFlat:
+      diatonicPitch = kG;
+      alteration    = kDoubleFlat;
+      break;
+    case k_gSesquiFlat:
+      diatonicPitch = kG;
+      alteration    = kSesquiFlat;
+      break;
+    case k_gFlat:
+      diatonicPitch = kG;
+      break;
+    case k_gSemiFlat:
+      diatonicPitch = kG;
+      alteration    = kSemiFlat;
+      break;
+    case k_gNatural:
+      diatonicPitch = kG;
+      alteration    = kNatural;
+      break;
+    case k_gSemiSharp:
+      diatonicPitch = kG;
+      alteration    = kSemiSharp;
+      break;
+    case k_gSharp:
+      diatonicPitch = kG;
+      alteration    = kSharp;
+      break;
+    case k_gSesquiSharp:
+      diatonicPitch = kG;
+      alteration    = kSesquiSharp;
+      break;
+    case k_gDoubleSharp:
+      diatonicPitch = kG;
+      alteration    = kDoubleSharp;
+      break;
+      
+    case k_NoPitch:
+      diatonicPitch = kA; // any value would fit
+      alteration    = k_NoAlteration;
+      break;
+  } // switch
+}
+
 msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
@@ -1648,274 +1919,18 @@ msrNoteData::msrNoteData ()
 }
 
 
-void msrNoteData::setPitch (
+void msrNoteData::setNoteQuarterTonesPitch (
   msrQuartertonesPitch quartertonesPitch)
 {
   fNoteQuatertonesPitch = quartertonesPitch;
 
   // set fNoteDiatonicPitch and fNoteAlteration accordingly  
-  switch (quartertonesPitch) {
-    case k_aDoubleFlat:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_aSesquiFlat:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_aFlat:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kFlat;
-      break;
-    case k_aSemiFlat:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_aNatural:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_aSemiSharp:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_aSharp:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_aSesquiSharp:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_aDoubleSharp:
-      fNoteDiatonicPitch = kA;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-
-    case k_bDoubleFlat:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_bSesquiFlat:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_bFlat:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kFlat;
-      break;
-    case k_bSemiFlat:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_bNatural:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_bSemiSharp:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_bSharp:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_bSesquiSharp:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_bDoubleSharp:
-      fNoteDiatonicPitch = kB;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-
-    case k_cDoubleFlat:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_cSesquiFlat:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_cFlat:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kFlat;
-      break;
-    case k_cSemiFlat:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_cNatural:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_cSemiSharp:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_cSharp:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_cSesquiSharp:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_cDoubleSharp:
-      fNoteDiatonicPitch = kC;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-
-    case k_dDoubleFlat:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_dSesquiFlat:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_dFlat:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kFlat;
-      break;
-    case k_dSemiFlat:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_dNatural:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_dSemiSharp:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_dSharp:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_dSesquiSharp:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_dDoubleSharp:
-      fNoteDiatonicPitch = kD;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-
-    case k_eDoubleFlat:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_eSesquiFlat:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_eFlat:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kFlat;
-      break;
-    case k_eSemiFlat:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_eNatural:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_eSemiSharp:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_eSharp:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_eSesquiSharp:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_eDoubleSharp:
-      fNoteDiatonicPitch = kE;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-
-    case k_fDoubleFlat:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_fSesquiFlat:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_fFlat:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kFlat;
-      break;
-    case k_fSemiFlat:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_fNatural:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_fSemiSharp:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_fSharp:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_fSesquiSharp:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_fDoubleSharp:
-      fNoteDiatonicPitch = kF;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-
-    case k_gDoubleFlat:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kDoubleFlat;
-      break;
-    case k_gSesquiFlat:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kSesquiFlat;
-      break;
-    case k_gFlat:
-      fNoteDiatonicPitch = kG;
-      break;
-    case k_gSemiFlat:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kSemiFlat;
-      break;
-    case k_gNatural:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kNatural;
-      break;
-    case k_gSemiSharp:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kSemiSharp;
-      break;
-    case k_gSharp:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kSharp;
-      break;
-    case k_gSesquiSharp:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kSesquiSharp;
-      break;
-    case k_gDoubleSharp:
-      fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kDoubleSharp;
-      break;
-  } // switch
+  setDiatonicPitchAndAlteration (
+    quartertonesPitch,
+    fNoteDiatonicPitch, fNoteAlteration);
 }
 
-void msrNoteData::setPitch (
+void msrNoteData::setNoteDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
 {
@@ -1923,7 +1938,7 @@ void msrNoteData::setPitch (
 
   // set fNoteQuatertonesPitch accordingly
   fNoteQuatertonesPitch =
-    quaterTonesPitchFromDiatonicPitchAndAlteration (
+    quatertonesPitchFromDiatonicPitchAndAlteration (
       diatonicPitch, alteration);
 }
 
@@ -3587,14 +3602,14 @@ msrNote::msrNote (
   fNoteHasADelayedOrnament = false;
   
   if (
-    fNoteData.fNoteStep < 'A'
+    fNoteData.getNoteDiatonicPitch () < 'A'
       ||
-    fNoteData.fNoteStep > 'G') {
+    fNoteData.getNoteDiatonicPitch () > 'G') {
     if (! fNoteData.fNoteIsARest) {
       stringstream s;
       
       s <<
-        "step value " << fNoteData.fNoteStep <<
+        "step value " << fNoteData.getNoteDiatonicPitch () <<
         " is not a letter from A to G";
         
     msrMusicXMLError (
@@ -3607,7 +3622,8 @@ msrNote::msrNote (
 //  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentStep << endl;
 // JMI
 
-  switch (fNoteData.fNoteStep) {
+/* JMI
+  switch (fNoteData.getNoteDiatonicPitch ()) {
     case 'A': fNoteData.fNoteDiatonicPitch = kA; break;
     case 'B': fNoteData.fNoteDiatonicPitch = kB; break;
     case 'C': fNoteData.fNoteDiatonicPitch = kC; break;
@@ -3617,11 +3633,12 @@ msrNote::msrNote (
     case 'G': fNoteData.fNoteDiatonicPitch = kG; break;
     default: {}
   } // switch
+*/
 
   // how many quater tones from A?s // JMI
   int noteQuatertonesFromA;
   
-  switch (fNoteData.fNoteStep) {
+  switch (fNoteData.getNoteDiatonicPitch ()) {
     case 'A': noteQuatertonesFromA =  0; break;
     case 'B': noteQuatertonesFromA =  4; break;
     case 'C': noteQuatertonesFromA =  6; break;
@@ -3635,77 +3652,11 @@ msrNote::msrNote (
 //   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
   if (gGeneralOptions->fDebugDebug) {
     cerr << idtr <<
-      "--> fNoteData.fNoteAlteration = " <<
+      "--> fNoteData.getNoteAlteration () = " <<
       msrAlterationAsString (
-        fNoteData.fNoteAlteration) <<
+        fNoteData.getNoteAlteration ()) <<
       endl;
   }
-
-/* JMI
-  if      (fNoteData.fNoteAlter == 0 ) {
-    fNoteData.fNoteAlteration = kNatural;
-  }
-  
-  else if (fNoteData.fNoteAlter == -1 ) {
-    fNoteData.fNoteAlteration = kFlat;
-    noteQuatertonesFromA -= 2;
-    if (noteQuatertonesFromA < 0)
-      noteQuatertonesFromA += 24; // it is below A
-  }
-  
-  else if (fNoteData.fNoteAlter == 1 ) {
-    fNoteData.fNoteAlteration = kSharp;
-    noteQuatertonesFromA += 2;
-  }
-  
-  else if (fNoteData.fNoteAlter == -0.5 ) {
-    fNoteData.fNoteAlteration = kSemiFlat;
-    noteQuatertonesFromA -= 1;
-    if (noteQuatertonesFromA < 0)
-      noteQuatertonesFromA += 24; // it is below A
-  }
-  
-  else if (fNoteData.fNoteAlter == +0.5 ) {
-    fNoteData.fNoteAlteration = kSemiSharp;
-    noteQuatertonesFromA += 1;
-  }
-  
-  else if (fNoteData.fNoteAlter == -1.5 ) {
-    fNoteData.fNoteAlteration = kSesquiFlat;
-    noteQuatertonesFromA -= 3;
-    if (noteQuatertonesFromA < 0)
-      noteQuatertonesFromA += 24; // it is below A
-  }
-  
-  else if (fNoteData.fNoteAlter == +1.5 ) {
-    fNoteData.fNoteAlteration = kSesquiSharp;
-    noteQuatertonesFromA += 3;
-  }
-  
-  else if (fNoteData.fNoteAlter == -2 ) {
-    fNoteData.fNoteAlteration = kSesquiFlat;
-    noteQuatertonesFromA -= 3;
-    if (noteQuatertonesFromA < 0)
-      noteQuatertonesFromA += 24; // it is below A
-  }
-  
-  else if (fNoteData.fNoteAlter == +2 ) {
-    fNoteData.fNoteAlteration = kSesquiSharp;
-    noteQuatertonesFromA += 3;
-  }
-  
-  else {
-    stringstream s;
-    
-    s <<
-      " alter " << fNoteData.fNoteAlter <<
-      " should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
-      
-    msrMusicXMLError (
-      fInputLineNumber,
-      s.str());
-  }
-*/
 
 /* JMI
   if (gGeneralOptions->fDebugDebug)
@@ -3921,14 +3872,14 @@ S_msrNote msrNote::createSkipNote (
 {
   msrNoteData noteData;
 
-  noteData.fStep = 's';
-  noteData.fNoteIsARest = true;
+  noteData.setNoteQuatertonesPitch (k_NoPitch);
+  noteData.fNoteIsARest = true; // JMI
   
-  noteData.fDivisions = divisions;
-  noteData.fDisplayDivisions = divisions;
+  noteData.fNoteDivisions = divisions;
+  noteData.fNoteDisplayDivisions = divisions;
     
-  noteData.fStaffNumber = staffNumber;
-  noteData.fVoiceNumber = externalVoiceNumber;
+  noteData.fNoteStaffNumber = staffNumber;
+  noteData.fNoteVoiceNumber = externalVoiceNumber;
 
   msrNote * o =
     new msrNote (
@@ -4129,7 +4080,7 @@ string msrNote::notePitchAsString () const
       msrDiatonicPitchAsString (
         fNoteData.fNoteDiatonicPitch) <<    
       msrAlterationAsString (
-        fNoteData.fNoteAlteration);
+        fNoteData.getNoteAlteration ());
   }
   
   return s.str();
@@ -4178,8 +4129,12 @@ string msrNote::noteTypeAsMSRString () const
 
 string msrNote::noteDiatonicPitchAsString () const
 {
+  return
+    msrDiatonicPitchAsString (
+      fNoteData.getNoteDiatonicPitch ());
+      /* JMI
   // fNoteData.fNoteStep is a char
-  switch (fNoteData.fNoteDiatonicPitch) {
+  switch () {
     case kA: return "A"; break;
     case kB: return "B"; break;
     case kC: return "C"; break;
@@ -4189,6 +4144,7 @@ string msrNote::noteDiatonicPitchAsString () const
     case kG: return "G"; break;
     default: return "?";
   } // switch
+  */
 }
 
 string msrNote::noteAsShortStringWithRawDivisions () const

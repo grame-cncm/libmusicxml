@@ -6138,7 +6138,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     elt->getInputLineNumber ();
 
   // register note pitch
-  fNoteData.setPitch (
+  fNoteData.setNoteDiatonicPitchAndAlteration (
     fCurrentNoteDiatonicPitch,
     fCurrentNoteAlteration);
 

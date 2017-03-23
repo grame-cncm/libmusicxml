@@ -271,6 +271,11 @@ enum msrQuartertonesPitch {
   k_gNatural,
   k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
 
+void setDiatonicPitchAndAlteration (
+  msrQuartertonesPitch quartertonesPitch,
+  msrDiatonicPitch& diatonicPitch,
+  msrAlteration& alteration);
+
 msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration);
@@ -486,24 +491,30 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
-    void                  setPitch (
-                            msrDiatonicPitch diatonicPitch,
-                            msrAlteration    alteration);
-  
-    void                  setPitch (
+    void                  setNoteQuarterTonesPitch (
                             msrQuartertonesPitch quartertonesPitch);
 
+    void                  setNoteDiatonicPitchAndAlteration (
+                            msrDiatonicPitch diatonicPitch,
+                            msrAlteration    alteration);
+                              
+/*
     void                  setNoteQuatertonesPitch (
                             msrQuartertonesPitch quartertonesPitch);
+  */
                             
     msrQuartertonesPitch  getNoteQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
-
+/*
     void                  setNoteDiatonicPitch (
                             msrDiatonicPitch diatonicPitch);
+  */
                             
     msrDiatonicPitch      getNoteDiatonicPitch () const
                               { return fNoteDiatonicPitch; }
+
+    msrAlteration         getNoteAlteration () const
+                              { return fNoteAlteration; }
 
   public:
 
@@ -551,9 +562,9 @@ class msrNoteData
     
     // these informations are thus private to enforce setting them
     // thru the setPitch() methods, ensuring they are consistent
+    msrQuartertonesPitch      fNoteQuatertonesPitch; 
     msrDiatonicPitch          fNoteDiatonicPitch;
     msrAlteration             fNoteAlteration;
-    msrQuartertonesPitch      fNoteQuatertonesPitch; 
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 
@@ -2545,242 +2556,247 @@ class EXP msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrQuartertonesPitch
-                  getQuatertonesPitch () const
-                      { return fNoteData.getNoteQuatertonesPitch (); }
+    msrQuartertonesPitch  getQuatertonesPitch () const
+                              {
+                                return
+                                  fNoteData.getNoteQuatertonesPitch ();
+                              }
 
-    msrDiatonicPitch
-                  getDiatonicPitch () const
-                      { return fNoteData.getNoteDiatonicPitch (); }
+    msrDiatonicPitch      getDiatonicPitch () const
+                              {
+                                return
+                                  fNoteData.getNoteDiatonicPitch ();
+                              }
 
-    int           getNoteOctave () const
-                      { return fNoteData.fNoteOctave; }
+    int                   getNoteOctave () const
+                              { return fNoteData.fNoteOctave; }
 
-    bool          getNoteIsUnpitched () const
-                    // useful for rest tuplet members
-                      { return fNoteData.fNoteIsUnpitched; }
+    bool                  getNoteIsUnpitched () const
+                            // useful for rest tuplet members
+                              { return fNoteData.fNoteIsUnpitched; }
                       
-    bool          getNoteIsARest () const
-                    // useful for rest tuplet members
-                      { return fNoteData.fNoteIsARest; }
+    bool                  getNoteIsARest () const
+                            // useful for rest tuplet members
+                            { return fNoteData.fNoteIsARest; }
                       
-    void          setNoteKind (msrNoteKind noteKind)
-                      { fNoteKind = noteKind; }
+    void                  setNoteKind (msrNoteKind noteKind)
+                              { fNoteKind = noteKind; }
 
-    msrNoteKind   getNoteKind () const
-                      { return fNoteKind; }
+    msrNoteKind           getNoteKind () const
+                              { return fNoteKind; }
 
-    string        getNoteType () const
-                      { return fNoteData.fNoteType; }
+    string                getNoteType () const
+                              { return fNoteData.fNoteType; }
 
-    int           getNoteDivisions () const
-                      { return fNoteData.fNoteDivisions; }
+    int                   getNoteDivisions () const
+                              { return fNoteData.fNoteDivisions; }
 
-    void          setNoteDisplayDivisions (int divisions)
-                      { fNoteData.fNoteDisplayDivisions = divisions; }
+    void                  setNoteDisplayDivisions (int divisions)
+                              {
+                                fNoteData.fNoteDisplayDivisions =
+                                  divisions;
+                              }
 
-    int           getNoteDisplayDivisions () const
-                      { return fNoteData.fNoteDisplayDivisions; }
+    int                   getNoteDisplayDivisions () const
+                              { return fNoteData.fNoteDisplayDivisions; }
 
-    int           getNoteDotsNumber () const
-                      { return fNoteData.fNoteDotsNumber; }
+    int                   getNoteDotsNumber () const
+                              { return fNoteData.fNoteDotsNumber; }
 
-    void          setNoteOccupiesAFullMeasure ()
-                      { fNoteOccupiesAFullMeasure = true; }
+    void                  setNoteOccupiesAFullMeasure ()
+                              { fNoteOccupiesAFullMeasure = true; }
                       
-    bool          getNoteOccupiesAFullMeasure () const
-                      { return fNoteOccupiesAFullMeasure; }
+    bool                  getNoteOccupiesAFullMeasure () const
+                              { return fNoteOccupiesAFullMeasure; }
 
     // octave shifts
-    void          setNoteOctaveShift (S_msrOctaveShift octaveShift)
-                      { fNoteOctaveShift = octaveShift; }
+    void                   setNoteOctaveShift (
+                             S_msrOctaveShift octaveShift)
+                                { fNoteOctaveShift = octaveShift; }
 
-    S_msrOctaveShift
-                  getNoteOctaveShift () const
-                      { return fNoteOctaveShift; }
+    S_msrOctaveShift      getNoteOctaveShift () const
+                              { return fNoteOctaveShift; }
 
     // stems
-    void          setNoteStem (S_msrStem stem)
-                      { fNoteStem = stem; }
+    void                  setNoteStem (S_msrStem stem)
+                              { fNoteStem = stem; }
 
-    S_msrStem     getNoteStem () const
-                      { return fNoteStem; }
+    S_msrStem             getNoteStem () const
+                              { return fNoteStem; }
 
     // divisions per whole note
-    void          setNoteDivisionsPerWholeNote (
-                    int divisionsPerWholeNote)
-                      {
-                        fNoteDivisionsPerWholeNote =
-                          divisionsPerWholeNote;
-                      }
+    void                  setNoteDivisionsPerWholeNote (
+                            int divisionsPerWholeNote)
+                              {
+                                fNoteDivisionsPerWholeNote =
+                                  divisionsPerWholeNote;
+                              }
                       
-    const int     getNoteDivisionsPerWholeNote () const
-                      { return fNoteDivisionsPerWholeNote; }
+    const int             getNoteDivisionsPerWholeNote () const
+                              { return fNoteDivisionsPerWholeNote; }
           
     // chord members
-    void          setNoteBelongsToAChord ();
+    void                  setNoteBelongsToAChord ();
 
-    bool          getNoteBelongsToAChord () const
-                      { return fNoteData.fNoteBelongsToAChord; }
+    bool                  getNoteBelongsToAChord () const
+                              { return fNoteData.fNoteBelongsToAChord; }
 
     // beams
     const list<S_msrBeam>&
-                  getNoteBeams () const
-                      { return fNoteBeams; }
+                          getNoteBeams () const
+                              { return fNoteBeams; }
 
     // articulations
     const list<S_msrArticulation>&
-                  getNoteArticulations () const
-                      { return fNoteArticulations; }
+                          getNoteArticulations () const
+                              { return fNoteArticulations; }
                       
     list<S_msrArticulation>&
-                  getNoteArticulationsToModify ()
-                      { return fNoteArticulations; }
+                          getNoteArticulationsToModify ()
+                              { return fNoteArticulations; }
 
     // ornaments
     const list<S_msrOrnament>&
-                  getNoteOrnaments () const
-                      { return fNoteOrnaments; }
+                          getNoteOrnaments () const
+                              { return fNoteOrnaments; }
                       
-    list<S_msrOrnament>&
-                  getNoteOrnamentsToModify ()
-                      { return fNoteOrnaments; }
-
-    bool          getNoteHasATrill () const
-                      { return fNoteHasATrill; }
+    list<S_msrOrnament>&  getNoteOrnamentsToModify ()
+                              { return fNoteOrnaments; }
+        
+    bool                  getNoteHasATrill () const
+                              { return fNoteHasATrill; }
                   
-    bool          getNoteHasADelayedOrnament () const
-                      { return fNoteHasADelayedOrnament; }
+    bool                  getNoteHasADelayedOrnament () const
+                              { return fNoteHasADelayedOrnament; }
                   
     // ties
-    void          setNoteTie (S_msrTie tie)
-                      { fNoteTie = tie; }
-    S_msrTie      getNoteTie () const
-                      { return fNoteTie; }
+    void                  setNoteTie (S_msrTie tie)
+                              { fNoteTie = tie; }
+    S_msrTie              getNoteTie () const
+                              { return fNoteTie; }
 
     // slurs
     const list<S_msrSlur>&
-                  getNoteSlurs () const
-                      { return fNoteSlurs; }
+                          getNoteSlurs () const
+                              { return fNoteSlurs; }
 
     // dynamics
     const list<S_msrDynamics>&
-                  getNoteDynamics () const
-                      { return fNoteDynamics; };
+                          getNoteDynamics () const
+                              { return fNoteDynamics; };
 
-    list<S_msrDynamics>&
-                  getNoteDynamicsToModify ()
-                      { return fNoteDynamics; };
-
+    list<S_msrDynamics>&  getNoteDynamicsToModify ()
+                              { return fNoteDynamics; };
+        
     // words
     const list<S_msrWords>&
-                  getNoteWords () const
-                      { return fNoteWords; };
+                          getNoteWords () const
+                              { return fNoteWords; };
                       
-    list<S_msrWords>&
-                  getNoteWordsToModify ()
-                      { return fNoteWords; };
+    list<S_msrWords>&     getNoteWordsToModify ()
+                              { return fNoteWords; };
                       
     // wedges
     const list<S_msrWedge>&
-                  getNoteWedges () const
-                      { return fNoteWedges; };
+                          getNoteWedges () const
+                              { return fNoteWedges; };
 
     list<S_msrWedge>&
-                  getNoteWedgesToModify ()
-                      { return fNoteWedges; };
+                          getNoteWedgesToModify ()
+                              { return fNoteWedges; };
 
     // lyrics
-    void          appendSyllableToNote (S_msrSyllable syllable);
+    void                  appendSyllableToNote (S_msrSyllable syllable);
 
-    list<S_msrSyllable>
-                  getNoteSyllables () const
-                      { return fNoteSyllables; }              
+    list<S_msrSyllable>   getNoteSyllables () const
+                              { return fNoteSyllables; }              
 
-    void          setNoteSyllableExtendKind (
-                    msrSyllable::msrSyllableExtendKind
-                      syllableExtendKind)
-                      {
-                        fNoteSyllableExtendKind =
-                          syllableExtendKind;
-                      }
+    void                  setNoteSyllableExtendKind (
+                            msrSyllable::msrSyllableExtendKind
+                              syllableExtendKind)
+                              {
+                                fNoteSyllableExtendKind =
+                                  syllableExtendKind;
+                              }
 
     msrSyllable::msrSyllableExtendKind
-                  getNoteSyllableExtendKind () const
-                      { return fNoteSyllableExtendKind; }              
+                          getNoteSyllableExtendKind () const
+                              { return fNoteSyllableExtendKind; }              
 
     // harmony
-    void          setNoteHarmony (S_msrHarmony harmony)
-                      { fNoteHarmony = harmony; }
-    const S_msrHarmony&
-                  getNoteHarmony () const
-                      { return fNoteHarmony; };
+    void                  setNoteHarmony (S_msrHarmony harmony)
+                              { fNoteHarmony = harmony; }
+    const S_msrHarmony&   getNoteHarmony () const
+                              { return fNoteHarmony; };
     
     // measure uplink
-    void          setNoteMeasureUplink (
-                    const S_msrMeasure& measure)
-                      { fNoteMeasureUplink = measure; }
+    void                  setNoteMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fNoteMeasureUplink = measure; }
                       
-    S_msrMeasure  getNoteMeasureUplink () const
-                      { return fNoteMeasureUplink; }
+    S_msrMeasure          getNoteMeasureUplink () const
+                              { return fNoteMeasureUplink; }
 
     // measure number
-    void          setNoteMeasureNumber (
-                    int measureNumber)
-                      { fNoteMeasureNumber = measureNumber; }
+    void                  setNoteMeasureNumber (
+                            int measureNumber)
+                              { fNoteMeasureNumber = measureNumber; }
 
-    int           getNoteMeasureNumber () const
-                      { return fNoteMeasureNumber; }
+    int                   getNoteMeasureNumber () const
+                              { return fNoteMeasureNumber; }
  
     // position in measure
-    void          setNotePositionInMeasure (
-                    int positionInMeasure)
-                      { fNotePositionInMeasure = positionInMeasure; }
+    void                  setNotePositionInMeasure (
+                            int positionInMeasure)
+                              {
+                                fNotePositionInMeasure =
+                                  positionInMeasure;
+                              }
                       
-    int           getNotePositionInMeasure () const
-                      { return fNotePositionInMeasure; }
+    int                   getNotePositionInMeasure () const
+                              { return fNotePositionInMeasure; }
 
     // services
     // ------------------------------------------------------
 
     // tuplet members
-    void          applyTupletMemberDisplayFactorToNote (
-                    int actualNotes, int normalNotes);
+    void                  applyTupletMemberDisplayFactorToNote (
+                            int actualNotes, int normalNotes);
                     
-    string        notePitchAsString () const;
+    string                notePitchAsString () const;
 
-    string        noteAsShortStringWithRawDivisions () const;
-    string        noteAsShortString () const;
-    string        noteAsString () const;
-    
-    string        noteDiatonicPitchAsString () const;
+    string                noteAsShortStringWithRawDivisions () const;
+    string                noteAsShortString () const;
+    string                noteAsString () const;
+      
+    string                noteDiatonicPitchAsString () const;
 
-    string        noteDivisionsAsMSRString () const;
-    string        noteTypeAsMSRString () const;
+    string                noteDivisionsAsMSRString () const;
+    string                noteTypeAsMSRString () const;
 
     // beams
-    void          addBeamToNote (S_msrBeam beam);
+    void                  addBeamToNote (S_msrBeam beam);
     
     // articulations
-    void          addArticulationToNote (S_msrArticulation art);
+    void                  addArticulationToNote (S_msrArticulation art);
     
     // ornaments
-    void          addOrnamentToNote (S_msrOrnament art);
+    void                  addOrnamentToNote (S_msrOrnament art);
     
     // dynamics
-    void          addDynamicsToNote (S_msrDynamics dynamics);
+    void                  addDynamicsToNote (S_msrDynamics dynamics);
 
     // words
-    void          addWordsToNote (S_msrWords words);
+    void                  addWordsToNote (S_msrWords words);
     
     // slurs
-    void          addSlurToNote (S_msrSlur slur);
+    void                  addSlurToNote (S_msrSlur slur);
     
     //  wedges
-    void          addWedgeToNote (S_msrWedge wedge);
+    void                  addWedgeToNote (S_msrWedge wedge);
 
-    S_msrDynamics removeFirstDynamics (); // ???
-    S_msrWedge    removeFirstWedge (); // JMI
+    S_msrDynamics         removeFirstDynamics (); // ???
+    S_msrWedge            removeFirstWedge (); // JMI
 
     // visitors
     // ------------------------------------------------------
@@ -2801,7 +2817,7 @@ class EXP msrNote : public msrElement
 
     list<S_msrSyllable>       fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
-                              fNoteSyllableExtendKind; // MEGA
+                              fNoteSyllableExtendKind; // MEGA JMI
     
     msrNoteKind               fNoteKind;
 
