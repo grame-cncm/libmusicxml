@@ -1490,8 +1490,8 @@ class EXP msrKey : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrQuartertonesPitch  getKeyTonicPitch () const
-                              { return fKeyTonicPitch; }
+    msrQuartertonesPitch  getKeyTonicQuartertonesPitch () const
+                              { return fKeyTonicQuartertonesPitch; }
                               
     msrKeyModeKind        getKeyModeKind () const
                               { return fKeyModeKind; }
@@ -1502,7 +1502,7 @@ class EXP msrKey : public msrElement
     // services
     // ------------------------------------------------------
 
-    string              keyAsString () const;
+    string                keyAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1519,7 +1519,7 @@ class EXP msrKey : public msrElement
   
   private:
 
-    msrQuartertonesPitch  fKeyTonicPitch;
+    msrQuartertonesPitch  fKeyTonicQuartertonesPitch;
     msrKeyModeKind        fKeyModeKind;
     int                   fKeyCancel;
 };

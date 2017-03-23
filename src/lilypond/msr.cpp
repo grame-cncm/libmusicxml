@@ -7363,14 +7363,14 @@ void msrClef::print (ostream& os)
 //______________________________________________________________________________
 S_msrKey msrKey::create (
   int                  inputLineNumber,
-  msrQuartertonesPitch keyTonicPitch,
+  msrQuartertonesPitch keyTonicQuartertonesPitch,
   msrKeyModeKind       keyModeKind,
   int                  keyCancel)
 {
   msrKey* o =
     new msrKey (
       inputLineNumber,
-      keyTonicPitch, keyModeKind,
+      keyTonicQuartertonesPitch, keyModeKind,
       keyCancel);
   assert (o!=0);
   return o;
@@ -7378,13 +7378,13 @@ S_msrKey msrKey::create (
 
 msrKey::msrKey (
   int                  inputLineNumber,
-  msrQuartertonesPitch keyTonicPitch,
+  msrQuartertonesPitch keyTonicQuartertonesPitch,
   msrKeyModeKind       keyModeKind,
   int                  keyCancel)
     : msrElement (inputLineNumber)
 {
-  fKeyTonicPitch = keyTonicPitch;
-  fKeyModeKind   = keyModeKind;
+  fKeyTonicQuartertonesPitch = keyTonicQuartertonesPitch;
+  fKeyModeKind               = keyModeKind;
   
   fKeyCancel     = keyCancel;
 }
@@ -7458,7 +7458,9 @@ string msrKey::keyAsString () const
 
   s <<
     "Key \"" <<
-    fKeyTonicPitch <<
+    msrQuartertonesPitchAsString (
+      gMsrOptions->fQuatertonesPitchesLanguage,
+      fKeyTonicQuartertonesPitch) <<
     "\" " <<
     keyModeKindAsString (fKeyModeKind) <<
     "\", line " << fInputLineNumber;

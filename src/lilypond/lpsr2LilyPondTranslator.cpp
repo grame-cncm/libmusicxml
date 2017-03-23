@@ -2029,7 +2029,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
     "\\key " <<
     msrQuartertonesPitchAsString (
       gLpsrOptions->fQuatertonesPitchesLanguage,
-      elt->getKeyTonicPitch ()) <<
+      elt->getKeyTonicQuartertonesPitch ()) <<
     " \\" <<
     msrKey::keyModeKindAsString (
       elt->getKeyModeKind ()) <<
