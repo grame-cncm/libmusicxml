@@ -1124,9 +1124,10 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
       
     for ( ; ; ) {
       fOstream <<
-        msrDiatonicPitchAsString (
-          msrDiatonicPitchFromQuatertonesPitch (
-          ((*i)->getStafftuningQuartertonesPitch ()))) <<        
+        msrQuartertonesPitchAsString (
+          gLpsrOptions->fQuatertonesPitchesLanguage,
+ // JMI            elt->getInputLineNumber (),
+          ((*i)->getStafftuningQuartertonesPitch ())) <<        
  // JMI       char (tolower ((*i)->getStafftuningStep ())) <<
         absoluteOctaveAsLilypondString (
           (*i)->getStafftuningOctave ());

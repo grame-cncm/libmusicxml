@@ -956,7 +956,7 @@ msrDiatonicPitch msrDiatonicPitchFromString (
 }
 
 string msrDiatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch)
+  msrDiatonicPitch diatonicPitch) // JMI
 {
   string result;
   
@@ -1110,6 +1110,9 @@ string msrAlterationAsString (
       break;
     case kDoubleSharp:
       result = "DoubleSharp";
+      break;
+    case k_NoAlteration:
+      result = "alteration???";
       break;
   } // switch
 
@@ -1380,6 +1383,11 @@ void setDiatonicPitchAndAlteration (
       alteration    = kDoubleSharp;
       break;
       
+    case k_Rest:
+      diatonicPitch = kA; // any value would fit JMI
+      alteration    = k_NoAlteration;
+      
+      break;
     case k_NoPitch:
       diatonicPitch = kA; // any value would fit
       alteration    = k_NoAlteration;
@@ -1388,6 +1396,7 @@ void setDiatonicPitchAndAlteration (
 }
 
 msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
+  int              inputLineNumber,
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
 {
@@ -1423,6 +1432,19 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = k_aDoubleSharp;
           break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'A' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
+          break;
       } // switch
       break;
       
@@ -1454,6 +1476,19 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
           break;
         case kDoubleSharp:
           result = k_bDoubleSharp;
+          break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'B' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
           break;
       } // switch
       break;
@@ -1489,6 +1524,19 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = k_cDoubleSharp;
           break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'C' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
+          break;
       } // switch
       break;
       
@@ -1520,6 +1568,19 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
           break;
         case kDoubleSharp:
           result = k_dDoubleSharp;
+          break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'D' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
           break;
       } // switch
       break;
@@ -1553,6 +1614,19 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = k_eDoubleSharp;
           break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'E' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
+          break;
       } // switch
       break;
       
@@ -1584,6 +1658,19 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
           break;
         case kDoubleSharp:
           result = k_fDoubleSharp;
+          break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'F' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
           break;
       } // switch
       break;
@@ -1617,12 +1704,28 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = k_gDoubleSharp;
           break;
+        case k_NoAlteration:
+          {
+            stringstream s;
+
+            s <<
+              "'G' alteration has not been set"
+              ", line = " << inputLineNumber;
+
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+          }
+          break;
       } // switch
       break;
   } // switch
+
+  return result;
 }
 
 msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
+  int                  inputLineNumber,
   msrQuartertonesPitch quartertonesPitch)
 {
   msrDiatonicPitch result;
@@ -1711,6 +1814,19 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
     case k_gDoubleSharp:
       result = kG;
       break;
+
+    case k_Rest:
+      {
+        stringstream s;
+
+        s <<
+          "cannot get the diatonic pitch of a rest"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
   } // switch
 
   return result;
@@ -1931,6 +2047,7 @@ void msrNoteData::setNoteQuartertonesPitch (
 }
 
 void msrNoteData::setNoteDiatonicPitchAndAlteration (
+  int              inputLineNumber,
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
 {
@@ -1939,6 +2056,7 @@ void msrNoteData::setNoteDiatonicPitchAndAlteration (
   // set fNoteQuatertonesPitch accordingly
   fNoteQuatertonesPitch =
     quatertonesPitchFromDiatonicPitchAndAlteration (
+      inputLineNumber,
       diatonicPitch, alteration);
 }
 
@@ -8786,31 +8904,31 @@ void msrStanza::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
-  int                 inputLineNumber,
+  int                  inputLineNumber,
   msrQuartertonesPitch harmonyRootQuartertonesPitch,
-  msrHarmonyKind      harmonyKind,
-  string              harmonyKindText,
+  msrHarmonyKind       harmonyKind,
+  string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
-  S_msrPart           harmonyPartUplink)
+  S_msrPart            harmonyPartUplink)
 {
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
-      harmonyRootStep, harmonyRootAlteration,
+      harmonyRootQuartertonesPitch,
       harmonyKind, harmonyKindText,
-      harmonyBassStep, harmonyBassAlteration,
+      harmonyBassQuartertonesPitch,
       harmonyPartUplink);
   assert(o!=0);
   return o;
 }
 
 msrHarmony::msrHarmony (
-  int                 inputLineNumber,
+  int                  inputLineNumber,
   msrQuartertonesPitch harmonyRootQuartertonesPitch,
-  msrHarmonyKind      harmonyKind,
-  string              harmonyKindText,
+  msrHarmonyKind       harmonyKind,
+  string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
-  S_msrPart           harmonyPartUplink)
+  S_msrPart            harmonyPartUplink)
     : msrElement (inputLineNumber)
 {
   fHarmonyRootQuartertonesPitch = harmonyRootQuartertonesPitch;
@@ -8934,21 +9052,23 @@ string msrHarmony::harmonyAsString () const
   stringstream s;
 
   s <<
-    fHarmonyRootStep <<
-    msrAlterationAsString (
-      fHarmonyRootAlteration) <<
+    msrDiatonicPitchAsString (
+      msrDiatonicPitchFromQuatertonesPitch (
+        fInputLineNumber,
+        fHarmonyRootQuartertonesPitch)) <<        
     harmonyKindAsShortString ();
 
   if (fHarmonyKindText.size ())
     s <<
       " (" <<fHarmonyKindText << ") ";
 
-  if (fHarmonyBassStep != '_')
+  if (fHarmonyRootQuartertonesPitch != k_NoPitch)
     s <<
       "/" <<
-      fHarmonyBassStep <<
-      msrAlterationAsString (
-        fHarmonyBassAlteration);
+      msrDiatonicPitchAsString (
+        msrDiatonicPitchFromQuatertonesPitch (
+          fInputLineNumber,
+          fHarmonyRootQuartertonesPitch));
 
   return s.str();
 }
@@ -9007,9 +9127,10 @@ void msrHarmony::print (ostream& os)
   os << left <<
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
-      fHarmonyRootStep <<
-      msrAlterationAsString (
-        fHarmonyRootAlteration) <<
+      msrDiatonicPitchAsString (
+        msrDiatonicPitchFromQuatertonesPitch (
+          fInputLineNumber,
+          fHarmonyRootQuartertonesPitch)) <<        
       endl <<
     idtr <<
       setw(15) << "HarmonyKind" << " = " <<
@@ -9021,9 +9142,10 @@ void msrHarmony::print (ostream& os)
       endl <<
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
-      fHarmonyBassStep <<
-      msrAlterationAsString (
-        fHarmonyBassAlteration) <<
+      msrDiatonicPitchAsString (
+        msrDiatonicPitchFromQuatertonesPitch (
+          fInputLineNumber,
+          fHarmonyBassQuartertonesPitch)) <<        
       endl;
 
   idtr--;

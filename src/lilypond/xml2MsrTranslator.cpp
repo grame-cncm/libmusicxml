@@ -2258,6 +2258,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
   msrQuartertonesPitch
     quartertonesPitch =
       quatertonesPitchFromDiatonicPitchAndAlteration (
+        inputLineNumber,
         fCurrentStaffTuningDiatonicPitch,
         fCurrentStaffTuningAlteration);
     
@@ -6139,6 +6140,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   // register note pitch
   fNoteData.setNoteDiatonicPitchAndAlteration (
+    inputLineNumber,
     fCurrentNoteDiatonicPitch,
     fCurrentNoteAlteration);
 
@@ -8126,12 +8128,14 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   msrQuartertonesPitch
     harmonyRootQuartertonesPitch =
       quatertonesPitchFromDiatonicPitchAndAlteration (
+        inputLineNumber,
         fCurrentHarmonyRootDiatonicPitch,
         fCurrentHarmonyRootAlteration);
         
   msrQuartertonesPitch
     harmonyBassQuartertonesPitch =
       quatertonesPitchFromDiatonicPitchAndAlteration (
+        inputLineNumber,
         fCurrentHarmonyBassDiatonicPitch,
         fCurrentHarmonyBassAlteration);
         

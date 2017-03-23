@@ -213,17 +213,16 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 */
 
 // diatonic pitches
+//______________________________________________________________________________
 enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB};
 
 msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName);
-
-string msrDiatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch);
   
 // alterations
+//______________________________________________________________________________
 enum msrAlteration {
   k_NoAlteration,
   
@@ -238,6 +237,7 @@ string msrAlterationAsString (
   msrAlteration alteration);
 
 // quarter tones pitches
+//______________________________________________________________________________
 enum msrQuartertonesPitch {
   k_NoPitch,
 
@@ -277,13 +277,16 @@ void setDiatonicPitchAndAlteration (
   msrAlteration& alteration);
 
 msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
+  int              inputLineNumber,
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration);
 
 msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
+  int                  inputLineNumber,
   msrQuartertonesPitch quartertonesPitch);
 
 // quarter tones pitches languages
+//______________________________________________________________________________
 enum msrQuatertonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
@@ -308,6 +311,9 @@ extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
 extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
 string msrDiatonicPitchAsString (
+  msrDiatonicPitch              diatonicPitch);
+
+string msrDiatonicPitchAsString ( // JMI
   msrQuatertonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch);
 
@@ -316,6 +322,7 @@ string msrQuartertonesPitchAsString (
   msrQuartertonesPitch          quartertonesPitch);
 
 // chords languages
+//______________________________________________________________________________
 enum msrChordsLanguage {
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
   
@@ -495,6 +502,7 @@ class msrNoteData
                             msrQuartertonesPitch quartertonesPitch);
 
     void                  setNoteDiatonicPitchAndAlteration (
+                            int              inputLineNumber,
                             msrDiatonicPitch diatonicPitch,
                             msrAlteration    alteration);
                               
