@@ -217,10 +217,10 @@ enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB};
 
-extern msrDiatonicPitch msrDiatonicPitchFromString (
+msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName);
 
-extern string msrDiatonicPitchAsString (
+string msrDiatonicPitchAsString (
   msrDiatonicPitch diatonicPitch);
   
 // alterations
@@ -231,10 +231,10 @@ enum msrAlteration {
   kNatural,
   kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
-extern msrAlteration msrAlterationFromMusicXMLAlter (
+msrAlteration msrAlterationFromMusicXMLAlter (
   float alter);
 
-extern string msrAlterationAsString (
+string msrAlterationAsString (
   msrAlteration alteration);
 
 // quarter tones pitches
@@ -275,12 +275,15 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration);
 
+msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
+  msrQuartertonesPitch quartertonesPitch);
+
 // quarter tones pitches languages
 enum msrQuaterTonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
   
-extern string msrQuaterTonesPitchesLanguageAsString (
+string msrQuaterTonesPitchesLanguageAsString (
   msrQuaterTonesPitchesLanguage language);
 
 extern map<string, msrQuaterTonesPitchesLanguage>
@@ -299,7 +302,11 @@ extern map<msrQuartertonesPitch, string> gSuomiPitchName;
 extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
 extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
-extern string msrQuartertonesPitchAsString (
+string msrDiatonicPitchAsString (
+  msrQuaterTonesPitchesLanguage language,
+  msrDiatonicPitch              diatonicPitch);
+
+string msrQuartertonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch);
 
@@ -513,20 +520,20 @@ class msrNoteData
     bool                      fNoteIsARest;
     bool                      fNoteIsUnpitched;
 
-    int                       fOctave;
+    int                       fNoteOctave;
 
     // MusicXML durations are in divisions per quarter note.
     // LilyPond durations are in whole notes,
     // hence the "* 4" multiplications
     
     // the note duration when played
-    int                       fDivisions;
+    int                       fNoteDivisions;
 
     // tuplets member notes need another value for display
-    int                       fDisplayDivisions;
-    string                    fType; // "whole", "32nd", ...
+    int                       fNoteDisplayDivisions;
+    string                    fNoteType; // "whole", "32nd", ...
 
-    int                       fDotsNumber;
+    int                       fNoteDotsNumber;
     
     bool                      fNoteIsAGraceNote;
     
@@ -534,8 +541,8 @@ class msrNoteData
     
     bool                      fNoteBelongsToATuplet;
                     
-    int                       fVoiceNumber;
-    int                       fStaffNumber;
+    int                       fNoteVoiceNumber;
+    int                       fNoteStaffNumber;
 
   private:
 
@@ -2546,6 +2553,9 @@ class EXP msrNote : public msrElement
                   getDiatonicPitch () const
                       { return fNoteData.getNoteDiatonicPitch (); }
 
+    int           getNoteOctave () const
+                      { return fNoteData.fNoteOctave; }
+
     bool          getNoteIsUnpitched () const
                     // useful for rest tuplet members
                       { return fNoteData.fNoteIsUnpitched; }
@@ -2561,19 +2571,19 @@ class EXP msrNote : public msrElement
                       { return fNoteKind; }
 
     string        getNoteType () const
-                      { return fNoteData.fType; }
+                      { return fNoteData.fNoteType; }
 
     int           getNoteDivisions () const
-                      { return fNoteData.fDivisions; }
+                      { return fNoteData.fNoteDivisions; }
 
     void          setNoteDisplayDivisions (int divisions)
-                      { fNoteData.fDisplayDivisions = divisions; }
+                      { fNoteData.fNoteDisplayDivisions = divisions; }
 
     int           getNoteDisplayDivisions () const
-                      { return fNoteData.fDisplayDivisions; }
+                      { return fNoteData.fNoteDisplayDivisions; }
 
     int           getNoteDotsNumber () const
-                      { return fNoteData.fDotsNumber; }
+                      { return fNoteData.fNoteDotsNumber; }
 
     void          setNoteOccupiesAFullMeasure ()
                       { fNoteOccupiesAFullMeasure = true; }

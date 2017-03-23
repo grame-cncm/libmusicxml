@@ -3093,7 +3093,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         " syllable"
         ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
-        ", divisions = " << fNoteData.fDivisions << 
+        ", divisions = " << fNoteData.fNoteDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -3106,7 +3106,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentSyllableKind,
         fCurrentText,
         msrSyllable::k_NoSyllableExtend,
-        fNoteData.fDivisions,
+        fNoteData.fNoteDivisions,
         stanza);
 
     // register syllable in current note's syllables list
@@ -4316,7 +4316,7 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
 
 void xml2MsrTranslator::visitStart ( S_octave& elt)
 {
-  fNoteData.fOctave = (int)(*elt);
+  fNoteData.fNoteOctave = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_duration& elt )
@@ -4337,13 +4337,13 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
-    fNoteData.fDivisions = duration;
+    fNoteData.fNoteDivisions = duration;
     
     // all notes have their fDisplayDivisions
-    // set to fNoteData.fDivision,
+    // set to fNoteData.fNoteDivision,
     // except tuplet member notes
-    fNoteData.fDisplayDivisions =
-      fNoteData.fDivisions;
+    fNoteData.fNoteDisplayDivisions =
+      fNoteData.fNoteDivisions;
   }
   
   else {
@@ -4363,7 +4363,7 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
 
 void xml2MsrTranslator::visitStart ( S_dot& elt )
 {
-  fNoteData.fDotsNumber++;
+  fNoteData.fNoteDotsNumber++;
 }
        
 void xml2MsrTranslator::visitStart ( S_type& elt )
@@ -5368,7 +5368,7 @@ void xml2MsrTranslator::visitEnd ( S_unpitched& elt)
   fNoteData.fNoteIsUnpitched = true;
   fCurrentNoteDiatonicPitch = // JMI
     fCurrentHarmonyRootDiatonicPitch;
-  fNoteData.fOctave = fDisplayOctave;
+  fNoteData.fNoteOctave = fDisplayOctave;
 }
 
 //______________________________________________________________________________
@@ -6187,14 +6187,14 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     fCurrentDivisionsPerQuarterNote * 4;
 
   // store voice and staff numbers in MusicXML note data
-  fNoteData.fStaffNumber = fCurrentStaffNumber;
-  fNoteData.fVoiceNumber = fCurrentVoiceNumber;
+  fNoteData.fNoteStaffNumber = fCurrentStaffNumber;
+  fNoteData.fNoteVoiceNumber = fCurrentVoiceNumber;
 
   // set current voices' 'notes divisions per whole note
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
-      "fNoteData.fDivisions = " << 
-      fNoteData.fDivisions << ", " << 
+      "fNoteData.fNoteDivisions = " << 
+      fNoteData.fNoteDivisions << ", " << 
       "divisionsPerWholeNote = " <<
       divisionsPerWholeNote << endl;
       
@@ -6203,15 +6203,15 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       divisionsPerWholeNote);
 
   // register current note type
-  fNoteData.fType =
+  fNoteData.fNoteType =
     fCurrentNoteType;
 
-  if (fNoteData.fType.size ()) {
+  if (fNoteData.fNoteType.size ()) {
     if (fNoteData.fNoteIsAGraceNote) {
       // set current grace note divisions
       string errorMessage;
       
-      fNoteData.fDivisions =
+      fNoteData.fNoteDivisions =
         noteTypeAsDivisions (
           fCurrentNoteType,
           divisionsPerWholeNote,
@@ -6223,8 +6223,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
           inputLineNumber,
           errorMessage);
   
-      fNoteData.fDisplayDivisions =
-        fNoteData.fDivisions;
+      fNoteData.fNoteDisplayDivisions =
+        fNoteData.fNoteDivisions;
     }
   }
 
@@ -6601,7 +6601,7 @@ void xml2MsrTranslator::handleLyric (
         "--> creating a skip syllable for missing lyric"
         ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
-        ", divisions = " << fNoteData.fDivisions << 
+        ", divisions = " << fNoteData.fNoteDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -6617,7 +6617,7 @@ void xml2MsrTranslator::handleLyric (
           fCurrentSyllableKind,
           fCurrentText,
           msrSyllable::k_NoSyllableExtend,
-          fNoteData.fDivisions,
+          fNoteData.fNoteDivisions,
           stanza);
 
     // register syllable in current note's syllables list
@@ -6701,7 +6701,7 @@ void xml2MsrTranslator::handleLyric (
           addSkipSyllableToVoice (
             inputLineNumber,
             fCurrentStanzaNumber,
-            fNoteData.fDivisions);
+            fNoteData.fNoteDivisions);
 
     // this ends the current syllable extension if any
     fOnGoingSyllableExtend = false;

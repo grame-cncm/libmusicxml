@@ -1349,6 +1349,100 @@ msrQuartertonesPitch quaterTonesPitchFromDiatonicPitchAndAlteration (
   } // switch
 }
 
+msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
+  msrQuartertonesPitch quartertonesPitch)
+{
+  msrDiatonicPitch result;
+  
+  switch (quartertonesPitch) {
+    case k_aDoubleFlat:
+    case k_aSesquiFlat:
+    case k_aFlat:
+    case k_aSemiFlat:
+    case k_aNatural:
+    case k_aSemiSharp:
+    case k_aSharp:
+    case k_aSesquiSharp:
+    case k_aDoubleSharp:
+      fNoteDiatonicPitch = kA;
+      break;
+
+    case k_bDoubleFlat:
+    case k_bSesquiFlat:
+    case k_bFlat:
+    case k_bSemiFlat:
+    case k_bNatural:
+    case k_bSemiSharp:
+    case k_bSharp:
+    case k_bSesquiSharp:
+    case k_bDoubleSharp:
+      fNoteDiatonicPitch = kB;
+      break;
+
+    case k_cDoubleFlat:
+    case k_cSesquiFlat:
+    case k_cFlat:
+    case k_cSemiFlat:
+    case k_cNatural:
+    case k_cSemiSharp:
+    case k_cSharp:
+    case k_cSesquiSharp:
+    case k_cDoubleSharp:
+      fNoteDiatonicPitch = kC;
+      break;
+
+    case k_dDoubleFlat:
+    case k_dSesquiFlat:
+    case k_dFlat:
+    case k_dSemiFlat:
+    case k_dNatural:
+    case k_dSemiSharp:
+    case k_dSharp:
+    case k_dSesquiSharp:
+    case k_dDoubleSharp:
+      fNoteDiatonicPitch = kD;
+      break;
+
+    case k_eDoubleFlat:
+    case k_eSesquiFlat:
+    case k_eFlat:
+    case k_eSemiFlat:
+    case k_eNatural:
+    case k_eSemiSharp:
+    case k_eSharp:
+    case k_eSesquiSharp:
+    case k_eDoubleSharp:
+      fNoteDiatonicPitch = kE;
+      break;
+
+    case k_fDoubleFlat:
+    case k_fSesquiFlat:
+    case k_fFlat:
+    case k_fSemiFlat:
+    case k_fNatural:
+    case k_fSemiSharp:
+    case k_fSharp:
+    case k_fSesquiSharp:
+    case k_fDoubleSharp:
+      fNoteDiatonicPitch = kF;
+      break;
+
+    case k_gDoubleFlat:
+    case k_gSesquiFlat:
+    case k_gFlat:
+    case k_gSemiFlat:
+    case k_gNatural:
+    case k_gSemiSharp:
+    case k_gSharp:
+    case k_gSesquiSharp:
+    case k_gDoubleSharp:
+      fNoteDiatonicPitch = kG;
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrQuartertonesPitchAsString (
   msrQuaterTonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch)
@@ -1791,7 +1885,6 @@ void msrNoteData::setPitch (
       break;
     case k_gFlat:
       fNoteDiatonicPitch = kG;
-      fNoteAlteration    = kFlat;
       break;
     case k_gSemiFlat:
       fNoteDiatonicPitch = kG;
