@@ -998,7 +998,7 @@ string msrQuatertonesPitchesLanguageAsString (
       result = "espanol";
       break;
     case kFrancais:
-      result = "francais";
+      result = "français";
       break;
     case kItaliano:
       result = "italiano";

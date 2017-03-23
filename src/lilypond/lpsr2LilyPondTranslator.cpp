@@ -1528,6 +1528,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   idtr++;
 
+  fOstream <<
+    idtr <<
+      "\\language \"" <<
+      msrQuatertonesPitchesLanguageAsString (
+        gMsrOptions->fQuatertonesPitchesLanguage) <<
+      "\"" <<
+      endl;
+
   if (gLpsrOptions->fShowAllBarNumbers)
     fOstream <<
       idtr <<
