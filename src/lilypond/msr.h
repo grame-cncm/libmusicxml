@@ -505,19 +505,10 @@ class msrNoteData
                             int              inputLineNumber,
                             msrDiatonicPitch diatonicPitch,
                             msrAlteration    alteration);
-                              
-/*
-    void                  setNoteQuatertonesPitch (
-                            msrQuartertonesPitch quartertonesPitch);
-  */
-                            
+                                                          
     msrQuartertonesPitch  getNoteQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
-/*
-    void                  setNoteDiatonicPitch (
-                            msrDiatonicPitch diatonicPitch);
-  */
-                            
+
     msrDiatonicPitch      getNoteDiatonicPitch () const
                               { return fNoteDiatonicPitch; }
 

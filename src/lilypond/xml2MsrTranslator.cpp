@@ -33,6 +33,40 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
+void checkStep (
+  int    inputLineNumber,
+  string stepValue)
+{  
+  if (stepValue.size () == 1) {
+    char firstChar = stepValue [0];
+
+    if (firstChar < 'A' || firstChar > 'G') {
+      stringstream s;
+      
+      s <<
+        "step value " << firstChar <<
+        " is not a letter from A to G";
+          
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+    }
+  }
+
+  else {
+    stringstream s;
+    
+    s <<
+      "root step value " << stepValue <<
+      " should be a single letter from A to G";
+      
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());
+  }
+}
+
+//________________________________________________________________________
 xml2MsrTranslator::xml2MsrTranslator ()
 {
   fMillimeters       = -1;
@@ -2199,18 +2233,10 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
 void xml2MsrTranslator::visitStart (S_tuning_step& elt )
 {
   string tuningStep = elt->getValue();
-  
-  if (tuningStep.length() != 1) {
-    stringstream s;
-    
-    s <<
-      "tuning step value \"" << tuningStep <<
-      "\" should be a single letter from A to G";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
-  }
+
+  checkStep (
+    elt->getInputLineNumber (),
+    tuningStep);
 
   fCurrentStaffTuningDiatonicPitch =
     msrDiatonicPitchFromString (
@@ -4235,7 +4261,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   fNoteData.init ();
 
   fCurrentNoteDiatonicPitch = kA; // any value would fit
-  fCurrentNoteAlteration    = k_NoAlteration;
+  fCurrentNoteAlteration    = kNatural;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
@@ -4278,17 +4304,9 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
 {
   string step = elt->getValue();
   
-  if (step.length() != 1) {
-    stringstream s;
-    
-    s <<
-      "step value " << step <<
-      " should be a single letter from A to G";
-      
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
-  }
+  checkStep (
+    elt->getInputLineNumber (),
+    step);
 
   fCurrentNoteDiatonicPitch =
     msrDiatonicPitchFromString (step [0]);
@@ -5337,17 +5355,9 @@ void xml2MsrTranslator::visitStart ( S_display_step& elt)
 {
   string displayStep = elt->getValue();
   
-  if (displayStep.length() != 1) {
-    stringstream s;
-    
-    s <<
-      "display step value " << displayStep <<
-      " should be a single letter from A to G";
-      
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
-  }
+  checkStep (
+    elt->getInputLineNumber (),
+    displayStep);
 
   fCurrentHarmonyRootDiatonicPitch =
     msrDiatonicPitchFromString (displayStep [0]);
@@ -7902,19 +7912,11 @@ void xml2MsrTranslator::visitStart ( S_harmony& elt )
 void xml2MsrTranslator::visitStart ( S_root_step& elt )
 {
   string step = elt->getValue ();
-  
-  if (step.length() != 1) {
-    stringstream s;
-    
-    s <<
-      "root step value " << step <<
-      " should be a single letter from A to G";
-      
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
-  }
 
+  checkStep (
+    elt->getInputLineNumber (),
+    step);
+     
   fCurrentHarmonyRootDiatonicPitch =
     msrDiatonicPitchFromString (step [0]);
 }
@@ -7991,17 +7993,9 @@ void xml2MsrTranslator::visitStart ( S_bass_step& elt )
 {
   string step = elt->getValue();
   
-  if (step.length() != 1) {
-    stringstream s;
-    
-    s <<
-      "bass step value " << step <<
-      " should be a single letter from A to G";
-      
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
-  }
+  checkStep (
+    elt->getInputLineNumber (),
+    step);
 
   fCurrentHarmonyBassDiatonicPitch =
     msrDiatonicPitchFromString (step [0]);

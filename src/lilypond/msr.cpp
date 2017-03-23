@@ -3721,24 +3721,6 @@ msrNote::msrNote (
   fNoteHasATrill = false;
 
   fNoteHasADelayedOrnament = false;
-  
-  if (
-    fNoteData.getNoteDiatonicPitch () < 'A'
-      ||
-    fNoteData.getNoteDiatonicPitch () > 'G') {
-    if (! fNoteData.fNoteIsARest) {
-      stringstream s;
-      
-      s <<
-        "step value " << fNoteData.getNoteDiatonicPitch () <<
-        " is not a letter from A to G";
-        
-    msrMusicXMLError (
- // JMI   msrMusicXMLWarning (
-      fInputLineNumber,
-      s.str());
-    }
-  }
 
 //  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentStep << endl;
 // JMI
