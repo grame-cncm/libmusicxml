@@ -268,7 +268,7 @@ void analyzeOptions (
 
   if (
     ! 
-      gMsrOptions->setQuarterTonesPitchesLanguage ("nederlands")
+      gMsrOptions->setQuartertonesPitchesLanguage ("nederlands")
     ) {
     optionError (
       "INTERNAL INITIALIZATION ERROR: "
@@ -290,7 +290,7 @@ void analyzeOptions (
 
   if (
     ! 
-      gLpsrOptions->setQuarterTonesPitchesLanguage ("nederlands")
+      gLpsrOptions->setQuartertonesPitchesLanguage ("nederlands")
     ) {
     optionError (
       "INTERNAL INITIALIZATION ERROR: "
@@ -872,7 +872,7 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gMsrOptions->setQuarterTonesPitchesLanguage (
+          if (! gMsrOptions->setQuartertonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
@@ -984,7 +984,7 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gLpsrOptions->setQuarterTonesPitchesLanguage (
+          if (! gLpsrOptions->setQuartertonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
@@ -1380,8 +1380,8 @@ void printOptions ()
   
   cerr << left <<
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
-      msrQuaterTonesPitchesLanguageAsString (
-        gMsrOptions->fQuaterTonesPitchesLanguage) <<
+      msrQuatertonesPitchesLanguageAsString (
+        gMsrOptions->fQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
     
@@ -1433,8 +1433,8 @@ void printOptions ()
   
   cerr << left <<
     idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
-      msrQuaterTonesPitchesLanguageAsString (
-        gLpsrOptions->fQuaterTonesPitchesLanguage) <<
+      msrQuatertonesPitchesLanguageAsString (
+        gLpsrOptions->fQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
 

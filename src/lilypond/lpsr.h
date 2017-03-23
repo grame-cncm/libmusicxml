@@ -126,7 +126,7 @@ class EXP lpsrOptions : public smartable {
     // set and get
     // ------------------------------------------------------
 
-    bool                        setQuarterTonesPitchesLanguage (
+    bool                        setQuartertonesPitchesLanguage (
                                   string language);    
 
     bool                        setAccidentalStyle (string accidentalStyle);    

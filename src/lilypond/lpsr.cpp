@@ -70,7 +70,7 @@ lpsrOptions::lpsrOptions()
 
 lpsrOptions::~lpsrOptions() {}
 
-bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
+bool lpsrOptions::setQuartertonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrQuatertonesPitchesLanguage>::const_iterator
@@ -90,7 +90,7 @@ bool lpsrOptions::setQuarterTonesPitchesLanguage (string language)
       endl << endl;
       
     for (
-      map<string, quarterTonesLanguage>::const_iterator i=gQuatertonesPitchesLanguagesMap.begin();
+      map<string, quartertonesLanguage>::const_iterator i=gQuatertonesPitchesLanguagesMap.begin();
       i!=gQuatertonesPitchesLanguagesMap.end();
       i++) {
       cerr <<

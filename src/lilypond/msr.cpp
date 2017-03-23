@@ -42,6 +42,9 @@ map<msrQuartertonesPitch, string> gSuomiPitchName;
 map<msrQuartertonesPitch, string> gSvenskaPitchName;
 map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
+map<msrChordsLanguage, string>
+  gChordsLanguagesMap;
+
 void initializePitchesLanguages ()
 {
   gQuatertonesPitchesLanguagesMap ["nederlands"] = kNederlands;
