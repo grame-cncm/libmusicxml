@@ -4180,10 +4180,10 @@ string msrNote::notePitchAsString () const
   else {
 
     s <<
-      msrDiatonicPitchAsString (
-        fNoteData.getNoteDiatonicPitch ()) <<    
-      msrAlterationAsString (
-        fNoteData.getNoteAlteration ());
+      msrQuartertonesPitchAsString (
+        gMsrOptions->fQuatertonesPitchesLanguage,
+        fNoteData.getNoteQuatertonesPitch ());  
+
   }
   
   return s.str();
