@@ -959,7 +959,8 @@ msrDiatonicPitch msrDiatonicPitchFromString (
 }
 
 string msrDiatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch) // JMI
+  msrQuatertonesPitchesLanguage language,
+  msrDiatonicPitch              diatonicPitch)
 {
   string result;
   
@@ -2055,13 +2056,15 @@ void msrNoteData::setNoteQuartertonesPitch (
   msrQuartertonesPitch quartertonesPitch)
 {
   fNoteQuatertonesPitch = quartertonesPitch;
-
+/*
   // set fNoteDiatonicPitch and fNoteAlteration accordingly  
   setDiatonicPitchAndAlteration (
     quartertonesPitch,
     fNoteDiatonicPitch, fNoteAlteration);
+*/
 }
 
+/*
 void msrNoteData::setNoteDiatonicPitchAndAlteration (
   int              inputLineNumber,
   msrDiatonicPitch diatonicPitch,
@@ -2075,6 +2078,7 @@ void msrNoteData::setNoteDiatonicPitchAndAlteration (
       inputLineNumber,
       diatonicPitch, alteration);
 }
+*/
 
 void msrNoteData::print (ostream& os)
 {
@@ -2085,6 +2089,7 @@ void msrNoteData::print (ostream& os)
       setw(width) << "fNoteIsARest" << " = " <<
       fNoteIsARest <<
       endl <<
+      /*
     idtr << left <<
       setw(width) << "fNoteDiatonicPitch" << " = " <<
       msrDiatonicPitchAsString (fNoteDiatonicPitch) <<
@@ -2093,6 +2098,7 @@ void msrNoteData::print (ostream& os)
       setw(width) << "fNoteAlteration" << " = " <<
       fNoteAlteration <<
       endl <<
+      */
     idtr << left <<
       setw(width) <<
       "fNoteQuatertonesPitch" << " = " <<
@@ -2101,23 +2107,23 @@ void msrNoteData::print (ostream& os)
         fNoteQuatertonesPitch) <<
       endl <<
     idtr << left <<
-      setw(width) << "fOctave" << " = " <<
+      setw(width) << "fNoteOctave" << " = " <<
       fNoteOctave <<
       endl <<
     idtr << left <<
-      setw(width) << "fDivisions" << " = " <<
+      setw(width) << "fNoteDivisions" << " = " <<
       fNoteDivisions <<
       endl <<
     idtr << left <<
-      setw(width) << "fDisplayDivisions" << " = " <<
+      setw(width) << "fNoteDisplayDivisions" << " = " <<
       fNoteDisplayDivisions <<
       endl <<
     idtr << left <<
-      setw(width) << "fDotsNumber" << " = " <<
+      setw(width) << "fNoteDotsNumber" << " = " <<
       fNoteDotsNumber <<
       endl <<
     idtr << left <<
-      setw(width) << "fType" << " = " <<
+      setw(width) << "fNoteType" << " = " <<
       fNoteType <<
       endl <<
       
@@ -3808,6 +3814,15 @@ S_msrNote msrNote::createNoteBareClone ()
 
   return clone;
 }
+
+msrDiatonicPitch msrNote::getDiatonicPitch (
+  int inputLineNumber) const;
+  {
+    return
+      msrDiatonicPitchFromQuatertonesPitch (
+        inputLineNumber,
+        fNoteData.fNoteQuatertonesPitch);
+  }
 
 void msrNote::setNoteBelongsToAChord () {
   if (gGeneralOptions->fDebug)

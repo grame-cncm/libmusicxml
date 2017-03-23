@@ -2394,6 +2394,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
       idtr <<
         setw(34) << "fCurrentStaffTuningDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
+          gMsrOptions->fQuatertonesPitchesLanguage,
           fCurrentStaffTuningDiatonicPitch) <<
         endl <<
       idtr <<
@@ -6236,10 +6237,11 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     elt->getInputLineNumber ();
 
   // register note pitch
-  fNoteData.setNoteDiatonicPitchAndAlteration (
-    inputLineNumber,
-    fCurrentNoteDiatonicPitch,
-    fCurrentNoteAlteration);
+  fNoteData.fNoteQuatertonesPitch =
+    quatertonesPitchFromDiatonicPitchAndAlteration (
+      inputLineNumber,
+      fCurrentNoteDiatonicPitch,
+      fCurrentNoteAlteration);
 
   // fetch current voice
   S_msrVoice
@@ -8177,6 +8179,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
       idtr <<
         setw(32) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
+          gMsrOptions->fQuatertonesPitchesLanguage,
           fCurrentHarmonyRootDiatonicPitch) <<
         endl <<
       idtr <<
@@ -8195,6 +8198,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
       idtr <<
         setw(32) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
+          gMsrOptions->fQuatertonesPitchesLanguage,
           fCurrentHarmonyBassDiatonicPitch) <<
         endl <<
       idtr <<

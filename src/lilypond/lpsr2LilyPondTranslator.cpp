@@ -132,14 +132,10 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
-  msrDiatonicPitch
-    noteDiatonicPitch =
-      note->getDiatonicPitch ();
-      
-  string
-    noteDiatonicPitchAsString =
-      note->noteDiatonicPitchAsString ();
-        
+  msrQuartertonesPitch
+    noteQuartertonesPitch =
+      note->getQuatertonesPitch ();
+              
   int noteAbsoluteOctave =
     note->getNoteOctave ();
 
@@ -159,9 +155,11 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
           note->getInputLineNumber () <<
           endl <<
       idtr <<
-        setw(33) << "% noteDiatonicPitchAsString" <<
+        setw(33) << "% msrQuartertonesPitch" <<
         " = - " <<
-        noteDiatonicPitchAsString <<
+        msrQuartertonesPitchAsString (
+          gLpsrOptions->fQuatertonesPitchesLanguage,
+          noteQuartertonesPitch) <<
         " -" <<
         endl <<
       idtr <<
@@ -187,7 +185,9 @@ string lpsr2LilyPondTranslator::noteMsrPitchAsLilyPondString (
 
     msrDiatonicPitch
       referenceDiatonicPitch =
-        fRelativeOctaveReference->getDiatonicPitch ();
+        fRelativeOctaveReference->
+          getDiatonicPitch (
+            note->getInputLineNumber ());
 
     string
       referenceDiatonicPitchAsString =
@@ -1532,7 +1532,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
     idtr <<
       "\\language \"" <<
       msrQuatertonesPitchesLanguageAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage) <<
+        gLpsrOptions->fQuatertonesPitchesLanguage) <<
       "\"" <<
       endl;
 
@@ -2016,7 +2016,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
   fOstream << idtr <<
     "\\key " <<
     msrQuartertonesPitchAsString (
-      gMsrOptions->fQuatertonesPitchesLanguage,
+      gLpsrOptions->fQuatertonesPitchesLanguage,
       elt->getKeyTonicPitch ()) <<
     " \\" <<
     msrKey::keyModeKindAsString (
@@ -2337,7 +2337,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         fCurrentStemKind = stemKind;
     }
   }
-  
+
+  // print the note
   switch (elt->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:

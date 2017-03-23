@@ -311,9 +311,10 @@ extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
 extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
 string msrDiatonicPitchAsString (
+  msrQuatertonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch);
 
-string msrDiatonicPitchAsString ( // JMI
+string msrDiatonicPitchAsString (
   msrQuatertonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch);
 
@@ -498,22 +499,26 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
-    void                  setNoteQuartertonesPitch (
+    void                  setNoteQuartertonesPitch ( // JMI
                             msrQuartertonesPitch quartertonesPitch);
 
+/*
     void                  setNoteDiatonicPitchAndAlteration (
                             int              inputLineNumber,
                             msrDiatonicPitch diatonicPitch,
                             msrAlteration    alteration);
-                                                          
+  */
+                                                       
     msrQuartertonesPitch  getNoteQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
 
+/*
     msrDiatonicPitch      getNoteDiatonicPitch () const
                               { return fNoteDiatonicPitch; }
 
     msrAlteration         getNoteAlteration () const
                               { return fNoteAlteration; }
+*/
 
   public:
 
@@ -530,6 +535,7 @@ class msrNoteData
     bool                      fNoteIsARest;
     bool                      fNoteIsUnpitched;
 
+    msrQuartertonesPitch      fNoteQuatertonesPitch; 
     int                       fNoteOctave;
 
     // MusicXML durations are in divisions per quarter note.
@@ -561,9 +567,8 @@ class msrNoteData
     
     // these informations are thus private to enforce setting them
     // thru the setPitch() methods, ensuring they are consistent
-    msrQuartertonesPitch      fNoteQuatertonesPitch; 
-    msrDiatonicPitch          fNoteDiatonicPitch;
-    msrAlteration             fNoteAlteration;
+// JMI    msrDiatonicPitch          fNoteDiatonicPitch;
+   // msrAlteration             fNoteAlteration;
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
 
@@ -2554,12 +2559,9 @@ class EXP msrNote : public msrElement
                                 return
                                   fNoteData.getNoteQuatertonesPitch ();
                               }
-
-    msrDiatonicPitch      getDiatonicPitch () const
-                              {
-                                return
-                                  fNoteData.getNoteDiatonicPitch ();
-                              }
+                              
+    msrDiatonicPitch      getDiatonicPitch (
+                            int inputLineNumber) const;
 
     int                   getNoteOctave () const
                               { return fNoteData.fNoteOctave; }
