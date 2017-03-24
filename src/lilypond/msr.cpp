@@ -3459,7 +3459,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
     
     cerr << "FAA" << endl;
 
-  // create skip with same length as note
+    // create skip with same length as note
     S_msrNote
       skip =
         msrNote::createSkipNote (
@@ -4040,7 +4040,7 @@ S_msrNote msrNote::createSkipNote (
   msrNoteData noteData;
 
   noteData.setNoteQuartertonesPitch (k_NoPitch);
-  noteData.fNoteIsARest = true; // JMI
+  noteData.fNoteIsARest = false; // JMI
   
   noteData.fNoteDivisions = divisions;
   noteData.fNoteDisplayDivisions = divisions;
@@ -4474,7 +4474,7 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        skipDivisionsAsMSRString ();
       break;
       
     case msrNote::kSkipNote:

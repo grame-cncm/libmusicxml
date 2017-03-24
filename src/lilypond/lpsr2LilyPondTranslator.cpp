@@ -2515,9 +2515,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
             ? "R"
             : "r");
       
-      // print the note duration
+      // print the rest duration
       fOstream <<
-        elt->noteDivisionsAsMSRString ();
+        elt->skipDivisionsAsMSRString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -2527,7 +2527,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       // print the skip name
       fOstream << "s";
       
-      // print the note duration
+      // print the skip duration
       fOstream <<
         elt->skipDivisionsAsMSRString ();
 
