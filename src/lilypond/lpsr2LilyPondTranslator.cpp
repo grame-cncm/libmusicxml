@@ -1732,15 +1732,22 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kOverfullMeasure:
-      fOstream << idtr <<
-        "\\scaleDurations " <<
-        elt->getMeasureDivisionsPerFullMeasure () <<
-        "/" <<
-        elt->getMeasureLength () <<
-        " {" <<
-        endl;
-
-      idtr++;
+      {
+        rational r (
+          elt->getMeasureDivisionsPerFullMeasure (),
+          elt->getMeasureLength ());
+        r.rationalise ();
+      
+        fOstream << idtr <<
+          "\\scaleDurations " <<
+          r.getNumerator () <<
+          "/" <<
+          r.getDenominator () <<
+          " {" <<
+          endl;
+  
+        idtr++;
+      }
       break;
   } // switch
 }
