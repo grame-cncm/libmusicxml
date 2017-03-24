@@ -52,6 +52,13 @@ class EXP msrGeneralOptions : public smartable
 
     static SMARTP<msrGeneralOptions> create ();
     
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeGeneralOptions ();
+    
   protected:
   
     // constructors/destructor

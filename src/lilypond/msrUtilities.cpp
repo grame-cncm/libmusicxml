@@ -29,7 +29,6 @@ using namespace std;
 
 namespace MusicXML2 {
 
-
 //______________________________________________________________________________
 S_timingItem createTimingItem (
   string                     activity,
@@ -1339,6 +1338,20 @@ string singularOrPlural (
       pluralName;
       
   return s.str ();
+}
+
+//______________________________________________________________________________
+void optionError (string errorMessage)
+{
+  cerr <<
+    endl <<
+    "### ERROR in the options:" <<
+    endl <<
+    errorMessage <<
+    endl <<
+    endl;
+    
+  exit(99);
 }
 
 

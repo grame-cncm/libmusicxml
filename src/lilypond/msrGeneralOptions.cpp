@@ -32,6 +32,13 @@ S_msrGeneralOptions msrGeneralOptions::create ()
 
 msrGeneralOptions::msrGeneralOptions ()
 {
+  initializeGeneralOptions ();
+}
+
+msrGeneralOptions::~msrGeneralOptions () {}
+
+void msrGeneralOptions::initializeGeneralOptions ()
+{
   // interactive mode
   fInteractive = false;
   
@@ -49,8 +56,6 @@ msrGeneralOptions::msrGeneralOptions ()
   fSaveDebug = false;
   fSaveDebugDebug = false;
 }
-
-msrGeneralOptions::~msrGeneralOptions () {}
 
 S_msrGeneralOptions gGeneralOptions;
 

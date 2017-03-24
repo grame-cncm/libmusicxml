@@ -131,6 +131,13 @@ class EXP lpsrOptions : public smartable {
     static SMARTP<lpsrOptions> create ();
     
   public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                          initializeLpsrOptions ();
+    
+  public:
   
     // constructors/destructor
     // ------------------------------------------------------
@@ -176,12 +183,11 @@ class EXP lpsrOptions : public smartable {
     bool                          fNoAutoBeaming;
     bool                          fGenerateInputLineNumbers;
 
-
     string                        fAccidentalStyle;
 
     int                           fDelayedOrnamentFractionNumerator;
     int                           fDelayedOrnamentFractionDenominator;
-  
+
     bool                          fGenerateMasterVoices; // JMI
     
     bool                          fDontGenerateLilyPondLyrics;

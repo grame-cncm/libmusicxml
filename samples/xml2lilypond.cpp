@@ -246,26 +246,6 @@ void printUsage (int exitStatus)
   exit(exitStatus);
 }
 
-void optionError (string errorMessage)
-{
-  cerr <<
-    endl <<
-    idtr <<
-    "### ERROR in the options:" <<
-    endl;
-
-  idtr++;
-
-  cerr << idtr <<
-    errorMessage <<
-    endl <<
-    endl;
-    
-  idtr--;
-
-  exit(99);
-}
-
 //_______________________________________________________________________________
 void analyzeOptions (
   int            argc,
@@ -273,106 +253,7 @@ void analyzeOptions (
   string&        inputFileName,
   string&        outputFileName)
 {
-  // MSR options
-  // -----------
-
-  if (
-    ! 
-      gMsrOptions->setMsrQuartertonesPitchesLanguage ("nederlands")
-    ) {
-    stringstream s;
-
-    s <<
-      "INTERNAL INITIALIZATION ERROR: "
-      "MSR pitches language 'nederlands' is unknown" <<
-      endl <<
-      "The " <<
-      gQuatertonesPitchesLanguagesMap.size () <<
-      " known MSR pitches languages are:" <<
-      endl;
-
-    idtr++;
-  
-    s <<
-      existingQuartertonesPitchesLanguages ();
-
-    idtr--;
-
-    optionError (s.str());
-  }
-  
-  gMsrOptions->fCreateStaffRelativeVoiceNumbers      = false;
-  
-  gMsrOptions->fDontDisplayMSRStanzas                = false;
-
-  gMsrOptions->fDelayRestsDynamics                   = false;
-  
-  gMsrOptions->fDisplayMSR                           = false;
-
-  gMsrOptions->fDisplayMSRSummary                    = false;
-
-  // LPSR options
-  // ------------
-
-  if (
-    ! 
-      gLpsrOptions->setLpsrQuartertonesPitchesLanguage ("nederlands")
-    ) {
-    stringstream s;
-
-    s <<
-      "INTERNAL INITIALIZATION ERROR: "
-      "LPSR pitches language 'nederlands' is unknown" <<
-      endl <<
-      "The " <<
-      gQuatertonesPitchesLanguagesMap.size () <<
-      " known LPSR pitches languages are:" <<
-      endl;
-
-    idtr++;
-  
-    s <<
-      existingQuartertonesPitchesLanguages ();
-
-    idtr--;
-
-    optionError (s.str());
-  }
-  
-  gLpsrOptions->fDisplayLPSR                         = false;
-
-  gLpsrOptions->fDontKeepLineBreaks                  = false;
-  gLpsrOptions->fShowAllBarNumbers                   = false;
-  gLpsrOptions->fCompressFullBarRests                = false;
-  gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = false;
-  
-  gLpsrOptions->fKeepStaffSize                       = false;
-    
-  gLpsrOptions->fGenerateAbsoluteOctaves             = false;
-
-  gLpsrOptions->fGenerateNumericalTime               = false;
-  gLpsrOptions->fGenerateComments                    = false;
-  gLpsrOptions->fGenerateStems                       = false;
-  gLpsrOptions->fNoAutoBeaming                       = false;
-  gLpsrOptions->fGenerateInputLineNumbers            = false;
-  
-  gLpsrOptions->fAccidentalStyle                     = "";
-
-  gLpsrOptions->fDelayedOrnamentFractionNumerator    = 2;
-  gLpsrOptions->fDelayedOrnamentFractionDenominator  = 3;
-
-  gLpsrOptions->fDontGenerateMidiCommand             = false;
-  
-  gLpsrOptions->fMidiTempoDuration                   = "4";
-  gLpsrOptions->fMidiTempoPerSecond                  = 100;
-  
-  gLpsrOptions->fGenerateMasterVoices                = true;
-  
-  gLpsrOptions->fDontGenerateLilyPondLyrics          = false;
-  
-  gLpsrOptions->fDontGenerateLilyPondCode            = false;
-
-   // General options
+  // General options
   // ---------------
 
   int helpPresent                       = 0;
@@ -440,6 +321,7 @@ void analyzeOptions (
   int dontGenerateLilyPondCodePresent   = 0;
 
 
+  // long_options data structure
   static struct option long_options [] =
     {
     /* These options set a flag. */

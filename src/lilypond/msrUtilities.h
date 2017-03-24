@@ -348,6 +348,9 @@ string booleanAsString (bool value);
 string singularOrPlural (
   int number, string singularName, string pluralName);
 
+//______________________________________________________________________________
+void optionError (string errorMessage);
+
 
 } // namespace MusicXML2
 

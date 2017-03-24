@@ -93,6 +93,71 @@ S_lpsrOptions lpsrOptions::create()
 
 lpsrOptions::lpsrOptions()
 {
+  initializeLpsrOptions ();
+}
+
+lpsrOptions::~lpsrOptions() {}
+
+void lpsrOptions::initializeLpsrOptions ()
+{
+  // languages
+  if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "LPSR pitches language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuatertonesPitchesLanguagesMap.size () <<
+      " known LPSR pitches languages are:" <<
+      endl;
+
+    idtr++;
+  
+    s <<
+      existingQuartertonesPitchesLanguages ();
+
+    idtr--;
+
+    optionError (s.str());
+  }
+  
+  // LPSR display
+  fDisplayLPSR                         = false;
+
+    // LilyPond code generation
+  fDontKeepLineBreaks                  = false;
+  fShowAllBarNumbers                   = false;
+  fCompressFullBarRests                = false;
+  fBreakLinesAtIncompleteRightMeasures = false;
+  
+  fKeepStaffSize                       = false;
+    
+  fGenerateAbsoluteOctaves             = false;
+
+  fGenerateNumericalTime               = false;
+  fGenerateComments                    = false;
+  fGenerateStems                       = false;
+  fNoAutoBeaming                       = false;
+  fGenerateInputLineNumbers            = false;
+  
+  fAccidentalStyle                     = "";
+
+  fDelayedOrnamentFractionNumerator    = 2;
+  fDelayedOrnamentFractionDenominator  = 3;
+
+  fDontGenerateMidiCommand             = false;
+  
+  fMidiTempoDuration                   = "4";
+  fMidiTempoPerSecond                  = 100;
+  
+  fGenerateMasterVoices                = true;
+  
+  fDontGenerateLilyPondLyrics          = false;
+  
+  fDontGenerateLilyPondCode            = false;
+
   fLilyPondAccidentalStyles.insert ("voice");
   fLilyPondAccidentalStyles.insert ("modern");
   fLilyPondAccidentalStyles.insert ("modern-cautionary");
@@ -111,7 +176,7 @@ lpsrOptions::lpsrOptions()
   fLilyPondAccidentalStyles.insert ("no-reset");
   fLilyPondAccidentalStyles.insert ("forget");
 
-  /*
+  /* JMI
   for (
     set<string>::const_iterator i=fLilyPondAccidentalStyles.begin();
     i!=fLilyPondAccidentalStyles.end();
@@ -120,8 +185,6 @@ lpsrOptions::lpsrOptions()
   } // for
   */
 }
-
-lpsrOptions::~lpsrOptions() {}
 
 bool lpsrOptions::setLpsrQuartertonesPitchesLanguage (string language)
 {

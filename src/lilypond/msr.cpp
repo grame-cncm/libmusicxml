@@ -1915,7 +1915,73 @@ S_msrOptions msrOptions::create ()
 }
 
 msrOptions::msrOptions ()
-{}
+{
+  initializeMsrOptions ();
+}
+
+void msrOptions::initializeMsrOptions ()
+{
+  // debug
+  fDebugScore = false;
+  fDebugPartgroups = false;
+  fDebugParts = false;
+  fDebugStaves = false;
+  fDebugVoices = false;
+    
+  fDebugSegments = false;
+  fDebugMeasures = false;
+    
+  fDebugNotes = false;
+    
+  fDebugChords = false;
+  fDebugTuplets = false;
+    
+  fDebugGracenotes = false;
+    
+  fDebugLyrics = false;
+
+  fDebugRepeats = false;
+    
+  fDebugHarmony = false;
+    
+  fDebugStafftuning = false;
+
+  // languages
+  if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "MSR pitches language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuatertonesPitchesLanguagesMap.size () <<
+      " known MSR pitches languages are:" <<
+      endl;
+
+    idtr++;
+  
+    s <<
+      existingQuartertonesPitchesLanguages ();
+
+    idtr--;
+
+    optionError (s.str());
+  }
+  
+  // advanced options
+  fCreateStaffRelativeVoiceNumbers      = false;
+  fDelayRestsDynamics                   = false;
+  
+  // stanza display
+  fDontDisplayMSRStanzas                = false;
+  
+  // MSR display
+  fDisplayMSR                           = false;
+
+  // MSR score summary
+  fDisplayMSRSummary                    = false;
+}
 
 bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
 {
@@ -3344,11 +3410,12 @@ msrGracenotes::~msrGracenotes() {}
 S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrVoice voiceClone)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugGracenotes) {
     cerr << idtr <<
       "--> creating a bare clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
+  }
   
   S_msrGracenotes
     clone =
@@ -3366,11 +3433,12 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
   S_msrVoice voiceClone)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugGracenotes) {
     cerr << idtr <<
       "--> creating a skip clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
+  }
   
   S_msrGracenotes
     clone =
@@ -3599,10 +3667,11 @@ msrAftergracenotes::~msrAftergracenotes() {}
 S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
   S_msrVoice voiceClone)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugGracenotes) {
     cerr << idtr <<
       "--> creating a bare clone of grace notes" <<
       endl;
+  }
   
   S_msrAftergracenotes
     clone =
@@ -3708,8 +3777,7 @@ msrNote::msrNote (
     msrElement (inputLineNumber),
     fNoteData (noteData)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-  if (gGeneralOptions->fDebugDebug) {
+  if (gMsrOptions->fDebugNotes) {
     cerr << idtr <<
       "==> fNoteData contains:" <<
       endl;
@@ -3737,32 +3805,6 @@ msrNote::msrNote (
   fNoteHasATrill = false;
 
   fNoteHasADelayedOrnament = false;
-
-//  cerr << "=== xmlPart2MsrVisitor::visitStart ( S_step& elt ) " << fCurrentStep << endl;
-// JMI
-
-/* JMI
-  switch (fNoteData.getNoteDiatonicPitch ()) {
-    case 'A': fNoteData.fNoteDiatonicPitch = kA; break;
-    case 'B': fNoteData.fNoteDiatonicPitch = kB; break;
-    case 'C': fNoteData.fNoteDiatonicPitch = kC; break;
-    case 'D': fNoteData.fNoteDiatonicPitch = kD; break;
-    case 'E': fNoteData.fNoteDiatonicPitch = kE; break;
-    case 'F': fNoteData.fNoteDiatonicPitch = kF; break;
-    case 'G': fNoteData.fNoteDiatonicPitch = kG; break;
-    default: {}
-  } // switch
-
-
-//   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-  if (gGeneralOptions->fDebugDebug) {
-    cerr << idtr <<
-      "--> fNoteData.getNoteAlteration () = " <<
-      msrAlterationAsString (
-        fNoteData.getNoteAlteration ()) <<
-      endl;
-  }
-*/
 }
 
 msrNote::~msrNote()
@@ -3770,11 +3812,12 @@ msrNote::~msrNote()
 
 S_msrNote msrNote::createNoteBareClone ()
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugNotes) {
     cerr << idtr <<
       "--> Creating a bare clone of note " <<
       noteAsString () <<
       endl;
+  }
 
   S_msrNote
     clone =
@@ -4879,10 +4922,11 @@ msrChord::~msrChord() {}
 
 S_msrChord msrChord::createChordBareClone ()
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugChords) {
     cerr << idtr <<
       "--> Creating a bare clone of chord" <<
       endl;
+  }
 
   S_msrChord
     clone =
@@ -5697,219 +5741,6 @@ void msrBarnumberCheck::print (ostream& os)
 }
 
 //______________________________________________________________________________
-/*
-S_msrTupletMember msrTupletMember::create (
-  int                 inputLineNumber,
-  msrTupletMemberKind tupletMemberKind,
-  S_msrElement        tupletMember)
-{
-  msrTupletMember* o =
-    new msrTupletMember (
-      inputLineNumber,
-      tupletMemberKind, tupletMember);
-  assert(o!=0);
-  return o;
-}
-
-msrTupletMember::msrTupletMember (
-  int                 inputLineNumber,
-  msrTupletMemberKind tupletMemberKind,
-  S_msrElement        tupletMember)
-  : msrElement (inputLineNumber)
-{  
-  fTupletMemberKind = tupletMemberKind;
-  
-  fTupletMember = tupletMember;
-}
-
-msrTupletMember::~msrTupletMember() {}
-
-S_msrTupletMember msrTupletMember::createTupletBareClone ()
-{
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> Creating a bare clone of a tuplet member" <<
-      endl;
-
-  S_msrTupletMember
-    clone =
-      msrTupletMember::create (
-        fInputLineNumber,
-        fTupletMemberKind,
-        fTupletMember);
-  
-  return clone;
-}
-
-void msrTupletMember::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrTupletMember::acceptIn()" << endl;
-      
-  if (visitor<S_msrTupletMember>*
-    p =
-      dynamic_cast<visitor<S_msrTupletMember>*> (v)) {
-        S_msrTupletMember elem = this;
-        
-        if (gGeneralOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrTupletMember::visitStart()" << endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrTupletMember::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
-    cerr << idtr <<
-      "==> msrTupletMember::acceptOut()" << endl;
-
-  if (visitor<S_msrTupletMember>*
-    p =
-      dynamic_cast<visitor<S_msrTupletMember>*> (v)) {
-        S_msrTupletMember elem = this;
-      
-        if (gGeneralOptions->fDebugDebug)
-          cerr << idtr <<
-            "==> Launching msrTupletMember::visitEnd()" << endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrTupletMember::browseData (basevisitor* v)
-{
-  // browse tuplet member
-  msrBrowser<msrElement> browser (v);
-  browser.browse (*fTupletMember);
-}
-
-ostream& operator<< (ostream& os, const S_msrTupletMember& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-/ * JMI
-string msrTupletMember::tupletMemberKindAsString (
-  msrTupletMemberKind tupletMemberKind) const
-{
-  string result;
-  
-  switch (tupletMemberKind) {
-    case msrTupletMember::kNoteTupletMember:
-      result =
-        "NoteTupletMember";
-      break;
-
-    case msrTupletMember::kChordTupletMember:
-      result =
-        "ChordTupletMember";
-      break;
-
-    case msrTupletMember::kTupletTupletMember:
-      result =
-        "TupletTupletMember";
-      break;
-  } // switch
-
-  return result;
-}
-* /
-
-string msrTupletMember::tupletMemberAsString () const
-{
-  stringstream s;
-
-  s <<
-    "TupletMember" " ";
-  // JMI  tupletMemberKindAsString (fTupletMemberKind) <<
-  //  ", ";
-
-/ *
-
-  switch (fTupletMemberKind) {
-    case msrTupletMember::kNoteTupletMember:
-      {
-        S_msrNote note = fTupletMember;
-        
-        s <<
-          "NoteTupletMember" << " " <<
-          note->noteAsShortString ();
-      }
-      break;
-
-    case msrTupletMember::kChordTupletMember:
-      {
-        S_msrChord chord = fTupletMember;
-        
-        s <<
-          "ChordTupletMember" << " " <<
-          chord->chordAsString ();
-      }
-      break;
-
-    case msrTupletMember::kTupletTupletMember:
-      {
-        S_msrTuplet tuplet = fTupletMember;
-        
-        s <<
-          "TupletTupletMember" << " " <<
-          tuplet->tupletAsString ();
-      }
-      break;
-  } // switch
-* /
-
-  return s.str();
-}
-
-void msrTupletMember::print (ostream& os)
-{
-  os <<
-    "TupletMember" " ";
-/ *
-  switch (fTupletMemberKind) {
-    case msrTupletMember::kNoteTupletMember:
-      {
-        S_msrNote note = fTupletMember;
-        
-        s <<
-          "NoteTupletMember" << " " <<
-          note->noteAsShortString ();
-      }
-      break;
-
-    case msrTupletMember::kChordTupletMember:
-      {
-        S_msrChord chord = fTupletMember;
-        
-        s <<
-          "ChordTupletMember" << " " <<
-          chord->chordAsString ();
-      }
-      break;
-
-    case msrTupletMember::kTupletTupletMember:
-      {
-        S_msrTuplet tuplet = fTupletMember;
-        
-        s <<
-          "TupletTupletMember" << " " <<
-          tuplet->tupletAsString ();
-      }
-      break;
-  } // switch
- * /
-    
-// JMI    tupletMemberKindAsString (fTupletMemberKind) <<
-
-  os <<
-    ", " <<
-    fTupletMember <<
-    endl;
-}
-*/
-
-//______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   int           inputLineNumber,
   int           number,
@@ -5948,10 +5779,11 @@ msrTuplet::~msrTuplet() {}
 
 S_msrTuplet msrTuplet::createTupletBareClone ()
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugTuplets) {
     cerr << idtr <<
       "--> Creating a bare clone of a tuplet" <<
       endl;
+  }
 
   S_msrTuplet
     clone =
@@ -7926,10 +7758,11 @@ msrSyllable::~msrSyllable()
 
 S_msrSyllable msrSyllable::createSyllableBareClone ()
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugLyrics) {
     cerr << idtr <<
       "--> Creating a bare clone of a syllable" <<
       endl;
+  }
 
   S_msrSyllable
     clone =
@@ -8369,12 +8202,13 @@ msrStanza::~msrStanza() {}
 
 S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 {
- // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugLyrics) {
     cerr << idtr <<
       "--> Creating a bare clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice " << clonedVoice->getVoiceName () <<
       endl;
+  }
 
   S_msrStanza
     clone =
@@ -8441,8 +8275,7 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
- // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8478,8 +8311,7 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-//  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8516,7 +8348,7 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8551,7 +8383,7 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8585,7 +8417,7 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8619,7 +8451,7 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8658,7 +8490,7 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8697,7 +8529,7 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -8888,10 +8720,11 @@ msrHarmony::~msrHarmony() {}
 
 S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugHarmony) {
     cerr << idtr <<
       "--> Creating a bare clone or a harmony" <<
       endl;
+  }
 
   S_msrHarmony
     clone =
@@ -9136,10 +8969,11 @@ msrChords::~msrChords() {}
 
 S_msrChords msrChords::createChordsBareClone (S_msrPart clonedPart)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugChords) {
     cerr << idtr <<
       "--> Creating a bare clone of a chord" <<
       endl;
+  }
 
   S_msrChords
     clone =
@@ -9156,7 +8990,7 @@ void msrChords::appendSKipToChords (
   int       inputLineNumber,
   int       divisions)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugChords) {
     cerr << idtr <<
       "--> Adding skip:" << divisions <<
       " to chords " << getChordsName () << endl;
@@ -10702,13 +10536,14 @@ void msrMeasure::finalizeMeasure (
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ();
     
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugMeasures) {
     cerr <<
       idtr <<
       "### --> finalizing measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
+  }
 
   int partMeasurePositionHighTide =
     fMeasurePartDirectUplink->
@@ -10766,28 +10601,32 @@ void msrMeasure::finalizeMeasure (
       inputLineNumber,
       measureKind);
 
-  if (measureIsIncomplete)
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (measureIsIncomplete) {
+    if (gMsrOptions->fDebugMeasures) {
       cerr << idtr <<
       "### --> measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       " is incomplete" <<
       endl;
+    }
+  }
       
   // is this an overfull measure?
   bool measureIsOverfull =
     checkForOverfullMeasure (
       inputLineNumber);
 
-  if (measureIsOverfull)
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (measureIsOverfull) {
+    if (gMsrOptions->fDebugMeasures) {
       cerr << idtr <<
       "### --> measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       " is overfull" <<
       endl;
+    }
+  }
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -11010,11 +10849,12 @@ msrSegment::msrSegment (
       getVoiceTime ();
 
 
-//  if (gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugSegments) {
     cerr << idtr <<
       "--> new segment gets absolute number " <<
       fSegmentAbsoluteNumber <<
       endl;
+  }
 
   if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
@@ -11037,7 +10877,7 @@ msrSegment::msrSegment (
       ? 0
       : 1;
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugSegments) {
     cerr <<
       idtr <<
         "--> Creating segment " << segmentAsString () <<
@@ -11046,6 +10886,7 @@ msrSegment::msrSegment (
         ", fSegmentDivisionsPerWholeNote = " << fSegmentDivisionsPerWholeNote <<
         ", in voice \"" << fSegmentVoicekUplink->getVoiceName () << "\"" <<
         endl;
+  }
 
   // create a first measure
   // fSegmentDivisionsPerWholeNote may be 0 though JMI ???
@@ -11079,11 +10920,12 @@ msrSegment::~msrSegment() {}
 S_msrSegment msrSegment::createSegmentBareClone (
   S_msrVoice clonedVoice)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugSegments) {
     cerr << idtr <<
       "--> Creating a bare clone of segment " <<
       segmentAsString () <<
       endl;
+  }
 
   S_msrSegment
     clone =
@@ -12592,12 +12434,13 @@ void msrVoice::init (int inputLineNumber)
 
 S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugVoices) {
     cerr << idtr <<
       "--> Creating a bare clone of voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   S_msrVoice
     clone =
@@ -12723,12 +12566,13 @@ void msrVoice::createNewLastSegmentForVoice (
       inputLineNumber);
     
   // create the segment
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fDebugVoices) {
     cerr << idtr <<
       "Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
   fVoiceLastSegment =
     msrSegment::create (
@@ -12789,12 +12633,13 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
+  if (gMsrOptions->fDebugLyrics) {
     cerr << idtr <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceStanzasMap [stanzaNumber] = stanza;
 }
@@ -12830,12 +12675,13 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
+  if (gMsrOptions->fDebugLyrics) {
     cerr << idtr <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceStanzasMap [stanzaNumber] = stanza;
 
@@ -13077,12 +12923,12 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
 void msrVoice::appendGracenotesToVoice (
   S_msrGracenotes gracenotes)
 {
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug)
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug)
+  if (gMsrOptions->fDebugGracenotes) {
     cerr << idtr <<
       "Appending grace notes " << // JMI gracenotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceLastSegment->
     appendGracenotesToSegment (gracenotes);
@@ -13093,12 +12939,12 @@ void msrVoice::appendGracenotesToVoice (
 void msrVoice::prependGracenotesToVoice (
   S_msrGracenotes gracenotes)
 {
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug)
-//  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug)
+  if (gMsrOptions->fDebugGracenotes) {
     cerr << idtr <<
       "Prepending grace notes " << // JMI gracenotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceFirstSegment->
     prependGracenotesToSegment (gracenotes);
@@ -13112,7 +12958,7 @@ void msrVoice::appendSyllableToVoice (
   S_msrSyllable syllable)
 {
   // append syllable to this voice
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     cerr << idtr <<
       "--> appending syllable " <<
       syllable->syllableAsString () <<
@@ -13687,7 +13533,7 @@ void msrVoice::print (ostream& os)
   
   idtr--;
   
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gMsrOptions->fDebugLyrics) {
     // print the stanza master
     os << idtr <<
       fVoiceStanzaMaster <<
@@ -13751,10 +13597,11 @@ msrStafftuning::~ msrStafftuning ()
 
 S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugStafftuning) {
     cerr << idtr <<
       "--> Creating a bare clone of a staff tuning" <<
       endl;
+  }
 
  S_msrStafftuning
     clone =
@@ -13767,10 +13614,12 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
   return clone;
 }
 
-void msrStafftuning::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+void msrStafftuning::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fDebugStafftuning) {
     cerr << idtr <<
       "==> msrStafftuning::acceptIn()" << endl;
+  }
       
   if (visitor<S_msrStafftuning>*
     p =
@@ -14100,13 +13949,14 @@ msrStaff::~msrStaff()
 
 S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugStaves) {
     cerr << idtr <<
       "--> Creating a bare clone of staff \"" <<
       fStaffName <<
       "\"" <<
       endl;
-
+  }
+  
   S_msrStaff
     clone =
       msrStaff::create (
@@ -14142,12 +13992,13 @@ string msrStaff::getStaffName () const
 void msrStaff::setStaffDivisionsPerWholeNote (
   int divisionsPerWholeNote)
 {
-  if (gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugStaves) {
     cerr << idtr <<
       "--> setting staff divisions per whole note to " <<
       divisionsPerWholeNote <<
       " in staff \"" << getStaffName () << "\"" <<
       endl;
+  }
 
   fStaffDivisionsPerWholeNote =
     divisionsPerWholeNote;
@@ -15057,11 +14908,12 @@ msrPart::~msrPart() {}
 
 S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugParts) {
     cerr << idtr <<
       "--> Creating a bare clone of part " <<
       getPartCombinedName () <<
       endl;
+  }
 
   S_msrPart
     clone =
@@ -15399,13 +15251,14 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     return fPartStavesMap [staffNumber];
   }
 
-// JMI  if (gGeneralOptions->fForceDebug || gGeneralOptions->fTrace)
+  if (gMsrOptions->fDebugParts) {
     cerr << idtr <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
       endl;
+  }
   
   // create the staff
   S_msrStaff
@@ -15852,7 +15705,7 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
   fPartgroupPartsMap [partID] = part;
   fPartgroupElements.push_back (part);
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gMsrOptions->fDebugPartgroups) {
     cerr <<
     endl <<
     idtr <<
@@ -16488,10 +16341,11 @@ msrScore::~msrScore() {}
 
 S_msrScore msrScore::createScoreBareClone ()
 {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gMsrOptions->fDebugScore) {
     cerr << idtr <<
       "--> Creating a bare clone of a score" <<
       endl;
+  }
 
   S_msrScore
     clone =

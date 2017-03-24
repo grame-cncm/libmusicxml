@@ -344,6 +344,15 @@ class EXP msrOptions : public smartable
 
     static SMARTP<msrOptions> create ();
       
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                          initializeMsrOptions ();
+    
+  public:
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -359,6 +368,31 @@ class EXP msrOptions : public smartable
  
   public:
 
+    // debug
+    bool                          fDebugScore;
+    bool                          fDebugPartgroups;
+    bool                          fDebugParts;
+    bool                          fDebugStaves;
+    bool                          fDebugVoices;
+    
+    bool                          fDebugSegments;
+    bool                          fDebugMeasures;
+    
+    bool                          fDebugNotes;
+    
+    bool                          fDebugChords;
+    bool                          fDebugTuplets;
+    
+    bool                          fDebugGracenotes;
+    
+    bool                          fDebugLyrics;
+
+    bool                          fDebugRepeats;
+    
+    bool                          fDebugHarmony;
+    
+    bool                          fDebugStafftuning;
+    
     // languages
     msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;
     
@@ -3809,86 +3843,6 @@ class EXP msrBarnumberCheck : public msrElement
 };
 typedef SMARTP<msrBarnumberCheck> S_msrBarnumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt);
-
-/*!
-\brief A msr tuplet representation.
-
-  A tuplet is represented by the number of actual notes and
-  normal notes, i.e. a triplet is a tuplet with 3 actual notes
-  played for the duration of 2 actual notes
-*/
-//______________________________________________________________________________
-/*
-class EXP msrTupletMember : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTupletMemberKind {
-      kNoteTupletMember, kChordTupletMember, kTupletTupletMember};
-
-    static string tupletMemberKindAsString (
-      msrTupletMemberKind tupletMemberKind);
-
-    static SMARTP<msrTupletMember> create (
-      int                 inputLineNumber,
-      msrTupletMemberKind tupletMemberKind,
-      S_msrElement        tupletMember);
-
-    SMARTP<msrTupletMember> createTupletBareClone ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTupletMember (
-      int                 inputLineNumber,
-      msrTupletMemberKind tupletMemberKind,
-      S_msrElement        tupletMember);
-      
-    virtual ~msrTupletMember();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-    
-    msrTupletMemberKind getTupletMemberKind () const
-                          { return fTupletMemberKind; }
-
-    S_msrElement        getTupletMember () const
-                          { return fTupletMember; }
-
-    // services
-    // ------------------------------------------------------
-
-    string              tupletMemberAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-
-    msrTupletMemberKind fTupletMemberKind;
-    
-    S_msrElement        fTupletMember;
-};
-typedef SMARTP<msrTupletMember> S_msrTupletMember;
-EXP ostream& operator<< (ostream& os, const S_msrTupletMember& elt);
-*/
 
 /*!
 \brief A msr tuplet representation.
