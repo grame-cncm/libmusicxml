@@ -912,9 +912,10 @@ void initializePitchesAndChordsLanguages ()
   gVlaamsPitchName [k_gSesquiSharp] = "solSesquiSharp???";
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 
+  gChordsLanguagesMap ["Ignatzek"]   = k_IgnatzekChords; // default
   gChordsLanguagesMap ["german"]     = k_GermanChords;
   gChordsLanguagesMap ["semiGerman"] = k_SemiGermanChords;
-  gChordsLanguagesMap ["italian"]    =  k_ItalianChords;
+  gChordsLanguagesMap ["italian"]    = k_ItalianChords;
   gChordsLanguagesMap ["french"]     = k_FrenchChords;
 }
 
@@ -1945,9 +1946,11 @@ string existingLpsrChordsLanguages ()
     iEnd   = gChordsLanguagesMap.end(),
     i      = iBegin;
   for ( ; ; ) {
-    s << (*i).first;
+    if ((*i).second != k_IgnatzekChords)
+      s << (*i).first;
     if (++i == iEnd) break;
-    s << " ";
+    if ((*i).second != k_IgnatzekChords)
+      s << " ";
   } // for
 
   return s.str();

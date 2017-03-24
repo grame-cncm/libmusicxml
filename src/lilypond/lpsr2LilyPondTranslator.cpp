@@ -1551,6 +1551,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
       "\"" <<
       endl;
 
+  if (gLpsrOptions->fChordsLanguage != k_IgnatzekChords)
+    fOstream <<
+      idtr <<
+        "\\" <<
+        msrChordsLanguageAsString (
+          gLpsrOptions->fChordsLanguage) <<
+        "Chords" <<
+        endl;
+
   if (gLpsrOptions->fShowAllBarNumbers)
     fOstream <<
       idtr <<

@@ -309,6 +309,7 @@ string msrQuartertonesPitchAsString (
 // chords languages
 //______________________________________________________________________________
 enum msrChordsLanguage {
+  k_IgnatzekChords, // LilyPond default
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
   
 string msrChordsLanguageAsString (
