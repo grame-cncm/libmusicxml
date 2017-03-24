@@ -4276,6 +4276,27 @@ string msrNote::noteDivisionsAsMSRString () const
   return result;
 }
 
+string msrNote::skipDivisionsAsMSRString () const
+{
+  string result;
+  int    computedNumberOfDots;
+  string errorMessage;
+
+  result =
+    skipDivisionsAsMSRDuration (
+      fNoteData.fNoteDivisions,
+      fNoteDivisionsPerWholeNote,
+      errorMessage,
+      false); // 'true' to debug it
+
+  if (errorMessage.size ())
+    msrMusicXMLError (
+      fInputLineNumber,
+      errorMessage);
+
+  return result;
+}
+
 string msrNote::noteTypeAsMSRString () const
 {
   string result;
@@ -4534,7 +4555,7 @@ string msrNote::noteAsString () const
       s <<
         "Skip" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        skipDivisionsAsMSRString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -10551,24 +10572,40 @@ void msrMeasure::finalizeMeasure (
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ();
     
-  if (gMsrOptions->fDebugMeasures) {
-    cerr <<
-      idtr <<
-      "### --> finalizing measure " << fMeasureNumber <<
-      " in voice \"" << voice->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-
+  // fetch the part measure position high tide
   int partMeasurePositionHighTide =
     fMeasurePartDirectUplink->
       getPartMeasurePositionHighTide ();
     
+  if (true || gMsrOptions->fDebugMeasures) {
+    cerr <<
+      idtr <<
+        "### --> finalizing measure " << fMeasureNumber <<
+        " in voice \"" << voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl <<
+      idtr <<
+        ", fMeasurePosition = " << fMeasurePosition <<
+        endl <<
+      idtr <<
+        ", partMeasurePositionHighTide = " << partMeasurePositionHighTide <<
+        endl;
+  }
+
   if (fMeasurePosition < partMeasurePositionHighTide) {
     // appending a skip to this measure to reach measurePosition
     int skipDuration =
-      partMeasurePositionHighTide - fMeasurePosition;
+      partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure
+        ? partMeasurePositionHighTide - fMeasurePosition
+        : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
 
+    if (true || gMsrOptions->fDebugMeasures) {
+      cerr <<
+        idtr <<
+        ", skipDuration = " << skipDuration <<
+        endl;
+    }
+    
     // create the skip
     S_msrNote
       skip =

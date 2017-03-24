@@ -332,6 +332,12 @@ string divisionsAsMSRDuration (
   string& errorMessage,
   bool    debugMode = false);
 
+string skipDivisionsAsMSRDuration (
+  int     divisions,
+  int     divisionsPerWholeNote,
+  string& errorMessage,
+  bool    debugMode = false);
+
 //______________________________________________________________________________
 string noteTypeAsMSRDuration (
   string  noteType,

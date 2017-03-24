@@ -2779,10 +2779,6 @@ class EXP msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
-    // tuplet members
-    void                  applyTupletMemberDisplayFactorToNote (
-                            int actualNotes, int normalNotes);
-                    
     string                notePitchAsString () const;
 
     string                noteAsShortStringWithRawDivisions () const;
@@ -2793,8 +2789,14 @@ class EXP msrNote : public msrElement
                             int inputLineNumber) const;
 
     string                noteDivisionsAsMSRString () const;
+    string                skipDivisionsAsMSRString () const;
+    
     string                noteTypeAsMSRString () const;
 
+    // tuplet members
+    void                  applyTupletMemberDisplayFactorToNote (
+                            int actualNotes, int normalNotes);
+                    
     // beams
     void                  addBeamToNote (S_msrBeam beam);
     

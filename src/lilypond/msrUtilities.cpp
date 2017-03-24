@@ -1194,6 +1194,135 @@ string divisionsAsMSRDuration (
 }
 
 //______________________________________________________________________________
+string skipDivisionsAsMSRDuration (
+  int     divisions,
+  int     divisionsPerWholeNote,
+  string& errorMessage,
+  bool    debugMode)
+{
+  // MusicXML divisions are per quater note,
+  // MSR and LilyPond durations are in whole notes
+
+  //debugMode = true; // TEMP, for tests
+  
+  if (divisions <= 0) {
+    stringstream s;
+    
+    s << 
+      "### divisionsAsMSRDuration ():" <<
+      endl <<
+      "divisions = " << divisions <<
+      ": should be positive !" <<
+      endl;
+      
+    errorMessage = s.str();
+    
+    return "?";
+  }
+
+  if (divisionsPerWholeNote <= 0) {
+    stringstream s;
+    
+    s << 
+      "### divisionsAsMSRDuration ():" <<
+      endl <<
+      "divisions = " << divisions <<
+      endl <<
+      "divisionsPerWholeNote = " << divisionsPerWholeNote <<
+      ": should be positive !" <<
+      endl;
+      
+    errorMessage = s.str();
+
+    return "?";
+  }
+
+  stringstream s;
+
+  div_t
+    divresult =
+      div (divisions, divisionsPerWholeNote);
+       
+  int div = divresult.quot;
+  int mod = divresult.rem;
+
+  if (debugMode)
+    cerr << endl <<
+      "% --> divisions = " << divisions <<
+      ", divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      "% --> div = " << div << ", mod = " << mod << endl;
+
+  int divisionsAccountedFor = divisions - mod;
+  int remainingDivisions    = mod;
+
+  int limit;
+  
+  switch (div) {
+    case 15:
+    case 14:
+    case 13:
+    case 12:
+    case 11:
+    case 10:
+    case 9:
+    case 8:
+      s << "\\maxima";
+      break;
+      
+    case 7:
+    case 6:
+    case 5:
+    case 4:
+      s << "\\longa";
+      break;
+      
+    case 3:
+    case 2:
+      s << "\\breve";
+      break;
+      
+    case 1:
+    case 0:
+      s << "1";
+      break;
+            
+    default:
+      {
+      stringstream s;
+       // JMI
+      s << 
+        "% skip divisions " <<
+          divisions <<
+        "/" <<
+        divisionsPerWholeNote <<
+        " exceeds a maxima" << endl;
+        
+      errorMessage = s.str();
+
+      return "?";
+      }
+  } // switch
+
+  if (mod > 0) {
+    // a multiplying factor has to be applied
+
+    rational r (
+      divisions,
+      divisionsPerWholeNote);
+    r.rationalise ();
+
+    s <<
+      "*" <<
+      r.getNumerator () <<
+      "/" <<
+      r.getDenominator () <<
+      endl;
+  }
+
+  return s.str();
+}
+
+//______________________________________________________________________________
 int noteTypeAsDivisions (
   string  noteType,
   int     divisionsPerWholeNote,

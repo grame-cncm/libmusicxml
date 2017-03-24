@@ -1733,11 +1733,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
     case msrMeasure::kOverfullMeasure:
       {
-        rational r (
+        fOstream << idtr <<
+          "\\cadenzaOn" <<
+          endl;
+
+      /*
+         rational r (
           elt->getMeasureDivisionsPerFullMeasure (),
           elt->getMeasureLength ());
         r.rationalise ();
-      
+
         fOstream << idtr <<
           "\\scaleDurations " <<
           r.getNumerator () <<
@@ -1747,6 +1752,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
           endl;
   
         idtr++;
+
+        */
       }
       break;
   } // switch
@@ -1769,10 +1776,21 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kOverfullMeasure:
+      fOstream <<
+        idtr <<
+          "\\cadenzaOff" <<
+          endl <<
+        idtr<<
+          "\\bar \"|\"" <<
+          endl;
+/* JMI
       idtr--;
       fOstream <<
         "}" <<
+        endl <<
+        "\\bar \"|\"" <<
         endl;
+        */
       break;
   } // switch
 
@@ -2511,7 +2529,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
       // print the note duration
       fOstream <<
-        elt->noteDivisionsAsMSRString ();
+        elt->skipDivisionsAsMSRString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
