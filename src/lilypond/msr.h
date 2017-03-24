@@ -1774,6 +1774,10 @@ class EXP msrMeasure : public msrElement
                     int                        inputLineNumber,
                     msrMeasure::msrMeasureKind measureKind);
 
+    bool          checkForOverfullMeasure (
+                    int                        inputLineNumber,
+                    msrMeasure::msrMeasureKind measureKind);
+
     void          finalizeMeasure (
                     int                        inputLineNumber,
                     msrMeasure::msrMeasureKind measureKind);

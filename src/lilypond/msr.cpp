@@ -10112,6 +10112,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
   S_msrMeasure
     newMeasure;
 
+/* KEEP JMI
   // the first barline in a part comes before <divisions/>,
   // hence fMeasureDivisionsPerWholeMeasure may be 0:
   // don't test for measure measure change in that case
@@ -10153,6 +10154,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
       appendMeasureToSegment (
         newMeasure);
   }
+*/
 
   return newMeasure;
 }
@@ -10240,7 +10242,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 }
 
-void msrMeasure::appendChordToMeasure (S_msrChord chord) // XXL
+void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 {
   int inputLineNumber =
     chord->getInputLineNumber ();
@@ -10658,6 +10660,74 @@ bool msrMeasure::checkForIncompleteMeasure (
             fMeasurePosition == 1
               ? "incomplete"
               : "empty") <<
+          ", line " << inputLineNumber <<
+          ": position = " << fMeasurePosition <<
+          ", divisionsPerWholeMeasure = " <<
+          fMeasureDivisionsPerFullMeasure <<
+        endl;
+    }
+    
+    // set measure kind
+    setMeasureKind (
+      measureKind);
+  }
+
+  return measureIsIncomplete;
+}
+
+bool msrMeasure::checkForOverfullMeasure (
+  int                        inputLineNumber,
+  msrMeasure::msrMeasureKind measureKind)
+{
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "--> checking for incompleteness of measure  " <<
+      fMeasureNumber <<
+      ", line " << inputLineNumber <<
+      ", in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+
+  if (gGeneralOptions->fDebug) {
+    idtr++;
+
+    cerr <<
+      idtr <<
+        setw(38) << "MeasureDivisionsPerFullMeasure" << " = " <<
+        fMeasureDivisionsPerFullMeasure <<
+        endl <<
+      idtr <<
+        setw(38) << "MeasurePosition" << " = " <<
+        fMeasurePosition <<
+        endl <<
+      idtr <<
+        setw(38) << "MeasureLength" << " = " <<
+        getMeasureLength () <<
+        endl;
+
+    idtr--;
+  }
+
+  bool measureIsOverfull =
+    // positions start at 1
+    fMeasurePosition > fMeasureDivisionsPerFullMeasure;
+
+  if (measureIsOverfull) {    
+    if (gGeneralOptions->fTrace) {
+      cerr <<
+        idtr <<
+          "Measure " << fMeasureNumber <<
+          " of segment " <<
+          fMeasureSegmentUplink->segmentAsString () <<
+          " in voice \"" <<
+          fMeasureSegmentUplink->
+            getSegmentVoiceUplink ()->
+              getVoiceName () <<
+          "\"" <<
+          " is overfull" <<
           ", line " << inputLineNumber <<
           ": position = " << fMeasurePosition <<
           ", divisionsPerWholeMeasure = " <<
