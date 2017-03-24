@@ -1936,6 +1936,23 @@ string existingQuartertonesPitchesLanguages ()
   return s.str();
 }
 
+string existingLpsrChordsLanguages ()
+{
+  stringstream s;
+  
+  map<string, msrChordsLanguage>::const_iterator
+    iBegin = gChordsLanguagesMap.begin(),
+    iEnd   = gChordsLanguagesMap.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    s << (*i).first;
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  return s.str();
+}
+
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
 {
@@ -1947,7 +1964,7 @@ S_msrOptions msrOptions::create ()
 msrOptions::msrOptions ()
 {}
 
-bool msrOptions::setQuartertonesPitchesLanguage (string language)
+bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
 {
   // is language in the pitches languages map?
   map<string, msrQuatertonesPitchesLanguage>::const_iterator

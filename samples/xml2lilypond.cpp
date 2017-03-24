@@ -278,17 +278,17 @@ void analyzeOptions (
 
   if (
     ! 
-      gMsrOptions->setQuartertonesPitchesLanguage ("nederlands")
+      gMsrOptions->setMsrQuartertonesPitchesLanguage ("nederlands")
     ) {
     stringstream s;
 
     s <<
       "INTERNAL INITIALIZATION ERROR: "
-      "language 'nederlands' is unknown" <<
+      "MSR pitches language 'nederlands' is unknown" <<
       endl <<
       "The " <<
       gQuatertonesPitchesLanguagesMap.size () <<
-      " known pitches languages are:" <<
+      " known MSR pitches languages are:" <<
       endl;
 
     idtr++;
@@ -316,11 +316,27 @@ void analyzeOptions (
 
   if (
     ! 
-      gLpsrOptions->setQuartertonesPitchesLanguage ("nederlands")
+      gLpsrOptions->setLpsrQuartertonesPitchesLanguage ("nederlands")
     ) {
-    optionError (
+    stringstream s;
+
+    s <<
       "INTERNAL INITIALIZATION ERROR: "
-      "language 'nederlands' is unknown");
+      "LPSR pitches language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuatertonesPitchesLanguagesMap.size () <<
+      " known LPSR pitches languages are:" <<
+      endl;
+
+    idtr++;
+  
+    s <<
+      existingQuartertonesPitchesLanguages ();
+
+    idtr--;
+
+    optionError (s.str());
   }
   
   gLpsrOptions->fDisplayLPSR                         = false;
@@ -908,14 +924,26 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gMsrOptions->setQuartertonesPitchesLanguage (
+          if (! gMsrOptions->setMsrQuartertonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
-
+        
             s <<
-              "MSR pitches language name '" << optargAsString <<
-              "' is unknown";
-              
+              "MSR pitches language " << optargAsString <<
+              " is unknown" <<
+              endl <<
+              "The " <<
+              gQuatertonesPitchesLanguagesMap.size () <<
+              " known MSR pitches languages are:" <<
+              endl;
+        
+            idtr++;
+          
+            s <<
+              existingQuartertonesPitchesLanguages ();
+        
+            idtr--;
+        
             optionError (s.str());
           }
           
@@ -1020,14 +1048,26 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gLpsrOptions->setQuartertonesPitchesLanguage (
+          if (! gLpsrOptions->setLpsrQuartertonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
             s <<
               "LPSR pitches language name '" << optargAsString <<
-              "' is unknown";
-              
+              "' is unknown" <<
+              endl <<
+              "The " <<
+              gQuatertonesPitchesLanguagesMap.size () <<
+              " known LPSR pitches languages are:" <<
+              endl;
+        
+            idtr++;
+          
+            s <<
+              existingQuartertonesPitchesLanguages ();
+        
+            idtr--;
+        
             optionError (s.str());
           }
           
@@ -1047,13 +1087,25 @@ void analyzeOptions (
             optargAsString = s.str();
           }
           
-          if (! gLpsrOptions->setChordsLanguage (
+          if (! gLpsrOptions->setLpsrChordsLanguage (
             optargAsString)) {
             stringstream s;
 
             s <<
               "LPSR chords language name '" << optargAsString <<
-              "' is unknown";
+              "' is unknown" <<
+              endl <<
+              "The " <<
+              gQuatertonesPitchesLanguagesMap.size () <<
+              " known LPSR chords languages are:" <<
+              endl;
+        
+            idtr++;
+          
+            s <<
+              existingLpsrChordsLanguages ();
+        
+            idtr--;
               
             optionError (s.str());
           }

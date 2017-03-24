@@ -70,7 +70,7 @@ lpsrOptions::lpsrOptions()
 
 lpsrOptions::~lpsrOptions() {}
 
-bool lpsrOptions::setQuartertonesPitchesLanguage (string language)
+bool lpsrOptions::setLpsrQuartertonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrQuatertonesPitchesLanguage>::const_iterator
@@ -87,7 +87,7 @@ bool lpsrOptions::setQuartertonesPitchesLanguage (string language)
   return true;
 }
 
-bool lpsrOptions::setChordsLanguage (string language)
+bool lpsrOptions::setLpsrChordsLanguage (string language)
 {
   // is language in the chords languages map?
   map<string, msrChordsLanguage>::const_iterator

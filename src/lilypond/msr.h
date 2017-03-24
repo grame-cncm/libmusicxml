@@ -306,8 +306,6 @@ string msrQuartertonesPitchAsString (
   msrQuatertonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch);
 
-string existingQuartertonesPitchesLanguages ();
-
 // chords languages
 //______________________________________________________________________________
 enum msrChordsLanguage {
@@ -338,6 +336,9 @@ extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 extern map<string, msrChordsLanguage>
   gChordsLanguagesMap;
 
+string existingQuartertonesPitchesLanguages ();
+string existingLpsrChordsLanguages ();
+
 // initialization
 //______________________________________________________________________________
 void initializePitchesAndChordsLanguages ();
@@ -365,7 +366,7 @@ class EXP msrOptions : public smartable
     // set and get
     // ------------------------------------------------------
 
-    bool                          setQuartertonesPitchesLanguage (
+    bool                          setMsrQuartertonesPitchesLanguage (
                                     string language);    
  
   public:
