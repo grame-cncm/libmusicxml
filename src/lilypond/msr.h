@@ -294,22 +294,6 @@ enum msrQuatertonesPitchesLanguage {
 string msrQuatertonesPitchesLanguageAsString (
   msrQuatertonesPitchesLanguage language);
 
-extern map<string, msrQuatertonesPitchesLanguage>
-  gQuatertonesPitchesLanguagesMap;
-
-extern map<msrQuartertonesPitch, string> gNederlandsPitchName;
-extern map<msrQuartertonesPitch, string> gCatalanPitchName;
-extern map<msrQuartertonesPitch, string> gDeutschPitchName;
-extern map<msrQuartertonesPitch, string> gEnglishPitchName;
-extern map<msrQuartertonesPitch, string> gEspanolPitchName;
-extern map<msrQuartertonesPitch, string> gFrancaisPitchName;
-extern map<msrQuartertonesPitch, string> gItalianoPitchName;
-extern map<msrQuartertonesPitch, string> gNorskPitchName;
-extern map<msrQuartertonesPitch, string> gPortuguesPitchName;
-extern map<msrQuartertonesPitch, string> gSuomiPitchName;
-extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
-extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
-
 string msrDiatonicPitchAsString (
   msrQuatertonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch);
@@ -327,11 +311,34 @@ string msrQuartertonesPitchAsString (
 enum msrChordsLanguage {
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
   
-extern map<msrChordsLanguage, string>
+string msrChordsLanguageAsString (
+  msrChordsLanguage language);
+
+// global variables
+//______________________________________________________________________________
+
+extern map<string, msrQuatertonesPitchesLanguage>
+  gQuatertonesPitchesLanguagesMap;
+
+extern map<msrQuartertonesPitch, string> gNederlandsPitchName;
+extern map<msrQuartertonesPitch, string> gCatalanPitchName;
+extern map<msrQuartertonesPitch, string> gDeutschPitchName;
+extern map<msrQuartertonesPitch, string> gEnglishPitchName;
+extern map<msrQuartertonesPitch, string> gEspanolPitchName;
+extern map<msrQuartertonesPitch, string> gFrancaisPitchName;
+extern map<msrQuartertonesPitch, string> gItalianoPitchName;
+extern map<msrQuartertonesPitch, string> gNorskPitchName;
+extern map<msrQuartertonesPitch, string> gPortuguesPitchName;
+extern map<msrQuartertonesPitch, string> gSuomiPitchName;
+extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
+extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
+
+extern map<string, msrChordsLanguage>
   gChordsLanguagesMap;
 
 // initialization
-void initializePitchesLanguages ();
+//______________________________________________________________________________
+void initializePitchesAndChordsLanguages ();
 
 //______________________________________________________________________________
 /*!

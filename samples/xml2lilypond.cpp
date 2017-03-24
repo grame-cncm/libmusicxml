@@ -41,7 +41,7 @@ void printUsage (int exitStatus)
     "                   Welcome to xml2lilypond, " << endl <<
     "              the MusicXML to LilyPond translator" << endl <<
     "          delivered as part of the libmusicxml2 library." << endl <<
-    "        https://github.com/dfober/libmusicxml/tree/lilypond" << endl <<
+    "      https://github.com/grame-cncm/libmusicxml/tree/lilypond" << endl <<
     endl <<
     "Usage:" << endl <<
     endl <<
@@ -58,6 +58,8 @@ void printUsage (int exitStatus)
     endl <<
     "    Other passes are performed according to the options, such as" << endl <<
     "    printing views of the internal data or printing a summary of the score." << endl <<
+    endl <<
+    "    There is a number of options to fine tune the generated LilyPond code." << endl <<
     endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
     endl <<
@@ -152,9 +154,17 @@ void printUsage (int exitStatus)
     "    --lppl, --lpsrPitchesLanguage language" << endl <<
     "          Use 'language' to display note pitches in the LPSR logs and views," << endl <<
     "          as well as in the generated LilyPond code." << endl <<
-    "          'language' can be one of 'nederlands', 'catalan', 'deutsch', " << endl <<
-    "          'english', 'espanol', 'francais', 'italiano', 'norsk', 'portugues'," << endl <<
-    "          'suomi', 'svenska' or 'vlaams'. Default is 'nederlands'." << endl <<
+    "          The 12 LilyPond pitches languages are available:" << endl <<
+    "          nederlands, catalan, deutsch, english, espanol, français, " << endl <<
+    "          italiano, norsk, portugues, suomi, svenska and vlaams." << endl <<
+    "          The default is to use 'nederlands'." << endl <<
+    endl <<
+    "    --lpcl, --lpsrChordsLanguage language" << endl <<
+    "          Use 'language' to display chord names, their root and bass notes," << endl <<
+    "          in the LPSR logs and views and the generated LilyPond code." << endl <<
+    "          The 4 LilyPond chords languages are available:" << endl <<
+    "          german, semiGerman, italian and french." << endl <<
+    "          The default used by LilyPond is Ignatzek's jazz-like, english naming." << endl <<
     endl <<
 
     "    --lpsr, --displayLPSR" << endl <<
@@ -369,6 +379,7 @@ void analyzeOptions (
   // ------------
 
   int lpsrPitchesLanguagePresent        = 0;
+  int lpsrChordsLanguagePresent         = 0;
   
   int displayLPSRPresent                = 0;
 
@@ -568,6 +579,15 @@ void analyzeOptions (
     {
       "lpsrPitchesLanguage",
       required_argument, &lpsrPitchesLanguagePresent, 1
+    },
+    
+    {
+      "lpcl",
+      required_argument, &lpsrChordsLanguagePresent, 1
+    },
+    {
+      "lpsrChordsLanguage",
+      required_argument, &lpsrChordsLanguagePresent, 1
     },
     
     {
@@ -877,7 +897,7 @@ void analyzeOptions (
             stringstream s;
 
             s <<
-              "language name '" << optargAsString <<
+              "MSR pitches language name '" << optargAsString <<
               "' is unknown";
               
             optionError (s.str());
@@ -989,7 +1009,7 @@ void analyzeOptions (
             stringstream s;
 
             s <<
-              "language name '" << optargAsString <<
+              "LPSR pitches language name '" << optargAsString <<
               "' is unknown";
               
             optionError (s.str());
@@ -1000,6 +1020,33 @@ void analyzeOptions (
             optargAsString +
             " ";
           lpsrPitchesLanguagePresent = false;
+          }
+             
+        if (lpsrChordsLanguagePresent) {
+          // optarg contains the language name
+          string optargAsString;
+          {
+            stringstream s;
+            s << optarg;
+            optargAsString = s.str();
+          }
+          
+          if (! gLpsrOptions->setChordsLanguage (
+            optargAsString)) {
+            stringstream s;
+
+            s <<
+              "LPSR chords language name '" << optargAsString <<
+              "' is unknown";
+              
+            optionError (s.str());
+          }
+          
+          gGeneralOptions->fCommandLineOptions +=
+            "--lpsrChordsLanguage " +
+            optargAsString +
+            " ";
+          lpsrChordsLanguagePresent = false;
           }
              
         if (displayLPSRPresent) {
@@ -1437,6 +1484,11 @@ void printOptions ()
         gLpsrOptions->fQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
+    idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
+      msrChordsLanguageAsString (
+        gLpsrOptions->fChordsLanguage) <<
+        "\"" <<
+        endl <<
 
     idtr << setw(fieldWidth) << "displayLPSR" << " : " <<
       booleanAsString (gLpsrOptions->fDisplayLPSR) <<
@@ -1489,10 +1541,10 @@ int main (int argc, char *argv[])
   }
   */
 
-  // analyze the pitches languages variables
+  // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
-  initializePitchesLanguages ();
+  initializePitchesAndChordsLanguages ();
   
   // analyze the command line options
   // ------------------------------------------------------

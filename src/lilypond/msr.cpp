@@ -42,10 +42,10 @@ map<msrQuartertonesPitch, string> gSuomiPitchName;
 map<msrQuartertonesPitch, string> gSvenskaPitchName;
 map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
-map<msrChordsLanguage, string>
+map<string, msrChordsLanguage>
   gChordsLanguagesMap;
 
-void initializePitchesLanguages ()
+void initializePitchesAndChordsLanguages ()
 {
   gQuatertonesPitchesLanguagesMap ["nederlands"] = kNederlands;
   gQuatertonesPitchesLanguagesMap ["catalan"]    = kCatalan;
@@ -53,7 +53,7 @@ void initializePitchesLanguages ()
   gQuatertonesPitchesLanguagesMap ["english"]    = kEnglish;
   gQuatertonesPitchesLanguagesMap ["espanol"]    = kEspanol;
   gQuatertonesPitchesLanguagesMap ["italiano"]   = kItaliano;
-  gQuatertonesPitchesLanguagesMap ["francais"]   = kFrancais;
+  gQuatertonesPitchesLanguagesMap ["français"]   = kFrancais;
   gQuatertonesPitchesLanguagesMap ["norsk"]      = kNorsk;
   gQuatertonesPitchesLanguagesMap ["portugues"]  = kPortugues;
   gQuatertonesPitchesLanguagesMap ["suomi"]      = kSuomi;
@@ -912,10 +912,10 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gSesquiSharp] = "solSesquiSharp???";
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 
-  gChordsLanguagesMap [k_GermanChords]     = "german";
-  gChordsLanguagesMap [k_SemiGermanChords] = "semiGerman";
-  gChordsLanguagesMap [k_ItalianChords]    = "italian";
-  gChordsLanguagesMap [k_FrenchChords]     = "french";
+  gChordsLanguagesMap ["german"]     = k_GermanChords;
+  gChordsLanguagesMap ["semiGerman"] = k_SemiGermanChords;
+  gChordsLanguagesMap ["italian"]    =  k_ItalianChords;
+  gChordsLanguagesMap ["french"]     = k_FrenchChords;
 }
 
 msrDiatonicPitch msrDiatonicPitchFromString (
@@ -1018,6 +1018,28 @@ string msrQuatertonesPitchesLanguageAsString (
       break;
     case kVlaams:
       result = "vlaams";
+      break;
+  } // switch
+
+  return result;
+}
+string msrChordsLanguageAsString (
+  msrChordsLanguage language)
+{
+  string result;
+  
+  switch (language) {
+    case k_GermanChords:
+      result = "german";
+      break;
+    case k_SemiGermanChords:
+      result = "semiGerman";
+      break;
+    case k_ItalianChords:
+      result = "italian";
+      break;
+    case k_FrenchChords:
+      result = "french";
       break;
   } // switch
 
@@ -1910,7 +1932,7 @@ msrOptions::msrOptions ()
 
 bool msrOptions::setQuartertonesPitchesLanguage (string language)
 {
-  // is language in the note names languages map?
+  // is language in the pitches languages map?
   map<string, msrQuatertonesPitchesLanguage>::const_iterator
     it =
       gQuatertonesPitchesLanguagesMap.find (language);

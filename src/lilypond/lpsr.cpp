@@ -78,31 +78,28 @@ bool lpsrOptions::setQuartertonesPitchesLanguage (string language)
       gQuatertonesPitchesLanguagesMap.find (language);
         
   if (it == gQuatertonesPitchesLanguagesMap.end ()) {
-    // no, language is unknown in the map
-
-/* JMI
-    cerr <<
-      endl << endl;
-
-    cerr <<
-      "gQuatertonesPitchesLanguagesMap.size () = " <<
-      gQuatertonesPitchesLanguagesMap.size () <<
-      endl << endl;
-      
-    for (
-      map<string, quartertonesLanguage>::const_iterator i=gQuatertonesPitchesLanguagesMap.begin();
-      i!=gQuatertonesPitchesLanguagesMap.end();
-      i++) {
-      cerr <<
-        (*i).first << ": " << (*i).second <<
-        endl << endl;
-    } // for
-*/
-    
+    // no, language is unknown in the map    
     return false;
   }
 
   fQuatertonesPitchesLanguage = (*it).second;
+  
+  return true;
+}
+
+bool lpsrOptions::setChordsLanguage (string language)
+{
+  // is language in the chords languages map?
+  map<string, msrChordsLanguage>::const_iterator
+    it =
+      gChordsLanguagesMap.find (language);
+        
+  if (it == gChordsLanguagesMap.end ()) {
+    // no, language is unknown in the map    
+    return false;
+  }
+
+  fChordsLanguage = (*it).second;
   
   return true;
 }
