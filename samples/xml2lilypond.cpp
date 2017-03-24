@@ -59,7 +59,7 @@ void printUsage (int exitStatus)
     "    Other passes are performed according to the options, such as" << endl <<
     "    printing views of the internal data or printing a summary of the score." << endl <<
     endl <<
-    "    There is a number of options to fine tune the generated LilyPond code." << endl <<
+    "    There are various options to fine tune the generated LilyPond code." << endl <<
     endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
     endl <<
