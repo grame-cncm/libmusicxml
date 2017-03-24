@@ -280,9 +280,25 @@ void analyzeOptions (
     ! 
       gMsrOptions->setQuartertonesPitchesLanguage ("nederlands")
     ) {
-    optionError (
+    stringstream s;
+
+    s <<
       "INTERNAL INITIALIZATION ERROR: "
-      "language 'nederlands' is unknown");
+      "language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuatertonesPitchesLanguagesMap.size () <<
+      " known pitches languages are:" <<
+      endl;
+
+    idtr++;
+  
+    s <<
+      existingQuartertonesPitchesLanguages ();
+
+    idtr--;
+
+    optionError (s.str());
   }
   
   gMsrOptions->fCreateStaffRelativeVoiceNumbers      = false;

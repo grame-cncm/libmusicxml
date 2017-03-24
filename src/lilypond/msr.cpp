@@ -53,7 +53,7 @@ void initializePitchesAndChordsLanguages ()
   gQuatertonesPitchesLanguagesMap ["english"]    = kEnglish;
   gQuatertonesPitchesLanguagesMap ["espanol"]    = kEspanol;
   gQuatertonesPitchesLanguagesMap ["italiano"]   = kItaliano;
-  gQuatertonesPitchesLanguagesMap ["français"]   = kFrancais;
+  gQuatertonesPitchesLanguagesMap ["francais"]   = kFrancais;
   gQuatertonesPitchesLanguagesMap ["norsk"]      = kNorsk;
   gQuatertonesPitchesLanguagesMap ["portugues"]  = kPortugues;
   gQuatertonesPitchesLanguagesMap ["suomi"]      = kSuomi;
@@ -999,7 +999,7 @@ string msrQuatertonesPitchesLanguageAsString (
       result = "espanol";
       break;
     case kFrancais:
-      result = "français";
+      result = "francais";
       break;
     case kItaliano:
       result = "italiano";
@@ -1919,6 +1919,23 @@ string msrQuartertonesPitchAsString (
   return result;
 }
 
+string existingQuartertonesPitchesLanguages ()
+{
+  stringstream s;
+  
+  map<string, msrQuatertonesPitchesLanguage>::const_iterator
+    iBegin = gQuatertonesPitchesLanguagesMap.begin(),
+    iEnd   = gQuatertonesPitchesLanguagesMap.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    s << (*i).first;
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  return s.str();
+}
+
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
 {
@@ -1939,26 +1956,6 @@ bool msrOptions::setQuartertonesPitchesLanguage (string language)
         
   if (it == gQuatertonesPitchesLanguagesMap.end ()) {
     // no, language is unknown in the map
-
-/* JMI
-    cerr <<
-      endl << endl;
-
-    cerr <<
-      "gQuatertonesPitchesLanguagesMap.size () = " <<
-      gQuatertonesPitchesLanguagesMap.size () <<
-      endl << endl;
-      
-    for (
-      map<string, quartertonesPitchLanguage>::const_iterator i=gQuatertonesPitchesLanguagesMap.begin();
-      i!=gQuatertonesPitchesLanguagesMap.end();
-      i++) {
-      cerr <<
-        (*i).first << ": " << (*i).second <<
-        endl << endl;
-    } // for
-*/
-    
     return false;
   }
 

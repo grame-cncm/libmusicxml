@@ -306,6 +306,8 @@ string msrQuartertonesPitchAsString (
   msrQuatertonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch);
 
+string existingQuartertonesPitchesLanguages ();
+
 // chords languages
 //______________________________________________________________________________
 enum msrChordsLanguage {
