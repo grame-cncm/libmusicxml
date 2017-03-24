@@ -106,7 +106,7 @@ else()
 	set(target musicxml2)
 endif()
 
-if(MSVC)
+if(MSVC OR MINGW)
 	enable_language(RC)
 	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
 else()
