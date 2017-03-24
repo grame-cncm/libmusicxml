@@ -10662,7 +10662,7 @@ bool msrMeasure::checkForOverfullMeasure (
 
   bool measureIsOverfull =
     // positions start at 1
-    fMeasurePosition > fMeasureDivisionsPerFullMeasure;
+    fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1;
 
   if (measureIsOverfull) {    
     if (gGeneralOptions->fTrace) {
