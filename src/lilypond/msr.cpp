@@ -14130,8 +14130,13 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
     
     s <<
       "staff \"" << getStaffName () <<
-      "\" is already filled up with " << msrStaff::gMaxStaffVoices <<
-      " voices, voice " << externalVoiceNumber << " overflows it" <<
+      "\" is already filled up with " <<
+      msrStaff::gMaxStaffVoices << " voices" <<
+      endl <<
+      "voice " << externalVoiceNumber << " overflows it" <<
+      endl <<
+      ", fRegisteredVoicesCounter = " << fRegisteredVoicesCounter <<
+      ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
       endl;
       
     msrMusicXMLError (
@@ -14212,8 +14217,13 @@ void msrStaff::registerVoiceInStaff (
     
     s <<
       "staff \"" << getStaffName () <<
-      "\" is already filled up with " << msrStaff::gMaxStaffVoices <<
-      " voices, voice " << voice->getVoiceName () << " overflows it" <<
+      "\" is already filled up with " <<
+      msrStaff::gMaxStaffVoices << " voices," <<
+      endl <<
+      "voice " << voice->getVoiceName () << " overflows it" <<
+      endl <<
+      ", fRegisteredVoicesCounter = " << fRegisteredVoicesCounter <<
+      ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
       endl;
       
     msrMusicXMLError (
