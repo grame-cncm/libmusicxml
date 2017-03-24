@@ -3801,7 +3801,9 @@ msrNote::msrNote (
 
   fNoteMeasureNumber = -10011;
   fNotePositionInMeasure = -20022;
-    
+
+  fNoteIsStemless = false;
+  
   fNoteHasATrill = false;
 
   fNoteHasADelayedOrnament = false;
@@ -3847,6 +3849,9 @@ S_msrNote msrNote::createNoteBareClone ()
   clone-> fNoteOccupiesAFullMeasure =
     fNoteOccupiesAFullMeasure;
 
+  clone->fNoteIsStemless =
+    fNoteIsStemless;
+
   clone->fNoteHasATrill =
     fNoteHasATrill;
 
@@ -3863,6 +3868,16 @@ msrDiatonicPitch msrNote::getDiatonicPitch (
     msrDiatonicPitchFromQuatertonesPitch (
       inputLineNumber,
       fNoteData.fNoteQuatertonesPitch);
+}
+
+void msrNote::setNoteStem (S_msrStem stem)
+{
+  // register note stem
+  fNoteStem = stem;
+
+  // mark note as stemless if relevant
+  if (stem->getStemKind () == msrStem::kStemNone)
+    fNoteIsStemless = true;
 }
 
 void msrNote::setNoteBelongsToAChord ()
@@ -14133,7 +14148,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
       "\" is already filled up with " <<
       msrStaff::gMaxStaffVoices << " voices" <<
       endl <<
-      "voice " << externalVoiceNumber << " overflows it" <<
+      "the voice with external number " << externalVoiceNumber << " overflows it" <<
       endl <<
       ", fRegisteredVoicesCounter = " << fRegisteredVoicesCounter <<
       ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
@@ -14220,7 +14235,7 @@ void msrStaff::registerVoiceInStaff (
       "\" is already filled up with " <<
       msrStaff::gMaxStaffVoices << " voices," <<
       endl <<
-      "voice " << voice->getVoiceName () << " overflows it" <<
+      "the voice named \"" << voice->getVoiceName () << "\" overflows it" <<
       endl <<
       ", fRegisteredVoicesCounter = " << fRegisteredVoicesCounter <<
       ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
@@ -14851,6 +14866,7 @@ msrPart::msrPart (
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
+/* JMI JMI
   // create the part harmony staff
   const int partHarmonyStaffNumber = -1;
 
@@ -14890,6 +14906,7 @@ msrPart::msrPart (
     registerVoiceInStaff (
       inputLineNumber,
       fPartHarmonyVoice );
+*/
 
 /* JMI
   // create a first staff for the part

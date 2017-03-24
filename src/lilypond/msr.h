@@ -2636,8 +2636,7 @@ class EXP msrNote : public msrElement
                               { return fNoteOctaveShift; }
 
     // stems
-    void                  setNoteStem (S_msrStem stem)
-                              { fNoteStem = stem; }
+    void                  setNoteStem (S_msrStem stem);
 
     S_msrStem             getNoteStem () const
                               { return fNoteStem; }
@@ -2681,6 +2680,9 @@ class EXP msrNote : public msrElement
     list<S_msrOrnament>&  getNoteOrnamentsToModify ()
                               { return fNoteOrnaments; }
         
+    bool                  getNoteIsStemless () const
+                              { return fNoteIsStemless; }
+                  
     bool                  getNoteHasATrill () const
                               { return fNoteHasATrill; }
                   
@@ -2863,6 +2865,10 @@ class EXP msrNote : public msrElement
     int                       fNoteMeasureNumber;
     int                       fNotePositionInMeasure;
     bool                      fNoteOccupiesAFullMeasure;
+
+    // this is needed to handle stemless notes,
+    // because the <stem> is visited after visitorStart ( S_msrNote ) 
+    bool                      fNoteIsStemless;
 
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;

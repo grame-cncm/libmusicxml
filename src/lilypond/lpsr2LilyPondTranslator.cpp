@@ -1732,7 +1732,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kOverfullMeasure:
-      // JMI
+      fOstream << idtr <<
+        "\\scaleDurations " <<
+        elt->getMeasureDivisionsPerFullMeasure () <<
+        "/" <<
+        elt->getMeasureLength () <<
+        " {" <<
+        endl;
+
+      idtr++;
       break;
   } // switch
 }
@@ -1742,6 +1750,24 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrMeasure" << endl;
+
+  switch (elt->getMeasureKind ()) {
+    case msrMeasure::kRegularMeasure:
+      break;
+      
+    case msrMeasure::kIncompleteLeftMeasure:
+      break;
+      
+    case msrMeasure::kIncompleteRightMeasure:
+      break;
+
+    case msrMeasure::kOverfullMeasure:
+      idtr--;
+      fOstream <<
+        "}" <<
+        endl;
+      break;
+  } // switch
 
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
@@ -2296,6 +2322,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         ? fCurrentStem->getStemKind ()
         : msrStem::k_NoStem;
 
+  // should the stem be omitted?
+  if (elt->getNoteIsStemless ()) {
+    fOstream <<
+      endl <<
+      idtr <<
+      "\\once\\omit Stem" " ";
+  }
+  
+/* JMI
   // is there an unmetered (stemless) section?
   if (stemKind != fCurrentStemKind) {
     switch (stemKind) {
@@ -2303,9 +2338,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         if (! fOnGoingStemNone) {
           fOstream <<
             endl <<
-            "\\temporary\\omit Stem" " "
-            "\\once\\omit Staff.TimeSignature" " "
-            "\\cadenzaOn" <<
+            endl << //JMI
+            idtr <<
+              "\\temporary\\omit Stem" <<
+              endl <<
+            idtr <<
+              "\\once\\omit Staff.TimeSignature" <<
+              endl <<
+            idtr <<
+              "\\cadenzaOn" <<
+              endl <<
+            endl << //JMI
             idtr;
 
           fMusicOlec.reset ();
@@ -2315,10 +2358,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         else {
           fOstream <<
             endl <<
-            "\\cadenzaOff" " "
-            "\\bar \"|\""
-            "\\undo\\omit Stem" <<
-            endl;
+            endl << //JMI
+            idtr <<
+              "\\cadenzaOff" <<
+              endl <<
+            idtr <<
+              "\\bar \"|\"" <<
+              endl <<
+            idtr <<
+              "\\undo\\omit Stem" <<
+              endl <<
+            endl << //JMI
+            idtr;
 
           fMusicOlec.reset ();
         }
@@ -2331,6 +2382,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         break;
     } // switch
   }
+*/
 
   // should stem direction be generated?
   if (fLpsrOptions->fGenerateStems) {
@@ -2571,6 +2623,20 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     fOstream << " msrNote" << endl;
   }
 
+  // get note stem kind 
+  msrStem::msrStemKind
+    stemKind =
+      fCurrentStem
+        ? fCurrentStem->getStemKind ()
+        : msrStem::k_NoStem;
+
+  // has the stem been omitted?
+  if (elt->getNoteIsStemless ()) {
+    fOstream <<
+      endl <<
+      idtr;
+  }
+  
   switch (elt->getNoteKind ()) { // JMI
     case msrNote::k_NoNoteKind:
       break;
