@@ -102,6 +102,22 @@ namespace MusicXML2
   assert(false); \
 }
 
+// chords languages
+//______________________________________________________________________________
+enum lpsrChordsLanguage {
+  k_IgnatzekChords, // LilyPond default
+  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
+  
+string lpsrChordsLanguageAsString (
+  lpsrChordsLanguage language);
+
+extern map<string, lpsrChordsLanguage>
+  gLpsrChordsLanguagesMap;
+
+string existingLpsrChordsLanguages ();
+
+void initializeLpsrChordsLanguages ();
+
 /*!
   \brief The LPSR code generation options.
 
@@ -138,8 +154,8 @@ class EXP lpsrOptions : public smartable {
   public:
 
     // languages
-    msrQuatertonesPitchesLanguage fQuatertonesPitchesLanguage;
-    msrChordsLanguage             fChordsLanguage;
+    msrQuatertonesPitchesLanguage fLpsrQuatertonesPitchesLanguage;
+    lpsrChordsLanguage            fLpsrChordsLanguage;
     
     // LPSR display
     bool                          fDisplayLPSR;

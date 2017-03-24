@@ -2394,7 +2394,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
       idtr <<
         setw(34) << "fCurrentStaffTuningDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
-          gMsrOptions->fQuatertonesPitchesLanguage,
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
           fCurrentStaffTuningDiatonicPitch) <<
         endl <<
       idtr <<
@@ -2405,7 +2405,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
       idtr <<
         setw(34) << "quartertonesPitch" << " = " <<
         msrQuartertonesPitchAsString (
-          gMsrOptions->fQuatertonesPitchesLanguage,
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
           quartertonesPitch) <<
         endl <<
       idtr <<
@@ -7996,7 +7996,16 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_harmony& elt )
-{}
+{
+  fCurrentHarmonyRootDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyRootAlteration    = kNatural;
+  fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
+  fCurrentHarmonyKindText          = "";
+  fCurrentHarmonyBassDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyBassAlteration    = kNatural;
+  fCurrentHarmonyDegreeValue       = -1;
+  fCurrentHarmonyDegreeAlteration  = kNatural;
+}
 
 void xml2MsrTranslator::visitStart ( S_root_step& elt )
 {
@@ -8179,7 +8188,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
       idtr <<
         setw(32) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
-          gMsrOptions->fQuatertonesPitchesLanguage,
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
           fCurrentHarmonyRootDiatonicPitch) <<
         endl <<
       idtr <<
@@ -8198,7 +8207,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
       idtr <<
         setw(32) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
-          gMsrOptions->fQuatertonesPitchesLanguage,
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
           fCurrentHarmonyBassDiatonicPitch) <<
         endl <<
       idtr <<

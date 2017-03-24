@@ -426,7 +426,7 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
     fOstream << idtr <<
       "\\key " <<
       msrQuartertonesPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         elt->getKeyTonicQuartertonesPitch ()) <<
       " " <<
       msrKey::keyModeKindAsString (

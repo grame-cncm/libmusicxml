@@ -42,10 +42,7 @@ map<msrQuartertonesPitch, string> gSuomiPitchName;
 map<msrQuartertonesPitch, string> gSvenskaPitchName;
 map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
-map<string, msrChordsLanguage>
-  gChordsLanguagesMap;
-
-void initializePitchesAndChordsLanguages ()
+void initializePitchesLanguages ()
 {
   gQuatertonesPitchesLanguagesMap ["nederlands"] = kNederlands;
   gQuatertonesPitchesLanguagesMap ["catalan"]    = kCatalan;
@@ -911,12 +908,6 @@ void initializePitchesAndChordsLanguages ()
   gVlaamsPitchName [k_gSharp]       = "solk";
   gVlaamsPitchName [k_gSesquiSharp] = "solSesquiSharp???";
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
-
-  gChordsLanguagesMap ["Ignatzek"]   = k_IgnatzekChords; // default
-  gChordsLanguagesMap ["german"]     = k_GermanChords;
-  gChordsLanguagesMap ["semiGerman"] = k_SemiGermanChords;
-  gChordsLanguagesMap ["italian"]    = k_ItalianChords;
-  gChordsLanguagesMap ["french"]     = k_FrenchChords;
 }
 
 msrDiatonicPitch msrDiatonicPitchFromString (
@@ -1019,28 +1010,6 @@ string msrQuatertonesPitchesLanguageAsString (
       break;
     case kVlaams:
       result = "vlaams";
-      break;
-  } // switch
-
-  return result;
-}
-string msrChordsLanguageAsString (
-  msrChordsLanguage language)
-{
-  string result;
-  
-  switch (language) {
-    case k_GermanChords:
-      result = "german";
-      break;
-    case k_SemiGermanChords:
-      result = "semiGerman";
-      break;
-    case k_ItalianChords:
-      result = "italian";
-      break;
-    case k_FrenchChords:
-      result = "french";
       break;
   } // switch
 
@@ -1937,25 +1906,6 @@ string existingQuartertonesPitchesLanguages ()
   return s.str();
 }
 
-string existingLpsrChordsLanguages ()
-{
-  stringstream s;
-  
-  map<string, msrChordsLanguage>::const_iterator
-    iBegin = gChordsLanguagesMap.begin(),
-    iEnd   = gChordsLanguagesMap.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    if ((*i).second != k_IgnatzekChords)
-      s << (*i).first;
-    if (++i == iEnd) break;
-    if ((*i).second != k_IgnatzekChords)
-      s << " ";
-  } // for
-
-  return s.str();
-}
-
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
 {
@@ -1979,7 +1929,7 @@ bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
     return false;
   }
 
-  fQuatertonesPitchesLanguage = (*it).second;
+  fMsrQuatertonesPitchesLanguage = (*it).second;
   
   return true;
 }
@@ -2150,7 +2100,7 @@ void msrNoteData::print (ostream& os)
       setw(width) <<
       "fNoteQuatertonesPitch" << " = " <<
       msrQuartertonesPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fNoteQuatertonesPitch) <<
       endl <<
     idtr << left <<
@@ -4237,7 +4187,7 @@ string msrNote::notePitchAsString () const
 
     s <<
       msrQuartertonesPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fNoteData.getNoteQuatertonesPitch ());  
 
   }
@@ -4291,7 +4241,7 @@ string msrNote::noteDiatonicPitchAsString (
 {
   return
     msrDiatonicPitchAsString (
-      gMsrOptions->fQuatertonesPitchesLanguage,
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
       fNoteData.noteDiatonicPitch (
         inputLineNumber));
 }
@@ -7498,7 +7448,7 @@ string msrKey::keyAsString () const
   s <<
     "Key \"" <<
     msrQuartertonesPitchAsString (
-      gMsrOptions->fQuatertonesPitchesLanguage,
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
       fKeyTonicQuartertonesPitch) <<
     "\" " <<
     keyModeKindAsString (fKeyModeKind) <<
@@ -9046,7 +8996,7 @@ string msrHarmony::harmonyAsString () const
 
   s <<
     msrDiatonicPitchAsString (
-      gMsrOptions->fQuatertonesPitchesLanguage,
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
       msrDiatonicPitchFromQuatertonesPitch (
         fInputLineNumber,
         fHarmonyRootQuartertonesPitch)) <<        
@@ -9060,7 +9010,7 @@ string msrHarmony::harmonyAsString () const
     s <<
       "/" <<
       msrDiatonicPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
           fHarmonyRootQuartertonesPitch));
@@ -9123,7 +9073,7 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
       msrDiatonicPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
           fHarmonyRootQuartertonesPitch)) <<        
@@ -9139,7 +9089,7 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
       msrDiatonicPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
           fHarmonyBassQuartertonesPitch)) <<        
@@ -10676,8 +10626,7 @@ bool msrMeasure::checkForIncompleteMeasure (
 }
 
 bool msrMeasure::checkForOverfullMeasure (
-  int                        inputLineNumber,
-  msrMeasure::msrMeasureKind measureKind)
+  int inputLineNumber)
 {
   if (gGeneralOptions->fDebug)
     cerr << idtr <<
@@ -10737,10 +10686,10 @@ bool msrMeasure::checkForOverfullMeasure (
     
     // set measure kind
     setMeasureKind (
-      measureKind);
+      kOverfullMeasure);
   }
 
-  return measureIsIncomplete;
+  return measureIsOverfull;
 }
 
 void msrMeasure::finalizeMeasure (
@@ -10811,6 +10760,7 @@ void msrMeasure::finalizeMeasure (
   }
 
   // CAUTION JMI : this is a potential incomplete measure
+  // is this an incomplete measure?
   bool measureIsIncomplete =
     checkForIncompleteMeasure (
       inputLineNumber,
@@ -10823,6 +10773,20 @@ void msrMeasure::finalizeMeasure (
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       " is incomplete" <<
+      endl;
+      
+  // is this an overfull measure?
+  bool measureIsOverfull =
+    checkForOverfullMeasure (
+      inputLineNumber);
+
+  if (measureIsOverfull)
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+      cerr << idtr <<
+      "### --> measure " << fMeasureNumber <<
+      " in voice \"" << voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      " is overfull" <<
       endl;
 }
 
@@ -13854,7 +13818,7 @@ string msrStafftuning::stafftuningAsString () const
     "line " << fStafftuningLineNumber <<
     ", " <<
     msrQuartertonesPitchAsString (
-      gMsrOptions->fQuatertonesPitchesLanguage,
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
       fStafftuningQuartertonesPitch) <<
     ", octave " << fStafftuningOctave;
     
@@ -13877,7 +13841,7 @@ void msrStafftuning::print (ostream& os)
     idtr <<
       setw(21) << "fStafftuningQuartertonesPitch" << " = " <<
       msrQuartertonesPitchAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage,
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fStafftuningQuartertonesPitch) <<
       endl <<
     idtr <<

@@ -26,9 +26,62 @@ using namespace std;
 namespace MusicXML2 
 {
 
+// chords languages
 //______________________________________________________________________________
-// global variables
 
+map<string, lpsrChordsLanguage>
+  gLpsrChordsLanguagesMap;
+
+void initializeLpsrChordsLanguages ()
+{
+  gLpsrChordsLanguagesMap ["Ignatzek"]   = k_IgnatzekChords; // default
+  gLpsrChordsLanguagesMap ["german"]     = k_GermanChords;
+  gLpsrChordsLanguagesMap ["semiGerman"] = k_SemiGermanChords;
+  gLpsrChordsLanguagesMap ["italian"]    = k_ItalianChords;
+  gLpsrChordsLanguagesMap ["french"]     = k_FrenchChords;
+}
+
+string lpsrChordsLanguageAsString (
+  lpsrChordsLanguage language)
+{
+  string result;
+  
+  switch (language) {
+    case k_GermanChords:
+      result = "german";
+      break;
+    case k_SemiGermanChords:
+      result = "semiGerman";
+      break;
+    case k_ItalianChords:
+      result = "italian";
+      break;
+    case k_FrenchChords:
+      result = "french";
+      break;
+  } // switch
+
+  return result;
+}
+
+string existingLpsrChordsLanguages ()
+{
+  stringstream s;
+  
+  map<string, lpsrChordsLanguage>::const_iterator
+    iBegin = gLpsrChordsLanguagesMap.begin(),
+    iEnd   = gLpsrChordsLanguagesMap.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    if ((*i).second != k_IgnatzekChords)
+      s << (*i).first;
+    if (++i == iEnd) break;
+    if ((*i).second != k_IgnatzekChords)
+      s << " ";
+  } // for
+
+  return s.str();
+}
 
 //_______________________________________________________________________________
 S_lpsrOptions lpsrOptions::create()
@@ -82,7 +135,7 @@ bool lpsrOptions::setLpsrQuartertonesPitchesLanguage (string language)
     return false;
   }
 
-  fQuatertonesPitchesLanguage = (*it).second;
+  fLpsrQuatertonesPitchesLanguage = (*it).second;
   
   return true;
 }
@@ -90,16 +143,16 @@ bool lpsrOptions::setLpsrQuartertonesPitchesLanguage (string language)
 bool lpsrOptions::setLpsrChordsLanguage (string language)
 {
   // is language in the chords languages map?
-  map<string, msrChordsLanguage>::const_iterator
+  map<string, lpsrChordsLanguage>::const_iterator
     it =
-      gChordsLanguagesMap.find (language);
+      gLpsrChordsLanguagesMap.find (language);
         
-  if (it == gChordsLanguagesMap.end ()) {
+  if (it == gLpsrChordsLanguagesMap.end ()) {
     // no, language is unknown in the map    
     return false;
   }
 
-  fChordsLanguage = (*it).second;
+  fLpsrChordsLanguage = (*it).second;
   
   return true;
 }

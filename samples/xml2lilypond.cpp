@@ -1496,7 +1496,7 @@ void printOptions ()
   cerr << left <<
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
-        gMsrOptions->fQuatertonesPitchesLanguage) <<
+        gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
     
@@ -1549,12 +1549,12 @@ void printOptions ()
   cerr << left <<
     idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
-        gLpsrOptions->fQuatertonesPitchesLanguage) <<
+        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
     idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
-      msrChordsLanguageAsString (
-        gLpsrOptions->fChordsLanguage) <<
+      lpsrChordsLanguageAsString (
+        gLpsrOptions->fLpsrChordsLanguage) <<
         "\"" <<
         endl <<
 
@@ -1612,7 +1612,8 @@ int main (int argc, char *argv[])
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
-  initializePitchesAndChordsLanguages ();
+  initializePitchesLanguages ();
+  initializeLpsrChordsLanguages ();
   
   // analyze the command line options
   // ------------------------------------------------------

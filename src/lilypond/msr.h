@@ -306,15 +306,6 @@ string msrQuartertonesPitchAsString (
   msrQuatertonesPitchesLanguage language,
   msrQuartertonesPitch          quartertonesPitch);
 
-// chords languages
-//______________________________________________________________________________
-enum msrChordsLanguage {
-  k_IgnatzekChords, // LilyPond default
-  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
-  
-string msrChordsLanguageAsString (
-  msrChordsLanguage language);
-
 // global variables
 //______________________________________________________________________________
 
@@ -334,15 +325,11 @@ extern map<msrQuartertonesPitch, string> gSuomiPitchName;
 extern map<msrQuartertonesPitch, string> gSvenskaPitchName;
 extern map<msrQuartertonesPitch, string> gVlaamsPitchName;
 
-extern map<string, msrChordsLanguage>
-  gChordsLanguagesMap;
-
 string existingQuartertonesPitchesLanguages ();
-string existingLpsrChordsLanguages ();
 
 // initialization
 //______________________________________________________________________________
-void initializePitchesAndChordsLanguages ();
+void initializePitchesLanguages ();
 
 //______________________________________________________________________________
 /*!
@@ -373,7 +360,7 @@ class EXP msrOptions : public smartable
   public:
 
     // languages
-    msrQuatertonesPitchesLanguage fQuatertonesPitchesLanguage;
+    msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;
     
     // advanced options
     bool                          fCreateStaffRelativeVoiceNumbers;
@@ -1775,8 +1762,7 @@ class EXP msrMeasure : public msrElement
                     msrMeasure::msrMeasureKind measureKind);
 
     bool          checkForOverfullMeasure (
-                    int                        inputLineNumber,
-                    msrMeasure::msrMeasureKind measureKind);
+                    int inputLineNumber);
 
     void          finalizeMeasure (
                     int                        inputLineNumber,

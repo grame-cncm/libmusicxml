@@ -133,7 +133,7 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
   else
     s <<
       msrQuartertonesPitchAsString (
-        gLpsrOptions->fQuatertonesPitchesLanguage,
+        gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
         note->getQuatertonesPitch ());
   
   // in MusicXML, octave number is 4 for the octave starting with middle C
@@ -164,7 +164,7 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
         setw(33) << "% msrQuartertonesPitch" <<
         " = - " <<
         msrQuartertonesPitchAsString (
-          gLpsrOptions->fQuatertonesPitchesLanguage,
+          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
           noteQuartertonesPitch) <<
         " -" <<
         endl <<
@@ -1140,7 +1140,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
     for ( ; ; ) {
       fOstream <<
         msrQuartertonesPitchAsString (
-          gLpsrOptions->fQuatertonesPitchesLanguage,
+          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
  // JMI            elt->getInputLineNumber (),
           ((*i)->getStafftuningQuartertonesPitch ())) <<        
  // JMI       char (tolower ((*i)->getStafftuningStep ())) <<
@@ -1547,16 +1547,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
     idtr <<
       "\\language \"" <<
       msrQuatertonesPitchesLanguageAsString (
-        gLpsrOptions->fQuatertonesPitchesLanguage) <<
+        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
       "\"" <<
       endl;
 
-  if (gLpsrOptions->fChordsLanguage != k_IgnatzekChords)
+  if (gLpsrOptions->fLpsrChordsLanguage != k_IgnatzekChords)
     fOstream <<
       idtr <<
         "\\" <<
-        msrChordsLanguageAsString (
-          gLpsrOptions->fChordsLanguage) <<
+        lpsrChordsLanguageAsString (
+          gLpsrOptions->fLpsrChordsLanguage) <<
         "Chords" <<
         endl;
 
@@ -2040,7 +2040,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
   fOstream << idtr <<
     "\\key " <<
     msrQuartertonesPitchAsString (
-      gLpsrOptions->fQuatertonesPitchesLanguage,
+      gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
       elt->getKeyTonicQuartertonesPitch ()) <<
     " \\" <<
     msrKey::keyModeKindAsString (
