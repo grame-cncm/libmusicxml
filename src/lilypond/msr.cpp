@@ -1965,17 +1965,17 @@ list<pair<msrDuration, int> > gDurationsDivisions;
 
 void setupDurationsDivisions (int divisionPerQuarterNote)
 {
-  cout <<
+  cerr <<
     "divisionPerQuarterNote = " << divisionPerQuarterNote <<
     endl;
     
   // erase gDurationsDivisions's contents
   gDurationsDivisions.clear ();
   
-  // positive powers of 2 of the  quarter note
+  // positive powers of 2 of a quarter note
   int bigDivisions = divisionPerQuarterNote;
   for (int i = kQuarter; i >= kMaxima; i--) {
-    cout <<
+    cerr <<
       msrDurationAsString (msrDuration (i)) <<
       " -> " <<
       bigDivisions <<
@@ -1988,7 +1988,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
   } // for
 
   if (divisionPerQuarterNote > 1) {
-    // negative powers of 2 of the  quarter note
+    // negative powers of 2 of a quarter note
     int
       smallDivisions =
         divisionPerQuarterNote / 2;
@@ -1997,7 +1997,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
         kEighth;
     
     while (smallDivisions >= 1) {
-      cout <<
+      cerr <<
         msrDurationAsString (currentDuration) <<
         " --> " <<
         smallDivisions <<
@@ -2012,18 +2012,18 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
   }
 
   // print gDurationsDivisions
-  cout << endl;
+  cerr << endl;
   for (
     list<pair<msrDuration, int> >::const_iterator i = gDurationsDivisions.begin();
     i != gDurationsDivisions.end ();
     i++) {
-    cout <<
+    cerr <<
       msrDurationAsString (msrDuration((*i).first)) <<
       ": " <<
       (*i).second <<
       endl;
   } // for
-  cout << endl;
+  cerr << endl;
 }
 
 string divisionsAsMsrString (
@@ -2031,14 +2031,12 @@ string divisionsAsMsrString (
   int  divisions,
   int& numberOfDotsNeeded)
 {
+  // the result is a base duration, followed by a suffix made of
+  // either a sequence of dots or a multiplication factor
   string result;
   
-  // the result is a base duration, followed by either
-  // a sequence of dots or a multiplication factor
   msrDuration baseDuration;
   int         baseDurationDivisions;
-
-  int         dotsNumber = 0;
   
   // search gDurationsDivisions in longer to shortest order
   list<pair<msrDuration, int> >::const_iterator
@@ -2055,10 +2053,11 @@ string divisionsAsMsrString (
         endl;
 
       for (
-        list<pair<msrDuration, int> >::const_iterator j = gDurationsDivisions.begin();
+        list<pair<msrDuration, int> >::const_iterator j =
+          gDurationsDivisions.begin();
         j != gDurationsDivisions.end ();
         j++) {
-        cout <<
+        cerr <<
           msrDurationAsString (msrDuration((*j).first)) <<
           ": " <<
           (*j).second <<
@@ -2084,7 +2083,64 @@ string divisionsAsMsrString (
   result =
     msrDurationAsString (baseDuration);
   
+  int         dotsNumber = 0;
+
   if (baseDurationDivisions < divisions) {
+    // divisions is not a power of 2 of a quarter note
+    
+    // the next element in the list is half as long as (*i)
+    int remainingDivisions =
+      divisions - baseDurationDivisions;
+    int nextDivisionsInList =
+      baseDurationDivisions / 2;
+      
+    cerr <<
+      "divisions              = " << divisions <<
+      endl <<
+      "baseDurationDivisions  = " << baseDurationDivisions <<
+      endl <<
+      "nextDivisionsInList    = " << nextDivisionsInList <<
+      endl <<
+      "remainingDivisions     = " << remainingDivisions <<
+      endl;
+
+    dotsNumber = 1; // account for next element in the list
+    
+    while (remainingDivisions > nextDivisionsInList) {
+      dotsNumber++;
+      remainingDivisions -= nextDivisionsInList;
+      nextDivisionsInList /= 2;
+    } // while
+
+    cerr <<
+      "divisions              = " << divisions <<
+      endl <<
+      "baseDurationDivisions  = " << baseDurationDivisions <<
+      endl <<
+      "nextDivisionsInList    = " << nextDivisionsInList <<
+      endl <<
+      "remainingDivisions     = " << remainingDivisions <<
+      endl <<
+      "dotsNumber             = " << dotsNumber <<
+      endl;
+
+    if (remainingDivisions - nextDivisionsInList == 0) {
+      // the suffix is composed of dots
+      for (int k = 0; k < dotsNumber; k++)
+        result += ".";
+    }
+    else {
+      // the suffix is a multiplication factor
+      rational r (
+        divisions,
+        baseDurationDivisions);
+      r.rationalise ();
+
+      result +=
+        r.getNumerator () +
+        "/" +
+        r.getDenominator ();
+    }
   }
 
   numberOfDotsNeeded = dotsNumber;

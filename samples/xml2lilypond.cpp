@@ -1491,36 +1491,62 @@ int main (int argc, char *argv[])
   }
   */
 
-  setupDurationsDivisions (8);
+  int divisionsPerQuarterNote = 8;
+  cerr <<
+    "divisionsPerQuarterNote (" << divisionsPerQuarterNote <<
+    endl <<
+    endl;
+    
+  setupDurationsDivisions (divisionsPerQuarterNote);
 
   int k;
 
   k = 32;
-  cout <<
+  cerr <<
     "divisionsAsMsrString (" << k << ") = " <<
     divisionsAsMsrString (
       133, k) <<
+    endl <<
     endl;
     
-  k = 10;
-  cout <<
+  k = 16;
+  cerr <<
     "divisionsAsMsrString (" << k << ") = " <<
     divisionsAsMsrString (
       133, k) <<
+    endl <<
+    endl;
+    
+  k = 24;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
     endl;
     
   k = 28;
-  cout <<
+  cerr <<
     "divisionsAsMsrString (" << k << ") = " <<
     divisionsAsMsrString (
       133, k) <<
+    endl <<
+    endl;
+    
+  k = 20;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
     endl;
     
   k = 40;
-  cout <<
+  cerr <<
     "divisionsAsMsrString (" << k << ") = " <<
     divisionsAsMsrString (
       133, k) <<
+    endl <<
     endl;
     
   exit (0);
