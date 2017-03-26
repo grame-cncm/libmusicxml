@@ -1908,6 +1908,7 @@ string existingQuartertonesPitchesLanguages ()
 
 // durations
 //______________________________________________________________________________
+list<pair<msrDuration, int> > gDurationsDivisions;
 
 string msrDurationAsString (msrDuration duration)
 {
@@ -1915,37 +1916,37 @@ string msrDurationAsString (msrDuration duration)
 
   switch (duration) {
     case k1024th:
-      result = "1024th";
+      result = "1024";
       break;
     case k512th:
-      result = "512th";
+      result = "512";
       break;
     case k256th:
-      result = "256th";
+      result = "256";
       break;
     case k128th:
-      result = "128th";
+      result = "128";
       break;
     case k64th:
-      result = "64th";
+      result = "64";
       break;
     case k32nd:
-      result = "32nd";
+      result = "32";
       break;
     case k16th:
-      result = "16th";
+      result = "16";
       break;
     case kEighth:
-      result = "Eighth";
+      result = "8";
       break;
     case kQuarter:
-      result = "Quarter";
+      result = "4";
       break;
     case kHalf:
-      result = "Half";
+      result = "2";
       break;
     case kWhole:
-      result = "Whole";
+      result = "1";
       break;
     case kBreve:
       result = "Breve";
@@ -1961,26 +1962,28 @@ string msrDurationAsString (msrDuration duration)
   return result;
 }
 
-list<pair<msrDuration, int> > gDurationsDivisions;
-
 void setupDurationsDivisions (int divisionPerQuarterNote)
 {
+  /*
   cerr <<
     "divisionPerQuarterNote = " << divisionPerQuarterNote <<
     endl;
-    
+  */
+  
   // erase gDurationsDivisions's contents
   gDurationsDivisions.clear ();
   
   // positive powers of 2 of a quarter note
   int bigDivisions = divisionPerQuarterNote;
   for (int i = kQuarter; i >= kMaxima; i--) {
+    /*
     cerr <<
       msrDurationAsString (msrDuration (i)) <<
       " -> " <<
       bigDivisions <<
       endl;
-      
+    */
+    
     gDurationsDivisions.push_front (
       make_pair (msrDuration (i), bigDivisions));
       
@@ -1997,12 +2000,14 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
         kEighth;
     
     while (smallDivisions >= 1) {
+      /*
       cerr <<
         msrDurationAsString (currentDuration) <<
         " --> " <<
         smallDivisions <<
         endl;
-        
+      */
+
       gDurationsDivisions.push_back (
         make_pair (currentDuration, smallDivisions));
         
@@ -2011,6 +2016,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
     } // while
   }
 
+  /* JMI
   // print gDurationsDivisions
   cerr << endl;
   for (
@@ -2024,6 +2030,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
       endl;
   } // for
   cerr << endl;
+  */
 }
 
 string divisionsAsMsrString (
@@ -2033,8 +2040,7 @@ string divisionsAsMsrString (
 {
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
-  string result;
-  
+
   msrDuration baseDuration;
   int         baseDurationDivisions;
   
@@ -2080,7 +2086,7 @@ string divisionsAsMsrString (
     i++;
   } // for
 
-  result =
+  string result =
     msrDurationAsString (baseDuration);
   
   int         dotsNumber = 0;
@@ -2093,7 +2099,8 @@ string divisionsAsMsrString (
       divisions - baseDurationDivisions;
     int nextDivisionsInList =
       baseDurationDivisions / 2;
-      
+
+    /*
     cerr <<
       "divisions              = " << divisions <<
       endl <<
@@ -2103,7 +2110,8 @@ string divisionsAsMsrString (
       endl <<
       "remainingDivisions     = " << remainingDivisions <<
       endl;
-
+    */
+    
     dotsNumber = 1; // account for next element in the list
     
     while (remainingDivisions > nextDivisionsInList) {
@@ -2112,6 +2120,7 @@ string divisionsAsMsrString (
       nextDivisionsInList /= 2;
     } // while
 
+    /*
     cerr <<
       "divisions              = " << divisions <<
       endl <<
@@ -2123,7 +2132,8 @@ string divisionsAsMsrString (
       endl <<
       "dotsNumber             = " << dotsNumber <<
       endl;
-
+    */
+    
     if (remainingDivisions - nextDivisionsInList == 0) {
       // the suffix is composed of dots
       for (int k = 0; k < dotsNumber; k++)
@@ -2136,10 +2146,23 @@ string divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
+      /*
+      cerr <<
+        "divisions              = " << divisions <<
+        endl <<
+        "baseDurationDivisions  = " << baseDurationDivisions <<
+        endl <<
+        "r.getNumerator ()      = " << r.getNumerator () <<
+        endl <<
+        "r.getDenominator ()    = " << r.getDenominator () <<
+        endl;
+      */
+      
       result +=
-        r.getNumerator () +
+        "*" +
+        to_string (r.getNumerator ()) +
         "/" +
-        r.getDenominator ();
+        to_string (r.getDenominator ());
     }
   }
 
@@ -2159,6 +2182,69 @@ string divisionsAsMsrString (
       inputLineNumber,
       divisions,
       numberOfDots);
+}
+
+void testDivisionsAndDurations () // JMI
+{
+  int divisionsPerQuarterNote = 8;
+  cerr <<
+    "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+    endl <<
+    endl;
+    
+  setupDurationsDivisions (divisionsPerQuarterNote);
+
+  int k;
+
+  k = 32;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 16;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 24;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 28;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 20;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 40;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  exit (0);
 }
 
 //_______________________________________________________________________________

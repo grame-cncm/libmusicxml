@@ -1491,66 +1491,6 @@ int main (int argc, char *argv[])
   }
   */
 
-  int divisionsPerQuarterNote = 8;
-  cerr <<
-    "divisionsPerQuarterNote (" << divisionsPerQuarterNote <<
-    endl <<
-    endl;
-    
-  setupDurationsDivisions (divisionsPerQuarterNote);
-
-  int k;
-
-  k = 32;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 16;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 24;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 28;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 20;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 40;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  exit (0);
-
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
