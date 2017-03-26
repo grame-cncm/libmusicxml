@@ -318,6 +318,7 @@ int noteTypeAsDivisions (
   bool    debugMode = false);
 
 //______________________________________________________________________________
+/* JMI
 string divisionsAsMSRDuration (
   int     divisions,
   int     divisionsPerWholeNote,
@@ -337,7 +338,7 @@ string skipDivisionsAsMSRDuration (
   int     divisionsPerWholeNote,
   string& errorMessage,
   bool    debugMode = false);
-
+*/
 //______________________________________________________________________________
 string noteTypeAsMSRDuration (
   string  noteType,

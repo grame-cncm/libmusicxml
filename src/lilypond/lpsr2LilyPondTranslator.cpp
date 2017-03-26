@@ -1672,7 +1672,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
 
 //________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
-{
+{    
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure" << endl;
@@ -1694,25 +1694,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kIncompleteLeftMeasure:
       {
-        string errorMessage;
-
         string partialDuration =
-          divisionsAsMSRDuration (
-            elt->getMeasureLength (),
-            elt->getMeasureDivisionsPerWholeNote (),
-            errorMessage,
-            false); // 'true' to debug it
-
-        if (errorMessage.size ())
-       // JMI   msrMusicXMLWarning (
-          msrMusicXMLError (
+          divisionsAsMsrString (
             elt->getInputLineNumber (),
-            errorMessage);
+            elt->getMeasureLength ());
 
-        if (partialDuration != "?")  // JMI
-          fOstream << idtr <<
-            "\\partial" " " << partialDuration <<
-            endl;
+        fOstream << idtr <<
+          "\\partial" " " << partialDuration <<
+          endl;
       }
       break;
       

@@ -239,8 +239,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       elt->getPartAbbreviation () << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartDivisionsPerWholeNote" << " : " <<
-      elt->getPartDivisionsPerWholeNote () <<
+      setw(25) << "PartDivisionsPerQuarterNote" << " : " <<
+      elt->getPartDivisionsPerQuarterNote () <<
       endl <<
     idtr <<
       setw(25) << "PartInstrumentName" << " : \"" <<

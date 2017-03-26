@@ -1285,8 +1285,8 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
   }
 
   fCurrentPart->
-    setPartDivisionsPerWholeNote (
-      fCurrentDivisionsPerQuarterNote * 4);
+    setPartDivisionsPerQuarterNote (
+      fCurrentDivisionsPerQuarterNote);
 }
 
 //______________________________________________________________________________
@@ -2662,7 +2662,7 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
   currentVoice->
     catchupToMeasureLocation (
       inputLineNumber,
-      divisionsPerWholeNote,
+      divisionsPerQuarterNote,
       measureLocation);
         */
                     
@@ -2679,10 +2679,10 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
   
-    // set rest's divisions per whole note
+    // set rest's divisions per quarter note
     rest->
-      setDivisionsPerWholeNote (
-        currentVoice-> getDivisionsPerWholeNote ());
+      setDivisionsPerQuarterNote (
+        currentVoice-> getDivisionsPerQuarterNote ());
 
     // set its location
     rest->setNoteMeasureLocation (
@@ -5497,11 +5497,11 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
         chordFirstNote->getNoteDivisions (),
         chordFirstNote->getNoteType ());
 
-  // chord's divisions per whole note is that of its first note
+  // chord's divisions per quarter note is that of its first note
   chord->
-    setChordDivisionsPerWholeNote (
+    setChordDivisionsPerQuarterNote (
       chordFirstNote->
-        getNoteDivisionsPerWholeNote ());
+        getNoteDivisionsPerQuarterNote ());
 
   // chord's tie kind is that of its first note
   chord->
@@ -5776,10 +5776,10 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
         fCurrentNormalNotes,
         firstNote->getNotePositionInMeasure ());
 
-  // tuplets's divisions per whole note is that of its first note
+  // tuplets's divisions per quarter note is that of its first note
   tuplet->
-    setTupletDivisionsPerWholeNote (
-      firstNote-> getNoteDivisionsPerWholeNote ());
+    setTupletDivisionsPerQuarterNote (
+      firstNote-> getNoteDivisionsPerQuarterNote ());
   
   // register tuplet in this visitor
 //  if (gGeneralOptions->fDebug)
@@ -6284,24 +6284,21 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         endl << endl;
   }
 
-  int divisionsPerWholeNote =
-    fCurrentDivisionsPerQuarterNote * 4;
-
   // store voice and staff numbers in MusicXML note data
   fNoteData.fNoteStaffNumber = fCurrentStaffNumber;
   fNoteData.fNoteVoiceNumber = fCurrentVoiceNumber;
 
-  // set current voices' 'notes divisions per whole note
+  // set current voices' 'notes divisions per quarter note
   if (gGeneralOptions->fDebugDebug)
     cerr << idtr <<
       "fNoteData.fNoteDivisions = " << 
       fNoteData.fNoteDivisions << ", " << 
-      "divisionsPerWholeNote = " <<
-      divisionsPerWholeNote << endl;
+      "fCurrentDivisionsPerQuarterNote = " <<
+      fCurrentDivisionsPerQuarterNote << endl;
       
   currentVoice->
-    setVoiceDivisionsPerWholeNote (
-      divisionsPerWholeNote);
+    setVoiceDivisionsPerQuarterNote (
+      fCurrentDivisionsPerQuarterNote);
 
   // register current note type
   fNoteData.fNoteType =
@@ -6315,7 +6312,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       fNoteData.fNoteDivisions =
         noteTypeAsDivisions (
           fCurrentNoteType,
-          divisionsPerWholeNote,
+          fCurrentDivisionsPerQuarterNote,
           errorMessage,
           false); // 'true' to debug it
   
@@ -6348,10 +6345,10 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   assert(false);
   */
   
-  // set note's divisions per whole note
+  // set note's divisions per quarter note
   newNote->
-    setNoteDivisionsPerWholeNote (
-      divisionsPerWholeNote);
+    setNoteDivisionsPerQuarterNote (
+      fCurrentDivisionsPerQuarterNote);
 
   // set its tie if any
   if (fCurrentTie) {
