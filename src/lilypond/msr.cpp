@@ -1961,17 +1961,29 @@ string msrDurationAsString (msrDuration duration)
   return result;
 }
 
-list<int> gDurationsDivisions;
+list<pair<msrDuration, int> > gDurationsDivisions;
 
 void setupDurationsDivisions (int divisionPerQuarterNote)
 {
+  cout <<
+    "divisionPerQuarterNote = " << divisionPerQuarterNote <<
+    endl;
+    
   // erase gDurationsDivisions's contents
   gDurationsDivisions.clear ();
   
   // positive powers of 2 of the  quarter note
   int bigDivisions = divisionPerQuarterNote;
-  for (int i = kQuarter; i <= kMaxima; i--) {
-    gDurationsDivisions.push_front (bigDivisions);
+  for (int i = kQuarter; i >= kMaxima; i--) {
+    cout <<
+      msrDurationAsString (msrDuration (i)) <<
+      " -> " <<
+      bigDivisions <<
+      endl;
+      
+    gDurationsDivisions.push_front (
+      make_pair (msrDuration (i), bigDivisions));
+      
     bigDivisions *= 2;
   } // for
 
@@ -1985,7 +1997,16 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
         kEighth;
     
     while (smallDivisions >= 1) {
-      gDurationsDivisions.push_back (smallDivisions);
+      cout <<
+        msrDurationAsString (currentDuration) <<
+        " --> " <<
+        smallDivisions <<
+        endl;
+        
+      gDurationsDivisions.push_back (
+        make_pair (currentDuration, smallDivisions));
+        
+      currentDuration = msrDuration (currentDuration + 1);
       smallDivisions /= 2;
     } // while
   }
@@ -2002,13 +2023,13 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
 */
 
   for (
-    list<int>::const_iterator i = gDurationsDivisions.begin();
+    list<pair<msrDuration, int> >::const_iterator i = gDurationsDivisions.begin();
     i != gDurationsDivisions.end ();
     i++) {
     cout <<
-      msrDurationAsString (msrDuration((*i))) <<
-//      ": " <<
-//      (*i) <<
+      msrDurationAsString (msrDuration((*i).first)) <<
+      ": " <<
+      (*i).second <<
       endl;
   } // for
 }

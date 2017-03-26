@@ -343,7 +343,7 @@ enum msrDuration {
 
 string msrDurationAsString (msrDuration duration);
 
-extern list<int> gDurationsDivisions;
+extern list<pair<msrDuration, int> > gDurationsDivisions;
 
 void setupDurationsDivisions (int divisionPerQuarterNote);
 
