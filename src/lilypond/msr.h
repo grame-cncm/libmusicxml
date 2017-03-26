@@ -347,6 +347,14 @@ extern list<pair<msrDuration, int> > gDurationsDivisions;
 
 void setupDurationsDivisions (int divisionPerQuarterNote);
 
+string divisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions,
+  int& numberOfDotsNeeded);
+
+string divisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions);
 
 //______________________________________________________________________________
 /*!

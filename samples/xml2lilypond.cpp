@@ -1492,6 +1492,37 @@ int main (int argc, char *argv[])
   */
 
   setupDurationsDivisions (8);
+
+  int k;
+
+  k = 32;
+  cout <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl;
+    
+  k = 10;
+  cout <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl;
+    
+  k = 28;
+  cout <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl;
+    
+  k = 40;
+  cout <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl;
+    
   exit (0);
 
   // analyze the pitches and chords languages variables

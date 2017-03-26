@@ -2012,16 +2012,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
   }
 
   // print gDurationsDivisions
-  /*
-  for (int i = kMaxima; i <= k1024th; i++) {
-    cout <<
-      msrDurationAsString (msrDuration (i)) <<
-        ": " <<
-        gDurationsDivisions [i] <<
-        endl;
-  } // for
-*/
-
+  cout << endl;
   for (
     list<pair<msrDuration, int> >::const_iterator i = gDurationsDivisions.begin();
     i != gDurationsDivisions.end ();
@@ -2032,6 +2023,86 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
       (*i).second <<
       endl;
   } // for
+  cout << endl;
+}
+
+string divisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions,
+  int& numberOfDotsNeeded)
+{
+  string result;
+  
+  // the result is a base duration, followed by either
+  // a sequence of dots or a multiplication factor
+  msrDuration baseDuration;
+  int         baseDurationDivisions;
+
+  int         dotsNumber = 0;
+  
+  // search gDurationsDivisions in longer to shortest order
+  list<pair<msrDuration, int> >::const_iterator
+    iBegin = gDurationsDivisions.begin(),
+    iEnd   = gDurationsDivisions.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    if (i == iEnd) {
+      stringstream s;
+
+      s <<
+        "divisions " << divisions <<
+        "could not be handled by divisionsAsMsrString () with:" <<
+        endl;
+
+      for (
+        list<pair<msrDuration, int> >::const_iterator j = gDurationsDivisions.begin();
+        j != gDurationsDivisions.end ();
+        j++) {
+        cout <<
+          msrDurationAsString (msrDuration((*j).first)) <<
+          ": " <<
+          (*j).second <<
+          endl;
+      } // for
+
+      msrInternalError (
+        inputLineNumber, s.str());
+      break;
+    }
+
+    if ((*i).second <= divisions) {
+      // found base duration in list
+      baseDuration          = (*i).first;
+      baseDurationDivisions = (*i).second;
+      break;
+    }
+        
+    // next please!
+    i++;
+  } // for
+
+  result =
+    msrDurationAsString (baseDuration);
+  
+  if (baseDurationDivisions < divisions) {
+  }
+
+  numberOfDotsNeeded = dotsNumber;
+
+  return result;
+}
+
+string divisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions)
+{
+  int numberOfDots; // to be ignored
+
+  return
+    divisionsAsMsrString (
+      inputLineNumber,
+      divisions,
+      numberOfDots);
 }
 
 //_______________________________________________________________________________
