@@ -1906,6 +1906,113 @@ string existingQuartertonesPitchesLanguages ()
   return s.str();
 }
 
+// durations
+//______________________________________________________________________________
+
+string msrDurationAsString (msrDuration duration)
+{
+  string result;
+
+  switch (duration) {
+    case k1024th:
+      result = "1024th";
+      break;
+    case k512th:
+      result = "512th";
+      break;
+    case k256th:
+      result = "256th";
+      break;
+    case k128th:
+      result = "128th";
+      break;
+    case k64th:
+      result = "64th";
+      break;
+    case k32nd:
+      result = "32nd";
+      break;
+    case k16th:
+      result = "16th";
+      break;
+    case kEighth:
+      result = "Eighth";
+      break;
+    case kQuarter:
+      result = "Quarter";
+      break;
+    case kHalf:
+      result = "Half";
+      break;
+    case kWhole:
+      result = "Whole";
+      break;
+    case kBreve:
+      result = "Breve";
+      break;
+    case kLong:
+      result = "Long";
+      break;
+    case kMaxima:
+      result = "Maxima";
+      break;
+  } // switch
+
+  return result;
+}
+
+list<int> gDurationsDivisions;
+
+void setupDurationsDivisions (int divisionPerQuarterNote)
+{
+  // erase gDurationsDivisions's contents
+  gDurationsDivisions.clear ();
+  
+  // positive powers of 2 of the  quarter note
+  int bigDivisions = divisionPerQuarterNote;
+  for (int i = kQuarter; i <= kMaxima; i--) {
+    gDurationsDivisions.push_front (bigDivisions);
+    bigDivisions *= 2;
+  } // for
+
+  if (divisionPerQuarterNote > 1) {
+    // negative powers of 2 of the  quarter note
+    int
+      smallDivisions =
+        divisionPerQuarterNote / 2;
+    msrDuration
+      currentDuration =
+        kEighth;
+    
+    while (smallDivisions >= 1) {
+      gDurationsDivisions.push_back (smallDivisions);
+      smallDivisions /= 2;
+    } // while
+  }
+
+  // print gDurationsDivisions
+  /*
+  for (int i = kMaxima; i <= k1024th; i++) {
+    cout <<
+      msrDurationAsString (msrDuration (i)) <<
+        ": " <<
+        gDurationsDivisions [i] <<
+        endl;
+  } // for
+*/
+
+  for (
+    list<int>::const_iterator i = gDurationsDivisions.begin();
+    i != gDurationsDivisions.end ();
+    i++) {
+    cout <<
+      msrDurationAsString (msrDuration((*i))) <<
+//      ": " <<
+//      (*i) <<
+      endl;
+  } // for
+}
+
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
 {
@@ -2073,7 +2180,7 @@ void msrNoteData::init ()
 
   fNoteIsARest = false;
   
-  fNoteIsUnpitched = false;;
+  fNoteIsUnpitched = false;
   
   fNoteOctave = -1;
 

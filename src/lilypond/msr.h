@@ -331,6 +331,23 @@ string existingQuartertonesPitchesLanguages ();
 //______________________________________________________________________________
 void initializePitchesLanguages ();
 
+
+// durations
+//______________________________________________________________________________
+
+enum msrDuration {
+  // from longest to shortest to simplify the algorithms
+  kMaxima, kLong, kBreve, kWhole, kHalf, 
+  kQuarter,
+  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th};
+
+string msrDurationAsString (msrDuration duration);
+
+extern list<int> gDurationsDivisions;
+
+void setupDurationsDivisions (int divisionPerQuarterNote);
+
+
 //______________________________________________________________________________
 /*!
   \brief The MSR code generation options.

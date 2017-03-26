@@ -1300,7 +1300,7 @@ void xml2MsrTranslator::visitStart ( S_clef& elt )
   fCurrentClefStaffNumber =
     elt->getAttributeIntValue("number", 0); 
 
-  fCurrentClefLine = 0;;
+  fCurrentClefLine = 0;
   fCurrentClefOctaveChange = 0;
   fCurrentClefSign = "";
 }

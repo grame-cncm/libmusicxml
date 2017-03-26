@@ -1491,6 +1491,9 @@ int main (int argc, char *argv[])
   }
   */
 
+  setupDurationsDivisions (8);
+  exit (0);
+
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
