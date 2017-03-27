@@ -1302,7 +1302,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
   A ligature is represented by a SlurKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrLigature public msrElement
+class EXP msrLigature : public msrElement
 {
   public:
 
@@ -1320,9 +1320,9 @@ class EXP msrLigature public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrLigature> create (
-      int           inputLineNumber,
-      int           ligatureNumber,
-      msrLigatureKind   ligatureKind);
+      int             inputLineNumber,
+      int             ligatureNumber,
+      msrLigatureKind ligatureKind);
 
   protected:
 
@@ -1330,9 +1330,9 @@ class EXP msrLigature public msrElement
     // ------------------------------------------------------
 
     msrLigature (
-      int           inputLineNumber,
-      int           ligatureNumber,
-      msrLigatureKind   ligatureKind);
+      int             inputLineNumber,
+      int             ligatureNumber,
+      msrLigatureKind ligatureKind);
       
     virtual ~msrLigature();
   

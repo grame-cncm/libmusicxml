@@ -156,7 +156,7 @@ class EXP xml2MsrTranslator :
 
   public visitor<S_tied>,
   public visitor<S_slur>,
-  public visitor<S_ligature>,
+  public visitor<S_bracket>,
   public visitor<S_beam>,
 
   public visitor<S_lyric>,
@@ -410,6 +410,7 @@ class EXP xml2MsrTranslator :
 
     virtual void visitStart ( S_tied& elt);
     virtual void visitStart ( S_slur& elt);
+    virtual void visitStart ( S_bracket& elt);
     virtual void visitStart ( S_beam& elt);
 
     virtual void visitStart ( S_lyric& elt);
@@ -742,6 +743,8 @@ class EXP xml2MsrTranslator :
                               fCurrentSyllableKind;
     msrSyllable::msrSyllableKind
                               fFirstSyllableInSlurKind;
+    msrSyllable::msrSyllableKind
+                              fFirstSyllableInLigatureKind;
     // the last lyric fragment met
     string                    fCurrentText;
     bool                      fCurrentElision;

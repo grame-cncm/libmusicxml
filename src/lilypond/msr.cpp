@@ -3880,9 +3880,9 @@ void msrSlur::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrLigature msrLigature::create (
-  int           inputLineNumber,
-  int           ligatureNumber,
-  msrLigatureKind   ligatureKind)
+  int             inputLineNumber,
+  int             ligatureNumber,
+  msrLigatureKind ligatureKind)
 {
   msrLigature* o =
     new msrLigature (
@@ -3892,9 +3892,9 @@ S_msrLigature msrLigature::create (
 }
 
 msrLigature::msrLigature (
-  int           inputLineNumber,
-  int           ligatureNumber,
-  msrLigatureKind   ligatureKind)
+  int             inputLineNumber,
+  int             ligatureNumber,
+  msrLigatureKind ligatureKind)
     : msrElement (inputLineNumber)
 {
   fLigatureNumber = ligatureNumber;
