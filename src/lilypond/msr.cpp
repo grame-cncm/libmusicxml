@@ -2149,52 +2149,8 @@ string divisionsAsMsrString (
         "remainingDivisions     = " << remainingDivisions <<
         endl << endl;
     }
-    
-    dotsNumber = 1; // account for next element in the list
-    
-    while (remainingDivisions > nextDivisionsInList) {
-      dotsNumber++;
-      remainingDivisions -= nextDivisionsInList;
-      nextDivisionsInList /= 2;
 
-      if (gMsrOptions->fTraceDurations) {
-        cerr <<
-          "divisions              = " << divisions <<
-          endl <<
-          "baseDurationDivisions  = " << baseDurationDivisions <<
-          endl <<
-          "nextDivisionsInList    = " << nextDivisionsInList <<
-          endl <<
-          "remainingDivisions     = " << remainingDivisions <<
-          endl <<
-          "dotsNumber             = " << dotsNumber <<
-          endl << endl;
-      }
-        
-      if (dotsNumber > 5 )
-        break; // JMI
-    } // while
-
-    if (gMsrOptions->fTraceDurations) {
-      cerr <<
-        "divisions              = " << divisions <<
-        endl <<
-        "baseDurationDivisions  = " << baseDurationDivisions <<
-        endl <<
-        "nextDivisionsInList    = " << nextDivisionsInList <<
-        endl <<
-        "remainingDivisions     = " << remainingDivisions <<
-        endl <<
-        "dotsNumber             = " << dotsNumber <<
-        endl << endl;
-    }
-        
-    if (remainingDivisions - nextDivisionsInList == 0) {
-      // the suffix is composed of dots
-      for (int k = 0; k < dotsNumber; k++)
-        result += ".";
-    }
-    else {
+    if (remainingDivisions < nextDivisionsInList) {
       // the suffix is a multiplication factor
       rational r (
         divisions,
@@ -2219,6 +2175,81 @@ string divisionsAsMsrString (
         "/" +
         to_string (r.getDenominator ());
     }
+
+    else {
+      dotsNumber = 1; // account for next element in the list
+      
+      while (remainingDivisions > nextDivisionsInList) {
+        dotsNumber++;
+        remainingDivisions -= nextDivisionsInList;
+        nextDivisionsInList /= 2;
+  
+        if (gMsrOptions->fTraceDurations) {
+          cerr <<
+            "divisions              = " << divisions <<
+            endl <<
+            "baseDurationDivisions  = " << baseDurationDivisions <<
+            endl <<
+            "nextDivisionsInList    = " << nextDivisionsInList <<
+            endl <<
+            "remainingDivisions     = " << remainingDivisions <<
+            endl <<
+            "dotsNumber             = " << dotsNumber <<
+            endl << endl;
+        }
+          
+        if (dotsNumber > 5 )
+          break; // JMI
+      } // while
+  
+      if (gMsrOptions->fTraceDurations) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "nextDivisionsInList    = " << nextDivisionsInList <<
+          endl <<
+          "remainingDivisions     = " << remainingDivisions <<
+          endl <<
+          "dotsNumber             = " << dotsNumber <<
+          endl << endl;
+      }
+          
+      if (remainingDivisions - nextDivisionsInList == 0) {
+        // the suffix is composed of dots
+      for (int k = 0; k < dotsNumber; k++)
+        result += ".";
+      }
+    }
+
+    /*
+    else {
+      // the suffix is a multiplication factor
+      rational r (
+        divisions,
+        baseDurationDivisions);
+      r.rationalise ();
+
+      if (gMsrOptions->fTraceDurations) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "r.getNumerator ()      = " << r.getNumerator () <<
+          endl <<
+          "r.getDenominator ()    = " << r.getDenominator () <<
+          endl << endl;
+      }
+      
+      result +=
+        "*" +
+        to_string (r.getNumerator ()) +
+        "/" +
+        to_string (r.getDenominator ());
+      }
+      */
   }
 
   numberOfDotsNeeded = dotsNumber;
@@ -2239,7 +2270,7 @@ string divisionsAsMsrString (
       numberOfDots);
 }
 
-void testDivisionsAndDurations () // JMI
+void testDivisionsAndDurations ()
 {
   int divisionsPerQuarterNote = 8;
   cerr <<

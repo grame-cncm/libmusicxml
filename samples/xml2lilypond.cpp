@@ -1512,6 +1512,8 @@ int main (int argc, char *argv[])
   if (false) { // JMI
     gMsrOptions->fTraceDivisions = true;
     gMsrOptions->fTraceDurations = true;
+
+   // testDivisionsAndDurations ();
   }
   
   if (false) { // JMI

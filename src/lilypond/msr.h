@@ -358,6 +358,8 @@ void setupDurationsDivisions (int divisionPerQuarterNote);
 
 void printDurationsDivisions (ostream& os);
 
+void testDivisionsAndDurations ();
+
 //______________________________________________________________________________
 /*!
   \brief The MSR code generation options.
