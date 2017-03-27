@@ -2041,6 +2041,14 @@ string divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
 
+  if (gMsrOptions->fTraceDurations) {
+    cerr <<
+      "inputLineNumber        = " << inputLineNumber <<
+      endl <<
+      "divisions              = " << divisions <<
+      endl << endl;
+  }
+    
   msrDuration baseDuration;
   int         baseDurationDivisions;
   
@@ -2092,6 +2100,16 @@ string divisionsAsMsrString (
   string result =
     msrDurationAsString (baseDuration);
   
+  if (gMsrOptions->fTraceDurations) {
+    cerr <<
+      "divisions              = " << divisions <<
+      endl <<
+      "baseDuration  = " << msrDurationAsString (baseDuration) <<
+      endl <<
+      "baseDurationDivisions  = " << baseDurationDivisions <<
+      endl << endl;
+  }
+
   int         dotsNumber = 0;
 
   if (divisions > baseDurationDivisions) {
