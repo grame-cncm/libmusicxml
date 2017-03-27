@@ -1725,24 +1725,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         fOstream << idtr <<
           "\\cadenzaOn" <<
           endl;
-
-      /*
-         rational r (
-          elt->getMeasureDivisionsPerFullMeasure (),
-          elt->getMeasureLength ());
-        r.rationalise ();
-
-        fOstream << idtr <<
-          "\\scaleDurations " <<
-          r.getNumerator () <<
-          "/" <<
-          r.getDenominator () <<
-          " {" <<
-          endl;
-  
-        idtr++;
-
-        */
       }
       break;
   } // switch
