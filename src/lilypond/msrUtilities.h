@@ -311,40 +311,6 @@ pair<string, string> extractNamesPairFromString (
   bool   debugMode = false);
 
 //______________________________________________________________________________
-int noteTypeAsDivisions (
-  string  noteType,
-  int     divisionsPerWholeNote,
-  string& errorMessage,
-  bool    debugMode = false);
-
-//______________________________________________________________________________
-/* JMI
-string divisionsAsMSRDuration (
-  int     divisions,
-  int     divisionsPerWholeNote,
-  string& errorMessage,
-  bool    debugMode = false);
-
-string divisionsAsMSRDuration (
-  int     divisions,
-  int     divisionsPerWholeNote,
-  int     inputSourceSuppliedNumberOfDots,
-  int&    computedNumberOfDots,
-  string& errorMessage,
-  bool    debugMode = false);
-
-string skipDivisionsAsMSRDuration (
-  int     divisions,
-  int     divisionsPerWholeNote,
-  string& errorMessage,
-  bool    debugMode = false);
-*/
-//______________________________________________________________________________
-string noteTypeAsMSRDuration (
-  string  noteType,
-  string& errorMessage);
-
-//______________________________________________________________________________
 string quoteStringIfNonAlpha (
   string theString);
 

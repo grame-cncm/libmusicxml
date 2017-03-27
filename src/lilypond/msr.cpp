@@ -2333,6 +2333,87 @@ void testDivisionsAndDurations ()
   exit (0);
 }
 
+// note types
+//______________________________________________________________________________
+int noteTypeAsDivisions (
+  string  noteType,
+  int     divisionsPerWholeNote,
+  string& errorMessage,
+  bool    debugMode)
+{
+  int result;
+
+  //debugMode = true; // for tests
+  
+  if      (noteType == "256th")   { result = divisionsPerWholeNote / 256; }
+  else if (noteType == "128th")   { result = divisionsPerWholeNote / 128; } 
+  else if (noteType == "64th")    { result = divisionsPerWholeNote / 64; } 
+  else if (noteType == "32nd")    { result = divisionsPerWholeNote / 32; } 
+  else if (noteType == "16th")    { result = divisionsPerWholeNote / 16; } 
+  else if (noteType == "eighth")  { result = divisionsPerWholeNote / 8; } 
+  else if (noteType == "quarter") { result = divisionsPerWholeNote / 4; } 
+  else if (noteType == "half")    { result = divisionsPerWholeNote / 2; } 
+  else if (noteType == "whole")   { result = divisionsPerWholeNote / 1; } 
+  else if (noteType == "breve")   { result = divisionsPerWholeNote * 2; } 
+  else if (noteType == "long")    { result = divisionsPerWholeNote * 4; }
+  else {
+    stringstream s;
+    
+    s <<
+      endl << 
+      "--> unknown tuplet member type " << noteType <<
+      endl;
+      
+   errorMessage = s.str();
+
+   return 0;
+  }
+
+  if (debugMode)
+    cerr << endl <<
+      "% --> noteTypeAsDivisions ()" << endl <<
+      "% noteType = " << noteType << endl <<
+      "divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
+      "result = " << result << endl <<
+      endl;
+
+  return result;
+}
+
+string noteTypeAsMSRDuration (
+  string  noteType,
+  string& errorMessage)
+{
+  string result;
+  
+  if      (noteType == "256th")   { result =   "256"; }
+  else if (noteType == "128th")   { result =   "128"; } 
+  else if (noteType == "64th")    { result =    "64"; } 
+  else if (noteType == "32nd")    { result =    "32"; } 
+  else if (noteType == "16th")    { result =    "16"; } 
+  else if (noteType == "eighth")  { result =     "8"; } 
+  else if (noteType == "quarter") { result =     "4"; } 
+  else if (noteType == "half")    { result =     "2"; } 
+  else if (noteType == "whole")   { result =     "1"; } 
+  else if (noteType == "breve")   { result = "breve"; } 
+  else if (noteType == "long")    { result =  "long"; }
+  else {
+    stringstream s;
+    
+    s << 
+      endl << 
+      "--> unknown tuplet member type " << noteType <<
+      endl;
+      
+   errorMessage = s.str();
+
+   return "?";
+  }
+
+  return result;
+}
+
+
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
 {

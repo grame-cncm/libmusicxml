@@ -334,7 +334,6 @@ void initializePitchesLanguages ();
 
 // durations
 //______________________________________________________________________________
-
 enum msrDuration {
   // from longest to shortest to simplify the algorithms
   kMaxima, kLong, kBreve, kWhole, kHalf, 
@@ -359,6 +358,20 @@ void setupDurationsDivisions (int divisionPerQuarterNote);
 void printDurationsDivisions (ostream& os);
 
 void testDivisionsAndDurations ();
+
+// note types
+//______________________________________________________________________________
+int noteTypeAsDivisions (
+  string  noteType,
+  int     divisionsPerWholeNote,
+  string& errorMessage,
+  bool    debugMode = false);
+
+//______________________________________________________________________________
+string noteTypeAsMSRDuration (
+  string  noteType,
+  string& errorMessage);
+
 
 //______________________________________________________________________________
 /*!
