@@ -1491,6 +1491,30 @@ int main (int argc, char *argv[])
   }
   */
 
+  if (true) { // JMI
+    gMsrOptions->fTraceDurations = true;
+  
+    int divisionsPerQuarterNote = 1;
+    cerr <<
+      "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+      endl <<
+      endl;
+      
+    setupDurationsDivisions (divisionsPerQuarterNote);
+  
+    int k;
+  
+    k = 4;
+    cerr <<
+      "divisionsAsMsrString (" << k << ") = " <<
+      divisionsAsMsrString (
+        133, k) <<
+      endl <<
+      endl;
+
+    assert (false);
+  }
+  
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 

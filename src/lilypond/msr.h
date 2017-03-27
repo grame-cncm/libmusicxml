@@ -394,29 +394,30 @@ class EXP msrOptions : public smartable
   public:
 
     // debug
-    bool                          fDebugScore;
-    bool                          fDebugPartgroups;
-    bool                          fDebugParts;
-    bool                          fDebugStaves;
-    bool                          fDebugVoices;
+    bool                          fTraceScore;
+    bool                          fTracePartgroups;
+    bool                          fTraceParts;
+    bool                          fTraceStaves;
+    bool                          fTraceVoices;
     
-    bool                          fDebugSegments;
-    bool                          fDebugMeasures;
+    bool                          fTraceSegments;
+    bool                          fTraceMeasures;
     
-    bool                          fDebugNotes;
+    bool                          fTraceNotes;
+    bool                          fTraceDurations;
     
-    bool                          fDebugChords;
-    bool                          fDebugTuplets;
+    bool                          fTraceChords;
+    bool                          fTraceTuplets;
     
-    bool                          fDebugGracenotes;
+    bool                          fTraceGracenotes;
     
-    bool                          fDebugLyrics;
+    bool                          fTraceLyrics;
 
-    bool                          fDebugRepeats;
+    bool                          fTraceRepeats;
     
-    bool                          fDebugHarmony;
+    bool                          fTraceHarmony;
     
-    bool                          fDebugStafftuning;
+    bool                          fTraceStafftuning;
     
     // languages
     msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;
