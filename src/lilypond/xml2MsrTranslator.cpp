@@ -104,7 +104,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
   fOnGoingSyllableExtend     = false;
 
-  fFirstSyllableInSlurKind   = msrSyllable::k_NoSyllable;
+  fFirstSyllableInSlurKind     = msrSyllable::k_NoSyllable;
+  fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
   
   fCurrentBackupDuration = -1;
 
@@ -120,6 +121,9 @@ xml2MsrTranslator::xml2MsrTranslator ()
   
   fOnGoingSlur          = false;
   fOnGoingSlurHasStanza = false;
+
+  fOnGoingLigature          = false;
+  fOnGoingLigatureHasStanza = false;
 
   fCurrentHarmonyRootDiatonicPitch = kA; // any value would fit
   fCurrentHarmonyRootAlteration    = k_NoAlteration;
@@ -2735,7 +2739,7 @@ void xml2MsrTranslator::visitStart (S_tied& elt )
 
     // inner tied notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
-    if (! fOnGoingSlur)
+    if (! fOnGoingSlur) {
       if (tiedType.size()) {
         stringstream s;
         
@@ -2745,7 +2749,22 @@ void xml2MsrTranslator::visitStart (S_tied& elt )
           elt->getInputLineNumber (),
           s.str());
       }
+    }
       
+    // inner tied notes may miss the "continue" type:
+    // let' complain on ligature notes outside of ligatures 
+    if (! fOnGoingLigature) {
+      if (tiedType.size()) {
+        stringstream s;
+        
+        s << "tied type" << fCurrentSlurType << "unknown";
+        
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str());
+      }
+    }
+    
   }
 
   if (fCurrentTieKind != msrTie::k_NoTie)
@@ -2830,6 +2849,74 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
         fCurrentSlurKind);
         
   fPendingSlurs.push_back (slur);
+}
+
+//________________________________________________________________________
+void xml2MsrTranslator::visitStart (S_bracket& elt )
+{
+/*
+Ligature types are empty. Most ligatures are represented with two elements: one with a start type, and one with a stop type. Ligatures can add more elements using a continue type. This is typically used to specify the formatting of cross-system ligatures, or to specify the shape of very complex ligatures.
+
+      <direction placement="above">
+        <direction-type>
+          <bracket default-y="17" line-end="down" line-type="solid" number="1" type="start"/>
+        </direction-type>
+      </direction>
+
+http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
+
+*/
+
+  fCurrentLigatureNumber =
+    elt->getAttributeIntValue ("number", 0);
+
+  fCurrentLigatureType =
+    elt->getAttributeValue ("type");
+
+  fCurrentLigaturePlacement =
+    elt->getAttributeValue ("placement");
+
+  if      (fCurrentLigatureType == "start") {
+    
+    fCurrentLigatureKind = msrLigature::kStartLigature;
+    fOnGoingLigature = true;
+    
+  }
+  else if (fCurrentLigatureType == "continue") {
+    
+    fCurrentLigatureKind = msrLigature::kContinueLigature;
+    
+  }
+  else if (fCurrentLigatureType == "stop") {
+    
+    fCurrentLigatureKind = msrLigature::kStopLigature;
+    fOnGoingLigature = false;
+    
+  }
+  else {
+
+    // inner ligature notes may miss the "continue" type:
+    // let' complain on ligature notes outside of ligatures 
+    if (! fOnGoingLigature)
+      if (fCurrentLigatureType.size()) {
+        stringstream s;
+        
+        s << "ligature type" << fCurrentLigatureType << "unknown";
+        
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str());
+      }
+  }
+
+  S_msrLigature
+    ligature =
+      msrLigature::create(
+        elt->getInputLineNumber (),
+        fCurrentLigatureNumber,
+        fCurrentLigatureKind);
+        
+  fPendingLigatures.push_back (ligature);
 }
 
 //______________________________________________________________________________
@@ -3089,6 +3176,13 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
+          setw(width) << "fCurrentLigatureKind" << " = \"" <<
+          msrLigature::ligatureKindAsString (fCurrentLigatureKind) <<
+          "\"" <<
+          endl;
+  
+      cerr <<
+        idtr <<
           setw(width) <<
           "fOnGoingSlur" << " = " << fOnGoingSlur <<
           endl <<
@@ -3099,8 +3193,24 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
+          setw(width) <<
+          "fOnGoingLigature" << " = " << fOnGoingLigature <<
+          endl <<
+        idtr <<
+          setw(width) <<
+          "fOnGoingLigatureHasStanza" << " = " << fOnGoingLigatureHasStanza <<
+          endl;
+  
+      cerr <<
+        idtr <<
           setw(width) << "fFirstSyllableInSlurKind" << " = \"" <<
           fFirstSyllableInSlurKind << // JMI->syllableKindAsString () <<
+          "\"" << endl;
+  
+      cerr <<
+        idtr <<
+          setw(width) << "fFirstSyllableInLigatureKind" << " = \"" <<
+          fFirstSyllableInLigatureKind << // JMI->syllableKindAsString () <<
           "\"" << endl;
   
       cerr <<
@@ -3144,6 +3254,9 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     if (fOnGoingSlur)
       fOnGoingSlurHasStanza = true;
       
+    if (fOnGoingLigature)
+      fOnGoingLigatureHasStanza = true;
+      
     fCurrentNoteHasStanza = true;
   }
   
@@ -3151,6 +3264,12 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 
     if (
       fCurrentSlurKind == msrSlur::kStartSlur
+        &&
+      fCurrentNoteHasStanza) { // JMI
+    }
+    
+    if (
+      fCurrentLigatureKind == msrLigature::kStartLigature
         &&
       fCurrentNoteHasStanza) { // JMI
     }
@@ -3164,7 +3283,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   
     else if (
-      fOnGoingSlurHasStanza
+      fOnGoingSlurHasStanza // JMI Ligature ???
         &&
       ! fCurrentText.size ()) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
@@ -4380,6 +4499,11 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
   fCurrentSlurKind = msrSlur::k_NoSlur;
+
+  fCurrentLigatureNumber = -1;
+  fCurrentLigatureType = "";
+  fCurrentLigaturePlacement = "";
+  fCurrentLigatureKind = msrLigature::k_NoLigature;
 
   fCurrentNoteStaffNumber = 1; // it may be absent
   fCurrentNoteVoiceNumber = 1; // it may be absent
@@ -5660,13 +5784,42 @@ void xml2MsrTranslator::copyNoteSlursToChord (
 
     // JMI   if (gGeneralOptions->fDebug)
       cerr << idtr <<
-        "--> copying slurs '" <<
+        "--> copying slur '" <<
         (*i)->slurKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
         endl;
 
     chord->addSlurToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::copyNoteLigaturesToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's ligatures if any from the first note to chord
+  
+  list<S_msrLigature>
+    noteLigatures =
+      note->
+        getNoteLigatures ();
+                          
+  list<S_msrLigature>::const_iterator i;
+  for (
+    i=noteLigatures.begin();
+    i!=noteLigatures.end();
+    i++) {
+
+    // JMI   if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> copying ligature '" <<
+        (*i)->ligatureKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addLigatureToChord ((*i));
   } // for      
 }
 
@@ -5742,6 +5895,9 @@ void xml2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's slurs if any to the chord
   copyNoteSlursToChord (note, chord);
+
+  // copy note's ligatures if any to the chord
+  copyNoteLigaturesToChord (note, chord);
 
   // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);
@@ -6156,6 +6312,49 @@ void xml2MsrTranslator::attachPendingSlursToNote (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::attachPendingLigaturesToNote (
+  S_msrNote note)
+{
+  // attach the pending ligatures if any to the note
+  if (! fPendingLigatures.empty ()) {
+    
+    if (gGeneralOptions->fDebug)
+      cerr << idtr <<
+        "--> attaching pending ligatures to note " <<
+        note->noteAsString () <<
+        endl;
+
+    if (fNoteData.fNoteIsARest) {
+      if (gMsrOptions->fDelayRestsDynamics) {
+        cerr << idtr <<
+          "--> Delaying ligature attached to a rest until next note" << endl;
+      }
+      else {
+        for (
+            list<S_msrLigature>::const_iterator i = fPendingLigatures.begin();
+            i != fPendingLigatures.end();
+            i++) {
+          msrMusicXMLWarning (
+            (*i)->getInputLineNumber (),
+            "there is a ligature attached to a rest");
+        } // for
+      }
+    }
+    
+    else {
+      while (! fPendingLigatures.empty ()) {
+        S_msrLigature
+          ligature =
+            fPendingLigatures.front ();
+            
+        note->addLigatureToNote (ligature);
+        fPendingLigatures.pop_front ();
+      } // while
+    }
+  }
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
@@ -6209,6 +6408,9 @@ void xml2MsrTranslator::attachPendingElementsToNote (
 
   // attach the pending slurs, if any, to the note
   attachPendingSlursToNote (note);
+
+  // attach the pending libatures, if any, to the note
+  attachPendingLigaturesToNote (note);
 
   // attach the pending wedges, if any, to the note
   attachPendingWedgesToNote (note);
@@ -6658,6 +6860,13 @@ xml2MsrTranslator.cpp:4249
     
   if (fCurrentSlurKind == msrSlur::kStopSlur)
     fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
+
+  // take care of ligatures JMI ???
+  if (fCurrentLigatureKind == msrLigature::kStartLigature)
+    fFirstSyllableInLigatureKind = fCurrentSyllableKind;
+    
+  if (fCurrentLigatureKind == msrLigature::kStopLigature)
+    fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
 
   // account for chord not being built
   fOnGoingChord = false;

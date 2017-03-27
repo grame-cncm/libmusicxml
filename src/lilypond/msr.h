@@ -1297,6 +1297,82 @@ typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
 
 /*!
+\brief A msr ligature representation.
+
+  A ligature is represented by a SlurKind value (hairpins in LilyPond)
+*/
+//______________________________________________________________________________
+class EXP msrLigature public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrLigatureKind {
+      k_NoLigature,
+      kStartLigature, kContinueLigature, kStopLigature};
+    
+    static string ligatureKindAsString (
+      msrLigatureKind ligatureKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrLigature> create (
+      int           inputLineNumber,
+      int           ligatureNumber,
+      msrLigatureKind   ligatureKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrLigature (
+      int           inputLineNumber,
+      int           ligatureNumber,
+      msrLigatureKind   ligatureKind);
+      
+    virtual ~msrLigature();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int         getLigatureNumber () const { return fLigatureNumber; }
+    
+    msrLigatureKind getLigatureKind () const { return fLigatureKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    string      ligatureKindAsString ();
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    int         fLigatureNumber;
+
+    msrLigatureKind fLigatureKind;
+};
+typedef SMARTP<msrLigature> S_msrLigature;
+EXP ostream& operator<< (ostream& os, const S_msrLigature& elt);
+
+/*!
 \brief A msr dynamics representation.
 
   A dynamics is represented by a msrDynamicsKind value
@@ -2342,6 +2418,7 @@ class EXP msrSyllable : public msrElement
       kRestSyllable, kSkipSyllable,
       kTiedSyllable,
       kSlurSyllable, kSlurBeyondEndSyllable,
+      kLigatureSyllable, kLigatureBeyondEndSyllable,
       kBarcheckSyllable, kBarnumberCheckSyllable,
       kBreakSyllable};
 
@@ -2744,6 +2821,11 @@ class EXP msrNote : public msrElement
                           getNoteSlurs () const
                               { return fNoteSlurs; }
 
+    // ligatures
+    const list<S_msrLigature>&
+                          getNoteLigatures () const
+                              { return fNoteLigatures; }
+
     // dynamics
     const list<S_msrDynamics>&
                           getNoteDynamics () const
@@ -2859,6 +2941,9 @@ class EXP msrNote : public msrElement
     // slurs
     void                  addSlurToNote (S_msrSlur slur);
     
+    // ligatures
+    void                  addLigatureToNote (S_msrLigature ligature);
+    
     //  wedges
     void                  addWedgeToNote (S_msrWedge wedge);
 
@@ -2905,6 +2990,7 @@ class EXP msrNote : public msrElement
     list<S_msrWedge>          fNoteWedges;
 
     list<S_msrSlur>           fNoteSlurs;
+    list<S_msrLigature>       fNoteLigatures;
 
     int                       fNoteDivisionsPerQuarterNote; // JMI
 
@@ -3000,6 +3086,10 @@ class EXP msrChord : public msrElement
                   getChordSlurs () const
                       { return fChordSlurs; }
                       
+    const list<S_msrLigature>&
+                  getChordLigatures () const
+                      { return fChordLigatures; }
+                      
     const list<S_msrWedge>&
                   getChordWedges () const
                       { return fChordWedges; }
@@ -3083,6 +3173,9 @@ class EXP msrChord : public msrElement
     void          addSlurToChord (S_msrSlur slur)
                       { fChordSlurs.push_back (slur); }
                       
+    void          addLigatureToChord (S_msrLigature ligature)
+                      { fChordLigatures.push_back (ligature); }
+                      
     void          addWedgeToChord (S_msrWedge wedge)
                       { fChordWedges.push_back (wedge); }
 
@@ -3133,6 +3226,8 @@ class EXP msrChord : public msrElement
     list<S_msrWords>          fChordWords;
     
     list<S_msrSlur>           fChordSlurs;
+
+    list<S_msrLigature>       fChordLigatures;
 
     list<S_msrWedge>          fChordWedges;
 
@@ -4288,6 +4383,14 @@ class EXP msrStanza : public msrElement
                       int divisions);
 
     S_msrSyllable   addSlurBeyondEndSyllableToStanza ( // JMI
+                      int inputLineNumber,
+                      int divisions);
+
+    S_msrSyllable   addLigatureSyllableToStanza ( // JMI
+                      int inputLineNumber,
+                      int divisions);
+
+    S_msrSyllable   addLigatureBeyondEndSyllableToStanza ( // JMI
                       int inputLineNumber,
                       int divisions);
 

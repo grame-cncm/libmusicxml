@@ -3879,6 +3879,110 @@ void msrSlur::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrLigature msrLigature::create (
+  int           inputLineNumber,
+  int           ligatureNumber,
+  msrLigatureKind   ligatureKind)
+{
+  msrLigature* o =
+    new msrLigature (
+      inputLineNumber, ligatureNumber, ligatureKind);
+  assert(o!=0);
+  return o;
+}
+
+msrLigature::msrLigature (
+  int           inputLineNumber,
+  int           ligatureNumber,
+  msrLigatureKind   ligatureKind)
+    : msrElement (inputLineNumber)
+{
+  fLigatureNumber = ligatureNumber;
+  fLigatureKind   = ligatureKind; 
+}
+msrLigature::~msrLigature() {}
+
+string msrLigature::ligatureKindAsString (
+  msrLigatureKind ligatureKind)
+{
+  stringstream s;
+  
+  switch (ligatureKind) {
+    case msrLigature::kStartLigature:
+      s << "start";
+      break;
+    case msrLigature::kContinueLigature:
+      s << "continue";
+      break;
+    case msrLigature::kStopLigature:
+      s << "stop";
+      break;
+    default:
+      s << "Ligature" << ligatureKind << "???";
+  } // switch
+    
+  return s.str();
+  
+}
+      
+string msrLigature::ligatureKindAsString ()
+{
+  return ligatureKindAsString (fLigatureKind);
+}
+
+void msrLigature::acceptIn (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrLigature::acceptIn()" << endl;
+      
+  if (visitor<S_msrLigature>*
+    p =
+      dynamic_cast<visitor<S_msrLigature>*> (v)) {
+        S_msrLigature elem = this;
+        
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrLigature::visitStart()" << endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrLigature::acceptOut (basevisitor* v) {
+  if (gGeneralOptions->fDebugDebug)
+    cerr << idtr <<
+      "==> msrLigature::acceptOut()" << endl;
+
+  if (visitor<S_msrLigature>*
+    p =
+      dynamic_cast<visitor<S_msrLigature>*> (v)) {
+        S_msrLigature elem = this;
+      
+        if (gGeneralOptions->fDebugDebug)
+          cerr << idtr <<
+            "==> Launching msrLigature::visitEnd()" << endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrLigature::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrLigature& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrLigature::print (ostream& os)
+{
+  os <<
+    "Ligature" " " << ligatureKindAsString () <<
+    ", line " << fInputLineNumber << " " <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrGracenotes msrGracenotes::create (
   int        inputLineNumber,
   bool       slashed,
@@ -4508,6 +4612,50 @@ void msrNote::addSlurToNote (S_msrSlur slur)
     fNoteSlurs.push_back (slur);
 }
 
+void msrNote::addLigatureToNote (S_msrLigature ligature)
+{
+  if (gGeneralOptions->fDebug)
+    cerr << idtr <<
+      "% --> adding ligature " << ligature << " to note " << noteAsString ()
+       << endl;
+
+  if (fNoteLigatures.size ()) {
+    if (
+      fNoteLigatures.back ()->getLigatureKind () == msrLigature::kStartLigature
+        &&
+      ligature->getLigatureKind () == msrLigature::kStopLigature
+        &&
+      fNoteLigatures.back ()->getLigatureNumber () == ligature->getLigatureNumber ()
+      ) {
+      // it may happen that a given note has a 'ligature start'
+      // and a 'ligature stop' in sequence, ignore both
+
+      stringstream s;
+      
+      s <<
+        "a 'ligature start' is immediately followed by a 'ligature stop'" <<
+        endl <<
+        "with the same number, ignoring both of them at line " <<
+        ligature->getInputLineNumber ();
+        
+      msrMusicXMLWarning (
+        ligature->getInputLineNumber (),
+        s.str());
+        
+      // rmeove 'ligature start'
+      fNoteLigatures.pop_back ();
+
+      // don't register 'ligature stop'
+    }
+
+    else
+      fNoteLigatures.push_back (ligature);
+  }
+
+  else
+    fNoteLigatures.push_back (ligature);
+}
+
 void msrNote::addWedgeToNote (S_msrWedge wedge)
 {
   fNoteWedges.push_back (wedge);
@@ -4689,13 +4837,25 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
   
-  // browse the slur if any
+  // browse the slurs if any
   if (fNoteSlurs.size()) {
     idtr++;
     list<S_msrSlur>::const_iterator i;
     for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
       // browse the slur
       msrBrowser<msrSlur> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+
+  // browse the ligatures if any
+  if (fNoteLigatures.size()) {
+    idtr++;
+    list<S_msrLigature>::const_iterator i;
+    for (i=fNoteLigatures.begin(); i!=fNoteLigatures.end(); i++) {
+      // browse the ligature
+      msrBrowser<msrLigature> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -5413,6 +5573,23 @@ void msrNote::print (ostream& os)
     idtr--;
   }
   
+  // print the ligatures if any
+  if (fNoteLigatures.size()) {
+    idtr++;
+    
+    list<S_msrLigature>::const_iterator
+      iBegin = fNoteLigatures.begin(),
+      iEnd   = fNoteLigatures.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+    
+    idtr--;
+  }
+  
   // print the wedges if any
   if (fNoteWedges.size()) {
     idtr++;
@@ -5731,6 +5908,15 @@ void msrChord::browseData (basevisitor* v)
   } // for
   
   for (
+    list<S_msrLigature>::const_iterator i = fChordLigatures.begin();
+    i != fChordLigatures.end();
+    i++ ) {
+    // browse the ligature
+    msrBrowser<msrLigature> browser (v);
+    browser.browse (*(*i));
+  } // for
+  
+  for (
     list<S_msrWedge>::const_iterator i = fChordWedges.begin();
     i != fChordWedges.end();
     i++ ) {
@@ -5907,6 +6093,14 @@ void msrChord::print (ostream& os)
   if (fChordSlurs.size()) {
     list<S_msrSlur>::const_iterator i;
     for (i=fChordSlurs.begin(); i!=fChordSlurs.end(); i++) {
+      os << idtr << (*i);
+    } // for
+  }
+
+  // print the ligatures if any
+  if (fChordLigatures.size()) {
+    list<S_msrLigature>::const_iterator i;
+    for (i=fChordLigatures.begin(); i!=fChordLigatures.end(); i++) {
       os << idtr << (*i);
     } // for
   }
@@ -8438,6 +8632,13 @@ string msrSyllable::syllableKindAsString (
       result = "slur beyond end";
       break;
       
+    case msrSyllable::kLigatureSyllable:
+      result = "ligature";
+      break;
+    case msrSyllable::kLigatureBeyondEndSyllable:
+      result = "ligature beyond end";
+      break;
+      
     case msrSyllable::kTiedSyllable:
       result = "tied";
       break;
@@ -8602,6 +8803,23 @@ string msrSyllable::syllableAsString () const
     case kSlurBeyondEndSyllable:
       s << 
         "slur beyond end" << ":" << syllableDivisionsAsString () <<
+        ", line " << fInputLineNumber <<
+        ", " <<
+        syllableNoteUplinkAsString ();
+      break;
+      
+    case kLigatureSyllable:
+      s << 
+        "ligature" << ":" << syllableDivisionsAsString () <<
+        " (" << fSyllableDivisions << ")" <<
+        ", line " << fInputLineNumber <<
+        ", " <<
+        syllableNoteUplinkAsString ();
+      break;
+      
+    case kLigatureBeyondEndSyllable:
+      s << 
+        "ligature beyond end" << ":" << syllableDivisionsAsString () <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -8776,6 +8994,8 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kSkipSyllable:
     case msrSyllable::kSlurSyllable:
     case msrSyllable::kSlurBeyondEndSyllable:
+    case msrSyllable::kLigatureSyllable:
+    case msrSyllable::kLigatureBeyondEndSyllable:
     case msrSyllable::kTiedSyllable:
     case msrSyllable::kBarcheckSyllable:
     case msrSyllable::kBarnumberCheckSyllable:
@@ -8955,6 +9175,74 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurBeyondEndSyllable, "",
+        msrSyllable::k_NoSyllableExtend,
+        divisions,
+        this);
+        
+  // add syllable to this stanza
+  fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
+}
+
+S_msrSyllable msrStanza::addLigatureSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
+{
+  if (gMsrOptions->fTraceLyrics) {
+    S_msrStaff
+      staff =
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding 'Ligature' syllable:" << divisions <<
+      " to stanza " << getStanzaName () << endl;
+  }
+  
+  // create stanza ligature syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kLigatureSyllable, "",
+        msrSyllable::k_NoSyllableExtend,
+        divisions,
+        this);
+        
+  // add syllable to this stanza
+  fSyllables.push_back (syllable);
+
+  // and return it
+  return syllable;
+}
+
+S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
+  int inputLineNumber,
+  int divisions)
+{
+  if (gMsrOptions->fTraceLyrics) {
+    S_msrStaff
+      staff =
+        fStanzaVoiceUplink->getVoiceStaffUplink ();
+    S_msrPart
+      part =
+        staff-> getStaffPartUplink ();
+    
+    cerr << idtr <<
+      "--> Adding a 'LigatureBeyondEnd' syllable: " << divisions <<
+      " to stanza " << getStanzaName () << endl;
+  }
+  
+  // create stanza ligature syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kLigatureBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
         this);

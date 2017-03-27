@@ -156,6 +156,7 @@ class EXP xml2MsrTranslator :
 
   public visitor<S_tied>,
   public visitor<S_slur>,
+  public visitor<S_ligature>,
   public visitor<S_beam>,
 
   public visitor<S_lyric>,
@@ -880,6 +881,7 @@ class EXP xml2MsrTranslator :
     list<S_msrDynamics>       fPendingDynamics;
     list<S_msrWords>          fPendingWords;
     list<S_msrSlur>           fPendingSlurs;
+    list<S_msrLigature>       fPendingLigatures;
     list<S_msrWedge>          fPendingWedges;
 
     void                      attachPendingElementsToNote (
@@ -890,6 +892,8 @@ class EXP xml2MsrTranslator :
     void                      attachPendingWordsToNote (
                                 S_msrNote note);
     void                      attachPendingSlursToNote (
+                                S_msrNote note);
+    void                      attachPendingLigaturesToNote (
                                 S_msrNote note);
     void                      attachPendingWedgesToNote (
                                 S_msrNote note);
@@ -902,6 +906,8 @@ class EXP xml2MsrTranslator :
     void                      copyNoteWordsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteSlursToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteLigaturesToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
@@ -994,6 +1000,15 @@ class EXP xml2MsrTranslator :
     msrSlur::msrSlurKind      fCurrentSlurKind;
     bool                      fOnGoingSlur;
     bool                      fOnGoingSlurHasStanza;
+
+    // ligatures handling
+    // ------------------------------------------------------
+    int                       fCurrentLigatureNumber;
+    string                    fCurrentLigatureType;
+    string                    fCurrentLigaturePlacement;
+    msrLigature::msrLigatureKind      fCurrentLigatureKind;
+    bool                      fOnGoingLigature;
+    bool                      fOnGoingLigatureHasStanza;
 
     // backup handling
     // ------------------------------------------------------
