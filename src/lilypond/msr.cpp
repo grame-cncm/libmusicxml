@@ -2016,11 +2016,20 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
     } // while
   }
 
-  /* JMI
-  // print gDurationsDivisions
-  cerr << endl;
+  if (gMsrOptions->fTraceDivisions || gMsrOptions->fTraceDurations) {
+    printDurationsDivisions (cerr);
+  }
+}
+
+void printDurationsDivisions (ostream& os)
+{
+  cerr <<
+    "==> The contents of gDurationsDivisions is:" <<
+    endl << endl;
+    
   for (
-    list<pair<msrDuration, int> >::const_iterator i = gDurationsDivisions.begin();
+    list<pair<msrDuration, int> >::const_iterator i =
+      gDurationsDivisions.begin();
     i != gDurationsDivisions.end ();
     i++) {
     cerr <<
@@ -2029,8 +2038,8 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
       (*i).second <<
       endl;
   } // for
+  
   cerr << endl;
-  */
 }
 
 string divisionsAsMsrString (
@@ -2038,19 +2047,24 @@ string divisionsAsMsrString (
   int  divisions,
   int& numberOfDotsNeeded)
 {
+  string result;
+
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
-
+  
   if (gMsrOptions->fTraceDurations) {
     cerr <<
       "inputLineNumber        = " << inputLineNumber <<
       endl <<
       "divisions              = " << divisions <<
       endl << endl;
+
+      printDurationsDivisions (cerr);
   }
     
-  msrDuration baseDuration;
-  int         baseDurationDivisions;
+  msrDuration baseDuration          = k1024th;
+  int         baseDurationDivisions = -1;
+  bool        found = false;
   
   // search gDurationsDivisions in longer to shortest order
   list<pair<msrDuration, int> >::const_iterator
@@ -2090,25 +2104,28 @@ string divisionsAsMsrString (
       // found base duration in list
       baseDuration          = (*i).first;
       baseDurationDivisions = (*i).second;
+
+      result =
+        msrDurationAsString (baseDuration);
+      
+      if (gMsrOptions->fTraceDurations) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDuration           = " << msrDurationAsString (baseDuration) <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "result                 = " << result <<
+          endl << endl;
+      }
+
       break;
     }
         
     // next please!
     i++;
   } // for
-
-  string result =
-    msrDurationAsString (baseDuration);
-  
-  if (gMsrOptions->fTraceDurations) {
-    cerr <<
-      "divisions              = " << divisions <<
-      endl <<
-      "baseDuration  = " << msrDurationAsString (baseDuration) <<
-      endl <<
-      "baseDurationDivisions  = " << baseDurationDivisions <<
-      endl << endl;
-  }
 
   int         dotsNumber = 0;
 
@@ -4636,7 +4653,7 @@ string msrNote::notePitchAsString () const
 string msrNote::noteDivisionsAsMSRString () const
 {
   string result;
-  int    computedNumberOfDots;
+  int    computedNumberOfDots = 0;
 //  string errorMessage;
 
   result =
@@ -8366,26 +8383,10 @@ string msrSyllable::syllableExtendKindAsString (
 
 string msrSyllable::syllableDivisionsAsString () const
 {
-  string errorMessage;
-  int    computedNumberOfDots;
-
-  int divisionsPerQuarterNote =
-    fSyllableStanzaUplink->
-      getStanzaVoiceUplink ()->
-        getVoiceDivisionsPerQuarterNote ();
-
-  string result =
+  return
     divisionsAsMsrString (
       fInputLineNumber,
-      fSyllableDivisions,
-      computedNumberOfDots);
-
-    if (computedNumberOfDots != divisionsPerQuarterNote)
-      msrInternalError (
-        fInputLineNumber,
-        errorMessage);
-
-  return result;
+      fSyllableDivisions);
 }
 
 string msrSyllable::syllableNoteUplinkAsString () const
@@ -15414,7 +15415,7 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fDebug)
+  if (gMsrOptions->fTraceDivisions)
     cerr << idtr <<
       "--> setting part divisions per quarter note to " <<
       divisionsPerQuarterNote <<
@@ -15423,7 +15424,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
 
   // initialize gDurationsDivisions
   setupDurationsDivisions (
-    fPartDivisionsPerQuarterNote);
+    divisionsPerQuarterNote);
 
   // register divisions per quarter note
   fPartDivisionsPerQuarterNote =

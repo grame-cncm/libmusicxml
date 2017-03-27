@@ -345,8 +345,6 @@ string msrDurationAsString (msrDuration duration);
 
 extern list<pair<msrDuration, int> > gDurationsDivisions;
 
-void setupDurationsDivisions (int divisionPerQuarterNote);
-
 string divisionsAsMsrString (
   int  inputLineNumber,
   int  divisions,
@@ -355,6 +353,10 @@ string divisionsAsMsrString (
 string divisionsAsMsrString (
   int  inputLineNumber,
   int  divisions);
+
+void setupDurationsDivisions (int divisionPerQuarterNote);
+
+void printDurationsDivisions (ostream& os);
 
 //______________________________________________________________________________
 /*!
@@ -404,6 +406,7 @@ class EXP msrOptions : public smartable
     bool                          fTraceMeasures;
     
     bool                          fTraceNotes;
+    bool                          fTraceDivisions;
     bool                          fTraceDurations;
     
     bool                          fTraceChords;

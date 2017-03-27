@@ -1491,7 +1491,30 @@ int main (int argc, char *argv[])
   }
   */
 
-  if (true) { // JMI
+  // analyze the pitches and chords languages variables
+  // ------------------------------------------------------
+
+  initializePitchesLanguages ();
+  initializeLpsrChordsLanguages ();
+  
+  // analyze the command line options
+  // ------------------------------------------------------
+
+  gGeneralOptions = msrGeneralOptions::create ();
+  assert(gGeneralOptions != 0);
+
+  gMsrOptions = msrOptions::create ();
+  assert(gMsrOptions != 0);
+
+  gLpsrOptions = lpsrOptions::create();
+  assert(gLpsrOptions != 0);
+
+  if (false) { // JMI
+    gMsrOptions->fTraceDivisions = true;
+    gMsrOptions->fTraceDurations = true;
+  }
+  
+  if (false) { // JMI
     gMsrOptions->fTraceDurations = true;
   
     int divisionsPerQuarterNote = 1;
@@ -1514,24 +1537,6 @@ int main (int argc, char *argv[])
 
     assert (false);
   }
-  
-  // analyze the pitches and chords languages variables
-  // ------------------------------------------------------
-
-  initializePitchesLanguages ();
-  initializeLpsrChordsLanguages ();
-  
-  // analyze the command line options
-  // ------------------------------------------------------
-
-  gGeneralOptions = msrGeneralOptions::create ();
-  assert(gGeneralOptions != 0);
-
-  gMsrOptions = msrOptions::create ();
-  assert(gMsrOptions != 0);
-
-  gLpsrOptions = lpsrOptions::create();
-  assert(gLpsrOptions != 0);
   
   string    inputFileName;
   string    outputFileName;
