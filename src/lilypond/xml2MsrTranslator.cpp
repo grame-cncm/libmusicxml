@@ -1814,6 +1814,14 @@ void xml2MsrTranslator::visitStart (S_direction& elt)
     </direction-type>
     <sound tempo="85"/>
   </direction>
+  
+  <direction placement="above">
+    <direction-type>
+      <bracket default-y="20" line-end="down" line-type="solid" number="1" type="start"/>
+    </direction-type>
+    <offset>1</offset>
+  </direction>
+
 */
 
   fCurrentDirectionPlacement =
@@ -1853,6 +1861,18 @@ void xml2MsrTranslator::visitStart (S_direction_type& elt)
 void xml2MsrTranslator::visitEnd (S_direction_type& elt)
 {
   fOnGoingDirectionType = false;
+}
+
+void xml2MsrTranslator::visitStart (S_offset& elt)
+{
+/*
+    <offset>1</offset>
+*/
+
+  string offset = elt->getValue ();
+  
+  if (fOnGoingDirection) { // JMI
+  }
 }
 
 void xml2MsrTranslator::visitStart (S_octave_shift& elt)
@@ -2854,19 +2874,6 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_bracket& elt )
 {
-/*
-Ligature types are empty. Most ligatures are represented with two elements: one with a start type, and one with a stop type. Ligatures can add more elements using a continue type. This is typically used to specify the formatting of cross-system ligatures, or to specify the shape of very complex ligatures.
-
-      <direction placement="above">
-        <direction-type>
-          <bracket default-y="17" line-end="down" line-type="solid" number="1" type="start"/>
-        </direction-type>
-      </direction>
-
-http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
-
-*/
-
   fCurrentLigatureNumber =
     elt->getAttributeIntValue ("number", 0);
 
@@ -6210,9 +6217,17 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
         delayAttachment = true;
       }
       else {
+        stringstream s;
+
+        s <<
+          "there " <<
+          singularOrPlural (
+            fPendingDynamics.size (), "there is", "there are") <<
+          " dynamics attached to a rest";
+          
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          "there is dynamics attached to a rest");
+          s.str());
       }
     }
     
@@ -6252,7 +6267,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
         delayAttachment = true;
       }
       else {
-        /*
+        /* JMI
         for (
             list<S_msrWords>::const_iterator i = fPendingWords.begin();
             i != fPendingWords.end();
@@ -6316,8 +6331,8 @@ void xml2MsrTranslator::attachPendingSlursToNote (
         s <<
           "there " <<
           singularOrPlural (
-            fPendingWords.size (), "there is", "there are") <<
-          " words attached to a rest";
+            fPendingSlurs.size (), "there is", "there are") <<
+          " slur(s) attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -6360,14 +6375,17 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
         delayAttachment = true;
       }
       else {
-        for (
-            list<S_msrLigature>::const_iterator i = fPendingLigatures.begin();
-            i != fPendingLigatures.end();
-            i++) {
-          msrMusicXMLWarning (
-            (*i)->getInputLineNumber (),
-            "there is a ligature attached to a rest");
-        } // for
+        stringstream s;
+
+        s <<
+          "there " <<
+          singularOrPlural (
+            fPendingLigatures.size (), "there is", "there are") <<
+          " ligatures(s) attached to a rest";
+          
+        msrMusicXMLWarning (
+          note->getInputLineNumber (),
+          s.str());
       }
     }
     
@@ -6406,14 +6424,17 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
         delayAttachment = true;
       }
       else {
-        for (
-            list<S_msrWedge>::const_iterator i = fPendingWedges.begin();
-            i != fPendingWedges.end();
-            i++) {
-          msrMusicXMLWarning (
-            (*i)->getInputLineNumber (),
-            "there is a wedge attached to a rest");
-        } // for
+        stringstream s;
+
+        s <<
+          "there " <<
+          singularOrPlural (
+            fPendingWedges.size (), "there is", "there are") <<
+          " wedge(s) attached to a rest";
+          
+        msrMusicXMLWarning (
+          note->getInputLineNumber (),
+          s.str());
       }
     }
     

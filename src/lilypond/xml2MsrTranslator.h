@@ -146,6 +146,7 @@ class EXP xml2MsrTranslator :
 
   public visitor<S_direction>,
   public visitor<S_direction_type>,
+  public visitor<S_offset>,
   public visitor<S_words>,
   public visitor<S_octave_shift>,
   
@@ -399,6 +400,7 @@ class EXP xml2MsrTranslator :
     virtual void visitEnd   ( S_direction& elt );
     virtual void visitStart ( S_direction_type& elt );
     virtual void visitEnd   ( S_direction_type& elt );
+    virtual void visitStart ( S_offset& elt );
     virtual void visitStart ( S_words& elt );
     virtual void visitStart ( S_octave_shift& elt );
     
