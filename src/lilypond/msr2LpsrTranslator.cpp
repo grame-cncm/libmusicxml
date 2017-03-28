@@ -1226,6 +1226,33 @@ void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
     fOstream << idtr <<
       "--> End visiting msrSlur" << endl;
 }
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "--> Start visiting msrLigature" << endl;
+
+  if (fOnGoingNote) {
+    // don't add ligatures to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addLigatureToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addLigatureToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "--> End visiting msrLigature" << endl;
+}
+
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 {

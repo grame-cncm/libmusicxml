@@ -1883,13 +1883,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
             "\\skip1" " ";
           break;
           
-        case msrSyllable::kSlurSyllable:
-          fOstream <<
-            "%{ slur " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
-            endl <<
-            idtr;
-          break;
-  
         case msrSyllable::kTiedSyllable:
           fOstream <<
             "%{ ~ " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
@@ -1897,7 +1890,26 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
             idtr;
           break;
           
+        case msrSyllable::kSlurSyllable:
+          fOstream <<
+            "%{ slur " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
+            endl <<
+            idtr;
+          break;
+  
         case msrSyllable::kSlurBeyondEndSyllable:
+  // JMI       fOstream <<
+   //         "__ " << " ";
+          break;
+  
+        case msrSyllable::kLigatureSyllable:
+          fOstream <<
+            "%{ ligature " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
+            endl <<
+            idtr;
+          break;
+  
+        case msrSyllable::kLigatureBeyondEndSyllable:
   // JMI       fOstream <<
    //         "__ " << " ";
           break;
@@ -2214,6 +2226,21 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSlur& elt)
   if (gGeneralOptions->fDebug)
     fOstream << idtr <<
       "% --> End visiting msrSlur" << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrLigature& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "% --> Start visiting msrLigature" << endl;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrLigature& elt)
+{
+  if (gGeneralOptions->fDebug)
+    fOstream << idtr <<
+      "% --> End visiting msrLigature" << endl;
 }
 
 //________________________________________________________________________
@@ -2892,6 +2919,34 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
+  // print the note ligatures if any
+  list<S_msrLigature>
+    noteLigatures =
+      elt->getNoteLigatures ();
+      
+  if (noteLigatures.size()) {
+    list<S_msrLigature>::const_iterator i;
+    for (
+      i=noteLigatures.begin();
+      i!=noteLigatures.end();
+      i++) {
+        
+      switch ((*i)->getLigatureKind ()) {
+        case msrLigature::k_NoLigature:
+          break;
+        case msrLigature::kStartLigature:
+          fOstream << "\\[" " ";
+          break;
+        case msrLigature::kContinueLigature:
+          break;
+        case msrLigature::kStopLigature:
+          fOstream << "\\]" " ";
+          break;
+      } // switch
+      fMusicOlec++;
+    } // for
+  }
+
   // print the note wedges if any
   list<S_msrWedge>
     noteWedges =
@@ -3263,6 +3318,34 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
           break;
         case msrSlur::kStopSlur:
           fOstream << ")" " ";
+          break;
+      } // switch
+      fMusicOlec++;
+   } // for
+  }
+
+  // print the chord ligatures if any
+  list<S_msrLigature>
+    chordLigatures =
+      elt->getChordLigatures ();
+      
+  if (chordLigatures.size()) {
+    list<S_msrLigature>::const_iterator i;
+    for (
+      i=chordLigatures.begin();
+      i!=chordLigatures.end();
+      i++) {
+        
+      switch ((*i)->getLigatureKind ()) {
+        case msrLigature::k_NoLigature:
+          break;
+        case msrLigature::kStartLigature:
+          fOstream << "\\[" " ";
+          break;
+        case msrLigature::kContinueLigature:
+          break;
+        case msrLigature::kStopLigature:
+          fOstream << "\\]" " ";
           break;
       } // switch
       fMusicOlec++;

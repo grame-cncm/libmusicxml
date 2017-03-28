@@ -112,6 +112,8 @@ class lpsr2LilyPondTranslator :
   
   public visitor<S_msrSlur>,
   
+  public visitor<S_msrLigature>,
+  
   public visitor<S_msrBarline>,
   
   public visitor<S_msrSegno>,
@@ -297,6 +299,9 @@ class lpsr2LilyPondTranslator :
 
     virtual void visitStart (S_msrSlur& elt);
     virtual void visitEnd   (S_msrSlur& elt);
+
+    virtual void visitStart (S_msrLigature& elt);
+    virtual void visitEnd   (S_msrLigature& elt);
 
     virtual void visitStart (S_msrBarline& elt);
     virtual void visitEnd   (S_msrBarline& elt);
