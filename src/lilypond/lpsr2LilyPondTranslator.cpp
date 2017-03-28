@@ -2338,6 +2338,34 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
   if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
 
+  // print the note ligatures if any
+  list<S_msrLigature>
+    noteLigatures =
+      elt->getNoteLigatures ();
+      
+  if (noteLigatures.size()) {
+    list<S_msrLigature>::const_iterator i;
+    for (
+      i=noteLigatures.begin();
+      i!=noteLigatures.end();
+      i++) {
+        
+      switch ((*i)->getLigatureKind ()) {
+        case msrLigature::k_NoLigature:
+          break;
+        case msrLigature::kStartLigature:
+          fOstream << "\\[" " ";
+          break;
+        case msrLigature::kContinueLigature:
+          break;
+        case msrLigature::kStopLigature:
+   // JMI       fOstream << "\\]" " ";
+          break;
+      } // switch
+      fMusicOlec++;
+    } // for
+  }
+
   // get note stem kind 
   msrStem::msrStemKind
     stemKind =
@@ -2935,7 +2963,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-          fOstream << "\\[" " ";
+   // JMI       fOstream << "\\[" " ";
           break;
         case msrLigature::kContinueLigature:
           break;
@@ -3112,6 +3140,34 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
   // indent before the fist chord of the msrSegment if needed
   if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
+
+  // print the chord ligatures if any
+  list<S_msrLigature>
+    chordLigatures =
+      elt->getChordLigatures ();
+      
+  if (chordLigatures.size()) {
+    list<S_msrLigature>::const_iterator i;
+    for (
+      i=chordLigatures.begin();
+      i!=chordLigatures.end();
+      i++) {
+        
+      switch ((*i)->getLigatureKind ()) {
+        case msrLigature::k_NoLigature:
+          break;
+        case msrLigature::kStartLigature:
+          fOstream << "\\[" " ";
+          break;
+        case msrLigature::kContinueLigature:
+          break;
+        case msrLigature::kStopLigature:
+  // JMI        fOstream << "\\]" " ";
+          break;
+      } // switch
+      fMusicOlec++;
+   } // for
+  }
 
   // don't take the chord into account for line breaking ??? JMI
   
@@ -3340,7 +3396,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-          fOstream << "\\[" " ";
+  // JMI        fOstream << "\\[" " ";
           break;
         case msrLigature::kContinueLigature:
           break;
