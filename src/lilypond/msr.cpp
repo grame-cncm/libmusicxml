@@ -2481,6 +2481,10 @@ void msrOptions::initializeMsrOptions ()
   // advanced options
   fCreateStaffRelativeVoiceNumbers      = false;
   fDelayRestsDynamics                   = false;
+  fDelayRestsWords                      = false; // JMI
+  fDelayRestsSlurs                      = false; // JMI
+  fDelayRestsLigatures                  = false; // JMI
+  fDelayRestsWedges                     = false; // JMI
   
   // stanza display
   fDontDisplayMSRStanzas                = false;

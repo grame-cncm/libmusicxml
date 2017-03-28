@@ -443,6 +443,10 @@ class EXP msrOptions : public smartable
     // advanced options
     bool                          fCreateStaffRelativeVoiceNumbers;
     bool                          fDelayRestsDynamics;
+    bool                          fDelayRestsWords; // JMI
+    bool                          fDelayRestsSlurs; // JMI
+    bool                          fDelayRestsLigatures; // JMI
+    bool                          fDelayRestsWedges; // JMI
 
     // MSR display
     bool                          fDisplayMSR;

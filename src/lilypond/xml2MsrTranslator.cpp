@@ -1937,7 +1937,7 @@ void xml2MsrTranslator::visitStart (S_octave_shift& elt)
 void xml2MsrTranslator::visitStart (S_words& elt)
 {
 /*
-          <words default-y="-73" font-style="italic" relative-x="5">cresc.</words>
+  <words default-y="-73" font-style="italic" relative-x="5">cresc.</words>
 */
 
   fCurrentWordsContents = elt->getValue ();
@@ -6193,6 +6193,8 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
 {
  // attach the pending dynamics if any to the note
   if (! fPendingDynamics.empty()) {
+    bool delayAttachment = false;
+    
     
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
@@ -6204,6 +6206,8 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying dynamics attached to a rest until next note" << endl;
+
+        delayAttachment = true;
       }
       else {
         msrMusicXMLWarning (
@@ -6212,7 +6216,7 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
       }
     }
     
-    else {
+    if (! delayAttachment) {
       while (! fPendingDynamics.empty ()) {
         S_msrDynamics
           dyn =
@@ -6231,6 +6235,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
 {
   // attach the pending words if any to the note
   if (! fPendingWords.empty ()) {
+    bool delayAttachment = false;
     
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
@@ -6239,11 +6244,15 @@ void xml2MsrTranslator::attachPendingWordsToNote (
         endl;
 
     if (fNoteData.fNoteIsARest) {
-      if (gMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsWords) {
         cerr << idtr <<
-          "--> Delaying words attached to a rest until next note" << endl;
+          "--> Delaying words attached to a rest until next note" <<
+          endl;
+
+        delayAttachment = true;
       }
       else {
+        /*
         for (
             list<S_msrWords>::const_iterator i = fPendingWords.begin();
             i != fPendingWords.end();
@@ -6252,10 +6261,22 @@ void xml2MsrTranslator::attachPendingWordsToNote (
             (*i)->getInputLineNumber (),
             "there is words attached to a rest");
         } // for
+        */
+        stringstream s;
+
+        s <<
+          "there " <<
+          singularOrPlural (
+            fPendingWords.size (), "there is", "there are") <<
+          " words attached to a rest";
+          
+        msrMusicXMLWarning (
+          note->getInputLineNumber (),
+          s.str());
       }
     }
-    
-    else {
+
+    if (! delayAttachment) {
       while (! fPendingWords.empty ()) {
         S_msrWords
           words =
@@ -6274,7 +6295,8 @@ void xml2MsrTranslator::attachPendingSlursToNote (
 {
   // attach the pending slurs if any to the note
   if (! fPendingSlurs.empty ()) {
-    
+    bool delayAttachment = false;
+        
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching pending slurs to note " <<
@@ -6282,23 +6304,28 @@ void xml2MsrTranslator::attachPendingSlursToNote (
         endl;
 
     if (fNoteData.fNoteIsARest) {
-      if (gMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsSlurs) {
         cerr << idtr <<
           "--> Delaying slur attached to a rest until next note" << endl;
+
+        delayAttachment = true;
       }
       else {
-        for (
-            list<S_msrSlur>::const_iterator i = fPendingSlurs.begin();
-            i != fPendingSlurs.end();
-            i++) {
-          msrMusicXMLWarning (
-            (*i)->getInputLineNumber (),
-            "there is a slur attached to a rest");
-        } // for
+        stringstream s;
+
+        s <<
+          "there " <<
+          singularOrPlural (
+            fPendingWords.size (), "there is", "there are") <<
+          " words attached to a rest";
+          
+        msrMusicXMLWarning (
+          note->getInputLineNumber (),
+          s.str());
       }
     }
     
-    else {
+    if (! delayAttachment) {
       while (! fPendingSlurs.empty ()) {
         S_msrSlur
           slur =
@@ -6317,7 +6344,8 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
 {
   // attach the pending ligatures if any to the note
   if (! fPendingLigatures.empty ()) {
-    
+    bool delayAttachment = false;
+        
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching pending ligatures to note " <<
@@ -6325,9 +6353,11 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
         endl;
 
     if (fNoteData.fNoteIsARest) {
-      if (gMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsLigatures) {
         cerr << idtr <<
           "--> Delaying ligature attached to a rest until next note" << endl;
+
+        delayAttachment = true;
       }
       else {
         for (
@@ -6341,7 +6371,7 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
       }
     }
     
-    else {
+    if (! delayAttachment) {
       while (! fPendingLigatures.empty ()) {
         S_msrLigature
           ligature =
@@ -6360,7 +6390,8 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
 {
   // attach the pending wedges if any to the note
   if (! fPendingWedges.empty ()) {
-    
+    bool delayAttachment = false;
+        
     if (gGeneralOptions->fDebug)
       cerr << idtr <<
         "--> attaching pending wedges to note " <<
@@ -6368,9 +6399,11 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
         endl;
 
     if (fNoteData.fNoteIsARest) {
-      if (gMsrOptions->fDelayRestsDynamics) {
+      if (gMsrOptions->fDelayRestsWedges) {
         cerr << idtr <<
           "--> Delaying wedge attached to a rest until next note" << endl;
+
+        delayAttachment = true;
       }
       else {
         for (
@@ -6384,7 +6417,7 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
       }
     }
     
-    else {
+    if (! delayAttachment) {
       while (! fPendingWedges.empty ()) {
         S_msrWedge
           wedge =
