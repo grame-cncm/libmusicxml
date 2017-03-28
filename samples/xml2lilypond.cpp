@@ -197,8 +197,8 @@ void printUsage (int exitStatus)
     "          Generate LilyPond code to show all bar numbers." << endl <<
     endl <<
     "    --cfbr, --compressFullBarRests" << endl <<
-    "          Generate LilyPond code compress all full bar rests in the voices." << endl <<
-    endl <<
+    "          Generate '\\compressFullBarRests' at the beginning of voices." << endl <<
+    "          Bt default, this command is commented." << endl <<
     "    --noBreaks, --dontKeepLineBreaks" << endl <<
     "          Don't keep the line breaks from the MusicXML input" << endl <<
     "          and let LilyPond decide about them." << endl <<
@@ -218,9 +218,6 @@ void printUsage (int exitStatus)
     "    --iln, --generateInputLineNumbers" << endl <<
     "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
-    endl <<
-    "    --ncfbr, --dontCompressFullBarRests" << endl <<
-    "          Comment the '\\compressFullBarRests' command at the beginning of voices" << endl <<
     endl <<
     "    --blairm, --breakLinesAtIncompleteRightMeasures" << endl <<
     "          Generate a '\\break' command at the end incomplete right measures" << endl <<
@@ -1602,14 +1599,14 @@ int main (int argc, char *argv[])
   assert(gLpsrOptions != 0);
 
   if (false) { // JMI
-    gMsrOptions->fTraceDivisions = true;
-    gMsrOptions->fTraceDurations = true;
+    gGeneralOptions->fTraceDivisions = true;
+    gGeneralOptions->fTraceDurations = true;
 
    // testDivisionsAndDurations ();
   }
   
   if (false) { // JMI
-    gMsrOptions->fTraceDurations = true;
+    gGeneralOptions->fTraceDurations = true;
   
     int divisionsPerQuarterNote = 1;
     cerr <<

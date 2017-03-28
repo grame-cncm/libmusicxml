@@ -2016,7 +2016,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
     } // while
   }
 
-  if (gMsrOptions->fTraceDivisions || gMsrOptions->fTraceDurations) {
+  if (gGeneralOptions->fTraceDivisions) {
     printDurationsDivisions (cerr);
   }
 }
@@ -2052,7 +2052,7 @@ string divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
   
-  if (gMsrOptions->fTraceDurations) {
+  if (gGeneralOptions->fTraceDurations) {
     cerr <<
       "inputLineNumber        = " << inputLineNumber <<
       endl <<
@@ -2108,7 +2108,7 @@ string divisionsAsMsrString (
       result =
         msrDurationAsString (baseDuration);
       
-      if (gMsrOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDurations) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -2138,7 +2138,7 @@ string divisionsAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (gMsrOptions->fTraceDurations) {
+    if (gGeneralOptions->fTraceDurations) {
       cerr <<
         "divisions              = " << divisions <<
         endl <<
@@ -2157,7 +2157,7 @@ string divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (gMsrOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDurations) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -2184,7 +2184,7 @@ string divisionsAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (gMsrOptions->fTraceDurations) {
+        if (gGeneralOptions->fTraceDurations) {
           cerr <<
             "divisions              = " << divisions <<
             endl <<
@@ -2202,7 +2202,7 @@ string divisionsAsMsrString (
           break; // JMI
       } // while
   
-      if (gMsrOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDurations) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -2231,7 +2231,7 @@ string divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (gMsrOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDurations) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -2429,32 +2429,6 @@ msrOptions::msrOptions ()
 
 void msrOptions::initializeMsrOptions ()
 {
-  // debug
-  fTraceScore = false;
-  fTracePartgroups = false;
-  fTraceParts = false;
-  fTraceStaves = false;
-  fTraceVoices = false;
-    
-  fTraceSegments = false;
-  fTraceMeasures = false;
-    
-  fTraceNotes = false;
-  fTraceDurations = false;
-    
-  fTraceChords = false;
-  fTraceTuplets = false;
-    
-  fTraceGracenotes = false;
-    
-  fTraceLyrics = false;
-
-  fTraceRepeats = false;
-    
-  fTraceHarmony = false;
-    
-  fTraceStafftuning = false;
-
   // languages
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -4027,7 +4001,7 @@ msrGracenotes::~msrGracenotes() {}
 S_msrGracenotes msrGracenotes::createGracenotesBareClone (
   S_msrVoice voiceClone)
 {
-  if (gMsrOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
       "--> creating a bare clone of grace notes" <<
       gracenotesAsShortString () <<
@@ -4050,7 +4024,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
   S_msrVoice voiceClone)
 {
-  if (gMsrOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
       "--> creating a skip clone of grace notes" <<
       gracenotesAsShortString () <<
@@ -4284,7 +4258,7 @@ msrAftergracenotes::~msrAftergracenotes() {}
 S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
   S_msrVoice voiceClone)
 {
-  if (gMsrOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
       "--> creating a bare clone of grace notes" <<
       endl;
@@ -4394,7 +4368,7 @@ msrNote::msrNote (
     msrElement (inputLineNumber),
     fNoteData (noteData)
 {
-  if (gMsrOptions->fTraceNotes) {
+  if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "==> fNoteData contains:" <<
       endl;
@@ -4431,7 +4405,7 @@ msrNote::~msrNote()
 
 S_msrNote msrNote::createNoteBareClone ()
 {
-  if (gMsrOptions->fTraceNotes) {
+  if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "--> Creating a bare clone of note " <<
       noteAsString () <<
@@ -5650,7 +5624,7 @@ msrChord::~msrChord() {}
 
 S_msrChord msrChord::createChordBareClone ()
 {
-  if (gMsrOptions->fTraceChords) {
+  if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "--> Creating a bare clone of chord" <<
       endl;
@@ -6512,7 +6486,7 @@ msrTuplet::~msrTuplet() {}
 
 S_msrTuplet msrTuplet::createTupletBareClone ()
 {
-  if (gMsrOptions->fTraceTuplets) {
+  if (gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
       "--> Creating a bare clone of a tuplet" <<
       endl;
@@ -8491,7 +8465,7 @@ msrSyllable::~msrSyllable()
 
 S_msrSyllable msrSyllable::createSyllableBareClone ()
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "--> Creating a bare clone of a syllable" <<
       endl;
@@ -8943,7 +8917,7 @@ msrStanza::~msrStanza() {}
 
 S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "--> Creating a bare clone of stanza \"" <<
       getStanzaName () <<
@@ -9018,7 +8992,7 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9054,7 +9028,7 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9091,7 +9065,7 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9126,7 +9100,7 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9160,7 +9134,7 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9194,7 +9168,7 @@ S_msrSyllable msrStanza::addLigatureSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9228,7 +9202,7 @@ S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9262,7 +9236,7 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9301,7 +9275,7 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9340,7 +9314,7 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
         fStanzaVoiceUplink->getVoiceStaffUplink ();
@@ -9531,7 +9505,7 @@ msrHarmony::~msrHarmony() {}
 
 S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
-  if (gMsrOptions->fTraceHarmony) {
+  if (gGeneralOptions->fTraceHarmony) {
     cerr << idtr <<
       "--> Creating a bare clone or a harmony" <<
       endl;
@@ -9780,7 +9754,7 @@ msrChords::~msrChords() {}
 
 S_msrChords msrChords::createChordsBareClone (S_msrPart clonedPart)
 {
-  if (gMsrOptions->fTraceChords) {
+  if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "--> Creating a bare clone of a chord" <<
       endl;
@@ -9801,7 +9775,7 @@ void msrChords::appendSKipToChords (
   int       inputLineNumber,
   int       divisions)
 {
-  if (gMsrOptions->fTraceChords) {
+  if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "--> Adding skip:" << divisions <<
       " to chords " << getChordsName () << endl;
@@ -11352,7 +11326,7 @@ void msrMeasure::finalizeMeasure (
     fMeasurePartDirectUplink->
       getPartMeasurePositionHighTide ();
     
-  if (true || gMsrOptions->fTraceMeasures) {
+  if (true || gGeneralOptions->fTraceMeasures) {
     cerr <<
       idtr <<
         "### --> finalizing measure " << fMeasureNumber <<
@@ -11374,7 +11348,7 @@ void msrMeasure::finalizeMeasure (
         ? partMeasurePositionHighTide - fMeasurePosition
         : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
 
-    if (true || gMsrOptions->fTraceMeasures) {
+    if (true || gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
         ", skipDuration = " << skipDuration <<
@@ -11429,7 +11403,7 @@ void msrMeasure::finalizeMeasure (
       measureKind);
 
   if (measureIsIncomplete) {
-    if (gMsrOptions->fTraceMeasures) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
       "### --> measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () <<
@@ -11445,7 +11419,7 @@ void msrMeasure::finalizeMeasure (
       inputLineNumber);
 
   if (measureIsOverfull) {
-    if (gMsrOptions->fTraceMeasures) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
       "### --> measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () <<
@@ -11669,7 +11643,7 @@ msrSegment::msrSegment (
       getVoiceTime ();
 
 
-  if (gMsrOptions->fTraceSegments) {
+  if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "--> new segment gets absolute number " <<
       fSegmentAbsoluteNumber <<
@@ -11697,7 +11671,7 @@ msrSegment::msrSegment (
       ? 0
       : 1;
 
-  if (gMsrOptions->fTraceSegments) {
+  if (gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
         "--> Creating segment " << segmentAsString () <<
@@ -11741,7 +11715,7 @@ msrSegment::~msrSegment() {}
 S_msrSegment msrSegment::createSegmentBareClone (
   S_msrVoice clonedVoice)
 {
-  if (gMsrOptions->fTraceSegments) {
+  if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "--> Creating a bare clone of segment " <<
       segmentAsString () <<
@@ -13255,7 +13229,7 @@ void msrVoice::init (int inputLineNumber)
 
 S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
-  if (gMsrOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "--> Creating a bare clone of voice \"" <<
       getVoiceName () <<
@@ -13387,7 +13361,7 @@ void msrVoice::createNewLastSegmentForVoice (
       inputLineNumber);
     
   // create the segment
-  if (gMsrOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
@@ -13454,7 +13428,7 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
@@ -13496,7 +13470,7 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
@@ -13744,7 +13718,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
 void msrVoice::appendGracenotesToVoice (
   S_msrGracenotes gracenotes)
 {
-  if (gMsrOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
       "Appending grace notes " << // JMI gracenotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -13760,7 +13734,7 @@ void msrVoice::appendGracenotesToVoice (
 void msrVoice::prependGracenotesToVoice (
   S_msrGracenotes gracenotes)
 {
-  if (gMsrOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
       "Prepending grace notes " << // JMI gracenotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -13779,7 +13753,7 @@ void msrVoice::appendSyllableToVoice (
   S_msrSyllable syllable)
 {
   // append syllable to this voice
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "--> appending syllable " <<
       syllable->syllableAsString () <<
@@ -14354,7 +14328,7 @@ void msrVoice::print (ostream& os)
   
   idtr--;
   
-  if (gMsrOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     // print the stanza master
     os << idtr <<
       fVoiceStanzaMaster <<
@@ -14418,7 +14392,7 @@ msrStafftuning::~ msrStafftuning ()
 
 S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 {
-  if (gMsrOptions->fTraceStafftuning) {
+  if (gGeneralOptions->fTraceStafftuning) {
     cerr << idtr <<
       "--> Creating a bare clone of a staff tuning" <<
       endl;
@@ -14437,7 +14411,7 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 
 void msrStafftuning::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceStafftuning) {
+  if (gGeneralOptions->fTraceStafftuning) {
     cerr << idtr <<
       "==> msrStafftuning::acceptIn()" << endl;
   }
@@ -14770,7 +14744,7 @@ msrStaff::~msrStaff()
 
 S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
-  if (gMsrOptions->fTraceStaves) {
+  if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "--> Creating a bare clone of staff \"" <<
       fStaffName <<
@@ -14813,7 +14787,7 @@ string msrStaff::getStaffName () const
 void msrStaff::setStaffDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gMsrOptions->fTraceStaves) {
+  if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "--> setting staff divisions per quarter note to " <<
       divisionsPerQuarterNote <<
@@ -15741,7 +15715,7 @@ msrPart::~msrPart() {}
 
 S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 {
-  if (gMsrOptions->fTraceParts) {
+  if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "--> Creating a bare clone of part " <<
       getPartCombinedName () <<
@@ -15819,7 +15793,7 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gMsrOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "--> setting part divisions per quarter note to " <<
       divisionsPerQuarterNote <<
@@ -16089,7 +16063,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     return fPartStavesMap [staffNumber];
   }
 
-  if (gMsrOptions->fTraceParts) {
+  if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
@@ -16543,7 +16517,7 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
   fPartgroupPartsMap [partID] = part;
   fPartgroupElements.push_back (part);
 
-  if (gMsrOptions->fTracePartgroups) {
+  if (gGeneralOptions->fTracePartgroups) {
     cerr <<
     endl <<
     idtr <<
@@ -17179,7 +17153,7 @@ msrScore::~msrScore() {}
 
 S_msrScore msrScore::createScoreBareClone ()
 {
-  if (gMsrOptions->fTraceScore) {
+  if (gGeneralOptions->fTraceScore) {
     cerr << idtr <<
       "--> Creating a bare clone of a score" <<
       endl;

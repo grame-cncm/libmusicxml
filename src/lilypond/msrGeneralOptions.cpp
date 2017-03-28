@@ -45,6 +45,33 @@ void msrGeneralOptions::initializeGeneralOptions ()
   // trace
   fTrace = true;
   
+  // trace
+  fTraceScore = false;
+  fTracePartgroups = false;
+  fTraceParts = false;
+  fTraceStaves = false;
+  fTraceVoices = false;
+  
+  fTraceSegments = false;
+  fTraceMeasures = false;
+  
+  fTraceNotes = false;
+  fTraceDivisions = false;
+  fTraceDurations = false;
+  
+  fTraceChords = false;
+  fTraceTuplets = false;
+  
+  fTraceGracenotes = false;
+  
+  fTraceLyrics = false;
+
+  fTraceRepeats = false;
+  
+  fTraceHarmony = false;
+  
+  fTraceStafftuning = false;
+
   // debug
   fDebug = false;
   fDebugDebug = false;

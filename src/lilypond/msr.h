@@ -409,33 +409,6 @@ class EXP msrOptions : public smartable
                                     string language);    
  
   public:
-
-    // debug
-    bool                          fTraceScore;
-    bool                          fTracePartgroups;
-    bool                          fTraceParts;
-    bool                          fTraceStaves;
-    bool                          fTraceVoices;
-    
-    bool                          fTraceSegments;
-    bool                          fTraceMeasures;
-    
-    bool                          fTraceNotes;
-    bool                          fTraceDivisions;
-    bool                          fTraceDurations;
-    
-    bool                          fTraceChords;
-    bool                          fTraceTuplets;
-    
-    bool                          fTraceGracenotes;
-    
-    bool                          fTraceLyrics;
-
-    bool                          fTraceRepeats;
-    
-    bool                          fTraceHarmony;
-    
-    bool                          fTraceStafftuning;
     
     // languages
     msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;

@@ -81,6 +81,33 @@ class EXP msrGeneralOptions : public smartable
     
     // trace
     bool                  fTrace;
+
+    // trace
+    bool                  fTraceScore;
+    bool                  fTracePartgroups;
+    bool                  fTraceParts;
+    bool                  fTraceStaves;
+    bool                  fTraceVoices;
+    
+    bool                  fTraceSegments;
+    bool                  fTraceMeasures;
+    
+    bool                  fTraceNotes;
+    bool                  fTraceDivisions;
+    bool                  fTraceDurations;
+    
+    bool                  fTraceChords;
+    bool                  fTraceTuplets;
+    
+    bool                  fTraceGracenotes;
+    
+    bool                  fTraceLyrics;
+
+    bool                  fTraceRepeats;
+    
+    bool                  fTraceHarmony;
+    
+    bool                  fTraceStafftuning;
     
     // debug
     bool                  fDebug;
