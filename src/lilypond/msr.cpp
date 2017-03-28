@@ -2501,7 +2501,7 @@ msrElement::msrElement (
 msrElement::~msrElement() {}
 
 void msrElement::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr <<
       "==> msrElement::acceptIn()" << endl;
       
@@ -2510,7 +2510,7 @@ void msrElement::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr <<
             "==> Launching msrElement::visitStart()" << endl;
         p->visitStart (elem);
@@ -2518,7 +2518,7 @@ void msrElement::acceptIn (basevisitor* v) {
 }
 
 void msrElement::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr <<
       "==> msrElement::acceptOut()" << endl;
 
@@ -2527,7 +2527,7 @@ void msrElement::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr <<
             "==> Launching msrElement::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2733,7 +2733,7 @@ msrOctaveShift::msrOctaveShift (
 msrOctaveShift::~msrOctaveShift() {}
 
 void msrOctaveShift::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrOctaveShift::acceptIn()" << endl;
       
@@ -2742,7 +2742,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrOctaveShift::visitStart()" << endl;
         p->visitStart (elem);
@@ -2750,7 +2750,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
 }
 
 void msrOctaveShift::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrOctaveShift::acceptOut()" << endl;
 
@@ -2759,7 +2759,7 @@ void msrOctaveShift::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrOctaveShift::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2830,7 +2830,7 @@ msrStem::msrStem (
 msrStem::~msrStem() {}
 
 void msrStem::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStem::acceptIn()" << endl;
       
@@ -2839,7 +2839,7 @@ void msrStem::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStem::visitStart()" << endl;
         p->visitStart (elem);
@@ -2847,7 +2847,7 @@ void msrStem::acceptIn (basevisitor* v) {
 }
 
 void msrStem::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStem::acceptOut()" << endl;
 
@@ -2856,7 +2856,7 @@ void msrStem::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStem::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -2937,7 +2937,7 @@ msrBeam::msrBeam (
 msrBeam::~msrBeam() {}
 
 void msrBeam::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBeam::acceptIn()" << endl;
       
@@ -2946,7 +2946,7 @@ void msrBeam::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBeam::visitStart()" << endl;
         p->visitStart (elem);
@@ -2954,7 +2954,7 @@ void msrBeam::acceptIn (basevisitor* v) {
 }
 
 void msrBeam::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBeam::acceptOut()" << endl;
 
@@ -2963,7 +2963,7 @@ void msrBeam::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBeam::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3106,7 +3106,7 @@ string msrArticulation::articulationKindAsString () const
 }
 
 void msrArticulation::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrArticulation::acceptIn()" << endl;
       
@@ -3115,7 +3115,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrArticulation::visitStart()" << endl;
         p->visitStart (elem);
@@ -3123,7 +3123,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
 }
 
 void msrArticulation::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrArticulation::acceptOut()" << endl;
 
@@ -3132,7 +3132,7 @@ void msrArticulation::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrArticulation::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3261,7 +3261,7 @@ string msrOrnament::ornamentAccidentalMarkKindAsString () const
 }
 
 void msrOrnament::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrOrnament::acceptIn()" << endl;
       
@@ -3270,7 +3270,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrOrnament::visitStart()" << endl;
         p->visitStart (elem);
@@ -3278,7 +3278,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
 }
 
 void msrOrnament::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrOrnament::acceptOut()" << endl;
 
@@ -3287,7 +3287,7 @@ void msrOrnament::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrOrnament::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3342,7 +3342,7 @@ msrRehearsal::msrRehearsal (
 msrRehearsal::~msrRehearsal() {}
 
 void msrRehearsal::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrRehearsal::acceptIn()" << endl;
       
@@ -3351,7 +3351,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrRehearsal::visitStart()" << endl;
         p->visitStart (elem);
@@ -3359,7 +3359,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
 }
 
 void msrRehearsal::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrRehearsal::acceptOut()" << endl;
 
@@ -3368,7 +3368,7 @@ void msrRehearsal::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrRehearsal::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3518,7 +3518,7 @@ string msrDynamics::dynamicsKindAsString ()
 }
 
 void msrDynamics::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrDynamics::acceptIn()" << endl;
       
@@ -3527,7 +3527,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrDynamics::visitStart()" << endl;
         p->visitStart (elem);
@@ -3535,7 +3535,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
 }
 
 void msrDynamics::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrDynamics::acceptOut()" << endl;
 
@@ -3544,7 +3544,7 @@ void msrDynamics::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrDynamics::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3610,7 +3610,7 @@ string msrWedge::wedgeKindAsString ()
 }
 
 void msrWedge::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrWedge::acceptIn()" << endl;
       
@@ -3619,7 +3619,7 @@ void msrWedge::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrWedge::visitStart()" << endl;
         p->visitStart (elem);
@@ -3627,7 +3627,7 @@ void msrWedge::acceptIn (basevisitor* v) {
 }
 
 void msrWedge::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrWedge::acceptOut()" << endl;
 
@@ -3636,7 +3636,7 @@ void msrWedge::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrWedge::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3702,7 +3702,7 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
 }
 
 void msrTie::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTie::acceptIn()" << endl;
       
@@ -3711,7 +3711,7 @@ void msrTie::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTie::visitStart()" << endl;
         p->visitStart (elem);
@@ -3719,7 +3719,7 @@ void msrTie::acceptIn (basevisitor* v) {
 }
 
 void msrTie::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTie::acceptOut()" << endl;
 
@@ -3728,7 +3728,7 @@ void msrTie::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTie::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3805,7 +3805,7 @@ string msrSlur::slurKindAsString ()
 }
 
 void msrSlur::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSlur::acceptIn()" << endl;
       
@@ -3814,7 +3814,7 @@ void msrSlur::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSlur::visitStart()" << endl;
         p->visitStart (elem);
@@ -3822,7 +3822,7 @@ void msrSlur::acceptIn (basevisitor* v) {
 }
 
 void msrSlur::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSlur::acceptOut()" << endl;
 
@@ -3831,7 +3831,7 @@ void msrSlur::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSlur::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -3909,7 +3909,7 @@ string msrLigature::ligatureKindAsString ()
 }
 
 void msrLigature::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrLigature::acceptIn()" << endl;
       
@@ -3918,7 +3918,7 @@ void msrLigature::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrLigature::visitStart()" << endl;
         p->visitStart (elem);
@@ -3926,7 +3926,7 @@ void msrLigature::acceptIn (basevisitor* v) {
 }
 
 void msrLigature::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrLigature::acceptOut()" << endl;
 
@@ -3935,7 +3935,7 @@ void msrLigature::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrLigature::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -4105,7 +4105,7 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 }
 
 void msrGracenotes::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrGracenotes::acceptIn()" << endl;
       
@@ -4114,7 +4114,7 @@ void msrGracenotes::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
         S_msrGracenotes elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrGracenotes::visitStart()" << endl;
         p->visitStart (elem);
@@ -4122,7 +4122,7 @@ void msrGracenotes::acceptIn (basevisitor* v) {
 }
 
 void msrGracenotes::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrGracenotes::acceptOut()" << endl;
 
@@ -4131,7 +4131,7 @@ void msrGracenotes::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
         S_msrGracenotes elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrGracenotes::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -4276,7 +4276,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
 }
 
 void msrAftergracenotes::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrAftergracenotes::acceptIn()" << endl;
       
@@ -4285,7 +4285,7 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrAftergracenotes>*> (v)) {
         S_msrAftergracenotes elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrAftergracenotes::visitStart()" << endl;
         p->visitStart (elem);
@@ -4293,7 +4293,7 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
 }
 
 void msrAftergracenotes::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrAftergracenotes::acceptOut()" << endl;
 
@@ -4302,7 +4302,7 @@ void msrAftergracenotes::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrAftergracenotes>*> (v)) {
         S_msrAftergracenotes elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrAftergracenotes::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -4655,7 +4655,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
-// JMI  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceSyllables)
     cerr << idtr <<
       "==> appending syllable " <<
       syllable->syllableAsString () <<
@@ -4701,7 +4701,7 @@ S_msrNote msrNote::createSkipNote (
 
 void msrNote::acceptIn (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrNote::acceptIn()" << endl;
       
@@ -4710,7 +4710,7 @@ void msrNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrNote::visitStart()" << endl;
         p->visitStart (elem);
@@ -4719,7 +4719,7 @@ void msrNote::acceptIn (basevisitor* v)
 
 void msrNote::acceptOut (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrNote::acceptOut()" << endl;
 
@@ -4728,7 +4728,7 @@ void msrNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrNote::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -5796,7 +5796,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 }
 
 void msrChord::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrChord::acceptIn()" << endl;
       
@@ -5805,7 +5805,7 @@ void msrChord::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrChord::visitStart()" << endl;
         p->visitStart (elem);
@@ -5813,7 +5813,7 @@ void msrChord::acceptIn (basevisitor* v) {
 }
 
 void msrChord::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrChord::acceptOut()" << endl;
 
@@ -5822,7 +5822,7 @@ void msrChord::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrChord::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -6134,7 +6134,7 @@ msrComment::msrComment (
 msrComment::~msrComment() {}
 
 void msrComment::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrComment::acceptIn()" << endl;
       
@@ -6143,7 +6143,7 @@ void msrComment::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrComment>*> (v)) {
         S_msrComment elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrComment::visitStart()" << endl;
         p->visitStart (elem);
@@ -6151,7 +6151,7 @@ void msrComment::acceptIn (basevisitor* v) {
 }
 
 void msrComment::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrComment::acceptOut()" << endl;
 
@@ -6160,7 +6160,7 @@ void msrComment::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrComment>*> (v)) {
         S_msrComment elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrComment::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -6231,7 +6231,7 @@ string msrBreak::breakAsString () const
 }
 
 void msrBreak::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBreak::acceptIn()" << endl;
       
@@ -6240,7 +6240,7 @@ void msrBreak::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBreak>*> (v)) {
         S_msrBreak elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBreak::visitStart()" << endl;
         p->visitStart (elem);
@@ -6248,7 +6248,7 @@ void msrBreak::acceptIn (basevisitor* v) {
 }
 
 void msrBreak::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBreak::acceptOut()" << endl;
 
@@ -6257,7 +6257,7 @@ void msrBreak::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBreak>*> (v)) {
         S_msrBreak elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBreak::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -6317,7 +6317,7 @@ string msrBarCheck::barCheckAsString () const
 }
 
 void msrBarCheck::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBarCheck::acceptIn()" << endl;
       
@@ -6326,7 +6326,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBarCheck::visitStart()" << endl;
         p->visitStart (elem);
@@ -6334,7 +6334,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
 }
 
 void msrBarCheck::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBarCheck::acceptOut()" << endl;
 
@@ -6343,7 +6343,7 @@ void msrBarCheck::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBarCheck::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -6398,7 +6398,7 @@ string msrBarnumberCheck::barnumberCheckAsString () const
 }
 
 void msrBarnumberCheck::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBarnumberCheck::acceptIn()" << endl;
       
@@ -6407,7 +6407,7 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
         S_msrBarnumberCheck elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBarnumberCheck::visitStart()" << endl;
         p->visitStart (elem);
@@ -6415,7 +6415,7 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
 }
 
 void msrBarnumberCheck::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBarnumberCheck::acceptOut()" << endl;
 
@@ -6424,7 +6424,7 @@ void msrBarnumberCheck::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
         S_msrBarnumberCheck elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBarnumberCheck::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -6845,7 +6845,7 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
   int containingTupletActualNotes,
   int containingTupletNormalNotes)
 {
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceTuplets) {
     cerr <<
       idtr <<
         "% ==> unapplyDisplayFactorToTupletMembers()" <<
@@ -6878,7 +6878,7 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTuplet::acceptIn()" << endl;
       
@@ -6887,7 +6887,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTuplet::visitStart()" << endl;
         p->visitStart (elem);
@@ -6895,7 +6895,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
 }
 
 void msrTuplet::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTuplet::acceptOut()" << endl;
 
@@ -6904,7 +6904,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTuplet::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7157,7 +7157,7 @@ float msrPageGeometry::globalStaffSize () const
 }
 
 void msrPageGeometry::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPageGeometry::acceptIn()" << endl;
       
@@ -7166,7 +7166,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPageGeometry::visitStart()" << endl;
         p->visitStart (elem);
@@ -7174,7 +7174,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
 }
 
 void msrPageGeometry::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPageGeometry::acceptOut()" << endl;
 
@@ -7183,7 +7183,7 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPageGeometry::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7347,7 +7347,7 @@ msrVarValAssoc::msrVarValAssoc (
 msrVarValAssoc::~msrVarValAssoc() {}
 
 void msrVarValAssoc::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrVarValAssoc::acceptIn()" << endl;
       
@@ -7356,7 +7356,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrVarValAssoc::visitStart()" << endl;
         p->visitStart (elem);
@@ -7364,7 +7364,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
 }
 
 void msrVarValAssoc::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrVarValAssoc::acceptOut()" << endl;
 
@@ -7373,7 +7373,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrVarValAssoc::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7439,7 +7439,7 @@ msrLayout::msrLayout (
 msrLayout::~msrLayout() {}
 
 void msrLayout::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrLayout::acceptIn()" << endl;
       
@@ -7448,7 +7448,7 @@ void msrLayout::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrLayout::visitStart()" << endl;
         p->visitStart (elem);
@@ -7456,7 +7456,7 @@ void msrLayout::acceptIn (basevisitor* v) {
 }
 
 void msrLayout::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrLayout::acceptOut()" << endl;
 
@@ -7465,7 +7465,7 @@ void msrLayout::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrLayout::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7540,7 +7540,7 @@ msrCreditWords::msrCreditWords (
 msrCreditWords::~msrCreditWords() {}
 
 void msrCreditWords::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrCreditWords::acceptIn()" << endl;
       
@@ -7549,7 +7549,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrCreditWords::visitStart()" << endl;
         p->visitStart (elem);
@@ -7557,7 +7557,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
 }
 
 void msrCreditWords::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrCreditWords::acceptOut()" << endl;
 
@@ -7566,7 +7566,7 @@ void msrCreditWords::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrCreditWords::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7640,7 +7640,7 @@ void msrCredit::appendCreditWordsToCredit (
 }
 
 void msrCredit::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrCredit::acceptIn()" << endl;
       
@@ -7649,7 +7649,7 @@ void msrCredit::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrCredit::visitStart()" << endl;
         p->visitStart (elem);
@@ -7657,7 +7657,7 @@ void msrCredit::acceptIn (basevisitor* v) {
 }
 
 void msrCredit::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrCredit::acceptOut()" << endl;
 
@@ -7666,7 +7666,7 @@ void msrCredit::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrCredit::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7766,7 +7766,7 @@ bool msrClef::clefIsAPercussionClef () const
 }
 
 void msrClef::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrClef::acceptIn()" << endl;
       
@@ -7775,7 +7775,7 @@ void msrClef::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrClef::visitStart()" << endl;
         p->visitStart (elem);
@@ -7783,7 +7783,7 @@ void msrClef::acceptIn (basevisitor* v) {
 }
 
 void msrClef::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrClef::acceptOut()" << endl;
 
@@ -7792,7 +7792,7 @@ void msrClef::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrClef::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -7920,7 +7920,7 @@ msrKey::msrKey (
 msrKey::~msrKey() {}
 
 void msrKey::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrKey::acceptIn()" << endl;
       
@@ -7929,7 +7929,7 @@ void msrKey::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrKey::visitStart()" << endl;
         p->visitStart (elem);
@@ -7937,7 +7937,7 @@ void msrKey::acceptIn (basevisitor* v) {
 }
 
 void msrKey::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrKey::acceptOut()" << endl;
 
@@ -7946,7 +7946,7 @@ void msrKey::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrKey::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -8028,7 +8028,7 @@ msrTime::msrTime (
 msrTime::~msrTime() {}
 
 void msrTime::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTime::acceptIn()" << endl;
       
@@ -8037,7 +8037,7 @@ void msrTime::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTime::visitStart()" << endl;
         p->visitStart (elem);
@@ -8045,7 +8045,7 @@ void msrTime::acceptIn (basevisitor* v) {
 }
 
 void msrTime::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTime::acceptOut()" << endl;
 
@@ -8054,7 +8054,7 @@ void msrTime::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTime::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -8114,7 +8114,7 @@ msrTranspose::msrTranspose (
 msrTranspose::~msrTranspose() {}
 
 void msrTranspose::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTranspose::acceptIn()" << endl;
       
@@ -8123,7 +8123,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTranspose::visitStart()" << endl;
         p->visitStart (elem);
@@ -8131,7 +8131,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
 }
 
 void msrTranspose::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTranspose::acceptOut()" << endl;
 
@@ -8140,7 +8140,7 @@ void msrTranspose::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTranspose::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -8218,7 +8218,7 @@ msrWords::msrWords (
 msrWords::~msrWords() {}
 
 void msrWords::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrWords::acceptIn()" << endl;
       
@@ -8227,7 +8227,7 @@ void msrWords::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrWords::visitStart()" << endl;
         p->visitStart (elem);
@@ -8235,7 +8235,7 @@ void msrWords::acceptIn (basevisitor* v) {
 }
 
 void msrWords::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrWords::acceptOut()" << endl;
 
@@ -8244,7 +8244,7 @@ void msrWords::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrWords::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -8349,7 +8349,7 @@ msrTempo::~msrTempo() {}
 
 void msrTempo::setTempoIndication (string indication)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "Setting indication of tempo " <<
       fTempoUnit << " = " << fPerMinute <<
@@ -8360,7 +8360,7 @@ void msrTempo::setTempoIndication (string indication)
 }
 
 void msrTempo::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTempo::acceptIn()" << endl;
       
@@ -8369,7 +8369,7 @@ void msrTempo::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTempo::visitStart()" << endl;
         p->visitStart (elem);
@@ -8377,7 +8377,7 @@ void msrTempo::acceptIn (basevisitor* v) {
 }
 
 void msrTempo::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrTempo::acceptOut()" << endl;
 
@@ -8386,7 +8386,7 @@ void msrTempo::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrTempo::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -8499,8 +8499,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
      note->
       appendSyllableToNote (this); // JMI
   
-  if (true || gGeneralOptions->fDebugDebug) {
-//  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceSyllables) {
     cerr <<
       idtr <<
       "==> setting syllable note uplink for:" <<
@@ -8534,7 +8533,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 }
 
 void msrSyllable::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSyllable::acceptIn()" << endl;
       
@@ -8543,7 +8542,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSyllable::visitStart()" << endl;
         p->visitStart (elem);
@@ -8551,7 +8550,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
 }
 
 void msrSyllable::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSyllable::acceptOut()" << endl;
 
@@ -8560,7 +8559,7 @@ void msrSyllable::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSyllable::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -9350,7 +9349,7 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
 }
 
 void msrStanza::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStanza::acceptIn()" << endl;
       
@@ -9359,7 +9358,7 @@ void msrStanza::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStanza::visitStart()" << endl;
         p->visitStart (elem);
@@ -9367,7 +9366,7 @@ void msrStanza::acceptIn (basevisitor* v) {
 }
 
 void msrStanza::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStanza::acceptOut()" << endl;
 
@@ -9376,7 +9375,7 @@ void msrStanza::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStanza::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -9385,7 +9384,7 @@ void msrStanza::acceptOut (basevisitor* v) {
 
 void msrStanza::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStanza::browseData()" << endl;
 
@@ -9637,7 +9636,7 @@ string msrHarmony::harmonyAsString () const
 }
 
 void msrHarmony::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrHarmony::acceptIn()" << endl;
       
@@ -9646,7 +9645,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrHarmony::visitStart()" << endl;
         p->visitStart (elem);
@@ -9654,7 +9653,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
 }
 
 void msrHarmony::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrHarmony::acceptOut()" << endl;
 
@@ -9663,7 +9662,7 @@ void msrHarmony::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrHarmony::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -9799,7 +9798,7 @@ void msrChords::appendSKipToChords (
 
 void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "--> Appending harmony " << harmony <<
       " to chord " << getChordsName () << endl;
@@ -9810,7 +9809,7 @@ void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
 }
 
 void msrChords::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrChords::acceptIn()" << endl;
       
@@ -9819,7 +9818,7 @@ void msrChords::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrChords>*> (v)) {
         S_msrChords elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrChords::visitStart()" << endl;
         p->visitStart (elem);
@@ -9827,7 +9826,7 @@ void msrChords::acceptIn (basevisitor* v) {
 }
 
 void msrChords::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrChords::acceptOut()" << endl;
 
@@ -9836,7 +9835,7 @@ void msrChords::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrChords>*> (v)) {
         S_msrChords elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrChords::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -9845,7 +9844,7 @@ void msrChords::acceptOut (basevisitor* v) {
 
 void msrChords::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrChords::browseData()" << endl;
 
@@ -9918,7 +9917,7 @@ msrSegno::msrSegno (
 msrSegno::~msrSegno() {}
 
 void msrSegno::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSegno::acceptIn()" << endl;
       
@@ -9927,7 +9926,7 @@ void msrSegno::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSegno::visitStart()" << endl;
         p->visitStart (elem);
@@ -9935,7 +9934,7 @@ void msrSegno::acceptIn (basevisitor* v) {
 }
 
 void msrSegno::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSegno::acceptOut()" << endl;
 
@@ -9944,7 +9943,7 @@ void msrSegno::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSegno::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -9987,7 +9986,7 @@ msrCoda::msrCoda (
 msrCoda::~msrCoda() {}
 
 void msrCoda::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrCoda::acceptIn()" << endl;
       
@@ -9996,7 +9995,7 @@ void msrCoda::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrCoda::visitStart()" << endl;
         p->visitStart (elem);
@@ -10004,7 +10003,7 @@ void msrCoda::acceptIn (basevisitor* v) {
 }
 
 void msrCoda::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrCoda::acceptOut()" << endl;
 
@@ -10013,7 +10012,7 @@ void msrCoda::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrCoda::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -10056,7 +10055,7 @@ msrEyeglasses::msrEyeglasses (
 msrEyeglasses::~msrEyeglasses() {}
 
 void msrEyeglasses::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrEyeglasses::acceptIn()" << endl;
       
@@ -10065,7 +10064,7 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
         S_msrEyeglasses elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrEyeglasses::visitStart()" << endl;
         p->visitStart (elem);
@@ -10073,7 +10072,7 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
 }
 
 void msrEyeglasses::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrEyeglasses::acceptOut()" << endl;
 
@@ -10082,7 +10081,7 @@ void msrEyeglasses::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
         S_msrEyeglasses elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrEyeglasses::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -10171,7 +10170,7 @@ string msrPedal::pedalLineAsString ()
 }
 
 void msrPedal::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPedal::acceptIn()" << endl;
       
@@ -10180,7 +10179,7 @@ void msrPedal::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPedal::visitStart()" << endl;
         p->visitStart (elem);
@@ -10188,7 +10187,7 @@ void msrPedal::acceptIn (basevisitor* v) {
 }
 
 void msrPedal::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPedal::acceptOut()" << endl;
 
@@ -10197,7 +10196,7 @@ void msrPedal::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPedal::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -10274,13 +10273,13 @@ msrBarline::msrBarline (
   // that may contain "1, 2"
   fEndingNumbersList =
     extractNumbersFromString (
-      fEndingNumber, gGeneralOptions->fDebugDebug);
+      fEndingNumber, false); // 'true' to debug it
 }
 
 msrBarline::~msrBarline() {}
 
 void msrBarline::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBarline::acceptIn()" << endl;
       
@@ -10289,7 +10288,7 @@ void msrBarline::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBarline::visitStart()" << endl;
         p->visitStart (elem);
@@ -10297,7 +10296,7 @@ void msrBarline::acceptIn (basevisitor* v) {
 }
 
 void msrBarline::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrBarline::acceptOut()" << endl;
 
@@ -10306,7 +10305,7 @@ void msrBarline::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrBarline::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -11431,7 +11430,7 @@ void msrMeasure::finalizeMeasure (
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrMeasure::acceptIn()" << endl;
       
@@ -11440,7 +11439,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrMeasure::visitStart()" << endl;
         p->visitStart (elem);
@@ -11448,7 +11447,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
 }
 
 void msrMeasure::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrMeasure::acceptOut()" << endl;
 
@@ -11457,7 +11456,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrMeasure::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -11466,7 +11465,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
 
 void msrMeasure::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrMeasure::browseData()" << endl;
 
@@ -11479,7 +11478,7 @@ void msrMeasure::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrMeasure::browseData()" << endl;
 }
@@ -12510,7 +12509,7 @@ void msrSegment::removeFirstChordNoteFromSegment (
 }
 
 void msrSegment::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSegment::acceptIn()" << endl;
       
@@ -12519,7 +12518,7 @@ void msrSegment::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSegment::visitStart()" << endl;
         p->visitStart (elem);
@@ -12527,7 +12526,7 @@ void msrSegment::acceptIn (basevisitor* v) {
 }
 
 void msrSegment::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSegment::acceptOut()" << endl;
 
@@ -12536,7 +12535,7 @@ void msrSegment::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrSegment::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -12545,7 +12544,7 @@ void msrSegment::acceptOut (basevisitor* v) {
 
 void msrSegment::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrSegment::browseData()" << endl;
 
@@ -12558,7 +12557,7 @@ void msrSegment::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrSegment::browseData()" << endl;
 }
@@ -12713,7 +12712,7 @@ void msrRepeatending::appendElementToRepeatending (
 }
 
 void msrRepeatending::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrRepeatending::acceptIn()" << endl;
       
@@ -12722,7 +12721,7 @@ void msrRepeatending::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeatending>*> (v)) {
         S_msrRepeatending elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrRepeatending::visitStart()" << endl;
         p->visitStart (elem);
@@ -12730,7 +12729,7 @@ void msrRepeatending::acceptIn (basevisitor* v) {
 }
 
 void msrRepeatending::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrRepeatending::acceptOut()" << endl;
 
@@ -12739,7 +12738,7 @@ void msrRepeatending::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeatending>*> (v)) {
         S_msrRepeatending elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrRepeatending::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -12883,7 +12882,7 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
 }
 
 void msrRepeat::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrRepeat::acceptIn()" << endl;
       
@@ -12892,7 +12891,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrRepeat::visitStart()" << endl;
         p->visitStart (elem);
@@ -12900,7 +12899,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
 }
 
 void msrRepeat::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrRepeat::acceptOut()" << endl;
 
@@ -12909,7 +12908,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrRepeat::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -13635,7 +13634,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "==> appending note:" <<
       endl;
@@ -13679,7 +13678,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "Appending chord '" << chord <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13692,7 +13691,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 }
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13705,7 +13704,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
 }
 
 void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Appending other element '" << elem <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -14101,7 +14100,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
   int       inputLineNumber,
   S_msrNote note)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "Removing first chord note " << note->noteAsShortString () <<
       " from voice \"" << getVoiceName () << "\"" <<
@@ -14115,7 +14114,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "### --> finalizing last measure in voice " <<
       getVoiceName () <<
@@ -14127,7 +14126,7 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrVoice::acceptIn()" << endl;
       
@@ -14136,7 +14135,7 @@ void msrVoice::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrVoice::visitStart()" << endl;
         p->visitStart (elem);
@@ -14144,7 +14143,7 @@ void msrVoice::acceptIn (basevisitor* v) {
 }
 
 void msrVoice::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrVoice::acceptOut()" << endl;
 
@@ -14153,7 +14152,7 @@ void msrVoice::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrVoice::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -14162,7 +14161,7 @@ void msrVoice::acceptOut (basevisitor* v) {
 
 void msrVoice::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrVoice::browseData()" << endl;
 
@@ -14421,7 +14420,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStafftuning>*> (v)) {
         S_msrStafftuning elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStafftuning::visitStart()" << endl;
         p->visitStart (elem);
@@ -14429,7 +14428,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
 }
 
 void msrStafftuning::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStafftuning::acceptOut()" << endl;
 
@@ -14438,7 +14437,7 @@ void msrStafftuning::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStafftuning>*> (v)) {
         S_msrStafftuning elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStafftuning::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -15312,7 +15311,7 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 }
 
 void msrStaff::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStaff::acceptIn()" << endl;
       
@@ -15321,7 +15320,7 @@ void msrStaff::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStaff::visitStart()" << endl;
         p->visitStart (elem);
@@ -15329,7 +15328,7 @@ void msrStaff::acceptIn (basevisitor* v) {
 }
 
 void msrStaff::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStaff::acceptOut()" << endl;
 
@@ -15338,7 +15337,7 @@ void msrStaff::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrStaff::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -15347,7 +15346,7 @@ void msrStaff::acceptOut (basevisitor* v) {
 
 void msrStaff::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrStaff::browseData()" << endl;
 
@@ -16163,7 +16162,7 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 }
 
 void msrPart::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPart::acceptIn()" << endl;
       
@@ -16172,7 +16171,7 @@ void msrPart::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPart::visitStart()" << endl;
         p->visitStart (elem);
@@ -16180,7 +16179,7 @@ void msrPart::acceptIn (basevisitor* v) {
 }
 
 void msrPart::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPart::acceptOut()" << endl;
 
@@ -16189,7 +16188,7 @@ void msrPart::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPart::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -16198,7 +16197,7 @@ void msrPart::acceptOut (basevisitor* v) {
 
 void msrPart::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPart::browseData()" << endl;
 
@@ -16605,7 +16604,7 @@ void msrPartgroup::appendSubPartgroupToPartgroup (
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
   string partID)
 {
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTracePartgroups || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
     for (
@@ -16632,7 +16631,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 }
 
 void msrPartgroup::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPartgroup::acceptIn()" << endl;
       
@@ -16641,7 +16640,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
         S_msrPartgroup elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPartgroup::visitStart()" << endl;
         p->visitStart (elem);
@@ -16649,7 +16648,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
 }
 
 void msrPartgroup::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPartgroup::acceptOut()" << endl;
 
@@ -16658,7 +16657,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
         S_msrPartgroup elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrPartgroup::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -16667,7 +16666,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
 
 void msrPartgroup::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrPartgroup::browseData()" << endl;
   
@@ -16680,7 +16679,7 @@ void msrPartgroup::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrPartgroup::browseData()" << endl;
 }
@@ -16960,7 +16959,7 @@ void msrIdentification::setScoreInstrumentAssoc (
 }
 
 void msrIdentification::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrIdentification::acceptIn()" << endl;
       
@@ -16969,7 +16968,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrIdentification::visitStart()" << endl;
         p->visitStart (elem);
@@ -16977,7 +16976,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
 }
 
 void msrIdentification::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrIdentification::acceptOut()" << endl;
 
@@ -16986,7 +16985,7 @@ void msrIdentification::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrIdentification::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -17198,7 +17197,7 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 */
 
 void msrScore::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrScore::acceptIn()" << endl;
       
@@ -17207,7 +17206,7 @@ void msrScore::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrScore::visitStart()" << endl;
         p->visitStart (elem);
@@ -17215,7 +17214,7 @@ void msrScore::acceptIn (basevisitor* v) {
 }
 
 void msrScore::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrScore::acceptOut()" << endl;
 
@@ -17224,7 +17223,7 @@ void msrScore::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrScore::visitEnd()" << endl;
         p->visitEnd (elem);
@@ -17233,7 +17232,7 @@ void msrScore::acceptOut (basevisitor* v) {
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrScore::browseData()" << endl;
     
@@ -17258,7 +17257,7 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrScore::browseData()" << endl;
   }
@@ -17362,7 +17361,7 @@ msrMidi::msrMidi (
 msrMidi::~msrMidi() {}
 
 void msrMidi::acceptIn (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrMidi::acceptIn()" << endl;
       
@@ -17371,7 +17370,7 @@ void msrMidi::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
         
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrMidi::visitStart()" << endl;
         p->visitStart (elem);
@@ -17379,7 +17378,7 @@ void msrMidi::acceptIn (basevisitor* v) {
 }
 
 void msrMidi::acceptOut (basevisitor* v) {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "==> msrMidi::acceptOut()" << endl;
 
@@ -17388,7 +17387,7 @@ void msrMidi::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
       
-        if (gGeneralOptions->fDebugDebug)
+        if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
             "==> Launching msrMidi::visitEnd()" << endl;
         p->visitEnd (elem);

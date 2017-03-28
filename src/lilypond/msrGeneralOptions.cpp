@@ -72,12 +72,14 @@ void msrGeneralOptions::initializeGeneralOptions ()
   
   fTraceStafftuning = false;
 
+  fTraceALL = false;
+
   // debug
-  fDebug = false;
-  fDebugDebug = false;
+ // fDebug = false;
+ // fDebugDebug = false;
 
   // forcing debug information at specific places in the code
-  fForceDebug = false;
+ // fForceDebug = false;
   
   // measure number-selective debug
   fSaveDebug = false;

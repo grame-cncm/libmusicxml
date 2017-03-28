@@ -83,6 +83,8 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTrace;
 
     // trace
+    bool                  fTraceVisitors;
+    
     bool                  fTraceScore;
     bool                  fTracePartgroups;
     bool                  fTraceParts;
@@ -108,9 +110,11 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceHarmony;
     
     bool                  fTraceStafftuning;
-    
+
+    bool                  fTraceALL;
+
     // debug
-    bool                  fDebug;
+//    bool                  fDebug;
     bool                  fDebugDebug;
 
     // forcing debug information at specific places in the code
