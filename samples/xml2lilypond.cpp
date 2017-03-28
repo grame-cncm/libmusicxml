@@ -127,8 +127,24 @@ void printUsage (int exitStatus)
     "          Don't display MSR stanzas while displaying MSR data." << endl <<
     endl <<
 
-    "    --drd, --delayRestsDynamics" << endl <<
-    "          Don't attach dynamics and wedges to rests," << endl <<
+    "    --drDyns, --delayRestsDynamics" << endl <<
+    "          Don't attach dynamics to rests," << endl <<
+    "          but delay them until the next actual note or chord instead." << endl <<
+    endl <<
+    "    --drWords, --delayRestsWords" << endl <<
+    "          Don't attach words to rests," << endl <<
+    "          but delay them until the next actual note or chord instead." << endl <<
+    endl <<
+    "    --drSlurs, --delayRestsSlurs" << endl <<
+    "          Don't attach slurs to rests," << endl <<
+    "          but delay them until the next actual note or chord instead." << endl <<
+    endl <<
+    "    --drLigs, --delayRestsLigatures" << endl <<
+    "          Don't attach ligatures to rests," << endl <<
+    "          but delay them until the next actual note or chord instead." << endl <<
+    endl <<
+    "    --drWedges, --delayRestsWedges" << endl <<
+    "          Don't attach wedges to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
 
@@ -281,6 +297,10 @@ void analyzeOptions (
   int dontDisplayMSRStanzasPresent      = 0;
 
   int delayRestsDynamicsPresent         = 0;
+  int delayRestsWordsPresent            = 0;
+  int delayRestsSlursPresent            = 0;
+  int delayRestsLigaturesPresent        = 0;
+  int delayRestsWedgesPresent           = 0;
   
   int displayMSRPresent                 = 0;
   
@@ -455,6 +475,38 @@ void analyzeOptions (
     {
       "delayRestsDynamics",
       no_argument, &delayRestsDynamicsPresent, 1
+    },
+    {
+      "drWords",
+      no_argument, &delayRestsWordsPresent, 1
+    },
+    {
+      "delayRestsWords",
+      no_argument, &delayRestsWordsPresent, 1
+    },
+    {
+      "drSlurs",
+      no_argument, &delayRestsSlursPresent, 1
+    },
+    {
+      "delayRestsSlurs",
+      no_argument, &delayRestsSlursPresent, 1
+    },
+    {
+      "drLigs",
+      no_argument, &delayRestsLigaturesPresent, 1
+    },
+    {
+      "delayRestsLigatures",
+      no_argument, &delayRestsLigaturesPresent, 1
+    },
+    {
+      "drWedges",
+      no_argument, &delayRestsWedgesPresent, 1
+    },
+    {
+      "delayRestsWedges",
+      no_argument, &delayRestsWedgesPresent, 1
     },
    
     {
@@ -855,6 +907,34 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions +=
             "--delayRestsDynamics ";
           delayRestsDynamicsPresent = false;
+        }
+        
+        if (delayRestsWordsPresent) {
+          gMsrOptions->fDelayRestsWords = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--delayRestsWords ";
+          delayRestsWordsPresent = false;
+        }
+        
+        if (delayRestsSlursPresent) {
+          gMsrOptions->fDelayRestsSlurs = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--delayRestsSlurs ";
+          delayRestsSlursPresent = false;
+        }
+        
+        if (delayRestsLigaturesPresent) {
+          gMsrOptions->fDelayRestsLigatures = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--delayRestsLigatures ";
+          delayRestsLigaturesPresent = false;
+        }
+        
+        if (delayRestsWedgesPresent) {
+          gMsrOptions->fDelayRestsWedges = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--delayRestsWedges ";
+          delayRestsWedgesPresent = false;
         }
         
         if (displayMSRPresent) {
@@ -1392,6 +1472,18 @@ void printOptions ()
 
     idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
+      endl <<
+    idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsWords) <<
+      endl <<
+    idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
+      endl <<
+    idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
+      endl <<
+    idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsWedges) <<
       endl <<
 
     idtr << setw(fieldWidth) << "displayMSR" << " : " <<
