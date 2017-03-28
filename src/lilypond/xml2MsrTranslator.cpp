@@ -1685,13 +1685,19 @@ void xml2MsrTranslator::visitStart ( S_time& elt )
 }
 
 void xml2MsrTranslator::visitStart ( S_beats& elt )
-{ fCurrentTimeBeats = (int)(*elt); }
+{
+  fCurrentTimeBeats = (int)(*elt);
+}
   
 void xml2MsrTranslator::visitStart ( S_beat_type& elt )
-  { fCurrentTimeBeatType = (int)(*elt); }
+{
+  fCurrentTimeBeatType = (int)(*elt);
+}
  
 void xml2MsrTranslator::visitStart ( S_senza_misura& elt )
-  { fCurrentTimeSenzaMisura = true; }
+{
+  fCurrentTimeSenzaMisura = true;
+}
 
 void xml2MsrTranslator::visitEnd ( S_time& elt ) 
 {  
@@ -1718,6 +1724,15 @@ void xml2MsrTranslator::visitEnd ( S_time& elt )
 
     staff->setStaffTime (time);
   }
+}
+
+void xml2MsrTranslator::visitStart ( S_instruments& elt )
+{
+/*
+        <instruments>2</instruments>
+*/
+
+  int instruments = (int)(*elt); // JMI
 }
 
 //______________________________________________________________________________
@@ -4599,6 +4614,14 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
 //  cerr << "=== xml2MsrTranslator::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << endl; JMI
 }
 
+void xml2MsrTranslator::visitStart ( S_instrument& elt )
+{
+/*
+  <instrument id="P2-I4"/>
+*/
+ string id = elt->getAttributeValue ("id"); // JMI
+}
+       
 void xml2MsrTranslator::visitStart ( S_dot& elt )
 {
   fNoteData.fNoteDotsNumber++;

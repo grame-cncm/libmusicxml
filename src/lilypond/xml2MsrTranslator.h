@@ -33,33 +33,6 @@ namespace MusicXML2
 */
 class EXP xml2MsrTranslator : 
 
-/*
-  <part-list>
-  
-    <part-group number="1" type="start">
-      <group-symbol default-x="-7">bracket</group-symbol>
-      <group-barline>yes</group-barline>
-    </part-group>
-    
-    <score-part id="P1">
-      <part-name>Piccolo</part-name>
-      <part-abbreviation>Picc.</part-abbreviation>
-      <score-instrument id="P1-I18">
-        <instrument-name>Picc.</instrument-name>
-      </score-instrument>
-      <midi-instrument id="P1-I18">
-        <midi-channel>1</midi-channel>
-        <midi-program>73</midi-program>
-      </midi-instrument>
-    </score-part>
-    
-    <part-group number="2" type="start">
-      <group-name>1
-2</group-name>
-      <group-barline>yes</group-barline>
-    </part-group>
-*/
-
   public visitor<S_work_number>,
   public visitor<S_work_title>,
   public visitor<S_movement_number>,
@@ -139,6 +112,8 @@ class EXP xml2MsrTranslator :
   public visitor<S_beats>,
   public visitor<S_beat_type>,
   public visitor<S_senza_misura>,
+  
+  public visitor<S_instruments>,
 
   public visitor<S_transpose>,
   public visitor<S_diatonic>,
@@ -194,6 +169,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_alter>,
   public visitor<S_octave>,
   public visitor<S_duration>,
+  public visitor<S_instrument>,
   public visitor<S_dot>,
   
   public visitor<S_articulations>,
@@ -390,6 +366,8 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_beats& elt );
     virtual void visitStart ( S_beat_type& elt );
     virtual void visitStart ( S_senza_misura& elt );
+    
+    virtual void visitStart ( S_instruments& elt );
 
     virtual void visitStart ( S_transpose& elt );
     virtual void visitEnd   ( S_transpose& elt );
@@ -454,6 +432,7 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_alter& elt);
     virtual void visitStart ( S_octave& elt);
     virtual void visitStart ( S_duration& elt);
+    virtual void visitStart ( S_instrument& elt);
     virtual void visitStart ( S_dot& elt );
     
     virtual void visitStart ( S_articulations& elt );
