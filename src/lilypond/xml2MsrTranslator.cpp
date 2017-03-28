@@ -699,8 +699,7 @@ void xml2MsrTranslator::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::showPartgroupsData (string context)
 {    
-// JMI  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTracePartgroups) {
     cerr << idtr <<
       "==> " << context << ": fPartgroupsMap contains:" <<
       endl;
@@ -1088,7 +1087,7 @@ void xml2MsrTranslator::visitStart (S_score_part& elt)
 {
   fCurrentPartID = elt->getAttributeValue ("id");
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Found part name \"" << fCurrentPartID << "\"" <<
       endl;
@@ -2220,7 +2219,7 @@ void xml2MsrTranslator::visitStart (S_staff& elt)
       createStaffInCurrentPartIfNeeded (
         inputLineNumber, fCurrentStaffNumber);
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceStaves) {
     cerr <<
       idtr <<
         "--> S_staff, fCurrentStaffNumber = " <<
@@ -2280,8 +2279,7 @@ void xml2MsrTranslator::visitStart (S_staff_details& elt )
 
   idtr++;
 
-  if (true || gGeneralOptions->fDebug) {
-//  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceStaves) {
     cerr <<
       idtr <<
         "Hangling staff details:" <<
@@ -2416,8 +2414,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
     
 
   // create the staff tuning
-  if (true || gGeneralOptions->fDebug) {
-//  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr <<
       idtr <<
         setw(30) << "Creating staff tuning:" <<
@@ -2480,8 +2477,7 @@ void xml2MsrTranslator::visitStart (S_staff_size& elt )
 
 void xml2MsrTranslator::visitEnd (S_staff_details& elt )
 {
-  if (true || gGeneralOptions->fDebug) {
-//  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr <<
       idtr <<
         setw(32) << "fStaffDetailsStaffNumber" << " = " <<
@@ -2544,7 +2540,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentForwardVoiceNumber);
   
-  //  if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceVoices)
       cerr <<
         idtr <<
           "--> S_voice, fCurrentVoiceNumber         = " <<
@@ -2568,7 +2564,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
   
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceVoices)
       cerr <<
         idtr <<
           "--> fCurrentNoteVoiceNumber        = " <<
@@ -2995,7 +2991,7 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
   }
 
   if (stanzaNumber > 0) {
-    if (true || gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceLyrics)
       cerr << idtr <<
         "--> setting fCurrentStanzaNumber to " <<
         stanzaNumber <<
@@ -3083,7 +3079,7 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
   
   fCurrentStanzaHasText = true;
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
       "--> line " << right << setw(5) << elt->getInputLineNumber () <<
       ", fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
@@ -3135,8 +3131,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
    int inputLineNumber =
       elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
- // JMI if (true) {  
+  if (gGeneralOptions->fTraceLyrics) {
     cerr <<
       endl <<
       idtr <<
@@ -3329,8 +3324,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   }
 
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)    
-// JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug)   
+  if (gGeneralOptions->fTraceLyrics)    
     cerr <<
       idtr <<
         "@@@@@@@@@@ visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
@@ -3341,8 +3335,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
    // create a syllable
    //     fCurrentElision ??? JMI
-    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
- // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+    if (gGeneralOptions->fTraceLyrics) {      
       cerr << idtr <<
         "--> creating a " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
@@ -3407,9 +3400,9 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
   if (it != gGeneralOptions->fDebugMeasureNumbersSet.end ()) {
     // yes, activate debug for it
     gGeneralOptions->fSaveDebug =
-      gGeneralOptions->fDebug;
+      gGeneralOptions->fTraceMeasures;
     gGeneralOptions->fSaveDebugDebug =
-      gGeneralOptions->fDebugDebug;
+      gGeneralOptions->fTraceMeasures;
   }
 
   if (gGeneralOptions->fTrace) {
@@ -3444,9 +3437,9 @@ void xml2MsrTranslator::visitEnd (S_measure& elt)
       inputLineNumber);
 
   // restore debug options in case they were set in visitStart()
-  gGeneralOptions->fDebug =
+  gGeneralOptions->fTraceMeasures =
     gGeneralOptions->fSaveDebug;
-  gGeneralOptions->fDebugDebug =
+  gGeneralOptions->fTraceMeasures =
     gGeneralOptions->fSaveDebugDebug;
 }
 
@@ -3466,7 +3459,7 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
         elt->getInputLineNumber ();
       
       // create a barnumbercheck command
-      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr << 
           "Creating a barnumber check, " <<
           "line = " << inputLineNumber <<
@@ -3494,7 +3487,7 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
         appendBarnumberCheckToVoice (barnumbercheck_);
   
       // create a break command
-      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr << 
           "Creating a break, " <<
           "line = " << inputLineNumber << endl;
@@ -4409,7 +4402,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   }
   
   // now we can display the barline in case of debug
-  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "Creating a barline in voice " <<
       currentVoice->getVoiceName () << ":" <<
@@ -5632,7 +5625,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
   int inputLineNumber =
     chordFirstNote->getInputLineNumber ();
     
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "--> creating a chord from its first note " <<
       chordFirstNote->noteAsShortString () <<
@@ -5663,7 +5656,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
       chordFirstNote->getNoteTie ());
   
   // register note as first member of fCurrentChord
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "--> adding first note " <<
       chordFirstNote->noteAsString() <<
@@ -5696,7 +5689,7 @@ void xml2MsrTranslator::copyNoteArticulationsToChord (
     i!=noteArticulations.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
       cerr << idtr <<
         "--> copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -5725,7 +5718,7 @@ void xml2MsrTranslator::copyNoteOrnamentsToChord (
     i!=noteOrnaments.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
       cerr << idtr <<
         "--> copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -5754,7 +5747,7 @@ void xml2MsrTranslator::copyNoteDynamicsToChord (
     i!=noteDynamics.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics)
       cerr << idtr <<
         "--> copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -5783,7 +5776,7 @@ void xml2MsrTranslator::copyNoteWordsToChord (
     i!=noteWords.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWords)
       cerr << idtr <<
         "--> copying words '" <<
         (*i)->wordsAsString () <<
@@ -5812,7 +5805,7 @@ void xml2MsrTranslator::copyNoteSlursToChord (
     i!=noteSlurs.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceSlurs)
       cerr << idtr <<
         "--> copying slur '" <<
         (*i)->slurKindAsString () <<
@@ -5841,7 +5834,7 @@ void xml2MsrTranslator::copyNoteLigaturesToChord (
     i!=noteLigatures.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceLigatures)
       cerr << idtr <<
         "--> copying ligature '" <<
         (*i)->ligatureKindAsString () <<
@@ -5870,7 +5863,7 @@ void xml2MsrTranslator::copyNoteWedgesToChord (
     i!=noteWedges.end();
     i++) {
 
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWedges)
       cerr << idtr <<
         "--> copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -5894,7 +5887,7 @@ void xml2MsrTranslator::copyNoteHarmonyToChord (
         getNoteHarmony ();
                           
   if (harmony) {
-    // JMI   if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceHarmonies)
       cerr << idtr <<
         "--> copying harmony '" <<
         harmony->harmonyAsString () <<
@@ -5943,7 +5936,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // and is currently at the end of the voice
 
   // create a tuplet
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "--> creating a '" <<
       fCurrentActualNotes <<
@@ -5968,7 +5961,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       firstNote-> getNoteDivisionsPerQuarterNote ());
   
   // register tuplet in this visitor
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "++> pushing tuplet '" <<
       tuplet->tupletAsShortString () <<
@@ -5977,7 +5970,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   fTupletsStack.push (tuplet);
 
   // add note as first note of the stack top tuplet
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "==> adding first note " << firstNote->noteAsString() <<
       " to tuplet '" <<
@@ -5998,14 +5991,14 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // keep track of current tuplet in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord ?? JMI XXL
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceTuplets) {
     displayLastHandledTupletInVoice (
       "############## Before fLastHandledTupletInVoice");
   }
   
 // JMI  fLastHandledTupletInVoice [currentVoice] = tuplet;
   
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceTuplets) {
     displayLastHandledTupletInVoice (
       "############## After  fLastHandledNoteInVoice");
   }
@@ -6015,7 +6008,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 void xml2MsrTranslator::finalizeTuplet (
   int inputLineNumber)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::finalizeTuplet(), " <<
       "line " << inputLineNumber <<
@@ -6042,7 +6035,7 @@ void xml2MsrTranslator::finalizeTuplet (
 
 /* JMI
   // add lastNote to the tuplet
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "==> adding last note " << lastNote->noteAsString () <<
       " to tuplets stack top " <<
@@ -6052,7 +6045,7 @@ void xml2MsrTranslator::finalizeTuplet (
 */
 
   // pop from the tuplets stack
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> popping tuplet 2 '" <<
       tuplet->tupletAsShortString () <<
@@ -6063,7 +6056,7 @@ void xml2MsrTranslator::finalizeTuplet (
 
   if (fTupletsStack.size ()) {
     // tuplet is a nested tuplet
-//    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceTuplets)
       cerr << idtr <<
         "=== adding nested tuplet '" <<
       tuplet->tupletAsShortString () <<
@@ -6078,7 +6071,7 @@ void xml2MsrTranslator::finalizeTuplet (
   
   else {
     // tuplet is a top level tuplet
-//    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceTuplets)
       cerr << idtr <<
         "=== adding top level tuplet 2 '" <<
       tuplet->tupletAsString () <<
@@ -6102,7 +6095,7 @@ void xml2MsrTranslator::attachCurrentArticulationsToNote (
   // attach the current articulations if any to the note
   if (! fCurrentArticulations.empty()) {
 
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceNotes)
       cerr << idtr <<
         "--> attaching current articulations to note " <<
         note->noteAsString () <<
@@ -6113,7 +6106,7 @@ void xml2MsrTranslator::attachCurrentArticulationsToNote (
         art =
           fCurrentArticulations.front();
           
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceNotes)
         cerr << idtr <<
           "--> attaching articulation '" <<
           art->articulationKindAsString () <<
@@ -6134,7 +6127,7 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
   // attach the current ornaments if any to the note
   if (! fCurrentOrnamentsList.empty()) {
     
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceNotes)
       cerr << idtr <<
         "--> attaching current ornaments to note " <<
         note->noteAsString () <<
@@ -6145,7 +6138,7 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
         art =
           fCurrentOrnamentsList.front();
           
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceNotes)
         cerr << idtr <<
           "--> attaching ornament '" <<
           art->ornamentKindAsString () <<
@@ -6165,7 +6158,7 @@ void xml2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 {
   if (! fCurrentArticulations.empty()) {
 
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords)
       cerr << idtr <<
         "--> attaching current articulations to chord " <<
         chord->chordAsString () <<
@@ -6176,7 +6169,7 @@ void xml2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       i=fCurrentArticulations.begin();
       i!=fCurrentArticulations.end();
       i++) {
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceChords)
         cerr << idtr <<
           "--> attaching articulation " <<  (*i) << " to chord " <<
           chord <<
@@ -6194,7 +6187,7 @@ void xml2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 {
   if (! fCurrentOrnamentsList.empty()) {
 
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceChords)
       cerr << idtr <<
         "--> attaching current ornaments to chord " <<
         chord->chordAsString () <<
@@ -6205,7 +6198,7 @@ void xml2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       i=fCurrentOrnamentsList.begin();
       i!=fCurrentOrnamentsList.end();
       i++) {
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceChords)
         cerr << idtr <<
           "--> attaching ornament " <<  (*i) << " to chord " <<
           chord <<
@@ -6226,7 +6219,7 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
     bool delayAttachment = false;
     
     
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceDynamics)
       cerr << idtr <<
         "--> attaching pending dynamics to note " <<
         note->noteAsString () <<
@@ -6275,7 +6268,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
   if (! fPendingWords.empty ()) {
     bool delayAttachment = false;
     
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceWords)
       cerr << idtr <<
         "--> attaching pending words to note " <<
         note->noteAsString () <<
@@ -6335,7 +6328,7 @@ void xml2MsrTranslator::attachPendingSlursToNote (
   if (! fPendingSlurs.empty ()) {
     bool delayAttachment = false;
         
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceSlurs)
       cerr << idtr <<
         "--> attaching pending slurs to note " <<
         note->noteAsString () <<
@@ -6384,7 +6377,7 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
   if (! fPendingLigatures.empty ()) {
     bool delayAttachment = false;
         
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceLigatures)
       cerr << idtr <<
         "--> attaching pending ligatures to note " <<
         note->noteAsString () <<
@@ -6433,7 +6426,7 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
   if (! fPendingWedges.empty ()) {
     bool delayAttachment = false;
         
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceWedges)
       cerr << idtr <<
         "--> attaching pending wedges to note " <<
         note->noteAsString () <<
@@ -6530,7 +6523,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceNotes) {
     cerr <<
       endl <<
       idtr <<
@@ -6568,7 +6561,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   fNoteData.fNoteVoiceNumber = fCurrentVoiceNumber;
 
   // set current voices' 'notes divisions per quarter note
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "fNoteData.fNoteDivisions = " << 
       fNoteData.fNoteDivisions << ", " << 
@@ -6710,8 +6703,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     handleStandaloneOrGraceNoteOrRest (newNote);
   }
 
- // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceNotes) {
     cerr <<
       endl <<
       idtr <<
@@ -6750,14 +6742,14 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceNotes) {
     displayLastHandledNoteInVoice (
       "############## Before fLastHandledNoteInVoice");
   }
   
   fLastHandledNoteInVoice [currentVoice] = newNote;
   
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceNotes) {
     displayLastHandledNoteInVoice (
       "############## After  fLastHandledNoteInVoice");
   }
@@ -6795,8 +6787,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
     
- // if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {    
+  if (gGeneralOptions->fTraceNotes) {    
     idtr++; // JMI
 
     cerr <<
@@ -6840,7 +6831,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     if (! fCurrentGracenotes) {
       // this is the first grace note in grace notes
 
-      if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+      if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
         cerr <<  idtr <<
           "--> creating grace notes for note " <<
           newNote->noteAsString () <<
@@ -6863,7 +6854,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     }
 
     // append newNote to the current grace notes
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+        if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
       cerr <<  idtr <<
         "--> appending note " <<
         newNote->noteAsString () <<
@@ -6891,7 +6882,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     attachPendingElementsToNote (newNote);
   
     // append newNote to the current voice
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
+    if (gGeneralOptions->fTraceNotes) {
       cerr <<  idtr <<
         "--> adding standalone " <<
         newNote->noteAsString () <<
@@ -6957,8 +6948,7 @@ void xml2MsrTranslator::handleLyric (
   int inputLineNumber =
     newNote->getInputLineNumber ();
 
-  if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
- // JMI if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Handling lyric" <<
       ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
@@ -7132,7 +7122,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   notes too.
 */
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChord " <<
       newChordNote <<
@@ -7186,7 +7176,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         lastHandledNoteInVoice);
 
     // remove last handled (previous current) note from the current voice
-//    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
       cerr << idtr <<
         "--> removing last handled note " <<
         lastHandledNoteInVoice->noteAsShortString () <<
@@ -7211,7 +7201,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         lastHandledNoteInVoice);
 
     // add fCurrentChord to the voice instead
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceChords)
       cerr << idtr <<
         "--> appending chord " << fCurrentChord <<
         " to current voice \"" << "\"" <<
@@ -7225,7 +7215,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   }
 
   // register note as another member of fCurrentChord
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding another note " <<
       newChordNote->noteAsString() <<
@@ -7255,7 +7245,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   note->
     setNoteKind (msrNote::kTupletMemberNote);
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
       note->noteAsShortStringWithRawDivisions () <<
@@ -7273,7 +7263,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
-//        if (gGeneralOptions->fDebug)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           cerr << idtr <<
             "--> kStartTuplet: note = '" <<
             note->noteAsShortStringWithRawDivisions () <<
@@ -7305,7 +7295,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
               fTupletsStack.top ();
               
         // populate the tuplet at the top of the stack
-//        if (gGeneralOptions->fDebug)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           cerr << idtr <<
             "--> kContinueTuplet: adding tuplet member note '" <<
             note->noteAsShortStringWithRawDivisions () <<
@@ -7350,7 +7340,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
               fTupletsStack.top ();
               
         // populate the tuplet at the top of the stack
-//        if (gGeneralOptions->fDebug)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           cerr << idtr <<
             "--> kStopTuplet: adding tuplet member note '" <<
             note->noteAsShortStringWithRawDivisions () <<
@@ -7420,7 +7410,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-//  if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
       newChordNote->noteAsString () <<
@@ -7489,7 +7479,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           fTupletsStack.top ();
           
       // remove last handled (previous current) note from the current tuplet
-  //    if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
         cerr << idtr <<
           "--> removing last handled note " <<
           lastHandledNoteInVoice->noteAsShortString () <<
@@ -7506,7 +7496,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           lastHandledNoteInVoice);
   
       // add fCurrentChord to the current tuplet instead
-//        if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
       cerr << idtr <<
         "--> adding chord " << fCurrentChord->chordAsString () <<
         " to stack top tuplet '" <<
@@ -7543,7 +7533,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 
   // register note as another member of fCurrentChord
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding another note " <<
       newChordNote->noteAsString() <<
@@ -7562,7 +7552,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   int inputLineNumber)
 {
-    if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "=== handleTupletsPendingOnTupletStack()" <<
       ", line = " << inputLineNumber <<
@@ -7587,7 +7577,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
 
     /* JMI
     // pop it from the tuplets stack
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
       cerr << idtr <<
         "--> popping tuplet 1 '" <<
         pendingTuplet->tupletAsShortString () <<
@@ -7711,7 +7701,7 @@ void xml2MsrTranslator::handleRepeatStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//      if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -7769,7 +7759,7 @@ void xml2MsrTranslator::handleRepeatEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -7867,7 +7857,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr << "--> input line " <<
         inputLineNumber <<
@@ -7971,7 +7961,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//       if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -8057,7 +8047,7 @@ void xml2MsrTranslator::handleHooklessEndingStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr << "--> input line " <<
         inputLineNumber <<
@@ -8115,7 +8105,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -8258,7 +8248,7 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
         fCurrentVoiceNumber);
     
   // create a rehearsal
- // if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
       " in voice " <<
@@ -8458,8 +8448,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-//   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebugDebug) {
-  if (gGeneralOptions->fDebugDebug) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "--> harmony" <<
       ", line " << inputLineNumber <<
