@@ -12255,7 +12255,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     if (lastMeasureNumber == 1 && measureNumber == 1) {
       // don't append measure 1 if it is already present
 
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
         cerr << idtr <<
           "### --> replacing initial measure 1 of segment " <<
           segmentAsString () <<
@@ -12278,7 +12278,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     else if (lastMeasureNumber == 1 && measureNumber == 0) {
       // remove initial measure 1
 
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
         cerr << idtr <<
           "### --> replacing initial measure 1 of segment " <<
           segmentAsString () <<
@@ -12293,7 +12293,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       
    //   if (lastMeasure->getMeasureElementsList ().size ()) {
         // keep existing measure, since it's empty
-        if (gGeneralOptions->fDebug)
+        if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
           cerr << idtr <<
             "### --> keeping measure " << lastMeasureNumber <<
             " of segment " << segmentAsString () <<
@@ -12365,7 +12365,7 @@ void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> prepending barline '" << barline->barlineAsString () <<
@@ -12378,7 +12378,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> appending barline '" << barline->barlineAsString () <<
@@ -12394,7 +12394,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> appending bar check " << barCheck->barCheckAsString () <<
@@ -12690,7 +12690,7 @@ msrRepeatending::~msrRepeatending() {}
 S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
   S_msrRepeat clonedRepeat)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "--> Creating a bare clone of a repeat ending" << endl;
   
@@ -12834,7 +12834,7 @@ msrRepeat::~msrRepeat() {}
 
 S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "--> creating a bare clone of a repeat" << endl;
   
@@ -13294,7 +13294,7 @@ string msrVoice::getVoiceName () const
 void msrVoice::setVoiceDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "--> setting voice divisions per quarter note to " <<
       divisionsPerQuarterNote <<
@@ -13338,7 +13338,7 @@ void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
 bool msrVoice::checkForIncompleteVoiceLastMeasure (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> checking for incomplete last measure in voice \"" <<
       getVoiceName () << "\"" <<
@@ -13490,7 +13490,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
   int inputLineNumber,
   int stanzaNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
       "### --> createStanzaInVoiceIfNeeded (" << inputLineNumber <<
       ", " << stanzaNumber << ")" <<
@@ -13685,6 +13685,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       "Appending chord '" << chord <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceLastSegment->
     appendChordToSegment (chord);
@@ -13692,12 +13693,14 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   fMusicHasBeenInsertedInVoice = true;
 }
 
-void msrVoice::appendTupletToVoice (S_msrTuplet tuplet) {
+void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
+{
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceLastSegment->
     appendTupletToSegment (tuplet);
@@ -13711,6 +13714,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
       "Appending other element '" << elem <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceLastSegment->
     appendOtherElementToSegment (elem);
@@ -14107,6 +14111,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
       "Removing first chord note " << note->noteAsShortString () <<
       " from voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   fVoiceLastSegment->
     removeFirstChordNoteFromSegment (
@@ -14122,7 +14127,8 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
       getVoiceName () <<
       ", line " << inputLineNumber <<
       endl;
-
+  }
+  
   fVoiceLastSegment->
     finalizeLastMeasureOfSegment (inputLineNumber);
 }
