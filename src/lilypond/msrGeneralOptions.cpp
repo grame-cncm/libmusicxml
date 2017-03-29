@@ -43,9 +43,8 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fInteractive = false;
   
   // trace
-  fTrace = true;
+  fTraceGeneral = true;
   
-  // trace
   fTraceScore = false;
   fTracePartgroups = false;
   fTraceParts = false;

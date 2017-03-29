@@ -182,7 +182,7 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroupIfNeeded (
     // create an implicit part group
     fCurrentPartgroupNumber = 1;
     
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTracePartgroups)
       cerr << idtr <<
         "Creating an implicit part group with number " <<
         fCurrentPartgroupNumber <<
@@ -203,7 +203,7 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroupIfNeeded (
         0); // the top level part group has an empty uplink
   
     // append it to the MSR score
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTracePartgroups)
       cerr << idtr <<
         "Appending implicit part group " <<
         fImplicitPartgroup->getPartgroupNumber () <<
@@ -220,7 +220,7 @@ S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroupIfNeeded (
   }
 
   // add implicit part group to the map of this visitor
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Adding implicit part group " << fCurrentPartgroupNumber <<
       " to visitor's data" <<
@@ -409,7 +409,7 @@ void xml2MsrTranslator::visitStart ( S_tenths& elt )
 
 void xml2MsrTranslator::visitEnd ( S_scaling& elt)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceGeneral)
     cerr << idtr <<
       "There are " << fTenths <<
       " tenths for " <<  fMillimeters <<
@@ -560,7 +560,7 @@ void xml2MsrTranslator::visitEnd ( S_credit& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_list& elt)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Analysing part list" <<
       endl;
@@ -787,7 +787,7 @@ void xml2MsrTranslator::handlePartgroupStart (
         currentPartgroup);
 
     // add it to the part group map of this visitor
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTracePartgroups)
       cerr << idtr <<
         "Adding part group " << fCurrentPartgroupNumber <<
         " to visitor's part group map" <<
@@ -797,7 +797,7 @@ void xml2MsrTranslator::handlePartgroupStart (
   }
   
   // add it to the part group list of this visitor
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Adding part group " << fCurrentPartgroupNumber <<
       " to visitor's part groups list" <<
@@ -865,7 +865,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
   }
 
   // remove the part group to be stopped from the part group list
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Removing part group " <<
       partgroupToBeStopped->getPartgroupNumber () <<
@@ -910,7 +910,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
       
       // we're just removed the only part group in the list:
       // append it to the MSR score
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTracePartgroups)
         cerr << idtr <<
           "Appending part group " <<
           partgroupToBeStopped->getPartgroupNumber () <<
@@ -948,7 +948,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
       }
       
       // insert current group into future current group
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTracePartgroups)
         cerr << idtr <<
           "Preending (sub-)part group " <<
           partgroupToBeStopped->getPartgroupNumber () <<
@@ -964,7 +964,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
 
   // remove part group from the map
   // CAUTION: erase() destroys the element it removes!
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Removing part group " << fCurrentPartgroupNumber <<
       " from visitor's part group map" <<
@@ -988,7 +988,7 @@ void xml2MsrTranslator::visitEnd (S_part_group& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Handling part group " << fCurrentPartgroupNumber <<
       ", type: \"" << fCurrentPartgroupType << "\""  <<
@@ -1126,7 +1126,7 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
    cerr <<
       idtr <<
       "--------------------------------------------" <<
@@ -1224,7 +1224,7 @@ void xml2MsrTranslator::visitStart (S_part& elt)
         fCurrentPartID +
         " is not registered in this visitor's part map");
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr <<
       idtr <<
         "--------------------------------------------" <<
@@ -1243,7 +1243,7 @@ void xml2MsrTranslator::visitStart (S_part& elt)
 
 void xml2MsrTranslator::visitEnd (S_part& elt)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr <<
       idtr <<
         "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
@@ -1272,8 +1272,7 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
       "divisions per quarter note should be positive");
   }
   
-  if (true || gGeneralOptions->fTrace) {
- // JMI if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     cerr << idtr;
     if (fCurrentDivisionsPerQuarterNote== 1)
       cerr << "There is 1 division";
@@ -1985,7 +1984,7 @@ void xml2MsrTranslator::visitStart (S_words& elt)
     fCurrentFontXMLLang = "it"; // default value
 
   if (fCurrentWordsContents.size ()) {
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTraceWords)
       cerr << idtr <<
         "Creating words \"" << fCurrentWordsContents << "\"" <<
         ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
@@ -2144,7 +2143,7 @@ void xml2MsrTranslator::visitStart (S_staves& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceStaves) {
     switch (stavesNumber) {
       case 0:
         cerr << idtr <<
@@ -2622,7 +2621,7 @@ void xml2MsrTranslator::visitEnd (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Handling 'backup <<< " << fCurrentBackupDuration <<
       " divisions'" <<
@@ -2684,7 +2683,7 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Handling 'forward >>> " <<
       fCurrentForwardDuration <<
@@ -3405,7 +3404,7 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
       gGeneralOptions->fTraceMeasures;
   }
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceMeasures) {
     cerr <<
       endl <<
       idtr << 
@@ -7838,7 +7837,7 @@ void xml2MsrTranslator::handleRepeatEnd (
     }
   }
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending an implicit repeat to part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -7892,7 +7891,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
         getVoiceLastSegment ();
 
     if (! fRepeatHasBeenCreatedForCurrentPart) {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceRepeats)
         cerr << idtr <<
           "Appending an implicit repeat to part " <<
           fCurrentPart->getPartCombinedName () <<
@@ -7993,7 +7992,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         getVoiceLastSegment ();
     
   // create a hooked repeat ending from the current segment
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a new hookless repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -8137,7 +8136,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         getVoiceLastSegment ();
 
   // create a hookless repeat ending from the current segment
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a new hookless repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<

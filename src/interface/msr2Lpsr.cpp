@@ -65,7 +65,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 {
   clock_t startClock = clock();
   
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -80,7 +80,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       idtr << separator <<
       endl;
   }
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceGeneral)
     cerr << idtr <<
       endl;
   
@@ -114,7 +114,7 @@ void displayLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  if (gGeneralOptions->fTrace) {    
+  if (gGeneralOptions->fTraceGeneral) {    
     cerr <<
       endl <<
       idtr << separator <<
@@ -129,9 +129,9 @@ void displayLpsrScore (
       endl;
   }
   
-  if (gGeneralOptions->fTrace) os << "%{" << endl;
+  if (gGeneralOptions->fTraceGeneral) os << "%{" << endl;
   os << lpScore;
-  if (gGeneralOptions->fTrace) os << "%}" << endl;
+  if (gGeneralOptions->fTraceGeneral) os << "%}" << endl;
   
   os << separator << endl;
 

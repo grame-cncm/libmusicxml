@@ -2723,7 +2723,7 @@ lpsrScoreBlock::~lpsrScoreBlock() {}
 void lpsrScoreBlock::appendPartgroupBlockToParallelMusic (
   S_lpsrPartgroupBlock partgroupBlock)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Appending part group block " <<
        partgroupBlock-> getPartgroup ()-> getPartgroupCombinedName() <<
@@ -2739,7 +2739,7 @@ void lpsrScoreBlock::appendPartgroupBlockToParallelMusic (
 void lpsrScoreBlock::appendVoiceUseToParallelMusic (
   S_lpsrUseVoiceCommand voiceUse)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName() <<
@@ -2755,7 +2755,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
 void lpsrScoreBlock::appendLyricsUseToParallelMusic (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName() <<

@@ -69,7 +69,7 @@ EXP S_msrScore musicxmlFile2Msr (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -113,7 +113,7 @@ EXP S_msrScore musicxmlFd2Msr (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -158,7 +158,7 @@ EXP S_msrScore musicxmlString2Msr (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -201,7 +201,7 @@ S_msrScore buildMSRFromElementsTree (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -245,7 +245,7 @@ void displayMSR (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -263,9 +263,9 @@ void displayMSR (
       endl;
   }
 
-  if (gGeneralOptions->fTrace) os << "%{" << endl;
+  if (gGeneralOptions->fTraceGeneral) os << "%{" << endl;
   os << mScore;
-  if (gGeneralOptions->fTrace) os << "%}" << endl;
+  if (gGeneralOptions->fTraceGeneral) os << "%}" << endl;
 
   clock_t endClock = clock();
 
@@ -285,7 +285,7 @@ void displayMSRSummary (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -302,11 +302,11 @@ void displayMSRSummary (
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor visitor (msrOpts, os);
 
-  if (gGeneralOptions->fTrace) os << "%{" << std::endl;
+  if (gGeneralOptions->fTraceGeneral) os << "%{" << std::endl;
   
   visitor.printSummaryFromMsrScore (mScore);
   
-  if (gGeneralOptions->fTrace) os << "%}" << std::endl;
+  if (gGeneralOptions->fTraceGeneral) os << "%}" << std::endl;
 
   clock_t endClock = clock();
 

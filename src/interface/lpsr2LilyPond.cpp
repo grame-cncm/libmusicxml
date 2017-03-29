@@ -60,7 +60,7 @@ void generateLilyPondCodeFromLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     
     cerr <<
       endl <<
@@ -78,7 +78,7 @@ void generateLilyPondCodeFromLpsrScore (
   // build the LPSR score    
   translator.generateLilyPondCodeFromLpsrScore ();
   
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceGeneral)
     os << separator << endl;
 
   clock_t endClock = clock();

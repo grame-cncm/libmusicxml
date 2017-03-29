@@ -80,9 +80,8 @@ class EXP msrGeneralOptions : public smartable
     bool                  fInteractive;
     
     // trace
-    bool                  fTrace;
+    bool                  fTraceGeneral;
 
-    // trace
     bool                  fTraceVisitors;
     
     bool                  fTraceScore;
