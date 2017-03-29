@@ -85,14 +85,14 @@ void printUsage (int exitStatus)
 //    "          but print the code to standard output instead." << endl <<
 //    endl <<
 
-    "    --nt, --noTrace" << endl <<
-    "          Don't generate a trace of the activity to standard error." << endl <<
+    "    --t, --traceGeneral" << endl <<
+    "          Write a trace of the general activity to standard error." << endl <<
     endl <<
-    "    --d, --debug " << endl <<
-    "          Generate a trace of the activity and print additional" << endl <<
-    "          debugging information to standard error." << endl <<
-    "    --dd, --debugDebug " << endl <<
-    "          Same as above, but print even more debugging information." << endl <<
+    "    --tvisit, --traceVisitors " << endl <<
+    "          Write a trace of the graphs visiting activity to standard error." << endl <<
+    "    --tparts, --traceparts " << endl <<
+    "          Write at trace of the activity regarding score, part groups and parts" << endl <<
+    "          to standard error." << endl <<
     endl <<
     "    --fd, --forceDebug " << endl <<
     "          Force debugging information to be printed at some places." << endl <<
@@ -272,13 +272,13 @@ void analyzeOptions (
   int helpPresent                       = 0;
   int versionPresent                    = 0;
 
-  int noTracePresent                    = 0;
+  int traceGeneralPresent               = 0;
   
   int outputFilePresent                 = 0;
   int interactivePresent                = 0;
   
-  int debugPresent                      = 0;
-  int debugDebugPresent                 = 0;
+  int traceVisitorsPresent              = 0;
+  int tracepartsPresent                 = 0;
   int forceDebugPresent                 = 0;
   
   int debugMeasuresPresent              = 0;
@@ -383,29 +383,29 @@ void analyzeOptions (
     },
     
     {
-      "nt",
-      no_argument, &noTracePresent, 1
+      "t",
+      no_argument, &traceGeneralPresent, 1
     },
     {
-      "noTrace",
-      no_argument, &noTracePresent, 1
+      "traceGeneral",
+      no_argument, &traceGeneralPresent, 1
     },
     
     {
-      "d",
-      no_argument, &debugPresent, 1
+      "tvisit",
+      no_argument, &traceVisitorsPresent, 1
     },
     {
-      "debug",
-      no_argument, &debugPresent, 1
+      "traceVisitors",
+      no_argument, &traceVisitorsPresent, 1
     },
     {
-      "dd",
-      no_argument, &debugDebugPresent, 1
+      "tparts",
+      no_argument, &tracepartsPresent, 1
     },
     {
-      "debugDebug",
-      no_argument, &debugDebugPresent, 1
+      "traceparts",
+      no_argument, &tracepartsPresent, 1
     },
     
     {
@@ -777,27 +777,27 @@ void analyzeOptions (
           interactivePresent = false;
         }
         
-        if (noTracePresent) {
-          gGeneralOptions->fTrace = false;
+        if (traceGeneralPresent) {
+          gGeneralOptions->fTraceGeneral = false;
           gGeneralOptions->fCommandLineOptions +=
-            "--noTrace ";
-          noTracePresent = false;
+            "--traceGeneral ";
+          traceGeneralPresent = false;
         }
         
-        if (debugPresent) {
-          gGeneralOptions->fTrace = true;
-          gGeneralOptions->fDebug = true;
+        if (traceVisitorsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceVisitors = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--debug ";
-          debugPresent = false;
+            "--traceVisitors ";
+          traceVisitorsPresent = false;
         }
-        if (debugDebugPresent) {
+        if (tracepartsPresent) {
           gGeneralOptions->fTrace = true;
           gGeneralOptions->fDebug = true;
-          gGeneralOptions->fDebugDebug = true;
+          gGeneralOptions->fTraceparts = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--debugDebug ";
-          debugDebugPresent = false;
+            "--traceparts ";
+          tracepartsPresent = false;
         }
         if (forceDebugPresent) {
           gGeneralOptions->fTrace = true;
@@ -1409,17 +1409,17 @@ void printOptions ()
       endl <<
         
     idtr <<
-      setw(fieldWidth) << "trace" << " : " <<
-      booleanAsString (gGeneralOptions->fTrace) <<
+      setw(fieldWidth) << "traceGeneral" << " : " <<
+      booleanAsString (gGeneralOptions->traceGeneral) <<
       endl <<
         
     idtr <<
-      setw(fieldWidth) << "debug" << " : " <<
-      booleanAsString (gGeneralOptions->fDebug) <<
+      setw(fieldWidth) << "traceVisitors" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceVisitors) <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "debugDebug" << " : " <<
-      booleanAsString (gGeneralOptions->fDebugDebug) <<
+      setw(fieldWidth) << "traceparts" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceparts) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "forceDebug" << " : " <<

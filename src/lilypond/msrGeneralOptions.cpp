@@ -45,10 +45,14 @@ void msrGeneralOptions::initializeGeneralOptions ()
   // trace
   fTraceGeneral = true;
   
+  fTraceVisitors = true;
+
+/*  
   fTraceScore = false;
   fTracePartgroups = false;
   fTraceParts = false;
   fTraceStaves = false;
+*/
   fTraceVoices = false;
   
   fTraceSegments = false;
