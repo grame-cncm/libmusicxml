@@ -100,6 +100,9 @@ lpsrOptions::~lpsrOptions() {}
 
 void lpsrOptions::initializeLpsrOptions ()
 {
+  // trace
+  fTraceLPSR = false;
+  
   // languages
   if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -3202,7 +3205,7 @@ void lpsrScore::print (ostream& os)
 
   idtr++;
 
-  if (gGeneralOptions->fTraceScores)
+  if (gGeneralOptions->fTraceScore)
     os <<
       idtr << fMsrScore;
 

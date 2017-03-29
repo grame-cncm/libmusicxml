@@ -2429,6 +2429,9 @@ msrOptions::msrOptions ()
 
 void msrOptions::initializeMsrOptions ()
 {
+  // trace
+  fTraceMSR = false;
+  
   // languages
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
     stringstream s;

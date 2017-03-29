@@ -160,6 +160,9 @@ class EXP lpsrOptions : public smartable {
  
   public:
 
+    // trace
+    bool                          fTraceLPSR;
+
     // languages
     msrQuatertonesPitchesLanguage fLpsrQuatertonesPitchesLanguage;
     lpsrChordsLanguage            fLpsrChordsLanguage;

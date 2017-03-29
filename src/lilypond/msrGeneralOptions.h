@@ -98,18 +98,26 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceDivisions;
     bool                  fTraceDurations;
     
+    bool                  fTraceDynamics;
+    bool                  fTraceWords;
+    bool                  fTraceSlurs;
+    bool                  fTraceLigatures;
+    bool                  fTraceWedges;
+
     bool                  fTraceChords;
     bool                  fTraceTuplets;
     
     bool                  fTraceGracenotes;
     
     bool                  fTraceLyrics;
-
+    
     bool                  fTraceRepeats;
     
     bool                  fTraceHarmony;
     
     bool                  fTraceStafftuning;
+    
+    bool                  fTraceMidi;
 
     bool                  fTraceALL;
 

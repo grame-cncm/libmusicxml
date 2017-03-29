@@ -2414,7 +2414,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
     
 
   // create the staff tuning
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceHarmony) {
     cerr <<
       idtr <<
         setw(30) << "Creating staff tuning:" <<
@@ -2477,7 +2477,7 @@ void xml2MsrTranslator::visitStart (S_staff_size& elt )
 
 void xml2MsrTranslator::visitEnd (S_staff_details& elt )
 {
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceHarmony) {
     cerr <<
       idtr <<
         setw(32) << "fStaffDetailsStaffNumber" << " = " <<
@@ -5887,7 +5887,7 @@ void xml2MsrTranslator::copyNoteHarmonyToChord (
         getNoteHarmony ();
                           
   if (harmony) {
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceHarmonies)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceHarmony)
       cerr << idtr <<
         "--> copying harmony '" <<
         harmony->harmonyAsString () <<
@@ -7759,7 +7759,7 @@ void xml2MsrTranslator::handleRepeatEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     cerr <<
       idtr << "--> input line " << inputLineNumber <<
       endl <<
@@ -7791,12 +7791,13 @@ void xml2MsrTranslator::handleRepeatEnd (
     appendBarlineToVoice (barline);
 
   if (fPendingBarlines.empty ()) {
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTraceRepeats) {
       cerr <<
         idtr <<
         "There is an implicit repeat start at the beginning of part" <<
         fCurrentPart->getPartCombinedName () <<
         endl;
+    }
 
     // create the implicit barline
     S_msrBarline
@@ -8448,7 +8449,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceHarmony) {
     cerr << idtr <<
       "--> harmony" <<
       ", line " << inputLineNumber <<
