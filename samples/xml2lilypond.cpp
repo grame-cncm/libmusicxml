@@ -90,13 +90,13 @@ void printUsage (int exitStatus)
     endl <<
     "    --tvisit, --traceVisitors " << endl <<
     "          Write a trace of the graphs visiting activity to standard error." << endl <<
+    endl <<
     "    --tparts, --traceparts " << endl <<
     "          Write at trace of the activity regarding score, part groups and parts" << endl <<
     "          to standard error." << endl <<
-    endl <<
-    "    --fd, --forceDebug " << endl <<
-    "          Force debugging information to be printed at some places." << endl <<
-    "          This is less invasive that debugging everything." << endl <<
+    "    --tvoices, --traceVoices " << endl <<
+    "          Write at trace of the activity regarding staves and voices" << endl <<
+    "          to standard error." << endl <<
     endl <<
     "    --dm, --debugMeasures measureNumbersSet" << endl <<
     "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<
@@ -279,7 +279,7 @@ void analyzeOptions (
   
   int traceVisitorsPresent              = 0;
   int tracepartsPresent                 = 0;
-  int forceDebugPresent                 = 0;
+  int traceVoicesPresent                = 0;
   
   int debugMeasuresPresent              = 0;
   int debugdebugMeasuresPresent         = 0;
@@ -409,12 +409,12 @@ void analyzeOptions (
     },
     
     {
-      "fd",
-      no_argument, &forceDebugPresent, 1
+      "tvoices",
+      no_argument, &traceVoicesPresent, 1
     },
     {
-      "forceDebug",
-      no_argument, &forceDebugPresent, 1
+      "traceVoices",
+      no_argument, &traceVoicesPresent, 1
     },
     
     {
@@ -792,19 +792,18 @@ void analyzeOptions (
           traceVisitorsPresent = false;
         }
         if (tracepartsPresent) {
-          gGeneralOptions->fTrace = true;
-          gGeneralOptions->fDebug = true;
-          gGeneralOptions->fTraceparts = true;
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceParts = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceparts ";
           tracepartsPresent = false;
         }
-        if (forceDebugPresent) {
-          gGeneralOptions->fTrace = true;
-          gGeneralOptions->fForceDebug = true;
+        if (traceVoicesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceVoices = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--forceDebug ";
-          forceDebugPresent = false;
+            "--traceVoices ";
+          traceVoicesPresent = false;
         }
         
         if (debugMeasuresPresent) {
@@ -1410,7 +1409,7 @@ void printOptions ()
         
     idtr <<
       setw(fieldWidth) << "traceGeneral" << " : " <<
-      booleanAsString (gGeneralOptions->traceGeneral) <<
+      booleanAsString (gGeneralOptions->fTraceGeneral) <<
       endl <<
         
     idtr <<
@@ -1419,11 +1418,11 @@ void printOptions ()
       endl <<
     idtr <<
       setw(fieldWidth) << "traceparts" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceparts) <<
+      booleanAsString (gGeneralOptions->fTraceParts) <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "forceDebug" << " : " <<
-      booleanAsString (gGeneralOptions->fForceDebug) <<
+      setw(fieldWidth) << "traceVoices" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceVoices) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
