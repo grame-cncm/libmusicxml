@@ -12243,7 +12243,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       lastMeasureNumber =
         lastMeasure->getMeasureNumber ();
 
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
       cerr << idtr <<
         "### --> appendMeasureToSegment (" << measureNumber <<
         ") in segment " << segmentAsString () <<
@@ -13850,7 +13850,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
       fVoiceLastSegment);
     
   // append the repeat to the current voice
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "--> appending the repeat to voice \"" <<
       getVoiceName () <<
@@ -13866,7 +13866,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
     repeat);
 
   // create a new segment for the voice
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "--> creating a new last segment for voice \"" <<
       fVoiceName << "\"" <<
@@ -13912,9 +13912,9 @@ void msrVoice::appendRepeatCloneToVoice (
     repeatCLone);
 
   // create a new segment for the voice
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "--> creating a new last segment for voice BOF \"" <<
+      "--> creating a new last segment for voice BOF JMI \"" <<
       fVoiceName << "\"" <<
       endl;
       
@@ -13958,7 +13958,7 @@ void msrVoice::appendRepeatendingToVoice (
         fVoiceCurrentRepeat);
 
   // add the repeat ending it to the voice current repeat
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "--> appending repeat ending to current repeat in voice " <<
       fVoiceName <<
@@ -13968,7 +13968,7 @@ void msrVoice::appendRepeatendingToVoice (
     addRepeatending (repeatEnding);
 
   // create a new segment for the voice
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "--> creating new last segment for voice " <<
       fVoiceName <<
@@ -13982,7 +13982,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
   S_msrRepeatending repeatendingClone)
 {
   // add the repeat ending it to the voice current repeat
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "--> appending repeat ending clone to current repeat in voice " <<
       fVoiceName <<
@@ -13992,7 +13992,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
     addRepeatending (repeatendingClone);
 
   // create a new segment for the voice
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "--> creating new last segment for voice " <<
       fVoiceName <<
@@ -14195,7 +14195,7 @@ void msrVoice::browseData (basevisitor* v)
     } // for
   }
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrVoice::browseData()" << endl;
 }
@@ -14848,7 +14848,7 @@ void msrStaff::setStaffMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "### --> setStaffMeasureNumber(), " <<
       ", line " << inputLineNumber <<
@@ -14969,7 +14969,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
 {
   S_msrVoice result;
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "--> fetching external voice number " << externalVoiceNumber <<
      " in staff \"" << getStaffName () <<
@@ -14985,7 +14985,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       (*i).second->getExternalVoiceNumber ()
         ==
       externalVoiceNumber  ) {
-      if (gGeneralOptions->fDebug) {
+      if (gGeneralOptions->fTraceVoices) {
         cerr << idtr <<
           "--> voice " << externalVoiceNumber <<
           " in staff \"" << getStaffName () << "\"" <<
@@ -15263,7 +15263,7 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "### --> setAllStaffVoicesMeasureNumber(), " <<
       ", line " << inputLineNumber <<
@@ -15297,7 +15297,7 @@ void msrStaff::removeStaffEmptyVoices ()
 
 void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "### --> finalizing last measure in staff " <<
       getStaffName () <<
@@ -15383,7 +15383,7 @@ void msrStaff::browseData (basevisitor* v)
     } // for
   }
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrStaff::browseData()" << endl;
 }
@@ -15817,7 +15817,7 @@ void msrPart::setPartMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures)
     cerr <<
       endl <<
       idtr <<
@@ -15908,7 +15908,7 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 void msrPart::setAllPartStavesDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "--> setting segment divisions per quarter note to " <<
       divisionsPerQuarterNote <<
@@ -15931,7 +15931,7 @@ void msrPart::setAllPartStavesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "### --> setAllPartStavesMeasureNumber()" <<
       ", line " << inputLineNumber <<
@@ -16118,7 +16118,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-// JMI  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmony)
     cerr << idtr <<
       "--> appending harmony " <<
       harmony->harmonyAsString () <<
@@ -16148,7 +16148,7 @@ void msrPart::removePartEmptyVoices ()
 
 void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "### --> finalizing last measure in part " <<
       getPartName () <<
@@ -16220,7 +16220,7 @@ void msrPart::browseData (basevisitor* v)
     browser.browse (*((*i).second));
   } // for
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrPart::browseData()" << endl;
 }
