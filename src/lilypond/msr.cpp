@@ -4476,7 +4476,7 @@ void msrNote::setNoteStem (S_msrStem stem)
 
 void msrNote::setNoteBelongsToAChord ()
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> note " << noteAsString () <<
       ", line " << fInputLineNumber <<
@@ -4489,7 +4489,7 @@ void msrNote::setNoteBelongsToAChord ()
 void msrNote::applyTupletMemberDisplayFactorToNote (
   int actualNotes, int normalNotes)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> applying tuplet display factor " <<
       actualNotes << "/" << normalNotes <<
@@ -4551,7 +4551,7 @@ void msrNote::addWordsToNote (S_msrWords words)
 
 void msrNote::addSlurToNote (S_msrSlur slur)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSlurs)
     cerr << idtr <<
       "% --> adding slur " << slur << " to note " << noteAsString ()
        << endl;
@@ -4595,7 +4595,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 
 void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceLigatures)
     cerr << idtr <<
       "% --> adding ligature " << ligature << " to note " << noteAsString ()
        << endl;
@@ -5674,7 +5674,7 @@ string msrChord::chordNotesTypeAsMSRString () const
 
 void msrChord::addFirstNoteToChord (S_msrNote note)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding first note '" <<
       note->noteAsString () <<
@@ -5698,7 +5698,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 
 void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding another note '" <<
       note->noteAsString () <<
@@ -5762,7 +5762,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
         return;
   } // for
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding articulation '" <<
       art->articulationKindAsString () <<
@@ -5788,7 +5788,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
         return;
   } // for
 
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding ornament '" <<
       orn->ornamentKindAsString () <<
@@ -6522,7 +6522,7 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
 
 void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> adding note '" <<
       note->noteAsShortStringWithRawDivisions () <<
@@ -6551,7 +6551,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> adding chord '" <<
       chord->chordAsString () <<
@@ -6581,7 +6581,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> adding tuplet '" <<
       tuplet->tupletAsString () <<
@@ -6625,7 +6625,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> adding tuplet '" <<
       tuplet->tupletAsString () <<
@@ -6649,7 +6649,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   int       inputLineNumber,
   S_msrNote note)
 {
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "--> removing first note " <<
       note->noteAsString () <<
@@ -8948,7 +8948,7 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
- // JMI if (gGeneralOptions->fDebug)
+  JMI if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
         "--> appending syllable " << syllable->syllableAsString () <<
@@ -9405,7 +9405,7 @@ void msrStanza::browseData (basevisitor* v)
 
   idtr--;
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrStanza::browseData()" << endl;
 }
@@ -9864,7 +9864,7 @@ void msrChords::browseData (basevisitor* v)
 
   idtr--;
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
       "<== msrStanza::browseData()" << endl;
 }
@@ -10603,7 +10603,7 @@ msrMeasure::msrMeasure (
     fMeasureSegmentUplink->
       getSegmentVoiceUplink ();
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> creating measure " << fMeasureNumber <<
       " in segment " <<
@@ -10639,7 +10639,7 @@ msrMeasure::~msrMeasure()
 S_msrMeasure msrMeasure::createMeasureBareClone (
   S_msrSegment clonedSegment)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> Creating a bare clone of measure " << fMeasureNumber <<
       endl;
@@ -10695,7 +10695,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
     ) {
     // measure overflows, we must synchonize all voices in this part
     
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceMeasures)
       cerr <<
         idtr <<
           "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
@@ -10830,16 +10830,16 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   else {
     // regular insertion in current measure
     
-//  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending chord '" << chord->chordAsString () <<
-      "' to measure " << fMeasureNumber <<
-      " in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      endl;
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "--> appending chord '" << chord->chordAsString () <<
+        "' to measure " << fMeasureNumber <<
+        " in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
   
     // populate measure uplink
     chord->setChordMeasureUplink (this);
@@ -10901,16 +10901,16 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   else {
     // regular insertion in current measure
     
-//  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending tuplet '" << tuplet->tupletAsString () <<
-      "' to measure " << fMeasureNumber <<
-      " in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      endl;
+    if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "--> appending tuplet '" << tuplet->tupletAsString () <<
+        "' to measure " << fMeasureNumber <<
+        " in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
   
     // populate measure uplink
     tuplet->setTupletMeasureUplink (this);
@@ -11016,8 +11016,7 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
   int       inputLineNumber,
   S_msrNote note)
 {  
-  if (true || gGeneralOptions->fDebug) {
-//  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> removing note:" <<
       endl;
@@ -11178,7 +11177,7 @@ bool msrMeasure::checkForIncompleteMeasure (
   int                        inputLineNumber,
   msrMeasure::msrMeasureKind measureKind)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> checking for incompleteness of measure  " <<
       fMeasureNumber <<
@@ -11190,7 +11189,7 @@ bool msrMeasure::checkForIncompleteMeasure (
       "\"" <<
       endl;
 
-  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceMeasures) {
     idtr++;
 
     cerr <<
@@ -11249,7 +11248,7 @@ bool msrMeasure::checkForIncompleteMeasure (
 bool msrMeasure::checkForOverfullMeasure (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> checking for incompleteness of measure  " <<
       fMeasureNumber <<
@@ -11261,7 +11260,7 @@ bool msrMeasure::checkForOverfullMeasure (
       "\"" <<
       endl;
 
-  if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fTraceMeasures) {
     idtr++;
 
     cerr <<
@@ -11378,7 +11377,7 @@ void msrMeasure::finalizeMeasure (
     skip->setNotePositionInMeasure (fMeasurePosition);
     
     // apppend the skip to the measure
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
        "--> appending " << skip->noteAsString () <<
        " (" << skipDuration <<
@@ -11501,7 +11500,7 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       this->getMeasureLength (); 
   
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures)
     cerr <<
       endl <<
       idtr <<
@@ -11523,7 +11522,7 @@ string msrMeasure::getMeasureLengthAsString () const
   else
     result = "0";
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMeasures)
     cerr <<
       endl <<
       idtr <<
@@ -11748,7 +11747,7 @@ S_msrSegment msrSegment::createSegmentBareClone (
 void msrSegment::setSegmentDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "--> setting segment " << segmentAsString () <<
         "'s divisions per quarter note to " <<
@@ -11765,7 +11764,7 @@ void msrSegment::setSegmentDivisionsPerQuarterNote (
 void msrSegment::setAllSegmentMeasuresDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "--> setAllSegmentMeasuresDivisionsPerQuarterNote()" <<
       ", line " << fInputLineNumber <<
@@ -11787,7 +11786,7 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
   int                        inputLineNumber,
   msrMeasure::msrMeasureKind measureKind)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "--> checking for incomplete last measure in segment '" <<
       segmentAsString () <<
@@ -12023,7 +12022,7 @@ void msrSegment::setSegmentMeasureNumber (
   switch (measureNumber) {
     case 0:
       // measure 1 has already been created by default, re-number it a 0
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceSegments)
         cerr <<
           idtr <<
             "### there are currently " <<
@@ -12043,7 +12042,7 @@ void msrSegment::setSegmentMeasureNumber (
     case 1:
       if (lastMeasure->getMeasureNumber () == 0) {
         // this is the second measure, that should be created
-        if (gGeneralOptions->fDebug)
+        if (gGeneralOptions->fTraceSegments)
           cerr <<
             idtr <<
               "### there are currently " <<
@@ -12064,7 +12063,7 @@ void msrSegment::setSegmentMeasureNumber (
       break;
       
     default:
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceSegments)
         cerr <<
           idtr <<
             "### there are currently " <<
@@ -12139,7 +12138,7 @@ void msrSegment::incrementSegmentLastMeasureNumber (
 
 void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "### --> finalizing last measure in segment " <<
       segmentAsString () <<
@@ -12154,7 +12153,7 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> appending clef " << clef->clefAsString () <<
@@ -12174,7 +12173,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> appending key " << key->keyAsString () <<
@@ -12194,7 +12193,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> appending time " << time->timeAsString () <<
@@ -12214,7 +12213,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "--> appending harmony " << harmony->harmonyAsString () <<
