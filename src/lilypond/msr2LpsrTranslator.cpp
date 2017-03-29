@@ -80,7 +80,7 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceScore)
     fOstream << idtr <<
       "--> Start visiting msrScore" << endl;
 
@@ -109,7 +109,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceScore)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
 
@@ -164,7 +164,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMSR)
     fOstream << idtr <<
       "--> Start visiting msrIdentification" << endl;
 
@@ -179,7 +179,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
   
   idtr--;
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMSR)
     fOstream << idtr <<
       "--> End visiting msrIdentification" << endl;
 }
@@ -187,7 +187,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMSR)
     fOstream << idtr <<
       "--> Start visiting msrPageGeometry" << endl;
 
@@ -269,7 +269,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 {  
   idtr--;
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceMSR)
     fOstream << idtr <<
       "--> End visiting msrPageGeometry" << endl;
 }
@@ -277,7 +277,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTracePartgroups)
     fOstream << idtr <<
       "--> Start visiting msrPartgroup" << endl;
 
@@ -294,7 +294,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
   // push it onto this visitors's stack,
   // making it the current partgroup block
- // if (gGeneralOptions->fDebug)
+ // if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "--> pushing part group clone " <<
       partgroupClone->getPartgroupCombinedName () <<
@@ -348,7 +348,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTracePartgroups)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
 
@@ -360,7 +360,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     // add the current pargroup clone to the MSR score clone
     // if it is the top-level one, i.e it's alone in the stack
     
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTracePartgroups)
       cerr << idtr <<
         "--> adding part group clone " <<
         currentPartgroup->getPartgroupCombinedName () <<
@@ -376,7 +376,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
   else {
 
     // pop current partgroup from this visitors's stack
-  //  if (gGeneralOptions->fDebug)
+  //  if (gGeneralOptions->fTracePartgroups)
       fOstream << idtr <<
         "--> popping part group clone " <<
         fPartgroupsStack.top ()->getPartgroupCombinedName () <<
@@ -405,7 +405,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     // add the current pargroup clone to the LPSR score's parallel music
     // if it is the top-level one, i.e it's alone in the stack
     
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTracePartgroups)
       cerr << idtr <<
         "--> adding part group block clone for part group " <<
         currentPartgroupBlock->
@@ -428,7 +428,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 
   else {
     // pop current partgroup block from this visitors's stack
-  //  if (gGeneralOptions->fDebug)
+  //  if (gGeneralOptions->fTracePartgroups)
       fOstream << idtr <<
         "--> popping part group block clone for part group " <<
         currentPartgroupBlock->
@@ -451,7 +451,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts)
     fOstream << idtr <<
       "--> Start visiting msrPart" << endl;
 
@@ -463,7 +463,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fPartgroupsStack.top ());
 
   // add it to the partgroup clone
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "--> adding part clone " <<
       fCurrentPartClone->getPartCombinedName () <<
@@ -481,7 +481,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fCurrentPartClone);
 
   // append it to the current partgroup block
-//  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "--> appending part block " <<
       fPartgroupsStack.top ()->getPartgroupCombinedName () <<
@@ -496,7 +496,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 {
   idtr--;
 
-  if (gGeneralOptions->fDebug)
+  if (gGeneralOptions->fTraceParts)
     fOstream << idtr <<
       "--> End visiting msrPart" << endl;
 }
