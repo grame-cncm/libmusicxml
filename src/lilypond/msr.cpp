@@ -4658,7 +4658,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
-  if (gGeneralOptions->fTraceSyllables)
+  if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
       "==> appending syllable " <<
       syllable->syllableAsString () <<
@@ -6215,7 +6215,7 @@ msrBreak::msrBreak (
 {
   fNextBarNumber = nextBarNumber; 
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
@@ -6302,7 +6302,7 @@ msrBarCheck::msrBarCheck (
 {
   fNextBarNumber = nextBarNumber; 
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Creating a bar check before measure " << fNextBarNumber <<
       endl;
@@ -8502,7 +8502,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
      note->
       appendSyllableToNote (this); // JMI
   
-  if (gGeneralOptions->fTraceSyllables) {
+  if (gGeneralOptions->fTraceLyrics) {
     cerr <<
       idtr <<
       "==> setting syllable note uplink for:" <<
@@ -8903,7 +8903,7 @@ msrStanza::msrStanza (
       break;
   } // switch
  
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
       "Creating stanza " << getStanzaName () << endl;
 
@@ -8948,7 +8948,7 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
-  JMI if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
         "--> appending syllable " << syllable->syllableAsString () <<
@@ -9738,7 +9738,7 @@ msrChords::msrChords (
 {
   fChordsPartUplink  = chordsPartUplink;
   
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceHarmony)
     cerr << idtr <<
       "Creating chords " << getChordsName () << endl;
 
@@ -9801,7 +9801,7 @@ void msrChords::appendSKipToChords (
 
 void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceHarmony)
     cerr << idtr <<
       "--> Appending harmony " << harmony <<
       " to chord " << getChordsName () << endl;
@@ -11016,7 +11016,7 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
   int       inputLineNumber,
   S_msrNote note)
 {  
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "--> removing note:" <<
       endl;
@@ -11214,7 +11214,7 @@ bool msrMeasure::checkForIncompleteMeasure (
     fMeasurePosition <= fMeasureDivisionsPerFullMeasure;
 
   if (measureIsIncomplete) {    
-    if (gGeneralOptions->fTrace) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
           "Measure " << fMeasureNumber <<
@@ -11285,7 +11285,7 @@ bool msrMeasure::checkForOverfullMeasure (
     fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1;
 
   if (measureIsOverfull) {    
-    if (gGeneralOptions->fTrace) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
           "Measure " << fMeasureNumber <<
@@ -11857,7 +11857,7 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
     lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure;
 
   if (lastMeasureIsIncomplete) {    
-    if (gGeneralOptions->fTrace) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
           "Measure " << lastMeasureNumber <<
@@ -11975,7 +11975,7 @@ void msrSegment::setSegmentMeasureNumber (
   if (lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure) {
     // no, register last measure as incomplete
     
-    if (gGeneralOptions->fTrace) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
           "Measure " << measureNumber <<
@@ -12850,7 +12850,7 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 void msrRepeat::setRepeatCommonSegment (
   S_msrSegment repeatCommonSegment)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting repeat common segment containing " <<
       singularOrPlural (
@@ -12868,7 +12868,7 @@ void msrRepeat::setRepeatCommonSegment (
 
 void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Adding ending '" <<
       repeatending->repeatendingAsString () <<
@@ -13073,7 +13073,7 @@ msrVoice::msrVoice (
       break;
   } // switch
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Creating voice \"" << fVoiceName <<
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
@@ -13155,7 +13155,7 @@ void msrVoice::init (int inputLineNumber)
       this);
 
   // create the initial segment for this voice
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Creating the initial last segment for voice \"" <<
       getVoiceName () << "\"" <<
@@ -13447,7 +13447,7 @@ void msrVoice::catchUpWithVoiceStanzaMaster (S_msrStanza stanza)
       fVoiceStanzaMaster->getSyllables ();
 
   if (masterSyllables.size()) {
-// JMI    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTraceLyrics)
       cerr << idtr <<
         "Copying current contents of voice master stanza to " <<
         stanza->getStanzaName () <<
@@ -13517,7 +13517,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fTraceMSR)
     cerr << idtr <<
       "Appending clef '" << clef->clefAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13529,7 +13529,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fTraceMSR)
     cerr << idtr <<
       "Appending key '" << key->keyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13541,7 +13541,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fTraceMSR)
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13557,7 +13557,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceHarmony)
     cerr << idtr <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13573,7 +13573,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fTraceMSR)
     cerr << idtr <<
       "Appending transpose '" << transpose->transposeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13586,7 +13586,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 /* JMI
 void msrVoice::appendWordsToVoice (S_msrWords words)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceWords)
     cerr << idtr <<
       "Appending words '" << words->wordsAsString () <<
       "' to voice " << getVoiceName () << endl;
@@ -13599,7 +13599,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fTraceMSR)
     cerr << idtr <<
       "Appending tempo '" << tempo->tempoAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13611,7 +13611,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 {
-  if (gGeneralOptions->fTrace)
+  if (gMsrOptions->fTraceMSR)
     cerr << idtr <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -13625,7 +13625,7 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending rehearsal '" << rehearsal->getRehearsalText () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13776,7 +13776,7 @@ void msrVoice::appendSyllableToVoice (
 
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending bar check '" << barCheck->barCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
@@ -13795,7 +13795,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 void msrVoice::appendBarnumberCheckToVoice (
   S_msrBarnumberCheck barNumberCheck)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending barnumber check '" <<
       barNumberCheck->barnumberCheckAsString () <<
@@ -13814,7 +13814,7 @@ void msrVoice::appendBarnumberCheckToVoice (
 
 void msrVoice::appendBreakToVoice (S_msrBreak break_)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending break '" << break_->breakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13832,7 +13832,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
 
 void msrVoice::appendRepeatToVoice (int inputLineNumber)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a repeat to voice \"" << getVoiceName () <<  "\"" <<
       ", line " << inputLineNumber <<
@@ -13880,7 +13880,7 @@ void msrVoice::appendRepeatCloneToVoice (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat clone to voice clone \"" <<
       getVoiceName () <<  "\"" <<
@@ -13941,7 +13941,7 @@ void msrVoice::appendRepeatendingToVoice (
   msrRepeatending::msrRepeatendingKind
             repeatendingKind)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a repeat ending to voice \"" <<
       getVoiceName () <<  "\"" <<
@@ -14004,7 +14004,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Prepending barline '" <<
       barline->barlineAsString () <<
@@ -14022,7 +14022,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending barline '" <<
       barline->barlineAsString () <<
@@ -14040,7 +14040,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -14051,7 +14051,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
@@ -14062,7 +14062,7 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
 
 void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "Appending a eyeglasses to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -14073,7 +14073,7 @@ void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses)
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -14561,7 +14561,7 @@ msrStaff::msrStaff (
       break;
   } // switch
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Creating staff \"" << fStaffName <<
       "\" in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -14637,7 +14637,7 @@ msrStaff::msrStaff (
         fStaffPartUplink->getPartClef ();
   
     if (clef) {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff clef '" << clef->clefAsString () <<
           "' in staff " << fStaffNumber <<
@@ -14648,7 +14648,7 @@ msrStaff::msrStaff (
     }
     
     else {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting default treble clef " <<
           " in staff " << fStaffNumber <<
@@ -14670,7 +14670,7 @@ msrStaff::msrStaff (
         fStaffPartUplink->getPartKey ();
   
     if (key) {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff key '" << key->keyAsString () <<
           "' in staff " << fStaffNumber <<
@@ -14680,7 +14680,7 @@ msrStaff::msrStaff (
       setStaffKey (key);
       }
     else {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting default C major key " <<
           " in staff " << fStaffNumber <<
@@ -14702,7 +14702,7 @@ msrStaff::msrStaff (
         fStaffPartUplink->getPartTime ();
 
     if (time) {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff time '" << time->timeAsString () <<
           "' in staff " << fStaffNumber <<
@@ -14712,7 +14712,7 @@ msrStaff::msrStaff (
       setStaffTime (time);
     }
     else {
-      if (gGeneralOptions->fTrace)
+      if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting default 4/4 time " <<
           " in staff " << fStaffNumber <<
@@ -14911,7 +14911,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   // take this new voice into account
   fRegisteredVoicesCounter++;
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Registering voice " << externalVoiceNumber <<
        " as relative voice " << fRegisteredVoicesCounter <<
@@ -14951,7 +14951,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
     setExternalVoiceNumber (externalVoiceNumber);
 
   // register it by its number
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Voice " << externalVoiceNumber <<
       " in staff " << getStaffName () <<
@@ -15029,7 +15029,7 @@ void msrStaff::registerVoiceInStaff (
   }
 
   // register voice in this staff
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " << fRegisteredVoicesCounter <<
@@ -15049,7 +15049,7 @@ void msrStaff::registerVoiceInStaff (
 
 void msrStaff::setStaffClef (S_msrClef clef)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting staff clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
@@ -15071,7 +15071,7 @@ void msrStaff::setStaffClef (S_msrClef clef)
 
 void msrStaff::setStaffKey  (S_msrKey  key)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
       "' in staff " << fStaffNumber <<
@@ -15087,7 +15087,7 @@ void msrStaff::setStaffKey  (S_msrKey  key)
 
 void msrStaff::setStaffTime (S_msrTime time)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting time '" << time->timeAsString () <<
       "' in staff " << fStaffNumber <<
@@ -15103,7 +15103,7 @@ void msrStaff::setStaffTime (S_msrTime time)
 
 void msrStaff::appendRepeatToStaff (int inputLineNumber)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -15123,7 +15123,7 @@ void msrStaff::appendRepeatendingToStaff (
   msrRepeatending::msrRepeatendingKind
             repeatendingKind)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat ending to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -15144,7 +15144,7 @@ void msrStaff::appendRepeatCloneToStaff (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat clone to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -15162,7 +15162,7 @@ void msrStaff::appendRepeatCloneToStaff (
 void msrStaff::appendRepeatendingCloneToStaff (
   S_msrRepeatending repeatendingClone)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat ending clone to staff " << fStaffNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -15178,7 +15178,7 @@ void msrStaff::appendRepeatendingCloneToStaff (
 
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to staff " << fStaffNumber <<
@@ -15195,7 +15195,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 
 void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting transpose '" << transpose->transposeAsString () <<
       "' in staff " << fStaffNumber <<
@@ -15634,7 +15634,7 @@ msrPart::msrPart (
       "P_"+stringNumbersToEnglishWords (fPartID);
   }
     
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
 
@@ -15767,7 +15767,7 @@ void msrPart::setPartMSRName (string partMSRName)
     // yes, rename the part accordinglingly
     fPartMSRName = (*it).second;
 
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTraceParts)
       cerr << idtr <<
         "Setting part name of " << getPartCombinedName () <<
         " to \"" << fPartMSRName << "\"" <<
@@ -15777,7 +15777,7 @@ void msrPart::setPartMSRName (string partMSRName)
     // use the argument
     fPartMSRName = partMSRName;
 
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTraceParts)
       cerr << idtr <<
         "Keeping partID \"" << partMSRName <<
         "\" as part name  for " << getPartCombinedName () <<
@@ -15847,7 +15847,7 @@ void msrPart::setPartMeasureNumber (
 
 void msrPart::setPartClef (S_msrClef clef)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Setting part clef \"" << clef->clefAsString () <<
       "\" in part " << getPartCombinedName () <<
@@ -15862,7 +15862,7 @@ void msrPart::setPartClef (S_msrClef clef)
 
 void msrPart::setPartKey  (S_msrKey  key)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Setting part key \"" << key->keyAsString () <<
       "\" in part " << getPartCombinedName () <<
@@ -15877,7 +15877,7 @@ void msrPart::setPartKey  (S_msrKey  key)
 
 void msrPart::setPartTime (S_msrTime time)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Setting part time \"" << time->timeAsString () <<
       "\" in part " << getPartCombinedName () <<
@@ -15892,7 +15892,7 @@ void msrPart::setPartTime (S_msrTime time)
 
 void msrPart::setPartTranspose (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Setting part transpose \"" << transpose->transposeAsString () <<
       "\" in part " << getPartCombinedName () <<
@@ -16091,7 +16091,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
 void msrPart::addStaffToPartClone (S_msrStaff staff)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
@@ -16421,7 +16421,7 @@ msrPartgroup::msrPartgroup (
 
   fPartgroupPartgroupUplink = partgroupPartgroupUplink;
   
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr <<
       idtr <<
       "--------------------------------------------" <<
@@ -16437,7 +16437,7 @@ msrPartgroup::~msrPartgroup()
 S_msrPartgroup msrPartgroup::createPartgroupBareClone (
   S_msrPartgroup clonedPartgroup)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr <<
       idtr <<
       "--------------------------------------------" <<
@@ -16507,7 +16507,7 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
         this);
 
   // register it in this part group
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTracePartgroups) {
     cerr << idtr <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -16567,7 +16567,7 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
 void msrPartgroup::addPartToPartgroup (S_msrPart part)
 {
   // register part in this part group
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTracePartgroups) {
     cerr << idtr <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -16582,7 +16582,7 @@ void msrPartgroup::addPartToPartgroup (S_msrPart part)
 void msrPartgroup::prependSubPartgroupToPartgroup (
   S_msrPartgroup partgroup)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Prepending (sub-)part group " << partgroup->getPartgroupNumber () <<
       " to part group " << getPartgroupNumber ()  << endl;
@@ -16594,7 +16594,7 @@ void msrPartgroup::prependSubPartgroupToPartgroup (
 void msrPartgroup::appendSubPartgroupToPartgroup (
   S_msrPartgroup partgroup)
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "Appending (sub-)part group " << partgroup->getPartgroupNumber () <<
       " to part group " << getPartgroupNumber ()  << endl;
