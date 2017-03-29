@@ -1307,7 +1307,6 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
         fOstream <<
           "### msrGracenotes on a TRILLED note" <<
           endl;
-
     }
   
     else {
