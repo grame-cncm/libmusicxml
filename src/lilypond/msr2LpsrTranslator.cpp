@@ -164,7 +164,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
 {
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> Start visiting msrIdentification" << endl;
 
@@ -179,7 +179,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
   
   idtr--;
 
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> End visiting msrIdentification" << endl;
 }
@@ -187,7 +187,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 {
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> Start visiting msrPageGeometry" << endl;
 
@@ -269,7 +269,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 {  
   idtr--;
 
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> End visiting msrPageGeometry" << endl;
 }
@@ -722,7 +722,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               getPartCombinedName ();
                         
         // create a ChordNames context command
-        if (gGeneralOptions->fTrace)
+        if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceChords)
           cerr << idtr <<
             "Creating a ChordNames context for \"" << voiceName <<
             "\" in part " << partCombinedName <<
@@ -737,7 +737,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               voiceName);
 
         // append it to the current part block
-        if (gGeneralOptions->fTrace)
+        if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceChords)
           cerr << idtr <<
             "Appending the ChordNames context for \"" << voiceName <<
             "\" in part " << partCombinedName <<
@@ -788,7 +788,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
-  if (gGeneralOptions->fTraceSegment)
+  if (gGeneralOptions->fTraceSegments)
     fOstream << idtr <<
       "--> Start visiting msrSegment" << endl;
 
@@ -812,7 +812,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 {
-  if (gGeneralOptions->fTraceSegment)
+  if (gGeneralOptions->fTraceSegments)
     fOstream << idtr <<
       "--> End visiting msrSegment" << endl;
 }
@@ -1303,7 +1303,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
     // there is at least a note before these grace notes in the voice
     
     if (fCurrentNoteClone->getNoteHasATrill ()) { // JMI
-      if (gMsrOptions->fTraceGracenotes)
+      if (gGeneralOptions->fTraceGracenotes)
         fOstream <<
           "### msrGracenotes on a TRILLED note" <<
           endl;
@@ -1845,7 +1845,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending a repeat ending clone to part " <<
       fCurrentPartClone->getPartCombinedName () <<
@@ -2064,7 +2064,7 @@ void msr2LpsrTranslator::visitEnd (S_msrComment& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 {
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
 
@@ -2176,7 +2176,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 {
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> End visiting msrVarValAssoc" << endl;
 }
@@ -2184,7 +2184,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
 {
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> Start visiting msrLayout" << endl;
 
@@ -2195,7 +2195,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 {
   idtr--;
 
-  if (gGeneralOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMSR)
     fOstream << idtr <<
       "--> End visiting msrLayout" << endl;
 }
