@@ -15514,15 +15514,31 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
 
 void msrStaff::removeStaffEmptyVoices ()
 {
+  bool keepMasterVoices = false; // JMI
+  
   for (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
-    if (! (*i).second->getMusicHasBeenInsertedInVoice ()) {
-// XXL
-      fStaffAllVoicesMap.erase (i);
-    }
+    S_msrVoice voice = (*i).second;
+
+    switch (voice->getVoiceKind ()) {
+      case msrVoice::kRegularVoice:
+        if (! voice->getMusicHasBeenInsertedInVoice ()) {
+          fStaffAllVoicesMap.erase (i);
+        }
+        break;
+        
+      case msrVoice::kHarmonyVoice:
+        break;
+        
+      case msrVoice::kMasterVoice:
+        if (! keepMasterVoices) {
+          fStaffAllVoicesMap.erase (i);
+        }
+        break;
+    } // switch
   } // for
 }
 
