@@ -47,6 +47,8 @@ void msrGeneralOptions::initializeGeneralOptions ()
   
   fTraceVisitors = false;
   
+  fTraceDivisions = false;
+
   fTraceScore = false;
   fTracePartgroups = false;
   fTraceParts = false;
@@ -58,7 +60,6 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fTraceMeasures = false;
   
   fTraceNotes = false;
-  fTraceDivisions = false;
   fTraceDurations = false;
   
   fTraceDynamics = false;

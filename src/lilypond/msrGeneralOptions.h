@@ -84,6 +84,8 @@ class EXP msrGeneralOptions : public smartable
 
     bool                  fTraceVisitors;
     
+    bool                  fTraceDivisions;
+
     bool                  fTraceScore;
     bool                  fTracePartgroups;
     bool                  fTraceParts;
@@ -95,7 +97,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceMeasures;
     
     bool                  fTraceNotes;
-    bool                  fTraceDivisions;
     bool                  fTraceDurations;
     
     bool                  fTraceDynamics;

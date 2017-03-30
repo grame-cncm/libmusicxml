@@ -13347,7 +13347,7 @@ void msrVoice::init (int inputLineNumber)
       this);
 
   // create the initial segment for this voice
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "Creating the initial last segment for voice \"" <<
       getVoiceName () << "\"" <<
@@ -13424,7 +13424,7 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "--> Creating a bare clone of voice \"" <<
+      "Creating a bare clone of voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -13486,7 +13486,7 @@ string msrVoice::getVoiceName () const
 void msrVoice::setVoiceDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "--> setting voice divisions per quarter note to " <<
       divisionsPerQuarterNote <<
@@ -13828,7 +13828,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceNotes) {
+  if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "==> appending note:" <<
       endl;
@@ -14313,7 +14313,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "### --> finalizing last measure in voice " <<
       getVoiceName () <<
@@ -15179,7 +15179,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
 
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
-      "--> fetching external voice number " << externalVoiceNumber <<
+      "Fetching external voice number " << externalVoiceNumber <<
      " in staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -15195,7 +15195,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       externalVoiceNumber  ) {
       if (gGeneralOptions->fTraceVoices) {
         cerr << idtr <<
-          "--> voice " << externalVoiceNumber <<
+          "Voice " << externalVoiceNumber <<
           " in staff \"" << getStaffName () << "\"" <<
           " has staff relative number " << (*i).first <<
           endl;
