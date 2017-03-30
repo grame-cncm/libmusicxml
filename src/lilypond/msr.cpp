@@ -2506,7 +2506,8 @@ msrElement::~msrElement() {}
 void msrElement::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr <<
-      "==> msrElement::acceptIn()" << endl;
+      "==> msrElement::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrElement>*
     p =
@@ -2524,7 +2525,8 @@ void msrElement::acceptIn (basevisitor* v) {
 void msrElement::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr <<
-      "==> msrElement::acceptOut()" << endl;
+      "==> msrElement::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrElement>*
     p =
@@ -2740,7 +2742,8 @@ msrOctaveShift::~msrOctaveShift() {}
 void msrOctaveShift::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrOctaveShift::acceptIn()" << endl;
+      "==> msrOctaveShift::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrOctaveShift>*
     p =
@@ -2758,7 +2761,8 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
 void msrOctaveShift::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrOctaveShift::acceptOut()" << endl;
+      "==> msrOctaveShift::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrOctaveShift>*
     p =
@@ -2839,7 +2843,8 @@ msrStem::~msrStem() {}
 void msrStem::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStem::acceptIn()" << endl;
+      "==> msrStem::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrStem>*
     p =
@@ -2857,7 +2862,8 @@ void msrStem::acceptIn (basevisitor* v) {
 void msrStem::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStem::acceptOut()" << endl;
+      "==> msrStem::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrStem>*
     p =
@@ -2948,7 +2954,8 @@ msrBeam::~msrBeam() {}
 void msrBeam::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBeam::acceptIn()" << endl;
+      "==> msrBeam::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrBeam>*
     p =
@@ -2966,7 +2973,8 @@ void msrBeam::acceptIn (basevisitor* v) {
 void msrBeam::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBeam::acceptOut()" << endl;
+      "==> msrBeam::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrBeam>*
     p =
@@ -3119,7 +3127,8 @@ string msrArticulation::articulationKindAsString () const
 void msrArticulation::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrArticulation::acceptIn()" << endl;
+      "==> msrArticulation::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrArticulation>*
     p =
@@ -3137,7 +3146,8 @@ void msrArticulation::acceptIn (basevisitor* v) {
 void msrArticulation::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrArticulation::acceptOut()" << endl;
+      "==> msrArticulation::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrArticulation>*
     p =
@@ -3276,7 +3286,8 @@ string msrOrnament::ornamentAccidentalMarkKindAsString () const
 void msrOrnament::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrOrnament::acceptIn()" << endl;
+      "==> msrOrnament::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrOrnament>*
     p =
@@ -3294,7 +3305,8 @@ void msrOrnament::acceptIn (basevisitor* v) {
 void msrOrnament::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrOrnament::acceptOut()" << endl;
+      "==> msrOrnament::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrOrnament>*
     p =
@@ -3359,7 +3371,8 @@ msrRehearsal::~msrRehearsal() {}
 void msrRehearsal::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrRehearsal::acceptIn()" << endl;
+      "==> msrRehearsal::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrRehearsal>*
     p =
@@ -3377,7 +3390,8 @@ void msrRehearsal::acceptIn (basevisitor* v) {
 void msrRehearsal::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrRehearsal::acceptOut()" << endl;
+      "==> msrRehearsal::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrRehearsal>*
     p =
@@ -3537,7 +3551,8 @@ string msrDynamics::dynamicsKindAsString ()
 void msrDynamics::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrDynamics::acceptIn()" << endl;
+      "==> msrDynamics::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrDynamics>*
     p =
@@ -3555,7 +3570,8 @@ void msrDynamics::acceptIn (basevisitor* v) {
 void msrDynamics::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrDynamics::acceptOut()" << endl;
+      "==> msrDynamics::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrDynamics>*
     p =
@@ -3631,7 +3647,8 @@ string msrWedge::wedgeKindAsString ()
 void msrWedge::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrWedge::acceptIn()" << endl;
+      "==> msrWedge::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrWedge>*
     p =
@@ -3649,7 +3666,8 @@ void msrWedge::acceptIn (basevisitor* v) {
 void msrWedge::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrWedge::acceptOut()" << endl;
+      "==> msrWedge::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrWedge>*
     p =
@@ -3725,7 +3743,8 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
 void msrTie::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTie::acceptIn()" << endl;
+      "==> msrTie::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrTie>*
     p =
@@ -3743,7 +3762,8 @@ void msrTie::acceptIn (basevisitor* v) {
 void msrTie::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTie::acceptOut()" << endl;
+      "==> msrTie::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrTie>*
     p =
@@ -3830,7 +3850,8 @@ string msrSlur::slurKindAsString ()
 void msrSlur::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSlur::acceptIn()" << endl;
+      "==> msrSlur::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrSlur>*
     p =
@@ -3848,7 +3869,8 @@ void msrSlur::acceptIn (basevisitor* v) {
 void msrSlur::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSlur::acceptOut()" << endl;
+      "==> msrSlur::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrSlur>*
     p =
@@ -3936,7 +3958,8 @@ string msrLigature::ligatureKindAsString ()
 void msrLigature::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrLigature::acceptIn()" << endl;
+      "==> msrLigature::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrLigature>*
     p =
@@ -3954,7 +3977,8 @@ void msrLigature::acceptIn (basevisitor* v) {
 void msrLigature::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrLigature::acceptOut()" << endl;
+      "==> msrLigature::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrLigature>*
     p =
@@ -4134,7 +4158,8 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 void msrGracenotes::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrGracenotes::acceptIn()" << endl;
+      "==> msrGracenotes::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrGracenotes>*
     p =
@@ -4152,7 +4177,8 @@ void msrGracenotes::acceptIn (basevisitor* v) {
 void msrGracenotes::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrGracenotes::acceptOut()" << endl;
+      "==> msrGracenotes::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrGracenotes>*
     p =
@@ -4307,7 +4333,8 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
 void msrAftergracenotes::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrAftergracenotes::acceptIn()" << endl;
+      "==> msrAftergracenotes::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrAftergracenotes>*
     p =
@@ -4325,7 +4352,8 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
 void msrAftergracenotes::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrAftergracenotes::acceptOut()" << endl;
+      "==> msrAftergracenotes::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrAftergracenotes>*
     p =
@@ -4734,7 +4762,8 @@ void msrNote::acceptIn (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrNote::acceptIn()" << endl;
+      "==> msrNote::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrNote>*
     p =
@@ -4753,7 +4782,8 @@ void msrNote::acceptOut (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrNote::acceptOut()" << endl;
+      "==> msrNote::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrNote>*
     p =
@@ -5831,7 +5861,8 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 void msrChord::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrChord::acceptIn()" << endl;
+      "==> msrChord::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrChord>*
     p =
@@ -5849,7 +5880,8 @@ void msrChord::acceptIn (basevisitor* v) {
 void msrChord::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrChord::acceptOut()" << endl;
+      "==> msrChord::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrChord>*
     p =
@@ -6171,7 +6203,8 @@ msrComment::~msrComment() {}
 void msrComment::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrComment::acceptIn()" << endl;
+      "==> msrComment::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrComment>*
     p =
@@ -6189,7 +6222,8 @@ void msrComment::acceptIn (basevisitor* v) {
 void msrComment::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrComment::acceptOut()" << endl;
+      "==> msrComment::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrComment>*
     p =
@@ -6270,7 +6304,8 @@ string msrBreak::breakAsString () const
 void msrBreak::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBreak::acceptIn()" << endl;
+      "==> msrBreak::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrBreak>*
     p =
@@ -6288,7 +6323,8 @@ void msrBreak::acceptIn (basevisitor* v) {
 void msrBreak::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBreak::acceptOut()" << endl;
+      "==> msrBreak::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrBreak>*
     p =
@@ -6358,7 +6394,8 @@ string msrBarCheck::barCheckAsString () const
 void msrBarCheck::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBarCheck::acceptIn()" << endl;
+      "==> msrBarCheck::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrBarCheck>*
     p =
@@ -6376,7 +6413,8 @@ void msrBarCheck::acceptIn (basevisitor* v) {
 void msrBarCheck::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBarCheck::acceptOut()" << endl;
+      "==> msrBarCheck::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrBarCheck>*
     p =
@@ -6441,7 +6479,8 @@ string msrBarnumberCheck::barnumberCheckAsString () const
 void msrBarnumberCheck::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBarnumberCheck::acceptIn()" << endl;
+      "==> msrBarnumberCheck::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrBarnumberCheck>*
     p =
@@ -6459,7 +6498,8 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
 void msrBarnumberCheck::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBarnumberCheck::acceptOut()" << endl;
+      "==> msrBarnumberCheck::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrBarnumberCheck>*
     p =
@@ -6923,7 +6963,8 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
 void msrTuplet::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTuplet::acceptIn()" << endl;
+      "==> msrTuplet::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrTuplet>*
     p =
@@ -6941,7 +6982,8 @@ void msrTuplet::acceptIn (basevisitor* v) {
 void msrTuplet::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTuplet::acceptOut()" << endl;
+      "==> msrTuplet::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrTuplet>*
     p =
@@ -7204,7 +7246,8 @@ float msrPageGeometry::globalStaffSize () const
 void msrPageGeometry::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPageGeometry::acceptIn()" << endl;
+      "==> msrPageGeometry::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrPageGeometry>*
     p =
@@ -7222,7 +7265,8 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
 void msrPageGeometry::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPageGeometry::acceptOut()" << endl;
+      "==> msrPageGeometry::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrPageGeometry>*
     p =
@@ -7396,7 +7440,8 @@ msrVarValAssoc::~msrVarValAssoc() {}
 void msrVarValAssoc::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrVarValAssoc::acceptIn()" << endl;
+      "==> msrVarValAssoc::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrVarValAssoc>*
     p =
@@ -7414,7 +7459,8 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
 void msrVarValAssoc::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrVarValAssoc::acceptOut()" << endl;
+      "==> msrVarValAssoc::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrVarValAssoc>*
     p =
@@ -7490,7 +7536,8 @@ msrLayout::~msrLayout() {}
 void msrLayout::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrLayout::acceptIn()" << endl;
+      "==> msrLayout::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrLayout>*
     p =
@@ -7508,7 +7555,8 @@ void msrLayout::acceptIn (basevisitor* v) {
 void msrLayout::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrLayout::acceptOut()" << endl;
+      "==> msrLayout::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrLayout>*
     p =
@@ -7593,7 +7641,8 @@ msrCreditWords::~msrCreditWords() {}
 void msrCreditWords::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrCreditWords::acceptIn()" << endl;
+      "==> msrCreditWords::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrCreditWords>*
     p =
@@ -7611,7 +7660,8 @@ void msrCreditWords::acceptIn (basevisitor* v) {
 void msrCreditWords::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrCreditWords::acceptOut()" << endl;
+      "==> msrCreditWords::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrCreditWords>*
     p =
@@ -7695,7 +7745,8 @@ void msrCredit::appendCreditWordsToCredit (
 void msrCredit::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrCredit::acceptIn()" << endl;
+      "==> msrCredit::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrCredit>*
     p =
@@ -7713,7 +7764,8 @@ void msrCredit::acceptIn (basevisitor* v) {
 void msrCredit::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrCredit::acceptOut()" << endl;
+      "==> msrCredit::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrCredit>*
     p =
@@ -7823,7 +7875,8 @@ bool msrClef::clefIsAPercussionClef () const
 void msrClef::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrClef::acceptIn()" << endl;
+      "==> msrClef::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrClef>*
     p =
@@ -7841,7 +7894,8 @@ void msrClef::acceptIn (basevisitor* v) {
 void msrClef::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrClef::acceptOut()" << endl;
+      "==> msrClef::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrClef>*
     p =
@@ -7979,7 +8033,8 @@ msrKey::~msrKey() {}
 void msrKey::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrKey::acceptIn()" << endl;
+      "==> msrKey::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrKey>*
     p =
@@ -7997,7 +8052,8 @@ void msrKey::acceptIn (basevisitor* v) {
 void msrKey::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrKey::acceptOut()" << endl;
+      "==> msrKey::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrKey>*
     p =
@@ -8089,7 +8145,8 @@ msrTime::~msrTime() {}
 void msrTime::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTime::acceptIn()" << endl;
+      "==> msrTime::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrTime>*
     p =
@@ -8107,7 +8164,8 @@ void msrTime::acceptIn (basevisitor* v) {
 void msrTime::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTime::acceptOut()" << endl;
+      "==> msrTime::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrTime>*
     p =
@@ -8177,7 +8235,8 @@ msrTranspose::~msrTranspose() {}
 void msrTranspose::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTranspose::acceptIn()" << endl;
+      "==> msrTranspose::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrTranspose>*
     p =
@@ -8195,7 +8254,8 @@ void msrTranspose::acceptIn (basevisitor* v) {
 void msrTranspose::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTranspose::acceptOut()" << endl;
+      "==> msrTranspose::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrTranspose>*
     p =
@@ -8283,7 +8343,8 @@ msrWords::~msrWords() {}
 void msrWords::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrWords::acceptIn()" << endl;
+      "==> msrWords::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrWords>*
     p =
@@ -8301,7 +8362,8 @@ void msrWords::acceptIn (basevisitor* v) {
 void msrWords::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrWords::acceptOut()" << endl;
+      "==> msrWords::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrWords>*
     p =
@@ -8427,7 +8489,8 @@ void msrTempo::setTempoIndication (string indication)
 void msrTempo::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTempo::acceptIn()" << endl;
+      "==> msrTempo::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrTempo>*
     p =
@@ -8445,7 +8508,8 @@ void msrTempo::acceptIn (basevisitor* v) {
 void msrTempo::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrTempo::acceptOut()" << endl;
+      "==> msrTempo::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrTempo>*
     p =
@@ -8602,7 +8666,8 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 void msrSyllable::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSyllable::acceptIn()" << endl;
+      "==> msrSyllable::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrSyllable>*
     p =
@@ -8620,7 +8685,8 @@ void msrSyllable::acceptIn (basevisitor* v) {
 void msrSyllable::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSyllable::acceptOut()" << endl;
+      "==> msrSyllable::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrSyllable>*
     p =
@@ -9420,7 +9486,8 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
 void msrStanza::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStanza::acceptIn()" << endl;
+      "==> msrStanza::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrStanza>*
     p =
@@ -9438,7 +9505,8 @@ void msrStanza::acceptIn (basevisitor* v) {
 void msrStanza::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStanza::acceptOut()" << endl;
+      "==> msrStanza::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrStanza>*
     p =
@@ -9457,7 +9525,8 @@ void msrStanza::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStanza::browseData()" << endl;
+      "==> msrStanza::browseData()" <<
+      endl;
 
   idtr++;
   
@@ -9475,7 +9544,8 @@ void msrStanza::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrStanza::browseData()" << endl;
+      "<== msrStanza::browseData()" <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrStanza& elt)
@@ -9709,7 +9779,8 @@ string msrHarmony::harmonyAsString () const
 void msrHarmony::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrHarmony::acceptIn()" << endl;
+      "==> msrHarmony::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrHarmony>*
     p =
@@ -9727,7 +9798,8 @@ void msrHarmony::acceptIn (basevisitor* v) {
 void msrHarmony::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrHarmony::acceptOut()" << endl;
+      "==> msrHarmony::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrHarmony>*
     p =
@@ -9884,7 +9956,8 @@ void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
 void msrChords::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrChords::acceptIn()" << endl;
+      "==> msrChords::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrChords>*
     p =
@@ -9902,7 +9975,8 @@ void msrChords::acceptIn (basevisitor* v) {
 void msrChords::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrChords::acceptOut()" << endl;
+      "==> msrChords::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrChords>*
     p =
@@ -9921,7 +9995,8 @@ void msrChords::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrChords::browseData()" << endl;
+      "==> msrChords::browseData()" <<
+      endl;
 
   idtr++;
   
@@ -9938,7 +10013,8 @@ void msrChords::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrStanza::browseData()" << endl;
+      "<== msrStanza::browseData()" <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrChords& elt)
@@ -9994,7 +10070,8 @@ msrSegno::~msrSegno() {}
 void msrSegno::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSegno::acceptIn()" << endl;
+      "==> msrSegno::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrSegno>*
     p =
@@ -10012,7 +10089,8 @@ void msrSegno::acceptIn (basevisitor* v) {
 void msrSegno::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSegno::acceptOut()" << endl;
+      "==> msrSegno::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrSegno>*
     p =
@@ -10065,7 +10143,8 @@ msrCoda::~msrCoda() {}
 void msrCoda::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrCoda::acceptIn()" << endl;
+      "==> msrCoda::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrCoda>*
     p =
@@ -10083,7 +10162,8 @@ void msrCoda::acceptIn (basevisitor* v) {
 void msrCoda::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrCoda::acceptOut()" << endl;
+      "==> msrCoda::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrCoda>*
     p =
@@ -10136,7 +10216,8 @@ msrEyeglasses::~msrEyeglasses() {}
 void msrEyeglasses::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrEyeglasses::acceptIn()" << endl;
+      "==> msrEyeglasses::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrEyeglasses>*
     p =
@@ -10154,7 +10235,8 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
 void msrEyeglasses::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrEyeglasses::acceptOut()" << endl;
+      "==> msrEyeglasses::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrEyeglasses>*
     p =
@@ -10253,7 +10335,8 @@ string msrPedal::pedalLineAsString ()
 void msrPedal::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPedal::acceptIn()" << endl;
+      "==> msrPedal::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrPedal>*
     p =
@@ -10271,7 +10354,8 @@ void msrPedal::acceptIn (basevisitor* v) {
 void msrPedal::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPedal::acceptOut()" << endl;
+      "==> msrPedal::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrPedal>*
     p =
@@ -10364,7 +10448,8 @@ msrBarline::~msrBarline() {}
 void msrBarline::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBarline::acceptIn()" << endl;
+      "==> msrBarline::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrBarline>*
     p =
@@ -10382,7 +10467,8 @@ void msrBarline::acceptIn (basevisitor* v) {
 void msrBarline::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrBarline::acceptOut()" << endl;
+      "==> msrBarline::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrBarline>*
     p =
@@ -11516,7 +11602,8 @@ void msrMeasure::finalizeMeasure (
 void msrMeasure::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrMeasure::acceptIn()" << endl;
+      "==> msrMeasure::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrMeasure>*
     p =
@@ -11534,7 +11621,8 @@ void msrMeasure::acceptIn (basevisitor* v) {
 void msrMeasure::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrMeasure::acceptOut()" << endl;
+      "==> msrMeasure::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrMeasure>*
     p =
@@ -11553,7 +11641,8 @@ void msrMeasure::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrMeasure::browseData()" << endl;
+      "==> msrMeasure::browseData()" <<
+      endl;
 
   for (
     list<S_msrElement>::iterator i = fMeasureElementsList.begin();
@@ -11566,7 +11655,8 @@ void msrMeasure::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrMeasure::browseData()" << endl;
+      "<== msrMeasure::browseData()" <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasure& elt)
@@ -12597,7 +12687,8 @@ void msrSegment::removeFirstChordNoteFromSegment (
 void msrSegment::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSegment::acceptIn()" << endl;
+      "==> msrSegment::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrSegment>*
     p =
@@ -12615,7 +12706,8 @@ void msrSegment::acceptIn (basevisitor* v) {
 void msrSegment::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSegment::acceptOut()" << endl;
+      "==> msrSegment::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrSegment>*
     p =
@@ -12634,7 +12726,8 @@ void msrSegment::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrSegment::browseData()" << endl;
+      "==> msrSegment::browseData()" <<
+      endl;
 
   for (
     list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
@@ -12647,7 +12740,8 @@ void msrSegment::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrSegment::browseData()" << endl;
+      "<== msrSegment::browseData()" <<
+      endl;
 }
 
 string msrSegment::segmentAsString ()
@@ -12802,7 +12896,8 @@ void msrRepeatending::appendElementToRepeatending (
 void msrRepeatending::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrRepeatending::acceptIn()" << endl;
+      "==> msrRepeatending::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrRepeatending>*
     p =
@@ -12820,7 +12915,8 @@ void msrRepeatending::acceptIn (basevisitor* v) {
 void msrRepeatending::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrRepeatending::acceptOut()" << endl;
+      "==> msrRepeatending::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrRepeatending>*
     p =
@@ -12974,7 +13070,8 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
 void msrRepeat::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrRepeat::acceptIn()" << endl;
+      "==> msrRepeat::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrRepeat>*
     p =
@@ -12992,7 +13089,8 @@ void msrRepeat::acceptIn (basevisitor* v) {
 void msrRepeat::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrRepeat::acceptOut()" << endl;
+      "==> msrRepeat::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrRepeat>*
     p =
@@ -14226,7 +14324,8 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 void msrVoice::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrVoice::acceptIn()" << endl;
+      "==> msrVoice::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrVoice>*
     p =
@@ -14244,7 +14343,8 @@ void msrVoice::acceptIn (basevisitor* v) {
 void msrVoice::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrVoice::acceptOut()" << endl;
+      "==> msrVoice::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrVoice>*
     p =
@@ -14263,7 +14363,8 @@ void msrVoice::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrVoice::browseData()" << endl;
+      "==> msrVoice::browseData()" <<
+      endl;
 
   // browse the voice repeats and segments
   if (fVoiceRepeatsAndSegments.size ()) {
@@ -14295,7 +14396,8 @@ void msrVoice::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrVoice::browseData()" << endl;
+      "<== msrVoice::browseData()" <<
+      endl;
 }
 
 string msrVoice::voiceKindAsString (
@@ -14512,7 +14614,8 @@ void msrStafftuning::acceptIn (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors) {
     cerr << idtr <<
-      "==> msrStafftuning::acceptIn()" << endl;
+      "==> msrStafftuning::acceptIn()" <<
+      endl;
   }
       
   if (visitor<S_msrStafftuning>*
@@ -14531,7 +14634,8 @@ void msrStafftuning::acceptIn (basevisitor* v)
 void msrStafftuning::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStafftuning::acceptOut()" << endl;
+      "==> msrStafftuning::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrStafftuning>*
     p =
@@ -15415,7 +15519,8 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 void msrStaff::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStaff::acceptIn()" << endl;
+      "==> msrStaff::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrStaff>*
     p =
@@ -15433,7 +15538,8 @@ void msrStaff::acceptIn (basevisitor* v) {
 void msrStaff::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStaff::acceptOut()" << endl;
+      "==> msrStaff::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrStaff>*
     p =
@@ -15452,7 +15558,8 @@ void msrStaff::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrStaff::browseData()" << endl;
+      "==> msrStaff::browseData()" <<
+      endl;
 
   /*
     fStaffClef, fStaffKey and fStaffTime are used to populate
@@ -15487,7 +15594,8 @@ void msrStaff::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrStaff::browseData()" << endl;
+      "<== msrStaff::browseData()" <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)
@@ -16268,7 +16376,8 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 void msrPart::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPart::acceptIn()" << endl;
+      "==> msrPart::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrPart>*
     p =
@@ -16286,7 +16395,8 @@ void msrPart::acceptIn (basevisitor* v) {
 void msrPart::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPart::acceptOut()" << endl;
+      "==> msrPart::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrPart>*
     p =
@@ -16305,7 +16415,8 @@ void msrPart::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPart::browseData()" << endl;
+      "==> msrPart::browseData()" <<
+      endl;
 
 /* JMI
   if (fPartHarmonyStaff) {
@@ -16326,7 +16437,8 @@ void msrPart::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrPart::browseData()" << endl;
+      "<== msrPart::browseData()" <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)
@@ -16739,7 +16851,8 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 void msrPartgroup::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPartgroup::acceptIn()" << endl;
+      "==> msrPartgroup::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrPartgroup>*
     p =
@@ -16757,7 +16870,8 @@ void msrPartgroup::acceptIn (basevisitor* v) {
 void msrPartgroup::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPartgroup::acceptOut()" << endl;
+      "==> msrPartgroup::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrPartgroup>*
     p =
@@ -16776,7 +16890,8 @@ void msrPartgroup::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrPartgroup::browseData()" << endl;
+      "==> msrPartgroup::browseData()" <<
+      endl;
   
   for (
     list<S_msrElement>::iterator i = fPartgroupElements.begin();
@@ -16789,7 +16904,8 @@ void msrPartgroup::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrPartgroup::browseData()" << endl;
+      "<== msrPartgroup::browseData()" <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
@@ -17069,7 +17185,8 @@ void msrIdentification::setScoreInstrumentAssoc (
 void msrIdentification::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrIdentification::acceptIn()" << endl;
+      "==> msrIdentification::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrIdentification>*
     p =
@@ -17087,7 +17204,8 @@ void msrIdentification::acceptIn (basevisitor* v) {
 void msrIdentification::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrIdentification::acceptOut()" << endl;
+      "==> msrIdentification::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrIdentification>*
     p =
@@ -17309,7 +17427,8 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 void msrScore::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrScore::acceptIn()" << endl;
+      "==> msrScore::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrScore>*
     p =
@@ -17327,7 +17446,8 @@ void msrScore::acceptIn (basevisitor* v) {
 void msrScore::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrScore::acceptOut()" << endl;
+      "==> msrScore::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrScore>*
     p =
@@ -17346,7 +17466,8 @@ void msrScore::browseData (basevisitor* v)
 {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrScore::browseData()" << endl;
+      "==> msrScore::browseData()" <<
+      endl;
     
   if (fIdentification) {
     // browse identification
@@ -17371,7 +17492,8 @@ void msrScore::browseData (basevisitor* v)
 
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "<== msrScore::browseData()" << endl;
+      "<== msrScore::browseData()" <<
+      endl;
   }
 
 ostream& operator<< (ostream& os, const S_msrScore& elt)
@@ -17475,7 +17597,8 @@ msrMidi::~msrMidi() {}
 void msrMidi::acceptIn (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrMidi::acceptIn()" << endl;
+      "==> msrMidi::acceptIn()" <<
+      endl;
       
   if (visitor<S_msrMidi>*
     p =
@@ -17493,7 +17616,8 @@ void msrMidi::acceptIn (basevisitor* v) {
 void msrMidi::acceptOut (basevisitor* v) {
   if (gGeneralOptions->fTraceVisitors)
     cerr << idtr <<
-      "==> msrMidi::acceptOut()" << endl;
+      "==> msrMidi::acceptOut()" <<
+      endl;
 
   if (visitor<S_msrMidi>*
     p =
