@@ -2539,7 +2539,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentForwardVoiceNumber);
   
-    if (gGeneralOptions->fTraceVoices)
+    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceALL)
       cerr <<
         idtr <<
           "--> S_voice, fCurrentVoiceNumber         = " <<
@@ -2563,7 +2563,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
   
-    if (gGeneralOptions->fTraceVoices)
+    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceALL)
       cerr <<
         idtr <<
           "--> fCurrentNoteVoiceNumber        = " <<

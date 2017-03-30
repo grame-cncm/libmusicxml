@@ -5943,6 +5943,9 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
+    void            createPartHarmonyStaffAndVoice (
+                      int inputLineNumber);
+    
     void            setAllPartStavesDivisionsPerQuarterNote (
                       int divisionsPerQuarterNote);
     
@@ -6041,7 +6044,7 @@ class EXP msrPart : public msrElement
     S_msrTranspose          fPartTranspose;
 
     S_msrStaff              fPartHarmonyStaff;
-    S_msrVoice              fPartHarmonyVoice; // JMI
+    S_msrVoice              fPartHarmonyVoice;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

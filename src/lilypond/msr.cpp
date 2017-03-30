@@ -15175,9 +15175,9 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
 S_msrVoice msrStaff::fetchVoiceFromStaff (
   int inputLineNumber, int externalVoiceNumber)
 {
-  S_msrVoice result;
+  S_msrVoice result; // JMI avoid repetivite messages!
 
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceALL)
     cerr << idtr <<
       "Fetching external voice number " << externalVoiceNumber <<
      " in staff \"" << getStaffName () <<
@@ -15193,7 +15193,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       (*i).second->getExternalVoiceNumber ()
         ==
       externalVoiceNumber  ) {
-      if (gGeneralOptions->fTraceVoices) {
+      if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceALL) {
         cerr << idtr <<
           "Voice " << externalVoiceNumber <<
           " in staff \"" << getStaffName () << "\"" <<
@@ -15861,47 +15861,7 @@ msrPart::msrPart (
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
-/* JMI JMI
-  // create the part harmony staff
-  const int partHarmonyStaffNumber = -1;
-
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> creating the harmony staff " <<
-      " with number " << partHarmonyStaffNumber <<
-      " for part \"" <<
-      getPartName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-
-  fPartHarmonyStaff =
-    addStaffToPartByItsNumber (
-      inputLineNumber,
-      msrStaff::kHarmonyStaff,
-      partHarmonyStaffNumber);
-    
-  // create the part harmony voice
-  const int partHarmonyVoiceNumber = -1;
-  
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> creating the harmony voice for part \"" <<
-      getPartName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-
-  fPartHarmonyVoice =
-    msrVoice::create (
-      inputLineNumber,
-      msrVoice::kHarmonyVoice,
-      partHarmonyVoiceNumber, // JMI
-      fPartHarmonyStaff);
-
-  fPartHarmonyStaff->
-    registerVoiceInStaff (
-      inputLineNumber,
-      fPartHarmonyVoice );
-*/
+// */
 
 /* JMI
   // create a first staff for the part
@@ -15924,6 +15884,50 @@ msrPart::msrPart (
       hiddenMasterStaff); // voiceStaffUplink
       *
 */
+}
+
+void msrPart::createPartHarmonyStaffAndVoice (
+  int inputLineNumber)
+{
+  // create the part harmony staff
+  const int partHarmonyStaffNumber = -1;
+
+  if (gGeneralOptions->fTraceHarmony)
+    cerr << idtr <<
+      "Creating the harmony staff " <<
+      " with number " << partHarmonyStaffNumber <<
+      " for part \"" <<
+      getPartName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+
+  fPartHarmonyStaff =
+    addStaffToPartByItsNumber (
+      inputLineNumber,
+      msrStaff::kHarmonyStaff,
+      partHarmonyStaffNumber);
+    
+  // create the part harmony voice
+  const int partHarmonyVoiceNumber = -1;
+  
+  if (gGeneralOptions->fTraceHarmony)
+    cerr << idtr <<
+      "Creating the harmony voice for part \"" <<
+      getPartName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+
+  fPartHarmonyVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kHarmonyVoice,
+      partHarmonyVoiceNumber, // JMI
+      fPartHarmonyStaff);
+
+  fPartHarmonyStaff->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fPartHarmonyVoice );
 }
 
 msrPart::~msrPart() {}
@@ -16341,6 +16345,10 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       "\", line " << inputLineNumber <<
       endl;
 
+  if (! fPartHarmonyVoice)
+    createPartHarmonyStaffAndVoice (
+      inputLineNumber);
+    
   fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);
 }
