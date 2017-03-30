@@ -2488,6 +2488,9 @@ void msrOptions::initializeMsrOptions ()
   fDelayRestsLigatures                  = false; // JMI
   fDelayRestsWedges                     = false; // JMI
   
+  // master voices
+  fKeepMasterVoices                     = false;
+    
   // stanza display
   fDontDisplayMSRStanzas                = false;
   
@@ -14854,6 +14857,7 @@ msrStaff::msrStaff (
 
   // create all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
+  // in removeStaffEmptyVoices()
   for (int i = 1; i <= gMaxStaffVoices; i++) {
     addVoiceToStaffByItsRelativeNumber (
       fInputLineNumber,
@@ -15513,9 +15517,7 @@ void msrStaff::setAllStaffVoicesMeasureNumber (
 }
 
 void msrStaff::removeStaffEmptyVoices ()
-{
-  bool keepMasterVoices = false; // JMI
-  
+{  
   for (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
@@ -15534,7 +15536,7 @@ void msrStaff::removeStaffEmptyVoices ()
         break;
         
       case msrVoice::kMasterVoice:
-        if (! keepMasterVoices) {
+        if (! gMsrOptions->fKeepMasterVoices) {
           fStaffAllVoicesMap.erase (i);
         }
         break;

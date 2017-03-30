@@ -158,6 +158,10 @@ void printUsage (int exitStatus)
     "          Write the contents of the MSR data to standard error." << endl <<
     endl <<
 
+    "    --kmv, --keepMasterVoices" << endl <<
+    "          Keep the master voices used intertally. By default, there are removed after usage." << endl <<
+    endl <<
+
     "    --sum, --displayMSRSummary" << endl <<
     "          Only write a summary of the MSR to standard error." << endl <<
     "          This implies that no LilyPond code is generated." << endl <<
@@ -308,6 +312,8 @@ void analyzeOptions (
   int delayRestsSlursPresent            = 0;
   int delayRestsLigaturesPresent        = 0;
   int delayRestsWedgesPresent           = 0;
+  
+  int keepMasterVoicesPresent           = 0;
   
   int displayMSRPresent                 = 0;
   
@@ -540,6 +546,14 @@ void analyzeOptions (
     {
       "displayMSR",
       no_argument, &displayMSRPresent, 1
+    },
+
+    {
+      "kmv",
+      no_argument, &keepMasterVoicesPresent, 1},
+    {
+      "keepMasterVoices",
+      no_argument, &keepMasterVoicesPresent, 1
     },
 
     {
@@ -977,6 +991,13 @@ void analyzeOptions (
           delayRestsWedgesPresent = false;
         }
         
+        if (keepMasterVoicesPresent) {
+          gMsrOptions->fKeepMasterVoices = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--keepMasterVoices ";
+          keepMasterVoicesPresent = false;
+        }
+
         if (displayMSRPresent) {
           gMsrOptions->fDisplayMSR = true;
           gGeneralOptions->fCommandLineOptions +=
@@ -1535,6 +1556,10 @@ void printOptions ()
       booleanAsString (gMsrOptions->fDelayRestsWedges) <<
       endl <<
 
+    idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
+      booleanAsString (gMsrOptions->fKeepMasterVoices) <<
+      endl <<
+    
     idtr << setw(fieldWidth) << "displayMSR" << " : " <<
       booleanAsString (gMsrOptions->fDisplayMSR) <<
       endl <<

@@ -433,6 +433,9 @@ class EXP msrOptions : public smartable
     bool                          fDelayRestsLigatures; // JMI
     bool                          fDelayRestsWedges; // JMI
 
+    // master voices
+    bool                          fKeepMasterVoices;
+    
     // MSR display
     bool                          fDisplayMSR;
 
