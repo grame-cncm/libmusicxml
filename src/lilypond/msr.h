@@ -1334,14 +1334,16 @@ class EXP msrLigature : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getLigatureNumber () const { return fLigatureNumber; }
+    int               getLigatureNumber () const
+                          { return fLigatureNumber; }
     
-    msrLigatureKind getLigatureKind () const { return fLigatureKind; }
+    msrLigatureKind getLigatureKind () const
+                          { return fLigatureKind; }
 
     // services
     // ------------------------------------------------------
 
-    string      ligatureKindAsString ();
+    string            ligatureKindAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -1358,9 +1360,9 @@ class EXP msrLigature : public msrElement
 
   private:
 
-    int         fLigatureNumber;
+    int               fLigatureNumber;
 
-    msrLigatureKind fLigatureKind;
+    msrLigatureKind   fLigatureKind;
 };
 typedef SMARTP<msrLigature> S_msrLigature;
 EXP ostream& operator<< (ostream& os, const S_msrLigature& elt);

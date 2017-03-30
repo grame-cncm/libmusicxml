@@ -5238,7 +5238,7 @@ string msrNote::noteAsShortString () const
 
       s <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteTypeKindAsMSRString ();
       break;
   } // switch
 
@@ -5419,21 +5419,24 @@ void msrNote::print (ostream& os)
     fNoteDivisionsPerQuarterNote;
 
   // print simplified position in measure if relevant
-  rational
-    notePosition (
-      fNotePositionInMeasure,
-      fNoteMeasureUplink->
-        getMeasureDivisionsPerFullMeasure ()); // JMI
-  notePosition.rationalise ();
-  
-  if (notePosition.getNumerator () != fNotePositionInMeasure)
-    // print simplified rational view
-    os <<
-      " (" <<
-      notePosition.getNumerator () <<
-      "/" <<
-      notePosition.getDenominator() <<
-      ")";
+  if (fNoteMeasureUplink) {
+    // the measure uplink may not have been set yet
+    rational
+      notePosition (
+        fNotePositionInMeasure,
+        fNoteMeasureUplink->
+          getMeasureDivisionsPerFullMeasure ()); // JMI
+    notePosition.rationalise ();
+    
+    if (notePosition.getNumerator () != fNotePositionInMeasure)
+      // print simplified rational view
+      os <<
+        " (" <<
+        notePosition.getNumerator () <<
+        "/" <<
+        notePosition.getDenominator() <<
+        ")";
+  }
 
   if (fNoteOccupiesAFullMeasure)
     os <<
@@ -10974,11 +10977,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
     
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
+  if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
-    // append note to it thru the segment
+    // append note to it via the segment
     fMeasureSegmentUplink->
       appendNoteToSegment (note);
   }

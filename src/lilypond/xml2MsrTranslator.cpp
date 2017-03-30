@@ -5132,7 +5132,7 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
   string noteType = elt->getValue();
 
 
-       if (noteType == "maxima")  { fCurrentNoteTypeKind = kMaxima; }
+  if      (noteType == "maxima")  { fCurrentNoteTypeKind = kMaxima; }
   else if (noteType == "long")    { fCurrentNoteTypeKind = kLong; }
   else if (noteType == "breve")   { fCurrentNoteTypeKind = kBreve; } 
   else if (noteType == "whole")   { fCurrentNoteTypeKind = kWhole; } 
@@ -7939,7 +7939,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   notes too.
 */
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChord " <<
       newChordNote <<

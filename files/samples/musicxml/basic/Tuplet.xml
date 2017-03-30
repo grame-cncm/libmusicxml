@@ -77,6 +77,8 @@
           <tuplet number="1" type="stop" />
         </notations>
       </note>
+    </measure>
+    <measure number="2">
       <note>
         <pitch>
           <step>A</step>
