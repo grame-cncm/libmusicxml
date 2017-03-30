@@ -371,6 +371,7 @@ int durationAsDivisions (msrDuration duration);
 void printDurationsDivisions (ostream& os);
 
 void testDivisionsAndDurations ();
+void testTupletDivisionsAndDurations ();
 
 // note types
 //______________________________________________________________________________
@@ -2927,7 +2928,7 @@ class EXP msrNote : public msrElement
     string                skipDivisionsAsMSRString () const;
     
     string                noteTypeKindAsMSRString () const;
-    string                tupletoteTypeKindAsMSRString (
+    string                tupletNoteTypeKindAsMSRString (
                             int actualNotes, int normalNotes) const;
 
     // tuplet members

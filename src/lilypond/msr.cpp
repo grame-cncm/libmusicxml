@@ -2369,6 +2369,55 @@ void testDivisionsAndDurations ()
   exit (0);
 }
 
+void testTupletDivisionsAndDurations ()
+{
+  int divisionsPerQuarterNote = 30;
+  cerr <<
+    "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+    endl <<
+    endl;
+    
+  setupDurationsDivisions (divisionsPerQuarterNote);
+
+  int k, actual, normal;
+
+  k = 12;
+  actual = 5;
+  normal = 4;
+
+  cerr <<
+    "tupletDivisionsAsMsrString (" << k <<
+    ", " << actual <<
+    ", " << normal <<
+    ") = " <<
+    tupletDivisionsAsMsrString (
+      133,
+      k,
+      actual,
+      normal) <<
+    endl <<
+    endl;
+
+  k = 20;
+  actual = 3;
+  normal = 2;
+
+  cerr <<
+    "tupletDivisionsAsMsrString (" << k <<
+    ", " << actual <<
+    ", " << normal <<
+    ") = " <<
+    tupletDivisionsAsMsrString (
+      133,
+      k,
+      actual,
+      normal) <<
+    endl <<
+    endl;
+
+  exit (0);
+}
+
 // note types
 //______________________________________________________________________________
 /*
@@ -5063,7 +5112,7 @@ string msrNote::noteTypeKindAsMSRString () const
   return result;
 }
 
-string msrNote::tupletoteTypeKindAsMSRString (
+string msrNote::tupletNoteTypeKindAsMSRString ( // JMI
   int actualNotes, int normalNotes) const
 {
   string result;
@@ -7268,13 +7317,12 @@ void msrTuplet::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
     
     idtr--;
     
-    os <<
-      endl;
+  // JMI  os << endl;
   }
 }
 
