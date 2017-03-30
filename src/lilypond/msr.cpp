@@ -2294,6 +2294,18 @@ string divisionsAsMsrString (
       numberOfDots);
 }
 
+string tupletDivisionsAsMsrString (
+  int inputLineNumber,
+  int divisions,
+  int actualNotes,
+  int normalNotes)
+{
+  return
+    divisionsAsMsrString (
+      inputLineNumber,
+      divisions * actualNotes / normalNotes);
+}
+
 void testDivisionsAndDurations ()
 {
   int divisionsPerQuarterNote = 8;
@@ -5051,6 +5063,21 @@ string msrNote::noteTypeKindAsMSRString () const
   return result;
 }
 
+string msrNote::tupletoteTypeKindAsMSRString (
+  int actualNotes, int normalNotes) const
+{
+  string result;
+
+  result =
+    tupletDivisionsAsMsrString (
+      fInputLineNumber,
+      fNoteData.fNoteDivisions,
+      actualNotes,
+      normalNotes);
+
+  return result;
+}
+
 string msrNote::noteDiatonicPitchAsString (
   int inputLineNumber) const
 {
@@ -5238,7 +5265,11 @@ string msrNote::noteAsShortString () const
 
       s <<
         ":" <<
-        noteTypeKindAsMSRString ();
+        tupletDivisionsAsMsrString (
+          fInputLineNumber,
+          fNoteData.fNoteDivisions,
+          fNoteTupletUplink->getTupletActualNotes (),
+          fNoteTupletUplink->getTupletNormalNotes ());
       break;
   } // switch
 
@@ -6652,6 +6683,10 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       endl;
 
   fTupletElements.push_back (note);
+
+  // register note's tuplet uplink
+  note->
+    setNoteTupletUplink (this);
 
   // account for note duration
   fTupletDivisions +=

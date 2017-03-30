@@ -358,6 +358,12 @@ string divisionsAsMsrString (
   int  inputLineNumber,
   int  divisions);
 
+string tupletDivisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions,
+  int actualNotes,
+  int normalNotes);
+
 void setupDurationsDivisions (int divisionPerQuarterNote);
 
 int durationAsDivisions (msrDuration duration);
@@ -2869,7 +2875,15 @@ class EXP msrNote : public msrElement
                               { fNoteHarmony = harmony; }
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
-    
+
+    // tuplet uplink
+    void                  setNoteTupletUplink (
+                            const S_msrTuplet& tuplet)
+                              { fNoteTupletUplink = tuplet; }
+                      
+    S_msrTuplet           getNoteTupletUplink () const
+                              { return fNoteTupletUplink; }
+
     // measure uplink
     void                  setNoteMeasureUplink (
                             const S_msrMeasure& measure)
@@ -2913,6 +2927,8 @@ class EXP msrNote : public msrElement
     string                skipDivisionsAsMSRString () const;
     
     string                noteTypeKindAsMSRString () const;
+    string                tupletoteTypeKindAsMSRString (
+                            int actualNotes, int normalNotes) const;
 
     // tuplet members
     void                  applyTupletMemberDisplayFactorToNote (
@@ -2967,6 +2983,8 @@ class EXP msrNote : public msrElement
                               fNoteSyllableExtendKind; // MEGA JMI
     
     msrNoteKind               fNoteKind;
+
+    S_msrTuplet               fNoteTupletUplink; // for tuplet member notes
 
     S_msrOctaveShift          fNoteOctaveShift;
     
