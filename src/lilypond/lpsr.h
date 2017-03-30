@@ -178,7 +178,11 @@ class EXP lpsrOptions : public smartable {
 
     bool                          fShowAllBarNumbers;
     bool                          fCompressFullBarRests;
+    
     bool                          fBreakLinesAtIncompleteRightMeasures;
+    
+    bool                          fEmptyLineEveryNMeasures;
+    int                           fEmptyLineEveryNMeasuresValue;
     
     bool                          fGenerateNumericalTime;
     bool                          fGenerateComments;

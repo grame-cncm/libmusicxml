@@ -5443,6 +5443,7 @@ void msrNote::print (ostream& os)
   os <<
     noteAsString ();
 
+/* JMI
   if (fNoteData.fNoteTypeKind != k_NoDuration)
     os <<
       " (" <<
@@ -5450,6 +5451,9 @@ void msrNote::print (ostream& os)
         fInputLineNumber,
         fNoteData.fNoteTypeKind) <<
        ")" <<
+       */
+
+  os <<
       ", line " << fInputLineNumber;
 
   // print display divisions

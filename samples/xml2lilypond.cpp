@@ -150,19 +150,15 @@ void printUsage (int exitStatus)
     "    --drdyns, --delayRestsDynamics" << endl <<
     "          Don't attach dynamics to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
-    endl <<
     "    --drwords, --delayRestsWords" << endl <<
     "          Don't attach words to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
-    endl <<
     "    --drslurs, --delayRestsSlurs" << endl <<
     "          Don't attach slurs to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
-    endl <<
     "    --drligs, --delayRestsLigatures" << endl <<
     "          Don't attach ligatures to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
-    endl <<
     "    --drwedges, --delayRestsWedges" << endl <<
     "          Don't attach wedges to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
@@ -247,13 +243,17 @@ void printUsage (int exitStatus)
     "          Generate a '\\break' command at the end incomplete right measures" << endl <<
     "          which is handy in popular folk dances and tunes." << endl <<
     endl <<
+    "    --elenm, --emptyLineEveryNMeasures 'n'" << endl <<
+    "          Generate an additional empty line for readability every 'n' measures," << endl <<
+    "          where 'n' is a positive integer'." << endl <<
+    endl <<
     "    --as, --accidentalStyle style" << endl <<
-    "          Choose the LilyPond accidental styles among " << endl <<
-    "          'voice', 'modern', 'modern-cautionary', 'modern-voice', " <<  endl <<
-    "          'modern-voice-cautionary', 'piano', 'piano-cautionary', " << endl <<
-    "          'neo-modern', 'neo-modern-cautionary', 'neo-modern-voice'," << endl <<
-    "          'neo-modern-voice-cautionary', 'dodecaphonic', 'dodecaphonic-no-repeat'," << endl <<
-    "          'dodecaphonic-first', 'teaching', 'no-reset forget." << endl <<
+    "          Choose the LilyPond accidental styles among: " << endl <<
+    "          voice, modern, modern-cautionary, modern-voice, " <<  endl <<
+    "          modern-voice-cautionary, piano, piano-cautionary, " << endl <<
+    "          neo-modern, neo-modern-cautionary, neo-modern-voice," << endl <<
+    "          neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat," << endl <<
+    "          dodecaphonic-first, teaching, no-reset, forget." << endl <<
     "          The default is... 'default'." << endl <<
     endl <<
     "    --dof, --delayedOrnamentsFraction 'num/denom'" << endl <<
@@ -352,6 +352,7 @@ void analyzeOptions (
   int showAllBarNumbersPresent          = 0;
   int compressFullBarRestsPresent       = 0;
   int breakLinesAtIncompleteRightMeasuresPresent  = 0;
+  int emptyLineEveryNMeasuresPresent    = 0;
 //  int fKeepStaffSizePresent             = 0; JMI
   
   int absolutePresent                   = 0;
@@ -692,6 +693,15 @@ void analyzeOptions (
     {
       "breakLinesAtIncompleteRightMeasures",
       no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
+    },
+    
+    {
+      "elenm",
+      required_argument, &emptyLineEveryNMeasuresPresent, 1
+    },
+    {
+      "emptyLineEveryNMeasures",
+      required_argument, &emptyLineEveryNMeasuresPresent, 1
     },
     
     {
@@ -1258,6 +1268,15 @@ void analyzeOptions (
           breakLinesAtIncompleteRightMeasuresPresent = false;
         }
 
+        if (emptyLineEveryNMeasuresPresent) {
+          gLpsrOptions->fEmptyLineEveryNMeasures = true;
+          gLpsrOptions->fEmptyLineEveryNMeasuresValue =
+            atoi (optarg);
+          gGeneralOptions->fCommandLineOptions +=
+            "--emptyLineEveryNMeasures ";
+          emptyLineEveryNMeasuresPresent = false;
+        }
+
         if (dontKeepLineBreaksPresent) {
           gLpsrOptions->fDontKeepLineBreaks = true;
           gGeneralOptions->fCommandLineOptions +=
@@ -1711,6 +1730,25 @@ void printOptions ()
 
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
+      booleanAsString (gLpsrOptions->fShowAllBarNumbers) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "compressFullBarRests" << " : " <<
+      booleanAsString (gLpsrOptions->fCompressFullBarRests) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
+      booleanAsString (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "emptyLineEveryNMeasures" << " : " <<
+      booleanAsString (gLpsrOptions->fEmptyLineEveryNMeasures) <<
+      endl <<
+    idtr << setw(fieldWidth) << "fEmptyLineEveryNMeasuresValue" << " : " <<
+      booleanAsString (gLpsrOptions->fEmptyLineEveryNMeasuresValue) <<
       endl <<
     
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<

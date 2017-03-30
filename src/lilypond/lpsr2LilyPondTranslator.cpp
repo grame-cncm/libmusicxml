@@ -1798,6 +1798,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       break;
   } // switch
 
+  int measureNumber =
+    elt->getMeasureNumber ();
+    
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
 
@@ -1806,18 +1809,24 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
         endl <<
         idtr <<
           setw(30) << "" << "% end of measure " <<
-          elt->getMeasureNumber () <<
+          measureNumber <<
           endl << endl;
     }
     else {
       fOstream <<
         idtr <<
           setw(30) << "" << "% end of msrMeasure " <<
-          elt->getMeasureNumber () <<
+          measureNumber <<
           endl << endl;      
     }
   }
- 
+
+  if (gLpsrOptions->fEmptyLineEveryNMeasures) {
+    if (measureNumber % gLpsrOptions->fEmptyLineEveryNMeasuresValue == 0)
+      fOstream <<
+        endl;
+  }
+  
   fSegmentNotesAndChordsCountersStack.pop ();
 }
 
@@ -3559,18 +3568,18 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
     fOstream << idtr <<
       "% --> End visiting msrTuplet" << endl;
 
+  idtr--;
+
   fOstream <<
     endl <<
     idtr <<
     "}" <<
-    endl <<
-    idtr;
+    endl;
+  // JMI  <<idtr;
 
   fTupletsStack.pop ();
 
   fMusicOlec.reset ();
-
-  idtr--;
 }
 
 //________________________________________________________________________
@@ -3762,13 +3771,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
   if (fMusicOlec > 0) // JMI
     fOstream <<
       "| % " << nextBarNumber <<
-      endl <<
-      idtr;
+      endl;
   else
     fOstream << idtr <<
       "| % " << nextBarNumber <<
-      endl <<
-      idtr;
+      endl;
 
   fMusicOlec.reset ();
 }

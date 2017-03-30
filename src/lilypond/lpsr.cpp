@@ -14,6 +14,7 @@
 #include <list>
 #include <algorithm>
 #include <iomanip>      // setw, set::precision, ...
+#include <climits>      /* INT_MIN, INT_MAX */
 
 #include "msrVersion.h" // MSRVersionNumberAsString()
 
@@ -133,7 +134,11 @@ void lpsrOptions::initializeLpsrOptions ()
   fDontKeepLineBreaks                  = false;
   fShowAllBarNumbers                   = false;
   fCompressFullBarRests                = false;
+  
   fBreakLinesAtIncompleteRightMeasures = false;
+  
+  fEmptyLineEveryNMeasures             = false;
+  fEmptyLineEveryNMeasuresValue        = INT_MAX;
   
   fKeepStaffSize                       = false;
     
