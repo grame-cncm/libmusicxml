@@ -1784,7 +1784,7 @@ int main (int argc, char *argv[])
   if (false) { // JMI
     gGeneralOptions->fTraceDurations = true;
   
-    int divisionsPerQuarterNote = 1;
+    int divisionsPerQuarterNote = 30;
     cerr <<
       "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
       endl <<
@@ -1794,7 +1794,7 @@ int main (int argc, char *argv[])
   
     int k;
   
-    k = 4;
+    k = 12;
     cerr <<
       "divisionsAsMsrString (" << k << ") = " <<
       divisionsAsMsrString (

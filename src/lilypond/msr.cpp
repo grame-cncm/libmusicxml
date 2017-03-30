@@ -5313,8 +5313,9 @@ string msrNote::noteAsString () const
           "[" << fNoteData.fNoteOctave << "]";
 
       s <<
-        ":";
-
+        ":" <<
+        noteTypeKindAsMSRString ();
+/* JMI
       if (fNoteData.fNoteTypeKind != k_NoDuration)
         s <<
           divisionsAsMsrString (
@@ -5323,6 +5324,7 @@ string msrNote::noteAsString () const
       else
         s <<
           noteDivisionsAsMSRString ();
+          */
 
       if (fNoteOccupiesAFullMeasure)
         s <<
