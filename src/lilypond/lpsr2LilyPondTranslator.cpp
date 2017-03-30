@@ -1780,6 +1780,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
 
     case msrMeasure::kOverfullMeasure:
       fOstream <<
+        endl <<
         idtr <<
           "\\cadenzaOff" <<
           endl <<

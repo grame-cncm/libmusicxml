@@ -5321,6 +5321,9 @@ string msrNote::noteAsString () const
         s <<
           noteDivisionsAsMSRString ();
 
+      if (fNoteOccupiesAFullMeasure)
+        s <<
+          ", full measure";
       break;
   } // switch
 
@@ -5428,6 +5431,10 @@ void msrNote::print (ostream& os)
       "/" <<
       notePosition.getDenominator() <<
       ")";
+
+  if (fNoteOccupiesAFullMeasure)
+    os <<
+      ", full measure";
 
   os <<
       endl;
@@ -10868,7 +10875,7 @@ void msrMeasure::setMeasureTime (S_msrTime time)
   fMeasureTime = time;
   
   fMeasureDivisionsPerFullMeasure =
-    fMeasureDivisionsPerQuarterNote
+    fMeasureDivisionsPerQuarterNote * 4 // hence a whole note
       *
     time->getBeatsNumber ()
       /
@@ -11448,7 +11455,7 @@ bool msrMeasure::checkForOverfullMeasure (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> checking for incompleteness of measure  " <<
+      "--> checking for overfull measure  " <<
       fMeasureNumber <<
       ", line " << inputLineNumber <<
       ", in voice \"" <<
@@ -14084,7 +14091,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
     repeat;
 
   // append it to the list of repeats and segments
-  fVoiceRepeatsAndSegments.push_back (
+  fVoiceInitialRepeatsAndSegments.push_back (
     repeat);
 
   // create a new segment for the voice
@@ -14130,7 +14137,7 @@ void msrVoice::appendRepeatCloneToVoice (
     repeatCLone;
 
   // append it to the list of repeats and segments
-  fVoiceRepeatsAndSegments.push_back (
+  fVoiceInitialRepeatsAndSegments.push_back (
     repeatCLone);
 
   // create a new segment for the voice
@@ -14386,11 +14393,11 @@ void msrVoice::browseData (basevisitor* v)
       "==> msrVoice::browseData()" <<
       endl;
 
-  // browse the voice repeats and segments
-  if (fVoiceRepeatsAndSegments.size ()) {
+  // browse the voice initial repeats and segments
+  if (fVoiceInitialRepeatsAndSegments.size ()) {
     for (
-      list<S_msrElement>::iterator i = fVoiceRepeatsAndSegments.begin();
-      i != fVoiceRepeatsAndSegments.end();
+      list<S_msrElement>::iterator i = fVoiceInitialRepeatsAndSegments.begin();
+      i != fVoiceInitialRepeatsAndSegments.end();
       i++) {
       // browse the element
       msrBrowser<msrElement> browser (v);
@@ -14504,25 +14511,25 @@ void msrVoice::print (ostream& os)
 
   os << endl;
     
-  // print the voice repeats and segments
-  int repeatsAndSegmentsNumber =
-    fVoiceRepeatsAndSegments.size ();
+  // print the voice initial repeats and segments
+  int initialRepeatsAndSegmentsNumber =
+    fVoiceInitialRepeatsAndSegments.size ();
     
   os << idtr <<
-    "Repeats and segments: ";
-  if (repeatsAndSegmentsNumber)
-    os << "(" << repeatsAndSegmentsNumber << ")";
+    "Initial repeats and segments: ";
+  if (initialRepeatsAndSegmentsNumber)
+    os << "(" << initialRepeatsAndSegmentsNumber << ")";
   else
     os << "none";
   os <<
     endl;
     
-  if (repeatsAndSegmentsNumber) {
+  if (initialRepeatsAndSegmentsNumber) {
     idtr++;
 
     list<S_msrElement>::const_iterator
-      iBegin = fVoiceRepeatsAndSegments.begin(),
-      iEnd   = fVoiceRepeatsAndSegments.end(),
+      iBegin = fVoiceInitialRepeatsAndSegments.begin(),
+      iEnd   = fVoiceInitialRepeatsAndSegments.end(),
       i      = iBegin;
       
     for ( ; ; ) {

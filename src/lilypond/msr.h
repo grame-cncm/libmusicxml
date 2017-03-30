@@ -5445,17 +5445,17 @@ class EXP msrVoice : public msrElement
     bool                      fMusicHasBeenInsertedInVoice;
     
     // fVoiceLastSegment contains the music
-    // not yet stored in fVoiceRepeatsAndSegments,
+    // not yet stored in fVoiceInitialRepeatsAndSegments,
     // it is thus logically the end of the latter,
     // and is created implicitly for every voice,
-    list<S_msrElement>        fVoiceRepeatsAndSegments;
+    list<S_msrElement>        fVoiceInitialRepeatsAndSegments;
     S_msrSegment              fVoiceLastSegment;
 
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment              fVoiceFirstSegment;
 
     // fVoiceCurrentRepeat is null or
-    // the last msrRepeat in fVoiceRepeatsAndSegments
+    // the last msrRepeat in fVoiceInitialRepeatsAndSegments
     S_msrRepeat               fVoiceCurrentRepeat;
 
     // the stanza master, collecting skips along the way,
