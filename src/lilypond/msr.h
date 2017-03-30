@@ -338,11 +338,16 @@ enum msrDuration {
   // from longest to shortest to simplify the algorithms
   kMaxima, kLong, kBreve, kWhole, kHalf, 
   kQuarter,
-  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th};
+  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
+  k_NoDuration};
 
 string msrDurationAsString (msrDuration duration);
 
 extern list<pair<msrDuration, int> > gDurationsDivisions;
+
+int durationAsDivisions (
+  int         inputLineNumber,
+  msrDuration duration);
 
 string divisionsAsMsrString (
   int  inputLineNumber,
@@ -355,12 +360,16 @@ string divisionsAsMsrString (
 
 void setupDurationsDivisions (int divisionPerQuarterNote);
 
+int durationAsDivisions (msrDuration duration);
+
 void printDurationsDivisions (ostream& os);
 
 void testDivisionsAndDurations ();
 
 // note types
 //______________________________________________________________________________
+typedef msrDuration msrNoteTypeKind;
+
 int noteTypeAsDivisions (
   string  noteType,
   int     divisionsPerWholeNote,
@@ -591,7 +600,8 @@ class msrNoteData
 
     // tuplets member notes need another value for display
     int                   fNoteDisplayDivisions;
-    string                fNoteType; // "whole", "32nd", ...
+//    string                fNoteType; // "whole", "32nd", ...
+    msrNoteTypeKind       fNoteTypeKind;
 
     int                   fNoteDotsNumber;
     
@@ -2704,8 +2714,8 @@ class EXP msrNote : public msrElement
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
 
-    string                getNoteType () const
-                              { return fNoteData.fNoteType; }
+    msrNoteTypeKind       getNoteTypeKind () const
+                              { return fNoteData.fNoteTypeKind; }
 
     int                   getNoteDivisions () const
                               { return fNoteData.fNoteDivisions; }
@@ -2897,7 +2907,7 @@ class EXP msrNote : public msrElement
     string                noteDivisionsAsMSRString () const;
     string                skipDivisionsAsMSRString () const;
     
-    string                noteTypeAsMSRString () const;
+    string                noteTypeKindAsMSRString () const;
 
     // tuplet members
     void                  applyTupletMemberDisplayFactorToNote (
@@ -3006,7 +3016,7 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       int    inputLineNumber,
       int    chordDivisions,
-      string chordNotesType);
+      msrNoteTypeKind chordNotesTypeKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3021,7 +3031,7 @@ class EXP msrChord : public msrElement
     msrChord (
       int    inputLineNumber,
       int    chordDivisions,
-      string chordNotesType);
+      msrNoteTypeKind chordNotesTypeKind);
       
     virtual ~msrChord();
   
@@ -3030,142 +3040,141 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string        getChordNotesType () const
-                      { return fChordNotesType; }
+    msrNoteTypeKind   getChordNotesTypeKind () const
+                          { return fChordNotesTypeKind; }
             
     const vector<S_msrNote>&
-                  getChordNotes () const
-                      { return fChordNotes; }
+                      getChordNotes () const
+                          { return fChordNotes; }
 
     // ties
-    void          setChordTie (
-                    const S_msrTie tie)
-                      { fChordTie = tie; }
+    void              setChordTie (
+                        const S_msrTie tie)
+                          { fChordTie = tie; }
 
-    S_msrTie
-                  getChordTie () const
-                      { return fChordTie; }
+    S_msrTie          getChordTie () const
+                          { return fChordTie; }
 
     const list<S_msrArticulation>&
-                  getChordArticulations () const
-                      { return fChordArticulations; }
+                      getChordArticulations () const
+                          { return fChordArticulations; }
 
     const list<S_msrOrnament>&
-                  getChordOrnaments () const
-                      { return fChordOrnaments; }
-
+                      getChordOrnaments () const
+                          { return fChordOrnaments; }
+    
     const list<S_msrDynamics>&
-                  getChordDynamics () const
-                      { return fChordDynamics; }
+                      getChordDynamics () const
+                          { return fChordDynamics; }
                       
     const list<S_msrWords>&
-                  getChordWords () const
-                      { return fChordWords; }
+                      getChordWords () const
+                          { return fChordWords; }
                       
     const list<S_msrSlur>&
-                  getChordSlurs () const
-                      { return fChordSlurs; }
+                      getChordSlurs () const
+                          { return fChordSlurs; }
                       
     const list<S_msrLigature>&
-                  getChordLigatures () const
-                      { return fChordLigatures; }
+                      getChordLigatures () const
+                          { return fChordLigatures; }
                       
     const list<S_msrWedge>&
-                  getChordWedges () const
-                      { return fChordWedges; }
+                      getChordWedges () const
+                          { return fChordWedges; }
 
     // harmony
-    void          setChordHarmony (S_msrHarmony harmony)
-                      { fChordHarmony = harmony; }
+    void              setChordHarmony (S_msrHarmony harmony)
+                          { fChordHarmony = harmony; }
                       
     const S_msrHarmony&
-                  getChordHarmony () const
-                      { return fChordHarmony; };
+                      getChordHarmony () const
+                          { return fChordHarmony; };
                       
      // divisions
-    void          setChordDivisions (int divisions)
-                      { fChordDivisions = divisions; }
+    void              setChordDivisions (int divisions)
+                          { fChordDivisions = divisions; }
             
-    int           getChordDivisions () const
-                      { return fChordDivisions; }
+    int               getChordDivisions () const
+                          { return fChordDivisions; }
             
     // divisions per quarter note
-    void          setChordDivisionsPerQuarterNote (
-                    int divisionsPerQuarterNote)
-                      {
-                        fChordDivisionsPerQuarterNote =
-                          divisionsPerQuarterNote;
-                      }
+    void              setChordDivisionsPerQuarterNote (
+                        int divisionsPerQuarterNote)
+                          {
+                            fChordDivisionsPerQuarterNote =
+                              divisionsPerQuarterNote;
+                          }
 
-    const int     getChordDivisionsPerQuarterNote () const
-                      { return fChordDivisionsPerQuarterNote; }
+    const int         getChordDivisionsPerQuarterNote () const
+                          { return fChordDivisionsPerQuarterNote; }
 
     // measure uplink
-    void          setChordMeasureUplink (
-                    const S_msrMeasure& measure)
-                      { fChordMeasureUplink = measure; }
+    void              setChordMeasureUplink (
+                        const S_msrMeasure& measure)
+                          { fChordMeasureUplink = measure; }
                       
-    S_msrMeasure  getChordMeasureUplink () const
-                      { return fChordMeasureUplink; }
+    S_msrMeasure      getChordMeasureUplink () const
+                        { return fChordMeasureUplink; }
 
     // measure number
-    void          setChordMeasureNumber (
-                    int measureNumber)
-                      { fChordMeasureNumber = measureNumber; }
-
-    int           getChordMeasureNumber () const
-                      { return fChordMeasureNumber; }
+    void              setChordMeasureNumber (
+                        int measureNumber)
+                          { fChordMeasureNumber = measureNumber; }
+    
+    int               getChordMeasureNumber () const
+                          { return fChordMeasureNumber; }
  
     // position in measure
-    void          setChordPositionInMeasure (int position)
-                      { fChordPositionInMeasure = position; }
+    void              setChordPositionInMeasure (int position)
+                          { fChordPositionInMeasure = position; }
 
-    const int     getChordPositionInMeasure () const
-                      { return fChordPositionInMeasure; }
+    const int         getChordPositionInMeasure () const
+                          { return fChordPositionInMeasure; }
                          
     // services
     // ------------------------------------------------------
 
-    string        chordNotesTypeAsMSRString () const;
+    string            chordNotesTypeAsMSRString () const;
 
-    void          addFirstNoteToChord (S_msrNote note);
-    void          addAnotherNoteToChord (S_msrNote note);
+    void              addFirstNoteToChord (S_msrNote note);
+    void              addAnotherNoteToChord (S_msrNote note);
 
-    void          setChordFirstNotePositionInMeasure (
-                    int position);
+    void              setChordFirstNotePositionInMeasure (
+                        int position);
                     
-    void          setChordFirstNoteMeasureNumber (
-                    int measureNumber);
+    void              setChordFirstNoteMeasureNumber (
+                        int measureNumber);
                     
  // JMI   S_msrNote     chordLastNote () const
        //               { return fChordNotes.back (); }
 
-    void          addArticulationToChord (S_msrArticulation art);
+    void              addArticulationToChord (S_msrArticulation art);
      
-    void          addOrnamentToChord (S_msrOrnament orn);
+    void              addOrnamentToChord (S_msrOrnament orn);
      
-    void          addDynamicsToChord (S_msrDynamics dyn)
-                      { fChordDynamics.push_back (dyn); }
+    void              addDynamicsToChord (S_msrDynamics dyn)
+                          { fChordDynamics.push_back (dyn); }
                     
-    void          addWordsToChord (S_msrWords dyn)
-                      { fChordWords.push_back (dyn); }
+    void              addWordsToChord (S_msrWords dyn)
+                          { fChordWords.push_back (dyn); }
                     
-    void          addSlurToChord (S_msrSlur slur)
-                      { fChordSlurs.push_back (slur); }
+    void              addSlurToChord (S_msrSlur slur)
+                          { fChordSlurs.push_back (slur); }
                       
-    void          addLigatureToChord (S_msrLigature ligature)
-                      { fChordLigatures.push_back (ligature); }
+    void              addLigatureToChord (S_msrLigature ligature)
+                          { fChordLigatures.push_back (ligature); }
                       
-    void          addWedgeToChord (S_msrWedge wedge)
-                      { fChordWedges.push_back (wedge); }
+    void              addWedgeToChord (S_msrWedge wedge)
+                          { fChordWedges.push_back (wedge); }
 
-    string        chordDivisionsAsMSRString () const;
+    string            chordDivisionsAsMSRString () const;
 
     // tuplet members
-    void          applyTupletMemberDisplayFactorToChordMembers (
-                    int actualNotes, int normalNotes);
+    void              applyTupletMemberDisplayFactorToChordMembers (
+                        int actualNotes, int normalNotes);
 
-    string        chordAsString () const;
+    string            chordAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -3182,7 +3191,7 @@ class EXP msrChord : public msrElement
 
   private:
 
-    string                    fChordNotesType;
+    msrNoteTypeKind           fChordNotesTypeKind;
     
     vector<S_msrNote>         fChordNotes;
 

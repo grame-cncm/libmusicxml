@@ -4968,8 +4968,6 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
 
-  fCurrentNoteType = "";
-
   // keep fCurrentStanzaNumber unchanged,
   // for use by notes without lyrics
   
@@ -5131,7 +5129,35 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
 */
 
-  fCurrentNoteType = elt->getValue();
+  string noteType = elt->getValue();
+
+
+       if (noteType == "maxima")  { fCurrentNoteTypeKind = kMaxima; }
+  else if (noteType == "long")    { fCurrentNoteTypeKind = kLong; }
+  else if (noteType == "breve")   { fCurrentNoteTypeKind = kBreve; } 
+  else if (noteType == "whole")   { fCurrentNoteTypeKind = kWhole; } 
+  else if (noteType == "half")    { fCurrentNoteTypeKind = kHalf; } 
+  else if (noteType == "quarter") { fCurrentNoteTypeKind = kQuarter; } 
+  else if (noteType == "eighth")  { fCurrentNoteTypeKind = kEighth; } 
+  else if (noteType == "16th")    { fCurrentNoteTypeKind = k16th; } 
+  else if (noteType == "32nd")    { fCurrentNoteTypeKind = k32nd; } 
+  else if (noteType == "64th")    { fCurrentNoteTypeKind = k64th; } 
+  else if (noteType == "128th")   { fCurrentNoteTypeKind = k128th; } 
+  else if (noteType == "256th")   { fCurrentNoteTypeKind = k256th; } 
+  else if (noteType == "512th")   { fCurrentNoteTypeKind = k512th; } 
+  else if (noteType == "1024th")  { fCurrentNoteTypeKind = k1024th; }
+  else {
+    stringstream s;
+    
+    s <<
+      endl << 
+      "--> unknown note type " << noteType <<
+      endl;
+
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_stem& elt )
@@ -6436,7 +6462,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
       msrChord::create (
         inputLineNumber,
         chordFirstNote->getNoteDivisions (),
-        chordFirstNote->getNoteType ());
+        chordFirstNote->getNoteTypeKind ());
 
   // chord's divisions per quarter note is that of its first note
   chord->
@@ -7371,26 +7397,19 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentDivisionsPerQuarterNote);
 
   // register current note type
-  fNoteData.fNoteType =
-    fCurrentNoteType;
+  fNoteData.fNoteTypeKind =
+    fCurrentNoteTypeKind;
 
-  if (fNoteData.fNoteType.size ()) {
+  if (fNoteData.fNoteTypeKind != k_NoDuration) {
     if (fNoteData.fNoteIsAGraceNote) {
       // set current grace note divisions
       string errorMessage;
       
       fNoteData.fNoteDivisions =
-        noteTypeAsDivisions (
-          fCurrentNoteType,
-          fCurrentDivisionsPerQuarterNote,
-          errorMessage,
-          false); // 'true' to debug it
-  
-      if (errorMessage.size ())
-        msrMusicXMLError (
+        durationAsDivisions (
           inputLineNumber,
-          errorMessage);
-  
+          fNoteData.fNoteTypeKind);
+    
       fNoteData.fNoteDisplayDivisions =
         fNoteData.fNoteDivisions;
     }

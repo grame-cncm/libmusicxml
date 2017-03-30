@@ -2622,9 +2622,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           noteAsLilyPondString (elt);
       
       // print the note duration
-      if (elt->getNoteType ().size ())
+      msrNoteTypeKind
+        noteTypeKind =
+          elt->getNoteTypeKind ();
+          
+      if (noteTypeKind != k_NoDuration)
         fOstream <<
-          elt->noteTypeAsMSRString ();
+          divisionsAsMsrString (
+            elt->getInputLineNumber (),
+            noteTypeKind);
       else
         fOstream <<
           elt->noteDivisionsAsMSRString ();
@@ -3216,9 +3222,15 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
     ">";
 
   // print the chord notes duration
-  if (elt->getChordNotesType ().size ())
+  msrNoteTypeKind
+    chordNoteTypeKind =
+      elt->getChordNotesTypeKind ();
+      
+  if (chordNoteTypeKind != k_NoDuration)
     fOstream <<
-      elt->chordNotesTypeAsMSRString ();
+      divisionsAsMsrString (
+        elt->getInputLineNumber (),
+        chordNoteTypeKind);
   else
     fOstream <<
       elt->chordDivisionsAsMSRString ();

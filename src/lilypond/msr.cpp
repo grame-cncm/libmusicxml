@@ -2021,6 +2021,30 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
   }
 }
 
+int durationAsDivisions (
+  int         inputLineNumber,
+  msrDuration duration)
+{
+  for (
+    list<pair<msrDuration, int> >::const_iterator i =
+      gDurationsDivisions.begin();
+    i != gDurationsDivisions.end ();
+    i++) {
+    if ((*i).first == duration)
+      return (*i).second;
+  } // for
+
+  stringstream s;
+
+  s <<
+    "duration " << duration <<
+    " cannot be converted to a number of divisions";
+
+  msrInternalError (
+    inputLineNumber,
+    s.str ())
+}
+
 void printDurationsDivisions (ostream& os)
 {
   cerr <<
@@ -2583,7 +2607,7 @@ void msrNoteData::init ()
 
   fNoteDotsNumber = 0;
   
-  fNoteType = "";
+  fNoteTypeKind = k_NoDuration;
 
   fNoteIsAGraceNote = false;
   
@@ -2680,8 +2704,10 @@ void msrNoteData::print (ostream& os)
       fNoteDotsNumber <<
       endl <<
     idtr << left <<
-      setw(width) << "fNoteType" << " = " <<
-      fNoteType <<
+      setw(width) << "fNoteTypeKind" << " = " <<
+      divisionsAsMsrString (
+        999, // JMI
+        fNoteTypeKind) <<
       endl <<
       
     idtr << left <<
@@ -5010,7 +5036,7 @@ string msrNote::skipDivisionsAsMSRString () const
   return result;
 }
 
-string msrNote::noteTypeAsMSRString () const
+string msrNote::noteTypeKindAsMSRString () const
 {
   string result;
   string errorMessage;
@@ -5292,9 +5318,11 @@ string msrNote::noteAsString () const
       s <<
         ":";
 
-      if (fNoteData.fNoteType.size ())
+      if (fNoteData.fNoteTypeKind != k_NoDuration)
         s <<
-          noteTypeAsMSRString ();
+          divisionsAsMsrString (
+            fInputLineNumber,
+            fNoteTypeKind);
       else
         s <<
           noteDivisionsAsMSRString ();
@@ -5329,9 +5357,13 @@ void msrNote::print (ostream& os)
   os <<
     noteAsString ();
 
-  if (fNoteData.fNoteType.size ())
+  if (fNoteData.fNoteTypeKind != k_NoDuration)
     os <<
-      " (" << fNoteData.fNoteType << ")" <<
+      " (" <<
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fNoteTypeKind) <<
+       ")" <<
       ", line " << fInputLineNumber;
 
   // print display divisions
