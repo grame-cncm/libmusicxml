@@ -92,11 +92,24 @@ void printUsage (int exitStatus)
     "          Write a trace of the graphs visiting activity to standard error." << endl <<
     endl <<
     "    --tparts, --traceparts " << endl <<
-    "          Write at trace of the activity regarding score, part groups and parts" << endl <<
+    "          Write a trace of the activity regarding score, part groups and parts" << endl <<
     "          to standard error." << endl <<
     "    --tvoices, --traceVoices " << endl <<
-    "          Write at trace of the activity regarding staves and voices" << endl <<
+    "          Write a trace of the activity regarding staves and voices" << endl <<
     "          to standard error." << endl <<
+    "    --tsegs, --traceSegments " << endl <<
+    "          Write a trace of the activity regarding voices' segments" << endl <<
+    "          to standard error." << endl <<
+    "    --tmeas, --traceMeasures " << endl <<
+    "          Write a trace of the activity regarding segments' measures" << endl <<
+    "          to standard error." << endl <<
+    "    --tchords, --traceChords " << endl <<
+    "          Write a trace of the activity regarding chords" << endl <<
+    "          to standard error." << endl <<
+    "    --tgrace, --traceGracenotes " << endl <<
+    "          Write a trace of the activity regarding grace notes" << endl <<
+    "          to standard error." << endl <<
+    endl <<
     "    --tharm, --traceHarmony " << endl <<
     "          Write at trace of the activity regarding staves and voices" << endl <<
     "          to standard error." << endl <<
@@ -119,9 +132,10 @@ void printUsage (int exitStatus)
 
     "    --mpl, --msrPitchesLanguage language" << endl <<
     "          Use 'language' to display note pitches in the MSR logs and text views." << endl <<
-    "          'language' can be one of 'nederlands', 'catalan', 'deutsch', " << endl <<
-    "          'english', 'espanol', 'francais', 'italiano', 'norsk', 'portugues'," << endl <<
-    "          'suomi', 'svenska' or 'vlaams'. Default is 'nederlands'." << endl <<
+    "          The 12 LilyPond pitches languages are available:" << endl <<
+    "          nederlands, catalan, deutsch, english, espanol, français, " << endl <<
+    "          italiano, norsk, portugues, suomi, svenska and vlaams." << endl <<
+    "          The default is to use 'nederlands'." << endl <<
     endl <<
     "    --srvn, --staffRelativeVoiceNumbers" << endl <<
     "          Generate voices names with numbers relative to their staff." << endl <<
@@ -291,6 +305,11 @@ void analyzeOptions (
   int tracePartsPresent                 = 0;
   
   int traceVoicesPresent                = 0;
+  int traceSegmentsPresent               = 0;
+  int traceMeasuresPresent               = 0;
+  int traceChordsPresent                = 0;
+  int traceTupletsPresent               = 0;
+  
   int traceHarmonyPresent               = 0;
   
   int debugMeasuresPresent              = 0;
@@ -431,6 +450,42 @@ void analyzeOptions (
     {
       "traceVoices",
       no_argument, &traceVoicesPresent, 1
+    },
+    
+    {
+      "tsegs",
+      no_argument, &traceSegmentsPresent, 1
+    },
+    {
+      "traceSegments",
+      no_argument, &traceSegmentsPresent, 1
+    },
+    
+    {
+      "tmeas",
+      no_argument, &traceMeasuresPresent, 1
+    },
+    {
+      "traceMeasures",
+      no_argument, &traceMeasuresPresent, 1
+    },
+    
+    {
+      "tchords",
+      no_argument, &traceChordsPresent, 1
+    },
+    {
+      "traceChords",
+      no_argument, &traceChordsPresent, 1
+    },
+    
+    {
+      "ttuplets",
+      no_argument, &traceTupletsPresent, 1
+    },
+    {
+      "traceTuplets",
+      no_argument, &traceTupletsPresent, 1
     },
     
     {
@@ -840,12 +895,40 @@ void analyzeOptions (
             "--traceparts ";
           tracePartsPresent = false;
         }
-        if (traceHarmonyPresent) {
+        if (traceVoicesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceVoices ";
-          traceHarmonyPresent = false;
+          traceVoicesPresent = false;
+        }
+        if (traceSegmentsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceSegments = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceSegments ";
+          traceSegmentsPresent = false;
+        }
+        if (traceMeasuresPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceMeasures = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceMeasures ";
+          traceMeasuresPresent = false;
+        }
+        if (traceChordsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceChords = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceChords ";
+          traceChordsPresent = false;
+        }
+        if (traceTupletsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTuplets = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceTuplets ";
+          traceTupletsPresent = false;
         }
         if (traceHarmonyPresent) {
           gGeneralOptions->fTraceGeneral = true;
@@ -1488,6 +1571,22 @@ void printOptions ()
     idtr <<
       setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (gGeneralOptions->fTraceVoices) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceSegments" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceSegments) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceMeasures" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceMeasures) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceChords" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceChords) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceTuplets" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceTuplets) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "traceHarmony" << " : " <<

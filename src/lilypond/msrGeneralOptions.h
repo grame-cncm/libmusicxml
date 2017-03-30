@@ -89,6 +89,14 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceParts;
     bool                  fTraceVoices;
 
+    bool                  fTraceSegments;
+    bool                  fTraceMeasures;
+    
+    bool                  fTraceChords;
+    bool                  fTraceTuplets;
+    
+    bool                  fTraceGracenotes;
+    
     bool                  fTraceHarmony;
 
 
@@ -97,8 +105,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceStaves;
     
     
-    bool                  fTraceSegments;
-    bool                  fTraceMeasures;
     
     bool                  fTraceNotes;
     bool                  fTraceDurations;
@@ -109,10 +115,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceLigatures;
     bool                  fTraceWedges;
 
-    bool                  fTraceChords;
-    bool                  fTraceTuplets;
-    
-    bool                  fTraceGracenotes;
     
     bool                  fTraceLyrics;
     

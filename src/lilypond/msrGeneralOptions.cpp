@@ -52,6 +52,14 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fTraceParts = false;
   fTraceVoices = false;
 
+  fTraceSegments = false;
+  fTraceMeasures = false;
+  
+  fTraceChords = false;
+  fTraceTuplets = false;
+  
+  fTraceGracenotes = false;
+
   fTraceHarmony = false;
   
 
@@ -59,9 +67,6 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fTracePartgroups = false;
   fTraceStaves = false;
     
-  fTraceSegments = false;
-  fTraceMeasures = false;
-  
   fTraceNotes = false;
   fTraceDurations = false;
   
@@ -71,10 +76,6 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fTraceLigatures = false;
   fTraceWedges = false;
   
-  fTraceChords = false;
-  fTraceTuplets = false;
-  
-  fTraceGracenotes = false;
   
   fTraceLyrics = false;
   
