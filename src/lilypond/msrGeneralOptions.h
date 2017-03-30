@@ -121,6 +121,9 @@ class EXP msrGeneralOptions : public smartable
 
     bool                  fTraceALL;
 
+    // CPU usage
+    bool                  fDisplayCPUusage;
+    
     // debug
 //    bool                  fDebug;
     bool                  fDebugDebug;

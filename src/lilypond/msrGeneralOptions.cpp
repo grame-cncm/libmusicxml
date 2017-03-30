@@ -43,9 +43,9 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fInteractive = false;
   
   // trace
-  fTraceGeneral = true;
+  fTraceGeneral = false;
   
-  fTraceVisitors = true;
+  fTraceVisitors = false;
   
   fTraceScore = false;
   fTracePartgroups = false;
@@ -93,6 +93,9 @@ void msrGeneralOptions::initializeGeneralOptions ()
   // forcing debug information at specific places in the code
  // fForceDebug = false;
   
+    // timing information
+  fDisplayCPUusage = false;
+
   // measure number-selective debug
   fSaveDebug = false;
   fSaveDebugDebug = false;

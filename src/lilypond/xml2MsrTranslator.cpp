@@ -6612,7 +6612,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     foo =
       SMARTP<msrNote> cast(testElement);
 
-  cout << "testElementIsANote = " << testElementIsANote << endl;
+  cerr << "testElementIsANote = " << testElementIsANote << endl;
   assert(false);
   */
   

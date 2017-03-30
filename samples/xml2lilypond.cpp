@@ -107,6 +107,9 @@ void printUsage (int exitStatus)
     "    --ddm, --debugDebugMeasures <measuresSpec>" << endl <<
     "          Same as above, but print even more debugging information." << endl <<
     endl <<
+    "    --dCPU, --displayCPUusage" << endl <<
+    "          Write CPU usage by the passes at the end of the translation." << endl <<
+    endl <<
 
     "  MSR:" << endl <<
     endl <<
@@ -284,6 +287,8 @@ void analyzeOptions (
   int debugMeasuresPresent              = 0;
   int debugdebugMeasuresPresent         = 0;
   
+  int displayCPUusagePresent            = 0;
+  
   // MSR options
   // -----------
 
@@ -432,6 +437,15 @@ void analyzeOptions (
     {
       "debugDebugMeasures",
       required_argument, &debugdebugMeasuresPresent, 1
+    },
+    
+    {
+      "dCPU",
+      required_argument, &displayCPUusagePresent, 1
+    },
+    {
+      "displayCPUusage",
+      required_argument, &displayCPUusagePresent, 1
     },
 
     // MSR options
@@ -778,7 +792,7 @@ void analyzeOptions (
         }
         
         if (traceGeneralPresent) {
-          gGeneralOptions->fTraceGeneral = false;
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceGeneral ";
           traceGeneralPresent = false;
@@ -841,6 +855,15 @@ void analyzeOptions (
               measuresSpec, false); // 'true' to debug it
           debugdebugMeasuresPresent = false;
         }
+
+        if (displayCPUusagePresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fDisplayCPUusage = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--displayCPUusage ";
+          displayCPUusagePresent = false;
+        }
+        
 
         // MSR options
         // -----------
@@ -1437,7 +1460,13 @@ void printOptions ()
       i++) {
         cerr << (*i) << " ";
     } // for
-  
+
+  cerr <<
+    idtr <<
+      setw(fieldWidth) << "displayCPUusage" << " : " <<
+      booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
+      endl <<
+
   cerr << endl;
 
   idtr--;
@@ -1783,8 +1812,12 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  timing::gTiming.print (cerr);
+  if (gGeneralOptions->fDisplayCPUusage)
+    timing::gTiming.print (cerr);
   
+
+  // over!
+  // ------------------------------------------------------
 
   if (! true) { // JMI
     cerr <<
