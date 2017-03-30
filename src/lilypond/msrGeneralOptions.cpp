@@ -49,13 +49,16 @@ void msrGeneralOptions::initializeGeneralOptions ()
   
   fTraceDivisions = false;
 
+  fTraceParts = false;
+  fTraceVoices = false;
+
+  fTraceHarmony = false;
+  
+
   fTraceScore = false;
   fTracePartgroups = false;
-  fTraceParts = false;
   fTraceStaves = false;
-  
-  fTraceVoices = false;
-  
+    
   fTraceSegments = false;
   fTraceMeasures = false;
   
@@ -78,8 +81,6 @@ void msrGeneralOptions::initializeGeneralOptions ()
   fTraceWords = false;
 
   fTraceRepeats = false;
-  
-  fTraceHarmony = false;
   
   fTraceStafftuning = false;
   

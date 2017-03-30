@@ -9863,6 +9863,7 @@ void msrHarmony::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 S_msrChords msrChords::create (
   int       inputLineNumber,
   S_msrPart chordsPartUplink)
@@ -9929,7 +9930,7 @@ void msrChords::appendSKipToChords (
       " to chords " << getChordsName () << endl;
   }
 
-  /* JMI
+  / * JMI
   // create stanza skip syllable
   S_msrSyllable
     skip =
@@ -9942,7 +9943,7 @@ void msrChords::appendSKipToChords (
   
   // add syllable to this stanza
   fChordsElements.push_back (skip);
-  */
+  * /
 }
 
 void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
@@ -10052,6 +10053,7 @@ void msrChords::print (ostream& os)
     idtr--;
  // }
 }
+*/
 
 //______________________________________________________________________________
 S_msrSegno msrSegno::create (

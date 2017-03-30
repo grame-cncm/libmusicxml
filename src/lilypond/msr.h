@@ -4422,6 +4422,7 @@ EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
   A stanza is represented by a list of syllables,
 */
 //______________________________________________________________________________
+/*
 class EXP msrChords : public msrElement
 {
   public:
@@ -4504,6 +4505,7 @@ class EXP msrChords : public msrElement
 };
 typedef SMARTP<msrChords> S_msrChords;
 EXP ostream& operator<< (ostream& os, const S_msrChords& elt);
+*/
 
 /*!
 \brief A msr barline representation.

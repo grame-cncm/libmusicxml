@@ -91,10 +91,13 @@ void printUsage (int exitStatus)
     "    --tvisit, --traceVisitors " << endl <<
     "          Write a trace of the graphs visiting activity to standard error." << endl <<
     endl <<
-    "    --tParts, --traceparts " << endl <<
+    "    --tparts, --traceparts " << endl <<
     "          Write at trace of the activity regarding score, part groups and parts" << endl <<
     "          to standard error." << endl <<
-    "    --tVoices, --traceVoices " << endl <<
+    "    --tvoices, --traceVoices " << endl <<
+    "          Write at trace of the activity regarding staves and voices" << endl <<
+    "          to standard error." << endl <<
+    "    --tharm, --traceHarmony " << endl <<
     "          Write at trace of the activity regarding staves and voices" << endl <<
     "          to standard error." << endl <<
     endl <<
@@ -130,23 +133,23 @@ void printUsage (int exitStatus)
     "          Don't display MSR stanzas while displaying MSR data." << endl <<
     endl <<
 
-    "    --drDyns, --delayRestsDynamics" << endl <<
+    "    --drdyns, --delayRestsDynamics" << endl <<
     "          Don't attach dynamics to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
-    "    --drWords, --delayRestsWords" << endl <<
+    "    --drwords, --delayRestsWords" << endl <<
     "          Don't attach words to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
-    "    --drSlurs, --delayRestsSlurs" << endl <<
+    "    --drslurs, --delayRestsSlurs" << endl <<
     "          Don't attach slurs to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
-    "    --drLigs, --delayRestsLigatures" << endl <<
+    "    --drligs, --delayRestsLigatures" << endl <<
     "          Don't attach ligatures to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
-    "    --drWedges, --delayRestsWedges" << endl <<
+    "    --drwedges, --delayRestsWedges" << endl <<
     "          Don't attach wedges to rests," << endl <<
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
@@ -281,8 +284,10 @@ void analyzeOptions (
   int interactivePresent                = 0;
   
   int traceVisitorsPresent              = 0;
-  int tracepartsPresent                 = 0;
+  int tracePartsPresent                 = 0;
+  
   int traceVoicesPresent                = 0;
+  int traceHarmonyPresent               = 0;
   
   int debugMeasuresPresent              = 0;
   int debugdebugMeasuresPresent         = 0;
@@ -405,21 +410,30 @@ void analyzeOptions (
       no_argument, &traceVisitorsPresent, 1
     },
     {
-      "tParts",
-      no_argument, &tracepartsPresent, 1
+      "tparts",
+      no_argument, &tracePartsPresent, 1
     },
     {
       "traceparts",
-      no_argument, &tracepartsPresent, 1
+      no_argument, &tracePartsPresent, 1
     },
     
     {
-      "tVoices",
+      "tvoices",
       no_argument, &traceVoicesPresent, 1
     },
     {
       "traceVoices",
       no_argument, &traceVoicesPresent, 1
+    },
+    
+    {
+      "tharm",
+      no_argument, &traceHarmonyPresent, 1
+    },
+    {
+      "traceHarmony",
+      no_argument, &traceHarmonyPresent, 1
     },
     
     {
@@ -480,7 +494,7 @@ void analyzeOptions (
     },
 
     {
-      "drd",
+      "drdyn",
       no_argument, &delayRestsDynamicsPresent, 1
     },
     {
@@ -488,7 +502,7 @@ void analyzeOptions (
       no_argument, &delayRestsDynamicsPresent, 1
     },
     {
-      "drWords",
+      "drwords",
       no_argument, &delayRestsWordsPresent, 1
     },
     {
@@ -496,7 +510,7 @@ void analyzeOptions (
       no_argument, &delayRestsWordsPresent, 1
     },
     {
-      "drSlurs",
+      "drslurs",
       no_argument, &delayRestsSlursPresent, 1
     },
     {
@@ -504,7 +518,7 @@ void analyzeOptions (
       no_argument, &delayRestsSlursPresent, 1
     },
     {
-      "drLigs",
+      "drligs",
       no_argument, &delayRestsLigaturesPresent, 1
     },
     {
@@ -512,7 +526,7 @@ void analyzeOptions (
       no_argument, &delayRestsLigaturesPresent, 1
     },
     {
-      "drWedges",
+      "drwedges",
       no_argument, &delayRestsWedgesPresent, 1
     },
     {
@@ -805,19 +819,26 @@ void analyzeOptions (
             "--traceVisitors ";
           traceVisitorsPresent = false;
         }
-        if (tracepartsPresent) {
+        if (tracePartsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceparts ";
-          tracepartsPresent = false;
+          tracePartsPresent = false;
         }
-        if (traceVoicesPresent) {
+        if (traceHarmonyPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceVoices ";
-          traceVoicesPresent = false;
+          traceHarmonyPresent = false;
+        }
+        if (traceHarmonyPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceHarmony = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceHarmony ";
+          traceHarmonyPresent = false;
         }
         
         if (debugMeasuresPresent) {
@@ -1446,6 +1467,10 @@ void printOptions ()
     idtr <<
       setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (gGeneralOptions->fTraceVoices) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceHarmony" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceHarmony) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
