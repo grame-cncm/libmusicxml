@@ -74,9 +74,12 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       idtr << separator <<
       endl <<
       "Pass 3: translating the MSR into a LPSR" <<
-      endl <<
-      "(dpwn: divisions per whole note)" <<
-      endl <<
+      endl;
+    if (lpsrOpts->fDisplayLPSR)
+      cerr <<
+        "(dpwn: divisions per whole note)" <<
+        endl;
+    cerr <<
       idtr << separator <<
       endl;
   }
