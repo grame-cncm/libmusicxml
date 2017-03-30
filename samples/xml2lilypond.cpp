@@ -1547,7 +1547,7 @@ void printOptions ()
   idtr--;
 
   // the option name field width
-  int const fieldWidth = 31;
+  int const fieldWidth = 35;
   
   // General options
   // ---------------
@@ -1747,8 +1747,8 @@ void printOptions ()
     idtr << setw(fieldWidth) << "emptyLineEveryNMeasures" << " : " <<
       booleanAsString (gLpsrOptions->fEmptyLineEveryNMeasures) <<
       endl <<
-    idtr << setw(fieldWidth) << "fEmptyLineEveryNMeasuresValue" << " : " <<
-      booleanAsString (gLpsrOptions->fEmptyLineEveryNMeasuresValue) <<
+    idtr << setw(fieldWidth) << "emptyLineEveryNMeasuresValue" << " : " <<
+      gLpsrOptions->fEmptyLineEveryNMeasuresValue <<
       endl <<
     
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<

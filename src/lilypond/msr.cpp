@@ -5510,7 +5510,7 @@ void msrNote::print (ostream& os)
 
   // print simplified position in measure if relevant
   if (fNoteMeasureUplink) {
-    // the measure uplink may not have been set yet
+    // the note measure uplink may not have been set yet
     rational
       notePosition (
         fNotePositionInMeasure,
@@ -6188,22 +6188,25 @@ void msrChord::print (ostream& os)
     fChordDivisionsPerQuarterNote;
 
   // print simplified position in measure if relevant
-  rational
-    chordPosition (
-      fChordPositionInMeasure,
-      fChordMeasureUplink->
-        getMeasureDivisionsPerFullMeasure ()); // JMI
-  chordPosition.rationalise ();
+  if (fChordMeasureUplink) {
+    // the chord measure uplink may not have been set yet
+    rational
+      chordPosition (
+        fChordPositionInMeasure,
+        fChordMeasureUplink->
+          getMeasureDivisionsPerFullMeasure ()); // JMI
+    chordPosition.rationalise ();
+    
+    if (chordPosition.getNumerator () != fChordPositionInMeasure)
+      // print simplified rational view
+      os <<
+        " (" <<
+        chordPosition.getNumerator () <<
+        "/" <<
+        chordPosition.getDenominator() <<
+        ")";
+  }
   
-  if (chordPosition.getNumerator () != fChordPositionInMeasure)
-    // print simplified rational view
-    os <<
-      " (" <<
-      chordPosition.getNumerator () <<
-      "/" <<
-      chordPosition.getDenominator() <<
-      ")";
-
   os <<
     endl;
     
