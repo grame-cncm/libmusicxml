@@ -1243,6 +1243,8 @@ void xml2MsrTranslator::visitStart (S_part& elt)
 
 void xml2MsrTranslator::visitEnd (S_part& elt)
 {
+  idtr--;
+
   if (gGeneralOptions->fTraceParts)
     cerr <<
       idtr <<
@@ -1257,8 +1259,6 @@ void xml2MsrTranslator::visitEnd (S_part& elt)
   // but some may have remained empty
   fCurrentPart->
     removePartEmptyVoices ();
-
-  idtr--;
 }
 
 //______________________________________________________________________________

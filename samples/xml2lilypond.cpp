@@ -91,10 +91,10 @@ void printUsage (int exitStatus)
     "    --tvisit, --traceVisitors " << endl <<
     "          Write a trace of the graphs visiting activity to standard error." << endl <<
     endl <<
-    "    --tparts, --traceparts " << endl <<
+    "    --tParts, --traceparts " << endl <<
     "          Write at trace of the activity regarding score, part groups and parts" << endl <<
     "          to standard error." << endl <<
-    "    --tvoices, --traceVoices " << endl <<
+    "    --tVoices, --traceVoices " << endl <<
     "          Write at trace of the activity regarding staves and voices" << endl <<
     "          to standard error." << endl <<
     endl <<
@@ -405,7 +405,7 @@ void analyzeOptions (
       no_argument, &traceVisitorsPresent, 1
     },
     {
-      "tparts",
+      "tParts",
       no_argument, &tracepartsPresent, 1
     },
     {
@@ -414,7 +414,7 @@ void analyzeOptions (
     },
     
     {
-      "tvoices",
+      "tVoices",
       no_argument, &traceVoicesPresent, 1
     },
     {
@@ -1460,14 +1460,13 @@ void printOptions ()
       i++) {
         cerr << (*i) << " ";
     } // for
+  cerr << endl;
 
   cerr <<
     idtr <<
       setw(fieldWidth) << "displayCPUusage" << " : " <<
       booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
-      endl <<
-
-  cerr << endl;
+      endl;
 
   idtr--;
 

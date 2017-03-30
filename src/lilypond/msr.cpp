@@ -4315,7 +4315,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "--> creating a bare clone of grace notes" <<
+      "--> creating a bare clone of after grace notes" <<
       endl;
   }
   
@@ -9647,7 +9647,9 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
   if (gGeneralOptions->fTraceHarmony) {
     cerr << idtr <<
-      "--> Creating a bare clone or a harmony" <<
+      "--> Creating a bare clone or harmony '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
       endl;
   }
 
@@ -9900,7 +9902,9 @@ S_msrChords msrChords::createChordsBareClone (S_msrPart clonedPart)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "--> Creating a bare clone of a chord" <<
+      "--> Creating a bare clone of a chords '" <<
+      "???" <<
+      "'" <<
       endl;
   }
 
@@ -15928,7 +15932,7 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 {
   if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "--> Creating a bare clone of part " <<
+      "Creating a bare clone of part " <<
       getPartCombinedName () <<
       endl;
   }
@@ -16027,7 +16031,7 @@ void msrPart::setPartMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures)
     cerr <<
       endl <<
       idtr <<
@@ -16118,9 +16122,9 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 void msrPart::setAllPartStavesDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "--> setting segment divisions per quarter note to " <<
+      "--> setting part divisions per quarter note to " <<
       divisionsPerQuarterNote <<
       endl;
 
@@ -16141,7 +16145,7 @@ void msrPart::setAllPartStavesMeasureNumber (
   int inputLineNumber,
   int measureNumber)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "### --> setAllPartStavesMeasureNumber()" <<
       ", line " << inputLineNumber <<
@@ -16358,7 +16362,7 @@ void msrPart::removePartEmptyVoices ()
 
 void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "### --> finalizing last measure in part " <<
       getPartName () <<
@@ -16822,7 +16826,7 @@ void msrPartgroup::appendSubPartgroupToPartgroup (
 S_msrPart msrPartgroup::fetchPartFromPartgroup (
   string partID)
 {
-  if (gGeneralOptions->fTracePartgroups || gGeneralOptions->fTraceParts) {
+  if (gGeneralOptions->fTracePartgroups) {
     cerr << idtr <<
       "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
     for (
