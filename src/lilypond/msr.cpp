@@ -5394,7 +5394,11 @@ string msrNote::noteAsString () const
 
       s <<
         ":" <<
-        noteTypeKindAsMSRString ();
+        tupletDivisionsAsMsrString (
+          fInputLineNumber,
+          fNoteData.fNoteDivisions,
+          fNoteTupletUplink->getTupletActualNotes (),
+          fNoteTupletUplink->getTupletNormalNotes ());
 /* JMI
       if (fNoteData.fNoteTypeKind != k_NoDuration)
         s <<
