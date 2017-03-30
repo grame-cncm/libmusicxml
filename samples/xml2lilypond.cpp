@@ -808,8 +808,8 @@ void analyzeOptions (
         
         if (debugMeasuresPresent) {
           // optarg contains the measure numbers set specification
-          gGeneralOptions->fTrace = true;
-          gGeneralOptions->fDebug = true;
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceMeasures = true;
           
           char*        measuresSpec = optarg;
           stringstream s;
@@ -825,7 +825,7 @@ void analyzeOptions (
           debugMeasuresPresent = false;
         }
         if (debugdebugMeasuresPresent) {
-          gGeneralOptions->fTrace = true;
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fDebugDebug = true;
           
           char*        measuresSpec = optarg;
@@ -1357,7 +1357,7 @@ void analyzeOptions (
 //_______________________________________________________________________________
 void printOptions ()
 {
-  if (gGeneralOptions->fTrace)
+  if (gGeneralOptions->fTraceGeneral)
     cerr << idtr <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -1661,7 +1661,7 @@ int main (int argc, char *argv[])
   // trace
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTrace) {
+  if (gGeneralOptions->fTraceGeneral) {
     cerr <<  idtr <<
       "This is xml2Lilypond v" << MSRVersionNumberAsString () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -1696,7 +1696,7 @@ int main (int argc, char *argv[])
   ofstream outStream;
 
   if (outputFileName.size()) {
-    if (gGeneralOptions->fDebug)
+    if (gGeneralOptions->fTraceGeneral)
       cerr << idtr <<
         "Opening file '" << outputFileName << "' for writing" <<
         endl;
@@ -1771,7 +1771,7 @@ int main (int argc, char *argv[])
       lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
     
     if (outputFileName.size()) {
-      if (gGeneralOptions->fDebug)
+      if (gGeneralOptions->fTraceGeneral)
         cerr << idtr <<
           "Closing file '" << outputFileName << "'" <<
           endl;
