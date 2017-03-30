@@ -16343,8 +16343,8 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
     createPartHarmonyStaffAndVoice (
       inputLineNumber);
     
- // JMI fPartHarmonyVoice->
-   // appendHarmonyToVoice (harmony);
+  fPartHarmonyVoice->
+    appendHarmonyToVoice (harmony);
 }
 
 void msrPart:: handleBackup (int divisions)

@@ -376,6 +376,7 @@ class lpsr2LilyPondTranslator :
     // ------------------------------------------------------
  // JMI   S_msrVoice           fCurrentMsrVoiceClone;
     bool                  fOnGoingVoice;
+    bool                  fOnGoingHarmonyVoice;
     
     // relative octaves
     // ------------------------------------------------------

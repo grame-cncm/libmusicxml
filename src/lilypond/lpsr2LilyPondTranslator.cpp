@@ -47,6 +47,8 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fOnGoingStaff = false;
 
   fOnGoingVoice = false;
+  fOnGoingHarmonyVoice = false;
+
 
   fOngoingNonEmptyStanza = false;
 
@@ -1528,7 +1530,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
   if (gGeneralOptions->fTraceVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrVoice" << endl;
-
+ 
   fOstream << idtr <<
     elt->getVoiceName () << " = ";
 
@@ -1590,6 +1592,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
   fMusicOlec.reset ();
 
   fOnGoingVoice = true;
+
+  switch (elt->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fOnGoingHarmonyVoice = true;
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
@@ -1606,6 +1620,18 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
     endl;
 
   fOnGoingVoice = false;
+
+  switch (elt->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fOnGoingHarmonyVoice = false;
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
 }
 
 //________________________________________________________________________
@@ -1615,12 +1641,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
     fOstream << idtr <<
       "% --> Start visiting msrHarmony" << endl;
 
- // if (fOnGoingNote) {
+  if (fOnGoingNote) {
     fOstream <<
       "%{ " << elt->harmonyAsString () << " %}" <<
       endl <<
       idtr;
- // }
+  }
+  
+  else if (fOnGoingHarmonyVoice) {
+    fOstream <<
+      elt->harmonyAsString () << " ";
+  }
 
 /* JMI
   else if (fOnGoingChord) {
