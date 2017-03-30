@@ -272,7 +272,8 @@ void lpsrElement::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrElement::visitStart()" << endl;
+            "==> Launching lpsrElement::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -331,7 +332,8 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrParallelMusic::visitStart()" << endl;
+            "==> Launching lpsrParallelMusic::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -443,7 +445,8 @@ void lpsrComment::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrComment::visitStart()" << endl;
+            "==> Launching lpsrComment::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -526,7 +529,8 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrBarNumberCheck::visitStart()" << endl;
+            "==> Launching lpsrBarNumberCheck::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -599,7 +603,8 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrUseVoiceCommand::visitStart()" << endl;
+            "==> Launching lpsrUseVoiceCommand::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -679,7 +684,8 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewLyricsBlock::visitStart()" << endl;
+            "==> Launching lpsrNewLyricsBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -789,7 +795,8 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrLilypondVarValAssoc::visitStart()" << endl;
+            "==> Launching lpsrLilypondVarValAssoc::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -982,7 +989,8 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrSchemeVarValAssoc::visitStart()" << endl;
+            "==> Launching lpsrSchemeVarValAssoc::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1108,7 +1116,8 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffgroupBlock::visitStart()" << endl;
+            "==> Launching lpsrNewStaffgroupBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1188,7 +1197,8 @@ void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStafftuningBlock::visitStart()" << endl;
+            "==> Launching lpsrNewStafftuningBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1261,7 +1271,8 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffBlock::visitStart()" << endl;
+            "==> Launching lpsrNewStaffBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1341,7 +1352,8 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrVariableUseCommand::visitStart()" << endl;
+            "==> Launching lpsrVariableUseCommand::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1420,7 +1432,8 @@ void lpsrContext::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrContext::visitStart()" << endl;
+            "==> Launching lpsrContext::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1505,7 +1518,8 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrBarCommand::visitStart()" << endl;
+            "==> Launching lpsrBarCommand::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1583,7 +1597,8 @@ void lpsrMelismaCommand::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrMelismaCommand::visitStart()" << endl;
+            "==> Launching lpsrMelismaCommand::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -1926,7 +1941,8 @@ void lpsrHeader::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrHeader::visitStart()" << endl;
+            "==> Launching lpsrHeader::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2120,7 +2136,8 @@ void lpsrPaper::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPaper::visitStart()" << endl;
+            "==> Launching lpsrPaper::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2245,7 +2262,8 @@ void lpsrLayout::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrLayout::visitStart()" << endl;
+            "==> Launching lpsrLayout::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2372,7 +2390,8 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrStaffBlock::visitStart()" << endl;
+            "==> Launching lpsrStaffBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2479,7 +2498,8 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPartBlock::visitStart()" << endl;
+            "==> Launching lpsrPartBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2607,7 +2627,8 @@ void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPartgroupBlock::visitStart()" << endl;
+            "==> Launching lpsrPartgroupBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2778,7 +2799,8 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrScoreBlock::visitStart()" << endl;
+            "==> Launching lpsrScoreBlock::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3081,7 +3103,8 @@ void lpsrScore::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching lpsrScore::visitStart()" << endl;
+            "==> Launching lpsrScore::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }

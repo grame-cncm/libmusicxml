@@ -2515,7 +2515,8 @@ void msrElement::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr <<
-            "==> Launching msrElement::visitStart()" << endl;
+            "==> Launching msrElement::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2532,7 +2533,8 @@ void msrElement::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr <<
-            "==> Launching msrElement::visitEnd()" << endl;
+            "==> Launching msrElement::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -2747,7 +2749,8 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrOctaveShift::visitStart()" << endl;
+            "==> Launching msrOctaveShift::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2764,7 +2767,8 @@ void msrOctaveShift::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrOctaveShift::visitEnd()" << endl;
+            "==> Launching msrOctaveShift::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -2844,7 +2848,8 @@ void msrStem::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStem::visitStart()" << endl;
+            "==> Launching msrStem::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2861,7 +2866,8 @@ void msrStem::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStem::visitEnd()" << endl;
+            "==> Launching msrStem::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -2951,7 +2957,8 @@ void msrBeam::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBeam::visitStart()" << endl;
+            "==> Launching msrBeam::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -2968,7 +2975,8 @@ void msrBeam::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBeam::visitEnd()" << endl;
+            "==> Launching msrBeam::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3120,7 +3128,8 @@ void msrArticulation::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrArticulation::visitStart()" << endl;
+            "==> Launching msrArticulation::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3137,7 +3146,8 @@ void msrArticulation::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrArticulation::visitEnd()" << endl;
+            "==> Launching msrArticulation::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3275,7 +3285,8 @@ void msrOrnament::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrOrnament::visitStart()" << endl;
+            "==> Launching msrOrnament::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3292,7 +3303,8 @@ void msrOrnament::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrOrnament::visitEnd()" << endl;
+            "==> Launching msrOrnament::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3356,7 +3368,8 @@ void msrRehearsal::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrRehearsal::visitStart()" << endl;
+            "==> Launching msrRehearsal::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3373,7 +3386,8 @@ void msrRehearsal::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrRehearsal::visitEnd()" << endl;
+            "==> Launching msrRehearsal::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3532,7 +3546,8 @@ void msrDynamics::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrDynamics::visitStart()" << endl;
+            "==> Launching msrDynamics::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3549,7 +3564,8 @@ void msrDynamics::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrDynamics::visitEnd()" << endl;
+            "==> Launching msrDynamics::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3624,7 +3640,8 @@ void msrWedge::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrWedge::visitStart()" << endl;
+            "==> Launching msrWedge::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3641,7 +3658,8 @@ void msrWedge::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrWedge::visitEnd()" << endl;
+            "==> Launching msrWedge::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3716,7 +3734,8 @@ void msrTie::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTie::visitStart()" << endl;
+            "==> Launching msrTie::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3733,7 +3752,8 @@ void msrTie::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTie::visitEnd()" << endl;
+            "==> Launching msrTie::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3819,7 +3839,8 @@ void msrSlur::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSlur::visitStart()" << endl;
+            "==> Launching msrSlur::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3836,7 +3857,8 @@ void msrSlur::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSlur::visitEnd()" << endl;
+            "==> Launching msrSlur::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -3923,7 +3945,8 @@ void msrLigature::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrLigature::visitStart()" << endl;
+            "==> Launching msrLigature::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -3940,7 +3963,8 @@ void msrLigature::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrLigature::visitEnd()" << endl;
+            "==> Launching msrLigature::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -4119,7 +4143,8 @@ void msrGracenotes::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrGracenotes::visitStart()" << endl;
+            "==> Launching msrGracenotes::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -4136,7 +4161,8 @@ void msrGracenotes::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrGracenotes::visitEnd()" << endl;
+            "==> Launching msrGracenotes::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -4290,7 +4316,8 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrAftergracenotes::visitStart()" << endl;
+            "==> Launching msrAftergracenotes::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -4307,7 +4334,8 @@ void msrAftergracenotes::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrAftergracenotes::visitEnd()" << endl;
+            "==> Launching msrAftergracenotes::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -4715,7 +4743,8 @@ void msrNote::acceptIn (basevisitor* v)
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrNote::visitStart()" << endl;
+            "==> Launching msrNote::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -4733,7 +4762,8 @@ void msrNote::acceptOut (basevisitor* v)
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrNote::visitEnd()" << endl;
+            "==> Launching msrNote::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -5810,7 +5840,8 @@ void msrChord::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrChord::visitStart()" << endl;
+            "==> Launching msrChord::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -5827,7 +5858,8 @@ void msrChord::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrChord::visitEnd()" << endl;
+            "==> Launching msrChord::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -6148,7 +6180,8 @@ void msrComment::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrComment::visitStart()" << endl;
+            "==> Launching msrComment::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -6165,7 +6198,8 @@ void msrComment::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrComment::visitEnd()" << endl;
+            "==> Launching msrComment::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -6245,7 +6279,8 @@ void msrBreak::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBreak::visitStart()" << endl;
+            "==> Launching msrBreak::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -6262,7 +6297,8 @@ void msrBreak::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBreak::visitEnd()" << endl;
+            "==> Launching msrBreak::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -6331,7 +6367,8 @@ void msrBarCheck::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBarCheck::visitStart()" << endl;
+            "==> Launching msrBarCheck::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -6348,7 +6385,8 @@ void msrBarCheck::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBarCheck::visitEnd()" << endl;
+            "==> Launching msrBarCheck::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -6412,7 +6450,8 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBarnumberCheck::visitStart()" << endl;
+            "==> Launching msrBarnumberCheck::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -6429,7 +6468,8 @@ void msrBarnumberCheck::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBarnumberCheck::visitEnd()" << endl;
+            "==> Launching msrBarnumberCheck::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -6892,7 +6932,8 @@ void msrTuplet::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTuplet::visitStart()" << endl;
+            "==> Launching msrTuplet::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -6909,7 +6950,8 @@ void msrTuplet::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTuplet::visitEnd()" << endl;
+            "==> Launching msrTuplet::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7171,7 +7213,8 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPageGeometry::visitStart()" << endl;
+            "==> Launching msrPageGeometry::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7188,7 +7231,8 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPageGeometry::visitEnd()" << endl;
+            "==> Launching msrPageGeometry::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7361,7 +7405,8 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrVarValAssoc::visitStart()" << endl;
+            "==> Launching msrVarValAssoc::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7378,7 +7423,8 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrVarValAssoc::visitEnd()" << endl;
+            "==> Launching msrVarValAssoc::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7453,7 +7499,8 @@ void msrLayout::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrLayout::visitStart()" << endl;
+            "==> Launching msrLayout::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7470,7 +7517,8 @@ void msrLayout::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrLayout::visitEnd()" << endl;
+            "==> Launching msrLayout::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7554,7 +7602,8 @@ void msrCreditWords::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrCreditWords::visitStart()" << endl;
+            "==> Launching msrCreditWords::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7571,7 +7620,8 @@ void msrCreditWords::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrCreditWords::visitEnd()" << endl;
+            "==> Launching msrCreditWords::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7654,7 +7704,8 @@ void msrCredit::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrCredit::visitStart()" << endl;
+            "==> Launching msrCredit::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7671,7 +7722,8 @@ void msrCredit::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrCredit::visitEnd()" << endl;
+            "==> Launching msrCredit::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7780,7 +7832,8 @@ void msrClef::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrClef::visitStart()" << endl;
+            "==> Launching msrClef::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7797,7 +7850,8 @@ void msrClef::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrClef::visitEnd()" << endl;
+            "==> Launching msrClef::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -7934,7 +7988,8 @@ void msrKey::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrKey::visitStart()" << endl;
+            "==> Launching msrKey::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -7951,7 +8006,8 @@ void msrKey::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrKey::visitEnd()" << endl;
+            "==> Launching msrKey::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -8042,7 +8098,8 @@ void msrTime::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTime::visitStart()" << endl;
+            "==> Launching msrTime::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -8059,7 +8116,8 @@ void msrTime::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTime::visitEnd()" << endl;
+            "==> Launching msrTime::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -8128,7 +8186,8 @@ void msrTranspose::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTranspose::visitStart()" << endl;
+            "==> Launching msrTranspose::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -8145,7 +8204,8 @@ void msrTranspose::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTranspose::visitEnd()" << endl;
+            "==> Launching msrTranspose::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -8232,7 +8292,8 @@ void msrWords::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrWords::visitStart()" << endl;
+            "==> Launching msrWords::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -8249,7 +8310,8 @@ void msrWords::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrWords::visitEnd()" << endl;
+            "==> Launching msrWords::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -8374,7 +8436,8 @@ void msrTempo::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTempo::visitStart()" << endl;
+            "==> Launching msrTempo::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -8391,7 +8454,8 @@ void msrTempo::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrTempo::visitEnd()" << endl;
+            "==> Launching msrTempo::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -8547,7 +8611,8 @@ void msrSyllable::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSyllable::visitStart()" << endl;
+            "==> Launching msrSyllable::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -8564,7 +8629,8 @@ void msrSyllable::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSyllable::visitEnd()" << endl;
+            "==> Launching msrSyllable::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -9363,7 +9429,8 @@ void msrStanza::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStanza::visitStart()" << endl;
+            "==> Launching msrStanza::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -9380,7 +9447,8 @@ void msrStanza::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStanza::visitEnd()" << endl;
+            "==> Launching msrStanza::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -9650,7 +9718,8 @@ void msrHarmony::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrHarmony::visitStart()" << endl;
+            "==> Launching msrHarmony::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -9667,7 +9736,8 @@ void msrHarmony::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrHarmony::visitEnd()" << endl;
+            "==> Launching msrHarmony::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -9823,7 +9893,8 @@ void msrChords::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrChords::visitStart()" << endl;
+            "==> Launching msrChords::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -9840,7 +9911,8 @@ void msrChords::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrChords::visitEnd()" << endl;
+            "==> Launching msrChords::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -9931,7 +10003,8 @@ void msrSegno::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSegno::visitStart()" << endl;
+            "==> Launching msrSegno::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -9948,7 +10021,8 @@ void msrSegno::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSegno::visitEnd()" << endl;
+            "==> Launching msrSegno::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -10000,7 +10074,8 @@ void msrCoda::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrCoda::visitStart()" << endl;
+            "==> Launching msrCoda::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -10017,7 +10092,8 @@ void msrCoda::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrCoda::visitEnd()" << endl;
+            "==> Launching msrCoda::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -10069,7 +10145,8 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrEyeglasses::visitStart()" << endl;
+            "==> Launching msrEyeglasses::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -10086,7 +10163,8 @@ void msrEyeglasses::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrEyeglasses::visitEnd()" << endl;
+            "==> Launching msrEyeglasses::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -10184,7 +10262,8 @@ void msrPedal::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPedal::visitStart()" << endl;
+            "==> Launching msrPedal::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -10201,7 +10280,8 @@ void msrPedal::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPedal::visitEnd()" << endl;
+            "==> Launching msrPedal::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -10293,7 +10373,8 @@ void msrBarline::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBarline::visitStart()" << endl;
+            "==> Launching msrBarline::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -10310,7 +10391,8 @@ void msrBarline::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrBarline::visitEnd()" << endl;
+            "==> Launching msrBarline::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -11091,7 +11173,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
     measureLastElement =
       fMeasureElementsList.back ();
       
-  if (true || gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
 //  if (gGeneralOptions->fDebug) {
     cerr << idtr <<
       "--> removing last element:" <<
@@ -11327,7 +11409,7 @@ void msrMeasure::finalizeMeasure (
     fMeasurePartDirectUplink->
       getPartMeasurePositionHighTide ();
     
-  if (true || gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     cerr <<
       idtr <<
         "### --> finalizing measure " << fMeasureNumber <<
@@ -11349,7 +11431,7 @@ void msrMeasure::finalizeMeasure (
         ? partMeasurePositionHighTide - fMeasurePosition
         : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
 
-    if (true || gGeneralOptions->fTraceMeasures) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
         ", skipDuration = " << skipDuration <<
@@ -11443,7 +11525,8 @@ void msrMeasure::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrMeasure::visitStart()" << endl;
+            "==> Launching msrMeasure::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -11460,7 +11543,8 @@ void msrMeasure::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrMeasure::visitEnd()" << endl;
+            "==> Launching msrMeasure::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -11827,7 +11911,7 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
       lastMeasure->
         getMeasureDivisionsPerFullMeasure ();
         
- // JMI if (true || gGeneralOptions->fDebug) {
+ // JMI if (gGeneralOptions->fDebug) {
   if (gGeneralOptions->fDebug) {
     idtr++;
 
@@ -11939,7 +12023,7 @@ void msrSegment::setSegmentMeasureNumber (
         getMeasureKind ();
 * /
         
- // JMI if (true || gGeneralOptions->fDebug) {
+ // JMI if (gGeneralOptions->fDebug) {
   if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
@@ -12522,7 +12606,8 @@ void msrSegment::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSegment::visitStart()" << endl;
+            "==> Launching msrSegment::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -12539,7 +12624,8 @@ void msrSegment::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrSegment::visitEnd()" << endl;
+            "==> Launching msrSegment::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -12725,7 +12811,8 @@ void msrRepeatending::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeatending::visitStart()" << endl;
+            "==> Launching msrRepeatending::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -12742,7 +12829,8 @@ void msrRepeatending::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeatending::visitEnd()" << endl;
+            "==> Launching msrRepeatending::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -12895,7 +12983,8 @@ void msrRepeat::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeat::visitStart()" << endl;
+            "==> Launching msrRepeat::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -12912,7 +13001,8 @@ void msrRepeat::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeat::visitEnd()" << endl;
+            "==> Launching msrRepeat::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -14145,7 +14235,8 @@ void msrVoice::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrVoice::visitStart()" << endl;
+            "==> Launching msrVoice::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -14162,7 +14253,8 @@ void msrVoice::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrVoice::visitEnd()" << endl;
+            "==> Launching msrVoice::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -14418,7 +14510,7 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 
 void msrStafftuning::acceptIn (basevisitor* v)
 {
-  if (gGeneralOptions->fTraceStafftuning) {
+  if (gGeneralOptions->fTraceVisitors) {
     cerr << idtr <<
       "==> msrStafftuning::acceptIn()" << endl;
   }
@@ -14430,7 +14522,8 @@ void msrStafftuning::acceptIn (basevisitor* v)
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStafftuning::visitStart()" << endl;
+            "==> Launching msrStafftuning::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -14447,7 +14540,8 @@ void msrStafftuning::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStafftuning::visitEnd()" << endl;
+            "==> Launching msrStafftuning::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -15330,7 +15424,8 @@ void msrStaff::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStaff::visitStart()" << endl;
+            "==> Launching msrStaff::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -15347,7 +15442,8 @@ void msrStaff::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrStaff::visitEnd()" << endl;
+            "==> Launching msrStaff::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -16181,7 +16277,8 @@ void msrPart::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPart::visitStart()" << endl;
+            "==> Launching msrPart::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -16198,7 +16295,8 @@ void msrPart::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPart::visitEnd()" << endl;
+            "==> Launching msrPart::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -16650,7 +16748,8 @@ void msrPartgroup::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPartgroup::visitStart()" << endl;
+            "==> Launching msrPartgroup::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -16667,7 +16766,8 @@ void msrPartgroup::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrPartgroup::visitEnd()" << endl;
+            "==> Launching msrPartgroup::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -16978,7 +17078,8 @@ void msrIdentification::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrIdentification::visitStart()" << endl;
+            "==> Launching msrIdentification::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -16995,7 +17096,8 @@ void msrIdentification::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrIdentification::visitEnd()" << endl;
+            "==> Launching msrIdentification::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -17216,7 +17318,8 @@ void msrScore::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrScore::visitStart()" << endl;
+            "==> Launching msrScore::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -17233,7 +17336,8 @@ void msrScore::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrScore::visitEnd()" << endl;
+            "==> Launching msrScore::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }
@@ -17380,7 +17484,8 @@ void msrMidi::acceptIn (basevisitor* v) {
         
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrMidi::visitStart()" << endl;
+            "==> Launching msrMidi::visitStart()" <<
+             endl;
         p->visitStart (elem);
   }
 }
@@ -17397,7 +17502,8 @@ void msrMidi::acceptOut (basevisitor* v) {
       
         if (gGeneralOptions->fTraceVisitors)
           cerr << idtr <<
-            "==> Launching msrMidi::visitEnd()" << endl;
+            "==> Launching msrMidi::visitEnd()" <<
+            endl;
         p->visitEnd (elem);
   }
 }

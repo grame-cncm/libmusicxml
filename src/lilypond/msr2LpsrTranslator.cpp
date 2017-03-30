@@ -294,7 +294,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
   // push it onto this visitors's stack,
   // making it the current partgroup block
- // if (gGeneralOptions->fTracePartgroups)
+  if (gGeneralOptions->fTracePartgroups)
     cerr << idtr <<
       "--> pushing part group clone " <<
       partgroupClone->getPartgroupCombinedName () <<
@@ -376,7 +376,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
   else {
 
     // pop current partgroup from this visitors's stack
-  //  if (gGeneralOptions->fTracePartgroups)
+    if (gGeneralOptions->fTracePartgroups)
       fOstream << idtr <<
         "--> popping part group clone " <<
         fPartgroupsStack.top ()->getPartgroupCombinedName () <<
@@ -428,7 +428,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 
   else {
     // pop current partgroup block from this visitors's stack
-  //  if (gGeneralOptions->fTracePartgroups)
+    if (gGeneralOptions->fTracePartgroups)
       fOstream << idtr <<
         "--> popping part group block clone for part group " <<
         currentPartgroupBlock->
@@ -948,7 +948,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
   idtr--;
   
-//  if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics)
     fOstream << idtr <<
       "--> End visiting msrStanza" <<
       endl << endl <<
@@ -1636,7 +1636,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
       elt->createTupletBareClone ();
 
   // register it in this visitor
-//  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "++> pushing tuplet '" <<
       tupletClone->tupletAsString () <<

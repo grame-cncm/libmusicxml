@@ -6968,7 +6968,7 @@ void xml2MsrTranslator::handleLyric (
             fCurrentStanzaNumber); // JMI
 
     // create a syllable
-    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
       cerr << idtr <<
         "--> creating a skip syllable for missing lyric"
@@ -7046,7 +7046,7 @@ void xml2MsrTranslator::handleLyric (
 
 /*
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    if (true || gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
+    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
       cerr <<
         idtr <<
           "--> note \"" << newNote->noteAsString () << "\"" <<
