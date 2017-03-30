@@ -2359,6 +2359,7 @@ void testDivisionsAndDurations ()
 
 // note types
 //______________________________________________________________________________
+/*
 int noteTypeAsDivisions (
   string  noteType,
   int     divisionsPerWholeNote,
@@ -2436,7 +2437,7 @@ string noteTypeAsMSRDuration (
 
   return result;
 }
-
+*/
 
 //_______________________________________________________________________________
 S_msrOptions msrOptions::create ()
@@ -2595,9 +2596,8 @@ void msrNoteData::init ()
   
   fNoteOctave = -1;
 
-  // MusicXML durations are in divisions per quarter note.
-  // LilyPond durations are in whole notes,
-  // hence the "* 4" multiplications
+  // MusicXML durations are in divisions per quarter note,
+  // LilyPond durations are in whole notes
   
   // the note duration when played
   fNoteDivisions = -17;
@@ -5416,7 +5416,8 @@ void msrNote::print (ostream& os)
   rational
     notePosition (
       fNotePositionInMeasure,
-      fNoteDivisionsPerQuarterNote * 4); // JMI
+      fNoteMeasureUplink->
+        getMeasureDivisionsPerFullMeasure ()); // JMI
   notePosition.rationalise ();
   
   if (notePosition.getNumerator () != fNotePositionInMeasure)
@@ -6087,7 +6088,8 @@ void msrChord::print (ostream& os)
   rational
     chordPosition (
       fChordPositionInMeasure,
-      fChordDivisionsPerQuarterNote * 4); // JMI
+      fChordMeasureUplink->
+        getMeasureDivisionsPerFullMeasure ()); // JMI
   chordPosition.rationalise ();
   
   if (chordPosition.getNumerator () != fChordPositionInMeasure)
@@ -11481,7 +11483,7 @@ bool msrMeasure::checkForOverfullMeasure (
     fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1;
 
   if (measureIsOverfull) {    
-    if (gGeneralOptions->fTraceMeasures) {
+    if (true || gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
           "Measure " << fMeasureNumber <<
