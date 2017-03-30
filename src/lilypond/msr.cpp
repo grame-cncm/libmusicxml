@@ -5039,17 +5039,11 @@ string msrNote::skipDivisionsAsMSRString () const
 string msrNote::noteTypeKindAsMSRString () const
 {
   string result;
-  string errorMessage;
 
   result =
-    noteTypeAsMSRDuration (
-      fNoteData.fNoteType,
-      errorMessage);
-
-  if (errorMessage.size ())
-    msrMusicXMLError (
+    divisionsAsMsrString (
       fInputLineNumber,
-      errorMessage);
+      fNoteData.fNoteTypeKind);
 
   return result;
 }
@@ -5115,7 +5109,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteTypeAsMSRString ();
+        noteTypeKindAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5202,7 +5196,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteTypeAsMSRString ();
+        noteTypeKindAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5276,7 +5270,7 @@ string msrNote::noteAsString () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteTypeAsMSRString ();
+        noteTypeKindAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5322,7 +5316,7 @@ string msrNote::noteAsString () const
         s <<
           divisionsAsMsrString (
             fInputLineNumber,
-            fNoteTypeKind);
+            fNoteData.fNoteTypeKind);
       else
         s <<
           noteDivisionsAsMSRString ();
@@ -5362,7 +5356,7 @@ void msrNote::print (ostream& os)
       " (" <<
       divisionsAsMsrString (
         fInputLineNumber,
-        fNoteTypeKind) <<
+        fNoteData.fNoteTypeKind) <<
        ")" <<
       ", line " << fInputLineNumber;
 
@@ -5693,26 +5687,26 @@ void msrNote::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  int    inputLineNumber,
-  int    chordDivisions,
-  string chordNotesType)
+  int             inputLineNumber,
+  int             chordDivisions,
+  msrNoteTypeKind chordNotesTypeKind)
 {
   msrChord* o =
     new msrChord (
-      inputLineNumber, chordDivisions, chordNotesType);
+      inputLineNumber, chordDivisions, chordNotesTypeKind);
   assert(o!=0);
   return o;
 }
 
 msrChord::msrChord (
-  int    inputLineNumber,
-  int    chordDivisions,
-  string chordNotesType)
+  int             inputLineNumber,
+  int             chordDivisions,
+  msrNoteTypeKind chordNotesTypeKind)
     : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
 
-  fChordNotesType = chordNotesType;
+  fChordNotesTypeKind = chordNotesTypeKind;
 }
 
 msrChord::~msrChord() {}
@@ -5730,7 +5724,7 @@ S_msrChord msrChord::createChordBareClone ()
       msrChord::create (
         fInputLineNumber,
         fChordDivisions,
-        fChordNotesType);
+        fChordNotesTypeKind);
 
   clone->
     fChordDivisionsPerQuarterNote =
@@ -5749,17 +5743,11 @@ S_msrChord msrChord::createChordBareClone ()
 string msrChord::chordNotesTypeAsMSRString () const
 {
   string result;
-  string errorMessage;
 
   result =
-    noteTypeAsMSRDuration (
-      fChordNotesType,
-      errorMessage);
-
-  if (errorMessage.size ())
-    msrMusicXMLError (
+    divisionsAsMsrString (
       fInputLineNumber,
-      errorMessage);
+      fChordNotesTypeKind);
 
   return result;
 }

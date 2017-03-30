@@ -2542,7 +2542,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
       // print the note duration
       fOstream <<
-        elt->noteTypeAsMSRString ();
+        elt->noteTypeKindAsMSRString ();
 
       // print the dots if any
       for (int i = 0; i < elt->getNoteDotsNumber (); i++) {

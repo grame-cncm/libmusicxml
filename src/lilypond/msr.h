@@ -3014,8 +3014,8 @@ class EXP msrChord : public msrElement
   public:
 
     static SMARTP<msrChord> create (
-      int    inputLineNumber,
-      int    chordDivisions,
+      int             inputLineNumber,
+      int             chordDivisions,
       msrNoteTypeKind chordNotesTypeKind);
 
     // creation from MusicXML
@@ -3029,8 +3029,8 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     msrChord (
-      int    inputLineNumber,
-      int    chordDivisions,
+      int             inputLineNumber,
+      int             chordDivisions,
       msrNoteTypeKind chordNotesTypeKind);
       
     virtual ~msrChord();
