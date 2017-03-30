@@ -5987,10 +5987,12 @@ string msrChord::chordDivisionsAsMSRString () const
 {
   string result;
 
+/* JMI
   int inputSourceSuppliedNumberOfDots =
-    fChordNotes [1]-> 
+    fChordNotes [0]-> 
       getNoteDotsNumber (); // any chord member note is fine
-    
+  */
+  
   result =
     divisionsAsMsrString (
       fInputLineNumber,
@@ -13874,7 +13876,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceChords) {
+  if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "Appending chord '" << chord <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13889,7 +13891,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceTuplets) {
+  if (gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -14209,11 +14211,6 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
       "' to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
       
-  idtr++;
-  cerr << idtr <<
-    barline;
-  idtr--;
-
   fVoiceLastSegment->
     prependBarlineToSegment (barline);
 }
@@ -14227,11 +14224,6 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
       "' to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
       
-  idtr++;
-  cerr << idtr <<
-    barline;
-  idtr--;
-  
   fVoiceLastSegment->
     appendBarlineToSegment (barline);
 }
@@ -14300,7 +14292,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
   int       inputLineNumber,
   S_msrNote note)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceNotes) {
+  if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "Removing first chord note " << note->noteAsShortString () <<
       " from voice \"" << getVoiceName () << "\"" <<
@@ -15888,6 +15880,42 @@ msrPart::msrPart (
 */
 }
 
+msrPart::~msrPart() {}
+
+S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
+{
+  if (gGeneralOptions->fTraceParts) {
+    cerr << idtr <<
+      "Creating a bare clone of part " <<
+      getPartCombinedName () <<
+      endl;
+  }
+
+  S_msrPart
+    clone =
+      msrPart::create (
+        fInputLineNumber,
+        fPartID,
+        clonedPartgroup);
+
+  clone->fPartName =
+    fPartName;
+  clone->fPartAbbreviation =
+    fPartAbbreviation;
+  
+  clone->fPartInstrumentName =
+    fPartInstrumentName;
+  clone->fPartInstrumentAbbreviation =
+    fPartInstrumentAbbreviation;
+
+  clone->fPartMeasureNumberMin =
+    fPartMeasureNumberMin;
+  clone->fPartMeasureNumberMax =
+    fPartMeasureNumberMax;
+    
+  return clone;
+}
+
 void msrPart::createPartHarmonyStaffAndVoice (
   int inputLineNumber)
 {
@@ -15930,42 +15958,6 @@ void msrPart::createPartHarmonyStaffAndVoice (
     registerVoiceInStaff (
       inputLineNumber,
       fPartHarmonyVoice );
-}
-
-msrPart::~msrPart() {}
-
-S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
-{
-  if (gGeneralOptions->fTraceParts) {
-    cerr << idtr <<
-      "Creating a bare clone of part " <<
-      getPartCombinedName () <<
-      endl;
-  }
-
-  S_msrPart
-    clone =
-      msrPart::create (
-        fInputLineNumber,
-        fPartID,
-        clonedPartgroup);
-
-  clone->fPartName =
-    fPartName;
-  clone->fPartAbbreviation =
-    fPartAbbreviation;
-  
-  clone->fPartInstrumentName =
-    fPartInstrumentName;
-  clone->fPartInstrumentAbbreviation =
-    fPartInstrumentAbbreviation;
-
-  clone->fPartMeasureNumberMin =
-    fPartMeasureNumberMin;
-  clone->fPartMeasureNumberMax =
-    fPartMeasureNumberMax;
-    
-  return clone;
 }
 
 void msrPart::updatePartMeasurePositionHighTide (
@@ -16351,8 +16343,8 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
     createPartHarmonyStaffAndVoice (
       inputLineNumber);
     
-  fPartHarmonyVoice->
-    appendHarmonyToVoice (harmony);
+ // JMI fPartHarmonyVoice->
+   // appendHarmonyToVoice (harmony);
 }
 
 void msrPart:: handleBackup (int divisions)

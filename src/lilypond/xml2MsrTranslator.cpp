@@ -327,6 +327,14 @@ S_msrVoice xml2MsrTranslator::registerVoiceInStaffInCurrentPartIfNeeded (
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_work_number& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     setWorkNumber (
       elt->getInputLineNumber (),
@@ -335,6 +343,10 @@ void xml2MsrTranslator::visitStart ( S_work_number& elt )
 
 void xml2MsrTranslator::visitStart ( S_work_title& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     setWorkTitle (
       elt->getInputLineNumber (),
@@ -343,6 +355,10 @@ void xml2MsrTranslator::visitStart ( S_work_title& elt )
   
 void xml2MsrTranslator::visitStart ( S_movement_number& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     setMovementNumber (
       elt->getInputLineNumber (),
@@ -351,6 +367,10 @@ void xml2MsrTranslator::visitStart ( S_movement_number& elt )
 
 void xml2MsrTranslator::visitStart ( S_movement_title& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     setMovementTitle (
       elt->getInputLineNumber (),
@@ -359,6 +379,10 @@ void xml2MsrTranslator::visitStart ( S_movement_title& elt )
 
 void xml2MsrTranslator::visitStart ( S_creator& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     addCreator (
       elt->getInputLineNumber (),
@@ -368,6 +392,10 @@ void xml2MsrTranslator::visitStart ( S_creator& elt )
 
 void xml2MsrTranslator::visitStart ( S_rights& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     setRights (
       elt->getInputLineNumber (),
@@ -376,6 +404,10 @@ void xml2MsrTranslator::visitStart ( S_rights& elt )
 
 void xml2MsrTranslator::visitStart ( S_software& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     addSoftware (
       elt->getInputLineNumber (),
@@ -384,6 +416,10 @@ void xml2MsrTranslator::visitStart ( S_software& elt )
 
 void xml2MsrTranslator::visitStart ( S_encoding_date& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMsrScore->getIdentification () ->
     setEncodingDate (
       elt->getInputLineNumber (),
@@ -393,6 +429,10 @@ void xml2MsrTranslator::visitStart ( S_encoding_date& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_millimeters& elt )
 { 
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fMillimeters = (int)(*elt);
   
   fMsrScore->getPageGeometry ()->
@@ -401,6 +441,10 @@ void xml2MsrTranslator::visitStart ( S_millimeters& elt )
 
 void xml2MsrTranslator::visitStart ( S_tenths& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fTenths = (int)(*elt);
 
   fMsrScore->getPageGeometry ()->
@@ -409,6 +453,10 @@ void xml2MsrTranslator::visitStart ( S_tenths& elt )
 
 void xml2MsrTranslator::visitEnd ( S_scaling& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (gGeneralOptions->fTraceGeneral)
     cerr << idtr <<
       "There are " << fTenths <<
@@ -421,6 +469,10 @@ void xml2MsrTranslator::visitEnd ( S_scaling& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_system_distance& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   int systemDistance = (int)(*elt);
   
 //  cerr << "--> systemDistance = " << systemDistance << endl;
@@ -431,6 +483,10 @@ void xml2MsrTranslator::visitStart ( S_system_distance& elt )
 
 void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   int topSystemDistance = (int)(*elt);
   
 //  cerr << "--> fTopSystemDistance = " << topSystemDistance << endl;
@@ -442,6 +498,10 @@ void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_page_layout& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fOnGoingPageLayout = true;
 }
 void xml2MsrTranslator::visitEnd ( S_page_layout& elt )
@@ -451,6 +511,10 @@ void xml2MsrTranslator::visitEnd ( S_page_layout& elt )
 
 void xml2MsrTranslator::visitStart ( S_page_height& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingPageLayout) {
     int pageHeight = (int)(*elt);
     
@@ -463,6 +527,10 @@ void xml2MsrTranslator::visitStart ( S_page_height& elt )
 
 void xml2MsrTranslator::visitStart ( S_page_width& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingPageLayout) {
     int pageWidth = (int)(*elt);
     
@@ -475,6 +543,10 @@ void xml2MsrTranslator::visitStart ( S_page_width& elt )
 
 void xml2MsrTranslator::visitStart ( S_left_margin& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingPageLayout) {
     int leftMargin = (int)(*elt);
     
@@ -487,6 +559,10 @@ void xml2MsrTranslator::visitStart ( S_left_margin& elt )
 
 void xml2MsrTranslator::visitStart ( S_right_margin& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingPageLayout) {
     int rightMargin = (int)(*elt);
     
@@ -499,6 +575,10 @@ void xml2MsrTranslator::visitStart ( S_right_margin& elt )
 
 void xml2MsrTranslator::visitStart ( S_top_margin& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingPageLayout) {
     int topMargin = (int)(*elt);
     
@@ -511,6 +591,10 @@ void xml2MsrTranslator::visitStart ( S_top_margin& elt )
 
 void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingPageLayout) {
     int bottomMargin = (int)(*elt);
     
@@ -524,6 +608,10 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_credit& elt )
 {  
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   int creditPageNumber =
     elt->getAttributeIntValue ("page", 0);
 
@@ -539,6 +627,10 @@ void xml2MsrTranslator::visitStart ( S_credit& elt )
 
 void xml2MsrTranslator::visitStart ( S_credit_words& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string
     creditWordsContents = elt->getValue ();
   
@@ -560,6 +652,10 @@ void xml2MsrTranslator::visitEnd ( S_credit& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_list& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Analysing part list" <<
@@ -641,6 +737,10 @@ void xml2MsrTranslator::visitEnd (S_part_list& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_group& elt)
 {  
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartgroupNumber =
     elt->getAttributeIntValue ("number", 0);
     
@@ -658,33 +758,56 @@ void xml2MsrTranslator::visitStart (S_part_group& elt)
 
 void xml2MsrTranslator::visitStart (S_group_name& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartgroupName = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart (S_group_name_display& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fOnGoingGroupNameDisplay = true;
 }
 
 void xml2MsrTranslator::visitStart (S_display_text& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingGroupNameDisplay)
     fCurrentPartgroupDisplayText = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart (S_accidental_text& elt)
 {
-  if (fOnGoingGroupNameDisplay)
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
     fCurrentPartgroupAccidentalText = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart (S_group_abbreviation& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartgroupAbbreviation = elt->getValue ();
 }
 
 void xml2MsrTranslator::visitStart (S_group_symbol& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartgroupSymbol = elt->getValue ();
 
   fCurrentPartgroupSymbolDefaultX =
@@ -693,6 +816,10 @@ void xml2MsrTranslator::visitStart (S_group_symbol& elt)
 
 void xml2MsrTranslator::visitStart ( S_group_barline& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartgroupBarline = elt->getValue ();
 }
 
@@ -1085,6 +1212,10 @@ void xml2MsrTranslator::visitEnd (S_part_group& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_score_part& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartID = elt->getAttributeValue ("id");
 
   if (gGeneralOptions->fTraceParts)
@@ -1101,21 +1232,37 @@ void xml2MsrTranslator::visitStart (S_score_part& elt)
 
 void xml2MsrTranslator::visitStart (S_part_name& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartName = elt->getValue ();
 }
 
 void xml2MsrTranslator::visitStart (S_part_abbreviation& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartAbbreviation = elt->getValue ();
 }
 
 void xml2MsrTranslator::visitStart (S_instrument_name& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartInstrumentName = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentPartInstrumentAbbreviation = elt->getValue();
 }
 
@@ -1206,6 +1353,10 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // fCurrentPartID is used throughout
   fCurrentPartID = elt->getAttributeValue ("id");
 
@@ -1264,6 +1415,10 @@ void xml2MsrTranslator::visitEnd (S_part& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_divisions& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentDivisionsPerQuarterNote = (int)(*elt);
   
   if (fCurrentDivisionsPerQuarterNote <= 0) {
@@ -1294,6 +1449,10 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_clef& elt )
 { 
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-clef.htm
 
   // The optional number attribute refers to staff numbers.
@@ -1309,16 +1468,28 @@ void xml2MsrTranslator::visitStart ( S_clef& elt )
 
 void xml2MsrTranslator::visitStart ( S_sign& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentClefSign = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart ( S_line& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentClefLine = (int)(*elt);
 }
   
 void xml2MsrTranslator::visitStart ( S_clef_octave_change& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentClefOctaveChange = (int)(*elt);
 
   if (fCurrentClefOctaveChange < -2 || fCurrentClefOctaveChange > 2) {
@@ -1526,7 +1697,10 @@ void xml2MsrTranslator::visitEnd ( S_clef& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_key& elt )
 {
-  
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // The optional number attribute refers to staff numbers.
   // If absent (0), apply to all part staves.
   fCurrentKeyStaffNumber =
@@ -1539,11 +1713,19 @@ void xml2MsrTranslator::visitStart ( S_key& elt )
   
 void xml2MsrTranslator::visitStart ( S_fifths& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentFifths = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_mode& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentMode = elt->getValue();
   
   // JMI ???
@@ -1551,6 +1733,10 @@ void xml2MsrTranslator::visitStart ( S_mode& elt )
 
 void xml2MsrTranslator::visitStart ( S_cancel& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentCancel = (int)(*elt);
 }
 
@@ -1662,6 +1848,10 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_time& elt )
 {  
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /*
     The optional number attribute refers to staff numbers,
     from top to bottom on the system. If absent, the key
@@ -1684,16 +1874,28 @@ void xml2MsrTranslator::visitStart ( S_time& elt )
 
 void xml2MsrTranslator::visitStart ( S_beats& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentTimeBeats = (int)(*elt);
 }
   
 void xml2MsrTranslator::visitStart ( S_beat_type& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentTimeBeatType = (int)(*elt);
 }
  
 void xml2MsrTranslator::visitStart ( S_senza_misura& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentTimeSenzaMisura = true;
 }
 
@@ -1726,6 +1928,10 @@ void xml2MsrTranslator::visitEnd ( S_time& elt )
 
 void xml2MsrTranslator::visitStart ( S_instruments& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
         <instruments>2</instruments>
 */
@@ -1736,6 +1942,10 @@ void xml2MsrTranslator::visitStart ( S_instruments& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_transpose& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /*
   https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-transpose.htm
 
@@ -1758,10 +1968,22 @@ void xml2MsrTranslator::visitStart ( S_transpose& elt )
 }
 
 void xml2MsrTranslator::visitStart ( S_diatonic& elt )
-{ fCurrentTransposeDiatonic = (int)(*elt); }
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+  fCurrentTransposeDiatonic = (int)(*elt);
+}
   
 void xml2MsrTranslator::visitStart ( S_chromatic& elt )
-  { fCurrentTransposeChromatic = (int)(*elt); }
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+  fCurrentTransposeChromatic = (int)(*elt);
+}
  
 void xml2MsrTranslator::visitEnd ( S_transpose& elt ) 
 {  
@@ -1793,6 +2015,10 @@ void xml2MsrTranslator::visitEnd ( S_transpose& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_direction& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
   A direction is a musical indication that is not attached to a specific note.
   Two or more may be combined to indicate starts and stops of wedges, dashes, etc.
@@ -1868,6 +2094,10 @@ void xml2MsrTranslator::visitStart (S_direction& elt)
 
 void xml2MsrTranslator::visitStart (S_direction_type& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fOnGoingDirectionType = true;
 }
 
@@ -1878,6 +2108,10 @@ void xml2MsrTranslator::visitEnd (S_direction_type& elt)
 
 void xml2MsrTranslator::visitStart (S_offset& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
     <offset>1</offset>
 */
@@ -1890,6 +2124,10 @@ void xml2MsrTranslator::visitStart (S_offset& elt)
 
 void xml2MsrTranslator::visitStart (S_octave_shift& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
       <direction>
         <direction-type>
@@ -1969,6 +2207,10 @@ void xml2MsrTranslator::visitStart (S_octave_shift& elt)
 
 void xml2MsrTranslator::visitStart (S_words& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
   <words default-y="-73" font-style="italic" relative-x="5">cresc.</words>
 */
@@ -2008,6 +2250,10 @@ void xml2MsrTranslator::visitStart (S_words& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_metronome& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string parentheses = elt->getAttributeValue("parentheses");
   
   fBeatsData.clear();
@@ -2109,6 +2355,10 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
 
 void xml2MsrTranslator::visitStart ( S_beat_unit& elt )
 { 
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fCurrentBeat.fBeatUnit.size()) {
     fBeatsData.push_back (fCurrentBeat); 
     fCurrentBeat.fBeatUnit = "";
@@ -2119,10 +2369,22 @@ void xml2MsrTranslator::visitStart ( S_beat_unit& elt )
 }
 
 void xml2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
-  { fCurrentBeat.fDots++; }
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+  fCurrentBeat.fDots++;
+}
   
 void xml2MsrTranslator::visitStart ( S_per_minute& elt )
-  { fPerMinute = (int)(*elt); }
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+  fPerMinute = (int)(*elt);
+}
 
 void xml2MsrTranslator::visitEnd (S_direction& elt)
 {
@@ -2138,6 +2400,10 @@ void xml2MsrTranslator::visitEnd (S_direction& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_staves& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   int stavesNumber = int(*elt);
 
   int inputLineNumber =
@@ -2183,6 +2449,10 @@ void xml2MsrTranslator::visitStart (S_staves& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_staff& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /*
         <note>
         <pitch>
@@ -2271,6 +2541,10 @@ void xml2MsrTranslator::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_staff_details& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fStaffDetailsStaffNumber =
     elt->getAttributeIntValue ("number", 1);
 
@@ -2296,6 +2570,10 @@ void xml2MsrTranslator::visitStart (S_staff_details& elt )
 
 void xml2MsrTranslator::visitStart (S_staff_type& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string staffType = elt->getValue ();
   
   if (staffType == "ossia") {
@@ -2341,11 +2619,19 @@ else {
 
 void xml2MsrTranslator::visitStart (S_staff_lines& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentStaffTuningLinesNumber = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
@@ -2355,6 +2641,10 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
     
 void xml2MsrTranslator::visitStart (S_tuning_step& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string tuningStep = elt->getValue();
 
   checkStep (
@@ -2368,11 +2658,19 @@ void xml2MsrTranslator::visitStart (S_tuning_step& elt )
 
 void xml2MsrTranslator::visitStart (S_tuning_octave& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentStaffTuningOctave = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   float tuningAlter = (float)(*elt);
 
   fCurrentStaffTuningAlteration =
@@ -2466,11 +2764,19 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
     
 void xml2MsrTranslator::visitStart (S_capo& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentStaffDetailsCapo = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart (S_staff_size& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentStaffDetailsStaffSize = (int)(*elt);
 }
 
@@ -2498,6 +2804,10 @@ void xml2MsrTranslator::visitEnd (S_staff_details& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_voice& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /*
         <note>
         <pitch>
@@ -2601,6 +2911,10 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_backup& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
  The backup and forward elements are required to coordinate multiple voices in one part, including music on multiple staves. The backup type is generally used to move between voices and staves. Thus the backup element does not include voice or staff elements. Duration values should always be positive, and should not cross measure boundaries or mid-measure changes in the divisions value.
  
@@ -2637,6 +2951,10 @@ void xml2MsrTranslator::visitEnd (S_backup& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_forward& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /*
       <forward>
         <duration>96</duration>
@@ -2737,6 +3055,10 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_tied& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 // <tied orientation="over" type="start"/>
 
   string tiedType =
@@ -2807,6 +3129,10 @@ void xml2MsrTranslator::visitStart (S_tied& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_slur& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
 Slur types are empty. Most slurs are represented with two elements: one with a start type, and one with a stop type. Slurs can add more elements using a continue type. This is typically used to specify the formatting of cross-system slurs, or to specify the shape of very complex slurs.
 
@@ -2884,6 +3210,10 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_bracket& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentLigatureNumber =
     elt->getAttributeIntValue ("number", 0);
 
@@ -2939,6 +3269,10 @@ void xml2MsrTranslator::visitStart (S_bracket& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_wedge& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string type = elt->getAttributeValue("type");
   
   msrWedge::msrWedgeKind wedgeKind;
@@ -2973,7 +3307,11 @@ void xml2MsrTranslator::visitStart ( S_wedge& elt )
     
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_lyric& elt )
-{ 
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   int stanzaNumber =
     elt->getAttributeIntValue ("number", 0);
   
@@ -3014,6 +3352,10 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
 
 void xml2MsrTranslator::visitStart ( S_syllabic& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentSyllabic = elt->getValue();
   
   if      (fCurrentSyllabic == "single")
@@ -3037,6 +3379,10 @@ void xml2MsrTranslator::visitStart ( S_syllabic& elt )
 
 void xml2MsrTranslator::visitStart ( S_text& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string text = elt->getValue();
 
 /* JMI
@@ -3088,11 +3434,19 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
 
 void xml2MsrTranslator::visitStart ( S_elision& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentElision = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_extend& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentExtendType =
     elt->getAttributeValue ("type");
 
@@ -3305,7 +3659,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
       }
-      else {        
+      else {
         fCurrentSyllableKind = msrSyllable::kSlurSyllable;
       }
     }
@@ -3314,7 +3668,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
       }
-      else {        
+      else {
         fCurrentSyllableKind = msrSyllable::kSlurSyllable;
       }
     }
@@ -3367,6 +3721,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_measure& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
   Measures have a required number attribute (going from partwise to timewise,
   measures are grouped via the number).
@@ -3445,6 +3803,10 @@ void xml2MsrTranslator::visitEnd (S_measure& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_print& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   const string& newSystem = elt->getAttributeValue ("new-system");
   
   int inputLineNumber =
@@ -3643,6 +4005,10 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_barline& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
       <barline location="right">
         <bar-style>light-heavy</bar-style>
@@ -3705,6 +4071,10 @@ void xml2MsrTranslator::visitStart ( S_barline& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_bar_style& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentStyle = elt->getValue();
 
   fCurrentBarlineStyle =
@@ -3760,6 +4130,10 @@ void xml2MsrTranslator::visitStart ( S_bar_style& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_segno& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingDirectionType) {
     int inputLineNumber =
       elt->getInputLineNumber ();
@@ -3790,6 +4164,10 @@ void xml2MsrTranslator::visitStart ( S_segno& elt )
 
 void xml2MsrTranslator::visitStart ( S_coda& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingDirectionType) {
     int inputLineNumber =
       elt->getInputLineNumber ();
@@ -3820,6 +4198,10 @@ void xml2MsrTranslator::visitStart ( S_coda& elt )
 
 void xml2MsrTranslator::visitStart ( S_eyeglasses& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   if (fOnGoingDirectionType) {
     int inputLineNumber =
       elt->getInputLineNumber ();
@@ -3850,6 +4232,10 @@ void xml2MsrTranslator::visitStart ( S_eyeglasses& elt )
 
 void xml2MsrTranslator::visitStart ( S_pedal& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /* start-stop-change-continue */
   /*
     The pedal type represents piano pedal marks. The change and continue types are used when the line attribute is yes. The change type indicates a pedal lift and retake indicated with an inverted V marking. The continue type allows more precise formatting across system breaks and for more complex pedaling lines. The alignment attributes are ignored if the line attribute is yes.
@@ -3947,7 +4333,11 @@ void xml2MsrTranslator::visitStart ( S_pedal& elt )
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ending& elt ) 
-{  
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentEndingNumber =
     elt->getAttributeValue ("number"); // may be "1, 2"
 
@@ -3979,6 +4369,10 @@ void xml2MsrTranslator::visitStart ( S_ending& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_repeat& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentRepeatDirection =
     elt->getAttributeValue ("direction");
 
@@ -4478,6 +4872,10 @@ The discontinue value is typically used for the last ending in a set, where ther
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_note& elt ) 
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // initialize note data to a neutral state
   fNoteData.init ();
 
@@ -4528,6 +4926,10 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_step& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string step = elt->getValue();
   
   checkStep (
@@ -4540,6 +4942,10 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_alter& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   float alter = (float)(*elt);
 
   fCurrentNoteAlteration =
@@ -4561,11 +4967,19 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
 
 void xml2MsrTranslator::visitStart ( S_octave& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fNoteData.fNoteOctave = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_duration& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   int duration = (int)(*elt);
 
   if      (fOnGoingBackup) {
@@ -4608,6 +5022,10 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
 
 void xml2MsrTranslator::visitStart ( S_instrument& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
   <instrument id="P2-I4"/>
 */
@@ -4616,11 +5034,19 @@ void xml2MsrTranslator::visitStart ( S_instrument& elt )
        
 void xml2MsrTranslator::visitStart ( S_dot& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fNoteData.fNoteDotsNumber++;
 }
        
 void xml2MsrTranslator::visitStart ( S_type& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
 */
@@ -4630,6 +5056,10 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
 
 void xml2MsrTranslator::visitStart ( S_stem& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string        stem = elt->getValue();
 
   msrStem::msrStemKind stemKind = msrStem::k_NoStem;
@@ -4666,6 +5096,10 @@ void xml2MsrTranslator::visitStart ( S_stem& elt )
 
 void xml2MsrTranslator::visitStart ( S_beam& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
   Each beam in a note is represented with a separate beam element,
   starting with the eighth note beam using a number attribute of 1.
@@ -4728,10 +5162,17 @@ void xml2MsrTranslator::visitStart ( S_beam& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_articulations& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
 }
 
 void xml2MsrTranslator::visitStart ( S_accent& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4743,6 +5184,10 @@ void xml2MsrTranslator::visitStart ( S_accent& elt )
 
 void xml2MsrTranslator::visitStart ( S_breath_mark& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4754,6 +5199,10 @@ void xml2MsrTranslator::visitStart ( S_breath_mark& elt )
 
 void xml2MsrTranslator::visitStart ( S_caesura& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4765,6 +5214,10 @@ void xml2MsrTranslator::visitStart ( S_caesura& elt )
 
 void xml2MsrTranslator::visitStart ( S_spiccato& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4776,6 +5229,10 @@ void xml2MsrTranslator::visitStart ( S_spiccato& elt )
 
 void xml2MsrTranslator::visitStart ( S_staccato& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4787,6 +5244,10 @@ void xml2MsrTranslator::visitStart ( S_staccato& elt )
 
 void xml2MsrTranslator::visitStart ( S_staccatissimo& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4798,6 +5259,10 @@ void xml2MsrTranslator::visitStart ( S_staccatissimo& elt )
 
 void xml2MsrTranslator::visitStart ( S_stress& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4809,6 +5274,10 @@ void xml2MsrTranslator::visitStart ( S_stress& elt )
 
 void xml2MsrTranslator::visitStart ( S_unstress& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4820,6 +5289,10 @@ void xml2MsrTranslator::visitStart ( S_unstress& elt )
 
 void xml2MsrTranslator::visitStart ( S_detached_legato& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4831,6 +5304,10 @@ void xml2MsrTranslator::visitStart ( S_detached_legato& elt )
 
 void xml2MsrTranslator::visitStart ( S_strong_accent& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
     articulation =
@@ -4843,6 +5320,10 @@ void xml2MsrTranslator::visitStart ( S_strong_accent& elt )
 
 void xml2MsrTranslator::visitStart ( S_tenuto& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
     articulation =
@@ -4855,6 +5336,10 @@ void xml2MsrTranslator::visitStart ( S_tenuto& elt )
 
 void xml2MsrTranslator::visitStart ( S_fermata& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
     articulation =
@@ -4867,6 +5352,10 @@ void xml2MsrTranslator::visitStart ( S_fermata& elt )
 
 void xml2MsrTranslator::visitStart ( S_arpeggiate& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4878,6 +5367,10 @@ void xml2MsrTranslator::visitStart ( S_arpeggiate& elt )
 
 void xml2MsrTranslator::visitStart ( S_doit& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4889,6 +5382,10 @@ void xml2MsrTranslator::visitStart ( S_doit& elt )
 
 void xml2MsrTranslator::visitStart ( S_falloff& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4900,6 +5397,10 @@ void xml2MsrTranslator::visitStart ( S_falloff& elt )
 
 void xml2MsrTranslator::visitStart ( S_plop& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4911,6 +5412,10 @@ void xml2MsrTranslator::visitStart ( S_plop& elt )
 
 void xml2MsrTranslator::visitStart ( S_scoop& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -4926,11 +5431,19 @@ void xml2MsrTranslator::visitEnd ( S_articulations& elt )
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ornaments& elt )
-{}
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+}
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
 {
-  // type : upright inverted  (Binchois20.xml)
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+ // type : upright inverted  (Binchois20.xml)
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -4941,6 +5454,10 @@ void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
 
 void xml2MsrTranslator::visitStart ( S_wavy_line& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -4951,6 +5468,10 @@ void xml2MsrTranslator::visitStart ( S_wavy_line& elt )
 
 void xml2MsrTranslator::visitStart ( S_turn& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -4961,6 +5482,10 @@ void xml2MsrTranslator::visitStart ( S_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_inverted_turn& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -4971,6 +5496,10 @@ void xml2MsrTranslator::visitStart ( S_inverted_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_delayed_turn& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -4981,6 +5510,10 @@ void xml2MsrTranslator::visitStart ( S_delayed_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -4991,6 +5524,10 @@ void xml2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_vertical_turn& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -5001,6 +5538,10 @@ void xml2MsrTranslator::visitStart ( S_vertical_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_mordent& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -5011,6 +5552,10 @@ void xml2MsrTranslator::visitStart ( S_mordent& elt )
 
 void xml2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -5021,6 +5566,10 @@ void xml2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 
 void xml2MsrTranslator::visitStart ( S_schleifer& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -5031,6 +5580,10 @@ void xml2MsrTranslator::visitStart ( S_schleifer& elt )
 
 void xml2MsrTranslator::visitStart ( S_shake& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
@@ -5041,6 +5594,10 @@ void xml2MsrTranslator::visitStart ( S_shake& elt )
 
 void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentAccidentalMark =
     elt->getValue ();
 
@@ -5167,7 +5724,11 @@ unstress
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart( S_f& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5177,7 +5738,11 @@ void xml2MsrTranslator::visitStart( S_f& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_ff& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5187,7 +5752,11 @@ void xml2MsrTranslator::visitStart( S_ff& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_fff& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5197,7 +5766,11 @@ void xml2MsrTranslator::visitStart( S_fff& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_ffff& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5207,7 +5780,11 @@ void xml2MsrTranslator::visitStart( S_ffff& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_fffff& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5217,7 +5794,11 @@ void xml2MsrTranslator::visitStart( S_fffff& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_ffffff& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5228,7 +5809,11 @@ void xml2MsrTranslator::visitStart( S_ffffff& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_p& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5238,7 +5823,11 @@ void xml2MsrTranslator::visitStart( S_p& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_pp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5248,7 +5837,15 @@ void xml2MsrTranslator::visitStart( S_pp& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_ppp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5258,7 +5855,11 @@ void xml2MsrTranslator::visitStart( S_ppp& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_pppp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5268,7 +5869,11 @@ void xml2MsrTranslator::visitStart( S_pppp& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_ppppp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5278,7 +5883,11 @@ void xml2MsrTranslator::visitStart( S_ppppp& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_pppppp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5290,7 +5899,11 @@ void xml2MsrTranslator::visitStart( S_pppppp& elt)
 
 
 void xml2MsrTranslator::visitStart( S_mf& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5300,7 +5913,11 @@ void xml2MsrTranslator::visitStart( S_mf& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_mp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5311,7 +5928,11 @@ void xml2MsrTranslator::visitStart( S_mp& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_fp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5321,7 +5942,11 @@ void xml2MsrTranslator::visitStart( S_fp& elt)
   fPendingDynamics.push_back(dyn);
 }
 void xml2MsrTranslator::visitStart( S_fz& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5332,7 +5957,11 @@ void xml2MsrTranslator::visitStart( S_fz& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_rf& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5343,7 +5972,11 @@ void xml2MsrTranslator::visitStart( S_rf& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_sf& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5354,7 +5987,11 @@ void xml2MsrTranslator::visitStart( S_sf& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_rfz& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5365,7 +6002,11 @@ void xml2MsrTranslator::visitStart( S_rfz& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_sfz& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5376,7 +6017,11 @@ void xml2MsrTranslator::visitStart( S_sfz& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_sfp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5387,7 +6032,11 @@ void xml2MsrTranslator::visitStart( S_sfp& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_sfpp& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5398,7 +6047,11 @@ void xml2MsrTranslator::visitStart( S_sfpp& elt)
 }
 
 void xml2MsrTranslator::visitStart( S_sffz& elt)
-{        
+{
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   S_msrDynamics
     dyn =
       msrDynamics::create (
@@ -5411,6 +6064,10 @@ void xml2MsrTranslator::visitStart( S_sffz& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_grace& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fNoteData.fNoteIsAGraceNote = true;
 
   string slash = elt->getAttributeValue ("slash");
@@ -5436,6 +6093,10 @@ void xml2MsrTranslator::visitStart ( S_grace& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_chord& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fNoteData.fNoteBelongsToAChord = true;
 
   // delay the handling until 'visitEnd ( S_note& elt)',
@@ -5446,6 +6107,10 @@ void xml2MsrTranslator::visitStart ( S_chord& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_time_modification& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // there may be no '<tuplet number="n" type="start" />'
   // in the tuplet notes after the first one,
   // so we detect tuplet notes on '<time-modification>'
@@ -5455,16 +6120,28 @@ void xml2MsrTranslator::visitStart ( S_time_modification& elt )
 
 void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentActualNotes = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentNormalNotes = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_normal_type& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentNormalNoteType = elt->getValue();
 }
 
@@ -5522,6 +6199,10 @@ From NestedTuplets.xml:
 
 void xml2MsrTranslator::visitStart ( S_tuplet& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentTupletNumber =
     elt->getAttributeIntValue ("number", 0);
     
@@ -5555,12 +6236,20 @@ void xml2MsrTranslator::visitStart ( S_tuplet& elt )
 
 void xml2MsrTranslator::visitStart ( S_tuplet_number& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   // not handled JMI
   fCurrentTupletDisplayNumber = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_tuplet_type& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
 */
@@ -5573,6 +6262,10 @@ void xml2MsrTranslator::visitStart ( S_tuplet_type& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_rest& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   /*
         <note>
         <rest/>
@@ -5587,6 +6280,10 @@ void xml2MsrTranslator::visitStart ( S_rest& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_display_step& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string displayStep = elt->getValue();
   
   checkStep (
@@ -5599,6 +6296,10 @@ void xml2MsrTranslator::visitStart ( S_display_step& elt)
 
 void xml2MsrTranslator::visitStart ( S_display_octave& elt)
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fDisplayOctave = (int)(*elt);
 }
 
@@ -7200,10 +7901,12 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         lastHandledNoteInVoice);
 
     // add fCurrentChord to the voice instead
-    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceChords)
+    if (gGeneralOptions->fTraceChords)
       cerr << idtr <<
-        "--> appending chord " << fCurrentChord <<
-        " to current voice \"" << "\"" <<
+        "Appending chord " << fCurrentChord->chordAsString () <<
+        " to voice \"" <<
+        currentVoice->getVoiceName () <<
+        "\"" <<
         endl;
         
     currentVoice->
@@ -7214,9 +7917,9 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   }
 
   // register note as another member of fCurrentChord
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> adding another note " <<
+      "Adding another note " <<
       newChordNote->noteAsString() <<
       ", line " << inputLineNumber <<
       " to current chord" <<
@@ -8184,6 +8887,10 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
 /*
       <direction placement="above">
         <direction-type>
@@ -8270,6 +8977,10 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_harmony& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentHarmonyRootDiatonicPitch = kA; // any value would fit
   fCurrentHarmonyRootAlteration    = kNatural;
   fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
@@ -8282,6 +8993,10 @@ void xml2MsrTranslator::visitStart ( S_harmony& elt )
 
 void xml2MsrTranslator::visitStart ( S_root_step& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string step = elt->getValue ();
 
   checkStep (
@@ -8294,6 +9009,10 @@ void xml2MsrTranslator::visitStart ( S_root_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_root_alter& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   float rootAlter = (float)(*elt);
 
   fCurrentHarmonyRootAlteration =
@@ -8315,6 +9034,10 @@ void xml2MsrTranslator::visitStart ( S_root_alter& elt )
 
 void xml2MsrTranslator::visitStart ( S_kind& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string kind = elt->getValue ();
 
   fCurrentHarmonyKindText =
@@ -8362,6 +9085,10 @@ void xml2MsrTranslator::visitStart ( S_kind& elt )
 
 void xml2MsrTranslator::visitStart ( S_bass_step& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string step = elt->getValue();
   
   checkStep (
@@ -8374,6 +9101,10 @@ void xml2MsrTranslator::visitStart ( S_bass_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   float bassAlter = (float)(*elt);
 
   fCurrentHarmonyBassAlteration =
@@ -8395,11 +9126,19 @@ void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
 
 void xml2MsrTranslator::visitStart ( S_degree_value& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   fCurrentHarmonyDegreeValue = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   float degreeAlter = (float)(*elt);
 
   fCurrentHarmonyDegreeAlteration =
@@ -8421,6 +9160,10 @@ void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
 
 void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 {
+  if (gGeneralOptions->fTraceVisitors)
+    cerr << idtr <<
+      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+
   string degreeType = elt->getValue ();
 
   msrHarmony::msrHarmonyDegreeTypeKind // JMI
