@@ -6756,14 +6756,14 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // and is currently at the end of the voice
 
   // create a tuplet
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> creating a '" <<
+      "Creating a '" <<
       fCurrentActualNotes <<
       "/" <<
       fCurrentNormalNotes <<
-      "' tuplet with first note " <<
-      firstNote->noteAsShortString () <<
+//  JMI    "' tuplet with first note " <<
+  //    firstNote->noteAsShortString () <<
       endl;
       
   S_msrTuplet
@@ -6775,6 +6775,18 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
         fCurrentNormalNotes,
         firstNote->getNotePositionInMeasure ());
 
+  // add note as first note of the stack top tuplet
+  tuplet->addNoteToTuplet (firstNote);
+
+  if (gGeneralOptions->fTraceTuplets)
+    // only after addNoteToTuplet() has set the note's tuplet uplink
+    cerr << idtr <<
+      "Adding first note " << firstNote->noteAsString() <<
+      " to tuplet '" <<
+      tuplet->tupletAsShortString () <<
+       "'" <<
+      endl;
+      
   // tuplets's divisions per quarter note is that of its first note
   tuplet->
     setTupletDivisionsPerQuarterNote (
@@ -6788,17 +6800,6 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       "' to tuplets stack" << endl;
       
   fTupletsStack.push (tuplet);
-
-  // add note as first note of the stack top tuplet
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
-    cerr << idtr <<
-      "==> adding first note " << firstNote->noteAsString() <<
-      " to tuplet '" <<
-      tuplet->tupletAsShortString () <<
-       "'" <<
-      endl;
-      
-  tuplet->addNoteToTuplet (firstNote);
 
 /* JMI
   // set note display divisions
