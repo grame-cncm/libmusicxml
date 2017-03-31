@@ -11420,11 +11420,11 @@ bool msrMeasure::checkForOverfullMeasure (
     fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1;
 
   if (measureIsOverfull) {    
-    if (true || gGeneralOptions->fTraceMeasures) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr <<
         idtr <<
           "Measure " << fMeasureNumber <<
-          " of segment " <<
+          ", in segment " <<
           fMeasureSegmentUplink->segmentAsString () <<
           " in voice \"" <<
           fMeasureSegmentUplink->
@@ -11757,8 +11757,10 @@ S_msrSegment msrSegment::create (
   if (divisionsPerQuarterNote == 0) // JMI
     {
       cerr <<
-        "!!! msrSegment::create, " <<
-        "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+        "!!! msrSegment::create " <<
+        " in voice \"" <<
+        segmentVoicekUplink->getVoiceName () << "\"" <<
+        ", divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
         endl;
     //    assert(false);
     }

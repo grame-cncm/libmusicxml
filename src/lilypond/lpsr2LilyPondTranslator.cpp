@@ -1758,7 +1758,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
             divisionsAsMsrString (
               inputLineNumber,
               measureDivisionsPerFullMeasure) <<
-            " ";
+            " | ";
         }
         
         else {
