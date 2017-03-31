@@ -611,7 +611,7 @@ class msrNoteData
     // tuplets member notes need another value for display
     int                   fNoteDisplayDivisions;
 //    string                fNoteType; // "whole", "32nd", ...
-    msrNoteTypeKind       fNoteTypeKind;
+    msrNoteTypeKind       fNoteGraphicType;
 
     int                   fNoteDotsNumber;
     
@@ -2726,8 +2726,8 @@ class EXP msrNote : public msrElement
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
 
-    msrNoteTypeKind       getNoteTypeKind () const
-                              { return fNoteData.fNoteTypeKind; }
+    msrNoteTypeKind       getNoteGraphicType () const
+                              { return fNoteData.fNoteGraphicType; }
 
     int                   getNoteDivisions () const
                               { return fNoteData.fNoteDivisions; }
@@ -2751,7 +2751,7 @@ class EXP msrNote : public msrElement
                               { return fNoteOccupiesAFullMeasure; }
 
     // octave shifts
-    void                   setNoteOctaveShift (
+    void                  setNoteOctaveShift (
                              S_msrOctaveShift octaveShift)
                                 { fNoteOctaveShift = octaveShift; }
 
@@ -2927,8 +2927,8 @@ class EXP msrNote : public msrElement
     string                noteDivisionsAsMSRString () const;
     string                skipDivisionsAsMSRString () const;
     
-    string                noteTypeKindAsMSRString () const;
-    string                tupletNoteTypeKindAsMSRString (
+    string                noteGraphicTypeAsMSRString () const;
+    string                tupletNoteGraphicTypeAsMSRString (
                             int actualNotes, int normalNotes) const;
 
     // tuplet members
@@ -3040,7 +3040,7 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       int             inputLineNumber,
       int             chordDivisions,
-      msrNoteTypeKind chordNotesTypeKind);
+      msrNoteTypeKind chordNotesGraphicType);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3055,7 +3055,7 @@ class EXP msrChord : public msrElement
     msrChord (
       int             inputLineNumber,
       int             chordDivisions,
-      msrNoteTypeKind chordNotesTypeKind);
+      msrNoteTypeKind chordNotesGraphicType);
       
     virtual ~msrChord();
   
@@ -3064,8 +3064,8 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrNoteTypeKind   getChordNotesTypeKind () const
-                          { return fChordNotesTypeKind; }
+    msrNoteTypeKind   getChordNotesGraphicType () const
+                          { return fChordNotesGraphicType; }
             
     const vector<S_msrNote>&
                       getChordNotes () const
@@ -3215,7 +3215,7 @@ class EXP msrChord : public msrElement
 
   private:
 
-    msrNoteTypeKind           fChordNotesTypeKind;
+    msrNoteTypeKind           fChordNotesGraphicType;
     
     vector<S_msrNote>         fChordNotes;
 

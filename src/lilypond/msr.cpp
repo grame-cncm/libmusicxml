@@ -2671,7 +2671,7 @@ void msrNoteData::initializeNodeData ()
 
   fNoteDotsNumber = 0;
   
-  fNoteTypeKind = k_NoDuration;
+  fNoteGraphicType = k_NoDuration;
 
   fNoteIsAGraceNote = false;
   
@@ -2768,10 +2768,10 @@ void msrNoteData::print (ostream& os)
       fNoteDotsNumber <<
       endl <<
     idtr << left <<
-      setw(width) << "fNoteTypeKind" << " = " <<
+      setw(width) << "fNoteGraphicType" << " = " <<
       divisionsAsMsrString (
         999, // JMI
-        fNoteTypeKind) <<
+        fNoteGraphicType) <<
       endl <<
       
     idtr << left <<
@@ -5100,19 +5100,19 @@ string msrNote::skipDivisionsAsMSRString () const
   return result;
 }
 
-string msrNote::noteTypeKindAsMSRString () const
+string msrNote::noteGraphicTypeAsMSRString () const
 {
   string result;
 
   result =
     divisionsAsMsrString (
       fInputLineNumber,
-      fNoteData.fNoteTypeKind);
+      fNoteData.fNoteGraphicType);
 
   return result;
 }
 
-string msrNote::tupletNoteTypeKindAsMSRString ( // JMI
+string msrNote::tupletNoteGraphicTypeAsMSRString ( // JMI
   int actualNotes, int normalNotes) const
 {
   string result;
@@ -5188,7 +5188,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteTypeKindAsMSRString ();
+        noteGraphicTypeAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5275,7 +5275,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteTypeKindAsMSRString ();
+        noteGraphicTypeAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5353,7 +5353,7 @@ string msrNote::noteAsString () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteTypeKindAsMSRString ();
+        noteGraphicTypeAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5400,11 +5400,11 @@ string msrNote::noteAsString () const
           fNoteTupletUplink->getTupletActualNotes (),
           fNoteTupletUplink->getTupletNormalNotes ());
 /* JMI
-      if (fNoteData.fNoteTypeKind != k_NoDuration)
+      if (fNoteData.fNoteGraphicType != k_NoDuration)
         s <<
           divisionsAsMsrString (
             fInputLineNumber,
-            fNoteData.fNoteTypeKind);
+            fNoteData.fNoteGraphicType);
       else
         s <<
           noteDivisionsAsMSRString ();
@@ -5439,17 +5439,21 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 
 void msrNote::print (ostream& os)
 {
+  int divisionsPerFullMeasure =
+    fNoteMeasureUplink->
+      getMeasureDivisionsPerFullMeasure ();
+  
   // print the note itself and its position
   os <<
     noteAsString ();
 
 /* JMI
-  if (fNoteData.fNoteTypeKind != k_NoDuration)
+  if (fNoteData.fNoteGraphicType != k_NoDuration)
     os <<
       " (" <<
       divisionsAsMsrString (
         fInputLineNumber,
-        fNoteData.fNoteTypeKind) <<
+        fNoteData.fNoteGraphicType) <<
        ")" <<
        */
 
@@ -5484,8 +5488,8 @@ void msrNote::print (ostream& os)
 
   os <<
     "/" <<
-    fNoteDivisionsPerQuarterNote <<
-    ")";
+    divisionsPerFullMeasure <<
+    " dpfm)";
 
   // print measure related information
   os <<
@@ -5514,8 +5518,7 @@ void msrNote::print (ostream& os)
     rational
       notePosition (
         fNotePositionInMeasure,
-        fNoteMeasureUplink->
-          getMeasureDivisionsPerFullMeasure ()); // JMI
+        divisionsPerFullMeasure); // JMI
     notePosition.rationalise ();
     
     if (notePosition.getNumerator () != fNotePositionInMeasure)
@@ -5793,11 +5796,11 @@ void msrNote::print (ostream& os)
 S_msrChord msrChord::create (
   int             inputLineNumber,
   int             chordDivisions,
-  msrNoteTypeKind chordNotesTypeKind)
+  msrNoteTypeKind chordNotesGraphicType)
 {
   msrChord* o =
     new msrChord (
-      inputLineNumber, chordDivisions, chordNotesTypeKind);
+      inputLineNumber, chordDivisions, chordNotesGraphicType);
   assert(o!=0);
   return o;
 }
@@ -5805,12 +5808,12 @@ S_msrChord msrChord::create (
 msrChord::msrChord (
   int             inputLineNumber,
   int             chordDivisions,
-  msrNoteTypeKind chordNotesTypeKind)
+  msrNoteTypeKind chordNotesGraphicType)
     : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
 
-  fChordNotesTypeKind = chordNotesTypeKind;
+  fChordNotesGraphicType = chordNotesGraphicType;
 }
 
 msrChord::~msrChord() {}
@@ -5828,7 +5831,7 @@ S_msrChord msrChord::createChordBareClone ()
       msrChord::create (
         fInputLineNumber,
         fChordDivisions,
-        fChordNotesTypeKind);
+        fChordNotesGraphicType);
 
   clone->
     fChordDivisionsPerQuarterNote =
@@ -5851,7 +5854,7 @@ string msrChord::chordNotesTypeAsMSRString () const
   result =
     divisionsAsMsrString (
       fInputLineNumber,
-      fChordNotesTypeKind);
+      fChordNotesGraphicType);
 
   return result;
 }
@@ -6124,6 +6127,35 @@ string msrChord::chordDivisionsAsMSRString () const
 
   return result;
 }
+/* JMI REPLICA POUR LECTURE
+string msrNote::noteDivisionsAsMSRString () const
+{
+  string result;
+  int    computedNumberOfDots = 0;
+//  string errorMessage;
+
+  result =
+    divisionsAsMsrString (
+      fInputLineNumber,
+      fNoteData.fNoteDisplayDivisions,
+      computedNumberOfDots);
+
+  if (computedNumberOfDots != fNoteData.fNoteDotsNumber) {
+    stringstream s;
+
+    s <<
+      "note " << noteAsShortStringWithRawDivisions () <<
+      " needs " << computedNumberOfDots << " dots," << endl <<
+      "but " << fNoteData.fNoteDotsNumber << " is found in MusicXML data";
+      
+    msrMusicXMLError (
+      fInputLineNumber,
+      s.str());
+  }
+
+  return result;
+}
+*/
 
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
@@ -6171,6 +6203,10 @@ string msrChord::chordAsString () const
 
 void msrChord::print (ostream& os)
 {
+  int divisionsPerFullMeasure =
+    fChordMeasureUplink->
+      getMeasureDivisionsPerFullMeasure ();
+  
   os <<
     "Chord" <<
     ", " <<
@@ -6180,12 +6216,12 @@ void msrChord::print (ostream& os)
     chordDivisionsAsMSRString () <<
     "/" <<
     fChordDivisionsPerQuarterNote <<
-    ", mea. "<<
+    " dpqn, mea. "<<
     getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<
     "/" <<
-    fChordDivisionsPerQuarterNote;
+    divisionsPerFullMeasure;
 
   // print simplified position in measure if relevant
   if (fChordMeasureUplink) {
@@ -6193,8 +6229,7 @@ void msrChord::print (ostream& os)
     rational
       chordPosition (
         fChordPositionInMeasure,
-        fChordMeasureUplink->
-          getMeasureDivisionsPerFullMeasure ()); // JMI
+        divisionsPerFullMeasure); // JMI
     chordPosition.rationalise ();
     
     if (chordPosition.getNumerator () != fChordPositionInMeasure)
@@ -11986,7 +12021,7 @@ msrSegment::msrSegment (
   if (gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
-        "--> Creating segment " << segmentAsString () <<
+        "Creating segment " << segmentAsString () <<
         "'s first measure with number " <<
         firstMeasureNumber <<
         ", fSegmentDivisionsPerQuarterNote = " <<
@@ -12043,11 +12078,6 @@ S_msrSegment msrSegment::createSegmentBareClone (
 
   clone->fSegmentTime =
     fSegmentTime;
-
-    /* JMI
-  clone->fSegmentDivisionsPerQuarterNote =
-    fSegmentDivisionsPerQuarterNote;
-*/
 
   // remove the initial measure created implicitly
   fSegmentMeasuresList.clear ();
