@@ -1824,7 +1824,12 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
   if (gLpsrOptions->fEmptyLineEveryNMeasures) {
     if (measureNumber % gLpsrOptions->fEmptyLineEveryNMeasuresValue == 0)
       fOstream <<
-        endl;
+        endl <<
+        idtr <<
+        "% ============================= " <<
+        endl <<
+        endl <<
+        idtr;
   }
   
   fSegmentNotesAndChordsCountersStack.pop ();
@@ -2615,9 +2620,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       break;
       
     case msrNote::kTupletMemberNote:
-      fOstream <<
-        endl <<
-        idtr; // JMI
+      if (! gLpsrOptions->fTupletsOnALine) {
+        fOstream <<
+          endl <<
+          idtr;
+      }
         
       // print the note name
       if (elt->getNoteIsARest ()) {
@@ -3561,7 +3568,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
       "\\tuplet " <<
       elt->getTupletActualNotes () <<
       "/" <<
-      elt->getTupletNormalNotes() << " {" <<
+      elt->getTupletNormalNotes() << " { " <<
       endl;
   }
 
@@ -3582,7 +3589,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
 
   if (gLpsrOptions->fTupletsOnALine) {
     fOstream <<
-      " }";
+      "} ";
   }
 
   else {
@@ -3785,14 +3792,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
-  if (fMusicOlec > 0) // JMI
-    fOstream <<
-      "| % " << nextBarNumber <<
-      endl;
-  else
-    fOstream << idtr <<
-      "| % " << nextBarNumber <<
-      endl;
+  fOstream << idtr <<
+    "| % " << nextBarNumber <<
+    endl <<
+    idtr;
 
   fMusicOlec.resetToZero ();
 }
@@ -3811,7 +3814,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarnumberCheck& elt)
     fOstream << idtr <<
       "% --> Start visiting msrBarnumberCheck" << endl;
 
-  fOstream << idtr <<
+  fOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl <<
     idtr;

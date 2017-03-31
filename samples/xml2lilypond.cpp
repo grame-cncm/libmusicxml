@@ -239,7 +239,7 @@ void printUsage (int exitStatus)
     "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
     endl <<
-    "    --tual, --tupletsOnALine" << endl <<
+    "    --toal, --tupletsOnALine" << endl <<
     "          Keep tuplets notes on the same line, instead of" << endl <<
     "          'having \\tuplet {' and '}' on separate lines." << endl <<
     endl <<
