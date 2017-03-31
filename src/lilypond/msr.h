@@ -5628,13 +5628,6 @@ class EXP msrStaff : public msrElement
   
     string          staffKindAsString () const;
     
-    void            setAllStaffVoicesDivisionsPerQuarterNote (
-                      int divisionsPerQuarterNote);
-
-    void            setAllStaffVoicesMeasureNumber (
-                      int inputLineNumber,
-                      int measureNumber);
-
     S_msrVoice      addVoiceToStaffByItsNumber (
                       int inputLineNumber,
                       int externalVoiceNumber);

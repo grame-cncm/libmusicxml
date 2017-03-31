@@ -11465,7 +11465,7 @@ void msrMeasure::finalizeMeasure (
   if (gGeneralOptions->fTraceMeasures) {
     cerr <<
       idtr <<
-        "### --> finalizing measure " << fMeasureNumber <<
+        "### Finalizing measure " << fMeasureNumber <<
         " in voice \"" << voice->getVoiceName () <<
         "\", line " << inputLineNumber <<
         endl <<
@@ -14959,16 +14959,11 @@ void msrStaff::setStaffDivisionsPerQuarterNote (
       endl;
   }
 
+  // register divisionsPerQuarterNote
   fStaffDivisionsPerQuarterNote =
     divisionsPerQuarterNote;
 
-  setAllStaffVoicesDivisionsPerQuarterNote (
-    divisionsPerQuarterNote);
-}
-
-void msrStaff::setAllStaffVoicesDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
+  // propagate it to the staff voices
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
@@ -15019,12 +15014,18 @@ void msrStaff::setStaffMeasureNumber (
       ", in staff \"" << getStaffName () << "\"" <<
       endl;
 
-  // set part measure location
+  // set staff measure location
   fStaffMeasureNumber = measureNumber;
 
   // propagate it to all staves
-  setAllStaffVoicesMeasureNumber (
-    inputLineNumber, measureNumber);  
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      setVoiceMeasureNumber (
+        inputLineNumber, measureNumber);
+  } // for
 }
 
 /* JMI
@@ -15419,28 +15420,6 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendTransposeToVoice (transpose);
-  } // for
-}
-
-void msrStaff::setAllStaffVoicesMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
-{
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "### --> setAllStaffVoicesMeasureNumber(), " <<
-      ", line " << inputLineNumber <<
-      ", measureNumber = " << measureNumber <<
-      ", in staff \"" << getStaffName () << "\"" <<
-      endl;
-
-  for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      setVoiceMeasureNumber (
-        inputLineNumber, measureNumber);
   } // for
 }
 

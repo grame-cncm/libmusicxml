@@ -3791,7 +3791,7 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "--> Start visiting S_lyric" << endl;
+      "--> Start visiting S_measure" << endl;
 
 /*
   Measures have a required number attribute (going from partwise to timewise,
@@ -3838,7 +3838,6 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
       ", line = " << inputLineNumber << " ===-->" <<
       endl;
   }
-
 }
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
