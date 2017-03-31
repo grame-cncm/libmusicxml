@@ -1407,7 +1407,7 @@ void analyzeOptions (
             s >> gLpsrOptions->fDelayedOrnamentFractionDenominator;
           }
           /*
-          cerr <<
+          cerr << JMI
             "gLpsrOptions->fDelayedOrnamentFractionNumerator = " <<
             gLpsrOptions->fDelayedOrnamentFractionNumerator <<
             endl <<

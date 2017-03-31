@@ -5251,7 +5251,7 @@ class EXP msrVoice : public msrElement
     // initialisation
     // ------------------------------------------------------
 
-    void            init (int inputLineNumber);
+    void            initializeVoice (int inputLineNumber);
   
   public:
 

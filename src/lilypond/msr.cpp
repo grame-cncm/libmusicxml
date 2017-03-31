@@ -13493,12 +13493,12 @@ msrVoice::msrVoice (
 
 
   // initialize the voice
-  init (inputLineNumber);
+  initializeVoice (inputLineNumber);
 }
 
 msrVoice::~msrVoice() {}
 
-void msrVoice::init (int inputLineNumber)
+void msrVoice::initializeVoice (int inputLineNumber)
 {
   // there may be an anacrusis, but let's start with 1 anyway
   fVoiceMeasureNumber = 1;
