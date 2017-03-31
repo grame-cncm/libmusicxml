@@ -232,7 +232,7 @@ void outputLineElementsCounter::setMaxElementsPerLine (
   fMaxElementsPerLine = maxElementsPerLine;
 }
 
-void outputLineElementsCounter::reset (int value)
+void outputLineElementsCounter::resetToZero (int value)
 {
   fElementsCounter = value;
 }

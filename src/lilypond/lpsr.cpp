@@ -135,6 +135,8 @@ void lpsrOptions::initializeLpsrOptions ()
   fShowAllBarNumbers                   = false;
   fCompressFullBarRests                = false;
   
+  fTupletsOnALine                      = false;
+  
   fBreakLinesAtIncompleteRightMeasures = false;
   
   fEmptyLineEveryNMeasures             = false;

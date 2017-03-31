@@ -569,7 +569,7 @@ class msrNoteData
     // initialisation
     // ------------------------------------------------------
 
-    void                  init ();
+    void                  initializeNodeData ();
     
     // set and get
     // ------------------------------------------------------

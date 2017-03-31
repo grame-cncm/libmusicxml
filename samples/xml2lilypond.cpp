@@ -239,6 +239,10 @@ void printUsage (int exitStatus)
     "          Generate after each note and barline a comment containing" << endl <<
     "          its MusicXML input line number." << endl <<
     endl <<
+    "    --tual, --tupletsOnALine" << endl <<
+    "          Keep tuplets notes on the same line, instead of" << endl <<
+    "          'having \\tuplet {' and '}' on separate lines." << endl <<
+    endl <<
     "    --blairm, --breakLinesAtIncompleteRightMeasures" << endl <<
     "          Generate a '\\break' command at the end incomplete right measures" << endl <<
     "          which is handy in popular folk dances and tunes." << endl <<
@@ -351,6 +355,9 @@ void analyzeOptions (
   int dontKeepLineBreaksPresent         = 0;
   int showAllBarNumbersPresent          = 0;
   int compressFullBarRestsPresent       = 0;
+
+  int tupletsOnALinePresent             = 0;
+  
   int breakLinesAtIncompleteRightMeasuresPresent  = 0;
   int emptyLineEveryNMeasuresPresent    = 0;
 //  int fKeepStaffSizePresent             = 0; JMI
@@ -684,6 +691,15 @@ void analyzeOptions (
     {
       "compressFullBarRests",
       no_argument, &compressFullBarRestsPresent, 1
+    },
+    
+    {
+      "toal",
+      no_argument, &tupletsOnALinePresent, 1
+    },
+    {
+      "tupletsOnALine",
+      no_argument, &tupletsOnALinePresent, 1
     },
     
     {
@@ -1261,6 +1277,13 @@ void analyzeOptions (
           compressFullBarRestsPresent = false;
         }
 
+        if (tupletsOnALinePresent) {
+          gLpsrOptions->fTupletsOnALine = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--tupletsOnALine ";
+          tupletsOnALinePresent = false;
+        }
+
         if (breakLinesAtIncompleteRightMeasuresPresent) {
           gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
           gGeneralOptions->fCommandLineOptions +=
@@ -1738,6 +1761,10 @@ void printOptions ()
     
     idtr << setw(fieldWidth) << "compressFullBarRests" << " : " <<
       booleanAsString (gLpsrOptions->fCompressFullBarRests) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
+      booleanAsString (gLpsrOptions->fTupletsOnALine) <<
       endl <<
     
     idtr << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<

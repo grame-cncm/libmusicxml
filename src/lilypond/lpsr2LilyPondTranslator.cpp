@@ -1589,7 +1589,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   fRelativeOctaveReference = 0;
 
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 
   fOnGoingVoice = true;
 
@@ -1851,7 +1851,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
       
       fOstream << idtr;
       
-      fStanzaOlec.reset ();
+      fStanzaOlec.resetToZero ();
     }
   }
 }
@@ -1963,7 +1963,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
             endl <<
             idtr;
 
-          fStanzaOlec.reset ();
+          fStanzaOlec.resetToZero ();
           break;
     
         case msrSyllable::kBarnumberCheckSyllable:
@@ -1973,7 +1973,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
             endl <<
             idtr;
 
-          fStanzaOlec.reset ();
+          fStanzaOlec.resetToZero ();
           break;
     
         case msrSyllable::kBreakSyllable:
@@ -2443,7 +2443,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
             endl << //JMI
             idtr;
 
-          fMusicOlec.reset ();
+          fMusicOlec.resetToZero ();
 
           fOnGoingStemNone = true;
         }
@@ -2463,7 +2463,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
             endl << //JMI
             idtr;
 
-          fMusicOlec.reset ();
+          fMusicOlec.resetToZero ();
         }
         break;
         
@@ -3169,7 +3169,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBeam& elt)
       
     case msrBeam::kEndBeam:
       if (elt->getBeamNumber () == 1)
-      fOstream << "] ";
+        fOstream << "] ";
       break;
       
     case msrBeam::kForwardHookBeam:
@@ -3545,19 +3545,29 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
         containingTuplet->
           getTupletNormalNotes ());
   }
+
+  if (gLpsrOptions->fTupletsOnALine) {
+    fOstream <<
+      "\\tuplet " <<
+      elt->getTupletActualNotes () <<
+      "/" <<
+      elt->getTupletNormalNotes() << " { ";
+  }
   
-  fOstream <<
-    endl <<
-    idtr <<
-    "\\tuplet " <<
-    elt->getTupletActualNotes () <<
-    "/" <<
-    elt->getTupletNormalNotes() << " {" <<
-    endl;
+  else {
+    fOstream <<
+      endl <<
+      idtr <<
+      "\\tuplet " <<
+      elt->getTupletActualNotes () <<
+      "/" <<
+      elt->getTupletNormalNotes() << " {" <<
+      endl;
+  }
 
   fTupletsStack.push (elt);
 
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 
   idtr++;
 }
@@ -3570,16 +3580,23 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
 
   idtr--;
 
-  fOstream <<
-    endl <<
-    idtr <<
-    "}" <<
-    endl;
-  // JMI  <<idtr;
+  if (gLpsrOptions->fTupletsOnALine) {
+    fOstream <<
+      " }";
+  }
+
+  else {
+    fOstream <<
+      endl <<
+      idtr <<
+      "}" <<
+      endl <<
+      idtr;
+  }
 
   fTupletsStack.pop ();
 
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 //________________________________________________________________________
@@ -3777,7 +3794,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
       "| % " << nextBarNumber <<
       endl;
 
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrBarCheck& elt)
@@ -3799,7 +3816,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarnumberCheck& elt)
     endl <<
     idtr;
 
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrBarnumberCheck& elt)
@@ -3821,8 +3838,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBreak& elt)
     endl <<
     endl;
 
-  fMusicOlec.reset ();
-  fStanzaOlec.reset ();
+  fMusicOlec.resetToZero ();
+  fStanzaOlec.resetToZero ();
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrBreak& elt)
@@ -3862,7 +3879,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeat& elt)
 
   idtr++;
 
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
@@ -3899,7 +3916,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
 
   fCurrentRepeatEndingsNumber = 0;
   
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 //________________________________________________________________________
@@ -3985,7 +4002,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
 
   idtr++;
   
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
@@ -4055,7 +4072,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
 
   idtr--;
   
-  fMusicOlec.reset ();
+  fMusicOlec.resetToZero ();
 }
 
 //________________________________________________________________________

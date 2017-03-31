@@ -4957,7 +4957,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
       "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
 
   // initialize note data to a neutral state
-  fNoteData.init ();
+  fNoteData.initializeNodeData ();
 
   fCurrentNoteDiatonicPitch = kA; // any value would fit
   fCurrentNoteAlteration    = kNatural;

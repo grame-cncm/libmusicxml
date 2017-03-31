@@ -2648,7 +2648,7 @@ ostream& operator<< (ostream& os, msrNoteData& noteData)
   return os;
 }
 
-void msrNoteData::init ()
+void msrNoteData::initializeNodeData ()
 {
 // JMI  fNoteDiatonicPitch    = kA; // any value would fit
  // fNoteAlteration           = k_NoAlteration;
@@ -2685,7 +2685,7 @@ void msrNoteData::init ()
 
 msrNoteData::msrNoteData ()
 {
-  init ();
+  initializeNodeData ();
 }
 
 void msrNoteData::setNoteQuartertonesPitch (

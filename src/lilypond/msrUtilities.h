@@ -139,7 +139,7 @@ class outputLineElementsCounter {
     void setMaxElementsPerLine (int maxElementsPerLine);
     
     // reset the counter
-    void reset (int value = 0);
+    void resetToZero (int value = 0);
     
     // compare the counter with a value
     bool operator< (int value);
