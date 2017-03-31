@@ -305,7 +305,6 @@ void analyzeOptions (
   int outputFilePresent                 = 0;
   int interactivePresent                = 0;
   
-  int traceVisitorsPresent              = 0;
   int tracePartsPresent                 = 0;
   
   int traceVoicesPresent                = 0;
@@ -323,6 +322,8 @@ void analyzeOptions (
   
   // MSR options
   // -----------
+
+  int traceMSRVisitorsPresent           = 0;
 
   int msrPitchesLanguagePresent         = 0;
 
@@ -346,6 +347,8 @@ void analyzeOptions (
   
   // LPSR options
   // ------------
+
+  int traceLPSRVisitorsPresent           = 0;
 
   int lpsrPitchesLanguagePresent        = 0;
   int lpsrChordsLanguagePresent         = 0;
@@ -434,14 +437,6 @@ void analyzeOptions (
       no_argument, &traceGeneralPresent, 1
     },
     
-    {
-      "tvisit",
-      no_argument, &traceVisitorsPresent, 1
-    },
-    {
-      "traceVisitors",
-      no_argument, &traceVisitorsPresent, 1
-    },
     {
       "tparts",
       no_argument, &tracePartsPresent, 1
@@ -533,6 +528,15 @@ void analyzeOptions (
 
     // MSR options
     // -----------
+
+    {
+      "tvisit",
+      no_argument, &traceVisitorsPresent, 1
+    },
+    {
+      "traceVisitors",
+      no_argument, &traceVisitorsPresent, 1
+    },
 
     {
       "mpl",
@@ -639,6 +643,15 @@ void analyzeOptions (
 
     // LPSR options
     // ------------
+
+    {
+      "tvisit",
+      no_argument, &traceVisitorsPresent, 1
+    },
+    {
+      "traceVisitors",
+      no_argument, &traceVisitorsPresent, 1
+    },
 
     {
       "lppl",
@@ -907,12 +920,6 @@ void analyzeOptions (
           traceGeneralPresent = false;
         }
         
-        if (traceVisitorsPresent) {
-          gGeneralOptions->fTraceVisitors = true;
-          gGeneralOptions->fCommandLineOptions +=
-            "--traceVisitors ";
-          traceVisitorsPresent = false;
-        }
         if (tracePartsPresent) {
           gGeneralOptions->fTraceParts = true;
           gGeneralOptions->fCommandLineOptions +=
@@ -1004,6 +1011,13 @@ void analyzeOptions (
         // MSR options
         // -----------
         
+        if (traceVisitorsPresent) {
+          gGeneralOptions->fTraceVisitors = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceVisitors ";
+          traceVisitorsPresent = false;
+        }
+
         if (msrPitchesLanguagePresent) {
           // optarg contains the language name
           string optargAsString;
@@ -1162,6 +1176,13 @@ void analyzeOptions (
         
         // LPSR options
         // ------------
+
+        if (traceVisitorsPresent) {
+          gGeneralOptions->fTraceVisitors = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceVisitors ";
+          traceVisitorsPresent = false;
+        }
 
         if (lpsrPitchesLanguagePresent) {
           // optarg contains the language name
@@ -1595,10 +1616,6 @@ void printOptions ()
       endl <<
         
     idtr <<
-      setw(fieldWidth) << "traceVisitors" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceVisitors) <<
-      endl <<
-    idtr <<
       setw(fieldWidth) << "traceparts" << " : " <<
       booleanAsString (gGeneralOptions->fTraceParts) <<
       endl <<
@@ -1659,6 +1676,11 @@ void printOptions ()
   idtr++;
   
   cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "traceVisitors" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceVisitors) <<
+      endl <<
+
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
@@ -1728,6 +1750,11 @@ void printOptions ()
   idtr++;
   
   cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "traceVisitors" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceVisitors) <<
+      endl <<
+
     idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
         gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<

@@ -327,7 +327,7 @@ S_msrVoice xml2MsrTranslator::registerVoiceInStaffInCurrentPartIfNeeded (
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_work_number& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_work_number" << endl;
 
@@ -339,7 +339,7 @@ void xml2MsrTranslator::visitStart ( S_work_number& elt )
 
 void xml2MsrTranslator::visitStart ( S_work_title& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_work_title" << endl;
 
@@ -351,7 +351,7 @@ void xml2MsrTranslator::visitStart ( S_work_title& elt )
   
 void xml2MsrTranslator::visitStart ( S_movement_number& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_movement_number" << endl;
 
@@ -363,7 +363,7 @@ void xml2MsrTranslator::visitStart ( S_movement_number& elt )
 
 void xml2MsrTranslator::visitStart ( S_movement_title& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_movement_title" << endl;
 
@@ -375,7 +375,7 @@ void xml2MsrTranslator::visitStart ( S_movement_title& elt )
 
 void xml2MsrTranslator::visitStart ( S_creator& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_creator" << endl;
 
@@ -388,7 +388,7 @@ void xml2MsrTranslator::visitStart ( S_creator& elt )
 
 void xml2MsrTranslator::visitStart ( S_rights& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_rights" << endl;
 
@@ -400,7 +400,7 @@ void xml2MsrTranslator::visitStart ( S_rights& elt )
 
 void xml2MsrTranslator::visitStart ( S_software& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_software" << endl;
 
@@ -412,7 +412,7 @@ void xml2MsrTranslator::visitStart ( S_software& elt )
 
 void xml2MsrTranslator::visitStart ( S_encoding_date& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_encoding_date" << endl;
 
@@ -425,7 +425,7 @@ void xml2MsrTranslator::visitStart ( S_encoding_date& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_millimeters& elt )
 { 
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_millimeters" << endl;
 
@@ -437,7 +437,7 @@ void xml2MsrTranslator::visitStart ( S_millimeters& elt )
 
 void xml2MsrTranslator::visitStart ( S_tenths& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tenths" << endl;
 
@@ -449,7 +449,7 @@ void xml2MsrTranslator::visitStart ( S_tenths& elt )
 
 void xml2MsrTranslator::visitEnd ( S_scaling& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_scaling" << endl;
 
@@ -465,7 +465,7 @@ void xml2MsrTranslator::visitEnd ( S_scaling& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_system_distance& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_system_distance" << endl;
 
@@ -479,7 +479,7 @@ void xml2MsrTranslator::visitStart ( S_system_distance& elt )
 
 void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_top_system_distance" << endl;
 
@@ -494,7 +494,7 @@ void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_page_layout& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_page_layout" << endl;
 
@@ -502,7 +502,7 @@ void xml2MsrTranslator::visitStart ( S_page_layout& elt )
 }
 void xml2MsrTranslator::visitEnd ( S_page_layout& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_page_layout" << endl;
 
@@ -511,7 +511,7 @@ void xml2MsrTranslator::visitEnd ( S_page_layout& elt )
 
 void xml2MsrTranslator::visitStart ( S_page_height& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_page_height" << endl;
 
@@ -527,7 +527,7 @@ void xml2MsrTranslator::visitStart ( S_page_height& elt )
 
 void xml2MsrTranslator::visitStart ( S_page_width& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_page_width" << endl;
 
@@ -543,7 +543,7 @@ void xml2MsrTranslator::visitStart ( S_page_width& elt )
 
 void xml2MsrTranslator::visitStart ( S_left_margin& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_left_margin" << endl;
 
@@ -559,7 +559,7 @@ void xml2MsrTranslator::visitStart ( S_left_margin& elt )
 
 void xml2MsrTranslator::visitStart ( S_right_margin& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_right_margin" << endl;
 
@@ -575,7 +575,7 @@ void xml2MsrTranslator::visitStart ( S_right_margin& elt )
 
 void xml2MsrTranslator::visitStart ( S_top_margin& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_top_margin" << endl;
 
@@ -591,7 +591,7 @@ void xml2MsrTranslator::visitStart ( S_top_margin& elt )
 
 void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_bottom_margin" << endl;
 
@@ -608,7 +608,7 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_credit& elt )
 {  
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_credit" << endl;
 
@@ -627,7 +627,7 @@ void xml2MsrTranslator::visitStart ( S_credit& elt )
 
 void xml2MsrTranslator::visitStart ( S_credit_words& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_credit_words" << endl;
 
@@ -646,7 +646,7 @@ void xml2MsrTranslator::visitStart ( S_credit_words& elt )
 
 void xml2MsrTranslator::visitEnd ( S_credit& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_credit" << endl;
 
@@ -656,7 +656,7 @@ void xml2MsrTranslator::visitEnd ( S_credit& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_list& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_part_list" << endl;
 
@@ -694,7 +694,7 @@ void xml2MsrTranslator::visitStart (S_part_list& elt)
 
 void xml2MsrTranslator::visitEnd (S_part_list& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_part_list" << endl;
 
@@ -745,7 +745,7 @@ void xml2MsrTranslator::visitEnd (S_part_list& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part_group& elt)
 {  
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_part_group" << endl;
 
@@ -766,7 +766,7 @@ void xml2MsrTranslator::visitStart (S_part_group& elt)
 
 void xml2MsrTranslator::visitStart (S_group_name& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_group_name" << endl;
 
@@ -775,7 +775,7 @@ void xml2MsrTranslator::visitStart (S_group_name& elt)
 
 void xml2MsrTranslator::visitStart (S_group_name_display& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_group_name_display" << endl;
 
@@ -784,7 +784,7 @@ void xml2MsrTranslator::visitStart (S_group_name_display& elt)
 
 void xml2MsrTranslator::visitStart (S_display_text& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_display_text" << endl;
 
@@ -794,7 +794,7 @@ void xml2MsrTranslator::visitStart (S_display_text& elt)
 
 void xml2MsrTranslator::visitStart (S_accidental_text& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_accidental_text" << endl;
 
@@ -803,7 +803,7 @@ void xml2MsrTranslator::visitStart (S_accidental_text& elt)
 
 void xml2MsrTranslator::visitStart (S_group_abbreviation& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_group_abbreviation" << endl;
 
@@ -812,7 +812,7 @@ void xml2MsrTranslator::visitStart (S_group_abbreviation& elt)
 
 void xml2MsrTranslator::visitStart (S_group_symbol& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_group_symbol" << endl;
 
@@ -824,7 +824,7 @@ void xml2MsrTranslator::visitStart (S_group_symbol& elt)
 
 void xml2MsrTranslator::visitStart ( S_group_barline& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_group_barline" << endl;
 
@@ -1120,7 +1120,7 @@ void xml2MsrTranslator::handlePartgroupStop (int inputLineNumber)
 //________________________________________________________________________
 void xml2MsrTranslator::visitEnd (S_part_group& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_part_group" << endl;
 
@@ -1224,7 +1224,7 @@ void xml2MsrTranslator::visitEnd (S_part_group& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_score_part& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_score_part" << endl;
 
@@ -1244,7 +1244,7 @@ void xml2MsrTranslator::visitStart (S_score_part& elt)
 
 void xml2MsrTranslator::visitStart (S_part_name& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_part_name" << endl;
 
@@ -1253,7 +1253,7 @@ void xml2MsrTranslator::visitStart (S_part_name& elt)
 
 void xml2MsrTranslator::visitStart (S_part_abbreviation& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_part_abbreviation" << endl;
 
@@ -1262,7 +1262,7 @@ void xml2MsrTranslator::visitStart (S_part_abbreviation& elt)
 
 void xml2MsrTranslator::visitStart (S_instrument_name& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_instrument_name" << endl;
 
@@ -1271,7 +1271,7 @@ void xml2MsrTranslator::visitStart (S_instrument_name& elt)
 
 void xml2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_instrument_abbreviation" << endl;
 
@@ -1280,7 +1280,7 @@ void xml2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
 
 void xml2MsrTranslator::visitEnd (S_score_part& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_score_part" << endl;
 
@@ -1369,7 +1369,7 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_part& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_score_part" << endl;
 
@@ -1410,7 +1410,7 @@ void xml2MsrTranslator::visitStart (S_part& elt)
 
 void xml2MsrTranslator::visitEnd (S_part& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_part" << endl;
 
@@ -1435,7 +1435,7 @@ void xml2MsrTranslator::visitEnd (S_part& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_divisions& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_divisions" << endl;
 
@@ -1469,7 +1469,7 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_clef& elt )
 { 
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_clef" << endl;
 
@@ -1488,7 +1488,7 @@ void xml2MsrTranslator::visitStart ( S_clef& elt )
 
 void xml2MsrTranslator::visitStart ( S_sign& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_sign" << endl;
 
@@ -1497,7 +1497,7 @@ void xml2MsrTranslator::visitStart ( S_sign& elt )
 
 void xml2MsrTranslator::visitStart ( S_line& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_line" << endl;
 
@@ -1506,7 +1506,7 @@ void xml2MsrTranslator::visitStart ( S_line& elt )
   
 void xml2MsrTranslator::visitStart ( S_clef_octave_change& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_clef_octave_change" << endl;
 
@@ -1527,7 +1527,7 @@ void xml2MsrTranslator::visitStart ( S_clef_octave_change& elt )
   
 void xml2MsrTranslator::visitEnd ( S_clef& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_clef" << endl;
 
@@ -1721,7 +1721,7 @@ void xml2MsrTranslator::visitEnd ( S_clef& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_key& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_clef" << endl;
 
@@ -1737,7 +1737,7 @@ void xml2MsrTranslator::visitStart ( S_key& elt )
   
 void xml2MsrTranslator::visitStart ( S_fifths& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_fifths" << endl;
 
@@ -1746,7 +1746,7 @@ void xml2MsrTranslator::visitStart ( S_fifths& elt )
 
 void xml2MsrTranslator::visitStart ( S_mode& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_mode" << endl;
 
@@ -1757,7 +1757,7 @@ void xml2MsrTranslator::visitStart ( S_mode& elt )
 
 void xml2MsrTranslator::visitStart ( S_cancel& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_cancel" << endl;
 
@@ -1766,7 +1766,7 @@ void xml2MsrTranslator::visitStart ( S_cancel& elt )
 
 void xml2MsrTranslator::visitEnd ( S_key& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_key" << endl;
 
@@ -1876,7 +1876,7 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_time& elt )
 {  
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_key" << endl;
 
@@ -1902,7 +1902,7 @@ void xml2MsrTranslator::visitStart ( S_time& elt )
 
 void xml2MsrTranslator::visitStart ( S_beats& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_beats" << endl;
 
@@ -1911,7 +1911,7 @@ void xml2MsrTranslator::visitStart ( S_beats& elt )
   
 void xml2MsrTranslator::visitStart ( S_beat_type& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_beat_type" << endl;
 
@@ -1920,7 +1920,7 @@ void xml2MsrTranslator::visitStart ( S_beat_type& elt )
  
 void xml2MsrTranslator::visitStart ( S_senza_misura& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_senza_misura" << endl;
 
@@ -1929,7 +1929,7 @@ void xml2MsrTranslator::visitStart ( S_senza_misura& elt )
 
 void xml2MsrTranslator::visitEnd ( S_time& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_time" << endl;
 
@@ -1960,7 +1960,7 @@ void xml2MsrTranslator::visitEnd ( S_time& elt )
 
 void xml2MsrTranslator::visitStart ( S_instruments& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_time" << endl;
 
@@ -1974,7 +1974,7 @@ void xml2MsrTranslator::visitStart ( S_instruments& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_transpose& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_transpose" << endl;
 
@@ -2001,7 +2001,7 @@ void xml2MsrTranslator::visitStart ( S_transpose& elt )
 
 void xml2MsrTranslator::visitStart ( S_diatonic& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_diatonic" << endl;
 
@@ -2010,7 +2010,7 @@ void xml2MsrTranslator::visitStart ( S_diatonic& elt )
   
 void xml2MsrTranslator::visitStart ( S_chromatic& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_chromatic" << endl;
 
@@ -2019,7 +2019,7 @@ void xml2MsrTranslator::visitStart ( S_chromatic& elt )
  
 void xml2MsrTranslator::visitEnd ( S_transpose& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_transpose" << endl;
 
@@ -2051,7 +2051,7 @@ void xml2MsrTranslator::visitEnd ( S_transpose& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_direction& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_direction" << endl;
 
@@ -2130,7 +2130,7 @@ void xml2MsrTranslator::visitStart (S_direction& elt)
 
 void xml2MsrTranslator::visitStart (S_direction_type& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_direction_type" << endl;
 
@@ -2139,7 +2139,7 @@ void xml2MsrTranslator::visitStart (S_direction_type& elt)
 
 void xml2MsrTranslator::visitEnd (S_direction_type& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_direction_type" << endl;
 
@@ -2148,7 +2148,7 @@ void xml2MsrTranslator::visitEnd (S_direction_type& elt)
 
 void xml2MsrTranslator::visitStart (S_offset& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_offset" << endl;
 
@@ -2164,7 +2164,7 @@ void xml2MsrTranslator::visitStart (S_offset& elt)
 
 void xml2MsrTranslator::visitStart (S_octave_shift& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_octave_shift" << endl;
 
@@ -2247,7 +2247,7 @@ void xml2MsrTranslator::visitStart (S_octave_shift& elt)
 
 void xml2MsrTranslator::visitStart (S_words& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_words" << endl;
 
@@ -2290,7 +2290,7 @@ void xml2MsrTranslator::visitStart (S_words& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_metronome& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_metronome" << endl;
 
@@ -2326,7 +2326,7 @@ void xml2MsrTranslator::visitStart ( S_metronome& elt )
   
 void xml2MsrTranslator::visitEnd ( S_metronome& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_metronome" << endl;
 
@@ -2399,7 +2399,7 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
 
 void xml2MsrTranslator::visitStart ( S_beat_unit& elt )
 { 
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_beat_unit" << endl;
 
@@ -2414,7 +2414,7 @@ void xml2MsrTranslator::visitStart ( S_beat_unit& elt )
 
 void xml2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_beat_unit_dot" << endl;
 
@@ -2423,7 +2423,7 @@ void xml2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
   
 void xml2MsrTranslator::visitStart ( S_per_minute& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_per_minute" << endl;
 
@@ -2432,7 +2432,7 @@ void xml2MsrTranslator::visitStart ( S_per_minute& elt )
 
 void xml2MsrTranslator::visitEnd (S_direction& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_direction" << endl;
 
@@ -2448,7 +2448,7 @@ void xml2MsrTranslator::visitEnd (S_direction& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_staves& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_direction" << endl;
 
@@ -2497,7 +2497,7 @@ void xml2MsrTranslator::visitStart (S_staves& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_staff& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff" << endl;
 
@@ -2589,7 +2589,7 @@ void xml2MsrTranslator::visitStart (S_staff& elt)
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_staff_details& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff_details" << endl;
 
@@ -2618,7 +2618,7 @@ void xml2MsrTranslator::visitStart (S_staff_details& elt )
 
 void xml2MsrTranslator::visitStart (S_staff_type& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff_type" << endl;
 
@@ -2667,7 +2667,7 @@ else {
 
 void xml2MsrTranslator::visitStart (S_staff_lines& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff_lines" << endl;
 
@@ -2676,7 +2676,7 @@ void xml2MsrTranslator::visitStart (S_staff_lines& elt )
 
 void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff_tuning" << endl;
 
@@ -2689,7 +2689,7 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
     
 void xml2MsrTranslator::visitStart (S_tuning_step& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tuning_step" << endl;
 
@@ -2706,7 +2706,7 @@ void xml2MsrTranslator::visitStart (S_tuning_step& elt )
 
 void xml2MsrTranslator::visitStart (S_tuning_octave& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tuning_octave" << endl;
 
@@ -2715,7 +2715,7 @@ void xml2MsrTranslator::visitStart (S_tuning_octave& elt )
 
 void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tuning_alter" << endl;
 
@@ -2740,7 +2740,7 @@ void xml2MsrTranslator::visitStart (S_tuning_alter& elt )
 
 void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_staff_tuning" << endl;
 
@@ -2816,7 +2816,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
     
 void xml2MsrTranslator::visitStart (S_capo& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_capo" << endl;
 
@@ -2825,7 +2825,7 @@ void xml2MsrTranslator::visitStart (S_capo& elt )
 
 void xml2MsrTranslator::visitStart (S_staff_size& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff_size" << endl;
 
@@ -2834,7 +2834,7 @@ void xml2MsrTranslator::visitStart (S_staff_size& elt )
 
 void xml2MsrTranslator::visitEnd (S_staff_details& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_staff_details" << endl;
 
@@ -2860,7 +2860,7 @@ void xml2MsrTranslator::visitEnd (S_staff_details& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_voice& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staff_details" << endl;
 
@@ -2967,7 +2967,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_backup& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_backup" << endl;
 
@@ -2988,7 +2988,7 @@ void xml2MsrTranslator::visitStart (S_backup& elt )
 
 void xml2MsrTranslator::visitEnd (S_backup& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_backup" << endl;
 
@@ -3011,7 +3011,7 @@ void xml2MsrTranslator::visitEnd (S_backup& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_forward& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_forward" << endl;
 
@@ -3040,7 +3040,7 @@ void xml2MsrTranslator::visitStart ( S_forward& elt )
 
 void xml2MsrTranslator::visitEnd ( S_forward& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_forward" << endl;
 
@@ -3119,7 +3119,7 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_tied& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tied" << endl;
 
@@ -3193,7 +3193,7 @@ void xml2MsrTranslator::visitStart (S_tied& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_slur& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_slur" << endl;
 
@@ -3274,7 +3274,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_bracket& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_bracket" << endl;
 
@@ -3333,7 +3333,7 @@ void xml2MsrTranslator::visitStart (S_bracket& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_wedge& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_wedge" << endl;
 
@@ -3372,7 +3372,7 @@ void xml2MsrTranslator::visitStart ( S_wedge& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_lyric& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_lyric" << endl;
 
@@ -3416,7 +3416,7 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
 
 void xml2MsrTranslator::visitStart ( S_syllabic& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_syllabic" << endl;
 
@@ -3443,7 +3443,7 @@ void xml2MsrTranslator::visitStart ( S_syllabic& elt )
 
 void xml2MsrTranslator::visitStart ( S_text& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_text" << endl;
 
@@ -3498,7 +3498,7 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
 
 void xml2MsrTranslator::visitStart ( S_elision& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_elision" << endl;
 
@@ -3507,7 +3507,7 @@ void xml2MsrTranslator::visitStart ( S_elision& elt )
 
 void xml2MsrTranslator::visitStart ( S_extend& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_extend" << endl;
 
@@ -3545,7 +3545,7 @@ void xml2MsrTranslator::visitStart ( S_extend& elt )
 
 void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_lyric" << endl;
 
@@ -3789,7 +3789,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart (S_measure& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_lyric" << endl;
 
@@ -3843,7 +3843,7 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
 
 void xml2MsrTranslator::visitEnd (S_measure& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_measure" << endl;
 
@@ -3875,7 +3875,7 @@ void xml2MsrTranslator::visitEnd (S_measure& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_print& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_print" << endl;
 
@@ -4077,7 +4077,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_barline& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_barline" << endl;
 
@@ -4143,7 +4143,7 @@ void xml2MsrTranslator::visitStart ( S_barline& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_bar_style& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_bar_style" << endl;
 
@@ -4202,7 +4202,7 @@ void xml2MsrTranslator::visitStart ( S_bar_style& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_segno& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_segno" << endl;
 
@@ -4236,7 +4236,7 @@ void xml2MsrTranslator::visitStart ( S_segno& elt )
 
 void xml2MsrTranslator::visitStart ( S_coda& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_coda" << endl;
 
@@ -4270,7 +4270,7 @@ void xml2MsrTranslator::visitStart ( S_coda& elt )
 
 void xml2MsrTranslator::visitStart ( S_eyeglasses& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_eyeglasses" << endl;
 
@@ -4304,7 +4304,7 @@ void xml2MsrTranslator::visitStart ( S_eyeglasses& elt )
 
 void xml2MsrTranslator::visitStart ( S_pedal& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_pedal" << endl;
 
@@ -4406,7 +4406,7 @@ void xml2MsrTranslator::visitStart ( S_pedal& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ending& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ending" << endl;
 
@@ -4441,7 +4441,7 @@ void xml2MsrTranslator::visitStart ( S_ending& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_repeat& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_repeat" << endl;
 
@@ -4514,7 +4514,7 @@ void xml2MsrTranslator::visitStart ( S_repeat& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitEnd ( S_barline& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_barline" << endl;
 
@@ -4948,7 +4948,7 @@ The discontinue value is typically used for the last ending in a set, where ther
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_note& elt ) 
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_note" << endl;
 
@@ -5000,7 +5000,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_step& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_step" << endl;
 
@@ -5016,7 +5016,7 @@ void xml2MsrTranslator::visitStart ( S_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_alter& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_alter" << endl;
 
@@ -5041,7 +5041,7 @@ void xml2MsrTranslator::visitStart ( S_alter& elt)
 
 void xml2MsrTranslator::visitStart ( S_octave& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_octave" << endl;
 
@@ -5050,7 +5050,7 @@ void xml2MsrTranslator::visitStart ( S_octave& elt)
 
 void xml2MsrTranslator::visitStart ( S_duration& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_duration" << endl;
 
@@ -5096,7 +5096,7 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
 
 void xml2MsrTranslator::visitStart ( S_instrument& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_instrument" << endl;
 
@@ -5108,7 +5108,7 @@ void xml2MsrTranslator::visitStart ( S_instrument& elt )
        
 void xml2MsrTranslator::visitStart ( S_dot& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_dot" << endl;
 
@@ -5117,7 +5117,7 @@ void xml2MsrTranslator::visitStart ( S_dot& elt )
        
 void xml2MsrTranslator::visitStart ( S_type& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_type" << endl;
 
@@ -5158,7 +5158,7 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
 
 void xml2MsrTranslator::visitStart ( S_stem& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_stem" << endl;
 
@@ -5198,7 +5198,7 @@ void xml2MsrTranslator::visitStart ( S_stem& elt )
 
 void xml2MsrTranslator::visitStart ( S_beam& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_beam" << endl;
 
@@ -5264,14 +5264,14 @@ void xml2MsrTranslator::visitStart ( S_beam& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_articulations& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_articulations" << endl;
 }
 
 void xml2MsrTranslator::visitStart ( S_accent& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_accent" << endl;
 
@@ -5286,7 +5286,7 @@ void xml2MsrTranslator::visitStart ( S_accent& elt )
 
 void xml2MsrTranslator::visitStart ( S_breath_mark& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_breath_mark" << endl;
 
@@ -5301,7 +5301,7 @@ void xml2MsrTranslator::visitStart ( S_breath_mark& elt )
 
 void xml2MsrTranslator::visitStart ( S_caesura& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_caesura" << endl;
 
@@ -5316,7 +5316,7 @@ void xml2MsrTranslator::visitStart ( S_caesura& elt )
 
 void xml2MsrTranslator::visitStart ( S_spiccato& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_spiccato" << endl;
 
@@ -5331,7 +5331,7 @@ void xml2MsrTranslator::visitStart ( S_spiccato& elt )
 
 void xml2MsrTranslator::visitStart ( S_staccato& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staccato" << endl;
 
@@ -5346,7 +5346,7 @@ void xml2MsrTranslator::visitStart ( S_staccato& elt )
 
 void xml2MsrTranslator::visitStart ( S_staccatissimo& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_staccatissimo" << endl;
 
@@ -5361,7 +5361,7 @@ void xml2MsrTranslator::visitStart ( S_staccatissimo& elt )
 
 void xml2MsrTranslator::visitStart ( S_stress& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_stress" << endl;
 
@@ -5376,7 +5376,7 @@ void xml2MsrTranslator::visitStart ( S_stress& elt )
 
 void xml2MsrTranslator::visitStart ( S_unstress& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_unstress" << endl;
 
@@ -5391,7 +5391,7 @@ void xml2MsrTranslator::visitStart ( S_unstress& elt )
 
 void xml2MsrTranslator::visitStart ( S_detached_legato& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_detached_legato" << endl;
 
@@ -5406,7 +5406,7 @@ void xml2MsrTranslator::visitStart ( S_detached_legato& elt )
 
 void xml2MsrTranslator::visitStart ( S_strong_accent& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_strong_accent" << endl;
 
@@ -5422,7 +5422,7 @@ void xml2MsrTranslator::visitStart ( S_strong_accent& elt )
 
 void xml2MsrTranslator::visitStart ( S_tenuto& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tenuto" << endl;
 
@@ -5438,7 +5438,7 @@ void xml2MsrTranslator::visitStart ( S_tenuto& elt )
 
 void xml2MsrTranslator::visitStart ( S_fermata& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_fermata" << endl;
 
@@ -5454,7 +5454,7 @@ void xml2MsrTranslator::visitStart ( S_fermata& elt )
 
 void xml2MsrTranslator::visitStart ( S_arpeggiate& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_arpeggiate" << endl;
 
@@ -5469,7 +5469,7 @@ void xml2MsrTranslator::visitStart ( S_arpeggiate& elt )
 
 void xml2MsrTranslator::visitStart ( S_doit& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_doit" << endl;
 
@@ -5484,7 +5484,7 @@ void xml2MsrTranslator::visitStart ( S_doit& elt )
 
 void xml2MsrTranslator::visitStart ( S_falloff& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_falloff" << endl;
 
@@ -5499,7 +5499,7 @@ void xml2MsrTranslator::visitStart ( S_falloff& elt )
 
 void xml2MsrTranslator::visitStart ( S_plop& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_plop" << endl;
 
@@ -5514,7 +5514,7 @@ void xml2MsrTranslator::visitStart ( S_plop& elt )
 
 void xml2MsrTranslator::visitStart ( S_scoop& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_scoop" << endl;
 
@@ -5529,7 +5529,7 @@ void xml2MsrTranslator::visitStart ( S_scoop& elt )
 
 void xml2MsrTranslator::visitEnd ( S_articulations& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_articulations" << endl;
 
@@ -5539,14 +5539,14 @@ void xml2MsrTranslator::visitEnd ( S_articulations& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ornaments& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ornaments" << endl;
 }
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_trill_mark" << endl;
 
@@ -5561,7 +5561,7 @@ void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
 
 void xml2MsrTranslator::visitStart ( S_wavy_line& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_wavy_line" << endl;
 
@@ -5575,7 +5575,7 @@ void xml2MsrTranslator::visitStart ( S_wavy_line& elt )
 
 void xml2MsrTranslator::visitStart ( S_turn& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_turn" << endl;
 
@@ -5589,7 +5589,7 @@ void xml2MsrTranslator::visitStart ( S_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_inverted_turn& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_inverted_turn" << endl;
 
@@ -5603,7 +5603,7 @@ void xml2MsrTranslator::visitStart ( S_inverted_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_delayed_turn& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_delayed_turn" << endl;
 
@@ -5617,7 +5617,7 @@ void xml2MsrTranslator::visitStart ( S_delayed_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_delayed_inverted_turn" << endl;
 
@@ -5631,7 +5631,7 @@ void xml2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_vertical_turn& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_vertical_turn" << endl;
 
@@ -5645,7 +5645,7 @@ void xml2MsrTranslator::visitStart ( S_vertical_turn& elt )
 
 void xml2MsrTranslator::visitStart ( S_mordent& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_mordent" << endl;
 
@@ -5659,7 +5659,7 @@ void xml2MsrTranslator::visitStart ( S_mordent& elt )
 
 void xml2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_inverted_mordent" << endl;
 
@@ -5673,7 +5673,7 @@ void xml2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 
 void xml2MsrTranslator::visitStart ( S_schleifer& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_schleifer" << endl;
 
@@ -5687,7 +5687,7 @@ void xml2MsrTranslator::visitStart ( S_schleifer& elt )
 
 void xml2MsrTranslator::visitStart ( S_shake& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_shake" << endl;
 
@@ -5701,7 +5701,7 @@ void xml2MsrTranslator::visitStart ( S_shake& elt )
 
 void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_accidental_mark" << endl;
 
@@ -5769,7 +5769,7 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
 
 void xml2MsrTranslator::visitEnd ( S_ornaments& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_ornaments" << endl;
 
@@ -5837,7 +5837,7 @@ unstress
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart( S_f& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_f" << endl;
 
@@ -5851,7 +5851,7 @@ void xml2MsrTranslator::visitStart( S_f& elt)
 }
 void xml2MsrTranslator::visitStart( S_ff& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ff" << endl;
 
@@ -5865,7 +5865,7 @@ void xml2MsrTranslator::visitStart( S_ff& elt)
 }
 void xml2MsrTranslator::visitStart( S_fff& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_fff" << endl;
 
@@ -5879,7 +5879,7 @@ void xml2MsrTranslator::visitStart( S_fff& elt)
 }
 void xml2MsrTranslator::visitStart( S_ffff& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ffff" << endl;
 
@@ -5893,7 +5893,7 @@ void xml2MsrTranslator::visitStart( S_ffff& elt)
 }
 void xml2MsrTranslator::visitStart( S_fffff& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_fffff" << endl;
 
@@ -5907,7 +5907,7 @@ void xml2MsrTranslator::visitStart( S_fffff& elt)
 }
 void xml2MsrTranslator::visitStart( S_ffffff& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ffffff" << endl;
 
@@ -5922,7 +5922,7 @@ void xml2MsrTranslator::visitStart( S_ffffff& elt)
 
 void xml2MsrTranslator::visitStart( S_p& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_p" << endl;
 
@@ -5936,7 +5936,7 @@ void xml2MsrTranslator::visitStart( S_p& elt)
 }
 void xml2MsrTranslator::visitStart( S_pp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_pp" << endl;
 
@@ -5950,7 +5950,7 @@ void xml2MsrTranslator::visitStart( S_pp& elt)
 }
 void xml2MsrTranslator::visitStart( S_ppp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ppp" << endl;
 
@@ -5964,7 +5964,7 @@ void xml2MsrTranslator::visitStart( S_ppp& elt)
 }
 void xml2MsrTranslator::visitStart( S_pppp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_pppp" << endl;
 
@@ -5978,7 +5978,7 @@ void xml2MsrTranslator::visitStart( S_pppp& elt)
 }
 void xml2MsrTranslator::visitStart( S_ppppp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_ppppp" << endl;
 
@@ -5992,7 +5992,7 @@ void xml2MsrTranslator::visitStart( S_ppppp& elt)
 }
 void xml2MsrTranslator::visitStart( S_pppppp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_pppppp" << endl;
 
@@ -6008,7 +6008,7 @@ void xml2MsrTranslator::visitStart( S_pppppp& elt)
 
 void xml2MsrTranslator::visitStart( S_mf& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_mf" << endl;
 
@@ -6022,7 +6022,7 @@ void xml2MsrTranslator::visitStart( S_mf& elt)
 }
 void xml2MsrTranslator::visitStart( S_mp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_mp" << endl;
 
@@ -6037,7 +6037,7 @@ void xml2MsrTranslator::visitStart( S_mp& elt)
 
 void xml2MsrTranslator::visitStart( S_fp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_fp" << endl;
 
@@ -6051,7 +6051,7 @@ void xml2MsrTranslator::visitStart( S_fp& elt)
 }
 void xml2MsrTranslator::visitStart( S_fz& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_fz" << endl;
 
@@ -6066,7 +6066,7 @@ void xml2MsrTranslator::visitStart( S_fz& elt)
 
 void xml2MsrTranslator::visitStart( S_rf& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_rf" << endl;
 
@@ -6081,7 +6081,7 @@ void xml2MsrTranslator::visitStart( S_rf& elt)
 
 void xml2MsrTranslator::visitStart( S_sf& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_sf" << endl;
 
@@ -6096,7 +6096,7 @@ void xml2MsrTranslator::visitStart( S_sf& elt)
 
 void xml2MsrTranslator::visitStart( S_rfz& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_rfz" << endl;
 
@@ -6111,7 +6111,7 @@ void xml2MsrTranslator::visitStart( S_rfz& elt)
 
 void xml2MsrTranslator::visitStart( S_sfz& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_sfz" << endl;
 
@@ -6126,7 +6126,7 @@ void xml2MsrTranslator::visitStart( S_sfz& elt)
 
 void xml2MsrTranslator::visitStart( S_sfp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_sfp" << endl;
 
@@ -6141,7 +6141,7 @@ void xml2MsrTranslator::visitStart( S_sfp& elt)
 
 void xml2MsrTranslator::visitStart( S_sfpp& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_sfpp" << endl;
 
@@ -6156,7 +6156,7 @@ void xml2MsrTranslator::visitStart( S_sfpp& elt)
 
 void xml2MsrTranslator::visitStart( S_sffz& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_sffz" << endl;
 
@@ -6172,7 +6172,7 @@ void xml2MsrTranslator::visitStart( S_sffz& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_grace& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_grace" << endl;
 
@@ -6201,7 +6201,7 @@ void xml2MsrTranslator::visitStart ( S_grace& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_chord& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_chord" << endl;
 
@@ -6215,7 +6215,7 @@ void xml2MsrTranslator::visitStart ( S_chord& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_time_modification& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_time_modification" << endl;
 
@@ -6228,7 +6228,7 @@ void xml2MsrTranslator::visitStart ( S_time_modification& elt )
 
 void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_actual_notes" << endl;
 
@@ -6237,7 +6237,7 @@ void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
 
 void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_normal_notes" << endl;
 
@@ -6246,7 +6246,7 @@ void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
 
 void xml2MsrTranslator::visitStart ( S_normal_type& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_normal_type" << endl;
 
@@ -6307,7 +6307,7 @@ From NestedTuplets.xml:
 
 void xml2MsrTranslator::visitStart ( S_tuplet& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tuplet" << endl;
 
@@ -6344,7 +6344,7 @@ void xml2MsrTranslator::visitStart ( S_tuplet& elt )
 
 void xml2MsrTranslator::visitStart ( S_tuplet_number& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tuplet_number" << endl;
 
@@ -6354,7 +6354,7 @@ void xml2MsrTranslator::visitStart ( S_tuplet_number& elt )
 
 void xml2MsrTranslator::visitStart ( S_tuplet_type& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_tuplet_type" << endl;
 
@@ -6370,7 +6370,7 @@ void xml2MsrTranslator::visitStart ( S_tuplet_type& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_rest& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_rest" << endl;
 
@@ -6388,7 +6388,7 @@ void xml2MsrTranslator::visitStart ( S_rest& elt)
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_display_step& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_display_step" << endl;
 
@@ -6404,7 +6404,7 @@ void xml2MsrTranslator::visitStart ( S_display_step& elt)
 
 void xml2MsrTranslator::visitStart ( S_display_octave& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_display_octave" << endl;
 
@@ -6413,7 +6413,7 @@ void xml2MsrTranslator::visitStart ( S_display_octave& elt)
 
 void xml2MsrTranslator::visitEnd ( S_unpitched& elt)
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_unpitched" << endl;
 
@@ -7302,7 +7302,7 @@ void xml2MsrTranslator::attachPendingElementsToNote (
 //______________________________________________________________________________
 void xml2MsrTranslator::visitEnd ( S_note& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_note" << endl;
 
@@ -8997,7 +8997,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_rehearsal" << endl;
 
@@ -9087,7 +9087,7 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_harmony& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_harmony" << endl;
 
@@ -9103,7 +9103,7 @@ void xml2MsrTranslator::visitStart ( S_harmony& elt )
 
 void xml2MsrTranslator::visitStart ( S_root_step& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_root_step" << endl;
 
@@ -9119,7 +9119,7 @@ void xml2MsrTranslator::visitStart ( S_root_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_root_alter& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_root_alter" << endl;
 
@@ -9144,7 +9144,7 @@ void xml2MsrTranslator::visitStart ( S_root_alter& elt )
 
 void xml2MsrTranslator::visitStart ( S_kind& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_kind" << endl;
 
@@ -9195,7 +9195,7 @@ void xml2MsrTranslator::visitStart ( S_kind& elt )
 
 void xml2MsrTranslator::visitStart ( S_bass_step& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_bass_step" << endl;
 
@@ -9211,7 +9211,7 @@ void xml2MsrTranslator::visitStart ( S_bass_step& elt )
 
 void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_bass_alter" << endl;
 
@@ -9236,7 +9236,7 @@ void xml2MsrTranslator::visitStart ( S_bass_alter& elt )
 
 void xml2MsrTranslator::visitStart ( S_degree_value& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_degree_value" << endl;
 
@@ -9245,7 +9245,7 @@ void xml2MsrTranslator::visitStart ( S_degree_value& elt )
 
 void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_degree_alter" << endl;
 
@@ -9270,7 +9270,7 @@ void xml2MsrTranslator::visitStart ( S_degree_alter& elt )
 
 void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_degree_type" << endl;
 
@@ -9298,7 +9298,7 @@ void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 
 void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 {
-  if (gGeneralOptions->fTraceVisitors)
+  if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> End visiting S_harmony" << endl;
 
