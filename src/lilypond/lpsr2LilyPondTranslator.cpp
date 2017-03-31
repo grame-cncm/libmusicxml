@@ -3252,7 +3252,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
     ">";
 
   // print the chord notes duration
-  msrNoteTypeKind
+  msrDuration
     chordNotesGraphicType =
       elt->getChordNotesGraphicType ();
       

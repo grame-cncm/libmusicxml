@@ -5440,8 +5440,11 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 void msrNote::print (ostream& os)
 {
   int divisionsPerFullMeasure =
-    fNoteMeasureUplink->
-      getMeasureDivisionsPerFullMeasure ();
+    fNoteMeasureUplink
+      ? 
+        fNoteMeasureUplink->
+          getMeasureDivisionsPerFullMeasure ()
+      : 0; // JMI
   
   // print the note itself and its position
   os <<
@@ -5486,10 +5489,14 @@ void msrNote::print (ostream& os)
     }
   }
 
+  if (divisionsPerFullMeasure > 0)
+    os <<
+      "/" <<
+      divisionsPerFullMeasure <<
+      " dpfm";
+
   os <<
-    "/" <<
-    divisionsPerFullMeasure <<
-    " dpfm)";
+    ")";
 
   // print measure related information
   os <<
@@ -5508,9 +5515,10 @@ void msrNote::print (ostream& os)
   else
     os << fNotePositionInMeasure;
     
-  os <<
-    "/" <<
-    fNoteDivisionsPerQuarterNote;
+  if (divisionsPerFullMeasure > 0)
+    os <<
+      "/" <<
+      divisionsPerFullMeasure;
 
   // print simplified position in measure if relevant
   if (fNoteMeasureUplink) {
@@ -5794,9 +5802,9 @@ void msrNote::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  int             inputLineNumber,
-  int             chordDivisions,
-  msrNoteTypeKind chordNotesGraphicType)
+  int         inputLineNumber,
+  int         chordDivisions,
+  msrDuration chordNotesGraphicType)
 {
   msrChord* o =
     new msrChord (
@@ -5806,9 +5814,9 @@ S_msrChord msrChord::create (
 }
 
 msrChord::msrChord (
-  int             inputLineNumber,
-  int             chordDivisions,
-  msrNoteTypeKind chordNotesGraphicType)
+  int         inputLineNumber,
+  int         chordDivisions,
+  msrDuration chordNotesGraphicType)
     : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
