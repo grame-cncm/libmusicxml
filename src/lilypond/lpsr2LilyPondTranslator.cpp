@@ -1821,8 +1821,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
     }
   }
 
-  if (gLpsrOptions->fEmptyLineEveryNMeasures) {
-    if (measureNumber % gLpsrOptions->fEmptyLineEveryNMeasuresValue == 0)
+  if (gLpsrOptions->fSeparatorLineEveryNMeasures) {
+    if (measureNumber % gLpsrOptions->fSeparatorLineEveryNMeasuresValue == 0)
       fOstream <<
         endl <<
         idtr <<

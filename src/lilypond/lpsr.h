@@ -184,8 +184,8 @@ class EXP lpsrOptions : public smartable {
     
     bool                          fBreakLinesAtIncompleteRightMeasures;
     
-    bool                          fEmptyLineEveryNMeasures;
-    int                           fEmptyLineEveryNMeasuresValue;
+    bool                          fSeparatorLineEveryNMeasures;
+    int                           fSeparatorLineEveryNMeasuresValue;
     
     bool                          fGenerateNumericalTime;
     bool                          fGenerateComments;

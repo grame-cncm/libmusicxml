@@ -250,8 +250,8 @@ void printUsage (int exitStatus)
     "          Generate a '\\break' command at the end incomplete right measures" << endl <<
     "          which is handy in popular folk dances and tunes." << endl <<
     endl <<
-    "    --elenm, --emptyLineEveryNMeasures 'n'" << endl <<
-    "          Generate an additional empty line for readability every 'n' measures," << endl <<
+    "    --slenm, --separatorLineEveryNMeasures 'n'" << endl <<
+    "          Generate an additional separator line for readability every 'n' measures," << endl <<
     "          where 'n' is a positive integer'." << endl <<
     endl <<
     "    --as, --accidentalStyle style" << endl <<
@@ -365,7 +365,7 @@ void analyzeOptions (
   int tupletsOnALinePresent             = 0;
   
   int breakLinesAtIncompleteRightMeasuresPresent  = 0;
-  int emptyLineEveryNMeasuresPresent    = 0;
+  int separatorLineEveryNMeasuresPresent = 0;
 //  int fKeepStaffSizePresent             = 0; JMI
   
   int absolutePresent                   = 0;
@@ -728,12 +728,12 @@ void analyzeOptions (
     },
     
     {
-      "elenm",
-      required_argument, &emptyLineEveryNMeasuresPresent, 1
+      "slenm",
+      required_argument, &separatorLineEveryNMeasuresPresent, 1
     },
     {
-      "emptyLineEveryNMeasures",
-      required_argument, &emptyLineEveryNMeasuresPresent, 1
+      "separatorLineEveryNMeasures",
+      required_argument, &separatorLineEveryNMeasuresPresent, 1
     },
     
     {
@@ -1307,13 +1307,13 @@ void analyzeOptions (
           breakLinesAtIncompleteRightMeasuresPresent = false;
         }
 
-        if (emptyLineEveryNMeasuresPresent) {
-          gLpsrOptions->fEmptyLineEveryNMeasures = true;
-          gLpsrOptions->fEmptyLineEveryNMeasuresValue =
+        if (separatorLineEveryNMeasuresPresent) {
+          gLpsrOptions->fSeparatorLineEveryNMeasures = true;
+          gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
             atoi (optarg);
           gGeneralOptions->fCommandLineOptions +=
-            "--emptyLineEveryNMeasures ";
-          emptyLineEveryNMeasuresPresent = false;
+            "--separatorLineEveryNMeasures ";
+          separatorLineEveryNMeasuresPresent = false;
         }
 
         if (dontKeepLineBreaksPresent) {
@@ -1793,11 +1793,11 @@ void printOptions ()
       booleanAsString (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
     
-    idtr << setw(fieldWidth) << "emptyLineEveryNMeasures" << " : " <<
-      booleanAsString (gLpsrOptions->fEmptyLineEveryNMeasures) <<
+    idtr << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
+      booleanAsString (gLpsrOptions->fSeparatorLineEveryNMeasures) <<
       endl <<
-    idtr << setw(fieldWidth) << "emptyLineEveryNMeasuresValue" << " : " <<
-      gLpsrOptions->fEmptyLineEveryNMeasuresValue <<
+    idtr << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
+      gLpsrOptions->fSeparatorLineEveryNMeasuresValue <<
       endl <<
     
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<

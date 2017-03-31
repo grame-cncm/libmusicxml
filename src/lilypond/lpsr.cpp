@@ -140,8 +140,8 @@ void lpsrOptions::initializeLpsrOptions ()
   
   fBreakLinesAtIncompleteRightMeasures = false;
   
-  fEmptyLineEveryNMeasures             = false;
-  fEmptyLineEveryNMeasuresValue        = INT_MAX;
+  fSeparatorLineEveryNMeasures         = false;
+  fSeparatorLineEveryNMeasuresValue    = INT_MAX;
   
   fKeepStaffSize                       = false;
     
