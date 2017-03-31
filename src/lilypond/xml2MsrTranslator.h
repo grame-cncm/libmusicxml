@@ -172,6 +172,12 @@ class EXP xml2MsrTranslator :
   public visitor<S_instrument>,
   public visitor<S_dot>,
   
+  public visitor<S_measure_style>,
+  public visitor<S_beat_repeat>,
+  public visitor<S_measure_repeat>,
+  public visitor<S_multiple_rest>,
+  public visitor<S_slash>,
+ 
   public visitor<S_articulations>,
   public visitor<S_accent>,
   public visitor<S_breath_mark>,
@@ -435,6 +441,12 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_instrument& elt);
     virtual void visitStart ( S_dot& elt );
     
+    virtual void visitStart ( S_measure_style& elt );
+    virtual void visitStart ( S_beat_repeat& elt );
+    virtual void visitStart ( S_measure_repeat& elt );
+    virtual void visitStart ( S_multiple_rest& elt );
+    virtual void visitStart ( S_slash& elt );
+
     virtual void visitStart ( S_articulations& elt );
     virtual void visitEnd   ( S_articulations& elt );
     virtual void visitStart ( S_accent& elt );

@@ -5261,6 +5261,47 @@ void xml2MsrTranslator::visitStart ( S_beam& elt )
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::visitStart ( S_measure_style& elt )
+{
+  if (gMsrOptions->fTraceMSRVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_measure_style" << endl;
+
+}
+       
+void xml2MsrTranslator::visitStart ( S_beat_repeat& elt )
+{
+  if (gMsrOptions->fTraceMSRVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_beat_repeat" << endl;
+
+}
+       
+void xml2MsrTranslator::visitStart ( S_measure_repeat& elt )
+{
+  if (gMsrOptions->fTraceMSRVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_measure_repeat" << endl;
+
+}
+       
+void xml2MsrTranslator::visitStart ( S_multiple_rest& elt )
+{
+  if (gMsrOptions->fTraceMSRVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_multiple_rest" << endl;
+
+}
+       
+void xml2MsrTranslator::visitStart ( S_slash& elt )
+{
+  if (gMsrOptions->fTraceMSRVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_slash" << endl;
+
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_articulations& elt )
 {
   if (gMsrOptions->fTraceMSRVisitors)
