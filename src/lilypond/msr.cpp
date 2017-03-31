@@ -2246,34 +2246,6 @@ string divisionsAsMsrString (
         result += ".";
       }
     }
-
-    /*
-    else {
-      // the suffix is a multiplication factor
-      rational r (
-        divisions,
-        baseDurationDivisions);
-      r.rationalise ();
-
-      if (gGeneralOptions->fTraceDurations) {
-        cerr <<
-          "divisions              = " << divisions <<
-          endl <<
-          "baseDurationDivisions  = " << baseDurationDivisions <<
-          endl <<
-          "r.getNumerator ()      = " << r.getNumerator () <<
-          endl <<
-          "r.getDenominator ()    = " << r.getDenominator () <<
-          endl << endl;
-      }
-      
-      result +=
-        "*" +
-        to_string (r.getNumerator ()) +
-        "/" +
-        to_string (r.getDenominator ());
-      }
-      */
   }
 
   numberOfDotsNeeded = dotsNumber;
@@ -5807,6 +5779,13 @@ S_msrChord msrChord::create (
   int         chordDivisions,
   msrDuration chordNotesGraphicType)
 {
+  cerr <<
+    "??? msrChord::create, " <<
+    "chordDivisions = " << chordDivisions <<
+    ", chordNotesGraphicType = " <<
+    msrDurationAsString (chordNotesGraphicType) <<
+    endl;
+     
   msrChord* o =
     new msrChord (
       inputLineNumber, chordDivisions, chordNotesGraphicType);
@@ -10040,199 +10019,6 @@ void msrHarmony::print (ostream& os)
 }
 
 //______________________________________________________________________________
-/*
-S_msrChords msrChords::create (
-  int       inputLineNumber,
-  S_msrPart chordsPartUplink)
-{
-  msrChords* o =
-    new msrChords (
-      inputLineNumber,
-      chordsPartUplink);
-  assert(o!=0);
-  return o;
-}
-
-msrChords::msrChords (
-  int       inputLineNumber,
-  S_msrPart chordsPartUplink)
-    : msrElement (inputLineNumber)
-{
-  fChordsPartUplink  = chordsPartUplink;
-  
-  if (gGeneralOptions->fTraceHarmony)
-    cerr << idtr <<
-      "Creating chords " << getChordsName () << endl;
-
-  fChordsPresent = false;
-}
-
-string msrChords::getChordsName () const
-{
-  return
-    fChordsPartUplink->getPartName() +
-    "_Chords";
-}
-
-msrChords::~msrChords() {}
-
-S_msrChords msrChords::createChordsBareClone (S_msrPart clonedPart)
-{
-  if (gGeneralOptions->fTraceChords) {
-    cerr << idtr <<
-      "--> Creating a bare clone of a chords '" <<
-      "???" <<
-      "'" <<
-      endl;
-  }
-
-  S_msrChords
-    clone =
-      msrChords::create (
-        fInputLineNumber,
-        clonedPart);
-
-  clone->fChordsPresent = fChordsPresent;
-  
-  return clone;
-}
-
-void msrChords::appendSKipToChords (
-  int       inputLineNumber,
-  int       divisions)
-{
-  if (gGeneralOptions->fTraceChords) {
-    cerr << idtr <<
-      "--> Adding skip:" << divisions <<
-      " to chords " << getChordsName () << endl;
-  }
-
-  / * JMI
-  // create stanza skip syllable
-  S_msrSyllable
-    skip =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSkipSyllable, "",
-        msrSyllable::k_NoSyllableExtend
-        divisions,
-        this);
-  
-  // add syllable to this stanza
-  fChordsElements.push_back (skip);
-  * /
-}
-
-void msrChords::appendHarmonyToChords (S_msrHarmony harmony)
-{
-  if (gGeneralOptions->fTraceHarmony)
-    cerr << idtr <<
-      "--> Appending harmony " << harmony <<
-      " to chord " << getChordsName () << endl;
-      
-  fChordsElements.push_back (harmony);
-
-  fChordsPresent = true;
-}
-
-void msrChords::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
-    cerr << idtr <<
-      "==> msrChords::acceptIn()" <<
-      endl;
-      
-  if (visitor<S_msrChords>*
-    p =
-      dynamic_cast<visitor<S_msrChords>*> (v)) {
-        S_msrChords elem = this;
-        
-        if (gMsrOptions->fTraceMSRVisitors)
-          cerr << idtr <<
-            "==> Launching msrChords::visitStart()" <<
-             endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrChords::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
-    cerr << idtr <<
-      "==> msrChords::acceptOut()" <<
-      endl;
-
-  if (visitor<S_msrChords>*
-    p =
-      dynamic_cast<visitor<S_msrChords>*> (v)) {
-        S_msrChords elem = this;
-      
-        if (gMsrOptions->fTraceMSRVisitors)
-          cerr << idtr <<
-            "==> Launching msrChords::visitEnd()" <<
-            endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrChords::browseData (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMSRVisitors)
-    cerr << idtr <<
-      "==> msrChords::browseData()" <<
-      endl;
-
-  idtr++;
-  
-  // browse the Chords syllables
-  int n = fChordsElements.size ();
-  for (int i = 0; i < n; i++) {
-    // browse the element
-    msrBrowser<msrElement> browser (v);
-    browser.browse (*fChordsElements [i]);
-  } // for
-  cerr << endl;
-
-  idtr--;
-
-  if (gMsrOptions->fTraceMSRVisitors)
-    cerr << idtr <<
-      "<== msrStanza::browseData()" <<
-      endl;
-}
-
-ostream& operator<< (ostream& os, const S_msrChords& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrChords::print (ostream& os)
-{  
- os <<
-    "Chords" << " " << getChordsName () <<
-    " (" <<
-    singularOrPlural (
-      fChordsElements.size (), "chords element", "chords elements");
-
-  if (! fChordsPresent)
-    os << " (No actual chords)";
-
-  os << endl;
-  
-//  if (fChordsPresent) {  JMI
-    idtr++;
-
-    int n = fChordsElements.size();
-    for (int i = 0; i < n; i++) {
-      os << idtr << fChordsElements [i];
-    } // for
-    os << endl;
-
-    idtr--;
- // }
-}
-*/
-
-//______________________________________________________________________________
 S_msrSegno msrSegno::create (
   int                       inputLineNumber)
 {
@@ -11970,6 +11756,10 @@ S_msrSegment msrSegment::create (
 {
   if (divisionsPerQuarterNote == 0) // JMI
     {
+      cerr <<
+        "!!! msrSegment::create, " <<
+        "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+        endl;
     //    assert(false);
     }
     

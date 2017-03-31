@@ -88,9 +88,6 @@ void printUsage (int exitStatus)
     "    --t, --traceGeneral" << endl <<
     "          Write a trace of the general activity to standard error." << endl <<
     endl <<
-    "    --tvisit, --traceVisitors " << endl <<
-    "          Write a trace of the graphs visiting activity to standard error." << endl <<
-    endl <<
     "    --tparts, --traceparts " << endl <<
     "          Write a trace of the activity regarding score, part groups and parts" << endl <<
     "          to standard error." << endl <<
@@ -130,6 +127,9 @@ void printUsage (int exitStatus)
     "  MSR:" << endl <<
     endl <<
 
+    "    --tmvisit, --traceMSRVisitors " << endl <<
+    "          Write a trace of the MSR graphs visiting activity to standard error." << endl <<
+    endl <<
     "    --mpl, --msrPitchesLanguage language" << endl <<
     "          Use 'language' to display note pitches in the MSR logs and text views." << endl <<
     "          The 12 LilyPond pitches languages are available:" << endl <<
@@ -187,6 +187,9 @@ void printUsage (int exitStatus)
     "  LPSR:" << endl <<
     endl <<
 
+    "    --tlpvisit, --traceLPSRisitors " << endl <<
+    "          Write a trace of the LPSR graphs visiting activity to standard error." << endl <<
+    endl <<
     "    --lppl, --lpsrPitchesLanguage language" << endl <<
     "          Use 'language' to display note pitches in the LPSR logs and views," << endl <<
     "          as well as in the generated LilyPond code." << endl <<
@@ -348,7 +351,7 @@ void analyzeOptions (
   // LPSR options
   // ------------
 
-  int traceLPSRVisitorsPresent           = 0;
+  int traceLPSRVisitorsPresent          = 0;
 
   int lpsrPitchesLanguagePresent        = 0;
   int lpsrChordsLanguagePresent         = 0;
@@ -530,12 +533,12 @@ void analyzeOptions (
     // -----------
 
     {
-      "tvisit",
-      no_argument, &traceVisitorsPresent, 1
+      "tmvisit",
+      no_argument, &traceMSRVisitorsPresent, 1
     },
     {
-      "traceVisitors",
-      no_argument, &traceVisitorsPresent, 1
+      "traceMSRVisitors",
+      no_argument, &traceMSRVisitorsPresent, 1
     },
 
     {
@@ -645,12 +648,12 @@ void analyzeOptions (
     // ------------
 
     {
-      "tvisit",
-      no_argument, &traceVisitorsPresent, 1
+      "tlpvisit",
+      no_argument, &traceLPSRVisitorsPresent, 1
     },
     {
-      "traceVisitors",
-      no_argument, &traceVisitorsPresent, 1
+      "traceLPSRVisitors",
+      no_argument, &traceLPSRVisitorsPresent, 1
     },
 
     {
@@ -1011,11 +1014,11 @@ void analyzeOptions (
         // MSR options
         // -----------
         
-        if (traceVisitorsPresent) {
-          gGeneralOptions->fTraceVisitors = true;
+        if (traceMSRVisitorsPresent) {
+          gMsrOptions->fTraceMSRVisitors = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--traceVisitors ";
-          traceVisitorsPresent = false;
+            "--traceMSRVisitors ";
+          traceMSRVisitorsPresent = false;
         }
 
         if (msrPitchesLanguagePresent) {
@@ -1177,11 +1180,11 @@ void analyzeOptions (
         // LPSR options
         // ------------
 
-        if (traceVisitorsPresent) {
-          gGeneralOptions->fTraceVisitors = true;
+        if (traceLPSRVisitorsPresent) {
+          gLpsrOptions->fTraceLPSRVisitors = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--traceVisitors ";
-          traceVisitorsPresent = false;
+            "--traceLPSRVisitors ";
+          traceLPSRVisitorsPresent = false;
         }
 
         if (lpsrPitchesLanguagePresent) {
@@ -1677,8 +1680,8 @@ void printOptions ()
   
   cerr << left <<
     idtr <<
-      setw(fieldWidth) << "traceVisitors" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceVisitors) <<
+      setw(fieldWidth) << "traceMSRVisitors" << " : " <<
+      booleanAsString (gMsrOptions->fTraceMSRVisitors) <<
       endl <<
 
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
@@ -1751,8 +1754,8 @@ void printOptions ()
   
   cerr << left <<
     idtr <<
-      setw(fieldWidth) << "traceVisitors" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceVisitors) <<
+      setw(fieldWidth) << "traceLPSRVisitors" << " : " <<
+      booleanAsString (gLpsrOptions->fTraceLPSRVisitors) <<
       endl <<
 
     idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
