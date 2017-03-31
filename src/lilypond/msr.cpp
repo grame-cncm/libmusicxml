@@ -11531,37 +11531,44 @@ void msrMeasure::finalizeMeasure (
     fMeasurePosition += skipDuration;
   }
 
-  // CAUTION JMI : this is a potential incomplete measure
-  // is this an incomplete measure?
-  bool measureIsIncomplete =
-    checkForIncompleteMeasure (
-      inputLineNumber,
-      measureKind);
-
-  if (measureIsIncomplete) {
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "### --> measure " << fMeasureNumber <<
-      " in voice \"" << voice->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      " is incomplete" <<
-      endl;
-    }
+  if (fMeasurePosition == 1) {
+    // this measure is empty
+    fMeasureKind = kEmptyMeasure;
   }
-      
-  // is this an overfull measure?
-  bool measureIsOverfull =
-    checkForOverfullMeasure (
-      inputLineNumber);
 
-  if (measureIsOverfull) {
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "### --> measure " << fMeasureNumber <<
-      " in voice \"" << voice->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      " is overfull" <<
-      endl;
+  else {
+    // CAUTION JMI : this is a potential incomplete measure
+    // is this an incomplete measure?
+    bool measureIsIncomplete =
+      checkForIncompleteMeasure (
+        inputLineNumber,
+        measureKind);
+  
+    if (measureIsIncomplete) {
+      if (gGeneralOptions->fTraceMeasures) {
+        cerr << idtr <<
+        "### --> measure " << fMeasureNumber <<
+        " in voice \"" << voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        " is incomplete" <<
+        endl;
+      }
+    }
+        
+    // is this an overfull measure?
+    bool measureIsOverfull =
+      checkForOverfullMeasure (
+        inputLineNumber);
+  
+    if (measureIsOverfull) {
+      if (gGeneralOptions->fTraceMeasures) {
+        cerr << idtr <<
+        "### --> measure " << fMeasureNumber <<
+        " in voice \"" << voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        " is overfull" <<
+        endl;
+      }
     }
   }
 }
@@ -11689,6 +11696,9 @@ string msrMeasure::getMeasureKindAsString () const
       break;
     case kOverfullMeasure:
       result = "over full";
+      break;
+    case kEmptyMeasure:
+      result = "empty";
       break;
   } // switch
 

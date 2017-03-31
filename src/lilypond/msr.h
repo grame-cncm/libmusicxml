@@ -1771,7 +1771,8 @@ class EXP msrMeasure : public msrElement
       kRegularMeasure,
       kIncompleteLeftMeasure,
       kIncompleteRightMeasure,
-      kOverfullMeasure};
+      kOverfullMeasure,
+      kEmptyMeasure};
     
     static string measureKindAsString (
       msrMeasureKind measureKind);

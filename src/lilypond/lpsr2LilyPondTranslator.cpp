@@ -1751,55 +1751,43 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
           measureDivisionsPerFullMeasure =
             elt->getMeasureDivisionsPerFullMeasure ();
 
-        if (mesurePosition == 1) {
-          // the measure is empty, generate a rest // JMI should have been kEmptyMeasure?
-          fOstream <<
-            "R" <<
-            divisionsAsMsrString (
-              inputLineNumber,
-              measureDivisionsPerFullMeasure) <<
-            " | ";
-        }
-        
-        else {
-          // we should set the score measure length in this case
-          rational r (
-            mesurePosition,
-            measureDivisionsPerFullMeasure);
-          r.rationalise ();
-    
-          if (gGeneralOptions->fTraceDurations) {
-            cerr <<
-              idtr <<
-                "% Setting the measure length for measure " <<
-                measureNumber <<
-                endl <<
-              idtr <<
-                ", line = " << inputLineNumber <<
-                endl <<
-              idtr <<
-                "% mesurePosition              = " << mesurePosition <<
-                endl <<
-              idtr <<
-                "% measureDivisionsPerFullMeasure  = " << measureDivisionsPerFullMeasure <<
-                endl <<
-              idtr <<
-                "% r.getNumerator ()      = " << r.getNumerator () <<
-                endl <<
-              idtr <<
-                "% r.getDenominator ()    = " << r.getDenominator () <<
-                endl <<
-              endl;
-          }
-          
-          fOstream << idtr <<
-            "\\set Score.measureLength = #(ly:make-moment " <<
-            to_string (r.getNumerator ()) <<
-            "/" <<
-            to_string (r.getDenominator ()) <<
-            ")" << // JMI
+        // we should set the score measure length in this case
+        rational r (
+          mesurePosition,
+          measureDivisionsPerFullMeasure);
+        r.rationalise ();
+  
+        if (gGeneralOptions->fTraceDurations) {
+          cerr <<
+            idtr <<
+              "% Setting the measure length for measure " <<
+              measureNumber <<
+              endl <<
+            idtr <<
+              ", line = " << inputLineNumber <<
+              endl <<
+            idtr <<
+              "% mesurePosition              = " << mesurePosition <<
+              endl <<
+            idtr <<
+              "% measureDivisionsPerFullMeasure  = " << measureDivisionsPerFullMeasure <<
+              endl <<
+            idtr <<
+              "% r.getNumerator ()      = " << r.getNumerator () <<
+              endl <<
+            idtr <<
+              "% r.getDenominator ()    = " << r.getDenominator () <<
+              endl <<
             endl;
         }
+        
+        fOstream << idtr <<
+          "\\set Score.measureLength = #(ly:make-moment " <<
+          to_string (r.getNumerator ()) <<
+          "/" <<
+          to_string (r.getDenominator ()) <<
+          ")" << // JMI
+          endl;
   
         // should we generate a break?
         if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
@@ -1814,6 +1802,22 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         fOstream << idtr <<
           "\\cadenzaOn" <<
           endl;
+      }
+      break;
+      
+    case msrMeasure::kEmptyMeasure:
+      {
+        int
+          measureDivisionsPerFullMeasure =
+            elt->getMeasureDivisionsPerFullMeasure ();
+
+        // generate a rest the duration of the measure
+        fOstream <<
+          "R" <<
+          divisionsAsMsrString (
+            inputLineNumber,
+            measureDivisionsPerFullMeasure) <<
+          " | ";
       }
       break;
   } // switch
