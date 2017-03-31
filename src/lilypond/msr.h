@@ -375,6 +375,7 @@ void testTupletDivisionsAndDurations ();
 
 // note graphic types
 //______________________________________________________________________________
+/*
 int noteTypeAsDivisions (
   string  noteType,
   int     divisionsPerWholeNote,
@@ -385,7 +386,7 @@ int noteTypeAsDivisions (
 string noteTypeAsMSRDuration (
   string  noteType,
   string& errorMessage);
-
+*/
 
 //______________________________________________________________________________
 /*!
