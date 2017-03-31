@@ -162,6 +162,7 @@ class EXP lpsrOptions : public smartable {
 
     // trace
     bool                          fTraceLPSR;
+    bool                          fTraceLPSRVisitors;
 
     // languages
     msrQuatertonesPitchesLanguage fLpsrQuatertonesPitchesLanguage;
@@ -231,7 +232,7 @@ class EXP lpsrElement : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrElement> create (
-      int            inputLineNumber);
+      int inputLineNumber);
 
   protected:
          
@@ -239,7 +240,7 @@ class EXP lpsrElement : public msrElement
     // ------------------------------------------------------
 
     lpsrElement (
-      int            inputLineNumber);
+      int inputLineNumber);
 
     virtual ~lpsrElement();
 

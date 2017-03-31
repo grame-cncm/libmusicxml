@@ -103,6 +103,7 @@ void lpsrOptions::initializeLpsrOptions ()
 {
   // trace
   fTraceLPSR = false;
+  fTraceLPSRVisitors = false;
   
   // languages
   if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {

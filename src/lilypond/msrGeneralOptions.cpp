@@ -44,9 +44,7 @@ void msrGeneralOptions::initializeGeneralOptions ()
   
   // trace
   fTraceGeneral = false;
-  
-  fTraceVisitors = false;
-  
+    
   fTraceDivisions = false;
 
   fTraceParts = false;

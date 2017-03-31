@@ -2517,7 +2517,8 @@ void msrOptions::initializeMsrOptions ()
 {
   // trace
   fTraceMSR = false;
-  
+  fTraceMSRVisitors = false;
+
   // languages
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -11968,7 +11969,9 @@ S_msrSegment msrSegment::create (
   S_msrVoice segmentVoicekUplink)
 {
   if (divisionsPerQuarterNote == 0) // JMI
-    assert(false);
+    {
+    //    assert(false);
+    }
     
   msrSegment* o =
     new msrSegment (
@@ -12935,7 +12938,8 @@ string msrSegment::segmentAsString ()
     s <<
       " (" <<
       singularOrPlural (
-        fSegmentMeasuresList.size (), "measure", " measures)");
+        fSegmentMeasuresList.size (), "measure", " measures") <<
+      ")";
 
   return s.str();
 }

@@ -426,6 +426,7 @@ class EXP msrOptions : public smartable
 
     // trace
     bool                          fTraceMSR;
+    bool                          fTraceMSRVisitors;
     
     // languages
     msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;

@@ -752,11 +752,13 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       break;
       
     case msrVoice::kMasterVoice:
+    /*
       // JMI shouldn't be necessary
       fCurrentVoiceClone->
         setVoiceDivisionsPerQuarterNote (
           fCurrentStaffClone->
             getStaffDivisionsPerQuarterNote ());
+            */
       break;
   } // switch
 
