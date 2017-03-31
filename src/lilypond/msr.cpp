@@ -1957,6 +1957,9 @@ string msrDurationAsString (msrDuration duration)
     case kMaxima:
       result = "Maxima";
       break;
+    case k_NoDuration:
+      result = "k_NoDuration???";
+      break;
   } // switch
 
   return result;
@@ -2088,7 +2091,6 @@ string divisionsAsMsrString (
     
   msrDuration baseDuration          = k1024th;
   int         baseDurationDivisions = -1;
-  bool        found = false;
   
   // search gDurationsDivisions in longer to shortest order
   list<pair<msrDuration, int> >::const_iterator

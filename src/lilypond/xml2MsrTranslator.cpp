@@ -9275,8 +9275,8 @@ void xml2MsrTranslator::visitStart ( S_degree_type& elt )
 
   string degreeType = elt->getValue ();
 
-  msrHarmony::msrHarmonyDegreeTypeKind // JMI
-    degreeTypeKind;
+  msrHarmony::msrHarmonyDegreeTypeKind
+    degreeTypeKind; // JMI
 
   // check harmony degree type
   if      (degreeType == "add")

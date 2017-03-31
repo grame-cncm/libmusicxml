@@ -48,6 +48,9 @@ string lpsrChordsLanguageAsString (
   string result;
   
   switch (language) {
+    case k_IgnatzekChords: // default value
+      result = "IgnatzekChords";
+      break;
     case k_GermanChords:
       result = "german";
       break;

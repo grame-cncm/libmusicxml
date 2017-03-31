@@ -1857,6 +1857,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
         endl;
         */
       break;
+
+    case msrMeasure::kEmptyMeasure:
+      break;
   } // switch
 
   int measureNumber =
@@ -2804,7 +2807,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
 
   // get note stem kind 
   msrStem::msrStemKind
-    stemKind =
+    stemKind = // JMI
       fCurrentStem
         ? fCurrentStem->getStemKind ()
         : msrStem::k_NoStem;

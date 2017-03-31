@@ -902,6 +902,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kOverfullMeasure:
       // JMI
       break;
+      
+    case msrMeasure::kEmptyMeasure:
+      // JMI
+      break;
   } // switch
 
   if (doCreateABarCheck) {
