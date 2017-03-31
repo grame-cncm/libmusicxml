@@ -1709,10 +1709,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure" << endl;
 
+  int
+    inputLineNumber =
+      elt->getInputLineNumber (),
+    measureNumber =
+      elt->getMeasureNumber ();
+    
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       setw(30) << "" << "% start of measure " <<
-      elt->getMeasureNumber () <<
+       inputLineNumber<<
       endl;
 
     idtr++;
@@ -1728,7 +1734,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       {
         string partialDuration =
           divisionsAsMsrString (
-            elt->getInputLineNumber (),
+            inputLineNumber,
             elt->getMeasureLength ());
 
         fOstream << idtr <<
@@ -1739,16 +1745,67 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kIncompleteRightMeasure:
       {
-      // we should set the score measure length in this case
-      fOstream << idtr <<
-        "\\set Score.measureLength = #(ly:make-moment 1/1)" <<
-        endl;
+        int
+          mesurePosition =
+            elt->getMeasurePosition (),
+          measureDivisionsPerFullMeasure =
+            elt->getMeasureDivisionsPerFullMeasure ();
 
-      // should we generate a break?
-      if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
-      fOstream << idtr <<
-        "\\break" <<
-        endl;
+        if (mesurePosition == 1) {
+          // the measure is empty, generate a rest // JMI should have been kEmptyMeasure?
+          fOstream <<
+            "R" <<
+            divisionsAsMsrString (
+              inputLineNumber,
+              measureDivisionsPerFullMeasure) <<
+            " ";
+        }
+        
+        else {
+          // we should set the score measure length in this case
+          rational r (
+            mesurePosition,
+            measureDivisionsPerFullMeasure);
+          r.rationalise ();
+    
+          if (gGeneralOptions->fTraceDurations) {
+            cerr <<
+              idtr <<
+                "% Setting the measure length for measure " <<
+                measureNumber <<
+                endl <<
+              idtr <<
+                ", line = " << inputLineNumber <<
+                endl <<
+              idtr <<
+                "% mesurePosition              = " << mesurePosition <<
+                endl <<
+              idtr <<
+                "% measureDivisionsPerFullMeasure  = " << measureDivisionsPerFullMeasure <<
+                endl <<
+              idtr <<
+                "% r.getNumerator ()      = " << r.getNumerator () <<
+                endl <<
+              idtr <<
+                "% r.getDenominator ()    = " << r.getDenominator () <<
+                endl <<
+              endl;
+          }
+          
+          fOstream << idtr <<
+            "\\set Score.measureLength = #(ly:make-moment " <<
+            to_string (r.getNumerator ()) <<
+            "/" <<
+            to_string (r.getDenominator ()) <<
+            ")" << // JMI
+            endl;
+        }
+  
+        // should we generate a break?
+        if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
+          fOstream << idtr <<
+            "\\break" <<
+            endl;
       }
       break;
 
