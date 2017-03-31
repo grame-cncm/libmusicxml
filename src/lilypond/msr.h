@@ -2035,9 +2035,6 @@ class EXP msrSegment : public msrElement
     // services
     // ------------------------------------------------------
 
-    void          setAllSegmentMeasuresDivisionsPerQuarterNote (
-                    int divisionsPerQuarterNote);
-
     void          forceSegmentMeasureNumberTo (int measureNumber); // JMI
     void          incrementSegmentLastMeasureNumber (
                     int inputLineNumber);
@@ -5875,10 +5872,6 @@ class EXP msrPart : public msrElement
     void            createPartHarmonyStaffAndVoice (
                       int inputLineNumber);
         
-    void            setAllPartStavesClef (S_msrClef clef); // JMI
-    void            setAllPartStavesKey  (S_msrKey  key); // JMI
-    void            setAllPartStavesTime (S_msrTime time); // JMI
-              
     void            appendRepeatToPart (int inputLineNumber);
     
     void            appendRepeatCloneToPart (
@@ -5897,8 +5890,6 @@ class EXP msrPart : public msrElement
 //    void            appendRepeatendingToPart (int inputLineNumber);
 
     void            appendBarlineToPart (S_msrBarline barline);
-
-    void            setAllPartStavesTranspose (S_msrTranspose transpose); // JMI
               
     S_msrStaff      addStaffToPartByItsNumber (
                       int                    inputLineNumber,

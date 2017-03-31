@@ -11899,24 +11899,11 @@ void msrSegment::setSegmentDivisionsPerQuarterNote (
       divisionsPerQuarterNote <<
       endl;
 
+  // register divisionsPerQuarterNote
   fSegmentDivisionsPerQuarterNote =
     divisionsPerQuarterNote;
 
-  setAllSegmentMeasuresDivisionsPerQuarterNote (
-    divisionsPerQuarterNote);
-}
-
-void msrSegment::setAllSegmentMeasuresDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
-  if (gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "--> setAllSegmentMeasuresDivisionsPerQuarterNote()" <<
-      ", line " << fInputLineNumber <<
-      ", divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
-      ", in segment " << fSegmentAbsoluteNumber <<
-      endl;
-
+  // propagate it the measures
   for (
     list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
     i != fSegmentMeasuresList.end();
@@ -16036,7 +16023,12 @@ void msrPart::setPartClef (S_msrClef clef)
   fPartClef = clef;
 
   // propagate it to all staves
-  setAllPartStavesClef (clef);
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffClef (clef);
+  } // for
 }
 
 void msrPart::setPartKey  (S_msrKey  key)
@@ -16051,7 +16043,12 @@ void msrPart::setPartKey  (S_msrKey  key)
   fPartKey = key;
 
   // propagate it to all staves
-  setAllPartStavesKey (key);
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffKey (key);
+  } // for
 }
 
 void msrPart::setPartTime (S_msrTime time)
@@ -16066,7 +16063,12 @@ void msrPart::setPartTime (S_msrTime time)
   fPartTime = time;
 
   // propagate it to all staves
-  setAllPartStavesTime (time);
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->setStaffTime (time);
+  } // for
 }
 
 void msrPart::setPartTranspose (S_msrTranspose transpose)
@@ -16081,38 +16083,14 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
   fPartTranspose = transpose;
 
   // propagate it to all staves
-  setAllPartStavesTranspose (transpose);
-}
-
-void msrPart::setAllPartStavesClef (S_msrClef clef)
-{
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffClef (clef);
+    (*i).second->setStaffTranspose (transpose);
   } // for
 }
 
-void msrPart::setAllPartStavesKey (S_msrKey  key)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffKey (key);
-  } // for
-}
-          
-void msrPart::setAllPartStavesTime  (S_msrTime time)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffTime (time);
-  } // for
-}
 
 void msrPart::appendRepeatToPart (int inputLineNumber)
 {
@@ -16175,16 +16153,6 @@ void msrPart::appendBarlineToPart (S_msrBarline barline)
   } // for
 }
      
-void msrPart::setAllPartStavesTranspose (S_msrTranspose transpose)
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->setStaffTranspose (transpose);
-  } // for
-}
-
 S_msrStaff msrPart::addStaffToPartByItsNumber (
   int                    inputLineNumber,
   msrStaff::msrStaffKind staffKind,
