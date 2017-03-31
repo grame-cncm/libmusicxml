@@ -5966,26 +5966,12 @@ class EXP msrPart : public msrElement
     const int       getPartMeasureNumberMax () const
                         { return fPartMeasureNumberMax; }
 
-/* JMI
-    // voice master
-    const S_msrVoice
-                    getPartVoicemaster () const
-                        { return fPartVoicemaster; }
-*/
-
     // services
     // ------------------------------------------------------
 
     void            createPartHarmonyStaffAndVoice (
                       int inputLineNumber);
-    
-    void            setAllPartStavesDivisionsPerQuarterNote (
-                      int divisionsPerQuarterNote);
-    
-    void            setAllPartStavesMeasureNumber (
-                      int inputLineNumber,
-                      int measureNumber);
-
+        
     void            setAllPartStavesClef (S_msrClef clef); // JMI
     void            setAllPartStavesKey  (S_msrKey  key); // JMI
     void            setAllPartStavesTime (S_msrTime time); // JMI

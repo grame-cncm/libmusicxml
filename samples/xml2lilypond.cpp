@@ -908,56 +908,48 @@ void analyzeOptions (
         }
         
         if (traceVisitorsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVisitors = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceVisitors ";
           traceVisitorsPresent = false;
         }
         if (tracePartsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceparts ";
           tracePartsPresent = false;
         }
         if (traceVoicesPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceVoices ";
           traceVoicesPresent = false;
         }
         if (traceSegmentsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceSegments = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceSegments ";
           traceSegmentsPresent = false;
         }
         if (traceMeasuresPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceMeasures = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceMeasures ";
           traceMeasuresPresent = false;
         }
         if (traceChordsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceChords = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceChords ";
           traceChordsPresent = false;
         }
         if (traceTupletsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTuplets = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceTuplets ";
           traceTupletsPresent = false;
         }
         if (traceHarmonyPresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceHarmony = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceHarmony ";

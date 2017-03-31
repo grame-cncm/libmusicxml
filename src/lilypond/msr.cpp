@@ -4389,7 +4389,7 @@ msrAftergracenotes::msrAftergracenotes (
   fAftergracenotesVoiceUplink =
     aftergracenotesVoiceUplink;
 
-  // create the segment that will receive the notes
+  // create the segment that will receive the notes JMI ???
   fAftergracenotesSegment =
     msrSegment::create (
       fInputLineNumber,
@@ -11967,6 +11967,9 @@ S_msrSegment msrSegment::create (
   int        divisionsPerQuarterNote,
   S_msrVoice segmentVoicekUplink)
 {
+  if (divisionsPerQuarterNote == 0) // JMI
+    assert(false);
+    
   msrSegment* o =
     new msrSegment (
       inputLineNumber,
@@ -11990,7 +11993,7 @@ msrSegment::msrSegment (
     divisionsPerQuarterNote;
     /*
     fSegmentVoicekUplink->
-      getVoiceDivisionsPerQuarterNote ();
+      getVoiceDivisionsPerQuarterNote (); JMI
 */
 
   fSegmentTime =
@@ -12098,7 +12101,7 @@ void msrSegment::setSegmentDivisionsPerQuarterNote (
 {
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "--> setting segment " << segmentAsString () <<
+      "Setting segment " << segmentAsString () <<
         "'s divisions per quarter note to " <<
       divisionsPerQuarterNote <<
       endl;
@@ -12489,7 +12492,7 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "### --> finalizing last measure in segment " <<
+      "Finalizing last measure in segment " <<
       segmentAsString () <<
       ", line " << inputLineNumber <<
       endl;
@@ -12505,7 +12508,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   if (gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> appending clef " << clef->clefAsString () <<
+        "Appending clef " << clef->clefAsString () <<
         " to segment " << segmentAsString () <<
         endl;
       
@@ -12525,7 +12528,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   if (gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> appending key " << key->keyAsString () <<
+        "Appending key " << key->keyAsString () <<
         " to segment " << segmentAsString () <<
         endl;
       
@@ -12545,7 +12548,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
   if (gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> appending time " << time->timeAsString () <<
+        "Appending time " << time->timeAsString () <<
         " to segment " << segmentAsString () <<
         endl;
       
@@ -12565,7 +12568,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> appending harmony " << harmony->harmonyAsString () <<
+        "Appending harmony " << harmony->harmonyAsString () <<
         " to segment " << segmentAsString () <<
         endl;
       
@@ -12594,7 +12597,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
       cerr << idtr <<
-        "### --> appendMeasureToSegment (" << measureNumber <<
+        "### AppendMeasureToSegment (" << measureNumber <<
         ") in segment " << segmentAsString () <<
         ", lastMeasureNumber = " << lastMeasureNumber <<
         ", line " << inputLineNumber <<
@@ -14986,10 +14989,6 @@ msrStaff::msrStaff (
       msrVoice::kMasterVoice,
       0);
 
-  // mark it as containing music, to prevent it from being removed
-  fStaffVoiceMaster->
-    setMusicHasBeenInsertedInVoice ();
-
   // create all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
   // in removeStaffEmptyVoices()
@@ -15668,6 +15667,7 @@ void msrStaff::removeStaffEmptyVoices ()
         break;
         
       case msrVoice::kHarmonyVoice:
+        // it's needed if it has been created, so keep it
         break;
         
       case msrVoice::kMasterVoice:
@@ -15683,7 +15683,7 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "### --> finalizing last measure in staff " <<
+      "### Finalizing last measure in staff " <<
       getStaffName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -16203,8 +16203,14 @@ void msrPart::setPartDivisionsPerQuarterNote (
   fPartDivisionsPerQuarterNote =
     divisionsPerQuarterNote;
 
-  setAllPartStavesDivisionsPerQuarterNote (
-    divisionsPerQuarterNote);
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      setStaffDivisionsPerQuarterNote (
+        divisionsPerQuarterNote);
+  } // for
 }
 
 void msrPart::setPartMeasureNumber (
@@ -16229,8 +16235,14 @@ void msrPart::setPartMeasureNumber (
   }
 
   // propagate it to all staves
-  setAllPartStavesMeasureNumber (
-    inputLineNumber, measureNumber);
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      setStaffMeasureNumber (
+        inputLineNumber, measureNumber);
+  } // for
 
   // compute min and max measure numbers
   if (measureNumber < fPartMeasureNumberMin)
@@ -16297,50 +16309,6 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 
   // propagate it to all staves
   setAllPartStavesTranspose (transpose);
-}
-
-void msrPart::setAllPartStavesDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
-  if (gGeneralOptions->fTraceDivisions)
-    cerr << idtr <<
-      "--> setting part divisions per quarter note to " <<
-      divisionsPerQuarterNote <<
-      endl;
-
-  fPartDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-  
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->
-      setStaffDivisionsPerQuarterNote (
-        divisionsPerQuarterNote);
-  } // for
-}
-
-void msrPart::setAllPartStavesMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
-{
-  if (gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "### --> setAllPartStavesMeasureNumber()" <<
-      ", line " << inputLineNumber <<
-      ", measureNumber = " << measureNumber <<
-      ", in part " << getPartCombinedName () <<
-      endl;
-
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->
-      setStaffMeasureNumber (
-        inputLineNumber, measureNumber);
-  } // for
 }
 
 void msrPart::setAllPartStavesClef (S_msrClef clef)
