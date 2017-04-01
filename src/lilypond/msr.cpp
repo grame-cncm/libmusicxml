@@ -14290,6 +14290,14 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
     finalizeLastMeasureOfSegment (inputLineNumber);
 }
 
+void msrVoice::finalizeVoice ()
+{
+  if (! gMsrOptions->fKeepMasterStanzas) {
+    delete (fVoiceStanzaMaster);
+    fVoiceStanzaMaster = 0;
+  }
+}
+
 void msrVoice::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
@@ -15430,7 +15438,7 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
   } // for
 }
 
-void msrStaff::removeStaffEmptyVoices ()
+void msrStaff::finalizeStaff ()
 {  
   for (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
@@ -15443,6 +15451,9 @@ void msrStaff::removeStaffEmptyVoices ()
       case msrVoice::kRegularVoice:
         if (! voice->getMusicHasBeenInsertedInVoice ()) {
           fStaffAllVoicesMap.erase (i);
+        }
+        else {
+          voice->finalizeVoice ();
         }
         break;
         
@@ -16263,16 +16274,6 @@ void msrPart:: handleBackup (int divisions)
  // JMI 
 }
 
-void msrPart::removePartEmptyVoices ()
-{
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->removeStaffEmptyVoices ();
-  } // for
-}
-
 void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
@@ -16287,6 +16288,16 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->finalizeLastMeasureOfStaff (inputLineNumber);
+  } // for
+}
+
+void msrPart::finalizePart ()
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->finalizeStaff ();
   } // for
 }
 

@@ -4343,6 +4343,8 @@ class EXP msrStanza : public msrElement
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
 
+  public:
+  
     virtual ~msrStanza();
   
   public:
@@ -5335,6 +5337,8 @@ class EXP msrVoice : public msrElement
 
     void            finalizeLastMeasureOfVoice (int inputLineNumber);
 
+    void            finalizeVoice ();
+    
     // visitors
     // ------------------------------------------------------
 
@@ -5671,10 +5675,10 @@ class EXP msrStaff : public msrElement
                       S_msrStafftuning stafftuning)
                         { fStafftuningsList.push_back (stafftuning); }
   
-    void            removeStaffEmptyVoices ();
-
     void            finalizeLastMeasureOfStaff (int inputLineNumber);
     
+    void            finalizeStaff ();
+
     // visitors
     // ------------------------------------------------------
 
@@ -5910,6 +5914,8 @@ class EXP msrPart : public msrElement
     void            removePartEmptyVoices ();
 
     void            finalizeLastMeasureOfPart (int inputLineNumber);
+
+    void            finalizePart ();
 
     // visitors
     // ------------------------------------------------------

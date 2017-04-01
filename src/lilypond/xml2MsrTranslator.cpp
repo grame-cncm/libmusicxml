@@ -1428,10 +1428,9 @@ void xml2MsrTranslator::visitEnd (S_part& elt)
         endl <<
       endl;
 
-  // all voices were generated from the start, // JMI
-  // but some may have remained empty
+  // finalize the current part
   fCurrentPart->
-    removePartEmptyVoices ();
+    finalizePart ();
 }
 
 //______________________________________________________________________________
