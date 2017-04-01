@@ -14292,9 +14292,9 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 
 void msrVoice::finalizeVoice ()
 {
-  if (! gMsrOptions->fKeepMasterStanzas) {
-    delete (fVoiceStanzaMaster);
-    fVoiceStanzaMaster = 0;
+  if (! gMsrOptions->fKeepMasterStanzas) { // JMI
+// JMI    delete (fVoiceStanzaMaster);
+ // JMI   fVoiceStanzaMaster = 0;
   }
 }
 

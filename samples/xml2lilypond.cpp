@@ -173,8 +173,10 @@ void printUsage (int exitStatus)
 
     "    --kmv, --keepMasterVoices" << endl <<
     "          Keep the master voices used intertally. By default, there are removed after usage." << endl <<
+/* JMI
     "    --kms, --keepMasterStanzas" << endl <<
     "          Keep the master stanzas used intertally. By default, there are removed after usage." << endl <<
+*/
     endl <<
 
     "    --sum, --displayMSRSummary" << endl <<
@@ -567,7 +569,7 @@ void analyzeOptions (
     },
     
     {
-      "noml",
+      "noms",
       no_argument, &dontDisplayMSRStanzasPresent, 1
     },
     {
