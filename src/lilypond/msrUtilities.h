@@ -25,6 +25,7 @@
 #include "basevisitor.h"
 
 using namespace std;
+
 namespace MusicXML2 
 {
 
@@ -39,7 +40,8 @@ namespace MusicXML2
 \internal
 \brief Provides easy indentation of text output.
 */
-class timingItem : public smartable {
+class timingItem : public smartable
+{
   public:
 
     enum timingItemKind {
@@ -96,7 +98,8 @@ ostream& operator<< (ostream& os, const timing& tim);
 \internal
 \brief Provides easy indentation of text output.
 */
-class indenter {
+class indenter
+{
   public:
 
     indenter (string spacer = "  ");
@@ -126,7 +129,8 @@ ostream& operator<< (ostream& os, const indenter& idtr);
 \internal
 \brief Provides easy control of output lines length.
 */
-class outputLineElementsCounter {
+class outputLineElementsCounter
+{
   public:
 
     outputLineElementsCounter (int maxElementsPerLine = 10);

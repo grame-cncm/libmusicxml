@@ -10,6 +10,13 @@
   research@grame.fr
 */
 
+#include <iostream>
+#include <iomanip>      // setw, set::precision, ...
+
+#include "msrVersion.h"
+
+#include "msrUtilities.h"
+
 using namespace std;
 
 namespace MusicXML2 
@@ -24,6 +31,34 @@ int         MSRVersionNumber ()
 const char* MSRVersionNumberAsString ()
 {
   return "0.1.0";
+}
+
+//______________________________________________________________________________
+versionInfo::versionInfo (
+  string  versionNumber,
+  string  versionDate,
+  string  versionDescription)
+{
+  fVersionNumber      = versionNumber;
+  fVersionDate        = versionDate;
+  fVersionDescription = versionDescription;
+}
+
+versionInfo::~versionInfo () {}
+
+void versionInfo::print (ostream& os)
+{
+  os <<
+    setw(10) << fVersionNumber <<
+    "(" << fVersionDate << ")" <<
+    endl <<
+    
+  indenter::gIndenter++;
+
+  os <<
+    fVersionDescription;
+
+  indenter::gIndenter--;  
 }
 
 

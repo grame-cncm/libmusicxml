@@ -15,6 +15,8 @@
 
 #include <string>
 
+using namespace std;
+
 namespace MusicXML2 
 {
 
@@ -23,7 +25,6 @@ namespace MusicXML2
 @{
 */
 
-//______________________________________________________________________________
 //______________________________________________________________________________
 /*!
   \brief Gives the MSR version number.
@@ -36,6 +37,27 @@ int           MSRVersionNumber ();
   \return a string
 */
 const char*   MSRVersionNumberAsString ();
+
+//______________________________________________________________________________
+class versionInfo
+{
+  public:
+
+    versionInfo (
+      string  versionNumber,
+      string  versionDate,
+      string  versionDescription);
+
+    virtual ~versionInfo ();
+    
+    void print (ostream& os);
+
+  public:
+
+    string  fVersionNumber;
+    string  fVersionDate;
+    string  fVersionDescription;
+};
 
 
 /*! @} */
