@@ -12799,8 +12799,6 @@ void msrSegment::print (ostream& os)
     
   idtr--;
   }
-
-  os << endl;
   
   idtr--;
 }
