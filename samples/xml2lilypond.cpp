@@ -173,6 +173,8 @@ void printUsage (int exitStatus)
 
     "    --kmv, --keepMasterVoices" << endl <<
     "          Keep the master voices used intertally. By default, there are removed after usage." << endl <<
+    "    --kms, --keepMasterStanzas" << endl <<
+    "          Keep the master stanzas used intertally. By default, there are removed after usage." << endl <<
     endl <<
 
     "    --sum, --displayMSRSummary" << endl <<
@@ -344,6 +346,7 @@ void analyzeOptions (
   int delayRestsWedgesPresent           = 0;
   
   int keepMasterVoicesPresent           = 0;
+  int keepMasterStanzasPresent          = 0;
   
   int displayMSRPresent                 = 0;
   
@@ -627,6 +630,14 @@ void analyzeOptions (
     {
       "keepMasterVoices",
       no_argument, &keepMasterVoicesPresent, 1
+    },
+
+    {
+      "kms",
+      no_argument, &keepMasterStanzasPresent, 1},
+    {
+      "keepMasterStanzas",
+      no_argument, &keepMasterStanzasPresent, 1
     },
 
     {
@@ -1117,6 +1128,12 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions +=
             "--keepMasterVoices ";
           keepMasterVoicesPresent = false;
+        }
+        if (keepMasterStanzasPresent) {
+          gMsrOptions->fKeepMasterStanzas = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--keepMasterStanzas ";
+          keepMasterStanzasPresent = false;
         }
 
         if (displayMSRPresent) {
@@ -1719,6 +1736,9 @@ void printOptions ()
 
     idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
       booleanAsString (gMsrOptions->fKeepMasterVoices) <<
+      endl <<
+    idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
       endl <<
     
     idtr << setw(fieldWidth) << "displayMSR" << " : " <<

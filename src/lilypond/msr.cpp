@@ -2524,8 +2524,9 @@ void msrOptions::initializeMsrOptions ()
   fDelayRestsLigatures                  = false; // JMI
   fDelayRestsWedges                     = false; // JMI
   
-  // master voices
+  // master voices and stanzas
   fKeepMasterVoices                     = false;
+  fKeepMasterStanzas                    = false;
     
   // stanza display
   fDontDisplayMSRStanzas                = false;
