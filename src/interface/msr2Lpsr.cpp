@@ -77,7 +77,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl;
     if (lpsrOpts->fDisplayLPSR)
       cerr <<
-        "(dpwn: divisions per whole note)" <<
+        "(dpqn: divisions per quarter note)" <<
         endl;
     cerr <<
       idtr << separator <<
@@ -124,7 +124,7 @@ void displayLpsrScore (
       endl <<
       "Optional pass: displaying the LPSR" <<
       endl <<
-      "(dpwn: divisions per whole note)" <<
+      "(dpqn: divisions per quarter note)" <<
       endl <<
       "(dpfm: divisions per full measure)" <<
       endl <<

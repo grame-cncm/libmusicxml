@@ -213,7 +213,7 @@ S_msrScore buildMSRFromElementsTree (
       endl;
     if (msrOpts->fDisplayMSR)
       cerr <<
-        "(dpwn: divisions per whole note)" <<
+        "(dpqn: divisions per quarter note)" <<
         endl;
     cerr <<
       idtr << separator <<
@@ -258,7 +258,7 @@ void displayMSR (
       endl <<
       "Optional pass: displaying the MSR as text" <<
       endl <<
-      "(dpwn: divisions per whole note)" <<
+      "(dpqn: divisions per quarter note)" <<
       endl <<
       "(dpfm: divisions per full measure)" <<
       endl <<
