@@ -23,11 +23,11 @@
 #include "msrVersion.h"
 #include "msrUtilities.h"
 
-#include "xml2Msr.h"
+#include "xml2MsrInterface.h"
 
-#include "lpsr.h"
-#include "msr2Lpsr.h"
-#include "lpsr2LilyPond.h"
+#include "msr2LpsrInterface.h"
+
+#include "lpsr2LilyPondInterface.h"
 
 
 using namespace std;

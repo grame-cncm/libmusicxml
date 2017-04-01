@@ -22,7 +22,7 @@
 
 #include "versions.h"
 
-#include "xml2Msr.h"
+#include "xml2MsrInterface.h"
 
 #include "xml2MsrTranslator.h"
 #include "msr2Summary.h"

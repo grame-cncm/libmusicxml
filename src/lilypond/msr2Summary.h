@@ -10,15 +10,15 @@
   research@grame.fr
 */
 
-#ifndef __msr2SummaryVisitor__
-#define __msr2SummaryVisitor__
+#ifndef __msr2Summary__
+#define __msr2Summary__
 
 #include <map>
 #include <vector>
 
 #include "msr.h"
 
-#include "xml2Msr.h"
+#include "xml2MsrInterface.h"
 
 namespace MusicXML2
 {

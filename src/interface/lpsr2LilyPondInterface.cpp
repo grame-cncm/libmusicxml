@@ -23,7 +23,7 @@
 */
 #include "versions.h"
 
-#include "lpsr2LilyPond.h"
+#include "lpsr2LilyPondInterface.h"
 
 #include "lpsr2LilyPondTranslator.h"
 

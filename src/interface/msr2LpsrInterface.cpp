@@ -22,7 +22,7 @@
 
 #include "versions.h"
 
-#include "msr2Lpsr.h"
+#include "msr2LpsrInterface.h"
 
 #include "msr2LpsrTranslator.h"
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __musicxml2msr__
-#define __musicxml2msr__
+#ifndef __xml2Msr__
+#define __xml2Msr__
 
 
 #ifdef VC6
