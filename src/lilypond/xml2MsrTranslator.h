@@ -642,6 +642,12 @@ class EXP xml2MsrTranslator :
                                 S_msrPartgroup partgroup,
                                 string         partID);
 
+    // measure style handling
+    // ------------------------------------------------------
+    int                       fCurrentBeatRepeatSlashes;
+    int                       fCurrentMeasureRepeatSlashes;
+    int                       fCurrentMultipleRestCounter;
+
     // staff handling
     // ------------------------------------------------------
     int                       fCurrentStaffNumber; // used throughout

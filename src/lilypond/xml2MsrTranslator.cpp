@@ -82,6 +82,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentPartUsesImplicitPartgroup = false;
   
   fOnGoingGroupNameDisplay = false;
+
+  fCurrentMultipleRestCounter = 0;
   
   fOnGoingBarline = false;
   
@@ -5266,7 +5268,6 @@ void xml2MsrTranslator::visitStart ( S_measure_style& elt )
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
       "--> Start visiting S_measure_style" << endl;
-
 }
        
 void xml2MsrTranslator::visitStart ( S_beat_repeat& elt )
@@ -5275,6 +5276,23 @@ void xml2MsrTranslator::visitStart ( S_beat_repeat& elt )
     cerr << idtr <<
       "--> Start visiting S_beat_repeat" << endl;
 
+  fCurrentBeatRepeatSlashes = elt->getAttributeIntValue ("slashes", 0);
+
+  string beatRepeatUseDots = elt->getAttributeValue ("use-dots");
+
+  if      (beatRepeatUseDots == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
+  else if (beatRepeatUseDots == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    
+    s << "beat repeat use dots " << beatRepeatUseDots << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
        
 void xml2MsrTranslator::visitStart ( S_measure_repeat& elt )
@@ -5283,6 +5301,23 @@ void xml2MsrTranslator::visitStart ( S_measure_repeat& elt )
     cerr << idtr <<
       "--> Start visiting S_measure_repeat" << endl;
 
+  string measureRepeatType = elt->getAttributeValue ("type");
+
+  if      (measureRepeatType == "start")
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
+  else if (measureRepeatType == "stop")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    
+    s << "measure repeat type " << measureRepeatType << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  fCurrentMeasureRepeatSlashes = elt->getAttributeIntValue ("slashes", 0);
 }
        
 void xml2MsrTranslator::visitStart ( S_multiple_rest& elt )
@@ -5291,6 +5326,23 @@ void xml2MsrTranslator::visitStart ( S_multiple_rest& elt )
     cerr << idtr <<
       "--> Start visiting S_multiple_rest" << endl;
 
+  fCurrentMultipleRestCounter = (int)(*elt);
+
+  string multipleRestUseSymbols = elt->getAttributeValue ("use-symbolss");
+
+  if      (multipleRestUseSymbols == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
+  else if (multipleRestUseSymbols == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    
+    s << "multiple rest use symbols " << multipleRestUseSymbols << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
        
 void xml2MsrTranslator::visitStart ( S_slash& elt )
@@ -5299,6 +5351,53 @@ void xml2MsrTranslator::visitStart ( S_slash& elt )
     cerr << idtr <<
       "--> Start visiting S_slash" << endl;
 
+  string slashType = elt->getAttributeValue ("type");
+
+  if      (slashType == "start")
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
+  else if (slashType == "stop")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    
+    s << "slash type " << slashType << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  string slashUseDots = elt->getAttributeValue ("use-dots");
+
+  if      (slashUseDots == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
+  else if (slashUseDots == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    
+    s << "slash use dots " << slashUseDots << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+
+  string slashUseStems = elt->getAttributeValue ("use-stems");
+
+  if      (slashUseStems == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet;
+  else if (slashUseStems == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    stringstream s;
+    
+    s << "slash use stems " << slashUseStems << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 //______________________________________________________________________________
