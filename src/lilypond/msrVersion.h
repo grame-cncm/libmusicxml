@@ -14,6 +14,7 @@
 #define __msrVersion__
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -25,18 +26,6 @@ namespace MusicXML2
 @{
 */
 
-//______________________________________________________________________________
-/*!
-  \brief Gives the MSR version number.
-  \return a version number as an integer (e.g. version 1.0.0 is returned as 100)
-*/
-int           MSRVersionNumber ();
-
-/*!
-  \brief Gives the MSR version number as a string.
-  \return a string
-*/
-const char*   MSRVersionNumberAsString ();
 
 //______________________________________________________________________________
 class versionInfo
@@ -50,7 +39,7 @@ class versionInfo
 
     virtual ~versionInfo ();
     
-    void print (ostream& os);
+    void print (ostream& os) const;
 
   public:
 
@@ -59,6 +48,16 @@ class versionInfo
     string  fVersionDescription;
 };
 
+extern list<versionInfo> gVersionInfoList;
+
+void enlistVersion (
+  string  versionNumber,
+  string  versionDate,
+  string  versionDescription);
+
+void printVersionsHistory (ostream& os);
+
+string   currentVersionNumber ();
 
 /*! @} */
 

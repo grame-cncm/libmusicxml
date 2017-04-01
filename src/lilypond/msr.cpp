@@ -11711,22 +11711,26 @@ void msrMeasure::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "Measure " << fMeasureNumber <<
-      ", line " << fInputLineNumber <<
-/*
-      ", voice " <<
-      fMeasureSegmentUplink->getVoiceUplink ()->getVoiceName () <<
-*/
-      ", " << fMeasureTime->timeAsString () <<
-      ", len: " << getMeasureLength () <<
-      " (" << getMeasureLengthAsString () << ")" <<
-      ", dpfm:" << fMeasureDivisionsPerFullMeasure <<
-      ", dpwn:" << fMeasureDivisionsPerQuarterNote <<
-      ", pos: " << fMeasurePosition << 
+    idtr <<
+      "Measure " << fMeasureNumber <<
+        ", line " << fInputLineNumber <<
+  /*
+        ", voice " <<
+        fMeasureSegmentUplink->getVoiceUplink ()->getVoiceName () <<
+  */
+        ", " << getMeasureKindAsString () <<
+  //      ", " << fMeasureTime->timeAsString () <<
+        ", len: " << getMeasureLength () << " divs" <<
+        " (" << getMeasureLengthAsString () << ")" <<
+        endl <<
+    idtr <<
+      "(" << fMeasureDivisionsPerQuarterNote << " dpqn" <<
+      ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
+      ", pos = " << fMeasurePosition << 
       ", " <<
       singularOrPlural (
-        fMeasureElementsList.size (), "elem", "elems") <<
-      ", " << getMeasureKindAsString () <<
+        fMeasureElementsList.size (), "element", "elements") <<
+      ")" <<
     endl;
 
   idtr++;
@@ -11769,7 +11773,8 @@ S_msrSegment msrSegment::create (
   if (divisionsPerQuarterNote == 0) // JMI
     {
       cerr <<
-        "!!! msrSegment::create " <<
+        "!!! msrSegment::create" <<
+        ", line " << inputLineNumber <<
         " in voice \"" <<
         segmentVoicekUplink->getVoiceName () << "\"" <<
         ", divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
@@ -13239,7 +13244,7 @@ msrVoice::msrVoice (
       "Creating voice \"" << fVoiceName <<
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
       ", " << fVoiceDivisionsPerQuarterNote <<
-      " dpwn" <<
+      " dpqn" <<
       endl;
 
   // check external voice number

@@ -38,7 +38,7 @@ void printUsage (int exitStatus)
 {
   cerr <<
     endl <<
-    "                   Welcome to xml2lilypond, " << endl <<
+    "                Welcome to xml2lilypond v" << currentVersionNumber () << ", " << endl <<
     "              the MusicXML to LilyPond translator" << endl <<
     "          delivered as part of the libmusicxml2 library." << endl <<
     "      https://github.com/grame-cncm/libmusicxml/tree/lilypond" << endl <<
@@ -62,8 +62,11 @@ void printUsage (int exitStatus)
     "    There are various options to fine tune the generated LilyPond code." << endl <<
     endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
-    endl <<
+    endl;
 
+  printVersionsHistory (cerr);
+    
+  cerr <<
     "Options:" << endl <<
     endl <<
 
@@ -877,7 +880,7 @@ void analyzeOptions (
             endl <<
             idtr <<
               "This is xml2lilypond version " <<
-              MSRVersionNumberAsString () << "," <<
+              currentVersionNumber () << "," <<
               endl <<
             idtr <<
               "an open translator of MusicXML into LilyPond." <<
@@ -1843,6 +1846,14 @@ int main (int argc, char *argv[])
   }
   */
 
+  // enlist versions information
+  enlistVersion (
+    "0.0.0", "somewhere in 2016",
+    "Start as a clone of xml2guido");
+  enlistVersion (
+    "0.1.0", "01-APR-2017",
+    "Tentative version");
+  
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
@@ -1978,7 +1989,7 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fTraceGeneral) {
     cerr <<  idtr <<
-      "This is xml2Lilypond v" << MSRVersionNumberAsString () << 
+      "This is xml2Lilypond v" << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 

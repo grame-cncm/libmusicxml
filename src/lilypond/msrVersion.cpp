@@ -22,18 +22,9 @@ using namespace std;
 namespace MusicXML2 
 {
 
-//_______________________________________________________________________________
-int         MSRVersionNumber ()
-{
-  return 010;
-}
-
-const char* MSRVersionNumberAsString ()
-{
-  return "0.1.0";
-}
-
 //______________________________________________________________________________
+list<versionInfo> gVersionInfoList;
+
 versionInfo::versionInfo (
   string  versionNumber,
   string  versionDate,
@@ -46,19 +37,63 @@ versionInfo::versionInfo (
 
 versionInfo::~versionInfo () {}
 
-void versionInfo::print (ostream& os)
+void versionInfo::print (ostream& os) const
 {
-  os <<
-    setw(10) << fVersionNumber <<
-    "(" << fVersionDate << ")" <<
-    endl <<
+  os << left <<
+    indenter::gIndenter <<
+      setw(5) << fVersionNumber << " " <<
+      "(" << fVersionDate << "):" <<
+      endl <<
     
   indenter::gIndenter++;
 
   os <<
-    fVersionDescription;
+    indenter::gIndenter <<
+      fVersionDescription;
 
   indenter::gIndenter--;  
+}
+
+void enlistVersion (
+  string  versionNumber,
+  string  versionDate,
+  string  versionDescription)
+{
+  gVersionInfoList.push_front (
+    versionInfo (
+      versionNumber,
+      versionDate,
+      versionDescription));
+}
+
+void printVersionsHistory (ostream& os)
+{
+  os <<
+    "Versions history:" <<
+    endl << endl;
+
+  indenter::gIndenter++;
+
+  list<versionInfo>::const_iterator
+    iBegin = gVersionInfoList.begin(),
+    iEnd   = gVersionInfoList.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    (*i).print (os);
+    if (++i == iEnd) break;
+    os << endl;
+  } // for
+
+  os <<
+    endl << endl;
+
+  indenter::gIndenter--;
+}
+
+string currentVersionNumber ()
+{
+  return
+    gVersionInfoList.front ().fVersionNumber;
 }
 
 
