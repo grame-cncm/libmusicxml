@@ -2006,7 +2006,7 @@ void setupDurationsDivisions (int divisionPerQuarterNote)
       /*
       cerr <<
         msrDurationAsString (currentDuration) <<
-        " --> " <<
+        " % --> " <<
         smallDivisions <<
         endl;
       */
@@ -2051,7 +2051,7 @@ int durationAsDivisions (
 void printDurationsDivisions (ostream& os)
 {
   cerr <<
-    "==> The contents of gDurationsDivisions is:" <<
+    "% ==> The contents of gDurationsDivisions is:" <<
     endl << endl;
     
   for (
@@ -2421,7 +2421,7 @@ int noteTypeAsDivisions (
     
     s <<
       endl << 
-      "--> unknown tuplet member type " << noteType <<
+      "% --> unknown tuplet member type " << noteType <<
       endl;
       
    errorMessage = s.str();
@@ -2462,7 +2462,7 @@ string noteTypeAsMSRDuration (
     
     s << 
       endl << 
-      "--> unknown tuplet member type " << noteType <<
+      "% --> unknown tuplet member type " << noteType <<
       endl;
       
    errorMessage = s.str();
@@ -2571,7 +2571,7 @@ msrElement::~msrElement() {}
 void msrElement::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr <<
-      "==> msrElement::acceptIn()" <<
+      "% ==> msrElement::acceptIn()" <<
       endl;
       
   if (visitor<S_msrElement>*
@@ -2581,7 +2581,7 @@ void msrElement::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr <<
-            "==> Launching msrElement::visitStart()" <<
+            "% ==> Launching msrElement::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2590,7 +2590,7 @@ void msrElement::acceptIn (basevisitor* v) {
 void msrElement::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr <<
-      "==> msrElement::acceptOut()" <<
+      "% ==> msrElement::acceptOut()" <<
       endl;
 
   if (visitor<S_msrElement>*
@@ -2600,7 +2600,7 @@ void msrElement::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr <<
-            "==> Launching msrElement::visitEnd()" <<
+            "% ==> Launching msrElement::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2808,7 +2808,7 @@ msrOctaveShift::~msrOctaveShift() {}
 void msrOctaveShift::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrOctaveShift::acceptIn()" <<
+      "% ==> msrOctaveShift::acceptIn()" <<
       endl;
       
   if (visitor<S_msrOctaveShift>*
@@ -2818,7 +2818,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrOctaveShift::visitStart()" <<
+            "% ==> Launching msrOctaveShift::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2827,7 +2827,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
 void msrOctaveShift::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrOctaveShift::acceptOut()" <<
+      "% ==> msrOctaveShift::acceptOut()" <<
       endl;
 
   if (visitor<S_msrOctaveShift>*
@@ -2837,7 +2837,7 @@ void msrOctaveShift::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrOctaveShift::visitEnd()" <<
+            "% ==> Launching msrOctaveShift::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2909,7 +2909,7 @@ msrStem::~msrStem() {}
 void msrStem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStem::acceptIn()" <<
+      "% ==> msrStem::acceptIn()" <<
       endl;
       
   if (visitor<S_msrStem>*
@@ -2919,7 +2919,7 @@ void msrStem::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStem::visitStart()" <<
+            "% ==> Launching msrStem::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2928,7 +2928,7 @@ void msrStem::acceptIn (basevisitor* v) {
 void msrStem::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStem::acceptOut()" <<
+      "% ==> msrStem::acceptOut()" <<
       endl;
 
   if (visitor<S_msrStem>*
@@ -2938,7 +2938,7 @@ void msrStem::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStem::visitEnd()" <<
+            "% ==> Launching msrStem::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3020,7 +3020,7 @@ msrBeam::~msrBeam() {}
 void msrBeam::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBeam::acceptIn()" <<
+      "% ==> msrBeam::acceptIn()" <<
       endl;
       
   if (visitor<S_msrBeam>*
@@ -3030,7 +3030,7 @@ void msrBeam::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBeam::visitStart()" <<
+            "% ==> Launching msrBeam::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3039,7 +3039,7 @@ void msrBeam::acceptIn (basevisitor* v) {
 void msrBeam::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBeam::acceptOut()" <<
+      "% ==> msrBeam::acceptOut()" <<
       endl;
 
   if (visitor<S_msrBeam>*
@@ -3049,7 +3049,7 @@ void msrBeam::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBeam::visitEnd()" <<
+            "% ==> Launching msrBeam::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3193,7 +3193,7 @@ string msrArticulation::articulationKindAsString () const
 void msrArticulation::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrArticulation::acceptIn()" <<
+      "% ==> msrArticulation::acceptIn()" <<
       endl;
       
   if (visitor<S_msrArticulation>*
@@ -3203,7 +3203,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrArticulation::visitStart()" <<
+            "% ==> Launching msrArticulation::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3212,7 +3212,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
 void msrArticulation::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrArticulation::acceptOut()" <<
+      "% ==> msrArticulation::acceptOut()" <<
       endl;
 
   if (visitor<S_msrArticulation>*
@@ -3222,7 +3222,7 @@ void msrArticulation::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrArticulation::visitEnd()" <<
+            "% ==> Launching msrArticulation::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3352,7 +3352,7 @@ string msrOrnament::ornamentAccidentalMarkKindAsString () const
 void msrOrnament::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrOrnament::acceptIn()" <<
+      "% ==> msrOrnament::acceptIn()" <<
       endl;
       
   if (visitor<S_msrOrnament>*
@@ -3362,7 +3362,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrOrnament::visitStart()" <<
+            "% ==> Launching msrOrnament::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3371,7 +3371,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
 void msrOrnament::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrOrnament::acceptOut()" <<
+      "% ==> msrOrnament::acceptOut()" <<
       endl;
 
   if (visitor<S_msrOrnament>*
@@ -3381,7 +3381,7 @@ void msrOrnament::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrOrnament::visitEnd()" <<
+            "% ==> Launching msrOrnament::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3437,7 +3437,7 @@ msrRehearsal::~msrRehearsal() {}
 void msrRehearsal::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrRehearsal::acceptIn()" <<
+      "% ==> msrRehearsal::acceptIn()" <<
       endl;
       
   if (visitor<S_msrRehearsal>*
@@ -3447,7 +3447,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrRehearsal::visitStart()" <<
+            "% ==> Launching msrRehearsal::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3456,7 +3456,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
 void msrRehearsal::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrRehearsal::acceptOut()" <<
+      "% ==> msrRehearsal::acceptOut()" <<
       endl;
 
   if (visitor<S_msrRehearsal>*
@@ -3466,7 +3466,7 @@ void msrRehearsal::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrRehearsal::visitEnd()" <<
+            "% ==> Launching msrRehearsal::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3617,7 +3617,7 @@ string msrDynamics::dynamicsKindAsString ()
 void msrDynamics::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrDynamics::acceptIn()" <<
+      "% ==> msrDynamics::acceptIn()" <<
       endl;
       
   if (visitor<S_msrDynamics>*
@@ -3627,7 +3627,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrDynamics::visitStart()" <<
+            "% ==> Launching msrDynamics::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3636,7 +3636,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
 void msrDynamics::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrDynamics::acceptOut()" <<
+      "% ==> msrDynamics::acceptOut()" <<
       endl;
 
   if (visitor<S_msrDynamics>*
@@ -3646,7 +3646,7 @@ void msrDynamics::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrDynamics::visitEnd()" <<
+            "% ==> Launching msrDynamics::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3713,7 +3713,7 @@ string msrWedge::wedgeKindAsString ()
 void msrWedge::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrWedge::acceptIn()" <<
+      "% ==> msrWedge::acceptIn()" <<
       endl;
       
   if (visitor<S_msrWedge>*
@@ -3723,7 +3723,7 @@ void msrWedge::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrWedge::visitStart()" <<
+            "% ==> Launching msrWedge::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3732,7 +3732,7 @@ void msrWedge::acceptIn (basevisitor* v) {
 void msrWedge::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrWedge::acceptOut()" <<
+      "% ==> msrWedge::acceptOut()" <<
       endl;
 
   if (visitor<S_msrWedge>*
@@ -3742,7 +3742,7 @@ void msrWedge::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrWedge::visitEnd()" <<
+            "% ==> Launching msrWedge::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3809,7 +3809,7 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
 void msrTie::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTie::acceptIn()" <<
+      "% ==> msrTie::acceptIn()" <<
       endl;
       
   if (visitor<S_msrTie>*
@@ -3819,7 +3819,7 @@ void msrTie::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTie::visitStart()" <<
+            "% ==> Launching msrTie::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3828,7 +3828,7 @@ void msrTie::acceptIn (basevisitor* v) {
 void msrTie::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTie::acceptOut()" <<
+      "% ==> msrTie::acceptOut()" <<
       endl;
 
   if (visitor<S_msrTie>*
@@ -3838,7 +3838,7 @@ void msrTie::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTie::visitEnd()" <<
+            "% ==> Launching msrTie::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3916,7 +3916,7 @@ string msrSlur::slurKindAsString ()
 void msrSlur::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSlur::acceptIn()" <<
+      "% ==> msrSlur::acceptIn()" <<
       endl;
       
   if (visitor<S_msrSlur>*
@@ -3926,7 +3926,7 @@ void msrSlur::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSlur::visitStart()" <<
+            "% ==> Launching msrSlur::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3935,7 +3935,7 @@ void msrSlur::acceptIn (basevisitor* v) {
 void msrSlur::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSlur::acceptOut()" <<
+      "% ==> msrSlur::acceptOut()" <<
       endl;
 
   if (visitor<S_msrSlur>*
@@ -3945,7 +3945,7 @@ void msrSlur::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSlur::visitEnd()" <<
+            "% ==> Launching msrSlur::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -4024,7 +4024,7 @@ string msrLigature::ligatureKindAsString ()
 void msrLigature::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrLigature::acceptIn()" <<
+      "% ==> msrLigature::acceptIn()" <<
       endl;
       
   if (visitor<S_msrLigature>*
@@ -4034,7 +4034,7 @@ void msrLigature::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrLigature::visitStart()" <<
+            "% ==> Launching msrLigature::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -4043,7 +4043,7 @@ void msrLigature::acceptIn (basevisitor* v) {
 void msrLigature::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrLigature::acceptOut()" <<
+      "% ==> msrLigature::acceptOut()" <<
       endl;
 
   if (visitor<S_msrLigature>*
@@ -4053,7 +4053,7 @@ void msrLigature::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrLigature::visitEnd()" <<
+            "% ==> Launching msrLigature::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -4120,7 +4120,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "--> creating a bare clone of grace notes" <<
+      "% --> creating a bare clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
   }
@@ -4143,7 +4143,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "--> creating a skip clone of grace notes" <<
+      "% --> creating a skip clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
   }
@@ -4224,7 +4224,7 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 void msrGracenotes::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrGracenotes::acceptIn()" <<
+      "% ==> msrGracenotes::acceptIn()" <<
       endl;
       
   if (visitor<S_msrGracenotes>*
@@ -4234,7 +4234,7 @@ void msrGracenotes::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrGracenotes::visitStart()" <<
+            "% ==> Launching msrGracenotes::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -4243,7 +4243,7 @@ void msrGracenotes::acceptIn (basevisitor* v) {
 void msrGracenotes::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrGracenotes::acceptOut()" <<
+      "% ==> msrGracenotes::acceptOut()" <<
       endl;
 
   if (visitor<S_msrGracenotes>*
@@ -4253,7 +4253,7 @@ void msrGracenotes::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrGracenotes::visitEnd()" <<
+            "% ==> Launching msrGracenotes::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -4381,7 +4381,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "--> creating a bare clone of after grace notes" <<
+      "% --> creating a bare clone of after grace notes" <<
       endl;
   }
   
@@ -4399,7 +4399,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
 void msrAftergracenotes::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrAftergracenotes::acceptIn()" <<
+      "% ==> msrAftergracenotes::acceptIn()" <<
       endl;
       
   if (visitor<S_msrAftergracenotes>*
@@ -4409,7 +4409,7 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrAftergracenotes::visitStart()" <<
+            "% ==> Launching msrAftergracenotes::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -4418,7 +4418,7 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
 void msrAftergracenotes::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrAftergracenotes::acceptOut()" <<
+      "% ==> msrAftergracenotes::acceptOut()" <<
       endl;
 
   if (visitor<S_msrAftergracenotes>*
@@ -4428,7 +4428,7 @@ void msrAftergracenotes::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrAftergracenotes::visitEnd()" <<
+            "% ==> Launching msrAftergracenotes::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -4495,7 +4495,7 @@ msrNote::msrNote (
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "==> fNoteData contains:" <<
+      "% ==> fNoteData contains:" <<
       endl;
 
     idtr++;
@@ -4507,7 +4507,7 @@ msrNote::msrNote (
 
     cerr <<
       idtr <<
-        "<==" <<
+        "% ==>" <<
         endl << endl;
   }
 
@@ -4532,7 +4532,7 @@ S_msrNote msrNote::createNoteBareClone ()
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "--> Creating a bare clone of note " <<
+      "% --> Creating a bare clone of note " <<
       noteAsString () <<
       endl;
   }
@@ -4600,7 +4600,7 @@ void msrNote::setNoteBelongsToAChord ()
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> note " << noteAsString () <<
+      "% --> note " << noteAsString () <<
       ", line " << fInputLineNumber <<
       ", is set to belong to a chord" << endl;
 
@@ -4613,7 +4613,7 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> applying tuplet display factor " <<
+      "% --> applying tuplet display factor " <<
       actualNotes << "/" << normalNotes <<
       " to note " << noteAsShortString () <<
       ", line " << fInputLineNumber <<
@@ -4782,7 +4782,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
   if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "==> appending syllable " <<
+      "% ==> appending syllable " <<
       syllable->syllableAsString () <<
       " to note " << noteAsString () <<
       endl;
@@ -4828,7 +4828,7 @@ void msrNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrNote::acceptIn()" <<
+      "% ==> msrNote::acceptIn()" <<
       endl;
       
   if (visitor<S_msrNote>*
@@ -4838,7 +4838,7 @@ void msrNote::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrNote::visitStart()" <<
+            "% ==> Launching msrNote::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -4848,7 +4848,7 @@ void msrNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrNote::acceptOut()" <<
+      "% ==> msrNote::acceptOut()" <<
       endl;
 
   if (visitor<S_msrNote>*
@@ -4858,7 +4858,7 @@ void msrNote::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrNote::visitEnd()" <<
+            "% ==> Launching msrNote::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -5813,7 +5813,7 @@ S_msrChord msrChord::createChordBareClone ()
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "--> Creating a bare clone of chord" <<
+      "% --> Creating a bare clone of chord" <<
       endl;
   }
 
@@ -5854,7 +5854,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> adding first note '" <<
+      "% --> adding first note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -5878,7 +5878,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> adding another note '" <<
+      "% --> adding another note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -5942,7 +5942,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> adding articulation '" <<
+      "% --> adding articulation '" <<
       art->articulationKindAsString () <<
       "' to chord" <<
       endl;
@@ -5968,7 +5968,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> adding ornament '" <<
+      "% --> adding ornament '" <<
       orn->ornamentKindAsString () <<
       "' to chord" <<
       endl;
@@ -5979,7 +5979,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 void msrChord::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrChord::acceptIn()" <<
+      "% ==> msrChord::acceptIn()" <<
       endl;
       
   if (visitor<S_msrChord>*
@@ -5989,7 +5989,7 @@ void msrChord::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrChord::visitStart()" <<
+            "% ==> Launching msrChord::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -5998,7 +5998,7 @@ void msrChord::acceptIn (basevisitor* v) {
 void msrChord::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrChord::acceptOut()" <<
+      "% ==> msrChord::acceptOut()" <<
       endl;
 
   if (visitor<S_msrChord>*
@@ -6008,7 +6008,7 @@ void msrChord::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrChord::visitEnd()" <<
+            "% ==> Launching msrChord::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -6359,7 +6359,7 @@ msrComment::~msrComment() {}
 void msrComment::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrComment::acceptIn()" <<
+      "% ==> msrComment::acceptIn()" <<
       endl;
       
   if (visitor<S_msrComment>*
@@ -6369,7 +6369,7 @@ void msrComment::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrComment::visitStart()" <<
+            "% ==> Launching msrComment::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -6378,7 +6378,7 @@ void msrComment::acceptIn (basevisitor* v) {
 void msrComment::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrComment::acceptOut()" <<
+      "% ==> msrComment::acceptOut()" <<
       endl;
 
   if (visitor<S_msrComment>*
@@ -6388,7 +6388,7 @@ void msrComment::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrComment::visitEnd()" <<
+            "% ==> Launching msrComment::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -6460,7 +6460,7 @@ string msrBreak::breakAsString () const
 void msrBreak::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBreak::acceptIn()" <<
+      "% ==> msrBreak::acceptIn()" <<
       endl;
       
   if (visitor<S_msrBreak>*
@@ -6470,7 +6470,7 @@ void msrBreak::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBreak::visitStart()" <<
+            "% ==> Launching msrBreak::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -6479,7 +6479,7 @@ void msrBreak::acceptIn (basevisitor* v) {
 void msrBreak::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBreak::acceptOut()" <<
+      "% ==> msrBreak::acceptOut()" <<
       endl;
 
   if (visitor<S_msrBreak>*
@@ -6489,7 +6489,7 @@ void msrBreak::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBreak::visitEnd()" <<
+            "% ==> Launching msrBreak::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -6550,7 +6550,7 @@ string msrBarCheck::barCheckAsString () const
 void msrBarCheck::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBarCheck::acceptIn()" <<
+      "% ==> msrBarCheck::acceptIn()" <<
       endl;
       
   if (visitor<S_msrBarCheck>*
@@ -6560,7 +6560,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBarCheck::visitStart()" <<
+            "% ==> Launching msrBarCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -6569,7 +6569,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
 void msrBarCheck::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBarCheck::acceptOut()" <<
+      "% ==> msrBarCheck::acceptOut()" <<
       endl;
 
   if (visitor<S_msrBarCheck>*
@@ -6579,7 +6579,7 @@ void msrBarCheck::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBarCheck::visitEnd()" <<
+            "% ==> Launching msrBarCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -6635,7 +6635,7 @@ string msrBarnumberCheck::barnumberCheckAsString () const
 void msrBarnumberCheck::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBarnumberCheck::acceptIn()" <<
+      "% ==> msrBarnumberCheck::acceptIn()" <<
       endl;
       
   if (visitor<S_msrBarnumberCheck>*
@@ -6645,7 +6645,7 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBarnumberCheck::visitStart()" <<
+            "% ==> Launching msrBarnumberCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -6654,7 +6654,7 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
 void msrBarnumberCheck::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBarnumberCheck::acceptOut()" <<
+      "% ==> msrBarnumberCheck::acceptOut()" <<
       endl;
 
   if (visitor<S_msrBarnumberCheck>*
@@ -6664,7 +6664,7 @@ void msrBarnumberCheck::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBarnumberCheck::visitEnd()" <<
+            "% ==> Launching msrBarnumberCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -6727,7 +6727,7 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
 {
   if (gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
-      "--> Creating a bare clone of a tuplet" <<
+      "% --> Creating a bare clone of a tuplet" <<
       endl;
   }
 
@@ -6760,7 +6760,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> adding note '" <<
+      "% --> adding note '" <<
       note->noteAsShortStringWithRawDivisions () <<
         // the information is missing to display it the normal way
       "' to tuplet '" <<
@@ -6793,7 +6793,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> adding chord '" <<
+      "% --> adding chord '" <<
       chord->chordAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -6823,7 +6823,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> adding tuplet '" <<
+      "% --> adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -6867,7 +6867,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> adding tuplet '" <<
+      "% --> adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -6891,7 +6891,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "--> removing first note " <<
+      "% --> removing first note " <<
       note->noteAsString () <<
       " from tuplet '" <<
       tupletAsString () <<
@@ -7123,7 +7123,7 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
 void msrTuplet::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTuplet::acceptIn()" <<
+      "% ==> msrTuplet::acceptIn()" <<
       endl;
       
   if (visitor<S_msrTuplet>*
@@ -7133,7 +7133,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTuplet::visitStart()" <<
+            "% ==> Launching msrTuplet::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -7142,7 +7142,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
 void msrTuplet::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTuplet::acceptOut()" <<
+      "% ==> msrTuplet::acceptOut()" <<
       endl;
 
   if (visitor<S_msrTuplet>*
@@ -7152,7 +7152,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTuplet::visitEnd()" <<
+            "% ==> Launching msrTuplet::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -7405,7 +7405,7 @@ float msrPageGeometry::globalStaffSize () const
 void msrPageGeometry::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPageGeometry::acceptIn()" <<
+      "% ==> msrPageGeometry::acceptIn()" <<
       endl;
       
   if (visitor<S_msrPageGeometry>*
@@ -7415,7 +7415,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPageGeometry::visitStart()" <<
+            "% ==> Launching msrPageGeometry::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -7424,7 +7424,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
 void msrPageGeometry::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPageGeometry::acceptOut()" <<
+      "% ==> msrPageGeometry::acceptOut()" <<
       endl;
 
   if (visitor<S_msrPageGeometry>*
@@ -7434,7 +7434,7 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPageGeometry::visitEnd()" <<
+            "% ==> Launching msrPageGeometry::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -7599,7 +7599,7 @@ msrVarValAssoc::~msrVarValAssoc() {}
 void msrVarValAssoc::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrVarValAssoc::acceptIn()" <<
+      "% ==> msrVarValAssoc::acceptIn()" <<
       endl;
       
   if (visitor<S_msrVarValAssoc>*
@@ -7609,7 +7609,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrVarValAssoc::visitStart()" <<
+            "% ==> Launching msrVarValAssoc::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -7618,7 +7618,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
 void msrVarValAssoc::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrVarValAssoc::acceptOut()" <<
+      "% ==> msrVarValAssoc::acceptOut()" <<
       endl;
 
   if (visitor<S_msrVarValAssoc>*
@@ -7628,7 +7628,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrVarValAssoc::visitEnd()" <<
+            "% ==> Launching msrVarValAssoc::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -7695,7 +7695,7 @@ msrLayout::~msrLayout() {}
 void msrLayout::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrLayout::acceptIn()" <<
+      "% ==> msrLayout::acceptIn()" <<
       endl;
       
   if (visitor<S_msrLayout>*
@@ -7705,7 +7705,7 @@ void msrLayout::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrLayout::visitStart()" <<
+            "% ==> Launching msrLayout::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -7714,7 +7714,7 @@ void msrLayout::acceptIn (basevisitor* v) {
 void msrLayout::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrLayout::acceptOut()" <<
+      "% ==> msrLayout::acceptOut()" <<
       endl;
 
   if (visitor<S_msrLayout>*
@@ -7724,7 +7724,7 @@ void msrLayout::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrLayout::visitEnd()" <<
+            "% ==> Launching msrLayout::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -7800,7 +7800,7 @@ msrCreditWords::~msrCreditWords() {}
 void msrCreditWords::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrCreditWords::acceptIn()" <<
+      "% ==> msrCreditWords::acceptIn()" <<
       endl;
       
   if (visitor<S_msrCreditWords>*
@@ -7810,7 +7810,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrCreditWords::visitStart()" <<
+            "% ==> Launching msrCreditWords::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -7819,7 +7819,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
 void msrCreditWords::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrCreditWords::acceptOut()" <<
+      "% ==> msrCreditWords::acceptOut()" <<
       endl;
 
   if (visitor<S_msrCreditWords>*
@@ -7829,7 +7829,7 @@ void msrCreditWords::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrCreditWords::visitEnd()" <<
+            "% ==> Launching msrCreditWords::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -7904,7 +7904,7 @@ void msrCredit::appendCreditWordsToCredit (
 void msrCredit::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrCredit::acceptIn()" <<
+      "% ==> msrCredit::acceptIn()" <<
       endl;
       
   if (visitor<S_msrCredit>*
@@ -7914,7 +7914,7 @@ void msrCredit::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrCredit::visitStart()" <<
+            "% ==> Launching msrCredit::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -7923,7 +7923,7 @@ void msrCredit::acceptIn (basevisitor* v) {
 void msrCredit::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrCredit::acceptOut()" <<
+      "% ==> msrCredit::acceptOut()" <<
       endl;
 
   if (visitor<S_msrCredit>*
@@ -7933,7 +7933,7 @@ void msrCredit::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrCredit::visitEnd()" <<
+            "% ==> Launching msrCredit::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8034,7 +8034,7 @@ bool msrClef::clefIsAPercussionClef () const
 void msrClef::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrClef::acceptIn()" <<
+      "% ==> msrClef::acceptIn()" <<
       endl;
       
   if (visitor<S_msrClef>*
@@ -8044,7 +8044,7 @@ void msrClef::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrClef::visitStart()" <<
+            "% ==> Launching msrClef::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8053,7 +8053,7 @@ void msrClef::acceptIn (basevisitor* v) {
 void msrClef::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrClef::acceptOut()" <<
+      "% ==> msrClef::acceptOut()" <<
       endl;
 
   if (visitor<S_msrClef>*
@@ -8063,7 +8063,7 @@ void msrClef::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrClef::visitEnd()" <<
+            "% ==> Launching msrClef::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8192,7 +8192,7 @@ msrKey::~msrKey() {}
 void msrKey::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrKey::acceptIn()" <<
+      "% ==> msrKey::acceptIn()" <<
       endl;
       
   if (visitor<S_msrKey>*
@@ -8202,7 +8202,7 @@ void msrKey::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrKey::visitStart()" <<
+            "% ==> Launching msrKey::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8211,7 +8211,7 @@ void msrKey::acceptIn (basevisitor* v) {
 void msrKey::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrKey::acceptOut()" <<
+      "% ==> msrKey::acceptOut()" <<
       endl;
 
   if (visitor<S_msrKey>*
@@ -8221,7 +8221,7 @@ void msrKey::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrKey::visitEnd()" <<
+            "% ==> Launching msrKey::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8304,7 +8304,7 @@ msrTime::~msrTime() {}
 void msrTime::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTime::acceptIn()" <<
+      "% ==> msrTime::acceptIn()" <<
       endl;
       
   if (visitor<S_msrTime>*
@@ -8314,7 +8314,7 @@ void msrTime::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTime::visitStart()" <<
+            "% ==> Launching msrTime::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8323,7 +8323,7 @@ void msrTime::acceptIn (basevisitor* v) {
 void msrTime::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTime::acceptOut()" <<
+      "% ==> msrTime::acceptOut()" <<
       endl;
 
   if (visitor<S_msrTime>*
@@ -8333,7 +8333,7 @@ void msrTime::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTime::visitEnd()" <<
+            "% ==> Launching msrTime::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8394,7 +8394,7 @@ msrTranspose::~msrTranspose() {}
 void msrTranspose::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTranspose::acceptIn()" <<
+      "% ==> msrTranspose::acceptIn()" <<
       endl;
       
   if (visitor<S_msrTranspose>*
@@ -8404,7 +8404,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTranspose::visitStart()" <<
+            "% ==> Launching msrTranspose::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8413,7 +8413,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
 void msrTranspose::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTranspose::acceptOut()" <<
+      "% ==> msrTranspose::acceptOut()" <<
       endl;
 
   if (visitor<S_msrTranspose>*
@@ -8423,7 +8423,7 @@ void msrTranspose::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTranspose::visitEnd()" <<
+            "% ==> Launching msrTranspose::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8502,7 +8502,7 @@ msrWords::~msrWords() {}
 void msrWords::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrWords::acceptIn()" <<
+      "% ==> msrWords::acceptIn()" <<
       endl;
       
   if (visitor<S_msrWords>*
@@ -8512,7 +8512,7 @@ void msrWords::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrWords::visitStart()" <<
+            "% ==> Launching msrWords::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8521,7 +8521,7 @@ void msrWords::acceptIn (basevisitor* v) {
 void msrWords::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrWords::acceptOut()" <<
+      "% ==> msrWords::acceptOut()" <<
       endl;
 
   if (visitor<S_msrWords>*
@@ -8531,7 +8531,7 @@ void msrWords::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrWords::visitEnd()" <<
+            "% ==> Launching msrWords::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8648,7 +8648,7 @@ void msrTempo::setTempoIndication (string indication)
 void msrTempo::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTempo::acceptIn()" <<
+      "% ==> msrTempo::acceptIn()" <<
       endl;
       
   if (visitor<S_msrTempo>*
@@ -8658,7 +8658,7 @@ void msrTempo::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTempo::visitStart()" <<
+            "% ==> Launching msrTempo::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8667,7 +8667,7 @@ void msrTempo::acceptIn (basevisitor* v) {
 void msrTempo::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrTempo::acceptOut()" <<
+      "% ==> msrTempo::acceptOut()" <<
       endl;
 
   if (visitor<S_msrTempo>*
@@ -8677,7 +8677,7 @@ void msrTempo::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrTempo::visitEnd()" <<
+            "% ==> Launching msrTempo::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8757,7 +8757,7 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "--> Creating a bare clone of a syllable" <<
+      "% --> Creating a bare clone of a syllable" <<
       endl;
   }
 
@@ -8792,7 +8792,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
   if (gGeneralOptions->fTraceLyrics) {
     cerr <<
       idtr <<
-      "==> setting syllable note uplink for:" <<
+      "% ==> setting syllable note uplink for:" <<
       endl;
 
     idtr++;
@@ -8825,7 +8825,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 void msrSyllable::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSyllable::acceptIn()" <<
+      "% ==> msrSyllable::acceptIn()" <<
       endl;
       
   if (visitor<S_msrSyllable>*
@@ -8835,7 +8835,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSyllable::visitStart()" <<
+            "% ==> Launching msrSyllable::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -8844,7 +8844,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
 void msrSyllable::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSyllable::acceptOut()" <<
+      "% ==> msrSyllable::acceptOut()" <<
       endl;
 
   if (visitor<S_msrSyllable>*
@@ -8854,7 +8854,7 @@ void msrSyllable::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSyllable::visitEnd()" <<
+            "% ==> Launching msrSyllable::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -8979,7 +8979,7 @@ string msrSyllable::syllableNoteUplinkAsString () const
 
   if (fSyllableNoteUplink)
     result =
-      "==> "
+      "% ==> "
         +
       fSyllableNoteUplink->noteAsString ();
   else
@@ -9212,7 +9212,7 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "--> Creating a bare clone of stanza \"" <<
+      "% --> Creating a bare clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice " << clonedVoice->getVoiceName () <<
       endl;
@@ -9242,7 +9242,7 @@ void msrStanza::appendSyllableToStanza (
   if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
-        "--> appending syllable " << syllable->syllableAsString () <<
+        "% --> appending syllable " << syllable->syllableAsString () <<
       idtr <<
         "to stanza" << getStanzaName () <<
       endl;
@@ -9294,7 +9294,7 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> adding 'Rest' syllable:" << divisions <<
+      "% --> adding 'Rest' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
       ", divisions = " << divisions <<
       endl;
@@ -9330,7 +9330,7 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> adding 'Skip' syllable:" << divisions <<
+      "% --> adding 'Skip' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
       ", divisions = " << divisions <<
       endl;
@@ -9367,7 +9367,7 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding 'Tied' syllable: " << divisions <<
+      "% --> Adding 'Tied' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9402,7 +9402,7 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding 'Slur' syllable:" << divisions <<
+      "% --> Adding 'Slur' syllable:" << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9436,7 +9436,7 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a 'SlurBeyondEnd' syllable: " << divisions <<
+      "% --> Adding a 'SlurBeyondEnd' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9470,7 +9470,7 @@ S_msrSyllable msrStanza::addLigatureSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding 'Ligature' syllable:" << divisions <<
+      "% --> Adding 'Ligature' syllable:" << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9504,7 +9504,7 @@ S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a 'LigatureBeyondEnd' syllable: " << divisions <<
+      "% --> Adding a 'LigatureBeyondEnd' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9538,7 +9538,7 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a 'barcheck' syllable" <<
+      "% --> Adding a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
@@ -9577,7 +9577,7 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a 'barcheck' syllable" <<
+      "% --> Adding a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
@@ -9616,7 +9616,7 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
         staff-> getStaffPartUplink ();
     
     cerr << idtr <<
-      "--> Adding a 'Break' syllable" <<
+      "% --> Adding a 'Break' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
@@ -9645,7 +9645,7 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
 void msrStanza::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStanza::acceptIn()" <<
+      "% ==> msrStanza::acceptIn()" <<
       endl;
       
   if (visitor<S_msrStanza>*
@@ -9655,7 +9655,7 @@ void msrStanza::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStanza::visitStart()" <<
+            "% ==> Launching msrStanza::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -9664,7 +9664,7 @@ void msrStanza::acceptIn (basevisitor* v) {
 void msrStanza::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStanza::acceptOut()" <<
+      "% ==> msrStanza::acceptOut()" <<
       endl;
 
   if (visitor<S_msrStanza>*
@@ -9674,7 +9674,7 @@ void msrStanza::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStanza::visitEnd()" <<
+            "% ==> Launching msrStanza::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -9684,7 +9684,7 @@ void msrStanza::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStanza::browseData()" <<
+      "% ==> msrStanza::browseData()" <<
       endl;
 
   idtr++;
@@ -9703,7 +9703,7 @@ void msrStanza::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrStanza::browseData()" <<
+      "% ==> msrStanza::browseData()" <<
       endl;
 }
 
@@ -9806,7 +9806,7 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
   if (gGeneralOptions->fTraceHarmony) {
     cerr << idtr <<
-      "--> Creating a bare clone or harmony '" <<
+      "% --> Creating a bare clone or harmony '" <<
       harmonyKindAsShortString () <<
       "'" <<
       endl;
@@ -9940,7 +9940,7 @@ string msrHarmony::harmonyAsString () const
 void msrHarmony::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrHarmony::acceptIn()" <<
+      "% ==> msrHarmony::acceptIn()" <<
       endl;
       
   if (visitor<S_msrHarmony>*
@@ -9950,7 +9950,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrHarmony::visitStart()" <<
+            "% ==> Launching msrHarmony::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -9959,7 +9959,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
 void msrHarmony::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrHarmony::acceptOut()" <<
+      "% ==> msrHarmony::acceptOut()" <<
       endl;
 
   if (visitor<S_msrHarmony>*
@@ -9969,7 +9969,7 @@ void msrHarmony::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrHarmony::visitEnd()" <<
+            "% ==> Launching msrHarmony::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -10042,7 +10042,7 @@ msrSegno::~msrSegno() {}
 void msrSegno::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSegno::acceptIn()" <<
+      "% ==> msrSegno::acceptIn()" <<
       endl;
       
   if (visitor<S_msrSegno>*
@@ -10052,7 +10052,7 @@ void msrSegno::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSegno::visitStart()" <<
+            "% ==> Launching msrSegno::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -10061,7 +10061,7 @@ void msrSegno::acceptIn (basevisitor* v) {
 void msrSegno::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSegno::acceptOut()" <<
+      "% ==> msrSegno::acceptOut()" <<
       endl;
 
   if (visitor<S_msrSegno>*
@@ -10071,7 +10071,7 @@ void msrSegno::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSegno::visitEnd()" <<
+            "% ==> Launching msrSegno::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -10115,7 +10115,7 @@ msrCoda::~msrCoda() {}
 void msrCoda::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrCoda::acceptIn()" <<
+      "% ==> msrCoda::acceptIn()" <<
       endl;
       
   if (visitor<S_msrCoda>*
@@ -10125,7 +10125,7 @@ void msrCoda::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrCoda::visitStart()" <<
+            "% ==> Launching msrCoda::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -10134,7 +10134,7 @@ void msrCoda::acceptIn (basevisitor* v) {
 void msrCoda::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrCoda::acceptOut()" <<
+      "% ==> msrCoda::acceptOut()" <<
       endl;
 
   if (visitor<S_msrCoda>*
@@ -10144,7 +10144,7 @@ void msrCoda::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrCoda::visitEnd()" <<
+            "% ==> Launching msrCoda::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -10188,7 +10188,7 @@ msrEyeglasses::~msrEyeglasses() {}
 void msrEyeglasses::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrEyeglasses::acceptIn()" <<
+      "% ==> msrEyeglasses::acceptIn()" <<
       endl;
       
   if (visitor<S_msrEyeglasses>*
@@ -10198,7 +10198,7 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrEyeglasses::visitStart()" <<
+            "% ==> Launching msrEyeglasses::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -10207,7 +10207,7 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
 void msrEyeglasses::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrEyeglasses::acceptOut()" <<
+      "% ==> msrEyeglasses::acceptOut()" <<
       endl;
 
   if (visitor<S_msrEyeglasses>*
@@ -10217,7 +10217,7 @@ void msrEyeglasses::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrEyeglasses::visitEnd()" <<
+            "% ==> Launching msrEyeglasses::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -10307,7 +10307,7 @@ string msrPedal::pedalLineAsString ()
 void msrPedal::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPedal::acceptIn()" <<
+      "% ==> msrPedal::acceptIn()" <<
       endl;
       
   if (visitor<S_msrPedal>*
@@ -10317,7 +10317,7 @@ void msrPedal::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPedal::visitStart()" <<
+            "% ==> Launching msrPedal::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -10326,7 +10326,7 @@ void msrPedal::acceptIn (basevisitor* v) {
 void msrPedal::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPedal::acceptOut()" <<
+      "% ==> msrPedal::acceptOut()" <<
       endl;
 
   if (visitor<S_msrPedal>*
@@ -10336,7 +10336,7 @@ void msrPedal::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPedal::visitEnd()" <<
+            "% ==> Launching msrPedal::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -10420,7 +10420,7 @@ msrBarline::~msrBarline() {}
 void msrBarline::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBarline::acceptIn()" <<
+      "% ==> msrBarline::acceptIn()" <<
       endl;
       
   if (visitor<S_msrBarline>*
@@ -10430,7 +10430,7 @@ void msrBarline::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBarline::visitStart()" <<
+            "% ==> Launching msrBarline::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -10439,7 +10439,7 @@ void msrBarline::acceptIn (basevisitor* v) {
 void msrBarline::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrBarline::acceptOut()" <<
+      "% ==> msrBarline::acceptOut()" <<
       endl;
 
   if (visitor<S_msrBarline>*
@@ -10449,7 +10449,7 @@ void msrBarline::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrBarline::visitEnd()" <<
+            "% ==> Launching msrBarline::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -10745,7 +10745,7 @@ msrMeasure::msrMeasure (
 
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> creating measure " << fMeasureNumber <<
+      "% --> creating measure " << fMeasureNumber <<
       " in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
@@ -10781,7 +10781,7 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> Creating a bare clone of measure " << fMeasureNumber <<
+      "% --> Creating a bare clone of measure " << fMeasureNumber <<
       endl;
   
   S_msrMeasure
@@ -10838,7 +10838,7 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
     if (gGeneralOptions->fTraceMeasures)
       cerr <<
         idtr <<
-          "@@@@@@@@@@@@@@@@@ --> measure " << fMeasureNumber <<
+          "@@@@@@@@@@@@@@@@@ % --> measure " << fMeasureNumber <<
           " overflows, line " << inputLineNumber <<
           endl<<
         idtr <<
@@ -10970,7 +10970,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
-        "--> appending chord '" << chord->chordAsString () <<
+        "% --> appending chord '" << chord->chordAsString () <<
         "' to measure " << fMeasureNumber <<
         " in voice \"" <<
         fMeasureSegmentUplink->
@@ -11041,7 +11041,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     
     if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
-        "--> appending tuplet '" << tuplet->tupletAsString () <<
+        "% --> appending tuplet '" << tuplet->tupletAsString () <<
         "' to measure " << fMeasureNumber <<
         " in voice \"" <<
         fMeasureSegmentUplink->
@@ -11156,7 +11156,7 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
 {  
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
-      "--> removing note:" <<
+      "% --> removing note:" <<
       endl;
 
     idtr++;
@@ -11232,7 +11232,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
   if (gGeneralOptions->fDebug) {
 //  if (gGeneralOptions->fDebug) {
     cerr << idtr <<
-      "--> removing last element:" <<
+      "% --> removing last element:" <<
       endl;
 
     idtr++;
@@ -11317,7 +11317,7 @@ bool msrMeasure::checkForIncompleteMeasure (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> checking for incompleteness of measure  " <<
+      "% --> checking for incompleteness of measure  " <<
       fMeasureNumber <<
       ", line " << inputLineNumber <<
       ", in voice \"" <<
@@ -11388,7 +11388,7 @@ bool msrMeasure::checkForOverfullMeasure (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> checking for overfull measure  " <<
+      "% --> checking for overfull measure  " <<
       fMeasureNumber <<
       ", line " << inputLineNumber <<
       ", in voice \"" <<
@@ -11517,11 +11517,11 @@ void msrMeasure::finalizeMeasure (
     // apppend the skip to the measure
     if (gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
-       "--> appending " << skip->noteAsString () <<
+       "% --> appending " << skip->noteAsString () <<
        " (" << skipDuration <<
        " divs.) to finalize \"" << voice->getVoiceName () <<
        "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
-       " --> @" << fMeasureNumber <<
+       " % --> @" << fMeasureNumber <<
        ":" << partMeasurePositionHighTide <<
        endl;
        
@@ -11550,7 +11550,7 @@ void msrMeasure::finalizeMeasure (
     if (measureIsIncomplete) {
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr <<
-        "### --> measure " << fMeasureNumber <<
+        "### % --> measure " << fMeasureNumber <<
         " in voice \"" << voice->getVoiceName () <<
         "\", line " << inputLineNumber <<
         " is incomplete" <<
@@ -11566,7 +11566,7 @@ void msrMeasure::finalizeMeasure (
     if (measureIsOverfull) {
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr <<
-        "### --> measure " << fMeasureNumber <<
+        "### % --> measure " << fMeasureNumber <<
         " in voice \"" << voice->getVoiceName () <<
         "\", line " << inputLineNumber <<
         " is overfull" <<
@@ -11579,7 +11579,7 @@ void msrMeasure::finalizeMeasure (
 void msrMeasure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrMeasure::acceptIn()" <<
+      "% ==> msrMeasure::acceptIn()" <<
       endl;
       
   if (visitor<S_msrMeasure>*
@@ -11589,7 +11589,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrMeasure::visitStart()" <<
+            "% ==> Launching msrMeasure::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -11598,7 +11598,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
 void msrMeasure::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrMeasure::acceptOut()" <<
+      "% ==> msrMeasure::acceptOut()" <<
       endl;
 
   if (visitor<S_msrMeasure>*
@@ -11608,7 +11608,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrMeasure::visitEnd()" <<
+            "% ==> Launching msrMeasure::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -11618,7 +11618,7 @@ void msrMeasure::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrMeasure::browseData()" <<
+      "% ==> msrMeasure::browseData()" <<
       endl;
 
   for (
@@ -11632,7 +11632,7 @@ void msrMeasure::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrMeasure::browseData()" <<
+      "% ==> msrMeasure::browseData()" <<
       endl;
 }
 
@@ -11677,7 +11677,7 @@ string msrMeasure::getMeasureLengthAsString () const
     cerr <<
       endl <<
       idtr <<
-      "%--> result = " << result <<
+      "%% --> result = " << result <<
       endl;
 
   return result;
@@ -11816,7 +11816,7 @@ msrSegment::msrSegment (
 
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "--> new segment gets absolute number " <<
+      "% --> new segment gets absolute number " <<
       fSegmentAbsoluteNumber <<
       endl;
   }
@@ -11888,7 +11888,7 @@ S_msrSegment msrSegment::createSegmentBareClone (
 {
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "--> Creating a bare clone of segment " <<
+      "% --> Creating a bare clone of segment " <<
       segmentAsString () <<
       endl;
   }
@@ -11940,7 +11940,7 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
 {
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> checking for incomplete last measure in segment '" <<
+      "% --> checking for incomplete last measure in segment '" <<
       segmentAsString () <<
       "', line " << inputLineNumber <<
       ", in voice \"" <<
@@ -12095,7 +12095,7 @@ void msrSegment::setSegmentMeasureNumber (
   if (gGeneralOptions->fDebug) {
     cerr <<
       idtr <<
-        setw(38) << "--> setSegmentMeasureNumber (" <<
+        setw(38) << "% --> setSegmentMeasureNumber (" <<
         measureNumber <<
         ") for segment " << segmentAsString () <<
         endl;
@@ -12182,7 +12182,7 @@ void msrSegment::setSegmentMeasureNumber (
             " measures in segment " << segmentAsString () <<
             endl <<
           idtr <<
-            setw(31) << "--> renumbering measure 1 as 0" <<
+            setw(31) << "% --> renumbering measure 1 as 0" <<
             endl;
   
       lastMeasure->
@@ -12203,7 +12203,7 @@ void msrSegment::setSegmentMeasureNumber (
               endl <<
             idtr <<
               setw(31) <<
-                "--> measure 1 found after measure 0, "
+                "% --> measure 1 found after measure 0, "
                 "a new measure is being created" <<
               endl;
               
@@ -12224,7 +12224,7 @@ void msrSegment::setSegmentMeasureNumber (
             endl <<
           idtr <<
             setw(31) <<
-              "--> measure " << measureNumber <<
+              "% --> measure " << measureNumber <<
               " found, a new measure is being created" <<
             endl;
               
@@ -12409,7 +12409,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
       if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
         cerr << idtr <<
-          "### --> replacing initial measure 1 of segment " <<
+          "### % --> replacing initial measure 1 of segment " <<
           segmentAsString () <<
         " by new one" <<
           ", line " << inputLineNumber <<
@@ -12432,7 +12432,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
       if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
         cerr << idtr <<
-          "### --> replacing initial measure 1 of segment " <<
+          "### % --> replacing initial measure 1 of segment " <<
           segmentAsString () <<
           " by measure 0" <<
           ", line " << inputLineNumber <<
@@ -12447,7 +12447,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
         // keep existing measure, since it's empty
         if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
           cerr << idtr <<
-            "### --> keeping measure " << lastMeasureNumber <<
+            "### % --> keeping measure " << lastMeasureNumber <<
             " of segment " << segmentAsString () <<
             " that already exists" <<
             ", line " << inputLineNumber <<
@@ -12520,7 +12520,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> prepending barline '" << barline->barlineAsString () <<
+        "% --> prepending barline '" << barline->barlineAsString () <<
         "' to segment '" << segmentAsString () << "'" <<
       endl;
 
@@ -12533,7 +12533,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> appending barline '" << barline->barlineAsString () <<
+        "% --> appending barline '" << barline->barlineAsString () <<
         "' to segment '" << segmentAsString () << "'" <<
       endl;
 
@@ -12549,7 +12549,7 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "--> appending bar check " << barCheck->barCheckAsString () <<
+        "% --> appending bar check " << barCheck->barCheckAsString () <<
         " to segment '" << segmentAsString () << "'" <<
       endl;
       
@@ -12665,7 +12665,7 @@ void msrSegment::removeFirstChordNoteFromSegment (
 void msrSegment::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSegment::acceptIn()" <<
+      "% ==> msrSegment::acceptIn()" <<
       endl;
       
   if (visitor<S_msrSegment>*
@@ -12675,7 +12675,7 @@ void msrSegment::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSegment::visitStart()" <<
+            "% ==> Launching msrSegment::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -12684,7 +12684,7 @@ void msrSegment::acceptIn (basevisitor* v) {
 void msrSegment::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSegment::acceptOut()" <<
+      "% ==> msrSegment::acceptOut()" <<
       endl;
 
   if (visitor<S_msrSegment>*
@@ -12694,7 +12694,7 @@ void msrSegment::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrSegment::visitEnd()" <<
+            "% ==> Launching msrSegment::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -12704,7 +12704,7 @@ void msrSegment::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrSegment::browseData()" <<
+      "% ==> msrSegment::browseData()" <<
       endl;
 
   for (
@@ -12718,7 +12718,7 @@ void msrSegment::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrSegment::browseData()" <<
+      "% ==> msrSegment::browseData()" <<
       endl;
 }
 
@@ -12851,7 +12851,7 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "--> Creating a bare clone of a repeat ending" << endl;
+      "% --> Creating a bare clone of a repeat ending" << endl;
   
   S_msrRepeatending
     clone =
@@ -12875,7 +12875,7 @@ void msrRepeatending::appendElementToRepeatending (
 void msrRepeatending::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrRepeatending::acceptIn()" <<
+      "% ==> msrRepeatending::acceptIn()" <<
       endl;
       
   if (visitor<S_msrRepeatending>*
@@ -12885,7 +12885,7 @@ void msrRepeatending::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeatending::visitStart()" <<
+            "% ==> Launching msrRepeatending::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -12894,7 +12894,7 @@ void msrRepeatending::acceptIn (basevisitor* v) {
 void msrRepeatending::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrRepeatending::acceptOut()" <<
+      "% ==> msrRepeatending::acceptOut()" <<
       endl;
 
   if (visitor<S_msrRepeatending>*
@@ -12904,7 +12904,7 @@ void msrRepeatending::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeatending::visitEnd()" <<
+            "% ==> Launching msrRepeatending::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -12999,7 +12999,7 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "--> creating a bare clone of a repeat" << endl;
+      "% --> creating a bare clone of a repeat" << endl;
   
   S_msrRepeat
     clone =
@@ -13049,7 +13049,7 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
 void msrRepeat::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrRepeat::acceptIn()" <<
+      "% ==> msrRepeat::acceptIn()" <<
       endl;
       
   if (visitor<S_msrRepeat>*
@@ -13059,7 +13059,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeat::visitStart()" <<
+            "% ==> Launching msrRepeat::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -13068,7 +13068,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
 void msrRepeat::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrRepeat::acceptOut()" <<
+      "% ==> msrRepeat::acceptOut()" <<
       endl;
 
   if (visitor<S_msrRepeat>*
@@ -13078,7 +13078,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrRepeat::visitEnd()" <<
+            "% ==> Launching msrRepeat::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -13463,7 +13463,7 @@ void msrVoice::setVoiceDivisionsPerQuarterNote (
 {
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "--> setting voice divisions per quarter note to " <<
+      "% --> setting voice divisions per quarter note to " <<
       divisionsPerQuarterNote <<
       " in voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -13507,7 +13507,7 @@ bool msrVoice::checkForIncompleteVoiceLastMeasure (
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "--> checking for incomplete last measure in voice \"" <<
+      "% --> checking for incomplete last measure in voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -13659,7 +13659,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "### --> createStanzaInVoiceIfNeeded (" << inputLineNumber <<
+      "### % --> createStanzaInVoiceIfNeeded (" << inputLineNumber <<
       ", " << stanzaNumber << ")" <<
       ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
       endl;
@@ -13805,7 +13805,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "==> appending note:" <<
+      "% ==> appending note:" <<
       endl;
 
     idtr++;
@@ -13927,7 +13927,7 @@ void msrVoice::appendSyllableToVoice (
   // append syllable to this voice
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "--> appending syllable " <<
+      "% --> appending syllable " <<
       syllable->syllableAsString () <<
       " to voice \"" << fVoiceName << "\"" <<
       endl;
@@ -14023,7 +14023,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
   // append the repeat to the current voice
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "--> appending the repeat to voice \"" <<
+      "% --> appending the repeat to voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -14039,7 +14039,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
   // create a new segment for the voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "--> creating a new last segment for voice \"" <<
+      "% --> creating a new last segment for voice \"" <<
       fVoiceName << "\"" <<
       endl;
       
@@ -14085,7 +14085,7 @@ void msrVoice::appendRepeatCloneToVoice (
   // create a new segment for the voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "--> creating a new last segment for voice BOF JMI \"" <<
+      "% --> creating a new last segment for voice BOF JMI \"" <<
       fVoiceName << "\"" <<
       endl;
       
@@ -14131,7 +14131,7 @@ void msrVoice::appendRepeatendingToVoice (
   // add the repeat ending it to the voice current repeat
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "--> appending repeat ending to current repeat in voice " <<
+      "% --> appending repeat ending to current repeat in voice " <<
       fVoiceName <<
       endl;
       
@@ -14141,7 +14141,7 @@ void msrVoice::appendRepeatendingToVoice (
   // create a new segment for the voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "--> creating new last segment for voice " <<
+      "% --> creating new last segment for voice " <<
       fVoiceName <<
       endl;
       
@@ -14155,7 +14155,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
   // add the repeat ending it to the voice current repeat
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "--> appending repeat ending clone to current repeat in voice " <<
+      "% --> appending repeat ending clone to current repeat in voice " <<
       fVoiceName <<
       endl;
       
@@ -14165,7 +14165,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
   // create a new segment for the voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "--> creating new last segment for voice " <<
+      "% --> creating new last segment for voice " <<
       fVoiceName <<
       endl;
       
@@ -14280,7 +14280,7 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
-      "### --> finalizing last measure in voice " <<
+      "### % --> finalizing last measure in voice " <<
       getVoiceName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -14301,7 +14301,7 @@ void msrVoice::finalizeVoice ()
 void msrVoice::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrVoice::acceptIn()" <<
+      "% ==> msrVoice::acceptIn()" <<
       endl;
       
   if (visitor<S_msrVoice>*
@@ -14311,7 +14311,7 @@ void msrVoice::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrVoice::visitStart()" <<
+            "% ==> Launching msrVoice::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -14320,7 +14320,7 @@ void msrVoice::acceptIn (basevisitor* v) {
 void msrVoice::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrVoice::acceptOut()" <<
+      "% ==> msrVoice::acceptOut()" <<
       endl;
 
   if (visitor<S_msrVoice>*
@@ -14330,7 +14330,7 @@ void msrVoice::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrVoice::visitEnd()" <<
+            "% ==> Launching msrVoice::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -14340,7 +14340,7 @@ void msrVoice::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrVoice::browseData()" <<
+      "% ==> msrVoice::browseData()" <<
       endl;
 
   // browse the voice initial repeats and segments
@@ -14373,7 +14373,7 @@ void msrVoice::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrVoice::browseData()" <<
+      "% ==> msrVoice::browseData()" <<
       endl;
 }
 
@@ -14572,7 +14572,7 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 {
   if (gGeneralOptions->fTraceStafftuning) {
     cerr << idtr <<
-      "--> Creating a bare clone of a staff tuning" <<
+      "% --> Creating a bare clone of a staff tuning" <<
       endl;
   }
 
@@ -14591,7 +14591,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors) {
     cerr << idtr <<
-      "==> msrStafftuning::acceptIn()" <<
+      "% ==> msrStafftuning::acceptIn()" <<
       endl;
   }
       
@@ -14602,7 +14602,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStafftuning::visitStart()" <<
+            "% ==> Launching msrStafftuning::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -14611,7 +14611,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
 void msrStafftuning::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStafftuning::acceptOut()" <<
+      "% ==> msrStafftuning::acceptOut()" <<
       endl;
 
   if (visitor<S_msrStafftuning>*
@@ -14621,7 +14621,7 @@ void msrStafftuning::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStafftuning::visitEnd()" <<
+            "% ==> Launching msrStafftuning::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -14925,7 +14925,7 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "--> Creating a bare clone of staff \"" <<
+      "% --> Creating a bare clone of staff \"" <<
       fStaffName <<
       "\"" <<
       endl;
@@ -14968,7 +14968,7 @@ void msrStaff::setStaffDivisionsPerQuarterNote (
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "--> setting staff divisions per quarter note to " <<
+      "% --> setting staff divisions per quarter note to " <<
       divisionsPerQuarterNote <<
       " in staff \"" << getStaffName () << "\"" <<
       endl;
@@ -15023,7 +15023,7 @@ void msrStaff::setStaffMeasureNumber (
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "### --> setStaffMeasureNumber(), " <<
+      "### % --> setStaffMeasureNumber(), " <<
       ", line " << inputLineNumber <<
       ", measureNumber = " << measureNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
@@ -15490,7 +15490,7 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 void msrStaff::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStaff::acceptIn()" <<
+      "% ==> msrStaff::acceptIn()" <<
       endl;
       
   if (visitor<S_msrStaff>*
@@ -15500,7 +15500,7 @@ void msrStaff::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStaff::visitStart()" <<
+            "% ==> Launching msrStaff::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -15509,7 +15509,7 @@ void msrStaff::acceptIn (basevisitor* v) {
 void msrStaff::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStaff::acceptOut()" <<
+      "% ==> msrStaff::acceptOut()" <<
       endl;
 
   if (visitor<S_msrStaff>*
@@ -15519,7 +15519,7 @@ void msrStaff::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrStaff::visitEnd()" <<
+            "% ==> Launching msrStaff::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -15529,7 +15529,7 @@ void msrStaff::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrStaff::browseData()" <<
+      "% ==> msrStaff::browseData()" <<
       endl;
 
   /*
@@ -15565,7 +15565,7 @@ void msrStaff::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrStaff::browseData()" <<
+      "% ==> msrStaff::browseData()" <<
       endl;
 }
 
@@ -15981,7 +15981,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
 {
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "--> setting part divisions per quarter note to " <<
+      "% --> setting part divisions per quarter note to " <<
       divisionsPerQuarterNote <<
       " in part " << getPartCombinedName () <<
       endl;
@@ -16012,7 +16012,7 @@ void msrPart::setPartMeasureNumber (
     cerr <<
       endl <<
       idtr <<
-        "### --> setPartMeasureNumber()" <<
+        "### % --> setPartMeasureNumber()" <<
         ", line " << inputLineNumber <<
         ", measureNumber = " << measureNumber <<
         ", in part " << getPartCombinedName () <<
@@ -16254,7 +16254,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
     
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmony)
     cerr << idtr <<
-      "--> appending harmony " <<
+      "% --> appending harmony " <<
       harmony->harmonyAsString () <<
       " to part \"" <<
       getPartName () <<
@@ -16278,7 +16278,7 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "### --> finalizing last measure in part " <<
+      "### % --> finalizing last measure in part " <<
       getPartName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -16304,7 +16304,7 @@ void msrPart::finalizePart ()
 void msrPart::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPart::acceptIn()" <<
+      "% ==> msrPart::acceptIn()" <<
       endl;
       
   if (visitor<S_msrPart>*
@@ -16314,7 +16314,7 @@ void msrPart::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPart::visitStart()" <<
+            "% ==> Launching msrPart::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -16323,7 +16323,7 @@ void msrPart::acceptIn (basevisitor* v) {
 void msrPart::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPart::acceptOut()" <<
+      "% ==> msrPart::acceptOut()" <<
       endl;
 
   if (visitor<S_msrPart>*
@@ -16333,7 +16333,7 @@ void msrPart::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPart::visitEnd()" <<
+            "% ==> Launching msrPart::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -16343,7 +16343,7 @@ void msrPart::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPart::browseData()" <<
+      "% ==> msrPart::browseData()" <<
       endl;
 
 /* JMI
@@ -16365,7 +16365,7 @@ void msrPart::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrPart::browseData()" <<
+      "% ==> msrPart::browseData()" <<
       endl;
 }
 
@@ -16666,24 +16666,24 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
     cerr <<
     endl <<
     idtr <<
-      "==> After addPartToPartgroupByItsID, fPartgroupPartsMap contains:" << endl;
+      "% ==> After addPartToPartgroupByItsID, fPartgroupPartsMap contains:" << endl;
     idtr++;
     for (
         map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
         i != fPartgroupPartsMap.end();
         i++) {
       cerr << idtr <<
-        "\"" << (*i).first << "\" ----> " <<
+        "\"" << (*i).first << "\" --% --> " <<
         (*i).second->getPartCombinedName() <<
         endl;
     } // for
     idtr--;
     cerr << idtr <<
-      "<== addPartToPartgroup" <<
+      "% ==> addPartToPartgroup" <<
       endl << endl <<
 
     idtr <<
-      "==> After addPartToPartgroupByItsID, fPartgroupPartsList contains:" <<
+      "% ==> After addPartToPartgroupByItsID, fPartgroupPartsList contains:" <<
       endl;
     if (fPartgroupElements.size()) {
       list<S_msrElement>::const_iterator
@@ -16700,7 +16700,7 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
       idtr--;
     }
     cerr <<
-      idtr << "<== addPartToPartgroupByItsID" <<
+      idtr << "% ==> addPartToPartgroupByItsID" <<
       endl << endl;
   }
   
@@ -16752,18 +16752,18 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 {
   if (gGeneralOptions->fTracePartgroups) {
     cerr << idtr <<
-      "==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
+      "% ==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
     for (
         map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
         i != fPartgroupPartsMap.end();
         i++) {
       cerr << idtr <<
-        (*i).first << " ----> " <<
+        (*i).first << " --% --> " <<
         (*i).second->getPartCombinedName() <<
         endl;
     } // for
     cerr << idtr <<
-      "<== fetchPartFromPartgroup" <<
+      "% ==> fetchPartFromPartgroup" <<
       endl;
   }
   
@@ -16779,7 +16779,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 void msrPartgroup::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPartgroup::acceptIn()" <<
+      "% ==> msrPartgroup::acceptIn()" <<
       endl;
       
   if (visitor<S_msrPartgroup>*
@@ -16789,7 +16789,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPartgroup::visitStart()" <<
+            "% ==> Launching msrPartgroup::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -16798,7 +16798,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
 void msrPartgroup::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPartgroup::acceptOut()" <<
+      "% ==> msrPartgroup::acceptOut()" <<
       endl;
 
   if (visitor<S_msrPartgroup>*
@@ -16808,7 +16808,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrPartgroup::visitEnd()" <<
+            "% ==> Launching msrPartgroup::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -16818,7 +16818,7 @@ void msrPartgroup::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrPartgroup::browseData()" <<
+      "% ==> msrPartgroup::browseData()" <<
       endl;
   
   for (
@@ -16832,7 +16832,7 @@ void msrPartgroup::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrPartgroup::browseData()" <<
+      "% ==> msrPartgroup::browseData()" <<
       endl;
 }
 
@@ -17113,7 +17113,7 @@ void msrIdentification::setScoreInstrumentAssoc (
 void msrIdentification::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrIdentification::acceptIn()" <<
+      "% ==> msrIdentification::acceptIn()" <<
       endl;
       
   if (visitor<S_msrIdentification>*
@@ -17123,7 +17123,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrIdentification::visitStart()" <<
+            "% ==> Launching msrIdentification::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -17132,7 +17132,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
 void msrIdentification::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrIdentification::acceptOut()" <<
+      "% ==> msrIdentification::acceptOut()" <<
       endl;
 
   if (visitor<S_msrIdentification>*
@@ -17142,7 +17142,7 @@ void msrIdentification::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrIdentification::visitEnd()" <<
+            "% ==> Launching msrIdentification::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -17310,7 +17310,7 @@ S_msrScore msrScore::createScoreBareClone ()
 {
   if (gGeneralOptions->fTraceScore) {
     cerr << idtr <<
-      "--> Creating a bare clone of a score" <<
+      "% --> Creating a bare clone of a score" <<
       endl;
   }
 
@@ -17355,7 +17355,7 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 void msrScore::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrScore::acceptIn()" <<
+      "% ==> msrScore::acceptIn()" <<
       endl;
       
   if (visitor<S_msrScore>*
@@ -17365,7 +17365,7 @@ void msrScore::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrScore::visitStart()" <<
+            "% ==> Launching msrScore::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -17374,7 +17374,7 @@ void msrScore::acceptIn (basevisitor* v) {
 void msrScore::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrScore::acceptOut()" <<
+      "% ==> msrScore::acceptOut()" <<
       endl;
 
   if (visitor<S_msrScore>*
@@ -17384,7 +17384,7 @@ void msrScore::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrScore::visitEnd()" <<
+            "% ==> Launching msrScore::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -17394,7 +17394,7 @@ void msrScore::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrScore::browseData()" <<
+      "% ==> msrScore::browseData()" <<
       endl;
     
   if (fIdentification) {
@@ -17420,7 +17420,7 @@ void msrScore::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "<== msrScore::browseData()" <<
+      "% ==> msrScore::browseData()" <<
       endl;
   }
 
@@ -17525,7 +17525,7 @@ msrMidi::~msrMidi() {}
 void msrMidi::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrMidi::acceptIn()" <<
+      "% ==> msrMidi::acceptIn()" <<
       endl;
       
   if (visitor<S_msrMidi>*
@@ -17535,7 +17535,7 @@ void msrMidi::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrMidi::visitStart()" <<
+            "% ==> Launching msrMidi::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -17544,7 +17544,7 @@ void msrMidi::acceptIn (basevisitor* v) {
 void msrMidi::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMSRVisitors)
     cerr << idtr <<
-      "==> msrMidi::acceptOut()" <<
+      "% ==> msrMidi::acceptOut()" <<
       endl;
 
   if (visitor<S_msrMidi>*
@@ -17554,7 +17554,7 @@ void msrMidi::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMSRVisitors)
           cerr << idtr <<
-            "==> Launching msrMidi::visitEnd()" <<
+            "% ==> Launching msrMidi::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -17610,6 +17610,6 @@ void msrMidi::print (ostream& os)
 /* JMI
   if (gGeneralOptions->fDebugDebug)
     cerr <<
-      "--> noteQuatertonesFromA = " << noteQuatertonesFromA <<
+      "% --> noteQuatertonesFromA = " << noteQuatertonesFromA <<
       endl;
 */

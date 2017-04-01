@@ -274,7 +274,7 @@ lpsrElement::~lpsrElement() {}
 void lpsrElement::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrElement::acceptIn()" <<
+      "% ==> lpsrElement::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrElement>*
@@ -284,7 +284,7 @@ void lpsrElement::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrElement::visitStart()" <<
+            "% ==> Launching lpsrElement::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -293,7 +293,7 @@ void lpsrElement::acceptIn (basevisitor* v) {
 void lpsrElement::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrElement::acceptOut()" <<
+      "% ==> lpsrElement::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrElement>*
@@ -303,7 +303,7 @@ void lpsrElement::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrElement::visitEnd()" <<
+            "% ==> Launching lpsrElement::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -337,7 +337,7 @@ lpsrParallelMusic::~lpsrParallelMusic() {}
 void lpsrParallelMusic::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrParallelMusic::acceptIn()" <<
+      "% ==> lpsrParallelMusic::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrParallelMusic>*
@@ -347,7 +347,7 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrParallelMusic::visitStart()" <<
+            "% ==> Launching lpsrParallelMusic::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -356,7 +356,7 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
 void lpsrParallelMusic::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrParallelMusic::acceptOut()" <<
+      "% ==> lpsrParallelMusic::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrParallelMusic>*
@@ -366,7 +366,7 @@ void lpsrParallelMusic::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrParallelMusic::visitEnd()" <<
+            "% ==> Launching lpsrParallelMusic::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -376,7 +376,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrParallelMusic::browseData()" <<
+      "% ==> lpsrParallelMusic::browseData()" <<
       endl;
   
   for (
@@ -390,7 +390,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "<== lpsrParallelMusic::browseData()" <<
+      "% ==> lpsrParallelMusic::browseData()" <<
       endl;
 }
 
@@ -455,7 +455,7 @@ lpsrComment::~lpsrComment() {}
 void lpsrComment::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrComment::acceptIn()" <<
+      "% ==> lpsrComment::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrComment>*
@@ -465,7 +465,7 @@ void lpsrComment::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrComment::visitStart()" <<
+            "% ==> Launching lpsrComment::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -474,7 +474,7 @@ void lpsrComment::acceptIn (basevisitor* v) {
 void lpsrComment::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrComment::acceptOut()" <<
+      "% ==> lpsrComment::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrComment>*
@@ -484,7 +484,7 @@ void lpsrComment::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrComment::visitEnd()" <<
+            "% ==> Launching lpsrComment::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -542,7 +542,7 @@ lpsrBarNumberCheck::~lpsrBarNumberCheck() {}
 void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrBarNumberCheck::acceptIn()" <<
+      "% ==> lpsrBarNumberCheck::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrBarNumberCheck>*
@@ -552,7 +552,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrBarNumberCheck::visitStart()" <<
+            "% ==> Launching lpsrBarNumberCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -561,7 +561,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
 void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrBarNumberCheck::acceptOut()" <<
+      "% ==> lpsrBarNumberCheck::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrBarNumberCheck>*
@@ -571,7 +571,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrBarNumberCheck::visitEnd()" <<
+            "% ==> Launching lpsrBarNumberCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -619,7 +619,7 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand() {}
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrUseVoiceCommand::acceptIn()" <<
+      "% ==> lpsrUseVoiceCommand::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrUseVoiceCommand>*
@@ -629,7 +629,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrUseVoiceCommand::visitStart()" <<
+            "% ==> Launching lpsrUseVoiceCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -638,7 +638,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrUseVoiceCommand::acceptOut()" <<
+      "% ==> lpsrUseVoiceCommand::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrUseVoiceCommand>*
@@ -648,7 +648,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrUseVoiceCommand::visitEnd()" <<
+            "% ==> Launching lpsrUseVoiceCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -703,7 +703,7 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock() {}
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewLyricsBlock::acceptIn()" <<
+      "% ==> lpsrNewLyricsBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrNewLyricsBlock>*
@@ -713,7 +713,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewLyricsBlock::visitStart()" <<
+            "% ==> Launching lpsrNewLyricsBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -722,7 +722,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewLyricsBlock::acceptOut()" <<
+      "% ==> lpsrNewLyricsBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrNewLyricsBlock>*
@@ -732,7 +732,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewLyricsBlock::visitEnd()" <<
+            "% ==> Launching lpsrNewLyricsBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -817,7 +817,7 @@ string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
 void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrLilypondVarValAssoc::acceptIn()" <<
+      "% ==> lpsrLilypondVarValAssoc::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrLilypondVarValAssoc>*
@@ -827,7 +827,7 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrLilypondVarValAssoc::visitStart()" <<
+            "% ==> Launching lpsrLilypondVarValAssoc::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -836,7 +836,7 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
 void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrLilypondVarValAssoc::acceptOut()" <<
+      "% ==> lpsrLilypondVarValAssoc::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrLilypondVarValAssoc>*
@@ -846,7 +846,7 @@ void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrLilypondVarValAssoc::visitEnd()" <<
+            "% ==> Launching lpsrLilypondVarValAssoc::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1014,7 +1014,7 @@ string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
 void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrSchemeVarValAssoc::acceptIn()" <<
+      "% ==> lpsrSchemeVarValAssoc::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrSchemeVarValAssoc>*
@@ -1024,7 +1024,7 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrSchemeVarValAssoc::visitStart()" <<
+            "% ==> Launching lpsrSchemeVarValAssoc::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1033,7 +1033,7 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
 void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrSchemeVarValAssoc::acceptOut()" <<
+      "% ==> lpsrSchemeVarValAssoc::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrSchemeVarValAssoc>*
@@ -1043,7 +1043,7 @@ void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrSchemeVarValAssoc::visitEnd()" <<
+            "% ==> Launching lpsrSchemeVarValAssoc::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1144,7 +1144,7 @@ lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock() {}
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewStaffgroupBlock::acceptIn()" <<
+      "% ==> lpsrNewStaffgroupBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrNewStaffgroupBlock>*
@@ -1154,7 +1154,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffgroupBlock::visitStart()" <<
+            "% ==> Launching lpsrNewStaffgroupBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1163,7 +1163,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewStaffgroupBlock::acceptOut()" <<
+      "% ==> lpsrNewStaffgroupBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrNewStaffgroupBlock>*
@@ -1173,7 +1173,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffgroupBlock::visitEnd()" <<
+            "% ==> Launching lpsrNewStaffgroupBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1228,7 +1228,7 @@ lpsrNewStafftuningBlock::~lpsrNewStafftuningBlock() {}
 void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewStafftuningBlock::acceptIn()" <<
+      "% ==> lpsrNewStafftuningBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrNewStafftuningBlock>*
@@ -1238,7 +1238,7 @@ void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStafftuningBlock::visitStart()" <<
+            "% ==> Launching lpsrNewStafftuningBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1247,7 +1247,7 @@ void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
 void lpsrNewStafftuningBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewStafftuningBlock::acceptOut()" <<
+      "% ==> lpsrNewStafftuningBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrNewStafftuningBlock>*
@@ -1257,7 +1257,7 @@ void lpsrNewStafftuningBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStafftuningBlock::visitEnd()" <<
+            "% ==> Launching lpsrNewStafftuningBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1305,7 +1305,7 @@ lpsrNewStaffBlock::~lpsrNewStaffBlock() {}
 void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewStaffBlock::acceptIn()" <<
+      "% ==> lpsrNewStaffBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrNewStaffBlock>*
@@ -1315,7 +1315,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffBlock::visitStart()" <<
+            "% ==> Launching lpsrNewStaffBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1324,7 +1324,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
 void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrNewStaffBlock::acceptOut()" <<
+      "% ==> lpsrNewStaffBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrNewStaffBlock>*
@@ -1334,7 +1334,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrNewStaffBlock::visitEnd()" <<
+            "% ==> Launching lpsrNewStaffBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1389,7 +1389,7 @@ lpsrVariableUseCommand::~lpsrVariableUseCommand() {}
 void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrVariableUseCommand::acceptIn()" <<
+      "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrVariableUseCommand>*
@@ -1399,7 +1399,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrVariableUseCommand::visitStart()" <<
+            "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1408,7 +1408,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
 void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrVariableUseCommand::acceptOut()" <<
+      "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrVariableUseCommand>*
@@ -1418,7 +1418,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrVariableUseCommand::visitEnd()" <<
+            "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1472,7 +1472,7 @@ lpsrContext::~lpsrContext() {}
 void lpsrContext::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrContext::acceptIn()" <<
+      "% ==> lpsrContext::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrContext>*
@@ -1482,7 +1482,7 @@ void lpsrContext::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrContext::visitStart()" <<
+            "% ==> Launching lpsrContext::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1491,7 +1491,7 @@ void lpsrContext::acceptIn (basevisitor* v) {
 void lpsrContext::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrContext::acceptOut()" <<
+      "% ==> lpsrContext::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrContext>*
@@ -1501,7 +1501,7 @@ void lpsrContext::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrContext::visitEnd()" <<
+            "% ==> Launching lpsrContext::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1561,7 +1561,7 @@ lpsrBarCommand::~lpsrBarCommand() {}
 void lpsrBarCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrBarCommand::acceptIn()" <<
+      "% ==> lpsrBarCommand::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrBarCommand>*
@@ -1571,7 +1571,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrBarCommand::visitStart()" <<
+            "% ==> Launching lpsrBarCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1580,7 +1580,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
 void lpsrBarCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrBarCommand::acceptOut()" <<
+      "% ==> lpsrBarCommand::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrBarCommand>*
@@ -1590,7 +1590,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrBarCommand::visitEnd()" <<
+            "% ==> Launching lpsrBarCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1643,7 +1643,7 @@ lpsrMelismaCommand::~lpsrMelismaCommand() {}
 void lpsrMelismaCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrMelismaCommand::acceptIn()" <<
+      "% ==> lpsrMelismaCommand::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrMelismaCommand>*
@@ -1653,7 +1653,7 @@ void lpsrMelismaCommand::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrMelismaCommand::visitStart()" <<
+            "% ==> Launching lpsrMelismaCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -1662,7 +1662,7 @@ void lpsrMelismaCommand::acceptIn (basevisitor* v) {
 void lpsrMelismaCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrMelismaCommand::acceptOut()" <<
+      "% ==> lpsrMelismaCommand::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrMelismaCommand>*
@@ -1672,7 +1672,7 @@ void lpsrMelismaCommand::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrMelismaCommand::visitEnd()" <<
+            "% ==> Launching lpsrMelismaCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -1990,7 +1990,7 @@ int lpsrHeader::maxLilyPondVariablesNamesLength ()
 void lpsrHeader::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrHeader::acceptIn()" <<
+      "% ==> lpsrHeader::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrHeader>*
@@ -2000,7 +2000,7 @@ void lpsrHeader::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrHeader::visitStart()" <<
+            "% ==> Launching lpsrHeader::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2009,7 +2009,7 @@ void lpsrHeader::acceptIn (basevisitor* v) {
 void lpsrHeader::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrHeader::acceptOut()" <<
+      "% ==> lpsrHeader::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrHeader>*
@@ -2019,7 +2019,7 @@ void lpsrHeader::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrHeader::visitEnd()" <<
+            "% ==> Launching lpsrHeader::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2188,7 +2188,7 @@ lpsrPaper::~lpsrPaper() {}
 void lpsrPaper::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPaper::acceptIn()" <<
+      "% ==> lpsrPaper::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrPaper>*
@@ -2198,7 +2198,7 @@ void lpsrPaper::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPaper::visitStart()" <<
+            "% ==> Launching lpsrPaper::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2207,7 +2207,7 @@ void lpsrPaper::acceptIn (basevisitor* v) {
 void lpsrPaper::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPaper::acceptOut()" <<
+      "% ==> lpsrPaper::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrPaper>*
@@ -2217,7 +2217,7 @@ void lpsrPaper::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPaper::visitEnd()" <<
+            "% ==> Launching lpsrPaper::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2317,7 +2317,7 @@ lpsrLayout::~lpsrLayout() {}
 void lpsrLayout::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrLayout::acceptIn()" <<
+      "% ==> lpsrLayout::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrLayout>*
@@ -2327,7 +2327,7 @@ void lpsrLayout::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrLayout::visitStart()" <<
+            "% ==> Launching lpsrLayout::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2336,7 +2336,7 @@ void lpsrLayout::acceptIn (basevisitor* v) {
 void lpsrLayout::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrLayout::acceptOut()" <<
+      "% ==> lpsrLayout::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrLayout>*
@@ -2346,7 +2346,7 @@ void lpsrLayout::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrLayout::visitEnd()" <<
+            "% ==> Launching lpsrLayout::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2448,7 +2448,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
 void lpsrStaffBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrStaffBlock::acceptIn()" <<
+      "% ==> lpsrStaffBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrStaffBlock>*
@@ -2458,7 +2458,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrStaffBlock::visitStart()" <<
+            "% ==> Launching lpsrStaffBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2467,7 +2467,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
 void lpsrStaffBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrStaffBlock::acceptOut()" <<
+      "% ==> lpsrStaffBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrStaffBlock>*
@@ -2477,7 +2477,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrStaffBlock::visitEnd()" <<
+            "% ==> Launching lpsrStaffBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2487,7 +2487,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrStaffBlock::browseData()" <<
+      "% ==> lpsrStaffBlock::browseData()" <<
       endl;
 
   for (
@@ -2501,7 +2501,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "<== lpsrStaffBlock::browseData()" <<
+      "% ==> lpsrStaffBlock::browseData()" <<
       endl;
 }
 
@@ -2561,7 +2561,7 @@ lpsrPartBlock::~lpsrPartBlock() {}
 void lpsrPartBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPartBlock::acceptIn()" <<
+      "% ==> lpsrPartBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrPartBlock>*
@@ -2571,7 +2571,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPartBlock::visitStart()" <<
+            "% ==> Launching lpsrPartBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2580,7 +2580,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
 void lpsrPartBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPartBlock::acceptOut()" <<
+      "% ==> lpsrPartBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrPartBlock>*
@@ -2590,7 +2590,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPartBlock::visitEnd()" <<
+            "% ==> Launching lpsrPartBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2600,7 +2600,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPartBlock::browseData()" <<
+      "% ==> lpsrPartBlock::browseData()" <<
       endl;
 
   for (
@@ -2614,7 +2614,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "<== lpsrPartBlock::browseData()" <<
+      "% ==> lpsrPartBlock::browseData()" <<
       endl;
 }
 
@@ -2695,7 +2695,7 @@ lpsrPartgroupBlock::~lpsrPartgroupBlock() {}
 void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPartgroupBlock::acceptIn()" <<
+      "% ==> lpsrPartgroupBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrPartgroupBlock>*
@@ -2705,7 +2705,7 @@ void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPartgroupBlock::visitStart()" <<
+            "% ==> Launching lpsrPartgroupBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2714,7 +2714,7 @@ void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
 void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPartgroupBlock::acceptOut()" <<
+      "% ==> lpsrPartgroupBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrPartgroupBlock>*
@@ -2724,7 +2724,7 @@ void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrPartgroupBlock::visitEnd()" <<
+            "% ==> Launching lpsrPartgroupBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2734,7 +2734,7 @@ void lpsrPartgroupBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrPartgroupBlock::browseData()" <<
+      "% ==> lpsrPartgroupBlock::browseData()" <<
       endl;
 
   for (
@@ -2748,7 +2748,7 @@ void lpsrPartgroupBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "<== lpsrPartgroupBlock::browseData()" <<
+      "% ==> lpsrPartgroupBlock::browseData()" <<
       endl;
 }
 
@@ -2872,7 +2872,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
 void lpsrScoreBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrScoreBlock::acceptIn()" <<
+      "% ==> lpsrScoreBlock::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrScoreBlock>*
@@ -2882,7 +2882,7 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrScoreBlock::visitStart()" <<
+            "% ==> Launching lpsrScoreBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -2891,7 +2891,7 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
 void lpsrScoreBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrScoreBlock::acceptOut()" <<
+      "% ==> lpsrScoreBlock::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrScoreBlock>*
@@ -2901,7 +2901,7 @@ void lpsrScoreBlock::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrScoreBlock::visitEnd()" <<
+            "% ==> Launching lpsrScoreBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -2911,7 +2911,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrScoreBlock::browseData()" <<
+      "% ==> lpsrScoreBlock::browseData()" <<
       endl;
 
   {
@@ -2944,7 +2944,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "<== lpsrScoreBlock::browseData()" <<
+      "% ==> lpsrScoreBlock::browseData()" <<
       endl;
 }
 
@@ -3181,7 +3181,7 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
 void lpsrScore::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrScore::acceptIn()" <<
+      "% ==> lpsrScore::acceptIn()" <<
       endl;
       
   if (visitor<S_lpsrScore>*
@@ -3191,7 +3191,7 @@ void lpsrScore::acceptIn (basevisitor* v) {
         
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrScore::visitStart()" <<
+            "% ==> Launching lpsrScore::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
@@ -3200,7 +3200,7 @@ void lpsrScore::acceptIn (basevisitor* v) {
 void lpsrScore::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrScore::acceptOut()" <<
+      "% ==> lpsrScore::acceptOut()" <<
       endl;
 
   if (visitor<S_lpsrScore>*
@@ -3210,7 +3210,7 @@ void lpsrScore::acceptOut (basevisitor* v) {
       
         if (gLpsrOptions->fTraceLPSRVisitors)
           cerr << idtr <<
-            "==> Launching lpsrScore::visitEnd()" <<
+            "% ==> Launching lpsrScore::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -3220,7 +3220,7 @@ void lpsrScore::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "==> lpsrScore::browseData()" <<
+      "% ==> lpsrScore::browseData()" <<
       endl;
 
   {
@@ -3302,7 +3302,7 @@ void lpsrScore::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     cerr << idtr <<
-      "<== lpsrScore::browseData()" <<
+      "% ==> lpsrScore::browseData()" <<
       endl;
 }
 
