@@ -3885,6 +3885,8 @@ void msrAftergracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrNote msrNote::create (
   int                  inputLineNumber,
+  S_msrPart            noteDirectPartUplink,
+
   msrNoteKind          noteKind,
 
   msrQuartertonesPitch noteQuatertonesPitch,
@@ -3917,7 +3919,12 @@ S_msrNote msrNote::create (
       noteIsUnpitched,
       
       noteIsAGraceNote);
-  assert(o!=0); 
+  assert(o!=0);
+
+  // set note's divisions per quarter note
+  o->fNoteDirectPartUplink =
+    noteDirectPartUplink;
+    
   return o;
 }
 
@@ -4129,7 +4136,8 @@ msrNote::msrNote (
 msrNote::~msrNote()
 {}
 
-S_msrNote msrNote::createNoteBareClone ()
+S_msrNote msrNote::createNoteBareClone (
+  S_msrPart part)
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
@@ -4142,6 +4150,8 @@ S_msrNote msrNote::createNoteBareClone ()
     clone =
       msrNote::create (
         fInputLineNumber,
+        part,
+        
         fNoteKind,
         
         fNoteQuatertonesPitch,
@@ -8385,25 +8395,7 @@ void msrTempo::print (ostream& os)
 //______________________________________________________________________________
 S_msrSyllable msrSyllable::create (
   int                   inputLineNumber,
-  msrSyllableKind       syllableKind,
-  string                syllableText,
-  msrSyllableExtendKind syllableExtendKind,
-  int                   divisions,
-  S_msrStanza           syllableStanzaUplink)
-{
-  msrSyllable* o =
-    new msrSyllable (
-      inputLineNumber,
-      syllableKind, syllableText, syllableExtendKind,
-      divisions,
-      syllableStanzaUplink);
-  assert(o!=0);
-  return o;
-}
-
-S_msrSyllable msrSyllable::create (
-  int                   inputLineNumber,
-  S_msrPart             directPartUplink,
+  S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
@@ -8419,8 +8411,8 @@ S_msrSyllable msrSyllable::create (
   assert(o!=0);
 
   // set syllable's direct part uplink
-  o->setSyllableDirectPartUplink (
-    directPartUplink);
+  o->fSyllableDirectPartUplink =
+    syllableDirectPartUplink;
     
   return o;
 }
@@ -8449,7 +8441,8 @@ msrSyllable::msrSyllable (
 msrSyllable::~msrSyllable()
 {}
 
-S_msrSyllable msrSyllable::createSyllableBareClone ()
+S_msrSyllable msrSyllable::createSyllableBareClone (
+  S_msrPart part)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -8461,6 +8454,7 @@ S_msrSyllable msrSyllable::createSyllableBareClone ()
     clone =
       msrSyllable::create (
         fInputLineNumber,
+        part,
         fSyllableKind,
         fSyllableText,
         fSyllableExtendKind,
@@ -8846,6 +8840,7 @@ void msrSyllable::print (ostream& os)
 //______________________________________________________________________________
 S_msrStanza msrStanza::create (
   int           inputLineNumber,
+  S_msrPart     stanzaDirectPartUplink,
   int           stanzaNumber,
   msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
@@ -8857,6 +8852,11 @@ S_msrStanza msrStanza::create (
       stanzaKind,
       stanzaVoiceUplink);
   assert(o!=0);
+
+  // set stanza's divisions per quarter note
+  o->fStanzaDirectPartUplink =
+    stanzaDirectPartUplink;
+    
   return o;
 }
 
@@ -8936,6 +8936,12 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
+  // set the syllable's direct part uplink
+  msrAssert(fStanzaDirectPartUplink != 0, "fStanzaDirectPartUplink != 0"); // JMI
+  syllable->
+    setSyllableDirectPartUplink (
+      fStanzaDirectPartUplink);
+
   if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
@@ -8944,11 +8950,6 @@ void msrStanza::appendSyllableToStanza (
         "to stanza" << getStanzaName () <<
       endl;
       
-  // set the syllable's direct part uplink
-  syllable->
-    setSyllableDirectPartUplink (
-      fStanzaDirectPartUplink);
-
   // append the syllable to this stanza
   fSyllables.push_back (syllable);
 
@@ -10339,6 +10340,7 @@ void msrBarline::print (ostream& os)
 //______________________________________________________________________________
 S_msrMeasure msrMeasure::create (
   int           inputLineNumber,
+  S_msrPart     measureDirectPartUplink,
   int           measureNumber,
   int           divisionsPerQuarterNote,
   S_msrSegment  segmentUplink)
@@ -10349,6 +10351,11 @@ S_msrMeasure msrMeasure::create (
       measureNumber, divisionsPerQuarterNote,
       segmentUplink);
   assert(o!=0);
+
+  // set measure's divisions per quarter note
+  o->fMeasureDirectPartUplink =
+    measureDirectPartUplink;
+    
   return o;
 }
 
@@ -10383,7 +10390,7 @@ msrMeasure::msrMeasure (
       "\"" <<
       endl;
 
-  // set measure part direct uplink
+  // set measure's part direct uplink
   fMeasureDirectPartUplink =
     fMeasureVoiceDirectUplink->
       getVoiceStaffUplink ()->
@@ -12803,6 +12810,7 @@ void msrRepeat::print (ostream& os)
 //______________________________________________________________________________ 
 S_msrVoice msrVoice::create (
   int          inputLineNumber,
+  S_msrPart    voiceDirectPartUplink,
   msrVoiceKind voiceKind,
   int          externalVoiceNumber,
   S_msrStaff   voiceStaffUplink)
@@ -12814,6 +12822,11 @@ S_msrVoice msrVoice::create (
       externalVoiceNumber,
       voiceStaffUplink);
   assert(o!=0);
+
+  // set voice's divisions per quarter note
+  o->fVoiceDirectPartUplink =
+    voiceDirectPartUplink;
+    
   return o;
 }
 
@@ -12951,6 +12964,7 @@ void msrVoice::initializeVoice (int inputLineNumber)
       this);
 
   // set voice stanza master's direct part uplink
+  msrAssert(fVoiceDirectPartUplink != 0, "fVoiceDirectPartUplink != 0"); // JMI
   fVoiceStanzaMaster->
     setStanzaDirectPartUplink (
       fVoiceDirectPartUplink);
@@ -14328,6 +14342,7 @@ int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
   int          inputLineNumber,
+  S_msrPart    staffDirectPartUplink,
   msrStaffKind staffKind,
   int          staffNumber,
   S_msrPart    staffPartUplink)
@@ -14338,6 +14353,11 @@ S_msrStaff msrStaff::create (
       staffKind, staffNumber,
       staffPartUplink);
   assert(o!=0);
+
+  // set skip's divisions per quarter note
+  os->fStaffDirectPartUplink =
+    staffDirectPartUplink;
+    
   return o;
 }
 

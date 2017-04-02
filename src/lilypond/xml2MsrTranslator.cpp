@@ -7586,6 +7586,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     newNote =
       msrNote::create (
         inputLineNumber,
+        fCurrentPart,
+        
         msrNote::k_NoNoteKind, // will be set by 'setNodeKind()' later
         
         fCurrentNoteQuatertonesPitch,
@@ -7601,10 +7603,12 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         
         fCurrentNoteIsAGraceNote);
 
+/* JMI
   // set note's part direct uplink
   newNote->
     setNoteDirectPartUplink (
       fCurrentPart);
+      */
       
   // set note's divisions per quarter note
   newNote->

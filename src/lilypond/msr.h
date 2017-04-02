@@ -1652,6 +1652,7 @@ class EXP msrMeasure : public msrElement
 
     static SMARTP<msrMeasure> create (
       int           inputLineNumber,
+      S_msrPart     measureDirectPartUplink,
       int           measureNumber,
       int           divisionsPerQuarterNote,
       S_msrSegment  segmentUplink);
@@ -2313,22 +2314,14 @@ class EXP msrSyllable : public msrElement
 
     static SMARTP<msrSyllable> create (
       int                   inputLineNumber,
+      S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       int                   divisions,
       S_msrStanza           syllableStanzaUplink);
 
-    static SMARTP<msrSyllable> create (
-      int                   inputLineNumber,
-      S_msrPart             directPartUplink,
-      msrSyllableKind       syllableKind,
-      string                syllableText,
-      msrSyllableExtendKind syllableExtendKind,
-      int                   divisions,
-      S_msrStanza           syllableStanzaUplink);
-
-    SMARTP<msrSyllable> createSyllableBareClone ();
+    SMARTP<msrSyllable> createSyllableBareClone (S_msrPart part);
 
   protected:
 
@@ -2561,6 +2554,8 @@ class EXP msrNote : public msrElement
 
     static SMARTP<msrNote> create (
       int                  inputLineNumber,
+      S_msrPart            noteDirectPartUplink,
+      
       msrNoteKind          noteKind,
     
       msrQuartertonesPitch noteQuatertonesPitch,
@@ -2576,7 +2571,7 @@ class EXP msrNote : public msrElement
     
       bool                 noteIsAGraceNote);
     
-    SMARTP<msrNote> createNoteBareClone ();
+    SMARTP<msrNote> createNoteBareClone (S_msrPart part);
     
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -4321,6 +4316,7 @@ class EXP msrStanza : public msrElement
 
     static SMARTP<msrStanza> create (
       int           inputLineNumber,
+      S_msrPart     stanzaDirectPartUplink,
       int           stanzaNumber,
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
@@ -5543,6 +5539,7 @@ class EXP msrStaff : public msrElement
 
     static SMARTP<msrStaff> create (
       int          inputLineNumber,
+      S_msrPart    staffDirectPartUplink,
       msrStaffKind staffKind,
       int          staffNumber,
       S_msrPart    staffPartUplink);

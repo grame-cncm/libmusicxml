@@ -973,7 +973,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
   // create the syllable clone
   fCurrentSyllableClone =
-    elt->createSyllableBareClone ();
+    elt->createSyllableBareClone (
+      fCurrentPartClone);
 
   // add it to the current stanza clone or current note clone
 
@@ -1422,7 +1423,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
   // create the clone
   fCurrentNoteClone =
-    elt->createNoteBareClone ();
+    elt->createNoteBareClone (
+      fCurrentPartClone);
 
   // register clone in this tranlastors' voice notes map
   fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
