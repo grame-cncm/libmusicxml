@@ -2640,6 +2640,23 @@ class EXP msrNote : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
+    static SMARTP<msrNote> create (
+      int                  inputLineNumber,
+      msrNoteKind          fNoteKind;
+  
+      msrQuartertonesPitch fNoteQuatertonesPitch;
+      int                  fNoteDivisions;
+      int                  fNoteDisplayDivisions;
+      int                  fNoteDotsNumber;
+      msrDuration          fNoteGraphicDuration;
+      
+      int                  fNoteOctave;
+      
+      bool                 fNoteIsARest;
+      bool                 fNoteIsUnpitched;
+    
+      bool                 fNoteIsAGraceNote);
+  
     static SMARTP<msrNote> createFromNoteData (
       int           inputLineNumber,
       msrNoteData&  noteData);
@@ -2949,18 +2966,41 @@ class EXP msrNote : public msrElement
 
   private:
     
-    msrNoteData               fNoteData;
+    int                       fNoteDivisionsPerQuarterNote; // JMI
 
+    // basic note description
+    msrNoteKind               fNoteKind;
+
+    msrQuartertonesPitch      fNoteQuatertonesPitch;
+    int                       fNoteDivisions;
+    int                       fNoteDisplayDivisions;
+    int                       fNoteDotsNumber;
+    msrDuration               fNoteGraphicDuration;
+    
+    int                       fNoteOctave;
+    
+    bool                      fNoteIsARest;
+    bool                      fNoteIsUnpitched;
+  
+    bool                      fNoteIsAGraceNote;
+    
+    // note context
+    int                       fNoteStaffNumber;
+    int                       fNoteVoiceNumber;
+
+    bool                      fNoteBelongsToAChord;
+    
+    bool                      fNoteBelongsToATuplet;
+    S_msrTuplet               fNoteTupletUplink;
+
+    // note lyrics
     list<S_msrSyllable>       fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA JMI
     
-    msrNoteKind               fNoteKind;
+    S_msrOctaveShift          fNoteOctaveShift; // JMI ???
 
-    S_msrTuplet               fNoteTupletUplink; // for tuplet member notes
-
-    S_msrOctaveShift          fNoteOctaveShift;
-    
+    // elements attached to the note
     S_msrStem                 fNoteStem;
 
     list<S_msrBeam>           fNoteBeams;
@@ -2978,14 +3018,16 @@ class EXP msrNote : public msrElement
     list<S_msrSlur>           fNoteSlurs;
     list<S_msrLigature>       fNoteLigatures;
 
-    int                       fNoteDivisionsPerQuarterNote; // JMI
+    S_msrHarmony              fNoteHarmony;
 
+    // note measure information
     int                       fNoteMeasureNumber;
     int                       fNotePositionInMeasure;
     bool                      fNoteOccupiesAFullMeasure;
+    S_msrMeasure              fNoteMeasureUplink;
 
     // this is needed to handle stemless notes,
-    // because the <stem> is visited after visitorStart ( S_msrNote ) 
+    // because the <stem> is visited after 'visitorStart ( S_msrNote )' 
     bool                      fNoteIsStemless;
 
     // this is useful to produce a nice \aftergrace in LilyPond 
@@ -2993,10 +3035,6 @@ class EXP msrNote : public msrElement
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                      fNoteHasADelayedOrnament;
-
-    S_msrHarmony              fNoteHarmony;
-
-    S_msrMeasure              fNoteMeasureUplink;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

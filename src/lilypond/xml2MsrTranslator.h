@@ -547,8 +547,25 @@ class EXP xml2MsrTranslator :
     // ------------------------------------------------------
 // JMI    msrMeasureLocation        fCurrentMeasureLocation;
     
-    // description of the current MusicXML note
-    msrNoteData               fNoteData;
+    // notes handling
+ //   msrNoteData               fNoteData;
+    msrQuartertonesPitch      fNoteQuatertonesPitch;
+    int                       fNoteDivisions;
+    int                       fNoteDisplayDivisions;
+    int                       fNoteDotsNumber;
+    msrDuration               fNoteGraphicDuration;
+    
+    int                       fNoteOctave;
+    
+    bool                      fNoteIsARest;
+    bool                      fNoteIsUnpitched;
+  
+    bool                      fNoteIsAGraceNote;
+    bool                      fNoteBelongsToAChord;
+    bool                      fNoteBelongsToATuplet;
+
+    int                       fNoteStaffNumber;
+    int                       fNoteVoiceNumber;
 
     // the MSR score we're building
     // ------------------------------------------------------

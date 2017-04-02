@@ -4046,6 +4046,30 @@ void msrAftergracenotes::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrNote msrNote::create (
+  int                  inputLineNumber,
+  msrNoteKind          fNoteKind;
+
+  msrQuartertonesPitch fNoteQuatertonesPitch;
+  int                  fNoteDivisions;
+  int                  fNoteDisplayDivisions;
+  int                  fNoteDotsNumber;
+  msrDuration          fNoteGraphicDuration;
+  
+  int                  fNoteOctave;
+  
+  bool                 fNoteIsARest;
+  bool                 fNoteIsUnpitched;
+
+  bool                 fNoteIsAGraceNote)
+{  
+  msrNote * o =
+    new msrNote (
+      inputLineNumber, noteData);
+  assert(o!=0); 
+  return o;
+}
+
 S_msrNote msrNote::createFromNoteData (
   int           inputLineNumber,
   msrNoteData&  noteData)
