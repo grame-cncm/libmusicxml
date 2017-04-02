@@ -3600,15 +3600,6 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     idtr++;
 
     cerr << idtr <<
-      "Note data:" <<
-      endl;
-
-    idtr++;
-    cerr <<
-      "***fNoteData*** JMI ???";
-    idtr--;
-        
-    cerr << idtr <<
       "Lyric data:" <<
       endl;
 

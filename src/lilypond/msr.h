@@ -507,22 +507,6 @@ template <typename T> class EXP msrBrowser : public browser<T>
 };
 
 /*!
-\brief A note description for MusicXML.
-*/
-//______________________________________________________________________________
-/*
-class msrNoteData
-{
- 
-
-    // part access is needed to convert divisions to durations
-    S_msrPart             fNoteDirectPartUplink;
-    
-};
-EXP ostream& operator<< (ostream& os, msrNoteData& elt);
-*/
-
-/*!
 \brief A beat description for MusicXML.
 */
 //______________________________________________________________________________

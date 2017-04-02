@@ -3974,19 +3974,102 @@ msrNote::msrNote (
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "% ==> fNoteData contains:" <<
+      "% ==> note description contains:" <<
       endl;
 
     idtr++;
     
+    const int width = 23;
+    
     cerr <<
-      "***fNoteData*** JMI ???";
+      idtr << left <<
+        setw(width) << "fNoteQuatertonesPitch" << " = " <<
+        msrQuartertonesPitchAsString (
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
+          fNoteQuatertonesPitch) <<
+        endl <<
+      idtr << left <<
+        setw(width) << "fNoteDivisions" << " = " <<
+        fNoteDivisions <<
+        endl <<
+      idtr << left <<
+        setw(width) << "fNoteDisplayDivisions" << " = " <<
+        fNoteDisplayDivisions <<
+        endl <<
+      idtr << left <<
+        setw(width) << "fNoteDotsNumber" << " = " <<
+        fNoteDotsNumber <<
+        endl <<
 
+/*
+    if (fNoteDirectPartUplink) // it may not have been set yet
+    cerr <<
+      idtr << left <<
+        setw(width) << "fNoteGraphicDuration" << " = " <<
+        fNoteDirectPartUplink->
+          divisionsAsMsrString (
+            inputLineNumber,
+            fNoteGraphicDuration) <<
+        endl <<
+*/
+      idtr << left <<
+        setw(width) << "fNoteGraphicDuration" << " = " <<
+        msrDurationAsString (
+          fNoteGraphicDuration) <<
+        endl <<
+
+      idtr << left <<
+        setw(width) << "fNoteOctave" << " = " <<
+        fNoteOctave <<
+        endl <<
+
+      idtr << left <<
+        setw(width) << "fNoteIsARest" << " = " <<
+        fNoteIsARest <<
+        endl <<
+      idtr << left <<
+        setw(width) << "fNoteIsUnpitched" << " = " <<
+        fNoteIsUnpitched <<
+        endl <<
+
+      idtr << left <<
+        setw(width) << "fNoteIsAGraceNote" << " = " <<
+        fNoteIsAGraceNote <<
+        endl <<
+
+        // fNoteOctaveShift JMI ???
+        
+            
+      idtr << left <<
+        setw(width) << "fStaffNumber" << " = " <<
+        fNoteStaffNumber <<
+        endl <<
+      idtr <<
+        setw(width) << "fVoiceNumber" << " = " <<
+        fNoteVoiceNumber <<
+        endl <<
+
+      idtr << left <<
+        setw(width) << "fNoteBelongsToAChord" << " = " <<
+        fNoteBelongsToAChord <<
+        endl <<
+            
+      idtr << left <<
+        setw(width) << "fNoteBelongsToATuplet" << " = " <<
+        fNoteBelongsToATuplet <<
+        endl <<
+          
+      idtr << left <<
+        setw(width) << "fNoteSyllableExtendKind" << " = " <<
+        msrSyllable::syllableExtendKindAsString (
+          fNoteSyllableExtendKind) <<
+        endl;
+          
     idtr--;
 
     cerr <<
       idtr <<
-        "% ==>" <<
+        "% <==" <<
         endl << endl;
   }
 
@@ -17643,88 +17726,6 @@ void msrMidi::print (ostream& os)
 
 //______________________________________________________________________________
 /*
-ostream& operator<< (ostream& os, msrNoteData& noteData)
-{
-  noteData.print (os);
-  return os;
-}
-
-void msrNoteData::initializeNodeData ()
-{
-// JMI  fNoteDiatonicPitch    = kA; // any value would fit
- // fNoteAlteration           = k_NoAlteration;
-  fNoteQuatertonesPitch = k_NoPitch;
-
-  fNoteIsARest = false;
-  
-  fNoteIsUnpitched = false;
-  
-  fNoteOctave = -1;
-
-  // MusicXML durations are in divisions per quarter note,
-  // LilyPond durations are in whole notes
-  
-  // the note duration when played
-  fNoteDivisions = -17;
-
-  // tuplets member notes need another value for display
-  fNoteDisplayDivisions = -19;
-
-  fNoteDotsNumber = 0;
-  
-  fNoteGraphicDuration = k_NoDuration;
-
-  fNoteIsAGraceNote = false;
-  
-  fNoteBelongsToAChord = false;
-  
-  fNoteBelongsToATuplet = false;
-
-  fNoteStaffNumber = 0;
-  fNoteVoiceNumber = 0;
-}
-
-msrNoteData::msrNoteData ()
-{
-  initializeNodeData ();
-}
-
-void msrNoteData::setNoteQuartertonesPitch (
-  msrQuartertonesPitch quartertonesPitch)
-{
-  fNoteQuatertonesPitch = quartertonesPitch;
-/ *
-  // set fNoteDiatonicPitch and fNoteAlteration accordingly  
-  setDiatonicPitchAndAlteration (
-    quartertonesPitch,
-    fNoteDiatonicPitch, fNoteAlteration);
-* /
-}
-
-/ * 
-void msrNoteData::setNoteDiatonicPitchAndAlteration (
-  int              inputLineNumber,
-  msrDiatonicPitch diatonicPitch,
-  msrAlteration    alteration)
-{
-  fNoteDiatonicPitch = diatonicPitch;
-
-  // set fNoteQuatertonesPitch accordingly
-  fNoteQuatertonesPitch =
-    quatertonesPitchFromDiatonicPitchAndAlteration (
-      inputLineNumber,
-      diatonicPitch, alteration);
-}
-* /
-
-msrDiatonicPitch msrNoteData::noteDiatonicPitch (
-  int inputLineNumber) const
-{
-  return
-    msrDiatonicPitchFromQuatertonesPitch (
-      inputLineNumber,
-      fNoteQuatertonesPitch);
-}
 
 void msrNoteData::print (ostream& os)
 {
