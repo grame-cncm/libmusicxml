@@ -3974,7 +3974,7 @@ msrNote::msrNote (
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "% ==> note description contains:" <<
+      "% ==> msrNote::msrNote (), note description contains:" <<
       endl;
 
     idtr++;
@@ -5114,7 +5114,7 @@ void msrNote::print (ostream& os)
   if (fNoteKind == kGraceNote) {
     os <<
       fNoteDisplayDivisions <<
-      " disp. divs";
+      " dispdivs";
   }
   
   else {
@@ -5130,9 +5130,9 @@ void msrNote::print (ostream& os)
     else {
       os <<
         fNoteDivisions <<
-        "divs, " <<
+        "d ivs, " <<
         fNoteDisplayDivisions<<
-        " disp. divs";
+        " dispdivs";
     }
   }
 

@@ -7701,6 +7701,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         ", line " << inputLineNumber <<
         " we have:" <<
         endl <<
+        
       idtr <<
         setw(27) << "--> fCurrentNoteStaffNumber" << " = " <<
         fCurrentNoteStaffNumber <<
