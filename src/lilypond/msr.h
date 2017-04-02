@@ -539,6 +539,10 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
+    void                  setNotePartDirectUplink (
+                            S_msrPart part)
+                              {fNotePartDirectUplink = part; }
+
     void                  setNoteQuartertonesPitch ( // JMI
                             msrQuartertonesPitch quartertonesPitch);
                                                        
@@ -559,11 +563,14 @@ class msrNoteData
     virtual void  print (ostream& os);
  
   public:
-  
+
     bool                  fNoteIsARest;
     bool                  fNoteIsUnpitched;
 
-    msrQuartertonesPitch  fNoteQuatertonesPitch; 
+    // diatonic pitches are used to handle relative pitches,
+    // and quaternotes ones are used to print the notes
+    msrQuartertonesPitch  fNoteQuatertonesPitch;
+    
     int                   fNoteOctave;
 
     // MusicXML durations are in divisions per quarter note.
@@ -573,7 +580,7 @@ class msrNoteData
     // the note duration when played
     int                   fNoteDivisions;
 
-    // tuplets member notes need another value for display
+    // tuplets member notes need another divisions value for display
     int                   fNoteDisplayDivisions;
 
     // graphic duration is needed for grace notes,
@@ -593,8 +600,8 @@ class msrNoteData
 
   private:
 
-    // diatonic pitches are used to handle relative pitches,
-    // and quaternotes ones are used to print the notes
+    // part access is needed to convert divisions to durations
+    S_msrPart             fNotePartDirectUplink;
     
     // these informations are thus private to enforce setting them
     // thru the setPitch() methods, ensuring they are consistent
