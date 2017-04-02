@@ -4321,7 +4321,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 {
   if (gGeneralOptions->fTraceSlurs)
     cerr << idtr <<
-      "% --> adding slur " << slur << " to note " << noteAsString ()
+      "% Adding slur " << slur << " to note " << noteAsString ()
        << endl;
 
   if (fNoteSlurs.size ()) {
@@ -4365,7 +4365,7 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
   if (gGeneralOptions->fTraceLigatures)
     cerr << idtr <<
-      "% --> adding ligature " << ligature << " to note " << noteAsString ()
+      "% Adding ligature " << ligature << " to note " << noteAsString ()
        << endl;
 
   if (fNoteLigatures.size ()) {
@@ -5441,7 +5441,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% --> adding first note '" <<
+      "% Adding first note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -5465,7 +5465,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% --> adding another note '" <<
+      "% Adding another note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -5529,7 +5529,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% --> adding articulation '" <<
+      "% Adding articulation '" <<
       art->articulationKindAsString () <<
       "' to chord" <<
       endl;
@@ -5555,7 +5555,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% --> adding ornament '" <<
+      "% Adding ornament '" <<
       orn->ornamentKindAsString () <<
       "' to chord" <<
       endl;
@@ -6349,7 +6349,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% --> adding note '" <<
+      "% Adding note '" <<
       note->noteAsShortStringWithRawDivisions () <<
         // the information is missing to display it the normal way
       "' to tuplet '" <<
@@ -6382,7 +6382,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% --> adding chord '" <<
+      "% Adding chord '" <<
       chord->chordAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -6412,7 +6412,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% --> adding tuplet '" <<
+      "% Adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -6456,7 +6456,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% --> adding tuplet '" <<
+      "% Adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -8856,7 +8856,7 @@ void msrStanza::appendSyllableToStanza (
   if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
-        "% --> appending syllable " << syllable->syllableAsString () <<
+        "% Appending syllable " << syllable->syllableAsString () <<
       idtr <<
         "to stanza" << getStanzaName () <<
       endl;
@@ -8901,13 +8901,13 @@ void msrStanza::appendSyllableToStanza (
   } // switch
 }
 
-S_msrSyllable msrStanza::addRestSyllableToStanza (
+S_msrSyllable msrStanza::appendRestSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> adding 'Rest' syllable:" << divisions <<
+      "% Appending 'Rest' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
       ", divisions = " << divisions <<
       endl;
@@ -8930,13 +8930,14 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addSkipSyllableToStanza (
+S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> adding 'Skip' syllable:" << divisions <<
+      "% Appending 'Skip' syllable, " <<
+      divisions << " divs" <<
       " to stanza " << getStanzaName () <<
       ", divisions = " << divisions <<
       endl;
@@ -8960,13 +8961,13 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addTiedSyllableToStanza (
+S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding 'Tied' syllable: " << divisions <<
+      "% Appending 'Tied' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -8988,13 +8989,13 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addSlurSyllableToStanza (
+S_msrSyllable msrStanza::appendSlurSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding 'Slur' syllable:" << divisions <<
+      "% Appending 'Slur' syllable:" << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9015,13 +9016,13 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
+S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding a 'SlurBeyondEnd' syllable: " << divisions <<
+      "% Appending a 'SlurBeyondEnd' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9042,13 +9043,13 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addLigatureSyllableToStanza (
+S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding 'Ligature' syllable:" << divisions <<
+      "% Appending 'Ligature' syllable:" << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9069,13 +9070,13 @@ S_msrSyllable msrStanza::addLigatureSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
+S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
   int inputLineNumber,
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding a 'LigatureBeyondEnd' syllable: " << divisions <<
+      "% Appending a 'LigatureBeyondEnd' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
   }
   
@@ -9096,13 +9097,13 @@ S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
+S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding a 'barcheck' syllable" <<
+      "% Appending a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
@@ -9124,13 +9125,13 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
+S_msrSyllable msrStanza::appendBarnumberCheckSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding a 'barcheck' syllable" <<
+      "% Appending a 'bar number check' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
@@ -9156,13 +9157,13 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::addBreakSyllableToStanza (
+S_msrSyllable msrStanza::appendBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% --> Adding a 'Break' syllable" <<
+      "% Appending a 'Break' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
@@ -12866,6 +12867,11 @@ void msrVoice::initializeVoice (int inputLineNumber)
       msrStanza::kMasterStanza,
       this);
 
+  // set voice stanza master's direct part uplink
+  fVoiceStanzaMaster->
+    setStanzaDirectPartUplink (
+      fVoiceDirectPartUplink);
+      
   // create the initial segment for this voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
@@ -13391,12 +13397,12 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   if (note->getNoteIsARest ())
     fVoiceStanzaMaster->
-      addRestSyllableToStanza (
+      appendRestSyllableToStanza (
         note->getInputLineNumber (),
         noteDivisions);
   else
     fVoiceStanzaMaster->
-      addSkipSyllableToStanza (
+      appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteDivisions);
 }
@@ -13514,7 +13520,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 
   // add bar check syllable to the voice stanza master
   fVoiceStanzaMaster->
-    addBarcheckSyllableToStanza (
+    appendBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
       barCheck->getNextBarNumber ());
 }
@@ -13534,7 +13540,7 @@ void msrVoice::appendBarnumberCheckToVoice (
 
   // add barnumber check syllable to the voice stanza master
   fVoiceStanzaMaster->
-    addBarnumberCheckSyllableToStanza (
+    appendBarnumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
       barNumberCheck->getNextBarNumber ());
 }
@@ -13552,7 +13558,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
 
   // add break syllable to the voice stanza master
   fVoiceStanzaMaster->
-    addBreakSyllableToStanza (
+    appendBreakSyllableToStanza (
       break_->getInputLineNumber (),
       break_->getNextBarNumber ());
 }

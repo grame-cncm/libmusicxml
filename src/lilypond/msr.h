@@ -4399,43 +4399,43 @@ class EXP msrStanza : public msrElement
     void            appendSyllableToStanza (
                       S_msrSyllable syllable);
       
-    S_msrSyllable   addRestSyllableToStanza (
+    S_msrSyllable   appendRestSyllableToStanza (
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addSkipSyllableToStanza (
+    S_msrSyllable   appendSkipSyllableToStanza (
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addTiedSyllableToStanza ( // JMI
+    S_msrSyllable   appendTiedSyllableToStanza ( // JMI
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addSlurSyllableToStanza ( // JMI
+    S_msrSyllable   appendSlurSyllableToStanza ( // JMI
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addSlurBeyondEndSyllableToStanza ( // JMI
+    S_msrSyllable   appendSlurBeyondEndSyllableToStanza ( // JMI
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addLigatureSyllableToStanza ( // JMI
+    S_msrSyllable   appendLigatureSyllableToStanza ( // JMI
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addLigatureBeyondEndSyllableToStanza ( // JMI
+    S_msrSyllable   appendLigatureBeyondEndSyllableToStanza ( // JMI
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addBarnumberCheckSyllableToStanza (
+    S_msrSyllable   appendBarnumberCheckSyllableToStanza (
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addBarcheckSyllableToStanza (
+    S_msrSyllable   appendBarcheckSyllableToStanza (
                       int inputLineNumber,
                       int divisions);
 
-    S_msrSyllable   addBreakSyllableToStanza (
+    S_msrSyllable   appendBreakSyllableToStanza (
                       int inputLineNumber,
                       int divisions);
                 
