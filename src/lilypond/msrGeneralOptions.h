@@ -95,7 +95,10 @@ class EXP msrGeneralOptions : public smartable
     
     bool                  fTraceGracenotes;
     
+    bool                  fTraceLyrics;
+
     bool                  fTraceHarmony;
+
 
 
     bool                  fTraceScore;
@@ -112,9 +115,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceSlurs;
     bool                  fTraceLigatures;
     bool                  fTraceWedges;
-
-    
-    bool                  fTraceLyrics;
     
     bool                  fTraceRepeats;
         

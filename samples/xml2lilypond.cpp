@@ -91,6 +91,9 @@ void printUsage (int exitStatus)
     "    --t, --traceGeneral" << endl <<
     "          Write a trace of the general activity to standard error." << endl <<
     endl <<
+    "    --tdivs, --traceDivisions" << endl <<
+    "          Write a trace of the divisions handling to standard error." << endl <<
+    endl <<
     "    --tparts, --traceparts " << endl <<
     "          Write a trace of the activity regarding score, part groups and parts" << endl <<
     "          to standard error." << endl <<
@@ -106,8 +109,15 @@ void printUsage (int exitStatus)
     "    --tchords, --traceChords " << endl <<
     "          Write a trace of the activity regarding chords" << endl <<
     "          to standard error." << endl <<
+    "    --ttuplets, --traceTuplets " << endl <<
+    "          Write a trace of the activity regarding tuplets" << endl <<
+    "          to standard error." << endl <<
     "    --tgrace, --traceGracenotes " << endl <<
     "          Write a trace of the activity regarding grace notes" << endl <<
+    "          to standard error." << endl <<
+    endl <<
+    "    --tlyrics, --traceLyrics " << endl <<
+    "          Write at trace of the activity regarding lyrics" << endl <<
     "          to standard error." << endl <<
     endl <<
     "    --tharm, --traceHarmony " << endl <<
@@ -318,10 +328,14 @@ void analyzeOptions (
   int tracePartsPresent                 = 0;
   
   int traceVoicesPresent                = 0;
-  int traceSegmentsPresent               = 0;
-  int traceMeasuresPresent               = 0;
+  int traceSegmentsPresent              = 0;
+  int traceMeasuresPresent              = 0;
   int traceChordsPresent                = 0;
   int traceTupletsPresent               = 0;
+  
+  int traceGracenotesPresent            = 0;
+  
+  int traceLyricsPresent                 = 0;
   
   int traceHarmonyPresent               = 0;
   
@@ -500,6 +514,24 @@ void analyzeOptions (
     {
       "traceTuplets",
       no_argument, &traceTupletsPresent, 1
+    },
+    
+    {
+      "tgrace",
+      no_argument, &traceGracenotesPresent, 1
+    },
+    {
+      "traceGracenotes",
+      no_argument, &traceGracenotesPresent, 1
+    },
+    
+    {
+      "tlyrics",
+      no_argument, &traceLyricsPresent, 1
+    },
+    {
+      "traceLyrics",
+      no_argument, &traceLyricsPresent, 1
     },
     
     {
@@ -975,6 +1007,20 @@ void analyzeOptions (
             "--traceTuplets ";
           traceTupletsPresent = false;
         }
+        if (traceGracenotesPresent) {
+          gGeneralOptions->fTraceGracenotes = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceGracenotes ";
+          traceGracenotesPresent = false;
+        }
+
+        if (traceLyricsPresent) {
+          gGeneralOptions->fTraceLyrics = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceLyrics ";
+          traceLyricsPresent = false;
+        }
+        
         if (traceHarmonyPresent) {
           gGeneralOptions->fTraceHarmony = true;
           gGeneralOptions->fCommandLineOptions +=
@@ -1664,6 +1710,16 @@ void printOptions ()
       setw(fieldWidth) << "traceTuplets" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTuplets) <<
       endl <<
+    idtr <<
+      setw(fieldWidth) << "traceGracenotes" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceGracenotes) <<
+      endl <<
+
+    idtr <<
+      setw(fieldWidth) << "traceLyrics" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceLyrics) <<
+      endl <<
+      
     idtr <<
       setw(fieldWidth) << "traceHarmony" << " : " <<
       booleanAsString (gGeneralOptions->fTraceHarmony) <<

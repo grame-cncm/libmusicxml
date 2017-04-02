@@ -8318,6 +8318,30 @@ S_msrSyllable msrSyllable::create (
   return o;
 }
 
+S_msrSyllable msrSyllable::create (
+  int                   inputLineNumber,
+  S_msrPart             directPartUplink,
+  msrSyllableKind       syllableKind,
+  string                syllableText,
+  msrSyllableExtendKind syllableExtendKind,
+  int                   divisions,
+  S_msrStanza           syllableStanzaUplink)
+{
+  msrSyllable* o =
+    new msrSyllable (
+      inputLineNumber,
+      syllableKind, syllableText, syllableExtendKind,
+      divisions,
+      syllableStanzaUplink);
+  assert(o!=0);
+
+  // set syllable's direct part uplink
+  o->setSyllableDirectPartUplink (
+    directPartUplink);
+    
+  return o;
+}
+
 msrSyllable::msrSyllable (
   int                   inputLineNumber,
   msrSyllableKind       syllableKind,

@@ -3810,17 +3810,20 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fCurrentPart,
         fCurrentSyllableKind,
         fCurrentText,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteDivisions,
         stanza);
 
+/* JMI
     // set syllable's note direct uplink
     syllable->
       setSyllableDirectPartUplink (
         fCurrentPart);
-        
+      */
+      
     // register syllable in current note's syllables list
     fCurrentNoteSyllables.push_back (syllable);
   }

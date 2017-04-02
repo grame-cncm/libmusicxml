@@ -2335,6 +2335,15 @@ class EXP msrSyllable : public msrElement
       int                   divisions,
       S_msrStanza           syllableStanzaUplink);
 
+    static SMARTP<msrSyllable> create (
+      int                   inputLineNumber,
+      S_msrPart             directPartUplink,
+      msrSyllableKind       syllableKind,
+      string                syllableText,
+      msrSyllableExtendKind syllableExtendKind,
+      int                   divisions,
+      S_msrStanza           syllableStanzaUplink);
+
     SMARTP<msrSyllable> createSyllableBareClone ();
 
   protected:
