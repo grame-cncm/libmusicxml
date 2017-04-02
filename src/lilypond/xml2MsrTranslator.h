@@ -547,26 +547,6 @@ class EXP xml2MsrTranslator :
     // ------------------------------------------------------
 // JMI    msrMeasureLocation        fCurrentMeasureLocation;
     
-    // notes handling
- //   msrNoteData               fNoteData;
-    msrQuartertonesPitch      fNoteQuatertonesPitch;
-    int                       fNoteDivisions;
-    int                       fNoteDisplayDivisions;
-    int                       fNoteDotsNumber;
-    msrDuration               fNoteGraphicDuration;
-    
-    int                       fNoteOctave;
-    
-    bool                      fNoteIsARest;
-    bool                      fNoteIsUnpitched;
-  
-    bool                      fNoteIsAGraceNote;
-    bool                      fNoteBelongsToAChord;
-    bool                      fNoteBelongsToATuplet;
-
-    int                       fNoteStaffNumber;
-    int                       fNoteVoiceNumber;
-
     // the MSR score we're building
     // ------------------------------------------------------
     S_msrScore                fMsrScore;
@@ -850,40 +830,58 @@ class EXP xml2MsrTranslator :
                                 S_barline     elt,
                                 S_msrBarline& barline);
 
-    // unpitched notes handling
+    // notes/rests handling
     // ------------------------------------------------------
+    
+    // MusicXML notes handling
     char                      fDisplayStep;
     int                       fDisplayOctave;
 
-    // stem handling
-    // ------------------------------------------------------    
+    msrDiatonicPitch          fCurrentNoteDiatonicPitch;
+    msrAlteration             fCurrentNoteAlteration;
+    
+    void                      handleStandaloneOrGraceNoteOrRest (
+                                S_msrNote newNote);
+
+    bool                      fOnGoingNote;
+
+    // basic note description
+    msrQuartertonesPitch      fCurrentNoteQuatertonesPitch;
+    int                       fCurrentNoteDivisions;
+    int                       fCurrentNoteDisplayDivisions;
+    int                       fCurrentNoteDotsNumber;
+    msrDuration               fCurrentNoteGraphicDuration;
+    
+    int                       fCurrentNoteOctave;
+    
+    bool                      fCurrentNoteIsARest;
+    bool                      fCurrentNoteIsUnpitched;
+  
+    bool                      fCurrentNoteIsAGraceNote;
+
+    // note context
+    int                       fCurrentNoteStaffNumber;
+    int                       fCurrentNoteVoiceNumber;
+    
+    bool                      fCurrentNoteBelongsToAChord;
+    
+    bool                      fCurrentNoteBelongsToATuplet;
+
+    // elements attached to the note
     S_msrStem                 fCurrentStem;
 
-    // beam handling
-    // ------------------------------------------------------
     string                    fCurrentBeamValue;
     int                       fCurrentBeamNumber;
     vector<S_msrBeam>         fCurrentBeams;
 
-    // beam handling
+    // grace notes handling
     // ------------------------------------------------------
+    
     bool                      fCurrentGraceIsSlashed;
     S_msrGracenotes           fCurrentGracenotes;
 
-    // note/rest handling
-    // ------------------------------------------------------
-    msrDiatonicPitch          fCurrentNoteDiatonicPitch;
-    msrAlteration             fCurrentNoteAlteration;
-    msrDuration               fCurrentNoteGraphicDuration;
-    bool                      fOnGoingNote;
-    
-    int                       fCurrentNoteStaffNumber;
-    int                       fCurrentNoteVoiceNumber;
-    void                      handleStandaloneOrGraceNoteOrRest (
-                                S_msrNote newNote);
-
-    // ------------------------------------------------------
     // articulations handling
+    // ------------------------------------------------------
     list<S_msrArticulation>   fCurrentArticulations;
 
     void                      attachCurrentArticulationsToNote (

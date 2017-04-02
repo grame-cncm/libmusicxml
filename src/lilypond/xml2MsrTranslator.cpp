@@ -2138,15 +2138,6 @@ void xml2MsrTranslator::visitStart (S_direction_type& elt)
   fOnGoingDirectionType = true;
 }
 
-void xml2MsrTranslator::visitEnd (S_direction_type& elt)
-{
-  if (gMsrOptions->fTraceMSRVisitors)
-    cerr << idtr <<
-      "--> End visiting S_direction_type" << endl;
-
-  fOnGoingDirectionType = false;
-}
-
 void xml2MsrTranslator::visitStart (S_offset& elt)
 {
   if (gMsrOptions->fTraceMSRVisitors)
@@ -2286,6 +2277,15 @@ void xml2MsrTranslator::visitStart (S_words& elt)
 
     fPendingWords.push_back (words);
   }
+}
+
+void xml2MsrTranslator::visitEnd (S_direction_type& elt)
+{
+  if (gMsrOptions->fTraceMSRVisitors)
+    cerr << idtr <<
+      "--> End visiting S_direction_type" << endl;
+
+  fOnGoingDirectionType = false;
 }
 
 //________________________________________________________________________
@@ -3294,7 +3294,7 @@ void xml2MsrTranslator::visitStart (S_bracket& elt )
     fOnGoingLigature = true;
     
   }
-  else if (fCurrentLigatureType == "continue") {
+  else if (fCurrentLigatureType == "continue") { // JMI ???
     
     fCurrentLigatureKind = msrLigature::kContinueLigature;
     

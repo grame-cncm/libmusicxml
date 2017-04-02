@@ -2697,24 +2697,21 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrQuartertonesPitch  getQuatertonesPitch () const
-                              {
-                                return
-                                  fNoteData.getNoteQuatertonesPitch ();
-                              }
+                              { return fNoteQuatertonesPitch; }
                               
     msrDiatonicPitch      getDiatonicPitch (
                             int inputLineNumber) const;
 
     int                   getNoteOctave () const
-                              { return fNoteData.fNoteOctave; }
+                              { return fNoteOctave; }
 
     bool                  getNoteIsUnpitched () const
                             // useful for rest tuplet members
-                              { return fNoteData.fNoteIsUnpitched; }
+                              { return fNoteIsUnpitched; }
                       
     bool                  getNoteIsARest () const
                             // useful for rest tuplet members
-                            { return fNoteData.fNoteIsARest; }
+                            { return fNoteIsARest; }
                       
     void                  setNoteKind (msrNoteKind noteKind)
                               { fNoteKind = noteKind; }
@@ -2723,22 +2720,19 @@ class EXP msrNote : public msrElement
                               { return fNoteKind; }
 
     msrDuration           getNoteGraphicDuration () const
-                              { return fNoteData.fNoteGraphicDuration; }
+                              { return fNoteGraphicDuration; }
 
     int                   getNoteDivisions () const
-                              { return fNoteData.fNoteDivisions; }
+                              { return fNoteDivisions; }
 
     void                  setNoteDisplayDivisions (int divisions)
-                              {
-                                fNoteData.fNoteDisplayDivisions =
-                                  divisions;
-                              }
+                              { fNoteDisplayDivisions = divisions; }
 
     int                   getNoteDisplayDivisions () const
-                              { return fNoteData.fNoteDisplayDivisions; }
+                              { return fNoteDisplayDivisions; }
 
     int                   getNoteDotsNumber () const
-                              { return fNoteData.fNoteDotsNumber; }
+                              { return fNoteDotsNumber; }
 
     void                  setNoteOccupiesAFullMeasure ()
                               { fNoteOccupiesAFullMeasure = true; }
@@ -2775,7 +2769,7 @@ class EXP msrNote : public msrElement
     void                  setNoteBelongsToAChord ();
 
     bool                  getNoteBelongsToAChord () const
-                              { return fNoteData.fNoteBelongsToAChord; }
+                              { return fNoteBelongsToAChord; }
 
     // beams
     const list<S_msrBeam>&
@@ -2972,6 +2966,9 @@ class EXP msrNote : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    // divisions
+    // ------------------------------------------------------
     
     int                       fNoteDivisionsPerQuarterNote; // JMI
 
@@ -2993,6 +2990,8 @@ class EXP msrNote : public msrElement
   
     bool                      fNoteIsAGraceNote;
     
+    S_msrOctaveShift          fNoteOctaveShift; // JMI ???
+
     // note context
     // ------------------------------------------------------
 
@@ -3011,8 +3010,6 @@ class EXP msrNote : public msrElement
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA JMI
     
-    S_msrOctaveShift          fNoteOctaveShift; // JMI ???
-
     // elements attached to the note
     // ------------------------------------------------------
 

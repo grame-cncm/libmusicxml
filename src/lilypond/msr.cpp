@@ -4104,18 +4104,18 @@ S_msrNote msrNote::createSkipNote (
   msrNote * o =
     new msrNote (
       inputLineNumber,
-      noteKind;
+      kSkipNote, // noteKind,
       
-      noteQuatertonesPitch;
-      noteDivisions;
-      noteDisplayDivisions;
-      noteDotsNumber;
-      noteGraphicDuration;
+      k_NoPitch, // noteQuatertonesPitch,
+      divisions, // noteDivisions,
+      divisions, // noteDisplayDivisions,
+      noteDotsNumber,
+      noteGraphicDuration,
       
-      noteOctave;
+      noteOctave,
       
-      noteIsARest;
-      noteIsUnpitched;
+      false, // noteIsARest,
+      noteIsUnpitched,
       
       noteIsAGraceNote);
   assert(o!=0);
@@ -4166,6 +4166,11 @@ msrNote::msrNote (
         "% ==>" <<
         endl << endl;
   }
+
+  // divisions
+  // ------------------------------------------------------
+
+  fNoteDivisionsPerQuarterNote = -1;
 
   // basic note description
   // ------------------------------------------------------
@@ -4232,27 +4237,104 @@ S_msrNote msrNote::createNoteBareClone ()
         fInputLineNumber,
         fNoteData);
 
-  clone->fNoteKind =
-    fNoteKind;
-  
-  clone->fNoteOctaveShift =
-    fNoteOctaveShift;
-  
-  clone->fNoteStem =
-    fNoteStem;
+  // divisions
+  // ------------------------------------------------------
 
   clone->fNoteDivisionsPerQuarterNote =
     fNoteDivisionsPerQuarterNote;
-  
-  clone->fNoteSyllableExtendKind =
-    fNoteSyllableExtendKind;
 
-  clone->fNoteMeasureNumber =
-    fNoteMeasureNumber;
-  clone->fNotePositionInMeasure =
-    fNotePositionInMeasure;
-  clone-> fNoteOccupiesAFullMeasure =
-    fNoteOccupiesAFullMeasure;
+  // basic note description
+  // ------------------------------------------------------
+
+  clone->fNoteKind =
+    fNoteKind;
+
+  clone->
+    fNoteQuatertonesPitch =
+      fNoteQuatertonesPitch;
+  clone->
+    fNoteDivisions =
+      fNoteDivisions;
+  clone->
+    fNoteDisplayDivisions =
+      fNoteDisplayDivisions;
+  clone->
+    fNoteDotsNumber =
+      fNoteDotsNumber;
+  clone->
+    fNoteGraphicDuration =
+      fNoteGraphicDuration;
+
+  clone->
+    fNoteOctave =
+      fNoteOctave;
+
+  clone->
+    fNoteIsARest =
+      fNoteIsARest;
+  clone->
+    fNoteIsUnpitched =
+      fNoteIsUnpitched;
+  
+  clone->
+    fNoteIsAGraceNote =
+      fNoteIsAGraceNote;
+
+  clone->fNoteOctaveShift =
+    fNoteOctaveShift;
+  
+  // note context
+  // ------------------------------------------------------
+
+  clone->
+    fNoteStaffNumber =
+      fNoteStaffNumber;
+  clone->
+    fNoteVoiceNumber =
+      fNoteVoiceNumber;
+
+  clone->
+    fNoteBelongsToAChord =
+      fNoteBelongsToAChord;
+
+  clone->
+    fNoteBelongsToATuplet =
+      fNoteBelongsToATuplet;
+
+  // note lyrics
+  // ------------------------------------------------------
+
+  clone->
+    fNoteSyllableExtendKind =
+      fNoteSyllableExtendKind;
+
+  // elements attached to the note
+  // ------------------------------------------------------
+
+  clone->fNoteStem = // JMI
+    fNoteStem;
+
+  clone->fNoteTie = // JMI
+    fNoteTie;
+
+  clone->fNoteHarmony =
+    fNoteHarmony;
+
+  // note measure information
+  // ------------------------------------------------------
+
+  clone->
+    fNoteMeasureNumber =
+      fNoteMeasureNumber;
+  clone->
+    fNotePositionInMeasure =
+      fNotePositionInMeasure;
+  clone->
+    fNoteOccupiesAFullMeasure =
+      fNoteOccupiesAFullMeasure;
+
+  // note redundant information (for speed)
+  // ------------------------------------------------------
 
   clone->fNoteIsStemless =
     fNoteIsStemless;
