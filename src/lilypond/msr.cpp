@@ -8876,15 +8876,6 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->
-          getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff->
-          getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> adding 'Rest' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
@@ -8914,13 +8905,6 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> adding 'Skip' syllable:" << divisions <<
       " to stanza " << getStanzaName () <<
@@ -8951,13 +8935,6 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding 'Tied' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
@@ -8986,13 +8963,6 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding 'Slur' syllable:" << divisions <<
       " to stanza " << getStanzaName () << endl;
@@ -9020,13 +8990,6 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding a 'SlurBeyondEnd' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
@@ -9054,13 +9017,6 @@ S_msrSyllable msrStanza::addLigatureSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding 'Ligature' syllable:" << divisions <<
       " to stanza " << getStanzaName () << endl;
@@ -9088,13 +9044,6 @@ S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
   int divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding a 'LigatureBeyondEnd' syllable: " << divisions <<
       " to stanza " << getStanzaName () << endl;
@@ -9122,29 +9071,18 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
 
-  // convert nextMeasureNumber to string
-  stringstream s;
-  s << nextMeasureNumber;
-  
   // create stanza break syllable
   S_msrSyllable
     syllable =
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kBarcheckSyllable,
-        s.str(),
+        to_string (nextMeasureNumber),
         msrSyllable::k_NoSyllableExtend,
         0,
         this);
@@ -9161,13 +9099,6 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () << endl;
@@ -9200,13 +9131,6 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
   int nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    S_msrStaff
-      staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
-    S_msrPart
-      part =
-        staff-> getStaffDirectPartUplink ();
-    
     cerr << idtr <<
       "% --> Adding a 'Break' syllable" <<
       " to stanza " << getStanzaName () << endl;
@@ -13173,7 +13097,12 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
         msrStanza::kRegularStanza,
         this);
 
-  // add it to this voice
+  // set the stanza's direct part uplink
+  stanza->
+    setStanzaDirectPartUplink (
+      fVoiceDirectPartUplink);
+
+  // add the stanza to this voice
   addStanzaToVoiceWithCatchUp (stanza);
 
   // return it
@@ -13195,6 +13124,12 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
       endl;
   }
 
+  // set the stanza's direct part uplink
+  stanza->
+    setStanzaDirectPartUplink (
+      fVoiceDirectPartUplink);
+
+  // add the stanza to this voice
   fVoiceStanzasMap [stanzaNumber] = stanza;
 }
 
