@@ -5859,8 +5859,7 @@ string msrChord::chordGraphicDurationAsMSRString () const
   string result;
 
   result =
-    divisionsAsMsrString (
-      fInputLineNumber,
+    msrDurationAsString (
       fChordGraphicDuration);
 
   return result;
