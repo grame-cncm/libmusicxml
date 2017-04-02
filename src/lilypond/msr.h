@@ -2484,6 +2484,9 @@ class EXP msrSyllable : public msrElement
 
   private:
   
+    // divisions handling is done at the part level
+    S_msrPart             fSyllablePartDirectUplink;
+
     msrSyllableKind       fSyllableKind;
     string                fSyllableText;
     msrSyllableExtendKind fSyllableExtendKind;
@@ -3275,6 +3278,9 @@ class EXP msrChord : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    // divisions handling is done at the part level
+    S_msrPart                 fChordPartDirectUplink;
 
     // sounding duration
     int                       fChordDivisions;
