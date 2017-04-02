@@ -1871,6 +1871,13 @@ class EXP msrSegment : public msrElement
       
     virtual ~msrSegment();
     
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  initializeSegment ();
+
   public:
 
     // set and get

@@ -8420,6 +8420,7 @@ S_msrSyllable msrSyllable::create (
   assert(o!=0);
 
   // set syllable's direct part uplink
+  msrAssert(syllableDirectPartUplink != 0, "syllableDirectPartUplink != 0"); // JMI
   o->fSyllableDirectPartUplink =
     syllableDirectPartUplink;
     
@@ -8948,12 +8949,6 @@ S_msrStanza msrStanza::createStanzaBareClone (
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
-  // set the syllable's direct part uplink
-  msrAssert(fStanzaDirectPartUplink != 0, "fStanzaDirectPartUplink != 0"); // JMI
-  syllable->
-    setSyllableDirectPartUplink (
-      fStanzaDirectPartUplink);
-
   if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
@@ -11453,10 +11448,15 @@ S_msrSegment msrSegment::create (
       segmentVoicekUplink);
   assert(o!=0);
 
-  // set segment's divisions per quarter note
+  // set segment's direct part uplink
+  msrAssert(segmentDirectPartUplink != 0, "segmentDirectPartUplink != 0"); // JMI
   o->fSegmentDirectPartUplink =
     segmentDirectPartUplink;
-    
+
+  // initialize segment
+  o->
+    initializeSegment ();
+  
   return o;
 }
 
@@ -11468,6 +11468,13 @@ msrSegment::msrSegment (
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   
+  if (gGeneralOptions->fTraceSegments) {
+    cerr << idtr <<
+      "% --> new segment gets absolute number " <<
+      fSegmentAbsoluteNumber <<
+      endl;
+  }
+
   fSegmentVoicekUplink = segmentVoicekUplink;
 
   fSegmentDivisionsPerQuarterNote =
@@ -11476,18 +11483,16 @@ msrSegment::msrSegment (
     fSegmentVoicekUplink->
       getVoiceDivisionsPerQuarterNote (); JMI
 */
+}
 
+msrSegment::~msrSegment() {}
+
+void msrSegment::initializeSegment ()
+{
   fSegmentTime =
     fSegmentVoicekUplink->
       getVoiceTime ();
 
-
-  if (gGeneralOptions->fTraceSegments) {
-    cerr << idtr <<
-      "% --> new segment gets absolute number " <<
-      fSegmentAbsoluteNumber <<
-      endl;
-  }
 
   if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
@@ -11525,7 +11530,7 @@ msrSegment::msrSegment (
   S_msrMeasure
     measure =
       msrMeasure::create (
-        inputLineNumber,
+        fInputLineNumber,
         fSegmentDirectPartUplink,
         firstMeasureNumber,
         fSegmentDivisionsPerQuarterNote,
@@ -11547,8 +11552,6 @@ msrSegment::msrSegment (
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
-
-msrSegment::~msrSegment() {}
 
 S_msrSegment msrSegment::createSegmentBareClone (
   S_msrVoice clonedVoice)
@@ -12855,7 +12858,8 @@ S_msrVoice msrVoice::create (
       voiceStaffUplink);
   assert(o!=0);
 
-  // set voice's divisions per quarter note
+  // set voice's direct part uplink
+  msrAssert(voiceDirectPartUplink != 0, "voiceDirectPartUplink != 0"); // JMI
   o->fVoiceDirectPartUplink =
     voiceDirectPartUplink;
     
@@ -12996,12 +13000,6 @@ void msrVoice::initializeVoice (int inputLineNumber)
       msrStanza::kMasterStanza,
       this);
 
-  // set voice stanza master's direct part uplink
-  msrAssert(fVoiceDirectPartUplink != 0, "fVoiceDirectPartUplink != 0"); // JMI
-  fVoiceStanzaMaster->
-    setStanzaDirectPartUplink (
-      fVoiceDirectPartUplink);
-      
   // create the initial segment for this voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
@@ -13268,11 +13266,6 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
         msrStanza::kRegularStanza,
         this);
 
-  // set the stanza's direct part uplink
-  stanza->
-    setStanzaDirectPartUplink (
-      fVoiceDirectPartUplink);
-
   // add the stanza to this voice
   addStanzaToVoiceWithCatchUp (stanza);
 
@@ -13294,11 +13287,6 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
       ") to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
-
-  // set the stanza's direct part uplink
-  stanza->
-    setStanzaDirectPartUplink (
-      fVoiceDirectPartUplink);
 
   // add the stanza to this voice
   fVoiceStanzasMap [stanzaNumber] = stanza;
@@ -14789,11 +14777,6 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
         voiceRelativeNumber,
         this);
 
-  // set the voice's direct part uplink
-  voice->
-    setVoiceDirectPartUplink (
-      fStaffDirectPartUplink);
-
   // register the voice by its relative number
   fStaffAllVoicesMap [voiceRelativeNumber] = voice;
   
@@ -14846,11 +14829,6 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   // set it's voice external number
   voice->
     setExternalVoiceNumber (externalVoiceNumber);
-
-  // set the voice's direct part uplink
-  voice->
-    setVoiceDirectPartUplink (
-      fStaffDirectPartUplink);
 
   // register the voice by its external number
   if (gGeneralOptions->fTraceVoices)
@@ -16378,11 +16356,6 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
         staffNumber,
         this);
 
-  // set the staff's direct part uplink
-  staff->
-    setStaffDirectPartUplink (
-      this);
-      
   // register staff in this part
   fPartStavesMap [staffNumber] = staff;
 
@@ -16398,11 +16371,6 @@ void msrPart::addStaffToPartClone (S_msrStaff staff)
       "\" to part clone " << getPartCombinedName () <<
       endl;
 
-  // set the staff's direct part uplink
-  staff->
-    setStaffDirectPartUplink (
-      this);
-      
   // register staff in this part
   fPartStavesMap [staff->getStaffNumber ()] = staff;
 }
