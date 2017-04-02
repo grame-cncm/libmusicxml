@@ -857,7 +857,7 @@ class EXP xml2MsrTranslator :
     // ------------------------------------------------------
     msrDiatonicPitch          fCurrentNoteDiatonicPitch;
     msrAlteration             fCurrentNoteAlteration;
-    msrDuration               fCurrentNoteGraphicType;
+    msrDuration               fCurrentNoteGraphicDuration;
     bool                      fOnGoingNote;
     
     int                       fCurrentNoteStaffNumber;

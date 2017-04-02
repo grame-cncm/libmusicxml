@@ -2619,11 +2619,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       fOstream <<
         noteAsLilyPondString (elt);
       
-      // print the note duration
+      // print the grace note's graphic duration
       fOstream <<
-        elt->noteGraphicTypeAsMSRString ();
+        elt->noteGraphicDurationAsMSRString ();
 
-      // print the dots if any
+      // print the dots if any JMI ???
       for (int i = 0; i < elt->getNoteDotsNumber (); i++) {
         fOstream << ".";
       } // for
@@ -2773,36 +2773,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors) {
     fOstream << idtr <<
-      "% --> Start visiting ";
-    switch (elt->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
-        break;
-        
-      case msrNote::kStandaloneNote:
-        fOstream << "standalone";
-        break;
-        
-      case msrNote::kGraceNote:
-        fOstream << "grace";
-        break;
-        
-      case msrNote::kRestNote:
-        fOstream << "rest";
-        break;
-        
-      case msrNote::kSkipNote:
-        fOstream << "skip";
-        break;
-        
-      case msrNote::kChordMemberNote:
-        fOstream << "chord member";
-        break;
-        
-      case msrNote::kTupletMemberNote:
-        fOstream << "tuplet member";
-        break;
-    } // switch
-    fOstream << " msrNote" << endl;
+      "% --> Start visiting " <<
+      msrNote::noteKindAsString (elt->getNoteKind ()) <<
+      " msrNote" <<
+      endl;
   }
 
   // get note stem kind 
@@ -2819,23 +2793,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       idtr;
   }
   
-  switch (elt->getNoteKind ()) { // JMI
-    case msrNote::k_NoNoteKind:
-      break;
-    case msrNote::kStandaloneNote:
-      break;
-    case msrNote::kGraceNote:
-      break;
-    case msrNote::kRestNote:
-      break;
-    case msrNote::kSkipNote:
-      break;
-    case msrNote::kChordMemberNote:
-      break;
-    case msrNote::kTupletMemberNote:
-      break;
-  } // switch
-
   if (fLpsrOptions->fGenerateInputLineNumbers)
     // print the note line number as a comment
     fOstream <<
@@ -3315,20 +3272,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
   fOstream <<
     ">";
 
-  // print the chord notes duration
-  msrDuration
-    chordNotesGraphicType =
-      elt->getChordNotesGraphicType ();
-      
-  if (chordNotesGraphicType != k_NoDuration)
-    fOstream <<
-      divisionsAsMsrString (
-        elt->getInputLineNumber (),
-        chordNotesGraphicType);
-  else
-    fOstream <<
-      elt->chordDivisionsAsMSRString ();
-
+  // print the chord duration
+  fOstream <<
+    elt->chordDivisionsAsMSRString ();
+   
   fOstream <<
     " ";
     

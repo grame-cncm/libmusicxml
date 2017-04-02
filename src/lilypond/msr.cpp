@@ -2647,7 +2647,7 @@ void msrNoteData::initializeNodeData ()
 
   fNoteDotsNumber = 0;
   
-  fNoteGraphicType = k_NoDuration;
+  fNoteGraphicDuration = k_NoDuration;
 
   fNoteIsAGraceNote = false;
   
@@ -2744,10 +2744,10 @@ void msrNoteData::print (ostream& os)
       fNoteDotsNumber <<
       endl <<
     idtr << left <<
-      setw(width) << "fNoteGraphicType" << " = " <<
+      setw(width) << "fNoteGraphicDuration" << " = " <<
       divisionsAsMsrString (
         999, // JMI
-        fNoteGraphicType) <<
+        fNoteGraphicDuration) <<
       endl <<
       
     idtr << left <<
@@ -4577,6 +4577,42 @@ S_msrNote msrNote::createNoteBareClone ()
   return clone;
 }
 
+string msrNote::noteKindAsString (
+  msrNoteKind noteKind)
+{
+  string result;
+  
+  switch (noteKind) {
+    case msrNote::kRestNote:
+      result = "rest";
+      break;
+      
+    case msrNote::kSkipNote:
+      result = "skip";
+      break;
+      
+    case msrNote::kStandaloneNote:
+      result = "standalone";
+      break;
+      
+    case msrNote::kGraceNote:
+      result = "grace note";
+      break;
+      
+    case msrNote::kChordMemberNote:
+      result = "chord member";
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      result = "tuplet member";
+      break;
+
+    case msrNote::k_NoNoteKind:
+      result = "k_NoNoteKind???";
+      break;
+  } // switch
+}
+
 msrDiatonicPitch msrNote::getDiatonicPitch (
   int inputLineNumber) const
 {
@@ -5076,19 +5112,19 @@ string msrNote::skipDivisionsAsMSRString () const
   return result;
 }
 
-string msrNote::noteGraphicTypeAsMSRString () const
+string msrNote::noteGraphicDurationAsMSRString () const
 {
   string result;
 
   result =
     divisionsAsMsrString (
       fInputLineNumber,
-      fNoteData.fNoteGraphicType);
+      fNoteData.fNoteGraphicDuration);
 
   return result;
 }
 
-string msrNote::tupletNoteGraphicTypeAsMSRString ( // JMI
+string msrNote::tupletNoteGraphicDurationAsMSRString ( // JMI
   int actualNotes, int normalNotes) const
 {
   string result;
@@ -5164,7 +5200,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteGraphicTypeAsMSRString ();
+        noteGraphicDurationAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5251,7 +5287,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteGraphicTypeAsMSRString ();
+        noteGraphicDurationAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5329,7 +5365,7 @@ string msrNote::noteAsString () const
         notePitchAsString () <<
         "[" << fNoteData.fNoteOctave << "]" <<
         ":" <<
-        noteGraphicTypeAsMSRString ();
+        noteGraphicDurationAsMSRString ();
         
       for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
         s << ".";
@@ -5375,16 +5411,6 @@ string msrNote::noteAsString () const
           fNoteData.fNoteDivisions,
           fNoteTupletUplink->getTupletActualNotes (),
           fNoteTupletUplink->getTupletNormalNotes ());
-/* JMI
-      if (fNoteData.fNoteGraphicType != k_NoDuration)
-        s <<
-          divisionsAsMsrString (
-            fInputLineNumber,
-            fNoteData.fNoteGraphicType);
-      else
-        s <<
-          noteDivisionsAsMSRString ();
-          */
 
       if (fNoteOccupiesAFullMeasure)
         s <<
@@ -5425,16 +5451,6 @@ void msrNote::print (ostream& os)
   // print the note itself and its position
   os <<
     noteAsString ();
-
-/* JMI
-  if (fNoteData.fNoteGraphicType != k_NoDuration)
-    os <<
-      " (" <<
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fNoteData.fNoteGraphicType) <<
-       ")" <<
-       */
 
   os <<
       ", line " << fInputLineNumber;
@@ -5780,18 +5796,18 @@ void msrNote::print (ostream& os)
 S_msrChord msrChord::create (
   int         inputLineNumber,
   int         chordDivisions,
-  msrDuration chordNotesGraphicType)
+  msrDuration chordGraphicDuration)
 {
   cerr <<
     "??? msrChord::create, " <<
     "chordDivisions = " << chordDivisions <<
-    ", chordNotesGraphicType = " <<
-    msrDurationAsString (chordNotesGraphicType) <<
+    ", chordGraphicDuration = " <<
+    msrDurationAsString (chordGraphicDuration) <<
     endl;
      
   msrChord* o =
     new msrChord (
-      inputLineNumber, chordDivisions, chordNotesGraphicType);
+      inputLineNumber, chordDivisions, chordGraphicDuration);
   assert(o!=0);
   return o;
 }
@@ -5799,12 +5815,12 @@ S_msrChord msrChord::create (
 msrChord::msrChord (
   int         inputLineNumber,
   int         chordDivisions,
-  msrDuration chordNotesGraphicType)
+  msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
   fChordDivisions = chordDivisions;
 
-  fChordNotesGraphicType = chordNotesGraphicType;
+  fChordGraphicDuration = chordGraphicDuration;
 }
 
 msrChord::~msrChord() {}
@@ -5822,7 +5838,7 @@ S_msrChord msrChord::createChordBareClone ()
       msrChord::create (
         fInputLineNumber,
         fChordDivisions,
-        fChordNotesGraphicType);
+        fChordGraphicDuration);
 
   clone->
     fChordDivisionsPerQuarterNote =
@@ -5838,14 +5854,14 @@ S_msrChord msrChord::createChordBareClone ()
   return clone;
 }
     
-string msrChord::chordNotesTypeAsMSRString () const
+string msrChord::chordGraphicDurationAsMSRString () const
 {
   string result;
 
   result =
     divisionsAsMsrString (
       fInputLineNumber,
-      fChordNotesGraphicType);
+      fChordGraphicDuration);
 
   return result;
 }
@@ -6199,15 +6215,16 @@ void msrChord::print (ostream& os)
       getMeasureDivisionsPerFullMeasure ();
   
   os <<
-    "Chord" <<
+    "Chord:" <<
+    chordDivisionsAsMSRString () <<
     ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
-    ", divs: " <<
-    chordDivisionsAsMSRString () <<
-    "/" <<
-    fChordDivisionsPerQuarterNote <<
-    " dpqn, mea. "<<
+    ", " <<
+    chordDivisionsAsMSRString () << " divs" <<
+    ", " <<
+    fChordDivisionsPerQuarterNote << " dpqn, " <<
+    "mea. "<<
     getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<

@@ -5128,20 +5128,20 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
   string noteType = elt->getValue();
 
 
-  if      (noteType == "maxima")  { fCurrentNoteGraphicType = kMaxima; }
-  else if (noteType == "long")    { fCurrentNoteGraphicType = kLong; }
-  else if (noteType == "breve")   { fCurrentNoteGraphicType = kBreve; } 
-  else if (noteType == "whole")   { fCurrentNoteGraphicType = kWhole; } 
-  else if (noteType == "half")    { fCurrentNoteGraphicType = kHalf; } 
-  else if (noteType == "quarter") { fCurrentNoteGraphicType = kQuarter; } 
-  else if (noteType == "eighth")  { fCurrentNoteGraphicType = kEighth; } 
-  else if (noteType == "16th")    { fCurrentNoteGraphicType = k16th; } 
-  else if (noteType == "32nd")    { fCurrentNoteGraphicType = k32nd; } 
-  else if (noteType == "64th")    { fCurrentNoteGraphicType = k64th; } 
-  else if (noteType == "128th")   { fCurrentNoteGraphicType = k128th; } 
-  else if (noteType == "256th")   { fCurrentNoteGraphicType = k256th; } 
-  else if (noteType == "512th")   { fCurrentNoteGraphicType = k512th; } 
-  else if (noteType == "1024th")  { fCurrentNoteGraphicType = k1024th; }
+  if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
+  else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
+  else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
+  else if (noteType == "whole")   { fCurrentNoteGraphicDuration = kWhole; } 
+  else if (noteType == "half")    { fCurrentNoteGraphicDuration = kHalf; } 
+  else if (noteType == "quarter") { fCurrentNoteGraphicDuration = kQuarter; } 
+  else if (noteType == "eighth")  { fCurrentNoteGraphicDuration = kEighth; } 
+  else if (noteType == "16th")    { fCurrentNoteGraphicDuration = k16th; } 
+  else if (noteType == "32nd")    { fCurrentNoteGraphicDuration = k32nd; } 
+  else if (noteType == "64th")    { fCurrentNoteGraphicDuration = k64th; } 
+  else if (noteType == "128th")   { fCurrentNoteGraphicDuration = k128th; } 
+  else if (noteType == "256th")   { fCurrentNoteGraphicDuration = k256th; } 
+  else if (noteType == "512th")   { fCurrentNoteGraphicDuration = k512th; } 
+  else if (noteType == "1024th")  { fCurrentNoteGraphicDuration = k1024th; }
   else {
     stringstream s;
     
@@ -6592,7 +6592,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
       msrChord::create (
         inputLineNumber,
         chordFirstNote->getNoteDivisions (),
-        chordFirstNote->getNoteGraphicType ());
+        chordFirstNote->getNoteGraphicDuration ());
 
   // chord's divisions per quarter note is that of its first note
   chord->
@@ -7528,19 +7528,18 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentDivisionsPerQuarterNote);
 
   // register current note type
-  fNoteData.fNoteGraphicType =
-    fCurrentNoteGraphicType;
+  fNoteData.fNoteGraphicDuration =
+    fCurrentNoteGraphicDuration;
 
-  if (fNoteData.fNoteGraphicType != k_NoDuration) {
+  if (fNoteData.fNoteGraphicDuration != k_NoDuration) {
     if (fNoteData.fNoteIsAGraceNote) {
-      // set current grace note divisions
-      string errorMessage;
-      
+      // set current grace note divisions      
       fNoteData.fNoteDivisions =
         durationAsDivisions (
           inputLineNumber,
-          fNoteData.fNoteGraphicType);
+          fNoteData.fNoteGraphicDuration);
     
+      // set current grace note display divisions      
       fNoteData.fNoteDisplayDivisions =
         fNoteData.fNoteDivisions;
     }

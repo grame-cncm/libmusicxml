@@ -335,7 +335,7 @@ void initializePitchesLanguages ();
 // durations
 //______________________________________________________________________________
 enum msrDuration {
-  // from longest to shortest to simplify the algorithms
+  // from longest to shortest for the algorithms
   kMaxima, kLong, kBreve, kWhole, kHalf, 
   kQuarter,
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
@@ -366,27 +366,10 @@ string tupletDivisionsAsMsrString (
 
 void setupDurationsDivisions (int divisionPerQuarterNote);
 
-int durationAsDivisions (msrDuration duration);
-
 void printDurationsDivisions (ostream& os);
 
 void testDivisionsAndDurations ();
 void testTupletDivisionsAndDurations ();
-
-// note graphic types
-//______________________________________________________________________________
-/*
-int noteTypeAsDivisions (
-  string  noteType,
-  int     divisionsPerWholeNote,
-  string& errorMessage,
-  bool    debugMode = false);
-
-//______________________________________________________________________________
-string noteTypeAsMSRDuration (
-  string  noteType,
-  string& errorMessage);
-*/
 
 //______________________________________________________________________________
 /*!
@@ -611,8 +594,10 @@ class msrNoteData
 
     // tuplets member notes need another value for display
     int                   fNoteDisplayDivisions;
-//    string                fNoteType; // "whole", "32nd", ...
-    msrDuration           fNoteGraphicType;
+
+    // graphic duration is needed for grace notes,
+    // since they don't have any note (sounding) duration
+    msrDuration           fNoteGraphicDuration;
 
     int                   fNoteDotsNumber;
     
@@ -2725,8 +2710,8 @@ class EXP msrNote : public msrElement
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
 
-    msrDuration           getNoteGraphicType () const
-                              { return fNoteData.fNoteGraphicType; }
+    msrDuration           getNoteGraphicDuration () const
+                              { return fNoteData.fNoteGraphicDuration; }
 
     int                   getNoteDivisions () const
                               { return fNoteData.fNoteDivisions; }
@@ -2926,8 +2911,8 @@ class EXP msrNote : public msrElement
     string                noteDivisionsAsMSRString () const;
     string                skipDivisionsAsMSRString () const;
     
-    string                noteGraphicTypeAsMSRString () const;
-    string                tupletNoteGraphicTypeAsMSRString (
+    string                noteGraphicDurationAsMSRString () const;
+    string                tupletNoteGraphicDurationAsMSRString (
                             int actualNotes, int normalNotes) const;
 
     // tuplet members
@@ -3039,7 +3024,7 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       int         inputLineNumber,
       int         chordDivisions,
-      msrDuration chordNotesGraphicType);
+      msrDuration chordGraphicDuration);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3054,7 +3039,7 @@ class EXP msrChord : public msrElement
     msrChord (
       int         inputLineNumber,
       int         chordDivisions,
-      msrDuration chordNotesGraphicType);
+      msrDuration chordGraphicDuration);
       
     virtual ~msrChord();
   
@@ -3063,8 +3048,8 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrDuration       getChordNotesGraphicType () const
-                          { return fChordNotesGraphicType; }
+    msrDuration       getChordGraphicDuration () const
+                          { return fChordGraphicDuration; }
             
     const vector<S_msrNote>&
                       getChordNotes () const
@@ -3158,7 +3143,7 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
 
-    string            chordNotesTypeAsMSRString () const;
+    string            chordGraphicDurationAsMSRString () const;
 
     void              addFirstNoteToChord (S_msrNote note);
     void              addAnotherNoteToChord (S_msrNote note);
@@ -3214,7 +3199,12 @@ class EXP msrChord : public msrElement
 
   private:
 
-    msrDuration               fChordNotesGraphicType;
+    // sounding duration
+    int                       fChordDivisions;
+                                  
+    // graphic duration is needed for grace notes,
+    // since they don't have any note (sounding) duration
+    msrDuration               fChordGraphicDuration;
     
     vector<S_msrNote>         fChordNotes;
 
@@ -3225,8 +3215,6 @@ class EXP msrChord : public msrElement
     int                       fChordMeasureNumber;
     int                       fChordPositionInMeasure;
     
-    int                       fChordDivisions;
-                              
     list<S_msrArticulation>   fChordArticulations;
 
     list<S_msrOrnament>       fChordOrnaments;
