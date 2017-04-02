@@ -15738,7 +15738,7 @@ string msrPart::divisionsAsMsrString (
 
       s <<
         "divisions " << divisions <<
-        "could not be handled by divisionsAsMsrString () with:" <<
+        " could not be handled by divisionsAsMsrString () with:" <<
         endl;
 
       if (fPartDurationsToDivisions.size ())
