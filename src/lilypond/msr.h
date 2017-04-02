@@ -1852,6 +1852,7 @@ class EXP msrSegment : public msrElement
 
     static SMARTP<msrSegment> create (
       int        inputLineNumber,
+      S_msrPart  segmentDirectPartUplink,
       int        divisionsPerQuarterNote,
       S_msrVoice segmentVoicekUplink);
 
@@ -1874,6 +1875,13 @@ class EXP msrSegment : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // part direct uplink
+    void                  setSegmentDirectPartUplink (S_msrPart part)
+                              { fSegmentDirectPartUplink = part; }
+                              
+    S_msrPart             getSegmentDirectPartUplink () const
+                             { return fSegmentDirectPartUplink; }
 
     int           getSegmentAbsoluteNumber () const
                       { return fSegmentAbsoluteNumber; }
@@ -1974,6 +1982,8 @@ class EXP msrSegment : public msrElement
 
     static int           gSegmentsCounter;
 
+    S_msrPart            fSegmentDirectPartUplink;
+    
     int                  fSegmentAbsoluteNumber;
     
     S_msrTime            fSegmentTime;
@@ -2097,6 +2107,7 @@ class EXP msrAftergracenotes : public msrElement
 
     static SMARTP<msrAftergracenotes> create (
       int             inputLineNumber,
+      S_msrPart       gracenotesDirectPartUplink,
       bool            slashed,
       S_msrNote       aftergracenotesNote,
       S_msrVoice      aftergracenotesVoiceUplink);
@@ -2121,6 +2132,13 @@ class EXP msrAftergracenotes : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // part direct uplink
+    void                  setGracenotesDirectPartUplink (S_msrPart part)
+                              { fGracenotesDirectPartUplink = part; }
+                              
+    S_msrPart             getGracenotesDirectPartUplink () const
+                             { return fGracenotesDirectPartUplink; }
 
     bool
                 getAftergracenotesIsSlashed () const
@@ -2158,11 +2176,13 @@ class EXP msrAftergracenotes : public msrElement
 
   private:
 
+    S_msrPart          fGracenotesDirectPartUplink;
+    
     bool               fAftergracenotesIsSlashed;
 
     S_msrNote          fAftergracenotesNote;
     
-    S_msrSegment    fAftergracenotesSegment;
+    S_msrSegment       fAftergracenotesSegment;
 
     S_msrVoice         fAftergracenotesVoiceUplink;
 };

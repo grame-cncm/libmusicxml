@@ -3745,6 +3745,7 @@ void msrGracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrAftergracenotes msrAftergracenotes::create (
   int             inputLineNumber,
+  S_msrPart       gracenotesDirectPartUplink,
   bool            slashed,
   S_msrNote       aftergracenotesNote,
   S_msrVoice      aftergracenotesVoiceUplink)
@@ -3756,6 +3757,11 @@ S_msrAftergracenotes msrAftergracenotes::create (
       aftergracenotesNote,
       aftergracenotesVoiceUplink);
   assert(o!=0);
+
+  // set grace note's divisions per quarter note
+  o->fGracenotesDirectPartUplink =
+    gracenotesDirectPartUplink;
+    
   return o;
 }
 
@@ -8905,7 +8911,8 @@ string msrStanza::getStanzaName () const
 
 msrStanza::~msrStanza() {}
 
-S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
+S_msrStanza msrStanza::createStanzaBareClone (
+  S_msrVoice clonedVoice)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -8919,6 +8926,8 @@ S_msrStanza msrStanza::createStanzaBareClone (S_msrVoice clonedVoice)
     clone =
       msrStanza::create (
         fInputLineNumber,
+        clonedVoice->
+          getVoiceDirectPartUplink (),
         fStanzaNumber,
         fStanzaKind,
         clonedVoice);
@@ -9002,6 +9011,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kRestSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
@@ -9032,6 +9042,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kSkipSyllable,
         "",
         msrSyllable::k_NoSyllableExtend,
@@ -9060,6 +9071,7 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kTiedSyllable,
         "",
         msrSyllable::k_NoSyllableExtend,
@@ -9088,6 +9100,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kSlurSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
@@ -9115,6 +9128,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kSlurBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
@@ -9142,6 +9156,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kLigatureSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
@@ -9169,6 +9184,7 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kLigatureBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         divisions,
@@ -9196,6 +9212,7 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kBarcheckSyllable,
         to_string (nextMeasureNumber),
         msrSyllable::k_NoSyllableExtend,
@@ -9228,6 +9245,7 @@ S_msrSyllable msrStanza::appendBarnumberCheckSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kBarnumberCheckSyllable,
         s.str(),
         msrSyllable::k_NoSyllableExtend,
@@ -9260,6 +9278,7 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
+        fStanzaDirectPartUplink,
         msrSyllable::kBreakSyllable,
         s.str(),
         msrSyllable::k_NoSyllableExtend,
@@ -10425,6 +10444,8 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
     clone =
       msrMeasure::create (
         fInputLineNumber,
+        clonedSegment->
+          getSegmentDirectPartUplink (),
         fMeasureNumber,
         fMeasureDivisionsPerQuarterNote,
         clonedSegment);
