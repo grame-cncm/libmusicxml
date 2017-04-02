@@ -3783,7 +3783,8 @@ msrAftergracenotes::msrAftergracenotes (
   fAftergracenotesSegment =
     msrSegment::create (
       fInputLineNumber,
-      aftergracenotesVoiceUplink->
+      fGracenotesDirectPartUplink,
+      fAftergracenotesVoiceUplink->
         getVoiceDivisionsPerQuarterNote (),
       aftergracenotesVoiceUplink);
 }
@@ -3803,6 +3804,8 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
     clone =
       msrAftergracenotes::create (
         fInputLineNumber,
+        voiceClone->
+          getVoiceDirectPartUplink (),
         fAftergracenotesIsSlashed,
         fAftergracenotesNote,
         voiceClone);
@@ -11427,6 +11430,7 @@ int msrSegment::gSegmentsCounter = 0;
 
 S_msrSegment msrSegment::create (
   int        inputLineNumber,
+  S_msrPart  segmentDirectPartUplink,
   int        divisionsPerQuarterNote,
   S_msrVoice segmentVoicekUplink)
 {
@@ -11448,6 +11452,11 @@ S_msrSegment msrSegment::create (
       divisionsPerQuarterNote,
       segmentVoicekUplink);
   assert(o!=0);
+
+  // set segment's divisions per quarter note
+  o->fSegmentDirectPartUplink =
+    segmentDirectPartUplink;
+    
   return o;
 }
 
@@ -11490,10 +11499,8 @@ msrSegment::msrSegment (
 
   // has measure number 0 been met?
   bool measureZeroHasBeenMet = // JMI
-    fSegmentVoicekUplink->
-      getVoiceStaffUplink ()->
-        getStaffDirectPartUplink ()->
-          getMeasureZeroHasBeenMetInPart ();
+    fSegmentDirectPartUplink->
+      getMeasureZeroHasBeenMetInPart ();
 
   // first measure number
   int firstMeasureNumber =
@@ -11519,6 +11526,7 @@ msrSegment::msrSegment (
     measure =
       msrMeasure::create (
         inputLineNumber,
+        fSegmentDirectPartUplink,
         firstMeasureNumber,
         fSegmentDivisionsPerQuarterNote,
         this);
@@ -11556,6 +11564,8 @@ S_msrSegment msrSegment::createSegmentBareClone (
     clone =
       msrSegment::create (
         fInputLineNumber,
+        clonedVoice->
+          getVoiceDirectPartUplink (),
         fSegmentDivisionsPerQuarterNote,
         clonedVoice);
 
@@ -11902,6 +11912,7 @@ void msrSegment::setSegmentMeasureNumber (
       newMeasure =
         msrMeasure::create (
           inputLineNumber,
+          fSegmentDirectPartUplink,
           measureNumber,
           fSegmentDivisionsPerQuarterNote,
           this);
@@ -12980,6 +12991,7 @@ void msrVoice::initializeVoice (int inputLineNumber)
   fVoiceStanzaMaster =
     msrStanza::create (
       inputLineNumber,
+      fVoiceDirectPartUplink,
       0,    // this stanza number is unused anyway
       msrStanza::kMasterStanza,
       this);
@@ -13000,6 +13012,7 @@ void msrVoice::initializeVoice (int inputLineNumber)
   fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
+      fVoiceDirectPartUplink,
       fVoiceDivisionsPerQuarterNote,
       this);
 
@@ -13078,6 +13091,8 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
     clone =
       msrVoice::create (
         fInputLineNumber,
+        clonedStaff->
+          getStaffDirectPartUplink (),
         fVoiceKind,
         fExternalVoiceNumber,
         clonedStaff);
@@ -13209,6 +13224,7 @@ void msrVoice::createNewLastSegmentForVoice (
   fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
+      fVoiceDirectPartUplink,
       fVoiceDivisionsPerQuarterNote,
       this);
 
@@ -13247,6 +13263,7 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
     stanza =
       msrStanza::create (
         inputLineNumber,
+        fVoiceDirectPartUplink,
         stanzaNumber,
         msrStanza::kRegularStanza,
         this);
@@ -14371,12 +14388,13 @@ S_msrStaff msrStaff::create (
   msrStaff* o =
     new msrStaff (
       inputLineNumber,
-      staffKind, staffNumber,
+      staffKind,
+      staffNumber,
       staffPartUplink);
   assert(o!=0);
 
   // set skip's divisions per quarter note
-  os->fStaffDirectPartUplink =
+  o->fStaffDirectPartUplink =
     staffDirectPartUplink;
     
   return o;
@@ -14628,6 +14646,7 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
     clone =
       msrStaff::create (
         fInputLineNumber,
+        clonedPart,
         fStaffKind,
         fStaffNumber,
         clonedPart);
@@ -14765,6 +14784,7 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
     voice =
       msrVoice::create (
         inputLineNumber,
+        fStaffDirectPartUplink,
         voiceKind,
         voiceRelativeNumber,
         this);
@@ -16063,6 +16083,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
   fPartHarmonyVoice =
     msrVoice::create (
       inputLineNumber,
+      this,
       msrVoice::kHarmonyVoice,
       partHarmonyVoiceNumber, // JMI
       fPartHarmonyStaff);
@@ -16352,6 +16373,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     staff =
       msrStaff::create (
         inputLineNumber,
+        this,
         staffKind,
         staffNumber,
         this);

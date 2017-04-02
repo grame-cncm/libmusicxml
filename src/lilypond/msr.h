@@ -5159,6 +5159,7 @@ class EXP msrVoice : public msrElement
 
     static SMARTP<msrVoice> create (
       int          inputLineNumber,
+      S_msrPart    voiceDirectPartUplink,
       msrVoiceKind voiceKind,
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
