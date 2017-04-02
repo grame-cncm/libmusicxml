@@ -103,8 +103,14 @@ void printUsage (int exitStatus)
     "    --tsegs, --traceSegments " << endl <<
     "          Write a trace of the activity regarding voices' segments" << endl <<
     "          to standard error." << endl <<
+    "    --trepeats, --traceRepeats " << endl <<
+    "          Write a trace of the activity regarding repeats" << endl <<
+    "          to standard error." << endl <<
     "    --tmeas, --traceMeasures " << endl <<
     "          Write a trace of the activity regarding segments' measures" << endl <<
+    "          to standard error." << endl <<
+    "    --tnotes, --traceNotes " << endl <<
+    "          Write a trace of the activity regarding notes" << endl <<
     "          to standard error." << endl <<
     "    --tchords, --traceChords " << endl <<
     "          Write a trace of the activity regarding chords" << endl <<
@@ -329,7 +335,9 @@ void analyzeOptions (
   
   int traceVoicesPresent                = 0;
   int traceSegmentsPresent              = 0;
+  int traceRepeatsPresent               = 0;
   int traceMeasuresPresent              = 0;
+  int traceNotesPresent                 = 0;
   int traceChordsPresent                = 0;
   int traceTupletsPresent               = 0;
   
@@ -490,12 +498,30 @@ void analyzeOptions (
     },
     
     {
+      "trepeats",
+      no_argument, &traceRepeatsPresent, 1
+    },
+    {
+      "traceRepeats",
+      no_argument, &traceRepeatsPresent, 1
+    },
+    
+    {
       "tmeas",
       no_argument, &traceMeasuresPresent, 1
     },
     {
       "traceMeasures",
       no_argument, &traceMeasuresPresent, 1
+    },
+    
+    {
+      "tnotes",
+      no_argument, &traceNotesPresent, 1
+    },
+    {
+      "traceNotes",
+      no_argument, &traceNotesPresent, 1
     },
     
     {
@@ -989,11 +1015,23 @@ void analyzeOptions (
             "--traceSegments ";
           traceSegmentsPresent = false;
         }
+        if (traceRepeatsPresent) {
+          gGeneralOptions->fTraceRepeats = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceRepeats ";
+          traceRepeatsPresent = false;
+        }
         if (traceMeasuresPresent) {
           gGeneralOptions->fTraceMeasures = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceMeasures ";
           traceMeasuresPresent = false;
+        }
+        if (traceNotesPresent) {
+          gGeneralOptions->fTraceNotes = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceNotes ";
+          traceNotesPresent = false;
         }
         if (traceChordsPresent) {
           gGeneralOptions->fTraceChords = true;
@@ -1699,8 +1737,16 @@ void printOptions ()
       booleanAsString (gGeneralOptions->fTraceSegments) <<
       endl <<
     idtr <<
+      setw(fieldWidth) << "traceRepeats" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceRepeats) <<
+      endl <<
+    idtr <<
       setw(fieldWidth) << "traceMeasures" << " : " <<
       booleanAsString (gGeneralOptions->fTraceMeasures) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceNotes" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceNotes) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "traceChords" << " : " <<
