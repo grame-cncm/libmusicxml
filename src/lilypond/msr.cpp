@@ -4611,6 +4611,8 @@ string msrNote::noteKindAsString (
       result = "k_NoNoteKind???";
       break;
   } // switch
+
+  return result;
 }
 
 msrDiatonicPitch msrNote::getDiatonicPitch (
@@ -5411,12 +5413,12 @@ string msrNote::noteAsString () const
           fNoteData.fNoteDivisions,
           fNoteTupletUplink->getTupletActualNotes (),
           fNoteTupletUplink->getTupletNormalNotes ());
-
-      if (fNoteOccupiesAFullMeasure)
-        s <<
-          ", full measure";
       break;
   } // switch
+
+  if (fNoteOccupiesAFullMeasure)
+    s <<
+      ", full measure";
 
 /* JMI
   if (fNoteTie) {
@@ -5457,12 +5459,12 @@ void msrNote::print (ostream& os)
 
   // print display divisions
   os <<
-    ", " <<
-    "(divs: ";
+    ", ";
     
   if (fNoteKind == kGraceNote) {
     os <<
-      fNoteData.fNoteDisplayDivisions;
+      fNoteData.fNoteDisplayDivisions <<
+      " disp. divs";
   }
   
   else {
@@ -5471,13 +5473,16 @@ void msrNote::print (ostream& os)
           ==
         fNoteData.fNoteDisplayDivisions) {
       os <<
-        fNoteData.fNoteDivisions;
+        fNoteData.fNoteDivisions <<
+        " divs";
     }
+    
     else {
       os <<
         fNoteData.fNoteDivisions <<
-        "_" <<
-        fNoteData.fNoteDisplayDivisions;
+        "divs, " <<
+        fNoteData.fNoteDisplayDivisions<<
+        " disp. divs";
     }
   }
 
@@ -5492,7 +5497,7 @@ void msrNote::print (ostream& os)
 
   // print measure related information
   os <<
-    " meas ";
+    " mea: ";
     
   if (fNoteMeasureNumber < 0)
     os << "?";
@@ -11730,12 +11735,12 @@ void msrMeasure::print (ostream& os)
     endl <<
     idtr <<
       "Measure " << fMeasureNumber <<
+        ", " << getMeasureKindAsString () <<
         ", line " << fInputLineNumber <<
   /*
         ", voice " <<
         fMeasureSegmentUplink->getVoiceUplink ()->getVoiceName () <<
   */
-        ", " << getMeasureKindAsString () <<
   //      ", " << fMeasureTime->timeAsString () <<
         ", len: " << getMeasureLength () << " divs" <<
         " (" << getMeasureLengthAsString () << ")" <<
