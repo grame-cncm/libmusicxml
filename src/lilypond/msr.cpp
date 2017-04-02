@@ -12792,7 +12792,7 @@ msrVoice::msrVoice (
   fExternalVoiceNumber = externalVoiceNumber;
   
   fStaffRelativeVoiceNumber = externalVoiceNumber;
-    // may be changed afterwards
+    // may be changed afterwards JMI ???
   
   msrAssert(
     voiceStaffUplink != 0, "voiceStaffUplink is null");
@@ -14674,7 +14674,12 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
         voiceRelativeNumber,
         this);
 
-  // add it to this staff
+  // set the voice's direct part uplink
+  voice->
+    setVoiceDirectPartUplink (
+      fStaffDirectPartUplink);
+
+  // register the voice by its relative number
   fStaffAllVoicesMap [voiceRelativeNumber] = voice;
   
   // return the voice
@@ -14723,11 +14728,16 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
     voice =
       fStaffAllVoicesMap [fRegisteredVoicesCounter];
       
-  // update it's voice number
+  // set it's voice external number
   voice->
     setExternalVoiceNumber (externalVoiceNumber);
 
-  // register it by its number
+  // set the voice's direct part uplink
+  voice->
+    setVoiceDirectPartUplink (
+      fStaffDirectPartUplink);
+
+  // register the voice by its external number
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Voice " << externalVoiceNumber <<
@@ -16251,7 +16261,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
         staffNumber,
         this);
 
-  // set the part's direct uplink
+  // set the staff's direct part uplink
   staff->
     setStaffDirectPartUplink (
       this);
@@ -16271,7 +16281,7 @@ void msrPart::addStaffToPartClone (S_msrStaff staff)
       "\" to part clone " << getPartCombinedName () <<
       endl;
 
-  // set the part's direct uplink
+  // set the staff's direct part uplink
   staff->
     setStaffDirectPartUplink (
       this);

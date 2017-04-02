@@ -5659,7 +5659,7 @@ class EXP msrStaff : public msrElement
   
     string          staffKindAsString () const;
     
-    S_msrVoice      addVoiceToStaffByItsNumber (
+    S_msrVoice      addVoiceToStaffByItsExternalNumber (
                       int inputLineNumber,
                       int externalVoiceNumber);
 
