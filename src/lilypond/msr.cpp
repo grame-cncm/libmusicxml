@@ -12863,6 +12863,10 @@ S_msrVoice msrVoice::create (
   o->fVoiceDirectPartUplink =
     voiceDirectPartUplink;
     
+  // initialize the voice
+  o->
+    initializeVoice (inputLineNumber);
+    
   return o;
 }
 
@@ -12969,10 +12973,6 @@ msrVoice::msrVoice (
       }
       break;
   } // switch
-
-
-  // initialize the voice
-  initializeVoice (inputLineNumber);
 }
 
 msrVoice::~msrVoice() {}
