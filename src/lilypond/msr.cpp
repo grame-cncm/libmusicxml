@@ -4049,7 +4049,7 @@ void msrAftergracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrNote msrNote::create (
   int                  inputLineNumber,
-  msrNoteKind          noteKind;
+  msrNoteKind          noteKind,
 
   msrQuartertonesPitch noteQuatertonesPitch,
   int                  noteDivisions,
@@ -4091,16 +4091,7 @@ S_msrNote msrNote::createSkipNote (
   int divisionsPerQuarterNote,
   int staffNumber,
   int externalVoiceNumber)
-{
-  noteData.setNoteQuartertonesPitch (k_NoPitch);
-  noteData.fNoteIsARest = false; // JMI
-  
-  noteData.fNoteDivisions = divisions;
-  noteData.fNoteDisplayDivisions = divisions;
-    
-  noteData.fNoteStaffNumber = staffNumber;
-  noteData.fNoteVoiceNumber = externalVoiceNumber;
-
+{    
   msrNote * o =
     new msrNote (
       inputLineNumber,
@@ -4120,31 +4111,31 @@ S_msrNote msrNote::createSkipNote (
       noteIsAGraceNote);
   assert(o!=0);
 
-  // set skip's note kind
-  o->fNoteKind =
-    kSkipNote;
-  
   // set skip's divisions per quarter note
   o->fNoteDivisionsPerQuarterNote =
     divisionsPerQuarterNote;
   
+  // note context
+  noteData.fNoteStaffNumber = staffNumber;
+  noteData.fNoteVoiceNumber = externalVoiceNumber;
+
   return o;
 }    
 
 msrNote::msrNote (
   int                  inputLineNumber,
-  msrNoteKind          noteKind;
+  msrNoteKind          noteKind,
 
-  msrQuartertonesPitch noteQuatertonesPitch;
-  int                  noteDivisions;
-  int                  noteDisplayDivisions;
-  int                  noteDotsNumber;
-  msrDuration          noteGraphicDuration;
+  msrQuartertonesPitch noteQuatertonesPitch,
+  int                  noteDivisions,
+  int                  noteDisplayDivisions,
+  int                  noteDotsNumber,
+  msrDuration          noteGraphicDuration,
   
-  int                  noteOctave;
+  int                  noteOctave,
   
-  bool                 noteIsARest;
-  bool                 noteIsUnpitched;
+  bool                 noteIsARest,
+  bool                 noteIsUnpitched,
 
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
@@ -4156,8 +4147,8 @@ msrNote::msrNote (
 
     idtr++;
     
-  //  cerr <<
- //     fNoteData;
+    cerr <<
+      "***fNoteData*** JMI ???";
 
     idtr--;
 
@@ -4190,6 +4181,9 @@ msrNote::msrNote (
   
   fNoteIsAGraceNote = noteIsAGraceNote;
     
+  fNoteOctaveShift =
+    msrOctaveShift::k_NoOctaveShift;
+
   // note context
   // ------------------------------------------------------
 

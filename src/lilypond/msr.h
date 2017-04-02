@@ -2654,7 +2654,7 @@ class EXP msrNote : public msrElement
       bool                 noteIsUnpitched,
     
       bool                 noteIsAGraceNote);
-  
+    
     SMARTP<msrNote> createNoteBareClone ();
     
     // creation from xml2Msr
@@ -2696,32 +2696,31 @@ class EXP msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrQuartertonesPitch  getQuatertonesPitch () const
-                              { return fNoteQuatertonesPitch; }
-                              
-    msrDiatonicPitch      getDiatonicPitch (
-                            int inputLineNumber) const;
+    // divisions
 
-    int                   getNoteOctave () const
-                              { return fNoteOctave; }
+    void                  setNoteDivisionsPerQuarterNote (
+                            int divisionsPerQuarterNote)
+                              {
+                                fNoteDivisionsPerQuarterNote =
+                                  divisionsPerQuarterNote;
+                              }
+                      
+    const int             getNoteDivisionsPerQuarterNote () const
+                              { return fNoteDivisionsPerQuarterNote; }
+          
 
-    bool                  getNoteIsUnpitched () const
-                            // useful for rest tuplet members
-                              { return fNoteIsUnpitched; }
-                      
-    bool                  getNoteIsARest () const
-                            // useful for rest tuplet members
-                            { return fNoteIsARest; }
-                      
+    // basic note description
+    // -------------------------------
+
     void                  setNoteKind (msrNoteKind noteKind)
                               { fNoteKind = noteKind; }
 
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
 
-    msrDuration           getNoteGraphicDuration () const
-                              { return fNoteGraphicDuration; }
-
+    msrQuartertonesPitch  getQuatertonesPitch () const
+                              { return fNoteQuatertonesPitch; }
+                              
     int                   getNoteDivisions () const
                               { return fNoteDivisions; }
 
@@ -2734,12 +2733,20 @@ class EXP msrNote : public msrElement
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
 
-    void                  setNoteOccupiesAFullMeasure ()
-                              { fNoteOccupiesAFullMeasure = true; }
-                      
-    bool                  getNoteOccupiesAFullMeasure () const
-                              { return fNoteOccupiesAFullMeasure; }
+    msrDuration           getNoteGraphicDuration () const
+                              { return fNoteGraphicDuration; }
 
+    int                   getNoteOctave () const
+                              { return fNoteOctave; }
+
+    bool                  getNoteIsARest () const
+                            // useful for rest tuplet members
+                            { return fNoteIsARest; }
+                      
+    bool                  getNoteIsUnpitched () const
+                            // useful for rest tuplet members
+                              { return fNoteIsUnpitched; }
+                      
     // octave shifts
     void                  setNoteOctaveShift (
                              S_msrOctaveShift octaveShift)
@@ -2748,28 +2755,55 @@ class EXP msrNote : public msrElement
     S_msrOctaveShift      getNoteOctaveShift () const
                               { return fNoteOctaveShift; }
 
-    // stems
-    void                  setNoteStem (S_msrStem stem);
+    // note context
+    // -------------------------------
 
-    S_msrStem             getNoteStem () const
-                              { return fNoteStem; }
-
-    // divisions per quarter note
-    void                  setNoteDivisionsPerQuarterNote (
-                            int divisionsPerQuarterNote)
-                              {
-                                fNoteDivisionsPerQuarterNote =
-                                  divisionsPerQuarterNote;
-                              }
-                      
-    const int             getNoteDivisionsPerQuarterNote () const
-                              { return fNoteDivisionsPerQuarterNote; }
-          
     // chord members
     void                  setNoteBelongsToAChord ();
 
     bool                  getNoteBelongsToAChord () const
                               { return fNoteBelongsToAChord; }
+
+    // tuplet uplink
+    void                  setNoteTupletUplink (
+                            const S_msrTuplet& tuplet)
+                              { fNoteTupletUplink = tuplet; }
+                      
+    S_msrTuplet           getNoteTupletUplink () const
+                              { return fNoteTupletUplink; }
+
+    // harmony
+    void                  setNoteHarmony (S_msrHarmony harmony)
+                              { fNoteHarmony = harmony; }
+    const S_msrHarmony&   getNoteHarmony () const
+                              { return fNoteHarmony; };
+
+    // note lyrics
+    // -------------------------------
+
+    list<S_msrSyllable>   getNoteSyllables () const
+                              { return fNoteSyllables; }              
+
+    void                  setNoteSyllableExtendKind (
+                            msrSyllable::msrSyllableExtendKind
+                              syllableExtendKind)
+                              {
+                                fNoteSyllableExtendKind =
+                                  syllableExtendKind;
+                              }
+
+    msrSyllable::msrSyllableExtendKind
+                          getNoteSyllableExtendKind () const
+                              { return fNoteSyllableExtendKind; }              
+
+    // elements attached to the note
+    // -------------------------------
+
+    // stems
+    void                  setNoteStem (S_msrStem stem);
+
+    S_msrStem             getNoteStem () const
+                              { return fNoteStem; }
 
     // beams
     const list<S_msrBeam>&
@@ -2793,30 +2827,11 @@ class EXP msrNote : public msrElement
     list<S_msrOrnament>&  getNoteOrnamentsToModify ()
                               { return fNoteOrnaments; }
         
-    bool                  getNoteIsStemless () const
-                              { return fNoteIsStemless; }
-                  
-    bool                  getNoteHasATrill () const
-                              { return fNoteHasATrill; }
-                  
-    bool                  getNoteHasADelayedOrnament () const
-                              { return fNoteHasADelayedOrnament; }
-                  
     // ties
     void                  setNoteTie (S_msrTie tie)
                               { fNoteTie = tie; }
     S_msrTie              getNoteTie () const
                               { return fNoteTie; }
-
-    // slurs
-    const list<S_msrSlur>&
-                          getNoteSlurs () const
-                              { return fNoteSlurs; }
-
-    // ligatures
-    const list<S_msrLigature>&
-                          getNoteLigatures () const
-                              { return fNoteLigatures; }
 
     // dynamics
     const list<S_msrDynamics>&
@@ -2843,45 +2858,18 @@ class EXP msrNote : public msrElement
                           getNoteWedgesToModify ()
                               { return fNoteWedges; };
 
-    // lyrics
-    void                  appendSyllableToNote (S_msrSyllable syllable);
+    // slurs
+    const list<S_msrSlur>&
+                          getNoteSlurs () const
+                              { return fNoteSlurs; }
 
-    list<S_msrSyllable>   getNoteSyllables () const
-                              { return fNoteSyllables; }              
+    // ligatures
+    const list<S_msrLigature>&
+                          getNoteLigatures () const
+                              { return fNoteLigatures; }
 
-    void                  setNoteSyllableExtendKind (
-                            msrSyllable::msrSyllableExtendKind
-                              syllableExtendKind)
-                              {
-                                fNoteSyllableExtendKind =
-                                  syllableExtendKind;
-                              }
-
-    msrSyllable::msrSyllableExtendKind
-                          getNoteSyllableExtendKind () const
-                              { return fNoteSyllableExtendKind; }              
-
-    // harmony
-    void                  setNoteHarmony (S_msrHarmony harmony)
-                              { fNoteHarmony = harmony; }
-    const S_msrHarmony&   getNoteHarmony () const
-                              { return fNoteHarmony; };
-
-    // tuplet uplink
-    void                  setNoteTupletUplink (
-                            const S_msrTuplet& tuplet)
-                              { fNoteTupletUplink = tuplet; }
-                      
-    S_msrTuplet           getNoteTupletUplink () const
-                              { return fNoteTupletUplink; }
-
-    // measure uplink
-    void                  setNoteMeasureUplink (
-                            const S_msrMeasure& measure)
-                              { fNoteMeasureUplink = measure; }
-                      
-    S_msrMeasure          getNoteMeasureUplink () const
-                              { return fNoteMeasureUplink; }
+    // note measure information
+    // -------------------------------
 
     // measure number
     void                  setNoteMeasureNumber (
@@ -2902,8 +2890,37 @@ class EXP msrNote : public msrElement
     int                   getNotePositionInMeasure () const
                               { return fNotePositionInMeasure; }
 
+    void                  setNoteOccupiesAFullMeasure ()
+                              { fNoteOccupiesAFullMeasure = true; }
+                      
+    bool                  getNoteOccupiesAFullMeasure () const
+                              { return fNoteOccupiesAFullMeasure; }
+
+    // note measure information
+    // -------------------------------
+
+    bool                  getNoteIsStemless () const
+                              { return fNoteIsStemless; }
+                  
+    bool                  getNoteHasATrill () const
+                              { return fNoteHasATrill; }
+                  
+    bool                  getNoteHasADelayedOrnament () const
+                              { return fNoteHasADelayedOrnament; }
+                  
+    // measure uplink
+    void                  setNoteMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fNoteMeasureUplink = measure; }
+                      
+    S_msrMeasure          getNoteMeasureUplink () const
+                              { return fNoteMeasureUplink; }
+
     // services
     // ------------------------------------------------------
+
+    msrDiatonicPitch      getDiatonicPitch (
+                            int inputLineNumber) const;
 
     string                notePitchAsString () const;
 
@@ -2925,6 +2942,9 @@ class EXP msrNote : public msrElement
     void                  applyTupletMemberDisplayFactorToNote (
                             int actualNotes, int normalNotes);
                     
+    // lyrics
+    void                  appendSyllableToNote (S_msrSyllable syllable);
+
     // beams
     void                  addBeamToNote (S_msrBeam beam);
     
@@ -2936,6 +2956,8 @@ class EXP msrNote : public msrElement
     
     // dynamics
     void                  addDynamicsToNote (S_msrDynamics dynamics);
+
+    S_msrDynamics         removeFirstDynamics (); // ???
 
     // words
     void                  addWordsToNote (S_msrWords words);
@@ -2949,7 +2971,6 @@ class EXP msrNote : public msrElement
     //  wedges
     void                  addWedgeToNote (S_msrWedge wedge);
 
-    S_msrDynamics         removeFirstDynamics (); // ???
     S_msrWedge            removeFirstWedge (); // JMI
 
     // visitors
@@ -3004,7 +3025,7 @@ class EXP msrNote : public msrElement
     S_msrTuplet               fNoteTupletUplink;
 
     // note lyrics
-     // ------------------------------------------------------
+    // ------------------------------------------------------
 
    list<S_msrSyllable>        fNoteSyllables;
     msrSyllable::msrSyllableExtendKind

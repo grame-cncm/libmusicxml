@@ -67,8 +67,44 @@ void checkStep (
 }
 
 //________________________________________________________________________
+void xml2MsrTranslator::initializeNoteData ()
+{
+  // basic note description
+
+// JMI  fCurrentNoteKind = k_NoNoteKind;
+
+  fCurrentNoteQuatertonesPitch = k_NoPitch;
+  fCurrentNoteDivisions        = -17;
+  fCurrentNoteDisplayDivisions = -19;
+  fCurrentNoteDotsNumber       = 0;
+  fCurrentNoteGraphicDuration  = k_NoDuration;
+
+  fCurrentNoteOctave = -1;
+
+  fCurrentNoteIsARest     = false;
+  fCurrentNoteIsUnpitched = false;
+  
+  fCurrentNoteIsAGraceNote = false;
+
+  // note context
+  
+  fCurrentNoteStaffNumber = 0;
+  fCurrentNoteVoiceNumber = 0;
+
+  fCurrentNoteBelongsToAChord = false;
+  
+  fCurrentNoteBelongsToATuplet = false;
+
+  // note lyrics
+
+// JMI  fCurrentNoteSyllableExtendKind = k_NoSyllableExtend;
+}
+
 xml2MsrTranslator::xml2MsrTranslator ()
 {
+  // initialize note data to a neutral state
+  initializeNoteData ();
+
   fMillimeters       = -1;
   fTenths            = -1;
   fOnGoingPageLayout = false;
@@ -3569,7 +3605,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 
     idtr++;
     cerr <<
-      fNoteData;
+      "***fNoteData*** JMI ???";
     idtr--;
         
     cerr << idtr <<
@@ -3596,8 +3632,8 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
             fCurrentSyllableExtendKind <<
           endl <<
         idtr <<
-          setw(width) << "fNoteData.fNoteIsARest" << " = " <<
-          booleanAsString (fNoteData.fNoteIsARest) <<
+          setw(width) << "fCurrentNoteIsARest" << " = " <<
+          booleanAsString (fCurrentNoteIsARest) <<
           endl;
   
       cerr <<
@@ -3717,7 +3753,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
       fCurrentSyllableKind = msrSyllable::kTiedSyllable;
     }
   
-    else if (fNoteData.fNoteIsARest) {
+    else if (fCurrentNoteIsARest) {
       fCurrentSyllableKind = msrSyllable::kRestSyllable;
     }
   
@@ -3764,7 +3800,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         " syllable"
         ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
-        ", divisions = " << fNoteData.fNoteDivisions << 
+        ", divisions = " << fCurrentNoteDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -3777,7 +3813,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentSyllableKind,
         fCurrentText,
         msrSyllable::k_NoSyllableExtend,
-        fNoteData.fNoteDivisions,
+        fCurrentNoteDivisions,
         stanza);
 
     // register syllable in current note's syllables list
@@ -4953,7 +4989,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
       "--> Start visiting S_note" << endl;
 
   // initialize note data to a neutral state
-  fNoteData.initializeNodeData ();
+  initializeNoteData ();
 
   fCurrentNoteDiatonicPitch = kA; // any value would fit
   fCurrentNoteAlteration    = kNatural;
@@ -5045,7 +5081,7 @@ void xml2MsrTranslator::visitStart ( S_octave& elt)
     cerr << idtr <<
       "--> Start visiting S_octave" << endl;
 
-  fNoteData.fNoteOctave = (int)(*elt);
+  fCurrentNoteOctave = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_duration& elt )
@@ -5070,13 +5106,13 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
-    fNoteData.fNoteDivisions = duration;
+    fCurrentNoteDivisions = duration;
     
     // all notes have their fDisplayDivisions
-    // set to fNoteData.fNoteDivision,
+    // set to fCurrentNoteDivision,
     // except tuplet member notes
-    fNoteData.fNoteDisplayDivisions =
-      fNoteData.fNoteDivisions;
+    fCurrentNoteDisplayDivisions =
+      fCurrentNoteDivisions;
   }
   
   else {
@@ -5112,7 +5148,7 @@ void xml2MsrTranslator::visitStart ( S_dot& elt )
     cerr << idtr <<
       "--> Start visiting S_dot" << endl;
 
-  fNoteData.fNoteDotsNumber++;
+  fCurrentNoteDotsNumber++;
 }
        
 void xml2MsrTranslator::visitStart ( S_type& elt )
@@ -6314,7 +6350,7 @@ void xml2MsrTranslator::visitStart ( S_grace& elt )
     cerr << idtr <<
       "--> Start visiting S_grace" << endl;
 
-  fNoteData.fNoteIsAGraceNote = true;
+  fCurrentNoteIsAGraceNote = true;
 
   string slash = elt->getAttributeValue ("slash");
 
@@ -6343,7 +6379,7 @@ void xml2MsrTranslator::visitStart ( S_chord& elt)
     cerr << idtr <<
       "--> Start visiting S_chord" << endl;
 
-  fNoteData.fNoteBelongsToAChord = true;
+  fCurrentNoteBelongsToAChord = true;
 
   // delay the handling until 'visitEnd ( S_note& elt)',
   // because we don't know yet the voice and staff numbers for sure
@@ -6361,7 +6397,7 @@ void xml2MsrTranslator::visitStart ( S_time_modification& elt )
   // in the tuplet notes after the first one,
   // so we detect tuplet notes on '<time-modification>'
   // so we detect tuplet notes on '<time-modification>'
-  fNoteData.fNoteBelongsToATuplet = true;
+  fCurrentNoteBelongsToATuplet = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
@@ -6520,7 +6556,7 @@ void xml2MsrTranslator::visitStart ( S_rest& elt)
       </note>
 */
   //  cerr << "--> xml2MsrTranslator::visitStart ( S_rest& elt ) " << endl;
-  fNoteData.fNoteIsARest = true;
+  fCurrentNoteIsARest = true;
 }
 
 //______________________________________________________________________________
@@ -6561,10 +6597,10 @@ void xml2MsrTranslator::visitEnd ( S_unpitched& elt)
           <display-octave>5</display-octave>
         </unpitched>
 */
-  fNoteData.fNoteIsUnpitched = true;
+  fCurrentNoteIsUnpitched = true;
   fCurrentNoteDiatonicPitch = // JMI
     fCurrentHarmonyRootDiatonicPitch;
-  fNoteData.fNoteOctave = fDisplayOctave;
+  fCurrentNoteOctave = fDisplayOctave;
 }
 
 //______________________________________________________________________________
@@ -7176,7 +7212,7 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fNoteIsARest) {
+    if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         cerr << idtr <<
           "--> Delaying dynamics attached to a rest until next note" << endl;
@@ -7225,7 +7261,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fNoteIsARest) {
+    if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsWords) {
         cerr << idtr <<
           "--> Delaying words attached to a rest until next note" <<
@@ -7285,7 +7321,7 @@ void xml2MsrTranslator::attachPendingSlursToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fNoteIsARest) {
+    if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsSlurs) {
         cerr << idtr <<
           "--> Delaying slur attached to a rest until next note" << endl;
@@ -7334,7 +7370,7 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fNoteIsARest) {
+    if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsLigatures) {
         cerr << idtr <<
           "--> Delaying ligature attached to a rest until next note" << endl;
@@ -7383,7 +7419,7 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
         note->noteAsString () <<
         endl;
 
-    if (fNoteData.fNoteIsARest) {
+    if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsWedges) {
         cerr << idtr <<
           "--> Delaying wedge attached to a rest until next note" << endl;
@@ -7464,7 +7500,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     elt->getInputLineNumber ();
 
   // register note pitch
-  fNoteData.fNoteQuatertonesPitch =
+  fCurrentNoteQuatertonesPitch =
     quatertonesPitchFromDiatonicPitchAndAlteration (
       inputLineNumber,
       fCurrentNoteDiatonicPitch,
@@ -7512,14 +7548,14 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   // store voice and staff numbers in MusicXML note data
-  fNoteData.fNoteStaffNumber = fCurrentStaffNumber;
-  fNoteData.fNoteVoiceNumber = fCurrentVoiceNumber;
+  fCurrentNoteStaffNumber = fCurrentStaffNumber;
+  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
   // set current voices' 'notes divisions per quarter note
   if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "fNoteData.fNoteDivisions = " << 
-      fNoteData.fNoteDivisions << ", " << 
+      "fCurrentNoteDivisions = " << 
+      fCurrentNoteDivisions << ", " << 
       "fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote << endl;
       
@@ -7528,54 +7564,42 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentDivisionsPerQuarterNote);
 
   // register current note type
-  fNoteData.fNoteGraphicDuration =
+  fCurrentNoteGraphicDuration =
     fCurrentNoteGraphicDuration;
 
-  if (fNoteData.fNoteGraphicDuration != k_NoDuration) {
-    if (fNoteData.fNoteIsAGraceNote) {
+  if (fCurrentNoteGraphicDuration != k_NoDuration) {
+    if (fCurrentNoteIsAGraceNote) {
       // set current grace note divisions      
-      fNoteData.fNoteDivisions =
+      fCurrentNoteDivisions =
         durationAsDivisions (
           inputLineNumber,
-          fNoteData.fNoteGraphicDuration);
+          fCurrentNoteGraphicDuration);
     
       // set current grace note display divisions      
-      fNoteData.fNoteDisplayDivisions =
-        fNoteData.fNoteDivisions;
+      fCurrentNoteDisplayDivisions =
+        fCurrentNoteDivisions;
     }
   }
 
   // create the (new) note
   S_msrNote
     newNote =
-      msrNote::createFromNoteData (
+      msrNote::create (
         inputLineNumber,
-        fNoteKind;
+        msrNote::k_NoNoteKind, // will be set by 'setNodeKind()' later
         
-        fNoteQuatertonesPitch;
-        fNoteDivisions;
-        fNoteDisplayDivisions;
-        fNoteDotsNumber;
-        fNoteGraphicDuration;
+        fCurrentNoteQuatertonesPitch,
+        fCurrentNoteDivisions,
+        fCurrentNoteDisplayDivisions,
+        fCurrentNoteDotsNumber,
+        fCurrentNoteGraphicDuration,
         
-        fNoteOctave;
+        fCurrentNoteOctave,
         
-        fNoteIsARest;
-        fNoteIsUnpitched;
+        fCurrentNoteIsARest,
+        fCurrentNoteIsUnpitched,
         
-        fNoteIsAGraceNote);
-
-/* JMI
-  S_msrElement testElement = newNote;
-  
-//  bool testElementIsANote = // JMI
-  S_msrNote
-    foo =
-      SMARTP<msrNote> cast(testElement);
-
-  cerr << "testElementIsANote = " << testElementIsANote << endl;
-  assert(false);
-  */
+        fCurrentNoteIsAGraceNote);
   
   // set note's divisions per quarter note
   newNote->
@@ -7629,7 +7653,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
 /* JMI
   // are the display divisions different than the duration?
-  if (fNoteData.fNoteBelongsToATuplet)
+  if (fCurrentNoteBelongsToATuplet)
     // set tuplet member note display divisions
     newNote->
       applyTupletMemberDisplayFactor (
@@ -7637,21 +7661,21 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 */
 
   // handle note
-  if (fNoteData.fNoteBelongsToAChord && fNoteData.fNoteBelongsToATuplet) {
+  if (fCurrentNoteBelongsToAChord && fCurrentNoteBelongsToATuplet) {
     
     // note is the second, third, ..., member of a chord in a tuplet
     // that is a member of a tuplet
     handleNoteBelongingToAChordInATuplet (newNote);
   }
   
-  else if (fNoteData.fNoteBelongsToAChord) {
+  else if (fCurrentNoteBelongsToAChord) {
     
     // note is the second, third, ..., member of a chord
     // whose first member is 'fLastHandledNoteInVoice [currentVoice]'
     handleNoteBelongingToAChord (newNote);
   }
   
-  else if (fNoteData.fNoteBelongsToATuplet) {
+  else if (fCurrentNoteBelongsToATuplet) {
     
     // note/rest is the first, second, third, ..., member of a tuplet
     handleNoteBelongingToATuplet (newNote);
@@ -7689,7 +7713,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       endl;
   }
 
-  if (! fNoteData.fNoteBelongsToAChord) {
+  if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingNote) {
       // this is the first note after the chord
 
@@ -7725,13 +7749,13 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     newNote->getInputLineNumber ();
     
   // register note/rest kind
-  if (fNoteData.fNoteIsAGraceNote) {
+  if (fCurrentNoteIsAGraceNote) {
     newNote->
       setNoteKind (msrNote::kGraceNote);
   }
   else {
     // standalone note or rest
-    if (fNoteData.fNoteIsARest)
+    if (fCurrentNoteIsARest)
       newNote->
         setNoteKind (msrNote::kRestNote);
     else
@@ -7766,8 +7790,8 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         inputLineNumber <<
         endl <<
       idtr <<
-        setw(31) << "--> fNoteData.fNoteIsAGraceNote" << " = " <<
-        booleanAsString (fNoteData.fNoteIsAGraceNote) <<
+        setw(31) << "--> fCurrentNoteIsAGraceNote" << " = " <<
+        booleanAsString (fCurrentNoteIsAGraceNote) <<
         endl <<
       idtr <<
         setw(31) << "--> fCurrentGracenotes" << " = ";
@@ -7787,7 +7811,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   handleTupletsPendingOnTupletStack (
     inputLineNumber);
 
-  if (fNoteData.fNoteIsAGraceNote) {
+  if (fCurrentNoteIsAGraceNote) {
     if (! fCurrentGracenotes) {
       // this is the first grace note in grace notes
 
@@ -7935,7 +7959,7 @@ void xml2MsrTranslator::handleLyric (
         "--> creating a skip syllable for missing lyric"
         ", text = \"" << fCurrentText << "\"" <<
         ", line " << inputLineNumber <<
-        ", divisions = " << fNoteData.fNoteDivisions << 
+        ", divisions = " << fCurrentNoteDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -7951,7 +7975,7 @@ void xml2MsrTranslator::handleLyric (
           fCurrentSyllableKind,
           fCurrentText,
           msrSyllable::k_NoSyllableExtend,
-          fNoteData.fNoteDivisions,
+          fCurrentNoteDivisions,
           stanza);
 
     // register syllable in current note's syllables list
@@ -8035,7 +8059,7 @@ void xml2MsrTranslator::handleLyric (
           addSkipSyllableToVoice (
             inputLineNumber,
             fCurrentStanzaNumber,
-            fNoteData.fNoteDivisions);
+            fCurrentNoteDivisions);
 
     // this ends the current syllable extension if any
     fOnGoingSyllableExtend = false;
@@ -8091,7 +8115,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  if (fNoteData.fNoteIsARest)
+  if (fCurrentNoteIsARest)
     msrMusicXMLError (
       inputLineNumber,
       "a rest cannot belong to a chord");
@@ -8381,7 +8405,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  if (fNoteData.fNoteIsARest)
+  if (fCurrentNoteIsARest)
     msrMusicXMLError (
       inputLineNumber,
       "a rest cannot belong to a chord");

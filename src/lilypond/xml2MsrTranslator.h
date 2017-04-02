@@ -874,6 +874,9 @@ class EXP xml2MsrTranslator :
     int                       fCurrentBeamNumber;
     vector<S_msrBeam>         fCurrentBeams;
 
+    // initialization
+    void                      initializeNoteData ();
+
     // grace notes handling
     // ------------------------------------------------------
     
