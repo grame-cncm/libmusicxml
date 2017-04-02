@@ -3749,17 +3749,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
           voiceClone->getStaffRelativeVoiceNumber (), // JMI
           voiceClone->getExternalVoiceNumber ());
 
-    cerr << "FOO" << endl;
-      /*
-   static SMARTP<msrNote> createSkipNote (
-      int           inputLineNumber,
-      int           divisions,
-      int           divisionsPerQuarterNote,
-      int           staffNumber,
-      int           externalVoiceNumber);
-      */
-
-    clone->
+     clone->
       appendNoteToGracenotes (skip);
   } // for
     
@@ -4095,30 +4085,26 @@ S_msrNote msrNote::createSkipNote (
   msrNote * o =
     new msrNote (
       inputLineNumber,
-      kSkipNote, // noteKind,
+      kSkipNote, // noteKind
       
-      k_NoPitch, // noteQuatertonesPitch,
-      divisions, // noteDivisions,
-      divisions, // noteDisplayDivisions,
-      noteDotsNumber,
-      noteGraphicDuration,
+      k_NoPitch, // noteQuatertonesPitch
+      divisions, // noteDivisions
+      divisions, // noteDisplayDivisions
+      -1, // noteDotsNumber
+      k_NoDuration, // noteGraphicDuration
       
-      noteOctave,
+      -1, // noteOctave,
       
-      false, // noteIsARest,
-      noteIsUnpitched,
+      false, // noteIsARest
+      false, // noteIsUnpitched
       
-      noteIsAGraceNote);
+      false); // noteIsAGraceNote
   assert(o!=0);
 
   // set skip's divisions per quarter note
   o->fNoteDivisionsPerQuarterNote =
     divisionsPerQuarterNote;
   
-  // note context
-  noteData.fNoteStaffNumber = staffNumber;
-  noteData.fNoteVoiceNumber = externalVoiceNumber;
-
   return o;
 }    
 
@@ -4181,9 +4167,6 @@ msrNote::msrNote (
   
   fNoteIsAGraceNote = noteIsAGraceNote;
     
-  fNoteOctaveShift =
-    msrOctaveShift::k_NoOctaveShift;
-
   // note context
   // ------------------------------------------------------
 
@@ -4196,7 +4179,8 @@ msrNote::msrNote (
   // note lyrics
   // ------------------------------------------------------
 
-  fNoteSyllableExtendKind = k_NoSyllableExtend;
+  fNoteSyllableExtendKind =
+    msrSyllable::k_NoSyllableExtend;
   
   // note measure information
   // ------------------------------------------------------
@@ -4227,9 +4211,22 @@ S_msrNote msrNote::createNoteBareClone ()
 
   S_msrNote
     clone =
-      msrNote::createFromNoteData (
+      msrNote::create (
         fInputLineNumber,
-        fNoteData);
+        fNoteKind,
+        
+        fNoteQuatertonesPitch,
+        fNoteDivisions,
+        fNoteDisplayDivisions,
+        fNoteDotsNumber,
+        fNoteGraphicDuration,
+        
+        fNoteOctave,
+        
+        fNoteIsARest,
+        fNoteIsUnpitched,
+        
+        fNoteIsAGraceNote);
 
   // divisions
   // ------------------------------------------------------
@@ -4386,7 +4383,7 @@ msrDiatonicPitch msrNote::getDiatonicPitch (
   return
     msrDiatonicPitchFromQuatertonesPitch (
       inputLineNumber,
-      fNoteData.fNoteQuatertonesPitch);
+      fNoteQuatertonesPitch);
 }
 
 void msrNote::setNoteStem (S_msrStem stem)
@@ -4407,7 +4404,7 @@ void msrNote::setNoteBelongsToAChord ()
       ", line " << fInputLineNumber <<
       ", is set to belong to a chord" << endl;
 
-  fNoteData.fNoteBelongsToAChord = true;
+  fNoteBelongsToAChord = true;
   fNoteKind = msrNote::kChordMemberNote;
 }
 
@@ -4422,8 +4419,8 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
       ", line " << fInputLineNumber <<
       endl;
 
-  fNoteData.fNoteDisplayDivisions =
-    fNoteData.fNoteDisplayDivisions
+  fNoteDisplayDivisions =
+    fNoteDisplayDivisions
       *
     actualNotes
       /
@@ -4774,15 +4771,15 @@ string msrNote::notePitchAsString () const
   
   /*
   cerr << "msrNote::notePitchAsString (), isRest = " <<
-    fNoteData.fNoteIsARest <<
+    fNoteIsARest <<
     ", fQuartertonesPitch = " << fQuartertonesPitch << endl;
   */
   
-  if (fNoteData.fNoteIsARest)
+  if (fNoteIsARest)
 
     s << "r"; // JMI R ???
 
-  else if (fNoteData.fNoteIsUnpitched)
+  else if (fNoteIsUnpitched)
 
     s << "unpitched ";
 
@@ -4791,7 +4788,7 @@ string msrNote::notePitchAsString () const
     s <<
       msrQuartertonesPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fNoteData.getNoteQuatertonesPitch ());  
+        fNoteQuatertonesPitch);  
 
   }
   
@@ -4805,18 +4802,19 @@ string msrNote::noteDivisionsAsMSRString () const
 //  string errorMessage;
 
   result =
-    divisionsAsMsrString (
-      fInputLineNumber,
-      fNoteData.fNoteDisplayDivisions,
-      computedNumberOfDots);
+    fNotePartDirectUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fNoteDisplayDivisions,
+        computedNumberOfDots);
 
-  if (computedNumberOfDots != fNoteData.fNoteDotsNumber) {
+  if (computedNumberOfDots != fNoteDotsNumber) {
     stringstream s;
 
     s <<
       "note " << noteAsShortStringWithRawDivisions () <<
       " needs " << computedNumberOfDots << " dots," << endl <<
-      "but " << fNoteData.fNoteDotsNumber << " is found in MusicXML data";
+      "but " << fNoteDotsNumber << " is found in MusicXML data";
       
     msrMusicXMLError (
       fInputLineNumber,
@@ -4833,9 +4831,10 @@ string msrNote::skipDivisionsAsMSRString () const
 //  string errorMessage;
 
   result =
-    divisionsAsMsrString (
-      fInputLineNumber,
-      fNoteData.fNoteDivisions);
+    fNotePartDirectUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fNoteDivisions);
 /* JMI
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -4850,9 +4849,10 @@ string msrNote::noteGraphicDurationAsMSRString () const
   string result;
 
   result =
-    divisionsAsMsrString (
-      fInputLineNumber,
-      fNoteData.fNoteGraphicDuration);
+    fNotePartDirectUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fNoteGraphicDuration);
 
   return result;
 }
@@ -4865,11 +4865,20 @@ string msrNote::tupletNoteGraphicDurationAsMSRString ( // JMI
   result =
     tupletDivisionsAsMsrString (
       fInputLineNumber,
-      fNoteData.fNoteDivisions,
+      fNoteDivisions,
       actualNotes,
       normalNotes);
 
   return result;
+}
+
+msrDiatonicPitch msrNote::noteDiatonicPitch (
+  int inputLineNumber) const
+{
+  return
+    msrDiatonicPitchFromQuatertonesPitch (
+      inputLineNumber,
+      fNoteQuatertonesPitch);
 }
 
 string msrNote::noteDiatonicPitchAsString (
@@ -4878,31 +4887,9 @@ string msrNote::noteDiatonicPitchAsString (
   return
     msrDiatonicPitchAsString (
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      fNoteData.noteDiatonicPitch (
-        inputLineNumber));
+      noteDiatonicPitch (
+        fInputLineNumber));
 }
-
-      /* JMI
-string msrNote::noteDiatonicPitchAsString (
-  int inputLineNumber) const
-{
-  return
-    msrDiatonicPitchAsString (
-      fNoteData.getDiatonicPitch (
-        inputLineNumber));
-  // fNoteData.fNoteStep is a char
-  switch () {
-    case kA: return "A"; break;
-    case kB: return "B"; break;
-    case kC: return "C"; break;
-    case kD: return "D"; break;
-    case kE: return "E"; break;
-    case kF: return "F"; break;
-    case kG: return "G"; break;
-    default: return "?";
-  } // switch
-}
-  */
 
 string msrNote::noteAsShortStringWithRawDivisions () const
 {
@@ -4917,13 +4904,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
-        fNoteData.fNoteDivisions;
+        fNoteDivisions;
         
-      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
+      if (fNoteDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fNoteDisplayDivisions;
+          "_" << fNoteDisplayDivisions;
           
       s << " divs";
       break;
@@ -4931,11 +4918,11 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteGraphicDurationAsMSRString ();
         
-      for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -4944,18 +4931,18 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "R" <<
         ":" <<
-        fNoteData.fNoteDivisions << " divs";
+        fNoteDivisions << " divs";
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        fNoteData.fNoteDivisions;
+        fNoteDivisions;
         
-      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
+      if (fNoteDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fNoteDisplayDivisions;
+          "_" << fNoteDisplayDivisions;
           
       s << " divs";
       break;
@@ -4963,13 +4950,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
-        fNoteData.fNoteDivisions;
+        fNoteDivisions;
         
-      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
+      if (fNoteDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fNoteDisplayDivisions;
+          "_" << fNoteDisplayDivisions;
           
       s << " divs";
       break;
@@ -4978,17 +4965,17 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         notePitchAsString ();
 
-      if (! fNoteData.fNoteIsARest)
+      if (! fNoteIsARest)
         s <<
-          "[" << fNoteData.fNoteOctave << "]";
+          "[" << fNoteOctave << "]";
 
       s <<
         ":" <<
-        fNoteData.fNoteDivisions;
+        fNoteDivisions;
         
-      if (fNoteData.fNoteDivisions != fNoteData.fNoteDisplayDivisions)
+      if (fNoteDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteData.fNoteDisplayDivisions;
+          "_" << fNoteDisplayDivisions;
             
         s << " divs";
       break;
@@ -5010,7 +4997,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -5018,11 +5005,11 @@ string msrNote::noteAsShortString () const
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteGraphicDurationAsMSRString ();
         
-      for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -5044,7 +5031,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -5053,15 +5040,15 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString ();
 
-      if (! fNoteData.fNoteIsARest)
+      if (! fNoteIsARest)
         s <<
-          "[" << fNoteData.fNoteOctave << "]";
+          "[" << fNoteOctave << "]";
 
       s <<
         ":" <<
         tupletDivisionsAsMsrString (
           fInputLineNumber,
-          fNoteData.fNoteDivisions,
+          fNoteDivisions,
           fNoteTupletUplink->getTupletActualNotes (),
           fNoteTupletUplink->getTupletNormalNotes ());
       break;
@@ -5087,7 +5074,7 @@ string msrNote::noteAsString () const
       s <<
         "Standalone note" " "<<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -5096,11 +5083,11 @@ string msrNote::noteAsString () const
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteGraphicDurationAsMSRString ();
         
-      for (int i = 0; i < fNoteData.fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
       } // for
       break;
@@ -5123,7 +5110,7 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
-        "[" << fNoteData.fNoteOctave << "]" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
         noteDivisionsAsMSRString ();
       break;
@@ -5133,15 +5120,15 @@ string msrNote::noteAsString () const
         "Tuplet member note"  " "<<
         notePitchAsString ();
 
-      if (! fNoteData.fNoteIsARest)
+      if (! fNoteIsARest)
         s <<
-          "[" << fNoteData.fNoteOctave << "]";
+          "[" << fNoteOctave << "]";
 
       s <<
         ":" <<
         tupletDivisionsAsMsrString (
           fInputLineNumber,
-          fNoteData.fNoteDivisions,
+          fNoteDivisions,
           fNoteTupletUplink->getTupletActualNotes (),
           fNoteTupletUplink->getTupletNormalNotes ());
       break;
@@ -5194,25 +5181,25 @@ void msrNote::print (ostream& os)
     
   if (fNoteKind == kGraceNote) {
     os <<
-      fNoteData.fNoteDisplayDivisions <<
+      fNoteDisplayDivisions <<
       " disp. divs";
   }
   
   else {
     if (
-        fNoteData.fNoteDivisions
+        fNoteDivisions
           ==
-        fNoteData.fNoteDisplayDivisions) {
+        fNoteDisplayDivisions) {
       os <<
-        fNoteData.fNoteDivisions <<
+        fNoteDivisions <<
         " divs";
     }
     
     else {
       os <<
-        fNoteData.fNoteDivisions <<
+        fNoteDivisions <<
         "divs, " <<
-        fNoteData.fNoteDisplayDivisions<<
+        fNoteDisplayDivisions<<
         " disp. divs";
     }
   }
@@ -5863,9 +5850,10 @@ string msrChord::chordDivisionsAsMSRString () const
   */
   
   result =
-    divisionsAsMsrString (
-      fInputLineNumber,
-      fChordDivisions);
+    fChordPartDirectUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fChordDivisions);
 
   return result;
 }
@@ -5879,16 +5867,16 @@ string msrNote::noteDivisionsAsMSRString () const
   result =
     divisionsAsMsrString (
       fInputLineNumber,
-      fNoteData.fNoteDisplayDivisions,
+      fNoteDisplayDivisions,
       computedNumberOfDots);
 
-  if (computedNumberOfDots != fNoteData.fNoteDotsNumber) {
+  if (computedNumberOfDots != fNoteDotsNumber) {
     stringstream s;
 
     s <<
       "note " << noteAsShortStringWithRawDivisions () <<
       " needs " << computedNumberOfDots << " dots," << endl <<
-      "but " << fNoteData.fNoteDotsNumber << " is found in MusicXML data";
+      "but " << fNoteDotsNumber << " is found in MusicXML data";
       
     msrMusicXMLError (
       fInputLineNumber,
@@ -8720,9 +8708,10 @@ string msrSyllable::syllableExtendKindAsString (
 string msrSyllable::syllableDivisionsAsString () const
 {
   return
-    divisionsAsMsrString (
-      fInputLineNumber,
-      fSyllableDivisions);
+    fSyllablePartDirectUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fSyllableDivisions);
 }
 
 string msrSyllable::syllableNoteUplinkAsString () const
@@ -11417,9 +11406,10 @@ string msrMeasure::getMeasureLengthAsString () const
 
   if (measureLength > 0) {
     result =
-      divisionsAsMsrString (
-        fInputLineNumber,
-        measureLength);
+      fMeasurePartDirectUplink->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          measureLength);
   }
   
   else
@@ -17772,7 +17762,7 @@ void msrMidi::print (ostream& os)
   // how many quater tones from A?s // JMI
   int noteQuatertonesFromA;
   
-  switch (fNoteData.getNoteDiatonicPitch ()) {
+  switch (getNoteDiatonicPitch ()) {
     case 'A': noteQuatertonesFromA =  0; break;
     case 'B': noteQuatertonesFromA =  4; break;
     case 'C': noteQuatertonesFromA =  6; break;

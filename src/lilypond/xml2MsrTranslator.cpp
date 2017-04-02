@@ -7600,7 +7600,12 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteIsUnpitched,
         
         fCurrentNoteIsAGraceNote);
-  
+
+  // set note's part direct uplink
+  newNote->
+    setNotePartDirectUplink (
+      fCurrentPart);
+      
   // set note's divisions per quarter note
   newNote->
     setNoteDivisionsPerQuarterNote (

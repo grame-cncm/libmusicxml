@@ -2758,6 +2758,13 @@ class EXP msrNote : public msrElement
     // note context
     // -------------------------------
 
+    // part direct uplink
+    void                  setNotePartDirectUplink (S_msrPart part)
+                              { fNotePartDirectUplink = part; }
+                              
+    S_msrPart             getNotePartDirectUplink () const
+                             { return fNotePartDirectUplink; }
+
     // chord members
     void                  setNoteBelongsToAChord ();
 
@@ -2928,6 +2935,9 @@ class EXP msrNote : public msrElement
     string                noteAsShortString () const;
     string                noteAsString () const;
       
+    msrDiatonicPitch      noteDiatonicPitch (
+                            int inputLineNumber) const;
+                            
     string                noteDiatonicPitchAsString (
                             int inputLineNumber) const;
 
@@ -3016,6 +3026,9 @@ class EXP msrNote : public msrElement
     // note context
     // ------------------------------------------------------
 
+    // divisions handling is done at the part level
+    S_msrPart                 fNotePartDirectUplink;
+    
     int                       fNoteStaffNumber;
     int                       fNoteVoiceNumber;
 
