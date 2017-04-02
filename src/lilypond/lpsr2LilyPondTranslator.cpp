@@ -2715,26 +2715,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           elt->getNoteTupletUplink ();
           
       fOstream <<
-        tupletDivisionsAsMsrString (
-          elt->getInputLineNumber (),
-          elt->getNoteDivisions (),
-          tuplet->getTupletActualNotes (),
-          tuplet->getTupletNormalNotes ());
-
-          /* JMI
-      msrNoteTypeKind
-        noteTypeKind =
-          elt->getNoteTypeKind ();
-
-      if (noteTypeKind != k_NoDuration)
-        fOstream <<
-          divisionsAsMsrString (
+        fCurrentPart->
+          tupletDivisionsAsMsrString (
             elt->getInputLineNumber (),
-            noteTypeKind);
-      else
-        fOstream <<
-          elt->noteDivisionsAsMSRString ();
-          */
+            elt->getNoteDivisions (),
+            tuplet->getTupletActualNotes (),
+            tuplet->getTupletNormalNotes ());
 
       // print the tie if any
       {

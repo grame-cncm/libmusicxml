@@ -7571,9 +7571,10 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     if (fCurrentNoteIsAGraceNote) {
       // set current grace note divisions      
       fCurrentNoteDivisions =
-        durationAsDivisions (
-          inputLineNumber,
-          fCurrentNoteGraphicDuration);
+        fCurrentPart->
+          durationAsDivisions (
+            inputLineNumber,
+            fCurrentNoteGraphicDuration);
     
       // set current grace note display divisions      
       fCurrentNoteDisplayDivisions =

@@ -342,16 +342,6 @@ enum msrDuration {
 
 string msrDurationAsString (msrDuration duration);
 
-int durationAsDivisions (
-  int         inputLineNumber,
-  msrDuration duration);
-
-string tupletDivisionsAsMsrString (
-  int  inputLineNumber,
-  int  divisions,
-  int actualNotes,
-  int normalNotes);
-
 //______________________________________________________________________________
 /*!
   \brief The MSR code generation options.
@@ -1779,6 +1769,13 @@ class EXP msrMeasure : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // part direct uplink
+    void                  setMeasurePartDirectUplink (S_msrPart part)
+                              { fMeasurePartDirectUplink = part; }
+                              
+    S_msrPart             getMeasurePartDirectUplink () const
+                             { return fMeasurePartDirectUplink; }
+
     void          setMeasureNumber (int measureNumber)
                       { fMeasureNumber = measureNumber; }
 
@@ -1835,9 +1832,6 @@ class EXP msrMeasure : public msrElement
                       
     S_msrVoice    getMeasureVoiceDirectUplink () const
                       { return fMeasureVoiceDirectUplink; }
-
-    S_msrPart     getMeasurePartDirectUplink () const
-                      { return fMeasurePartDirectUplink; }
 
     const list<S_msrElement>&
                   getMeasureElementsList () const
@@ -2438,6 +2432,13 @@ class EXP msrSyllable : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // part direct uplink
+    void                  setSyllablePartDirectUplink (S_msrPart part)
+                              { fSyllablePartDirectUplink = part; }
+                              
+    S_msrPart             getSyllablePartDirectUplink () const
+                             { return fSyllablePartDirectUplink; }
 
     msrSyllableKind
                       getSyllableKind () const
@@ -3127,6 +3128,13 @@ class EXP msrChord : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // part direct uplink
+    void                  setChordPartDirectUplink (S_msrPart part)
+                              { fChordPartDirectUplink = part; }
+                              
+    S_msrPart             getChordPartDirectUplink () const
+                             { return fChordPartDirectUplink; }
 
     msrDuration       getChordGraphicDuration () const
                           { return fChordGraphicDuration; }
@@ -5964,6 +5972,12 @@ class EXP msrPart : public msrElement
                       int  inputLineNumber,
                       int  divisions);
                   
+    string          tupletDivisionsAsMsrString (
+                      int  inputLineNumber,
+                      int  divisions,
+                      int actualNotes,
+                      int normalNotes);
+  
     void            testDivisionsAndDurations ();
     void            testTupletDivisionsAndDurations ();
   
