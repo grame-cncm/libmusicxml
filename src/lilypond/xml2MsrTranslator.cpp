@@ -7550,7 +7550,20 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     newNote =
       msrNote::createFromNoteData (
         inputLineNumber,
-        fNoteData);
+        fNoteKind;
+        
+        fNoteQuatertonesPitch;
+        fNoteDivisions;
+        fNoteDisplayDivisions;
+        fNoteDotsNumber;
+        fNoteGraphicDuration;
+        
+        fNoteOctave;
+        
+        fNoteIsARest;
+        fNoteIsUnpitched;
+        
+        fNoteIsAGraceNote);
 
 /* JMI
   S_msrElement testElement = newNote;

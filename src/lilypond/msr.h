@@ -520,6 +520,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
 \brief A note description for MusicXML.
 */
 //______________________________________________________________________________
+/*
 class msrNoteData
 {
   public:
@@ -603,12 +604,9 @@ class msrNoteData
     // part access is needed to convert divisions to durations
     S_msrPart             fNotePartDirectUplink;
     
-    // these informations are thus private to enforce setting them
-    // thru the setPitch() methods, ensuring they are consistent
-// JMI    msrDiatonicPitch          fNoteDiatonicPitch;
-   // msrAlteration             fNoteAlteration;
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
+*/
 
 /*!
 \brief A beat description for MusicXML.
@@ -2642,36 +2640,32 @@ class EXP msrNote : public msrElement
 
     static SMARTP<msrNote> create (
       int                  inputLineNumber,
-      msrNoteKind          fNoteKind;
-  
-      msrQuartertonesPitch fNoteQuatertonesPitch;
-      int                  fNoteDivisions;
-      int                  fNoteDisplayDivisions;
-      int                  fNoteDotsNumber;
-      msrDuration          fNoteGraphicDuration;
-      
-      int                  fNoteOctave;
-      
-      bool                 fNoteIsARest;
-      bool                 fNoteIsUnpitched;
+      msrNoteKind          noteKind,
     
-      bool                 fNoteIsAGraceNote);
+      msrQuartertonesPitch noteQuatertonesPitch,
+      int                  noteDivisions,
+      int                  noteDisplayDivisions,
+      int                  noteDotsNumber,
+      msrDuration          noteGraphicDuration,
+      
+      int                  noteOctave,
+      
+      bool                 noteIsARest,
+      bool                 noteIsUnpitched,
+    
+      bool                 noteIsAGraceNote);
   
-    static SMARTP<msrNote> createFromNoteData (
-      int           inputLineNumber,
-      msrNoteData&  noteData);
-
     SMARTP<msrNote> createNoteBareClone ();
     
     // creation from xml2Msr
     // ------------------------------------------------------
 
     static SMARTP<msrNote> createSkipNote (
-      int           inputLineNumber,
-      int           divisions,
-      int           divisionsPerQuarterNote,
-      int           staffNumber,
-      int           externalVoiceNumber);
+      int inputLineNumber,
+      int divisions,
+      int divisionsPerQuarterNote,
+      int staffNumber,
+      int externalVoiceNumber);
     
   protected:
  
@@ -2679,9 +2673,22 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrNote (
-      int           inputLineNumber,
-      msrNoteData&  noteData);
+      int                  inputLineNumber,
+      msrNoteKind          noteKind,
     
+      msrQuartertonesPitch noteQuatertonesPitch,
+      int                  noteDivisions,
+      int                  noteDisplayDivisions,
+      int                  noteDotsNumber,
+      msrDuration          noteGraphicDuration,
+      
+      int                  noteOctave,
+      
+      bool                 noteIsARest,
+      bool                 noteIsUnpitched,
+    
+      bool                 noteIsAGraceNote);
+        
     virtual ~msrNote();
     
   public:
@@ -2969,6 +2976,8 @@ class EXP msrNote : public msrElement
     int                       fNoteDivisionsPerQuarterNote; // JMI
 
     // basic note description
+    // ------------------------------------------------------
+
     msrNoteKind               fNoteKind;
 
     msrQuartertonesPitch      fNoteQuatertonesPitch;
@@ -2985,6 +2994,8 @@ class EXP msrNote : public msrElement
     bool                      fNoteIsAGraceNote;
     
     // note context
+    // ------------------------------------------------------
+
     int                       fNoteStaffNumber;
     int                       fNoteVoiceNumber;
 
@@ -2994,13 +3005,17 @@ class EXP msrNote : public msrElement
     S_msrTuplet               fNoteTupletUplink;
 
     // note lyrics
-    list<S_msrSyllable>       fNoteSyllables;
+     // ------------------------------------------------------
+
+   list<S_msrSyllable>        fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA JMI
     
     S_msrOctaveShift          fNoteOctaveShift; // JMI ???
 
     // elements attached to the note
+    // ------------------------------------------------------
+
     S_msrStem                 fNoteStem;
 
     list<S_msrBeam>           fNoteBeams;
@@ -3021,10 +3036,15 @@ class EXP msrNote : public msrElement
     S_msrHarmony              fNoteHarmony;
 
     // note measure information
+    // ------------------------------------------------------
+
     int                       fNoteMeasureNumber;
     int                       fNotePositionInMeasure;
     bool                      fNoteOccupiesAFullMeasure;
     S_msrMeasure              fNoteMeasureUplink;
+
+    // note redundant information (for speed)
+    // ------------------------------------------------------
 
     // this is needed to handle stemless notes,
     // because the <stem> is visited after 'visitorStart ( S_msrNote )' 

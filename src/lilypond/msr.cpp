@@ -2189,6 +2189,7 @@ void msrElement::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/*
 ostream& operator<< (ostream& os, msrNoteData& noteData)
 {
   noteData.print (os);
@@ -2239,15 +2240,15 @@ void msrNoteData::setNoteQuartertonesPitch (
   msrQuartertonesPitch quartertonesPitch)
 {
   fNoteQuatertonesPitch = quartertonesPitch;
-/*
+/ *
   // set fNoteDiatonicPitch and fNoteAlteration accordingly  
   setDiatonicPitchAndAlteration (
     quartertonesPitch,
     fNoteDiatonicPitch, fNoteAlteration);
-*/
+* /
 }
 
-/*
+/* 
 void msrNoteData::setNoteDiatonicPitchAndAlteration (
   int              inputLineNumber,
   msrDiatonicPitch diatonicPitch,
@@ -2261,7 +2262,7 @@ void msrNoteData::setNoteDiatonicPitchAndAlteration (
       inputLineNumber,
       diatonicPitch, alteration);
 }
-*/
+* /
 
 msrDiatonicPitch msrNoteData::noteDiatonicPitch (
   int inputLineNumber) const
@@ -2281,7 +2282,7 @@ void msrNoteData::print (ostream& os)
       setw(width) << "fNoteIsARest" << " = " <<
       fNoteIsARest <<
       endl <<
-      /*
+      / *
     idtr << left <<
       setw(width) << "fNoteDiatonicPitch" << " = " <<
       msrDiatonicPitchAsString (fNoteDiatonicPitch) <<
@@ -2290,7 +2291,7 @@ void msrNoteData::print (ostream& os)
       setw(width) << "fNoteAlteration" << " = " <<
       fNoteAlteration <<
       endl <<
-      */
+      * /
     idtr << left <<
       setw(width) <<
       "fNoteQuatertonesPitch" << " = " <<
@@ -2340,7 +2341,7 @@ void msrNoteData::print (ostream& os)
       fNoteVoiceNumber <<
       endl;
 };
-
+*/
 
 //______________________________________________________________________________
 void msrBeatData::print (ostream& os)
@@ -4048,45 +4049,105 @@ void msrAftergracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrNote msrNote::create (
   int                  inputLineNumber,
-  msrNoteKind          fNoteKind;
+  msrNoteKind          noteKind;
 
-  msrQuartertonesPitch fNoteQuatertonesPitch;
-  int                  fNoteDivisions;
-  int                  fNoteDisplayDivisions;
-  int                  fNoteDotsNumber;
-  msrDuration          fNoteGraphicDuration;
+  msrQuartertonesPitch noteQuatertonesPitch,
+  int                  noteDivisions,
+  int                  noteDisplayDivisions,
+  int                  noteDotsNumber,
+  msrDuration          noteGraphicDuration,
   
-  int                  fNoteOctave;
+  int                  noteOctave,
   
-  bool                 fNoteIsARest;
-  bool                 fNoteIsUnpitched;
+  bool                 noteIsARest,
+  bool                 noteIsUnpitched,
 
-  bool                 fNoteIsAGraceNote)
+  bool                 noteIsAGraceNote)
 {  
   msrNote * o =
     new msrNote (
-      inputLineNumber, noteData);
+      inputLineNumber,
+      noteKind,
+      
+      noteQuatertonesPitch,
+      noteDivisions,
+      noteDisplayDivisions,
+      noteDotsNumber,
+      noteGraphicDuration,
+      
+      noteOctave,
+      
+      noteIsARest,
+      noteIsUnpitched,
+      
+      noteIsAGraceNote);
   assert(o!=0); 
   return o;
 }
 
-S_msrNote msrNote::createFromNoteData (
-  int           inputLineNumber,
-  msrNoteData&  noteData)
-{  
+S_msrNote msrNote::createSkipNote (
+  int inputLineNumber,
+  int divisions,
+  int divisionsPerQuarterNote,
+  int staffNumber,
+  int externalVoiceNumber)
+{
+  noteData.setNoteQuartertonesPitch (k_NoPitch);
+  noteData.fNoteIsARest = false; // JMI
+  
+  noteData.fNoteDivisions = divisions;
+  noteData.fNoteDisplayDivisions = divisions;
+    
+  noteData.fNoteStaffNumber = staffNumber;
+  noteData.fNoteVoiceNumber = externalVoiceNumber;
+
   msrNote * o =
     new msrNote (
-      inputLineNumber, noteData);
-  assert(o!=0); 
+      inputLineNumber,
+      noteKind;
+      
+      noteQuatertonesPitch;
+      noteDivisions;
+      noteDisplayDivisions;
+      noteDotsNumber;
+      noteGraphicDuration;
+      
+      noteOctave;
+      
+      noteIsARest;
+      noteIsUnpitched;
+      
+      noteIsAGraceNote);
+  assert(o!=0);
+
+  // set skip's note kind
+  o->fNoteKind =
+    kSkipNote;
+  
+  // set skip's divisions per quarter note
+  o->fNoteDivisionsPerQuarterNote =
+    divisionsPerQuarterNote;
+  
   return o;
-}
+}    
 
 msrNote::msrNote (
-  int           inputLineNumber,
-  msrNoteData&  noteData)
-  :
-    msrElement (inputLineNumber),
-    fNoteData (noteData)
+  int                  inputLineNumber,
+  msrNoteKind          noteKind;
+
+  msrQuartertonesPitch noteQuatertonesPitch;
+  int                  noteDivisions;
+  int                  noteDisplayDivisions;
+  int                  noteDotsNumber;
+  msrDuration          noteGraphicDuration;
+  
+  int                  noteOctave;
+  
+  bool                 noteIsARest;
+  bool                 noteIsUnpitched;
+
+  bool                 noteIsAGraceNote)
+  : msrElement (inputLineNumber)
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
@@ -4095,8 +4156,8 @@ msrNote::msrNote (
 
     idtr++;
     
-    cerr <<
-      fNoteData;
+  //  cerr <<
+ //     fNoteData;
 
     idtr--;
 
@@ -4106,17 +4167,50 @@ msrNote::msrNote (
         endl << endl;
   }
 
-  fNoteKind = k_NoNoteKind;
+  // basic note description
+  // ------------------------------------------------------
 
-  fNoteOccupiesAFullMeasure = false;
+  fNoteKind = noteKind;
+
+  fNoteQuatertonesPitch = noteQuatertonesPitch;
+  fNoteDivisions        = noteQuatertonesPitch;
+  fNoteDisplayDivisions = noteDisplayDivisions;
+  fNoteDotsNumber       = noteDotsNumber;
+  fNoteGraphicDuration  = noteGraphicDuration;
+
+  fNoteOctave = noteOctave;
+
+  fNoteIsARest     = noteIsARest;
+  fNoteIsUnpitched = noteIsUnpitched;
+  
+  fNoteIsAGraceNote = noteIsAGraceNote;
+    
+  // note context
+  // ------------------------------------------------------
+
+  fNoteStaffNumber = 0;
+  fNoteVoiceNumber = 0;
+
+  fNoteBelongsToAChord = false;
+  fNoteBelongsToATuplet = false;
+
+  // note lyrics
+  // ------------------------------------------------------
+
+  fNoteSyllableExtendKind = k_NoSyllableExtend;
+  
+  // note measure information
+  // ------------------------------------------------------
 
   fNoteMeasureNumber = -10011;
   fNotePositionInMeasure = -20022;
+  fNoteOccupiesAFullMeasure = false;
+
+  // note redundant information (for speed)
+  // ------------------------------------------------------
 
   fNoteIsStemless = false;
-  
   fNoteHasATrill = false;
-
   fNoteHasADelayedOrnament = false;
 }
 
@@ -4422,40 +4516,6 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 
   fNoteSyllables.push_back (syllable);
 }
-
-S_msrNote msrNote::createSkipNote (
-  int           inputLineNumber,
-  int           divisions,
-  int           divisionsPerQuarterNote,
-  int           staffNumber,
-  int           externalVoiceNumber)
-{
-  msrNoteData noteData;
-
-  noteData.setNoteQuartertonesPitch (k_NoPitch);
-  noteData.fNoteIsARest = false; // JMI
-  
-  noteData.fNoteDivisions = divisions;
-  noteData.fNoteDisplayDivisions = divisions;
-    
-  noteData.fNoteStaffNumber = staffNumber;
-  noteData.fNoteVoiceNumber = externalVoiceNumber;
-
-  msrNote * o =
-    new msrNote (
-      inputLineNumber, noteData);
-  assert(o!=0);
-
-  // set skip's note kind
-  o->fNoteKind =
-    kSkipNote;
-  
-  // set skip's divisions per quarter note
-  o->fNoteDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-  
-  return o;
-}    
 
 void msrNote::acceptIn (basevisitor* v)
 {
