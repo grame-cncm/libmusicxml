@@ -8837,6 +8837,12 @@ void msrStanza::appendSyllableToStanza (
         "to stanza" << getStanzaName () <<
       endl;
       
+  // set the syllable's direct part uplink
+  syllable->
+    setSyllableDirectPartUplink (
+      fStanzaDirectPartUplink);
+
+  // append the syllable to this stanza
   fSyllables.push_back (syllable);
 
   // does this stanza contain text?
@@ -8893,8 +8899,8 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
         divisions,
         this);
 
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8923,8 +8929,8 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
         divisions,
         this);
 
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8951,8 +8957,8 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
         divisions,
         this);
         
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -8978,8 +8984,8 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
         divisions,
         this);
         
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9005,8 +9011,8 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
         divisions,
         this);
         
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9032,8 +9038,8 @@ S_msrSyllable msrStanza::addLigatureSyllableToStanza (
         divisions,
         this);
         
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9059,8 +9065,8 @@ S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
         divisions,
         this);
         
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9087,8 +9093,8 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
         0,
         this);
        
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9119,8 +9125,8 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
         0,
         this);
        
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
@@ -9151,8 +9157,8 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
         0,
         this);
         
-  // add syllable to this stanza
-  fSyllables.push_back (syllable);
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
 
   // and return it
   return syllable;
