@@ -717,9 +717,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           elt->getVoiceName ();
 
         string partCombinedName =
-          elt->getVoiceStaffUplink ()->
-            getStaffPartUplink ()->
-              getPartCombinedName ();
+          elt->getVoiceDirectPartUplink ()->
+            getPartCombinedName ();
                         
         // create a ChordNames context command
         if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceChords)

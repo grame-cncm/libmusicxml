@@ -513,83 +513,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
 /*
 class msrNoteData
 {
-  public:
-  
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrNoteData ();
-
-  public:
-
-    // initialisation
-    // ------------------------------------------------------
-
-    void                  initializeNodeData ();
-    
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setNoteDirectPartUplink (
-                            S_msrPart part)
-                              {fNoteDirectPartUplink = part; }
-
-    void                  setNoteQuartertonesPitch ( // JMI
-                            msrQuartertonesPitch quartertonesPitch);
-                                                       
-    msrQuartertonesPitch  getNoteQuatertonesPitch () const
-                              { return fNoteQuatertonesPitch; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    msrDiatonicPitch      noteDiatonicPitch (
-                            int inputLineNumber) const;
  
-    // print
-    // ------------------------------------------------------
-
-    virtual void  print (ostream& os);
- 
-  public:
-
-    bool                  fNoteIsARest;
-    bool                  fNoteIsUnpitched;
-
-    // diatonic pitches are used to handle relative pitches,
-    // and quaternotes ones are used to print the notes
-    msrQuartertonesPitch  fNoteQuatertonesPitch;
-    
-    int                   fNoteOctave;
-
-    // MusicXML durations are in divisions per quarter note.
-    // LilyPond durations are in whole notes,
-    // hence the "* 4" multiplications
-    
-    // the note duration when played
-    int                   fNoteDivisions;
-
-    // tuplets member notes need another divisions value for display
-    int                   fNoteDisplayDivisions;
-
-    // graphic duration is needed for grace notes,
-    // since they don't have any note (sounding) duration
-    msrDuration           fNoteGraphicDuration;
-
-    int                   fNoteDotsNumber;
-    
-    bool                  fNoteIsAGraceNote;
-    
-    bool                  fNoteBelongsToAChord;
-    
-    bool                  fNoteBelongsToATuplet;
-                    
-    int                   fNoteVoiceNumber;
-    int                   fNoteStaffNumber;
-
-  private:
 
     // part access is needed to convert divisions to durations
     S_msrPart             fNoteDirectPartUplink;
@@ -4431,6 +4355,13 @@ class EXP msrStanza : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // part direct uplink
+    void                  setStanzaDirectPartUplink (S_msrPart part)
+                              { fStanzaDirectPartUplink = part; }
+                              
+    S_msrPart             getStanzaDirectPartUplink () const
+                             { return fStanzaDirectPartUplink; }
+
     int             getStanzaNumber () const
                         { return fStanzaNumber; }
                 
@@ -4513,6 +4444,9 @@ class EXP msrStanza : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    // part direct uplink
+    S_msrPart                 fStanzaDirectPartUplink;
 
     int                   fStanzaNumber;
     msrStanzaKind         fStanzaKind;
@@ -5249,6 +5183,13 @@ class EXP msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // part direct uplink
+    void                  setVoiceDirectPartUplink (S_msrPart part)
+                              { fVoiceDirectPartUplink = part; }
+                              
+    S_msrPart             getVoiceDirectPartUplink () const
+                             { return fVoiceDirectPartUplink; }
+
     msrVoiceKind    getVoiceKind () const
                         { return fVoiceKind; }
 
@@ -5432,6 +5373,9 @@ class EXP msrVoice : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    // part direct uplink
+    S_msrPart                 fVoiceDirectPartUplink;
 
     msrVoiceKind              fVoiceKind;
 
@@ -5631,15 +5575,19 @@ class EXP msrStaff : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // part direct uplink
+    void            setStaffDirectPartUplink ( S_msrPart part)
+                        { fStaffDirectPartUplink = part; }
+
+    S_msrPart       getStaffDirectPartUplink () const
+                        { return fStaffDirectPartUplink; }
+
     msrStaffKind    getStaffKind () const
                         { return fStaffKind; }
                 
     int             getStaffNumber () const
                         { return fStaffNumber; }
                 
-    S_msrPart       getStaffPartUplink () const
-                        { return fStaffPartUplink; }
-
     string          getStaffName () const;
 
 // JMI    string          getStaffInstrumentName () const
@@ -5775,7 +5723,8 @@ class EXP msrStaff : public msrElement
 
   private:
 
-    // data
+    // divisions handling is done at the part level
+    S_msrPart               fStaffDirectPartUplink;
 
     string                  fStaffName;
     
@@ -5784,7 +5733,6 @@ class EXP msrStaff : public msrElement
     static int              gMaxStaffVoices;
 
     int                     fStaffNumber;
-    S_msrPart               fStaffPartUplink;
 
     map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
                               //numbered 1 to gMaxStaffVoices

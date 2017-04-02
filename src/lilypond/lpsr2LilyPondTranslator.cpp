@@ -1091,16 +1091,10 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
+  // fetch part
   S_msrPart
     part =
-      staff->getStaffPartUplink ();
-/* JMI
-  string
-    partName =
-      part->getPartName (),
-    partAbbreviation =
-      part->getPartAbbreviation ();
-*/
+      staff->getStaffDirectPartUplink ();
 
   string
     staffBlockInstrumentName =

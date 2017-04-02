@@ -8878,10 +8878,12 @@ S_msrSyllable msrStanza::addRestSyllableToStanza (
   if (gGeneralOptions->fTraceLyrics) {
     S_msrStaff
       staff =
-        fStanzaVoiceUplink->getVoiceStaffUplink ();
+        fStanzaVoiceUplink->
+          getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff->
+          getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> adding 'Rest' syllable:" << divisions <<
@@ -8917,7 +8919,7 @@ S_msrSyllable msrStanza::addSkipSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> adding 'Skip' syllable:" << divisions <<
@@ -8954,7 +8956,7 @@ S_msrSyllable msrStanza::addTiedSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding 'Tied' syllable: " << divisions <<
@@ -8989,7 +8991,7 @@ S_msrSyllable msrStanza::addSlurSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding 'Slur' syllable:" << divisions <<
@@ -9023,7 +9025,7 @@ S_msrSyllable msrStanza::addSlurBeyondEndSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding a 'SlurBeyondEnd' syllable: " << divisions <<
@@ -9057,7 +9059,7 @@ S_msrSyllable msrStanza::addLigatureSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding 'Ligature' syllable:" << divisions <<
@@ -9091,7 +9093,7 @@ S_msrSyllable msrStanza::addLigatureBeyondEndSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding a 'LigatureBeyondEnd' syllable: " << divisions <<
@@ -9125,7 +9127,7 @@ S_msrSyllable msrStanza::addBarcheckSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding a 'barcheck' syllable" <<
@@ -9164,7 +9166,7 @@ S_msrSyllable msrStanza::addBarnumberCheckSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding a 'barcheck' syllable" <<
@@ -9203,7 +9205,7 @@ S_msrSyllable msrStanza::addBreakSyllableToStanza (
         fStanzaVoiceUplink->getVoiceStaffUplink ();
     S_msrPart
       part =
-        staff-> getStaffPartUplink ();
+        staff-> getStaffDirectPartUplink ();
     
     cerr << idtr <<
       "% --> Adding a 'Break' syllable" <<
@@ -10347,7 +10349,7 @@ msrMeasure::msrMeasure (
   fMeasureDirectPartUplink =
     fMeasureVoiceDirectUplink->
       getVoiceStaffUplink ()->
-        getStaffPartUplink ();
+        getStaffDirectPartUplink ();
 
   // fetch measure time from segment
   setMeasureTime (
@@ -11424,7 +11426,7 @@ msrSegment::msrSegment (
   bool measureZeroHasBeenMet = // JMI
     fSegmentVoicekUplink->
       getVoiceStaffUplink ()->
-        getStaffPartUplink ()->
+        getStaffDirectPartUplink ()->
           getMeasureZeroHasBeenMetInPart ();
 
   // first measure number
@@ -14299,7 +14301,7 @@ msrStaff::msrStaff (
   msrAssert(
     staffPartUplink != 0, "staffPartUplink is null");
   
-  fStaffPartUplink   = staffPartUplink;
+  fStaffDirectPartUplink = staffPartUplink;
 
   fRegisteredVoicesCounter = 0;
 
@@ -14307,26 +14309,26 @@ msrStaff::msrStaff (
   switch (staffKind) {
     case msrStaff::kRegularStaff:
       fStaffName =
-        fStaffPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMSRName () +
         "_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kTablatureStaff:
-        fStaffPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMSRName () +
         "_Tablature_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kPercussionStaff:
-        fStaffPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMSRName () +
         "_Percussion_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kHarmonyStaff:
       fStaffName =
-        fStaffPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMSRName () +
         "_Harmony_Staff";
       break;
   } // switch
@@ -14334,7 +14336,8 @@ msrStaff::msrStaff (
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Creating staff \"" << fStaffName <<
-      "\" in part " << fStaffPartUplink->getPartCombinedName () <<
+      "\" in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // check the staff number
@@ -14377,7 +14380,7 @@ msrStaff::msrStaff (
 
   // populate the staff
   fStaffDivisionsPerQuarterNote =
-    fStaffPartUplink->
+    fStaffDirectPartUplink->
       getPartDivisionsPerQuarterNote ();
 
   // create the staff voice master with relative number 0
@@ -14401,14 +14404,15 @@ msrStaff::msrStaff (
   {
     S_msrClef
       clef =
-        fStaffPartUplink->getPartClef ();
+        fStaffDirectPartUplink->getPartClef ();
   
     if (clef) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff clef '" << clef->clefAsString () <<
           "' in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
+          " in part " <<
+          fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
       setStaffClef (clef);
@@ -14419,7 +14423,8 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting default treble clef " <<
           " in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
+          " in part " <<
+          fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
       // create the implicit initial G line 2 clef
@@ -14434,14 +14439,15 @@ msrStaff::msrStaff (
   {
     S_msrKey
       key =
-        fStaffPartUplink->getPartKey ();
+        fStaffDirectPartUplink->getPartKey ();
   
     if (key) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff key '" << key->keyAsString () <<
           "' in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
+          " in part " <<
+          fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
       setStaffKey (key);
@@ -14451,7 +14457,8 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting default C major key " <<
           " in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
+          " in part " <<
+          fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
           
       // create the implicit initial C major key
@@ -14466,14 +14473,15 @@ msrStaff::msrStaff (
   {
     S_msrTime
       time =
-        fStaffPartUplink->getPartTime ();
+        fStaffDirectPartUplink->getPartTime ();
 
     if (time) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff time '" << time->timeAsString () <<
           "' in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
+          " in part " <<
+          fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
       setStaffTime (time);
@@ -14483,7 +14491,8 @@ msrStaff::msrStaff (
         cerr << idtr <<
           "Setting default 4/4 time " <<
           " in staff " << fStaffNumber <<
-          " in part " << fStaffPartUplink->getPartCombinedName () <<
+          " in part " <<
+          fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
           
       // create the implicit initial 4/4 time signature
@@ -14498,7 +14507,7 @@ msrStaff::msrStaff (
   {
     S_msrTranspose
       transpose =
-        fStaffPartUplink->getPartTranspose ();
+        fStaffDirectPartUplink->getPartTranspose ();
         
     if (transpose) {
       fStaffTranspose = transpose;
@@ -14542,11 +14551,11 @@ string msrStaff::getStaffName () const
   return
     fStaffNumber == 0
       ?
-        fStaffPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMSRName () +
         "_S_" +
         "(MASTER)"
       :
-        fStaffPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMSRName () +
         "_S_" +
         int2EnglishWord (fStaffNumber);
         */
@@ -14685,7 +14694,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
        " as relative voice " << fRegisteredVoicesCounter <<
      " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
- // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
+ // JMI     " in part " << fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // are there too many voices in this staff? 
@@ -14742,7 +14751,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       "Fetching external voice number " << externalVoiceNumber <<
      " in staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -14803,7 +14813,7 @@ void msrStaff::registerVoiceInStaff (
       "\" as relative voice " << fRegisteredVoicesCounter <<
       " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
-// JMI       " in part " << fStaffPartUplink->getPartCombinedName () <<
+// JMI       " in part " << fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // register is by its relative number
@@ -14821,7 +14831,8 @@ void msrStaff::setStaffClef (S_msrClef clef)
     cerr << idtr <<
       "Setting staff clef '" << clef->clefAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff clef
@@ -14843,7 +14854,8 @@ void msrStaff::setStaffKey  (S_msrKey  key)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff key
@@ -14859,7 +14871,8 @@ void msrStaff::setStaffTime (S_msrTime time)
     cerr << idtr <<
       "Setting time '" << time->timeAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff time
@@ -14874,7 +14887,8 @@ void msrStaff::appendRepeatToStaff (int inputLineNumber)
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -14894,7 +14908,8 @@ void msrStaff::appendRepeatendingToStaff (
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat ending to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -14915,7 +14930,8 @@ void msrStaff::appendRepeatCloneToStaff (
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat clone to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -14933,7 +14949,8 @@ void msrStaff::appendRepeatendingCloneToStaff (
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Appending repeat ending clone to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -14950,7 +14967,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
     cerr << idtr <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -14967,7 +14985,8 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
     cerr << idtr <<
       "Setting transpose '" << transpose->transposeAsString () <<
       "' in staff " << fStaffNumber <<
-      " in part " << fStaffPartUplink->getPartCombinedName () <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff transpose
@@ -15431,7 +15450,7 @@ msrPart::msrPart (
       msrStaff::create (
         0,            // inputLineNumber
         0,            // staffNumber
-        this);        // fStaffPartUplink
+        this);        // fStaffDirectPartUplink
 
   fPartVoicemaster =
     msrVoice::create (
@@ -16232,7 +16251,12 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
         staffNumber,
         this);
 
-  // register it in this part
+  // set the part's direct uplink
+  staff->
+    setStaffDirectPartUplink (
+      this);
+      
+  // register staff in this part
   fPartStavesMap [staffNumber] = staff;
 
   // return it
@@ -16247,6 +16271,11 @@ void msrPart::addStaffToPartClone (S_msrStaff staff)
       "\" to part clone " << getPartCombinedName () <<
       endl;
 
+  // set the part's direct uplink
+  staff->
+    setStaffDirectPartUplink (
+      this);
+      
   // register staff in this part
   fPartStavesMap [staff->getStaffNumber ()] = staff;
 }
