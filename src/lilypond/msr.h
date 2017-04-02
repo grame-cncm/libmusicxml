@@ -530,9 +530,9 @@ class msrNoteData
     // set and get
     // ------------------------------------------------------
 
-    void                  setNotePartDirectUplink (
+    void                  setNoteDirectPartUplink (
                             S_msrPart part)
-                              {fNotePartDirectUplink = part; }
+                              {fNoteDirectPartUplink = part; }
 
     void                  setNoteQuartertonesPitch ( // JMI
                             msrQuartertonesPitch quartertonesPitch);
@@ -592,7 +592,7 @@ class msrNoteData
   private:
 
     // part access is needed to convert divisions to durations
-    S_msrPart             fNotePartDirectUplink;
+    S_msrPart             fNoteDirectPartUplink;
     
 };
 EXP ostream& operator<< (ostream& os, msrNoteData& elt);
@@ -1770,11 +1770,11 @@ class EXP msrMeasure : public msrElement
     // ------------------------------------------------------
 
     // part direct uplink
-    void                  setMeasurePartDirectUplink (S_msrPart part)
-                              { fMeasurePartDirectUplink = part; }
+    void                  setMeasureDirectPartUplink (S_msrPart part)
+                              { fMeasureDirectPartUplink = part; }
                               
-    S_msrPart             getMeasurePartDirectUplink () const
-                             { return fMeasurePartDirectUplink; }
+    S_msrPart             getMeasureDirectPartUplink () const
+                             { return fMeasureDirectPartUplink; }
 
     void          setMeasureNumber (int measureNumber)
                       { fMeasureNumber = measureNumber; }
@@ -1919,7 +1919,7 @@ class EXP msrMeasure : public msrElement
     S_msrNote           fMeasureLastHandledNote; // for chords handling
     
     S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
-    S_msrPart           fMeasurePartDirectUplink; // to accelerate things
+    S_msrPart           fMeasureDirectPartUplink; // to accelerate things
 
     msrMeasureKind      fMeasureKind;
 
@@ -2434,11 +2434,11 @@ class EXP msrSyllable : public msrElement
     // ------------------------------------------------------
 
     // part direct uplink
-    void                  setSyllablePartDirectUplink (S_msrPart part)
-                              { fSyllablePartDirectUplink = part; }
+    void                  setSyllableDirectPartUplink (S_msrPart part)
+                              { fSyllableDirectPartUplink = part; }
                               
-    S_msrPart             getSyllablePartDirectUplink () const
-                             { return fSyllablePartDirectUplink; }
+    S_msrPart             getSyllableDirectPartUplink () const
+                             { return fSyllableDirectPartUplink; }
 
     msrSyllableKind
                       getSyllableKind () const
@@ -2486,7 +2486,7 @@ class EXP msrSyllable : public msrElement
   private:
   
     // divisions handling is done at the part level
-    S_msrPart             fSyllablePartDirectUplink;
+    S_msrPart             fSyllableDirectPartUplink;
 
     msrSyllableKind       fSyllableKind;
     string                fSyllableText;
@@ -2763,11 +2763,11 @@ class EXP msrNote : public msrElement
     // -------------------------------
 
     // part direct uplink
-    void                  setNotePartDirectUplink (S_msrPart part)
-                              { fNotePartDirectUplink = part; }
+    void                  setNoteDirectPartUplink (S_msrPart part)
+                              { fNoteDirectPartUplink = part; }
                               
-    S_msrPart             getNotePartDirectUplink () const
-                             { return fNotePartDirectUplink; }
+    S_msrPart             getNoteDirectPartUplink () const
+                             { return fNoteDirectPartUplink; }
 
     // chord members
     void                  setNoteBelongsToAChord ();
@@ -3031,7 +3031,7 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     // divisions handling is done at the part level
-    S_msrPart                 fNotePartDirectUplink;
+    S_msrPart                 fNoteDirectPartUplink;
     
     int                       fNoteStaffNumber;
     int                       fNoteVoiceNumber;
@@ -3130,11 +3130,11 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     // part direct uplink
-    void                  setChordPartDirectUplink (S_msrPart part)
-                              { fChordPartDirectUplink = part; }
+    void                  setChordDirectPartUplink (S_msrPart part)
+                              { fChordDirectPartUplink = part; }
                               
-    S_msrPart             getChordPartDirectUplink () const
-                             { return fChordPartDirectUplink; }
+    S_msrPart             getChordDirectPartUplink () const
+                             { return fChordDirectPartUplink; }
 
     msrDuration       getChordGraphicDuration () const
                           { return fChordGraphicDuration; }
@@ -3288,7 +3288,7 @@ class EXP msrChord : public msrElement
   private:
 
     // divisions handling is done at the part level
-    S_msrPart                 fChordPartDirectUplink;
+    S_msrPart                 fChordDirectPartUplink;
 
     // sounding duration
     int                       fChordDivisions;

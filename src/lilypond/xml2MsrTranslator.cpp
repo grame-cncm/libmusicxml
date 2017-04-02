@@ -3816,6 +3816,11 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentNoteDivisions,
         stanza);
 
+    // set syllable's note direct uplink
+    syllable->
+      setSyllableDirectPartUplink (
+        fCurrentPart);
+        
     // register syllable in current note's syllables list
     fCurrentNoteSyllables.push_back (syllable);
   }
@@ -7604,7 +7609,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   // set note's part direct uplink
   newNote->
-    setNotePartDirectUplink (
+    setNoteDirectPartUplink (
       fCurrentPart);
       
   // set note's divisions per quarter note

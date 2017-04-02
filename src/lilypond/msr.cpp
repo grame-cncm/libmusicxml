@@ -4648,7 +4648,7 @@ string msrNote::noteDivisionsAsMSRString () const
 //  string errorMessage;
 
   result =
-    fNotePartDirectUplink->
+    fNoteDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fNoteDisplayDivisions,
@@ -4677,7 +4677,7 @@ string msrNote::skipDivisionsAsMSRString () const
 //  string errorMessage;
 
   result =
-    fNotePartDirectUplink->
+    fNoteDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fNoteDivisions);
@@ -4695,7 +4695,7 @@ string msrNote::noteGraphicDurationAsMSRString () const
   string result;
 
   result =
-    fNotePartDirectUplink->
+    fNoteDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fNoteGraphicDuration);
@@ -4709,7 +4709,7 @@ string msrNote::tupletNoteGraphicDurationAsMSRString ( // JMI
   string result;
 
   result =
-    fNotePartDirectUplink->
+    fNoteDirectPartUplink->
       tupletDivisionsAsMsrString (
         fInputLineNumber,
         fNoteDivisions,
@@ -4893,7 +4893,7 @@ string msrNote::noteAsShortString () const
 
       s <<
         ":" <<
-        fNotePartDirectUplink->
+        fNoteDirectPartUplink->
           tupletDivisionsAsMsrString (
             fInputLineNumber,
             fNoteDivisions,
@@ -4974,7 +4974,7 @@ string msrNote::noteAsString () const
 
       s <<
         ":" <<
-        fNotePartDirectUplink->
+        fNoteDirectPartUplink->
           tupletDivisionsAsMsrString (
             fInputLineNumber,
             fNoteDivisions,
@@ -5699,7 +5699,7 @@ string msrChord::chordDivisionsAsMSRString () const
   */
   
   result =
-    fChordPartDirectUplink->
+    fChordDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fChordDivisions);
@@ -8557,7 +8557,7 @@ string msrSyllable::syllableExtendKindAsString (
 string msrSyllable::syllableDivisionsAsString () const
 {
   return
-    fSyllablePartDirectUplink->
+    fSyllableDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fSyllableDivisions);
@@ -10344,7 +10344,7 @@ msrMeasure::msrMeasure (
       endl;
 
   // set measure part direct uplink
-  fMeasurePartDirectUplink =
+  fMeasureDirectPartUplink =
     fMeasureVoiceDirectUplink->
       getVoiceStaffUplink ()->
         getStaffPartUplink ();
@@ -10359,7 +10359,7 @@ msrMeasure::msrMeasure (
   fMeasurePosition = 1; // ready to receive the first note
 
   // initialize measure position high tide
-  fMeasurePartDirectUplink->
+  fMeasureDirectPartUplink->
     setPartMeasurePositionHighTide (1);
 }
 
@@ -10523,7 +10523,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasurePosition += noteDivisions;
   
     // update part measure position high tide if need be
-    fMeasurePartDirectUplink->
+    fMeasureDirectPartUplink->
       updatePartMeasurePositionHighTide (
         inputLineNumber, fMeasurePosition);
   
@@ -10599,7 +10599,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     fMeasurePosition += chordDivisions;
   
     // update part measure position high tide if need be
-    fMeasurePartDirectUplink->
+    fMeasureDirectPartUplink->
       updatePartMeasurePositionHighTide (
         inputLineNumber, fMeasurePosition);
   
@@ -10674,7 +10674,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       applyDisplayFactorToTupletMembers ();
 
     // update part measure position high tide if need be
-    fMeasurePartDirectUplink->
+    fMeasureDirectPartUplink->
       updatePartMeasurePositionHighTide (
         inputLineNumber, fMeasurePosition);
   
@@ -11052,7 +11052,7 @@ void msrMeasure::finalizeMeasure (
     
   // fetch the part measure position high tide
   int partMeasurePositionHighTide =
-    fMeasurePartDirectUplink->
+    fMeasureDirectPartUplink->
       getPartMeasurePositionHighTide ();
     
   if (gGeneralOptions->fTraceMeasures) {
@@ -11255,7 +11255,7 @@ string msrMeasure::getMeasureLengthAsString () const
 
   if (measureLength > 0) {
     result =
-      fMeasurePartDirectUplink->
+      fMeasureDirectPartUplink->
         divisionsAsMsrString (
           fInputLineNumber,
           measureLength);
