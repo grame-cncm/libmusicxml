@@ -360,11 +360,11 @@ class lpsr2LilyPondTranslator :
     
     // part groups
     // ------------------------------------------------------
-    S_msrPartgroup        fCurrentMsrPartgroupClone;
+ // JMI   S_msrPartgroup        fCurrentMsrPartgroupClone;
     
     // parts
     // ------------------------------------------------------
-    S_msrPart             fCurrentMsrPartClone;
+    S_msrPart             fCurrentPart;
     
     // staves
     // ------------------------------------------------------

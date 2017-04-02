@@ -331,7 +331,6 @@ string existingQuartertonesPitchesLanguages ();
 //______________________________________________________________________________
 void initializePitchesLanguages ();
 
-
 // durations
 //______________________________________________________________________________
 enum msrDuration {
@@ -343,33 +342,15 @@ enum msrDuration {
 
 string msrDurationAsString (msrDuration duration);
 
-extern list<pair<msrDuration, int> > gDurationsDivisions;
-
 int durationAsDivisions (
   int         inputLineNumber,
   msrDuration duration);
-
-string divisionsAsMsrString (
-  int  inputLineNumber,
-  int  divisions,
-  int& numberOfDotsNeeded);
-
-string divisionsAsMsrString (
-  int  inputLineNumber,
-  int  divisions);
 
 string tupletDivisionsAsMsrString (
   int  inputLineNumber,
   int  divisions,
   int actualNotes,
   int normalNotes);
-
-void setupDurationsDivisions (int divisionPerQuarterNote);
-
-void printDurationsDivisions (ostream& os);
-
-void testDivisionsAndDurations ();
-void testTupletDivisionsAndDurations ();
 
 //______________________________________________________________________________
 /*!
@@ -5864,6 +5845,26 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
+    void            setupDurationsDivisions (int divisionPerQuarterNote);
+    
+    int             durationAsDivisions (
+                      int         inputLineNumber,
+                      msrDuration duration);
+
+    void            printDurationsDivisions (ostream& os);
+    
+    string          divisionsAsMsrString (
+                      int  inputLineNumber,
+                      int  divisions,
+                      int& numberOfDotsNeeded);
+
+    string          divisionsAsMsrString (
+                      int  inputLineNumber,
+                      int  divisions);
+                  
+    void            testDivisionsAndDurations ();
+    void            testTupletDivisionsAndDurations ();
+  
     void            createPartHarmonyStaffAndVoice (
                       int inputLineNumber);
         
@@ -5939,6 +5940,8 @@ class EXP msrPart : public msrElement
     map<int, S_msrStaff>    fPartStavesMap;
 
     int                     fPartDivisionsPerQuarterNote;
+    list<pair<msrDuration, int> >
+                            fPartDurationsToDivisions;
 
     int                     fPartMeasureNumber;
     bool                    fMeasureZeroHasBeenMetInPart;

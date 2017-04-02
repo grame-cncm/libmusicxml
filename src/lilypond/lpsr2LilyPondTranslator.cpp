@@ -1496,6 +1496,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrPart& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrPart" << endl;
+
+  fCurrentPart = elt;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrPart& elt)
@@ -1503,6 +1505,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrPart& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "% --> End visiting msrPart" << endl;
+
+  fCurrentPart = 0;
 }
 
 //________________________________________________________________________
@@ -1732,10 +1736,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kIncompleteLeftMeasure:
       {
-        string partialDuration =
-          divisionsAsMsrString (
-            inputLineNumber,
-            elt->getMeasureLength ());
+        string
+          partialDuration =
+            fCurrentPart->
+              divisionsAsMsrString (
+                inputLineNumber,
+                elt->getMeasureLength ());
 
         fOstream << idtr <<
           "\\partial" " " << partialDuration <<
@@ -1814,9 +1820,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         // generate a rest the duration of the measure
         fOstream <<
           "R" <<
-          divisionsAsMsrString (
-            inputLineNumber,
-            measureDivisionsPerFullMeasure) <<
+          fCurrentPart->
+            divisionsAsMsrString (
+              inputLineNumber,
+              measureDivisionsPerFullMeasure) <<
           " | ";
       }
       break;
