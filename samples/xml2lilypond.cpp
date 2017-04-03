@@ -326,11 +326,11 @@ void analyzeOptions (
   int helpPresent                       = 0;
   int versionPresent                    = 0;
 
-  int traceGeneralPresent               = 0;
-  
   int outputFilePresent                 = 0;
   int autoOutputFilePresent             = 0;
     
+  int traceGeneralPresent               = 0;
+  
   int traceDivisionsPresent             = 0;
   
   int tracePartsPresent                 = 0;
@@ -456,11 +456,11 @@ void analyzeOptions (
     
     {
       "aof",
-      required_argument, &autoOutputFilePresent, 1
+      no_argument, &autoOutputFilePresent, 1
     },
     {
       "autoOutputFile",
-      required_argument, &autoOutputFilePresent, 1
+      no_argument, &autoOutputFilePresent, 1
     },
     
     {
@@ -1694,6 +1694,31 @@ void analyzeOptions (
       printUsage (1);
       break;
     } //  switch
+
+  // check whether the options are consistent
+  if (autoOutputFilePresent) {
+    if (outputFilePresent) {
+      stringstream s;
+  
+      s <<
+        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
+        endl <<
+        "cannot be used simultaneously";
+        
+      optionError (s.str ());
+    }
+  
+    else if (inputFileName == "-") {
+      stringstream s;
+  
+      s <<
+        "option '--aof, --autoOutputFile'"  <<
+        endl <<
+        "cannot be used when reading from standard input";
+        
+      optionError (s.str ());
+    }
+  }
 }
 
 //_______________________________________________________________________________
