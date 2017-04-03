@@ -119,6 +119,24 @@ string lpsr2LilyPondTranslator::absoluteOctaveAsLilypondString (
   } // switch
 }
 
+//______________________________________________________________________________
+string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
+  int       inputLineNumber,
+  S_msrPart part,
+  int       divisions)
+{
+  string result;
+
+  msrAssert(part != 0, "part != 0"); // JMI
+  result =
+    part->
+      divisionsAsMsrString (
+      inputLineNumber,
+      divisions);
+
+  return result+"FOO";
+}
+
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::noteAsLilyPondString (
   S_msrNote& note)
@@ -400,7 +418,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrScore" << endl;
+      "% --> Start visiting lpsrScore" <<
+      endl;
 
   // initial empty line in LilyPond code
   // to help copy/paste it
@@ -411,7 +430,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrScore" << endl;
+      "% --> End visiting lpsrScore" <<
+      endl;
 
   // final empty line in LilyPond code
   // to help copy/paste it
@@ -423,7 +443,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrLilypondVarValAssoc" << endl;
+      "% --> Start visiting lpsrLilypondVarValAssoc" <<
+      endl;
 
   fOstream << idtr;
 
@@ -493,7 +514,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLilypondVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrLilypondVarValAssoc" << endl;
+      "% --> End visiting lpsrLilypondVarValAssoc" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -501,7 +523,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrSchemeVarValAssoc" << endl;
+      "% --> Start visiting lpsrSchemeVarValAssoc" <<
+      endl;
 
   fOstream << idtr;
 
@@ -536,7 +559,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrSchemeVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrSchemeVarValAssoc" << endl;
+      "% --> End visiting lpsrSchemeVarValAssoc" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -544,7 +568,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrHeader& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrHeader" << endl;
+      "% --> Start visiting lpsrHeader" <<
+      endl;
 
   fOstream << idtr <<
     "\\header" << " {" <<
@@ -563,7 +588,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrHeader& elt)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrHeader" << endl;
+      "% --> End visiting lpsrHeader" <<
+      endl;
 
   fOstream << idtr <<
     "}" <<
@@ -575,7 +601,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrPaper" << endl;
+      "% --> Start visiting lpsrPaper" <<
+      endl;
 
   fOstream << idtr <<
     "\\paper" << " {" <<
@@ -650,11 +677,13 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
 /*
  * 
   if (fBetweenSystemSpace > 0) {
-    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" <<
+      endl;
   }
 
   if (elt->getPageTopSpace > 0) {
-    os << idtr << "page-top-space = " << setprecision(4) << elt->getPageTopSpace << "\\cm" << endl;
+    os << idtr << "page-top-space = " << setprecision(4) << elt->getPageTopSpace << "\\cm" <<
+      endl;
   }
 */
 }
@@ -665,7 +694,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPaper& elt)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrPaper" << endl;
+      "% --> End visiting lpsrPaper" <<
+      endl;
       
   fOstream << idtr <<
     "}" <<
@@ -677,7 +707,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrLayout& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrLayout" << endl;
+      "% --> Start visiting lpsrLayout" <<
+      endl;
 
   fOstream <<
     idtr << "\\layout" << " {" <<
@@ -690,7 +721,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrLayout" << endl;
+      "% --> End visiting lpsrLayout" <<
+      endl;
 
 // JMI XXL
   fOstream <<
@@ -725,7 +757,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrScoreBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrScoreBlock" << endl;
+      "% --> Start visiting lpsrScoreBlock" <<
+      endl;
 
   fOstream << idtr <<
     "\\score {" <<
@@ -748,7 +781,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrScoreBlock" << endl;
+      "% --> End visiting lpsrScoreBlock" <<
+      endl;
 /*
   if (elt->getScoreBlockElements ().size()) {
     idtr--;
@@ -772,7 +806,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrParallelMusic& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrParallelMusic" << endl;
+      "% --> Start visiting lpsrParallelMusic" <<
+      endl;
 
   if (elt->getParallelMusicElements ().size()) { // JMI
     fOstream <<
@@ -787,7 +822,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrParallelMusic& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrParallelMusic" << endl;
+      "% --> End visiting lpsrParallelMusic" <<
+      endl;
 
   if (elt->getParallelMusicElements ().size()) { // JMI
     idtr--;
@@ -803,7 +839,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrPartgroupBlock" << endl;
+      "% --> Start visiting lpsrPartgroupBlock" <<
+      endl;
 
   // fetch part group
   S_msrPartgroup
@@ -910,7 +947,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrPartgroupBlock" << endl;
+      "% --> End visiting lpsrPartgroupBlock" <<
+      endl;
 
   // fetch part group
   S_msrPartgroup
@@ -939,7 +977,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrPartBlock" << endl;
+      "% --> Start visiting lpsrPartBlock" <<
+      endl;
 
   // fetch part block's part
   S_msrPart
@@ -1014,7 +1053,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
       
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrPartBlock" << endl;
+      "% --> End visiting lpsrPartBlock" <<
+      endl;
 
   if (part->getPartStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
@@ -1044,7 +1084,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrStaffBlock" << endl;
+      "% --> Start visiting lpsrStaffBlock" <<
+      endl;
 
   S_msrStaff
     staff =
@@ -1154,7 +1195,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrStaffBlock" << endl;
+      "% --> End visiting lpsrStaffBlock" <<
+      endl;
 
   idtr--;
 
@@ -1181,7 +1223,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewStaffgroupBlock" << endl;
+      "% --> Start visiting lpsrNewStaffgroupBlock" <<
+      endl;
 
    fOstream << idtr <<
      "\\new StaffGroup" << " " << "{" <<
@@ -1194,7 +1237,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewStaffgroupBlock" << endl;
+      "% --> End visiting lpsrNewStaffgroupBlock" <<
+      endl;
 
   idtr--;
 
@@ -1208,7 +1252,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewStaffBlock" << endl;
+      "% --> Start visiting lpsrNewStaffBlock" <<
+      endl;
 
   idtr++;
 }
@@ -1217,7 +1262,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewStaffBlock" << endl;
+      "% --> End visiting lpsrNewStaffBlock" <<
+      endl;
 
   idtr--;
 }
@@ -1228,7 +1274,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrUseVoiceCommand" << endl;
+      "% --> Start visiting lpsrUseVoiceCommand" <<
+      endl;
 
   S_msrVoice
     voice = elt->getVoice ();
@@ -1294,7 +1341,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
             {}
         } // switch
 
-        fOstream << "% " << staff->getStaffNumberOfMusicVoices () << " music voices" << endl;
+        fOstream << "% " << staff->getStaffNumberOfMusicVoices () << " music voices" <<
+      endl;
         fOstream << endl;
       }
     }
@@ -1314,7 +1362,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrUseVoiceCommand" << endl;
+      "% --> End visiting lpsrUseVoiceCommand" <<
+      endl;
 }
   
 //________________________________________________________________________
@@ -1322,7 +1371,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrNewLyricsBlock" << endl;
+      "% --> Start visiting lpsrNewLyricsBlock" <<
+      endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
  //   if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) {
@@ -1351,7 +1401,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrNewLyricsBlock" << endl;
+      "% --> End visiting lpsrNewLyricsBlock" <<
+      endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) { // JMI
@@ -1364,7 +1415,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrVariableUseCommand" << endl;
+      "% --> Start visiting lpsrVariableUseCommand" <<
+      endl;
 
   idtr++;
 }
@@ -1373,7 +1425,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrVariableUseCommand" << endl;
+      "% --> End visiting lpsrVariableUseCommand" <<
+      endl;
 
   idtr--;
 }
@@ -1383,7 +1436,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrContext& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrContext" << endl;
+      "% --> Start visiting lpsrContext" <<
+      endl;
 
   string contextName =
     elt->getContextName ();
@@ -1406,7 +1460,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrContext& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrContext" << endl;
+      "% --> End visiting lpsrContext" <<
+      endl;
 }
   
 //________________________________________________________________________
@@ -1414,7 +1469,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrBarCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrBarCommand" << endl;
+      "% --> Start visiting lpsrBarCommand" <<
+      endl;
 
   idtr++;
 }
@@ -1423,7 +1479,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrBarCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrBarCommand" << endl;
+      "% --> End visiting lpsrBarCommand" <<
+      endl;
 
   idtr--;
 }
@@ -1433,7 +1490,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrMelismaCommand" << endl;
+      "% --> Start visiting lpsrMelismaCommand" <<
+      endl;
 
   switch (elt->getMelismaKind ()) {
     case lpsrMelismaCommand::kMelismaStart:
@@ -1451,7 +1509,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrMelismaCommand" << endl;
+      "% --> End visiting lpsrMelismaCommand" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -1459,14 +1518,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrScore& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrScore" << endl;
+      "% --> Start visiting msrScore" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrScore& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrScore" << endl;
+      "% --> End visiting msrScore" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -1474,14 +1535,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrPartgroup& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrPartgroup" << endl;
+      "% --> Start visiting msrPartgroup" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrPartgroup& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrPartgroup" << endl;
+      "% --> End visiting msrPartgroup" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -1489,7 +1552,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrPart& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrPart" << endl;
+      "% --> Start visiting msrPart" <<
+      endl;
 
   fCurrentPart = elt;
 }
@@ -1498,7 +1562,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrPart& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrPart" << endl;
+      "% --> End visiting msrPart" <<
+      endl;
 
   fCurrentPart = 0;
 }
@@ -1508,7 +1573,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStaff& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrStaff" << endl;
+      "% --> Start visiting msrStaff" <<
+      endl;
   
   fOnGoingStaff = true;
 }
@@ -1517,7 +1583,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrStaff& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrStaff" << endl;
+      "% --> End visiting msrStaff" <<
+      endl;
   
   fOnGoingStaff = false;
 }
@@ -1527,7 +1594,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrVoice" << endl;
+      "% --> Start visiting msrVoice" <<
+      endl;
  
   fOstream << idtr <<
     elt->getVoiceName () << " = ";
@@ -1610,7 +1678,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrVoice" << endl;
+      "% --> End visiting msrVoice" <<
+      endl;
   
   fOstream << idtr <<
     "}" <<
@@ -1637,7 +1706,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrHarmony" << endl;
+      "% --> Start visiting msrHarmony" <<
+      endl;
 
   if (fOnGoingNote) {
     fOstream <<
@@ -1664,7 +1734,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrSegment" << endl;
+      "% --> Start visiting msrSegment" <<
+      endl;
 
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
@@ -1681,7 +1752,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrSegment" << endl;
+      "% --> End visiting msrSegment" <<
+      endl;
 
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
@@ -1705,7 +1777,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 {    
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrMeasure" << endl;
+      "% --> Start visiting msrMeasure" <<
+      endl;
 
   int
     inputLineNumber =
@@ -1828,7 +1901,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrMeasure" << endl;
+      "% --> End visiting msrMeasure" <<
+      endl;
 
   switch (elt->getMeasureKind ()) {
     case msrMeasure::kRegularMeasure:
@@ -1905,7 +1979,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrStanza" << endl;
+      "% --> Start visiting msrStanza" <<
+      endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     // don't generate code for the stanza inside the code for the voice
@@ -1930,7 +2005,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrStanza& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrStanza" << endl;
+      "% --> End visiting msrStanza" <<
+      endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     if (fOngoingNonEmptyStanza) {
@@ -1951,7 +2027,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrSyllable" << endl;
+      "% --> Start visiting msrSyllable" <<
+      endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
     if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) {
@@ -2088,7 +2165,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSyllable& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrSyllable" << endl;
+      "% --> End visiting msrSyllable" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2096,7 +2174,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrClef" << endl;
+      "% --> Start visiting msrClef" <<
+      endl;
 
   msrClef::msrClefKind clefKind = elt->getClefKind ();
 
@@ -2173,7 +2252,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrClef& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrClef" << endl;
+      "% --> End visiting msrClef" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2181,7 +2261,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrKey" << endl;
+      "% --> Start visiting msrKey" <<
+      endl;
 
   fOstream << idtr <<
     "\\key " <<
@@ -2198,7 +2279,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrKey& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrKey" << endl;
+      "% --> End visiting msrKey" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2206,7 +2288,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTime" << endl;
+      "% --> Start visiting msrTime" <<
+      endl;
 
   if (fLpsrOptions->fGenerateNumericalTime)
     fOstream << "\\numericTimeSignature ";
@@ -2223,7 +2306,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTime" << endl;
+      "% --> End visiting msrTime" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2231,7 +2315,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTempo" << endl;
+      "% --> Start visiting msrTempo" <<
+      endl;
 
   string tempoIndication = elt->getTempoIndication ();
   
@@ -2256,7 +2341,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTempo" << endl;
+      "% --> End visiting msrTempo" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2264,7 +2350,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrArticulation& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrArticulation" << endl;
+      "% --> Start visiting msrArticulation" <<
+      endl;
 
   // don't generate the articulation here,
   // the note or chord will do it in its visitEnd() method
@@ -2274,7 +2361,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrArticulation& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrArticulation" << endl;
+      "% --> End visiting msrArticulation" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2282,7 +2370,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrOrnament" << endl;
+      "% --> Start visiting msrOrnament" <<
+      endl;
 
   // don't generate the ornament here,
   // the note or chord will do it in its visitEnd() method
@@ -2292,7 +2381,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrOrnament" << endl;
+      "% --> End visiting msrOrnament" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2300,14 +2390,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrDynamics" << endl;
+      "% --> Start visiting msrDynamics" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrDynamics" << endl;
+      "% --> End visiting msrDynamics" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2315,14 +2407,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrWords& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrWords" << endl;
+      "% --> Start visiting msrWords" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrWords& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrWords" << endl;
+      "% --> End visiting msrWords" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2330,14 +2424,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSlur& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrSlur" << endl;
+      "% --> Start visiting msrSlur" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrSlur& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrSlur" << endl;
+      "% --> End visiting msrSlur" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2345,14 +2441,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrLigature& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrLigature" << endl;
+      "% --> Start visiting msrLigature" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrLigature& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrLigature" << endl;
+      "% --> End visiting msrLigature" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2360,14 +2458,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrWedge& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrWedge" << endl;
+      "% --> Start visiting msrWedge" <<
+      endl;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrWedge& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrWedge" << endl;
+      "% --> End visiting msrWedge" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -2375,7 +2475,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrGracenotes& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrGracenotes" << endl;
+      "% --> Start visiting msrGracenotes" <<
+      endl;
 
   if (elt->getGracenotesIsSlashed ())
     fOstream <<
@@ -2390,7 +2491,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrGracenotes& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrGracenotes" << endl;
+      "% --> End visiting msrGracenotes" <<
+      endl;
 
   fOstream <<
     "} ";
@@ -2441,7 +2543,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         break;
     } // switch
     
-    fOstream << " msrNote" << endl;
+    fOstream << " msrNote" <<
+      endl;
     fMusicOlec++;
   }
 
@@ -3115,7 +3218,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrOctaveShift& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrOctaveShift" << endl;
+      "% --> Start visiting msrOctaveShift" <<
+      endl;
 
   int octaveShiftSize =
     elt->getOctaveShiftSize (); // 8 or 15
@@ -3143,7 +3247,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrOctaveShift& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrOctaveShift" << endl;
+      "% --> End visiting msrOctaveShift" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3151,7 +3256,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStem& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrStem" << endl;
+      "% --> Start visiting msrStem" <<
+      endl;
 
   fCurrentStem = elt;
 }
@@ -3160,7 +3266,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrStem& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrStem" << endl;
+      "% --> End visiting msrStem" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3168,7 +3275,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBeam& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrBeam" << endl;
+      "% --> Start visiting msrBeam" <<
+      endl;
 
   // LilyPond will take care of multiple beams automatically,
   // so we need only generate code for the first number (level)
@@ -3202,7 +3310,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrBeam& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrBeam" << endl;
+      "% --> End visiting msrBeam" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3210,7 +3319,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrChord" << endl;
+      "% --> Start visiting msrChord" <<
+      endl;
 
   // indent before the fist chord of the msrSegment if needed
   if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
@@ -3254,14 +3364,18 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrChord" << endl;
+      "% --> End visiting msrChord" <<
+      endl;
 
   fOstream <<
     ">";
 
   // print the chord duration
   fOstream <<
-    elt->chordDivisionsAsMSRString ();
+    divisionsAsLilyPondString (
+      elt->getInputLineNumber (),
+      fCurrentPart,
+      elt->getChordDivisions ());
    
   fOstream <<
     " ";
@@ -3532,7 +3646,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTuplet" << endl;
+      "% --> Start visiting msrTuplet" <<
+      endl;
 
   if (fTupletsStack.size ()) {
     // elt is a nested tuplet
@@ -3581,7 +3696,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTuplet" << endl;
+      "% --> End visiting msrTuplet" <<
+      endl;
 
   idtr--;
 
@@ -3609,7 +3725,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTie& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTie" << endl;
+      "% --> Start visiting msrTie" <<
+      endl;
   
   switch (elt->getTieKind ()) {
     case msrTie::k_NoTie:
@@ -3628,7 +3745,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTie& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTie" << endl;
+      "% --> End visiting msrTie" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3636,7 +3754,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegno& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrSegno" << endl;
+      "% --> Start visiting msrSegno" <<
+      endl;
 
   fOstream <<
     "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
@@ -3647,7 +3766,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrCoda& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrCoda" << endl;
+      "% --> Start visiting msrCoda" <<
+      endl;
 
   fOstream <<
     "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
@@ -3659,7 +3779,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrEyeglasses& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting eyeglasses" << endl;
+      "% --> Start visiting eyeglasses" <<
+      endl;
 
   fOstream <<
     "\\eyeglasses ";
@@ -3670,7 +3791,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrPedal& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting pedal" << endl;
+      "% --> Start visiting pedal" <<
+      endl;
       
   switch (elt->getPedalType ()) {
     case msrPedal::kPedalStart:
@@ -3696,7 +3818,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream <<
       endl <<
-      idtr << "% --> Start visiting msrBarline" << endl;
+      idtr << "% --> Start visiting msrBarline" <<
+      endl;
 
   switch (elt->getBarlineCategory ()) {
     
@@ -3775,7 +3898,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrBarline& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream <<
       endl <<
-      idtr << "% --> End visiting msrBarline" << endl;
+      idtr << "% --> End visiting msrBarline" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3783,7 +3907,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrBarCheck" << endl;
+      "% --> Start visiting msrBarCheck" <<
+      endl;
       
   int nextBarNumber =
     elt->getNextBarNumber ();
@@ -3802,7 +3927,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrBarCheck& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrBarCheck" << endl;
+      "% --> End visiting msrBarCheck" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3810,7 +3936,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarnumberCheck& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrBarnumberCheck" << endl;
+      "% --> Start visiting msrBarnumberCheck" <<
+      endl;
 
   fOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
@@ -3824,7 +3951,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrBarnumberCheck& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrBarnumberCheck" << endl;
+      "% --> End visiting msrBarnumberCheck" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3832,7 +3960,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBreak& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrBreak" << endl;
+      "% --> Start visiting msrBreak" <<
+      endl;
 
   fOstream <<
     "\\myBreak | % " << elt->getNextBarNumber () <<
@@ -3847,7 +3976,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrBreak& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrBreak" << endl;
+      "% --> End visiting msrBreak" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -3855,7 +3985,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeat& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrRepeat" << endl;
+      "% --> Start visiting msrRepeat" <<
+      endl;
 
   fCurrentRepeatEndingsNumber =
     elt->getRepeatEndings ().size();
@@ -3887,7 +4018,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrRepeat" << endl;
+      "% --> End visiting msrRepeat" <<
+      endl;
 
   /*
     CAUTION:
@@ -3925,7 +4057,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrRepeatending" << endl;
+      "% --> Start visiting msrRepeatending" <<
+      endl;
 
   if (elt->getRepeatendingInternalNumber () == 1) {
     
@@ -4010,7 +4143,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrRepeatending" << endl;
+      "% --> End visiting msrRepeatending" <<
+      endl;
 
   // output the end of the ending
   switch (elt->getRepeatendingKind ()) {
@@ -4081,7 +4215,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrComment& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrComment" << endl;
+      "% --> Start visiting lpsrComment" <<
+      endl;
 
   fOstream << idtr <<
     "% " << elt->getContents () <<
@@ -4095,7 +4230,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrComment& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrComment" << endl;
+      "% --> End visiting lpsrComment" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -4103,7 +4239,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRehearsal& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrRehearsal" << endl;
+      "% --> Start visiting msrRehearsal" <<
+      endl;
 
   fOstream <<
     endl <<
@@ -4119,7 +4256,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRehearsal& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrRehearsal" << endl;
+      "% --> End visiting msrRehearsal" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -4127,7 +4265,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrMidi" << endl;
+      "% --> Start visiting msrMidi" <<
+      endl;
 
   fOstream << idtr <<
     "\\midi" << " {" <<
@@ -4159,7 +4298,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMidi& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrMidi" << endl;
+      "% --> End visiting msrMidi" <<
+      endl;
 }
 
 

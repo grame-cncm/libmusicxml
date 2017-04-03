@@ -3046,13 +3046,15 @@ class EXP msrChord : public msrElement
 
     static SMARTP<msrChord> create (
       int         inputLineNumber,
+      S_msrPart   chordDirectPartUplink,
       int         chordDivisions,
       msrDuration chordGraphicDuration);
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    SMARTP<msrChord> createChordBareClone ();
+    SMARTP<msrChord>      createChordBareClone (
+                            S_msrPart partClone);
 
   protected:
 
@@ -3172,7 +3174,7 @@ class EXP msrChord : public msrElement
                          
     // services
     // ------------------------------------------------------
-
+    
     string            chordGraphicDurationAsMSRString () const;
 
     void              addFirstNoteToChord (S_msrNote note);

@@ -1963,88 +1963,6 @@ string msrDurationAsString (msrDuration duration)
   return result;
 }
 
-// note types
-//______________________________________________________________________________
-/* JMI
-int noteTypeAsDivisions (
-  string  noteType,
-  int     divisionsPerWholeNote,
-  string& errorMessage,
-  bool    debugMode)
-{
-  int result;
-
-  //debugMode = true; // for tests
-  
-  if      (noteType == "256th")   { result = divisionsPerWholeNote / 256; }
-  else if (noteType == "128th")   { result = divisionsPerWholeNote / 128; } 
-  else if (noteType == "64th")    { result = divisionsPerWholeNote / 64; } 
-  else if (noteType == "32nd")    { result = divisionsPerWholeNote / 32; } 
-  else if (noteType == "16th")    { result = divisionsPerWholeNote / 16; } 
-  else if (noteType == "eighth")  { result = divisionsPerWholeNote / 8; } 
-  else if (noteType == "quarter") { result = divisionsPerWholeNote / 4; } 
-  else if (noteType == "half")    { result = divisionsPerWholeNote / 2; } 
-  else if (noteType == "whole")   { result = divisionsPerWholeNote / 1; } 
-  else if (noteType == "breve")   { result = divisionsPerWholeNote * 2; } 
-  else if (noteType == "long")    { result = divisionsPerWholeNote * 4; }
-  else {
-    stringstream s;
-    
-    s <<
-      endl << 
-      "% --> unknown tuplet member type " << noteType <<
-      endl;
-      
-   errorMessage = s.str();
-
-   return 0;
-  }
-
-  if (debugMode)
-    cerr << endl <<
-      "% --> noteTypeAsDivisions ()" << endl <<
-      "% noteType = " << noteType << endl <<
-      "divisionsPerWholeNote = " << divisionsPerWholeNote << endl <<
-      "result = " << result << endl <<
-      endl;
-
-  return result;
-}
-
-string noteTypeAsMSRDuration (
-  string  noteType,
-  string& errorMessage)
-{
-  string result;
-  
-  if      (noteType == "256th")   { result =   "256"; }
-  else if (noteType == "128th")   { result =   "128"; } 
-  else if (noteType == "64th")    { result =    "64"; } 
-  else if (noteType == "32nd")    { result =    "32"; } 
-  else if (noteType == "16th")    { result =    "16"; } 
-  else if (noteType == "eighth")  { result =     "8"; } 
-  else if (noteType == "quarter") { result =     "4"; } 
-  else if (noteType == "half")    { result =     "2"; } 
-  else if (noteType == "whole")   { result =     "1"; } 
-  else if (noteType == "breve")   { result = "breve"; } 
-  else if (noteType == "long")    { result =  "long"; }
-  else {
-    stringstream s;
-    
-    s << 
-      endl << 
-      "% --> unknown tuplet member type " << noteType <<
-      endl;
-      
-   errorMessage = s.str();
-
-   return "?";
-  }
-
-  return result;
-}
-*/
-
 //_______________________________________________________________________________
 S_msrOptions gMsrOptions;
 
@@ -4825,7 +4743,6 @@ string msrNote::noteDivisionsAsMSRString () const
 {
   string result;
   int    computedNumberOfDots = 0;
-//  string errorMessage;
 
   result =
     fNoteDirectPartUplink->
@@ -5227,7 +5144,7 @@ void msrNote::print (ostream& os)
     else {
       os <<
         fNoteDivisions <<
-        "d ivs, " <<
+        " divs, " <<
         fNoteDisplayDivisions<<
         " dispdivs";
     }
@@ -5547,6 +5464,7 @@ void msrNote::print (ostream& os)
 //______________________________________________________________________________
 S_msrChord msrChord::create (
   int         inputLineNumber,
+  S_msrPart   chordDirectPartUplink,
   int         chordDivisions,
   msrDuration chordGraphicDuration)
 {
@@ -5561,6 +5479,12 @@ S_msrChord msrChord::create (
     new msrChord (
       inputLineNumber, chordDivisions, chordGraphicDuration);
   assert(o!=0);
+
+  // set chord's direct part uplink
+  msrAssert(chordDirectPartUplink != 0, "chordDirectPartUplink != 0"); // JMI
+  o-> fChordDirectPartUplink =
+    chordDirectPartUplink;
+    
   return o;
 }
 
@@ -5577,7 +5501,8 @@ msrChord::msrChord (
 
 msrChord::~msrChord() {}
 
-S_msrChord msrChord::createChordBareClone ()
+S_msrChord msrChord::createChordBareClone (
+  S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
@@ -5589,6 +5514,7 @@ S_msrChord msrChord::createChordBareClone ()
     clone =
       msrChord::create (
         fInputLineNumber,
+        partClone,
         fChordDivisions,
         fChordGraphicDuration);
 
@@ -5605,7 +5531,7 @@ S_msrChord msrChord::createChordBareClone ()
 
   return clone;
 }
-    
+
 string msrChord::chordGraphicDurationAsMSRString () const
 {
   string result;
@@ -5886,35 +5812,6 @@ string msrChord::chordDivisionsAsMSRString () const
 
   return result;
 }
-/* JMI REPLICA POUR LECTURE
-string msrNote::noteDivisionsAsMSRString () const
-{
-  string result;
-  int    computedNumberOfDots = 0;
-//  string errorMessage;
-
-  result =
-    divisionsAsMsrString (
-      fInputLineNumber,
-      fNoteDisplayDivisions,
-      computedNumberOfDots);
-
-  if (computedNumberOfDots != fNoteDotsNumber) {
-    stringstream s;
-
-    s <<
-      "note " << noteAsShortStringWithRawDivisions () <<
-      " needs " << computedNumberOfDots << " dots," << endl <<
-      "but " << fNoteDotsNumber << " is found in MusicXML data";
-      
-    msrMusicXMLError (
-      fInputLineNumber,
-      s.str());
-  }
-
-  return result;
-}
-*/
 
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
@@ -17816,101 +17713,3 @@ void msrMidi::print (ostream& os)
 
 
 }
-
-
-/*
-  // how many quater tones from A?s // JMI
-  int noteQuatertonesFromA;
-  
-  switch (getNoteDiatonicPitch ()) {
-    case 'A': noteQuatertonesFromA =  0; break;
-    case 'B': noteQuatertonesFromA =  4; break;
-    case 'C': noteQuatertonesFromA =  6; break;
-    case 'D': noteQuatertonesFromA = 10; break;
-    case 'E': noteQuatertonesFromA = 14; break;
-    case 'F': noteQuatertonesFromA = 16; break;
-    case 'G': noteQuatertonesFromA = 20; break;
-    default: {}    
-  } // switch
-*/
-
-/* JMI
-  if (gGeneralOptions->fDebugDebug)
-    cerr <<
-      "% --> noteQuatertonesFromA = " << noteQuatertonesFromA <<
-      endl;
-*/
-
-
-//______________________________________________________________________________
-/*
-
-void msrNoteData::print (ostream& os)
-{
-  const int width = 21;
-  
-  os <<
-    idtr << left <<
-      setw(width) << "fNoteIsARest" << " = " <<
-      fNoteIsARest <<
-      endl <<
-      / *
-    idtr << left <<
-      setw(width) << "fNoteDiatonicPitch" << " = " <<
-      msrDiatonicPitchAsString (fNoteDiatonicPitch) <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fNoteAlteration" << " = " <<
-      fNoteAlteration <<
-      endl <<
-      * /
-    idtr << left <<
-      setw(width) <<
-      "fNoteQuatertonesPitch" << " = " <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fNoteQuatertonesPitch) <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fNoteOctave" << " = " <<
-      fNoteOctave <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fNoteDivisions" << " = " <<
-      fNoteDivisions <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fNoteDisplayDivisions" << " = " <<
-      fNoteDisplayDivisions <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fNoteDotsNumber" << " = " <<
-      fNoteDotsNumber <<
-      endl <<
-    idtr << left <<
-      setw(width) << "fNoteGraphicDuration" << " = " <<
-      divisionsAsMsrString (
-        999, // JMI
-        fNoteGraphicDuration) <<
-      endl <<
-      
-    idtr << left <<
-      setw(width) << "fNoteBelongsToAChord" << " = " <<
-      fNoteBelongsToAChord <<
-      endl <<
-          
-    idtr << left <<
-      setw(width) << "fNoteBelongsToATuplet" << " = " <<
-      fNoteBelongsToATuplet <<
-      endl <<
-          
-    idtr << left <<
-      setw(width) << "fStaffNumber" << " = " <<
-      fNoteStaffNumber <<
-      endl <<
-    idtr <<
-      setw(width) << "fVoiceNumber" << " = " <<
-      fNoteVoiceNumber <<
-      endl;
-};
-*/

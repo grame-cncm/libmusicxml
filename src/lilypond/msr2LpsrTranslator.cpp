@@ -1611,18 +1611,21 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
       "--> Start visiting msrChord" << endl;
 
   fCurrentChordClone =
-    elt->createChordBareClone ();
+    elt->createChordBareClone (
+      fCurrentPartClone);
 
   if (fTupletClonesStack.size ()) {
     // a chord in a tuplet is handled as part of the tuplet JMI
     fTupletClonesStack.top ()->
-      addChordToTuplet (fCurrentChordClone);
+      addChordToTuplet (
+        fCurrentChordClone);
   }
 
   else {
     // appending the chord to the voice at once
     fCurrentVoiceClone->
-      appendChordToVoice (fCurrentChordClone);
+      appendChordToVoice (
+        fCurrentChordClone);
   }
 
   fOnGoingChord = true;

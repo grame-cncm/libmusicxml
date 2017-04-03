@@ -6626,6 +6626,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
     chord =
       msrChord::create (
         inputLineNumber,
+        fCurrentPart,
         chordFirstNote->getNoteDivisions (),
         chordFirstNote->getNoteGraphicDuration ());
 
