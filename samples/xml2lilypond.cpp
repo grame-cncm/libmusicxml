@@ -1702,7 +1702,7 @@ void analyzeOptions (
       break;
     } //  switch
 
-  // check whether the options are consistent
+  // handle auto output file option
   if (gGeneralOptions->fAutoOutputFile) {
     if (outputFileName.size ()) {
       stringstream s;
@@ -1726,19 +1726,19 @@ void analyzeOptions (
       optionError (s.str ());
     }
 
-  // build output file name
-  string
-    inputFileBasename = basename (inputFileName.c_str());
-  
-  outputFileName =
-    inputFileBasename;
-  
-  size_t posInString =
-    outputFileName.rfind ('.');
+    // build output file name
+    string
+      inputFileBasename = basename (inputFileName.c_str());
     
-  if (posInString != string::npos)
-    outputFileName.replace (
-      posInString, outputFileName.size () - posInString, ".ly");
+    outputFileName =
+      inputFileBasename;
+    
+    size_t posInString =
+      outputFileName.rfind ('.');
+      
+    if (posInString != string::npos)
+      outputFileName.replace (
+        posInString, outputFileName.size () - posInString, ".ly");
   }
 }
 
