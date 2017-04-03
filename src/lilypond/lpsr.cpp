@@ -88,6 +88,8 @@ string existingLpsrChordsLanguages ()
 }
 
 //_______________________________________________________________________________
+S_lpsrOptions gLpsrOptions;
+
 S_lpsrOptions lpsrOptions::create()
 {
   lpsrOptions* o = new lpsrOptions();
@@ -106,8 +108,8 @@ void lpsrOptions::initializeLpsrOptions (
   bool boolOptionsInitialValue)
 {
   // trace
-  fTraceLPSR         = boolOptionsInitialValue;
-  fTraceLPSRVisitors = boolOptionsInitialValue;
+  fTraceLPSR                           = boolOptionsInitialValue;
+  fTraceLPSRVisitors                   = boolOptionsInitialValue;
   
   // languages
   if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {
@@ -135,7 +137,7 @@ void lpsrOptions::initializeLpsrOptions (
   // LPSR display
   fDisplayLPSR                         = boolOptionsInitialValue;
 
-    // LilyPond code generation
+  // LilyPond code generation
   fDontKeepLineBreaks                  = boolOptionsInitialValue;
   fShowAllBarNumbers                   = boolOptionsInitialValue;
   fCompressFullBarRests                = boolOptionsInitialValue;
@@ -252,7 +254,92 @@ bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
   return true;
 } 
 
-S_lpsrOptions gLpsrOptions;
+void lpsrOptions::printLpsrOptions (int fieldWidth)
+{
+  cerr << indenter::gIndenter <<
+    "The LPSR options are:" <<
+    endl;
+
+  indenter::gIndenter++;
+  
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceLPSRVisitors" << " : " <<
+      booleanAsString (gLpsrOptions->fTraceLPSRVisitors) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
+      msrQuatertonesPitchesLanguageAsString (
+        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
+        "\"" <<
+        endl <<
+    indenter::gIndenter << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
+      lpsrChordsLanguageAsString (
+        gLpsrOptions->fLpsrChordsLanguage) <<
+        "\"" <<
+        endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "displayLPSR" << " : " <<
+      booleanAsString (gLpsrOptions->fDisplayLPSR) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
+      booleanAsString (gLpsrOptions->fShowAllBarNumbers) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "compressFullBarRests" << " : " <<
+      booleanAsString (gLpsrOptions->fCompressFullBarRests) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "tupletsOnALine" << " : " <<
+      booleanAsString (gLpsrOptions->fTupletsOnALine) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
+      booleanAsString (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
+      booleanAsString (gLpsrOptions->fSeparatorLineEveryNMeasures) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
+      gLpsrOptions->fSeparatorLineEveryNMeasuresValue <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
+      booleanAsString (gLpsrOptions->fDontKeepLineBreaks
+        ? "true" : "false") << endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "generateNumericalTime" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateNumericalTime) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "generateComments" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateComments) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "generateStems" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateStems) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "noAutoBeaming" << " : " <<
+      booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
+      endl <<
+     indenter::gIndenter << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateInputLineNumbers) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
+      booleanAsString (gLpsrOptions->fDontGenerateLilyPondLyrics) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
+      booleanAsString (gLpsrOptions->fDontGenerateLilyPondCode) <<
+      endl;
+
+  indenter::gIndenter--;
+}
 
 //_______________________________________________________________________________
 S_lpsrElement lpsrElement::create (

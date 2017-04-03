@@ -1710,193 +1710,37 @@ void printOptions ()
     endl;
 
   idtr++;
-
   cerr <<
     idtr <<
       gGeneralOptions->fProgramName << " " <<
       gGeneralOptions->fCommandLineOptions <<
       gGeneralOptions->fInputSourceName <<
       endl;
-
   idtr--;
 
   // the option name field width
   int const fieldWidth = 35;
   
+  // General options
+  // ---------------
+
   // print the chosen general options
   gGeneralOptions->
     printGeneralOptions (fieldWidth);
     
-  // General options
-  // ---------------
-
-  idtr--;
-
   // MSR options
   // -----------
 
-  cerr << idtr <<
-    "The MSR options are:" <<
-    endl;
-
-  idtr++;
-  
-  cerr << left <<
-    idtr <<
-      setw(fieldWidth) << "traceMSRVisitors" << " : " <<
-      booleanAsString (gMsrOptions->fTraceMSRVisitors) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
-      msrQuatertonesPitchesLanguageAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
-        "\"" <<
-        endl <<
+  // print the chosen MSR options
+  gMsrOptions->
+    printMsrOptions (fieldWidth);
     
-    idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
-      booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "dontDisplayMSRStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fDontDisplayMSRStanzas) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
-      endl <<
-    idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsWords) <<
-      endl <<
-    idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
-      endl <<
-    idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
-      endl <<
-    idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsWedges) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
-      booleanAsString (gMsrOptions->fKeepMasterVoices) <<
-      endl <<
-    idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "displayMSR" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMSR) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "displayMSRSummary" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMSRSummary) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
-    
-  if (gMsrOptions->fPartsRenaming.empty ())
-    cerr << "none";
-  else
-    for (
-      map<string, string>::const_iterator i =
-        gMsrOptions->fPartsRenaming.begin();
-      i != gMsrOptions->fPartsRenaming.end();
-      i++) {
-        cerr << "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
-    } // for
-  
-  cerr << endl;
-
-  idtr--;
-
   // LPSR options
   // ------------
 
-  cerr << idtr <<
-    "The LPSR options are:" <<
-    endl;
-
-  idtr++;
-  
-  cerr << left <<
-    idtr <<
-      setw(fieldWidth) << "traceLPSRVisitors" << " : " <<
-      booleanAsString (gLpsrOptions->fTraceLPSRVisitors) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "lpsrPitchesLanguage" << " : \"" <<
-      msrQuatertonesPitchesLanguageAsString (
-        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
-        "\"" <<
-        endl <<
-    idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
-      lpsrChordsLanguageAsString (
-        gLpsrOptions->fLpsrChordsLanguage) <<
-        "\"" <<
-        endl <<
-
-    idtr << setw(fieldWidth) << "displayLPSR" << " : " <<
-      booleanAsString (gLpsrOptions->fDisplayLPSR) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
-      booleanAsString (gLpsrOptions->fShowAllBarNumbers) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "compressFullBarRests" << " : " <<
-      booleanAsString (gLpsrOptions->fCompressFullBarRests) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
-      booleanAsString (gLpsrOptions->fTupletsOnALine) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
-      booleanAsString (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
-      booleanAsString (gLpsrOptions->fSeparatorLineEveryNMeasures) <<
-      endl <<
-    idtr << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
-      gLpsrOptions->fSeparatorLineEveryNMeasuresValue <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
-      booleanAsString (gLpsrOptions->fDontKeepLineBreaks
-        ? "true" : "false") << endl <<
-    
-    idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateNumericalTime) <<
-      endl <<
-    idtr << setw(fieldWidth) << "generateComments" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateComments) <<
-      endl <<
-    idtr << setw(fieldWidth) << "generateStems" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateStems) <<
-      endl <<
-    idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
-      booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
-      endl <<
-     idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateInputLineNumbers) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
-      booleanAsString (gLpsrOptions->fDontGenerateLilyPondLyrics) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
-      booleanAsString (gLpsrOptions->fDontGenerateLilyPondCode) <<
-      endl;
-
-  idtr--;
-
-  idtr--;
+  // print the chosen LPSR options
+  gLpsrOptions->
+    printLpsrOptions (fieldWidth);
 }
 
 //_______________________________________________________________________________

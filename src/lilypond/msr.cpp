@@ -1965,7 +1965,7 @@ string msrDurationAsString (msrDuration duration)
 
 // note types
 //______________________________________________________________________________
-/*
+/* JMI
 int noteTypeAsDivisions (
   string  noteType,
   int     divisionsPerWholeNote,
@@ -2046,6 +2046,8 @@ string noteTypeAsMSRDuration (
 */
 
 //_______________________________________________________________________________
+S_msrOptions gMsrOptions;
+
 S_msrOptions msrOptions::create ()
 {
   msrOptions* o = new msrOptions();
@@ -2058,12 +2060,14 @@ msrOptions::msrOptions ()
   initializeMsrOptions (false);
 }
 
+msrOptions::~msrOptions () {}
+
 void msrOptions::initializeMsrOptions (
   bool boolOptionsInitialValue)
 {
   // trace
-  fTraceMSR         = boolOptionsInitialValue;
-  fTraceMSRVisitors = boolOptionsInitialValue;
+  fTraceMSR                             = boolOptionsInitialValue;
+  fTraceMSRVisitors                     = boolOptionsInitialValue;
 
   // languages
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
@@ -2127,9 +2131,82 @@ bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
   return true;
 }
 
-msrOptions::~msrOptions () {}
+void msrOptions::printMsrOptions (int fieldWidth)
+{
+  cerr << indenter::gIndenter <<
+    "The MSR options are:" <<
+    endl;
 
-S_msrOptions gMsrOptions;
+  indenter::gIndenter++;
+  
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceMSRVisitors" << " : " <<
+      booleanAsString (gMsrOptions->fTraceMSRVisitors) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+      msrQuatertonesPitchesLanguageAsString (
+        gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
+        "\"" <<
+        endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
+      booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "dontDisplayMSRStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fDontDisplayMSRStanzas) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "delayRestsWords" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsWords) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "delayRestsWedges" << " : " <<
+      booleanAsString (gMsrOptions->fDelayRestsWedges) <<
+      endl <<
+
+    indenter::gIndenter << setw(fieldWidth) << "keepMasterVoices" << " : " <<
+      booleanAsString (gMsrOptions->fKeepMasterVoices) <<
+      endl <<
+    indenter::gIndenter << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "displayMSR" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMSR) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "displayMSRSummary" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMSRSummary) <<
+      endl <<
+    
+    indenter::gIndenter << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
+    
+  if (gMsrOptions->fPartsRenaming.empty ())
+    cerr << "none";
+  else
+    for (
+      map<string, string>::const_iterator i =
+        gMsrOptions->fPartsRenaming.begin();
+      i != gMsrOptions->fPartsRenaming.end();
+      i++) {
+        cerr << "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
+    } // for
+  
+  cerr << endl;
+
+  indenter::gIndenter--;
+}
 
 //______________________________________________________________________________
 msrElement::msrElement (

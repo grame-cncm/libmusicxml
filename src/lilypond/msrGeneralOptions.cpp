@@ -98,7 +98,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   fSaveDebugDebug = boolOptionsInitialValue;
 }
 
-    
 void msrGeneralOptions::printGeneralOptions (int fieldWidth)
 {
   cerr << indenter::gIndenter <<
@@ -200,7 +199,7 @@ void msrGeneralOptions::printGeneralOptions (int fieldWidth)
       booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
       endl;
 
-  indenter::gIndenter++;
+  indenter::gIndenter--;
 }
 
 
