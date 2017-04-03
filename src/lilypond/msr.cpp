@@ -15757,8 +15757,12 @@ int msrPart::durationAsDivisions (
 
   s <<
     "duration " << duration <<
-    " cannot be converted to a number of divisions";
+    " cannot be converted to divisions with " <<
+    fPartDivisionsPerQuarterNote << " dpqu" <<
+    endl;
 
+  printDurationsDivisions (s);
+  
   msrInternalError (
     inputLineNumber,
     s.str ())
@@ -15767,7 +15771,9 @@ int msrPart::durationAsDivisions (
 void msrPart::printDurationsDivisions (ostream& os)
 {
   cerr <<
-    "% ==> The contents of fPartDurationsToDivisions is:" <<
+    "% ==> The contents of fPartDurationsToDivisions with " <<
+    fPartDivisionsPerQuarterNote << " dpqu" <<
+    " is:" <<
     endl;
     
   for (

@@ -5,7 +5,7 @@
     <encoding>
       <software>Finale 2014.5 for Mac</software>
       <software>Dolet Light for Finale 2014.5</software>
-      <encoding-date>2017-03-03</encoding-date>
+      <encoding-date>2017-04-03</encoding-date>
       <supports attribute="new-system" element="print" type="yes" value="yes"/>
       <supports attribute="new-page" element="print" type="yes" value="yes"/>
       <supports element="accidental" type="yes"/>
@@ -95,7 +95,7 @@
   </part-list>
   <!--=========================================================-->
   <part id="P1">
-    <measure number="1" width="519">
+    <measure number="1" width="518">
       <print>
         <system-layout>
           <system-margins>
@@ -130,9 +130,9 @@
         <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="-50.5">down</stem>
+        <stem default-y="-50">down</stem>
       </note>
-      <note default-x="216">
+      <note default-x="215">
         <rest/>
         <duration>4</duration>
         <voice>1</voice>
@@ -170,14 +170,14 @@
         <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
-        <stem default-y="-55.5">down</stem>
+        <stem default-y="-55">down</stem>
         <notations>
           <ornaments>
             <trill-mark default-x="8" default-y="5" placement="above"/>
           </ornaments>
         </notations>
       </note>
-      <note default-x="308">
+      <note default-x="307">
         <grace/>
         <pitch>
           <step>A</step>
@@ -190,7 +190,7 @@
         <beam number="1">begin</beam>
         <beam number="2">begin</beam>
       </note>
-      <note default-x="327">
+      <note default-x="326">
         <grace/>
         <pitch>
           <step>B</step>
@@ -211,9 +211,9 @@
         <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="-50.5">down</stem>
+        <stem default-y="-50">down</stem>
       </note>
-      <note default-x="433">
+      <note default-x="432">
         <rest/>
         <duration>8</duration>
         <voice>1</voice>
@@ -223,7 +223,7 @@
   </part>
   <!--=========================================================-->
   <part id="P2">
-    <measure number="1" width="519">
+    <measure number="1" width="518">
       <print>
         <staff-layout number="1">
           <staff-distance>65</staff-distance>
@@ -254,7 +254,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
       <note default-x="117">
         <pitch>
@@ -264,9 +264,9 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
-      <note default-x="151">
+      <note default-x="150">
         <pitch>
           <step>C</step>
           <octave>5</octave>
@@ -274,7 +274,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
       <note default-x="183">
         <pitch>
@@ -284,9 +284,9 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
-      <note default-x="216">
+      <note default-x="215">
         <pitch>
           <step>C</step>
           <octave>5</octave>
@@ -294,7 +294,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
       <note default-x="248">
         <pitch>
@@ -304,7 +304,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
       <note default-x="281">
         <pitch>
@@ -314,9 +314,9 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
-      <note default-x="314">
+      <note default-x="313">
         <pitch>
           <step>C</step>
           <octave>5</octave>
@@ -324,7 +324,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
       <note default-x="346">
         <pitch>
@@ -334,9 +334,9 @@
         <duration>4</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="-50">down</stem>
+        <stem default-y="-50.5">down</stem>
       </note>
-      <note default-x="433">
+      <note default-x="432">
         <rest/>
         <duration>4</duration>
         <voice>1</voice>
