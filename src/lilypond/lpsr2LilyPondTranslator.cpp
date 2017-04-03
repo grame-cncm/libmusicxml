@@ -134,7 +134,12 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
       inputLineNumber,
       divisions);
 
-  return result+"FOO";
+  if (! isdigit (result [0])) {
+    result [0] = tolower (result [0]);
+    result = "\\" + result;
+  }
+
+  return result;
 }
 
 //________________________________________________________________________
@@ -1805,10 +1810,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       {
         string
           partialDuration =
-            fCurrentPart->
-              divisionsAsMsrString (
-                inputLineNumber,
-                elt->getMeasureLength ());
+            divisionsAsLilyPondString (
+              inputLineNumber,
+              elt->getMeasureDirectPartUplink (),
+              elt->getMeasureLength ());
 
         fOstream << idtr <<
           "\\partial" " " << partialDuration <<
@@ -1887,9 +1892,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         // generate a rest the duration of the measure
         fOstream <<
           "R" <<
-          fCurrentPart->
-            divisionsAsMsrString (
+            divisionsAsLilyPondString (
               inputLineNumber,
+              elt->getMeasureDirectPartUplink (),
               measureDivisionsPerFullMeasure) <<
           " | ";
       }
@@ -3374,7 +3379,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
   fOstream <<
     divisionsAsLilyPondString (
       elt->getInputLineNumber (),
-      fCurrentPart,
+      elt->getChordDirectPartUplink (),
       elt->getChordDivisions ());
    
   fOstream <<
