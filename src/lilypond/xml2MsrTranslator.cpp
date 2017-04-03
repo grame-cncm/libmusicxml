@@ -2800,7 +2800,7 @@ void xml2MsrTranslator::visitEnd (S_staff_tuning& elt )
     
 
   // create the staff tuning
-  if (gGeneralOptions->fTraceHarmony) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr <<
       idtr <<
         setw(30) << "Creating staff tuning:" <<
@@ -2875,7 +2875,7 @@ void xml2MsrTranslator::visitEnd (S_staff_details& elt )
     cerr << idtr <<
       "--> End visiting S_staff_details" << endl;
 
-  if (gGeneralOptions->fTraceHarmony) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr <<
       idtr <<
         setw(32) << "fStaffDetailsStaffNumber" << " = " <<
@@ -6872,7 +6872,7 @@ void xml2MsrTranslator::copyNoteHarmonyToChord (
         getNoteHarmony ();
                           
   if (harmony) {
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceHarmony)
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceHarmonies)
       cerr << idtr <<
         "--> copying harmony '" <<
         harmony->harmonyAsString () <<
@@ -9489,7 +9489,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-  if (gGeneralOptions->fTraceHarmony) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "--> harmony" <<
       ", line " << inputLineNumber <<

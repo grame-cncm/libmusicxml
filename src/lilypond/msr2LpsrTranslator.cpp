@@ -462,6 +462,11 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
     elt->createPartBareClone (
       fPartgroupsStack.top ());
 
+  // setup it durations to divisions data
+  fCurrentPartClone->
+    setupDurationsDivisions (
+      elt->getPartDivisionsPerQuarterNote ());
+    
   // add it to the partgroup clone
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
@@ -721,7 +726,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             getPartCombinedName ();
                         
         // create a ChordNames context command
-        if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceChords)
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords)
           cerr << idtr <<
             "Creating a ChordNames context for \"" << voiceName <<
             "\" in part " << partCombinedName <<
@@ -736,7 +741,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               voiceName);
 
         // append it to the current part block
-        if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceChords)
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords)
           cerr << idtr <<
             "Appending the ChordNames context for \"" << voiceName <<
             "\" in part " << partCombinedName <<

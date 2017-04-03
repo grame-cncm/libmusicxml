@@ -91,8 +91,9 @@ void printUsage (int exitStatus)
     "    --t, --traceGeneral" << endl <<
     "          Write a trace of the general activity to standard error." << endl <<
     endl <<
-    "    --tdivs, --traceDivisions" << endl <<
-    "          Write a trace of the divisions handling to standard error." << endl <<
+    "    --tdivs, --traceDivisions " << endl <<
+    "          Write a trace of the activity regarding divisions" << endl <<
+    "          to standard error." << endl <<
     endl <<
     "    --tparts, --traceparts " << endl <<
     "          Write a trace of the activity regarding score, part groups and parts" << endl <<
@@ -126,8 +127,8 @@ void printUsage (int exitStatus)
     "          Write at trace of the activity regarding lyrics" << endl <<
     "          to standard error." << endl <<
     endl <<
-    "    --tharm, --traceHarmony " << endl <<
-    "          Write at trace of the activity regarding staves and voices" << endl <<
+    "    --tharm, --traceHarmonies " << endl <<
+    "          Write at trace of the activity regarding harmonies" << endl <<
     "          to standard error." << endl <<
     endl <<
     "    --dm, --debugMeasures measureNumbersSet" << endl <<
@@ -331,6 +332,8 @@ void analyzeOptions (
   int outputFilePresent                 = 0;
   int interactivePresent                = 0;
   
+  int traceDivisionsPresent             = 0;
+  
   int tracePartsPresent                 = 0;
   
   int traceVoicesPresent                = 0;
@@ -343,9 +346,9 @@ void analyzeOptions (
   
   int traceGracenotesPresent            = 0;
   
-  int traceLyricsPresent                 = 0;
+  int traceLyricsPresent                = 0;
   
-  int traceHarmonyPresent               = 0;
+  int traceHarmoniesPresent             = 0;
   
   int debugMeasuresPresent              = 0;
   int debugdebugMeasuresPresent         = 0;
@@ -471,6 +474,15 @@ void analyzeOptions (
     },
     
     {
+      "tdivs",
+      no_argument, &traceDivisionsPresent, 1
+    },
+    {
+      "traceDivisions",
+      no_argument, &traceDivisionsPresent, 1
+    },
+    
+    {
       "tparts",
       no_argument, &tracePartsPresent, 1
     },
@@ -562,11 +574,11 @@ void analyzeOptions (
     
     {
       "tharm",
-      no_argument, &traceHarmonyPresent, 1
+      no_argument, &traceHarmoniesPresent, 1
     },
     {
-      "traceHarmony",
-      no_argument, &traceHarmonyPresent, 1
+      "traceHarmonies",
+      no_argument, &traceHarmoniesPresent, 1
     },
     
     {
@@ -997,55 +1009,72 @@ void analyzeOptions (
           traceGeneralPresent = false;
         }
         
+        if (traceDivisionsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceDivisions = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceDivisions ";
+          traceDivisionsPresent = false;
+        }
+        
         if (tracePartsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceparts ";
           tracePartsPresent = false;
         }
         if (traceVoicesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceVoices ";
           traceVoicesPresent = false;
         }
         if (traceSegmentsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceSegments = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceSegments ";
           traceSegmentsPresent = false;
         }
         if (traceRepeatsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceRepeats = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceRepeats ";
           traceRepeatsPresent = false;
         }
         if (traceMeasuresPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceMeasures = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceMeasures ";
           traceMeasuresPresent = false;
         }
         if (traceNotesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceNotes = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceNotes ";
           traceNotesPresent = false;
         }
         if (traceChordsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceChords = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceChords ";
           traceChordsPresent = false;
         }
         if (traceTupletsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTuplets = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceTuplets ";
           traceTupletsPresent = false;
         }
         if (traceGracenotesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceGracenotes = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceGracenotes ";
@@ -1053,17 +1082,19 @@ void analyzeOptions (
         }
 
         if (traceLyricsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceLyrics = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceLyrics ";
           traceLyricsPresent = false;
         }
         
-        if (traceHarmonyPresent) {
-          gGeneralOptions->fTraceHarmony = true;
+        if (traceHarmoniesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceHarmonies = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--traceHarmony ";
-          traceHarmonyPresent = false;
+            "--traceHarmonies ";
+          traceHarmoniesPresent = false;
         }
         
         if (debugMeasuresPresent) {
@@ -1674,8 +1705,6 @@ void printOptions ()
       "The command line options and arguments have been analyzed" <<
       endl;
 
-  idtr++;
-  
   cerr << idtr <<
     "The command line is:" <<
     endl;
@@ -1694,102 +1723,12 @@ void printOptions ()
   // the option name field width
   int const fieldWidth = 35;
   
+  // print the chosen general options
+  gGeneralOptions->
+    printGeneralOptions (fieldWidth);
+    
   // General options
   // ---------------
-
-  cerr << idtr <<
-    "The general options are:" <<
-    endl;
-
-  idtr++;
-
-  cerr << left <<
-    idtr <<
-      setw(fieldWidth) << "input source name" << " : " <<
-      gGeneralOptions->fInputSourceName <<
-      endl <<
-      
-    idtr <<
-      setw(fieldWidth) << "translation date" << " : " <<
-      gGeneralOptions->fTranslationDate <<
-      endl <<
-      
-    idtr <<
-      setw(fieldWidth) << "interactive" << " : " <<
-      booleanAsString (gGeneralOptions->fInteractive) <<
-      endl <<
-        
-    idtr <<
-      setw(fieldWidth) << "traceGeneral" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceGeneral) <<
-      endl <<
-        
-    idtr <<
-      setw(fieldWidth) << "traceparts" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceParts) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceVoices" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceVoices) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceSegments" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceSegments) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceRepeats" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceRepeats) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceMeasures" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceMeasures) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceNotes" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceNotes) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceChords" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceChords) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceTuplets" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceTuplets) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "traceGracenotes" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceGracenotes) <<
-      endl <<
-
-    idtr <<
-      setw(fieldWidth) << "traceLyrics" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceLyrics) <<
-      endl <<
-      
-    idtr <<
-      setw(fieldWidth) << "traceHarmony" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceHarmony) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
-
-  if (gGeneralOptions->fDebugMeasureNumbersSet.empty ())
-    cerr << "none";
-  else
-    for (
-      set<int>::const_iterator i =
-        gGeneralOptions->fDebugMeasureNumbersSet.begin();
-      i != gGeneralOptions->fDebugMeasureNumbersSet.end();
-      i++) {
-        cerr << (*i) << " ";
-    } // for
-  cerr << endl;
-
-  cerr <<
-    idtr <<
-      setw(fieldWidth) << "displayCPUusage" << " : " <<
-      booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
-      endl;
 
   idtr--;
 

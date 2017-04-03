@@ -23,6 +23,8 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
+S_msrGeneralOptions gGeneralOptions;
+
 S_msrGeneralOptions msrGeneralOptions::create ()
 {
   msrGeneralOptions* o = new msrGeneralOptions();
@@ -32,76 +34,174 @@ S_msrGeneralOptions msrGeneralOptions::create ()
 
 msrGeneralOptions::msrGeneralOptions ()
 {
-  initializeGeneralOptions ();
+  initializeGeneralOptions (false);
 }
 
 msrGeneralOptions::~msrGeneralOptions () {}
 
-void msrGeneralOptions::initializeGeneralOptions ()
+void msrGeneralOptions::initializeGeneralOptions (
+  bool optionsInitialValue)
 {
   // interactive mode
-  fInteractive = false;
+  fInteractive = optionsInitialValue;
   
   // trace
-  fTraceGeneral = false;
+  fTraceGeneral = optionsInitialValue;
     
-  fTraceDivisions = false;
+  fTraceDivisions = optionsInitialValue;
 
-  fTraceParts = false;
-  fTraceVoices = false;
+  fTraceParts = optionsInitialValue;
+  fTraceVoices = optionsInitialValue;
 
-  fTraceSegments = false;
-  fTraceMeasures = false;
+  fTraceSegments = optionsInitialValue;
+  fTraceMeasures = optionsInitialValue;
   
-  fTraceChords = false;
-  fTraceTuplets = false;
+  fTraceChords = optionsInitialValue;
+  fTraceTuplets = optionsInitialValue;
   
-  fTraceGracenotes = false;
+  fTraceGracenotes = optionsInitialValue;
 
-  fTraceHarmony = false;
+  fTraceHarmonies = optionsInitialValue;
   
 
-  fTraceScore = false;
-  fTracePartgroups = false;
-  fTraceStaves = false;
+  fTraceScore = optionsInitialValue;
+  fTracePartgroups = optionsInitialValue;
+  fTraceStaves = optionsInitialValue;
     
-  fTraceNotes = false;
-  fTraceDurations = false;
+  fTraceNotes = optionsInitialValue;
+  fTraceDurations = optionsInitialValue;
   
-  fTraceDynamics = false;
-  fTraceWords = false;
-  fTraceSlurs = false;
-  fTraceLigatures = false;
-  fTraceWedges = false;
+  fTraceDynamics = optionsInitialValue;
+  fTraceWords = optionsInitialValue;
+  fTraceSlurs = optionsInitialValue;
+  fTraceLigatures = optionsInitialValue;
+  fTraceWedges = optionsInitialValue;
   
   
-  fTraceLyrics = false;
+  fTraceLyrics = optionsInitialValue;
   
-  fTraceWords = false;
+  fTraceWords = optionsInitialValue;
 
-  fTraceRepeats = false;
+  fTraceRepeats = optionsInitialValue;
   
-  fTraceStafftuning = false;
+  fTraceStafftuning = optionsInitialValue;
   
-  fTraceMidi = false;
+  fTraceMidi = optionsInitialValue;
 
-  fTraceALL = false;
+  fTraceALL = optionsInitialValue;
 
-  // debug
- // fDebug = false;
- // fDebugDebug = false;
-
-  // forcing debug information at specific places in the code
- // fForceDebug = false;
-  
-    // timing information
-  fDisplayCPUusage = false;
+  // timing information
+  fDisplayCPUusage = optionsInitialValue;
 
   // measure number-selective debug
-  fSaveDebug = false;
-  fSaveDebugDebug = false;
+  fSaveDebug = optionsInitialValue;
+  fSaveDebugDebug = optionsInitialValue;
 }
 
-S_msrGeneralOptions gGeneralOptions;
+    
+void msrGeneralOptions::printGeneralOptions (int fieldWidth)
+{
+  cerr << indenter::gIndenter <<
+    "The general options are:" <<
+    endl;
+
+  indenter::gIndenter++;
+
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "input source name" << " : " <<
+      gGeneralOptions->fInputSourceName <<
+      endl <<
+      
+    indenter::gIndenter <<
+      setw(fieldWidth) << "translation date" << " : " <<
+      gGeneralOptions->fTranslationDate <<
+      endl <<
+      
+    indenter::gIndenter <<
+      setw(fieldWidth) << "interactive" << " : " <<
+      booleanAsString (gGeneralOptions->fInteractive) <<
+      endl <<
+        
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceGeneral" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceGeneral) <<
+      endl <<
+        
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceDivisions" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceDivisions) <<
+      endl <<
+      
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceparts" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceParts) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceVoices" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceVoices) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceSegments" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceSegments) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceRepeats" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceRepeats) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceMeasures" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceMeasures) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceNotes" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceNotes) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceChords" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceChords) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceTuplets" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceTuplets) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceGracenotes" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceGracenotes) <<
+      endl <<
+
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceLyrics" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceLyrics) <<
+      endl <<
+      
+    indenter::gIndenter <<
+      setw(fieldWidth) << "traceHarmonies" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceHarmonies) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
+
+  if (gGeneralOptions->fDebugMeasureNumbersSet.empty ())
+    cerr << "none";
+  else
+    for (
+      set<int>::const_iterator i =
+        gGeneralOptions->fDebugMeasureNumbersSet.begin();
+      i != gGeneralOptions->fDebugMeasureNumbersSet.end();
+      i++) {
+        cerr << (*i) << " ";
+    } // for
+  cerr << endl;
+
+  cerr <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "displayCPUusage" << " : " <<
+      booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
+      endl;
+
+  indenter::gIndenter++;
+}
+
 
 }

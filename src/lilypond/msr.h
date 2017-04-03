@@ -5921,7 +5921,8 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
-    void            setupDurationsDivisions (int divisionPerQuarterNote);
+    void            setupDurationsDivisions (
+                      int divisionPerQuarterNote);
     
     int             durationAsDivisions (
                       int         inputLineNumber,

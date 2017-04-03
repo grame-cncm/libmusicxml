@@ -9452,7 +9452,7 @@ msrHarmony::~msrHarmony() {}
 
 S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
 {
-  if (gGeneralOptions->fTraceHarmony) {
+  if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "% --> Creating a bare clone or harmony '" <<
       harmonyKindAsShortString () <<
@@ -12038,7 +12038,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmony || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "Appending harmony " << harmony->harmonyAsString () <<
@@ -13409,7 +13409,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmony)
+  if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -15602,11 +15602,13 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
 
 void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
 {
-  /*
+  if (gGeneralOptions->fTraceDivisions) {
   cerr <<
-    "divisionPerQuarterNote = " << divisionPerQuarterNote <<
+    "Setting durations divisions for part \"" <<
+    "\"" << fPartName <<
+    ", divisionPerQuarterNote = " << divisionPerQuarterNote <<
     endl;
-  */
+  }
   
   // erase fPartDurationsToDivisions's contents
   fPartDurationsToDivisions.clear ();
@@ -15655,7 +15657,8 @@ void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
   }
 
   if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (cerr);
+    printDurationsDivisions (
+      cerr);
   }
 }
 
@@ -15687,7 +15690,7 @@ void msrPart::printDurationsDivisions (ostream& os)
 {
   cerr <<
     "% ==> The contents of fPartDurationsToDivisions is:" <<
-    endl << endl;
+    endl;
     
   for (
     list<pair<msrDuration, int> >::const_iterator i =
@@ -16033,7 +16036,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
   // create the part harmony staff
   const int partHarmonyStaffNumber = -1;
 
-  if (gGeneralOptions->fTraceHarmony)
+  if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "Creating the harmony staff " <<
       " with number " << partHarmonyStaffNumber <<
@@ -16051,7 +16054,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
   // create the part harmony voice
   const int partHarmonyVoiceNumber = -1;
   
-  if (gGeneralOptions->fTraceHarmony)
+  if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "Creating the harmony voice for part \"" <<
       getPartName () <<
@@ -16392,7 +16395,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmony)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "% --> appending harmony " <<
       harmony->harmonyAsString () <<

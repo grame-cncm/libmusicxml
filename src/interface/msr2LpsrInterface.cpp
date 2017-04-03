@@ -75,10 +75,12 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl <<
       "Pass 3: translating the MSR into a LPSR" <<
       endl;
+      
     if (lpsrOpts->fDisplayLPSR)
       cerr <<
         "(dpqn: divisions per quarter note)" <<
         endl;
+        
     cerr <<
       idtr << separator <<
       endl;

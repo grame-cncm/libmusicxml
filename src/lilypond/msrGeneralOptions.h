@@ -57,7 +57,10 @@ class EXP msrGeneralOptions : public smartable
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeGeneralOptions ();
+    void                  initializeGeneralOptions (
+                            bool optionsInitialValue);
+        
+    void                  printGeneralOptions (int fieldWidth);
     
   protected:
   
@@ -97,7 +100,7 @@ class EXP msrGeneralOptions : public smartable
     
     bool                  fTraceLyrics;
 
-    bool                  fTraceHarmony;
+    bool                  fTraceHarmonies;
 
 
 
