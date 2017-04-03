@@ -7971,6 +7971,17 @@ ostream& operator<< (ostream& os, const S_msrTime& elt)
   return os;
 }
 
+string msrTime::timeAsShortString () const
+{
+  stringstream s;
+
+  s <<
+    "Time \"" << 
+    fBeatsNumber << "/" << fBeatsValue;
+
+  return s.str();
+}
+
 string msrTime::timeAsString () const
 {
   stringstream s;
@@ -12292,14 +12303,10 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
 void msrSegment::print (ostream& os)
 {  
   os << idtr <<
-    "Segment " << fSegmentAbsoluteNumber <<
-    " (" <<
+    "Segment " <<
+    fSegmentAbsoluteNumber <<
     singularOrPlural (
-      fSegmentMeasuresList.size(), "measure", "measures") <<
-    ")" <<
-    endl;
-
-  idtr++;
+      fSegmentMeasuresList.size(), "measure", "measures");
 
   if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
@@ -12310,35 +12317,33 @@ void msrSegment::print (ostream& os)
   }
 
   os <<
-    idtr <<
-      setw(32) << "(fSegmentTime" << " = " <<
-      fSegmentTime->timeAsString () << ")" <<
-      endl;
-
-  os <<
-    idtr << "Measures:";
+    ", fSegmentTime" << " = " <<
+    fSegmentTime->timeAsShortString () <<
+    endl;
   
-  if (! fSegmentMeasuresList.size ())
-    os << " none";
-    
+  if (! fSegmentMeasuresList.size ()) {
+    os << idtr <<
+      "Measures: none";
+  }
+  
   else {    
- //   os << endl;
+    os << endl;
+    
     idtr++;
     
     list<S_msrMeasure>::const_iterator
       iBegin = fSegmentMeasuresList.begin(),
       iEnd   = fSegmentMeasuresList.end(),
       i      = iBegin;
+      
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
     
-  idtr--;
+    idtr--;
   }
-  
-  idtr--;
 }
 
 //______________________________________________________________________________
@@ -16332,20 +16337,25 @@ void msrPart::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(25) << "PartDivisionsPerQuarterNote" << ": " <<
-      fPartDivisionsPerQuarterNote << endl <<
+      setw(25) << "*** PartDivisionsPerQuarterNote" << ": " <<
+      fPartDivisionsPerQuarterNote << " ***" <<
+      endl <<
     idtr <<
       setw(25) << "PartMSRName" << ": \"" <<
-      fPartMSRName << "\"" << endl <<
+      fPartMSRName << "\"" <<
+      endl <<
     idtr <<
       setw(25) << "PartName" << ": \"" <<
-      fPartName << "\"" << endl <<
+      fPartName << "\"" <<
+      endl <<
     idtr <<
       setw(25) << "PartAbbrevation" << ": \"" <<
-      fPartAbbreviation << "\"" << endl <<
+      fPartAbbreviation << "\"" <<
+      endl <<
     idtr <<
       setw(25) << "PartInstrumentName" << ": \"" <<
-      fPartInstrumentName << "\"" << endl;
+      fPartInstrumentName << "\"" <<
+      endl;
 
 /*
   // print the harmony staff

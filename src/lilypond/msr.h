@@ -1596,12 +1596,9 @@ class EXP msrTime : public msrElement
                   
     // services
     // ------------------------------------------------------
-
-/* JMI
-    int       timeDuration () const
-                  { return fBeatsNumber * fBeatsValue; }
-*/
                   
+    string    timeAsShortString () const;
+    
     string    timeAsString () const;
 
     // visitors
