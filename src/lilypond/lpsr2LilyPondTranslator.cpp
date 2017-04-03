@@ -131,8 +131,34 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
   result =
     part->
       divisionsAsMsrString (
-      inputLineNumber,
-      divisions);
+        inputLineNumber,
+        divisions);
+
+  if (! isdigit (result [0])) {
+    result [0] = tolower (result [0]);
+    result = "\\" + result;
+  }
+
+  return result;
+}
+
+string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
+  int inputLineNumber,
+  S_msrPart part,
+  int divisions,
+  int actualNotes,
+  int normalNotes)
+{
+  string result;
+
+  msrAssert(part != 0, "part != 0"); // JMI
+  result =
+    part->
+      tupletDivisionsAsMsrString (
+        inputLineNumber,
+        divisions,
+        actualNotes,
+        normalNotes);
 
   if (! isdigit (result [0])) {
     result [0] = tolower (result [0]);
@@ -2817,12 +2843,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
           elt->getNoteTupletUplink ();
           
       fOstream <<
-        fCurrentPart->
-          tupletDivisionsAsMsrString (
-            elt->getInputLineNumber (),
-            elt->getNoteDivisions (),
-            tuplet->getTupletActualNotes (),
-            tuplet->getTupletNormalNotes ());
+        tupletDivisionsAsLilypondString (
+          elt->getInputLineNumber (),
+          elt->getNoteDirectPartUplink (),
+          elt->getNoteDivisions (),
+          tuplet->getTupletActualNotes (),
+          tuplet->getTupletNormalNotes ());
 
       // print the tie if any
       {

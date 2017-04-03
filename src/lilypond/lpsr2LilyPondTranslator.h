@@ -340,6 +340,13 @@ class lpsr2LilyPondTranslator :
                   S_msrPart part,
                   int       divisions);
 
+    string      tupletDivisionsAsLilypondString (
+                  int inputLineNumber,
+                  S_msrPart part,
+                  int divisions,
+                  int actualNotes,
+                  int normalNotes);
+  
     string      noteAsLilyPondString (S_msrNote& note);
 
     string      ornamentKindAsLilyPondString (
