@@ -2055,14 +2055,15 @@ S_msrOptions msrOptions::create ()
 
 msrOptions::msrOptions ()
 {
-  initializeMsrOptions ();
+  initializeMsrOptions (false);
 }
 
-void msrOptions::initializeMsrOptions ()
+void msrOptions::initializeMsrOptions (
+  bool boolOptionsInitialValue)
 {
   // trace
-  fTraceMSR = false;
-  fTraceMSRVisitors = false;
+  fTraceMSR         = boolOptionsInitialValue;
+  fTraceMSRVisitors = boolOptionsInitialValue;
 
   // languages
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
@@ -2088,25 +2089,25 @@ void msrOptions::initializeMsrOptions ()
   }
   
   // advanced options
-  fCreateStaffRelativeVoiceNumbers      = false;
-  fDelayRestsDynamics                   = false;
-  fDelayRestsWords                      = false; // JMI
-  fDelayRestsSlurs                      = false; // JMI
-  fDelayRestsLigatures                  = false; // JMI
-  fDelayRestsWedges                     = false; // JMI
+  fCreateStaffRelativeVoiceNumbers      = boolOptionsInitialValue;
+  fDelayRestsDynamics                   = boolOptionsInitialValue;
+  fDelayRestsWords                      = boolOptionsInitialValue; // JMI
+  fDelayRestsSlurs                      = boolOptionsInitialValue; // JMI
+  fDelayRestsLigatures                  = boolOptionsInitialValue; // JMI
+  fDelayRestsWedges                     = boolOptionsInitialValue; // JMI
   
   // master voices and stanzas
-  fKeepMasterVoices                     = false;
-  fKeepMasterStanzas                    = false;
+  fKeepMasterVoices                     = boolOptionsInitialValue;
+  fKeepMasterStanzas                    = boolOptionsInitialValue;
     
   // stanza display
-  fDontDisplayMSRStanzas                = false;
+  fDontDisplayMSRStanzas                = boolOptionsInitialValue;
   
   // MSR display
-  fDisplayMSR                           = false;
+  fDisplayMSR                           = boolOptionsInitialValue;
 
   // MSR score summary
-  fDisplayMSRSummary                    = false;
+  fDisplayMSRSummary                    = boolOptionsInitialValue;
 }
 
 bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)

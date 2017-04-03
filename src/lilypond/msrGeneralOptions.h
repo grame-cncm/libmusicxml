@@ -58,7 +58,7 @@ class EXP msrGeneralOptions : public smartable
     // ------------------------------------------------------
 
     void                  initializeGeneralOptions (
-                            bool optionsInitialValue);
+                            bool boolOptionsInitialValue);
         
     void                  printGeneralOptions (int fieldWidth);
     

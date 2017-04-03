@@ -97,16 +97,17 @@ S_lpsrOptions lpsrOptions::create()
 
 lpsrOptions::lpsrOptions()
 {
-  initializeLpsrOptions ();
+  initializeLpsrOptions (false);
 }
 
 lpsrOptions::~lpsrOptions() {}
 
-void lpsrOptions::initializeLpsrOptions ()
+void lpsrOptions::initializeLpsrOptions (
+  bool boolOptionsInitialValue)
 {
   // trace
-  fTraceLPSR = false;
-  fTraceLPSRVisitors = false;
+  fTraceLPSR         = boolOptionsInitialValue;
+  fTraceLPSRVisitors = boolOptionsInitialValue;
   
   // languages
   if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {
@@ -132,45 +133,45 @@ void lpsrOptions::initializeLpsrOptions ()
   }
   
   // LPSR display
-  fDisplayLPSR                         = false;
+  fDisplayLPSR                         = boolOptionsInitialValue;
 
     // LilyPond code generation
-  fDontKeepLineBreaks                  = false;
-  fShowAllBarNumbers                   = false;
-  fCompressFullBarRests                = false;
+  fDontKeepLineBreaks                  = boolOptionsInitialValue;
+  fShowAllBarNumbers                   = boolOptionsInitialValue;
+  fCompressFullBarRests                = boolOptionsInitialValue;
   
-  fTupletsOnALine                      = false;
+  fTupletsOnALine                      = boolOptionsInitialValue;
   
-  fBreakLinesAtIncompleteRightMeasures = false;
+  fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
   
-  fSeparatorLineEveryNMeasures         = false;
+  fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
   fSeparatorLineEveryNMeasuresValue    = INT_MAX;
   
-  fKeepStaffSize                       = false;
+  fKeepStaffSize                       = boolOptionsInitialValue;
     
-  fGenerateAbsoluteOctaves             = false;
+  fGenerateAbsoluteOctaves             = boolOptionsInitialValue;
 
-  fGenerateNumericalTime               = false;
-  fGenerateComments                    = false;
-  fGenerateStems                       = false;
-  fNoAutoBeaming                       = false;
-  fGenerateInputLineNumbers            = false;
+  fGenerateNumericalTime               = boolOptionsInitialValue;
+  fGenerateComments                    = boolOptionsInitialValue;
+  fGenerateStems                       = boolOptionsInitialValue;
+  fNoAutoBeaming                       = boolOptionsInitialValue;
+  fGenerateInputLineNumbers            = boolOptionsInitialValue;
   
   fAccidentalStyle                     = "";
 
   fDelayedOrnamentFractionNumerator    = 2;
   fDelayedOrnamentFractionDenominator  = 3;
 
-  fDontGenerateMidiCommand             = false;
+  fDontGenerateMidiCommand             = boolOptionsInitialValue;
   
   fMidiTempoDuration                   = "4";
   fMidiTempoPerSecond                  = 100;
   
-  fGenerateMasterVoices                = true;
+  fGenerateMasterVoices                = boolOptionsInitialValue;
   
-  fDontGenerateLilyPondLyrics          = false;
+  fDontGenerateLilyPondLyrics          = boolOptionsInitialValue;
   
-  fDontGenerateLilyPondCode            = false;
+  fDontGenerateLilyPondCode            = boolOptionsInitialValue;
 
   fLilyPondAccidentalStyles.insert ("voice");
   fLilyPondAccidentalStyles.insert ("modern");

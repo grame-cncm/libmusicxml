@@ -360,8 +360,11 @@ class EXP msrOptions : public smartable
     // initialisation
     // ------------------------------------------------------
 
-    void                          initializeMsrOptions ();
+    void                          initializeMsrOptions (
+                                    bool boolOptionsInitialValue);
     
+    void                          printMsrOptions (int fieldWidth);
+
   public:
 
     // constructors/destructor

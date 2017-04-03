@@ -40,62 +40,62 @@ msrGeneralOptions::msrGeneralOptions ()
 msrGeneralOptions::~msrGeneralOptions () {}
 
 void msrGeneralOptions::initializeGeneralOptions (
-  bool optionsInitialValue)
+  bool boolOptionsInitialValue)
 {
   // interactive mode
-  fInteractive = optionsInitialValue;
+  fInteractive = boolOptionsInitialValue;
   
   // trace
-  fTraceGeneral = optionsInitialValue;
+  fTraceGeneral = boolOptionsInitialValue;
     
-  fTraceDivisions = optionsInitialValue;
+  fTraceDivisions = boolOptionsInitialValue;
 
-  fTraceParts = optionsInitialValue;
-  fTraceVoices = optionsInitialValue;
+  fTraceParts = boolOptionsInitialValue;
+  fTraceVoices = boolOptionsInitialValue;
 
-  fTraceSegments = optionsInitialValue;
-  fTraceMeasures = optionsInitialValue;
+  fTraceSegments = boolOptionsInitialValue;
+  fTraceMeasures = boolOptionsInitialValue;
   
-  fTraceChords = optionsInitialValue;
-  fTraceTuplets = optionsInitialValue;
+  fTraceChords = boolOptionsInitialValue;
+  fTraceTuplets = boolOptionsInitialValue;
   
-  fTraceGracenotes = optionsInitialValue;
+  fTraceGracenotes = boolOptionsInitialValue;
 
-  fTraceHarmonies = optionsInitialValue;
+  fTraceHarmonies = boolOptionsInitialValue;
   
 
-  fTraceScore = optionsInitialValue;
-  fTracePartgroups = optionsInitialValue;
-  fTraceStaves = optionsInitialValue;
+  fTraceScore = boolOptionsInitialValue;
+  fTracePartgroups = boolOptionsInitialValue;
+  fTraceStaves = boolOptionsInitialValue;
     
-  fTraceNotes = optionsInitialValue;
-  fTraceDurations = optionsInitialValue;
+  fTraceNotes = boolOptionsInitialValue;
+  fTraceDurations = boolOptionsInitialValue;
   
-  fTraceDynamics = optionsInitialValue;
-  fTraceWords = optionsInitialValue;
-  fTraceSlurs = optionsInitialValue;
-  fTraceLigatures = optionsInitialValue;
-  fTraceWedges = optionsInitialValue;
+  fTraceDynamics = boolOptionsInitialValue;
+  fTraceWords = boolOptionsInitialValue;
+  fTraceSlurs = boolOptionsInitialValue;
+  fTraceLigatures = boolOptionsInitialValue;
+  fTraceWedges = boolOptionsInitialValue;
   
   
-  fTraceLyrics = optionsInitialValue;
+  fTraceLyrics = boolOptionsInitialValue;
   
-  fTraceWords = optionsInitialValue;
+  fTraceWords = boolOptionsInitialValue;
 
-  fTraceRepeats = optionsInitialValue;
+  fTraceRepeats = boolOptionsInitialValue;
   
-  fTraceStafftuning = optionsInitialValue;
+  fTraceStafftuning = boolOptionsInitialValue;
   
-  fTraceMidi = optionsInitialValue;
+  fTraceMidi = boolOptionsInitialValue;
 
-  fTraceALL = optionsInitialValue;
+  fTraceALL = boolOptionsInitialValue;
 
   // timing information
-  fDisplayCPUusage = optionsInitialValue;
+  fDisplayCPUusage = boolOptionsInitialValue;
 
   // measure number-selective debug
-  fSaveDebug = optionsInitialValue;
-  fSaveDebugDebug = optionsInitialValue;
+  fSaveDebug = boolOptionsInitialValue;
+  fSaveDebugDebug = boolOptionsInitialValue;
 }
 
     

@@ -135,7 +135,10 @@ class EXP lpsrOptions : public smartable {
     // initialisation
     // ------------------------------------------------------
 
-    void                          initializeLpsrOptions ();
+    void                          initializeLpsrOptions (
+                                    bool boolOptionsInitialValue);
+    
+    void                          printLpsrOptions (int fieldWidth);
     
   public:
   
