@@ -1657,7 +1657,6 @@ class EXP msrMeasure : public msrElement
       int           inputLineNumber,
       S_msrPart     measureDirectPartUplink,
       int           measureNumber,
-      int           divisionsPerQuarterNote,
       S_msrSegment  segmentUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
@@ -1671,7 +1670,6 @@ class EXP msrMeasure : public msrElement
     msrMeasure (
       int           inputLineNumber,
       int           measureNumber,
-      int           divisionsPerQuarterNote,
       S_msrSegment  segmentUplink);
       
     virtual ~msrMeasure();
@@ -1696,12 +1694,6 @@ class EXP msrMeasure : public msrElement
 
     int           getMeasureNumber () const
                       { return fMeasureNumber; }
-
-    void          setMeasureDivisionsPerQuarterNote (int divisions) // JMI
-                      { fMeasureDivisionsPerQuarterNote = divisions; }
-
-    int           getMeasureDivisionsPerQuarterNote () const
-                      { return fMeasureDivisionsPerQuarterNote; }
 
     void          setMeasureClef (S_msrClef clef)
                       { fMeasureClef = clef; }
@@ -1820,7 +1812,6 @@ class EXP msrMeasure : public msrElement
 
     int                 fMeasureNumber;
     
-    int                 fMeasureDivisionsPerQuarterNote;
     int                 fMeasureDivisionsPerFullMeasure;
 
     S_msrClef           fMeasureClef;
@@ -1856,7 +1847,6 @@ class EXP msrSegment : public msrElement
     static SMARTP<msrSegment> create (
       int        inputLineNumber,
       S_msrPart  segmentDirectPartUplink,
-      int        divisionsPerQuarterNote,
       S_msrVoice segmentVoicekUplink);
 
     SMARTP<msrSegment> createSegmentBareClone (
@@ -1869,7 +1859,6 @@ class EXP msrSegment : public msrElement
 
     msrSegment (
       int        inputLineNumber,
-      int        divisionsPerQuarterNote,
       S_msrVoice segmentVoicekUplink);
       
     virtual ~msrSegment();
@@ -1903,16 +1892,6 @@ class EXP msrSegment : public msrElement
                   getSegmentMeasuresList () const
                       { return fSegmentMeasuresList; }
                                             
-    // divisions per quarter note
-    void          setSegmentDivisionsPerQuarterNote ( // JMI
-                    int divisionsPerQuarterNote);
-                      
-    const int     getSegmentDivisionsPerQuarterNote () const
-                      { return fSegmentDivisionsPerQuarterNote; }
- /* JMI                     
-    const int     getSegmentDivisionsPerWholeMeasure () const
-                      { return fSegmentDivisionsPerWholeMeasure; }
-       */   
     void          setSegmentTime (S_msrTime time)
                       { fSegmentTime = time; }
 
@@ -1998,8 +1977,6 @@ class EXP msrSegment : public msrElement
     
     S_msrTime            fSegmentTime;
     
-    int                  fSegmentDivisionsPerQuarterNote;
-
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>   fSegmentMeasuresList;
 
@@ -2607,11 +2584,11 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrNote> createSkipNote (
-      int inputLineNumber,
-      int divisions,
-      int divisionsPerQuarterNote,
-      int staffNumber,
-      int externalVoiceNumber);
+      int       inputLineNumber,
+      S_msrPart noteDirectPartUplink,
+      int       divisions,
+      int       staffNumber,
+      int       externalVoiceNumber);
     
   protected:
  
@@ -2641,19 +2618,6 @@ class EXP msrNote : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // divisions
-
-    void                  setNoteDivisionsPerQuarterNote (
-                            int divisionsPerQuarterNote)
-                              {
-                                fNoteDivisionsPerQuarterNote =
-                                  divisionsPerQuarterNote;
-                              }
-                      
-    const int             getNoteDivisionsPerQuarterNote () const
-                              { return fNoteDivisionsPerQuarterNote; }
-          
 
     // basic note description
     // -------------------------------
@@ -2944,11 +2908,6 @@ class EXP msrNote : public msrElement
 
   private:
 
-    // divisions
-    // ------------------------------------------------------
-    
-    int                       fNoteDivisionsPerQuarterNote; // JMI
-
     // basic note description
     // ------------------------------------------------------
 
@@ -3138,17 +3097,6 @@ class EXP msrChord : public msrElement
     int               getChordDivisions () const
                           { return fChordDivisions; }
             
-    // divisions per quarter note
-    void              setChordDivisionsPerQuarterNote (
-                        int divisionsPerQuarterNote)
-                          {
-                            fChordDivisionsPerQuarterNote =
-                              divisionsPerQuarterNote;
-                          }
-
-    const int         getChordDivisionsPerQuarterNote () const
-                          { return fChordDivisionsPerQuarterNote; }
-
     // measure uplink
     void              setChordMeasureUplink (
                         const S_msrMeasure& measure)
@@ -3242,8 +3190,6 @@ class EXP msrChord : public msrElement
     msrDuration               fChordGraphicDuration;
     
     vector<S_msrNote>         fChordNotes;
-
-    int                       fChordDivisionsPerQuarterNote;
 
     S_msrMeasure              fChordMeasureUplink;
 
@@ -4094,17 +4040,6 @@ class EXP msrTuplet : public msrElement
     int           getTupletDivisions () const
                       { return fTupletDivisions; }
             
-    // divisions per quarter note
-    void          setTupletDivisionsPerQuarterNote (
-                    int divisionsPerQuarterNote)
-                      {
-                        fTupletDivisionsPerQuarterNote =
-                          divisionsPerQuarterNote;
-                      }
-                      
-    const int     getTupletDivisionsPerQuarterNote () const
-                      { return fTupletDivisionsPerQuarterNote; }
-                    
     // measure uplink
     void          setTupletMeasureUplink (
                     const S_msrMeasure& measure)
@@ -4170,8 +4105,6 @@ class EXP msrTuplet : public msrElement
 
     int                  fTupletDivisions;
     int                  fTupletDisplayDivisions;
-
-    int                  fTupletDivisionsPerQuarterNote;
 
     S_msrMeasure         fTupletMeasureUplink;
 
@@ -5248,13 +5181,6 @@ class EXP msrVoice : public msrElement
     int             getMeasureZeroHasBeenMetInVoice () const
                         { return fMeasureZeroHasBeenMetInVoice; }
 
-    // divisions per quarter note
-    void            setVoiceDivisionsPerQuarterNote (
-                      int divisionsPerQuarterNote);
-                      
-    const int       getVoiceDivisionsPerQuarterNote () const
-                        { return fVoiceDivisionsPerQuarterNote; }
-
     S_msrTime       getVoiceTime () const
                         { return fVoiceTime; }
                
@@ -5413,8 +5339,6 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceActualNotesCounter;
     int                       fVoiceActualHarmoniesCounter;
-
-    int                       fVoiceDivisionsPerQuarterNote;
 
     S_msrTime                 fVoiceTime;
 
@@ -5641,13 +5565,6 @@ class EXP msrStaff : public msrElement
                     getStafftuningsList ()
                         { return fStafftuningsList; }
 
-    // divisions per quarter note
-    void            setStaffDivisionsPerQuarterNote (
-                      int divisionsPerQuarterNote);
-                      
-    const int       getStaffDivisionsPerQuarterNote () const
-                        { return fStaffDivisionsPerQuarterNote; }
-          
     // measure number
     void            setStaffMeasureNumber (
                       int inputLineNumber,
@@ -5764,8 +5681,6 @@ class EXP msrStaff : public msrElement
                               // [0] is used for the staff voice master
 
  // JMI   string                  fStaffInstrumentName;
-
-    int                     fStaffDivisionsPerQuarterNote;    
 
     int                     fStaffMeasureNumber;
     

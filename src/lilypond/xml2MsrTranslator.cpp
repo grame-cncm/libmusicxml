@@ -3115,7 +3115,6 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
   currentVoice->
     catchupToMeasureLocation (
       inputLineNumber,
-      divisionsPerQuarterNote,
       measureLocation);
         */
                     
@@ -3132,11 +3131,6 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
   
-    // set rest's divisions per quarter note
-    rest->
-      setDivisionsPerQuarterNote (
-        currentVoice-> getDivisionsPerQuarterNote ());
-
     // set its location
     rest->setNoteMeasureLocation (
       currentVoice->getVoiceMeasureLocation ());
@@ -6630,12 +6624,6 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
         chordFirstNote->getNoteDivisions (),
         chordFirstNote->getNoteGraphicDuration ());
 
-  // chord's divisions per quarter note is that of its first note
-  chord->
-    setChordDivisionsPerQuarterNote (
-      chordFirstNote->
-        getNoteDivisionsPerQuarterNote ());
-
   // chord's tie kind is that of its first note
   chord->
     setChordTie (
@@ -6953,11 +6941,6 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
        "'" <<
       endl;
       
-  // tuplets's divisions per quarter note is that of its first note
-  tuplet->
-    setTupletDivisionsPerQuarterNote (
-      firstNote-> getNoteDivisionsPerQuarterNote ());
-  
   // register tuplet in this visitor
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
@@ -7559,10 +7542,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote << endl;
       
-  currentVoice->
-    setVoiceDivisionsPerQuarterNote (
-      fCurrentDivisionsPerQuarterNote);
-
   // register current note type
   fCurrentNoteGraphicDuration =
     fCurrentNoteGraphicDuration;
@@ -7603,18 +7582,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteIsUnpitched,
         
         fCurrentNoteIsAGraceNote);
-
-/* JMI
-  // set note's part direct uplink
-  newNote->
-    setNoteDirectPartUplink (
-      fCurrentPart);
-      */
-      
-  // set note's divisions per quarter note
-  newNote->
-    setNoteDivisionsPerQuarterNote (
-      fCurrentDivisionsPerQuarterNote);
 
   // set its tie if any
   if (fCurrentTie) {

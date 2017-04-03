@@ -3522,7 +3522,6 @@ msrGracenotes::msrGracenotes (
     msrSegment::create (
       fInputLineNumber,
       gracenotesVoiceUplink->
-        getVoiceDivisionsPerQuarterNote (),
       gracenotesVoiceUplink);
       */
 }
@@ -3586,8 +3585,8 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
       skip =
         msrNote::createSkipNote (
           note->getInputLineNumber (),
+          voiceClone->getVoiceDirectPartUplink (),
           note->getNoteDivisions (),
-          note->getNoteDivisionsPerQuarterNote (),
           voiceClone->getStaffRelativeVoiceNumber (), // JMI
           voiceClone->getExternalVoiceNumber ());
 
@@ -3780,8 +3779,6 @@ msrAftergracenotes::msrAftergracenotes (
     msrSegment::create (
       fInputLineNumber,
       fGracenotesDirectPartUplink,
-      fAftergracenotesVoiceUplink->
-        getVoiceDivisionsPerQuarterNote (),
       aftergracenotesVoiceUplink);
 }
 
@@ -3926,7 +3923,8 @@ S_msrNote msrNote::create (
       noteIsAGraceNote);
   assert(o!=0);
 
-  // set note's divisions per quarter note
+  // set note's direct part uplink
+  msrAssert(noteDirectPartUplink != 0, "noteDirectPartUplink != 0"); // JMI
   o->fNoteDirectPartUplink =
     noteDirectPartUplink;
     
@@ -3934,15 +3932,16 @@ S_msrNote msrNote::create (
 }
 
 S_msrNote msrNote::createSkipNote (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote,
-  int staffNumber,
-  int externalVoiceNumber)
+  int       inputLineNumber,
+  S_msrPart noteDirectPartUplink,
+  int       divisions,
+  int       staffNumber,
+  int       externalVoiceNumber)
 {    
   msrNote * o =
     new msrNote (
       inputLineNumber,
+      
       kSkipNote, // noteKind
       
       k_NoPitch, // noteQuatertonesPitch
@@ -3960,8 +3959,8 @@ S_msrNote msrNote::createSkipNote (
   assert(o!=0);
 
   // set skip's divisions per quarter note
-  o->fNoteDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
+  o->fNoteDirectPartUplink =
+    noteDirectPartUplink;
   
   return o;
 }    
@@ -4085,11 +4084,6 @@ msrNote::msrNote (
         endl << endl;
   }
 
-  // divisions
-  // ------------------------------------------------------
-
-  fNoteDivisionsPerQuarterNote = -1;
-
   // basic note description
   // ------------------------------------------------------
 
@@ -4171,12 +4165,6 @@ S_msrNote msrNote::createNoteBareClone (
         fNoteIsUnpitched,
         
         fNoteIsAGraceNote);
-
-  // divisions
-  // ------------------------------------------------------
-
-  clone->fNoteDivisionsPerQuarterNote =
-    fNoteDivisionsPerQuarterNote;
 
   // basic note description
   // ------------------------------------------------------
@@ -5519,10 +5507,6 @@ S_msrChord msrChord::createChordBareClone (
         fChordGraphicDuration);
 
   clone->
-    fChordDivisionsPerQuarterNote =
-      fChordDivisionsPerQuarterNote;
-
-  clone->
     fChordPositionInMeasure =
       fChordPositionInMeasure;
     
@@ -5871,8 +5855,6 @@ void msrChord::print (ostream& os)
       fChordNotes.size (), "note", "notes") <<
     ", " <<
     chordDivisionsAsMSRString () << " divs" <<
-    ", " <<
-    fChordDivisionsPerQuarterNote << " dpqn, " <<
     "mea. "<<
     getChordMeasureNumber () <<
     ":" <<
@@ -6412,13 +6394,9 @@ S_msrTuplet msrTuplet::createTupletBareClone ()
   clone->fTupletDisplayDivisions =
     fTupletDisplayDivisions;
 
-  clone->fTupletDivisionsPerQuarterNote =
-    fTupletDivisionsPerQuarterNote;
-
   clone->fTupletMeasureNumber =
     fTupletMeasureNumber;
 
-    
   return clone;
 }
 
@@ -6849,10 +6827,8 @@ string msrTuplet::tupletAsShortString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " (" << fTupletDivisions <<
-    "/" <<
-    fTupletDivisionsPerQuarterNote << // JMI
-    ") @"<<
+    " " << fTupletDivisions << " divs" <<
+    " @"<<
     fTupletMeasureNumber <<
     ":";
 
@@ -6861,11 +6837,6 @@ string msrTuplet::tupletAsShortString () const
   else
     s << fTupletPositionInMeasure;
   
-  s <<
-    "/" <<
-    fTupletDivisionsPerQuarterNote << // JMI
-    " ";
-
   s << "[[";
 
   if (fTupletElements.size ()) {
@@ -6920,10 +6891,8 @@ string msrTuplet::tupletAsString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " (" << fTupletDivisions <<
-    "/" <<
-    fTupletDivisionsPerQuarterNote << // JMI
-    ") @"<<
+    " " << fTupletDivisions << " divs" <<
+    " @"<<
     fTupletMeasureNumber <<
     ":";
 
@@ -6932,11 +6901,6 @@ string msrTuplet::tupletAsString () const
   else
     s << fTupletPositionInMeasure;
   
-  s <<
-    "/" <<
-    fTupletDivisionsPerQuarterNote << // JMI
-    " ";
-
   s << "[[";
 
   if (fTupletElements.size ()) {
@@ -6993,10 +6957,8 @@ void msrTuplet::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
-    " (" << fTupletDivisions <<
-    "/" <<
-    fTupletDivisionsPerQuarterNote << // JMI
-    ") @"<<
+    " " << fTupletDivisions << " divs" <<
+    " @"<<
     fTupletMeasureNumber <<
     ":";
     
@@ -7004,11 +6966,6 @@ void msrTuplet::print (ostream& os)
     os << "?";
   else
     os << fTupletPositionInMeasure;
-
-  os <<
-    "/" <<
-    fTupletDivisionsPerQuarterNote << // JMI
-    endl;
     
   if (fTupletElements.size ()) {
     idtr++;
@@ -10334,13 +10291,12 @@ S_msrMeasure msrMeasure::create (
   int           inputLineNumber,
   S_msrPart     measureDirectPartUplink,
   int           measureNumber,
-  int           divisionsPerQuarterNote,
   S_msrSegment  segmentUplink)
 {
   msrMeasure* o =
     new msrMeasure (
       inputLineNumber,
-      measureNumber, divisionsPerQuarterNote,
+      measureNumber,
       segmentUplink);
   assert(o!=0);
 
@@ -10354,15 +10310,11 @@ S_msrMeasure msrMeasure::create (
 msrMeasure::msrMeasure (
   int           inputLineNumber,
   int           measureNumber,
-  int           divisionsPerQuarterNote,
   S_msrSegment  segmentUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureNumber = measureNumber;
   
-  fMeasureDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-
   fMeasureSegmentUplink = segmentUplink;
 
 // JMI  assert(fMeasureSegmentUplink->getSegmentAbsoluteNumber () != 6); // XXL
@@ -10417,10 +10369,8 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
     clone =
       msrMeasure::create (
         fInputLineNumber,
-        clonedSegment->
-          getSegmentDirectPartUplink (),
+        clonedSegment->getSegmentDirectPartUplink (),
         fMeasureNumber,
-        fMeasureDivisionsPerQuarterNote,
         clonedSegment);
 
   clone->
@@ -10441,7 +10391,8 @@ void msrMeasure::setMeasureTime (S_msrTime time)
   fMeasureTime = time;
   
   fMeasureDivisionsPerFullMeasure =
-    fMeasureDivisionsPerQuarterNote * 4 // hence a whole note
+    fMeasureDirectPartUplink->
+      getPartDivisionsPerQuarterNote () * 4 // hence a whole note
       *
     time->getBeatsNumber ()
       /
@@ -10488,7 +10439,6 @@ S_msrMeasure msrMeasure::appendMeasureIfOverflow (
       msrMeasure::create (
         inputLineNumber,
         fMeasureNumber + 1,
-        fMeasureDivisionsPerQuarterNote,
         fMeasureSegmentUplink);
 
     // append it to the segment
@@ -11130,9 +11080,8 @@ void msrMeasure::finalizeMeasure (
       skip =
         msrNote::createSkipNote (
           inputLineNumber,
+          fMeasureDirectPartUplink,
           skipDuration,
-          fMeasureSegmentUplink->
-            getSegmentDivisionsPerQuarterNote (),
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
@@ -11288,8 +11237,6 @@ string msrMeasure::getMeasureLengthAsString () const
       idtr <<
         "% --> measure " << fMeasureNumber <<
         ", measureLength = " << measureLength <<
-        ", measureDivisionsPerQuarterNote = " <<
-        fMeasureDivisionsPerQuarterNote <<
         ", fMeasureDivisionsPerFullMeasure = " <<
         fMeasureDivisionsPerFullMeasure <<
       endl;
@@ -11357,7 +11304,6 @@ void msrMeasure::print (ostream& os)
         " (" << getMeasureLengthAsString () << ")" <<
         endl <<
     idtr <<
-      "(" << fMeasureDivisionsPerQuarterNote << " dpqn" <<
       ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
       ", pos = " << fMeasurePosition << 
       ", " <<
@@ -11401,25 +11347,11 @@ int msrSegment::gSegmentsCounter = 0;
 S_msrSegment msrSegment::create (
   int        inputLineNumber,
   S_msrPart  segmentDirectPartUplink,
-  int        divisionsPerQuarterNote,
   S_msrVoice segmentVoicekUplink)
 {
-  if (divisionsPerQuarterNote == 0) // JMI
-    {
-      cerr <<
-        "!!! msrSegment::create" <<
-        ", line " << inputLineNumber <<
-        " in voice \"" <<
-        segmentVoicekUplink->getVoiceName () << "\"" <<
-        ", divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
-        endl;
-    //    assert(false);
-    }
-    
   msrSegment* o =
     new msrSegment (
       inputLineNumber,
-      divisionsPerQuarterNote,
       segmentVoicekUplink);
   assert(o!=0);
 
@@ -11437,7 +11369,6 @@ S_msrSegment msrSegment::create (
 
 msrSegment::msrSegment (
   int        inputLineNumber,
-  int        divisionsPerQuarterNote,
   S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
@@ -11451,13 +11382,6 @@ msrSegment::msrSegment (
   }
 
   fSegmentVoicekUplink = segmentVoicekUplink;
-
-  fSegmentDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-    /*
-    fSegmentVoicekUplink->
-      getVoiceDivisionsPerQuarterNote (); JMI
-*/
 }
 
 msrSegment::~msrSegment() {}
@@ -11494,21 +11418,19 @@ void msrSegment::initializeSegment ()
         "Creating segment " << segmentAsString () <<
         "'s first measure with number " <<
         firstMeasureNumber <<
-        ", fSegmentDivisionsPerQuarterNote = " <<
-        fSegmentDivisionsPerQuarterNote <<
-        ", in voice \"" << fSegmentVoicekUplink->getVoiceName () << "\"" <<
+        ", in voice \"" <<
+        fSegmentVoicekUplink->getVoiceName () <<
+        "\"" <<
         endl;
   }
 
   // create a first measure
-  // fSegmentDivisionsPerQuarterNote may be 0 though JMI ???
   S_msrMeasure
     measure =
       msrMeasure::create (
         fInputLineNumber,
         fSegmentDirectPartUplink,
         firstMeasureNumber,
-        fSegmentDivisionsPerQuarterNote,
         this);
 
   // set the measure clef, key and time if any
@@ -11544,7 +11466,6 @@ S_msrSegment msrSegment::createSegmentBareClone (
         fInputLineNumber,
         clonedVoice->
           getVoiceDirectPartUplink (),
-        fSegmentDivisionsPerQuarterNote,
         clonedVoice);
 
   clone->fSegmentTime =
@@ -11554,31 +11475,6 @@ S_msrSegment msrSegment::createSegmentBareClone (
   fSegmentMeasuresList.clear ();
   
   return clone;
-}
-
-void msrSegment::setSegmentDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
-  if (gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Setting segment " << segmentAsString () <<
-        "'s divisions per quarter note to " <<
-      divisionsPerQuarterNote <<
-      endl;
-
-  // register divisionsPerQuarterNote
-  fSegmentDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-
-  // propagate it the measures
-  for (
-    list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
-    i != fSegmentMeasuresList.end();
-    i++) {
-    (*i)->
-      setMeasureDivisionsPerQuarterNote (
-        divisionsPerQuarterNote);
-  } // for
 }
 
 bool msrSegment::checkForIncompleteSegmentLastMeasure (
@@ -11892,7 +11788,6 @@ void msrSegment::setSegmentMeasureNumber (
           inputLineNumber,
           fSegmentDirectPartUplink,
           measureNumber,
-          fSegmentDivisionsPerQuarterNote,
           this);
   
     // append it to the segment's measures list
@@ -12153,7 +12048,6 @@ void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
         msrMeasure::create (
           inputLineNumber,
           measureNumber,
-          fSegmentDivisionsPerQuarterNote,
           this);
 
     // append it to the segment
@@ -12416,10 +12310,6 @@ void msrSegment::print (ostream& os)
   }
 
   os <<
-    idtr <<
-      setw(32) << "(SegmentDivisionsPerQuarterNote" << " = " <<
-      fSegmentDivisionsPerQuarterNote << ")" <<
-      endl <<
     idtr <<
       setw(32) << "(fSegmentTime" << " = " <<
       fSegmentTime->timeAsString () << ")" <<
@@ -12865,10 +12755,6 @@ msrVoice::msrVoice (
 
   fVoiceStaffUplink = voiceStaffUplink;
 
-  fVoiceDivisionsPerQuarterNote =
-    fVoiceStaffUplink->
-      getStaffDivisionsPerQuarterNote ();
-
   // compute voice number
   int voiceNumber =
     gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
@@ -12901,8 +12787,6 @@ msrVoice::msrVoice (
     cerr << idtr <<
       "Creating voice \"" << fVoiceName <<
       "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
-      ", " << fVoiceDivisionsPerQuarterNote <<
-      " dpqn" <<
       endl;
 
   // check external voice number
@@ -12986,7 +12870,6 @@ void msrVoice::initializeVoice (int inputLineNumber)
     msrSegment::create (
       inputLineNumber,
       fVoiceDirectPartUplink,
-      fVoiceDivisionsPerQuarterNote,
       this);
 
   // register voice first segment for LilyPond issue 34
@@ -13074,9 +12957,6 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   clone->fVoiceName =
     fVoiceName;
     
-  clone->fVoiceDivisionsPerQuarterNote =
-    fVoiceDivisionsPerQuarterNote;
-    
   clone->fExternalVoiceNumber =
     fExternalVoiceNumber;
 
@@ -13113,24 +12993,6 @@ string msrVoice::getVoiceName () const
     "_Voice_" +
     suffix;
     */
-}
-
-void msrVoice::setVoiceDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
-  if (gGeneralOptions->fTraceDivisions)
-    cerr << idtr <<
-      "% --> setting voice divisions per quarter note to " <<
-      divisionsPerQuarterNote <<
-      " in voice \"" << getVoiceName () << "\"" <<
-      endl;
-
-  fVoiceDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-
-  fVoiceLastSegment->
-    setSegmentDivisionsPerQuarterNote (
-      divisionsPerQuarterNote);
 }
 
 void msrVoice::setVoiceMeasureNumber (
@@ -13198,7 +13060,6 @@ void msrVoice::createNewLastSegmentForVoice (
     msrSegment::create (
       inputLineNumber,
       fVoiceDirectPartUplink,
-      fVoiceDivisionsPerQuarterNote,
       this);
 
   // the new last measure keeps the measure number
@@ -14089,11 +13950,6 @@ void msrVoice::print (ostream& os)
 
   os <<
     idtr <<
-      setw(32) << "(fVoiceDivisionsPerQuarterNote" << " = " <<
-      fVoiceDivisionsPerQuarterNote <<
-      ")" <<
-      endl <<
-    idtr <<
       setw(32) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
       booleanAsString (fMeasureZeroHasBeenMetInVoice) <<
       ")" <<
@@ -14454,11 +14310,6 @@ msrStaff::msrStaff (
       break;
   } // switch
 
-  // populate the staff
-  fStaffDivisionsPerQuarterNote =
-    fStaffDirectPartUplink->
-      getPartDivisionsPerQuarterNote ();
-
   // create the staff voice master with relative number 0
   fStaffVoiceMaster =
     addVoiceToStaffByItsRelativeNumber (
@@ -14637,32 +14488,6 @@ string msrStaff::getStaffName () const
         int2EnglishWord (fStaffNumber);
         */
   }
-
-void msrStaff::setStaffDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
-  if (gGeneralOptions->fTraceStaves) {
-    cerr << idtr <<
-      "% --> setting staff divisions per quarter note to " <<
-      divisionsPerQuarterNote <<
-      " in staff \"" << getStaffName () << "\"" <<
-      endl;
-  }
-
-  // register divisionsPerQuarterNote
-  fStaffDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-
-  // propagate it to the staff voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      setVoiceDivisionsPerQuarterNote (
-        divisionsPerQuarterNote);
-  } // for
-}
 
 const int msrStaff::getStaffNumberOfMusicVoices () const
 {
@@ -16116,15 +15941,6 @@ void msrPart::setPartDivisionsPerQuarterNote (
   // initialize fPartDurationsToDivisions
   setupDurationsDivisions (
     divisionsPerQuarterNote);
-
-  for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->
-      setStaffDivisionsPerQuarterNote (
-        divisionsPerQuarterNote);
-  } // for
 }
 
 void msrPart::setPartMeasureNumber (
