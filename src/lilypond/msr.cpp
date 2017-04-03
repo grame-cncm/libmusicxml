@@ -7977,7 +7977,8 @@ string msrTime::timeAsShortString () const
 
   s <<
     "Time \"" << 
-    fBeatsNumber << "/" << fBeatsValue;
+    fBeatsNumber << "/" << fBeatsValue <<
+    "\"";
 
   return s.str();
 }
@@ -11306,21 +11307,14 @@ void msrMeasure::print (ostream& os)
       "Measure " << fMeasureNumber <<
         ", " << getMeasureKindAsString () <<
         ", line " << fInputLineNumber <<
-  /*
-        ", voice " <<
-        fMeasureSegmentUplink->getVoiceUplink ()->getVoiceName () <<
-  */
-  //      ", " << fMeasureTime->timeAsString () <<
+        ", " << fMeasureTime->timeAsShortString () <<
         ", len: " << getMeasureLength () << " divs" <<
         " (" << getMeasureLengthAsString () << ")" <<
-        endl <<
-    idtr <<
       ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
       ", pos = " << fMeasurePosition << 
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
-      ")" <<
     endl;
 
   idtr++;
@@ -12317,7 +12311,7 @@ void msrSegment::print (ostream& os)
   }
 
   os <<
-    ", fSegmentTime" << " = " <<
+    ", segmentTime" << " = " <<
     fSegmentTime->timeAsShortString () <<
     endl;
   
@@ -12326,9 +12320,7 @@ void msrSegment::print (ostream& os)
       "Measures: none";
   }
   
-  else {    
-    os << endl;
-    
+  else {        
     idtr++;
     
     list<S_msrMeasure>::const_iterator
