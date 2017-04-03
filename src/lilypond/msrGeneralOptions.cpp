@@ -42,8 +42,7 @@ msrGeneralOptions::~msrGeneralOptions () {}
 void msrGeneralOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
-  // interactive mode
-  fInteractive = boolOptionsInitialValue;
+  fAutoOutputFile = false;
   
   // trace
   fTraceGeneral = boolOptionsInitialValue;
@@ -116,10 +115,10 @@ void msrGeneralOptions::printGeneralOptions (int fieldWidth)
       setw(fieldWidth) << "translation date" << " : " <<
       gGeneralOptions->fTranslationDate <<
       endl <<
-      
+        
     indenter::gIndenter <<
-      setw(fieldWidth) << "interactive" << " : " <<
-      booleanAsString (gGeneralOptions->fInteractive) <<
+      setw(fieldWidth) << "autoOutputFile" << " : " <<
+      booleanAsString (gGeneralOptions->fAutoOutputFile) <<
       endl <<
         
     indenter::gIndenter <<

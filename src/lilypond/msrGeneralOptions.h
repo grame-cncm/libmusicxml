@@ -79,8 +79,7 @@ class EXP msrGeneralOptions : public smartable
     string                fInputSourceName;
     string                fTranslationDate;
 
-    // interactive mode
-    bool                  fInteractive;
+    bool                  fAutoOutputFile;
     
     // trace
     bool                  fTraceGeneral;

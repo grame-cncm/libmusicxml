@@ -81,12 +81,11 @@ void printUsage (int exitStatus)
 
     "    --of, --outputFile fileName" << endl <<
     "          Write LilyPond code to file 'fileName' instead of standard output." << endl <<
+    "    --aof, --autoOutputFile" << endl <<
+    "          This option can only be used when reading from a file." << endl <<
+    "          Write LilyPond code to a file whose name is derived from that of the input file," << endl <<
+    "          replacing any suffix after the the '.' by 'ly' or adding '.ly' if none is present." << endl <<
     endl <<
-
-//    "    --i, --interactive" << endl <<
-//    "          Don't create and LilyPond output file, " << endl <<
-//    "          but print the code to standard output instead." << endl <<
-//    endl <<
 
     "    --t, --traceGeneral" << endl <<
     "          Write a trace of the general activity to standard error." << endl <<
@@ -330,8 +329,8 @@ void analyzeOptions (
   int traceGeneralPresent               = 0;
   
   int outputFilePresent                 = 0;
-  int interactivePresent                = 0;
-  
+  int autoOutputFilePresent             = 0;
+    
   int traceDivisionsPresent             = 0;
   
   int tracePartsPresent                 = 0;
@@ -456,12 +455,12 @@ void analyzeOptions (
     },
     
     {
-      "i",
-      no_argument, &interactivePresent, 1
+      "aof",
+      required_argument, &autoOutputFilePresent, 1
     },
     {
-      "interactive",
-      no_argument, &interactivePresent, 1
+      "autoOutputFile",
+      required_argument, &autoOutputFilePresent, 1
     },
     
     {
@@ -994,12 +993,12 @@ void analyzeOptions (
             s.str();
           outputFilePresent = false;
         }
-
-        if (interactivePresent) {
-          gGeneralOptions->fInteractive = false;
+        
+        if (autoOutputFilePresent) {
+          gGeneralOptions->fAutoOutputFile = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--interactive ";
-          interactivePresent = false;
+            "--autoOutputFile ";
+          autoOutputFilePresent = false;
         }
         
         if (traceGeneralPresent) {
