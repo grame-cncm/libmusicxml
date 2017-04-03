@@ -120,6 +120,19 @@ string lpsr2LilyPondTranslator::absoluteOctaveAsLilypondString (
 }
 
 //______________________________________________________________________________
+string lpsr2LilyPondTranslator::lilypondize (
+  string msrDurationString)
+{
+  string result = msrDurationString;
+
+  if (! isdigit (result [0])) {
+    result [0] = tolower (result [0]);
+    result = "\\" + result;
+  }
+
+  return result;
+}
+
 string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
   int       inputLineNumber,
   S_msrPart part,
@@ -134,12 +147,7 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
         inputLineNumber,
         divisions);
 
-  if (! isdigit (result [0])) {
-    result [0] = tolower (result [0]);
-    result = "\\" + result;
-  }
-
-  return result;
+  return lilypondize (result);
 }
 
 string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
@@ -160,12 +168,7 @@ string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
         actualNotes,
         normalNotes);
 
-  if (! isdigit (result [0])) {
-    result [0] = tolower (result [0]);
-    result = "\\" + result;
-  }
-
-  return result;
+  return lilypondize (result);
 }
 
 //________________________________________________________________________

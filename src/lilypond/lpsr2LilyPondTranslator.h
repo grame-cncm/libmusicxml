@@ -335,6 +335,8 @@ class lpsr2LilyPondTranslator :
     string      absoluteOctaveAsLilypondString (
                   int absoluteOctave);
 
+    string      lilypondize (string msrDurationString);
+    
     string      divisionsAsLilyPondString (
                   int       inputLineNumber,
                   S_msrPart part,
