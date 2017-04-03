@@ -248,27 +248,28 @@ void displayMSR (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTraceGeneral) {
-    string separator =
-      "%--------------------------------------------------------------";
-    
-    cerr <<
-      endl <<
-      idtr << separator <<
-      endl <<
-      "Optional pass: displaying the MSR as text" <<
-      endl <<
-      "(dpqn: divisions per quarter note)" <<
-      endl <<
-      "(dpfm: divisions per full measure)" <<
-      endl <<
-      idtr << separator <<
-      endl;
-  }
+  string separator =
+    "%--------------------------------------------------------------";
+  
+  cerr <<
+    endl <<
+    idtr << separator <<
+    endl <<
+    "Optional pass: displaying the MSR as text" <<
+    endl <<
+    "(dpqn: divisions per quarter note)" <<
+    endl <<
+    "(dpfm: divisions per full measure)" <<
+    endl <<
+    idtr << separator <<
+    endl;
 
-  if (gGeneralOptions->fTraceGeneral) os << "%{" << endl;
-  os << mScore;
-  if (gGeneralOptions->fTraceGeneral) os << "%}" << endl;
+  os <<
+    "%{" <<
+    endl <<
+    mScore <<
+    "%}" <<
+    endl;
 
   clock_t endClock = clock();
 

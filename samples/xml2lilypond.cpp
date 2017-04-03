@@ -989,7 +989,7 @@ void analyzeOptions (
           stringstream s;
 
           s <<
-            "--outputFile" << " " << outputFileName;
+            "--outputFile" << " " << outputFileName << " ";
           gGeneralOptions->fCommandLineOptions +=
             s.str();
           outputFilePresent = false;
@@ -1832,7 +1832,7 @@ int main (int argc, char *argv[])
 
     cerr << idtr <<
       "LilyPond code will be written to ";
-    if (outputFileName.size())
+    if (outputFileName.size ())
       cerr << outputFileName;
     else
       cerr << "standard output";
@@ -1846,7 +1846,7 @@ int main (int argc, char *argv[])
 
   ofstream outStream;
 
-  if (outputFileName.size()) {
+  if (outputFileName.size ()) {
     if (gGeneralOptions->fTraceGeneral)
       cerr << idtr <<
         "Opening file '" << outputFileName << "' for writing" <<
@@ -1862,24 +1862,24 @@ int main (int argc, char *argv[])
 
   if (inputFileName == "-") {
     // input comes from standard input
-    if (outputFileName.size())
+    if (outputFileName.size ())
       mScore =
         musicxmlFd2Msr (stdin, gMsrOptions, outStream);
     else
       mScore =
-        musicxmlFd2Msr (stdin, gMsrOptions, outStream);
+        musicxmlFd2Msr (stdin, gMsrOptions, cout);
   }
   
   else {
     // input comes from a file
-    if (outputFileName.size()) // ??? JMI
+    if (outputFileName.size ())
       mScore =
         musicxmlFile2Msr (
           inputFileName.c_str(), gMsrOptions, outStream);
     else
       mScore =
         musicxmlFile2Msr (
-          inputFileName.c_str(), gMsrOptions, outStream);
+          inputFileName.c_str(), gMsrOptions, cout);
   }
     
   if (! mScore) {
@@ -1901,7 +1901,7 @@ int main (int argc, char *argv[])
         msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
     else
       lpScore =
-        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
+        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, cout);
     
     if (! lpScore) {
       cerr <<
@@ -1916,12 +1916,14 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! gLpsrOptions->fDontGenerateLilyPondCode) {
-    if (outputFileName.size()) // ??? JMI
-      lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
+    if (outputFileName.size ())
+      lpsr2LilyPond (
+        lpScore, gMsrOptions, gLpsrOptions, outStream);
     else
-      lpsr2LilyPond (lpScore, gMsrOptions, gLpsrOptions, cout);
+      lpsr2LilyPond (
+        lpScore, gMsrOptions, gLpsrOptions, cout);
     
-    if (outputFileName.size()) {
+    if (outputFileName.size ()) {
       if (gGeneralOptions->fTraceGeneral)
         cerr << idtr <<
           "Closing file '" << outputFileName << "'" <<

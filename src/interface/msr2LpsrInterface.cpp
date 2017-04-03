@@ -119,24 +119,26 @@ void displayLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  if (gGeneralOptions->fTraceGeneral) {    
-    cerr <<
-      endl <<
-      idtr << separator <<
-      endl <<
-      "Optional pass: displaying the LPSR" <<
-      endl <<
-      "(dpqn: divisions per quarter note)" <<
-      endl <<
-      "(dpfm: divisions per full measure)" <<
-      endl <<
-      idtr << separator <<
-      endl;
-  }
+  cerr <<
+    endl <<
+    idtr << separator <<
+    endl <<
+    "Optional pass: displaying the LPSR" <<
+    endl <<
+    "(dpqn: divisions per quarter note)" <<
+    endl <<
+    "(dpfm: divisions per full measure)" <<
+    endl <<
+    idtr << separator <<
+    endl;
   
-  if (gGeneralOptions->fTraceGeneral) os << "%{" << endl;
-  os << lpScore;
-  if (gGeneralOptions->fTraceGeneral) os << "%}" << endl;
+
+  os <<
+    "%{" <<
+    endl <<
+    lpScore <<
+    "%}" <<
+    endl;
   
   os << separator << endl;
 
