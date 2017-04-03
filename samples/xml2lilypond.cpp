@@ -14,6 +14,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
+
+//#include <libgen.h>       // pour basename
+//#include <string>       // pour basename
+
 #include <iomanip>      // setw, set::precision, ...
 
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
@@ -915,6 +919,9 @@ void analyzeOptions (
     {0, 0, 0, 0}
     };
 
+  // initialize output file name
+  outputFileName = "";
+  
   /* getopt_long stores the option index here. */
   int option_index = 0;
 
@@ -1696,8 +1703,8 @@ void analyzeOptions (
     } //  switch
 
   // check whether the options are consistent
-  if (autoOutputFilePresent) {
-    if (outputFilePresent) {
+  if (gGeneralOptions->fAutoOutputFile) {
+    if (outputFileName.size ()) {
       stringstream s;
   
       s <<
@@ -1718,6 +1725,20 @@ void analyzeOptions (
         
       optionError (s.str ());
     }
+
+  // build output file name
+  string
+    inputFileBasename = basename (inputFileName.c_str());
+  
+  outputFileName =
+    inputFileBasename;
+  
+  size_t posInString =
+    outputFileName.rfind ('.');
+    
+  if (posInString != string::npos)
+    outputFileName.replace (
+      posInString, outputFileName.size () - posInString, ".ly");
   }
 }
 
