@@ -10404,11 +10404,13 @@ void msrMeasure::setMeasurePosition (
 {
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "Measure " << fMeasureNumber <<
-      " becomes "  << measurePosition <<
-      ", line " << inputLineNumber <<
+      "Setting measure " << fMeasureNumber <<
+      " measure position to '"  << measurePosition <<
+      "', line " << inputLineNumber <<
       endl;
 
+  if (measurePosition == 25) abort(); // JMI
+  
   fMeasurePosition = measurePosition;
 }
 
@@ -10539,7 +10541,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // fetch note divisions
     int noteDivisions =
       note->getNoteDivisions ();
-      
+
+    if (noteDivisions == 24) abort(); // JMI
+
     // account for note duration in measure position
     setMeasurePosition (
       inputLineNumber, fMeasurePosition + noteDivisions);
