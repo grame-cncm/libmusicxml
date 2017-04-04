@@ -1864,7 +1864,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
           measureDivisionsPerFullMeasure);
         r.rationalise ();
   
-        if (gGeneralOptions->fTraceDurations) {
+        if (gGeneralOptions->fTraceMeasures) {
           cerr <<
             idtr <<
               "% Setting the measure length for measure " <<

@@ -79,6 +79,7 @@ class EXP msrGeneralOptions : public smartable
     string                fInputSourceName;
     string                fTranslationDate;
 
+    string                fOutputFileName;
     bool                  fAutoOutputFile;
     
     // trace
@@ -110,7 +111,6 @@ class EXP msrGeneralOptions : public smartable
     
     
     bool                  fTraceNotes;
-    bool                  fTraceDurations;
     
     bool                  fTraceDynamics;
     bool                  fTraceWords;

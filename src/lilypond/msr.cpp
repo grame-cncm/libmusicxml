@@ -15477,7 +15477,7 @@ int msrPart::durationAsDivisions (
   s <<
     "duration " << duration <<
     " cannot be converted to divisions with " <<
-    fPartDivisionsPerQuarterNote << " dpqu" <<
+    fPartDivisionsPerQuarterNote << " dpqn" <<
     endl;
 
   printDurationsDivisions (s);
@@ -15491,7 +15491,7 @@ void msrPart::printDurationsDivisions (ostream& os)
 {
   cerr <<
     "% ==> The contents of fPartDurationsToDivisions with " <<
-    fPartDivisionsPerQuarterNote << " dpqu" <<
+    fPartDivisionsPerQuarterNote << " dpqn" <<
     " is:" <<
     endl;
     
@@ -15520,7 +15520,7 @@ string msrPart::divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
   
-  if (gGeneralOptions->fTraceDurations) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       "inputLineNumber        = " << inputLineNumber <<
       endl <<
@@ -15575,7 +15575,7 @@ string msrPart::divisionsAsMsrString (
       result =
         msrDurationAsString (baseDuration);
       
-      if (gGeneralOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -15605,7 +15605,7 @@ string msrPart::divisionsAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (gGeneralOptions->fTraceDurations) {
+    if (gGeneralOptions->fTraceDivisions) {
       cerr <<
         "divisions              = " << divisions <<
         endl <<
@@ -15624,7 +15624,7 @@ string msrPart::divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (gGeneralOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -15651,7 +15651,7 @@ string msrPart::divisionsAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (gGeneralOptions->fTraceDurations) {
+        if (gGeneralOptions->fTraceDivisions) {
           cerr <<
             "divisions              = " << divisions <<
             endl <<
@@ -15669,7 +15669,7 @@ string msrPart::divisionsAsMsrString (
           break; // JMI
       } // while
   
-      if (gGeneralOptions->fTraceDurations) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<

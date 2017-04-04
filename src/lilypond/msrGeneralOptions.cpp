@@ -68,7 +68,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceStaves = boolOptionsInitialValue;
     
   fTraceNotes = boolOptionsInitialValue;
-  fTraceDurations = boolOptionsInitialValue;
   
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
@@ -116,6 +115,11 @@ void msrGeneralOptions::printGeneralOptions (int fieldWidth)
       gGeneralOptions->fTranslationDate <<
       endl <<
         
+    indenter::gIndenter <<
+      setw(fieldWidth) << "outputFileName" << " : \"" <<
+      gGeneralOptions->fOutputFileName <<
+      "\"" <<
+      endl <<
     indenter::gIndenter <<
       setw(fieldWidth) << "autoOutputFile" << " : " <<
       booleanAsString (gGeneralOptions->fAutoOutputFile) <<

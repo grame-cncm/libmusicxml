@@ -991,6 +991,7 @@ void analyzeOptions (
 
         if (outputFilePresent) {
           outputFileName = optarg;
+          gGeneralOptions->fOutputFileName = outputFileName;
 
           stringstream s;
 
