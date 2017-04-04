@@ -10359,12 +10359,15 @@ msrMeasure::msrMeasure (
       
   fMeasureKind = kRegularMeasure; // may be changed afterwards
 
-  fMeasurePosition = 1; // ready to receive the first note
+  setMeasurePosition (
+    inputLineNumber, 1); // ready to receive the first note
 
+/* JMI
   // initialize measure position high tide
   fMeasureDirectPartUplink->
     setPartMeasurePositionHighTide (
       inputLineNumber, 1);
+      */
 }
 
 msrMeasure::~msrMeasure()
@@ -10393,6 +10396,20 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
     fMeasureKind;
     
   return clone;
+}
+
+void msrMeasure::setMeasurePosition (
+  int inputLineNumber,
+  int measurePosition)
+{
+  if (gGeneralOptions->fTracePositions)
+    cerr << idtr <<
+      "Measure " << fMeasureNumber <<
+      " becomes "  << measurePosition <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  fMeasurePosition = measurePosition;
 }
 
 void msrMeasure::setMeasureTime (S_msrTime time)
@@ -10524,7 +10541,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       note->getNoteDivisions ();
       
     // account for note duration in measure position
-    fMeasurePosition += noteDivisions;
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + noteDivisions);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
@@ -10600,7 +10618,8 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
       chord->getChordDivisions ();
       
     // account for chord duration in measure position
-    fMeasurePosition += chordDivisions;
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + chordDivisions);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
@@ -10671,17 +10690,18 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       tuplet->getTupletDivisions ();
       
     // account for tuplet duration in measure position
-    fMeasurePosition += tupletDivisions;
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + tupletDivisions);
   
-    // set tuplet members' display divisions
-    tuplet->
-      applyDisplayFactorToTupletMembers ();
-
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
       updatePartMeasurePositionHighTide (
         inputLineNumber, fMeasurePosition);
   
+    // set tuplet members' display divisions
+    tuplet->
+      applyDisplayFactorToTupletMembers ();
+
     // determine if the tuplet occupies a full measure
 // XXL    if (tupletDivisions == fMeasureDivisionsPerWholeMeasure)
       // tuplet->setTupletOccupiesAFullMeasure ();
@@ -10793,8 +10813,11 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
       // the chord will replace its first note
 
       // update position in measure
-      fMeasurePosition -=
-        fMeasureLastHandledNote->getNoteDivisions ();
+      setMeasurePosition (
+        inputLineNumber,
+        fMeasurePosition
+          -
+        fMeasureLastHandledNote->getNoteDivisions ());
 
       // return from function
       return;
@@ -15899,7 +15922,7 @@ void msrPart::setPartMeasurePositionHighTide (
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Setting measure position high tide for part \"" <<
-      getPartName () <<
+      getPartCombinedName () <<
       "\" to " << measurePosition <<
       ", line " << inputLineNumber <<
       endl;
@@ -15915,7 +15938,7 @@ void msrPart::updatePartMeasurePositionHighTide (
     if (gGeneralOptions->fTraceDivisions)
       cerr << idtr <<
         "Updating measure position high tide for part \"" <<
-        getPartName () <<
+        getPartCombinedName () <<
         "\" to " << measurePosition <<
         ", line " << inputLineNumber <<
         endl;

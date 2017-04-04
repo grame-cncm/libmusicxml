@@ -1712,8 +1712,9 @@ class EXP msrMeasure : public msrElement
     int           getMeasureDivisionsPerFullMeasure () const
                       { return fMeasureDivisionsPerFullMeasure; }
 
-    void          setMeasurePosition (int measurePosition)
-                      { fMeasurePosition = measurePosition; }
+    void          setMeasurePosition (
+                    int inputLineNumber,
+                    int measurePosition);
 
     int           getMeasurePosition () const
                       { return fMeasurePosition; }
