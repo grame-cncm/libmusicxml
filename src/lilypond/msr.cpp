@@ -10402,7 +10402,7 @@ void msrMeasure::setMeasurePosition (
   int inputLineNumber,
   int measurePosition)
 {
-  if (gGeneralOptions->fTracePositions)
+  if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Measure " << fMeasureNumber <<
       " becomes "  << measurePosition <<
