@@ -5090,8 +5090,7 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     enum msrVoiceKind {
-        kRegularVoice,
-        kHarmonyVoice, kMasterVoice};
+        kRegularVoice, kHarmonyVoice, kMasterVoice};
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -5572,8 +5571,8 @@ class EXP msrStaff : public msrElement
 
     // voice master
     const S_msrVoice
-                    getStaffVoiceMaster () const
-                        { return fStaffVoiceMaster; }
+                    getStaffMasterVoice () const
+                        { return fStaffMasterVoice; }
 
     // services
     // ------------------------------------------------------
@@ -5681,7 +5680,7 @@ class EXP msrStaff : public msrElement
 
     int                     fStaffMeasureNumber;
     
-    S_msrVoice              fStaffVoiceMaster;
+    S_msrVoice              fStaffMasterVoice;
 
     S_msrClef               fStaffClef;
     S_msrKey                fStaffKey;

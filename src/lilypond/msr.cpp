@@ -14308,12 +14308,14 @@ msrStaff::msrStaff (
       break;
   } // switch
 
+/* JMI
   // create the staff voice master with relative number 0
-  fStaffVoiceMaster =
+  fStaffMasterVoice =
     addVoiceToStaffByItsRelativeNumber (
       fInputLineNumber,
       msrVoice::kMasterVoice,
       0);
+*/
 
   // create all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
