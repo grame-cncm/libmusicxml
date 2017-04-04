@@ -11069,7 +11069,8 @@ void msrMeasure::finalizeMeasure (
         ", fMeasurePosition = " << fMeasurePosition <<
         endl <<
       idtr <<
-        ", partMeasurePositionHighTide = " << partMeasurePositionHighTide <<
+        ", partMeasurePositionHighTide = " <<
+        partMeasurePositionHighTide <<
         endl;
   }
 
@@ -15327,7 +15328,7 @@ msrPart::msrPart (
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
 
-  fPartDivisionsPerQuarterNote = 0;
+  fPartDivisionsPerQuarterNote = -417; // JMI
 
   fMeasureZeroHasBeenMetInPart = false;
   
@@ -15379,6 +15380,9 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
         fPartID,
         clonedPartgroup);
 
+  clone->fPartDivisionsPerQuarterNote =
+    fPartDivisionsPerQuarterNote;
+    
   clone->fPartName =
     fPartName;
   clone->fPartAbbreviation =
@@ -15490,23 +15494,27 @@ int msrPart::durationAsDivisions (
 void msrPart::printDurationsDivisions (ostream& os)
 {
   cerr <<
-    "% ==> The contents of fPartDurationsToDivisions with " <<
+    "==> The mapping of durations to divisions with " <<
     fPartDivisionsPerQuarterNote << " dpqn" <<
     " is:" <<
     endl;
-    
+
+  idtr++;
+  
   for (
     list<pair<msrDuration, int> >::const_iterator i =
       fPartDurationsToDivisions.begin();
     i != fPartDurationsToDivisions.end ();
     i++) {
-    cerr <<
+    cerr << idtr <<
       msrDurationAsString (msrDuration((*i).first)) <<
       ": " <<
       (*i).second <<
       endl;
   } // for
-  
+
+  idtr--;
+
   cerr << endl;
 }
 
@@ -15515,6 +15523,8 @@ string msrPart::divisionsAsMsrString (
   int  divisions,
   int& numberOfDotsNeeded)
 {
+  if (divisions == 24) abort (); // JMI
+  
   string result;
 
   // the result is a base duration, followed by a suffix made of
@@ -15522,6 +15532,9 @@ string msrPart::divisionsAsMsrString (
   
   if (gGeneralOptions->fTraceDivisions) {
     cerr <<
+      endl <<
+      "--> divisionsAsMsrString ():" <<
+      endl <<
       "inputLineNumber        = " << inputLineNumber <<
       endl <<
       "divisions              = " << divisions <<
@@ -15693,6 +15706,15 @@ string msrPart::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
+  if (gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      endl <<
+      "<-- divisionsAsMsrString (): returns " << result <<
+      endl;
+  }
+
+  cerr << idtr; // JMI
+  
   return result;
 }
 
@@ -15924,6 +15946,8 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
+  msrAssert(divisionsPerQuarterNote != 0, "divisionsPerQuarterNote != 0"); // JMI
+  
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "% --> setting part divisions per quarter note to " <<
@@ -15937,7 +15961,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
 
   // initialize fPartDurationsToDivisions
   setupDurationsDivisions (
-    divisionsPerQuarterNote);
+    fPartDivisionsPerQuarterNote);
 }
 
 void msrPart::setPartMeasureNumber (
@@ -16398,19 +16422,24 @@ void msrPart::printStructure (ostream& os)
   os << left <<
     idtr <<
       setw(25) << "PartDivisionsPerQuarterNote" << ": " <<
-      fPartDivisionsPerQuarterNote << endl <<
+      fPartDivisionsPerQuarterNote <<
+      endl <<
     idtr <<
       setw(25) << "PartMSRName" << ": \"" <<
-      fPartMSRName << "\"" << endl <<
+      fPartMSRName << "\"" <<
+      endl <<
     idtr <<
       setw(25) << "PartName" << ": \"" <<
-      fPartName << "\"" << endl <<
+      fPartName << "\"" <<
+      endl <<
     idtr <<
       setw(25) << "PartAbbrevation" << ": \"" <<
-      fPartAbbreviation << "\"" << endl <<
+      fPartAbbreviation << "\"" <<
+      endl <<
     idtr <<
       setw(25) << "PartInstrumentName" << ": \"" <<
-      fPartInstrumentName << "\"" << endl;
+      fPartInstrumentName << "\"" <<
+      endl;
 
 /*
   // print the harmony staff
