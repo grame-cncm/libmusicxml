@@ -10363,7 +10363,8 @@ msrMeasure::msrMeasure (
 
   // initialize measure position high tide
   fMeasureDirectPartUplink->
-    setPartMeasurePositionHighTide (1);
+    setPartMeasurePositionHighTide (
+      inputLineNumber, 1);
 }
 
 msrMeasure::~msrMeasure()
@@ -15334,7 +15335,8 @@ msrPart::msrPart (
 
   fMeasureZeroHasBeenMetInPart = false;
   
-  fPartMeasurePositionHighTide = 1;
+  setPartMeasurePositionHighTide (
+    inputLineNumber, 1);
 
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
@@ -15891,6 +15893,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
 }
 
 void msrPart::setPartMeasurePositionHighTide (
+  int inputLineNumber,
   int measurePosition)
 {
   if (gGeneralOptions->fTraceDivisions)

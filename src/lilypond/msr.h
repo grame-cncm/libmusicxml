@@ -5818,6 +5818,7 @@ class EXP msrPart : public msrElement
                         { return fMeasureZeroHasBeenMetInPart; }
 
     void            setPartMeasurePositionHighTide (
+                      int inputLineNumber,
                       int measurePosition);
                       
     void            updatePartMeasurePositionHighTide (
