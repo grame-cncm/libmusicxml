@@ -15460,8 +15460,7 @@ void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
   }
 
   if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (
-      cerr);
+    printDurationsDivisions (cerr);
   }
 }
 
@@ -15495,7 +15494,7 @@ int msrPart::durationAsDivisions (
 
 void msrPart::printDurationsDivisions (ostream& os)
 {
-  cerr <<
+  os <<
     "==> The mapping of durations to divisions with " <<
     fPartDivisionsPerQuarterNote << " dpqn" <<
     " is:" <<
@@ -15503,30 +15502,32 @@ void msrPart::printDurationsDivisions (ostream& os)
 
   idtr++;
   
-  for (
-    list<pair<msrDuration, int> >::const_iterator i =
-      fPartDurationsToDivisions.begin();
-    i != fPartDurationsToDivisions.end ();
-    i++) {
-    cerr << idtr <<
-      msrDurationAsString (msrDuration((*i).first)) <<
-      ": " <<
-      (*i).second <<
-      endl;
-  } // for
+  if (fPartDurationsToDivisions.size ())
+    for (
+      list<pair<msrDuration, int> >::const_iterator i =
+        fPartDurationsToDivisions.begin();
+      i != fPartDurationsToDivisions.end ();
+      i++) {
+      os << idtr <<
+        msrDurationAsString (msrDuration((*i).first)) <<
+        ": " <<
+        (*i).second <<
+        endl;
+    } // for
+  else
+    os << idtr <<
+      "an empty list";
 
   idtr--;
 
-  cerr << endl;
+  os << endl;
 }
 
 string msrPart::divisionsAsMsrString (
   int  inputLineNumber,
   int  divisions,
   int& numberOfDotsNeeded)
-{
-  if (divisions == 24) abort (); // JMI
-  
+{  
   string result;
 
   // the result is a base duration, followed by a suffix made of
@@ -15562,20 +15563,7 @@ string msrPart::divisionsAsMsrString (
         " could not be handled by divisionsAsMsrString () with:" <<
         endl;
 
-      if (fPartDurationsToDivisions.size ())
-        for (
-          list<pair<msrDuration, int> >::const_iterator j =
-            fPartDurationsToDivisions.begin();
-          j != fPartDurationsToDivisions.end ();
-          j++) {
-          s <<
-            msrDurationAsString (msrDuration((*j).first)) <<
-            ": " <<
-            (*j).second <<
-            endl;
-        } // for
-      else
-        s << "an empty fPartDurationsToDivisions list";
+      printDurationsDivisions (cerr);
 
       msrInternalError (
         inputLineNumber, s.str());
@@ -15902,12 +15890,35 @@ void msrPart::createPartHarmonyStaffAndVoice (
       fPartHarmonyVoice );
 }
 
+void msrPart::setPartMeasurePositionHighTide (
+  int measurePosition)
+{
+  if (gGeneralOptions->fTraceDivisions)
+    cerr << idtr <<
+      "Setting measure position high tide for part \"" <<
+      getPartName () <<
+      "\" to " << measurePosition <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  fPartMeasurePositionHighTide = measurePosition;
+}
+
 void msrPart::updatePartMeasurePositionHighTide (
   int inputLineNumber,
   int measurePosition)
 {
-  if (measurePosition > fPartMeasurePositionHighTide)
+  if (measurePosition > fPartMeasurePositionHighTide) {
+    if (gGeneralOptions->fTraceDivisions)
+      cerr << idtr <<
+        "Updating measure position high tide for part \"" <<
+        getPartName () <<
+        "\" to " << measurePosition <<
+        ", line " << inputLineNumber <<
+        endl;
+
     fPartMeasurePositionHighTide = measurePosition;
+  }
 }
 
 void msrPart::setPartMSRName (string partMSRName)
@@ -16853,33 +16864,35 @@ void msrPartgroup::print (ostream& os)
     
   idtr++;
 
+  const int fieldWidth = 24;
+  
   os << left <<
     idtr <<
-      setw(24) << "PartgroupName" << " : \"" <<
+      setw(fieldWidth) << "PartgroupName" << " : \"" <<
       fPartgroupName <<
       "\"" <<
       endl <<
     idtr <<
-      setw(24) << "PartgroupDisplayText" << " : \"" <<
+      setw(fieldWidth) << "PartgroupDisplayText" << " : \"" <<
       fPartgroupDisplayText <<
       "\"" <<
       endl <<
     idtr <<
-      setw(24) << "PartgroupAccidentalText" << " : \"" <<
+      setw(fieldWidth) << "PartgroupAccidentalText" << " : \"" <<
       fPartgroupAccidentalText <<
       "\"" <<
       endl <<
     idtr <<
-      setw(24) << "PartgroupAbbrevation" << " : \"" <<
+      setw(fieldWidth) << "PartgroupAbbrevation" << " : \"" <<
       fPartgroupAbbreviation <<
       "\"" <<
       endl <<
     idtr <<
-      setw(24) << "fPartgroupSymbolDefaultX" << " : " <<
+      setw(fieldWidth) << "fPartgroupSymbolDefaultX" << " : " <<
       fPartgroupSymbolDefaultX <<
         endl <<
     idtr <<
-      setw(24) << "fPartgroupSymbolKind" << " : \"" <<
+      setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
       pargroupSymbolKindAsString (fPartgroupSymbolKind) <<
       "\"" <<
       endl;
@@ -16923,23 +16936,25 @@ void msrPartgroup::printStructure (ostream& os)
     
   idtr++;
 
+  const int fieldWidth = 24;
+  
   os << left <<
     idtr <<
-      setw(24) << "PartgroupName" << " : \"" <<
+      setw(fieldWidth) << "PartgroupName" << " : \"" <<
       fPartgroupName <<
       "\"" <<
       endl <<
     idtr <<
-      setw(24) << "PartgroupAbbrevation" << " : \"" <<
+      setw(fieldWidth) << "PartgroupAbbrevation" << " : \"" <<
       fPartgroupAbbreviation <<
       "\"" <<
       endl <<
     idtr <<
-      setw(24) << "fPartgroupSymbolDefaultX" << " : " <<
+      setw(fieldWidth) << "fPartgroupSymbolDefaultX" << " : " <<
       fPartgroupSymbolDefaultX <<
         endl <<
     idtr <<
-      setw(24) << "fPartgroupSymbolKind" << " : \"" <<
+      setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
       pargroupSymbolKindAsString (fPartgroupSymbolKind) <<
       "\"" <<
       endl;
