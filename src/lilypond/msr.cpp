@@ -5863,7 +5863,7 @@ void msrChord::print (ostream& os)
     divisionsPerFullMeasure;
 
   // print simplified position in measure if relevant
-  if (fChordMeasureUplink) {
+// JMI  if (fChordMeasureUplink) {
     // the chord measure uplink may not have been set yet
     rational
       chordPosition (
@@ -5879,7 +5879,7 @@ void msrChord::print (ostream& os)
         "/" <<
         chordPosition.getDenominator() <<
         ")";
-  }
+ // JMI }
   
   os <<
     endl;
@@ -10584,6 +10584,9 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   else {
     // regular insertion in current measure
     
+    // populate measure uplink
+    chord->setChordMeasureUplink (this);
+
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
         "% --> appending chord '" << chord->chordAsString () <<
@@ -10595,9 +10598,6 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
         "\"" <<
         endl;
   
-    // populate measure uplink
-    chord->setChordMeasureUplink (this);
-
     // register chord measure number
     chord->
       setChordMeasureNumber (fMeasureNumber);
@@ -13396,7 +13396,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "Appending chord '" << chord <<
+      "Appending chord '" << chord->chordAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
