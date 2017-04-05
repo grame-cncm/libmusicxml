@@ -14420,7 +14420,7 @@ msrStaff::msrStaff (
       setStaffKey (
         msrKey::create (
           inputLineNumber,
-          k_aNatural, msrKey::kMajorMode, 0));
+          k_cNatural, msrKey::kMajorMode, 0));
     }
   }
   
