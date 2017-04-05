@@ -687,7 +687,7 @@ class EXP xml2MsrTranslator :
     int                       fCurrentKeyStaffNumber;
     int                       fCurrentFifths;
     int                       fCurrentCancel;
-    string                    fCurrentMode;
+    msrKey::msrKeyModeKind    fCurrentModeKind;
 
     // transpose handling
     // ------------------------------------------------------

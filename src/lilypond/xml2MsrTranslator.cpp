@@ -1767,9 +1767,9 @@ void xml2MsrTranslator::visitStart ( S_key& elt )
   fCurrentKeyStaffNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  fCurrentFifths = 0;
-  fCurrentCancel = 0;
-  fCurrentMode   = "";
+  fCurrentFifths   = 0;
+  fCurrentCancel   = 0;
+  fCurrentModeKind = msrKey::kMajorMode;
 }
   
 void xml2MsrTranslator::visitStart ( S_fifths& elt )
@@ -1787,9 +1787,23 @@ void xml2MsrTranslator::visitStart ( S_mode& elt )
     cerr << idtr <<
       "--> Start visiting S_mode" << endl;
 
-  fCurrentMode = elt->getValue();
-  
-  // JMI ???
+  string mode = elt->getValue();
+
+  if       (mode == "major") {
+    fCurrentModeKind = msrKey::kMajorMode;
+  }
+  else  if (mode == "minor") {
+    fCurrentModeKind = msrKey::kMinorMode;
+  }
+  else {
+    stringstream s;
+    
+    s << "mode " << mode << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_cancel& elt )
@@ -1811,69 +1825,53 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
     elt->getInputLineNumber ();
 
   // key fifths number
-  msrQuartertonesPitch   keyTonicPitch;
-  msrKey::msrKeyModeKind keyModeKind;
+  msrQuartertonesPitch keyTonicPitch;
   
   switch (fCurrentFifths) {
     case 0:
       keyTonicPitch = k_cNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case 1:
       keyTonicPitch = k_gNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case 2:
       keyTonicPitch = k_dNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case 3:
       keyTonicPitch = k_aNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case 4:
       keyTonicPitch = k_eNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case 5:
       keyTonicPitch = k_bNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case 6:
-       keyTonicPitch = k_fSharp;
-      keyModeKind   = msrKey::kMajorMode;
+      keyTonicPitch = k_fSharp;
       break;
     case 7:
       keyTonicPitch = k_cSharp;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -1:
       keyTonicPitch = k_fNatural;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -2:
       keyTonicPitch = k_bFlat;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -3:
       keyTonicPitch = k_eFlat;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -4:
       keyTonicPitch = k_aFlat;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -5:
       keyTonicPitch = k_dFlat;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -6:
       keyTonicPitch = k_gFlat;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     case -7:
       keyTonicPitch = k_cFlat;
-      keyModeKind   = msrKey::kMajorMode;
       break;
     default: // unknown key sign !!
       {
@@ -1893,7 +1891,7 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
     key =
       msrKey::create (
         inputLineNumber,
-        keyTonicPitch, keyModeKind,
+        keyTonicPitch, fCurrentModeKind,
         fCurrentCancel);
 
   if (fCurrentKeyStaffNumber == 0)
