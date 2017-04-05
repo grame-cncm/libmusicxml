@@ -3500,8 +3500,10 @@ S_msrGracenotes msrGracenotes::create (
   msrGracenotes* o =
     new msrGracenotes (
       inputLineNumber,
-      slashed, gracenotesVoiceUplink);
+      slashed,
+      gracenotesVoiceUplink);
   assert(o!=0);
+
   return o;
 }
 
@@ -3515,15 +3517,6 @@ msrGracenotes::msrGracenotes (
 
   fGracenotesVoiceUplink =
     gracenotesVoiceUplink;
-
-/* JMI
-  // create the segment that will receive the notes
-  fGracenotesSegment =
-    msrSegment::create (
-      fInputLineNumber,
-      gracenotesVoiceUplink->
-      gracenotesVoiceUplink);
-      */
 }
 
 msrGracenotes::~msrGracenotes() {}
@@ -3533,7 +3526,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "% --> creating a bare clone of grace notes" <<
+      "Creating a bare clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
   }
@@ -3556,7 +3549,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "% --> creating a skip clone of grace notes" <<
+      "Creating a skip clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
   }
@@ -3599,29 +3592,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
 
 void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 {
-  /*
-  fGracenotesSegment->
-    appendNoteToSegment (note);
-    */
-
   fGracenotesNotesList.push_back (note);
-
-/*
-  // JMI
-  cerr <<
-    endl <<
-    idtr;
-  this->print (cerr);
-  cerr <<
-    endl << endl;
-    
-  cerr <<
-    endl <<
-    idtr;
-  fGracenotesVoiceUplink->print (cerr);
-  cerr <<
-    endl << endl;
-    */
 }
 
 void msrGracenotes::acceptIn (basevisitor* v) {
@@ -3674,12 +3645,6 @@ void msrGracenotes::browseData (basevisitor* v)
     msrBrowser<msrNote> browser (v);
     browser.browse (*(*i));
   } // for
-
-  /* JMI
-  // browse the segment
-  msrBrowser<msrSegment> browser (v);
-  browser.browse (*fGracenotesSegment);
-  */
 }
 
 ostream& operator<< (ostream& os, const S_msrGracenotes& elt)
@@ -3688,7 +3653,7 @@ ostream& operator<< (ostream& os, const S_msrGracenotes& elt)
   return os;
 }
 
-string msrGracenotes::gracenotesAsShortString ()
+string msrGracenotes::gracenotesAsShortString () const
 {
   stringstream s;
 
@@ -3721,9 +3686,7 @@ void msrGracenotes::print (ostream& os)
     endl;
   
   idtr++;
-  
- // JMI os << fGracenotesSegment;
-          
+            
   list<S_msrNote>::const_iterator
     iBegin = fGracenotesNotesList.begin(),
     iEnd   = fGracenotesNotesList.end(),
@@ -3740,22 +3703,20 @@ void msrGracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrAftergracenotes msrAftergracenotes::create (
   int             inputLineNumber,
-  S_msrPart       gracenotesDirectPartUplink,
+  S_msrPart       aftergracenotesDirectPartUplink,
   bool            slashed,
-  S_msrNote       aftergracenotesNote,
   S_msrVoice      aftergracenotesVoiceUplink)
 {
   msrAftergracenotes* o =
     new msrAftergracenotes (
       inputLineNumber,
       slashed,
-      aftergracenotesNote,
       aftergracenotesVoiceUplink);
   assert(o!=0);
 
-  // set grace note's divisions per quarter note
-  o->fGracenotesDirectPartUplink =
-    gracenotesDirectPartUplink;
+  // set after grace note's direct part uplink
+  o->fAftergracenotesDirectPartUplink =
+    aftergracenotesDirectPartUplink;
     
   return o;
 }
@@ -3763,23 +3724,13 @@ S_msrAftergracenotes msrAftergracenotes::create (
 msrAftergracenotes::msrAftergracenotes (
   int             inputLineNumber,
   bool            slashed,
-  S_msrNote       aftergracenotesNote,
   S_msrVoice      aftergracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
   fAftergracenotesIsSlashed = slashed;
   
-  fAftergracenotesNote = aftergracenotesNote;
-
   fAftergracenotesVoiceUplink =
     aftergracenotesVoiceUplink;
-
-  // create the segment that will receive the notes JMI ???
-  fAftergracenotesSegment =
-    msrSegment::create (
-      fInputLineNumber,
-      fGracenotesDirectPartUplink,
-      aftergracenotesVoiceUplink);
 }
 
 msrAftergracenotes::~msrAftergracenotes() {}
@@ -3789,7 +3740,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "% --> creating a bare clone of after grace notes" <<
+      "Creating a bare clone of after grace notes" <<
       endl;
   }
   
@@ -3797,13 +3748,18 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
     clone =
       msrAftergracenotes::create (
         fInputLineNumber,
-        voiceClone->
-          getVoiceDirectPartUplink (),
         fAftergracenotesIsSlashed,
-        fAftergracenotesNote,
         voiceClone);
+
+  clone->fAftergracenotesIsSlashed =
+    fAftergracenotesIsSlashed;
   
   return clone;
+}
+
+void msrAftergracenotes::appendNoteToAftergracenotes (S_msrNote note)
+{
+  fAftergracenotesNotesList.push_back (note);
 }
 
 void msrAftergracenotes::acceptIn (basevisitor* v) {
@@ -3846,17 +3802,16 @@ void msrAftergracenotes::acceptOut (basevisitor* v) {
 
 void msrAftergracenotes::browseData (basevisitor* v)
 {
-  {
-  // browse the note
-  msrBrowser<msrNote> browser (v);
-  browser.browse (*fAftergracenotesNote);
-  }
+  list<S_msrNote>::const_iterator i;
 
-  {
-  // browse the segment
-  msrBrowser<msrSegment> browser (v);
-  browser.browse (*fAftergracenotesSegment);
-  }
+  for (
+    i=fAftergracenotesNotesList.begin();
+    i!=fAftergracenotesNotesList.end();
+    i++) {
+    // browse the note
+    msrBrowser<msrNote> browser (v);
+    browser.browse (*(*i));
+  } // for
 }
 
 ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt)
@@ -3865,21 +3820,49 @@ ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt)
   return os;
 }
 
+string msrAftergracenotes::aftergracenotesAsShortString ()
+{
+  stringstream s;
+
+  s <<
+    "Aftergracenotes" " ";
+
+  list<S_msrNote>::const_iterator
+    iBegin = fAftergracenotesNotesList.begin(),
+    iEnd   = fAftergracenotesNotesList.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    s << (*i)->noteAsShortString ();
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  return s.str();
+}
+
 void msrAftergracenotes::print (ostream& os)
 {
   os <<
     "Aftergracenotes" <<
     ", line " << fInputLineNumber <<
+    ", " <<
+    singularOrPlural (
+      fAftergracenotesNotesList.size (), "note", "notes") <<
     ", slashed: " <<
     booleanAsString (fAftergracenotesIsSlashed) <<
     endl;
   
   idtr++;
 
-  os << idtr <<
-    fAftergracenotesNote <<
-    endl;
-  os << fAftergracenotesSegment;
+  list<S_msrNote>::const_iterator
+    iBegin = fAftergracenotesNotesList.begin(),
+    iEnd   = fAftergracenotesNotesList.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    os << idtr << (*i);
+    if (++i == iEnd) break;
+ // JMI   os << endl;
+  } // for
       
   idtr--;
 }
@@ -3983,43 +3966,9 @@ msrNote::msrNote (
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
 {
-  // basic note description
-  // ------------------------------------------------------
-
-  fNoteKind = noteKind;
-
-  fNoteQuatertonesPitch = noteQuatertonesPitch;
-  fNoteDivisions        = noteDivisions;
-  fNoteDisplayDivisions = noteDisplayDivisions;
-  fNoteDotsNumber       = noteDotsNumber;
-  fNoteGraphicDuration  = noteGraphicDuration;
-
-  fNoteOctave           = noteOctave;
-
-  fNoteIsARest          = noteIsARest;
-  fNoteIsUnpitched      = noteIsUnpitched;
-  
-  fNoteIsAGraceNote = noteIsAGraceNote;
-    
-  // note context
-  // ------------------------------------------------------
-
-  fNoteStaffNumber = 0;
-  fNoteVoiceNumber = 0;
-
-  fNoteBelongsToAChord = false;
-  fNoteBelongsToATuplet = false;
-
-  // note lyrics
-  // ------------------------------------------------------
-
-  fNoteSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
-  
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating " << noteKindAsString (fNoteKind) <<
-      " note, line " << inputLineNumber <<
+      "% ==> msrNote::msrNote (), note description contains:" <<
       endl;
 
     idtr++;
@@ -4045,6 +3994,18 @@ msrNote::msrNote (
         setw(width) << "fNoteDotsNumber" << " = " <<
         fNoteDotsNumber <<
         endl <<
+
+/*
+    if (fNoteDirectPartUplink) // it may not have been set yet
+    cerr <<
+      idtr << left <<
+        setw(width) << "fNoteGraphicDuration" << " = " <<
+        fNoteDirectPartUplink->
+          divisionsAsMsrString (
+            inputLineNumber,
+            fNoteGraphicDuration) <<
+        endl <<
+*/
       idtr << left <<
         setw(width) << "fNoteGraphicDuration" << " = " <<
         msrDurationAsString (
@@ -4071,8 +4032,9 @@ msrNote::msrNote (
         fNoteIsAGraceNote <<
         endl <<
 
-      // fNoteOctaveShift JMI ???
+        // fNoteOctaveShift JMI ???
         
+            
       idtr << left <<
         setw(width) << "fStaffNumber" << " = " <<
         fNoteStaffNumber <<
@@ -4101,21 +4063,56 @@ msrNote::msrNote (
     idtr--;
 
     cerr <<
-      endl << endl;
+      idtr <<
+        "% <==" <<
+        endl << endl;
   }
 
+  // basic note description
+  // ------------------------------------------------------
+
+  fNoteKind = noteKind;
+
+  fNoteQuatertonesPitch = noteQuatertonesPitch;
+  fNoteDivisions        = noteDivisions;
+  fNoteDisplayDivisions = noteDisplayDivisions;
+  fNoteDotsNumber       = noteDotsNumber;
+  fNoteGraphicDuration  = noteGraphicDuration;
+
+  fNoteOctave = noteOctave;
+
+  fNoteIsARest     = noteIsARest;
+  fNoteIsUnpitched = noteIsUnpitched;
+  
+  fNoteIsAGraceNote = noteIsAGraceNote;
+    
+  // note context
+  // ------------------------------------------------------
+
+  fNoteStaffNumber = 0;
+  fNoteVoiceNumber = 0;
+
+  fNoteBelongsToAChord = false;
+  fNoteBelongsToATuplet = false;
+
+  // note lyrics
+  // ------------------------------------------------------
+
+  fNoteSyllableExtendKind =
+    msrSyllable::k_NoSyllableExtend;
+  
   // note measure information
   // ------------------------------------------------------
 
-  fNoteMeasureNumber        = -10011;
-  fNotePositionInMeasure    = -20022;
+  fNoteMeasureNumber = -10011;
+  fNotePositionInMeasure = -20022;
   fNoteOccupiesAFullMeasure = false;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
 
-  fNoteIsStemless          = false;
-  fNoteHasATrill           = false;
+  fNoteIsStemless = false;
+  fNoteHasATrill = false;
   fNoteHasADelayedOrnament = false;
 }
 

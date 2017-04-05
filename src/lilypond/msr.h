@@ -2030,24 +2030,29 @@ class EXP msrGracenotes : public msrElement
     // set and get
     // ------------------------------------------------------
 
-/* JMI
-    S_msrSegment  getGracenotesSegment () const
-                      { return fGracenotesSegment; }
-*/
+    // part direct uplink
+    void                  setGracenotesDirectPartUplink (
+                            S_msrPart part)
+                              {
+                                fGracenotesDirectPartUplink =
+                                  part;
+                              }
+                              
+    S_msrPart             getGracenotesDirectPartUplink () const
+                              { return fGracenotesDirectPartUplink; }
 
-    bool          getGracenotesIsSlashed () const
-                      { return fGracenotesIsSlashed; }
+    list<S_msrNote>&      getGracenotesNotesList ()
+                              { return fGracenotesNotesList; }
 
-    list<S_msrNote> const
-                  getGracenotesNotesList () const
-                      { return fGracenotesNotesList; }
+    bool                  getGracenotesIsSlashed () const
+                              { return fGracenotesIsSlashed; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendNoteToGracenotes (S_msrNote note);
+    void                  appendNoteToGracenotes (S_msrNote note);
 
-    string        gracenotesAsShortString ();
+    string                gracenotesAsShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -2064,13 +2069,13 @@ class EXP msrGracenotes : public msrElement
 
   private:
 
-    bool            fGracenotesIsSlashed;
+    list<S_msrNote>       fGracenotesNotesList;
 
-    list<S_msrNote> fGracenotesNotesList;
-    
-//    S_msrSegment    fGracenotesSegment; JMI
+    S_msrPart             fGracenotesDirectPartUplink;
 
-    S_msrVoice      fGracenotesVoiceUplink;
+    bool                  fGracenotesIsSlashed;
+
+    S_msrVoice            fGracenotesVoiceUplink;
 };
 typedef SMARTP<msrGracenotes> S_msrGracenotes;
 EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
@@ -2091,11 +2096,9 @@ class EXP msrAftergracenotes : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrAftergracenotes> create (
-      int             inputLineNumber,
-      S_msrPart       gracenotesDirectPartUplink,
-      bool            slashed,
-      S_msrNote       aftergracenotesNote,
-      S_msrVoice      aftergracenotesVoiceUplink);
+      int        inputLineNumber,
+      bool       slashed,
+      S_msrVoice aftergracenotesVoiceUplink);
     
     SMARTP<msrAftergracenotes> createAftergracenotesBareClone (
       S_msrVoice voiceClone);
@@ -2106,10 +2109,9 @@ class EXP msrAftergracenotes : public msrElement
     // ------------------------------------------------------
 
     msrAftergracenotes (
-      int             inputLineNumber,
-      bool            slashed,
-      S_msrNote       aftergracenotesNote,
-      S_msrVoice      aftergracenotesVoiceUplink);
+      int        inputLineNumber,
+      bool       slashed,
+      S_msrVoice aftergracenotesVoiceUplink);
       
     virtual ~msrAftergracenotes();
   
@@ -2119,32 +2121,28 @@ class EXP msrAftergracenotes : public msrElement
     // ------------------------------------------------------
 
     // part direct uplink
-    void                  setGracenotesDirectPartUplink (S_msrPart part)
-                              { fGracenotesDirectPartUplink = part; }
+    void                  setAftergracenotesDirectPartUplink (
+                            S_msrPart part)
+                              {
+                                fAftergracenotesDirectPartUplink =
+                                  part;
+                              }
                               
-    S_msrPart             getGracenotesDirectPartUplink () const
-                             { return fGracenotesDirectPartUplink; }
+    S_msrPart             getAftergracenotesDirectPartUplink () const
+                              { return fAftergracenotesDirectPartUplink; }
 
-    bool
-                getAftergracenotesIsSlashed () const
-                    { return fAftergracenotesIsSlashed; }
+    list<S_msrNote>&      getAftergracenotesNotesList ()
+                              { return fAftergracenotesNotesList; }
 
-    S_msrNote
-                getAftergracenotesNote () const
-                    { return fAftergracenotesNote; }
-
-    S_msrSegment
-                getAftergracenotesSegment () const
-                    { return fAftergracenotesSegment; }
+    bool                  getAftergracenotesIsSlashed () const
+                              { return fAftergracenotesIsSlashed; }
 
     // services
     // ------------------------------------------------------
 
-    void        appendNoteToAftergracenotes (S_msrNote note)
-                    {
-                      fAftergracenotesSegment->
-                        appendOtherElementToSegment (note);
-                    }
+    void                  appendNoteToAftergracenotes (S_msrNote note);
+
+    string                aftergracenotesAsShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -2161,15 +2159,13 @@ class EXP msrAftergracenotes : public msrElement
 
   private:
 
-    S_msrPart          fGracenotesDirectPartUplink;
-    
-    bool               fAftergracenotesIsSlashed;
+    list<S_msrNote>       fAftergracenotesNotesList;
 
-    S_msrNote          fAftergracenotesNote;
+    S_msrPart             fAftergracenotesDirectPartUplink;
     
-    S_msrSegment       fAftergracenotesSegment;
-
-    S_msrVoice         fAftergracenotesVoiceUplink;
+    bool                  fAftergracenotesIsSlashed;
+    
+    S_msrVoice            fAftergracenotesVoiceUplink;
 };
 typedef SMARTP<msrAftergracenotes> S_msrAftergracenotes;
 EXP ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt);
