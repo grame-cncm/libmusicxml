@@ -4027,6 +4027,7 @@ msrNote::msrNote (
         setw(width) << "fNoteGraphicDuration" << " = " <<
         msrDurationAsString (
           fNoteGraphicDuration) <<
+        " (" << fNoteGraphicDuration << ")" << // JMI
         endl <<
 
       idtr << left <<
