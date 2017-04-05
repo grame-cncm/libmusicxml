@@ -4090,7 +4090,7 @@ msrNote::msrNote (
   fNoteKind = noteKind;
 
   fNoteQuatertonesPitch = noteQuatertonesPitch;
-  fNoteDivisions        = noteQuatertonesPitch;
+  fNoteDivisions        = noteDivisions;
   fNoteDisplayDivisions = noteDisplayDivisions;
   fNoteDotsNumber       = noteDotsNumber;
   fNoteGraphicDuration  = noteGraphicDuration;
@@ -10409,7 +10409,7 @@ void msrMeasure::setMeasurePosition (
       "', line " << inputLineNumber <<
       endl;
 
-  if (measurePosition == 25) abort(); // JMI
+//  if (measurePosition == 25) abort(); // JMI
   
   fMeasurePosition = measurePosition;
 }

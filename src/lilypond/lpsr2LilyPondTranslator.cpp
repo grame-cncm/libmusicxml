@@ -3899,7 +3899,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
 
       fOstream <<
         endl <<
-        endl << idtr;
+        endl;
 
       if (elt->getBarlineHasSegno ())
         fOstream <<
