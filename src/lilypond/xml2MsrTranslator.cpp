@@ -7540,10 +7540,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote << endl;
       
-  // register current note type
- // JMI fCurrentNoteGraphicDuration =
-   // fCurrentNoteGraphicDuration;
-
   if (fCurrentNoteGraphicDuration != k_NoDuration) {
     if (fCurrentNoteIsAGraceNote) {
       // set current grace note divisions      

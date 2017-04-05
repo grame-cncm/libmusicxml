@@ -3983,9 +3983,43 @@ msrNote::msrNote (
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
 {
+  // basic note description
+  // ------------------------------------------------------
+
+  fNoteKind = noteKind;
+
+  fNoteQuatertonesPitch = noteQuatertonesPitch;
+  fNoteDivisions        = noteDivisions;
+  fNoteDisplayDivisions = noteDisplayDivisions;
+  fNoteDotsNumber       = noteDotsNumber;
+  fNoteGraphicDuration  = noteGraphicDuration;
+
+  fNoteOctave           = noteOctave;
+
+  fNoteIsARest          = noteIsARest;
+  fNoteIsUnpitched      = noteIsUnpitched;
+  
+  fNoteIsAGraceNote = noteIsAGraceNote;
+    
+  // note context
+  // ------------------------------------------------------
+
+  fNoteStaffNumber = 0;
+  fNoteVoiceNumber = 0;
+
+  fNoteBelongsToAChord = false;
+  fNoteBelongsToATuplet = false;
+
+  // note lyrics
+  // ------------------------------------------------------
+
+  fNoteSyllableExtendKind =
+    msrSyllable::k_NoSyllableExtend;
+  
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "% ==> msrNote::msrNote (), note description contains:" <<
+      "Creating " << noteKindAsString (fNoteKind) <<
+      " note, line " << inputLineNumber <<
       endl;
 
     idtr++;
@@ -4011,18 +4045,6 @@ msrNote::msrNote (
         setw(width) << "fNoteDotsNumber" << " = " <<
         fNoteDotsNumber <<
         endl <<
-
-/*
-    if (fNoteDirectPartUplink) // it may not have been set yet
-    cerr <<
-      idtr << left <<
-        setw(width) << "fNoteGraphicDuration" << " = " <<
-        fNoteDirectPartUplink->
-          divisionsAsMsrString (
-            inputLineNumber,
-            fNoteGraphicDuration) <<
-        endl <<
-*/
       idtr << left <<
         setw(width) << "fNoteGraphicDuration" << " = " <<
         msrDurationAsString (
@@ -4049,9 +4071,8 @@ msrNote::msrNote (
         fNoteIsAGraceNote <<
         endl <<
 
-        // fNoteOctaveShift JMI ???
+      // fNoteOctaveShift JMI ???
         
-            
       idtr << left <<
         setw(width) << "fStaffNumber" << " = " <<
         fNoteStaffNumber <<
@@ -4080,56 +4101,21 @@ msrNote::msrNote (
     idtr--;
 
     cerr <<
-      idtr <<
-        "% <==" <<
-        endl << endl;
+      endl << endl;
   }
 
-  // basic note description
-  // ------------------------------------------------------
-
-  fNoteKind = noteKind;
-
-  fNoteQuatertonesPitch = noteQuatertonesPitch;
-  fNoteDivisions        = noteDivisions;
-  fNoteDisplayDivisions = noteDisplayDivisions;
-  fNoteDotsNumber       = noteDotsNumber;
-  fNoteGraphicDuration  = noteGraphicDuration;
-
-  fNoteOctave = noteOctave;
-
-  fNoteIsARest     = noteIsARest;
-  fNoteIsUnpitched = noteIsUnpitched;
-  
-  fNoteIsAGraceNote = noteIsAGraceNote;
-    
-  // note context
-  // ------------------------------------------------------
-
-  fNoteStaffNumber = 0;
-  fNoteVoiceNumber = 0;
-
-  fNoteBelongsToAChord = false;
-  fNoteBelongsToATuplet = false;
-
-  // note lyrics
-  // ------------------------------------------------------
-
-  fNoteSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
-  
   // note measure information
   // ------------------------------------------------------
 
-  fNoteMeasureNumber = -10011;
-  fNotePositionInMeasure = -20022;
+  fNoteMeasureNumber        = -10011;
+  fNotePositionInMeasure    = -20022;
   fNoteOccupiesAFullMeasure = false;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
 
-  fNoteIsStemless = false;
-  fNoteHasATrill = false;
+  fNoteIsStemless          = false;
+  fNoteHasATrill           = false;
   fNoteHasADelayedOrnament = false;
 }
 
