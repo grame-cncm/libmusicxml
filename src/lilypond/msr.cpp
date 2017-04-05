@@ -3703,7 +3703,6 @@ void msrGracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrAftergracenotes msrAftergracenotes::create (
   int             inputLineNumber,
-  S_msrPart       aftergracenotesDirectPartUplink,
   bool            slashed,
   S_msrVoice      aftergracenotesVoiceUplink)
 {
@@ -3714,10 +3713,6 @@ S_msrAftergracenotes msrAftergracenotes::create (
       aftergracenotesVoiceUplink);
   assert(o!=0);
 
-  // set after grace note's direct part uplink
-  o->fAftergracenotesDirectPartUplink =
-    aftergracenotesDirectPartUplink;
-    
   return o;
 }
 
@@ -3743,7 +3738,13 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
       "Creating a bare clone of after grace notes" <<
       endl;
   }
-  
+
+  /* JMI ???
+  // set after grace note's direct part uplink
+  o->fAftergracenotesDirectPartUplink =
+    aftergracenotesDirectPartUplink;
+    */
+    
   S_msrAftergracenotes
     clone =
       msrAftergracenotes::create (
@@ -3820,7 +3821,7 @@ ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt)
   return os;
 }
 
-string msrAftergracenotes::aftergracenotesAsShortString ()
+string msrAftergracenotes::aftergracenotesAsShortString () const
 {
   stringstream s;
 
