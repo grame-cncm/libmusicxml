@@ -3967,9 +3967,42 @@ msrNote::msrNote (
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
 {
+  // basic note description
+  // ------------------------------------------------------
+
+  fNoteKind = noteKind;
+
+  fNoteQuatertonesPitch = noteQuatertonesPitch;
+  fNoteDivisions        = noteDivisions;
+  fNoteDisplayDivisions = noteDisplayDivisions;
+  fNoteDotsNumber       = noteDotsNumber;
+  fNoteGraphicDuration  = noteGraphicDuration;
+
+  fNoteOctave = noteOctave;
+
+  fNoteIsARest     = noteIsARest;
+  fNoteIsUnpitched = noteIsUnpitched;
+  
+  fNoteIsAGraceNote = noteIsAGraceNote;
+    
+  // note context
+  // ------------------------------------------------------
+
+  fNoteStaffNumber = 0;
+  fNoteVoiceNumber = 0;
+
+  fNoteBelongsToAChord = false;
+  fNoteBelongsToATuplet = false;
+
+  // note lyrics
+  // ------------------------------------------------------
+
+  fNoteSyllableExtendKind =
+    msrSyllable::k_NoSyllableExtend;
+  
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "% ==> msrNote::msrNote (), note description contains:" <<
+      "Creating a note, line " << inputLineNumber <<
       endl;
 
     idtr++;
@@ -4008,10 +4041,15 @@ msrNote::msrNote (
         endl <<
 */
       idtr << left <<
-        setw(width) << "fNoteGraphicDuration" << " = " <<
-        msrDurationAsString (
-          fNoteGraphicDuration) <<
-        " (" << fNoteGraphicDuration << ")" << // JMI
+        setw(width) << "fNoteGraphicDuration" << " = ";
+      if (fNoteGraphicDuration != k_NoDuration)
+        cerr <<
+          msrDurationAsString (
+            fNoteGraphicDuration);
+      else
+        cerr << "none";
+
+    cerr <<
         endl <<
 
       idtr << left <<
@@ -4069,39 +4107,6 @@ msrNote::msrNote (
         endl << endl;
   }
 
-  // basic note description
-  // ------------------------------------------------------
-
-  fNoteKind = noteKind;
-
-  fNoteQuatertonesPitch = noteQuatertonesPitch;
-  fNoteDivisions        = noteDivisions;
-  fNoteDisplayDivisions = noteDisplayDivisions;
-  fNoteDotsNumber       = noteDotsNumber;
-  fNoteGraphicDuration  = noteGraphicDuration;
-
-  fNoteOctave = noteOctave;
-
-  fNoteIsARest     = noteIsARest;
-  fNoteIsUnpitched = noteIsUnpitched;
-  
-  fNoteIsAGraceNote = noteIsAGraceNote;
-    
-  // note context
-  // ------------------------------------------------------
-
-  fNoteStaffNumber = 0;
-  fNoteVoiceNumber = 0;
-
-  fNoteBelongsToAChord = false;
-  fNoteBelongsToATuplet = false;
-
-  // note lyrics
-  // ------------------------------------------------------
-
-  fNoteSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
-  
   // note measure information
   // ------------------------------------------------------
 
