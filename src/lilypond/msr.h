@@ -1763,6 +1763,8 @@ class EXP msrMeasure : public msrElement
     void          appendNoteToMeasure (S_msrNote note);
     void          appendChordToMeasure (S_msrChord chord);
     void          appendTupletToMeasure (S_msrTuplet tuplet);
+    
+    void          appendHarmonyToMeasure (S_msrHarmony harmony);
 
     void          appendGracenotesToMeasure (S_msrGracenotes gracenotes);
     void          prependGracenotesToMeasure (S_msrGracenotes gracenotes);
@@ -2479,6 +2481,9 @@ class EXP msrHarmony : public msrElement
 
     void                  setHarmonyDivisions (int divisions)
                               { fHarmonyDivisions = divisions; }
+
+    int                   getHarmonyDivisions () const
+                              { return fHarmonyDivisions; }
 
     msrQuartertonesPitch  getHarmonyRootQuartertonesPitch () const
                               { return fHarmonyRootQuartertonesPitch; }
@@ -5209,7 +5214,7 @@ class EXP msrVoice : public msrElement
     void            appendKeyToVoice  (S_msrKey  key);
     void            appendTimeToVoice (S_msrTime time);
     
-    void            appendHarmonyToVoice (S_msrHarmony harmony);
+    void            appendHarmonyToVoiceappendHarmonyToVoice (S_msrHarmony harmony);
 
     void            appendTransposeToVoice (
                       S_msrTranspose transpose);
@@ -5228,6 +5233,8 @@ class EXP msrVoice : public msrElement
     void            appendNoteToVoice   (S_msrNote note);
     void            appendChordToVoice  (S_msrChord chord);
     void            appendTupletToVoice (S_msrTuplet tuplet);
+
+    void            appendHarmonyToVoice (S_msrHarmony harmony);
 
     void            appendGracenotesToVoice (
                       S_msrGracenotes gracenotes);

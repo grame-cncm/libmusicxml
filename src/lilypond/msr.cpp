@@ -10758,6 +10758,64 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   }
 }
 
+void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
+    // append harmony to it thru the segment
+    fMeasureSegmentUplink->
+      appendHarmonyToSegment (harmony);
+  }
+
+  else {
+    // regular insertion in current measure
+    
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "% --> appending harmony '" << harmony->harmonyAsString () <<
+        "' to measure " << fMeasureNumber <<
+        " in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+  
+    // populate measure uplink
+ // JMI   harmony->setHarmonyMeasureUplink (this);
+
+    // register harmony measure number
+ //   harmony->
+ // JMI     setHarmonyMeasureNumber (fMeasureNumber);
+    
+    // register harmony measure position
+  //  int dummy = // JMI
+   //   harmony->
+    //    setHarmonyPositionInMeasure (fMeasurePosition);
+
+    // fetch harmony divisions
+    int harmonyDivisions =
+      harmony->getHarmonyDivisions ();
+      
+    // account for harmony duration in measure position
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + harmonyDivisions);
+  
+    // update part measure position high tide if need be
+    fMeasureDirectPartUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+    
+    // append the harmony to the measure elements list
+    fMeasureElementsList.push_back (harmony);
+  }
+}
+
 void msrMeasure::appendGracenotesToMeasure (
   S_msrGracenotes gracenotes)
 {
@@ -11993,7 +12051,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
         endl;
       
   // append it to this segment
-  appendOtherElementToSegment (harmony);
+  fSegmentMeasuresList.back ()->
+    appendHarmonyToMeasure (harmony);
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
