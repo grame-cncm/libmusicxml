@@ -10920,14 +10920,6 @@ void msrMeasure::bringMeasureToMeasurePosition (
     // account for skip duration in measure position
     setMeasurePosition (
       inputLineNumber, fMeasurePosition + skipDuration);
-/*
-    // bring harmony voice to the same measure position
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          fMeasurePosition);
-*/
   }
 }
 
