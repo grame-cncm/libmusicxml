@@ -3494,13 +3494,13 @@ void msrLigature::print (ostream& os)
 //______________________________________________________________________________
 S_msrGracenotes msrGracenotes::create (
   int        inputLineNumber,
-  bool       slashed,
+  bool       gracenoteIsSlashed,
   S_msrVoice gracenotesVoiceUplink)
 {
   msrGracenotes* o =
     new msrGracenotes (
       inputLineNumber,
-      slashed,
+      gracenoteIsSlashed,
       gracenotesVoiceUplink);
   assert(o!=0);
 
@@ -3509,11 +3509,11 @@ S_msrGracenotes msrGracenotes::create (
 
 msrGracenotes::msrGracenotes (
   int        inputLineNumber,
-  bool       slashed,
+  bool       gracenoteIsSlashed,
   S_msrVoice gracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  fGracenotesIsSlashed = slashed;
+  fGracenotesIsSlashed = gracenoteIsSlashed;
 
   fGracenotesVoiceUplink =
     gracenotesVoiceUplink;
@@ -3703,13 +3703,13 @@ void msrGracenotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrAftergracenotes msrAftergracenotes::create (
   int             inputLineNumber,
-  bool            slashed,
+  bool            aftergracenoteIsSlashed,
   S_msrVoice      aftergracenotesVoiceUplink)
 {
   msrAftergracenotes* o =
     new msrAftergracenotes (
       inputLineNumber,
-      slashed,
+      aftergracenoteIsSlashed,
       aftergracenotesVoiceUplink);
   assert(o!=0);
 
@@ -3718,11 +3718,12 @@ S_msrAftergracenotes msrAftergracenotes::create (
 
 msrAftergracenotes::msrAftergracenotes (
   int             inputLineNumber,
-  bool            slashed,
+  bool            aftergracenoteIsSlashed,
   S_msrVoice      aftergracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  fAftergracenotesIsSlashed = slashed;
+  fAftergracenotesIsSlashed =
+    aftergracenoteIsSlashed;
   
   fAftergracenotesVoiceUplink =
     aftergracenotesVoiceUplink;
@@ -4767,14 +4768,11 @@ string msrNote::skipDivisionsAsMSRString () const
 
 string msrNote::noteGraphicDurationAsMSRString () const
 {
-  string result;
-
-  result =
-    fNoteDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
+  string
+    result =
+      msrDurationAsString (
         fNoteGraphicDuration);
-
+    
   return result;
 }
 
@@ -5103,30 +5101,35 @@ void msrNote::print (ostream& os)
   os <<
     ", ";
     
-  if (fNoteKind == kGraceNote) {
-    os <<
-      fNoteDisplayDivisions <<
-      " dispdivs";
-  }
-  
-  else {
-    if (
-        fNoteDivisions
-          ==
-        fNoteDisplayDivisions) {
+  switch (fNoteKind) {
+    case msrNote::kGraceNote:
       os <<
-        fNoteDivisions <<
-        " divs";
-    }
-    
-    else {
+        fNoteDisplayDivisions <<
+        " dispdivs";
+      break;
+
+    case msrNote::kTupletMemberNote:
+      if (
+          fNoteDivisions
+            ==
+          fNoteDisplayDivisions) {
+        os <<
+          fNoteDivisions <<
+          " divs";
+      }
+      break;
+      
+    case msrNote::k_NoNoteKind:
+    case msrNote::kStandaloneNote:
+    case msrNote::kRestNote:
+    case msrNote::kSkipNote:
+    case msrNote::kChordMemberNote:
       os <<
         fNoteDivisions <<
         " divs, " <<
         fNoteDisplayDivisions<<
         " dispdivs";
-    }
-  }
+  } // switch
 
   if (divisionsPerFullMeasure > 0)
     os <<
@@ -5248,25 +5251,6 @@ void msrNote::print (ostream& os)
     case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
-
-/*
-   switch (elt->getNoteKind ()) { // JMI
-    case msrNote::k_NoNoteKind:
-      break;
-    case msrNote::kStandaloneNote:
-      break;
-    case msrNote::kGraceNote:
-      break;
-    case msrNote::kRestNote:
-      break;
-    case msrNote::kSkipNote:
-      break;
-    case msrNote::kChordMemberNote:
-      break;
-    case msrNote::kTupletMemberNote:
-      break;
-  } // switch
- */
 
   // print the octave shift if any
   if (fNoteOctaveShift) {

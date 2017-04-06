@@ -7810,7 +7810,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     }
 
     // append newNote to the current grace notes
-        if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
+      if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
       cerr <<  idtr <<
         "--> appending note " <<
         newNote->noteAsString () <<

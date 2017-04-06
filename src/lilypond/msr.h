@@ -2020,7 +2020,7 @@ class EXP msrGracenotes : public msrElement
 
     msrGracenotes (
       int        inputLineNumber,
-      bool       slashed,
+      bool       gracenoteIsSlashed,
       S_msrVoice gracenotesVoiceUplink);
       
     virtual ~msrGracenotes();
@@ -2097,7 +2097,7 @@ class EXP msrAftergracenotes : public msrElement
 
     static SMARTP<msrAftergracenotes> create (
       int        inputLineNumber,
-      bool       slashed,
+      bool       aftergracenoteIsSlashed,
       S_msrVoice aftergracenotesVoiceUplink);
     
     SMARTP<msrAftergracenotes> createAftergracenotesBareClone (
