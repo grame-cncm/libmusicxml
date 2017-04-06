@@ -125,7 +125,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   
   fCurrentWordsContents = "";
 
-  fCurrentNoteDiatonicPitch = kA; // any value would fit
+  fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = k_NoAlteration;
 
   fCurrentForwardStaffNumber = 1; // JMI
@@ -163,11 +163,11 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingLigature          = false;
   fOnGoingLigatureHasStanza = false;
 
-  fCurrentHarmonyRootDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = k_NoAlteration;
   fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
   fCurrentHarmonyKindText          = "";
-  fCurrentHarmonyBassDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyBassAlteration    = k_NoAlteration;
   fCurrentHarmonyDegreeValue       = -1;
   fCurrentHarmonyDegreeAlteration  = k_NoAlteration;
@@ -4982,7 +4982,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // initialize note data to a neutral state
   initializeNoteData ();
 
-  fCurrentNoteDiatonicPitch = kA; // any value would fit
+  fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = kNatural;
 
   // assuming staff number 1, unless S_staff states otherwise afterwards
@@ -9237,11 +9237,11 @@ void xml2MsrTranslator::visitStart ( S_harmony& elt )
     cerr << idtr <<
       "--> Start visiting S_harmony" << endl;
 
-  fCurrentHarmonyRootDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = kNatural;
   fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
   fCurrentHarmonyKindText          = "";
-  fCurrentHarmonyBassDiatonicPitch = kA; // any value would fit
+  fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyBassAlteration    = kNatural;
   fCurrentHarmonyDegreeValue       = -1;
   fCurrentHarmonyDegreeAlteration  = kNatural;

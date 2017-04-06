@@ -216,7 +216,8 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 //______________________________________________________________________________
 enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
-  kC, kD, kE, kF, kG, kA, kB};
+  kC, kD, kE, kF, kG, kA, kB,
+  k_NoDiatonicPitch};
 
 msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName);

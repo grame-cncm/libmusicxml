@@ -9565,6 +9565,7 @@ void msrHarmony::print (ostream& os)
 {  
   os <<
     "Harmony" <<
+    ", line " << fInputLineNumber <<
     endl;
     
   idtr++;
@@ -11932,6 +11933,10 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
       
   // append it to this segment
   appendOtherElementToSegment (harmony);
+
+  print(cerr);
+
+  cerr << endl;
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -15863,7 +15868,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
 
   if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
-      "Creating the harmony staff " <<
+      "Creating the harmony staff" <<
       " with number " << partHarmonyStaffNumber <<
       " for part \"" <<
       getPartName () <<
@@ -15881,9 +15886,9 @@ void msrPart::createPartHarmonyStaffAndVoice (
   
   if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
-      "Creating the harmony voice for part \"" <<
-      getPartName () <<
-      "\", line " << inputLineNumber <<
+      "Creating the harmony voice for part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
 
   fPartHarmonyVoice =
@@ -15963,8 +15968,20 @@ void msrPart::setPartMSRName (string partMSRName)
 
 string msrPart::getPartCombinedName () const
 {
-  return
-    "\"" + fPartMSRName + "\"" + " (" + fPartID + ")";
+  stringstream s;
+  
+  s <<
+    "\"" << fPartMSRName << "\"" <<
+    " (" << fPartID;
+
+  if (fPartName.size ())
+    s <<
+      ", \"" << fPartName << "\"";
+
+  s <<
+    ")";
+
+  return s.str();
 }
 
 void msrPart::setPartDivisionsPerQuarterNote (
@@ -16239,11 +16256,11 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
     
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
-      "% --> appending harmony " <<
+      "Appending harmony '" <<
       harmony->harmonyAsString () <<
-      " to part \"" <<
-      getPartName () <<
-      "\", line " << inputLineNumber <<
+      "' to part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
 
   if (! fPartHarmonyVoice)
