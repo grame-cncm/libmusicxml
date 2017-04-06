@@ -4735,9 +4735,16 @@ string msrNote::noteDivisionsAsMSRString () const
 
     s <<
       "note " << noteAsShortStringWithRawDivisions () <<
-      " needs " << computedNumberOfDots << " dots," << endl <<
+      " needs " <<
+      singularOrPlural (
+        computedNumberOfDots, "dot", "dots") <<
+      "," <<
+      endl <<
       "but " << fNoteDotsNumber << " is found in MusicXML data";
       
+    fNoteDirectPartUplink->
+      printDurationsDivisions (s);
+
     msrMusicXMLError (
       fInputLineNumber,
       s.str());
@@ -10382,8 +10389,6 @@ void msrMeasure::setMeasurePosition (
       " measure position to '"  << measurePosition <<
       "', line " << inputLineNumber <<
       endl;
-
-//  if (measurePosition == 25) abort(); // JMI
   
   fMeasurePosition = measurePosition;
 }
@@ -10515,8 +10520,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // fetch note divisions
     int noteDivisions =
       note->getNoteDivisions ();
-
-    if (noteDivisions == 24) abort(); // JMI
 
     // account for note duration in measure position
     setMeasurePosition (
