@@ -1570,6 +1570,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrPartgroup& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrPartgroup" <<
+      elt->getPartgroupCombinedName () <<
       endl;
 }
 
@@ -1578,6 +1579,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrPartgroup& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "% --> End visiting msrPartgroup" <<
+      elt->getPartgroupCombinedName () <<
       endl;
 }
 
@@ -1587,6 +1589,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrPart& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrPart" <<
+      elt->getPartCombinedName () <<
       endl;
 
   fCurrentPart = elt;
@@ -1597,6 +1600,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrPart& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "% --> End visiting msrPart" <<
+      elt->getPartCombinedName () <<
       endl;
 
   fCurrentPart = 0;
@@ -1607,7 +1611,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStaff& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrStaff" <<
+      "% --> Start visiting msrStaff \"" <<
+      elt->getStaffName () <<
+      "\"" <<
       endl;
   
   fOnGoingStaff = true;
@@ -1617,7 +1623,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrStaff& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrStaff" <<
+      "% --> End visiting msrStaff \"" <<
+      elt->getStaffName () <<
+      "\"" <<
       endl;
   
   fOnGoingStaff = false;
@@ -1628,7 +1636,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrVoice" <<
+      "% --> Start visiting msrVoice \"" <<
+      elt->getVoiceName () <<
+      "\"" <<
       endl;
  
   fOstream << idtr <<
@@ -1712,7 +1722,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
 
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrVoice" <<
+      "% --> End visiting msrVoice \"" <<
+      elt->getVoiceName () <<
+      "\"" <<
       endl;
   
   fOstream << idtr <<
@@ -1740,7 +1752,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrHarmony" <<
+      "% --> Start visiting msrHarmony '" <<
+      elt->harmonyAsString () <<
+      "'" <<
       endl;
 
   if (fOnGoingNote) {
@@ -1811,7 +1825,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 {    
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrMeasure" <<
+      "% --> Start visiting msrMeasure " <<
+      elt->getInputLineNumber () <<
       endl;
 
   int
@@ -1935,7 +1950,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrMeasure" <<
+      "% --> End visiting msrMeasure " <<
+      elt->getInputLineNumber () <<
       endl;
 
   switch (elt->getMeasureKind ()) {
@@ -2013,7 +2029,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrStanza" <<
+      "% --> Start visiting msrStanza \"" <<
+      elt->getStanzaName () <<
+      "\"" <<
       endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
@@ -2039,7 +2057,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrStanza& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrStanza" <<
+      "% --> End visiting msrStanza \"" <<
+      elt->getStanzaName () <<
+      "\"" <<
       endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
@@ -2061,7 +2081,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrSyllable" <<
+      "% --> Start visiting msrSyllable '" <<
+      elt->syllableAsString () <<
+      "'" <<
       endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
@@ -2199,7 +2221,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSyllable& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrSyllable" <<
+      "% --> End visiting msrSyllable '" <<
+      elt->syllableAsString () <<
+      "'" <<
       endl;
 }
 
@@ -2208,7 +2232,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrClef" <<
+      "% --> Start visiting msrClef '" <<
+      elt->clefAsString () <<
+      "'" <<
       endl;
 
   msrClef::msrClefKind clefKind = elt->getClefKind ();
@@ -2286,7 +2312,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrClef& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrClef" <<
+      "% --> End visiting msrClef '" <<
+      elt->clefAsString () <<
+      "'" <<
       endl;
 }
 
@@ -2295,7 +2323,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrKey& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrKey" <<
+      "% --> Start visiting msrKey '" <<
+      elt->keyAsString () <<
+      "'" <<
       endl;
 
   fOstream << idtr <<
@@ -2313,7 +2343,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrKey& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrKey" <<
+      "% --> End visiting msrKey '" <<
+      elt->keyAsString () <<
+      "'"  <<
       endl;
 }
 
@@ -2322,7 +2354,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTime" <<
+      "% --> Start visiting msrTime '" <<
+      elt->timeAsString () <<
+      "'"  <<
       endl;
 
   if (fLpsrOptions->fGenerateNumericalTime)
@@ -2340,7 +2374,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTime" <<
+      "% --> End visiting msrTime '" <<
+      elt->timeAsString () <<
+      "'"  <<
       endl;
 }
 

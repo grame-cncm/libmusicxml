@@ -9547,7 +9547,11 @@ string msrHarmony::harmonyAsString () const
       msrDiatonicPitchFromQuatertonesPitch (
         fInputLineNumber,
         fHarmonyRootQuartertonesPitch)) <<        
-    harmonyKindAsShortString ();
+    harmonyKindAsShortString () <<
+    fHarmonyPartUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fHarmonyDivisions);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -9616,8 +9620,13 @@ void msrHarmony::print (ostream& os)
 {  
   os <<
     "Harmony" <<
-    ", " << fHarmonyDivisions << " divs" <<
-    ", line " << fInputLineNumber <<
+    ", " <<
+    fHarmonyPartUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fHarmonyDivisions) <<
+    " (" << fHarmonyDivisions << " divs)" <<
+     ", line " << fInputLineNumber <<
     endl;
     
   idtr++;
@@ -11985,10 +11994,6 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
       
   // append it to this segment
   appendOtherElementToSegment (harmony);
-
-  print(cerr);
-
-  cerr << endl;
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -16319,12 +16324,6 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
-
-/*
-  if (! fPartHarmonyVoice)
-    createPartHarmonyStaffAndVoice (
-      inputLineNumber);
-  */
     
   fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);
@@ -16407,13 +16406,9 @@ void msrPart::browseData (basevisitor* v)
       "% ==> msrPart::browseData()" <<
       endl;
 
-/* JMI
-  if (fPartHarmonyStaff) {
-    // browse the harmony staff
-    msrBrowser<msrStaff> browser (v);
-    browser.browse (*fPartHarmonyStaff);
-  }
-  */
+  // browse the harmony staff
+  msrBrowser<msrStaff> browser (v);
+  browser.browse (*fPartHarmonyStaff);
   
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
