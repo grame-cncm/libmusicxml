@@ -4551,6 +4551,15 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
   fNoteSyllables.push_back (syllable);
 }
 
+void msrNote::setNoteHarmony (S_msrHarmony harmony)
+{
+  fNoteHarmony = harmony;
+
+  // set harmony's duration as that of the note
+  harmony->
+    setHarmonyDivisions (fNoteDivisions);
+}
+
 void msrNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMSRVisitors)
@@ -9607,6 +9616,7 @@ void msrHarmony::print (ostream& os)
 {  
   os <<
     "Harmony" <<
+    ", " << fHarmonyDivisions << " divs" <<
     ", line " << fInputLineNumber <<
     endl;
     
@@ -14767,7 +14777,7 @@ void msrStaff::registerVoiceInStaff (
   }
 
   // register voice in this staff
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " << fRegisteredVoicesCounter <<
@@ -15397,6 +15407,10 @@ msrPart::msrPart (
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
+  // create the part harmony staff and voice
+  createPartHarmonyStaffAndVoice (
+    inputLineNumber);
+
 // */
 
 /* JMI
@@ -15913,9 +15927,9 @@ void msrPart::createPartHarmonyStaffAndVoice (
     cerr << idtr <<
       "Creating the harmony staff" <<
       " with number " << partHarmonyStaffNumber <<
-      " for part \"" <<
-      getPartName () <<
-      "\", line " << inputLineNumber <<
+      " for part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
 
   fPartHarmonyStaff =
@@ -16306,9 +16320,11 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       ", line " << inputLineNumber <<
       endl;
 
+/*
   if (! fPartHarmonyVoice)
     createPartHarmonyStaffAndVoice (
       inputLineNumber);
+  */
     
   fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);

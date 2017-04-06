@@ -7607,11 +7607,16 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);
 
-  // attach the harmony if any to the note
+  // handle the current harmony if any
   if (fCurrentHarmony) {
+    // attach the current harmony to the note
     newNote->
       setNoteHarmony (fCurrentHarmony);
-    
+
+    // append the current harmony to the part
+    fCurrentPart->
+      appendHarmonyToPart (fCurrentHarmony);
+  
     fCurrentHarmony = 0;
   }
   
@@ -9502,12 +9507,8 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         fCurrentHarmonyRootDiatonicPitch,
         fCurrentHarmonyRootAlteration);
 
-  // convert root diatonic pitch if any to a quarter tone pitch JMI
+  // convert bass diatonic pitch to a quarter tone pitch
   msrQuartertonesPitch
-    harmonyBassQuartertonesPitch =
-      k_NoQuaterTonesPitch;
-
-// JMI  if (fCurrentHarmonyBassDiatonicPitch != k_NoDiatonicPitch)
     harmonyBassQuartertonesPitch =
       quatertonesPitchFromDiatonicPitchAndAlteration (
         inputLineNumber,
@@ -9524,10 +9525,9 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
       harmonyBassQuartertonesPitch,
       fCurrentPart);
 
-  // append it to current part
-  // it will be attached to the next note
-  fCurrentPart->
-    appendHarmonyToPart (fCurrentHarmony);
+  // the harmony will be attached to the current part
+  // when the next note is handled because it needs
+  // the duration of the latter
 }
 
 /*

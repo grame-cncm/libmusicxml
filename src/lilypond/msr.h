@@ -2477,6 +2477,9 @@ class EXP msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setHarmonyDivisions (int divisions)
+                              { fHarmonyDivisions = divisions; }
+
     msrQuartertonesPitch  getHarmonyRootQuartertonesPitch () const
                               { return fHarmonyRootQuartertonesPitch; }
                                 
@@ -2487,8 +2490,8 @@ class EXP msrHarmony : public msrElement
                               { return fHarmonyKindText; }
                 
     msrQuartertonesPitch  getHarmonyBassQuartertonesPitch () const
-                            { return fHarmonyBassQuartertonesPitch; }
-                                
+                              { return fHarmonyBassQuartertonesPitch; }
+
     S_msrPart             getHarmonyVoiceUplink () const
                               { return fHarmonyPartUplink; }
                 
@@ -2516,6 +2519,8 @@ class EXP msrHarmony : public msrElement
 
   private:
 
+    int                       fHarmonyDivisions;
+    
     msrQuartertonesPitch      fHarmonyRootQuartertonesPitch;
 
     msrHarmonyKind            fHarmonyKind;
@@ -2685,8 +2690,8 @@ class EXP msrNote : public msrElement
                               { return fNoteTupletUplink; }
 
     // harmony
-    void                  setNoteHarmony (S_msrHarmony harmony)
-                              { fNoteHarmony = harmony; }
+    void                  setNoteHarmony (S_msrHarmony harmony);
+                              
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
 
