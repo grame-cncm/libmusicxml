@@ -1767,6 +1767,10 @@ class EXP msrMeasure : public msrElement
     
     void          appendHarmonyToMeasure (S_msrHarmony harmony);
 
+    void            bringMeasureToMeasurePosition (
+                      int inputLineNumber,
+                      int measurePosition);
+
     void          appendGracenotesToMeasure (S_msrGracenotes gracenotes);
     void          prependGracenotesToMeasure (S_msrGracenotes gracenotes);
     
@@ -1922,6 +1926,10 @@ class EXP msrSegment : public msrElement
     void          appendMeasureToSegmentIfNeeded (
                     int inputLineNumber,
                     int measureNumber);
+
+    void            bringMeasureToMeasurePosition (
+                      int inputLineNumber,
+                      int measurePosition);
   
     void          appendClefToSegment (S_msrClef clef);
     void          appendKeyToSegment (S_msrKey key);
@@ -1929,6 +1937,10 @@ class EXP msrSegment : public msrElement
 
     void          appendHarmonyToSegment (S_msrHarmony harmony);
 
+    void            bringSegmentToMeasurePosition (
+                      int inputLineNumber,
+                      int measurePosition);
+  
     void          appendNoteToSegment (S_msrNote note);
     void          appendChordToSegment (S_msrChord chord);
     void          appendTupletToSegment (S_msrTuplet tuplet);
@@ -5215,8 +5227,6 @@ class EXP msrVoice : public msrElement
     void            appendKeyToVoice  (S_msrKey  key);
     void            appendTimeToVoice (S_msrTime time);
     
-    void            appendHarmonyToVoiceappendHarmonyToVoice (S_msrHarmony harmony);
-
     void            appendTransposeToVoice (
                       S_msrTranspose transpose);
 
@@ -5237,6 +5247,10 @@ class EXP msrVoice : public msrElement
 
     void            appendHarmonyToVoice (S_msrHarmony harmony);
 
+    void            bringVoiceToMeasurePosition (
+                      int inputLineNumber,
+                      int measurePosition);
+  
     void            appendGracenotesToVoice (
                       S_msrGracenotes gracenotes);
     void            prependGracenotesToVoice (
