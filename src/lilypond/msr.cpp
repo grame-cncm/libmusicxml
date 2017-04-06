@@ -1860,6 +1860,9 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
       
     case k_NoQuaterTonesPitch:
       {
+        result = k_NoDiatonicPitch;
+        
+        /* JMI
         stringstream s;
 
         s <<
@@ -1869,6 +1872,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
         msrInternalError (
           inputLineNumber,
           s.str());
+          */
       }
   } // switch
 
@@ -5472,13 +5476,15 @@ S_msrChord msrChord::create (
   int         chordDivisions,
   msrDuration chordGraphicDuration)
 {
-  cerr <<
-    "??? msrChord::create, " <<
-    "chordDivisions = " << chordDivisions <<
-    ", chordGraphicDuration = " <<
-    msrDurationAsString (chordGraphicDuration) <<
-    endl;
-     
+  if (gGeneralOptions->fTraceChords) {
+    cerr <<
+      "Create a chord " <<
+      ", chordDivisions = " << chordDivisions <<
+      ", chordGraphicDuration = " <<
+      msrDurationAsString (chordGraphicDuration) <<
+      endl;
+ }
+   
   msrChord* o =
     new msrChord (
       inputLineNumber, chordDivisions, chordGraphicDuration);
@@ -5510,7 +5516,9 @@ S_msrChord msrChord::createChordBareClone (
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "% --> Creating a bare clone of chord" <<
+      "Creating a bare clone of chord '" <<
+      chordAsString () <<
+      "'" <<
       endl;
   }
 
@@ -12348,6 +12356,7 @@ void msrSegment::print (ostream& os)
   os << idtr <<
     "Segment " <<
     fSegmentAbsoluteNumber <<
+    ", " <<
     singularOrPlural (
       fSegmentMeasuresList.size(), "measure", "measures");
 
