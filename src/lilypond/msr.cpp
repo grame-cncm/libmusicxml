@@ -10832,6 +10832,83 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 }
 
+void msrMeasure::bringMeasureToMeasurePosition (
+  int inputLineNumber,
+  int measurePosition)
+{
+  if (gGeneralOptions->fTraceDivisions)
+    cerr << idtr <<
+      "Bringing measure position for measure '" <<
+      fMeasureNumber <<
+      "' to " << measurePosition <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  if (fMeasurePosition < measurePosition) {
+    // appending a skip to this measure to reach measurePosition
+    int skipDuration =
+      measurePosition - fMeasurePosition;
+
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr <<
+        idtr <<
+        ", skipDuration = " << skipDuration <<
+        endl;
+    }
+    
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ();
+      
+    // create the skip
+    S_msrNote
+      skip =
+        msrNote::createSkipNote (
+          inputLineNumber,
+          fMeasureDirectPartUplink,
+          skipDuration,
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getExternalVoiceNumber ());
+
+    // does the skip occupy a full measure?
+    if (skipDuration == fMeasureDivisionsPerFullMeasure)
+      skip->setNoteOccupiesAFullMeasure ();
+  
+    // register skip's measure position
+    skip->setNotePositionInMeasure (fMeasurePosition);
+    
+    // apppend the skip to the measure
+    if (gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+       "% --> appending " << skip->noteAsString () <<
+       " (" << skipDuration <<
+       " divs.) to finalize \"" << voice->getVoiceName () <<
+       "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
+       " % --> @" << fMeasureNumber <<
+       endl;
+       
+    // append the skip to the measure elements list
+    // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
+    appendNoteToMeasure (skip);
+
+    // account for skip duration in measure position
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + skipDuration);
+
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
+  }
+}
+
 void msrMeasure::appendGracenotesToMeasure (
   S_msrGracenotes gracenotes)
 {
@@ -12226,76 +12303,6 @@ void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
       newMeasure);
   }
   */
-}
-
-void msrMeasure::bringMeasureToMeasurePosition (
-  int inputLineNumber,
-  int measurePosition)
-{
-  if (gGeneralOptions->fTraceDivisions)
-    cerr << idtr <<
-      "Bringing measure position for measure '" <<
-      fMeasureNumber <<
-      "' to " << measurePosition <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  if (fMeasurePosition < measurePosition) {
-    // appending a skip to this measure to reach measurePosition
-    int skipDuration =
-      measurePosition - fMeasurePosition;
-
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-        ", skipDuration = " << skipDuration <<
-        endl;
-    }
-    
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ();
-      
-    // create the skip
-    S_msrNote
-      skip =
-        msrNote::createSkipNote (
-          inputLineNumber,
-          fMeasureDirectPartUplink,
-          skipDuration,
-          voice->
-            getVoiceStaffUplink ()->getStaffNumber (),
-          voice->
-            getExternalVoiceNumber ());
-
-    // does the skip occupy a full measure?
-    if (skipDuration == fMeasureDivisionsPerFullMeasure)
-      skip->setNoteOccupiesAFullMeasure ();
-  
-    // register skip's measure position
-    skip->setNotePositionInMeasure (fMeasurePosition);
-    
-    // apppend the skip to the measure
-    if (gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-       "% --> appending " << skip->noteAsString () <<
-       " (" << skipDuration <<
-       " divs.) to finalize \"" << voice->getVoiceName () <<
-       "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
-       " % --> @" << fMeasureNumber <<
-       endl;
-       
-    // append the skip to the measure elements list
-    // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    appendNoteToMeasure (skip);
-
-    // account for skip duration in measure position
-    setMeasurePosition (
-      inputLineNumber, fMeasurePosition + skipDuration);
-  }
 }
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)

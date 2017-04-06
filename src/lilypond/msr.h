@@ -1923,13 +1923,9 @@ class EXP msrSegment : public msrElement
 
     void          appendMeasureToSegment (S_msrMeasure measure);
 
-    void          appendMeasureToSegmentIfNeeded (
+    void          appendMeasureToSegmentIfNeeded (  // JMI
                     int inputLineNumber,
                     int measureNumber);
-
-    void            bringMeasureToMeasurePosition (
-                      int inputLineNumber,
-                      int measurePosition);
   
     void          appendClefToSegment (S_msrClef clef);
     void          appendKeyToSegment (S_msrKey key);
