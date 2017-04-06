@@ -10605,6 +10605,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // if it happens to be the first note of a chord
     fMeasureElementsList.push_back (note);
 
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
+
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
   }
@@ -10679,6 +10686,13 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   
     // append the chord to the measure elements list
     fMeasureElementsList.push_back (chord);
+
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
   }
 }
 
@@ -10755,6 +10769,13 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   
     // append the tuplet to the measure elements list
     fMeasureElementsList.push_back (tuplet);
+
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
   }
 }
 
@@ -10836,7 +10857,7 @@ void msrMeasure::bringMeasureToMeasurePosition (
   int inputLineNumber,
   int measurePosition)
 {
-  if (gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Bringing measure position for measure '" <<
       fMeasureNumber <<
@@ -10899,13 +10920,14 @@ void msrMeasure::bringMeasureToMeasurePosition (
     // account for skip duration in measure position
     setMeasurePosition (
       inputLineNumber, fMeasurePosition + skipDuration);
-
+/*
     // bring harmony voice to the same measure position
     fMeasureDirectPartUplink->
       getPartHarmonyVoice ()->
         bringVoiceToMeasurePosition (
           inputLineNumber,
           fMeasurePosition);
+*/
   }
 }
 
