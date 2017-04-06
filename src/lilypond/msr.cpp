@@ -3611,7 +3611,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
     
     cerr << "FAA" << endl;
 
-    // create skip with same length as note
+    // create skip with same duration as note
     S_msrNote
       skip =
         msrNote::createSkipNote (
@@ -13493,6 +13493,22 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteDivisions);
+
+  // append a skip syllable of the same duration to the part harmony voice
+  S_msrNote
+    skip =
+      msrNote::createSkipNote (
+        note->getInputLineNumber (),
+        fVoiceDirectPartUplink,
+        note->getNoteDivisions (),
+        fStaffRelativeVoiceNumber, // JMI
+        fExternalVoiceNumber);
+
+/* JMI
+   fVoiceDirectPartUplink->
+    getPartHarmonyVoice ()->
+      appendNoteToVoice (skip);
+      */
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)

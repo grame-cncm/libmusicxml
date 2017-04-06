@@ -1747,8 +1747,9 @@ class EXP msrMeasure : public msrElement
                     int inputLineNumber)
                       { fInputLineNumber = inputLineNumber; }
 
-    int           getMeasureLength () const // divisions
-                      { return fMeasurePosition - 1; } // positions start at 1
+    int           getMeasureLength () const
+                    // divisions, positions start at 1
+                      { return fMeasurePosition - 1; }
                       
     string        getMeasureLengthAsString () const;
     
