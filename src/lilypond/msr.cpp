@@ -957,13 +957,30 @@ string msrDiatonicPitchAsString (
   string result;
   
   switch (diatonicPitch) {
-    case kA: result = "a"; break;
-    case kB: result = "b"; break;
-    case kC: result = "c"; break;
-    case kD: result = "d"; break;
-    case kE: result = "e"; break;
-    case kF: result = "f"; break;
-    case kG: result = "g"; break;
+    case kA:
+      result = "a";
+      break;
+    case kB:
+      result = "b";
+      break;
+    case kC:
+      result = "c";
+      break;
+    case kD:
+      result = "d";
+      break;
+    case kE:
+      result = "e";
+      break;
+    case kF:
+      result = "f";
+      break;
+    case kG:
+      result = "g";
+      break;
+    case k_NoDiatonicPitch:
+      result = "k_NoDiatonicPitch";
+      break;
   } // switch
 
   return result;
@@ -1384,7 +1401,7 @@ void setDiatonicPitchAndAlteration (
       alteration    = k_NoAlteration;
       
       break;
-    case k_NoPitch:
+    case k_NoQuaterTonesPitch:
       diatonicPitch = kA; // any value would fit
       alteration    = k_NoAlteration;
       break;
@@ -1715,6 +1732,23 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
+
+    case k_NoDiatonicPitch:
+      {
+        result = k_NoQuaterTonesPitch;
+        /* JMI
+        stringstream s;
+
+        s <<
+          "cannot convert k_NoDiatonicPitch to a quarter notes pitch"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+          */
+      }
+      break;    
   } // switch
 
   return result;
@@ -1824,12 +1858,12 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
           s.str());
       }
       
-    case k_NoPitch:
+    case k_NoQuaterTonesPitch:
       {
         stringstream s;
 
         s <<
-          "cannot get the diatonic pitch of a k_NoPitch"
+          "cannot get the diatonic pitch of a k_NoQuaterTonesPitch"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -3929,7 +3963,7 @@ S_msrNote msrNote::createSkipNote (
       
       kSkipNote, // noteKind
       
-      k_NoPitch, // noteQuatertonesPitch
+      k_NoQuaterTonesPitch, // noteQuatertonesPitch
       divisions, // noteDivisions
       divisions, // noteDisplayDivisions
       -1, // noteDotsNumber
@@ -9502,7 +9536,7 @@ string msrHarmony::harmonyAsString () const
     s <<
       " (" <<fHarmonyKindText << ") ";
 
-  if (fHarmonyRootQuartertonesPitch != k_NoPitch)
+  if (fHarmonyRootQuartertonesPitch != k_NoQuaterTonesPitch)
     s <<
       "/" <<
       msrDiatonicPitchAsString (

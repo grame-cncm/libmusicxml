@@ -73,7 +73,7 @@ void xml2MsrTranslator::initializeNoteData ()
 
 // JMI  fCurrentNoteKind = k_NoNoteKind;
 
-  fCurrentNoteQuatertonesPitch = k_NoPitch;
+  fCurrentNoteQuatertonesPitch = k_NoQuaterTonesPitch;
   fCurrentNoteDivisions        = -17;
   fCurrentNoteDisplayDivisions = -19;
   fCurrentNoteDotsNumber       = 0;
@@ -9494,14 +9494,20 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
     idtr--;
   }
 
+  // convert root diatonic pitch to a quarter tone pitch
   msrQuartertonesPitch
     harmonyRootQuartertonesPitch =
       quatertonesPitchFromDiatonicPitchAndAlteration (
         inputLineNumber,
         fCurrentHarmonyRootDiatonicPitch,
         fCurrentHarmonyRootAlteration);
-        
+
+  // convert root diatonic pitch if any to a quarter tone pitch JMI
   msrQuartertonesPitch
+    harmonyBassQuartertonesPitch =
+      k_NoQuaterTonesPitch;
+
+// JMI  if (fCurrentHarmonyBassDiatonicPitch != k_NoDiatonicPitch)
     harmonyBassQuartertonesPitch =
       quatertonesPitchFromDiatonicPitchAndAlteration (
         inputLineNumber,

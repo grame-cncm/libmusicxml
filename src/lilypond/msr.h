@@ -240,7 +240,7 @@ string msrAlterationAsString (
 // quarter tones pitches
 //______________________________________________________________________________
 enum msrQuartertonesPitch {
-  k_NoPitch,
+  k_NoQuaterTonesPitch,
 
   k_Rest,
   
