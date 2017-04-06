@@ -5640,7 +5640,7 @@ class EXP msrStaff : public msrElement
     
     void            appendRepeatToAllStaffVoices (int inputLineNumber);
     
-    void            appendHarmonyToStaff (S_msrHarmony harmony);
+    void            appendHarmonyToStaff (S_msrHarmony harmony); // JMI
 
     void            appendTransposeToAllStaffVoices (
                       S_msrTranspose transpose);

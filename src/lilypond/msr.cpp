@@ -10802,6 +10802,22 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     int harmonyDivisions =
       harmony->getHarmonyDivisions ();
       
+/* JMI
+  // append a skip syllable of the same duration to the part harmony voice
+  S_msrNote
+    skip =
+      msrNote::createSkipNote (
+        note->getInputLineNumber (),
+        fVoiceDirectPartUplink,
+        note->getNoteDivisions (),
+        fStaffRelativeVoiceNumber, // JMI
+        fExternalVoiceNumber);
+
+   fVoiceDirectPartUplink->
+    getPartHarmonyVoice ()->
+      appendNoteToVoice (skip);
+      */
+
     // account for harmony duration in measure position
     setMeasurePosition (
       inputLineNumber, fMeasurePosition + harmonyDivisions);
@@ -13493,22 +13509,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteDivisions);
-
-  // append a skip syllable of the same duration to the part harmony voice
-  S_msrNote
-    skip =
-      msrNote::createSkipNote (
-        note->getInputLineNumber (),
-        fVoiceDirectPartUplink,
-        note->getNoteDivisions (),
-        fStaffRelativeVoiceNumber, // JMI
-        fExternalVoiceNumber);
-
-/* JMI
-   fVoiceDirectPartUplink->
-    getPartHarmonyVoice ()->
-      appendNoteToVoice (skip);
-      */
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
@@ -15076,7 +15076,7 @@ void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
   } // for
 }
 
-void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony)
+void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
 {
   for (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
