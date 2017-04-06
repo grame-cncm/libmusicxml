@@ -4740,12 +4740,13 @@ string msrNote::noteDivisionsAsMSRString () const
         computedNumberOfDots, "dot", "dots") <<
       "," <<
       endl <<
-      "but " << fNoteDotsNumber << " is found in MusicXML data";
+      "but " << fNoteDotsNumber << " is found in MusicXML data" <<
+      endl;
       
     fNoteDirectPartUplink->
       printDurationsDivisions (s);
 
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       fInputLineNumber,
       s.str());
   }
@@ -5825,9 +5826,12 @@ string msrChord::chordAsString () const
 void msrChord::print (ostream& os)
 {
   int divisionsPerFullMeasure =
-    fChordMeasureUplink->
-      getMeasureDivisionsPerFullMeasure ();
-  
+    fChordMeasureUplink
+      ? 
+        fChordMeasureUplink->
+          getMeasureDivisionsPerFullMeasure ()
+      : 0; // JMI
+    
   os <<
     "Chord:" <<
     chordDivisionsAsMSRString () <<
@@ -15502,7 +15506,7 @@ void msrPart::printDurationsDivisions (ostream& os)
 {
   os <<
     "==> The mapping of durations to divisions with " <<
-    fPartDivisionsPerQuarterNote << " dpqn" <<
+    fPartDivisionsPerQuarterNote << " divisions per quarter note" <<
     " is:" <<
     endl;
 
