@@ -12039,7 +12039,7 @@ void msrSegment::setSegmentMeasureNumber (
   switch (measureNumber) {
     case 0:
       // measure 1 has already been created by default, re-number it a 0
-      if (gGeneralOptions->fTraceSegments || gGeneralOptions->fMeasures)
+      if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
         cerr <<
           idtr <<
             "### there are currently " <<
@@ -12059,7 +12059,7 @@ void msrSegment::setSegmentMeasureNumber (
     case 1:
       if (lastMeasure->getMeasureNumber () == 0) {
         // this is the second measure, that should be created
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fMeasures)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
           cerr <<
             idtr <<
               "### there are currently " <<
@@ -12080,7 +12080,7 @@ void msrSegment::setSegmentMeasureNumber (
       break;
       
     default:
-      if (gGeneralOptions->fTraceSegments || gGeneralOptions->fMeasures)
+      if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
         cerr <<
           idtr <<
             "### there are currently " <<
@@ -13931,18 +13931,6 @@ void msrVoice::appendRepeatCloneToVoice (
       getVoiceName () <<  "\"" <<
       endl;
 
-
-  if (fVoiceName == "P_POne_Staff_One_Voice_One") {
-    cerr <<
-      endl << endl << endl <<
-      "********************" <<
-      endl;
-    print (cerr);
-    cerr <<
-      "********************" <<
-      endl << endl << endl;
-  }
-  
   // set current segment as the repeat common segment
   repeatCLone->
     setRepeatCommonSegment (
@@ -13965,7 +13953,6 @@ void msrVoice::appendRepeatCloneToVoice (
       
   createNewLastSegmentForVoice (
     inputLineNumber);
-  }
 }
     
 void msrVoice::appendRepeatendingToVoice (

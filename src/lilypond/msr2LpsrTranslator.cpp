@@ -1877,19 +1877,6 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
   if (gLpsrOptions->fTraceLPSRVisitors)
     fOstream << idtr <<
       "--> End visiting msrRepeatending" << endl;
-      
-  if (fCurrentVoiceClone->getVoiceName () == "P_POne_Staff_One_Voice_One") {
-    cerr <<
-      endl << endl << endl <<
-      "********************" <<
-      endl;
-    fCurrentVoiceClone->print (cerr);
-    cerr <<
-      "********************" <<
-      endl << endl << endl;
-  
-    msrAssert(false, "FINI!");
-  }
 }
 
 //________________________________________________________________________
