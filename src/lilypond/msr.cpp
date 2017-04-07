@@ -7301,207 +7301,6 @@ void msrPageGeometry::print (ostream& os) {
   }
 */
 
-
-//______________________________________________________________________________
-
-S_msrVarValAssoc msrVarValAssoc::create (
-  int           inputLineNumber,
-  string        variableName,
-  string        value)
-{
-  msrVarValAssoc* o =
-    new msrVarValAssoc(
-      inputLineNumber,
-      variableName, value);
-  assert(o!=0);
-  return o;
-}
-
-msrVarValAssoc::msrVarValAssoc (
-  int           inputLineNumber,
-  string        variableName,
-  string        value)
-    : msrElement (inputLineNumber)
-{
-  fVariableName    = variableName;
-  fVariableValue   = value;
-}
-
-msrVarValAssoc::~msrVarValAssoc() {}
-
-void msrVarValAssoc::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrVarValAssoc::acceptIn()" <<
-      endl;
-      
-  if (visitor<S_msrVarValAssoc>*
-    p =
-      dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
-        S_msrVarValAssoc elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrVarValAssoc::visitStart()" <<
-             endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrVarValAssoc::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrVarValAssoc::acceptOut()" <<
-      endl;
-
-  if (visitor<S_msrVarValAssoc>*
-    p =
-      dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
-        S_msrVarValAssoc elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrVarValAssoc::visitEnd()" <<
-            endl;
-        p->visitEnd (elem);
-  }
-}
-
-
-void msrVarValAssoc::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt) {
-  elt->print (os);
-  return os;
-}
-
-void msrVarValAssoc::print (ostream& os)
-{
-  os << "MSR VarValAssoc" << endl;
-  
-  idtr++;
-
-  // escape quotes if any
-  string variableName;
-
-  for_each (
-    fVariableName.begin(),
-    fVariableName.end(),
-    stringQuoteEscaper (variableName));
-    
-  string variableValue;
-
-  for_each (
-    fVariableValue.begin(),
-    fVariableValue.end(),
-    stringQuoteEscaper (variableValue));
-
-  // print resulting strings
-  os <<
-    idtr << "variable name : " <<
-    "\"" << variableName << "\"" << endl <<
-    idtr << "variable value: " <<
-    "\"" << variableValue << "\"" << endl <<
-    endl;
-  
-  idtr--;
-}
-
-//______________________________________________________________________________
-S_msrLayout msrLayout::create (
-  int           inputLineNumber)
-{
-  msrLayout* o =
-    new msrLayout (
-      inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-msrLayout::msrLayout (
-  int           inputLineNumber)
-    : msrElement (inputLineNumber)
-{}
-msrLayout::~msrLayout() {}
-
-void msrLayout::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrLayout::acceptIn()" <<
-      endl;
-      
-  if (visitor<S_msrLayout>*
-    p =
-      dynamic_cast<visitor<S_msrLayout>*> (v)) {
-        S_msrLayout elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrLayout::visitStart()" <<
-             endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrLayout::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrLayout::acceptOut()" <<
-      endl;
-
-  if (visitor<S_msrLayout>*
-    p =
-      dynamic_cast<visitor<S_msrLayout>*> (v)) {
-        S_msrLayout elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrLayout::visitEnd()" <<
-            endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrLayout::browseData (basevisitor* v)
-{
-  int n1 = fVarValAssocs.size();
-  
-  for (int i = 0; i < n1; i++ ) {
-    // browse the stanza
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fVarValAssocs [i]);
-  } // for
-}
-
-ostream& operator<< (ostream& os, const S_msrLayout& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrLayout::print (ostream& os)
-{
-  os << "Layout" << endl;
-
-  idtr++;
-
-  int n1 = fVarValAssocs.size();
-  
-  for (int i = 0; i < n1; i++ ) {
-    os << idtr << fVarValAssocs [i];
-  } // for
-
-    /* JMI
-  int n2 = fMsrSchemeVarValAssocs.size();
-  for (int i = 0; i < n2; i++ ) {
-    os << idtr << fMsrSchemeVarValAssocs[i];
-  } // for
-  */
-  
-  idtr--;
-}
-
 //______________________________________________________________________________
 S_msrCreditWords msrCreditWords::create (
   int     inputLineNumber,
@@ -7713,6 +7512,206 @@ void msrCredit::print (ostream& os)
     if (++i == iEnd) break;
 // JMI    os << endl;
   } // for
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
+
+S_msrVarValAssoc msrVarValAssoc::create (
+  int           inputLineNumber,
+  string        variableName,
+  string        value)
+{
+  msrVarValAssoc* o =
+    new msrVarValAssoc(
+      inputLineNumber,
+      variableName, value);
+  assert(o!=0);
+  return o;
+}
+
+msrVarValAssoc::msrVarValAssoc (
+  int           inputLineNumber,
+  string        variableName,
+  string        value)
+    : msrElement (inputLineNumber)
+{
+  fVariableName    = variableName;
+  fVariableValue   = value;
+}
+
+msrVarValAssoc::~msrVarValAssoc() {}
+
+void msrVarValAssoc::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrVarValAssoc::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
+        S_msrVarValAssoc elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrVarValAssoc::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrVarValAssoc::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrVarValAssoc::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
+        S_msrVarValAssoc elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrVarValAssoc::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrVarValAssoc::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt) {
+  elt->print (os);
+  return os;
+}
+
+void msrVarValAssoc::print (ostream& os)
+{
+  os << "MSR VarValAssoc" << endl;
+  
+  idtr++;
+
+  // escape quotes if any
+  string variableName;
+
+  for_each (
+    fVariableName.begin(),
+    fVariableName.end(),
+    stringQuoteEscaper (variableName));
+    
+  string variableValue;
+
+  for_each (
+    fVariableValue.begin(),
+    fVariableValue.end(),
+    stringQuoteEscaper (variableValue));
+
+  // print resulting strings
+  os <<
+    idtr << "variable name : " <<
+    "\"" << variableName << "\"" << endl <<
+    idtr << "variable value: " <<
+    "\"" << variableValue << "\"" << endl <<
+    endl;
+  
+  idtr--;
+}
+
+//______________________________________________________________________________
+S_msrLayout msrLayout::create (
+  int           inputLineNumber)
+{
+  msrLayout* o =
+    new msrLayout (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrLayout::msrLayout (
+  int           inputLineNumber)
+    : msrElement (inputLineNumber)
+{}
+msrLayout::~msrLayout() {}
+
+void msrLayout::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrLayout::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrLayout>*
+    p =
+      dynamic_cast<visitor<S_msrLayout>*> (v)) {
+        S_msrLayout elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrLayout::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrLayout::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrLayout::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrLayout>*
+    p =
+      dynamic_cast<visitor<S_msrLayout>*> (v)) {
+        S_msrLayout elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrLayout::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrLayout::browseData (basevisitor* v)
+{
+  int n1 = fVarValAssocs.size();
+  
+  for (int i = 0; i < n1; i++ ) {
+    // browse the stanza
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fVarValAssocs [i]);
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_msrLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrLayout::print (ostream& os)
+{
+  os << "Layout" << endl;
+
+  idtr++;
+
+  int n1 = fVarValAssocs.size();
+  
+  for (int i = 0; i < n1; i++ ) {
+    os << idtr << fVarValAssocs [i];
+  } // for
+
+    /* JMI
+  int n2 = fMsrSchemeVarValAssocs.size();
+  for (int i = 0; i < n2; i++ ) {
+    os << idtr << fMsrSchemeVarValAssocs[i];
+  } // for
+  */
   
   idtr--;
 }
@@ -17831,6 +17830,10 @@ void msrScore::printStructure (ostream& os)
   
   if (fPageGeometry) {
     os << idtr << fPageGeometry;
+  }
+  
+  if (fCredit) {
+    os << idtr << fCredit;
   }
   
   for (

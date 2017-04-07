@@ -34,6 +34,9 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrIdentification>,
   
+  public visitor<S_msrCredit>,
+  public visitor<S_msrCreditWords>,
+  
   public visitor<S_msrPartgroup>,
   
   public visitor<S_msrPart>,
@@ -131,6 +134,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrIdentification& elt);
     virtual void visitEnd   (S_msrIdentification& elt);
+
+    virtual void visitStart (S_msrCredit& elt);
+    virtual void visitStart (S_msrCreditWords& elt);
 
     virtual void visitStart (S_msrPartgroup& elt);
     virtual void visitEnd   (S_msrPartgroup& elt);

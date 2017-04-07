@@ -3532,63 +3532,6 @@ typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
 EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
 
 /*!
-\brief A msr layout representation.
-
-  A layout is represented by variable/value pairs
-*/
-//______________________________________________________________________________
-class EXP msrLayout : public msrElement // JMI
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrLayout> create (
-      int           inputLineNumber);
-    
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrLayout (
-      int           inputLineNumber);
-      
-    virtual ~msrLayout();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-    void  addMsrVarValAssoc (S_msrVarValAssoc assoc)
-              { fVarValAssocs.push_back(assoc); } // JMI ???
-      
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
-
-    virtual void browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void print (ostream& os);
-
-  private:
-  
-    vector<S_msrVarValAssoc> fVarValAssocs;
-};
-typedef SMARTP<msrLayout> S_msrLayout;
-EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
-
-/*!
 \brief A msr midi representation.
 
   A midi is represented by variable/value pairs
@@ -3731,6 +3674,63 @@ class EXP msrCredit : public msrElement
 };
 typedef SMARTP<msrCredit> S_msrCredit;
 EXP ostream& operator<< (ostream& os, const S_msrCredit& elt);
+
+/*!
+\brief A msr layout representation.
+
+  A layout is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+class EXP msrLayout : public msrElement // JMI
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrLayout> create (
+      int           inputLineNumber);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrLayout (
+      int           inputLineNumber);
+      
+    virtual ~msrLayout();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    void  addMsrVarValAssoc (S_msrVarValAssoc assoc)
+              { fVarValAssocs.push_back(assoc); } // JMI ???
+      
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+  
+    vector<S_msrVarValAssoc> fVarValAssocs;
+};
+typedef SMARTP<msrLayout> S_msrLayout;
+EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 
 /*!
 \brief A msr comment representation.
