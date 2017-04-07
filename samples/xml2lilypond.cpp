@@ -144,7 +144,7 @@ void analyzeOptions (
 
   int staffRelativeVoiceNumbersPresent  = 0;
   
-  int dontDisplayMSRStanzasPresent      = 0;
+  int dontDisplayMsrStanzasPresent      = 0;
 
   int delayRestsDynamicsPresent         = 0;
   int delayRestsWordsPresent            = 0;
@@ -188,6 +188,8 @@ void analyzeOptions (
   int stemsPresent                      = 0;
   int noAutoBeamingPresent              = 0;
   int noteInputLineNumbersPresent       = 0;
+  
+  int modernTabPresent                  = 0;
   
   int accidentalStylePresent            = 0;
   
@@ -420,11 +422,11 @@ void analyzeOptions (
     
     {
       "noms",
-      no_argument, &dontDisplayMSRStanzasPresent, 1
+      no_argument, &dontDisplayMsrStanzasPresent, 1
     },
     {
-      "dontDisplayMSRStanzas",
-      no_argument, &dontDisplayMSRStanzasPresent, 1
+      "dontDisplayMsrStanzas",
+      no_argument, &dontDisplayMsrStanzasPresent, 1
     },
 
     {
@@ -648,6 +650,15 @@ void analyzeOptions (
       no_argument, &noteInputLineNumbersPresent, 1
     },    
 
+    {
+      "mtab",
+      no_argument, &modernTabPresent, 1
+    },
+    {
+      "modernTab",
+      no_argument, &modernTabPresent, 1
+    },
+    
     {
       "as",
       required_argument, &accidentalStylePresent, 1
@@ -930,7 +941,7 @@ void analyzeOptions (
         // -----------
         
         if (traceMSRVisitorsPresent) {
-          gMsrOptions->fTraceMSRVisitors = true;
+          gMsrOptions->fTraceMsrVisitors = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceMSRVisitors ";
           traceMSRVisitorsPresent = false;
@@ -982,11 +993,11 @@ void analyzeOptions (
           staffRelativeVoiceNumbersPresent = false;
         }
         
-        if (dontDisplayMSRStanzasPresent) {
-          gMsrOptions->fDontDisplayMSRStanzas = true;
+        if (dontDisplayMsrStanzasPresent) {
+          gMsrOptions->fDontDisplayMsrStanzas = true;
           gGeneralOptions->fCommandLineOptions +=
             "--dontGenerateMSRStanzas ";
-          dontDisplayMSRStanzasPresent = false;
+          dontDisplayMsrStanzasPresent = false;
         }
         
         if (delayRestsDynamicsPresent) {
@@ -1038,14 +1049,14 @@ void analyzeOptions (
         }
 
         if (displayMSRPresent) {
-          gMsrOptions->fDisplayMSR = true;
+          gMsrOptions->fDisplayMsr = true;
           gGeneralOptions->fCommandLineOptions +=
             "--displayMSR ";
           displayMSRPresent = false;
         }
 
         if (displayMSRSummaryPresent) {
-          gMsrOptions->fDisplayMSRSummary = true;
+          gMsrOptions->fDisplayMsrSummary = true;
           gLpsrOptions->fDontGenerateLilyPondCode = true;
           gGeneralOptions->fCommandLineOptions +=
             "--displayScoreSummary ";
@@ -1102,7 +1113,7 @@ void analyzeOptions (
         // ------------
 
         if (traceLPSRVisitorsPresent) {
-          gLpsrOptions->fTraceLPSRVisitors = true;
+          gLpsrOptions->fTraceLpsrVisitors = true;
           gGeneralOptions->fCommandLineOptions +=
             "--traceLPSRVisitors ";
           traceLPSRVisitorsPresent = false;
@@ -1187,9 +1198,9 @@ void analyzeOptions (
           }
              
         if (displayLPSRPresent) {
-          gLpsrOptions->fDisplayLPSR = true;
+          gLpsrOptions->fDisplayLpsr = true;
           gGeneralOptions->fCommandLineOptions +=
-            "--displayLPSR ";
+            "--displayLpsr ";
           displayLPSRPresent = false;
         }
 
@@ -1268,11 +1279,19 @@ void analyzeOptions (
             "--noAutoBeaming ";
           noAutoBeamingPresent = false;
         }
+
         if (noteInputLineNumbersPresent) {
           gLpsrOptions->fGenerateInputLineNumbers = true;
           gGeneralOptions->fCommandLineOptions +=
             "--generateInputLineNumbers ";
           noteInputLineNumbersPresent = false;
+        }
+        
+        if (modernTabPresent) {
+          gLpsrOptions->fModernTab = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--modernTab ";
+          modernTabPresent = false;
         }
         
         if (accidentalStylePresent) {

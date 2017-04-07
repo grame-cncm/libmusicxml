@@ -386,8 +386,8 @@ class EXP msrOptions : public smartable
   public:
 
     // trace
-    bool                          fTraceMSR;
-    bool                          fTraceMSRVisitors;
+    bool                          fTraceMsr;
+    bool                          fTraceMsrVisitors;
     
     // languages
     msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;
@@ -405,13 +405,13 @@ class EXP msrOptions : public smartable
     bool                          fKeepMasterStanzas;
     
     // MSR display
-    bool                          fDisplayMSR;
+    bool                          fDisplayMsr;
 
     // stanza display
-    bool                          fDontDisplayMSRStanzas;
+    bool                          fDontDisplayMsrStanzas;
     
     // MSR score summary
-    bool                          fDisplayMSRSummary;
+    bool                          fDisplayMsrSummary;
 
     // parts renaming
     map<string, string>           fPartsRenaming;

@@ -49,11 +49,11 @@ static S_msrScore xml2Msr (
     mScore =
       buildMSRFromElementsTree (msrOpts, elemsTree);
 
-    if (msrOpts->fDisplayMSR)
+    if (msrOpts->fDisplayMsr)
       // display the MSR
       displayMSR (msrOpts, mScore, cerr);
 
-    if (msrOpts->fDisplayMSRSummary)
+    if (msrOpts->fDisplayMsrSummary)
       // display the MSR summary
       displayMSRSummary (msrOpts, mScore, cerr);
   }
@@ -211,7 +211,7 @@ S_msrScore buildMSRFromElementsTree (
       endl <<
       "Pass 2: translating the xmlelement tree into a MSR" <<
       endl;
-    if (msrOpts->fDisplayMSR)
+    if (msrOpts->fDisplayMsr)
       cerr <<
         "(dpqn: divisions per quarter note)" <<
         endl;

@@ -2022,8 +2022,9 @@ void msrOptions::initializeMsrOptions (
   bool boolOptionsInitialValue)
 {
   // trace
-  fTraceMSR                             = boolOptionsInitialValue;
-  fTraceMSRVisitors                     = boolOptionsInitialValue;
+  fTraceMsr                             = boolOptionsInitialValue;
+  
+  fTraceMsrVisitors                     = boolOptionsInitialValue;
 
   // languages
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
@@ -2061,13 +2062,13 @@ void msrOptions::initializeMsrOptions (
   fKeepMasterStanzas                    = boolOptionsInitialValue;
     
   // stanza display
-  fDontDisplayMSRStanzas                = boolOptionsInitialValue;
+  fDontDisplayMsrStanzas                = boolOptionsInitialValue;
   
   // MSR display
-  fDisplayMSR                           = boolOptionsInitialValue;
+  fDisplayMsr                           = boolOptionsInitialValue;
 
   // MSR score summary
-  fDisplayMSRSummary                    = boolOptionsInitialValue;
+  fDisplayMsrSummary                    = boolOptionsInitialValue;
 }
 
 bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
@@ -2093,7 +2094,9 @@ void msrOptions::printMsrOptionsHelp ()
     "  MSR:" << endl <<
     endl <<
 
-    "    --tmvisit, --traceMSRVisitors " << endl <<
+    "    --tmsr, --traceMsr " << endl <<
+    "          Write a trace of the LPSR graphs visiting activity to standard error." << endl <<
+    "    --tmvisit, --traceMsrVisitors " << endl <<
     "          Write a trace of the MSR graphs visiting activity to standard error." << endl <<
     endl <<
     "    --mpl, --msrPitchesLanguage language" << endl <<
@@ -2109,7 +2112,7 @@ void msrOptions::printMsrOptionsHelp ()
     "          which may be global to the score." << endl <<
     endl <<
     
-    "    --noms, --dontDisplayMSRStanzas" << endl <<
+    "    --noms, --dontDisplayMsrStanzas" << endl <<
     "          Don't display MSR stanzas while displaying MSR data." << endl <<
     endl <<
 
@@ -2130,7 +2133,7 @@ void msrOptions::printMsrOptionsHelp ()
     "          but delay them until the next actual note or chord instead." << endl <<
     endl <<
 
-    "    --msr, --displayMSR" << endl <<
+    "    --msr, --displayMsr" << endl <<
     "          Write the contents of the MSR data to standard error." << endl <<
     endl <<
 
@@ -2142,7 +2145,7 @@ void msrOptions::printMsrOptionsHelp ()
 */
     endl <<
 
-    "    --sum, --displayMSRSummary" << endl <<
+    "    --sum, --displayMsrSummary" << endl <<
     "          Only write a summary of the MSR to standard error." << endl <<
     "          This implies that no LilyPond code is generated." << endl <<
     endl <<
@@ -2164,9 +2167,12 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   indenter::gIndenter++;
   
   cerr << left <<
+      setw(fieldWidth) << "traceMsr" << " : " <<
+      booleanAsString (gMsrOptions->fTraceMsr) <<
+      endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceMSRVisitors" << " : " <<
-      booleanAsString (gMsrOptions->fTraceMSRVisitors) <<
+      setw(fieldWidth) << "traceMsrVisitors" << " : " <<
+      booleanAsString (gMsrOptions->fTraceMsrVisitors) <<
       endl <<
 
     indenter::gIndenter << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
@@ -2179,8 +2185,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "dontDisplayMSRStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fDontDisplayMSRStanzas) <<
+    indenter::gIndenter << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
       endl <<
 
     indenter::gIndenter << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
@@ -2206,12 +2212,12 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "displayMSR" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMSR) <<
+    indenter::gIndenter << setw(fieldWidth) << "displayMsr" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMsr) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "displayMSRSummary" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMSRSummary) <<
+    indenter::gIndenter << setw(fieldWidth) << "displayMsrSummary" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
       endl <<
     
     indenter::gIndenter << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
@@ -2242,7 +2248,7 @@ msrElement::msrElement (
 msrElement::~msrElement() {}
 
 void msrElement::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr <<
       "% ==> msrElement::acceptIn()" <<
       endl;
@@ -2252,7 +2258,7 @@ void msrElement::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr <<
             "% ==> Launching msrElement::visitStart()" <<
              endl;
@@ -2261,7 +2267,7 @@ void msrElement::acceptIn (basevisitor* v) {
 }
 
 void msrElement::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr <<
       "% ==> msrElement::acceptOut()" <<
       endl;
@@ -2271,7 +2277,7 @@ void msrElement::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr <<
             "% ==> Launching msrElement::visitEnd()" <<
             endl;
@@ -2326,7 +2332,7 @@ msrOctaveShift::msrOctaveShift (
 msrOctaveShift::~msrOctaveShift() {}
 
 void msrOctaveShift::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrOctaveShift::acceptIn()" <<
       endl;
@@ -2336,7 +2342,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrOctaveShift::visitStart()" <<
              endl;
@@ -2345,7 +2351,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
 }
 
 void msrOctaveShift::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrOctaveShift::acceptOut()" <<
       endl;
@@ -2355,7 +2361,7 @@ void msrOctaveShift::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrOctaveShift::visitEnd()" <<
             endl;
@@ -2427,7 +2433,7 @@ msrStem::msrStem (
 msrStem::~msrStem() {}
 
 void msrStem::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStem::acceptIn()" <<
       endl;
@@ -2437,7 +2443,7 @@ void msrStem::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStem::visitStart()" <<
              endl;
@@ -2446,7 +2452,7 @@ void msrStem::acceptIn (basevisitor* v) {
 }
 
 void msrStem::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStem::acceptOut()" <<
       endl;
@@ -2456,7 +2462,7 @@ void msrStem::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStem::visitEnd()" <<
             endl;
@@ -2538,7 +2544,7 @@ msrBeam::msrBeam (
 msrBeam::~msrBeam() {}
 
 void msrBeam::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBeam::acceptIn()" <<
       endl;
@@ -2548,7 +2554,7 @@ void msrBeam::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBeam::visitStart()" <<
              endl;
@@ -2557,7 +2563,7 @@ void msrBeam::acceptIn (basevisitor* v) {
 }
 
 void msrBeam::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBeam::acceptOut()" <<
       endl;
@@ -2567,7 +2573,7 @@ void msrBeam::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBeam::visitEnd()" <<
             endl;
@@ -2711,7 +2717,7 @@ string msrArticulation::articulationKindAsString () const
 }
 
 void msrArticulation::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrArticulation::acceptIn()" <<
       endl;
@@ -2721,7 +2727,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrArticulation::visitStart()" <<
              endl;
@@ -2730,7 +2736,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
 }
 
 void msrArticulation::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrArticulation::acceptOut()" <<
       endl;
@@ -2740,7 +2746,7 @@ void msrArticulation::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrArticulation::visitEnd()" <<
             endl;
@@ -2870,7 +2876,7 @@ string msrOrnament::ornamentAccidentalMarkKindAsString () const
 }
 
 void msrOrnament::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrOrnament::acceptIn()" <<
       endl;
@@ -2880,7 +2886,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrOrnament::visitStart()" <<
              endl;
@@ -2889,7 +2895,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
 }
 
 void msrOrnament::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrOrnament::acceptOut()" <<
       endl;
@@ -2899,7 +2905,7 @@ void msrOrnament::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrOrnament::visitEnd()" <<
             endl;
@@ -2955,7 +2961,7 @@ msrRehearsal::msrRehearsal (
 msrRehearsal::~msrRehearsal() {}
 
 void msrRehearsal::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrRehearsal::acceptIn()" <<
       endl;
@@ -2965,7 +2971,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrRehearsal::visitStart()" <<
              endl;
@@ -2974,7 +2980,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
 }
 
 void msrRehearsal::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrRehearsal::acceptOut()" <<
       endl;
@@ -2984,7 +2990,7 @@ void msrRehearsal::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrRehearsal::visitEnd()" <<
             endl;
@@ -3135,7 +3141,7 @@ string msrDynamics::dynamicsKindAsString ()
 }
 
 void msrDynamics::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrDynamics::acceptIn()" <<
       endl;
@@ -3145,7 +3151,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrDynamics::visitStart()" <<
              endl;
@@ -3154,7 +3160,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
 }
 
 void msrDynamics::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrDynamics::acceptOut()" <<
       endl;
@@ -3164,7 +3170,7 @@ void msrDynamics::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrDynamics::visitEnd()" <<
             endl;
@@ -3231,7 +3237,7 @@ string msrWedge::wedgeKindAsString ()
 }
 
 void msrWedge::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrWedge::acceptIn()" <<
       endl;
@@ -3241,7 +3247,7 @@ void msrWedge::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrWedge::visitStart()" <<
              endl;
@@ -3250,7 +3256,7 @@ void msrWedge::acceptIn (basevisitor* v) {
 }
 
 void msrWedge::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrWedge::acceptOut()" <<
       endl;
@@ -3260,7 +3266,7 @@ void msrWedge::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrWedge::visitEnd()" <<
             endl;
@@ -3327,7 +3333,7 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
 }
 
 void msrTie::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTie::acceptIn()" <<
       endl;
@@ -3337,7 +3343,7 @@ void msrTie::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTie::visitStart()" <<
              endl;
@@ -3346,7 +3352,7 @@ void msrTie::acceptIn (basevisitor* v) {
 }
 
 void msrTie::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTie::acceptOut()" <<
       endl;
@@ -3356,7 +3362,7 @@ void msrTie::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTie::visitEnd()" <<
             endl;
@@ -3434,7 +3440,7 @@ string msrSlur::slurKindAsString ()
 }
 
 void msrSlur::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSlur::acceptIn()" <<
       endl;
@@ -3444,7 +3450,7 @@ void msrSlur::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSlur::visitStart()" <<
              endl;
@@ -3453,7 +3459,7 @@ void msrSlur::acceptIn (basevisitor* v) {
 }
 
 void msrSlur::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSlur::acceptOut()" <<
       endl;
@@ -3463,7 +3469,7 @@ void msrSlur::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSlur::visitEnd()" <<
             endl;
@@ -3542,7 +3548,7 @@ string msrLigature::ligatureKindAsString ()
 }
 
 void msrLigature::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrLigature::acceptIn()" <<
       endl;
@@ -3552,7 +3558,7 @@ void msrLigature::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrLigature::visitStart()" <<
              endl;
@@ -3561,7 +3567,7 @@ void msrLigature::acceptIn (basevisitor* v) {
 }
 
 void msrLigature::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrLigature::acceptOut()" <<
       endl;
@@ -3571,7 +3577,7 @@ void msrLigature::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrLigature::visitEnd()" <<
             endl;
@@ -3702,7 +3708,7 @@ void msrGracenotes::appendNoteToGracenotes (S_msrNote note)
 }
 
 void msrGracenotes::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrGracenotes::acceptIn()" <<
       endl;
@@ -3712,7 +3718,7 @@ void msrGracenotes::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
         S_msrGracenotes elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrGracenotes::visitStart()" <<
              endl;
@@ -3721,7 +3727,7 @@ void msrGracenotes::acceptIn (basevisitor* v) {
 }
 
 void msrGracenotes::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrGracenotes::acceptOut()" <<
       endl;
@@ -3731,7 +3737,7 @@ void msrGracenotes::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrGracenotes>*> (v)) {
         S_msrGracenotes elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrGracenotes::visitEnd()" <<
             endl;
@@ -3871,7 +3877,7 @@ void msrAftergracenotes::appendNoteToAftergracenotes (S_msrNote note)
 }
 
 void msrAftergracenotes::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrAftergracenotes::acceptIn()" <<
       endl;
@@ -3881,7 +3887,7 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrAftergracenotes>*> (v)) {
         S_msrAftergracenotes elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrAftergracenotes::visitStart()" <<
              endl;
@@ -3890,7 +3896,7 @@ void msrAftergracenotes::acceptIn (basevisitor* v) {
 }
 
 void msrAftergracenotes::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrAftergracenotes::acceptOut()" <<
       endl;
@@ -3900,7 +3906,7 @@ void msrAftergracenotes::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrAftergracenotes>*> (v)) {
         S_msrAftergracenotes elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrAftergracenotes::visitEnd()" <<
             endl;
@@ -4631,7 +4637,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 
 void msrNote::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrNote::acceptIn()" <<
       endl;
@@ -4641,7 +4647,7 @@ void msrNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrNote::visitStart()" <<
              endl;
@@ -4651,7 +4657,7 @@ void msrNote::acceptIn (basevisitor* v)
 
 void msrNote::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrNote::acceptOut()" <<
       endl;
@@ -4661,7 +4667,7 @@ void msrNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrNote::visitEnd()" <<
             endl;
@@ -5756,7 +5762,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 }
 
 void msrChord::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrChord::acceptIn()" <<
       endl;
@@ -5766,7 +5772,7 @@ void msrChord::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrChord::visitStart()" <<
              endl;
@@ -5775,7 +5781,7 @@ void msrChord::acceptIn (basevisitor* v) {
 }
 
 void msrChord::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrChord::acceptOut()" <<
       endl;
@@ -5785,7 +5791,7 @@ void msrChord::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrChord::visitEnd()" <<
             endl;
@@ -6110,7 +6116,7 @@ msrComment::msrComment (
 msrComment::~msrComment() {}
 
 void msrComment::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrComment::acceptIn()" <<
       endl;
@@ -6120,7 +6126,7 @@ void msrComment::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrComment>*> (v)) {
         S_msrComment elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrComment::visitStart()" <<
              endl;
@@ -6129,7 +6135,7 @@ void msrComment::acceptIn (basevisitor* v) {
 }
 
 void msrComment::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrComment::acceptOut()" <<
       endl;
@@ -6139,7 +6145,7 @@ void msrComment::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrComment>*> (v)) {
         S_msrComment elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrComment::visitEnd()" <<
             endl;
@@ -6211,7 +6217,7 @@ string msrBreak::breakAsString () const
 }
 
 void msrBreak::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBreak::acceptIn()" <<
       endl;
@@ -6221,7 +6227,7 @@ void msrBreak::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBreak>*> (v)) {
         S_msrBreak elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBreak::visitStart()" <<
              endl;
@@ -6230,7 +6236,7 @@ void msrBreak::acceptIn (basevisitor* v) {
 }
 
 void msrBreak::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBreak::acceptOut()" <<
       endl;
@@ -6240,7 +6246,7 @@ void msrBreak::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBreak>*> (v)) {
         S_msrBreak elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBreak::visitEnd()" <<
             endl;
@@ -6301,7 +6307,7 @@ string msrBarCheck::barCheckAsString () const
 }
 
 void msrBarCheck::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBarCheck::acceptIn()" <<
       endl;
@@ -6311,7 +6317,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBarCheck::visitStart()" <<
              endl;
@@ -6320,7 +6326,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
 }
 
 void msrBarCheck::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBarCheck::acceptOut()" <<
       endl;
@@ -6330,7 +6336,7 @@ void msrBarCheck::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBarCheck::visitEnd()" <<
             endl;
@@ -6386,7 +6392,7 @@ string msrBarnumberCheck::barnumberCheckAsString () const
 }
 
 void msrBarnumberCheck::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBarnumberCheck::acceptIn()" <<
       endl;
@@ -6396,7 +6402,7 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
         S_msrBarnumberCheck elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBarnumberCheck::visitStart()" <<
              endl;
@@ -6405,7 +6411,7 @@ void msrBarnumberCheck::acceptIn (basevisitor* v) {
 }
 
 void msrBarnumberCheck::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBarnumberCheck::acceptOut()" <<
       endl;
@@ -6415,7 +6421,7 @@ void msrBarnumberCheck::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
         S_msrBarnumberCheck elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBarnumberCheck::visitEnd()" <<
             endl;
@@ -6872,7 +6878,7 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
 }
 
 void msrTuplet::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTuplet::acceptIn()" <<
       endl;
@@ -6882,7 +6888,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTuplet::visitStart()" <<
              endl;
@@ -6891,7 +6897,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
 }
 
 void msrTuplet::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTuplet::acceptOut()" <<
       endl;
@@ -6901,7 +6907,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTuplet::visitEnd()" <<
             endl;
@@ -7133,7 +7139,7 @@ float msrPageGeometry::globalStaffSize () const
 }
 
 void msrPageGeometry::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPageGeometry::acceptIn()" <<
       endl;
@@ -7143,7 +7149,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPageGeometry::visitStart()" <<
              endl;
@@ -7152,7 +7158,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
 }
 
 void msrPageGeometry::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPageGeometry::acceptOut()" <<
       endl;
@@ -7162,7 +7168,7 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPageGeometry::visitEnd()" <<
             endl;
@@ -7327,7 +7333,7 @@ msrVarValAssoc::msrVarValAssoc (
 msrVarValAssoc::~msrVarValAssoc() {}
 
 void msrVarValAssoc::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrVarValAssoc::acceptIn()" <<
       endl;
@@ -7337,7 +7343,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrVarValAssoc::visitStart()" <<
              endl;
@@ -7346,7 +7352,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
 }
 
 void msrVarValAssoc::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrVarValAssoc::acceptOut()" <<
       endl;
@@ -7356,7 +7362,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrVarValAssoc::visitEnd()" <<
             endl;
@@ -7423,7 +7429,7 @@ msrLayout::msrLayout (
 msrLayout::~msrLayout() {}
 
 void msrLayout::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrLayout::acceptIn()" <<
       endl;
@@ -7433,7 +7439,7 @@ void msrLayout::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrLayout::visitStart()" <<
              endl;
@@ -7442,7 +7448,7 @@ void msrLayout::acceptIn (basevisitor* v) {
 }
 
 void msrLayout::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrLayout::acceptOut()" <<
       endl;
@@ -7452,7 +7458,7 @@ void msrLayout::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrLayout::visitEnd()" <<
             endl;
@@ -7528,7 +7534,7 @@ msrCreditWords::msrCreditWords (
 msrCreditWords::~msrCreditWords() {}
 
 void msrCreditWords::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrCreditWords::acceptIn()" <<
       endl;
@@ -7538,7 +7544,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrCreditWords::visitStart()" <<
              endl;
@@ -7547,7 +7553,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
 }
 
 void msrCreditWords::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrCreditWords::acceptOut()" <<
       endl;
@@ -7557,7 +7563,7 @@ void msrCreditWords::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrCreditWords::visitEnd()" <<
             endl;
@@ -7632,7 +7638,7 @@ void msrCredit::appendCreditWordsToCredit (
 }
 
 void msrCredit::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrCredit::acceptIn()" <<
       endl;
@@ -7642,7 +7648,7 @@ void msrCredit::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrCredit::visitStart()" <<
              endl;
@@ -7651,7 +7657,7 @@ void msrCredit::acceptIn (basevisitor* v) {
 }
 
 void msrCredit::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrCredit::acceptOut()" <<
       endl;
@@ -7661,7 +7667,7 @@ void msrCredit::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrCredit::visitEnd()" <<
             endl;
@@ -7762,7 +7768,7 @@ bool msrClef::clefIsAPercussionClef () const
 }
 
 void msrClef::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrClef::acceptIn()" <<
       endl;
@@ -7772,7 +7778,7 @@ void msrClef::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrClef::visitStart()" <<
              endl;
@@ -7781,7 +7787,7 @@ void msrClef::acceptIn (basevisitor* v) {
 }
 
 void msrClef::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrClef::acceptOut()" <<
       endl;
@@ -7791,7 +7797,7 @@ void msrClef::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrClef::visitEnd()" <<
             endl;
@@ -7920,7 +7926,7 @@ msrKey::msrKey (
 msrKey::~msrKey() {}
 
 void msrKey::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrKey::acceptIn()" <<
       endl;
@@ -7930,7 +7936,7 @@ void msrKey::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrKey::visitStart()" <<
              endl;
@@ -7939,7 +7945,7 @@ void msrKey::acceptIn (basevisitor* v) {
 }
 
 void msrKey::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrKey::acceptOut()" <<
       endl;
@@ -7949,7 +7955,7 @@ void msrKey::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrKey::visitEnd()" <<
             endl;
@@ -8032,7 +8038,7 @@ msrTime::msrTime (
 msrTime::~msrTime() {}
 
 void msrTime::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTime::acceptIn()" <<
       endl;
@@ -8042,7 +8048,7 @@ void msrTime::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTime::visitStart()" <<
              endl;
@@ -8051,7 +8057,7 @@ void msrTime::acceptIn (basevisitor* v) {
 }
 
 void msrTime::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTime::acceptOut()" <<
       endl;
@@ -8061,7 +8067,7 @@ void msrTime::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTime::visitEnd()" <<
             endl;
@@ -8134,7 +8140,7 @@ msrTranspose::msrTranspose (
 msrTranspose::~msrTranspose() {}
 
 void msrTranspose::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTranspose::acceptIn()" <<
       endl;
@@ -8144,7 +8150,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTranspose::visitStart()" <<
              endl;
@@ -8153,7 +8159,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
 }
 
 void msrTranspose::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTranspose::acceptOut()" <<
       endl;
@@ -8163,7 +8169,7 @@ void msrTranspose::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTranspose::visitEnd()" <<
             endl;
@@ -8242,7 +8248,7 @@ msrWords::msrWords (
 msrWords::~msrWords() {}
 
 void msrWords::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrWords::acceptIn()" <<
       endl;
@@ -8252,7 +8258,7 @@ void msrWords::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrWords::visitStart()" <<
              endl;
@@ -8261,7 +8267,7 @@ void msrWords::acceptIn (basevisitor* v) {
 }
 
 void msrWords::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrWords::acceptOut()" <<
       endl;
@@ -8271,7 +8277,7 @@ void msrWords::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrWords::visitEnd()" <<
             endl;
@@ -8377,7 +8383,7 @@ msrTempo::~msrTempo() {}
 
 void msrTempo::setTempoIndication (string indication)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "Setting indication of tempo " <<
       fTempoUnit << " = " << fPerMinute <<
@@ -8388,7 +8394,7 @@ void msrTempo::setTempoIndication (string indication)
 }
 
 void msrTempo::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTempo::acceptIn()" <<
       endl;
@@ -8398,7 +8404,7 @@ void msrTempo::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTempo::visitStart()" <<
              endl;
@@ -8407,7 +8413,7 @@ void msrTempo::acceptIn (basevisitor* v) {
 }
 
 void msrTempo::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrTempo::acceptOut()" <<
       endl;
@@ -8417,7 +8423,7 @@ void msrTempo::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrTempo::visitEnd()" <<
             endl;
@@ -8576,7 +8582,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 }
 
 void msrSyllable::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSyllable::acceptIn()" <<
       endl;
@@ -8586,7 +8592,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSyllable::visitStart()" <<
              endl;
@@ -8595,7 +8601,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
 }
 
 void msrSyllable::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSyllable::acceptOut()" <<
       endl;
@@ -8605,7 +8611,7 @@ void msrSyllable::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSyllable::visitEnd()" <<
             endl;
@@ -9346,7 +9352,7 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
 }
 
 void msrStanza::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStanza::acceptIn()" <<
       endl;
@@ -9356,7 +9362,7 @@ void msrStanza::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStanza::visitStart()" <<
              endl;
@@ -9365,7 +9371,7 @@ void msrStanza::acceptIn (basevisitor* v) {
 }
 
 void msrStanza::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStanza::acceptOut()" <<
       endl;
@@ -9375,7 +9381,7 @@ void msrStanza::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStanza::visitEnd()" <<
             endl;
@@ -9385,7 +9391,7 @@ void msrStanza::acceptOut (basevisitor* v) {
 
 void msrStanza::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStanza::browseData()" <<
       endl;
@@ -9404,7 +9410,7 @@ void msrStanza::browseData (basevisitor* v)
 
   idtr--;
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStanza::browseData()" <<
       endl;
@@ -9645,7 +9651,7 @@ string msrHarmony::harmonyAsString () const
 }
 
 void msrHarmony::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrHarmony::acceptIn()" <<
       endl;
@@ -9655,7 +9661,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrHarmony::visitStart()" <<
              endl;
@@ -9664,7 +9670,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
 }
 
 void msrHarmony::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrHarmony::acceptOut()" <<
       endl;
@@ -9674,7 +9680,7 @@ void msrHarmony::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrHarmony::visitEnd()" <<
             endl;
@@ -9754,7 +9760,7 @@ msrSegno::msrSegno (
 msrSegno::~msrSegno() {}
 
 void msrSegno::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSegno::acceptIn()" <<
       endl;
@@ -9764,7 +9770,7 @@ void msrSegno::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSegno::visitStart()" <<
              endl;
@@ -9773,7 +9779,7 @@ void msrSegno::acceptIn (basevisitor* v) {
 }
 
 void msrSegno::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSegno::acceptOut()" <<
       endl;
@@ -9783,7 +9789,7 @@ void msrSegno::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSegno::visitEnd()" <<
             endl;
@@ -9827,7 +9833,7 @@ msrCoda::msrCoda (
 msrCoda::~msrCoda() {}
 
 void msrCoda::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrCoda::acceptIn()" <<
       endl;
@@ -9837,7 +9843,7 @@ void msrCoda::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrCoda::visitStart()" <<
              endl;
@@ -9846,7 +9852,7 @@ void msrCoda::acceptIn (basevisitor* v) {
 }
 
 void msrCoda::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrCoda::acceptOut()" <<
       endl;
@@ -9856,7 +9862,7 @@ void msrCoda::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrCoda::visitEnd()" <<
             endl;
@@ -9900,7 +9906,7 @@ msrEyeglasses::msrEyeglasses (
 msrEyeglasses::~msrEyeglasses() {}
 
 void msrEyeglasses::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrEyeglasses::acceptIn()" <<
       endl;
@@ -9910,7 +9916,7 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
         S_msrEyeglasses elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrEyeglasses::visitStart()" <<
              endl;
@@ -9919,7 +9925,7 @@ void msrEyeglasses::acceptIn (basevisitor* v) {
 }
 
 void msrEyeglasses::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrEyeglasses::acceptOut()" <<
       endl;
@@ -9929,7 +9935,7 @@ void msrEyeglasses::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
         S_msrEyeglasses elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrEyeglasses::visitEnd()" <<
             endl;
@@ -10019,7 +10025,7 @@ string msrPedal::pedalLineAsString ()
 }
 
 void msrPedal::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPedal::acceptIn()" <<
       endl;
@@ -10029,7 +10035,7 @@ void msrPedal::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPedal::visitStart()" <<
              endl;
@@ -10038,7 +10044,7 @@ void msrPedal::acceptIn (basevisitor* v) {
 }
 
 void msrPedal::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPedal::acceptOut()" <<
       endl;
@@ -10048,7 +10054,7 @@ void msrPedal::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPedal::visitEnd()" <<
             endl;
@@ -10132,7 +10138,7 @@ msrBarline::msrBarline (
 msrBarline::~msrBarline() {}
 
 void msrBarline::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBarline::acceptIn()" <<
       endl;
@@ -10142,7 +10148,7 @@ void msrBarline::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBarline::visitStart()" <<
              endl;
@@ -10151,7 +10157,7 @@ void msrBarline::acceptIn (basevisitor* v) {
 }
 
 void msrBarline::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrBarline::acceptOut()" <<
       endl;
@@ -10161,7 +10167,7 @@ void msrBarline::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrBarline::visitEnd()" <<
             endl;
@@ -11486,7 +11492,7 @@ void msrMeasure::finalizeMeasure (
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrMeasure::acceptIn()" <<
       endl;
@@ -11496,7 +11502,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrMeasure::visitStart()" <<
              endl;
@@ -11505,7 +11511,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
 }
 
 void msrMeasure::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrMeasure::acceptOut()" <<
       endl;
@@ -11515,7 +11521,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrMeasure::visitEnd()" <<
             endl;
@@ -11525,7 +11531,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
 
 void msrMeasure::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrMeasure::browseData()" <<
       endl;
@@ -11539,7 +11545,7 @@ void msrMeasure::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrMeasure::browseData()" <<
       endl;
@@ -12546,7 +12552,7 @@ void msrSegment::removeFirstChordNoteFromSegment (
 }
 
 void msrSegment::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSegment::acceptIn()" <<
       endl;
@@ -12556,7 +12562,7 @@ void msrSegment::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSegment::visitStart()" <<
              endl;
@@ -12565,7 +12571,7 @@ void msrSegment::acceptIn (basevisitor* v) {
 }
 
 void msrSegment::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSegment::acceptOut()" <<
       endl;
@@ -12575,7 +12581,7 @@ void msrSegment::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrSegment::visitEnd()" <<
             endl;
@@ -12585,7 +12591,7 @@ void msrSegment::acceptOut (basevisitor* v) {
 
 void msrSegment::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSegment::browseData()" <<
       endl;
@@ -12599,7 +12605,7 @@ void msrSegment::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrSegment::browseData()" <<
       endl;
@@ -12744,7 +12750,7 @@ void msrRepeatending::appendElementToRepeatending (
 }
 
 void msrRepeatending::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrRepeatending::acceptIn()" <<
       endl;
@@ -12754,7 +12760,7 @@ void msrRepeatending::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeatending>*> (v)) {
         S_msrRepeatending elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrRepeatending::visitStart()" <<
              endl;
@@ -12763,7 +12769,7 @@ void msrRepeatending::acceptIn (basevisitor* v) {
 }
 
 void msrRepeatending::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrRepeatending::acceptOut()" <<
       endl;
@@ -12773,7 +12779,7 @@ void msrRepeatending::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeatending>*> (v)) {
         S_msrRepeatending elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrRepeatending::visitEnd()" <<
             endl;
@@ -12919,7 +12925,7 @@ void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
 }
 
 void msrRepeat::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrRepeat::acceptIn()" <<
       endl;
@@ -12929,7 +12935,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrRepeat::visitStart()" <<
              endl;
@@ -12938,7 +12944,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
 }
 
 void msrRepeat::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrRepeat::acceptOut()" <<
       endl;
@@ -12948,7 +12954,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrRepeat::visitEnd()" <<
             endl;
@@ -13541,7 +13547,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
-  if (gMsrOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending clef '" << clef->clefAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13553,7 +13559,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
-  if (gMsrOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending key '" << key->keyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13565,7 +13571,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
-  if (gMsrOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13614,7 +13620,7 @@ void msrVoice::bringVoiceToMeasurePosition (
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 {
-  if (gMsrOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending transpose '" << transpose->transposeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13640,7 +13646,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
-  if (gMsrOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending tempo '" << tempo->tempoAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -13652,7 +13658,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 {
-  if (gMsrOptions->fTraceMSR)
+  if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -14152,7 +14158,7 @@ void msrVoice::finalizeVoice ()
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrVoice::acceptIn()" <<
       endl;
@@ -14162,7 +14168,7 @@ void msrVoice::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrVoice::visitStart()" <<
              endl;
@@ -14171,7 +14177,7 @@ void msrVoice::acceptIn (basevisitor* v) {
 }
 
 void msrVoice::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrVoice::acceptOut()" <<
       endl;
@@ -14181,7 +14187,7 @@ void msrVoice::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrVoice::visitEnd()" <<
             endl;
@@ -14191,7 +14197,7 @@ void msrVoice::acceptOut (basevisitor* v) {
 
 void msrVoice::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrVoice::browseData()" <<
       endl;
@@ -14224,7 +14230,7 @@ void msrVoice::browseData (basevisitor* v)
     } // for
   }
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrVoice::browseData()" <<
       endl;
@@ -14361,7 +14367,7 @@ void msrVoice::print (ostream& os)
       endl;    
   }
   
-  if (! gMsrOptions->fDontDisplayMSRStanzas) {
+  if (! gMsrOptions->fDontDisplayMsrStanzas) {
     // print the voice stanza master
     os << idtr <<
       fVoiceStanzaMaster;
@@ -14439,7 +14445,7 @@ S_msrStafftuning msrStafftuning::createStafftuningBareClone ()
 
 void msrStafftuning::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors) {
+  if (gMsrOptions->fTraceMsrVisitors) {
     cerr << idtr <<
       "% ==> msrStafftuning::acceptIn()" <<
       endl;
@@ -14450,7 +14456,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStafftuning>*> (v)) {
         S_msrStafftuning elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStafftuning::visitStart()" <<
              endl;
@@ -14459,7 +14465,7 @@ void msrStafftuning::acceptIn (basevisitor* v)
 }
 
 void msrStafftuning::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStafftuning::acceptOut()" <<
       endl;
@@ -14469,7 +14475,7 @@ void msrStafftuning::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStafftuning>*> (v)) {
         S_msrStafftuning elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStafftuning::visitEnd()" <<
             endl;
@@ -15335,7 +15341,7 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 }
 
 void msrStaff::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStaff::acceptIn()" <<
       endl;
@@ -15345,7 +15351,7 @@ void msrStaff::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStaff::visitStart()" <<
              endl;
@@ -15354,7 +15360,7 @@ void msrStaff::acceptIn (basevisitor* v) {
 }
 
 void msrStaff::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStaff::acceptOut()" <<
       endl;
@@ -15364,7 +15370,7 @@ void msrStaff::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrStaff::visitEnd()" <<
             endl;
@@ -15374,7 +15380,7 @@ void msrStaff::acceptOut (basevisitor* v) {
 
 void msrStaff::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStaff::browseData()" <<
       endl;
@@ -15410,7 +15416,7 @@ void msrStaff::browseData (basevisitor* v)
     } // for
   }
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrStaff::browseData()" <<
       endl;
@@ -16626,7 +16632,7 @@ void msrPart::finalizePart ()
 }
 
 void msrPart::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPart::acceptIn()" <<
       endl;
@@ -16636,7 +16642,7 @@ void msrPart::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPart::visitStart()" <<
              endl;
@@ -16645,7 +16651,7 @@ void msrPart::acceptIn (basevisitor* v) {
 }
 
 void msrPart::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPart::acceptOut()" <<
       endl;
@@ -16655,7 +16661,7 @@ void msrPart::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPart::visitEnd()" <<
             endl;
@@ -16665,7 +16671,7 @@ void msrPart::acceptOut (basevisitor* v) {
 
 void msrPart::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPart::browseData()" <<
       endl;
@@ -16683,7 +16689,7 @@ void msrPart::browseData (basevisitor* v)
     browser.browse (*((*i).second));
   } // for
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPart::browseData()" <<
       endl;
@@ -17107,7 +17113,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 }
 
 void msrPartgroup::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPartgroup::acceptIn()" <<
       endl;
@@ -17117,7 +17123,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
         S_msrPartgroup elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPartgroup::visitStart()" <<
              endl;
@@ -17126,7 +17132,7 @@ void msrPartgroup::acceptIn (basevisitor* v) {
 }
 
 void msrPartgroup::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPartgroup::acceptOut()" <<
       endl;
@@ -17136,7 +17142,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrPartgroup>*> (v)) {
         S_msrPartgroup elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrPartgroup::visitEnd()" <<
             endl;
@@ -17146,7 +17152,7 @@ void msrPartgroup::acceptOut (basevisitor* v) {
 
 void msrPartgroup::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPartgroup::browseData()" <<
       endl;
@@ -17160,7 +17166,7 @@ void msrPartgroup::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrPartgroup::browseData()" <<
       endl;
@@ -17445,7 +17451,7 @@ void msrIdentification::setScoreInstrumentAssoc (
 }
 
 void msrIdentification::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrIdentification::acceptIn()" <<
       endl;
@@ -17455,7 +17461,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrIdentification::visitStart()" <<
              endl;
@@ -17464,7 +17470,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
 }
 
 void msrIdentification::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrIdentification::acceptOut()" <<
       endl;
@@ -17474,7 +17480,7 @@ void msrIdentification::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrIdentification::visitEnd()" <<
             endl;
@@ -17687,7 +17693,7 @@ S_msrPartgroup msrScore::fetchScorePartgroup (
 */
 
 void msrScore::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrScore::acceptIn()" <<
       endl;
@@ -17697,7 +17703,7 @@ void msrScore::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrScore::visitStart()" <<
              endl;
@@ -17706,7 +17712,7 @@ void msrScore::acceptIn (basevisitor* v) {
 }
 
 void msrScore::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrScore::acceptOut()" <<
       endl;
@@ -17716,7 +17722,7 @@ void msrScore::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrScore::visitEnd()" <<
             endl;
@@ -17726,7 +17732,7 @@ void msrScore::acceptOut (basevisitor* v) {
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrScore::browseData()" <<
       endl;
@@ -17752,7 +17758,7 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrScore::browseData()" <<
       endl;
@@ -17857,7 +17863,7 @@ msrMidi::msrMidi (
 msrMidi::~msrMidi() {}
 
 void msrMidi::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrMidi::acceptIn()" <<
       endl;
@@ -17867,7 +17873,7 @@ void msrMidi::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
         
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrMidi::visitStart()" <<
              endl;
@@ -17876,7 +17882,7 @@ void msrMidi::acceptIn (basevisitor* v) {
 }
 
 void msrMidi::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMSRVisitors)
+  if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "% ==> msrMidi::acceptOut()" <<
       endl;
@@ -17886,7 +17892,7 @@ void msrMidi::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
       
-        if (gMsrOptions->fTraceMSRVisitors)
+        if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
             "% ==> Launching msrMidi::visitEnd()" <<
             endl;

@@ -49,7 +49,7 @@ S_lpsrScore msr2Lpsr (
         mScore, msrOpts, lpsrOpts, os);
 
   // display it
-  if (lpsrOpts->fDisplayLPSR)
+  if (lpsrOpts->fDisplayLpsr)
     displayLpsrScore (
       lpScore, msrOpts, lpsrOpts, cerr);
 
@@ -76,7 +76,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       "Pass 3: translating the MSR into a LPSR" <<
       endl;
       
-    if (lpsrOpts->fDisplayLPSR)
+    if (lpsrOpts->fDisplayLpsr)
       cerr <<
         "(dpqn: divisions per quarter note)" <<
         endl;

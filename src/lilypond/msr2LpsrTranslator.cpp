@@ -80,7 +80,7 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrScore" << endl;
 
@@ -109,7 +109,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrScore" << endl;
 
@@ -164,7 +164,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrIdentification" << endl;
 
@@ -179,7 +179,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
   
   idtr--;
 
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrIdentification" << endl;
 }
@@ -187,7 +187,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrPageGeometry" << endl;
 
@@ -269,7 +269,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 {  
   idtr--;
 
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrPageGeometry" << endl;
 }
@@ -277,7 +277,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrPartgroup" << endl;
 
@@ -348,7 +348,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrPartgroup" << endl;
 
@@ -451,7 +451,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrPart" << endl;
 
@@ -501,7 +501,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 {
   idtr--;
 
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrPart" << endl;
 }
@@ -509,7 +509,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrStaff" << endl;
 
@@ -626,7 +626,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 {
   idtr--;
 
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting S_msrStaff" << endl;
 
@@ -654,7 +654,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrStafftuning" << endl;
   
@@ -681,7 +681,7 @@ void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrVoice" << endl;
 
@@ -770,7 +770,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 {
   idtr--;
 
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrVoice" << endl;
 
@@ -792,7 +792,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrSegment" << endl;
 
@@ -816,7 +816,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrSegment" << endl;
 }
@@ -824,7 +824,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrHarmony" << endl;
 
@@ -848,7 +848,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrMeasure" << endl;
 
@@ -874,7 +874,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrMeasure" << endl;
 
@@ -925,7 +925,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream <<
       endl << endl <<
       idtr <<
@@ -956,7 +956,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
   idtr--;
   
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrStanza" <<
       endl << endl <<
@@ -968,7 +968,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrSyllable" << endl;
 
@@ -1029,7 +1029,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrSyllable" << endl;
 }
@@ -1037,7 +1037,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrClef& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrClef" << endl;
 
@@ -1047,7 +1047,7 @@ void msr2LpsrTranslator::visitStart (S_msrClef& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrClef" << endl;
 }
@@ -1055,7 +1055,7 @@ void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrKey& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrKey" << endl;
 
@@ -1065,7 +1065,7 @@ void msr2LpsrTranslator::visitStart (S_msrKey& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrKey" << endl;
 }
@@ -1073,7 +1073,7 @@ void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTime& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrTime" << endl;
 
@@ -1083,7 +1083,7 @@ void msr2LpsrTranslator::visitStart (S_msrTime& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrTime" << endl;
 }
@@ -1091,7 +1091,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrTempo" << endl;
 
@@ -1101,7 +1101,7 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrTempo" << endl;
 }
@@ -1109,7 +1109,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrArticulation" << endl;
 
@@ -1127,7 +1127,7 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrArticulation" << endl;
 }
@@ -1135,7 +1135,7 @@ void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrOrnament" << endl;
 
@@ -1153,7 +1153,7 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrOrnament" << endl;
 }
@@ -1161,7 +1161,7 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrDynamics" << endl;
 
@@ -1179,7 +1179,7 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrDynamics" << endl;
 }
@@ -1187,7 +1187,7 @@ void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrWords" << endl;
 
@@ -1205,7 +1205,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrWords" << endl;
 }
@@ -1213,7 +1213,7 @@ void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrSlur" << endl;
 
@@ -1231,7 +1231,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrSlur" << endl;
 }
@@ -1239,7 +1239,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrLigature" << endl;
 
@@ -1257,7 +1257,7 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrLigature" << endl;
 }
@@ -1265,7 +1265,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrWedge" << endl;
 
@@ -1283,7 +1283,7 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrWedge& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrWedge" << endl;
 }
@@ -1291,7 +1291,7 @@ void msr2LpsrTranslator::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrGracenotes" << endl;
 
@@ -1356,7 +1356,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrGracenotes" << endl;
 
@@ -1415,7 +1415,7 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors) {
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     fOstream << idtr <<
       "--> Start visiting " <<
       elt->noteAsString () <<
@@ -1439,7 +1439,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors) {
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     fOstream << idtr <<
       "--> End visiting " <<
       elt->noteAsString () <<
@@ -1554,7 +1554,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrOctaveShift" << endl;
 
@@ -1564,7 +1564,7 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrOctaveShift" << endl;
 }
@@ -1572,14 +1572,14 @@ void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStem& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrStem" << endl;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrStem" << endl;
 }
@@ -1587,14 +1587,14 @@ void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrBeam" << endl;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrBeam" << endl;
 }
@@ -1602,7 +1602,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrChord" << endl;
 
@@ -1629,7 +1629,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrChord& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrChord" << endl;
 
@@ -1639,7 +1639,7 @@ void msr2LpsrTranslator::visitEnd (S_msrChord& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrTuplet" << endl;
 
@@ -1660,7 +1660,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrTuplet" << endl;
 
@@ -1708,7 +1708,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTie& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrTie" << endl;
 
@@ -1720,7 +1720,7 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrTie" << endl;
 }
@@ -1728,7 +1728,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrSegno" << endl;
 
@@ -1738,7 +1738,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrCoda" << endl;
 
@@ -1749,7 +1749,7 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrEyeglasses& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting eyeglasses" << endl;
 
@@ -1759,7 +1759,7 @@ void msr2LpsrTranslator::visitStart (S_msrEyeglasses& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting pedal" << endl;
 
@@ -1770,7 +1770,7 @@ void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrBarCheck" << endl;
 
@@ -1780,7 +1780,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrBarCheck" << endl;
 }
@@ -1788,7 +1788,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarnumberCheck& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrBarnumberCheck" << endl;
 
@@ -1798,7 +1798,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarnumberCheck& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBarnumberCheck& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrBarnumberCheck" << endl;
 }
@@ -1806,7 +1806,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarnumberCheck& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBreak& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrBreak" << endl;
 
@@ -1816,7 +1816,7 @@ void msr2LpsrTranslator::visitStart (S_msrBreak& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBreak& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrBreak" << endl;
 }
@@ -1824,7 +1824,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBreak& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrRepeat" << endl;
 
@@ -1841,7 +1841,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrRepeat" << endl;
       
@@ -1853,7 +1853,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" << endl;
 
@@ -1874,7 +1874,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrRepeatending" << endl;
 }
@@ -1882,7 +1882,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrBarline" << endl;
   
@@ -2040,7 +2040,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrBarline" << endl;
 }
@@ -2048,7 +2048,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
 //________________________________________________________________________
 /*void msr2LpsrTranslator::visitStart (S_msrComment& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrComment" << endl;
 }
@@ -2063,7 +2063,7 @@ void msr2LpsrTranslator::visitEnd (S_msrComment& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrVarValAssoc" << endl;
 
@@ -2175,7 +2175,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrVarValAssoc" << endl;
 }
@@ -2183,7 +2183,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrLayout" << endl;
 
@@ -2194,7 +2194,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 {
   idtr--;
 
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrLayout" << endl;
 }
@@ -2202,14 +2202,14 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrMidi" << endl;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrMidi" << endl;
 }
@@ -2217,7 +2217,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> Start visiting msrRehearsal" << endl;
 
@@ -2227,7 +2227,7 @@ void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
 {
-  if (gLpsrOptions->fTraceLPSRVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrRehearsal" << endl;
 }

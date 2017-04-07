@@ -166,15 +166,16 @@ class EXP lpsrOptions : public smartable {
   public:
 
     // trace
-    bool                          fTraceLPSR;
-    bool                          fTraceLPSRVisitors;
+    bool                          fTraceLpsr;
+    
+    bool                          fTraceLpsrVisitors;
 
     // languages
     msrQuatertonesPitchesLanguage fLpsrQuatertonesPitchesLanguage;
     lpsrChordsLanguage            fLpsrChordsLanguage;
     
     // LPSR display
-    bool                          fDisplayLPSR;
+    bool                          fDisplayLpsr;
 
     // LilyPond code generation
     bool                          fGenerateAbsoluteOctaves;
@@ -183,6 +184,7 @@ class EXP lpsrOptions : public smartable {
     bool                          fKeepStaffSize;
 
     bool                          fShowAllBarNumbers;
+    
     bool                          fCompressFullBarRests;
     
     bool                          fTupletsOnALine;
@@ -196,8 +198,11 @@ class EXP lpsrOptions : public smartable {
     bool                          fGenerateComments;
     bool                          fGenerateStems;
     bool                          fNoAutoBeaming;
+    
     bool                          fGenerateInputLineNumbers;
 
+    bool                          fModernTab;
+    
     string                        fAccidentalStyle;
 
     int                           fDelayedOrnamentFractionNumerator;
