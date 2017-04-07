@@ -208,7 +208,7 @@ S_msrScore xml2MsrTranslator::buildMsrScoreFromXMLElementTree (
 }
 
 //________________________________________________________________________
-S_msrPartgroup xml2MsrTranslator::createImplicitMSRPartgroupIfNeeded (
+S_msrPartgroup xml2MsrTranslator::createImplicitMsrPartgroupIfNeeded (
   int inputLineNumber)
 {
   /*
@@ -1344,7 +1344,7 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
   if (! fPartgroupsList.size()) {
     // no, create an implicit one if needed
     partgroup =
-      createImplicitMSRPartgroupIfNeeded (
+      createImplicitMsrPartgroupIfNeeded (
         inputLineNumber);
   }
 
@@ -1373,7 +1373,7 @@ void xml2MsrTranslator::visitEnd (S_score_part& elt)
   }
   
   // populate current part
-  // fPartMSRName has already been set by the constructor // JMI
+  // fPartMsrName has already been set by the constructor // JMI
   part->
     setPartName (fCurrentPartName);
   part->
@@ -7866,7 +7866,7 @@ xml2MsrTranslator.cpp:4249
         setw(15) << "single" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fSyllableNote->notePitchAsString () <<
-        ":" << fSyllableNote->noteDivisionsAsMSRString () <<
+        ":" << fSyllableNote->noteDivisionsAsMsrString () <<
      */
       cerr <<
         endl << endl <<

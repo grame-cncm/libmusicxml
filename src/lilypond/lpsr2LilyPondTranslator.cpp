@@ -2762,7 +2762,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
       // print the note duration
       fOstream <<
-        elt->noteDivisionsAsMSRString ();
+        elt->noteDivisionsAsMsrString ();
 
       // handle delayed ornaments if any
       if (elt->getNoteHasADelayedOrnament ())
@@ -2795,7 +2795,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
       // print the grace note's graphic duration
       fOstream <<
-        elt->noteGraphicDurationAsMSRString ();
+        elt->noteGraphicDurationAsMsrString ();
 
       // print the dots if any JMI ???
       for (int i = 0; i < elt->getNoteDotsNumber (); i++) {
@@ -2827,7 +2827,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
       // print the rest duration
       fOstream <<
-        elt->skipDivisionsAsMSRString ();
+        elt->skipDivisionsAsMsrString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -2839,7 +2839,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
       
       // print the skip duration
       fOstream <<
-        elt->skipDivisionsAsMSRString ();
+        elt->skipDivisionsAsMsrString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -3046,7 +3046,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       i++) {
       string noteDuration =
         (*i)->getOrnamentNoteUplink ()->
-          noteDivisionsAsMSRString ();
+          noteDivisionsAsMsrString ();
         
       fOstream <<
         ornamentKindAsLilyPondString (

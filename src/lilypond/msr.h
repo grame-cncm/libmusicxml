@@ -2867,11 +2867,11 @@ class EXP msrNote : public msrElement
     string                noteDiatonicPitchAsString (
                             int inputLineNumber) const;
 
-    string                noteDivisionsAsMSRString () const;
-    string                skipDivisionsAsMSRString () const;
+    string                noteDivisionsAsMsrString () const;
+    string                skipDivisionsAsMsrString () const;
     
-    string                noteGraphicDurationAsMSRString () const;
-    string                tupletNoteGraphicDurationAsMSRString (
+    string                noteGraphicDurationAsMsrString () const;
+    string                tupletNoteGraphicDurationAsMsrString (
                             int actualNotes, int normalNotes) const;
 
     // tuplet members
@@ -3139,7 +3139,7 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
     
-    string            chordGraphicDurationAsMSRString () const;
+    string            chordGraphicDurationAsMsrString () const;
 
     void              addFirstNoteToChord (S_msrNote note);
     void              addAnotherNoteToChord (S_msrNote note);
@@ -3172,7 +3172,7 @@ class EXP msrChord : public msrElement
     void              addWedgeToChord (S_msrWedge wedge)
                           { fChordWedges.push_back (wedge); }
 
-    string            chordDivisionsAsMSRString () const;
+    string            chordDivisionsAsMsrString () const;
 
     // tuplet members
     void              applyTupletMemberDisplayFactorToChordMembers (
@@ -5762,10 +5762,10 @@ class EXP msrPart : public msrElement
     string          getPartID () const
                         { return fPartID; }
 
-    void            setPartMSRName (string partMSRName);
+    void            setPartMsrName (string partMsrName);
     
-    string          getPartMSRName () const
-                      { return fPartMSRName; }
+    string          getPartMsrName () const
+                      { return fPartMsrName; }
 
     void            setPartName (string partName)
                         { fPartName = partName; }
@@ -5946,7 +5946,7 @@ class EXP msrPart : public msrElement
   private:
     
     string                  fPartID; // native
-    string                  fPartMSRName;
+    string                  fPartMsrName;
                               // may be different than fPartID
                               // if renamed,
                               // coined in constructor

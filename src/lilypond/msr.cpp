@@ -4840,7 +4840,7 @@ string msrNote::notePitchAsString () const
   return s.str();
 }
 
-string msrNote::noteDivisionsAsMSRString () const
+string msrNote::noteDivisionsAsMsrString () const
 {
   string result;
   int    computedNumberOfDots = 0;
@@ -4876,7 +4876,7 @@ string msrNote::noteDivisionsAsMSRString () const
   return result;
 }
 
-string msrNote::skipDivisionsAsMSRString () const
+string msrNote::skipDivisionsAsMsrString () const
 {
   string result;
 //  int    computedNumberOfDots;
@@ -4896,7 +4896,7 @@ string msrNote::skipDivisionsAsMSRString () const
   return result;
 }
 
-string msrNote::noteGraphicDurationAsMSRString () const
+string msrNote::noteGraphicDurationAsMsrString () const
 {
   string
     result =
@@ -4906,7 +4906,7 @@ string msrNote::noteGraphicDurationAsMSRString () const
   return result;
 }
 
-string msrNote::tupletNoteGraphicDurationAsMSRString ( // JMI
+string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
   int actualNotes, int normalNotes) const
 {
   string result;
@@ -4970,7 +4970,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteGraphicDurationAsMSRString ();
+        noteGraphicDurationAsMsrString ();
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -5049,7 +5049,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteDivisionsAsMsrString ();
       break;
       
     case msrNote::kGraceNote:
@@ -5057,7 +5057,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteGraphicDurationAsMSRString ();
+        noteGraphicDurationAsMsrString ();
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -5068,14 +5068,14 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        skipDivisionsAsMSRString ();
+        skipDivisionsAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteDivisionsAsMsrString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -5083,7 +5083,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteDivisionsAsMsrString ();
       break;
       
     case msrNote::kTupletMemberNote:
@@ -5127,7 +5127,7 @@ string msrNote::noteAsString () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteDivisionsAsMsrString ();
       break;
       
     case msrNote::kGraceNote:
@@ -5136,7 +5136,7 @@ string msrNote::noteAsString () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteGraphicDurationAsMSRString ();
+        noteGraphicDurationAsMsrString ();
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -5147,14 +5147,14 @@ string msrNote::noteAsString () const
       s <<
         "Rest" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteDivisionsAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
         "Skip" <<
         ":" <<
-        skipDivisionsAsMSRString ();
+        skipDivisionsAsMsrString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -5163,7 +5163,7 @@ string msrNote::noteAsString () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        noteDivisionsAsMSRString ();
+        noteDivisionsAsMsrString ();
       break;
       
     case msrNote::kTupletMemberNote:
@@ -5624,7 +5624,7 @@ S_msrChord msrChord::createChordBareClone (
   return clone;
 }
 
-string msrChord::chordGraphicDurationAsMSRString () const
+string msrChord::chordGraphicDurationAsMsrString () const
 {
   string result;
 
@@ -5886,7 +5886,7 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
   return os;
 }
 
-string msrChord::chordDivisionsAsMSRString () const
+string msrChord::chordDivisionsAsMsrString () const
 {
   string result;
 
@@ -5937,7 +5937,7 @@ string msrChord::chordAsString () const
         note->notePitchAsString () <<
         "[" << note->getNoteOctave () << "]" <<
         ":" <<
-        note->noteDivisionsAsMSRString ();
+        note->noteDivisionsAsMsrString ();
 
       if (++i == iEnd) break;
       s << " ";
@@ -5960,12 +5960,12 @@ void msrChord::print (ostream& os)
     
   os <<
     "Chord:" <<
-    chordDivisionsAsMSRString () <<
+    chordDivisionsAsMsrString () <<
     ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
     ", " <<
-    chordDivisionsAsMSRString () << " divs" <<
+    chordDivisionsAsMsrString () << " divs" <<
     "mea. "<<
     getChordMeasureNumber () <<
     ":" <<
@@ -14581,26 +14581,26 @@ msrStaff::msrStaff (
   switch (staffKind) {
     case msrStaff::kRegularStaff:
       fStaffName =
-        fStaffDirectPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMsrName () +
         "_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kTablatureStaff:
-        fStaffDirectPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMsrName () +
         "_Tablature_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kPercussionStaff:
-        fStaffDirectPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMsrName () +
         "_Percussion_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kHarmonyStaff:
       fStaffName =
-        fStaffDirectPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMsrName () +
         "_Harmony_Staff";
       break;
   } // switch
@@ -14821,11 +14821,11 @@ string msrStaff::getStaffName () const
   return
     fStaffNumber == 0
       ?
-        fStaffDirectPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMsrName () +
         "_S_" +
         "(MASTER)"
       :
-        fStaffDirectPartUplink->getPartMSRName () +
+        fStaffDirectPartUplink->getPartMsrName () +
         "_S_" +
         int2EnglishWord (fStaffNumber);
         */
@@ -15660,11 +15660,11 @@ msrPart::msrPart (
         
   if (it != gMsrOptions->fPartsRenaming.end ()) {
     // yes, rename the part accordinglingly
-    fPartMSRName = (*it).second;
+    fPartMsrName = (*it).second;
   }
   else {
     // coin the name from the argument
-    fPartMSRName =
+    fPartMsrName =
       "P_"+stringNumbersToEnglishWords (fPartID);
   }
     
@@ -16269,30 +16269,30 @@ void msrPart::updatePartMeasurePositionHighTide (
   }
 }
 
-void msrPart::setPartMSRName (string partMSRName)
+void msrPart::setPartMsrName (string partMsrName)
 {
   // is this part name in the part renaming map?
   map<string, string>::iterator
     it =
-      gMsrOptions->fPartsRenaming.find (fPartMSRName);
+      gMsrOptions->fPartsRenaming.find (fPartMsrName);
         
   if (it != gMsrOptions->fPartsRenaming.end ()) {
     // yes, rename the part accordinglingly
-    fPartMSRName = (*it).second;
+    fPartMsrName = (*it).second;
 
     if (gGeneralOptions->fTraceParts)
       cerr << idtr <<
         "Setting part name of " << getPartCombinedName () <<
-        " to \"" << fPartMSRName << "\"" <<
+        " to \"" << fPartMsrName << "\"" <<
          endl;
   }
   else {
     // use the argument
-    fPartMSRName = partMSRName;
+    fPartMsrName = partMsrName;
 
     if (gGeneralOptions->fTraceParts)
       cerr << idtr <<
-        "Keeping partID \"" << partMSRName <<
+        "Keeping partID \"" << partMsrName <<
         "\" as part name  for " << getPartCombinedName () <<
       endl;
   }
@@ -16303,7 +16303,7 @@ string msrPart::getPartCombinedName () const
   stringstream s;
   
   s <<
-    "\"" << fPartMSRName << "\"" <<
+    "\"" << fPartMsrName << "\"" <<
     " (" << fPartID;
 
   if (fPartName.size ())
@@ -16722,8 +16722,8 @@ void msrPart::print (ostream& os)
       fPartDivisionsPerQuarterNote << " ***" <<
       endl <<
     idtr <<
-      setw(25) << "PartMSRName" << ": \"" <<
-      fPartMSRName << "\"" <<
+      setw(25) << "PartMsrName" << ": \"" <<
+      fPartMsrName << "\"" <<
       endl <<
     idtr <<
       setw(25) << "PartName" << ": \"" <<
@@ -16790,8 +16790,8 @@ void msrPart::printStructure (ostream& os)
       fPartDivisionsPerQuarterNote <<
       endl <<
     idtr <<
-      setw(25) << "PartMSRName" << ": \"" <<
-      fPartMSRName << "\"" <<
+      setw(25) << "PartMsrName" << ": \"" <<
+      fPartMsrName << "\"" <<
       endl <<
     idtr <<
       setw(25) << "PartName" << ": \"" <<

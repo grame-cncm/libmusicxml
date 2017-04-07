@@ -227,8 +227,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       elt->getPartID () << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartMSRName" << " : \"" <<
-      elt->getPartMSRName () << "\"" <<
+      setw(25) << "PartMsrName" << " : \"" <<
+      elt->getPartMsrName () << "\"" <<
       endl <<
     idtr <<
       setw(25) << "PartName" << " : \"" <<

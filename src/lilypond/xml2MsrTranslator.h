@@ -274,7 +274,7 @@ class EXP xml2MsrTranslator :
     S_msrScore buildMsrScoreFromXMLElementTree (
         const Sxmlelement& xmlTree);
 
-    S_msrScore getMSRScore () const
+    S_msrScore getMsrScore () const
         { return fMsrScore; };
     
   protected:
@@ -593,7 +593,7 @@ class EXP xml2MsrTranslator :
     // if none is specified in the MusicXML data,
     // in which case a part group "stop" has to be forced later
     S_msrPartgroup            fImplicitPartgroup;
-    S_msrPartgroup            createImplicitMSRPartgroupIfNeeded (
+    S_msrPartgroup            createImplicitMsrPartgroupIfNeeded (
                                 int inputLineNumber);
     bool                      fCurrentPartUsesImplicitPartgroup;
     

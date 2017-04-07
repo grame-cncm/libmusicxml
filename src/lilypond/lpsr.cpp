@@ -16,7 +16,7 @@
 #include <iomanip>      // setw, set::precision, ...
 #include <climits>      /* INT_MIN, INT_MAX */
 
-#include "msrVersion.h" // MSRVersionNumberAsString()
+#include "msrVersion.h"
 
 //#include "xml2Msr.h"    
 
@@ -285,7 +285,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     "          The default used by LilyPond is Ignatzek's jazz-like, english naming." << endl <<
     endl <<
 
-    "    --lpsr, --displayLPSR" << endl <<
+    "    --lpsr, --displayLpsr" << endl <<
     "          Write the contents of the LPSR data to standard error." << endl <<
     endl <<
 
@@ -383,11 +383,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
       booleanAsString (gLpsrOptions->fTraceLpsr) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceLPSRVisitors" << " : " <<
+      setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "traceLPSRVisitors" << " : " <<
+    indenter::gIndenter << setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
       endl <<
 
@@ -402,7 +402,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
         "\"" <<
         endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "displayLPSR" << " : " <<
+    indenter::gIndenter << setw(fieldWidth) << "displayLpsr" << " : " <<
       booleanAsString (gLpsrOptions->fDisplayLpsr) <<
       endl <<
 
