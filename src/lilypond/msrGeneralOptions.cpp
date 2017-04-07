@@ -124,33 +124,25 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     "          Write a trace of the activity regarding divisions" << endl <<
     "          to standard error." << endl <<
     endl <<
-    "    --tparts, --traceparts " << endl <<
-    "          Write a trace of the activity regarding score, part groups and parts" << endl <<
-    "          to standard error." << endl <<
-    "    --tvoices, --traceVoices " << endl <<
-    "          Write a trace of the activity regarding staves and voices" << endl <<
-    "          to standard error." << endl <<
-    "    --tsegs, --traceSegments " << endl <<
-    "          Write a trace of the activity regarding voices' segments" << endl <<
-    "          to standard error." << endl <<
-    "    --trepeats, --traceRepeats " << endl <<
-    "          Write a trace of the activity regarding repeats" << endl <<
-    "          to standard error." << endl <<
-    "    --tmeas, --traceMeasures " << endl <<
-    "          Write a trace of the activity regarding segments' measures" << endl <<
-    "          to standard error." << endl <<
-    "    --tnotes, --traceNotes " << endl <<
-    "          Write a trace of the activity regarding notes" << endl <<
-    "          to standard error." << endl <<
-    "    --tchords, --traceChords " << endl <<
-    "          Write a trace of the activity regarding chords" << endl <<
-    "          to standard error." << endl <<
-    "    --ttuplets, --traceTuplets " << endl <<
-    "          Write a trace of the activity regarding tuplets" << endl <<
-    "          to standard error." << endl <<
-    "    --tgrace, --traceGracenotes " << endl <<
-    "          Write a trace of the activity regarding grace notes" << endl <<
-    "          to standard error." << endl <<
+    "    Options to write specific trace information to standard error:" << endl <<
+    "      --tparts, --traceparts " << endl <<
+    "            score, part groups and parts" << endl <<
+    "      --tvoices, --traceVoices " << endl <<
+    "            staves and voices" << endl <<
+    "      --tsegs, --traceSegments " << endl <<
+    "            voices' segments" << endl <<
+    "      --trepeats, --traceRepeats " << endl <<
+    "            repeats" << endl <<
+    "      --tmeas, --traceMeasures " << endl <<
+    "            segments' measures" << endl <<
+    "      --tnotes, --traceNotes " << endl <<
+    "            notes" << endl <<
+    "      --tchords, --traceChords " << endl <<
+    "            chords" << endl <<
+    "      --ttuplets, --traceTuplets " << endl <<
+    "            tuplets" << endl <<
+    "      --tgrace, --traceGracenotes " << endl <<
+    "            grace notes" << endl <<
     endl <<
     "    --tlyrics, --traceLyrics " << endl <<
     "          Write at trace of the activity regarding lyrics" << endl <<

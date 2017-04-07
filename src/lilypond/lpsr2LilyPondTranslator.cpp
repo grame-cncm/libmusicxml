@@ -2286,16 +2286,28 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
         fOstream << "bass^15";
         break;
       case msrClef::kTablature4Clef:
-        fOstream << "tab";
+        if (gLpsrOptions->fModernTab)
+          fOstream << "moderntab";
+        else
+          fOstream << "tab";
         break;
       case msrClef::kTablature5Clef:
-        fOstream << "tab";
+        if (gLpsrOptions->fModernTab)
+          fOstream << "moderntab";
+        else
+          fOstream << "tab";
         break;
       case msrClef::kTablature6Clef:
-        fOstream << "tab";
+        if (gLpsrOptions->fModernTab)
+          fOstream << "moderntab";
+        else
+          fOstream << "tab";
         break;
       case msrClef::kTablature7Clef:
-        fOstream << "tab";
+        if (gLpsrOptions->fModernTab)
+          fOstream << "moderntab";
+        else
+          fOstream << "tab";
         break;
       case msrClef::kPercussionClef:
         fOstream << "perc";

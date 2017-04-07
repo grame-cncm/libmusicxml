@@ -2116,21 +2116,17 @@ void msrOptions::printMsrOptionsHelp ()
     "          Don't display MSR stanzas while displaying MSR data." << endl <<
     endl <<
 
-    "    --drdyns, --delayRestsDynamics" << endl <<
-    "          Don't attach dynamics to rests," << endl <<
-    "          but delay them until the next actual note or chord instead." << endl <<
-    "    --drwords, --delayRestsWords" << endl <<
-    "          Don't attach words to rests," << endl <<
-    "          but delay them until the next actual note or chord instead." << endl <<
-    "    --drslurs, --delayRestsSlurs" << endl <<
-    "          Don't attach slurs to rests," << endl <<
-    "          but delay them until the next actual note or chord instead." << endl <<
-    "    --drligs, --delayRestsLigatures" << endl <<
-    "          Don't attach ligatures to rests," << endl <<
-    "          but delay them until the next actual note or chord instead." << endl <<
-    "    --drwedges, --delayRestsWedges" << endl <<
-    "          Don't attach wedges to rests," << endl <<
-    "          but delay them until the next actual note or chord instead." << endl <<
+    "    Options to attach certain elements not to a rest, but to the next note instead:" << endl <<
+    "      --drdyns, --delayRestsDynamics" << endl <<
+    "            dynamics" << endl <<
+    "      --drwords, --delayRestsWords" << endl <<
+    "            words" << endl <<
+    "      --drslurs, --delayRestsSlurs" << endl <<
+    "            slurs" << endl <<
+    "      --drligs, --delayRestsLigatures" << endl <<
+    "            ligatures" << endl <<
+    "      --drwedges, --delayRestsWedges" << endl <<
+    "            wedges" << endl <<
     endl <<
 
     "    --msr, --displayMsr" << endl <<
