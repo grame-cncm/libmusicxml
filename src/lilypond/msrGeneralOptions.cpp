@@ -103,10 +103,19 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     "  General:" << endl <<
     endl <<
 
-    "    --h, --help" << endl <<
-    "          Display this help and exit." << endl <<
     "    --v, --version" << endl <<
     "          Display xml2lilypond's version number and exit." << endl <<
+    endl <<
+
+    "    --h, --help" << endl <<
+    "          Display this help and exit." << endl <<
+    endl <<
+    "    --hg, --helpGeneral" << endl <<
+    "          Display general help and exit." << endl <<
+    "    --hm, --helpMsr" << endl <<
+    "          Display MSR help and exit." << endl <<
+    "    --hlp, --helpLpsr" << endl <<
+    "          Display LPSR help and exit." << endl <<
     endl <<
 
     "    --of, --outputFile fileName" << endl <<

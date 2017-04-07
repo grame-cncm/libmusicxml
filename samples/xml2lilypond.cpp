@@ -37,8 +37,14 @@
 using namespace std;
 using namespace MusicXML2;
 
+enum msrHelpKind {
+  kAllHelp,
+  kGeneralHelp, kMsrHelp, kLpsrHelp};
+  
 //_______________________________________________________________________________
-void printUsage (int exitStatus)
+void printUsage (
+  msrHelpKind helpKind,
+  int         exitStatus)
 {
   cerr <<
     endl <<
@@ -77,15 +83,25 @@ void printUsage (int exitStatus)
     endl;
 
   // print options help
-
-  // general options
-  gGeneralOptions->printGeneralOptionsHelp ();
-
-  // MSR options
-  gMsrOptions->printMsrOptionsHelp ();
-
-  // LPSR options
-  gLpsrOptions->printLpsrOptionsHelp ();
+  switch (helpKind) {
+    kAllHelp:
+      gGeneralOptions->printGeneralOptionsHelp ();
+      gMsrOptions->printMsrOptionsHelp ();
+      gLpsrOptions->printLpsrOptionsHelp ();
+      break;
+      
+    kGeneralHelp:
+      gGeneralOptions->printGeneralOptionsHelp ();
+      break;
+      
+    kMsrHelp:
+      gMsrOptions->printMsrOptionsHelp ();
+      break;
+      
+    kLpsrHelp:
+      gLpsrOptions->printLpsrOptionsHelp ();
+      break;
+  } // switch
   
   cerr <<
     endl;
@@ -104,8 +120,12 @@ void analyzeOptions (
   // General options
   // ---------------
 
-  int helpPresent                       = 0;
   int versionPresent                    = 0;
+
+  int helpPresent                       = 0;
+  int helpGeneralPresent                = 0;
+  int helpMsrPresent                    = 0;
+  int helpLpsrPresent                   = 0;
 
   int outputFilePresent                 = 0;
   int autoOutputFilePresent             = 0;
@@ -211,6 +231,15 @@ void analyzeOptions (
     // ---------------
 
     {
+      "v",
+      no_argument, &versionPresent, 1
+    },
+    {
+      "version",
+      no_argument, &versionPresent, 1
+    },
+    
+    {
       "h",
       no_argument, &helpPresent, 1
     },
@@ -220,12 +249,28 @@ void analyzeOptions (
     },
     
     {
-      "v",
-      no_argument, &versionPresent, 1
+      "hg",
+      no_argument, &helpGeneralPresent, 1
     },
     {
-      "version",
-      no_argument, &versionPresent, 1
+      "helpGeneral",
+      no_argument, &helpGeneralPresent, 1
+    },
+    {
+      "hm",
+      no_argument, &helpMsrPresent, 1
+    },
+    {
+      "helpMsr",
+      no_argument, &helpMsrPresent, 1
+    },
+    {
+      "hlp",
+      no_argument, &helpLpsrPresent, 1
+    },
+    {
+      "helpLpsr",
+      no_argument, &helpLpsrPresent, 1
     },
     
     {
@@ -745,11 +790,6 @@ void analyzeOptions (
         // ------------
 
         {
-        if (helpPresent) {
-          printUsage (0);
-          break;
-        }
-
         if (versionPresent) {
           idtr++;
           
@@ -774,6 +814,24 @@ void analyzeOptions (
           idtr--;
           
           exit (0);
+          break;
+        }
+
+        if (helpPresent) {
+          printUsage (kAllHelp, 0);
+          break;
+        }
+
+        if (helpGeneralPresent) {
+          printUsage (kGeneralHelp, 0);
+          break;
+        }
+        if (helpMsrPresent) {
+          printUsage (kMsrHelp, 0);
+          break;
+        }
+        if (helpLpsrPresent) {
+          printUsage (kLpsrHelp, 0);
           break;
         }
 
@@ -1481,7 +1539,7 @@ void analyzeOptions (
         break;
         
       default:
-        printUsage (1);
+        printUsage (kAllHelp, 1);
         break;
       } // switch
     } // while
@@ -1495,7 +1553,7 @@ void analyzeOptions (
       break;
 
     default:
-      printUsage (1);
+      printUsage (kAllHelp, 1);
       break;
     } //  switch
 
