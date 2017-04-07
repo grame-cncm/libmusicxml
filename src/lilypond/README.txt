@@ -13,7 +13,7 @@
  supported.
  Have also a look at the 'todo' comments inside the code.
  
- https://github.com/dfober/libmusicxml/blob/dev/src/guido/readme.txt
+https://github.com/grame-cncm/libmusicxml/tree/lilypond
  
 -----------------------------------------------------------
 

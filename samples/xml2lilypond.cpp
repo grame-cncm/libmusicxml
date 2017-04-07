@@ -84,21 +84,21 @@ void printUsage (
 
   // print options help
   switch (helpKind) {
-    kAllHelp:
+    case kAllHelp:
       gGeneralOptions->printGeneralOptionsHelp ();
       gMsrOptions->printMsrOptionsHelp ();
       gLpsrOptions->printLpsrOptionsHelp ();
       break;
       
-    kGeneralHelp:
+    case kGeneralHelp:
       gGeneralOptions->printGeneralOptionsHelp ();
       break;
       
-    kMsrHelp:
+    case kMsrHelp:
       gMsrOptions->printMsrOptionsHelp ();
       break;
       
-    kLpsrHelp:
+    case kLpsrHelp:
       gLpsrOptions->printLpsrOptionsHelp ();
       break;
   } // switch
@@ -804,7 +804,7 @@ void analyzeOptions (
               endl <<
               endl <<
             idtr <<
-              "See https://github.com/dfober/libmusicxml/tree/lilypond" <<
+              "See https://github.com/grame-cncm/libmusicxml/tree/lilypond" <<
               endl <<
             idtr <<
               "for more information and access to the source code." <<
