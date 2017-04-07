@@ -49,7 +49,11 @@ void msrGeneralOptions::initializeGeneralOptions (
     
   fTraceDivisions = boolOptionsInitialValue;
 
+  fTraceScore = boolOptionsInitialValue;
+
+  fTracePartgroups = boolOptionsInitialValue;
   fTraceParts = boolOptionsInitialValue;
+  fTraceStaves = boolOptionsInitialValue;
   fTraceVoices = boolOptionsInitialValue;
 
   fTraceSegments = boolOptionsInitialValue;
@@ -63,9 +67,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceHarmonies = boolOptionsInitialValue;
   
 
-  fTraceScore = boolOptionsInitialValue;
-  fTracePartgroups = boolOptionsInitialValue;
-  fTraceStaves = boolOptionsInitialValue;
     
   fTraceNotes = boolOptionsInitialValue;
   
