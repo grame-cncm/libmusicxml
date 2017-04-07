@@ -738,7 +738,13 @@ void xml2MsrTranslator::visitStart ( S_credit_words& elt )
     appendCreditWordsToCredit (
       elt->getInputLineNumber (),
       creditWordsContents,
-      creditWordsFontSize);
+      creditWordsFontFamily,
+      creditWordsFontSize,
+      creditWordsFontWeight,
+      creditWordsFontJustify,
+      creditWordsFontHAlign,
+      creditWordsFontVAlign,
+      creditWordsFontXMLLanguage);
 }
 
 void xml2MsrTranslator::visitEnd ( S_credit& elt )

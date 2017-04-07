@@ -3555,9 +3555,15 @@ class EXP msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     msrCreditWords (
-      int     inputLineNumber,
-      string  creditWordsContents,
-      int     creditWordsFontSize);
+      int    inputLineNumber,
+      string creditWordsContents,
+      string creditWordsFontFamily,
+      int    creditWordsFontSize,
+      string creditWordsFontWeight,
+      string creditWordsFontJustify,
+      string creditWordsFontHAlign,
+      string creditWordsFontVAlign,
+      string creditWordsFontXMLLanguage);
       
     virtual ~msrCreditWords();
   
@@ -3594,13 +3600,14 @@ class EXP msrCreditWords : public msrElement
 */
 
     string                  fCreditWordsContents;
-    
+
+    string                  fCreditWordsFontFamily;
     int                     fCreditWordsFontSize;
-    
-    string                  fCreditFontWeight; // JMI
-    string                  fCreditJustify;
-    string                  fCreditVAlign;
-    string                  fCreditXMLLang;
+    string                  fCreditWordsFontWeight;
+    string                  fCreditWordsFontJustify;
+    string                  fCreditWordsFontHAlign;
+    string                  fCreditWordsFontVAlign;
+    string                  fCreditWordsFontXMLLanguage;
 };
 typedef SMARTP<msrCreditWords> S_msrCreditWords;
 EXP ostream& operator<< (ostream& os, const S_msrCreditWords& elt);
@@ -3649,9 +3656,8 @@ class EXP msrCredit : public msrElement
     // ------------------------------------------------------
 
     void              appendCreditWordsToCredit (
-                        int     inputLineNumber,
-                        string  creditWordsContents,
-                        int     creditWordsFontSizes);
+                        int              inputLineNumber,
+                        S_msrCreditWords creditWords);
 
     // visitors
     // ------------------------------------------------------

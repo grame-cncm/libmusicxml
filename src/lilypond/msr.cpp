@@ -7303,28 +7303,51 @@ void msrPageGeometry::print (ostream& os) {
 
 //______________________________________________________________________________
 S_msrCreditWords msrCreditWords::create (
-  int     inputLineNumber,
-  string  creditWordsContents,
-  int     creditWordsFontSize)
+  int    inputLineNumber,
+  string creditWordsContents,
+  string creditWordsFontFamily,
+  int    creditWordsFontSize,
+  string creditWordsFontWeight,
+  string creditWordsFontJustify,
+  string creditWordsFontHAlign,
+  string creditWordsFontVAlign,
+  string creditWordsFontXMLLanguage)
 {
   msrCreditWords* o =
     new msrCreditWords (
       inputLineNumber,
       creditWordsContents,
-      creditWordsFontSize);
+      creditWordsFontFamily,
+      creditWordsFontSize,
+      creditWordsFontWeight,
+      creditWordsFontJustify,
+      creditWordsFontHAlign,
+      creditWordsFontVAlign,
+      creditWordsFontXMLLanguage);
   assert(o!=0);
   return o;
 }
 
 msrCreditWords::msrCreditWords (
-  int     inputLineNumber,
-  string  creditWordsContents,
-  int     creditWordsFontSize)
-    : msrElement (inputLineNumber)
+  int    inputLineNumber,
+  string creditWordsContents,
+  string creditWordsFontFamily,
+  int    creditWordsFontSize,
+  string creditWordsFontWeight,
+  string creditWordsFontJustify,
+  string creditWordsFontHAlign,
+  string creditWordsFontVAlign,
+  string creditWordsFontXMLLanguage)
 {
   fCreditWordsContents = creditWordsContents;
 
-  fCreditWordsFontSize = creditWordsFontSize;
+  fCreditWordsFontFamily      = creditWordsFontFamily;
+  fCreditWordsFontSize        = creditWordsFontSize;
+  fCreditWordsFontWeight      = creditWordsFontWeight;
+  fCreditWordsFontJustify     = creditWordsFontJustify;
+  fCreditWordsFontHAlign      = creditWordsFontHAlign;
+  fCreditWordsFontVAlign      = creditWordsFontVAlign;
+  fCreditWordsFontXMLLanguage = creditWordsFontXMLLanguage;
 }
 
 msrCreditWords::~msrCreditWords() {}
@@ -7419,17 +7442,9 @@ msrCredit::msrCredit (
 msrCredit::~msrCredit() {}
 
 void msrCredit::appendCreditWordsToCredit (
-  int     inputLineNumber,
-  string  creditWordsContents,
-  int     creditWordsFontSize)
+  int              inputLineNumber,
+  S_msrCreditWords creditWords)
 {
-  S_msrCreditWords
-    creditWords =
-      msrCreditWords::create (
-        inputLineNumber,
-        creditWordsContents,
-        creditWordsFontSize);
-        
   fCreditWordsList.push_back (creditWords);
 }
 
