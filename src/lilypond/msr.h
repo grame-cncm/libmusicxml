@@ -364,7 +364,9 @@ class EXP msrOptions : public smartable
     void                          initializeMsrOptions (
                                     bool boolOptionsInitialValue);
     
-    void                          printMsrOptions (int fieldWidth);
+    void                          printMsrOptionsHelp ();
+
+    void                          printMsrOptionsValues (int fieldWidth);
 
   public:
 

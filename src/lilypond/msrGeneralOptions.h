@@ -60,7 +60,9 @@ class EXP msrGeneralOptions : public smartable
     void                  initializeGeneralOptions (
                             bool boolOptionsInitialValue);
         
-    void                  printGeneralOptions (int fieldWidth);
+    void                  printGeneralOptionsHelp ();
+
+    void                  printGeneralOptionsValues (int fieldWidth);
     
   protected:
   

@@ -97,7 +97,84 @@ void msrGeneralOptions::initializeGeneralOptions (
   fSaveDebugDebug = boolOptionsInitialValue;
 }
 
-void msrGeneralOptions::printGeneralOptions (int fieldWidth)
+void msrGeneralOptions::printGeneralOptionsHelp ()
+{
+ cerr <<
+    "  General:" << endl <<
+    endl <<
+
+    "    --h, --help" << endl <<
+    "          Display this help and exit." << endl <<
+    "    --v, --version" << endl <<
+    "          Display xml2lilypond's version number and exit." << endl <<
+    endl <<
+
+    "    --of, --outputFile fileName" << endl <<
+    "          Write LilyPond code to file 'fileName' instead of standard output." << endl <<
+    "    --aof, --autoOutputFile" << endl <<
+    "          This option can only be used when reading from a file." << endl <<
+    "          Write LilyPond code to a file whose name is derived from that of the input file," << endl <<
+    "          replacing any suffix after the the '.' by 'ly' or adding '.ly' if none is present." << endl <<
+    endl <<
+
+    "    --t, --traceGeneral" << endl <<
+    "          Write a trace of the general activity to standard error." << endl <<
+    endl <<
+    "    --tdivs, --traceDivisions " << endl <<
+    "          Write a trace of the activity regarding divisions" << endl <<
+    "          to standard error." << endl <<
+    endl <<
+    "    --tparts, --traceparts " << endl <<
+    "          Write a trace of the activity regarding score, part groups and parts" << endl <<
+    "          to standard error." << endl <<
+    "    --tvoices, --traceVoices " << endl <<
+    "          Write a trace of the activity regarding staves and voices" << endl <<
+    "          to standard error." << endl <<
+    "    --tsegs, --traceSegments " << endl <<
+    "          Write a trace of the activity regarding voices' segments" << endl <<
+    "          to standard error." << endl <<
+    "    --trepeats, --traceRepeats " << endl <<
+    "          Write a trace of the activity regarding repeats" << endl <<
+    "          to standard error." << endl <<
+    "    --tmeas, --traceMeasures " << endl <<
+    "          Write a trace of the activity regarding segments' measures" << endl <<
+    "          to standard error." << endl <<
+    "    --tnotes, --traceNotes " << endl <<
+    "          Write a trace of the activity regarding notes" << endl <<
+    "          to standard error." << endl <<
+    "    --tchords, --traceChords " << endl <<
+    "          Write a trace of the activity regarding chords" << endl <<
+    "          to standard error." << endl <<
+    "    --ttuplets, --traceTuplets " << endl <<
+    "          Write a trace of the activity regarding tuplets" << endl <<
+    "          to standard error." << endl <<
+    "    --tgrace, --traceGracenotes " << endl <<
+    "          Write a trace of the activity regarding grace notes" << endl <<
+    "          to standard error." << endl <<
+    endl <<
+    "    --tlyrics, --traceLyrics " << endl <<
+    "          Write at trace of the activity regarding lyrics" << endl <<
+    "          to standard error." << endl <<
+    endl <<
+    "    --tharm, --traceHarmonies " << endl <<
+    "          Write at trace of the activity regarding harmonies" << endl <<
+    "          to standard error." << endl <<
+    endl <<
+    "    --dm, --debugMeasures measureNumbersSet" << endl <<
+    "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<
+    "          where '^' excludes the corresponding numbers interval" << endl <<
+    "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
+    "          Generate a trace of the activity and print additional" << endl <<
+    "          debugging information to standard error for the specified measures." << endl <<
+    "    --ddm, --debugDebugMeasures <measuresSpec>" << endl <<
+    "          Same as above, but print even more debugging information." << endl <<
+    endl <<
+    "    --dCPU, --displayCPUusage" << endl <<
+    "          Write CPU usage by the passes at the end of the translation." << endl <<
+    endl;
+}
+
+void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 {
   cerr << indenter::gIndenter <<
     "The general options are:" <<
