@@ -77,28 +77,39 @@ void printUsage (
   // print versions history
   printVersionsHistory (cerr);
     
-  cerr <<
-    "Options:" <<
-    endl <<
-    endl;
-
   // print options help
   switch (helpKind) {
     case kAllHelp:
+      cerr <<
+        "All options:" <<
+        endl <<
+        endl;
       gGeneralOptions->printGeneralOptionsHelp ();
       gMsrOptions->printMsrOptionsHelp ();
       gLpsrOptions->printLpsrOptionsHelp ();
       break;
       
     case kGeneralHelp:
+      cerr <<
+        "General options (use '--h, --help' to see all the options):" <<
+        endl <<
+        endl;
       gGeneralOptions->printGeneralOptionsHelp ();
       break;
       
     case kMsrHelp:
+      cerr <<
+        "MSR options (use '--h, --help' to see all the options):" <<
+        endl <<
+        endl;
       gMsrOptions->printMsrOptionsHelp ();
       break;
       
     case kLpsrHelp:
+      cerr <<
+        "LPSR options (use '--h, --help' to see all the options):" <<
+        endl <<
+        endl;
       gLpsrOptions->printLpsrOptionsHelp ();
       break;
   } // switch

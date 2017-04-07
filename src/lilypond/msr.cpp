@@ -2156,67 +2156,68 @@ void msrOptions::printMsrOptionsHelp ()
 
 void msrOptions::printMsrOptionsValues (int fieldWidth)
 {
-  cerr << indenter::gIndenter <<
+  cerr << idtr <<
     "The MSR options are:" <<
     endl;
 
-  indenter::gIndenter++;
+  idtr++;
   
   cerr << left <<
+    idtr <<
       setw(fieldWidth) << "traceMsr" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsr) <<
       endl <<
-    indenter::gIndenter <<
+    idtr <<
       setw(fieldWidth) << "traceMsrVisitors" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsrVisitors) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+    idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
+    idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
       booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
+    idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
       booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "delayRestsWords" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWords) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "delayRestsWedges" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWedges) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "keepMasterVoices" << " : " <<
+    idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
       booleanAsString (gMsrOptions->fKeepMasterVoices) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
+    idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
       booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "displayMsr" << " : " <<
+    idtr << setw(fieldWidth) << "displayMsr" << " : " <<
       booleanAsString (gMsrOptions->fDisplayMsr) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "displayMsrSummary" << " : " <<
+    idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
       booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
+    idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
     
   if (gMsrOptions->fPartsRenaming.empty ())
     cerr << "none";
@@ -2231,7 +2232,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   
   cerr << endl;
 
-  indenter::gIndenter--;
+  idtr--;
 }
 
 //______________________________________________________________________________
@@ -16672,9 +16673,11 @@ void msrPart::browseData (basevisitor* v)
       "% ==> msrPart::browseData()" <<
       endl;
 
+/* JMI
   // browse the harmony staff
   msrBrowser<msrStaff> browser (v);
   browser.browse (*fPartHarmonyStaff);
+  */
   
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
@@ -17745,6 +17748,12 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fPageGeometry);
   }
 
+  if (fCredit) {
+    // browse page credit
+    msrBrowser<msrCredit> browser (v);
+    browser.browse (*fCredit);
+  }
+
   for (
     list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
@@ -17786,6 +17795,10 @@ void msrScore::print (ostream& os)
   
   if (fPageGeometry) {
     os << idtr << fPageGeometry;
+  }
+  
+  if (fCredit) {
+    os << idtr << fCredit;
   }
   
   for (

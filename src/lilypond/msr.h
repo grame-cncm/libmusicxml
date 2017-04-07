@@ -410,6 +410,9 @@ class EXP msrOptions : public smartable
     // stanza display
     bool                          fDontDisplayMsrStanzas;
     
+    // stanza display
+    bool                          fDontDisplayMsrHarmonies; // JMI
+    
     // MSR score summary
     bool                          fDisplayMsrSummary;
 
@@ -6224,7 +6227,10 @@ class EXP msrScore : public msrElement
     S_msrPageGeometry
                     getPageGeometry () const
                         { return fPageGeometry; }
-    
+
+    void            setCredit (S_msrCredit credit)
+                        { fCredit = credit; }
+                        
     S_msrCredit     getCredit () const
                         { return fCredit; }
     

@@ -371,132 +371,132 @@ endl <<
 
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
-  cerr << indenter::gIndenter <<
+  cerr << idtr <<
     "The LPSR options are:" <<
     endl;
 
-  indenter::gIndenter++;
+  idtr++;
   
   cerr << left <<
-    indenter::gIndenter <<
+    idtr <<
       setw(fieldWidth) << "traceLpsr" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsr) <<
       endl <<
-    indenter::gIndenter <<
+    idtr <<
       setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
+    idtr << setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "lpsrQuaterTonesPitchesLanguage" << " : \"" <<
+    idtr << setw(fieldWidth) << "lpsrQuaterTonesPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
         gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
-    indenter::gIndenter << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
+    idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
       lpsrChordsLanguageAsString (
         gLpsrOptions->fLpsrChordsLanguage) <<
         "\"" <<
         endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "displayLpsr" << " : " <<
+    idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
       booleanAsString (gLpsrOptions->fDisplayLpsr) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
+    idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
+    idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
       booleanAsString (gLpsrOptions->fDontKeepLineBreaks) <<
       endl <<
 
 /*
-    indenter::gIndenter << setw(fieldWidth) << "keepStaffSize" << " : " <<
+    idtr << setw(fieldWidth) << "keepStaffSize" << " : " <<
       booleanAsString (gLpsrOptions->fKeepStaffSize) <<
       endl <<
     */
 
-    indenter::gIndenter << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
+    idtr << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
       booleanAsString (gLpsrOptions->fShowAllBarNumbers) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "compressFullBarRests" << " : " <<
+    idtr << setw(fieldWidth) << "compressFullBarRests" << " : " <<
       booleanAsString (gLpsrOptions->fCompressFullBarRests) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "tupletsOnALine" << " : " <<
+    idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
       booleanAsString (gLpsrOptions->fTupletsOnALine) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
+    idtr << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
       booleanAsString (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
+    idtr << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
       booleanAsString (gLpsrOptions->fSeparatorLineEveryNMeasures) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
+    idtr << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
       gLpsrOptions->fSeparatorLineEveryNMeasuresValue <<
       endl <<
     
-    indenter::gIndenter << setw(fieldWidth) << "generateNumericalTime" << " : " <<
+    idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateNumericalTime) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "generateComments" << " : " <<
+    idtr << setw(fieldWidth) << "generateComments" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateComments) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "generateStems" << " : " <<
+    idtr << setw(fieldWidth) << "generateStems" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateStems) <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "noAutoBeaming" << " : " <<
+    idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
+    idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateInputLineNumbers) <<
       endl <<
 
-     indenter::gIndenter << setw(fieldWidth) << "modernTab" << " : " <<
+     idtr << setw(fieldWidth) << "modernTab" << " : " <<
       booleanAsString (gLpsrOptions->fModernTab) <<
       endl <<
       
-     indenter::gIndenter << setw(fieldWidth) << "accidentalStyle" << " : " <<
+     idtr << setw(fieldWidth) << "accidentalStyle" << " : " <<
       gLpsrOptions->fAccidentalStyle <<
       endl <<
       
-     indenter::gIndenter << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
+     idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
       gLpsrOptions->fDelayedOrnamentFractionNumerator <<
       endl <<
-     indenter::gIndenter << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
+     idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
       gLpsrOptions->fDelayedOrnamentFractionDenominator <<
       endl <<
 
     //     bool                          fGenerateMasterVoices; // JMI
 
-    indenter::gIndenter << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
+    idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
       booleanAsString (gLpsrOptions->fDontGenerateLilyPondLyrics) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
+    idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
       booleanAsString (gLpsrOptions->fDontGenerateLilyPondCode) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "dontGenerateMidiCommand" << " : " <<
+    idtr << setw(fieldWidth) << "dontGenerateMidiCommand" << " : " <<
       booleanAsString (gLpsrOptions->fDontGenerateMidiCommand) <<
       endl <<
 
-    indenter::gIndenter << setw(fieldWidth) << "midiTempoDuration" << " : " <<
+    idtr << setw(fieldWidth) << "midiTempoDuration" << " : " <<
       gLpsrOptions->fMidiTempoDuration <<
       endl <<
-    indenter::gIndenter << setw(fieldWidth) << "midiTempoPerSecond" << " : " <<
+    idtr << setw(fieldWidth) << "midiTempoPerSecond" << " : " <<
       gLpsrOptions->fMidiTempoPerSecond <<
       endl;
 
-  indenter::gIndenter--;
+  idtr--;
 }
 
 //_______________________________________________________________________________

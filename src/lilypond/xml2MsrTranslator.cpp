@@ -645,23 +645,41 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
 
 //________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_credit& elt )
-{  
+{
+/*
+  <credit page="1">
+    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1124" default-y="1345" font-size="12" font-weight="bold" justify="right" valign="top">Arr. Y. Nagai , K. Kobatake</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="602" default-y="73" font-size="9" halign="center" valign="bottom">Transcription donated to the public domain, 2005 by Tom Potter</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="129" default-y="244" font-size="11" valign="top">Source: "Japanese Popular Music: a collection of the popular music of Japan rendered in to the 
+staff notation", by Y. Nagai and K. Kobatake, 2nd ed., Osaka, S. Miki &amp; Co., 1892, pp. 96-97.
+
+Transcribed into Finale music notation by Tom Potter, 2005.  See http://www.daisyfield.com/music/
+Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.com/</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="607" default-y="1395" font-size="24" font-weight="bold" halign="center" valign="top">Echigo-Jishi</credit-words>
+  </credit>
+*/
+
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting S_credit" << endl;
 
   int creditPageNumber =
     elt->getAttributeIntValue ("page", 0);
-
+  
   fCurrentCredit =
     msrCredit::create (
       elt->getInputLineNumber (),
       creditPageNumber);
 }
-
-/*
-    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
-*/
 
 void xml2MsrTranslator::visitStart ( S_credit_words& elt )
 {
@@ -669,11 +687,29 @@ void xml2MsrTranslator::visitStart ( S_credit_words& elt )
     cerr << idtr <<
       "--> Start visiting S_credit_words" << endl;
 
-  string
-    creditWordsContents = elt->getValue ();
+  string creditWordsContents =
+    elt->getValue ();
   
+  string creditWordsFontFamily =
+    elt->getAttributeValue ("font-family");
+
   int creditWordsFontSize =
     elt->getAttributeIntValue ("font-size", 0);
+
+  string creditWordsFontWeight =
+    elt->getAttributeValue ("font-weight"); // JMI etc
+
+  string creditWordsFontJustify =
+    elt->getAttributeValue ("justify");
+
+  string creditWordsFontHAlign =
+    elt->getAttributeValue ("halign");
+
+  string creditWordsFontVAlign =
+    elt->getAttributeValue ("valign");
+
+  string creditWordsFontXMLLanguage =
+    elt->getAttributeValue ("xml:lang");
 
   fCurrentCredit->
     appendCreditWordsToCredit (
@@ -688,6 +724,9 @@ void xml2MsrTranslator::visitEnd ( S_credit& elt )
     cerr << idtr <<
       "--> End visiting S_credit" << endl;
 
+  fMsrScore->
+    setCredit (fCurrentCredit);
+  
   fCurrentCredit = 0;
 }
 
