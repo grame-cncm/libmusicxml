@@ -5607,8 +5607,8 @@ class EXP msrStaff : public msrElement
     void            setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
-                    getStaffVoicesCorrespondanceMap () const
-                        { return fStaffVoicesCorrespondanceMap; }
+                    getStaffVoiceRelativeNumberToVoiceMap () const
+                        { return fStaffVoiceRelativeNumberToVoiceMap; }
 
     const map<int, S_msrVoice>&
                     getStaffAllVoicesMap () const
@@ -5646,13 +5646,13 @@ class EXP msrStaff : public msrElement
                       msrVoice::msrVoiceKind voiceKind,
                       int                    voiceRelativeNumber);
   
-    S_msrVoice      registerVoiceInStaffByItsExternalNumber (
+    S_msrVoice      addVoiceToStaffByItsExternalNumber (
                       int inputLineNumber,
                       int externalVoiceNumber);
   
     string          staffKindAsString () const;
     
-    S_msrVoice      addVoiceToStaffByItsExternalNumber (
+    S_msrVoice      createVoiceInStaffByItsExternalNumber (
                       int inputLineNumber,
                       int externalVoiceNumber);
 
@@ -5660,7 +5660,7 @@ class EXP msrStaff : public msrElement
                       int inputLineNumber,
                       S_msrVoice voice);
 
-    S_msrVoice      fetchVoiceFromStaff (
+    S_msrVoice      fetchVoiceFromStaffByItsExternalNumber (
                       int inputLineNumber,
                       int externalVoiceNumber);
                               
@@ -5728,7 +5728,7 @@ class EXP msrStaff : public msrElement
 
     int                     fStaffNumber;
 
-    map<int, S_msrVoice>    fStaffVoicesCorrespondanceMap;
+    map<int, S_msrVoice>    fStaffVoiceRelativeNumberToVoiceMap;
                               //numbered 1 to gMaxStaffVoices
                               
     map<int, S_msrVoice>    fStaffAllVoicesMap;

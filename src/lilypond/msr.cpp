@@ -14955,8 +14955,9 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
   int result = 0;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceRelativeNumberToVoiceMap.begin();
+    i != fStaffVoiceRelativeNumberToVoiceMap.end();
     i++) {
       S_msrVoice
         voice =
@@ -14967,8 +14968,10 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
           if (voice->getMusicHasBeenInsertedInVoice ())
             result++;
           break;
+          
         case msrVoice::kHarmonyVoice:
           break;
+          
         case msrVoice::kMasterVoice:
           break;
       } // switch
@@ -15023,10 +15026,10 @@ S_msrVoice msrStaff::addVoiceMasterToStaff (
 }
 */
 
-S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
-  int                    inputLineNumber,
-  msrVoice::msrVoiceKind voiceKind,
-  int                    voiceRelativeNumber)
+/* JMI BOF
+S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
+  int inputLineNumber,
+  int externalVoiceNumber)
 {
   // create the voice
   S_msrVoice
@@ -15034,18 +15037,19 @@ S_msrVoice msrStaff::addVoiceToStaffByItsRelativeNumber (
       msrVoice::create (
         inputLineNumber,
         fStaffDirectPartUplink,
-        voiceKind,
-        voiceRelativeNumber,
+        msrVoice::kRegularVoice,
+        externalVoiceNumber,
         this);
 
   // register the voice by its relative number
-  fStaffAllVoicesMap [voiceRelativeNumber] = voice;
+  fStaffAllVoicesMap [externalVoiceNumber] = voice;
   
   // return the voice
   return voice;
 }
+*/
 
-S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
+S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
   int inputLineNumber,
   int externalVoiceNumber)
 {
@@ -15082,7 +15086,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
       s.str());
   }
 
-  // fetch the voice
+  // create the voice
   S_msrVoice
     voice =
       msrVoice::create (
@@ -15092,7 +15096,7 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
         externalVoiceNumber,
         this);
           
-  // register the voice by its external number
+  // register the voice by its relative number
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Voice " << externalVoiceNumber <<
@@ -15100,13 +15104,17 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
       " gets staff relative number " << fRegisteredVoicesCounter <<
       endl;
     
-  fStaffVoicesCorrespondanceMap [fRegisteredVoicesCounter] =
+  fStaffVoiceRelativeNumberToVoiceMap [fRegisteredVoicesCounter] =
+    voice;
+
+  // register is by its external number
+  fStaffAllVoicesMap [fRegisteredVoicesCounter] =
     voice;
 
   return voice;
 }
 
-S_msrVoice msrStaff::fetchVoiceFromStaff (
+S_msrVoice msrStaff::fetchVoiceFromStaffByItsExternalNumber (
   int inputLineNumber,
   int externalVoiceNumber)
 {
@@ -15122,8 +15130,9 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffVoicesCorrespondanceMap.begin();
-    i != fStaffVoicesCorrespondanceMap.end();
+    map<int, S_msrVoice>::iterator i =
+      fStaffVoiceRelativeNumberToVoiceMap.begin();
+    i != fStaffVoiceRelativeNumberToVoiceMap.end();
     i++) {
     if (
       (*i).second->getExternalVoiceNumber ()
@@ -15186,8 +15195,8 @@ void msrStaff::registerVoiceInStaff (
   fStaffAllVoicesMap [fRegisteredVoicesCounter] =
     voice;
 
-  // register it by its number
-  fStaffVoicesCorrespondanceMap [voice->getExternalVoiceNumber ()] =
+  // register it by its external number
+  fStaffVoiceRelativeNumberToVoiceMap [voice->getExternalVoiceNumber ()] =
     voice;
 }
 
@@ -15448,7 +15457,7 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "### Finalizing last measure in staff " <<
+      "Finalizing last measure in staff " <<
       getStaffName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -15585,7 +15594,7 @@ void msrStaff::print (ostream& os)
     ", " << staffKindAsString () <<
     " (" <<
     singularOrPlural (
-      fStaffAllVoicesMap.size(), "voice", "voices") <<
+      fStaffVoiceRelativeNumberToVoiceMap.size(), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -15636,7 +15645,7 @@ void msrStaff::print (ostream& os)
   os << endl;
 
   // print the voices
-  if (fStaffAllVoicesMap.size ()) {
+  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
     map<int, S_msrVoice>::const_iterator
       iBegin = fStaffAllVoicesMap.begin(),
       iEnd   = fStaffAllVoicesMap.end(),
@@ -15659,7 +15668,7 @@ void msrStaff::printStructure (ostream& os)
     ", " << staffKindAsString () <<
     " (" <<
     singularOrPlural (
-      fStaffAllVoicesMap.size(), "voice", "voices") <<
+      fStaffVoiceRelativeNumberToVoiceMap.size(), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -15707,7 +15716,7 @@ void msrStaff::printStructure (ostream& os)
   }
 
   // print the registered voices names
-  if (fStaffAllVoicesMap.size ()) {
+  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
     os << idtr <<
       "Voices:" <<
       endl;
@@ -15715,8 +15724,8 @@ void msrStaff::printStructure (ostream& os)
     idtr++;
     
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffAllVoicesMap.begin(),
-      iEnd   = fStaffAllVoicesMap.end(),
+      iBegin = fStaffVoiceRelativeNumberToVoiceMap.begin(),
+      iEnd   = fStaffVoiceRelativeNumberToVoiceMap.end(),
       i      = iBegin;
       
     for ( ; ; ) {

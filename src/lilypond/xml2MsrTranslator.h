@@ -668,7 +668,7 @@ class EXP xml2MsrTranslator :
     // ------------------------------------------------------
     int                       fCurrentVoiceNumber; // used throughout
 
-    S_msrVoice                registerVoiceInStaffInCurrentPartIfNeeded (
+    S_msrVoice                createVoiceInStaffInCurrentPartIfNeeded (
                                 int inputLineNumber,
                                 int staffNumber,
                                 int voiceNumber);

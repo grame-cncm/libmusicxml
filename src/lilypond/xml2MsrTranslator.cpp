@@ -334,7 +334,7 @@ S_msrStaff xml2MsrTranslator::createStaffInCurrentPartIfNeeded (
 }  
 
 //______________________________________________________________________________
-S_msrVoice xml2MsrTranslator::registerVoiceInStaffInCurrentPartIfNeeded (
+S_msrVoice xml2MsrTranslator::createVoiceInStaffInCurrentPartIfNeeded (
   int inputLineNumber,
   int staffNumber,
   int voiceNumber)
@@ -349,15 +349,17 @@ S_msrVoice xml2MsrTranslator::registerVoiceInStaffInCurrentPartIfNeeded (
   S_msrVoice
     voice =
       staff->
-        fetchVoiceFromStaff (
-          inputLineNumber, voiceNumber);
+        fetchVoiceFromStaffByItsExternalNumber (
+          inputLineNumber,
+          voiceNumber);
 
   if (! voice) 
     // no, add it to the staff
     voice =
       staff->
-        registerVoiceInStaffByItsExternalNumber (
-          inputLineNumber, voiceNumber);
+        createVoiceInStaffByItsExternalNumber (
+          inputLineNumber,
+          voiceNumber);
 
   return voice;
 }  
@@ -2418,7 +2420,7 @@ void xml2MsrTranslator::visitStart (S_octave_shift& elt)
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         elt->getInputLineNumber (),
         fCurrentDirectionStaffNumber,
         fCurrentVoiceNumber);
@@ -2582,7 +2584,7 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentDirectionStaffNumber,
         fCurrentVoiceNumber);
@@ -3159,7 +3161,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         endl;
 /*
     currentVoice = // ???
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -3278,7 +3280,7 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
 
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -3883,7 +3885,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -4129,7 +4131,7 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
       // fetch current voice
       S_msrVoice
         currentVoice =
-          registerVoiceInStaffInCurrentPartIfNeeded (
+          createVoiceInStaffInCurrentPartIfNeeded (
             inputLineNumber,
             fCurrentStaffNumber,
             fCurrentVoiceNumber);
@@ -4443,7 +4445,7 @@ void xml2MsrTranslator::visitStart ( S_segno& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -4478,7 +4480,7 @@ void xml2MsrTranslator::visitStart ( S_coda& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -4513,7 +4515,7 @@ void xml2MsrTranslator::visitStart ( S_eyeglasses& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -4613,7 +4615,7 @@ void xml2MsrTranslator::visitStart ( S_pedal& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -4760,7 +4762,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
   // there may be a barline in a part before any music
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -7281,7 +7283,7 @@ void xml2MsrTranslator::finalizeTuplet (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -7791,7 +7793,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
@@ -8044,7 +8046,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -8302,7 +8304,7 @@ void xml2MsrTranslator::handleLyric (
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
@@ -8406,7 +8408,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
@@ -8696,7 +8698,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     // fetch current voice
     S_msrVoice
       currentVoice =
-        registerVoiceInStaffInCurrentPartIfNeeded (
+        createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
@@ -8825,7 +8827,7 @@ void xml2MsrTranslator::handleTupletsPendingOnTupletStack (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -8982,7 +8984,7 @@ void xml2MsrTranslator::handleRepeatStart (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9040,7 +9042,7 @@ void xml2MsrTranslator::handleRepeatEnd (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9145,7 +9147,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9242,7 +9244,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9335,7 +9337,7 @@ void xml2MsrTranslator::handleHooklessEndingStart (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9386,7 +9388,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9513,7 +9515,7 @@ void xml2MsrTranslator::visitStart ( S_rehearsal& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      registerVoiceInStaffInCurrentPartIfNeeded (
+      createVoiceInStaffInCurrentPartIfNeeded (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
