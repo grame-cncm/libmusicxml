@@ -10958,25 +10958,32 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
    //   harmony->
     //    setHarmonyPositionInMeasure (fMeasurePosition);
 
+    // fetch voice
+    S_msrVoice
+      voice =
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ();
+        
     // fetch harmony divisions
     int harmonyDivisions =
       harmony->getHarmonyDivisions ();
       
-/* JMI
-  // append a skip syllable of the same duration to the part harmony voice
-  S_msrNote
-    skip =
-      msrNote::createSkipNote (
-        note->getInputLineNumber (),
-        fVoiceDirectPartUplink,
-        note->getNoteDivisions (),
-        fStaffRelativeVoiceNumber, // JMI
-        fExternalVoiceNumber);
-
-   fVoiceDirectPartUplink->
-    getPartHarmonyVoice ()->
-      appendNoteToVoice (skip);
-      */
+//* JMI FOO
+    // append a skip syllable of the same duration to the part harmony voice
+    S_msrNote
+      skip =
+          msrNote::createSkipNote (
+            inputLineNumber,
+            fMeasureDirectPartUplink,
+            harmonyDivisions,
+            voice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            voice->
+              getExternalVoiceNumber ());
+  
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        appendNoteToVoice (skip);
 
     // account for harmony duration in measure position
     setMeasurePosition (
