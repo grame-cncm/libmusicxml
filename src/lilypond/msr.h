@@ -3545,9 +3545,15 @@ class EXP msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrCreditWords> create (
-      int     inputLineNumber,
-      string  creditWordsContents,
-      int     creditWordsFontSize);
+      int    inputLineNumber,
+      string creditWordsContents,
+      string creditWordsFontFamily,
+      int    creditWordsFontSize,
+      string creditWordsFontWeight,
+      string creditWordsFontJustify,
+      string creditWordsFontHAlign,
+      string creditWordsFontVAlign,
+      string creditWordsFontXMLLanguage);
 
   protected:
 
@@ -3656,7 +3662,6 @@ class EXP msrCredit : public msrElement
     // ------------------------------------------------------
 
     void              appendCreditWordsToCredit (
-                        int              inputLineNumber,
                         S_msrCreditWords creditWords);
 
     // visitors

@@ -697,7 +697,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
   int creditPageNumber =
     elt->getAttributeIntValue ("page", 0);
   
-  fCurrentCredit =
+  fMsrScore->getCredit () =
     msrCredit::create (
       elt->getInputLineNumber (),
       creditPageNumber);
@@ -734,17 +734,24 @@ void xml2MsrTranslator::visitStart ( S_credit_words& elt )
   string creditWordsFontXMLLanguage =
     elt->getAttributeValue ("xml:lang");
 
+  // create the credit words
+  S_msrCreditWords
+    creditWords =
+      msrCreditWords::create (
+        elt->getInputLineNumber (),
+        creditWordsContents,
+        creditWordsFontFamily,
+        creditWordsFontSize,
+        creditWordsFontWeight,
+        creditWordsFontJustify,
+        creditWordsFontHAlign,
+        creditWordsFontVAlign,
+        creditWordsFontXMLLanguage);
+
+  // append it to the current credit
   fCurrentCredit->
     appendCreditWordsToCredit (
-      elt->getInputLineNumber (),
-      creditWordsContents,
-      creditWordsFontFamily,
-      creditWordsFontSize,
-      creditWordsFontWeight,
-      creditWordsFontJustify,
-      creditWordsFontHAlign,
-      creditWordsFontVAlign,
-      creditWordsFontXMLLanguage);
+      creditWords);
 }
 
 void xml2MsrTranslator::visitEnd ( S_credit& elt )

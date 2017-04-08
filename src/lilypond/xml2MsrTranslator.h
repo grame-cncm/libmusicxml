@@ -562,6 +562,7 @@ class EXP xml2MsrTranslator :
     S_msrCredit               fCurrentCredit;
     
     // part group handling
+    // ------------------------------------------------------
     /*
       There is no hierarchy implied in part-group elements.
       All that matters is the sequence of part-group elements relative to score-part elements.
@@ -575,9 +576,6 @@ class EXP xml2MsrTranslator :
       <group-barline>yes</group-barline>
       </part-group>
     */
-
-    // part group handling
-    // ------------------------------------------------------
     int                       fCurrentPartgroupNumber;
     string                    fCurrentPartgroupType;
     string                    fCurrentPartgroupName;

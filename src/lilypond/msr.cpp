@@ -7338,8 +7338,9 @@ msrCreditWords::msrCreditWords (
   string creditWordsFontHAlign,
   string creditWordsFontVAlign,
   string creditWordsFontXMLLanguage)
+    : msrElement (inputLineNumber)
 {
-  fCreditWordsContents = creditWordsContents;
+  fCreditWordsContents        = creditWordsContents;
 
   fCreditWordsFontFamily      = creditWordsFontFamily;
   fCreditWordsFontSize        = creditWordsFontSize;
@@ -7406,13 +7407,58 @@ void msrCreditWords::print (ostream& os)
     endl;
 
   idtr++;
+
+  const int fieldWidth = 26;
   
   os <<
     idtr <<
-      setw(20) << "fCreditWordsContents" << " = " << fCreditWordsContents <<
+      setw(fieldWidth) <<
+        "fCreditWordsContents" << " = \"" <<
+        fCreditWordsContents <<
+        "\"" <<
+      endl <<
+      
+    idtr <<
+      setw(fieldWidth) <<
+        "creditWordsFontFamily" << " = \"" <<
+        fCreditWordsFontFamily <<
+        "\"" <<
       endl <<
     idtr <<
-      setw(20) << "fCreditWordsFontSize" << " = " << fCreditWordsFontSize <<
+      setw(fieldWidth) <<
+        "creditWordsFontSize" << " = \"" <<
+        fCreditWordsFontSize <<
+        "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+        "creditWordsFontWeight" << " = \"" <<
+        fCreditWordsFontWeight <<
+        "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+        "creditWordsFontJustify" << " = \"" <<
+        fCreditWordsFontJustify <<
+        "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+        "creditWordsFontHAlign" << " = \"" <<
+        fCreditWordsFontHAlign <<
+        "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+        "creditWordsFontVAlign" << " = \"" <<
+        fCreditWordsFontVAlign <<
+        "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+        "creditWordsFontXMLLanguage" << " = \"" <<
+        fCreditWordsFontXMLLanguage <<
+        "\"" <<
       endl <<
     endl;
 
@@ -7442,7 +7488,6 @@ msrCredit::msrCredit (
 msrCredit::~msrCredit() {}
 
 void msrCredit::appendCreditWordsToCredit (
-  int              inputLineNumber,
   S_msrCreditWords creditWords)
 {
   fCreditWordsList.push_back (creditWords);
