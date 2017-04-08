@@ -573,7 +573,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         string staffBlockInstrumentName;
         string staffBlockShortInstrumentName;
       
-        // don't set instrument name nor short instrument name
+        // don't set instrument name nor short instrument name // JMI
         // if the staff belongs to a piano part where they're already set
         if (! partName.size ())
           staffBlockInstrumentName = partName;
@@ -606,6 +606,13 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       
     case msrStaff::kHarmonyStaff:
       {
+        // don't create a harmony staff clone here,
+        // since it has been created already in the part clone
+        fCurrentStaffClone =
+          fCurrentPartClone->
+            getPartHarmonyStaff ();
+            
+        /* JMI
         // create a staff clone
         fCurrentStaffClone =
           elt->createStaffBareClone (fCurrentPartClone);
@@ -613,6 +620,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         // add it to the part clone
         fCurrentPartClone->
           addStaffToPartClone (fCurrentStaffClone);
+*/
 
       /* JMI
         // create a staff block
@@ -726,34 +734,40 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     
   idtr++;
 
-  // create a voice clone
-  fCurrentVoiceClone =
-    elt->createVoiceBareClone (fCurrentStaffClone);
-
-/* JMI
-  // re-number it's first measure to 1 if needed
-  if (! fCurrentVoiceClone->getMeasureZeroHasBeenMetInVoice ())
-    fCurrentVoiceClone->forceVoiceMeasureNumberTo (1);
-  */
-    
-  // add it to the staff clone
-  fCurrentStaffClone->
-    registerVoiceInStaff (
-      inputLineNumber, fCurrentVoiceClone);
-
-  // append the voice to the LPSR score elements list
-  fLpsrScore ->
-    appendVoiceToScoreElements (fCurrentVoiceClone);
-
   switch (elt->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      // append a use of the voice to the current staff block
+      // create a voice clone
+      fCurrentVoiceClone =
+        elt->createVoiceBareClone (fCurrentStaffClone);
+    
+    /* JMI
+      // re-number it's first measure to 1 if needed
+      if (! fCurrentVoiceClone->getMeasureZeroHasBeenMetInVoice ())
+        fCurrentVoiceClone->forceVoiceMeasureNumberTo (1);
+      */
+        
+      // add it to the staff clone
+      fCurrentStaffClone->
+        registerVoiceInStaff (
+          inputLineNumber, fCurrentVoiceClone);
+    
+      // append the voice to the LPSR score elements list
+      fLpsrScore ->
+        appendVoiceToScoreElements (fCurrentVoiceClone);
+    
+          // append a use of the voice to the current staff block
       fCurrentStaffBlock->
         appendVoiceUseToStaffBlock (fCurrentVoiceClone);
       break;
       
     case msrVoice::kHarmonyVoice:
       {
+        // don't create a harmony voice clone here,
+        // since it has been created already in the part clone
+        fCurrentVoiceClone =
+          fCurrentPartClone->
+            getPartHarmonyVoice ();
+
         string voiceName =
           elt->getVoiceName ();
 

@@ -13178,6 +13178,9 @@ msrVoice::msrVoice (
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
         "_HARMONY_VOICE";
+
+      cerr << "***** msrVoice::msrVoice (), " << this << " *****" << endl;
+      if (int(this) == 0x9a46c18) abort(); // JMI
       break;
       
     case msrVoice::kMasterVoice:
@@ -13674,6 +13677,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       break;
       
     case msrVoice::kHarmonyVoice:
+      cerr << "***** msrVoice::appendHarmonyToVoice (), " << this << " *****" << endl;
       break;
       
     case msrVoice::kMasterVoice:
@@ -14373,7 +14377,9 @@ void msrVoice::print (ostream& os)
   os <<
     voiceKindAsString (fVoiceKind) <<
     " voice \"" << getVoiceName () <<
-    "\" (" <<
+    "\" " <<
+    " ##### msrVoice::print () " << this << " " << 
+    "(" <<
     singularOrPlural (
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
      ", " <<
