@@ -5358,7 +5358,7 @@ class EXP msrVoice : public msrElement
 
     void            finalizeLastMeasureOfVoice (int inputLineNumber);
 
-    void            finalizeVoice ();
+    void            finalizeVoice (int inputLineNumber);
     
     // visitors
     // ------------------------------------------------------
@@ -5698,7 +5698,7 @@ class EXP msrStaff : public msrElement
   
     void            finalizeLastMeasureOfStaff (int inputLineNumber);
     
-    void            finalizeStaff ();
+    void            finalizeStaff (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -5961,7 +5961,7 @@ class EXP msrPart : public msrElement
 
     void            finalizeLastMeasureOfPart (int inputLineNumber);
 
-    void            finalizePart ();
+    void            finalizePart (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------

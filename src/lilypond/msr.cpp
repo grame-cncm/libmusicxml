@@ -12225,7 +12225,7 @@ void msrSegment::incrementSegmentLastMeasureNumber (
 
 void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "Finalizing last measure in segment " <<
       segmentAsString () <<
@@ -14244,7 +14244,7 @@ void msrVoice::removeFirstChordNoteFromVoice (
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Finalizing last measure in voice \"" <<
       getVoiceName () <<
@@ -14256,8 +14256,16 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
     finalizeLastMeasureOfSegment (inputLineNumber);
 }
 
-void msrVoice::finalizeVoice ()
+void msrVoice::finalizeVoice (int inputLineNumber)
 {
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "Finalizing voice \"" <<
+      getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+
   if (! gMsrOptions->fKeepMasterStanzas) { // JMI
 // JMI    delete (fVoiceStanzaMaster);
  // JMI   fVoiceStanzaMaster = 0;
@@ -15404,7 +15412,7 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
   } // for
 }
 
-void msrStaff::finalizeStaff ()
+void msrStaff::finalizeStaff (int inputLineNumber)
 {  
   for (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
@@ -15419,7 +15427,7 @@ void msrStaff::finalizeStaff ()
      // JMI BOF     fStaffAllVoicesMap.erase (i);
         }
         else {
-          voice->finalizeVoice ();
+          voice->finalizeVoice (inputLineNumber);
         }
         break;
         
@@ -16736,13 +16744,13 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
   } // for
 }
 
-void msrPart::finalizePart ()
+void msrPart::finalizePart (int inputLineNumber)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->finalizeStaff ();
+    (*i).second->finalizeStaff (inputLineNumber);
   } // for
 }
 

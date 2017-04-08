@@ -1597,7 +1597,8 @@ void xml2MsrTranslator::visitEnd (S_part& elt)
 
   // finalize the current part
   fCurrentPart->
-    finalizePart ();
+    finalizePart (
+      elt->getInputLineNumber ());
 }
 
 //______________________________________________________________________________
