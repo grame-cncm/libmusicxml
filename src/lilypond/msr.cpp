@@ -13654,6 +13654,45 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+      
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+  } // switch
 
   fVoiceLastSegment->
     appendHarmonyToSegment (harmony);
