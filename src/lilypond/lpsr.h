@@ -1437,7 +1437,19 @@ class EXP lpsrHeader : public lpsrElement
                   string val);
 
     S_lpsrLilypondVarValAssoc
-                addCreator (
+                addComposer (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    S_lpsrLilypondVarValAssoc
+                addArranger (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    S_lpsrLilypondVarValAssoc
+                addLyricist (
                   int    inputLineNumber,
                   string type,
                   string val);
@@ -1475,8 +1487,16 @@ class EXP lpsrHeader : public lpsrElement
                     { return fMovementTitle; }
     
     const vector<S_lpsrLilypondVarValAssoc>&
-                getCreators () const
-                    { return fCreators; };
+                getComposers () const
+                    { return fComposers; };
+    
+    const vector<S_lpsrLilypondVarValAssoc>&
+                getArrangers () const
+                    { return fArrangers; };
+    
+    const vector<S_lpsrLilypondVarValAssoc>&
+                getLyricists () const
+                    { return fLyricists; };
     
     S_lpsrLilypondVarValAssoc
                 getRights () const
@@ -1505,7 +1525,8 @@ class EXP lpsrHeader : public lpsrElement
     
     void        changeRightsTitleVariableName (string name);
     
-    void        changeCreatorVariableName (string typeName, string newName);
+//    void        changeCreatorVariableName ( // JMI
+ //                 string typeName, string newName);
 
     int         maxLilyPondVariablesNamesLength ();
 
@@ -1531,10 +1552,16 @@ class EXP lpsrHeader : public lpsrElement
     S_lpsrLilypondVarValAssoc         fWorkTitle;
     S_lpsrLilypondVarValAssoc         fMovementNumber;
     S_lpsrLilypondVarValAssoc         fMovementTitle;
-    vector<S_lpsrLilypondVarValAssoc> fCreators;
+    
+    vector<S_lpsrLilypondVarValAssoc> fComposers;
+    vector<S_lpsrLilypondVarValAssoc> fArrangers;
+    vector<S_lpsrLilypondVarValAssoc> fLyricists;
     S_lpsrLilypondVarValAssoc         fRights;
+    
     vector<S_lpsrLilypondVarValAssoc> fSoftwares;
+    
     S_lpsrLilypondVarValAssoc         fEncodingDate;
+    
     S_lpsrLilypondVarValAssoc         fScoreInstrument;
 
 };

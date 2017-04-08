@@ -17684,7 +17684,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
 
-  if (!fComposers.empty()) {
+  if (! fComposers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fComposers.begin(),
       iEnd   = fComposers.end(),
@@ -17698,7 +17698,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (!fArrangers.empty()) {
+  if (! fArrangers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fArrangers.begin(),
       iEnd   = fArrangers.end(),
@@ -17712,7 +17712,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (!fLyricists.empty()) {
+  if (! fLyricists.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fLyricists.begin(),
       iEnd   = fLyricists.end(),

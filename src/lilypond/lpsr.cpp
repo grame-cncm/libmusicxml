@@ -2048,7 +2048,7 @@ void lpsrHeader::setMovementTitle (
       lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
-S_lpsrLilypondVarValAssoc lpsrHeader::addCreator (
+S_lpsrLilypondVarValAssoc lpsrHeader::addComposer (
   int    inputLineNumber,
   string type,
   string val)
@@ -2067,7 +2067,55 @@ S_lpsrLilypondVarValAssoc lpsrHeader::addCreator (
         lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
       lpsrLilypondVarValAssoc::kWithoutEndl);
 
-  fCreators.push_back (result);
+  fComposers.push_back (result);
+
+  return result;
+}
+
+S_lpsrLilypondVarValAssoc lpsrHeader::addArranger (
+  int    inputLineNumber,
+  string type,
+  string val)
+{
+  S_lpsrLilypondVarValAssoc
+    result =
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        lpsrLilypondVarValAssoc::kUncommented,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        type,
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kQuotesAroundValue,
+        val,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
+
+  fArrangers.push_back (result);
+
+  return result;
+}
+
+S_lpsrLilypondVarValAssoc lpsrHeader::addLyricist (
+  int    inputLineNumber,
+  string type,
+  string val)
+{
+  S_lpsrLilypondVarValAssoc
+    result =
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        lpsrLilypondVarValAssoc::kUncommented,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        type,
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kQuotesAroundValue,
+        val,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
+
+  fLyricists.push_back (result);
 
   return result;
 }
@@ -2170,6 +2218,7 @@ void lpsrHeader::changeRightsTitleVariableName (string name)
   fRights->changeAssocVariableName (name);
 }
 
+/* JMI
 void lpsrHeader::changeCreatorVariableName (
   string variableName, string newName)
 {
@@ -2179,6 +2228,7 @@ void lpsrHeader::changeCreatorVariableName (
       (*i)->changeAssocVariableName (newName);
   } // for
 }
+*/
 
 int lpsrHeader::maxLilyPondVariablesNamesLength ()
 {
@@ -2204,9 +2254,25 @@ int lpsrHeader::maxLilyPondVariablesNamesLength ()
     if (length > result) result = length;
   }
     
-  if (! fCreators.empty()) {
+  if (! fComposers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+    for (i=fComposers.begin(); i!=fComposers.end(); i++) {
+      int length = (*i)->getVariableName ().size();
+      if (length > result) result = length;
+    } // for
+  }
+    
+  if (! fArrangers.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fArrangers.begin(); i!=fArrangers.end(); i++) {
+      int length = (*i)->getVariableName ().size();
+      if (length > result) result = length;
+    } // for
+  }
+    
+  if (! fLyricists.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fLyricists.begin(); i!=fLyricists.end(); i++) {
       int length = (*i)->getVariableName ().size();
       if (length > result) result = length;
     } // for
@@ -2297,9 +2363,27 @@ void lpsrHeader::browseData (basevisitor* v)
     browser.browse (*fMovementTitle);
   }
 
-  if (! fCreators.empty()) {
+  if (! fComposers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+    for (i=fComposers.begin(); i!=fComposers.end(); i++) {
+      // browse creator
+      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
+  if (! fArrangers.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fArrangers.begin(); i!=fArrangers.end(); i++) {
+      // browse creator
+      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
+  if (! fLyricists.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fLyricists.begin(); i!=fLyricists.end(); i++) {
       // browse creator
       msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -2368,11 +2452,45 @@ void lpsrHeader::print (ostream& os)
     emptyHeader = false;
   }
     
-  if (! fCreators.empty()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i1;
-    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
-      os << idtr << (*i1);
+  if (! fComposers.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator
+      iBegin = fComposers.begin(),
+      iEnd   = fComposers.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+
+    emptyHeader = false;
+  }
+    
+  if (! fArrangers.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator
+      iBegin = fArrangers.begin(),
+      iEnd   = fArrangers.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    emptyHeader = false;
+  }
+    
+  if (! fLyricists.empty()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator
+      iBegin = fLyricists.begin(),
+      iEnd   = fLyricists.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
     emptyHeader = false;
   }
     
