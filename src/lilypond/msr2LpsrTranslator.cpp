@@ -2215,7 +2215,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
     S_lpsrLilypondVarValAssoc
       assoc =
         fLpsrScoreHeader->
-          addCreator (
+          addComposer (
             inputLineNumber, variableName, variableValue);
   }
   
@@ -2223,7 +2223,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
     S_lpsrLilypondVarValAssoc
       assoc =
         fLpsrScoreHeader->
-          addCreator (
+          addArranger (
             inputLineNumber, variableName, variableValue);
   }
   
@@ -2231,7 +2231,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
     S_lpsrLilypondVarValAssoc
       assoc =
         fLpsrScoreHeader->
-          addCreator (
+          addLyricist ( // JMI
             inputLineNumber, "poet", variableValue);
   }
 
@@ -2239,8 +2239,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
     S_lpsrLilypondVarValAssoc
       assoc =
         fLpsrScoreHeader->
-          addCreator (
-            inputLineNumber, "poet", variableValue); // JMI ???
+          addLyricist (
+            inputLineNumber, "lyricist", variableValue); // JMI ???
   }
 
   else if (variableName == "rights") {
@@ -2253,12 +2253,12 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
   
   else if (variableName == "software") {
     fLpsrScoreHeader->addSoftware (
-        inputLineNumber, variableValue);
+      inputLineNumber, variableValue);
   }
   
   else if (variableName == "encoding-date") {
     fLpsrScoreHeader->setEncodingDate (
-        inputLineNumber, variableValue);
+      inputLineNumber, variableValue);
   }
 
   else {
