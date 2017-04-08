@@ -7426,9 +7426,8 @@ void msrCreditWords::print (ostream& os)
       endl <<
     idtr <<
       setw(fieldWidth) <<
-        "creditWordsFontSize" << " = \"" <<
+        "creditWordsFontSize" << " = " <<
         fCreditWordsFontSize <<
-        "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -17399,7 +17398,7 @@ void msrPartgroup::printStructure (ostream& os)
 
 //______________________________________________________________________________
 S_msrIdentification msrIdentification::create (
-  int           inputLineNumber)
+  int inputLineNumber)
 {
   msrIdentification* o =
     new msrIdentification (
@@ -17409,7 +17408,7 @@ S_msrIdentification msrIdentification::create (
 }
 
 msrIdentification::msrIdentification (
-  int           inputLineNumber)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {}
 
@@ -17455,12 +17454,36 @@ void msrIdentification::setMovementTitle (
       "movement-title", val);
 }
 
-void msrIdentification::addCreator (
+void msrIdentification::addComposer (
   int    inputLineNumber,
   string type,
   string val)
 {
-  fCreators.push_back(
+  fComposers.push_back(
+    msrVarValAssoc::create (
+      inputLineNumber,
+      type, val)
+  );
+}
+
+void msrIdentification::addArranger (
+  int    inputLineNumber,
+  string type,
+  string val)
+{
+  fArrangers.push_back(
+    msrVarValAssoc::create (
+      inputLineNumber,
+      type, val)
+  );
+}
+
+void msrIdentification::addLyricist (
+  int    inputLineNumber,
+  string type,
+  string val)
+{
+  fLyricists.push_back(
     msrVarValAssoc::create (
       inputLineNumber,
       type, val)
@@ -17572,9 +17595,27 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fMovementTitle);
   }
 
-  if (!fCreators.empty()) {
+  if (!fComposers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fCreators.begin(); i!=fCreators.end(); i++) {
+    for (i=fComposers.begin(); i!=fComposers.end(); i++) {
+      // browse creator
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
+  if (!fArrangers.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fArrangers.begin(); i!=fArrangers.end(); i++) {
+      // browse creator
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
+  if (!fLyricists.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fLyricists.begin(); i!=fLyricists.end(); i++) {
       // browse creator
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -17642,12 +17683,46 @@ void msrIdentification::print (ostream& os)
     os << idtr << fMovementTitle;
     emptyIdentification = false;
   }
-    // JMI for   ; ; 
-  if (!fCreators.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i1;
-    for (i1=fCreators.begin(); i1!=fCreators.end(); i1++) {
-      os << idtr << (*i1);
+
+  if (!fComposers.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator
+      iBegin = fComposers.begin(),
+      iEnd   = fComposers.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+
+    emptyIdentification = false;
+  }
+    
+  if (!fArrangers.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator
+      iBegin = fArrangers.begin(),
+      iEnd   = fArrangers.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+    
+  if (!fLyricists.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator
+      iBegin = fLyricists.begin(),
+      iEnd   = fLyricists.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
     emptyIdentification = false;
   }
     

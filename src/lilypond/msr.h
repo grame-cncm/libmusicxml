@@ -3315,7 +3315,7 @@ class EXP msrIdentification : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrIdentification> create (
-      int            inputLineNumber);
+      int inputLineNumber);
     
   protected:
 
@@ -3323,7 +3323,7 @@ class EXP msrIdentification : public msrElement
     // ------------------------------------------------------
 
     msrIdentification (
-      int            inputLineNumber);
+      int inputLineNumber);
       
     virtual ~msrIdentification();
   
@@ -3348,7 +3348,17 @@ class EXP msrIdentification : public msrElement
                   int    inputLineNumber,
                   string val);
 
-    void        addCreator (
+    void        addComposer (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    void        addArranger (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
+    void        addLyricist (
                   int    inputLineNumber,
                   string type,
                   string val);
@@ -3386,8 +3396,16 @@ class EXP msrIdentification : public msrElement
                     { return fMovementTitle; }
     
     const vector<S_msrVarValAssoc>&
-                getCreators () const
-                    { return fCreators; };
+                getComposers () const
+                    { return fComposers; };
+                    
+    const vector<S_msrVarValAssoc>&
+                getArrangers () const
+                    { return fArrangers; };
+                    
+    const vector<S_msrVarValAssoc>&
+                getLyricists () const
+                    { return fLyricists; };
     
     S_msrVarValAssoc
                 getRights () const
@@ -3427,7 +3445,9 @@ class EXP msrIdentification : public msrElement
     S_msrVarValAssoc         fWorkTitle;
     S_msrVarValAssoc         fMovementNumber;
     S_msrVarValAssoc         fMovementTitle;
-    vector<S_msrVarValAssoc> fCreators;
+    vector<S_msrVarValAssoc> fComposers;
+    vector<S_msrVarValAssoc> fArrangers;
+    vector<S_msrVarValAssoc> fLyricists;
     S_msrVarValAssoc         fRights;
     vector<S_msrVarValAssoc> fSoftwares;
     S_msrVarValAssoc         fEncodingDate;

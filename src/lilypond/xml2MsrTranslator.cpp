@@ -422,11 +422,46 @@ void xml2MsrTranslator::visitStart ( S_creator& elt )
       "--> Start visiting S_creator" <<
       endl;
 
-  fMsrScore->getIdentification () ->
-    addCreator (
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string creatorType = elt->getAttributeValue ("type");
+
+  if      (creatorType == "composer") {
+    fMsrScore->getIdentification () ->
+      addComposer (
+        inputLineNumber,
+        creatorType,
+        elt->getValue ());
+  }
+  
+  else if (creatorType == "arranger") {
+    fMsrScore->getIdentification () ->
+      addArranger (
+        inputLineNumber,
+        creatorType,
+        elt->getValue ());
+  }
+  
+  else if (creatorType == "lyricist") {
+    fMsrScore->getIdentification () ->
+      addLyricist (
+        inputLineNumber,
+        creatorType,
+        elt->getValue ());
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "creator type '" << creatorType << "'" <<
+      " is unknown";
+
+    msrMusicXMLError (
       elt->getInputLineNumber (),
-      elt->getAttributeValue ("type"),
-      elt->getValue ());
+      s.str());
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_rights& elt )
@@ -697,7 +732,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
   int creditPageNumber =
     elt->getAttributeIntValue ("page", 0);
   
-  fMsrScore->getCredit () =
+  fCurrentCredit =
     msrCredit::create (
       elt->getInputLineNumber (),
       creditPageNumber);
