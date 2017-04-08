@@ -10744,13 +10744,15 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // if it happens to be the first note of a chord
     fMeasureElementsList.push_back (note);
 
-    // bring harmony voice to the same measure position
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          noteMeasurePosition);
-
+    if (note->getNoteHarmony ()) { // JMI BOF
+      // bring harmony voice to the same measure position
+      fMeasureDirectPartUplink->
+        getPartHarmonyVoice ()->
+          bringVoiceToMeasurePosition (
+            inputLineNumber,
+            noteMeasurePosition);
+    }
+    
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
   }
@@ -15414,7 +15416,7 @@ void msrStaff::finalizeStaff ()
     switch (voice->getVoiceKind ()) {
       case msrVoice::kRegularVoice:
         if (! voice->getMusicHasBeenInsertedInVoice ()) {
-          fStaffAllVoicesMap.erase (i);
+     // JMI BOF     fStaffAllVoicesMap.erase (i);
         }
         else {
           voice->finalizeVoice ();
@@ -15793,9 +15795,11 @@ msrPart::msrPart (
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
+/*
   // create the part harmony staff and voice
-  createPartHarmonyStaffAndVoice (
+  createPartHarmonyStaffAndVoice ( JMI BOF
     inputLineNumber);
+    */
 
 // */
 
