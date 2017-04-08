@@ -868,21 +868,24 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
       "--> Start visiting msrHarmony" <<
       endl;
 
-  if (fOnGoingNote)
+  if (fOnGoingNote) {
     // register the harmony in the current note clone
     fCurrentNoteClone->
       setNoteHarmony (elt);
-
-  else if (fOnGoingChord)
+  }
+  
+  else if (fOnGoingChord) {
     // register the harmony in the current chord clone
     fCurrentChordClone->
       setChordHarmony (elt); // JMI
-
-  else if (fOnGoingHarmonyVoice) // JMI
+  }
+  
+  else if (fOnGoingHarmonyVoice) { // JMI
     // register the harmony in the part harmony
     fCurrentPartClone->
       appendHarmonyToPart (
         elt);
+  }
 }
 
 //________________________________________________________________________

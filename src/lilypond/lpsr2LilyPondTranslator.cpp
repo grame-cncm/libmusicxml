@@ -49,7 +49,6 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fOnGoingVoice = false;
   fOnGoingHarmonyVoice = false;
 
-
   fOngoingNonEmptyStanza = false;
 
   fOnGoingNote = false;
@@ -1764,9 +1763,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
       idtr;
   }
   
-  else if (fOnGoingHarmonyVoice) {
+  else if (fOnGoingChord) { // JMI
+    /*
+    // register the harmony in the current chord clone
+    fCurrentChord->
+      setChordHarmony (elt); // JMI
+      */
+  }
+
+  else if (true || fOnGoingHarmonyVoice) { // JMI FOO
     fOstream <<
-      elt->harmonyAsString () << " ";
+      elt->harmonyAsString () << " FOO ";
   }
 
 /* JMI
