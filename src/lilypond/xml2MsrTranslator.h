@@ -669,9 +669,9 @@ class EXP xml2MsrTranslator :
     int                       fCurrentVoiceNumber; // used throughout
 
     S_msrVoice                registerVoiceInStaffInCurrentPartIfNeeded (
-                                int            inputLineNumber,
-                                int            staffNumber,
-                                int            voiceNumber);
+                                int inputLineNumber,
+                                int staffNumber,
+                                int voiceNumber);
     
     // clef handling
     // ------------------------------------------------------

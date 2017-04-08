@@ -14766,6 +14766,7 @@ msrStaff::msrStaff (
       0);
 */
 
+/* JMI BOF
   // create all 'gMaxStaffVoices' voices for this staff
   // those that remain without music will be removed later
   // in removeStaffEmptyVoices()
@@ -14775,6 +14776,7 @@ msrStaff::msrStaff (
       msrVoice::kRegularVoice,
       i);
   } // for
+*/
 
   // get the initial clef from the part if any
   {
@@ -15073,12 +15075,13 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
   // fetch the voice
   S_msrVoice
     voice =
-      fStaffAllVoicesMap [fRegisteredVoicesCounter];
-      
-  // set it's voice external number
-  voice->
-    setExternalVoiceNumber (externalVoiceNumber);
-
+      msrVoice::create (
+        inputLineNumber,
+        fStaffDirectPartUplink,
+        msrVoice::kRegularVoice,
+        externalVoiceNumber,
+        this);
+          
   // register the voice by its external number
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
@@ -15086,15 +15089,16 @@ S_msrVoice msrStaff::registerVoiceInStaffByItsExternalNumber (
       " in staff " << getStaffName () <<
       " gets staff relative number " << fRegisteredVoicesCounter <<
       endl;
-      
-  fStaffVoicesCorrespondanceMap [externalVoiceNumber] =
+    
+  fStaffVoicesCorrespondanceMap [fRegisteredVoicesCounter] =
     voice;
 
   return voice;
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaff (
-  int inputLineNumber, int externalVoiceNumber)
+  int inputLineNumber,
+  int externalVoiceNumber)
 {
   S_msrVoice result; // JMI avoid repetivite messages!
 
@@ -15114,8 +15118,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaff (
     if (
       (*i).second->getExternalVoiceNumber ()
         ==
-      externalVoiceNumber  ) {
-      if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceALL) {
+      externalVoiceNumber) {
+      if (gGeneralOptions->fTraceVoices) {
         cerr << idtr <<
           "Voice " << externalVoiceNumber <<
           " in staff \"" << getStaffName () << "\"" <<
@@ -16664,7 +16668,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   return staff;
 }
 
-void msrPart::addStaffToPartClone (S_msrStaff staff)
+void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<

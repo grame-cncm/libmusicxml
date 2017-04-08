@@ -5661,7 +5661,8 @@ class EXP msrStaff : public msrElement
                       S_msrVoice voice);
 
     S_msrVoice      fetchVoiceFromStaff (
-                      int inputLineNumber, int externalVoiceNumber);
+                      int inputLineNumber,
+                      int externalVoiceNumber);
                               
     void            appendClefToAllStaffVoices (S_msrClef clef);
     void            appendKeyToAllStaffVoices  (S_msrKey   key);
@@ -5948,7 +5949,7 @@ class EXP msrPart : public msrElement
                       msrStaff::msrStaffKind staffKind,
                       int                    staffNumber);
     
-    void            addStaffToPartClone (S_msrStaff staff);
+    void            addStaffToPartCloneByItsNumber (S_msrStaff staff);
 
     S_msrStaff      fetchStaffFromPart (int staffNumber);
 

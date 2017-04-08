@@ -335,9 +335,9 @@ S_msrStaff xml2MsrTranslator::createStaffInCurrentPartIfNeeded (
 
 //______________________________________________________________________________
 S_msrVoice xml2MsrTranslator::registerVoiceInStaffInCurrentPartIfNeeded (
-  int            inputLineNumber,
-  int            staffNumber,
-  int            voiceNumber)
+  int inputLineNumber,
+  int staffNumber,
+  int voiceNumber)
 {
   S_msrStaff
     staff =
