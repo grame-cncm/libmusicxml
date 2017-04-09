@@ -16719,7 +16719,11 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
-    
+
+  if (! fPartHarmonyVoice)
+    createPartHarmonyStaffAndVoice (
+      inputLineNumber);
+
   fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);
 }
