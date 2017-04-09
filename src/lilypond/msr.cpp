@@ -8063,7 +8063,9 @@ string msrKey::keyAsString () const
 
 void msrKey::print (ostream& os)
 {
-  os << keyAsString () << endl;
+  os <<
+    keyAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -8165,7 +8167,9 @@ string msrTime::timeAsString () const
 
 void msrTime::print (ostream& os)
 {
-  os << timeAsString () << endl;
+  os <<
+    timeAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -11703,8 +11707,6 @@ void msrMeasure::print (ostream& os)
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
       endl;
-
-  idtr++;
       
   if (fMeasureElementsList.size ()) {
     idtr++;
@@ -14411,7 +14413,7 @@ void msrVoice::print (ostream& os)
       endl;
   else
     os << idtr <<
-      "fVoiceTime == 0 !" << // JMI
+      "(fVoiceTime == 0 !)" << // JMI
       endl;
 
   os << endl;

@@ -290,11 +290,15 @@ void displayMSR (
       endl;
 
   os <<
-    "%{" <<
-    endl <<
+    idtr <<
+      "%{" <<
+      endl <<
+      
     mScore <<
-    "%}" <<
-    endl;
+
+    idtr <<
+      "%}" <<
+      endl;
 
   clock_t endClock = clock();
 
