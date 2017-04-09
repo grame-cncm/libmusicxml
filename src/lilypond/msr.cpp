@@ -7945,8 +7945,7 @@ string msrClef::clefAsString () const
 void msrClef::print (ostream& os)
 {
   os <<
-    clefAsString () <<
-    endl;
+    clefAsString ();
 }
 
 //______________________________________________________________________________
@@ -8064,8 +8063,7 @@ string msrKey::keyAsString () const
 void msrKey::print (ostream& os)
 {
   os <<
-    keyAsString () <<
-    endl;
+    keyAsString ();
 }
 
 //______________________________________________________________________________
@@ -8168,8 +8166,7 @@ string msrTime::timeAsString () const
 void msrTime::print (ostream& os)
 {
   os <<
-    timeAsString () <<
-    endl;
+    timeAsString ();
 }
 
 //______________________________________________________________________________
@@ -11706,7 +11703,8 @@ void msrMeasure::print (ostream& os)
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
-      endl;
+      endl <<
+      idtr;
       
   if (fMeasureElementsList.size ()) {
     idtr++;
@@ -11716,9 +11714,12 @@ void msrMeasure::print (ostream& os)
       iEnd   = fMeasureElementsList.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os <<
+        (*i) <<
+        endl;
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      os <<
+        idtr;
     } // for
     
     idtr--;
@@ -15586,20 +15587,26 @@ void msrStaff::print (ostream& os)
 
   idtr++;
 
+  os << idtr;
   if (fStaffClef)
-    os << idtr << fStaffClef;
+    os << fStaffClef;
   else
-    os << idtr << "NO_CLEF" << endl;
+    os << "NO_CLEF";
+  os << endl;
 
+  os << idtr;
   if (fStaffKey)
-    os << idtr << fStaffKey;
+    os << fStaffKey;
   else
-    os << idtr << "NO_KEY" << endl;
+    os << "NO_KEY";
+  os << endl;
 
+  os << idtr;
   if (fStaffTime)
-    os << idtr << fStaffTime;
+    os << fStaffTime;
   else
-    os << idtr << "NO_TIME" << endl;
+    os << "NO_TIME";
+  os << endl;
 
 /* JMI
   os <<
