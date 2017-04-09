@@ -3395,7 +3395,8 @@ lpsrScore::lpsrScore (
   {
   string
     comment =
-      "on " + gGeneralOptions->fTranslationDate;
+      "on " + gGeneralOptions->fTranslationDate +
+      ", through:";
       
   fTranslationDateComment =
     lpsrComment::create (
@@ -3409,15 +3410,10 @@ lpsrScore::lpsrScore (
   stringstream s;
   
   s <<
-    "Command line used:" <<
-    endl <<
-    idtr;
-
-  s <<
-    "%" "   " <<
-      gGeneralOptions->fProgramName << " " <<
-      gGeneralOptions->fCommandLineOptions <<
-      gGeneralOptions->fInputSourceName;
+    "  " <<
+    gGeneralOptions->fProgramName << " " <<
+    gGeneralOptions->fCommandLineOptions <<
+    gGeneralOptions->fInputSourceName;
   
   fCommandLineOptionsComment =
     lpsrComment::create (
@@ -3678,17 +3674,18 @@ ostream& operator<< (ostream& os, const S_lpsrScore& scr)
 
 void lpsrScore::print (ostream& os)
 {
-  os <<
+  os << idtr <<
     "LPSR Structure" <<
     endl << endl;
 
   idtr++;
 
-  if (gGeneralOptions->fTraceScore)
-    os <<
-      idtr << fMsrScore;
+  // print the MSR structure (without the voices)
+  os << idtr;
+  fMsrScore->printStructure (os);
+  os << endl;
 
-  // print basic information
+  // print LPSR basic information
   os <<
     idtr << fLilyPondVersion <<
     endl;
@@ -3704,11 +3701,6 @@ void lpsrScore::print (ostream& os)
   os <<
     idtr << fScoreLayout <<
     endl;
-
-  // print the structure (without the voices)
-  os << idtr;
-  fMsrScore->printStructure (os);
-  os << endl;
 
   // print the voices
   if (fScoreElements.size()) {  

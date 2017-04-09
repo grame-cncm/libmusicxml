@@ -65,28 +65,34 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 {
   clock_t startClock = clock();
   
-  if (gGeneralOptions->fTraceGeneral) {
-    string separator =
-      "%--------------------------------------------------------------";
+  string separator =
+    "%--------------------------------------------------------------";
     
-    cerr <<
+  cerr <<
+    endl <<
+    idtr <<
+      separator <<
       endl <<
-      idtr << separator <<
-      endl <<
+    idtr <<
       "Pass 3: translating the MSR into a LPSR" <<
       endl;
-      
-    if (lpsrOpts->fDisplayLpsr)
-      cerr <<
-        "(dpqn: divisions per quarter note)" <<
-        endl;
-        
-    cerr <<
-      idtr << separator <<
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "(dpqn: divisions per quarter note)" <<
+      endl <<
+    idtr <<
+      "(dpfm: divisions per full measure)" <<
       endl;
-  }
-  if (gGeneralOptions->fTraceGeneral)
-    cerr << idtr <<
+
+  idtr--;
+
+  cerr <<
+    idtr <<
+      separator <<
+      endl <<
       endl;
   
   // create an msr2LpsrTranslator
@@ -121,26 +127,46 @@ void displayLpsrScore (
 
   cerr <<
     endl <<
-    idtr << separator <<
-    endl <<
-    "Optional pass: displaying the LPSR" <<
-    endl <<
-    "(dpqn: divisions per quarter note)" <<
-    endl <<
-    "(dpfm: divisions per full measure)" <<
-    endl <<
-    idtr << separator <<
-    endl;
-  
+    idtr <<
+      separator <<
+      endl <<
+    idtr <<
+      "Optional pass: displaying the LPSR as text" <<
+      endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "(dpqn: divisions per quarter note)" <<
+      endl <<
+    idtr <<
+      "(dpfm: divisions per full measure)" <<
+      endl;
+
+  idtr--;
+
+  cerr <<
+    idtr <<
+      separator <<
+      endl <<
+      endl;  
 
   os <<
-    "%{" <<
-    endl <<
+    idtr <<
+      "%{" <<
+      endl <<
+    
     lpScore <<
-    "%}" <<
-    endl;
+    
+    idtr <<
+      "%}" <<
+      endl;
   
-  os << separator << endl;
+  os <<
+    idtr <<
+      separator <<
+      endl;
 
   clock_t endClock = clock();
 

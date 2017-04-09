@@ -11702,18 +11702,11 @@ void msrMeasure::print (ostream& os)
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
-    endl;
+      endl;
 
   idtr++;
-    
-  os <<
-    idtr << "Elements:";
-  
-  if (! fMeasureElementsList.size ())
-    os << " none";
-    
-  else {
-    os << endl;
+      
+  if (fMeasureElementsList.size ()) {
     idtr++;
     
     list<S_msrElement>::const_iterator
@@ -11728,10 +11721,7 @@ void msrMeasure::print (ostream& os)
     
     idtr--;
   }
-//  os << endl; JMI
-    
-  idtr--;
-}
+} 
 
 //______________________________________________________________________________
 int msrSegment::gSegmentsCounter = 0;
@@ -13180,10 +13170,6 @@ msrVoice::msrVoice (
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
         "_HARMONY_VOICE";
-
-      cerr << "***** msrVoice::msrVoice (), " << this << " *****" << endl;
-      if (int(this) == 0x9a46c18) abort(); // JMI
-      break;
       
     case msrVoice::kMasterVoice:
       fVoiceName =
@@ -13679,7 +13665,6 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       break;
       
     case msrVoice::kHarmonyVoice:
-      cerr << "***** msrVoice::appendHarmonyToVoice (), " << this << " *****" << endl;
       break;
       
     case msrVoice::kMasterVoice:
@@ -14388,7 +14373,6 @@ void msrVoice::print (ostream& os)
     voiceKindAsString (fVoiceKind) <<
     " voice \"" << getVoiceName () <<
     "\" " <<
-    " ##### msrVoice::print () " << this << " " << 
     "(" <<
     singularOrPlural (
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<

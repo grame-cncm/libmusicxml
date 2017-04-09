@@ -201,24 +201,35 @@ S_msrScore buildMSRFromElementsTree (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTraceGeneral) {
-    string separator =
-      "%--------------------------------------------------------------";
-    
-    cerr <<
+  string separator =
+    "%--------------------------------------------------------------";
+  
+  cerr <<
+    endl <<
+    idtr <<
+      separator <<
       endl <<
-      idtr << separator <<
-      endl <<
+    idtr <<
       "Pass 2: translating the xmlelement tree into a MSR" <<
       endl;
-    if (msrOpts->fDisplayMsr)
-      cerr <<
-        "(dpqn: divisions per quarter note)" <<
-        endl;
-    cerr <<
-      idtr << separator <<
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "(dpqn: divisions per quarter note)" <<
+      endl <<
+    idtr <<
+      "(dpfm: divisions per full measure)" <<
       endl;
-  }
+
+  idtr--;
+
+  cerr <<
+    idtr <<
+      separator <<
+      endl <<
+      endl;
   
   // create an xml2MsrTranslator
   xml2MsrTranslator translator;
@@ -253,16 +264,30 @@ void displayMSR (
   
   cerr <<
     endl <<
-    idtr << separator <<
-    endl <<
-    "Optional pass: displaying the MSR as text" <<
-    endl <<
-    "(dpqn: divisions per quarter note)" <<
-    endl <<
-    "(dpfm: divisions per full measure)" <<
-    endl <<
-    idtr << separator <<
-    endl;
+    idtr <<
+      separator <<
+      endl <<
+    idtr <<
+      "Optional pass: displaying the MSR as text" <<
+      endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "(dpqn: divisions per quarter note)" <<
+      endl <<
+    idtr <<
+      "(dpfm: divisions per full measure)" <<
+      endl;
+
+  idtr--;
+
+  cerr <<
+    idtr <<
+      separator <<
+      endl <<
+      endl;
 
   os <<
     "%{" <<
