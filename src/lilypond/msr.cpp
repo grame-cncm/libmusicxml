@@ -7236,7 +7236,9 @@ ostream& operator<< (ostream& os, const S_msrPageGeometry& elt) {
 }
 
 void msrPageGeometry::print (ostream& os) {
-  os << "PageGeometry" << endl;
+  os <<
+    "PageGeometry" <<
+    endl;
 
   bool emptyGeometry = true;
   
@@ -7667,7 +7669,9 @@ ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt) {
 
 void msrVarValAssoc::print (ostream& os)
 {
-  os << "MSR VarValAssoc" << endl;
+  os <<
+    "MSR VarValAssoc" <<
+    endl;
   
   idtr++;
 
@@ -17789,7 +17793,9 @@ ostream& operator<< (ostream& os, const S_msrIdentification& elt)
 
 void msrIdentification::print (ostream& os)
 {
-  os << "Identification" << endl;
+  os <<
+    "Identification" <<
+    endl;
 
   bool emptyIdentification = true;
 

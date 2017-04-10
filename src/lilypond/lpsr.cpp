@@ -1108,7 +1108,9 @@ ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& assoc) {
 
 void lpsrLilypondVarValAssoc::print (ostream& os)
 {
-  os << "LilypondVarValAssoc" << endl;
+  os <<
+    "LilypondVarValAssoc" <<
+    endl;
   
   idtr++;
 
@@ -1211,7 +1213,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << " afterwards";
   os << endl;
   
-  os << idtr << endl;
+// JMI  os << endl;
 
   idtr--;
 }
@@ -1306,7 +1308,9 @@ ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& assoc)
 
 void lpsrSchemeVarValAssoc::print (ostream& os)
 {
-  os << "SchemeVarValAssoc" << endl;
+  os <<
+    "SchemeVarValAssoc" <<
+    endl;
 
   idtr++;
 
@@ -1364,7 +1368,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   os << " afterwards";
   os << endl;
   
- // JMI os << idtr << endl;
+ // JMI os << endl;
 
   idtr--;
 }
@@ -2426,7 +2430,9 @@ ostream& operator<< (ostream& os, const S_lpsrHeader& elt)
 
 void lpsrHeader::print (ostream& os)
 {
-  os << "Header" << endl;
+  os <<
+    "Header" <<
+    endl;
 
   bool emptyHeader = true;
   
@@ -2458,7 +2464,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fComposers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2472,7 +2478,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fArrangers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2486,7 +2492,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fLyricists.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2500,10 +2506,17 @@ void lpsrHeader::print (ostream& os)
   }
     
   if (! fSoftwares.empty()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i2;
-    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-      os << idtr << (*i2);
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator
+      iBegin = fSoftwares.begin(),
+      iEnd   = fSoftwares.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+    os << endl;
+    
     emptyHeader = false;
   }
     
@@ -2514,7 +2527,7 @@ void lpsrHeader::print (ostream& os)
   
   if (emptyHeader)
     os << idtr <<
-      " " << "nothing specified" << endl;
+      " " << "nothing specified" << endl; // JMI
   
   idtr--;
 }
