@@ -5415,7 +5415,9 @@ class EXP msrVoice : public msrElement
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialRepeatsAndSegments,
     // it is thus logically the end of the latter,
-    // and is created implicitly for every voice,
+    // and is created implicitly for every voice.
+    // Is is needed 'outside' of the 'list<S_msrElement>'
+    // because it is not a mere S_msrElement, but a S_msrSegment
     list<S_msrElement>        fVoiceInitialRepeatsAndSegments;
     S_msrSegment              fVoiceLastSegment;
 

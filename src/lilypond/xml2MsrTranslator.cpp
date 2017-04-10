@@ -8989,12 +8989,6 @@ void xml2MsrTranslator::handleRepeatStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
-
 /* JMI
   if (! fRepeatHasBeenCreatedForCurrentPart) {
     if (gGeneralOptions->fTrace)
@@ -9046,12 +9040,6 @@ void xml2MsrTranslator::handleRepeatEnd (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
-
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
 
   // append the bar line to the current voice
   currentVoice->
@@ -9152,67 +9140,19 @@ void xml2MsrTranslator::handleHookedEndingStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
-
-    if (! fRepeatHasBeenCreatedForCurrentPart) {
-      if (gGeneralOptions->fTraceRepeats)
-        cerr << idtr <<
-          "Appending an implicit repeat to part " <<
-          fCurrentPart->getPartCombinedName () <<
-          endl;
-    
-      fCurrentPart->
-        appendRepeatToPart (inputLineNumber);
-  
-      fRepeatHasBeenCreatedForCurrentPart = true;  
-    }
-
-/*
-  if (! fRepeatHasBeenCreatedForCurrentPart) { // JMI
-    if (gGeneralOptions->fTrace)
+  if (! fRepeatHasBeenCreatedForCurrentPart) {
+    if (gGeneralOptions->fTraceRepeats)
       cerr << idtr <<
-        "Creating a repeat in voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl;
-
-    // create the repeat
-    fCurrentRepeat =
-      msrRepeat::create (
-        inputLineNumber);
-
-    // set the repeat common segment
-    fCurrentRepeat->
-      setRepeatCommonPart (currentSegment);
-
-    // append the repeat to the current voice
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> appending the repeat to voice \"" <<
-        currentVoice->getVoiceName () <<
-        "\"" <<
+        "Appending an implicit repeat to part " <<
+        fCurrentPart->getPartCombinedName () <<
         endl;
   
     fCurrentPart->
       appendRepeatToPart (inputLineNumber);
 
-    // create new segment for the just starting ending
-    if (gGeneralOptions->fDebug)
-      cerr << idtr <<
-        "--> setting new last segment for the just starting ending in voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl;
-        
-    currentVoice->
-      createNewLastSegmentForVoice (
-        inputLineNumber);
-
-    fRepeatHasBeenCreatedForCurrentPart = true;
+    fRepeatHasBeenCreatedForCurrentPart = true;  
   }
-*/
+
   // append the bar line to the voice
   currentVoice->
     appendBarlineToVoice (barline);
@@ -9253,12 +9193,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   currentVoice->
     appendBarlineToVoice (barline);
 
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
-    
   // create a hooked repeat ending from the current segment
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -9271,40 +9205,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
       inputLineNumber,
       fCurrentEndingNumber,
       msrRepeatending::kHookedEnding);
-
-
-/* BOF
-  S_msrRepeatending
-    repeatEnding =
-      msrRepeatending::create (
-        inputLineNumber,
-        fCurrentEndingNumber,
-        msrRepeatending::kHookedEnding,
-        currentSegment,
-        0); // BOF fCurrentRepeat);
-
-  // add the repeat ending it to the current repeat
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending repeat ending to current repeat in voice \"" <<
-      currentVoice->getVoiceName () <<
-      "\", fPendingBarlines.size() = " << fPendingBarlines.size () <<
-      endl;
-      
-  fCurrentRepeat->
-    addRepeatending (repeatEnding);
-  
-  // create a new segment for the voice
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> creating new last segment for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-      
-  currentVoice->
-    createNewLastSegmentForVoice (
-      inputLineNumber);
-      */
 }
 
 //______________________________________________________________________________
@@ -9341,12 +9241,6 @@ void xml2MsrTranslator::handleHooklessEndingStart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
-
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
 
   // append the bar line to the voice
   currentVoice->
@@ -9397,12 +9291,6 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   currentVoice->
     appendBarlineToVoice (barline);
 
-  // get the current segment
-  S_msrSegment
-    currentSegment =
-      currentVoice->
-        getVoiceLastSegment ();
-
   // create a hookless repeat ending from the current segment
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -9415,38 +9303,6 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
       inputLineNumber,
       fCurrentEndingNumber,
       msrRepeatending::kHooklessEnding);
-      
-/* BOF
-  S_msrRepeatending
-    repeatEnding =
-      msrRepeatending::create (
-        inputLineNumber,
-        fCurrentEndingNumber,
-        msrRepeatending::kHooklessEnding,
-        currentSegment,
-        0); // BOF fCurrentRepeat);
-
-  // add the repeat ending it to the current repeat
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> appending repeat ending to current repeat in voice " <<
-      currentVoice->getVoiceName () <<
-      endl;
-      
-  fCurrentRepeat->
-    addRepeatending (repeatEnding);
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fDebug)
-    cerr << idtr <<
-      "--> creating new last segment for voice " <<
-      currentVoice->getVoiceName () <<
-      endl;
-      
-  currentVoice->
-    createNewLastSegmentForVoice (
-      inputLineNumber);
-      */
 }
 
 //______________________________________________________________________________

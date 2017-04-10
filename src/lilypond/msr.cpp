@@ -3202,8 +3202,7 @@ void msrDynamics::print (ostream& os)
 {
   os <<
     "Dynamics" " " << dynamicsKindAsString () <<
-    ", line " << fInputLineNumber <<
-    endl;
+    ", line " << fInputLineNumber;
 }
 
 //______________________________________________________________________________
@@ -3297,7 +3296,7 @@ void msrWedge::print (ostream& os)
 {
   os <<
     "Wedge" << " " << wedgeKindAsString () <<
-    endl;
+    ", line " << fInputLineNumber;
 }
 
 //______________________________________________________________________________
@@ -3394,7 +3393,7 @@ void msrTie::print (ostream& os)
 {
   os <<
     "Tie" << " " << tieKindAsString () <<
-    endl;
+    ", line " << fInputLineNumber;
 }
 
 //______________________________________________________________________________
@@ -3501,8 +3500,7 @@ void msrSlur::print (ostream& os)
 {
   os <<
     "Slur" " " << slurKindAsString () <<
-    ", line " << fInputLineNumber << " " <<
-    endl;
+    ", line " << fInputLineNumber;
 }
 
 //______________________________________________________________________________
@@ -3609,8 +3607,7 @@ void msrLigature::print (ostream& os)
 {
   os <<
     "Ligature" " " << ligatureKindAsString () <<
-    ", line " << fInputLineNumber << " " <<
-    endl;
+    ", line " << fInputLineNumber;
 }
 
 //______________________________________________________________________________
@@ -5321,9 +5318,11 @@ void msrNote::print (ostream& os)
         ")";
   }
 
+/* JMI
   if (fNoteOccupiesAFullMeasure)
     os <<
       ", full measure";
+*/
 
   os <<
       endl;
@@ -5480,6 +5479,7 @@ void msrNote::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+    os << endl;
 
     idtr--;
   }
@@ -5497,6 +5497,7 @@ void msrNote::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+    os << endl;
 
     idtr--;
   }
@@ -5512,8 +5513,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      os << endl;
     } // for
+    os << endl;
     
     idtr--;
   }
@@ -5529,8 +5531,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      os << endl;
     } // for
+    os << endl;
     
     idtr--;
   }
@@ -5546,8 +5549,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      os << endl;
     } // for
+    os << endl;
     
     idtr--;
   }
@@ -6366,8 +6370,7 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 void msrBarCheck::print (ostream& os)
 {
   os <<
-    barCheckAsString () <<
-    endl;
+    barCheckAsString ();
 }
 
 //______________________________________________________________________________
@@ -11737,8 +11740,7 @@ void msrMeasure::print (ostream& os)
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
-      endl <<
-      idtr;
+      endl;
       
   if (fMeasureElementsList.size ()) {
     idtr++;
@@ -11749,11 +11751,10 @@ void msrMeasure::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        (*i) <<
+        idtr << (*i) <<
         endl;
       if (++i == iEnd) break;
-      os <<
-        idtr;
+  //    os << idtr;
     } // for
     
     idtr--;
@@ -15719,20 +15720,26 @@ void msrStaff::printStructure (ostream& os)
 
   idtr++;
 
+  os << idtr;
   if (fStaffClef)
-    os << idtr << fStaffClef;
+    os << fStaffClef;
   else
-    os << idtr << "NO_CLEF" << endl;
+    os << "NO_CLEF";
+  os << endl;
 
+  os << idtr;
   if (fStaffKey)
-    os << idtr << fStaffKey;
+    os << fStaffKey;
   else
-    os << idtr << "NO_KEY" << endl;
+    os << "NO_KEY";
+  os << endl;
 
+  os << idtr;
   if (fStaffTime)
-    os << idtr << fStaffTime;
+    os << fStaffTime;
   else
-    os << idtr << "NO_TIME" << endl;
+    os << "NO_TIME";
+  os << endl;
 
 /* JMI
   os <<
@@ -17011,9 +17018,9 @@ void msrPart::printStructure (ostream& os)
       i++) {
       os <<
         idtr;
-        (*i).second->printStructure (os);
-        os <<
-          endl;
+      (*i).second->printStructure (os);
+      os <<
+        endl;
     } // for
   }
 
