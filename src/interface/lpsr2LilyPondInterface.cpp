@@ -84,7 +84,6 @@ void generateLilyPondCodeFromLpsrScore (
   cerr <<
     idtr <<
       separator <<
-      endl <<
       endl;
   
   // create an lpsr2LilyPondTranslator

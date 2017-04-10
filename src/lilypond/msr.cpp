@@ -11549,18 +11549,17 @@ void msrMeasure::finalizeMeasure (
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
     appendNoteToMeasure (skip);
-
-    // account for skip duration in measure position
-    setMeasurePosition (
-      inputLineNumber, fMeasurePosition + skipDuration);
   }
 
-  if (fMeasurePosition == 1) {
+/*
+  if (fMeasurePosition == 1) { // cannot occur ??? JMI
     // this measure is empty
     fMeasureKind = kEmptyMeasure;
   }
 
-  else {
+  else
+  */
+  {
     // CAUTION JMI : this is a potential incomplete measure
     // is this an incomplete measure?
     bool measureIsIncomplete =
@@ -11730,6 +11729,13 @@ string msrMeasure::getMeasureKindAsString () const
 
 void msrMeasure::print (ostream& os)
 {
+  /* JMI
+  // fetch the part measure position high tide
+  int partMeasurePositionHighTide =
+    fMeasureDirectPartUplink->
+      getPartMeasurePositionHighTide ();
+   */
+
   os <<
     endl <<
     idtr <<
@@ -11744,6 +11750,9 @@ void msrMeasure::print (ostream& os)
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
+// JMI      ", part high tide = " <<
+// JMI      fMeasureDirectPartUplink->
+// JMI        getPartMeasurePositionHighTide () <<
       endl;
       
   if (fMeasureElementsList.size ()) {
