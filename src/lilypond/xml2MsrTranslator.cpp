@@ -2891,7 +2891,7 @@ void xml2MsrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
-  fCurrentStaffTuningAlteration = k_NoAlteration;
+  fCurrentStaffTuningAlteration = kNatural; // may be absent
   fCurrentStaffTuningOctave     = -1;
 }
     

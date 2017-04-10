@@ -10754,6 +10754,19 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasureElementsList.push_back (note);
 
     if (note->getNoteHarmony ()) { // JMI BOF
+      // fetch part harmony voice
+      S_msrVoice
+        partHarmonyVoice =
+          fMeasureDirectPartUplink->
+            getPartHarmonyVoice ();
+
+      if (! partHarmonyVoice) {
+        // create the part harmony staff and voice
+        fMeasureDirectPartUplink->
+          createPartHarmonyStaffAndVoice (
+            inputLineNumber);
+      }
+      
       // bring harmony voice to the same measure position
       fMeasureDirectPartUplink->
         getPartHarmonyVoice ()->
