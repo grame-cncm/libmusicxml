@@ -9834,6 +9834,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   fCurrentHarmony =
     msrHarmony::create (
       inputLineNumber,
+      fCurrentPart,
       harmonyRootQuartertonesPitch,
       fCurrentHarmonyKind,
       fCurrentHarmonyKindText,

@@ -356,6 +356,10 @@ class lpsr2LilyPondTranslator :
                   msrOrnament::msrOrnamentKind ornamentKind,
                   string                       noteUplinkDuration);
 
+    string      harmonyAsLilyPondString (
+                  int          inputLineNumber,
+                  S_msrHarmony harmony);
+
   private:
                      
     S_msrOptions          fMsrOptions;

@@ -2464,6 +2464,7 @@ class EXP msrHarmony : public msrElement
 
     static SMARTP<msrHarmony> create (
       int                  inputLineNumber,
+      S_msrPart            harmonyDirectPartUplink,
       msrQuartertonesPitch harmonyRootQuartertonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
@@ -2514,6 +2515,13 @@ class EXP msrHarmony : public msrElement
     S_msrPart             getHarmonyVoiceUplink () const
                               { return fHarmonyPartUplink; }
                 
+    // part direct uplink
+    void                  setHarmonyDirectPartUplink (S_msrPart part)
+                              { fHarmonyDirectPartUplink = part; }
+                              
+    S_msrPart             getHarmonyDirectPartUplink () const
+                             { return fHarmonyDirectPartUplink; }
+
 
     // services
     // ------------------------------------------------------
@@ -2537,6 +2545,8 @@ class EXP msrHarmony : public msrElement
     virtual void print (ostream& os);
 
   private:
+
+    S_msrPart                 fHarmonyDirectPartUplink;
 
     int                       fHarmonyDivisions;
     

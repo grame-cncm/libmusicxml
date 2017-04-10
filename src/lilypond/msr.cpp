@@ -4052,7 +4052,7 @@ S_msrNote msrNote::createSkipNote (
       false); // noteIsAGraceNote
   assert(o!=0);
 
-  // set skip's divisions per quarter note
+  // set skip's direct part uplink
   o->fNoteDirectPartUplink =
     noteDirectPartUplink;
   
@@ -8978,7 +8978,7 @@ S_msrStanza msrStanza::create (
       stanzaVoiceUplink);
   assert(o!=0);
 
-  // set stanza's divisions per quarter note
+  // set stanza's direct part uplink
   o->fStanzaDirectPartUplink =
     stanzaDirectPartUplink;
     
@@ -9529,6 +9529,7 @@ void msrStanza::print (ostream& os)
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
+  S_msrPart            harmonyDirectPartUplink,
   msrQuartertonesPitch harmonyRootQuartertonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
@@ -9543,6 +9544,12 @@ S_msrHarmony msrHarmony::create (
       harmonyBassQuartertonesPitch,
       harmonyPartUplink);
   assert(o!=0);
+
+  // set harmony's direct part uplink
+  msrAssert(harmonyDirectPartUplink != 0, "harmonyDirectPartUplink != 0"); // JMI
+  o->fHarmonyDirectPartUplink =
+    harmonyDirectPartUplink;
+    
   return o;
 }
 
@@ -9581,6 +9588,7 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
     clone =
       msrHarmony::create (
         fInputLineNumber,
+        clonedPart,
         fHarmonyRootQuartertonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuartertonesPitch,
@@ -9683,8 +9691,10 @@ string msrHarmony::harmonyAsString () const
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
       msrDiatonicPitchFromQuatertonesPitch (
         fInputLineNumber,
-        fHarmonyRootQuartertonesPitch)) <<        
+        fHarmonyRootQuartertonesPitch)) <<
+          
     harmonyKindAsShortString () <<
+    
     fHarmonyPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
@@ -10496,7 +10506,7 @@ S_msrMeasure msrMeasure::create (
       segmentUplink);
   assert(o!=0);
 
-  // set measure's divisions per quarter note
+  // set measure's direct part uplink
   o->fMeasureDirectPartUplink =
     measureDirectPartUplink;
     
@@ -10512,8 +10522,6 @@ msrMeasure::msrMeasure (
   fMeasureNumber = measureNumber;
   
   fMeasureSegmentUplink = segmentUplink;
-
-// JMI  assert(fMeasureSegmentUplink->getSegmentAbsoluteNumber () != 6); // XXL
 
   // set measure voice direct uplink
   fMeasureVoiceDirectUplink =
@@ -15420,6 +15428,15 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     switch (voice->getVoiceKind ()) {
       case msrVoice::kRegularVoice:
         if (! voice->getMusicHasBeenInsertedInVoice ()) {
+          if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
+            cerr << idtr <<
+              "Erasing regular master voice \"" <<
+              voice->getVoiceName () <<
+              "\" in staff " <<
+              getStaffName () <<
+              ", line " << inputLineNumber <<
+              endl;
+              
      // JMI BOF     fStaffAllVoicesMap.erase (i);
         }
         else {
@@ -15433,7 +15450,16 @@ void msrStaff::finalizeStaff (int inputLineNumber)
         
       case msrVoice::kMasterVoice:
         if (! gMsrOptions->fKeepMasterVoices) {
-          fStaffAllVoicesMap.erase (i);
+          if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
+            cerr << idtr <<
+              "Erasing staff master voice \"" <<
+              voice->getVoiceName () <<
+              "\" in staff " <<
+              getStaffName () <<
+              ", line " << inputLineNumber <<
+              endl;
+
+    // JMI BOF      fStaffAllVoicesMap.erase (i);
         }
         break;
     } // switch

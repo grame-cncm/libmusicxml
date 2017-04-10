@@ -447,6 +447,45 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
+  int          inputLineNumber,
+  S_msrHarmony harmony)
+{
+  stringstream s;
+
+  s <<
+    msrDiatonicPitchAsString (
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
+      msrDiatonicPitchFromQuatertonesPitch (
+        inputLineNumber,
+        harmony->getHarmonyRootQuartertonesPitch ())) <<
+           
+ //   harmonyKindAsShortString () <<
+    
+    harmony->getHarmonyDirectPartUplink ()->
+      divisionsAsMsrString (
+        inputLineNumber,
+        harmony->getHarmonyDivisions ()) <<
+
+    ":";
+
+  msrQuartertonesPitch
+    harmonyRootQuartertonesPitch =
+      harmony->getHarmonyRootQuartertonesPitch ();
+      
+  if (harmonyRootQuartertonesPitch != k_NoQuaterTonesPitch)
+    s <<
+      "/" <<
+      msrDiatonicPitchAsString (
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
+        msrDiatonicPitchFromQuatertonesPitch (
+          inputLineNumber,
+          harmonyRootQuartertonesPitch));
+
+  return s.str();
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1140,7 +1179,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
       break;
       
     case msrStaff::kHarmonyStaff:
-      staffContextName = "kHarmonyStaff ???";
+      staffContextName = "kHarmonyStaff???";
       break;
   } // switch
 
@@ -1771,9 +1810,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
       */
   }
 
-  else if (true || fOnGoingHarmonyVoice) { // JMI FOO
+  else if (fOnGoingHarmonyVoice) {
     fOstream <<
-      elt->harmonyAsString () << " FOO ";
+      elt << " ";
   }
 
 /* JMI
@@ -3299,7 +3338,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
   } // switch
   */
 
-  fOnGoingNote = true;
+  fOnGoingNote = false;
 }
 
 //________________________________________________________________________

@@ -751,11 +751,11 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         registerVoiceInStaff (
           inputLineNumber, fCurrentVoiceClone);
     
-      // append the voice to the LPSR score elements list
+      // append the voice clone to the LPSR score elements list
       fLpsrScore ->
         appendVoiceToScoreElements (fCurrentVoiceClone);
     
-          // append a use of the voice to the current staff block
+      // append a use of the voice to the current staff block
       fCurrentStaffBlock->
         appendVoiceUseToStaffBlock (fCurrentVoiceClone);
       break;
@@ -767,6 +767,16 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           createPartHarmonyStaffAndVoice (
             inputLineNumber);
 
+        // fetch harmony voice
+        fCurrentVoiceClone =
+          fCurrentPartClone->
+            getPartHarmonyVoice ();
+
+        // append the voice clone to the LPSR score elements list
+        fLpsrScore ->
+          appendVoiceToScoreElements (fCurrentVoiceClone);
+    
+        // create a ChordNames context command
         string voiceName =
           elt->getVoiceName ();
 
@@ -774,7 +784,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           elt->getVoiceDirectPartUplink ()->
             getPartCombinedName ();
                         
-        // create a ChordNames context command
         if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords)
           cerr << idtr <<
             "Creating a ChordNames context for \"" << voiceName <<
