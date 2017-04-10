@@ -179,8 +179,6 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
     
   stringstream s;
   
-  //JMI assertMsr(fMsrPitch != k_NoMsrPitch, "fMsrPitch != k_NoMsrPitch");
-
   if (note->getNoteIsUnpitched ())
     s << "unpitched ";
   else

@@ -16226,8 +16226,6 @@ string msrPart::divisionsAsMsrString (
       "<-- divisionsAsMsrString (): returns " << result <<
       endl;
   }
-
-  cerr << idtr; // JMI
   
   return result;
 }
