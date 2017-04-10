@@ -129,11 +129,10 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     "    --t, --traceGeneral" << endl <<
     "          Write a trace of the general activity to standard error." << endl <<
     endl <<
-    "    --tdivs, --traceDivisions " << endl <<
-    "          Write a trace of the activity regarding divisions" << endl <<
-    "          to standard error." << endl <<
-    endl <<
     "    Options to write specific trace information to standard error:" << endl <<
+    "      --tdivs, --traceDivisions " << endl <<
+    "           divisions" << endl <<
+    endl <<
     "      --tparts, --traceparts " << endl <<
     "            score, part groups and parts" << endl <<
     "      --tvoices, --traceVoices " << endl <<
@@ -207,61 +206,71 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     indenter::gIndenter <<
       setw(fieldWidth) << "traceGeneral" << " : " <<
       booleanAsString (gGeneralOptions->fTraceGeneral) <<
+      endl;
+
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "Specific tracing:" <<
+      endl;
+
+  idtr++;
+
+  const int indentedFieldWidth = fieldWidth - 2;
+  
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(indentedFieldWidth) << "traceDivisions" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceDivisions) <<
       endl <<
         
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceDivisions" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceDivisions) <<
-      endl <<
-      
-    indenter::gIndenter <<
-      setw(fieldWidth) << "traceparts" << " : " <<
+      setw(indentedFieldWidth) << "traceparts" << " : " <<
       booleanAsString (gGeneralOptions->fTraceParts) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceVoices" << " : " <<
+      setw(indentedFieldWidth) << "traceVoices" << " : " <<
       booleanAsString (gGeneralOptions->fTraceVoices) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceSegments" << " : " <<
+      setw(indentedFieldWidth) << "traceSegments" << " : " <<
       booleanAsString (gGeneralOptions->fTraceSegments) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceRepeats" << " : " <<
+      setw(indentedFieldWidth) << "traceRepeats" << " : " <<
       booleanAsString (gGeneralOptions->fTraceRepeats) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceMeasures" << " : " <<
+      setw(indentedFieldWidth) << "traceMeasures" << " : " <<
       booleanAsString (gGeneralOptions->fTraceMeasures) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceNotes" << " : " <<
+      setw(indentedFieldWidth) << "traceNotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceNotes) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceChords" << " : " <<
+      setw(indentedFieldWidth) << "traceChords" << " : " <<
       booleanAsString (gGeneralOptions->fTraceChords) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceTuplets" << " : " <<
+      setw(indentedFieldWidth) << "traceTuplets" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTuplets) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceGracenotes" << " : " <<
+      setw(indentedFieldWidth) << "traceGracenotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceGracenotes) <<
       endl <<
 
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceLyrics" << " : " <<
+      setw(indentedFieldWidth) << "traceLyrics" << " : " <<
       booleanAsString (gGeneralOptions->fTraceLyrics) <<
       endl <<
       
     indenter::gIndenter <<
-      setw(fieldWidth) << "traceHarmonies" << " : " <<
+      setw(indentedFieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (gGeneralOptions->fTraceHarmonies) <<
       endl <<
     indenter::gIndenter <<
-      setw(fieldWidth) << "debugMeasureNumbersSet" << " : ";
+      setw(indentedFieldWidth) << "debugMeasureNumbersSet" << " : ";
 
   if (gGeneralOptions->fDebugMeasureNumbersSet.empty ())
     cerr << "none";
@@ -274,6 +283,8 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
         cerr << (*i) << " ";
     } // for
   cerr << endl;
+
+  idtr--;
 
   cerr <<
     indenter::gIndenter <<

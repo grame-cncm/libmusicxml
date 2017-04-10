@@ -2116,7 +2116,7 @@ void msrOptions::printMsrOptionsHelp ()
     "          Don't display MSR stanzas while displaying MSR data." << endl <<
     endl <<
 
-    "    Options to attach certain elements not to a rest, but to the next note instead:" << endl <<
+    "    Options to delay certain elements from a rest to the next note:" << endl <<
     "      --drdyns, --delayRestsDynamics" << endl <<
     "            dynamics" << endl <<
     "      --drwords, --delayRestsWords" << endl <<
@@ -2184,24 +2184,37 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
     idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
       booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
-      endl <<
+      endl;
 
-    idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "Delaying elements:" <<
+      endl;
+
+  idtr++;
+
+  const int indentedFieldWidth = fieldWidth - 2;
+  
+  cerr << left <<
+    idtr << setw(indentedFieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
       endl <<
-    idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
+    idtr << setw(indentedFieldWidth) << "delayRestsWords" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWords) <<
       endl <<
-    idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
+    idtr << setw(indentedFieldWidth) << "delayRestsSlurs" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
       endl <<
-    idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
+    idtr << setw(indentedFieldWidth) << "delayRestsLigatures" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
       endl <<
-    idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
+    idtr << setw(indentedFieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWedges) <<
-      endl <<
+      endl;
 
+  idtr--;
+
+  cerr << left <<
     idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
       booleanAsString (gMsrOptions->fKeepMasterVoices) <<
       endl <<
