@@ -357,7 +357,6 @@ class lpsr2LilyPondTranslator :
                   string                       noteUplinkDuration);
 
     string      harmonyAsLilyPondString (
-                  int          inputLineNumber,
                   S_msrHarmony harmony);
 
   private:

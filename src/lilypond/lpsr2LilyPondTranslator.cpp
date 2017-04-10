@@ -448,9 +448,11 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
 
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
-  int          inputLineNumber,
   S_msrHarmony harmony)
 {
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
   stringstream s;
 
   s <<
@@ -460,27 +462,58 @@ string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
         inputLineNumber,
         harmony->getHarmonyRootQuartertonesPitch ())) <<
            
- //   harmonyKindAsShortString () <<
-    
     harmony->getHarmonyDirectPartUplink ()->
       divisionsAsMsrString (
         inputLineNumber,
-        harmony->getHarmonyDivisions ()) <<
-
-    ":";
+        harmony->getHarmonyDivisions ());
+    
+  switch (harmony->getHarmonyKind ()) {
+    case msrHarmony::kMajor:
+      break;
+    case msrHarmony::kMinor:
+      s << ":m";
+      break;
+    case msrHarmony::kDominant:
+      s << ":7";
+      break;
+    case msrHarmony::kAugmented:
+      s << ":aug";
+      break;
+    case msrHarmony::kDiminished:
+      s << ":dim";
+      break;
+    case msrHarmony::kSuspendedFourth:
+      s << ":sus4";
+      break;
+    case msrHarmony::kMajorSeventh:
+      s << ":maj7";
+      break;
+    case msrHarmony::kMinorSeventh:
+      s << ":m7";
+      break;
+    case msrHarmony::kMajorNinth:
+      s << ":9";
+      break;
+    case msrHarmony::kMinorNinth:
+      s << ":-9";
+      break;
+    case msrHarmony::k_NoHarmony:
+      s << ":Harmony???";
+      break;
+  } // switch
 
   msrQuartertonesPitch
-    harmonyRootQuartertonesPitch =
-      harmony->getHarmonyRootQuartertonesPitch ();
+    harmonyBassQuartertonesPitch =
+      harmony->getHarmonyBassQuartertonesPitch ();
       
-  if (harmonyRootQuartertonesPitch != k_NoQuaterTonesPitch)
+  if (harmonyBassQuartertonesPitch != k_NoQuaterTonesPitch)
     s <<
       "/" <<
       msrDiatonicPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           inputLineNumber,
-          harmonyRootQuartertonesPitch));
+          harmonyBassQuartertonesPitch));
 
   return s.str();
 }
@@ -1682,9 +1715,21 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
   fOstream << idtr <<
     elt->getVoiceName () << " = ";
 
-  if (! fLpsrOptions->fGenerateAbsoluteOctaves)
-    fOstream << "\\relative ";
-    
+  switch (elt->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      if (! fLpsrOptions->fGenerateAbsoluteOctaves)
+        fOstream << "\\relative ";
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fOstream << "\\chordmode ";
+      break;
+      
+    case msrVoice::kMasterVoice:
+      // ?? JMI
+      break;
+  } // switch
+
   fOstream <<
     "{" <<
     endl;
@@ -1812,7 +1857,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
 
   else if (fOnGoingHarmonyVoice) {
     fOstream <<
-      elt << " ";
+      harmonyAsLilyPondString (elt) <<
+      " ";
   }
 
 /* JMI

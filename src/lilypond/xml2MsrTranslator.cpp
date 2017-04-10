@@ -9829,7 +9829,26 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         inputLineNumber,
         fCurrentHarmonyBassDiatonicPitch,
         fCurrentHarmonyBassAlteration);
-        
+
+  if (harmonyRootQuartertonesPitch == harmonyBassQuartertonesPitch) {
+    stringstream s;
+
+    s <<
+      "harmony root and bass notes are both equal to '" <<
+      msrDiatonicPitchAsString (
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
+        msrDiatonicPitchFromQuatertonesPitch (
+          inputLineNumber,
+          harmonyRootQuartertonesPitch)) <<        
+      "', ignoring the latter";
+
+    msrMusicXMLWarning (
+     inputLineNumber,
+     s.str());
+
+    harmonyBassQuartertonesPitch = k_NoQuaterTonesPitch;
+  }
+  
   // create the harmony
   fCurrentHarmony =
     msrHarmony::create (
