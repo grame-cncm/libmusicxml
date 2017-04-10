@@ -880,6 +880,9 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
     fOstream << idtr <<
       "--> End visiting msrSegment" <<
       endl;
+
+  // forget current segment clone
+  fCurrentSegmentClone = 0;
 }
 
 //________________________________________________________________________

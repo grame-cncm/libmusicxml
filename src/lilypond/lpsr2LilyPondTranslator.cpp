@@ -1913,22 +1913,24 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
 //________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 {    
-  if (gLpsrOptions->fTraceLpsrVisitors)
-    fOstream << idtr <<
-      "% --> Start visiting msrMeasure " <<
-      elt->getInputLineNumber () <<
-      endl;
-
   int
     inputLineNumber =
       elt->getInputLineNumber (),
     measureNumber =
       elt->getMeasureNumber ();
     
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrMeasure " <<
+      measureNumber <<
+      ", line " << inputLineNumber<<
+      endl;
+
   if (fLpsrOptions->fGenerateComments) {
     fOstream << idtr <<
       setw(30) << "" << "% start of measure " <<
-       inputLineNumber<<
+      measureNumber <<
+      ", line " << inputLineNumber<<
       endl;
 
     idtr++;
@@ -2038,10 +2040,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
 {
+  int
+    inputLineNumber =
+      elt->getInputLineNumber (),
+    measureNumber =
+      elt->getMeasureNumber ();
+    
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> End visiting msrMeasure " <<
-      elt->getInputLineNumber () <<
+      measureNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   switch (elt->getMeasureKind ()) {
@@ -2076,9 +2085,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kEmptyMeasure:
       break;
   } // switch
-
-  int measureNumber =
-    elt->getMeasureNumber ();
     
   if (fLpsrOptions->fGenerateComments) {
     idtr--;
@@ -2089,6 +2095,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
         idtr <<
           setw(30) << "" << "% end of measure " <<
           measureNumber <<
+          ", line " << inputLineNumber<<
           endl << endl;
     }
     else {
@@ -2096,6 +2103,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
         idtr <<
           setw(30) << "" << "% end of msrMeasure " <<
           measureNumber <<
+          ", line " << inputLineNumber<<
           endl << endl;      
     }
   }
@@ -4089,8 +4097,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
  // JMI if (nextBarNumber > 1)
   fOstream << idtr <<
     "| % " << nextBarNumber <<
-    endl <<
-    idtr;
+    endl;
 
   fMusicOlec.resetToZero ();
 }
@@ -4113,8 +4120,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarnumberCheck& elt)
 
   fOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
-    endl <<
-    idtr;
+    endl;
 
   fMusicOlec.resetToZero ();
 }
