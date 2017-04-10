@@ -11108,9 +11108,11 @@ void msrMeasure::bringMeasureToMeasurePosition (
     // if it happens to be the first note of a chord
     appendNoteToMeasure (skip);
 
+/*
     // account for skip duration in measure position
     setMeasurePosition (
       inputLineNumber, fMeasurePosition + skipDuration);
+*/
   }
 }
 
