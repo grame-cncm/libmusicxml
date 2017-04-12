@@ -1342,6 +1342,30 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrTremolo" <<
+      endl;
+
+  if (fOnGoingNote) {
+    // don't add tremolos to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addTremoloToNote (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrTremolo" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

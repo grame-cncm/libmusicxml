@@ -3061,7 +3061,7 @@ void msrTremolo::print (ostream& os)
     "Tremolo" " " <<
     tremoloKindAsString () <<
     ", line " << fInputLineNumber <<
-    ", marks number" << " = " << fTremoloMarksNumber <<
+    fTremoloMarksNumber << " marks" <<
     ", placement" << " = " << tremoloPlacementKindAsString () <<
     ", note uplink" << " = " << fTremoloNoteUplink->noteAsShortString () <<
     endl;
@@ -4629,6 +4629,11 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 
 void msrNote::addTremoloToNote (S_msrTremolo trem)
 {
+  if (gGeneralOptions->fTraceTremolos)
+    cerr << idtr <<
+      "% Adding tremolo " << trem << " to note " << noteAsString ()
+       << endl;
+
   // register the tremolo in the note
   fNoteTremolo = trem;
 

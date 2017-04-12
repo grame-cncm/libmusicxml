@@ -152,6 +152,7 @@ void analyzeOptions (
   int traceRepeatsPresent               = 0;
   int traceMeasuresPresent              = 0;
   int traceNotesPresent                 = 0;
+  int traceTremolosPresent              = 0;
   int traceChordsPresent                = 0;
   int traceTupletsPresent               = 0;
   
@@ -372,6 +373,15 @@ void analyzeOptions (
     {
       "traceNotes",
       no_argument, &traceNotesPresent, 1
+    },
+    
+    {
+      "ttrems",
+      no_argument, &traceTremolosPresent, 1
+    },
+    {
+      "traceTremolos",
+      no_argument, &traceTremolosPresent, 1
     },
     
     {
@@ -922,6 +932,13 @@ void analyzeOptions (
           gGeneralOptions->fCommandLineOptions +=
             "--traceNotes ";
           traceNotesPresent = false;
+        }
+        if (traceTremolosPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTremolos = true;
+          gGeneralOptions->fCommandLineOptions +=
+            "--traceTremolos ";
+          traceTremolosPresent = false;
         }
         if (traceChordsPresent) {
           gGeneralOptions->fTraceGeneral = true;

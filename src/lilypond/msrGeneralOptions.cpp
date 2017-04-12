@@ -70,6 +70,8 @@ void msrGeneralOptions::initializeGeneralOptions (
     
   fTraceNotes = boolOptionsInitialValue;
   
+  fTraceTremolos = boolOptionsInitialValue;
+  
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
   fTraceSlurs = boolOptionsInitialValue;
@@ -145,6 +147,8 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     "            segments' measures" << endl <<
     "      --tnotes, --traceNotes " << endl <<
     "            notes" << endl <<
+    "      --ttrems, --traceTremolos " << endl <<
+    "            tremolos" << endl <<
     "      --tchords, --traceChords " << endl <<
     "            chords" << endl <<
     "      --ttuplets, --traceTuplets " << endl <<
@@ -242,6 +246,10 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     indenter::gIndenter <<
       setw(indentedFieldWidth) << "traceNotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceNotes) <<
+      endl <<
+    indenter::gIndenter <<
+      setw(indentedFieldWidth) << "traceTremolos" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceTremolos) <<
       endl <<
     indenter::gIndenter <<
       setw(indentedFieldWidth) << "traceChords" << " : " <<

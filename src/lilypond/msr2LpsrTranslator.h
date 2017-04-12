@@ -66,6 +66,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrArticulation>,
   
   public visitor<S_msrOrnament>,
+  
+  public visitor<S_msrTremolo>,
 
   public visitor<S_msrDynamics>,
   public visitor<S_msrSlur>,
@@ -182,6 +184,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
+
+    virtual void visitStart (S_msrTremolo& elt);
+    virtual void visitEnd   (S_msrTremolo& elt);
 
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);

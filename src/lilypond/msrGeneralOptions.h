@@ -115,6 +115,8 @@ class EXP msrGeneralOptions : public smartable
     
     bool                  fTraceNotes;
     
+    bool                  fTraceTremolos;
+    
     bool                  fTraceDynamics;
     bool                  fTraceWords;
     bool                  fTraceSlurs;
