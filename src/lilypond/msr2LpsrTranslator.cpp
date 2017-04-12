@@ -941,12 +941,110 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       fCurrentMeasureClone);
 }
 
+void msr2LpsrTranslator::finalizeMeasure ( // JMI
+  int          inputLineNumber,
+  S_msrMeasure originalMeasure,
+  S_msrMeasure clonedMeasure)
+{
+  // fetch the voice
+  S_msrVoice
+    voice =
+      clonedMeasure->getMeasureSegmentUplink ()->
+        getSegmentVoiceUplink ();
+    
+  // fetch the part measure position high tide
+  int partMeasurePositionHighTide =
+    clonedMeasure->getMeasureDirectPartUplink ()->
+      getPartMeasurePositionHighTide ();
+
+  int measureNumber =
+    clonedMeasure->getMeasureNumber ();
+    
+  int measurePosition =
+    clonedMeasure->getMeasurePosition ();
+
+  int measureDivisionsPerFullMeasure =
+    clonedMeasure->getMeasureDivisionsPerFullMeasure ();
+    
+  if (gGeneralOptions->fTraceMeasures) {
+    cerr <<
+      idtr <<
+        "Finalizing measure " << measureNumber <<
+        " in voice \"" << voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl <<
+      idtr <<
+        "measurePosition = " << measurePosition <<
+        endl <<
+      idtr <<
+        "partMeasurePositionHighTide = " <<
+        partMeasurePositionHighTide <<
+        endl;
+  }
+
+  msrMeasure::msrMeasureKind measureKind;
+ // JMI     fMeasureKind = kRegularMeasure; // may be changed afterwards
+    
+  // positions start at 1
+
+  if (measurePosition == measureDivisionsPerFullMeasure + 1) { // JMI
+    measureKind =
+      msrMeasure::kRegularMeasure;
+  }
+      
+  else if (measurePosition <= measureDivisionsPerFullMeasure) { // JMI
+    /*
+    if (fSegmentMeasuresList.size () == 1) {
+      // this is the first measure in the segment
+      measureKind =
+        msrMeasure::kIncompleteLeftMeasure;
+    }
+    
+    else {
+      // this is the last measure in the segment
+      measureKind =
+        msrMeasure::kIncompleteRightMeasure;
+    }
+    */
+    measureKind =
+      msrMeasure::kIncompleteLeftMeasure; // JMI
+  }
+
+  else if (measurePosition > measureDivisionsPerFullMeasure + 1) {
+    measureKind =
+      msrMeasure::kOverfullMeasure;
+  }
+
+  if (measureKind != originalMeasure->getMeasureKind ()) {
+    stringstream s;
+
+    s <<
+      "line " << inputLineNumber << ":" <<
+      endl <<
+      "clone measure:" <<
+      endl <<
+      clonedMeasure <<
+      endl <<
+      "differs from original measure:" <<
+      originalMeasure;
+
+    msrInternalError (
+      inputLineNumber,
+      s.str());
+  }
+}
+
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrMeasure" <<
       endl;
+
+  finalizeMeasure (
+    elt->getInputLineNumber (),
+    elt, // original measure
+    fCurrentMeasureClone);
 
   bool doCreateABarCheck = false;
   

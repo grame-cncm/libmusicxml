@@ -337,7 +337,12 @@ class msr2LpsrTranslator :
     // measures
     // ------------------------------------------------------
     S_msrMeasure              fCurrentMeasureClone;
-    
+
+    void                      finalizeMeasure (
+                                int          inputLineNumber,
+                                S_msrMeasure originalMeasure,
+                                S_msrMeasure clonedMeasure);
+
     // segments
     // ------------------------------------------------------
     S_msrSegment              fCurrentSegmentClone;

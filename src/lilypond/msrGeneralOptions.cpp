@@ -151,14 +151,10 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     "            tuplets" << endl <<
     "      --tgrace, --traceGracenotes " << endl <<
     "            grace notes" << endl <<
-    endl <<
-    "    --tlyrics, --traceLyrics " << endl <<
-    "          Write at trace of the activity regarding lyrics" << endl <<
-    "          to standard error." << endl <<
-    endl <<
-    "    --tharm, --traceHarmonies " << endl <<
-    "          Write at trace of the activity regarding harmonies" << endl <<
-    "          to standard error." << endl <<
+    "      --tlyrics, --traceLyrics " << endl <<
+    "            lyrics in MusicXML, stanza in MSR" << endl <<
+    "      --tharm, --traceHarmonies " << endl <<
+    "           <harmony/> in MusicXML, \\chordmode in LilyPond" << endl <<
     endl <<
     "    --dm, --debugMeasures measureNumbersSet" << endl <<
     "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<

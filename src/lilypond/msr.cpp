@@ -2124,9 +2124,9 @@ void msrOptions::printMsrOptionsHelp ()
     "      --drslurs, --delayRestsSlurs" << endl <<
     "            slurs" << endl <<
     "      --drligs, --delayRestsLigatures" << endl <<
-    "            ligatures" << endl <<
+    "            <bracket/> in MusicXML, '\\['... \\}'' in LilyPond" << endl <<
     "      --drwedges, --delayRestsWedges" << endl <<
-    "            wedges" << endl <<
+    "            '<wedge/>' in MusicXML, '<!' in LilyPond" << endl <<
     endl <<
 
     "    --msr, --displayMsr" << endl <<
@@ -10605,9 +10605,11 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
 
   clone->
     setMeasureTime (fMeasureTime);
-    
+
+/* JMI    
   clone->fMeasureKind =
     fMeasureKind;
+    */
     
   return clone;
 }
