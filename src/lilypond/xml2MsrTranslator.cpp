@@ -5956,6 +5956,40 @@ void xml2MsrTranslator::visitStart ( S_ornaments& elt )
       endl;
 }
 
+void xml2MsrTranslator::visitStart ( S_tremolo elt )
+{
+  /*
+    <notations>
+      <ornaments>
+        <tremolo type="single">3</tremolo>
+      </ornaments>
+    </notations>
+
+The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1. The text of the element indicates the number of tremolo marks and is an integer from 0 to 8. Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
+When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value. A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1. If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
+
+  */
+   
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_tremolo" <<
+      endl;
+
+  int    tremoloValue = elt->(int)(*elt);
+  
+  string tremoloType = elt->getAttributeValue ("type");
+
+  
+ // type : upright inverted  (Binchois20.xml)
+  fCurrentOrnament =
+    msrOrnament::create (
+      elt->getInputLineNumber (),
+      msrOrnament::kTrillMark);
+      
+  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+}
+
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
 {
   if (gMsrOptions->fTraceMsrVisitors)

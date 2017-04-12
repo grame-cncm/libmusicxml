@@ -198,6 +198,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_scoop>,
 
   public visitor<S_ornaments>,
+  public visitor<S_tremolo>,
   public visitor<S_trill_mark>,
   public visitor<S_wavy_line>,
   public visitor<S_turn>,
@@ -469,6 +470,7 @@ class EXP xml2MsrTranslator :
         
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
+    virtual void visitStart ( S_tremolo& elt );
     virtual void visitStart ( S_trill_mark& elt );
     virtual void visitStart ( S_wavy_line& elt );
     virtual void visitStart ( S_turn& elt );

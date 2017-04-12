@@ -1893,81 +1893,88 @@ class EXP msrSegment : public msrElement
     S_msrPart             getSegmentDirectPartUplink () const
                              { return fSegmentDirectPartUplink; }
 
-    int           getSegmentAbsoluteNumber () const
-                      { return fSegmentAbsoluteNumber; }
+    int                   getSegmentAbsoluteNumber () const
+                              { return fSegmentAbsoluteNumber; }
                       
-    S_msrVoice    getSegmentVoiceUplink () const
-                      { return fSegmentVoicekUplink; }
+    S_msrVoice            getSegmentVoiceUplink () const
+                              { return fSegmentVoicekUplink; }
                       
     const list<S_msrMeasure>&
-                  getSegmentMeasuresList () const
-                      { return fSegmentMeasuresList; }
+                          getSegmentMeasuresList () const
+                              { return fSegmentMeasuresList; }
                                             
-    void          setSegmentTime (S_msrTime time)
-                      { fSegmentTime = time; }
+    void                  setSegmentTime (S_msrTime time)
+                              { fSegmentTime = time; }
 
-    S_msrTime     getSegmentTime () const
-                      { return fSegmentTime; }
+    S_msrTime             getSegmentTime () const
+                              { return fSegmentTime; }
 
     // measure number
-    void          setSegmentMeasureNumber (
-                    int inputLineNumber,
-                    int measureNumber);
+    void                  setSegmentMeasureNumber (
+                            int inputLineNumber,
+                            int measureNumber);
                       
-    const int     getSegmentMeasureNumber () const
-                      { return fSegmentMeasureNumber; }
+    const int             getSegmentMeasureNumber () const
+                              { return fSegmentMeasureNumber; }
 
     // services
     // ------------------------------------------------------
 
-    void          forceSegmentMeasureNumberTo (int measureNumber); // JMI
-    void          incrementSegmentLastMeasureNumber (
-                    int inputLineNumber);
+    void                  forceSegmentMeasureNumberTo (int measureNumber); // JMI
+    void                  incrementSegmentLastMeasureNumber (
+                            int inputLineNumber);
 
-    string        segmentAsString ();
+    string                segmentAsString ();
 
-    void          appendMeasureToSegment (S_msrMeasure measure);
+    void                  appendMeasureToSegment (S_msrMeasure measure);
 
-    void          appendMeasureToSegmentIfNeeded (  // JMI
-                    int inputLineNumber,
-                    int measureNumber);
+    void                  appendMeasureToSegmentIfNeeded (  // JMI
+                            int inputLineNumber,
+                            int measureNumber);
   
-    void          appendClefToSegment (S_msrClef clef);
-    void          appendKeyToSegment (S_msrKey key);
-    void          appendTimeToSegment (S_msrTime time);
+    void                  appendClefToSegment (S_msrClef clef);
+    void                  appendKeyToSegment (S_msrKey key);
+    void                  appendTimeToSegment (S_msrTime time);
 
-    void          appendHarmonyToSegment (S_msrHarmony harmony);
+    void                  appendHarmonyToSegment (S_msrHarmony harmony);
 
-    void            bringSegmentToMeasurePosition (
-                      int inputLineNumber,
-                      int measurePosition);
+    void                    bringSegmentToMeasurePosition (
+                              int inputLineNumber,
+                              int measurePosition);
   
-    void          appendNoteToSegment (S_msrNote note);
-    void          appendChordToSegment (S_msrChord chord);
-    void          appendTupletToSegment (S_msrTuplet tuplet);
+    void                  appendNoteToSegment (S_msrNote note);
+    void                  appendChordToSegment (S_msrChord chord);
+    void                  appendTupletToSegment (S_msrTuplet tuplet);
     
-    void          appendBarlineToSegment (S_msrBarline barline);
-    void          appendBarCheckToSegment (S_msrBarCheck barCheck);
+    void                  appendBarlineToSegment (
+                            S_msrBarline barline);
+    void                  appendBarCheckToSegment (
+                            S_msrBarCheck barCheck);
     
-    void          appendGracenotesToSegment (S_msrGracenotes gracenotes);
-    void          prependGracenotesToSegment (S_msrGracenotes gracenotes);
+    void                  appendGracenotesToSegment (
+                            S_msrGracenotes gracenotes);
+    void                  prependGracenotesToSegment (
+                            S_msrGracenotes gracenotes);
     
-    void          appendOtherElementToSegment (S_msrElement elem);
+    void                  appendOtherElementToSegment (
+                            S_msrElement elem);
         
-    void          prependBarlineToSegment (S_msrBarline barline);
+    void                  prependBarlineToSegment (
+                            S_msrBarline barline);
 
-    S_msrElement  removeLastElementFromSegment (
-                    int inputLineNumber);
+    S_msrElement          removeLastElementFromSegment (
+                            int inputLineNumber);
 
-    void          removeFirstChordNoteFromSegment (
-                    int       inputLineNumber,
-                    S_msrNote note);
+    void                  removeFirstChordNoteFromSegment (
+                            int       inputLineNumber,
+                            S_msrNote note);
 
-    bool          checkForIncompleteSegmentLastMeasure (
-                    int                        inputLineNumber,
-                    msrMeasure::msrMeasureKind measureKind);
+    bool                  checkForIncompleteSegmentLastMeasure (
+                            int                        inputLineNumber,
+                            msrMeasure::msrMeasureKind measureKind);
 
-    void          finalizeLastMeasureOfSegment (int inputLineNumber);
+    void                  finalizeLastMeasureOfSegment (
+                            int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -1984,22 +1991,22 @@ class EXP msrSegment : public msrElement
 
   private:
 
-    static int           gSegmentsCounter;
+    static int            gSegmentsCounter;
 
-    S_msrPart            fSegmentDirectPartUplink;
+    S_msrPart             fSegmentDirectPartUplink;
     
-    int                  fSegmentAbsoluteNumber;
+    int                   fSegmentAbsoluteNumber;
     
-    S_msrTime            fSegmentTime;
+    S_msrTime             fSegmentTime;
     
     // the measures in the segment contain the mmusic
-    list<S_msrMeasure>   fSegmentMeasuresList;
+    list<S_msrMeasure>    fSegmentMeasuresList;
 
-    int                  fSegmentMeasureNumber;
+    int                   fSegmentMeasureNumber;
 
-    bool                 fMeasureNumberHasBeenSetInSegment; // JMI
+    bool                  fMeasureNumberHasBeenSetInSegment; // JMI
 
-    S_msrVoice           fSegmentVoicekUplink;
+    S_msrVoice            fSegmentVoicekUplink;
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);

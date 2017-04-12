@@ -9724,14 +9724,14 @@ string msrHarmony::harmonyAsString () const
     s <<
       " (" <<fHarmonyKindText << ") ";
 
-  if (fHarmonyRootQuartertonesPitch != k_NoQuaterTonesPitch)
+  if (fHarmonyBassQuartertonesPitch != k_NoQuaterTonesPitch)
     s <<
       "/" <<
       msrDiatonicPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
-          fHarmonyRootQuartertonesPitch));
+          fHarmonyBassQuartertonesPitch));
 
   return s.str();
 }
@@ -11053,7 +11053,10 @@ void msrMeasure::bringMeasureToMeasurePosition (
     cerr << idtr <<
       "Bringing measure position for measure '" <<
       fMeasureNumber <<
-      "' to " << measurePosition <<
+      "' in segment " <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
+      " from " << fMeasurePosition <<
+      " to " << measurePosition <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -13225,6 +13228,7 @@ msrVoice::msrVoice (
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
         "_HARMONY_VOICE";
+      break;
       
     case msrVoice::kMasterVoice:
       fVoiceName =
