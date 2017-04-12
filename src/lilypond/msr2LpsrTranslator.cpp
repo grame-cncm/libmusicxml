@@ -784,7 +784,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           elt->getVoiceDirectPartUplink ()->
             getPartCombinedName ();
                         
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords)
+        if (gGeneralOptions->fTraceHarmonies)
           cerr << idtr <<
             "Creating a ChordNames context for \"" << voiceName <<
             "\" in part " << partCombinedName <<
@@ -799,7 +799,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               voiceName);
 
         // append it to the current part block
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords)
+        if (gGeneralOptions->fTraceHarmonies)
           cerr << idtr <<
             "Appending the ChordNames context for \"" << voiceName <<
             "\" in part " << partCombinedName <<

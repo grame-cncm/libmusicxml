@@ -13695,7 +13695,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -16785,7 +16785,7 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Appending harmony '" <<
       harmony->harmonyAsString () <<
