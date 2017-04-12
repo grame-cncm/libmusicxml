@@ -7522,7 +7522,7 @@ void xml2MsrTranslator::attachCurrentTremoloToNote (
   S_msrNote note)
 {
   // attach the current tremolo if any to the note
-  if (! fCurrentTremolo) {
+  if (fCurrentTremolo) {
     
     if (gGeneralOptions->fTraceNotes)
       cerr << idtr <<
@@ -7556,8 +7556,8 @@ void xml2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       i++) {
       if (gGeneralOptions->fTraceChords)
         cerr << idtr <<
-          "--> attaching articulation " <<  (*i) << " to chord " <<
-          chord <<
+          "--> attaching articulation " <<  (*i) <<
+          " to chord " << chord <<
           endl;
           
       chord->

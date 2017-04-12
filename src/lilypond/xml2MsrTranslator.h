@@ -962,9 +962,6 @@ class EXP xml2MsrTranslator :
     void                      attachCurrentTremoloToNote (
                                 S_msrNote note);
 
-    void                      attachCurrentTremoloToChord ( // JMI
-                                S_msrChord chord);
-
     void                      copyNoteTremoloToChord (
                                 S_msrNote note, S_msrChord chord);
 
