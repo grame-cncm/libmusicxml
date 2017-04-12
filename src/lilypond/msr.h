@@ -883,8 +883,7 @@ class EXP msrOrnament : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrOrnamentKind
-                    getOrnamentKind () const
+    msrOrnamentKind getOrnamentKind () const
                         { return fOrnamentKind; }
         
     void            setOrnamentPlacementKind (
@@ -916,11 +915,11 @@ class EXP msrOrnament : public msrElement
     // services
     // ------------------------------------------------------
 
-    string  ornamentKindAsString () const;
+    string          ornamentKindAsString () const;
 
-    string  ornamentPlacementKindAsString () const;
+    string          ornamentPlacementKindAsString () const;
 
-    string  ornamentAccidentalMarkKindAsString () const;
+    string          ornamentAccidentalMarkKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -947,6 +946,111 @@ class EXP msrOrnament : public msrElement
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
+
+/*!
+\brief A msr tremolo representation.
+
+  An tremolo is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrTremolo : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTremoloKind {
+        kSingleTremolo, kDoubleTremolo };
+
+    static string tremoloKindAsString (
+      msrTremoloKind tremoloKind);
+      
+    enum msrTremoloPlacementKind {
+      k_NoPlacementKind, kAbove, kBelow};
+
+    static string TremoloPlacementKindAsString (
+      msrTremoloPlacementKind tremoloPlacementKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTremolo> create (
+      int                     inputLineNumber,
+      int                     tremoloMarksNumber,
+      msrTremoloKind          tremoloKind,
+      msrTremoloPlacementKind tremoloPlacementKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTremolo (
+      int                     inputLineNumber,
+      int                     tremoloMarksNumber,
+      msrTremoloKind          tremoloKind,
+      msrTremoloPlacementKind tremoloPlacementKind);
+      
+    virtual ~msrTremolo();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrTremoloKind  getTremoloKind () const
+                        { return fTremoloKind; }
+        
+    void            setTremoloPlacementKind (
+                      msrTremoloPlacementKind TremoloPlacementKind)
+                        { fTremoloPlacementKind = TremoloPlacementKind; }
+        
+    int             getTremoloMarksNumber () const
+                        { return fTremoloMarksNumber; }
+                
+    msrTremoloPlacementKind
+                    getTremoloPlacementKind () const
+                        { return fTremoloPlacementKind; }
+        
+    void            setTremoloNoteUplink (S_msrNote note)
+                        { fTremoloNoteUplink = note; }
+
+    S_msrNote       getTremoloNoteUplink () const
+                        { return fTremoloNoteUplink; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string          tremoloKindAsString () const;
+
+    string          tremoloPlacementKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrTremoloKind              fTremoloKind;
+
+    int                         fTremoloMarksNumber;
+
+    msrTremoloPlacementKind     fTremoloPlacementKind;
+    
+    S_msrNote                   fTremoloNoteUplink;
+};
+typedef SMARTP<msrTremolo> S_msrTremolo;
+EXP ostream& operator<< (ostream& os, const S_msrTremolo& elt);
 
 /*!
 \brief A msr rehearsal representation.
@@ -2776,10 +2880,15 @@ class EXP msrNote : public msrElement
     const list<S_msrOrnament>&
                           getNoteOrnaments () const
                               { return fNoteOrnaments; }
-                      
+      /* JMI                
     list<S_msrOrnament>&  getNoteOrnamentsToModify ()
                               { return fNoteOrnaments; }
+        */
         
+    // tremolo
+    S_msrTremolo          getNoteTremolo () const
+                              { return fNoteTremolo; }
+
     // ties
     void                  setNoteTie (S_msrTie tie)
                               { fNoteTie = tie; }
@@ -2910,6 +3019,9 @@ class EXP msrNote : public msrElement
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament art);
     
+    // tremolo
+    void                  addTremoloToNote (S_msrTremolo trem);
+    
     // dynamics
     void                  addDynamicsToNote (S_msrDynamics dynamics);
 
@@ -2995,6 +3107,8 @@ class EXP msrNote : public msrElement
     list<S_msrArticulation>   fNoteArticulations;
 
     list<S_msrOrnament>       fNoteOrnaments;
+    
+    S_msrTremolo              fNoteTremolo;
 
     S_msrTie                  fNoteTie;
     

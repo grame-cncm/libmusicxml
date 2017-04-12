@@ -2945,6 +2945,129 @@ void msrOrnament::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTremolo msrTremolo::create (
+  int                     inputLineNumber,
+  int                     tremoloMarksNumber,
+  msrTremoloKind          tremoloKind,
+  msrTremoloPlacementKind tremoloPlacementKind)
+{
+  msrTremolo* o =
+    new msrTremolo (
+      inputLineNumber,
+      tremoloMarksNumber, tremoloKind, tremoloPlacementKind);
+  assert (o!=0);
+  return o;
+}
+
+msrTremolo::msrTremolo (
+  int                     inputLineNumber,
+  int                     tremoloMarksNumber,
+  msrTremoloKind          tremoloKind,
+  msrTremoloPlacementKind tremoloPlacementKind)
+{
+  fTremoloMarksNumber   = tremoloMarksNumber;
+  fTremoloKind          = tremoloKind;
+  fTremoloPlacementKind = tremoloPlacementKind;
+}
+
+msrTremolo::~msrTremolo() {}
+
+string msrTremolo::tremoloKindAsString () const
+{
+  string result;
+  
+  switch (fTremoloKind) {
+    case msrTremolo::kSingleTremolo:
+      result = "single";
+      break;
+    case msrTremolo::kDoubleTremolo:
+      result = "double";
+      break;
+  } // switch
+
+  return result;
+}
+        ,  };
+
+string msrTremolo::tremoloPlacementKindAsString () const
+{
+  string result;
+  
+  switch (fTremoloPlacementKind) {
+    case msrTremolo::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTremolo::kAbove:
+      result = "above";
+      break;
+    case msrTremolo::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrTremolo::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTremolo::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrTremolo>*
+    p =
+      dynamic_cast<visitor<S_msrTremolo>*> (v)) {
+        S_msrTremolo elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTremolo::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTremolo::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTremolo::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrTremolo>*
+    p =
+      dynamic_cast<visitor<S_msrTremolo>*> (v)) {
+        S_msrTremolo elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTremolo::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTremolo::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTremolo& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrTremolo::print (ostream& os)
+{
+  os <<
+    "Tremolo" " " <<
+    tremoloKindAsString () <<
+    ", line " << fInputLineNumber <<
+    ", marks number" << " = " << fTremoloMarksNumber <<
+    ", placement" << " = " << tremoloPlacementKindAsString () <<
+    ", note uplink" << " = " << fTremoloNoteUplink->noteAsShortString () <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrRehearsal msrRehearsal::create (
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,
@@ -4504,6 +4627,16 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
     setOrnamentNoteUplink (this);
 }
 
+void msrNote::addTremoloToNote (S_msrTremolo trem)
+{
+  // register the tremolo in the note
+  fNoteTremolo = trem;
+
+  // set tremolo's note uplink
+  trem->
+    setTremoloNoteUplink (this);
+}
+
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
 {
   fNoteDynamics.push_back (dynamics);
@@ -4730,6 +4863,12 @@ void msrNote::browseData (basevisitor* v)
       browser.browse (*(*i));
     } // for
     idtr--;
+  }
+  
+  if (fNoteTremolo) {
+    // browse the tremolo
+    msrBrowser<msrTremolo> browser (v);
+    browser.browse (*fNoteTremolo);
   }
   
   if (fNoteTie) {
@@ -5455,6 +5594,13 @@ void msrNote::print (ostream& os)
       os << endl;
     } // for
         
+    idtr--;
+  }
+  
+  // print the tremolo if any
+  if (fNoteTremolo) {
+    idtr++;
+    os << idtr << fNoteTremolo;
     idtr--;
   }
   

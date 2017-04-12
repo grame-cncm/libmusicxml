@@ -5956,7 +5956,7 @@ void xml2MsrTranslator::visitStart ( S_ornaments& elt )
       endl;
 }
 
-void xml2MsrTranslator::visitStart ( S_tremolo elt )
+void xml2MsrTranslator::visitStart ( S_tremolo& elt )
 {
   /*
     <notations>
@@ -5965,8 +5965,15 @@ void xml2MsrTranslator::visitStart ( S_tremolo elt )
       </ornaments>
     </notations>
 
-The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1. The text of the element indicates the number of tremolo marks and is an integer from 0 to 8. Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
-When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value. A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1. If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1.
+
+The text of the element indicates the number of tremolo marks and is an integer from 0 to 8.
+Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
+
+When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
+A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
+If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+
 Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   */
@@ -5976,18 +5983,73 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       "--> Start visiting S_tremolo" <<
       endl;
 
-  int    tremoloValue = elt->(int)(*elt);
+  int tremoloMarksNumber = (int)(*elt);
+
+  if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) {
+    stringstream s;
+    
+    s <<
+      "--> tremolo value \"" << tremoloMarksNumber <<
+      "\" should be between 0 and 8";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
   
   string tremoloType = elt->getAttributeValue ("type");
 
+  msrTremolo::msrTremoloKind tremoloKind;
   
- // type : upright inverted  (Binchois20.xml)
-  fCurrentOrnament =
-    msrOrnament::create (
+  if      (tremoloType == "single")
+    tremoloKind = msrTremolo::kSingleTremolo;
+  else if (tremoloType == "double")
+    tremoloKind = msrTremolo::kDoubleTremolo;
+  else {
+    stringstream s;
+    
+    s <<
+      "--> tremolo type \"" << tremoloType <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
       elt->getInputLineNumber (),
-      msrOrnament::kTrillMark);
-      
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+      s.str());
+  }
+  
+  string
+    currentTremoloPlacement =
+      elt->getAttributeValue ("placement");
+
+  msrTremolo::msrTremoloPlacementKind
+    currentTremoloPlacementKind =
+      msrTremolo::k_NoPlacementKind;
+
+  if (currentTremoloPlacement == "above")
+    currentTremoloPlacementKind = msrTremolo::kAbove;
+    
+  else if (currentTremoloPlacement == "below")
+    currentTremoloPlacementKind = msrTremolo::kBelow;
+    
+  else if (currentTremoloPlacement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "tremolo placement \"" << currentTremoloPlacement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());    
+  }
+
+  fCurrentTremolo =
+    msrTremolo::create (
+      elt->getInputLineNumber (),
+      tremoloMarksNumber,
+      tremoloKind,
+      currentTremoloPlacementKind);
 }
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
@@ -7453,6 +7515,26 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::attachCurrentTremoloToNote (
+  S_msrNote note)
+{
+  // attach the current tremolo if any to the note
+  if (! fCurrentTremolo) {
+    
+    if (gGeneralOptions->fTraceNotes)
+      cerr << idtr <<
+        "--> attaching current tremolo to note " <<
+        note->noteAsString () <<
+        endl;
+
+    note->
+      addTremoloToNote (fCurrentTremolo);
+      
+    fCurrentTremolo = 0;
+  }
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   S_msrChord chord)
 {
@@ -7481,6 +7563,7 @@ void xml2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   }
 }
 
+/*
 //______________________________________________________________________________
 void xml2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   S_msrChord chord)
@@ -7509,6 +7592,7 @@ void xml2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       } // for
   }
 }
+*/
 
 //______________________________________________________________________________
 void xml2MsrTranslator::attachPendingDynamicsToNote (
@@ -7943,6 +8027,9 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);
+
+  // attach the tremolo if any to the note
+  attachCurrentTremoloToNote (newNote);
 
   // handle the current harmony if any
   if (fCurrentHarmony) {

@@ -198,7 +198,6 @@ class EXP xml2MsrTranslator :
   public visitor<S_scoop>,
 
   public visitor<S_ornaments>,
-  public visitor<S_tremolo>,
   public visitor<S_trill_mark>,
   public visitor<S_wavy_line>,
   public visitor<S_turn>,
@@ -211,6 +210,8 @@ class EXP xml2MsrTranslator :
   public visitor<S_schleifer>,
   public visitor<S_shake>,
   public visitor<S_accidental_mark>,
+
+  public visitor<S_tremolo>,
 
   public visitor<S_f>,
   public visitor<S_ff>,
@@ -470,7 +471,6 @@ class EXP xml2MsrTranslator :
         
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
-    virtual void visitStart ( S_tremolo& elt );
     virtual void visitStart ( S_trill_mark& elt );
     virtual void visitStart ( S_wavy_line& elt );
     virtual void visitStart ( S_turn& elt );
@@ -483,6 +483,8 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_schleifer& elt );
     virtual void visitStart ( S_shake& elt );
     virtual void visitStart ( S_accidental_mark& elt );
+
+    virtual void visitStart ( S_tremolo& elt );
 
     virtual void visitStart ( S_f& elt);
     virtual void visitStart ( S_ff& elt);
@@ -947,13 +949,26 @@ class EXP xml2MsrTranslator :
     void                      attachCurrentOrnamentsToNote (
                                 S_msrNote note);
 
-    void                      attachCurrentOrnamentsToChord ( // JMI
-                                S_msrChord chord);
+//    void                      attachCurrentOrnamentsToChord ( // JMI
+ //                               S_msrChord chord);
 
     void                      copyNoteOrnamentsToChord (
                                 S_msrNote note, S_msrChord chord);
 
-     // ------------------------------------------------------
+    // ------------------------------------------------------
+    // tremolos handling
+    S_msrTremolo              fCurrentTremolo;
+
+    void                      attachCurrentTremoloToNote (
+                                S_msrNote note);
+
+    void                      attachCurrentTremoloToChord ( // JMI
+                                S_msrChord chord);
+
+    void                      copyNoteTremoloToChord (
+                                S_msrNote note, S_msrChord chord);
+
+    // ------------------------------------------------------
     // chord handling
     S_msrChord                fCurrentChord;
     bool                      fOnGoingChord;
