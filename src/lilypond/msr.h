@@ -977,8 +977,8 @@ class EXP msrTremolo : public msrElement
 
     static SMARTP<msrTremolo> create (
       int                     inputLineNumber,
-      int                     tremoloMarksNumber,
       msrTremoloKind          tremoloKind,
+      int                     tremoloMarksNumber,
       msrTremoloPlacementKind tremoloPlacementKind);
 
   protected:
@@ -988,8 +988,8 @@ class EXP msrTremolo : public msrElement
 
     msrTremolo (
       int                     inputLineNumber,
-      int                     tremoloMarksNumber,
       msrTremoloKind          tremoloKind,
+      int                     tremoloMarksNumber,
       msrTremoloPlacementKind tremoloPlacementKind);
       
     virtual ~msrTremolo();

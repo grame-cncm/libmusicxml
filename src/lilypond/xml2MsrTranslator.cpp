@@ -5983,6 +5983,9 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       "--> Start visiting S_tremolo" <<
       endl;
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   int tremoloMarksNumber = (int)(*elt);
 
   if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) {
@@ -5993,7 +5996,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       "\" should be between 0 and 8";
     
     msrMusicXMLError (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       s.str());
   }
   
@@ -6013,7 +6016,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       "\" is unknown";
     
     msrMusicXMLError (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       s.str());
   }
   
@@ -6040,15 +6043,15 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       "\" is unknown";
     
     msrMusicXMLError (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       s.str());    
   }
 
   fCurrentTremolo =
     msrTremolo::create (
-      elt->getInputLineNumber (),
-      tremoloMarksNumber,
+      inputLineNumber,
       tremoloKind,
+      tremoloMarksNumber,
       currentTremoloPlacementKind);
 }
 

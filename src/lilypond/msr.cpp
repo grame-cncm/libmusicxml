@@ -2947,26 +2947,27 @@ void msrOrnament::print (ostream& os)
 //______________________________________________________________________________
 S_msrTremolo msrTremolo::create (
   int                     inputLineNumber,
-  int                     tremoloMarksNumber,
   msrTremoloKind          tremoloKind,
+  int                     tremoloMarksNumber,
   msrTremoloPlacementKind tremoloPlacementKind)
 {
   msrTremolo* o =
     new msrTremolo (
       inputLineNumber,
-      tremoloMarksNumber, tremoloKind, tremoloPlacementKind);
+      tremoloKind, tremoloMarksNumber, tremoloPlacementKind);
   assert (o!=0);
   return o;
 }
 
 msrTremolo::msrTremolo (
   int                     inputLineNumber,
-  int                     tremoloMarksNumber,
   msrTremoloKind          tremoloKind,
+  int                     tremoloMarksNumber,
   msrTremoloPlacementKind tremoloPlacementKind)
+    : msrElement (inputLineNumber)
 {
-  fTremoloMarksNumber   = tremoloMarksNumber;
   fTremoloKind          = tremoloKind;
+  fTremoloMarksNumber   = tremoloMarksNumber;
   fTremoloPlacementKind = tremoloPlacementKind;
 }
 
@@ -2987,7 +2988,6 @@ string msrTremolo::tremoloKindAsString () const
 
   return result;
 }
-        ,  };
 
 string msrTremolo::tremoloPlacementKindAsString () const
 {
