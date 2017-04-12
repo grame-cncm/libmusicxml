@@ -5890,7 +5890,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) // JMI
     cerr << idtr <<
       "% Adding articulation '" <<
       art->articulationKindAsString () <<
@@ -5898,6 +5898,23 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
       endl;
 
   fChordArticulations.push_back (art);
+}
+
+void msrChord::addTremoloToChord (S_msrTremolo trem)
+{
+  msrTremolo::msrTremoloKind
+    tremoloKind =
+      trem->
+        getTremoloKind ();
+
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "% Adding tremolo '" <<
+      trem->tremoloKindAsString () <<
+      "' to chord" <<
+      endl;
+
+  fChordTremolo = trem;
 }
 
 void msrChord::addOrnamentToChord (S_msrOrnament orn)

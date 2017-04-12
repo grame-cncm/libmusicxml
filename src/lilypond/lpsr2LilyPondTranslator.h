@@ -92,6 +92,8 @@ class lpsr2LilyPondTranslator :
   public visitor<S_msrArticulation>,
   
   public visitor<S_msrOrnament>,
+  
+  public visitor<S_msrTremolo>,
 
   public visitor<S_msrDynamics>,
   public visitor<S_msrWedge>,
@@ -266,6 +268,9 @@ class lpsr2LilyPondTranslator :
 
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
+
+    virtual void visitStart (S_msrTremolo& elt);
+    virtual void visitEnd   (S_msrTremolo& elt);
 
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);

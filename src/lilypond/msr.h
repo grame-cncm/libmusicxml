@@ -3189,130 +3189,136 @@ class EXP msrChord : public msrElement
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
 
-    msrDuration       getChordGraphicDuration () const
-                          { return fChordGraphicDuration; }
+    msrDuration           getChordGraphicDuration () const
+                              { return fChordGraphicDuration; }
             
     const vector<S_msrNote>&
-                      getChordNotes () const
-                          { return fChordNotes; }
+                          getChordNotes () const
+                              { return fChordNotes; }
 
     // ties
-    void              setChordTie (
-                        const S_msrTie tie)
-                          { fChordTie = tie; }
+    void                  setChordTie (
+                            const S_msrTie tie)
+                              { fChordTie = tie; }
 
-    S_msrTie          getChordTie () const
-                          { return fChordTie; }
+    S_msrTie              getChordTie () const
+                              { return fChordTie; }
 
     const list<S_msrArticulation>&
-                      getChordArticulations () const
-                          { return fChordArticulations; }
+                          getChordArticulations () const
+                              { return fChordArticulations; }
 
+    // tremolo
+    S_msrTremolo          getChordTremolo () const
+                              { return fChordTremolo; }
+
+    // ornaments
     const list<S_msrOrnament>&
-                      getChordOrnaments () const
-                          { return fChordOrnaments; }
+                          getChordOrnaments () const
+                              { return fChordOrnaments; }
     
     const list<S_msrDynamics>&
-                      getChordDynamics () const
-                          { return fChordDynamics; }
+                          getChordDynamics () const
+                              { return fChordDynamics; }
                       
     const list<S_msrWords>&
-                      getChordWords () const
-                          { return fChordWords; }
+                          getChordWords () const
+                              { return fChordWords; }
                       
     const list<S_msrSlur>&
-                      getChordSlurs () const
-                          { return fChordSlurs; }
+                          getChordSlurs () const
+                              { return fChordSlurs; }
                       
     const list<S_msrLigature>&
-                      getChordLigatures () const
-                          { return fChordLigatures; }
+                          getChordLigatures () const
+                              { return fChordLigatures; }
                       
     const list<S_msrWedge>&
-                      getChordWedges () const
-                          { return fChordWedges; }
+                          getChordWedges () const
+                              { return fChordWedges; }
 
     // harmony
-    void              setChordHarmony (S_msrHarmony harmony)
-                          { fChordHarmony = harmony; }
+    void                  setChordHarmony (S_msrHarmony harmony)
+                              { fChordHarmony = harmony; }
                       
-    const S_msrHarmony&
-                      getChordHarmony () const
-                          { return fChordHarmony; };
+    const S_msrHarmony&   getChordHarmony () const
+                              { return fChordHarmony; };
                       
      // divisions
-    void              setChordDivisions (int divisions)
-                          { fChordDivisions = divisions; }
+    void                  setChordDivisions (int divisions)
+                              { fChordDivisions = divisions; }
             
-    int               getChordDivisions () const
-                          { return fChordDivisions; }
+    int                   getChordDivisions () const
+                              { return fChordDivisions; }
             
     // measure uplink
-    void              setChordMeasureUplink (
-                        const S_msrMeasure& measure)
-                          { fChordMeasureUplink = measure; }
+    void                  setChordMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fChordMeasureUplink = measure; }
                       
-    S_msrMeasure      getChordMeasureUplink () const
-                        { return fChordMeasureUplink; }
+    S_msrMeasure          getChordMeasureUplink () const
+                            { return fChordMeasureUplink; }
 
     // measure number
-    void              setChordMeasureNumber (
-                        int measureNumber)
-                          { fChordMeasureNumber = measureNumber; }
+    void                  setChordMeasureNumber (
+                            int measureNumber)
+                              { fChordMeasureNumber = measureNumber; }
     
-    int               getChordMeasureNumber () const
-                          { return fChordMeasureNumber; }
+    int                   getChordMeasureNumber () const
+                              { return fChordMeasureNumber; }
  
     // position in measure
-    void              setChordPositionInMeasure (int position)
-                          { fChordPositionInMeasure = position; }
+    void                  setChordPositionInMeasure (int position)
+                              { fChordPositionInMeasure = position; }
 
-    const int         getChordPositionInMeasure () const
-                          { return fChordPositionInMeasure; }
+    const int             getChordPositionInMeasure () const
+                              { return fChordPositionInMeasure; }
                          
     // services
     // ------------------------------------------------------
     
-    string            chordGraphicDurationAsMsrString () const;
+    string                chordGraphicDurationAsMsrString () const;
 
-    void              addFirstNoteToChord (S_msrNote note);
-    void              addAnotherNoteToChord (S_msrNote note);
+    void                  addFirstNoteToChord (S_msrNote note);
+    void                  addAnotherNoteToChord (S_msrNote note);
 
-    void              setChordFirstNotePositionInMeasure (
-                        int position);
+    void                  setChordFirstNotePositionInMeasure (
+                            int position);
                     
-    void              setChordFirstNoteMeasureNumber (
-                        int measureNumber);
+    void                  setChordFirstNoteMeasureNumber (
+                            int measureNumber);
                     
  // JMI   S_msrNote     chordLastNote () const
        //               { return fChordNotes.back (); }
 
-    void              addArticulationToChord (S_msrArticulation art);
+    void                  addArticulationToChord (S_msrArticulation art);
      
-    void              addOrnamentToChord (S_msrOrnament orn);
+    void                  addTremoloToChord (S_msrTremolo trem);
+    
+    void                  addOrnamentToChord (S_msrOrnament orn);
      
-    void              addDynamicsToChord (S_msrDynamics dyn)
-                          { fChordDynamics.push_back (dyn); }
+    void                  addDynamicsToChord (S_msrDynamics dyn)
+                              { fChordDynamics.push_back (dyn); }
                     
-    void              addWordsToChord (S_msrWords dyn)
-                          { fChordWords.push_back (dyn); }
+    void                  addWordsToChord (S_msrWords dyn)
+                              { fChordWords.push_back (dyn); }
                     
-    void              addSlurToChord (S_msrSlur slur)
-                          { fChordSlurs.push_back (slur); }
+    void                  addSlurToChord (S_msrSlur slur)
+                              { fChordSlurs.push_back (slur); }
                       
-    void              addLigatureToChord (S_msrLigature ligature)
-                          { fChordLigatures.push_back (ligature); }
+    void                  addLigatureToChord (S_msrLigature ligature)
+                              { fChordLigatures.push_back (ligature); }
                       
-    void              addWedgeToChord (S_msrWedge wedge)
-                          { fChordWedges.push_back (wedge); }
+    void                  addWedgeToChord (S_msrWedge wedge)
+                              { fChordWedges.push_back (wedge); }
 
-    string            chordDivisionsAsMsrString () const;
+    string                chordDivisionsAsMsrString () const;
 
     // tuplet members
-    void              applyTupletMemberDisplayFactorToChordMembers (
-                        int actualNotes, int normalNotes);
+    void                  applyTupletMemberDisplayFactorToChordMembers (
+                            int actualNotes, int normalNotes);
 
-    string            chordAsString () const;
+    string                chordAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -3348,8 +3354,10 @@ class EXP msrChord : public msrElement
     
     list<S_msrArticulation>   fChordArticulations;
 
+    S_msrTremolo              fChordTremolo;
+    
     list<S_msrOrnament>       fChordOrnaments;
-
+    
     S_msrTie                  fChordTie;
     
     list<S_msrDynamics>       fChordDynamics;

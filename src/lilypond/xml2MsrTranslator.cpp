@@ -7086,7 +7086,7 @@ void xml2MsrTranslator::copyNoteOrnamentsToChord (
     i!=noteOrnaments.end();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) // JMI
       cerr << idtr <<
         "--> copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -7096,6 +7096,28 @@ void xml2MsrTranslator::copyNoteOrnamentsToChord (
 
     chord->addOrnamentToChord ((*i));
   } // for      
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::copyNoteTremoloToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's tremolo if any from the first note to chord
+  
+  S_msrTremolo
+    noteTremolo =
+      note->
+        getNoteTremolo ();
+                          
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "--> copying tremolo '" <<
+      noteTremolo->tremoloKindAsString () <<
+      "' from note " << note->noteAsString () <<
+      " to chord" <<
+      endl;
+
+  chord->addTremoloToChord (noteTremolo);
 }
 
 //______________________________________________________________________________

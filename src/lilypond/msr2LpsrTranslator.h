@@ -185,11 +185,11 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
-    virtual void visitStart (S_msrTremolo& elt);
-    virtual void visitEnd   (S_msrTremolo& elt);
-
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
+
+    virtual void visitStart (S_msrTremolo& elt);
+    virtual void visitEnd   (S_msrTremolo& elt);
 
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);

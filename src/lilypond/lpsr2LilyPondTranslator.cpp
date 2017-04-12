@@ -2566,6 +2566,26 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrTremolo" <<
+      endl;
+
+  // don't generate the tremolo here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrTremolo" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
