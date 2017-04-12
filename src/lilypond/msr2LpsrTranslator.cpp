@@ -1355,6 +1355,10 @@ void msr2LpsrTranslator::visitStart (S_msrTremolo& elt)
       fCurrentNoteClone->
         addTremoloToNote (elt);
   }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addTremoloToChord (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTremolo& elt)

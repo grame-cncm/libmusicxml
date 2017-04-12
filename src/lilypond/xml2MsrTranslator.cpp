@@ -153,7 +153,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentNoteVoiceNumber = 0;
   fOnGoingNote            = false;
 
-  fOnGoingChord        = false;
+  fOnGoingChord = false;
 
   fCurrentATupletStopIsPending = false;
   

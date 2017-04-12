@@ -2879,6 +2879,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     }
   }
 
+  // fetch the note tremolo
+  S_msrTremolo
+    noteTremolo =
+      elt->getNoteTremolo ();
+      
+  if (noteTremolo) {
+    // print the tremolo repeat start
+    fOstream <<
+      "\\repeat tremolo " << 8 << // JMI
+      " {"; 
+  }
+  
   // print the note
   switch (elt->getNoteKind ()) {
     
@@ -3069,6 +3081,17 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
+  // fetch the note tremolo
+  S_msrTremolo
+    noteTremolo =
+      elt->getNoteTremolo ();
+      
+  if (noteTremolo) {
+    // print the tremolo repeat end
+    fOstream <<
+      "}"; // JMI 
+  }
+  
   // get note stem kind 
   msrStem::msrStemKind
     stemKind = // JMI
@@ -3554,6 +3577,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
    } // for
   }
 
+  // fetch the chord tremolo
+  S_msrTremolo
+    chordTremolo =
+      elt->getChordTremolo ();
+      
+  if (chordTremolo) {
+    // print the tremolo repeat start
+    fOstream <<
+      "\\repeat tremolo " << 8 << // JMI
+      " {"; 
+  }
+  
   // don't take the chord into account for line breaking ??? JMI
   
   fOstream << "<";
@@ -3582,6 +3617,17 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
     
   fMusicOlec++;
 
+  // fetch the chord tremolo
+  S_msrTremolo
+    chordTremolo =
+      elt->getChordTremolo ();
+      
+  if (chordTremolo) {
+    // print the tremolo repeat end
+    fOstream <<
+      "}"; // JMI
+  }
+  
   // print the chord articulations if any
   list<S_msrArticulation>
     chordArticulations =
