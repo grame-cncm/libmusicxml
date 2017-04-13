@@ -3159,7 +3159,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     The same output can be obtained by adding :N after the note, where N indicates the duration of the subdivision (it must be at least 8). If N is 8, one beam is added to the note’s stem.
       */
     
-    if (singleTremoloNoteDuration == kEighth)
+    if (singleTremoloNoteDuration >= kEighth)
       durationToUse += 1;
       
     switch (durationToUse) {
