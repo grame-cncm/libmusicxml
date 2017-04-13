@@ -977,7 +977,7 @@ class EXP msrSingleTremolo : public msrElement
 
     static SMARTP<msrSingleTremolo> create (
       int                     inputLineNumber,
-      msrSingleTremoloKind          singleTremoloKind,
+      msrSingleTremoloKind    singleTremoloKind,
       int                     singleTremoloMarksNumber,
       msrSingleTremoloPlacementKind singleTremoloPlacementKind);
 
@@ -988,7 +988,7 @@ class EXP msrSingleTremolo : public msrElement
 
     msrSingleTremolo (
       int                     inputLineNumber,
-      msrSingleTremoloKind          singleTremoloKind,
+      msrSingleTremoloKind    singleTremoloKind,
       int                     singleTremoloMarksNumber,
       msrSingleTremoloPlacementKind singleTremoloPlacementKind);
       
@@ -1000,31 +1000,35 @@ class EXP msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     msrSingleTremoloKind  getSingleTremoloKind () const
-                        { return fSingleTremoloKind; }
+                              { return fSingleTremoloKind; }
         
-    void            setSingleTremoloPlacementKind (
-                      msrSingleTremoloPlacementKind SingleTremoloPlacementKind)
-                        { fSingleTremoloPlacementKind = SingleTremoloPlacementKind; }
+    void                  setSingleTremoloPlacementKind (
+                            msrSingleTremoloPlacementKind
+                              SingleTremoloPlacementKind)
+                              {
+                                fSingleTremoloPlacementKind =
+                                  SingleTremoloPlacementKind;
+                              }
         
-    int             getSingleTremoloMarksNumber () const
-                        { return fSingleTremoloMarksNumber; }
+    int                   getSingleTremoloMarksNumber () const
+                              { return fSingleTremoloMarksNumber; }
                 
     msrSingleTremoloPlacementKind
-                    getSingleTremoloPlacementKind () const
-                        { return fSingleTremoloPlacementKind; }
+                          getSingleTremoloPlacementKind () const
+                              { return fSingleTremoloPlacementKind; }
         
-    void            setSingleTremoloNoteUplink (S_msrNote note)
-                        { fSingleTremoloNoteUplink = note; }
+    void                  setSingleTremoloNoteUplink (S_msrNote note)
+                              { fSingleTremoloNoteUplink = note; }
 
-    S_msrNote       getSingleTremoloNoteUplink () const
-                        { return fSingleTremoloNoteUplink; }
+    S_msrNote             getSingleTremoloNoteUplink () const
+                              { return fSingleTremoloNoteUplink; }
         
     // services
     // ------------------------------------------------------
 
-    string          singleTremoloKindAsString () const;
+    string                singleTremoloKindAsString () const;
 
-    string          singleTremoloPlacementKindAsString () const;
+    string                singleTremoloPlacementKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1041,13 +1045,13 @@ class EXP msrSingleTremolo : public msrElement
 
   private:
 
-    msrSingleTremoloKind              fSingleTremoloKind;
+    msrSingleTremoloKind          fSingleTremoloKind;
 
-    int                         fSingleTremoloMarksNumber;
+    int                           fSingleTremoloMarksNumber;
 
-    msrSingleTremoloPlacementKind     fSingleTremoloPlacementKind;
+    msrSingleTremoloPlacementKind fSingleTremoloPlacementKind;
     
-    S_msrNote                   fSingleTremoloNoteUplink;
+    S_msrNote                     fSingleTremoloNoteUplink;
 };
 typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);

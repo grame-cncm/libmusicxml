@@ -2947,7 +2947,7 @@ void msrOrnament::print (ostream& os)
 //______________________________________________________________________________
 S_msrSingleTremolo msrSingleTremolo::create (
   int                     inputLineNumber,
-  msrSingleTremoloKind          singleTremoloKind,
+  msrSingleTremoloKind    singleTremoloKind,
   int                     singleTremoloMarksNumber,
   msrSingleTremoloPlacementKind singleTremoloPlacementKind)
 {
@@ -2961,7 +2961,7 @@ S_msrSingleTremolo msrSingleTremolo::create (
 
 msrSingleTremolo::msrSingleTremolo (
   int                     inputLineNumber,
-  msrSingleTremoloKind          singleTremoloKind,
+  msrSingleTremoloKind    singleTremoloKind,
   int                     singleTremoloMarksNumber,
   msrSingleTremoloPlacementKind singleTremoloPlacementKind)
     : msrElement (inputLineNumber)

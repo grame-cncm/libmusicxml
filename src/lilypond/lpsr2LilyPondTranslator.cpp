@@ -2879,16 +2879,37 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     }
   }
 
-  // fetch the note singleTremolo
+  // fetch the note single tremolo
   S_msrSingleTremolo
     noteSingleTremolo =
       elt->getNoteSingleTremolo ();
       
   if (noteSingleTremolo) {
-    // print the singleTremolo repeat start
+    // print the single tremolo repeat start
+  /*
+    <notations>
+      <ornaments>
+        <tremolo type="single">3</tremolo>
+      </ornaments>
+    </notations>
+
+The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1.
+
+The text of the element indicates the number of tremolo marks and is an integer from 0 to 8.
+Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
+
+When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
+A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
+If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+
+Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
+
+  */
+  /* JMI doubleTremolo
     fOstream <<
-      "\\repeat singleTremolo " << 8 << // JMI
-      " {"; 
+      "\\repeat tremolo " << 8 << // JMI
+      " {";
+      */
   }
   
   // print the note
@@ -3081,16 +3102,49 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
-  // fetch the note singleTremolo
+  // fetch the note single tremolo
   S_msrSingleTremolo
     noteSingleTremolo =
       elt->getNoteSingleTremolo ();
-      
+/* doubleTremolo JMI
   if (noteSingleTremolo) {
-    // print the singleTremolo repeat end
+    // print the single tremolo repeat end
     fOstream <<
-      "}"; // JMI 
-  }
+      "}"; // JMI
+      */
+
+  fOstream <<
+    ":";
+
+  switch (noteSingleTremolo->getSingleTremoloMarksNumber ()) {
+    case 0:
+      fOstream << ":4";
+      break;
+    case 1:
+      fOstream << ":8";
+      break;
+    case 2:
+      fOstream << ":16";
+      break;
+    case 3:
+      fOstream << ":32";
+      break;
+    case 4:
+      fOstream << ":64";
+      break;
+    case 5:
+      fOstream << ":128";
+      break;
+    case 6:
+      fOstream << ":256";
+      break;
+    case 7:
+      fOstream << ":512";
+      break;
+    case 8:
+      fOstream << ":1024";
+      break;
+  } // switch
   
   // get note stem kind 
   msrStem::msrStemKind
@@ -3585,7 +3639,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
   if (chordSingleTremolo) {
     // print the single tremolo repeat start
     fOstream <<
-      "\\repeat singleTremolo " << 8 << // JMI
+      "\\repeat tremolo " << 8 << // JMI
       " {"; 
   }
   
@@ -3617,7 +3671,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
     
   fMusicOlec++;
 
-  // fetch the chord singleTremolo
+  // fetch the chord single tremolo
   S_msrSingleTremolo
     chordSingleTremolo =
       elt->getChordSingleTremolo ();
