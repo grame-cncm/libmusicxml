@@ -948,83 +948,83 @@ typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
 
 /*!
-\brief A msr tremolo representation.
+\brief A msr singleTremolo representation.
 
-  An tremolo is represented by the numerator and denominator
+  An singleTremolo is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTremolo : public msrElement
+class EXP msrSingleTremolo : public msrElement
 {
   public:
     
     // data types
     // ------------------------------------------------------
 
-    enum msrTremoloKind {
+    enum msrSingleTremoloKind {
         kSingleTremolo, kDoubleTremolo };
 
-    static string tremoloKindAsString (
-      msrTremoloKind tremoloKind);
+    static string singleTremoloKindAsString (
+      msrSingleTremoloKind singleTremoloKind);
       
-    enum msrTremoloPlacementKind {
+    enum msrSingleTremoloPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
-    static string TremoloPlacementKindAsString (
-      msrTremoloPlacementKind tremoloPlacementKind);
+    static string SingleTremoloPlacementKindAsString (
+      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
             
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrTremolo> create (
+    static SMARTP<msrSingleTremolo> create (
       int                     inputLineNumber,
-      msrTremoloKind          tremoloKind,
-      int                     tremoloMarksNumber,
-      msrTremoloPlacementKind tremoloPlacementKind);
+      msrSingleTremoloKind          singleTremoloKind,
+      int                     singleTremoloMarksNumber,
+      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTremolo (
+    msrSingleTremolo (
       int                     inputLineNumber,
-      msrTremoloKind          tremoloKind,
-      int                     tremoloMarksNumber,
-      msrTremoloPlacementKind tremoloPlacementKind);
+      msrSingleTremoloKind          singleTremoloKind,
+      int                     singleTremoloMarksNumber,
+      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
       
-    virtual ~msrTremolo();
+    virtual ~msrSingleTremolo();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrTremoloKind  getTremoloKind () const
-                        { return fTremoloKind; }
+    msrSingleTremoloKind  getSingleTremoloKind () const
+                        { return fSingleTremoloKind; }
         
-    void            setTremoloPlacementKind (
-                      msrTremoloPlacementKind TremoloPlacementKind)
-                        { fTremoloPlacementKind = TremoloPlacementKind; }
+    void            setSingleTremoloPlacementKind (
+                      msrSingleTremoloPlacementKind SingleTremoloPlacementKind)
+                        { fSingleTremoloPlacementKind = SingleTremoloPlacementKind; }
         
-    int             getTremoloMarksNumber () const
-                        { return fTremoloMarksNumber; }
+    int             getSingleTremoloMarksNumber () const
+                        { return fSingleTremoloMarksNumber; }
                 
-    msrTremoloPlacementKind
-                    getTremoloPlacementKind () const
-                        { return fTremoloPlacementKind; }
+    msrSingleTremoloPlacementKind
+                    getSingleTremoloPlacementKind () const
+                        { return fSingleTremoloPlacementKind; }
         
-    void            setTremoloNoteUplink (S_msrNote note)
-                        { fTremoloNoteUplink = note; }
+    void            setSingleTremoloNoteUplink (S_msrNote note)
+                        { fSingleTremoloNoteUplink = note; }
 
-    S_msrNote       getTremoloNoteUplink () const
-                        { return fTremoloNoteUplink; }
+    S_msrNote       getSingleTremoloNoteUplink () const
+                        { return fSingleTremoloNoteUplink; }
         
     // services
     // ------------------------------------------------------
 
-    string          tremoloKindAsString () const;
+    string          singleTremoloKindAsString () const;
 
-    string          tremoloPlacementKindAsString () const;
+    string          singleTremoloPlacementKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1041,16 +1041,16 @@ class EXP msrTremolo : public msrElement
 
   private:
 
-    msrTremoloKind              fTremoloKind;
+    msrSingleTremoloKind              fSingleTremoloKind;
 
-    int                         fTremoloMarksNumber;
+    int                         fSingleTremoloMarksNumber;
 
-    msrTremoloPlacementKind     fTremoloPlacementKind;
+    msrSingleTremoloPlacementKind     fSingleTremoloPlacementKind;
     
-    S_msrNote                   fTremoloNoteUplink;
+    S_msrNote                   fSingleTremoloNoteUplink;
 };
-typedef SMARTP<msrTremolo> S_msrTremolo;
-EXP ostream& operator<< (ostream& os, const S_msrTremolo& elt);
+typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
+EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
 
 /*!
 \brief A msr rehearsal representation.
@@ -2885,9 +2885,9 @@ class EXP msrNote : public msrElement
                               { return fNoteOrnaments; }
         */
         
-    // tremolo
-    S_msrTremolo          getNoteTremolo () const
-                              { return fNoteTremolo; }
+    // singleTremolo
+    S_msrSingleTremolo          getNoteSingleTremolo () const
+                              { return fNoteSingleTremolo; }
 
     // ties
     void                  setNoteTie (S_msrTie tie)
@@ -3019,8 +3019,8 @@ class EXP msrNote : public msrElement
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament art);
     
-    // tremolo
-    void                  addTremoloToNote (S_msrTremolo trem);
+    // singleTremolo
+    void                  addSingleTremoloToNote (S_msrSingleTremolo trem);
     
     // dynamics
     void                  addDynamicsToNote (S_msrDynamics dynamics);
@@ -3108,7 +3108,7 @@ class EXP msrNote : public msrElement
 
     list<S_msrOrnament>       fNoteOrnaments;
     
-    S_msrTremolo              fNoteTremolo;
+    S_msrSingleTremolo              fNoteSingleTremolo;
 
     S_msrTie                  fNoteTie;
     
@@ -3208,9 +3208,9 @@ class EXP msrChord : public msrElement
                           getChordArticulations () const
                               { return fChordArticulations; }
 
-    // tremolo
-    S_msrTremolo          getChordTremolo () const
-                              { return fChordTremolo; }
+    // singleTremolo
+    S_msrSingleTremolo          getChordSingleTremolo () const
+                              { return fChordSingleTremolo; }
 
     // ornaments
     const list<S_msrOrnament>&
@@ -3293,7 +3293,7 @@ class EXP msrChord : public msrElement
 
     void                  addArticulationToChord (S_msrArticulation art);
      
-    void                  addTremoloToChord (S_msrTremolo trem);
+    void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
     void                  addOrnamentToChord (S_msrOrnament orn);
      
@@ -3354,7 +3354,7 @@ class EXP msrChord : public msrElement
     
     list<S_msrArticulation>   fChordArticulations;
 
-    S_msrTremolo              fChordTremolo;
+    S_msrSingleTremolo              fChordSingleTremolo;
     
     list<S_msrOrnament>       fChordOrnaments;
     

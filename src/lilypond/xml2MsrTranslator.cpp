@@ -5980,7 +5980,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
    
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting S_tremolo" <<
+      "--> Start visiting tremolo" <<
       endl;
 
   int inputLineNumber =
@@ -6002,12 +6002,12 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   
   string tremoloType = elt->getAttributeValue ("type");
 
-  msrTremolo::msrTremoloKind tremoloKind;
+  msrSingleTremolo::msrSingleTremoloKind tremoloKind;
   
   if      (tremoloType == "single")
-    tremoloKind = msrTremolo::kSingleTremolo;
+    tremoloKind = msrSingleTremolo::kSingleTremolo;
   else if (tremoloType == "double")
-    tremoloKind = msrTremolo::kDoubleTremolo;
+    tremoloKind = msrSingleTremolo::kDoubleTremolo;
   else {
     stringstream s;
     
@@ -6024,15 +6024,15 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     currentTremoloPlacement =
       elt->getAttributeValue ("placement");
 
-  msrTremolo::msrTremoloPlacementKind
+  msrSingleTremolo::msrSingleTremoloPlacementKind
     currentTremoloPlacementKind =
-      msrTremolo::k_NoPlacementKind;
+      msrSingleTremolo::k_NoPlacementKind;
 
   if (currentTremoloPlacement == "above")
-    currentTremoloPlacementKind = msrTremolo::kAbove;
+    currentTremoloPlacementKind = msrSingleTremolo::kAbove;
     
   else if (currentTremoloPlacement == "below")
-    currentTremoloPlacementKind = msrTremolo::kBelow;
+    currentTremoloPlacementKind = msrSingleTremolo::kBelow;
     
   else if (currentTremoloPlacement.size ()) {
     
@@ -6047,8 +6047,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       s.str());    
   }
 
-  fCurrentTremolo =
-    msrTremolo::create (
+  fCurrentSingleTremolo =
+    msrSingleTremolo::create (
       inputLineNumber,
       tremoloKind,
       tremoloMarksNumber,
@@ -7099,25 +7099,25 @@ void xml2MsrTranslator::copyNoteOrnamentsToChord (
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::copyNoteTremoloToChord (
+void xml2MsrTranslator::copyNoteSingleTremoloToChord (
   S_msrNote note, S_msrChord chord)
 {  
-  // copy note's tremolo if any from the first note to chord
+  // copy note's singleTremolo if any from the first note to chord
   
-  S_msrTremolo
-    noteTremolo =
+  S_msrSingleTremolo
+    noteSingleTremolo =
       note->
-        getNoteTremolo ();
+        getNoteSingleTremolo ();
                           
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> copying tremolo '" <<
-      noteTremolo->tremoloKindAsString () <<
+      "--> copying singleTremolo '" <<
+      noteSingleTremolo->singleTremoloKindAsString () <<
       "' from note " << note->noteAsString () <<
       " to chord" <<
       endl;
 
-  chord->addTremoloToChord (noteTremolo);
+  chord->addSingleTremoloToChord (noteSingleTremolo);
 }
 
 //______________________________________________________________________________
@@ -7540,22 +7540,22 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::attachCurrentTremoloToNote (
+void xml2MsrTranslator::attachCurrentSingleTremoloToNote (
   S_msrNote note)
 {
-  // attach the current tremolo if any to the note
-  if (fCurrentTremolo) {
+  // attach the current singleTremolo if any to the note
+  if (fCurrentSingleTremolo) {
     
     if (gGeneralOptions->fTraceNotes)
       cerr << idtr <<
-        "--> attaching current tremolo to note " <<
+        "--> attaching current singleTremolo to note " <<
         note->noteAsString () <<
         endl;
 
     note->
-      addTremoloToNote (fCurrentTremolo);
+      addSingleTremoloToNote (fCurrentSingleTremolo);
       
-    fCurrentTremolo = 0;
+    fCurrentSingleTremolo = 0;
   }
 }
 
@@ -8053,8 +8053,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);
 
-  // attach the tremolo if any to the note
-  attachCurrentTremoloToNote (newNote);
+  // attach the singleTremolo if any to the note
+  attachCurrentSingleTremoloToNote (newNote);
 
   // handle the current harmony if any
   if (fCurrentHarmony) {

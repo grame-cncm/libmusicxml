@@ -2566,22 +2566,22 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilyPondTranslator::visitStart (S_msrTremolo& elt)
+void lpsr2LilyPondTranslator::visitStart (S_msrSingleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTremolo" <<
+      "% --> Start visiting msrSingleTremolo" <<
       endl;
 
-  // don't generate the tremolo here,
+  // don't generate the singleTremolo here,
   // the note or chord will do it in its visitEnd() method
 }
 
-void lpsr2LilyPondTranslator::visitEnd (S_msrTremolo& elt)
+void lpsr2LilyPondTranslator::visitEnd (S_msrSingleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTremolo" <<
+      "% --> End visiting msrSingleTremolo" <<
       endl;
 }
 
@@ -2879,15 +2879,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
     }
   }
 
-  // fetch the note tremolo
-  S_msrTremolo
-    noteTremolo =
-      elt->getNoteTremolo ();
+  // fetch the note singleTremolo
+  S_msrSingleTremolo
+    noteSingleTremolo =
+      elt->getNoteSingleTremolo ();
       
-  if (noteTremolo) {
-    // print the tremolo repeat start
+  if (noteSingleTremolo) {
+    // print the singleTremolo repeat start
     fOstream <<
-      "\\repeat tremolo " << 8 << // JMI
+      "\\repeat singleTremolo " << 8 << // JMI
       " {"; 
   }
   
@@ -3081,13 +3081,13 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
-  // fetch the note tremolo
-  S_msrTremolo
-    noteTremolo =
-      elt->getNoteTremolo ();
+  // fetch the note singleTremolo
+  S_msrSingleTremolo
+    noteSingleTremolo =
+      elt->getNoteSingleTremolo ();
       
-  if (noteTremolo) {
-    // print the tremolo repeat end
+  if (noteSingleTremolo) {
+    // print the singleTremolo repeat end
     fOstream <<
       "}"; // JMI 
   }
@@ -3577,15 +3577,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
    } // for
   }
 
-  // fetch the chord tremolo
-  S_msrTremolo
-    chordTremolo =
-      elt->getChordTremolo ();
+  // fetch the chord singleTremolo
+  S_msrSingleTremolo
+    chordSingleTremolo =
+      elt->getChordSingleTremolo ();
       
-  if (chordTremolo) {
-    // print the tremolo repeat start
+  if (chordSingleTremolo) {
+    // print the single tremolo repeat start
     fOstream <<
-      "\\repeat tremolo " << 8 << // JMI
+      "\\repeat singleTremolo " << 8 << // JMI
       " {"; 
   }
   
@@ -3617,13 +3617,13 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
     
   fMusicOlec++;
 
-  // fetch the chord tremolo
-  S_msrTremolo
-    chordTremolo =
-      elt->getChordTremolo ();
+  // fetch the chord singleTremolo
+  S_msrSingleTremolo
+    chordSingleTremolo =
+      elt->getChordSingleTremolo ();
       
-  if (chordTremolo) {
-    // print the tremolo repeat end
+  if (chordSingleTremolo) {
+    // print the single tremolo repeat end
     fOstream <<
       "}"; // JMI
   }

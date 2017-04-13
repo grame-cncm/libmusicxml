@@ -957,12 +957,12 @@ class EXP xml2MsrTranslator :
 
     // ------------------------------------------------------
     // tremolos handling
-    S_msrTremolo              fCurrentTremolo;
+    S_msrSingleTremolo        fCurrentSingleTremolo;
 
-    void                      attachCurrentTremoloToNote (
+    void                      attachCurrentSingleTremoloToNote (
                                 S_msrNote note);
 
-    void                      copyNoteTremoloToChord (
+    void                      copyNoteSingleTremoloToChord (
                                 S_msrNote note, S_msrChord chord);
 
     // ------------------------------------------------------

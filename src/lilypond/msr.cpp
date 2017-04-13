@@ -2945,43 +2945,43 @@ void msrOrnament::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrTremolo msrTremolo::create (
+S_msrSingleTremolo msrSingleTremolo::create (
   int                     inputLineNumber,
-  msrTremoloKind          tremoloKind,
-  int                     tremoloMarksNumber,
-  msrTremoloPlacementKind tremoloPlacementKind)
+  msrSingleTremoloKind          singleTremoloKind,
+  int                     singleTremoloMarksNumber,
+  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
 {
-  msrTremolo* o =
-    new msrTremolo (
+  msrSingleTremolo* o =
+    new msrSingleTremolo (
       inputLineNumber,
-      tremoloKind, tremoloMarksNumber, tremoloPlacementKind);
+      singleTremoloKind, singleTremoloMarksNumber, singleTremoloPlacementKind);
   assert (o!=0);
   return o;
 }
 
-msrTremolo::msrTremolo (
+msrSingleTremolo::msrSingleTremolo (
   int                     inputLineNumber,
-  msrTremoloKind          tremoloKind,
-  int                     tremoloMarksNumber,
-  msrTremoloPlacementKind tremoloPlacementKind)
+  msrSingleTremoloKind          singleTremoloKind,
+  int                     singleTremoloMarksNumber,
+  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
-  fTremoloKind          = tremoloKind;
-  fTremoloMarksNumber   = tremoloMarksNumber;
-  fTremoloPlacementKind = tremoloPlacementKind;
+  fSingleTremoloKind          = singleTremoloKind;
+  fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
+  fSingleTremoloPlacementKind = singleTremoloPlacementKind;
 }
 
-msrTremolo::~msrTremolo() {}
+msrSingleTremolo::~msrSingleTremolo() {}
 
-string msrTremolo::tremoloKindAsString () const
+string msrSingleTremolo::singleTremoloKindAsString () const
 {
   string result;
   
-  switch (fTremoloKind) {
-    case msrTremolo::kSingleTremolo:
+  switch (fSingleTremoloKind) {
+    case msrSingleTremolo::kSingleTremolo:
       result = "single";
       break;
-    case msrTremolo::kDoubleTremolo:
+    case msrSingleTremolo::kDoubleTremolo:
       result = "double";
       break;
   } // switch
@@ -2989,18 +2989,18 @@ string msrTremolo::tremoloKindAsString () const
   return result;
 }
 
-string msrTremolo::tremoloPlacementKindAsString () const
+string msrSingleTremolo::singleTremoloPlacementKindAsString () const
 {
   string result;
   
-  switch (fTremoloPlacementKind) {
-    case msrTremolo::k_NoPlacementKind:
+  switch (fSingleTremoloPlacementKind) {
+    case msrSingleTremolo::k_NoPlacementKind:
       result = "none";
       break;
-    case msrTremolo::kAbove:
+    case msrSingleTremolo::kAbove:
       result = "above";
       break;
-    case msrTremolo::kBelow:
+    case msrSingleTremolo::kBelow:
       result = "below";
       break;
   } // switch
@@ -3008,62 +3008,62 @@ string msrTremolo::tremoloPlacementKindAsString () const
   return result;
 }
 
-void msrTremolo::acceptIn (basevisitor* v) {
+void msrSingleTremolo::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrTremolo::acceptIn()" <<
+      "% ==> msrSingleTremolo::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrTremolo>*
+  if (visitor<S_msrSingleTremolo>*
     p =
-      dynamic_cast<visitor<S_msrTremolo>*> (v)) {
-        S_msrTremolo elem = this;
+      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
+        S_msrSingleTremolo elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrTremolo::visitStart()" <<
+            "% ==> Launching msrSingleTremolo::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrTremolo::acceptOut (basevisitor* v) {
+void msrSingleTremolo::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrTremolo::acceptOut()" <<
+      "% ==> msrSingleTremolo::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrTremolo>*
+  if (visitor<S_msrSingleTremolo>*
     p =
-      dynamic_cast<visitor<S_msrTremolo>*> (v)) {
-        S_msrTremolo elem = this;
+      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
+        S_msrSingleTremolo elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrTremolo::visitEnd()" <<
+            "% ==> Launching msrSingleTremolo::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrTremolo::browseData (basevisitor* v)
+void msrSingleTremolo::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTremolo& elt)
+ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrTremolo::print (ostream& os)
+void msrSingleTremolo::print (ostream& os)
 {
   os <<
-    "Tremolo" " " <<
-    tremoloKindAsString () <<
+    "SingleTremolo" " " <<
+    singleTremoloKindAsString () <<
     ", line " << fInputLineNumber <<
-    fTremoloMarksNumber << " marks" <<
-    ", placement" << " = " << tremoloPlacementKindAsString () <<
-    ", note uplink" << " = " << fTremoloNoteUplink->noteAsShortString () <<
+    fSingleTremoloMarksNumber << " marks" <<
+    ", placement" << " = " << singleTremoloPlacementKindAsString () <<
+    ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString () <<
     endl;
 }
 
@@ -4627,19 +4627,19 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
     setOrnamentNoteUplink (this);
 }
 
-void msrNote::addTremoloToNote (S_msrTremolo trem)
+void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
-      "% Adding tremolo " << trem << " to note " << noteAsString ()
+      "% Adding singleTremolo " << trem << " to note " << noteAsString ()
        << endl;
 
-  // register the tremolo in the note
-  fNoteTremolo = trem;
+  // register the singleTremolo in the note
+  fNoteSingleTremolo = trem;
 
-  // set tremolo's note uplink
+  // set singleTremolo's note uplink
   trem->
-    setTremoloNoteUplink (this);
+    setSingleTremoloNoteUplink (this);
 }
 
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
@@ -4870,10 +4870,10 @@ void msrNote::browseData (basevisitor* v)
     idtr--;
   }
   
-  if (fNoteTremolo) {
-    // browse the tremolo
-    msrBrowser<msrTremolo> browser (v);
-    browser.browse (*fNoteTremolo);
+  if (fNoteSingleTremolo) {
+    // browse the singleTremolo
+    msrBrowser<msrSingleTremolo> browser (v);
+    browser.browse (*fNoteSingleTremolo);
   }
   
   if (fNoteTie) {
@@ -5602,10 +5602,10 @@ void msrNote::print (ostream& os)
     idtr--;
   }
   
-  // print the tremolo if any
-  if (fNoteTremolo) {
+  // print the singleTremolo if any
+  if (fNoteSingleTremolo) {
     idtr++;
-    os << idtr << fNoteTremolo;
+    os << idtr << fNoteSingleTremolo;
     idtr--;
   }
   
@@ -5900,21 +5900,21 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
   fChordArticulations.push_back (art);
 }
 
-void msrChord::addTremoloToChord (S_msrTremolo trem)
+void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
-  msrTremolo::msrTremoloKind
-    tremoloKind =
+  msrSingleTremolo::msrSingleTremoloKind
+    singleTremoloKind =
       trem->
-        getTremoloKind ();
+        getSingleTremoloKind ();
 
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding tremolo '" <<
-      trem->tremoloKindAsString () <<
+      "% Adding singleTremolo '" <<
+      trem->singleTremoloKindAsString () <<
       "' to chord" <<
       endl;
 
-  fChordTremolo = trem;
+  fChordSingleTremolo = trem;
 }
 
 void msrChord::addOrnamentToChord (S_msrOrnament orn)
