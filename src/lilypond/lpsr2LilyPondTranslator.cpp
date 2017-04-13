@@ -3156,12 +3156,18 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       ":";
 
     /*
-    The same output can be obtained by adding :N after the note, where N indicates the duration of the subdivision (it must be at least 8). If N is 8, one beam is added to the note’s stem.
-      */
+    The same output can be obtained by adding :N after the note,
+    where N indicates the duration of the subdivision (it must be at least 8).
+    If N is 8, one beam is added to the note’s stem.
+    */
     
     if (singleTremoloNoteDuration >= kEighth)
-      durationToUse += 1;
-      
+      durationToUse +=
+        1 + (singleTremoloNoteDuration - kEighth);
+
+    fOstream <<
+      int (pow (2, durationToUse + 2));
+      /* JMI
     switch (durationToUse) {
       case 0:
         fOstream << "4";
@@ -3190,7 +3196,34 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       case 8:
         fOstream << "1024";
         break;
+      case 9:
+        fOstream << "2048";
+        break;
+      case 10:
+        fOstream << "4096";
+        break;
+      case 11:
+        fOstream << "8192";
+        break;
+      case 12:
+        fOstream << "16384";
+        break;
+      case 13:
+        fOstream << "32768";
+        break;
+      case 14:
+        fOstream << "65536";
+        break;
+      case 15:
+        fOstream << "131072";
+        break;
+      case 16:
+        fOstream << "262144";
+        break;
+      default:
+        fOstream << "???" << durationToUse << "???";
     } // switch
+        */      
     
     fOstream <<
       " ";
