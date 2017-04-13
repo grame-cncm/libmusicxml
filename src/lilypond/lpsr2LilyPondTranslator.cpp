@@ -3114,9 +3114,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       */
 
   if (noteSingleTremolo) {
-    fOstream <<
-      ":";
-
     int
       inputLineNumber =
         noteSingleTremolo-> getInputLineNumber ();
@@ -3134,7 +3131,11 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     int
       singleTremoloNoteDivisions =
         singleTremoloNote->getNoteDisplayDivisions ();
-      
+
+    msrDuration
+      singleTremoloNoteDuration =
+        singleTremoloNote->getNoteGraphicDuration ();
+    
     int durationToUse =
       singleTremoloMarksNumber; // JMI / singleTremoloNoteDivisions;
       
@@ -3151,6 +3152,12 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         endl;
     }
 
+    fOstream <<
+      ":";
+
+    if (singleTremoloNoteDuration >= kEighth)
+      durationToUse *= 2;
+      
     switch (durationToUse) {
       case 0:
         fOstream << "4";
@@ -3180,6 +3187,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         fOstream << "1024";
         break;
     } // switch
+    
     fOstream <<
       " ";
   }

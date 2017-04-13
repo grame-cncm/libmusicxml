@@ -5938,177 +5938,177 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void            setPartID (string partID)
-                        { fPartID = partID; }
+    void                  setPartID (string partID)
+                              { fPartID = partID; }
     
-    string          getPartID () const
-                        { return fPartID; }
+    string                getPartID () const
+                              { return fPartID; }
 
-    void            setPartMsrName (string partMsrName);
+    void                  setPartMsrName (string partMsrName);
     
-    string          getPartMsrName () const
-                      { return fPartMsrName; }
+    string                getPartMsrName () const
+                            { return fPartMsrName; }
 
-    void            setPartName (string partName)
-                        { fPartName = partName; }
+    void                  setPartName (string partName)
+                              { fPartName = partName; }
     
-    string          getPartName () const
-                        { return fPartName; }
+    string                getPartName () const
+                              { return fPartName; }
 
-    void            setPartAbbreviation (string partAbbreviation)
-                        { fPartAbbreviation = partAbbreviation; }
+    void                  setPartAbbreviation (string partAbbreviation)
+                              { fPartAbbreviation = partAbbreviation; }
                 
-    string          getPartAbbreviation () const
-                        { return fPartAbbreviation; }
+    string                getPartAbbreviation () const
+                              { return fPartAbbreviation; }
                 
-    void            setPartInstrumentName (string partInstrumentName)
-                        { fPartInstrumentName = partInstrumentName; }
+    void                  setPartInstrumentName (string partInstrumentName)
+                              { fPartInstrumentName = partInstrumentName; }
                               
-    string          getPartInstrumentName () const
-                        { return fPartInstrumentName; }
+    string                getPartInstrumentName () const
+                              { return fPartInstrumentName; }
                 
-    void            setPartInstrumentAbbreviation (
-                      string partInstrumentAbbreviation)
-                        {
-                          fPartInstrumentAbbreviation =
-                            partInstrumentAbbreviation;
-                        }
+    void                  setPartInstrumentAbbreviation (
+                            string partInstrumentAbbreviation)
+                              {
+                                fPartInstrumentAbbreviation =
+                                  partInstrumentAbbreviation;
+                              }
                               
-    string          getPartInstrumentAbbreviation() const
-                        { return fPartInstrumentAbbreviation; }
+    string                getPartInstrumentAbbreviation() const
+                              { return fPartInstrumentAbbreviation; }
                 
-    S_msrPartgroup  getPartPartgroupUplink () const
-                        { return fPartPartgroupUplink; }
+    S_msrPartgroup        getPartPartgroupUplink () const
+                              { return fPartPartgroupUplink; }
               
-    S_msrStaff      getPartHarmonyStaff () const
-                        { return fPartHarmonyStaff; }
+    S_msrStaff            getPartHarmonyStaff () const
+                              { return fPartHarmonyStaff; }
                   
-    S_msrVoice      getPartHarmonyVoice () const
-                        { return fPartHarmonyVoice; }
+    S_msrVoice            getPartHarmonyVoice () const
+                              { return fPartHarmonyVoice; }
                   
     const map<int, S_msrStaff>&
-                    getPartStavesMap ()
-                        { return fPartStavesMap; }
+                          getPartStavesMap ()
+                              { return fPartStavesMap; }
 
-    string          getPartCombinedName () const;
+    string                getPartCombinedName () const;
 
     // divisions per quarter note
-    void            setPartDivisionsPerQuarterNote (
-                      int divisionsPerQuarterNote);
+    void                  setPartDivisionsPerQuarterNote (
+                            int divisionsPerQuarterNote);
                       
-    const int       getPartDivisionsPerQuarterNote () const
-                        { return fPartDivisionsPerQuarterNote; }
+    const int             getPartDivisionsPerQuarterNote () const
+                              { return fPartDivisionsPerQuarterNote; }
           
-    void            setPartClef (S_msrClef clef);
-    void            setPartKey  (S_msrKey  key);
-    void            setPartTime (S_msrTime time);
+    void                  setPartClef (S_msrClef clef);
+    void                  setPartKey  (S_msrKey  key);
+    void                  setPartTime (S_msrTime time);
 
-    S_msrClef       getPartClef () const { return fPartClef; };
-    S_msrKey        getPartKey  () const { return fPartKey; };
-    S_msrTime       getPartTime () const { return fPartTime; };
+    S_msrClef             getPartClef () const { return fPartClef; };
+    S_msrKey              getPartKey  () const { return fPartKey; };
+    S_msrTime             getPartTime () const { return fPartTime; };
     
-    void            setPartTranspose (S_msrTranspose transpose);
+    void                  setPartTranspose (S_msrTranspose transpose);
 
-    S_msrTranspose  getPartTranspose () const { return fPartTranspose; };
+    S_msrTranspose        getPartTranspose () const { return fPartTranspose; };
     
     // measure number
-    void            setPartMeasureNumber (
-                      int inputLineNumber,
-                      int measureNumber);
+    void                  setPartMeasureNumber (
+                            int inputLineNumber,
+                            int measureNumber);
                       
-    const int       getPartMeasureNumber () const
-                        { return fPartMeasureNumber; }
+    const int             getPartMeasureNumber () const
+                              { return fPartMeasureNumber; }
 
-    const bool      getMeasureZeroHasBeenMetInPart () const
-                        { return fMeasureZeroHasBeenMetInPart; }
+    const bool            getMeasureZeroHasBeenMetInPart () const
+                              { return fMeasureZeroHasBeenMetInPart; }
 
-    void            setPartMeasurePositionHighTide (
-                      int inputLineNumber,
-                      int measurePosition);
+    void                  setPartMeasurePositionHighTide (
+                            int inputLineNumber,
+                            int measurePosition);
                       
-    void            updatePartMeasurePositionHighTide (
-                      int inputLineNumber,
-                      int measurePosition);
+    void                  updatePartMeasurePositionHighTide (
+                            int inputLineNumber,
+                            int measurePosition);
                     
-    const int       getPartMeasurePositionHighTide () const
-                        { return fPartMeasurePositionHighTide; }
+    const int             getPartMeasurePositionHighTide () const
+                              { return fPartMeasurePositionHighTide; }
 
-    const int       getPartMeasureNumberMin () const
-                        { return fPartMeasureNumberMin; }
+    const int             getPartMeasureNumberMin () const
+                              { return fPartMeasureNumberMin; }
                       
-    const int       getPartMeasureNumberMax () const
-                        { return fPartMeasureNumberMax; }
+    const int             getPartMeasureNumberMax () const
+                              { return fPartMeasureNumberMax; }
 
     // services
     // ------------------------------------------------------
 
-    void            setupDurationsDivisions (
-                      int divisionPerQuarterNote);
+    void                  setupDurationsDivisions (
+                            int divisionPerQuarterNote);
     
-    int             durationAsDivisions (
-                      int         inputLineNumber,
-                      msrDuration duration);
+    int                   durationAsDivisions (
+                            int         inputLineNumber,
+                            msrDuration duration);
 
-    void            printDurationsDivisions (ostream& os);
+    void                  printDurationsDivisions (ostream& os);
     
-    string          divisionsAsMsrString (
-                      int  inputLineNumber,
-                      int  divisions,
-                      int& numberOfDotsNeeded);
+    string                divisionsAsMsrString (
+                            int  inputLineNumber,
+                            int  divisions,
+                            int& numberOfDotsNeeded);
 
-    string          divisionsAsMsrString (
-                      int  inputLineNumber,
-                      int  divisions);
+    string                divisionsAsMsrString (
+                            int  inputLineNumber,
+                            int  divisions);
                   
-    string          tupletDivisionsAsMsrString (
-                      int  inputLineNumber,
-                      int  divisions,
-                      int actualNotes,
-                      int normalNotes);
+    string                tupletDivisionsAsMsrString (
+                            int  inputLineNumber,
+                            int  divisions,
+                            int actualNotes,
+                            int normalNotes);
   
-    void            testDivisionsAndDurations ();
-    void            testTupletDivisionsAndDurations ();
+    void                  testDivisionsAndDurations ();
+    void                  testTupletDivisionsAndDurations ();
   
-    void            createPartHarmonyStaffAndVoice (
-                      int inputLineNumber);
+    void                  createPartHarmonyStaffAndVoice (
+                            int inputLineNumber);
         
-    void            appendRepeatToPart (int inputLineNumber);
+    void                  appendRepeatToPart (int inputLineNumber);
     
-    void            appendRepeatCloneToPart (
-                      int         inputLineNumber,
-                      S_msrRepeat repeatCLone);
+    void                  appendRepeatCloneToPart (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatCLone);
     
-    void            appendRepeatendingToPart (
-                      int       inputLineNumber,
-                      string    repeatendingNumber, // may be "1, 2"
-                      msrRepeatending::msrRepeatendingKind
-                                repeatendingKind);
+    void                  appendRepeatendingToPart (
+                            int       inputLineNumber,
+                            string    repeatendingNumber, // may be "1, 2"
+                            msrRepeatending::msrRepeatendingKind
+                                      repeatendingKind);
     
-    void            appendRepeatendingCloneToPart (
-                      S_msrRepeatending repeatendingCLone);
+    void                  appendRepeatendingCloneToPart (
+                            S_msrRepeatending repeatendingCLone);
 
 //    void            appendRepeatendingToPart (int inputLineNumber);
 
-    void            appendBarlineToPart (S_msrBarline barline);
+    void                  appendBarlineToPart (S_msrBarline barline);
               
-    S_msrStaff      addStaffToPartByItsNumber (
-                      int                    inputLineNumber,
-                      msrStaff::msrStaffKind staffKind,
-                      int                    staffNumber);
+    S_msrStaff            addStaffToPartByItsNumber (
+                            int                    inputLineNumber,
+                            msrStaff::msrStaffKind staffKind,
+                            int                    staffNumber);
     
-    void            addStaffToPartCloneByItsNumber (S_msrStaff staff);
+    void                  addStaffToPartCloneByItsNumber (S_msrStaff staff);
 
-    S_msrStaff      fetchStaffFromPart (int staffNumber);
+    S_msrStaff            fetchStaffFromPart (int staffNumber);
 
-    void            appendHarmonyToPart (S_msrHarmony harmony);
+    void                  appendHarmonyToPart (S_msrHarmony harmony);
 
-    void            handleBackup (int divisions);
+    void                  handleBackup (int divisions);
 
-    void            removePartEmptyVoices ();
+    void                  removePartEmptyVoices ();
 
-    void            finalizeLastMeasureOfPart (int inputLineNumber);
+    void                  finalizeLastMeasureOfPart (int inputLineNumber);
 
-    void            finalizePart (int inputLineNumber);
+    void                  finalizePart (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
