@@ -5988,7 +5988,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     
   int tremoloMarksNumber = (int)(*elt);
 
-  if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) {
+  if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) { // JMI what does 0 mean?
     stringstream s;
     
     s <<
