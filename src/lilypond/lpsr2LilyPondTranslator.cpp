@@ -3116,8 +3116,42 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
   if (noteSingleTremolo) {
     fOstream <<
       ":";
-  
-    switch (noteSingleTremolo->getSingleTremoloMarksNumber ()) {
+
+    int
+      inputLineNumber =
+        noteSingleTremolo-> getInputLineNumber ();
+      
+    int
+      singleTremoloMarksNumber =
+        noteSingleTremolo->
+          getSingleTremoloMarksNumber ();
+
+    S_msrNote
+      singleTremoloNote =
+        noteSingleTremolo->
+          getSingleTremoloNoteUplink ();
+
+    int
+      singleTremoloNoteDivisions =
+        singleTremoloNote->getNoteDisplayDivisions ();
+      
+    int durationToUse =
+      singleTremoloMarksNumber / durationToUse;
+      
+    if (gGeneralOptions->fTraceTremolos) {
+      fOstream << idtr <<
+        "Generating single tremolo " <<
+        noteSingleTremolo->singleTremoloAsString () <<
+        " for note " <<
+        elt->noteAsShortString () <<
+        ", line = " << inputLineNumber <<
+        ", singleTremoloMarksNumber = " << singleTremoloMarksNumber <<
+        ", singleTremoloNoteDivisions = " << singleTremoloNoteDivisions <<
+        ", durationToUse = " << durationToUse <<
+        endl;
+    }
+
+    switch (singleTremoloMarksNumber) {
       case 0:
         fOstream << "4";
         break;

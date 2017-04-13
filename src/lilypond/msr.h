@@ -1029,6 +1029,8 @@ class EXP msrSingleTremolo : public msrElement
     string                singleTremoloKindAsString () const;
 
     string                singleTremoloPlacementKindAsString () const;
+    
+    string                singleTremoloAsString () const;
 
     // visitors
     // ------------------------------------------------------

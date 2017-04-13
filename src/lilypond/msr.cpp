@@ -3055,15 +3055,25 @@ ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt)
   return os;
 }
 
-void msrSingleTremolo::print (ostream& os)
+string msrSingleTremolo::singleTremoloAsString () const
 {
-  os <<
+  stringstream s;
+  
+  s <<
     "SingleTremolo" " " <<
     singleTremoloKindAsString () <<
     ", line " << fInputLineNumber <<
     fSingleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << singleTremoloPlacementKindAsString () <<
-    ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString () <<
+    ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString ();
+
+  return s.str();
+}
+
+void msrSingleTremolo::print (ostream& os)
+{
+  os <<
+    singleTremoloAsString () <<
     endl;
 }
 
