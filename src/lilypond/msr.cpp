@@ -3064,8 +3064,11 @@ string msrSingleTremolo::singleTremoloAsString () const
     singleTremoloKindAsString () <<
     ", line " << fInputLineNumber <<
     fSingleTremoloMarksNumber << " marks" <<
-    ", placement" << " = " << singleTremoloPlacementKindAsString () <<
-    ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString ();
+    ", placement" << " = " << singleTremoloPlacementKindAsString ();
+
+  if (fSingleTremoloNoteUplink) // it may not yet be set
+    s <<
+      ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString ();
 
   return s.str();
 }
@@ -4641,8 +4644,9 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
-      "% Adding singleTremolo " << trem << " to note " << noteAsString ()
-       << endl;
+      "% Adding singleTremolo " << trem->singleTremoloAsString () <<
+      " to note " << noteAsString () <<
+      endl;
 
   // register the singleTremolo in the note
   fNoteSingleTremolo = trem;

@@ -3136,11 +3136,11 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         singleTremoloNote->getNoteDisplayDivisions ();
       
     int durationToUse =
-      singleTremoloMarksNumber / durationToUse;
+      singleTremoloMarksNumber; // JMI / singleTremoloNoteDivisions;
       
     if (gGeneralOptions->fTraceTremolos) {
       fOstream << idtr <<
-        "Generating single tremolo " <<
+        "% Generating single tremolo " <<
         noteSingleTremolo->singleTremoloAsString () <<
         " for note " <<
         elt->noteAsShortString () <<
@@ -3151,7 +3151,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         endl;
     }
 
-    switch (singleTremoloMarksNumber) {
+    switch (durationToUse) {
       case 0:
         fOstream << "4";
         break;
