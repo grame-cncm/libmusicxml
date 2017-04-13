@@ -840,7 +840,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\Staff" <<
       endl <<
     idtr <<
-      "\\consists \" Span_arpeggio_engraver\"" <<
+      "\\consists \"Span_arpeggio_engraver\"" <<
       endl <<
     idtr <<
       "}" <<
@@ -3113,38 +3113,42 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       "}"; // JMI
       */
 
-  fOstream <<
-    ":";
-
-  switch (noteSingleTremolo->getSingleTremoloMarksNumber ()) {
-    case 0:
-      fOstream << ":4";
-      break;
-    case 1:
-      fOstream << ":8";
-      break;
-    case 2:
-      fOstream << ":16";
-      break;
-    case 3:
-      fOstream << ":32";
-      break;
-    case 4:
-      fOstream << ":64";
-      break;
-    case 5:
-      fOstream << ":128";
-      break;
-    case 6:
-      fOstream << ":256";
-      break;
-    case 7:
-      fOstream << ":512";
-      break;
-    case 8:
-      fOstream << ":1024";
-      break;
-  } // switch
+  if (noteSingleTremolo) {
+    fOstream <<
+      ":";
+  
+    switch (noteSingleTremolo->getSingleTremoloMarksNumber ()) {
+      case 0:
+        fOstream << "4";
+        break;
+      case 1:
+        fOstream << "8";
+        break;
+      case 2:
+        fOstream << "16";
+        break;
+      case 3:
+        fOstream << "32";
+        break;
+      case 4:
+        fOstream << "64";
+        break;
+      case 5:
+        fOstream << "128";
+        break;
+      case 6:
+        fOstream << "256";
+        break;
+      case 7:
+        fOstream << "512";
+        break;
+      case 8:
+        fOstream << "1024";
+        break;
+    } // switch
+    fOstream <<
+      " ";
+  }
   
   // get note stem kind 
   msrStem::msrStemKind
