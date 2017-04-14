@@ -10999,7 +10999,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     }
 
     //* JMI FOO FOO
-    if (! note->getNoteHarmony ()) { // JMI BOF
+    if (false && ! note->getNoteHarmony ()) { // JMI BOF
       // fetch voice
       S_msrVoice
         partHarmonyVoice =
