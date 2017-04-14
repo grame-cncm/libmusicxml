@@ -11151,6 +11151,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
+/*
   if (
     appendMeasureIfOverflow (inputLineNumber)
     ) {
@@ -11161,6 +11162,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 
   else {
+  */
     // regular insertion in current measure
     
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
@@ -11224,7 +11226,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     
     // append the harmony to the measure elements list
     fMeasureElementsList.push_back (harmony);
-  }
+//  }
 }
 
 void msrMeasure::bringMeasureToMeasurePosition (
@@ -13906,6 +13908,12 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       break;
       
     case msrVoice::kHarmonyVoice:
+      fVoiceLastSegment->
+        appendHarmonyToSegment (harmony);
+    
+      // register harmony
+      fVoiceActualHarmoniesCounter++;
+      fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrVoice::kMasterVoice:
@@ -13925,13 +13933,6 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       }
       break;
   } // switch
-
-  fVoiceLastSegment->
-    appendHarmonyToSegment (harmony);
-
-  // register harmony
-  fVoiceActualHarmoniesCounter++;
-  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::bringVoiceToMeasurePosition (
@@ -15626,6 +15627,7 @@ void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
   } // for
 }
 
+/*
 void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
 {
   for (
@@ -15635,6 +15637,7 @@ void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
     (*i).second->appendHarmonyToVoice (harmony);
   } // for
 }
+*/
 
 void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
 {

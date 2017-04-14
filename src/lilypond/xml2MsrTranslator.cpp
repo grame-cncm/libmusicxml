@@ -9776,7 +9776,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "--> harmony" <<
-      ", line " << inputLineNumber <<
+      ", line " << inputLineNumber << ":" <<
       endl;
 
     idtr++;
