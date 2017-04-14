@@ -4258,7 +4258,8 @@ msrNote::msrNote (
   
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a note, line " << inputLineNumber << ":" <<
+      "Creating a " << noteKindAsString (fNoteKind) << " note" <<
+      ", line " << inputLineNumber << ":" <<
       endl;
 
     idtr++;
@@ -4787,6 +4788,12 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
+  if (gGeneralOptions->fTraceHarmonies)
+    cerr << idtr <<
+      "Setting note '" << noteAsShortString ()  << "'" <<
+      " harmony to '" << harmony->harmonyAsString () << "'" <<
+      endl;
+      
   fNoteHarmony = harmony;
 
   // set harmony's duration as that of the note
@@ -9776,7 +9783,7 @@ msrHarmony::msrHarmony (
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "Creating harmony '" <<
-      harmonyAsString () <<
+ // JMI     harmonyAsString () <<
       "'" <<
       endl;
   }
@@ -9903,12 +9910,16 @@ string msrHarmony::harmonyAsString () const
         fInputLineNumber,
         fHarmonyRootQuartertonesPitch)) <<
           
-    harmonyKindAsShortString () <<
-    
-    fHarmonyPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fHarmonyDivisions);
+    harmonyKindAsShortString ();
+
+  /* JMI BOF
+  if (fHarmonyPartUplink) // JMI it may not have been set yet
+    s <<
+      fHarmonyPartUplink->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fHarmonyDivisions);
+*/
 
   if (fHarmonyKindText.size ())
     s <<
@@ -11207,6 +11218,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       harmony->getHarmonyDivisions ();
       
 //* JMI FOO
+/*
     // append a skip syllable of the same duration to the part harmony voice
     S_msrNote
       skip =
@@ -11222,6 +11234,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     fMeasureDirectPartUplink->
       getPartHarmonyVoice ()->
         appendNoteToVoice (skip);
+  */
 
     // account for harmony duration in measure position
     setMeasurePosition (
