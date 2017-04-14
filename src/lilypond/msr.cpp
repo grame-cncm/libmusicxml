@@ -12026,7 +12026,7 @@ msrSegment::msrSegment (
       endl;
   }
 
-  fSegmentVoicekUplink = segmentVoicekUplink;
+  fSegmentVoiceUplink = segmentVoicekUplink;
 }
 
 msrSegment::~msrSegment() {}
@@ -12034,7 +12034,7 @@ msrSegment::~msrSegment() {}
 void msrSegment::initializeSegment ()
 {
   fSegmentTime =
-    fSegmentVoicekUplink->
+    fSegmentVoiceUplink->
       getVoiceTime ();
 
 
@@ -12064,7 +12064,7 @@ void msrSegment::initializeSegment ()
         "'s first measure with number " <<
         firstMeasureNumber <<
         ", in voice \"" <<
-        fSegmentVoicekUplink->getVoiceName () <<
+        fSegmentVoiceUplink->getVoiceName () <<
         "\"" <<
         endl;
   }
@@ -12131,7 +12131,7 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
       "Checking for incomplete last measure in segment '" <<
       segmentAsString () <<
       ", in voice \"" <<
-      fSegmentVoicekUplink->
+      fSegmentVoiceUplink->
         getVoiceName () <<
       "\"" <<
       "', line " << inputLineNumber <<
@@ -12559,8 +12559,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
         "Appending harmony " << harmony->harmonyAsString () <<
         " to segment " << segmentAsString () <<
         "' in voice \"" <<
-        fSegmentVoicekUplink->
-            getVoiceName () <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
         "\"" <<
         endl;
       
@@ -12577,6 +12577,10 @@ void msrSegment::bringSegmentToMeasurePosition (
     cerr << idtr <<
       "Bringing measure position for segment '" <<
       fSegmentAbsoluteNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->
+        getVoiceName () <<
+      "\"," <<
       "' to " << measurePosition <<
       ", line " << inputLineNumber <<
       endl;

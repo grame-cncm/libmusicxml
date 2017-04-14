@@ -2007,7 +2007,7 @@ class EXP msrSegment : public msrElement
                               { return fSegmentAbsoluteNumber; }
                       
     S_msrVoice            getSegmentVoiceUplink () const
-                              { return fSegmentVoicekUplink; }
+                              { return fSegmentVoiceUplink; }
                       
     const list<S_msrMeasure>&
                           getSegmentMeasuresList () const
@@ -2116,7 +2116,7 @@ class EXP msrSegment : public msrElement
 
     bool                  fMeasureNumberHasBeenSetInSegment; // JMI
 
-    S_msrVoice            fSegmentVoicekUplink;
+    S_msrVoice            fSegmentVoiceUplink;
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
