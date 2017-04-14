@@ -4258,7 +4258,7 @@ msrNote::msrNote (
   
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a note, line " << inputLineNumber <<
+      "Creating a note, line " << inputLineNumber << ":" <<
       endl;
 
     idtr++;
@@ -9772,6 +9772,14 @@ msrHarmony::msrHarmony (
   fHarmonyBassQuartertonesPitch = harmonyBassQuartertonesPitch;
  
   fHarmonyPartUplink = harmonyPartUplink;
+
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "Creating harmony '" <<
+      harmonyAsString () <<
+      "'" <<
+      endl;
+  }
 }
 
 msrHarmony::~msrHarmony() {}
@@ -12537,6 +12545,10 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
       idtr <<
         "Appending harmony " << harmony->harmonyAsString () <<
         " to segment " << segmentAsString () <<
+        "' in voice \"" <<
+        fSegmentVoicekUplink->
+            getVoiceName () <<
+        "\"" <<
         endl;
       
   // append it to this segment
@@ -12548,7 +12560,7 @@ void msrSegment::bringSegmentToMeasurePosition (
   int inputLineNumber,
   int measurePosition)
 {
-  if (gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Bringing measure position for segment '" <<
       fSegmentAbsoluteNumber <<
@@ -13939,7 +13951,7 @@ void msrVoice::bringVoiceToMeasurePosition (
   int inputLineNumber,
   int measurePosition)
 {
-  if (gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Bringing measure position for voice \"" <<
       getVoiceName () <<
@@ -13954,7 +13966,7 @@ void msrVoice::bringVoiceToMeasurePosition (
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 {
-  if (gMsrOptions->fTraceMsr)
+  if (gGeneralOptions->fTraceVoices || gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending transpose '" << transpose->transposeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
