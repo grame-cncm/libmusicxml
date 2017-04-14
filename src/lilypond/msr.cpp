@@ -10997,7 +10997,33 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             inputLineNumber,
             noteMeasurePosition);
     }
+
+    //* JMI FOO FOO
+    if (! note->getNoteHarmony ()) { // JMI BOF
+      // fetch voice
+      S_msrVoice
+        partHarmonyVoice =
+          fMeasureDirectPartUplink->
+            getPartHarmonyVoice ();
+          
+      // append a skip syllable of the same duration to the part harmony voice
+      S_msrNote
+        skipNote =
+          msrNote::createSkipNote (
+            inputLineNumber,
+            fMeasureDirectPartUplink,
+            noteDivisions,
+            partHarmonyVoice->
+              getVoiceStaffUplink ()->
+                getStaffNumber (),
+            partHarmonyVoice->
+              getExternalVoiceNumber ());
     
+      fMeasureDirectPartUplink->
+        getPartHarmonyVoice ()->
+          appendNoteToVoice (skipNote);
+    }
+
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
   }
@@ -11193,6 +11219,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
           getSegmentVoiceUplink ()->
             getVoiceName () <<
         "\"" <<
+        ", fMeasurePosition = " << fMeasurePosition <<
         endl;
   
     // populate measure uplink
