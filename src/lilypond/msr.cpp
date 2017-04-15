@@ -17040,6 +17040,30 @@ void msrPart::appendHarmonyToPart (
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
+  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+    
+        s <<
+          "harmonies cannot by supplied by " <<
+          msrVoice::voiceKindAsString (
+            harmoniesSupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+           harmoniesSupplierVoice->getVoiceName () <<
+           "\"";
+    
+        msrMusicXMLError (
+          inputLineNumber,
+          s.str());
+      }
+      break;
+  } // switch
+
   if (! fPartHarmoniesSupplierVoice) {
     // first harmony met in this part, set harmonies supplier voice
     fPartHarmoniesSupplierVoice =
@@ -17052,9 +17076,15 @@ void msrPart::appendHarmonyToPart (
     s <<
       "harmonies are supplied both by:" <<
       endl <<
-      "\"" <<fPartHarmoniesSupplierVoice->getVoiceName () << "\"" <<
-      " and " <<
-      "\"" <<harmoniesSupplierVoice->getVoiceName () << "\"";
+      msrVoice::voiceKindAsString (
+        fPartHarmoniesSupplierVoice->getVoiceKind ()) <<
+      " \"" << fPartHarmoniesSupplierVoice->getVoiceName () << "\"" <<
+      endl <<
+      " and:" <<
+      endl <<
+      msrVoice::voiceKindAsString (
+        harmoniesSupplierVoice->getVoiceKind ()) <<
+      " \"" << harmoniesSupplierVoice->getVoiceName () << "\"";
 
     msrMusicXMLError (
       inputLineNumber,
