@@ -912,6 +912,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   }
   
   else if (fOnGoingHarmonyVoice) { // JMI
+    // don't append the harmony from this voice
   }
 }
 
@@ -1017,7 +1018,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
       msrMeasure::kOverfullMeasure;
   }
 
-  if (false && measureKind != originalMeasure->getMeasureKind ()) { // JMI
+  if (false) { // JMI ??? measureKind != originalMeasure->getMeasureKind ()) {
     stringstream s;
 
     s <<
