@@ -4383,7 +4383,7 @@ msrNote::~msrNote()
 {}
 
 S_msrNote msrNote::createNoteBareClone (
-  S_msrPart part)
+  S_msrPart clonedPart)
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
@@ -4396,7 +4396,7 @@ S_msrNote msrNote::createNoteBareClone (
     clone =
       msrNote::create (
         fInputLineNumber,
-        part,
+        clonedPart,
         
         fNoteKind,
         
@@ -4416,6 +4416,7 @@ S_msrNote msrNote::createNoteBareClone (
   // basic note description
   // ------------------------------------------------------
 
+/* JMI
   clone->fNoteKind =
     fNoteKind;
 
@@ -4449,6 +4450,7 @@ S_msrNote msrNote::createNoteBareClone (
   clone->
     fNoteIsAGraceNote =
       fNoteIsAGraceNote;
+      */
 
   clone->fNoteOctaveShift =
     fNoteOctaveShift;

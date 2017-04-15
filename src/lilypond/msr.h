@@ -2719,7 +2719,7 @@ class EXP msrNote : public msrElement
     
       bool                 noteIsAGraceNote);
     
-    SMARTP<msrNote> createNoteBareClone (S_msrPart part);
+    SMARTP<msrNote> createNoteBareClone (S_msrPart clonedPart);
     
     // creation from xml2Msr
     // ------------------------------------------------------
