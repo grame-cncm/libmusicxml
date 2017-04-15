@@ -4788,7 +4788,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " harmony to '" << harmony->harmonyAsString () << "'" <<
@@ -4796,9 +4796,11 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
       
   fNoteHarmony = harmony;
 
+/* JMI
   // set harmony's duration as that of the note
   harmony->
     setHarmonyDivisions (fNoteDivisions);
+    */
 }
 
 void msrNote::acceptIn (basevisitor* v)
@@ -9743,6 +9745,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
+  int                  harmonyDivisions,
   S_msrPart            harmonyPartUplink)
 {
   msrHarmony* o =
@@ -9751,6 +9754,7 @@ S_msrHarmony msrHarmony::create (
       harmonyRootQuartertonesPitch,
       harmonyKind, harmonyKindText,
       harmonyBassQuartertonesPitch,
+      harmonyDivisions,
       harmonyPartUplink);
   assert(o!=0);
 
@@ -9768,6 +9772,7 @@ msrHarmony::msrHarmony (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
+  int                  harmonyDivisions,
   S_msrPart            harmonyPartUplink)
     : msrElement (inputLineNumber)
 {
@@ -9778,12 +9783,14 @@ msrHarmony::msrHarmony (
  
   fHarmonyBassQuartertonesPitch = harmonyBassQuartertonesPitch;
  
+  fHarmonyDivisions = harmonyDivisions;
+  
   fHarmonyPartUplink = harmonyPartUplink;
 
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "Creating harmony '" <<
- // JMI     harmonyAsString () <<
+      harmonyAsString () <<
       "'" <<
       endl;
   }
@@ -9809,6 +9816,7 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
         fHarmonyRootQuartertonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuartertonesPitch,
+        fHarmonyDivisions,
         clonedPart);
   
   return clone;
@@ -11003,6 +11011,15 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
         
     if (noteHarmony) {
       // append the harmony to the harmony voice
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "Appending harmony '" << noteHarmony->harmonyAsString () <<
+          "' to measure '" << fMeasureNumber <<
+          "' in harmony voice \"" <<
+          partHarmonyVoice->getVoiceName () <<
+          "\"" <<
+          endl;
+
       partHarmonyVoice->
         appendHarmonyToVoice (
           noteHarmony);
@@ -11024,6 +11041,15 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     }
 
     else {
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "Appending harmony '" << noteHarmony->harmonyAsString () <<
+          "' to measure '" << fMeasureNumber <<
+          "' in harmony voice \"" <<
+          partHarmonyVoice->getVoiceName () <<
+          "\"" <<
+          endl;
+
       // append a skip syllable of the same duration to the part harmony voice
       S_msrNote
         skipNote =

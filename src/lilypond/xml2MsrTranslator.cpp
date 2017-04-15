@@ -163,6 +163,7 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingLigature          = false;
   fOnGoingLigatureHasStanza = false;
 
+  fPendingHarmony                  = false;
   fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = k_NoAlteration;
   fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
@@ -8099,19 +8100,29 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);
 
-  // handle the current harmony if any
-  if (fCurrentHarmony) {
+  // handle the current pending harmony if any
+  if (fPendingHarmony) {
+    S_msrHarmony
+      harmony =
+        msrHarmony::create (
+          fCurrentHarmonyInputLineNumber,
+          fCurrentPart,
+          fCurrentHarmonyRootQuartertonesPitch,
+          fCurrentHarmonyKind,
+          fCurrentHarmonyKindText,
+          fCurrentHarmonyBassQuartertonesPitch,
+          fCurrentNoteDivisions,
+          fCurrentPart);
+  
     // attach the current harmony to the note
     newNote->
-      setNoteHarmony (fCurrentHarmony);
+      setNoteHarmony (harmony);
 
     // append the current harmony to the part
     fCurrentPart->
       appendHarmonyToPart (
         currentVoice,
-        fCurrentHarmony);
-  
-    fCurrentHarmony = 0;
+        harmony);
   }
 
   if (gGeneralOptions->fTraceNotes) {
@@ -9552,6 +9563,8 @@ void xml2MsrTranslator::visitStart ( S_harmony& elt )
       "--> Start visiting S_harmony" <<
       endl;
 
+  fPendingHarmony                  = true;
+  fCurrentHarmonyInputLineNumber   = elt->getInputLineNumber ();
   fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = kNatural;
   fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
@@ -9819,22 +9832,23 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   }
 
   // convert root diatonic pitch to a quarter tone pitch
-  msrQuartertonesPitch
-    harmonyRootQuartertonesPitch =
-      quatertonesPitchFromDiatonicPitchAndAlteration (
-        inputLineNumber,
-        fCurrentHarmonyRootDiatonicPitch,
-        fCurrentHarmonyRootAlteration);
+  fCurrentHarmonyRootQuartertonesPitch =
+    quatertonesPitchFromDiatonicPitchAndAlteration (
+      inputLineNumber,
+      fCurrentHarmonyRootDiatonicPitch,
+      fCurrentHarmonyRootAlteration);
 
   // convert bass diatonic pitch to a quarter tone pitch
-  msrQuartertonesPitch
-    harmonyBassQuartertonesPitch =
-      quatertonesPitchFromDiatonicPitchAndAlteration (
-        inputLineNumber,
-        fCurrentHarmonyBassDiatonicPitch,
-        fCurrentHarmonyBassAlteration);
+  fCurrentHarmonyBassQuartertonesPitch =
+    quatertonesPitchFromDiatonicPitchAndAlteration (
+      inputLineNumber,
+      fCurrentHarmonyBassDiatonicPitch,
+      fCurrentHarmonyBassAlteration);
 
-  if (harmonyRootQuartertonesPitch == harmonyBassQuartertonesPitch) {
+  if (
+    fCurrentHarmonyRootQuartertonesPitch
+      ==
+    fCurrentHarmonyBassQuartertonesPitch) {
     stringstream s;
 
     s <<
@@ -9843,30 +9857,19 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           inputLineNumber,
-          harmonyRootQuartertonesPitch)) <<        
+          fCurrentHarmonyRootQuartertonesPitch)) <<        
       "', ignoring the latter";
 
     msrMusicXMLWarning (
      inputLineNumber,
      s.str());
 
-    harmonyBassQuartertonesPitch = k_NoQuaterTonesPitch;
+    fCurrentHarmonyBassQuartertonesPitch = k_NoQuaterTonesPitch;
   }
-  
-  // create the harmony
-  fCurrentHarmony =
-    msrHarmony::create (
-      inputLineNumber,
-      fCurrentPart,
-      harmonyRootQuartertonesPitch,
-      fCurrentHarmonyKind,
-      fCurrentHarmonyKindText,
-      harmonyBassQuartertonesPitch,
-      fCurrentPart);
 
-  // the harmony will be attached to the current part
-  // when the next note is handled because it needs
-  // the duration of the latter
+  // the harmony will be created in visisEnd (S_note&),
+  // when its duration can be be taken as that of the note following it
+  // create the harmony
 }
 
 /*

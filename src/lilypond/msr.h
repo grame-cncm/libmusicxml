@@ -2586,6 +2586,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
+      int                  harmonyDivisions,
       S_msrPart            harmonyPartUplink);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
@@ -2602,6 +2603,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
+      int                  harmonyDivisions,
       S_msrPart            harmonyPartUplink);
 
     virtual ~msrHarmony();
@@ -2611,8 +2613,8 @@ class EXP msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setHarmonyDivisions (int divisions)
-                              { fHarmonyDivisions = divisions; }
+ // JMI   void                  setHarmonyDivisions (int divisions)
+       //                       { fHarmonyDivisions = divisions; }
 
     int                   getHarmonyDivisions () const
                               { return fHarmonyDivisions; }

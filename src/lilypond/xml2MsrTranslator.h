@@ -763,6 +763,10 @@ class EXP xml2MsrTranslator :
 
     // harmony handling
     // ------------------------------------------------------
+    bool                      fPendingHarmony;
+    
+    int                       fCurrentHarmonyInputLineNumber;
+    
     msrDiatonicPitch          fCurrentHarmonyRootDiatonicPitch;
     msrAlteration             fCurrentHarmonyRootAlteration;
     
@@ -775,9 +779,9 @@ class EXP xml2MsrTranslator :
 
     int                       fCurrentHarmonyDegreeValue;
     msrAlteration             fCurrentHarmonyDegreeAlteration;
-    
-    S_msrHarmony              fCurrentHarmony;
 
+    msrQuartertonesPitch      fCurrentHarmonyRootQuartertonesPitch;
+    msrQuartertonesPitch      fCurrentHarmonyBassQuartertonesPitch;
 
     // barline handling
     // ------------------------------------------------------
