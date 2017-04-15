@@ -913,7 +913,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   else if (fOnGoingHarmonyVoice) { // JMI
     // register the harmony in the part harmony
     fCurrentPartClone->
-      appendHarmonyToPartClone (
+      appendHarmonyToPart (
         fCurrentVoiceClone,
         elt);
   }
@@ -1700,7 +1700,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
           
       fCurrentVoiceClone->
-        appendNoteToVoice (fCurrentNoteClone);
+        appendNoteToVoiceClone (fCurrentNoteClone);
       break;
       
     case msrNote::kGraceNote:
@@ -1721,12 +1721,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kRestNote:
       fCurrentVoiceClone->
-        appendNoteToVoice (fCurrentNoteClone);
+        appendNoteToVoiceClone (fCurrentNoteClone);
       break;
       
     case msrNote::kSkipNote: // JMI
       fCurrentVoiceClone->
-        appendNoteToVoice (fCurrentNoteClone);
+        appendNoteToVoiceClone (fCurrentNoteClone);
       break;
       
     case msrNote::kChordMemberNote:

@@ -4799,12 +4799,6 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
       endl;
       
   fNoteHarmony = harmony;
-
-/* JMI
-  // set harmony's duration as that of the note
-  harmony->
-    setHarmonyDivisions (fNoteDivisions);
-    */
 }
 
 void msrNote::acceptIn (basevisitor* v)
@@ -11076,6 +11070,150 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
  // JMI }
 }
 
+void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending note '" << note->noteAsShortString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+
+    /* JMI
+  if (appendMeasureIfOverflow (inputLineNumber)) {
+    // a new measure has been appended to the segment
+    // append note to it via the segment
+    fMeasureSegmentUplink->
+      appendNoteToSegment (note);
+  }
+
+  else {
+  */
+    // regular insertion in current measure
+    
+    // populate measure uplink
+    note->setNoteMeasureUplink (this);
+
+    // register note measure number
+    note->setNoteMeasureNumber (fMeasureNumber);
+    
+    // register note measure position
+    int noteMeasurePosition = fMeasurePosition; // for harmony voice
+    
+    note->setNotePositionInMeasure (noteMeasurePosition);
+    
+    // fetch note divisions
+    int noteDivisions =
+      note->getNoteDivisions ();
+
+    // account for note duration in measure position
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + noteDivisions);
+  
+    // update part measure position high tide if need be
+    fMeasureDirectPartUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the note occupies a full measure
+    if (noteDivisions == fMeasureDivisionsPerFullMeasure)
+      note->setNoteOccupiesAFullMeasure ();
+  
+    // append the note to the measure elements list
+  // JMI  // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
+    fMeasureElementsList.push_back (note);
+
+    // fetch part harmony voice
+    S_msrVoice
+      partHarmonyVoice =
+        fMeasureDirectPartUplink->
+          getPartHarmonyVoice ();
+
+    // fetch note harmony
+    S_msrHarmony
+      noteHarmony =
+        note->getNoteHarmony ();
+        
+    if (noteHarmony) {
+      // append the harmony to the harmony voice
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "Appending harmony '" << noteHarmony->harmonyAsString () <<
+          "' to measure '" << fMeasureNumber <<
+          "' in harmony voice \"" <<
+          partHarmonyVoice->getVoiceName () <<
+          "\"" <<
+          endl;
+
+      partHarmonyVoice->
+        appendHarmonyToVoice (
+          noteHarmony);
+/* JMI
+      if (! partHarmonyVoice) {
+        // create the part harmony staff and voice
+        fMeasureDirectPartUplink->
+          createPartHarmonyStaffAndVoice (
+            inputLineNumber);
+      }
+
+      // bring harmony voice to the same measure position
+      fMeasureDirectPartUplink->
+        getPartHarmonyVoice ()->
+          bringVoiceToMeasurePosition (
+            inputLineNumber,
+            noteMeasurePosition);
+  */    
+    }
+
+    else {
+      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+      if (
+        fMeasureVoiceDirectUplink
+          ==
+        fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()) {
+        // yes, create a skip note of the same duration as the note
+        S_msrNote
+          skipNote =
+            msrNote::createSkipNote (
+              inputLineNumber,
+              fMeasureDirectPartUplink,
+              noteDivisions,
+              note->getNoteDotsNumber (),
+              partHarmonyVoice->
+                getVoiceStaffUplink ()->
+                  getStaffNumber (),
+              partHarmonyVoice->
+                getExternalVoiceNumber ());
+  
+        // append the skip to the part harmony voice
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+          cerr << idtr <<
+            "Appending skip '" << skipNote->noteAsShortString () <<
+            "' to measure '" << fMeasureNumber <<
+            "' in harmony voice \"" <<
+            partHarmonyVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+
+  if (false) // JMI
+        partHarmonyVoice->
+          appendNoteToVoice (skipNote);
+      }
+    }
+
+    // register note as the last one in this measure
+    fMeasureLastHandledNote = note;
+ // JMI }
+}
+
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 {
   int inputLineNumber =
@@ -11340,96 +11478,35 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-/*
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append harmony to it thru the segment
-    fMeasureSegmentUplink->
-      appendHarmonyToSegment (harmony);
-  }
-
-  else {
-  */
-    // regular insertion in current measure
-    
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending harmony '" << harmony->harmonyAsString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        ", fMeasurePosition = " << fMeasurePosition <<
-        endl;
+  // regular insertion in current measure
   
-    // populate measure uplink
- // JMI   harmony->setHarmonyMeasureUplink (this);
-
-    // register harmony measure number
- //   harmony->
- // JMI     setHarmonyMeasureNumber (fMeasureNumber);
-    
-    // register harmony measure position
-  //  int dummy = // JMI
-   //   harmony->
-    //    setHarmonyPositionInMeasure (fMeasurePosition);
-
-
-/* JMI
-    // fetch voice
-    S_msrVoice
-      voice =
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ();
-
-    // register voice as part harmonies supplied
-    // this will abort if another voice is already supplying harmonies
-    fMeasureDirectPartUplink->
-      setPartHarmoniesSupplierVoice (
-        voice);
-
-        */
-
-        
-    // fetch harmony divisions
-    int harmonyDivisions =
-      harmony->getHarmonyDivisions ();
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending harmony '" << harmony->harmonyAsString () <<
+      "' to measure clone '" << fMeasureNumber <<
+      "' in voice clone \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      ", fMeasurePosition = " << fMeasurePosition <<
+      endl;
       
-//* JMI FOO
-/*
-    // append a skip syllable of the same duration to the part harmony voice
-    S_msrNote
-      skip =
-          msrNote::createSkipNote (
-            inputLineNumber,
-            fMeasureDirectPartUplink,
-            harmonyDivisions,
-            voice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            voice->
-              getExternalVoiceNumber ());
-  
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        appendNoteToVoice (skip);
-  */
-
-    // account for harmony duration in measure position
-    setMeasurePosition (
-      inputLineNumber, fMeasurePosition + harmonyDivisions);
-  
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
+  // fetch harmony divisions
+  int harmonyDivisions =
+    harmony->getHarmonyDivisions ();
     
-    // append the harmony to the measure elements list
-    fMeasureElementsList.push_back (harmony);
-//  }
+  // account for harmony duration in measure position
+  setMeasurePosition (
+    inputLineNumber, fMeasurePosition + harmonyDivisions);
+
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
+  
+  // append the harmony to the measure elements list
+  fMeasureElementsList.push_back (harmony);
 }
 
 void msrMeasure::bringMeasureToMeasurePosition (
@@ -12979,6 +13056,12 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
     appendNoteToMeasure (note);
 }
 
+void msrSegment::appendNoteToSegmentClone (S_msrNote note)
+{
+  fSegmentMeasuresList.back ()->
+    appendNoteToMeasureClone (note);
+}
+
 void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 {
   fSegmentMeasuresList.back ()->
@@ -14325,7 +14408,50 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // append the note to the last segment
   fVoiceLastSegment->
-    appendNoteToSegment (note);
+    appendNoteToSegmentClone (note);
+  
+  // add a skip syllable of the same duration to the stanza master
+  int
+    noteDivisions =
+      note->getNoteDivisions ();
+
+  if (note->getNoteIsARest ())
+    fVoiceStanzaMaster->
+      appendRestSyllableToStanza (
+        note->getInputLineNumber (),
+        noteDivisions);
+  else
+    fVoiceStanzaMaster->
+      appendSkipSyllableToStanza (
+        note->getInputLineNumber (),
+        noteDivisions);
+}
+
+void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "% ==> appending note:" <<
+      endl;
+
+    idtr++;
+    
+    cerr <<
+      idtr <<
+        note <<
+      idtr <<
+        "to voice \"" << getVoiceName () << "\"" <<
+        endl;
+
+    idtr--;
+  }
+
+  // register actual note
+  fVoiceActualNotesCounter++;
+  fMusicHasBeenInsertedInVoice = true;
+
+  // append the note to the last segment
+  fVoiceLastSegment->
+    appendNoteToSegmentClone (note);
   
   // add a skip syllable of the same duration to the stanza master
   int

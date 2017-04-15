@@ -1875,7 +1875,9 @@ class EXP msrMeasure : public msrElement
     void                  appendBarlineToMeasure (S_msrBarline barline);
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
     
-    void                  appendNoteToMeasure (S_msrNote note);
+    void                  appendNoteToMeasure      (S_msrNote note);
+    void                  appendNoteToMeasureClone (S_msrNote note);
+    
     void                  appendChordToMeasure (S_msrChord chord);
     void                  appendTupletToMeasure (S_msrTuplet tuplet);
     
@@ -2057,7 +2059,9 @@ class EXP msrSegment : public msrElement
                               int inputLineNumber,
                               int measurePosition);
   
-    void                  appendNoteToSegment (S_msrNote note);
+    void                  appendNoteToSegment      (S_msrNote note);
+    void                  appendNoteToSegmentClone (S_msrNote note);
+    
     void                  appendChordToSegment (S_msrChord chord);
     void                  appendTupletToSegment (S_msrTuplet tuplet);
     
@@ -5419,7 +5423,9 @@ class EXP msrVoice : public msrElement
     void            appendOctaveShiftToVoice (
                       S_msrOctaveShift octaveShift);
     
-    void            appendNoteToVoice   (S_msrNote note);
+    void            appendNoteToVoice      (S_msrNote note);
+    void            appendNoteToVoiceClone (S_msrNote note);
+
     void            appendChordToVoice  (S_msrChord chord);
     void            appendTupletToVoice (S_msrTuplet tuplet);
 
