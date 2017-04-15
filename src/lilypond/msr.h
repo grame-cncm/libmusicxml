@@ -5986,6 +5986,16 @@ class EXP msrPart : public msrElement
     S_msrVoice            getPartHarmonyVoice () const
                               { return fPartHarmonyVoice; }
                   
+    void                  setPartHarmoniesSupplierVoice (
+                            S_msrVoice partHarmoniesSupplierVoice)
+                              {
+                                fPartHarmoniesSupplierVoice =
+                                  partHarmoniesSupplierVoice;
+                              }
+                              
+    S_msrVoice            getPartHarmoniesSupplierVoice () const
+                              { return fPartHarmoniesSupplierVoice; }
+                  
     const map<int, S_msrStaff>&
                           getPartStavesMap ()
                               { return fPartStavesMap; }
@@ -6100,7 +6110,9 @@ class EXP msrPart : public msrElement
 
     S_msrStaff            fetchStaffFromPart (int staffNumber);
 
-    void                  appendHarmonyToPart (S_msrHarmony harmony);
+    void                  appendHarmonyToPart (
+                            S_msrVoice   harmoniesSupplierVoice,
+                            S_msrHarmony harmony);
 
     void                  handleBackup (int divisions);
 
@@ -6162,6 +6174,7 @@ class EXP msrPart : public msrElement
 
     S_msrStaff              fPartHarmonyStaff;
     S_msrVoice              fPartHarmonyVoice;
+    S_msrVoice              fPartHarmoniesSupplierVoice;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

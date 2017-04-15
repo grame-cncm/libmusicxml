@@ -8064,7 +8064,9 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
     // append the current harmony to the part
     fCurrentPart->
-      appendHarmonyToPart (fCurrentHarmony);
+      appendHarmonyToPart (
+        currentVoice,
+        fCurrentHarmony);
   
     fCurrentHarmony = 0;
   }

@@ -10976,36 +10976,40 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // if it happens to be the first note of a chord
     fMeasureElementsList.push_back (note);
 
-    if (note->getNoteHarmony ()) { // JMI BOF
-      // fetch part harmony voice
-      S_msrVoice
-        partHarmonyVoice =
-          fMeasureDirectPartUplink->
-            getPartHarmonyVoice ();
+    // fetch part harmony voice
+    S_msrVoice
+      partHarmonyVoice =
+        fMeasureDirectPartUplink->
+          getPartHarmonyVoice ();
 
+    // fetch note harmony
+    S_msrHarmony
+      noteHarmony =
+        note->getNoteHarmony ();
+        
+    if (noteHarmony) {
+      // append the harmony to the harmony voice
+      partHarmonyVoice->
+        appendHarmonyToVoice (
+          noteHarmony);
+/* JMI
       if (! partHarmonyVoice) {
         // create the part harmony staff and voice
         fMeasureDirectPartUplink->
           createPartHarmonyStaffAndVoice (
             inputLineNumber);
       }
-      
+
       // bring harmony voice to the same measure position
       fMeasureDirectPartUplink->
         getPartHarmonyVoice ()->
           bringVoiceToMeasurePosition (
             inputLineNumber,
             noteMeasurePosition);
+  */    
     }
 
-    //* JMI FOO FOO
-    if (false && ! note->getNoteHarmony ()) { // JMI BOF
-      // fetch voice
-      S_msrVoice
-        partHarmonyVoice =
-          fMeasureDirectPartUplink->
-            getPartHarmonyVoice ();
-          
+    else {
       // append a skip syllable of the same duration to the part harmony voice
       S_msrNote
         skipNote =
@@ -11019,9 +11023,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             partHarmonyVoice->
               getExternalVoiceNumber ());
     
-      fMeasureDirectPartUplink->
-        getPartHarmonyVoice ()->
-          appendNoteToVoice (skipNote);
+      partHarmonyVoice->
+        appendNoteToVoice (skipNote);
     }
 
     // register note as the last one in this measure
@@ -11239,6 +11242,12 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       voice =
         fMeasureSegmentUplink->
           getSegmentVoiceUplink ();
+
+    // register voice as part harmonies supplied
+    // this will abort if another voice is already supplying harmonies
+    fMeasureDirectPartUplink->
+      setPartHarmoniesSupplierVoice (
+        voice);
         
     // fetch harmony divisions
     int harmonyDivisions =
@@ -16126,11 +16135,10 @@ msrPart::msrPart (
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
-/*
   // create the part harmony staff and voice
-  createPartHarmonyStaffAndVoice ( JMI BOF
+  createPartHarmonyStaffAndVoice (
     inputLineNumber);
-    */
+
 
 // */
 
@@ -17025,11 +17033,34 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
-void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
+void msrPart::appendHarmonyToPart (
+  S_msrVoice   harmoniesSupplierVoice,
+  S_msrHarmony harmony)
 {
   int inputLineNumber =
     harmony->getInputLineNumber ();
-    
+
+  if (! fPartHarmoniesSupplierVoice) {
+    // first harmony met in this part, set harmonies supplier voice
+    fPartHarmoniesSupplierVoice =
+      harmoniesSupplierVoice;
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "harmonies are supplied both by:" <<
+      endl <<
+      "\"" <<fPartHarmoniesSupplierVoice->getVoiceName () << "\"" <<
+      " and " <<
+      "\"" <<harmoniesSupplierVoice->getVoiceName () << "\"";
+
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());
+  }
+  
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Appending harmony '" <<
@@ -17039,9 +17070,11 @@ void msrPart::appendHarmonyToPart (S_msrHarmony harmony)
       ", line " << inputLineNumber <<
       endl;
 
+/* JMI
   if (! fPartHarmonyVoice)
     createPartHarmonyStaffAndVoice (
       inputLineNumber);
+*/
 
   fPartHarmonyVoice->
     appendHarmonyToVoice (harmony);

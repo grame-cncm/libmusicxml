@@ -909,6 +909,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     // register the harmony in the part harmony
     fCurrentPartClone->
       appendHarmonyToPart (
+        fCurrentVoiceClone,
         elt);
   }
 }
