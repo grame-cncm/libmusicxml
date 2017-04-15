@@ -2728,6 +2728,7 @@ class EXP msrNote : public msrElement
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
       int       divisions,
+      int       dotsNumber,
       int       staffNumber,
       int       externalVoiceNumber);
     

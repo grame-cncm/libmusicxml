@@ -3835,6 +3835,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
           note->getInputLineNumber (),
           voiceClone->getVoiceDirectPartUplink (),
           note->getNoteDivisions (),
+          note->getNoteDotsNumber (),
           voiceClone->getStaffRelativeVoiceNumber (), // JMI
           voiceClone->getExternalVoiceNumber ());
 
@@ -4175,6 +4176,7 @@ S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   S_msrPart noteDirectPartUplink,
   int       divisions,
+  int       dotsNumber,
   int       staffNumber,
   int       externalVoiceNumber)
 {    
@@ -4187,7 +4189,7 @@ S_msrNote msrNote::createSkipNote (
       k_NoQuaterTonesPitch, // noteQuatertonesPitch
       divisions, // noteDivisions
       divisions, // noteDisplayDivisions
-      -1, // noteDotsNumber
+      dotsNumber,
       k_NoDuration, // noteGraphicDuration
       
       -1, // noteOctave,
@@ -9910,12 +9912,17 @@ string msrHarmony::harmonyAsString () const
         fInputLineNumber,
         fHarmonyRootQuartertonesPitch)) <<
           
-    harmonyKindAsShortString () <<
+    harmonyKindAsShortString ();
 
+  if (fHarmonyDirectPartUplink) // JMI ???
+  s <<
     fHarmonyDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fHarmonyDivisions);
+  else
+  s <<
+    "POUTOUPOUTOY";
 
   if (fHarmonyKindText.size ())
     s <<
@@ -11029,31 +11036,38 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     }
 
     else {
-      // create a skip note of the same duration as the note
-      S_msrNote
-        skipNote =
-          msrNote::createSkipNote (
-            inputLineNumber,
-            fMeasureDirectPartUplink,
-            noteDivisions,
-            partHarmonyVoice->
-              getVoiceStaffUplink ()->
-                getStaffNumber (),
-            partHarmonyVoice->
-              getExternalVoiceNumber ());
-
-      // append it to the part harmony voice
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        cerr << idtr <<
-          "Appending skip '" << skipNote->noteAsShortString () <<
-          "' to measure '" << fMeasureNumber <<
-          "' in harmony voice \"" <<
-          partHarmonyVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-
-      partHarmonyVoice->
-        appendNoteToVoice (skipNote);
+      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+      if (
+        fMeasureVoiceDirectUplink
+          ==
+        fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()) {
+        // yes, create a skip note of the same duration as the note
+        S_msrNote
+          skipNote =
+            msrNote::createSkipNote (
+              inputLineNumber,
+              fMeasureDirectPartUplink,
+              noteDivisions,
+              note->getNoteDotsNumber (),
+              partHarmonyVoice->
+                getVoiceStaffUplink ()->
+                  getStaffNumber (),
+              partHarmonyVoice->
+                getExternalVoiceNumber ());
+  
+        // append the skip to the part harmony voice
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+          cerr << idtr <<
+            "Appending skip '" << skipNote->noteAsShortString () <<
+            "' to measure '" << fMeasureNumber <<
+            "' in harmony voice \"" <<
+            partHarmonyVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+  
+        partHarmonyVoice->
+          appendNoteToVoice (skipNote);
+      }
     }
 
     // register note as the last one in this measure
@@ -11360,6 +11374,7 @@ void msrMeasure::bringMeasureToMeasurePosition (
           inputLineNumber,
           fMeasureDirectPartUplink,
           skipDuration,
+          0, // JMI ???
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
@@ -11804,6 +11819,7 @@ void msrMeasure::finalizeMeasure (
           inputLineNumber,
           fMeasureDirectPartUplink,
           skipDuration,
+          0, // JMI ???
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
@@ -17122,7 +17138,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
           "harmonies cannot by supplied by " <<
           msrVoice::voiceKindAsString (
             partHarmoniesSupplierVoice->getVoiceKind ()) <<
-          " voice \" " <<
+          " voice \"" <<
            partHarmoniesSupplierVoice->getVoiceName () <<
            "\"";
     
