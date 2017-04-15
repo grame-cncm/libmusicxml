@@ -10998,9 +10998,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       noteHarmony =
         note->getNoteHarmony ();
         
+
     if (noteHarmony) {
       // append the harmony to the harmony voice
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
           "Appending harmony '" << noteHarmony->harmonyAsString () <<
           "' to measure '" << fMeasureNumber <<
@@ -11012,22 +11013,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       partHarmonyVoice->
         appendHarmonyToVoice (
           noteHarmony);
-/* JMI
-      if (! partHarmonyVoice) {
-        // create the part harmony staff and voice
-        fMeasureDirectPartUplink->
-          createPartHarmonyStaffAndVoice (
-            inputLineNumber);
-      }
-
-      // bring harmony voice to the same measure position
-      fMeasureDirectPartUplink->
-        getPartHarmonyVoice ()->
-          bringVoiceToMeasurePosition (
-            inputLineNumber,
-            noteMeasurePosition);
-  */    
-
     }
 
     else {
@@ -11041,6 +11026,14 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()->getVoiceName () <<
           "\"" <<
           endl;
+
+/* JMI
+      // bring harmony voice to the same measure position
+      partHarmonyVoice->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          noteMeasurePosition);
+*/
 
       // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
       if (
@@ -11062,7 +11055,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
                 getExternalVoiceNumber ());
   
         // append the skip to the part harmony voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
           cerr << idtr <<
             "Appending skip '" << skipNote->noteAsShortString () <<
             "' to measure '" << fMeasureNumber <<
