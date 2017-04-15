@@ -5987,12 +5987,9 @@ class EXP msrPart : public msrElement
                               { return fPartHarmonyVoice; }
                   
     void                  setPartHarmoniesSupplierVoice (
-                            S_msrVoice partHarmoniesSupplierVoice)
-                              {
-                                fPartHarmoniesSupplierVoice =
-                                  partHarmoniesSupplierVoice;
-                              }
-                              
+                            int        inputLineNumber,
+                            S_msrVoice partHarmoniesSupplierVoice);
+
     S_msrVoice            getPartHarmoniesSupplierVoice () const
                               { return fPartHarmoniesSupplierVoice; }
                   

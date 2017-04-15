@@ -11237,6 +11237,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
    //   harmony->
     //    setHarmonyPositionInMeasure (fMeasurePosition);
 
+
+/* JMI
     // fetch voice
     S_msrVoice
       voice =
@@ -11248,6 +11250,9 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     fMeasureDirectPartUplink->
       setPartHarmoniesSupplierVoice (
         voice);
+
+        */
+
         
     // fetch harmony divisions
     int harmonyDivisions =
@@ -17033,21 +17038,19 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
-void msrPart::appendHarmonyToPart (
-  S_msrVoice   harmoniesSupplierVoice,
-  S_msrHarmony harmony)
+void msrPart::setPartHarmoniesSupplierVoice (
+  int        inputLineNumber,
+  S_msrVoice partHarmoniesSupplierVoice)
 {
-  int inputLineNumber =
-    harmony->getInputLineNumber ();
-
-  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+  switch (partHarmoniesSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
       if (! fPartHarmoniesSupplierVoice) {
-        // first harmony met in this part, set harmonies supplier voice
+        // first harmonies supplier voice met in this part,
+        // set part harmonies supplier voice accordingly
         if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
           cerr << idtr <<
             "Setting voice \"" <<
-            harmoniesSupplierVoice->
+            partHarmoniesSupplierVoice->
               getVoiceName () <<
             "\" as harmonies supplier for part " <<
             getPartCombinedName () <<
@@ -17055,10 +17058,11 @@ void msrPart::appendHarmonyToPart (
             endl;
     
         fPartHarmoniesSupplierVoice =
-          harmoniesSupplierVoice;
+          partHarmoniesSupplierVoice;
       }
     
-      else {
+      else if (
+        fPartHarmoniesSupplierVoice != partHarmoniesSupplierVoice) {
         stringstream s;
     
         s <<
@@ -17071,14 +17075,57 @@ void msrPart::appendHarmonyToPart (
           "and:" <<
           endl <<
           msrVoice::voiceKindAsString (
-            harmoniesSupplierVoice->getVoiceKind ()) <<
-          " \"" << harmoniesSupplierVoice->getVoiceName () << "\"";
+            partHarmoniesSupplierVoice->getVoiceKind ()) <<
+          " \"" << partHarmoniesSupplierVoice->getVoiceName () << "\"";
     
         msrMusicXMLError (
           inputLineNumber,
           s.str());
       }
+      break;
       
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+    
+        s <<
+          "harmonies cannot by supplied by " <<
+          msrVoice::voiceKindAsString (
+            partHarmoniesSupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+           partHarmoniesSupplierVoice->getVoiceName () <<
+           "\"";
+    
+        msrMusicXMLError (
+          inputLineNumber,
+          s.str());
+      }
+      break;
+  } // switch
+}
+                              
+void msrPart::appendHarmonyToPart (
+  S_msrVoice   harmoniesSupplierVoice,
+  S_msrHarmony harmony)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
+  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      // register this voice as the part harmonies supplier voice
+      setPartHarmoniesSupplierVoice (
+        inputLineNumber,
+        harmoniesSupplierVoice);
+
+    /* JMI
+      if (! fPartHarmonyVoice)
+        createPartHarmonyStaffAndVoice (
+          inputLineNumber);
+    */
+    
+      // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
         cerr << idtr <<
           "Appending harmony '" <<
@@ -17088,15 +17135,9 @@ void msrPart::appendHarmonyToPart (
           ", line " << inputLineNumber <<
           endl;
     
-    /* JMI
-      if (! fPartHarmonyVoice)
-        createPartHarmonyStaffAndVoice (
-          inputLineNumber);
-    */
-    
       fPartHarmonyVoice->
         appendHarmonyToVoice (harmony);
-          break;
+      break;
       
     case msrVoice::kHarmonyVoice:
     case msrVoice::kMasterVoice:
