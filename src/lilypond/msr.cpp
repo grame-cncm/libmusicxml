@@ -14650,7 +14650,7 @@ string msrVoice::voiceKindAsString (
   
   switch (voiceKind) {
     case msrVoice::kRegularVoice:
-      result = "Regular";
+      result = "RegularVoice";
       break;
     case msrVoice::kHarmonyVoice:
       result = "HarmonyVoice";
@@ -17042,7 +17042,61 @@ void msrPart::appendHarmonyToPart (
 
   switch (harmoniesSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      break;
+      if (! fPartHarmoniesSupplierVoice) {
+        // first harmony met in this part, set harmonies supplier voice
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+          cerr << idtr <<
+            "Setting voice \"" <<
+            harmoniesSupplierVoice->
+              getVoiceName () <<
+            "\" as harmonies supplier for part " <<
+            getPartCombinedName () <<
+            ", line " << inputLineNumber <<
+            endl;
+    
+        fPartHarmoniesSupplierVoice =
+          harmoniesSupplierVoice;
+      }
+    
+      else {
+        stringstream s;
+    
+        s <<
+          "harmonies are supplied both by:" <<
+          endl <<
+          msrVoice::voiceKindAsString (
+            fPartHarmoniesSupplierVoice->getVoiceKind ()) <<
+          " \"" << fPartHarmoniesSupplierVoice->getVoiceName () << "\"" <<
+          endl <<
+          "and:" <<
+          endl <<
+          msrVoice::voiceKindAsString (
+            harmoniesSupplierVoice->getVoiceKind ()) <<
+          " \"" << harmoniesSupplierVoice->getVoiceName () << "\"";
+    
+        msrMusicXMLError (
+          inputLineNumber,
+          s.str());
+      }
+      
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+        cerr << idtr <<
+          "Appending harmony '" <<
+          harmony->harmonyAsString () <<
+          "' to part " <<
+          getPartCombinedName () <<
+          ", line " << inputLineNumber <<
+          endl;
+    
+    /* JMI
+      if (! fPartHarmonyVoice)
+        createPartHarmonyStaffAndVoice (
+          inputLineNumber);
+    */
+    
+      fPartHarmonyVoice->
+        appendHarmonyToVoice (harmony);
+          break;
       
     case msrVoice::kHarmonyVoice:
     case msrVoice::kMasterVoice:
@@ -17063,51 +17117,6 @@ void msrPart::appendHarmonyToPart (
       }
       break;
   } // switch
-
-  if (! fPartHarmoniesSupplierVoice) {
-    // first harmony met in this part, set harmonies supplier voice
-    fPartHarmoniesSupplierVoice =
-      harmoniesSupplierVoice;
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "harmonies are supplied both by:" <<
-      endl <<
-      msrVoice::voiceKindAsString (
-        fPartHarmoniesSupplierVoice->getVoiceKind ()) <<
-      " \"" << fPartHarmoniesSupplierVoice->getVoiceName () << "\"" <<
-      endl <<
-      " and:" <<
-      endl <<
-      msrVoice::voiceKindAsString (
-        harmoniesSupplierVoice->getVoiceKind ()) <<
-      " \"" << harmoniesSupplierVoice->getVoiceName () << "\"";
-
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str());
-  }
-  
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
-    cerr << idtr <<
-      "Appending harmony '" <<
-      harmony->harmonyAsString () <<
-      "' to part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-/* JMI
-  if (! fPartHarmonyVoice)
-    createPartHarmonyStaffAndVoice (
-      inputLineNumber);
-*/
-
-  fPartHarmonyVoice->
-    appendHarmonyToVoice (harmony);
 }
 
 void msrPart:: handleBackup (int divisions)
