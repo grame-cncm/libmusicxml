@@ -10933,7 +10933,19 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
-    
+
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending note '" << note->noteAsShortString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+
+    /* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
     // append note to it via the segment
@@ -10942,6 +10954,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 
   else {
+  */
     // regular insertion in current measure
     
     // populate measure uplink
@@ -10952,6 +10965,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     
     // register note measure position
     int noteMeasurePosition = fMeasurePosition; // for harmony voice
+    
     note->setNotePositionInMeasure (noteMeasurePosition);
     
     // fetch note divisions
@@ -11029,7 +11043,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
-  }
+ // JMI }
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL

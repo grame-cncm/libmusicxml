@@ -8023,6 +8023,49 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         
         fCurrentNoteIsAGraceNote);
 
+  /*
+  A rest can be standalone or belong to a tuplet
+
+  A note can be standalone or a member of a chord
+  which can belong to a tuplet,
+  */
+
+/* JMI
+  // are the display divisions different than the duration?
+  if (fCurrentNoteBelongsToATuplet)
+    // set tuplet member note display divisions
+    newNote->
+      applyTupletMemberDisplayFactor (
+        fCurrentActualNotes, fCurrentNormalNotes);
+*/
+
+  // handle note
+  if (fCurrentNoteBelongsToAChord && fCurrentNoteBelongsToATuplet) {
+    
+    // note is the second, third, ..., member of a chord in a tuplet
+    // that is a member of a tuplet
+    handleNoteBelongingToAChordInATuplet (newNote);
+  }
+  
+  else if (fCurrentNoteBelongsToAChord) {
+    
+    // note is the second, third, ..., member of a chord
+    // whose first member is 'fLastHandledNoteInVoice [currentVoice]'
+    handleNoteBelongingToAChord (newNote);
+  }
+  
+  else if (fCurrentNoteBelongsToATuplet) {
+    
+    // note/rest is the first, second, third, ..., member of a tuplet
+    handleNoteBelongingToATuplet (newNote);
+  }
+  
+  else {
+    
+    // note/rest is standalone or a member of grace notes
+    handleStandaloneOrGraceNoteOrRest (newNote);
+  }
+
   // set its tie if any
   if (fCurrentTie) {
     newNote->
@@ -8069,49 +8112,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentHarmony);
   
     fCurrentHarmony = 0;
-  }
-  
-  /*
-  A rest can be standalone or belong to a tuplet
-
-  A note can be standalone or a member of a chord
-  which can belong to a tuplet,
-  */
-
-/* JMI
-  // are the display divisions different than the duration?
-  if (fCurrentNoteBelongsToATuplet)
-    // set tuplet member note display divisions
-    newNote->
-      applyTupletMemberDisplayFactor (
-        fCurrentActualNotes, fCurrentNormalNotes);
-*/
-
-  // handle note
-  if (fCurrentNoteBelongsToAChord && fCurrentNoteBelongsToATuplet) {
-    
-    // note is the second, third, ..., member of a chord in a tuplet
-    // that is a member of a tuplet
-    handleNoteBelongingToAChordInATuplet (newNote);
-  }
-  
-  else if (fCurrentNoteBelongsToAChord) {
-    
-    // note is the second, third, ..., member of a chord
-    // whose first member is 'fLastHandledNoteInVoice [currentVoice]'
-    handleNoteBelongingToAChord (newNote);
-  }
-  
-  else if (fCurrentNoteBelongsToATuplet) {
-    
-    // note/rest is the first, second, third, ..., member of a tuplet
-    handleNoteBelongingToATuplet (newNote);
-  }
-  
-  else {
-    
-    // note/rest is standalone or a member of grace notes
-    handleStandaloneOrGraceNoteOrRest (newNote);
   }
 
   if (gGeneralOptions->fTraceNotes) {
