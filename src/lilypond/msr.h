@@ -1799,122 +1799,125 @@ class EXP msrMeasure : public msrElement
     S_msrPart             getMeasureDirectPartUplink () const
                              { return fMeasureDirectPartUplink; }
 
-    void          setMeasureNumber (int measureNumber)
-                      { fMeasureNumber = measureNumber; }
+    void                  setMeasureNumber (int measureNumber)
+                              { fMeasureNumber = measureNumber; }
 
-    void          incrementMeasureNumber ()
-                      { fMeasureNumber++; }
+    void                  incrementMeasureNumber ()
+                              { fMeasureNumber++; }
 
-    int           getMeasureNumber () const
-                      { return fMeasureNumber; }
+    int                   getMeasureNumber () const
+                              { return fMeasureNumber; }
 
-    void          setMeasureClef (S_msrClef clef)
-                      { fMeasureClef = clef; }
+    void                  setMeasureClef (S_msrClef clef)
+                              { fMeasureClef = clef; }
 
-    S_msrClef     getMeasureClef () const
-                      { return fMeasureClef; }
+    S_msrClef             getMeasureClef () const
+                              { return fMeasureClef; }
 
-    void          setMeasureKey (S_msrKey key)
-                      { fMeasureKey = key; }
+    void                  setMeasureKey (S_msrKey key)
+                              { fMeasureKey = key; }
 
-    S_msrKey      getMeasureKey () const
-                      { return fMeasureKey; }
+    S_msrKey              getMeasureKey () const
+                              { return fMeasureKey; }
 
-    void          setMeasureTime (S_msrTime time);
+    void                  setMeasureTime (S_msrTime time);
 
-    S_msrTime     getMeasureTime () const
-                      { return fMeasureTime; }
+    S_msrTime             getMeasureTime () const
+                              { return fMeasureTime; }
 
-    int           getMeasureDivisionsPerFullMeasure () const
-                      { return fMeasureDivisionsPerFullMeasure; }
+    int                   getMeasureDivisionsPerFullMeasure () const
+                              { return fMeasureDivisionsPerFullMeasure; }
 
-    void          setMeasurePosition (
-                    int inputLineNumber,
-                    int measurePosition);
+    void                  setMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
 
-    int           getMeasurePosition () const
-                      { return fMeasurePosition; }
+    int                   getMeasurePosition () const
+                              { return fMeasurePosition; }
                       
-    S_msrNote      getMeasureLastHandledNote () const
-                      { return fMeasureLastHandledNote; }
+    S_msrNote              getMeasureLastHandledNote () const
+                              { return fMeasureLastHandledNote; }
 
-    void          setMeasureKind (msrMeasureKind measureKind)
-                      { fMeasureKind = measureKind; }
+    void                  setMeasureKind (msrMeasureKind measureKind)
+                              { fMeasureKind = measureKind; }
 
-    msrMeasureKind
-                  getMeasureKind () const
-                      { return fMeasureKind; }
+    msrMeasureKind        getMeasureKind () const
+                              { return fMeasureKind; }
 
-    S_msrSegment  getMeasureSegmentUplink () const
-                      { return fMeasureSegmentUplink; }
+    S_msrSegment          getMeasureSegmentUplink () const
+                              { return fMeasureSegmentUplink; }
                       
-    S_msrVoice    getMeasureVoiceDirectUplink () const
-                      { return fMeasureVoiceDirectUplink; }
+    S_msrVoice            getMeasureVoiceDirectUplink () const
+                              { return fMeasureVoiceDirectUplink; }
 
     const list<S_msrElement>&
-                  getMeasureElementsList () const
-                      { return fMeasureElementsList; }
+                          getMeasureElementsList () const
+                              { return fMeasureElementsList; }
 
     // services
     // ------------------------------------------------------
 
-    void          forceMeasureInputLineNumber (
-                    int inputLineNumber)
-                      { fInputLineNumber = inputLineNumber; }
+    void                  forceMeasureInputLineNumber (
+                            int inputLineNumber)
+                              { fInputLineNumber = inputLineNumber; }
 
-    int           getMeasureLength () const
-                    // divisions, positions start at 1
-                      { return fMeasurePosition - 1; }
+    int                   getMeasureLength () const
+                            // divisions, positions start at 1
+                              { return fMeasurePosition - 1; }
                       
-    string        getMeasureLengthAsString () const;
+    string                getMeasureLengthAsString () const;
     
-    string        getMeasureKindAsString () const;
+    string                getMeasureKindAsString () const;
 
-    S_msrMeasure  appendMeasureIfOverflow (
-                    int inputLineNumber);
+    S_msrMeasure          appendMeasureIfOverflow (
+                            int inputLineNumber);
 
-    void          appendBarlineToMeasure (S_msrBarline barline);
-    void          appendBarCheckToMeasure (S_msrBarCheck barCheck);
+    void                  appendBarlineToMeasure (S_msrBarline barline);
+    void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
     
-    void          appendNoteToMeasure (S_msrNote note);
-    void          appendChordToMeasure (S_msrChord chord);
-    void          appendTupletToMeasure (S_msrTuplet tuplet);
+    void                  appendNoteToMeasure (S_msrNote note);
+    void                  appendChordToMeasure (S_msrChord chord);
+    void                  appendTupletToMeasure (S_msrTuplet tuplet);
     
-    void          appendHarmonyToMeasure (S_msrHarmony harmony);
-
-    void            bringMeasureToMeasurePosition (
-                      int inputLineNumber,
-                      int measurePosition);
-
-    void          appendGracenotesToMeasure (S_msrGracenotes gracenotes);
-    void          prependGracenotesToMeasure (S_msrGracenotes gracenotes);
+    void                  appendHarmonyToMeasure (S_msrHarmony harmony);
     
-    void          prependOtherElementToMeasure (S_msrElement elem);
+    void                  appendHarmonyToMeasureClone (S_msrHarmony harmony);
+
+    void                  bringMeasureToMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
+
+    void                  appendGracenotesToMeasure (
+                            S_msrGracenotes gracenotes);
+    void                  prependGracenotesToMeasure (
+                            S_msrGracenotes gracenotes);
+    
+    void                  prependOtherElementToMeasure (S_msrElement elem);
                       
-    void          appendOtherElementToMeasure  (S_msrElement elem);
+    void                  appendOtherElementToMeasure  (S_msrElement elem);
 
-    S_msrElement  getLastElementOfMeasure () const
-                      { return fMeasureElementsList.back (); }
+    S_msrElement          getLastElementOfMeasure () const
+                              { return fMeasureElementsList.back (); }
                       
-    S_msrElement  removeLastElementFromMeasure (
-                    int inputLineNumber);
+    S_msrElement          removeLastElementFromMeasure (
+                            int inputLineNumber);
 
-    void          removeFirstChordNoteFromMeasure (
-                    int       inputLineNumber,
-                    S_msrNote note);
+    void                  removeFirstChordNoteFromMeasure (
+                            int       inputLineNumber,
+                            S_msrNote note);
 
-    void          removeElementFromMeasure (S_msrElement elem); // JMI
+    void                  removeElementFromMeasure (S_msrElement elem); // JMI
 
-    bool          checkForIncompleteMeasure (
-                    int                        inputLineNumber,
-                    msrMeasure::msrMeasureKind measureKind);
+    bool                  checkForIncompleteMeasure (
+                            int                        inputLineNumber,
+                            msrMeasure::msrMeasureKind measureKind);
 
-    bool          checkForOverfullMeasure (
-                    int inputLineNumber);
+    bool                  checkForOverfullMeasure (
+                            int inputLineNumber);
 
-    void          finalizeMeasure (
-                    int                        inputLineNumber,
-                    msrMeasure::msrMeasureKind measureKind);
+    void                  finalizeMeasure (
+                            int                        inputLineNumber,
+                            msrMeasure::msrMeasureKind measureKind);
 
     // visitors
     // ------------------------------------------------------
@@ -2047,6 +2050,8 @@ class EXP msrSegment : public msrElement
     void                  appendTimeToSegment (S_msrTime time);
 
     void                  appendHarmonyToSegment (S_msrHarmony harmony);
+    
+    void                  appendHarmonyToSegmentClone (S_msrHarmony harmony);
 
     void                    bringSegmentToMeasurePosition (
                               int inputLineNumber,
@@ -5419,6 +5424,8 @@ class EXP msrVoice : public msrElement
     void            appendTupletToVoice (S_msrTuplet tuplet);
 
     void            appendHarmonyToVoice (S_msrHarmony harmony);
+    
+    void            appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
     void            bringVoiceToMeasurePosition (
                       int inputLineNumber,

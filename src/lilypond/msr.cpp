@@ -11335,6 +11335,103 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 //  }
 }
 
+void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
+/*
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
+    // append harmony to it thru the segment
+    fMeasureSegmentUplink->
+      appendHarmonyToSegment (harmony);
+  }
+
+  else {
+  */
+    // regular insertion in current measure
+    
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Appending harmony '" << harmony->harmonyAsString () <<
+        "' to measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        ", fMeasurePosition = " << fMeasurePosition <<
+        endl;
+  
+    // populate measure uplink
+ // JMI   harmony->setHarmonyMeasureUplink (this);
+
+    // register harmony measure number
+ //   harmony->
+ // JMI     setHarmonyMeasureNumber (fMeasureNumber);
+    
+    // register harmony measure position
+  //  int dummy = // JMI
+   //   harmony->
+    //    setHarmonyPositionInMeasure (fMeasurePosition);
+
+
+/* JMI
+    // fetch voice
+    S_msrVoice
+      voice =
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ();
+
+    // register voice as part harmonies supplied
+    // this will abort if another voice is already supplying harmonies
+    fMeasureDirectPartUplink->
+      setPartHarmoniesSupplierVoice (
+        voice);
+
+        */
+
+        
+    // fetch harmony divisions
+    int harmonyDivisions =
+      harmony->getHarmonyDivisions ();
+      
+//* JMI FOO
+/*
+    // append a skip syllable of the same duration to the part harmony voice
+    S_msrNote
+      skip =
+          msrNote::createSkipNote (
+            inputLineNumber,
+            fMeasureDirectPartUplink,
+            harmonyDivisions,
+            voice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            voice->
+              getExternalVoiceNumber ());
+  
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        appendNoteToVoice (skip);
+  */
+
+    // account for harmony duration in measure position
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + harmonyDivisions);
+  
+    // update part measure position high tide if need be
+    fMeasureDirectPartUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+    
+    // append the harmony to the measure elements list
+    fMeasureElementsList.push_back (harmony);
+//  }
+}
+
 void msrMeasure::bringMeasureToMeasurePosition (
   int inputLineNumber,
   int measurePosition)
@@ -12654,6 +12751,24 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasure (harmony);
+}
+
+void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending harmony " << harmony->harmonyAsString () <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendHarmonyToMeasureClone (harmony);
 }
 
 void msrSegment::bringSegmentToMeasurePosition (
@@ -14026,6 +14141,60 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
     case msrVoice::kHarmonyVoice:
       fVoiceLastSegment->
         appendHarmonyToSegment (harmony);
+    
+      // register harmony
+      fVoiceActualHarmoniesCounter++;
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending harmony '" << harmony->harmonyAsString () <<
+      "' to voice clone \"" << getVoiceName () << "\"" <<
+      endl;
+      
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fVoiceLastSegment->
+        appendHarmonyToSegmentClone (harmony);
     
       // register harmony
       fVoiceActualHarmoniesCounter++;
@@ -17226,7 +17395,7 @@ void msrPart::appendHarmonyToPartClone (
           endl;
     
       fPartHarmonyVoice->
-        appendHarmonyToVoice (harmony);
+        appendHarmonyToVoiceClone (harmony);
       break;
       
     case msrVoice::kRegularVoice:
