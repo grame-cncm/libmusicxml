@@ -1017,7 +1017,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
       msrMeasure::kOverfullMeasure;
   }
 
-  if (measureKind != originalMeasure->getMeasureKind ()) {
+  if (false && measureKind != originalMeasure->getMeasureKind ()) { // JMI
     stringstream s;
 
     s <<

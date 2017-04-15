@@ -10810,10 +10810,10 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   clone->
     setMeasureTime (fMeasureTime);
 
-/* JMI    
+//* JMI    
   clone->fMeasureKind =
     fMeasureKind;
-    */
+    //*/
     
   return clone;
 }
