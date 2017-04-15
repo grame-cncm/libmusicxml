@@ -11078,8 +11078,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending note '" << note->noteAsShortString () <<
-      "' to measure '" << fMeasureNumber <<
-      "' in voice \"" <<
+      "' to measure clone '" << fMeasureNumber <<
+      "' in voice clone \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
           getVoiceName () <<
@@ -11141,7 +11141,9 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     S_msrHarmony
       noteHarmony =
         note->getNoteHarmony ();
-        
+
+
+   /*     
     if (noteHarmony) {
       // append the harmony to the harmony voice
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
@@ -11156,21 +11158,6 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       partHarmonyVoice->
         appendHarmonyToVoice (
           noteHarmony);
-/* JMI
-      if (! partHarmonyVoice) {
-        // create the part harmony staff and voice
-        fMeasureDirectPartUplink->
-          createPartHarmonyStaffAndVoice (
-            inputLineNumber);
-      }
-
-      // bring harmony voice to the same measure position
-      fMeasureDirectPartUplink->
-        getPartHarmonyVoice ()->
-          bringVoiceToMeasurePosition (
-            inputLineNumber,
-            noteMeasurePosition);
-  */    
     }
 
     else {
@@ -11208,6 +11195,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
           appendNoteToVoice (skipNote);
       }
     }
+*/
 
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
