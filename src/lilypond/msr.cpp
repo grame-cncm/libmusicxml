@@ -11027,16 +11027,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     }
 
     else {
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        cerr << idtr <<
-          "Appending harmony '" << noteHarmony->harmonyAsString () <<
-          "' to measure '" << fMeasureNumber <<
-          "' in harmony voice \"" <<
-          partHarmonyVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-
-      // append a skip syllable of the same duration to the part harmony voice
+      // create a skip note of the same duration as the note
       S_msrNote
         skipNote =
           msrNote::createSkipNote (
@@ -11048,7 +11039,17 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
                 getStaffNumber (),
             partHarmonyVoice->
               getExternalVoiceNumber ());
-    
+
+      // append it to the part harmony voice
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "Appending skip '" << skipNote->noteAsShortString () <<
+          "' to measure '" << fMeasureNumber <<
+          "' in harmony voice \"" <<
+          partHarmonyVoice->getVoiceName () <<
+          "\"" <<
+          endl;
+
       partHarmonyVoice->
         appendNoteToVoice (skipNote);
     }
