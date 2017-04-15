@@ -6107,6 +6107,10 @@ class EXP msrPart : public msrElement
                             S_msrVoice   harmoniesSupplierVoice,
                             S_msrHarmony harmony);
 
+    void                  appendHarmonyToPartClone (
+                            S_msrVoice   harmoniesSupplierVoice,
+                            S_msrHarmony harmony);
+
     void                  handleBackup (int divisions);
 
     void                  removePartEmptyVoices ();

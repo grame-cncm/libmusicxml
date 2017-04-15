@@ -11064,7 +11064,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             partHarmonyVoice->getVoiceName () <<
             "\"" <<
             endl;
-  
+
+  if (false) // JMI
         partHarmonyVoice->
           appendNoteToVoice (skipNote);
       }
@@ -17190,14 +17191,58 @@ void msrPart::appendHarmonyToPart (
         stringstream s;
     
         s <<
-          "harmonies cannot by supplied by " <<
+          "harmonies cannot by supplied to part by " <<
           msrVoice::voiceKindAsString (
             harmoniesSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
            harmoniesSupplierVoice->getVoiceName () <<
            "\"";
     
-        msrMusicXMLError (
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
+      break;
+  } // switch
+}
+
+void msrPart::appendHarmonyToPartClone (
+  S_msrVoice   harmoniesSupplierVoice,
+  S_msrHarmony harmony)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
+  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+    case msrVoice::kHarmonyVoice:
+      // append the harmony to the part harmony voice
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+        cerr << idtr <<
+          "Appending harmony '" <<
+          harmony->harmonyAsString () <<
+          "' to part clone " <<
+          getPartCombinedName () <<
+          ", line " << inputLineNumber <<
+          endl;
+    
+      fPartHarmonyVoice->
+        appendHarmonyToVoice (harmony);
+      break;
+      
+    case msrVoice::kRegularVoice:
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+    
+        s <<
+          "harmonies cannot by supplied to part clone by " <<
+          msrVoice::voiceKindAsString (
+            harmoniesSupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+           harmoniesSupplierVoice->getVoiceName () <<
+           "\"";
+    
+        msrInternalError (
           inputLineNumber,
           s.str());
       }
