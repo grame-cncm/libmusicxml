@@ -178,6 +178,7 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrSegment& elt);
 
     virtual void visitStart (S_msrHarmony& elt);
+    virtual void visitEnd   (S_msrHarmony& elt);
     
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);

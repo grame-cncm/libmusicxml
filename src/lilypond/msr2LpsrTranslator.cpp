@@ -890,7 +890,9 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrHarmony" <<
+      "--> Start visiting msrHarmony '" <<
+      elt->harmonyAsString () <<
+      "'" <<
       endl;
 
   if (fOnGoingNote) {
@@ -898,11 +900,16 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fCurrentNoteClone->
       setNoteHarmony (elt);
 
+  // don't append the harmony to the part harmony,
+  // this will be done by the note insertion
+  
+/* JMI enlever ca
     // register the harmony in the part harmony
     fCurrentPartClone->
       appendHarmonyToPart (
         fCurrentVoiceClone,
         elt);
+        */
   }
   
   else if (fOnGoingChord) {
@@ -914,6 +921,16 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   else if (fOnGoingHarmonyVoice) { // JMI
     // don't append the harmony from this voice
   }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrHarmony '" <<
+      elt->harmonyAsString () <<
+      "'" <<
+      endl;
 }
 
 //________________________________________________________________________
