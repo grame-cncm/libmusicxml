@@ -8102,6 +8102,56 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   // handle the current pending harmony if any
   if (fPendingHarmony) {
+    if (gGeneralOptions->fTraceHarmonies) {
+      cerr << idtr <<
+        "--> harmony" <<
+        ", line " << inputLineNumber << ":" <<
+        endl;
+  
+      idtr++;
+
+      const int fieldWidth = 31;
+      
+      cerr <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentPart" << " = " <<
+          fCurrentPart->getPartCombinedName () <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
+          msrDiatonicPitchAsString (
+            gMsrOptions->fMsrQuatertonesPitchesLanguage,
+            fCurrentHarmonyRootDiatonicPitch) <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
+          msrAlterationAsString(
+            fCurrentHarmonyRootAlteration) <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentHarmonyKind" << " = " <<
+          msrHarmony::harmonyKindAsString (
+            fCurrentHarmonyKind) <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
+          fCurrentHarmonyKindText <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
+          msrDiatonicPitchAsString (
+            gMsrOptions->fMsrQuatertonesPitchesLanguage,
+            fCurrentHarmonyBassDiatonicPitch) <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
+          msrAlterationAsString(
+            fCurrentHarmonyBassAlteration) <<
+          endl;
+          
+      idtr--;
+    }
+  
     S_msrHarmony
       harmony =
         msrHarmony::create (
@@ -8111,8 +8161,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentHarmonyKind,
           fCurrentHarmonyKindText,
           fCurrentHarmonyBassQuartertonesPitch,
-          fCurrentNoteDivisions,
-          fCurrentPart);
+          fCurrentNoteDivisions);
   
     // attach the current harmony to the note
     newNote->
@@ -9788,49 +9837,6 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-  if (gGeneralOptions->fTraceHarmonies) {
-    cerr << idtr <<
-      "--> harmony" <<
-      ", line " << inputLineNumber << ":" <<
-      endl;
-
-    idtr++;
-
-    cerr <<
-      idtr <<
-        setw(32) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
-        msrDiatonicPitchAsString (
-          gMsrOptions->fMsrQuatertonesPitchesLanguage,
-          fCurrentHarmonyRootDiatonicPitch) <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentHarmonyRootAlteration" << " = " <<
-        msrAlterationAsString(
-          fCurrentHarmonyRootAlteration) <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentHarmonyKind" << " = " <<
-        fCurrentHarmonyKind <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentHarmonyKindText" << " = " <<
-        fCurrentHarmonyKindText <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
-        msrDiatonicPitchAsString (
-          gMsrOptions->fMsrQuatertonesPitchesLanguage,
-          fCurrentHarmonyBassDiatonicPitch) <<
-        endl <<
-      idtr <<
-        setw(32) << "fCurrentHarmonyBassAlteration" << " = " <<
-        msrAlterationAsString(
-          fCurrentHarmonyBassAlteration) <<
-        endl;
-        
-    idtr--;
-  }
-
   // convert root diatonic pitch to a quarter tone pitch
   fCurrentHarmonyRootQuartertonesPitch =
     quatertonesPitchFromDiatonicPitchAndAlteration (

@@ -5925,11 +5925,6 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 
 void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
-  msrSingleTremolo::msrSingleTremoloKind
-    singleTremoloKind =
-      trem->
-        getSingleTremoloKind ();
-
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "% Adding singleTremolo '" <<
@@ -9745,8 +9740,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
-  int                  harmonyDivisions,
-  S_msrPart            harmonyPartUplink)
+  int                  harmonyDivisions)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -9754,8 +9748,7 @@ S_msrHarmony msrHarmony::create (
       harmonyRootQuartertonesPitch,
       harmonyKind, harmonyKindText,
       harmonyBassQuartertonesPitch,
-      harmonyDivisions,
-      harmonyPartUplink);
+      harmonyDivisions);
   assert(o!=0);
 
   // set harmony's direct part uplink
@@ -9772,8 +9765,7 @@ msrHarmony::msrHarmony (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
-  int                  harmonyDivisions,
-  S_msrPart            harmonyPartUplink)
+  int                  harmonyDivisions)
     : msrElement (inputLineNumber)
 {
   fHarmonyRootQuartertonesPitch = harmonyRootQuartertonesPitch;
@@ -9785,8 +9777,6 @@ msrHarmony::msrHarmony (
  
   fHarmonyDivisions = harmonyDivisions;
   
-  fHarmonyPartUplink = harmonyPartUplink;
-
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "Creating harmony '" <<
@@ -9816,17 +9806,17 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
         fHarmonyRootQuartertonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuartertonesPitch,
-        fHarmonyDivisions,
-        clonedPart);
+        fHarmonyDivisions);
   
   return clone;
 }
 
-string msrHarmony::harmonyKindAsString () const
+string msrHarmony::harmonyKindAsString (
+  msrHarmonyKind harmonyKind)
 {
   string result;
   
-  switch (fHarmonyKind) {
+  switch (harmonyKind) {
     case msrHarmony::kMajor:
       result = "Major";
       break;
@@ -9918,16 +9908,12 @@ string msrHarmony::harmonyAsString () const
         fInputLineNumber,
         fHarmonyRootQuartertonesPitch)) <<
           
-    harmonyKindAsShortString ();
+    harmonyKindAsShortString () <<
 
-  /* JMI BOF
-  if (fHarmonyPartUplink) // JMI it may not have been set yet
-    s <<
-      fHarmonyPartUplink->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fHarmonyDivisions);
-*/
+    fHarmonyDirectPartUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fHarmonyDivisions);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -9997,7 +9983,7 @@ void msrHarmony::print (ostream& os)
   os <<
     "Harmony" <<
     ", " <<
-    fHarmonyPartUplink->
+    fHarmonyDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
         fHarmonyDivisions) <<
@@ -10018,7 +10004,7 @@ void msrHarmony::print (ostream& os)
       endl <<
     idtr <<
       setw(15) << "HarmonyKind" << " = " <<
-      harmonyKindAsString () <<
+      harmonyKindAsString (fHarmonyKind) <<
       endl <<
     idtr <<
       setw(15) << "HarmonyKindText" << " = " <<

@@ -2586,8 +2586,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
-      int                  harmonyDivisions,
-      S_msrPart            harmonyPartUplink);
+      int                  harmonyDivisions);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
       S_msrPart clonedPart);
@@ -2603,8 +2602,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
-      int                  harmonyDivisions,
-      S_msrPart            harmonyPartUplink);
+      int                  harmonyDivisions);
 
     virtual ~msrHarmony();
   
@@ -2630,9 +2628,6 @@ class EXP msrHarmony : public msrElement
                 
     msrQuartertonesPitch  getHarmonyBassQuartertonesPitch () const
                               { return fHarmonyBassQuartertonesPitch; }
-
-    S_msrPart             getHarmonyVoiceUplink () const
-                              { return fHarmonyPartUplink; }
                 
     // part direct uplink
     void                  setHarmonyDirectPartUplink (S_msrPart part)
@@ -2675,8 +2670,6 @@ class EXP msrHarmony : public msrElement
     string                    fHarmonyKindText;
 
     msrQuartertonesPitch      fHarmonyBassQuartertonesPitch;
-    
-    S_msrPart                 fHarmonyPartUplink;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
