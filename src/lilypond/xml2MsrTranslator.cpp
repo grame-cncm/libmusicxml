@@ -8172,6 +8172,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       appendHarmonyToPart (
         currentVoice,
         harmony);
+
+    fPendingHarmony = false;
   }
 
   if (gGeneralOptions->fTraceNotes) {
