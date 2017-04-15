@@ -11027,9 +11027,21 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             inputLineNumber,
             noteMeasurePosition);
   */    
+
     }
 
     else {
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "fMeasureVoiceDirectUplink = \"" <<
+          fMeasureVoiceDirectUplink->getVoiceName () <<
+          "\"" <<
+          endl <<
+          "fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice () = \"" <<
+          fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()->getVoiceName () <<
+          "\"" <<
+          endl;
+
       // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
       if (
         fMeasureVoiceDirectUplink
@@ -11059,7 +11071,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             "\"" <<
             endl;
 
-  if (false) // JMI
         partHarmonyVoice->
           appendNoteToVoice (skipNote);
       }
@@ -11190,7 +11201,6 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
             "\"" <<
             endl;
 
-  if (false) // JMI
         partHarmonyVoice->
           appendNoteToVoice (skipNote);
       }

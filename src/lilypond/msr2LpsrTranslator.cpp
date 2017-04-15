@@ -911,9 +911,9 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   }
   
   else if (fOnGoingHarmonyVoice) { // JMI
-    // register the harmony in the part harmony
+    // register the harmony in the part clone harmony
     fCurrentPartClone->
-      appendHarmonyToPart (
+      appendHarmonyToPartClone (
         fCurrentVoiceClone,
         elt);
   }
