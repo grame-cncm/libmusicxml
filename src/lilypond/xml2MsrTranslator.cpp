@@ -6004,6 +6004,13 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
       inputLineNumber,
       s.str());    
   }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kArrow);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_bend& elt )
@@ -6012,6 +6019,43 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
     cerr << idtr <<
       "--> Start visiting S_bend" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kBend);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
@@ -6020,6 +6064,43 @@ void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
     cerr << idtr <<
       "--> Start visiting S_double_tongue" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kDoubleTongue);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_down_bow& elt )
@@ -6028,6 +6109,43 @@ void xml2MsrTranslator::visitStart ( S_down_bow& elt )
     cerr << idtr <<
       "--> Start visiting S_down_bow" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kDownBow);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_fingering& elt )
@@ -6036,6 +6154,43 @@ void xml2MsrTranslator::visitStart ( S_fingering& elt )
     cerr << idtr <<
       "--> Start visiting S_fingering" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kFingering);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_fingernails& elt )
@@ -6044,6 +6199,43 @@ void xml2MsrTranslator::visitStart ( S_fingernails& elt )
     cerr << idtr <<
       "--> Start visiting S_fingernails" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kFingernails);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_fret& elt )
@@ -6052,6 +6244,43 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
     cerr << idtr <<
       "--> Start visiting S_fret" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kFret);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
@@ -6060,6 +6289,43 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
     cerr << idtr <<
       "--> Start visiting S_hammer_on" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kHammerOn);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_handbell& elt )
@@ -6068,6 +6334,43 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
     cerr << idtr <<
       "--> Start visiting S_handbell" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kHandbell);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_harmonic& elt )
@@ -6076,6 +6379,43 @@ void xml2MsrTranslator::visitStart ( S_harmonic& elt )
     cerr << idtr <<
       "--> Start visiting S_harmonic" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kHarmonic);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_heel& elt )
@@ -6084,6 +6424,43 @@ void xml2MsrTranslator::visitStart ( S_heel& elt )
     cerr << idtr <<
       "--> Start visiting S_heel" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kHeel);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_hole& elt )
@@ -6092,6 +6469,43 @@ void xml2MsrTranslator::visitStart ( S_hole& elt )
     cerr << idtr <<
       "--> Start visiting S_hole" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kHole);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_open_string& elt )
@@ -6100,6 +6514,43 @@ void xml2MsrTranslator::visitStart ( S_open_string& elt )
     cerr << idtr <<
       "--> Start visiting S_open_string" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kOpenString);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_other_technical& elt )
@@ -6108,6 +6559,43 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
     cerr << idtr <<
       "--> Start visiting S_other_technical" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kOtherTechnical);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_pluck& elt )
@@ -6116,6 +6604,43 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
     cerr << idtr <<
       "--> Start visiting S_pluck" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kPluck);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_pull_off& elt )
@@ -6124,6 +6649,43 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
     cerr << idtr <<
       "--> Start visiting S_pull_off" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kPullOff);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
@@ -6132,6 +6694,43 @@ void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
     cerr << idtr <<
       "--> Start visiting S_snap_pizzicato" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kSnapPizzicato);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_stopped& elt )
@@ -6140,6 +6739,43 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
     cerr << idtr <<
       "--> Start visiting S_stopped" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kStopped);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_string& elt )
@@ -6148,6 +6784,43 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
     cerr << idtr <<
       "--> Start visiting S_string" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kString);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_tap& elt )
@@ -6156,6 +6829,43 @@ void xml2MsrTranslator::visitStart ( S_tap& elt )
     cerr << idtr <<
       "--> Start visiting S_tap" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kTap);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
@@ -6164,6 +6874,43 @@ void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
     cerr << idtr <<
       "--> Start visiting S_thumb_position" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kThumbPosition);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_toe& elt )
@@ -6172,6 +6919,43 @@ void xml2MsrTranslator::visitStart ( S_toe& elt )
     cerr << idtr <<
       "--> Start visiting S_toe" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kToe);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
@@ -6180,6 +6964,43 @@ void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
     cerr << idtr <<
       "--> Start visiting S_triple_tongue" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kTripleTongue);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
 void xml2MsrTranslator::visitStart ( S_up_bow& elt )
@@ -6188,8 +7009,44 @@ void xml2MsrTranslator::visitStart ( S_up_bow& elt )
     cerr << idtr <<
       "--> Start visiting S_up_bow" <<
       endl;
-}
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
+
+  fCurrentTechnical =
+    msrTechnical::create (
+      elt->getInputLineNumber (),
+      msrTechnical::kUpBow);
+      
+  fCurrentTechnicalsList.push_back (fCurrentTechnical);
+}
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ornaments& elt )
