@@ -493,7 +493,7 @@ string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
       s << ":9";
       break;
     case msrHarmony::kMinorNinth:
-      s << ":-9";
+      s << ":m9";
       break;
     case msrHarmony::k_NoHarmony:
       s << ":Harmony???";
