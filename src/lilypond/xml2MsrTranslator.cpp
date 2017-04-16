@@ -564,7 +564,7 @@ void xml2MsrTranslator::visitStart ( S_system_distance& elt )
 //  cerr << "--> systemDistance = " << systemDistance << endl;
   fMsrScore->getPageGeometry ()->
     setBetweenSystemSpace (
-      1.0 * systemDistance * fMillimeters / fTenths / 10);  
+      systemDistance * fMillimeters / fTenths / 10);  
 }
 
 void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
@@ -579,7 +579,7 @@ void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
 //  cerr << "--> fTopSystemDistance = " << topSystemDistance << endl;
     fMsrScore->getPageGeometry ()->
     setPageTopSpace (
-      1.0 * topSystemDistance * fMillimeters / fTenths / 10);  
+      topSystemDistance * fMillimeters / fTenths / 10);  
 }
 
 //______________________________________________________________________________
@@ -615,7 +615,7 @@ void xml2MsrTranslator::visitStart ( S_page_height& elt )
     //cerr << "--> pageHeight = " << pageHeight << endl;
     fMsrScore->getPageGeometry ()->
       setPaperHeight (
-        1.0 * pageHeight * fMillimeters / fTenths / 10);  
+        pageHeight * fMillimeters / fTenths / 10);  
   }
 }
 
@@ -632,7 +632,7 @@ void xml2MsrTranslator::visitStart ( S_page_width& elt )
     //cerr << "--> pageWidth = " << pageWidth << endl;
     fMsrScore->getPageGeometry ()->
       setPaperWidth (
-        1.0 * pageWidth * fMillimeters / fTenths / 10);  
+        pageWidth * fMillimeters / fTenths / 10);  
   }
 }
 
@@ -649,7 +649,7 @@ void xml2MsrTranslator::visitStart ( S_left_margin& elt )
     //cerr << "--> leftMargin = " << leftMargin << endl;
     fMsrScore->getPageGeometry ()->
       setLeftMargin (
-        1.0 * leftMargin * fMillimeters / fTenths / 10);  
+        leftMargin * fMillimeters / fTenths / 10);  
   }
 }
 
@@ -666,7 +666,7 @@ void xml2MsrTranslator::visitStart ( S_right_margin& elt )
     //cerr << "--> rightMargin = " << rightMargin << endl;
     fMsrScore->getPageGeometry ()->
       setRightMargin (
-        1.0 * rightMargin * fMillimeters / fTenths / 10);  
+        rightMargin * fMillimeters / fTenths / 10);  
   }
 }
 
@@ -683,7 +683,7 @@ void xml2MsrTranslator::visitStart ( S_top_margin& elt )
     //cerr << "--> topMargin = " << topMargin << endl;
     fMsrScore->getPageGeometry ()->
       setTopMargin (
-        1.0 * topMargin * fMillimeters / fTenths / 10);  
+        topMargin * fMillimeters / fTenths / 10);  
   }
 }
 
@@ -700,7 +700,7 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
     //cerr << "--> bottomMargin = " << bottomMargin << endl;
     fMsrScore->getPageGeometry ()->
       setBottomMargin (
-        1.0 * bottomMargin * fMillimeters / fTenths / 10);  
+        bottomMargin * fMillimeters / fTenths / 10);  
   }
 }
 
