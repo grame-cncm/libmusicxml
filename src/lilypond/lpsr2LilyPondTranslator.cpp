@@ -2546,6 +2546,26 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrTechnical& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrTechnical" <<
+      endl;
+
+  // don't generate the technical here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrTechnical& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrTechnical" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

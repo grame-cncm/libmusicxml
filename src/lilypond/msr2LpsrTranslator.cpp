@@ -1330,6 +1330,34 @@ void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrTechnical" <<
+      endl;
+
+  if (fOnGoingNote) {
+    // don't add technicals to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addTechnicalToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addTechnicalToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrTechnical" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

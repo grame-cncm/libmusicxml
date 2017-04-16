@@ -6007,7 +6007,7 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kArrow);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6052,7 +6052,7 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kBend);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6097,7 +6097,7 @@ void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kDoubleTongue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6142,7 +6142,7 @@ void xml2MsrTranslator::visitStart ( S_down_bow& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kDownBow);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6187,7 +6187,7 @@ void xml2MsrTranslator::visitStart ( S_fingering& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kFingering);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6232,7 +6232,7 @@ void xml2MsrTranslator::visitStart ( S_fingernails& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kFingernails);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6277,7 +6277,7 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kFret);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6322,7 +6322,7 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kHammerOn);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6367,7 +6367,7 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kHandbell);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6412,7 +6412,7 @@ void xml2MsrTranslator::visitStart ( S_harmonic& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kHarmonic);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6457,7 +6457,7 @@ void xml2MsrTranslator::visitStart ( S_heel& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kHeel);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6502,7 +6502,7 @@ void xml2MsrTranslator::visitStart ( S_hole& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kHole);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6547,7 +6547,7 @@ void xml2MsrTranslator::visitStart ( S_open_string& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kOpenString);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6592,7 +6592,7 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kOtherTechnical);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6637,7 +6637,7 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kPluck);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6682,7 +6682,7 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kPullOff);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6727,7 +6727,7 @@ void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kSnapPizzicato);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6772,7 +6772,7 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kStopped);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6817,7 +6817,7 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kString);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6862,7 +6862,7 @@ void xml2MsrTranslator::visitStart ( S_tap& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kTap);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6907,7 +6907,7 @@ void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kThumbPosition);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6952,7 +6952,7 @@ void xml2MsrTranslator::visitStart ( S_toe& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kToe);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -6997,7 +6997,7 @@ void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kTripleTongue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
@@ -7042,7 +7042,7 @@ void xml2MsrTranslator::visitStart ( S_up_bow& elt )
 
   fCurrentTechnical =
     msrTechnical::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       msrTechnical::kUpBow);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
