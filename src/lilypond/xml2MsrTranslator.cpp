@@ -10900,6 +10900,13 @@ void xml2MsrTranslator::visitStart ( S_kind& elt )
         elt->getInputLineNumber (),
         "unknown harmony kind \"" + kind + "\"");
     }
+    else {
+      msrMusicXMLWarning (
+        elt->getInputLineNumber (),
+        "empty harmony kind, replaced by 'major'");
+
+      fCurrentHarmonyKind = msrHarmony::kMajor; 
+    }
   }
 }
 
