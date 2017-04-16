@@ -335,6 +335,116 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
+  int                            inputLineNumber,
+  msrTechnical::msrTechnicalKind technicalKind,
+  string                         noteUplinkDuration)
+{
+  string result;
+  
+  switch (technicalKind) {
+    case msrOrnament::kTrillMark:
+      result = "\\trill";
+      break;
+      
+    case msrOrnament::kWavyLine:
+      result = "\\wayvy line";
+      break;
+      
+    case msrOrnament::kTurn:
+      result = "\\turn";
+      break;
+      
+    case msrOrnament::kInvertedTurn:
+      result = "\\reverseturn";
+      break;
+      
+    case msrOrnament::kDelayedTurn:
+      {
+        // c2*2/3 ( s2*1/3\turn
+        stringstream s;
+
+        s <<
+          "s" <<
+          noteUplinkDuration <<
+          "*" <<
+          gLpsrOptions->fDelayedOrnamentFractionDenominator
+            -
+          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          "/" <<
+          gLpsrOptions->fDelayedOrnamentFractionDenominator <<
+          "\\turn";
+          
+        result = s.str ();
+      }
+      break;
+      
+    case msrOrnament::kDelayedInvertedTurn:
+      {
+/* JMI
+        stringstream s;
+
+        s <<
+          "delayed inverted turn is not supported, replaced by inverted turn," <<
+          endl <<
+          "see http://lilypond.org/doc/v2.18/Documentation/snippets/expressive-marks";
+        
+        lpsrMusicXMLWarning (
+          inputLineNumber,
+          s.str ());
+          
+        result = "\\reverseturn %{ " + s.str () + " %}";
+*/
+        // c2*2/3 ( s2*1/3\turn
+        stringstream s;
+
+        s <<
+          "s" <<
+          noteUplinkDuration <<
+          "*1/3" "\\reverseturn";
+          
+        result = s.str ();
+      }
+      break;
+      
+    case msrOrnament::kVerticalTurn:
+      result =
+        "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" }";
+          /* JMI
+      {
+        string message =
+          "delayed vertical turn is not supported, ignored";
+        
+        lpsrMusicXMLWarning (
+          inputLineNumber,
+          message);
+          
+        result = "%{ " + message + " %}";
+      }
+        */
+      break;
+      
+    case msrOrnament::kMordent:
+      result = "\\mordent";
+      break;
+      
+    case msrOrnament::kInvertedMordent:
+      result = "\\inverted mordent";
+      break;
+      \
+    case msrOrnament::kSchleifer:
+      result = "\\schleifer";
+      break;
+      
+    case msrOrnament::kShake:
+      result = "\\shake";
+      break;
+  } // switch
+
+  return result;
+}
+
+//________________________________________________________________________
 string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
   int                          inputLineNumber,
   msrOrnament::msrOrnamentKind ornamentKind,
@@ -3343,6 +3453,49 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
+  // print the note technicals if any
+  list<S_msrTechnical>
+    noteTechnicals =
+      elt->getNoteTechnicals ();
+      
+  if (noteTechnicals.size()) {
+    list<S_msrTechnical>::const_iterator i;
+    for (
+      i=noteTechnicals.begin();
+      i!=noteTechnicals.end();
+      i++) {
+      string
+        noteDuration =
+          (*i)->getTechnicalNoteUplink ()->
+            noteDivisionsAsMsrString ();
+        
+      fOstream <<
+        technicalKindAsLilyPondString (
+          (*i)->getInputLineNumber (), // some technicals are not yet supported
+          (*i)->getTechnicalKind (),
+          noteDuration);
+          // <<
+        // JMI " ";
+      fMusicOlec++;
+
+      switch ((*i)->getTechnicalPlacementKind ()) {
+        case msrTechnical::k_NoPlacementKind:
+          break;
+        case msrTechnical::kAbove:
+ // JMI         fOstream << "^";
+          break;
+        case msrTechnical::kBelow:
+ // JMI         fOstream << "_";
+          break;
+      } // switch
+
+      fMusicOlec++;
+
+      fOstream << " ";
+      fMusicOlec++;
+    } // for
+  }
+
   // print the note ornaments if any
   list<S_msrOrnament>
     noteOrnaments =
@@ -3354,9 +3507,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       i=noteOrnaments.begin();
       i!=noteOrnaments.end();
       i++) {
-      string noteDuration =
-        (*i)->getOrnamentNoteUplink ()->
-          noteDivisionsAsMsrString ();
+      string
+        noteDuration =
+          (*i)->getOrnamentNoteUplink ()->
+            noteDivisionsAsMsrString ();
         
       fOstream <<
         ornamentKindAsLilyPondString (
@@ -3861,6 +4015,27 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       } // switch
       
       fOstream << " ";
+      fMusicOlec++;
+    } // for
+  }
+
+  // print the chord technicals if any
+  list<S_msrTechnical>
+    chordTechnicals =
+      elt->getChordTechnicals ();
+      
+  if (chordTechnicals.size()) {
+    list<S_msrTechnical>::const_iterator i;
+    for (
+      i=chordTechnicals.begin();
+      i!=chordTechnicals.end();
+      i++) {
+      fOstream <<
+        technicalKindAsLilyPondString (
+          (*i)->getInputLineNumber (), // some technicals are not yet supported
+          (*i)->getTechnicalKind (),
+          "") << // JMI
+        " ";
       fMusicOlec++;
     } // for
   }

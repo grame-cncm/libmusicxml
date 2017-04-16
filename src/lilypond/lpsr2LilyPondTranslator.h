@@ -361,6 +361,11 @@ class lpsr2LilyPondTranslator :
   
     string      noteAsLilyPondString (S_msrNote& note);
 
+    string      technicalKindAsLilyPondString (
+                  int                            inputLineNumber,
+                  msrTechnical::msrTechnicalKind technicalKind,
+                  string                         noteUplinkDuration);
+
     string      ornamentKindAsLilyPondString (
                   int                          inputLineNumber,
                   msrOrnament::msrOrnamentKind ornamentKind,
