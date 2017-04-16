@@ -14399,7 +14399,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // append the note to the last segment
   fVoiceLastSegment->
-    appendNoteToSegmentClone (note);
+    appendNoteToSegment (note);
   
   // add a skip syllable of the same duration to the stanza master
   int
