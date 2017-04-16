@@ -610,7 +610,7 @@ class EXP xml2MsrTranslator :
 
     // geometry handling
     // ------------------------------------------------------
-    int                       fMillimeters;
+    float                     fMillimeters;
     int                       fTenths;
     bool                      fOnGoingPageLayout;
     

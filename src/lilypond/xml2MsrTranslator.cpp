@@ -516,7 +516,7 @@ void xml2MsrTranslator::visitStart ( S_millimeters& elt )
       "--> Start visiting S_millimeters" <<
       endl;
 
-  fMillimeters = (int)(*elt);
+  fMillimeters = (float)(*elt);
   
   fMsrScore->getPageGeometry ()->
     setMillimeters (fMillimeters);

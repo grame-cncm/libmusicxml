@@ -3798,6 +3798,12 @@ class EXP msrPageGeometry : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void    setMillimeters        (float val) { fMillimeters = val; }
+    void    setTenths             (int val)   { fTenths = val; }
+
+    float   getMillimeters        () const    { return fMillimeters; }
+    float   getTenths             () const    { return fTenths; }
+
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     void    setPaperHeight        (float val) { fPaperHeight = val; }
     void    setTopMargin          (float val) { fTopMargin = val; }
@@ -3806,8 +3812,7 @@ class EXP msrPageGeometry : public msrElement
     void    setRightMargin        (float val) { fRightMargin = val; }
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
-    void    setMillimeters        (float val) { fMillimeters = val; }
-    void    setTenths             (int val)   { fTenths = val; }
+    
 
     float   getPaperWidth         () const    { return fPaperWidth; }
     float   getPaperHeight        () const    { return fPaperHeight; }
@@ -3817,8 +3822,6 @@ class EXP msrPageGeometry : public msrElement
     float   getRightMargin        () const    { return fRightMargin; }
     float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
-    int     getMillimeters        () const    { return fMillimeters; }
-    float   getTenths             () const    { return fTenths; }
     
     // services
     // ------------------------------------------------------
@@ -3852,7 +3855,7 @@ class EXP msrPageGeometry : public msrElement
     float             fLeftMargin;
     float             fRightMargin;
 
-    int               fMillimeters;
+    float             fMillimeters;
     int               fTenths;
     
     float             fBetweenSystemSpace;
