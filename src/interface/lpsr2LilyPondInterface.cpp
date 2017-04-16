@@ -60,31 +60,33 @@ void generateLilyPondCodeFromLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  cerr <<
-    endl <<
-    idtr <<
-      separator <<
+  if (gGeneralOptions->fTraceGeneral) {
+    cerr <<
       endl <<
-    idtr <<
-      "Pass 4: writing the LPSR as LilyPond code" <<
-      endl;
-
-  idtr++;
-
-  cerr <<
-    idtr <<
-      "(dpqn: divisions per quarter note)" <<
-      endl <<
-    idtr <<
-      "(dpfm: divisions per full measure)" <<
-      endl;
-
-  idtr--;
-
-  cerr <<
-    idtr <<
-      separator <<
-      endl;
+      idtr <<
+        separator <<
+        endl <<
+      idtr <<
+        "Pass 4: writing the LPSR as LilyPond code" <<
+        endl;
+  
+    idtr++;
+  
+    cerr <<
+      idtr <<
+        "(dpqn: divisions per quarter note)" <<
+        endl <<
+      idtr <<
+        "(dpfm: divisions per full measure)" <<
+        endl;
+  
+    idtr--;
+  
+    cerr <<
+      idtr <<
+        separator <<
+        endl;
+  }
   
   // create an lpsr2LilyPondTranslator
   lpsr2LilyPondTranslator translator (msrOpts, lpsrOpts, os, lpScore);

@@ -5986,7 +5986,21 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  string tremoloMarksNumberString =
+    elt->getValue ();
     
+  if (! tremoloMarksNumberString.size ()) {
+    stringstream s;
+    
+    s <<
+      "--> tremolo value is missing, 0 assumed";
+    
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str());
+  }
+
   int tremoloMarksNumber = (int)(*elt);
 
   if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) { // JMI what does 0 mean?

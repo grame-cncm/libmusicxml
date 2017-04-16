@@ -64,36 +64,38 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   ostream&         os)
 {
   clock_t startClock = clock();
+      
+  if (gGeneralOptions->fTraceGeneral) {
+    string separator =
+      "%--------------------------------------------------------------";
   
-  string separator =
-    "%--------------------------------------------------------------";
-    
-  cerr <<
-    endl <<
-    idtr <<
-      separator <<
+    cerr <<
       endl <<
-    idtr <<
-      "Pass 3: translating the MSR into a LPSR" <<
-      endl;
-
-  idtr++;
-
-  cerr <<
-    idtr <<
-      "(dpqn: divisions per quarter note)" <<
-      endl <<
-    idtr <<
-      "(dpfm: divisions per full measure)" <<
-      endl;
-
-  idtr--;
-
-  cerr <<
-    idtr <<
-      separator <<
-      endl <<
-      endl;
+      idtr <<
+        separator <<
+        endl <<
+      idtr <<
+        "Pass 3: translating the MSR into a LPSR" <<
+        endl;
+  
+    idtr++;
+  
+    cerr <<
+      idtr <<
+        "(dpqn: divisions per quarter note)" <<
+        endl <<
+      idtr <<
+        "(dpfm: divisions per full measure)" <<
+        endl;
+  
+    idtr--;
+  
+    cerr <<
+      idtr <<
+        separator <<
+        endl <<
+        endl;
+  }
   
   // create an msr2LpsrTranslator
   msr2LpsrTranslator translator (os, mScore);
