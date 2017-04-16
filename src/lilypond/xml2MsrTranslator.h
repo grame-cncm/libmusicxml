@@ -995,6 +995,23 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
        
     // ------------------------------------------------------
+    // technicals handling
+    S_msrTechnical            fCurrentTechnical;
+    list<S_msrTechnical>      fCurrentTechnicalsList;
+
+    msrTechnical::msrTechnicalPlacementKind
+                              fCurrentTechnicalPlacementKind;
+
+    void                      attachCurrentTechnicalsToNote (
+                                S_msrNote note);
+
+//    void                      attachCurrentTechnicalsToChord ( // JMI
+ //                               S_msrChord chord);
+
+    void                      copyNoteTechnicalsToChord (
+                                S_msrNote note, S_msrChord chord);
+
+    // ------------------------------------------------------
     // ornaments handling
     S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;

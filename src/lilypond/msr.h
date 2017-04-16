@@ -826,9 +826,9 @@ typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 /*!
-\brief A msr ornament representation.
+\brief A msr technical representation.
 
-  An ornament is represented by the numerator and denominator
+  An technical is represented by the numerator and denominator
 */
 //______________________________________________________________________________
 class EXP msrTechnical : public msrElement
@@ -3010,6 +3010,11 @@ class EXP msrNote : public msrElement
                               { return fNoteArticulations; }
 
     // ornaments
+    const list<S_msrTechnical>&
+                          getNoteTechnicals () const
+                              { return fNoteTechnicals; }
+                              
+    // ornaments
     const list<S_msrOrnament>&
                           getNoteOrnaments () const
                               { return fNoteOrnaments; }
@@ -3149,6 +3154,9 @@ class EXP msrNote : public msrElement
     // articulations
     void                  addArticulationToNote (S_msrArticulation art);
     
+    // technicals
+    void                  addTechnicalToNote (S_msrTechnical art);
+    
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament art);
     
@@ -3239,9 +3247,11 @@ class EXP msrNote : public msrElement
                                       
     list<S_msrArticulation>   fNoteArticulations;
 
+    list<S_msrTechnical>      fNoteTechnicals;
+    
     list<S_msrOrnament>       fNoteOrnaments;
     
-    S_msrSingleTremolo              fNoteSingleTremolo;
+    S_msrSingleTremolo        fNoteSingleTremolo;
 
     S_msrTie                  fNoteTie;
     
@@ -3345,6 +3355,11 @@ class EXP msrChord : public msrElement
     S_msrSingleTremolo          getChordSingleTremolo () const
                               { return fChordSingleTremolo; }
 
+    // technicals
+    const list<S_msrTechnical>&
+                          getChordTechnicals () const
+                              { return fChordTechnicals; }
+    
     // ornaments
     const list<S_msrOrnament>&
                           getChordOrnaments () const
@@ -3428,6 +3443,8 @@ class EXP msrChord : public msrElement
      
     void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
+    void                  addTechnicalToChord (S_msrTechnical tech);
+    
     void                  addOrnamentToChord (S_msrOrnament orn);
      
     void                  addDynamicsToChord (S_msrDynamics dyn)
@@ -3487,7 +3504,9 @@ class EXP msrChord : public msrElement
     
     list<S_msrArticulation>   fChordArticulations;
 
-    S_msrSingleTremolo              fChordSingleTremolo;
+    S_msrSingleTremolo        fChordSingleTremolo;
+    
+    list<S_msrTechnical>      fChordTechnicals;
     
     list<S_msrOrnament>       fChordOrnaments;
     

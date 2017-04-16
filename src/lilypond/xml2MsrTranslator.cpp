@@ -5965,6 +5965,7 @@ void xml2MsrTranslator::visitEnd ( S_technical& elt )
     cerr << idtr <<
       "--> Start visiting S_technical" <<
       endl;
+
 }
 
 void xml2MsrTranslator::visitStart ( S_arrow& elt )
@@ -5973,6 +5974,36 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
     cerr << idtr <<
       "--> Start visiting S_arrow" <<
       endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    placement =
+      elt->getAttributeValue ("placement");
+
+  msrTechnical::msrTechnicalPlacementKind
+    currentTremoloPlacementKind =
+      msrTechnical::k_NoPlacementKind;
+
+  if      (placement == "above")
+    currentTremoloPlacementKind = msrTechnical::kAbove;
+    
+  else if (placement == "below")
+    currentTremoloPlacementKind = msrTechnical::kBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());    
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_bend& elt )
@@ -6248,25 +6279,25 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   }
   
   string
-    currentTremoloPlacement =
+    tremoloPlacement =
       elt->getAttributeValue ("placement");
 
   msrSingleTremolo::msrSingleTremoloPlacementKind
-    currentTremoloPlacementKind =
+    tremoloPlacementKind =
       msrSingleTremolo::k_NoPlacementKind;
 
-  if (currentTremoloPlacement == "above")
-    currentTremoloPlacementKind = msrSingleTremolo::kAbove;
+  if      (tremoloPlacement == "above")
+    tremoloPlacementKind = msrSingleTremolo::kAbove;
     
-  else if (currentTremoloPlacement == "below")
-    currentTremoloPlacementKind = msrSingleTremolo::kBelow;
+  else if (tremoloPlacement == "below")
+    tremoloPlacementKind = msrSingleTremolo::kBelow;
     
-  else if (currentTremoloPlacement.size ()) {
+  else if (tremoloPlacement.size ()) {
     
     stringstream s;
     
     s <<
-      "tremolo placement \"" << currentTremoloPlacement <<
+      "tremolo placement \"" << tremoloPlacement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -6279,7 +6310,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       inputLineNumber,
       tremoloKind,
       tremoloMarksNumber,
-      currentTremoloPlacementKind);
+      tremoloPlacementKind);
 }
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
@@ -6489,7 +6520,7 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
   fCurrentOrnamentPlacementKind =
     msrOrnament::k_NoPlacementKind;
 
-  if (currentAccidentalMarkPlacement == "above")
+  if      (currentAccidentalMarkPlacement == "above")
     fCurrentOrnamentPlacementKind = msrOrnament::kAbove;
     
   else if (currentAccidentalMarkPlacement == "below")
@@ -7297,6 +7328,35 @@ void xml2MsrTranslator::copyNoteArticulationsToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::copyNoteTechnicalsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's technicals if any from the first note to chord
+  
+  list<S_msrTechnical>
+    noteTechnicals =
+      note->
+        getNoteTechnicals ();
+                          
+  list<S_msrTechnical>::const_iterator i;
+  for (
+    i=noteTechnicals.begin();
+    i!=noteTechnicals.end();
+    i++) {
+
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) // JMI
+      cerr << idtr <<
+        "--> copying technical '" <<
+        (*i)->technicalKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addTechnicalToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::copyNoteOrnamentsToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -7524,6 +7584,9 @@ void xml2MsrTranslator::copyNoteElementsToChord (
   // copy note's articulations if any to the chord
   copyNoteArticulationsToChord (note, chord);
 
+  // copy note's technicals if any to the chord
+  copyNoteOrnamentsToChord (note, chord);
+
   // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
 
@@ -7730,6 +7793,38 @@ void xml2MsrTranslator::attachCurrentArticulationsToNote (
       note->
         addArticulationToNote (art);
       fCurrentArticulations.pop_front();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::attachCurrentTechnicalsToNote (
+  S_msrNote note)
+{
+  // attach the current technicals if any to the note
+  if (! fCurrentTechnicalsList.empty()) {
+    
+    if (gGeneralOptions->fTraceNotes)
+      cerr << idtr <<
+        "--> attaching current technicals to note " <<
+        note->noteAsString () <<
+        endl;
+
+    while (! fCurrentTechnicalsList.empty()) {
+      S_msrTechnical
+        art =
+          fCurrentTechnicalsList.front();
+          
+      if (gGeneralOptions->fTraceNotes)
+        cerr << idtr <<
+          "--> attaching technical '" <<
+          art->technicalKindAsString () <<
+          "' to note " << note->noteAsString () <<
+          endl;
+  
+      note->
+        addTechnicalToNote (art);
+      fCurrentTechnicalsList.pop_front();
     } // while
   }
 }
@@ -8396,6 +8491,9 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (newNote);
+
+  // attach the technicals if any to the note
+  attachCurrentOrnamentsToNote (newNote);
 
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);

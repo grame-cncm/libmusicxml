@@ -998,7 +998,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
         endl;
   }
 
-  msrMeasure::msrMeasureKind measureKind;
+  msrMeasure::msrMeasureKind measureKind; // JMI
  // JMI     fMeasureKind = kRegularMeasure; // may be changed afterwards
     
   // positions start at 1

@@ -4783,6 +4783,29 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
   fNoteArticulations.push_back (art);
 }
 
+void msrNote::addTechnicalToNote (S_msrTechnical technical)
+{
+  // append the technical to the note technicals list
+  fNoteTechnicals.push_back (technical);
+
+  switch (technical->getTechnicalKind ()) {
+    case msrTechnical::kTrillMark:
+      fNoteHasATrill = true; // JMI
+      break;
+
+    case msrTechnical::kDelayedTurn:
+    case msrTechnical::kDelayedInvertedTurn:
+      break;
+
+    default:
+      {}
+  } // switch
+
+  // set technical's note uplink
+  technical->
+    setTechnicalNoteUplink (this);
+}
+
 void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 {
   // append the ornament to the note ornaments list
@@ -5036,6 +5059,18 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
       // browse the articulation
       msrBrowser<msrArticulation> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+  
+  // browse the technicals if any
+  if (fNoteTechnicals.size()) {
+    idtr++;
+    list<S_msrTechnical>::const_iterator i;
+    for (i=fNoteTechnicals.begin(); i!=fNoteTechnicals.end(); i++) {
+      // browse the technical
+      msrBrowser<msrTechnical> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -5768,6 +5803,23 @@ void msrNote::print (ostream& os)
     idtr--;
   }
   
+  // print the technicals if any
+  if (fNoteTechnicals.size()) {
+    idtr++;
+
+    list<S_msrTechnical>::const_iterator
+      iBegin = fNoteTechnicals.begin(),
+      iEnd   = fNoteTechnicals.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+        
+    idtr--;
+  }
+  
   // print the ornaments if any
   if (fNoteOrnaments.size()) {
     idtr++;
@@ -6095,6 +6147,32 @@ void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
   fChordSingleTremolo = trem;
 }
 
+void msrChord::addTechnicalToChord (S_msrTechnical tech)
+{
+  msrTechnical::msrTechnicalKind
+    technicalKind =
+      tech->
+        getTechnicalKind ();
+
+  // don't add the same technical several times
+  for (
+    list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin();
+    i!=fChordTechnicals.end();
+    i++) {
+      if ((*i)->getTechnicalKind () == technicalKind)
+        return;
+  } // for
+
+  if (gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "% Adding technical '" <<
+      tech->technicalKindAsString () <<
+      "' to chord" <<
+      endl;
+
+  fChordTechnicals.push_back (tech);
+}
+
 void msrChord::addOrnamentToChord (S_msrOrnament orn)
 {
   msrOrnament::msrOrnamentKind
@@ -6176,6 +6254,15 @@ void msrChord::browseData (basevisitor* v)
     i++ ) {
     // browse the articulation
     msrBrowser<msrArticulation> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin();
+    i != fChordTechnicals.end();
+    i++ ) {
+    // browse the technical
+    msrBrowser<msrTechnical> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -6381,6 +6468,14 @@ void msrChord::print (ostream& os)
   if (fChordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
     for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
+      os << idtr << (*i);
+    } // for
+  }
+
+  // print the technicals if any
+  if (fChordTechnicals.size()) {
+    list<S_msrTechnical>::const_iterator i;
+    for (i=fChordTechnicals.begin(); i!=fChordTechnicals.end(); i++) {
       os << idtr << (*i);
     } // for
   }
