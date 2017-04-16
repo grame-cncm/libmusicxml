@@ -10995,26 +10995,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       noteHarmony =
         note->getNoteHarmony ();
         
-
-    if (noteHarmony) {
-      /* JMI
-      // append the harmony to the harmony voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-        cerr << idtr <<
-          "Appending harmony '" << noteHarmony->harmonyAsString () <<
-          "' to measure '" << fMeasureNumber <<
-          "' in harmony voice \"" <<
-          partHarmonyVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-
-      partHarmonyVoice->
-        appendHarmonyToVoice (
-          noteHarmony);
-          */
-    }
-
-    else {
+    // don't handle the note harmony here,
+    // this has been done after harmony::create()
+    if (! noteHarmony) {
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
           "fMeasureVoiceDirectUplink = \"" <<
