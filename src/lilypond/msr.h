@@ -839,11 +839,30 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalKind {
-        kTrillMark, kWavyLine,
-        kTurn, kInvertedTurn, kDelayedTurn,
-        kDelayedInvertedTurn, kVerticalTurn,
-        kMordent, kInvertedMordent,
-        kSchleifer, kShake};
+        kArrow,
+        kBend,
+        kDoubleTongue,
+        kDownBow,
+        kFingering,
+        kFingernails,
+        kFret,
+        kHammerOn,
+        kHandbell,
+        kHarmonic,
+        kHeel,
+        kHole,
+        kOpenString,
+        kOtherTechnical,
+        kPluck,
+        kPullOff,
+        kSnapPizzicato,
+        kStopped,
+        kString,
+        kTap,
+        kThumbPosition,
+        kToe,
+        kTripleTongue,
+        kUpBow};
 
     static string technicalKindAsString (
       msrTechnicalKind technicalKind);

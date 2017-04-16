@@ -2809,38 +2809,77 @@ string msrTechnical::technicalKindAsString () const
   string result;
   
   switch (fTechnicalKind) {
-    case msrTechnical::kTrillMark:
-      result = "trill";
+    case msrTechnical::kArrow:
+      result = "Arrow";
       break;
-    case msrTechnical::kWavyLine:
-      result = "wayvy line";
+    case msrTechnical::kBend:
+      result = "Bend";
       break;
-    case msrTechnical::kTurn:
-      result = "turn";
+    case msrTechnical::kDoubleTongue:
+      result = "DoubleTongue";
       break;
-    case msrTechnical::kInvertedTurn:
-      result = "inverted turn";
+    case msrTechnical::kDownBow:
+      result = "DownBow";
       break;
-    case msrTechnical::kDelayedTurn:
-      result = "delayed turn";
+    case msrTechnical::kFingering:
+      result = "Fingering";
       break;
-    case msrTechnical::kDelayedInvertedTurn:
-      result = "delayed inverted turn";
+    case msrTechnical::kFingernails:
+      result = "Fingernails";
       break;
-    case msrTechnical::kVerticalTurn:
-      result = "vertical turn";
+    case msrTechnical::kFret:
+      result = "Fret";
       break;
-    case msrTechnical::kMordent:
-      result = "mordent";
+    case msrTechnical::kHammerOn:
+      result = "HammerOn";
       break;
-    case msrTechnical::kInvertedMordent:
-      result = "inverted mordent";
+    case msrTechnical::kHandbell:
+      result = "Handbell";
       break;
-    case msrTechnical::kSchleifer:
-      result = "schleifer";
+    case msrTechnical::kHarmonic:
+      result = "Harmonic";
       break;
-    case msrTechnical::kShake:
-      result = "shake";
+    case msrTechnical::kHeel:
+      result = "Heel";
+      break;
+    case msrTechnical::kHole:
+      result = "Hole";
+      break;
+    case msrTechnical::kOpenString:
+      result = "OpenString";
+      break;
+    case msrTechnical::kOtherTechnical:
+      result = "OtherTechnical";
+      break;
+    case msrTechnical::kPluck:
+      result = "Pluck";
+      break;
+    case msrTechnical::kPullOff:
+      result = "PullOff";
+      break;
+    case msrTechnical::kSnapPizzicato:
+      result = "SnapPizzicato";
+      break;
+    case msrTechnical::kStopped:
+      result = "Stopped";
+      break;
+    case msrTechnical::kString:
+      result = "String";
+      break;
+    case msrTechnical::kTap:
+      result = "Tap";
+      break;
+    case msrTechnical::kThumbPosition:
+      result = "ThumbPosition";
+      break;
+    case msrTechnical::kToe:
+      result = "Toe";
+      break;
+    case msrTechnical::kTripleTongue:
+      result = "TripleTongue";
+      break;
+    case msrTechnical::kUpBow:
+      result = "UpBow";
       break;
   } // switch
 
@@ -4789,16 +4828,58 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
   fNoteTechnicals.push_back (technical);
 
   switch (technical->getTechnicalKind ()) {
-    case msrTechnical::kTrillMark:
-      fNoteHasATrill = true; // JMI
+    case msrTechnical::kArrow:
       break;
-
-    case msrTechnical::kDelayedTurn:
-    case msrTechnical::kDelayedInvertedTurn:
+    case msrTechnical::kBend:
       break;
-
+    case msrTechnical::kDoubleTongue:
+      break;
+    case msrTechnical::kDownBow:
+      break;
+    case msrTechnical::kFingering:
+      break;
+    case msrTechnical::kFingernails:
+      break;
+    case msrTechnical::kFret:
+      break;
+    case msrTechnical::kHammerOn:
+      break;
+    case msrTechnical::kHandbell:
+      break;
+    case msrTechnical::kHarmonic:
+      break;
+    case msrTechnical::kHeel:
+      break;
+    case msrTechnical::kHole:
+      break;
+    case msrTechnical::kOpenString:
+      break;
+    case msrTechnical::kOtherTechnical:
+      break;
+    case msrTechnical::kPluck:
+      break;
+    case msrTechnical::kPullOff:
+      break;
+    case msrTechnical::kSnapPizzicato:
+      break;
+    case msrTechnical::kStopped:
+      break;
+    case msrTechnical::kString:
+      break;
+    case msrTechnical::kTap:
+      break;
+    case msrTechnical::kThumbPosition:
+      break;
+    case msrTechnical::kToe:
+      break;
+    case msrTechnical::kTripleTongue:
+      break;
+    case msrTechnical::kUpBow:
+      break;
+/* JMI
     default:
       {}
+      */
   } // switch
 
   // set technical's note uplink
