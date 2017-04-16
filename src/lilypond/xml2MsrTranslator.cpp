@@ -322,7 +322,7 @@ S_msrStaff xml2MsrTranslator::createStaffInCurrentPartIfNeeded (
       fCurrentPart->
         fetchStaffFromPart (staffNumber);
 
-  if (! staff) 
+  if (! staff) {
     // no, add it to fCurrentPart
     staff =
       fCurrentPart->
@@ -330,6 +330,7 @@ S_msrStaff xml2MsrTranslator::createStaffInCurrentPartIfNeeded (
           inputLineNumber,
           msrStaff::kRegularStaff,
           staffNumber);
+  }
 
   return staff;
 }  
@@ -354,14 +355,15 @@ S_msrVoice xml2MsrTranslator::createVoiceInStaffInCurrentPartIfNeeded (
           inputLineNumber,
           voiceNumber);
 
-  if (! voice) 
+  if (! voice) {
     // no, add it to the staff
     voice =
       staff->
         createVoiceInStaffByItsExternalNumber (
           inputLineNumber,
           voiceNumber);
-
+  }
+  
   return voice;
 }  
 
@@ -5947,6 +5949,216 @@ void xml2MsrTranslator::visitEnd ( S_articulations& elt )
 
   // JMI
 }
+
+//______________________________________________________________________________
+void xml2MsrTranslator::visitStart ( S_technical& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_technical" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitEnd ( S_technical& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_technical" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_arrow& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_arrow" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_bend& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_bend" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_double_tongue" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_down_bow& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_down_bow" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_fingering& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_fingering" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_fingernails& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_fingernails" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_fret& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_fret" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_hammer_on" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_handbell& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_handbell" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_harmonic& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_harmonic" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_heel& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_heel" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_hole& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_hole" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_open_string& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_open_string" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_other_technical& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_other_technical" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_pluck& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_pluck" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_pull_off& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_pull_off" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_snap_pizzicato" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_stopped& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_stopped" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_string& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_string" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_tap& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_tap" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_thumb_position" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_toe& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_toe" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_triple_tongue" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitStart ( S_up_bow& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_up_bow" <<
+      endl;
+}
+
 
 //______________________________________________________________________________
 void xml2MsrTranslator::visitStart ( S_ornaments& elt )

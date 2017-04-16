@@ -196,6 +196,32 @@ class EXP xml2MsrTranslator :
   public visitor<S_falloff>,
   public visitor<S_plop>,
   public visitor<S_scoop>,
+  
+  public visitor<S_technical>,
+  public visitor<S_arrow>,
+  public visitor<S_bend>,
+  public visitor<S_double_tongue>,
+  public visitor<S_down_bow>,
+  public visitor<S_fingering>,
+  public visitor<S_fingernails>,
+  public visitor<S_fret>,
+  public visitor<S_hammer_on>,
+  public visitor<S_handbell>,
+  public visitor<S_harmonic>,
+  public visitor<S_heel>,
+  public visitor<S_hole>,
+  public visitor<S_open_string>,
+  public visitor<S_other_technical>,
+  public visitor<S_pluck>,
+  public visitor<S_pull_off>,
+  public visitor<S_snap_pizzicato>,
+  public visitor<S_stopped>,
+  public visitor<S_string>,
+  public visitor<S_tap>,
+  public visitor<S_thumb_position>,
+  public visitor<S_toe>,
+  public visitor<S_triple_tongue>,
+  public visitor<S_up_bow>,
 
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
@@ -469,6 +495,33 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_plop& elt );
     virtual void visitStart ( S_scoop& elt );
         
+    virtual void visitStart ( S_technical& elt );
+    virtual void visitEnd   ( S_technical& elt );
+    virtual void visitStart ( S_arrow& elt );
+    virtual void visitStart ( S_bend& elt );
+    virtual void visitStart ( S_double_tongue& elt );
+    virtual void visitStart ( S_down_bow& elt );
+    virtual void visitStart ( S_fingering& elt );
+    virtual void visitStart ( S_fingernails& elt );
+    virtual void visitStart ( S_fret& elt );
+    virtual void visitStart ( S_hammer_on& elt );
+    virtual void visitStart ( S_handbell& elt );
+    virtual void visitStart ( S_harmonic& elt );
+    virtual void visitStart ( S_heel& elt );
+    virtual void visitStart ( S_hole& elt );
+    virtual void visitStart ( S_open_string& elt );
+    virtual void visitStart ( S_other_technical& elt );
+    virtual void visitStart ( S_pluck& elt );
+    virtual void visitStart ( S_pull_off& elt );
+    virtual void visitStart ( S_snap_pizzicato& elt );
+    virtual void visitStart ( S_stopped& elt );
+    virtual void visitStart ( S_string& elt );
+    virtual void visitStart ( S_tap& elt );
+    virtual void visitStart ( S_thumb_position& elt );
+    virtual void visitStart ( S_toe& elt );
+    virtual void visitStart ( S_triple_tongue& elt );
+    virtual void visitStart ( S_up_bow& elt );
+
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
     virtual void visitStart ( S_trill_mark& elt );
