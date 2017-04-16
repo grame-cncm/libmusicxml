@@ -9909,14 +9909,11 @@ string msrHarmony::harmonyAsString () const
     harmonyKindAsShortString ();
 
   if (fHarmonyDirectPartUplink) // JMI ???
-  s <<
-    fHarmonyDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fHarmonyDivisions);
-  else
-  s <<
-    "POUTOUPOUTOY";
+    s <<
+      fHarmonyDirectPartUplink->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fHarmonyDivisions);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -11000,6 +10997,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
         
 
     if (noteHarmony) {
+      /* JMI
       // append the harmony to the harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
@@ -11013,6 +11011,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       partHarmonyVoice->
         appendHarmonyToVoice (
           noteHarmony);
+          */
     }
 
     else {
