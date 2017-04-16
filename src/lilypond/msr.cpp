@@ -2783,6 +2783,168 @@ void msrArticulation::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTechnical msrTechnical::create (
+  int              inputLineNumber,
+  msrTechnicalKind technicalKind)
+{
+  msrTechnical* o =
+    new msrTechnical (
+      inputLineNumber, technicalKind);
+  assert (o!=0);
+  return o;
+}
+
+msrTechnical::msrTechnical (
+  int              inputLineNumber,
+  msrTechnicalKind technicalKind)
+    : msrElement (inputLineNumber)
+{
+  fTechnicalKind = technicalKind;
+}
+
+msrTechnical::~msrTechnical() {}
+
+string msrTechnical::technicalKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalKind) {
+    case msrTechnical::kTrillMark:
+      result = "trill";
+      break;
+    case msrTechnical::kWavyLine:
+      result = "wayvy line";
+      break;
+    case msrTechnical::kTurn:
+      result = "turn";
+      break;
+    case msrTechnical::kInvertedTurn:
+      result = "inverted turn";
+      break;
+    case msrTechnical::kDelayedTurn:
+      result = "delayed turn";
+      break;
+    case msrTechnical::kDelayedInvertedTurn:
+      result = "delayed inverted turn";
+      break;
+    case msrTechnical::kVerticalTurn:
+      result = "vertical turn";
+      break;
+    case msrTechnical::kMordent:
+      result = "mordent";
+      break;
+    case msrTechnical::kInvertedMordent:
+      result = "inverted mordent";
+      break;
+    case msrTechnical::kSchleifer:
+      result = "schleifer";
+      break;
+    case msrTechnical::kShake:
+      result = "shake";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTechnical::technicalPlacementKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalPlacementKind) {
+    case msrTechnical::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTechnical::kAbove:
+      result = "above";
+      break;
+    case msrTechnical::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTechnical::technicalAccidentalMarkKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalAccidentalMarkKind) {
+    case msrTechnical::kNatural:
+      result = "natural";
+      break;
+    case msrTechnical::kSharp:
+      result = "sharp";
+      break;
+    case msrTechnical::kFlat:
+      result = "flat";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrTechnical::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTechnical::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrTechnical>*
+    p =
+      dynamic_cast<visitor<S_msrTechnical>*> (v)) {
+        S_msrTechnical elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTechnical::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTechnical::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTechnical::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrTechnical>*
+    p =
+      dynamic_cast<visitor<S_msrTechnical>*> (v)) {
+        S_msrTechnical elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTechnical::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTechnical::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTechnical& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrTechnical::print (ostream& os)
+{
+  os <<
+    "Technical" " " <<
+    technicalKindAsString () <<
+    ", line " << fInputLineNumber <<
+    ", placement" << " = " << technicalPlacementKindAsString () <<
+    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
+    ", note uplink" << " = " << fTechnicalNoteUplink->noteAsShortString () <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrOrnament msrOrnament::create (
   int             inputLineNumber,
   msrOrnamentKind ornamentKind)

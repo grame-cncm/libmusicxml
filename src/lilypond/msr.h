@@ -831,6 +831,128 @@ EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
   An ornament is represented by the numerator and denominator
 */
 //______________________________________________________________________________
+class EXP msrTechnical : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTechnicalKind {
+        kTrillMark, kWavyLine,
+        kTurn, kInvertedTurn, kDelayedTurn,
+        kDelayedInvertedTurn, kVerticalTurn,
+        kMordent, kInvertedMordent,
+        kSchleifer, kShake};
+
+    static string technicalKindAsString (
+      msrTechnicalKind technicalKind);
+      
+    enum msrTechnicalPlacementKind {
+      k_NoPlacementKind, kAbove, kBelow};
+
+    static string technicalPlacementKindAsString (
+      msrTechnicalPlacementKind technicalPlacementKind);
+      
+    enum msrTechnicalAccidentalMarkKind {
+      kNatural, kSharp, kFlat};
+
+    static string technicalAccidentalMarkKindAsString (
+      msrTechnicalAccidentalMarkKind technicalAccidentalMarkKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTechnical> create (
+      int              inputLineNumber,
+      msrTechnicalKind technicalKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTechnical (
+      int              inputLineNumber,
+      msrTechnicalKind technicalKind);
+      
+    virtual ~msrTechnical();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrTechnicalKind getTechnicalKind () const
+                        { return fTechnicalKind; }
+        
+    void            setTechnicalPlacementKind (
+                      msrTechnicalPlacementKind technicalPlacementKind)
+                        { fTechnicalPlacementKind = technicalPlacementKind; }
+        
+    msrTechnicalPlacementKind
+                    getTechnicalPlacementKind () const
+                        { return fTechnicalPlacementKind; }
+        
+    void            setTechnicalAccidentalMarkKind (
+                      msrTechnicalAccidentalMarkKind
+                        technicalAccidentalMarkKind)
+                        {
+                          fTechnicalAccidentalMarkKind =
+                            technicalAccidentalMarkKind;
+                        }
+        
+    msrTechnicalAccidentalMarkKind
+                    getTechnicalAccidentalMarkKind () const
+                        { return fTechnicalAccidentalMarkKind; }
+
+    void            setTechnicalNoteUplink (S_msrNote note)
+                        { fTechnicalNoteUplink = note; }
+
+    S_msrNote       getTechnicalNoteUplink () const
+                        { return fTechnicalNoteUplink; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string          technicalKindAsString () const;
+
+    string          technicalPlacementKindAsString () const;
+
+    string          technicalAccidentalMarkKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrTechnicalKind                fTechnicalKind;
+
+    msrTechnicalPlacementKind       fTechnicalPlacementKind;
+    
+    msrTechnicalAccidentalMarkKind  fTechnicalAccidentalMarkKind;
+
+    S_msrNote                       fTechnicalNoteUplink;
+};
+typedef SMARTP<msrTechnical> S_msrTechnical;
+EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
+
+/*!
+\brief A msr ornament representation.
+
+  An ornament is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
 class EXP msrOrnament : public msrElement
 {
   public:
