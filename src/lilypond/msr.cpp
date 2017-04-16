@@ -11277,7 +11277,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       "\"" <<
       endl;
 
-    /* JMI
+    //* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
     // append note to it via the segment
@@ -11286,7 +11286,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 
   else {
-  */
+ // */
     // regular insertion in current measure
     
     // populate measure uplink
@@ -11391,7 +11391,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
- // JMI }
+  }
 }
 
 void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
@@ -11410,7 +11410,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       "\"" <<
       endl;
 
-    /* JMI
+    //* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
     // append note to it via the segment
@@ -11419,7 +11419,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   }
 
   else {
-  */
+ // */
     // regular insertion in current measure
     
     // populate measure uplink
@@ -11466,63 +11466,9 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       noteHarmony =
         note->getNoteHarmony ();
 
-
-   /*     
-    if (noteHarmony) {
-      // append the harmony to the harmony voice
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        cerr << idtr <<
-          "Appending harmony '" << noteHarmony->harmonyAsString () <<
-          "' to measure '" << fMeasureNumber <<
-          "' in harmony voice \"" <<
-          partHarmonyVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-
-      partHarmonyVoice->
-        appendHarmonyToVoice (
-          noteHarmony);
-    }
-
-    else {
-      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
-      if (
-        fMeasureVoiceDirectUplink
-          ==
-        fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()) {
-        // yes, create a skip note of the same duration as the note
-        S_msrNote
-          skipNote =
-            msrNote::createSkipNote (
-              inputLineNumber,
-              fMeasureDirectPartUplink,
-              noteDivisions,
-              note->getNoteDotsNumber (),
-              partHarmonyVoice->
-                getVoiceStaffUplink ()->
-                  getStaffNumber (),
-              partHarmonyVoice->
-                getExternalVoiceNumber ());
-  
-        // append the skip to the part harmony voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-          cerr << idtr <<
-            "Appending skip '" << skipNote->noteAsShortString () <<
-            "' to measure '" << fMeasureNumber <<
-            "' in harmony voice \"" <<
-            partHarmonyVoice->getVoiceName () <<
-            "\"" <<
-            endl;
-
-        partHarmonyVoice->
-          appendNoteToVoice (skipNote);
-      }
-    }
-*/
-
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
- // JMI }
+  }
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
@@ -11692,7 +11638,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-/*
+//*
   if (
     appendMeasureIfOverflow (inputLineNumber)
     ) {
@@ -11703,7 +11649,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 
   else {
-  */
+ // */
     // regular insertion in current measure
     
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
@@ -11781,7 +11727,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     
     // append the harmony to the measure elements list
     fMeasureElementsList.push_back (harmony);
-//  }
+  }
 }
 
 void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
