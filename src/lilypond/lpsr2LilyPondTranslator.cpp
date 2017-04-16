@@ -343,101 +343,77 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
   string result;
   
   switch (technicalKind) {
-    case msrOrnament::kTrillMark:
-      result = "\\trill";
+    case msrTechnical::kArrow:
+      result = "\\Arrow";
       break;
-      
-    case msrOrnament::kWavyLine:
-      result = "\\wayvy line";
+    case msrTechnical::kBend:
+      result = "\\bendAfter #+4"; // JMI
       break;
-      
-    case msrOrnament::kTurn:
-      result = "\\turn";
+    case msrTechnical::kDoubleTongue:
+      result = "\\DoubleTongue";
       break;
-      
-    case msrOrnament::kInvertedTurn:
-      result = "\\reverseturn";
+    case msrTechnical::kDownBow:
+      result = "\\downbow";
       break;
-      
-    case msrOrnament::kDelayedTurn:
-      {
-        // c2*2/3 ( s2*1/3\turn
-        stringstream s;
-
-        s <<
-          "s" <<
-          noteUplinkDuration <<
-          "*" <<
-          gLpsrOptions->fDelayedOrnamentFractionDenominator
-            -
-          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
-          "/" <<
-          gLpsrOptions->fDelayedOrnamentFractionDenominator <<
-          "\\turn";
-          
-        result = s.str ();
-      }
+    case msrTechnical::kFingering:
+      result = "\\Fingering";
       break;
-      
-    case msrOrnament::kDelayedInvertedTurn:
-      {
-/* JMI
-        stringstream s;
-
-        s <<
-          "delayed inverted turn is not supported, replaced by inverted turn," <<
-          endl <<
-          "see http://lilypond.org/doc/v2.18/Documentation/snippets/expressive-marks";
-        
-        lpsrMusicXMLWarning (
-          inputLineNumber,
-          s.str ());
-          
-        result = "\\reverseturn %{ " + s.str () + " %}";
-*/
-        // c2*2/3 ( s2*1/3\turn
-        stringstream s;
-
-        s <<
-          "s" <<
-          noteUplinkDuration <<
-          "*1/3" "\\reverseturn";
-          
-        result = s.str ();
-      }
+    case msrTechnical::kFingernails:
+      result = "\\Fingernails";
       break;
-      
-    case msrOrnament::kVerticalTurn:
-      result =
-        "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" }";
-          /* JMI
-      {
-        string message =
-          "delayed vertical turn is not supported, ignored";
-        
-        lpsrMusicXMLWarning (
-          inputLineNumber,
-          message);
-          
-        result = "%{ " + message + " %}";
-      }
-        */
+    case msrTechnical::kFret:
+      result = "\\Fret";
       break;
-      
-    case msrOrnament::kMordent:
-      result = "\\mordent";
+    case msrTechnical::kHammerOn:
+      result = "\\HammerOn";
       break;
-      
-    case msrOrnament::kInvertedMordent:
-      result = "\\inverted mordent";
+    case msrTechnical::kHandbell:
+      result = "\\Handbell";
       break;
-      \
-    case msrOrnament::kSchleifer:
-      result = "\\schleifer";
+    case msrTechnical::kHarmonic:
+      result = "\\flageolet"; // JMI "\\once\\override Staff.NoteHead.style = #'harmonic-mixed";
       break;
-      
-    case msrOrnament::kShake:
-      result = "\\shake";
+    case msrTechnical::kHeel:
+      result = "\\lheel"; // rheel??? JMI
+      break;
+    case msrTechnical::kHole:
+      result = "\\Hole";
+      break;
+    case msrTechnical::kOpenString:
+      result = "\\open"; // halfopen ??? JMI
+      break;
+    case msrTechnical::kOtherTechnical:
+      result = "\\OtherTechnical";
+      break;
+    case msrTechnical::kPluck:
+      result = "\\Pluck";
+      break;
+    case msrTechnical::kPullOff:
+      result = "\\PullOff";
+      break;
+    case msrTechnical::kSnapPizzicato:
+      result = "\\snappizzicato";
+      break;
+    case msrTechnical::kStopped:
+      result = "\\stopped"; // or -+ JMI
+      break;
+    case msrTechnical::kString:
+      result = "\\String";
+      break;
+    case msrTechnical::kTap:
+      result = "\\Tap";
+      break;
+    case msrTechnical::kThumbPosition:
+      result = "\\thumb";
+      break;
+    case msrTechnical::kToe:
+      result = "\\ltoe"; // rtoe ??? JMI
+      break;
+    case msrTechnical::kTripleTongue:
+      result = "\\TripleTongue";
+      break;
+    case msrTechnical::kUpBow:
+      result = "\\upbow";
       break;
   } // switch
 
