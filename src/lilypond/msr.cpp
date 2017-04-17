@@ -2800,6 +2800,8 @@ msrTechnical::msrTechnical (
     : msrElement (inputLineNumber)
 {
   fTechnicalKind = technicalKind;
+
+  fTechnicalPlacementKind = k_NoPlacementKind;
 }
 
 msrTechnical::~msrTechnical() {}
@@ -2905,6 +2907,7 @@ string msrTechnical::technicalPlacementKindAsString () const
   return result;
 }
 
+/*
 string msrTechnical::technicalAccidentalMarkKindAsString () const
 {
   string result;
@@ -2923,6 +2926,7 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
 
   return result;
 }
+*/
 
 void msrTechnical::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2978,7 +2982,7 @@ void msrTechnical::print (ostream& os)
     technicalKindAsString () <<
     ", line " << fInputLineNumber <<
     ", placement" << " = " << technicalPlacementKindAsString () <<
-    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
+//    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
     ", note uplink" << " = " << fTechnicalNoteUplink->noteAsShortString () <<
     endl;
 }
@@ -3001,6 +3005,10 @@ msrOrnament::msrOrnament (
     : msrElement (inputLineNumber)
 {
   fOrnamentKind = ornamentKind;
+
+  fOrnamentPlacementKind = k_NoPlacementKind;
+
+  fOrnamentAccidentalMarkKind = kNatural;
 }
 
 msrOrnament::~msrOrnament() {}
@@ -5661,6 +5669,10 @@ string msrNote::noteAsString () const
     s <<
       ", full measure";
 
+  if (fNoteHasATrill)
+    s <<
+      ", has a trill";
+  
 /* JMI
   if (fNoteTie) {
     if (fNoteTie->getTieKind () != msrTie::k_NoTie ) {
@@ -18958,7 +18970,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fComposers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -18972,7 +18984,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fArrangers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -19000,10 +19012,16 @@ void msrIdentification::print (ostream& os)
   }
     
   if (!fSoftwares.empty()) {
-    vector<S_msrVarValAssoc>::const_iterator i2;
-    for (i2=fSoftwares.begin(); i2!=fSoftwares.end(); i2++) {
-      os << idtr << (*i2);
+    vector<S_msrVarValAssoc>::const_iterator
+      iBegin = fSoftwares.begin(),
+      iEnd   = fSoftwares.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+
     emptyIdentification = false;
   }
     

@@ -873,11 +873,13 @@ class EXP msrTechnical : public msrElement
     static string technicalPlacementKindAsString (
       msrTechnicalPlacementKind technicalPlacementKind);
       
+/* JMI
     enum msrTechnicalAccidentalMarkKind {
       kNatural, kSharp, kFlat};
 
     static string technicalAccidentalMarkKindAsString (
       msrTechnicalAccidentalMarkKind technicalAccidentalMarkKind);
+  */
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -902,43 +904,48 @@ class EXP msrTechnical : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrTechnicalKind getTechnicalKind () const
-                        { return fTechnicalKind; }
+    msrTechnicalKind      getTechnicalKind () const
+                              { return fTechnicalKind; }
         
-    void            setTechnicalPlacementKind (
-                      msrTechnicalPlacementKind technicalPlacementKind)
-                        { fTechnicalPlacementKind = technicalPlacementKind; }
+    void                  setTechnicalPlacementKind (
+                            msrTechnicalPlacementKind technicalPlacementKind)
+                              {
+                                fTechnicalPlacementKind =
+                                technicalPlacementKind;
+                              }
         
     msrTechnicalPlacementKind
-                    getTechnicalPlacementKind () const
-                        { return fTechnicalPlacementKind; }
-        
-    void            setTechnicalAccidentalMarkKind (
-                      msrTechnicalAccidentalMarkKind
-                        technicalAccidentalMarkKind)
-                        {
-                          fTechnicalAccidentalMarkKind =
-                            technicalAccidentalMarkKind;
-                        }
+                          getTechnicalPlacementKind () const
+                              { return fTechnicalPlacementKind; }
+
+        /* JMI
+    void                  setTechnicalAccidentalMarkKind (
+                            msrTechnicalAccidentalMarkKind
+                              technicalAccidentalMarkKind)
+                              {
+                                fTechnicalAccidentalMarkKind =
+                                  technicalAccidentalMarkKind;
+                              }
         
     msrTechnicalAccidentalMarkKind
-                    getTechnicalAccidentalMarkKind () const
-                        { return fTechnicalAccidentalMarkKind; }
+                          getTechnicalAccidentalMarkKind () const
+                              { return fTechnicalAccidentalMarkKind; }
+*/
 
-    void            setTechnicalNoteUplink (S_msrNote note)
-                        { fTechnicalNoteUplink = note; }
+    void                  setTechnicalNoteUplink (S_msrNote note)
+                              { fTechnicalNoteUplink = note; }
 
-    S_msrNote       getTechnicalNoteUplink () const
-                        { return fTechnicalNoteUplink; }
+    S_msrNote             getTechnicalNoteUplink () const
+                              { return fTechnicalNoteUplink; }
         
     // services
     // ------------------------------------------------------
 
-    string          technicalKindAsString () const;
+    string                technicalKindAsString () const;
 
-    string          technicalPlacementKindAsString () const;
+    string                technicalPlacementKindAsString () const;
 
-    string          technicalAccidentalMarkKindAsString () const;
+    string                technicalAccidentalMarkKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -959,7 +966,7 @@ class EXP msrTechnical : public msrElement
 
     msrTechnicalPlacementKind       fTechnicalPlacementKind;
     
-    msrTechnicalAccidentalMarkKind  fTechnicalAccidentalMarkKind;
+// JMI    msrTechnicalAccidentalMarkKind  fTechnicalAccidentalMarkKind;
 
     S_msrNote                       fTechnicalNoteUplink;
 };
@@ -1024,43 +1031,46 @@ class EXP msrOrnament : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrOrnamentKind getOrnamentKind () const
-                        { return fOrnamentKind; }
+    msrOrnamentKind       getOrnamentKind () const
+                              { return fOrnamentKind; }
         
-    void            setOrnamentPlacementKind (
-                      msrOrnamentPlacementKind ornamentPlacementKind)
-                        { fOrnamentPlacementKind = ornamentPlacementKind; }
+    void                  setOrnamentPlacementKind (
+                            msrOrnamentPlacementKind ornamentPlacementKind)
+                              {
+                                fOrnamentPlacementKind =
+                                  ornamentPlacementKind;
+                              }
         
     msrOrnamentPlacementKind
-                    getOrnamentPlacementKind () const
-                        { return fOrnamentPlacementKind; }
+                          getOrnamentPlacementKind () const
+                              { return fOrnamentPlacementKind; }
         
-    void            setOrnamentAccidentalMarkKind (
-                      msrOrnamentAccidentalMarkKind
-                        ornamentAccidentalMarkKind)
-                        {
-                          fOrnamentAccidentalMarkKind =
-                            ornamentAccidentalMarkKind;
-                        }
+    void                  setOrnamentAccidentalMarkKind (
+                            msrOrnamentAccidentalMarkKind
+                              ornamentAccidentalMarkKind)
+                              {
+                                fOrnamentAccidentalMarkKind =
+                                  ornamentAccidentalMarkKind;
+                              }
         
     msrOrnamentAccidentalMarkKind
-                    getOrnamentAccidentalMarkKind () const
-                        { return fOrnamentAccidentalMarkKind; }
+                          getOrnamentAccidentalMarkKind () const
+                              { return fOrnamentAccidentalMarkKind; }
 
-    void            setOrnamentNoteUplink (S_msrNote note)
-                        { fOrnamentNoteUplink = note; }
+    void                  setOrnamentNoteUplink (S_msrNote note)
+                              { fOrnamentNoteUplink = note; }
 
-    S_msrNote       getOrnamentNoteUplink () const
-                        { return fOrnamentNoteUplink; }
+    S_msrNote             getOrnamentNoteUplink () const
+                              { return fOrnamentNoteUplink; }
         
     // services
     // ------------------------------------------------------
 
-    string          ornamentKindAsString () const;
+    string                ornamentKindAsString () const;
 
-    string          ornamentPlacementKindAsString () const;
+    string                ornamentPlacementKindAsString () const;
 
-    string          ornamentAccidentalMarkKindAsString () const;
+    string                ornamentAccidentalMarkKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
