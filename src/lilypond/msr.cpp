@@ -2630,17 +2630,12 @@ string msrBeam::beamKindAsString (
 }
 
 void msrBeam::print (ostream& os)
-{
-  idtr++;
-  
+{  
   os <<
     "Beam" <<
     " number " << fBeamNumber <<
     ", line " << fInputLineNumber << " " <<
-    beamKindAsString (fBeamKind) <<
-    endl;
-
-  idtr--;
+    beamKindAsString (fBeamKind);
 }
 
 //______________________________________________________________________________
@@ -4172,7 +4167,7 @@ void msrGracenotes::print (ostream& os)
   for ( ; ; ) {
     os << idtr << (*i);
     if (++i == iEnd) break;
- // JMI   os << endl;
+    os << endl;
   } // for
 
   idtr--;
@@ -4620,7 +4615,10 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNoteIsStemless = false;
+  
   fNoteHasATrill = false;
+  fNoteIsFollowedByGracenotes = false;
+  
   fNoteHasADelayedOrnament = false;
 }
 
@@ -4758,6 +4756,8 @@ S_msrNote msrNote::createNoteBareClone (
 
   clone->fNoteHasATrill =
     fNoteHasATrill;
+  clone->fNoteIsFollowedByGracenotes =
+    fNoteIsFollowedByGracenotes;
 
   clone->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
@@ -5672,6 +5672,10 @@ string msrNote::noteAsString () const
   if (fNoteHasATrill)
     s <<
       ", has a trill";
+  
+  if (fNoteIsFollowedByGracenotes)
+    s <<
+      ", followed by grace notes";
   
 /* JMI
   if (fNoteTie) {
@@ -6843,7 +6847,7 @@ void msrBreak::print (ostream& os)
 {
   os <<
     breakAsString () <<
-    endl << endl;
+    endl;
 }
 
 //______________________________________________________________________________
@@ -7016,8 +7020,7 @@ ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt)
 void msrBarnumberCheck::print (ostream& os)
 {
   os <<
-    barnumberCheckAsString () <<
-    endl;
+    barnumberCheckAsString ();
 }
 
 //______________________________________________________________________________

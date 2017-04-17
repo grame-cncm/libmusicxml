@@ -1046,6 +1046,7 @@ class EXP xml2MsrTranslator :
     map<S_msrVoice, S_msrNote>
                               fLastHandledNoteInVoice;
                                 // may be the first note of a chord
+                                // or subjet to aftergrace optimisation
                               
     void                      displayLastHandledNoteInVoice (
                                 string header);

@@ -9432,6 +9432,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
     newNote->
       setNoteKind (msrNote::kGraceNote);
   }
+  
   else {
     // standalone note or rest
     if (fCurrentNoteIsARest)
@@ -9511,14 +9512,23 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
           fCurrentGraceIsSlashed,
           currentVoice);
 
-      // append it to the current voice
+      // register that last handled note if any is followed by grace notes
+      S_msrNote
+        lastHandledNoteInVoice =
+          fLastHandledNoteInVoice [currentVoice];
+          
+      if (lastHandledNoteInVoice)
+        lastHandledNoteInVoice->
+          setNoteIsFollowedByGracenotes ();
+      
+      // append the grace notes to the current voice
       currentVoice->
         appendGracenotesToVoice (
           fCurrentGracenotes);
     }
 
     // append newNote to the current grace notes
-      if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
+    if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
       cerr <<  idtr <<
         "--> appending note " <<
         newNote->noteAsString () <<

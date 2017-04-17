@@ -3039,7 +3039,7 @@ class EXP msrNote : public msrElement
         */
         
     // singleTremolo
-    S_msrSingleTremolo          getNoteSingleTremolo () const
+    S_msrSingleTremolo    getNoteSingleTremolo () const
                               { return fNoteSingleTremolo; }
 
     // ties
@@ -3119,6 +3119,12 @@ class EXP msrNote : public msrElement
                   
     bool                  getNoteHasATrill () const
                               { return fNoteHasATrill; }
+                  
+    void                  setNoteIsFollowedByGracenotes ()
+                              { fNoteIsFollowedByGracenotes = true; }
+
+    bool                  getNoteIsFollowedByGracenotes () const
+                              { return fNoteIsFollowedByGracenotes; }
                   
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
@@ -3296,6 +3302,7 @@ class EXP msrNote : public msrElement
 
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
+    bool                      fNoteIsFollowedByGracenotes;
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                      fNoteHasADelayedOrnament;
