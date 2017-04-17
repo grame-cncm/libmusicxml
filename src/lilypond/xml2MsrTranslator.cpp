@@ -4056,8 +4056,8 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
           fTraceAllMeasureNumbersSet.find (measureNumber);
           
     if (it != gGeneralOptions->fTraceAllMeasureNumbersSet.end ()) {
-      // yes, activate trace all for it
-      gGeneralOptions = gGeneralOptionsTraceAll;
+      // yes, activate detailed trace for it
+      gGeneralOptions = gGeneralOptionsWithDetailedTrace;
     }
   }
 

@@ -25,7 +25,7 @@ namespace MusicXML2
 //_______________________________________________________________________________
 S_msrGeneralOptions gGeneralOptions;
 S_msrGeneralOptions gGeneralOptionsUserChoices;
-S_msrGeneralOptions gGeneralOptionsTraceAll;
+S_msrGeneralOptions gGeneralOptionsWithDetailedTrace;
 
 S_msrGeneralOptions msrGeneralOptions::create ()
 {
@@ -96,6 +96,96 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   // timing information
   fDisplayCPUusage = boolOptionsInitialValue;
+}
+
+S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
+{
+  S_msrGeneralOptions
+    clone =
+      msrGeneralOptions::create ();
+
+  clone->fAutoOutputFile =
+    fAutoOutputFile;
+  
+  // trace
+  clone->fTraceGeneral =
+    true;
+    
+  clone->fTraceDivisions =
+    true;
+
+  clone->fTraceScore =
+    true;
+
+  clone->fTracePartgroups =
+    true;
+  clone->fTraceParts =
+    true;
+  clone->fTraceStaves =
+    true;
+  clone->fTraceVoices =
+    true;
+
+  clone->fTraceSegments =
+    true;
+  clone->fTraceMeasures =
+    true;
+  
+  clone->fTraceChords =
+    true;
+  clone->fTraceTuplets =
+    true;
+  
+  clone->fTraceGracenotes =
+    true;
+
+  clone->fTraceHarmonies =
+    true;
+  
+
+    
+  clone->fTraceNotes =
+    true;
+  
+  clone->fTraceTremolos =
+    true;
+  
+  clone->fTraceDynamics =
+    true;
+  clone->fTraceWords =
+    true;
+  clone->fTraceSlurs =
+    true;
+  clone->fTraceLigatures =
+    true;
+  clone->fTraceWedges =
+    true;
+  
+  
+  clone->fTraceLyrics =
+    true;
+  
+  clone->fTraceWords =
+    true;
+
+  clone->fTraceRepeats =
+    true;
+  
+  clone->fTraceStafftuning =
+    true;
+  
+  clone->fTraceMidi =
+    true;
+
+  // measure number-selective detailed trace
+  clone->fTraceDetailed =
+    true;
+
+  // timing information
+  clone->fDisplayCPUusage =
+    true;
+    
+  return clone;
 }
 
 void msrGeneralOptions::printGeneralOptionsHelp ()

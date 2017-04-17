@@ -1672,14 +1672,11 @@ int main (int argc, char *argv[])
   // analyze the command line options
   // ------------------------------------------------------
 
-  gGeneralOptions = msrGeneralOptions::create ();
+  gGeneralOptionsUserChoices = msrGeneralOptions::create ();
   assert(gGeneralOptions != 0);
 
-  gGeneralOptionsUserChoices = msrGeneralOptions::create ();
-  assert(gGeneralOptionsUserChoices != 0);
-
-  gGeneralOptionsTraceAll = msrGeneralOptions::create ();
-  assert(gGeneralOptionsTraceAll != 0);
+  gGeneralOptions =
+    gGeneralOptionsUserChoices;
 
   gMsrOptions = msrOptions::create ();
   assert(gMsrOptions != 0);
@@ -1716,8 +1713,15 @@ int main (int argc, char *argv[])
 
   strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
   gGeneralOptions->fTranslationDate = buffer;
-  
-  // trace
+
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
+
+  gGeneralOptionsWithDetailedTrace =
+    gGeneralOptions->
+      createCloneWithDetailedTrace ();
+
+  // welcome message
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {

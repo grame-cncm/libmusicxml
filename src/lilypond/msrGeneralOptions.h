@@ -52,6 +52,7 @@ class EXP msrGeneralOptions : public smartable
 
     static SMARTP<msrGeneralOptions> create ();
     
+    SMARTP<msrGeneralOptions>        createCloneWithDetailedTrace ();
   public:
 
     // initialisation
@@ -140,7 +141,7 @@ typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 
 extern S_msrGeneralOptions gGeneralOptions;
 extern S_msrGeneralOptions gGeneralOptionsUserChoices;
-extern S_msrGeneralOptions gGeneralOptionsTraceAll;
+extern S_msrGeneralOptions gGeneralOptionsWithDetailedTrace;
 
 
 /*! @} */
