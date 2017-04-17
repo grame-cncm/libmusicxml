@@ -15623,27 +15623,29 @@ S_msrStaff msrStaff::create (
   msrStaff* o =
     new msrStaff (
       inputLineNumber,
+      staffDirectPartUplink,
       staffKind,
       staffNumber);
   assert(o!=0);
 
-  // set staff part uplink
-  msrAssert(
-    staffDirectPartUplink != 0,
-    "staffDirectPartUplink is null");
-
-  o->fStaffDirectPartUplink =
-    staffDirectPartUplink;
-    
   return o;
 }
 
 msrStaff::msrStaff (
   int          inputLineNumber,
+  S_msrPart    staffDirectPartUplink,
   msrStaffKind staffKind,
   int          staffNumber)
     : msrElement (inputLineNumber)
 {
+  // set staff part uplink
+  msrAssert(
+    staffDirectPartUplink != 0,
+    "staffDirectPartUplink is null");
+
+  fStaffDirectPartUplink =
+    staffDirectPartUplink;
+    
   fStaffKind = staffKind;
   
   fStaffNumber = staffNumber;

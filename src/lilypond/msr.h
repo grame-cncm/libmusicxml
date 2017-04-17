@@ -5883,6 +5883,7 @@ class EXP msrStaff : public msrElement
 
     msrStaff (
       int          inputLineNumber,
+      S_msrPart    staffDirectPartUplink,
       msrStaffKind staffKind,
       int          staffNumber);
       
