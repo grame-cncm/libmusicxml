@@ -101,6 +101,7 @@ class lpsr2LilyPondTranslator :
   public visitor<S_msrWedge>,
     
   public visitor<S_msrGracenotes>,
+  public visitor<S_msrAftergracenotes>,
   
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
@@ -285,6 +286,9 @@ class lpsr2LilyPondTranslator :
 
     virtual void visitStart (S_msrGracenotes& elt);
     virtual void visitEnd   (S_msrGracenotes& elt);
+
+    virtual void visitStart (S_msrAftergracenotes& elt);
+    virtual void visitEnd   (S_msrAftergracenotes& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);

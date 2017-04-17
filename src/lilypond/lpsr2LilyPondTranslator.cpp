@@ -2786,7 +2786,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrGracenotes& elt)
       "\\slashedGrace"; // JMI "\\grace";
   else
     fOstream <<
-      "\\grace"; // JMI "\\acciaccatura" \\appoggiatura;
+      "\\grace"; // JMI "\\acciaccatura" \\appoggiatura
   fOstream << " { ";
 }
 
@@ -2795,6 +2795,32 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrGracenotes& elt)
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> End visiting msrGracenotes" <<
+      endl;
+
+  fOstream <<
+    "} ";
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrAftergracenotes& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrAftergracenotes" <<
+      endl;
+
+ // JMI exists? if (elt->getGracenotesIsSlashed ())
+  fOstream <<
+    "\\afterGrace" " " <<
+    elt->getAftergracenotesNote () <<
+    " { ";
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrAftergracenotes& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrAftergracenotes" <<
       endl;
 
   fOstream <<
