@@ -11357,56 +11357,58 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // don't handle the note harmony here,
     // this has been done after harmony::create()
     if (! noteHarmony) {
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        cerr << idtr <<
-          "fMeasureVoiceDirectUplink = \"" <<
-          fMeasureVoiceDirectUplink->getVoiceName () <<
-          "\"" <<
-          endl <<
-          "partHarmoniesSupplierVoice = \"" <<
-          partHarmoniesSupplierVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-
-/* JMI
-      // bring harmony voice to the same measure position
-      partHarmonyVoice->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          noteMeasurePosition);
-*/
-
-      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
-      if (
-        fMeasureVoiceDirectUplink
-          ==
-        partHarmoniesSupplierVoice) {
-        // yes, create a skip note of the same duration as the note
-        S_msrNote
-          skipNote =
-            msrNote::createSkipNote (
-              inputLineNumber,
-              fMeasureDirectPartUplink,
-              noteDivisions,
-              note->getNoteDotsNumber (),
-              partHarmonyVoice->
-                getVoiceStaffUplink ()->
-                  getStaffNumber (),
-              partHarmonyVoice->
-                getExternalVoiceNumber ());
-  
-        // append the skip to the part harmony voice
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+      if (partHarmoniesSupplierVoice) {
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
           cerr << idtr <<
-            "Appending skip '" << skipNote->noteAsShortString () <<
-            "' to measure '" << fMeasureNumber <<
-            "' in harmony voice \"" <<
-            partHarmonyVoice->getVoiceName () <<
+            "fMeasureVoiceDirectUplink = \"" <<
+            fMeasureVoiceDirectUplink->getVoiceName () <<
+            "\"" <<
+            endl <<
+            "partHarmoniesSupplierVoice = \"" <<
+            partHarmoniesSupplierVoice->getVoiceName () <<
             "\"" <<
             endl;
-
+  
+  /* JMI
+        // bring harmony voice to the same measure position
         partHarmonyVoice->
-          appendNoteToVoice (skipNote);
+          bringVoiceToMeasurePosition (
+            inputLineNumber,
+            noteMeasurePosition);
+  */
+  
+        // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+        if (
+          fMeasureVoiceDirectUplink
+            ==
+          partHarmoniesSupplierVoice) {
+          // yes, create a skip note of the same duration as the note
+          S_msrNote
+            skipNote =
+              msrNote::createSkipNote (
+                inputLineNumber,
+                fMeasureDirectPartUplink,
+                noteDivisions,
+                note->getNoteDotsNumber (),
+                partHarmonyVoice->
+                  getVoiceStaffUplink ()->
+                    getStaffNumber (),
+                partHarmonyVoice->
+                  getExternalVoiceNumber ());
+    
+          // append the skip to the part harmony voice
+          if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+            cerr << idtr <<
+              "Appending skip '" << skipNote->noteAsShortString () <<
+              "' to measure '" << fMeasureNumber <<
+              "' in harmony voice \"" <<
+              partHarmonyVoice->getVoiceName () <<
+              "\"" <<
+              endl;
+  
+          partHarmonyVoice->
+            appendNoteToVoice (skipNote);
+        }
       }
     }
 
