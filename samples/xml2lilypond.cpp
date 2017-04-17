@@ -1673,7 +1673,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   gGeneralOptionsUserChoices = msrGeneralOptions::create ();
-  assert(gGeneralOptions != 0);
+  assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =
     gGeneralOptionsUserChoices;
