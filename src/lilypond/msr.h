@@ -1911,7 +1911,7 @@ class EXP msrMeasure : public msrElement
       int           inputLineNumber,
       S_msrPart     measureDirectPartUplink,
       int           measureNumber,
-      S_msrSegment  segmentUplink);
+      S_msrSegment  measureSegmentUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
       S_msrSegment clonedSegment);
@@ -1925,7 +1925,7 @@ class EXP msrMeasure : public msrElement
       int           inputLineNumber,
       S_msrPart     measureDirectPartUplink,
       int           measureNumber,
-      S_msrSegment  segmentUplink);
+      S_msrSegment  measureSegmentUplink);
       
     virtual ~msrMeasure();
   
@@ -2949,7 +2949,7 @@ class EXP msrNote : public msrElement
     // note context
     // -------------------------------
 
-    // part direct uplink
+    // direct part uplink
     S_msrPart             getNoteDirectPartUplink () const
                              { return fNoteDirectPartUplink; }
 
@@ -3140,7 +3140,7 @@ class EXP msrNote : public msrElement
                             int inputLineNumber) const;
 
     string                noteDivisionsAsMsrString () const;
-    string                skipDivisionsAsMsrString () const;
+    string                skipOrRestDivisionsAsMsrString () const;
     
     string                noteGraphicDurationAsMsrString () const;
     string                tupletNoteGraphicDurationAsMsrString (
@@ -5675,7 +5675,6 @@ class EXP msrVoice : public msrElement
 
   private:
 
-    // part direct uplink
     S_msrPart                 fVoiceDirectPartUplink;
 
     msrVoiceKind              fVoiceKind;

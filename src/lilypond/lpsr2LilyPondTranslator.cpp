@@ -3096,7 +3096,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the rest duration
       fOstream <<
-        elt->skipDivisionsAsMsrString ();
+        elt->skipOrRestDivisionsAsMsrString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -3108,7 +3108,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the skip duration
       fOstream <<
-        elt->skipDivisionsAsMsrString ();
+        elt->skipOrRestDivisionsAsMsrString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept

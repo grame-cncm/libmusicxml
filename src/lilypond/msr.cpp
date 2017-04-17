@@ -4392,14 +4392,6 @@ S_msrNote msrNote::create (
       noteIsAGraceNote);
   assert(o!=0);
 
-  // set note's direct part uplink
-  msrAssert(
-    noteDirectPartUplink != 0,
-    "noteDirectPartUplink is null");
-    
-  o->fNoteDirectPartUplink =
-    noteDirectPartUplink;
-    
   return o;
 }
 
@@ -4455,7 +4447,11 @@ msrNote::msrNote (
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
 {
-  // set skip's direct part uplink
+  // set note's direct part uplink
+  msrAssert(
+    noteDirectPartUplink != 0,
+    "noteDirectPartUplink is null");
+    
   fNoteDirectPartUplink =
     noteDirectPartUplink;
   
@@ -5364,7 +5360,7 @@ string msrNote::noteDivisionsAsMsrString () const
   return result;
 }
 
-string msrNote::skipDivisionsAsMsrString () const
+string msrNote::skipOrRestDivisionsAsMsrString () const
 {
   string result;
 //  int    computedNumberOfDots;
@@ -5553,14 +5549,14 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        skipDivisionsAsMsrString ();
+        skipOrRestDivisionsAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        noteDivisionsAsMsrString ();
+        skipOrRestDivisionsAsMsrString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -5626,14 +5622,14 @@ string msrNote::noteAsString () const
       s <<
         "Rest" <<
         ":" <<
-        noteDivisionsAsMsrString ();
+        skipOrRestDivisionsAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
         "Skip" <<
         ":" <<
-        skipDivisionsAsMsrString ();
+        skipOrRestDivisionsAsMsrString ();
       break;
       
     case msrNote::kChordMemberNote:
@@ -11105,14 +11101,14 @@ S_msrMeasure msrMeasure::create (
   int           inputLineNumber,
   S_msrPart     measureDirectPartUplink,
   int           measureNumber,
-  S_msrSegment  segmentUplink)
+  S_msrSegment  measureSegmentUplink)
 {
   msrMeasure* o =
     new msrMeasure (
       inputLineNumber,
       measureDirectPartUplink,
       measureNumber,
-      segmentUplink);
+      measureSegmentUplink);
   assert(o!=0);
 
   return o;
@@ -11122,7 +11118,7 @@ msrMeasure::msrMeasure (
   int           inputLineNumber,
   S_msrPart     measureDirectPartUplink,
   int           measureNumber,
-  S_msrSegment  segmentUplink)
+  S_msrSegment  measureSegmentUplink)
     : msrElement (inputLineNumber)
 {
   // set measure's direct part uplink
@@ -11135,7 +11131,13 @@ msrMeasure::msrMeasure (
     
   fMeasureNumber = measureNumber;
   
-  fMeasureSegmentUplink = segmentUplink;
+  // set measure's segment uplink
+  msrAssert(
+    measureSegmentUplink != 0,
+    "measureSegmentUplink is null");
+
+  fMeasureSegmentUplink =
+    measureSegmentUplink;
 
   initializeMeasure ();
 }
@@ -11156,12 +11158,6 @@ void msrMeasure::initializeMeasure ()
       fMeasureVoiceDirectUplink->getVoiceName () <<
       "\"" <<
       endl;
-
-  // set measure's part direct uplink
-  fMeasureDirectPartUplink =
-    fMeasureVoiceDirectUplink->
-      getVoiceStaffUplink ()->
-        getStaffDirectPartUplink ();
 
   // fetch measure time from segment
   setMeasureTime (
@@ -11911,13 +11907,6 @@ void msrMeasure::bringMeasureToMeasurePosition (
     // appending a skip to this measure to reach measurePosition
     int skipDuration =
       measurePosition - fMeasurePosition;
-
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-        ", skipDuration = " << skipDuration <<
-        endl;
-    }
     
     // fetch the voice
     S_msrVoice
@@ -11940,12 +11929,14 @@ void msrMeasure::bringMeasureToMeasurePosition (
 
     // does the skip occupy a full measure?
     if (skipDuration == fMeasureDivisionsPerFullMeasure)
-      skip->setNoteOccupiesAFullMeasure ();
+      skip->
+        setNoteOccupiesAFullMeasure ();
   
     // register skip's measure position
-    skip->setNotePositionInMeasure (fMeasurePosition);
-    
-    // apppend the skip to the measure
+    skip->
+      setNotePositionInMeasure (
+        fMeasurePosition);
+           
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
       cerr << idtr <<
        "Appending " << skip->noteAsString () <<
@@ -11954,8 +11945,9 @@ void msrMeasure::bringMeasureToMeasurePosition (
        "\" measure '" << fMeasureNumber << "'" <<
        " from position " << fMeasurePosition <<
        " to position '" << measurePosition << "'" <<
+        ", skipDuration = " << skipDuration <<
        endl;
-       
+
     // append the skip to the measure elements list
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
@@ -12346,7 +12338,11 @@ void msrMeasure::finalizeMeasure (
         "Finalizing measure " << fMeasureNumber <<
         " in voice \"" << voice->getVoiceName () <<
         "\", line " << inputLineNumber <<
-        endl <<
+        endl;
+
+    idtr++;
+
+    cerr <<
       idtr <<
         "fMeasurePosition = " << fMeasurePosition <<
         endl <<
@@ -12354,6 +12350,8 @@ void msrMeasure::finalizeMeasure (
         "partMeasurePositionHighTide = " <<
         partMeasurePositionHighTide <<
         endl;
+        
+    idtr--;
   }
 
   if (fMeasurePosition < partMeasurePositionHighTide) {
@@ -12362,13 +12360,6 @@ void msrMeasure::finalizeMeasure (
       partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure
         ? partMeasurePositionHighTide - fMeasurePosition
         : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
-
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-        ", skipDuration = " << skipDuration <<
-        endl;
-    }
     
     // create the skip
     S_msrNote
@@ -12389,8 +12380,7 @@ void msrMeasure::finalizeMeasure (
   
     // register skip's measure position
     skip->setNotePositionInMeasure (fMeasurePosition);
-    
-    // apppend the skip to the measure
+           
     if (gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
        "Appending '" << skip->noteAsString () <<
@@ -12399,8 +12389,9 @@ void msrMeasure::finalizeMeasure (
        "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
        " % --> @" << fMeasureNumber <<
        ":" << partMeasurePositionHighTide <<
+        ", skipDuration = " << skipDuration <<
        endl;
-       
+
     // append the skip to the measure elements list
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
