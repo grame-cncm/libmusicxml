@@ -13988,22 +13988,11 @@ S_msrVoice msrVoice::create (
   msrVoice* o =
     new msrVoice (
       inputLineNumber,
+      voiceDirectPartUplink,
       voiceKind,
       externalVoiceNumber,
       voiceStaffUplink);
   assert(o!=0);
-
-  // set voice's direct part uplink
-  msrAssert(
-    voiceDirectPartUplink != 0,
-    "voiceDirectPartUplink is null");
-    
-  o->fVoiceDirectPartUplink =
-    voiceDirectPartUplink;
-    
-  // initialize the voice
-  o->
-    initializeVoice (inputLineNumber);
     
   return o;
 }
@@ -14011,24 +14000,41 @@ S_msrVoice msrVoice::create (
 // for regular voices
 msrVoice::msrVoice (
   int          inputLineNumber,
+  S_msrPart    voiceDirectPartUplink,
   msrVoiceKind voiceKind,
   int          externalVoiceNumber,
   S_msrStaff   voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
-  fVoiceKind = voiceKind;
-  
-  fExternalVoiceNumber = externalVoiceNumber;
-  
-  fStaffRelativeVoiceNumber = externalVoiceNumber;
-    // may be changed afterwards JMI ???
-
+  // set voice's direct part uplink
+  msrAssert(
+    voiceDirectPartUplink != 0,
+    "voiceDirectPartUplink is null");
+    
+  fVoiceDirectPartUplink =
+    voiceDirectPartUplink;
+    
   // set voice staff uplink
   msrAssert(
     voiceStaffUplink != 0,
     "voiceStaffUplink is null");
 
   fVoiceStaffUplink = voiceStaffUplink;
+
+  fVoiceKind = voiceKind;
+  
+  fExternalVoiceNumber = externalVoiceNumber;
+  
+  // initialize the voice
+  initializeVoice ();
+}
+
+msrVoice::~msrVoice() {}
+
+void msrVoice::initializeVoice ()
+{
+  fStaffRelativeVoiceNumber = fExternalVoiceNumber;
+    // may be changed afterwards JMI ???
 
   // compute voice number
   int voiceNumber =
@@ -14037,7 +14043,7 @@ msrVoice::msrVoice (
       : fExternalVoiceNumber;
   
   // set voice name
-  switch (voiceKind) {
+  switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
@@ -14061,58 +14067,55 @@ msrVoice::msrVoice (
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Creating voice \"" << fVoiceName <<
-      "\" in staff \"" << fVoiceStaffUplink->getStaffName () << "\"" <<
+      "\" in staff \"" <<
+      fVoiceStaffUplink->getStaffName () <<
+      "\"" <<
       endl;
 
   // check external voice number
-  switch (voiceKind) {
+  switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       // the external voice number should not be negative
       // (0 is used for the part voice master)
-      if (externalVoiceNumber < 0) {
+      if (fExternalVoiceNumber < 0) {
         stringstream s;
     
         s <<
-          "regular voice number " << externalVoiceNumber <<
+          "regular voice number " << fExternalVoiceNumber <<
           " is not in the 0..4 range";
           
         msrMusicXMLError (
-          inputLineNumber, s.str());
+          fInputLineNumber, s.str());
       }
       break;
       
     case msrVoice::kHarmonyVoice:
-      if (externalVoiceNumber != -1) {
+      if (fExternalVoiceNumber != -1) {
         stringstream s;
     
         s <<
-          "harmony voice number " << externalVoiceNumber <<
+          "harmony voice number " << fExternalVoiceNumber <<
           " is not equal to -1";
           
         msrInternalError (
-          inputLineNumber, s.str());
+          fInputLineNumber, s.str());
       }
       break;
       
     case msrVoice::kMasterVoice:
-      if (externalVoiceNumber != 0) {
+      if (fExternalVoiceNumber != 0) {
         stringstream s;
     
         s <<
-          "master voice number " << externalVoiceNumber <<
+          "master voice number " << fExternalVoiceNumber <<
           " is not in the 0..4 range";
           
         msrInternalError (
-          inputLineNumber, s.str());
+          fInputLineNumber, s.str());
       }
       break;
   } // switch
-}
 
-msrVoice::~msrVoice() {}
-
-void msrVoice::initializeVoice (int inputLineNumber)
-{
   // there may be an anacrusis, but let's start with 1 anyway
   fVoiceMeasureNumber = 1;
 
@@ -14128,7 +14131,7 @@ void msrVoice::initializeVoice (int inputLineNumber)
   // by actual stanza that start at later points
   fVoiceStanzaMaster =
     msrStanza::create (
-      inputLineNumber,
+      fInputLineNumber,
       fVoiceDirectPartUplink,
       0,    // this stanza number is unused anyway
       msrStanza::kMasterStanza,
@@ -14143,7 +14146,7 @@ void msrVoice::initializeVoice (int inputLineNumber)
       
   fVoiceLastSegment =
     msrSegment::create (
-      inputLineNumber,
+      fInputLineNumber,
       fVoiceDirectPartUplink,
       this);
 
@@ -14151,59 +14154,56 @@ void msrVoice::initializeVoice (int inputLineNumber)
   fVoiceFirstSegment =
     fVoiceLastSegment;
 
-  // get information from fVoiceStaffUplink if any
-  if (fVoiceStaffUplink) {
-    // get the initial clef from the staff if any
-    {
-      S_msrClef
-        clef =
-          fVoiceStaffUplink->getStaffClef ();
-    
-      if (clef) {
-        // append it to the last segment
-        fVoiceLastSegment->
-          appendClefToSegment (clef);
-        }
-    }
-      
-    // get the initial key from the staff if any
-    {
-      S_msrKey
-        key =
-          fVoiceStaffUplink->getStaffKey ();
+  // get the initial clef from the staff if any
+  {
+    S_msrClef
+      clef =
+        fVoiceStaffUplink->getStaffClef ();
   
-      if (key) {
-        // append it to the last segment
-        fVoiceLastSegment->
-          appendKeyToSegment (key);
+    if (clef) {
+      // append it to the last segment
+      fVoiceLastSegment->
+        appendClefToSegment (clef);
       }
-    }
+  }
     
-    // get the initial time from the staff if any
-    {
-      S_msrTime
-        time =
-          fVoiceStaffUplink->getStaffTime ();
+  // get the initial key from the staff if any
+  {
+    S_msrKey
+      key =
+        fVoiceStaffUplink->getStaffKey ();
+
+    if (key) {
+      // append it to the last segment
+      fVoiceLastSegment->
+        appendKeyToSegment (key);
+    }
+  }
   
-      if (time) {
-        // append it to the last segment
-        fVoiceLastSegment->
-          appendTimeToSegment (time);
-      }
+  // get the initial time from the staff if any
+  {
+    S_msrTime
+      time =
+        fVoiceStaffUplink->getStaffTime ();
+
+    if (time) {
+      // append it to the last segment
+      fVoiceLastSegment->
+        appendTimeToSegment (time);
     }
-    
-    // get the initial transpose from the staff if any
-    {
-      S_msrTranspose
-        transpose =
-          fVoiceStaffUplink->getStaffTranspose ();
-          
-      if (transpose) {
-        // append it to the last segment
-        S_msrElement t = transpose;
-        fVoiceLastSegment->
-          appendOtherElementToSegment (transpose); //JMI
-      }
+  }
+  
+  // get the initial transpose from the staff if any
+  {
+    S_msrTranspose
+      transpose =
+        fVoiceStaffUplink->getStaffTranspose ();
+        
+    if (transpose) {
+      // append it to the last segment
+      S_msrElement t = transpose;
+      fVoiceLastSegment->
+        appendOtherElementToSegment (transpose); //JMI
     }
   }
 }

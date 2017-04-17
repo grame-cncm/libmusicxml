@@ -5482,6 +5482,7 @@ class EXP msrVoice : public msrElement
     // for regular voices
     msrVoice (
       int          inputLineNumber,
+      S_msrPart    voiceDirectPartUplink,
       msrVoiceKind voiceKind,
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
@@ -5493,7 +5494,7 @@ class EXP msrVoice : public msrElement
     // initialisation
     // ------------------------------------------------------
 
-    void            initializeVoice (int inputLineNumber);
+    void            initializeVoice ();
   
   public:
 
