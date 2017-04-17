@@ -2388,10 +2388,12 @@ class EXP msrAftergracenotes : public msrElement
     static SMARTP<msrAftergracenotes> create (
       int        inputLineNumber,
       S_msrPart  aftergracenotesDirectPartUplink,
+      S_msrNote  aftergracenotesNote,
       bool       aftergracenoteIsSlashed,
       S_msrVoice aftergracenotesVoiceUplink);
     
     SMARTP<msrAftergracenotes> createAftergracenotesBareClone (
+      S_msrNote  noteClone,
       S_msrVoice voiceClone);
 
   protected:
@@ -2402,7 +2404,8 @@ class EXP msrAftergracenotes : public msrElement
     msrAftergracenotes (
       int        inputLineNumber,
       S_msrPart  aftergracenotesDirectPartUplink,
-      bool       slashed,
+      S_msrNote  aftergracenotesNote,
+      bool       aftergracenoteIsSlashed,
       S_msrVoice aftergracenotesVoiceUplink);
       
     virtual ~msrAftergracenotes();
@@ -2415,9 +2418,15 @@ class EXP msrAftergracenotes : public msrElement
     S_msrPart             getAftergracenotesDirectPartUplink () const
                               { return fAftergracenotesDirectPartUplink; }
 
+    S_msrNote             getAftergracenotesNote ()
+                              { return fAftergracenotesNote; }
+
     list<S_msrNote>&      getAftergracenotesNotesList ()
                               { return fAftergracenotesNotesList; }
 
+    void                  setAftergracenotesIsSlashed ()
+                              { fAftergracenotesIsSlashed = true; }
+                              
     bool                  getAftergracenotesIsSlashed () const
                               { return fAftergracenotesIsSlashed; }
 
@@ -2444,7 +2453,9 @@ class EXP msrAftergracenotes : public msrElement
   private:
 
     S_msrPart             fAftergracenotesDirectPartUplink;
-    
+
+    S_msrNote             fAftergracenotesNote;
+
     list<S_msrNote>       fAftergracenotesNotesList;
 
     bool                  fAftergracenotesIsSlashed;

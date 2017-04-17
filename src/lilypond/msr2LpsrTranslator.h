@@ -382,6 +382,10 @@ class msr2LpsrTranslator :
     // grace notes
     // ------------------------------------------------------
     S_msrGracenotes           fCurrentGracenotesClone;
+
+    // aftergracenotes optimisation
+    S_msrAftergracenotes      fPendingAftergracenotes;
+    
     void                      prependSkipGracenotesToPartOtherVoices (
                                 S_msrPart       fCurrentPartClone,
                                 S_msrVoice      fCurrentVoiceClone,

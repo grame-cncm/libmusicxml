@@ -4177,6 +4177,7 @@ void msrGracenotes::print (ostream& os)
 S_msrAftergracenotes msrAftergracenotes::create (
   int        inputLineNumber,
   S_msrPart  aftergracenotesDirectPartUplink,
+  S_msrNote  aftergracenotesNote,
   bool       aftergracenoteIsSlashed,
   S_msrVoice aftergracenotesVoiceUplink)
 {
@@ -4184,6 +4185,7 @@ S_msrAftergracenotes msrAftergracenotes::create (
     new msrAftergracenotes (
       inputLineNumber,
       aftergracenotesDirectPartUplink,
+      aftergracenotesNote,
       aftergracenoteIsSlashed,
       aftergracenotesVoiceUplink);
   assert(o!=0);
@@ -4194,6 +4196,7 @@ S_msrAftergracenotes msrAftergracenotes::create (
 msrAftergracenotes::msrAftergracenotes (
   int        inputLineNumber,
   S_msrPart  aftergracenotesDirectPartUplink,
+  S_msrNote  aftergracenotesNote,
   bool       aftergracenoteIsSlashed,
   S_msrVoice aftergracenotesVoiceUplink)
     : msrElement (inputLineNumber)
@@ -4205,6 +4208,9 @@ msrAftergracenotes::msrAftergracenotes (
 
   fAftergracenotesDirectPartUplink =
     aftergracenotesDirectPartUplink;
+
+  fAftergracenotesNote =
+    aftergracenotesNote;
     
   fAftergracenotesIsSlashed =
     aftergracenoteIsSlashed;
@@ -4216,6 +4222,7 @@ msrAftergracenotes::msrAftergracenotes (
 msrAftergracenotes::~msrAftergracenotes() {}
 
 S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
+  S_msrNote  noteClone,
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceGracenotes) {
@@ -4235,9 +4242,10 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
       msrAftergracenotes::create (
         fInputLineNumber,
         voiceClone->getVoiceDirectPartUplink (),
+        noteClone,
         fAftergracenotesIsSlashed,
         voiceClone);
-
+  
   clone->fAftergracenotesIsSlashed =
     fAftergracenotesIsSlashed;
   
