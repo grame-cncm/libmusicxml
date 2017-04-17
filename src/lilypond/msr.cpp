@@ -12357,9 +12357,12 @@ void msrMeasure::finalizeMeasure (
   if (fMeasurePosition < partMeasurePositionHighTide) {
     // appending a skip to this measure to reach measurePosition
     int skipDuration =
-      partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure
+      partMeasurePositionHighTide - fMeasurePosition;
+    /* JMI
+      partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure // + 1 // JMI ???
         ? partMeasurePositionHighTide - fMeasurePosition
         : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
+        */
     
     // create the skip
     S_msrNote
@@ -13037,7 +13040,7 @@ void msrSegment::setSegmentMeasureNumber (
               endl <<
             idtr <<
               setw(31) <<
-                "measure 1 found after measure 0, "
+                "Measure 1 found after measure 0, "
                 "a new measure is being created" <<
               endl;
               
@@ -17412,7 +17415,7 @@ void msrPart::setPartMeasurePositionHighTide (
   int inputLineNumber,
   int measurePosition)
 {
-  if (gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Setting measure position high tide for part \"" <<
       getPartCombinedName () <<
@@ -17428,7 +17431,7 @@ void msrPart::updatePartMeasurePositionHighTide (
   int measurePosition)
 {
   if (measurePosition > fPartMeasurePositionHighTide) {
-    if (gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
         "Updating measure position high tide for part \"" <<
         getPartCombinedName () <<
@@ -17516,13 +17519,11 @@ void msrPart::setPartMeasureNumber (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr <<
-      endl <<
       idtr <<
-        "### % --> setPartMeasureNumber()" <<
+        "Setting part measure number to " << measureNumber <<
         ", line " << inputLineNumber <<
-        ", measureNumber = " << measureNumber <<
         ", in part " << getPartCombinedName () <<
-        endl << endl;
+        endl;
 
   // set part measure location
   fPartMeasureNumber = measureNumber;
