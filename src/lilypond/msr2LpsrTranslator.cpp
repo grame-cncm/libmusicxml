@@ -1586,9 +1586,6 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
       fCurrentVoiceClone->
         appendAftergracenotesToVoice (
           fPendingAftergracenotes);
-  
-      // forget these after grace notes
-      fPendingAftergracenotes = 0;
       
       doCreateAGraceNoteClone = false;
     }
@@ -1643,8 +1640,11 @@ void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
       "--> End visiting msrGracenotes" <<
       endl;
 
-  // forget about this grace notes
+  // forget about these grace notes if any
   fCurrentGracenotesClone = 0;
+
+  // forget these after grace notes if any
+  fPendingAftergracenotes = 0;
 }
 
 void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
@@ -1732,10 +1732,6 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
         fCurrentVoiceClone);
   }
 
-  else {
-    // no
-  }
-
   fOnGoingNote = true;
 }
 
@@ -1767,19 +1763,52 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kGraceNote:
-    //* JMI
-      if (gGeneralOptions->fTraceNotes) {
-        cerr <<  idtr <<
-          "--> appending note " <<
-          fCurrentNoteClone->notePitchAsString () <<
-          ":" << fCurrentNoteClone->getNoteDivisions () <<
-          " to the grace notes in voice \"" <<
-          fCurrentVoiceClone->getVoiceName () << "\"" <<
-          endl;
+      if (fCurrentGracenotesClone) {
+        if (gGeneralOptions->fTraceGracenotes || gGeneralOptions->fTraceNotes) {
+          cerr <<  idtr <<
+            "Appending note " <<
+            fCurrentNoteClone->notePitchAsString () <<
+            ":" << fCurrentNoteClone->getNoteDivisions () <<
+            " to the grace notes in voice \"" <<
+            fCurrentVoiceClone->getVoiceName () << "\"" <<
+            endl;
+        }
+  
+        fCurrentGracenotesClone->
+          appendNoteToGracenotes (
+            fCurrentNoteClone);
       }
-      //*/
-      fCurrentGracenotesClone->
-        appendNoteToGracenotes (fCurrentNoteClone);
+
+      else if (fPendingAftergracenotes) {
+        if (gGeneralOptions->fTraceGracenotes || gGeneralOptions->fTraceNotes) {
+          cerr <<  idtr <<
+            "Appending note " <<
+            fCurrentNoteClone->notePitchAsString () <<
+            ":" << fCurrentNoteClone->getNoteDivisions () <<
+            " to the after grace notes in voice \"" <<
+            fCurrentVoiceClone->getVoiceName () << "\"" <<
+            endl;
+        }
+  
+        fPendingAftergracenotes->
+          appendNoteToAftergracenotes (
+            fCurrentNoteClone);
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "both fCurrentGracenotesClone and fPendingAftergracenotes are null," <<
+          endl <<
+          "cannot handle grace note'" <<
+          elt->noteAsString () <<
+          "'";
+
+        msrInternalError (
+          elt->getInputLineNumber (),
+          s.str());
+      }
       break;
       
     case msrNote::kRestNote:
