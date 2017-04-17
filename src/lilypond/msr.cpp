@@ -9580,12 +9580,19 @@ msrStanza::msrStanza (
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
 
+  // set stanza's voice uplink
   msrAssert(
     stanzaVoiceUplink != 0,
     "stanzaVoiceUplink is null");
 
-  fStanzaVoiceUplink  = stanzaVoiceUplink;
+  fStanzaVoiceUplink =
+    stanzaVoiceUplink;
   
+  initializeStanza ();
+}
+
+void msrStanza::initializeStanza ()
+{
   switch (fStanzaKind) {
     case kRegularStanza:
       fStanzaName =
@@ -11166,12 +11173,10 @@ void msrMeasure::initializeMeasure ()
   setMeasurePosition (
     fInputLineNumber, 1); // ready to receive the first note
 
-/* JMI
   // initialize measure position high tide
   fMeasureDirectPartUplink->
     setPartMeasurePositionHighTide (
-      inputLineNumber, 1);
-      */
+      fInputLineNumber, 1);
 }
 
 msrMeasure::~msrMeasure()
@@ -13014,12 +13019,13 @@ void msrSegment::setSegmentMeasureNumber (
       if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
         cerr <<
           idtr <<
-            "### there are currently " <<
-            fSegmentMeasuresList.size () <<
-            " measures in segment " << segmentAsString () <<
+            "There are currently " <<
+            singularOrPlural(
+              fSegmentMeasuresList.size (), "measure", "measures") <<
+            " in segment " << segmentAsString () <<
             endl <<
           idtr <<
-            setw(31) << "% --> renumbering measure 1 as 0" << // JMI
+            setw(31) << "renumbering measure 1 as 0" << // JMI
             endl;
   
       lastMeasure->
@@ -13034,13 +13040,13 @@ void msrSegment::setSegmentMeasureNumber (
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
           cerr <<
             idtr <<
-              "### there are currently " <<
+              "There are currently " <<
               fSegmentMeasuresList.size () <<
             " measures in segment " << segmentAsString () <<
               endl <<
             idtr <<
               setw(31) <<
-                "% --> measure 1 found after measure 0, "
+                "measure 1 found after measure 0, "
                 "a new measure is being created" <<
               endl;
               
@@ -16835,14 +16841,24 @@ msrPart::msrPart (
   S_msrPartgroup partPartgroupUplink)
     : msrElement (inputLineNumber)
 {
-  // replace spaces in part ID
+  // replace spaces in part ID to set fPartID
   for_each (
     partID.begin(),
     partID.end(),
     stringSpaceReplacer (fPartID, '_'));
  
+  // set part's part group uplink
+  msrAssert(
+    partPartgroupUplink != 0,
+    "partPartgroupUplink is null");
+    
   fPartPartgroupUplink = partPartgroupUplink;
 
+  initializePart ();
+}
+
+void msrPart::initializePart ()
+{
   // is this part name in the part renaming map?
   map<string, string>::iterator
     it =
@@ -16867,39 +16883,14 @@ msrPart::msrPart (
   fMeasureZeroHasBeenMetInPart = false;
   
   setPartMeasurePositionHighTide (
-    inputLineNumber, 1);
+    fInputLineNumber, 1);
 
   fPartMeasureNumberMin = INT_MAX;
   fPartMeasureNumberMax = INT_MIN;
 
   // create the part harmony staff and voice
   createPartHarmonyStaffAndVoice (
-    inputLineNumber);
-
-
-// */
-
-/* JMI
-  // create a first staff for the part
-  this->
-    addStaffToPart (
-      inputLineNumber, 1);
-
-  // create the part voice master
-  S_msrStaff
-    hiddenMasterStaff =
-      msrStaff::create (
-        0,            // inputLineNumber
-        0,            // staffNumber
-        this);        // fStaffDirectPartUplink
-
-  fPartVoicemaster =
-    msrVoice::create (
-      0,            // inputLineNumber
-      0,            // staffRelativeVoiceNumber
-      hiddenMasterStaff); // voiceStaffUplink
-      *
-*/
+    fInputLineNumber);
 }
 
 msrPart::~msrPart() {}

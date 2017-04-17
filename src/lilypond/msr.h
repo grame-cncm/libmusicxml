@@ -4651,6 +4651,13 @@ class EXP msrStanza : public msrElement
   
     virtual ~msrStanza();
   
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  initializeStanza ();
+
   public:
 
     // set and get
@@ -6082,6 +6089,13 @@ class EXP msrPart : public msrElement
       
     virtual ~msrPart();
   
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  initializePart ();
+
   public:
 
     // set and get
