@@ -4300,6 +4300,10 @@ void msrAftergracenotes::browseData (basevisitor* v)
 {
   list<S_msrNote>::const_iterator i;
 
+  // browse the aftergracenotes note
+  msrBrowser<msrNote> browser (v);
+  browser.browse (*fAftergracenotesNote);
+
   for (
     i=fAftergracenotesNotesList.begin();
     i!=fAftergracenotesNotesList.end();

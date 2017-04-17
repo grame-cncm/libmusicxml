@@ -363,7 +363,9 @@ class lpsr2LilyPondTranslator :
                   int actualNotes,
                   int normalNotes);
   
-    string      noteAsLilyPondString (S_msrNote& note);
+    string      noteAsLilyPondString (S_msrNote note);
+
+    void        printNoteAsLilyPondString (S_msrNote note);
 
     string      technicalKindAsLilyPondString (
                   int                            inputLineNumber,

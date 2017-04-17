@@ -172,7 +172,7 @@ string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
 
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::noteAsLilyPondString (
-  S_msrNote& note)
+  S_msrNote note)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -2811,9 +2811,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrAftergracenotes& elt)
 
  // JMI exists? if (elt->getGracenotesIsSlashed ())
   fOstream <<
-    "\\afterGrace" " " <<
-    elt->getAftergracenotesNote () <<
+    "\\afterGrace" " ";
+
+/* JMI
+  printNoteAsLilyPondString (
+    elt->getAftergracenotesNote ());
+
+  fOstream <<
     " { ";
+    */
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrAftergracenotes& elt)
@@ -2879,13 +2885,22 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
 
   // indent before the fist note of the msrSegment if needed
   if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
-    fOstream << idtr;
+    fOstream <<
+      idtr;
 
+  // print the note as a LilyPond string
+  printNoteAsLilyPondString (elt);
+
+  fOnGoingNote = true;
+}
+
+void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
+{  
   // print the note ligatures if any
   list<S_msrLigature>
     noteLigatures =
-      elt->getNoteLigatures ();
-      
+      note->getNoteLigatures ();
+
   if (noteLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (
@@ -2917,7 +2932,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         : msrStem::k_NoStem;
 
   // should the stem be omitted?
-  if (elt->getNoteIsStemless ()) {
+  if (note->getNoteIsStemless ()) {
     fOstream <<
       endl <<
       idtr <<
@@ -3011,7 +3026,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
   // fetch the note single tremolo
   S_msrSingleTremolo
     noteSingleTremolo =
-      elt->getNoteSingleTremolo ();
+      note->getNoteSingleTremolo ();
       
   if (noteSingleTremolo) {
     // print the single tremolo repeat start
@@ -3042,7 +3057,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   }
   
   // print the note
-  switch (elt->getNoteKind ()) {
+  switch (note->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
       break;
@@ -3050,14 +3065,14 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     case msrNote::kStandaloneNote:
       // print the note name
       fOstream <<
-        noteAsLilyPondString (elt);
+        noteAsLilyPondString (note);
       
       // print the note duration
       fOstream <<
-        elt->noteDivisionsAsMsrString ();
+        note->noteDivisionsAsMsrString ();
 
       // handle delayed ornaments if any
-      if (elt->getNoteHasADelayedOrnament ())
+      if (note->getNoteHasADelayedOrnament ())
         // c2*2/3 ( s2*1/3\turn
         fOstream <<
           "*" <<
@@ -3067,7 +3082,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the tie if any
       {
-        S_msrTie noteTie = elt->getNoteTie ();
+        S_msrTie noteTie = note->getNoteTie ();
       
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kStartTie) {
@@ -3077,26 +3092,26 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       }
 
       // this note is the new relative octave reference
-      fRelativeOctaveReference = elt;
+      fRelativeOctaveReference = note;
       break;
 
     case msrNote::kGraceNote:
       // print the note name
       fOstream <<
-        noteAsLilyPondString (elt);
+        noteAsLilyPondString (note);
       
       // print the grace note's graphic duration
       fOstream <<
-        elt->noteGraphicDurationAsMsrString ();
+        note->noteGraphicDurationAsMsrString ();
 
       // print the dots if any JMI ???
-      for (int i = 0; i < elt->getNoteDotsNumber (); i++) {
+      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
         fOstream << ".";
       } // for
       
       // print the tie if any
       {
-        S_msrTie noteTie = elt->getNoteTie ();
+        S_msrTie noteTie = note->getNoteTie ();
       
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kStartTie) {
@@ -3106,20 +3121,20 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       }
 
       // this note is the new relative octave reference
-      fRelativeOctaveReference = elt;
+      fRelativeOctaveReference = note;
       break;
       
     case msrNote::kRestNote:      
       // print the rest name
       fOstream <<
         string (
-          elt->getNoteOccupiesAFullMeasure ()
+          note->getNoteOccupiesAFullMeasure ()
             ? "R"
             : "r");
       
       // print the rest duration
       fOstream <<
-        elt->skipOrRestDivisionsAsMsrString ();
+        note->skipOrRestDivisionsAsMsrString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -3131,7 +3146,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the skip duration
       fOstream <<
-        elt->skipOrRestDivisionsAsMsrString ();
+        note->skipOrRestDivisionsAsMsrString ();
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -3140,13 +3155,13 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     case msrNote::kChordMemberNote:
       // print the note name
       fOstream <<
-        noteAsLilyPondString (elt);
+        noteAsLilyPondString (note);
       
       // don't print the note duration,
       // it will be printed for the chord itself
 
       // inside chords, a note is relative to the preceding one
-      fRelativeOctaveReference = elt;
+      fRelativeOctaveReference = note;
       break;
       
     case msrNote::kTupletMemberNote:
@@ -3157,33 +3172,33 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       }
         
       // print the note name
-      if (elt->getNoteIsARest ()) {
+      if (note->getNoteIsARest ()) {
         fOstream <<
           string (
-            elt->getNoteOccupiesAFullMeasure ()
+            note->getNoteOccupiesAFullMeasure ()
               ? "R"
               : "r");
       }
       else
         fOstream <<
-          noteAsLilyPondString (elt);
+          noteAsLilyPondString (note);
       
       // print the note duration
       S_msrTuplet
         tuplet =
-          elt->getNoteTupletUplink ();
+          note->getNoteTupletUplink ();
           
       fOstream <<
         tupletDivisionsAsLilypondString (
-          elt->getInputLineNumber (),
-          elt->getNoteDirectPartUplink (),
-          elt->getNoteDivisions (),
+          note->getInputLineNumber (),
+          note->getNoteDirectPartUplink (),
+          note->getNoteDivisions (),
           tuplet->getTupletActualNotes (),
           tuplet->getTupletNormalNotes ());
 
       // print the tie if any
       {
-        S_msrTie noteTie = elt->getNoteTie ();
+        S_msrTie noteTie = note->getNoteTie ();
       
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kStartTie) {
@@ -3193,9 +3208,9 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       }
 
       // a rest is no relative octave reference,
-      if (! elt->getNoteIsARest ())
+      if (! note->getNoteIsARest ())
         // this note is the new relative octave reference
-        fRelativeOctaveReference = elt;
+        fRelativeOctaveReference = note;
       break;
   } // switch
 
@@ -3217,8 +3232,6 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
         break;
     } // switch
   }
-
-  fOnGoingNote = true;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
@@ -3295,66 +3308,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         1 + (singleTremoloNoteDuration - kEighth);
 
     fOstream <<
-      int (pow (2, durationToUse + 2));
-      /* JMI
-    switch (durationToUse) {
-      case 0:
-        fOstream << "4";
-        break;
-      case 1:
-        fOstream << "8";
-        break;
-      case 2:
-        fOstream << "16";
-        break;
-      case 3:
-        fOstream << "32";
-        break;
-      case 4:
-        fOstream << "64";
-        break;
-      case 5:
-        fOstream << "128";
-        break;
-      case 6:
-        fOstream << "256";
-        break;
-      case 7:
-        fOstream << "512";
-        break;
-      case 8:
-        fOstream << "1024";
-        break;
-      case 9:
-        fOstream << "2048";
-        break;
-      case 10:
-        fOstream << "4096";
-        break;
-      case 11:
-        fOstream << "8192";
-        break;
-      case 12:
-        fOstream << "16384";
-        break;
-      case 13:
-        fOstream << "32768";
-        break;
-      case 14:
-        fOstream << "65536";
-        break;
-      case 15:
-        fOstream << "131072";
-        break;
-      case 16:
-        fOstream << "262144";
-        break;
-      default:
-        fOstream << "???" << durationToUse << "???";
-    } // switch
-        */      
-    
-    fOstream <<
+      int (pow (2, durationToUse + 2)) <<
       " ";
   }
   
@@ -3713,35 +3667,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-/* JMI
-  // print the tie if any
-  {
-    S_msrTie noteTie = elt->getNoteTie ();
-  
-    if (noteTie) {
-      if (noteTie->getTieKind () == msrTie::kStartTie) {
-        fOstream << "~ ";
-      }
-    }
-  }
-
-  // print the slurs if any
-  switch (elt->getNoteslur ()->getSlurKind ()) {
-    case msrSlur::kStartSlur:
-      fOstream << "( ";
-      break;
-      
-    case msrSlur::kContinueSlur:
-      break;
-      
-    case msrSlur::kStopSlur:
-      fOstream << ") ";
-      break;
-      
-    case msrSlur::k_NoSlur:
-      break;
-  } // switch
-  */
+  if (elt->getNoteIsFollowedByGracenotes ())
+    fOstream << " { ";
 
   fOnGoingNote = false;
 }
