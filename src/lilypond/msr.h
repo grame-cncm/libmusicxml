@@ -60,6 +60,9 @@ typedef SMARTP<msrNote> S_msrNote;
 class msrGracenotes;
 typedef SMARTP<msrGracenotes> S_msrGracenotes;
 
+class msrAftergracenotes;
+typedef SMARTP<msrAftergracenotes> S_msrAftergracenotes;
+
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
@@ -2049,6 +2052,11 @@ class EXP msrMeasure : public msrElement
     void                  prependGracenotesToMeasure (
                             S_msrGracenotes gracenotes);
     
+    void                  appendAftergracenotesToMeasure (
+                            S_msrAftergracenotes aftergracenotes);
+    void                  prependAftergracenotesToMeasure (
+                            S_msrAftergracenotes aftergracenotes);
+    
     void                  prependOtherElementToMeasure (S_msrElement elem);
                       
     void                  appendOtherElementToMeasure  (S_msrElement elem);
@@ -2227,6 +2235,11 @@ class EXP msrSegment : public msrElement
                             S_msrGracenotes gracenotes);
     void                  prependGracenotesToSegment (
                             S_msrGracenotes gracenotes);
+    
+    void                  appendAftergracenotesToSegment (
+                            S_msrAftergracenotes aftergracenotes);
+    void                  prependAftergracenotesToSegment (
+                            S_msrAftergracenotes aftergracenotes);
     
     void                  appendOtherElementToSegment (
                             S_msrElement elem);
@@ -5615,6 +5628,11 @@ class EXP msrVoice : public msrElement
                             S_msrGracenotes gracenotes);
     void                  prependGracenotesToVoice (
                             S_msrGracenotes gracenotes);
+
+    void                  appendAftergracenotesToVoice (
+                            S_msrAftergracenotes aftergracenotes);
+    void                  prependAftergracenotesToVoice (
+                            S_msrAftergracenotes aftergracenotes);
 
     void                  appendSyllableToVoice (
                             int           inputLineNumber,

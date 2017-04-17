@@ -1561,36 +1561,52 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
       "--> Start visiting msrGracenotes" <<
       endl;
 
-  // create a clone of this gracenotes
-  fCurrentGracenotesClone =
-    elt->
-      createGracenotesBareClone (
-        fCurrentVoiceClone);
-
-  // append it to the current voice clone
-  fCurrentVoiceClone->
-    appendGracenotesToVoice (
-      fCurrentGracenotesClone);
-
+  bool doCreateAGraceNoteClone = true;
+  
 // JMI  bool createSkipGracenotesInOtherVoices = false;
   
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
     
-    if (fCurrentNoteClone->getNoteHasATrill ()) { // JMI
+    if (
+      fCurrentNoteClone->getNoteHasATrill ()
+        &&
+      fCurrentNoteClone->getNoteIsFollowedByGracenotes ()) {
+      // fPendingAftergracenotes already contains
+      // the aftergracenotes to use
+      
       if (gGeneralOptions->fTraceGracenotes)
-        fOstream <<
-          "### msrGracenotes on a TRILLED note" <<
+        cerr << idtr <<
+          "Optimising grace notes " << 
+          elt->gracenotesAsShortString () <<
+          "into after grace notes" <<
           endl;
-    }
+
+      // append the after grace notes to the current voice clone
+      fCurrentVoiceClone->
+        appendAftergracenotesToVoice (
+          fPendingAftergracenotes);
   
-    else {
-  //    doCreateAGraceNoteClone = true;
+      // forget these after grace notes
+      fPendingAftergracenotes = 0;
+      
+      doCreateAGraceNoteClone = false;
     }
   }
 
-  else {
- // JMI XXL find good criterion for this
+  if (doCreateAGraceNoteClone) {
+    // create a clone of this gracenotes
+    fCurrentGracenotesClone =
+      elt->
+        createGracenotesBareClone (
+          fCurrentVoiceClone);
+  
+    // append it to the current voice clone
+    fCurrentVoiceClone->
+      appendGracenotesToVoice (
+        fCurrentGracenotesClone);
+  
+   // JMI XXL find good criterion for this
 
     // these grace notes are at the beginning of a segment JMI
 //    doCreateAGraceNoteClone = true; // JMI

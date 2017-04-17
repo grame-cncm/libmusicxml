@@ -12027,6 +12027,49 @@ void msrMeasure::prependGracenotesToMeasure (
   } // for
 }
   
+void msrMeasure::appendAftergracenotesToMeasure (
+  S_msrAftergracenotes aftergracenotes)
+{
+  fMeasureElementsList.push_back (aftergracenotes);
+}
+  
+void msrMeasure::prependAftergracenotesToMeasure (
+  S_msrAftergracenotes aftergracenotes)
+{
+  // in order to work around LilyPond issue 34,
+  // we need to insert the skip after grace notes
+  // after clef, key and time signature if any
+
+  for (
+    list<S_msrElement>::iterator i = fMeasureElementsList.begin();
+    i != fMeasureElementsList.end();
+    i++ ) {
+
+    if (
+      S_msrClef clef = dynamic_cast<msrClef*>(&(**i))
+      ) {
+    }
+  
+    else if (
+      S_msrKey key = dynamic_cast<msrKey*>(&(**i))
+      ) {
+    }
+    
+    else if (
+      S_msrTime time = dynamic_cast<msrTime*>(&(**i))
+      ) {
+    }
+    
+    else {
+       // insert aftergracenotes before (*i) in the list
+      fMeasureElementsList.insert (
+        i, aftergracenotes);
+
+      break;
+    }
+  } // for
+}
+  
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 {
   fMeasureElementsList.push_front (elem); // JMI
@@ -13500,6 +13543,21 @@ void msrSegment::prependGracenotesToSegment (
     prependGracenotesToMeasure (gracenotes); // JMI
 }
 
+void msrSegment::appendAftergracenotesToSegment (
+  S_msrAftergracenotes aftergracenotes)
+{
+  fSegmentMeasuresList.back ()->
+    appendAftergracenotesToMeasure (aftergracenotes);
+}
+
+void msrSegment::prependAftergracenotesToSegment (
+  S_msrAftergracenotes aftergracenotes)
+
+{
+  fSegmentMeasuresList.front ()->
+    prependAftergracenotesToMeasure (aftergracenotes); // JMI
+}
+
 void msrSegment::appendOtherElementToSegment (S_msrElement elem)
 {
   /*
@@ -14952,6 +15010,38 @@ void msrVoice::prependGracenotesToVoice (
 
   fVoiceFirstSegment->
     prependGracenotesToSegment (gracenotes);
+
+  fMusicHasBeenInsertedInVoice = true;
+}
+
+void msrVoice::appendAftergracenotesToVoice (
+  S_msrAftergracenotes aftergracenotes)
+{
+  if (gGeneralOptions->fTraceGracenotes) {
+    cerr << idtr <<
+      "Appending after grace notes " << // JMI Aftergracenotes <<
+      " to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  fVoiceLastSegment->
+    appendAftergracenotesToSegment (aftergracenotes);
+
+  fMusicHasBeenInsertedInVoice = true;
+}
+
+void msrVoice::prependAftergracenotesToVoice (
+  S_msrAftergracenotes aftergracenotes)
+{
+  if (gGeneralOptions->fTraceGracenotes) {
+    cerr << idtr <<
+      "Prepending after grace notes " << // JMI Aftergracenotes <<
+      " to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  fVoiceFirstSegment->
+    prependAftergracenotesToSegment (aftergracenotes);
 
   fMusicHasBeenInsertedInVoice = true;
 }
