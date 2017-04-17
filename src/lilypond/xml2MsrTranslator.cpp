@@ -7351,26 +7351,26 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
       "--> Start visiting S_accidental_mark" <<
       endl;
 
-  fCurrentAccidentalMark =
+  string accidentalMark =
     elt->getValue ();
 
   msrOrnament::msrOrnamentAccidentalMarkKind
     currentOrnamentAccidentalMarkKind;
     
-  if (fCurrentAccidentalMark == "natural")
+  if      (accidentalMark == "natural")
     currentOrnamentAccidentalMarkKind = msrOrnament::kNatural;
     
-  else if (fCurrentAccidentalMark == "sharp")
+  else if (accidentalMark == "sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSharp;
     
-  else if (fCurrentAccidentalMark == "flat")
+  else if (accidentalMark == "flat")
     currentOrnamentAccidentalMarkKind = msrOrnament::kFlat;
     
-  else if (fCurrentAccidentalMark.size ()) {
+  else if (accidentalMark.size ()) {
     stringstream s;
     
     s <<
-      "accidental mark \"" << fCurrentAccidentalMark <<
+      "accidental mark \"" << accidentalMark <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -7378,25 +7378,24 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
       s.str());    
   }
 
-  string
-    currentAccidentalMarkPlacement =
-      elt->getAttributeValue ("placement");
+  string placement =
+    elt->getAttributeValue ("placement");
 
   fCurrentOrnamentPlacementKind =
     msrOrnament::k_NoPlacementKind;
 
-  if      (currentAccidentalMarkPlacement == "above")
+  if      (placement == "above")
     fCurrentOrnamentPlacementKind = msrOrnament::kAbove;
     
-  else if (currentAccidentalMarkPlacement == "below")
+  else if (placement == "below")
     fCurrentOrnamentPlacementKind = msrOrnament::kBelow;
     
-  else if (currentAccidentalMarkPlacement.size ()) {
+  else if (placement.size ()) {
     
     stringstream s;
     
     s <<
-      "ornament placement \"" << currentAccidentalMarkPlacement <<
+      "ornament placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (

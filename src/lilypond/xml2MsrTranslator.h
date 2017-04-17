@@ -1010,7 +1010,6 @@ class EXP xml2MsrTranslator :
     S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
-    string                    fCurrentAccidentalMark;
     msrOrnament::msrOrnamentPlacementKind
                               fCurrentOrnamentPlacementKind;
 
