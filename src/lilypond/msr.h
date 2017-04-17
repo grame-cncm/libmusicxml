@@ -1923,11 +1923,19 @@ class EXP msrMeasure : public msrElement
 
     msrMeasure (
       int           inputLineNumber,
+      S_msrPart     measureDirectPartUplink,
       int           measureNumber,
       S_msrSegment  segmentUplink);
       
     virtual ~msrMeasure();
   
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  initializeMeasure ();
+
   public:
 
     // set and get

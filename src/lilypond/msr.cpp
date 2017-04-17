@@ -11059,31 +11059,38 @@ S_msrMeasure msrMeasure::create (
   msrMeasure* o =
     new msrMeasure (
       inputLineNumber,
+      measureDirectPartUplink,
       measureNumber,
       segmentUplink);
   assert(o!=0);
 
-  // set measure's direct part uplink
-  msrAssert(
-    measureDirectPartUplink != 0,
-    "measureDirectPartUplink is null");
-    
-  o->fMeasureDirectPartUplink =
-    measureDirectPartUplink;
-    
   return o;
 }
 
 msrMeasure::msrMeasure (
   int           inputLineNumber,
+  S_msrPart     measureDirectPartUplink,
   int           measureNumber,
   S_msrSegment  segmentUplink)
     : msrElement (inputLineNumber)
 {
+  // set measure's direct part uplink
+  msrAssert(
+    measureDirectPartUplink != 0,
+    "measureDirectPartUplink is null");
+
+  fMeasureDirectPartUplink =
+    measureDirectPartUplink;
+    
   fMeasureNumber = measureNumber;
   
   fMeasureSegmentUplink = segmentUplink;
 
+  initializeMeasure ();
+}
+
+void msrMeasure::initializeMeasure ()
+{
   // set measure voice direct uplink
   fMeasureVoiceDirectUplink =
     fMeasureSegmentUplink->
@@ -11113,7 +11120,7 @@ msrMeasure::msrMeasure (
   fMeasureKind = kRegularMeasure; // may be changed afterwards
 
   setMeasurePosition (
-    inputLineNumber, 1); // ready to receive the first note
+    fInputLineNumber, 1); // ready to receive the first note
 
 /* JMI
   // initialize measure position high tide
@@ -11336,6 +11343,12 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
         fMeasureDirectPartUplink->
           getPartHarmonyVoice ();
 
+    // fetch part harmony supplier voice
+    S_msrVoice
+      partHarmoniesSupplierVoice =
+        fMeasureDirectPartUplink->
+          getPartHarmoniesSupplierVoice ();
+
     // fetch note harmony
     S_msrHarmony
       noteHarmony =
@@ -11350,8 +11363,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           fMeasureVoiceDirectUplink->getVoiceName () <<
           "\"" <<
           endl <<
-          "fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice () = \"" <<
-          fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()->getVoiceName () <<
+          "partHarmoniesSupplierVoice = \"" <<
+          partHarmoniesSupplierVoice->getVoiceName () <<
           "\"" <<
           endl;
 
@@ -11367,7 +11380,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       if (
         fMeasureVoiceDirectUplink
           ==
-        fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()) {
+        partHarmoniesSupplierVoice) {
         // yes, create a skip note of the same duration as the note
         S_msrNote
           skipNote =
