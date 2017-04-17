@@ -4164,6 +4164,7 @@ void msrGracenotes::print (ostream& os)
     iBegin = fGracenotesNotesList.begin(),
     iEnd   = fGracenotesNotesList.end(),
     i      = iBegin;
+    
   for ( ; ; ) {
     os << idtr << (*i);
     if (++i == iEnd) break;
@@ -4326,6 +4327,7 @@ string msrAftergracenotes::aftergracenotesAsShortString () const
     iBegin = fAftergracenotesNotesList.begin(),
     iEnd   = fAftergracenotesNotesList.end(),
     i      = iBegin;
+    
   for ( ; ; ) {
     s << (*i)->noteAsShortString ();
     if (++i == iEnd) break;
@@ -4349,15 +4351,37 @@ void msrAftergracenotes::print (ostream& os)
   
   idtr++;
 
+  // print the aftergracenotes note
+  os <<
+    idtr <<
+      "Note:" <<
+      endl;
+  idtr++;
+  os <<
+    idtr <<
+      fAftergracenotesNote;
+  idtr--;
+
+  // print the aftergracenotes contents
+  os <<
+    idtr <<
+      "Contents:" <<
+      endl;
+
+  idtr++;
+
   list<S_msrNote>::const_iterator
     iBegin = fAftergracenotesNotesList.begin(),
     iEnd   = fAftergracenotesNotesList.end(),
     i      = iBegin;
+    
   for ( ; ; ) {
     os << idtr << (*i);
     if (++i == iEnd) break;
  // JMI   os << endl;
   } // for
+
+  idtr--;
       
   idtr--;
 }
