@@ -1705,31 +1705,45 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 
-  // create the clone
-  fCurrentNoteClone =
-    elt->createNoteBareClone (
-      fCurrentPartClone);
-
-  // register clone in this tranlastors' voice notes map
-  fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
-  
-  if (! fFirstNoteCloneInVoice)
-    fFirstNoteCloneInVoice =
-      fCurrentNoteClone;
-
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+        
   // can we optiomize gracenotes into aftergracenotes?
   if (
     elt->getNoteHasATrill ()
       &&
     elt->getNoteIsFollowedByGracenotes ()) {
-    // yes
+      
+    // yes, create the after grace notes
     fPendingAftergracenotes =
       msrAftergracenotes::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentPartClone,
         fCurrentNoteClone,
         false, // aftergracenoteIsSlashed, may be updated later
         fCurrentVoiceClone);
+
+    // remove the current note clone, the one for the aftergracenotes,
+    // from the current voice clone
+    fCurrentVoiceClone->
+      removeNoteFromVoice (
+        inputLineNumber,
+        fCurrentNoteClone);
+  }
+
+  else {
+    // create the clone
+    fCurrentNoteClone =
+      elt->createNoteBareClone (
+        fCurrentPartClone);
+  
+    // register clone in this tranlastors' voice notes map
+    fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL  
+
+    // register as first note clone in voice
+    if (! fFirstNoteCloneInVoice)
+      fFirstNoteCloneInVoice =
+        fCurrentNoteClone;
   }
 
   fOnGoingNote = true;

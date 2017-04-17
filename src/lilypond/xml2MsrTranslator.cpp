@@ -9798,9 +9798,10 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice <<
         endl << endl;
 
-    // remove lastHandledNoteInVoice from the current voice
+    // remove lastHandledNoteInVoice, the first chord note,
+    // from the current voice
     currentVoice->
-      removeFirstChordNoteFromVoice (
+      removeNoteFromVoice (
         inputLineNumber,
         lastHandledNoteInVoice);
 

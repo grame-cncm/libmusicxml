@@ -374,6 +374,8 @@ class msr2LpsrTranslator :
     S_msrNote                 fCurrentNoteClone;
     S_msrNote                 fFirstNoteCloneInVoice;
                                 // to help workaround LilyPond issue 34
+    S_msrNote                 fCurrentAftergracenotesNote;
+                                // to help optimise after grace notes
 
     // stems
     // ------------------------------------------------------

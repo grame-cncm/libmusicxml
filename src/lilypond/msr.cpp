@@ -12108,7 +12108,7 @@ void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
   fMeasureElementsList.push_back (elem);
 }
 
-void msrMeasure::removeFirstChordNoteFromMeasure (
+void msrMeasure::removeNoteFromMeasure (
   int       inputLineNumber,
   S_msrNote note)
 {  
@@ -12181,7 +12181,7 @@ void msrMeasure::removeFirstChordNoteFromMeasure (
     " since it has not been found");
 }
 
-/*
+/* JMI
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
 {
@@ -13638,13 +13638,13 @@ S_msrElement msrSegment::removeLastElementFromSegment (
 }
 */
 
-void msrSegment::removeFirstChordNoteFromSegment (
+void msrSegment::removeNoteFromSegment (
   int       inputLineNumber,
   S_msrNote note)
 {  
   if (fSegmentMeasuresList.size ()) {
     fSegmentMeasuresList.back ()->
-      removeFirstChordNoteFromMeasure (
+      removeNoteFromMeasure (
         inputLineNumber,
         note);
   }
@@ -13652,7 +13652,7 @@ void msrSegment::removeFirstChordNoteFromSegment (
   else {
     msrInternalError (
       inputLineNumber,
-      "cannot removeFirstChordNoteFromSegment () " <<
+      "cannot remove note from segment " <<
       segmentAsString () <<
       " since it is empty");
   }
@@ -15378,7 +15378,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 }
 
 /*
-S_msrElement msrVoice::removeLastElementFromVoice (
+S_msrElement msrVoice::removeLastElementFromVoice (  // JMI
   int inputLineNumber)
 {
   if (gGeneralOptions->fDebugDebug)
@@ -15393,19 +15393,20 @@ S_msrElement msrVoice::removeLastElementFromVoice (
 }
 */
 
-void msrVoice::removeFirstChordNoteFromVoice (
+void msrVoice::removeNoteFromVoice (
   int       inputLineNumber,
   S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "Removing first chord note " << note->noteAsShortString () <<
-      " from voice \"" << getVoiceName () << "\"" <<
+      "Removing first chord note '" <<
+      note->noteAsShortString () <<
+      "' from voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 
   fVoiceLastSegment->
-    removeFirstChordNoteFromSegment (
+    removeNoteFromSegment (
       inputLineNumber,
       note);
 }
