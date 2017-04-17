@@ -9500,6 +9500,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       fCurrentGracenotes =
         msrGracenotes::create (
           inputLineNumber,
+          fCurrentPart,
           fCurrentGraceIsSlashed,
           currentVoice);
 

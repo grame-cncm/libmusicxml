@@ -3950,12 +3950,14 @@ void msrLigature::print (ostream& os)
 //______________________________________________________________________________
 S_msrGracenotes msrGracenotes::create (
   int        inputLineNumber,
+  S_msrPart  gracenotesDirectPartUplink,
   bool       gracenoteIsSlashed,
   S_msrVoice gracenotesVoiceUplink)
 {
   msrGracenotes* o =
     new msrGracenotes (
       inputLineNumber,
+      gracenotesDirectPartUplink,
       gracenoteIsSlashed,
       gracenotesVoiceUplink);
   assert(o!=0);
@@ -3965,10 +3967,19 @@ S_msrGracenotes msrGracenotes::create (
 
 msrGracenotes::msrGracenotes (
   int        inputLineNumber,
+  S_msrPart  gracenotesDirectPartUplink,
   bool       gracenoteIsSlashed,
   S_msrVoice gracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
+  // set gracenote's direct part uplink
+  msrAssert(
+    gracenotesDirectPartUplink != 0,
+    "gracenotesDirectPartUplink is null");
+    
+  fGracenotesDirectPartUplink =
+    gracenotesDirectPartUplink;
+    
   fGracenotesIsSlashed = gracenoteIsSlashed;
 
   fGracenotesVoiceUplink =
@@ -3991,6 +4002,7 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
     clone =
       msrGracenotes::create (
         fInputLineNumber,
+        voiceClone->getVoiceDirectPartUplink (),
         fGracenotesIsSlashed,
         voiceClone);
 
@@ -4014,6 +4026,7 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
     clone =
       msrGracenotes::create (
         fInputLineNumber,
+        voiceClone->getVoiceDirectPartUplink (),
         fGracenotesIsSlashed,
         voiceClone);
 
@@ -4159,13 +4172,15 @@ void msrGracenotes::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrAftergracenotes msrAftergracenotes::create (
-  int             inputLineNumber,
-  bool            aftergracenoteIsSlashed,
-  S_msrVoice      aftergracenotesVoiceUplink)
+  int        inputLineNumber,
+  S_msrPart  aftergracenotesDirectPartUplink,
+  bool       aftergracenoteIsSlashed,
+  S_msrVoice aftergracenotesVoiceUplink)
 {
   msrAftergracenotes* o =
     new msrAftergracenotes (
       inputLineNumber,
+      aftergracenotesDirectPartUplink,
       aftergracenoteIsSlashed,
       aftergracenotesVoiceUplink);
   assert(o!=0);
@@ -4174,11 +4189,20 @@ S_msrAftergracenotes msrAftergracenotes::create (
 }
 
 msrAftergracenotes::msrAftergracenotes (
-  int             inputLineNumber,
-  bool            aftergracenoteIsSlashed,
-  S_msrVoice      aftergracenotesVoiceUplink)
+  int        inputLineNumber,
+  S_msrPart  aftergracenotesDirectPartUplink,
+  bool       aftergracenoteIsSlashed,
+  S_msrVoice aftergracenotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
+  // set gracenote's direct part uplink
+  msrAssert(
+    aftergracenotesDirectPartUplink != 0,
+    "aftergracenotesDirectPartUplink is null");
+
+  fAftergracenotesDirectPartUplink =
+    aftergracenotesDirectPartUplink;
+    
   fAftergracenotesIsSlashed =
     aftergracenoteIsSlashed;
   
@@ -4207,6 +4231,7 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
     clone =
       msrAftergracenotes::create (
         fInputLineNumber,
+        voiceClone->getVoiceDirectPartUplink (),
         fAftergracenotesIsSlashed,
         voiceClone);
 
@@ -4349,6 +4374,8 @@ S_msrNote msrNote::create (
   msrNote * o =
     new msrNote (
       inputLineNumber,
+      noteDirectPartUplink,
+      
       noteKind,
       
       noteQuatertonesPitch,
@@ -4387,6 +4414,7 @@ S_msrNote msrNote::createSkipNote (
   msrNote * o =
     new msrNote (
       inputLineNumber,
+      noteDirectPartUplink,
       
       kSkipNote, // noteKind
       
@@ -4404,15 +4432,13 @@ S_msrNote msrNote::createSkipNote (
       false); // noteIsAGraceNote
   assert(o!=0);
 
-  // set skip's direct part uplink
-  o->fNoteDirectPartUplink =
-    noteDirectPartUplink;
-  
   return o;
 }    
 
 msrNote::msrNote (
   int                  inputLineNumber,
+  S_msrPart            noteDirectPartUplink,
+
   msrNoteKind          noteKind,
 
   msrQuartertonesPitch noteQuatertonesPitch,
@@ -4429,6 +4455,10 @@ msrNote::msrNote (
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
 {
+  // set skip's direct part uplink
+  fNoteDirectPartUplink =
+    noteDirectPartUplink;
+  
   // basic note description
   // ------------------------------------------------------
 
@@ -4446,7 +4476,12 @@ msrNote::msrNote (
   fNoteIsUnpitched = noteIsUnpitched;
   
   fNoteIsAGraceNote = noteIsAGraceNote;
-    
+
+  initializeNote ();
+}
+
+void msrNote::initializeNote ()
+{
   // note context
   // ------------------------------------------------------
 
@@ -4465,7 +4500,7 @@ msrNote::msrNote (
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "Creating a " << noteKindAsString (fNoteKind) << " note" <<
-      ", line " << inputLineNumber << ":" <<
+      ", line " << fInputLineNumber << ":" <<
       endl;
 
     idtr++;
@@ -4499,7 +4534,7 @@ msrNote::msrNote (
         setw(width) << "fNoteGraphicDuration" << " = " <<
         fNoteDirectPartUplink->
           divisionsAsMsrString (
-            inputLineNumber,
+            fInputLineNumber,
             fNoteGraphicDuration) <<
         endl <<
 */
@@ -6042,26 +6077,30 @@ S_msrChord msrChord::create (
    
   msrChord* o =
     new msrChord (
-      inputLineNumber, chordDivisions, chordGraphicDuration);
+      inputLineNumber,
+      chordDirectPartUplink,
+      chordDivisions,
+      chordGraphicDuration);
   assert(o!=0);
 
-  // set chord's direct part uplink
-  msrAssert(
-    chordDirectPartUplink != 0,
-    "chordDirectPartUplink is null");
-    
-  o-> fChordDirectPartUplink =
-    chordDirectPartUplink;
-    
   return o;
 }
 
 msrChord::msrChord (
   int         inputLineNumber,
+  S_msrPart   chordDirectPartUplink,
   int         chordDivisions,
   msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
+  // set chord's direct part uplink
+  msrAssert(
+    chordDirectPartUplink != 0,
+    "chordDirectPartUplink is null");
+    
+  fChordDirectPartUplink =
+    chordDirectPartUplink;
+    
   fChordDivisions = chordDivisions;
 
   fChordGraphicDuration = chordGraphicDuration;
@@ -9062,24 +9101,18 @@ S_msrSyllable msrSyllable::create (
   msrSyllable* o =
     new msrSyllable (
       inputLineNumber,
+      syllableDirectPartUplink,
       syllableKind, syllableText, syllableExtendKind,
       divisions,
       syllableStanzaUplink);
   assert(o!=0);
 
-  // set syllable's direct part uplink
-  msrAssert(
-    syllableDirectPartUplink != 0,
-    "syllableDirectPartUplink is null");
-    
-  o->fSyllableDirectPartUplink =
-    syllableDirectPartUplink;
-    
   return o;
 }
 
 msrSyllable::msrSyllable (
   int                   inputLineNumber,
+  S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
@@ -9087,6 +9120,14 @@ msrSyllable::msrSyllable (
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
+  // set syllable's direct part uplink
+  msrAssert(
+    syllableDirectPartUplink != 0,
+    "syllableDirectPartUplink is null");
+    
+  fSyllableDirectPartUplink =
+    syllableDirectPartUplink;
+    
   fSyllableKind = syllableKind;
   fSyllableText = syllableText;
   fSyllableDivisions  = divisions;
@@ -9511,29 +9552,31 @@ S_msrStanza msrStanza::create (
   msrStanza* o =
     new msrStanza (
       inputLineNumber,
+      stanzaDirectPartUplink,
       stanzaNumber,
       stanzaKind,
       stanzaVoiceUplink);
   assert(o!=0);
 
-  // set stanza's direct part uplink
-  msrAssert(
-    stanzaDirectPartUplink != 0,
-    "stanzaDirectPartUplink is null");
-
-  o->fStanzaDirectPartUplink =
-    stanzaDirectPartUplink;
-    
   return o;
 }
 
 msrStanza::msrStanza (
   int           inputLineNumber,
+  S_msrPart     stanzaDirectPartUplink,
   int           stanzaNumber,
   msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
     : msrElement (inputLineNumber)
 {
+  // set stanza's direct part uplink
+  msrAssert(
+    stanzaDirectPartUplink != 0,
+    "stanzaDirectPartUplink is null");
+
+  fStanzaDirectPartUplink =
+    stanzaDirectPartUplink;
+    
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
 
@@ -9590,8 +9633,7 @@ S_msrStanza msrStanza::createStanzaBareClone (
     clone =
       msrStanza::create (
         fInputLineNumber,
-        clonedVoice->
-          getVoiceDirectPartUplink (),
+        clonedVoice->getVoiceDirectPartUplink (),
         fStanzaNumber,
         fStanzaKind,
         clonedVoice);
@@ -10082,25 +10124,19 @@ S_msrHarmony msrHarmony::create (
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
+      harmonyDirectPartUplink,
       harmonyRootQuartertonesPitch,
       harmonyKind, harmonyKindText,
       harmonyBassQuartertonesPitch,
       harmonyDivisions);
   assert(o!=0);
 
-  // set harmony's direct part uplink
-  msrAssert(
-    harmonyDirectPartUplink != 0,
-     "harmonyDirectPartUplink is null");
-     
-  o->fHarmonyDirectPartUplink =
-    harmonyDirectPartUplink;
-    
   return o;
 }
 
 msrHarmony::msrHarmony (
   int                  inputLineNumber,
+  S_msrPart            harmonyDirectPartUplink,
   msrQuartertonesPitch harmonyRootQuartertonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
@@ -10108,6 +10144,14 @@ msrHarmony::msrHarmony (
   int                  harmonyDivisions)
     : msrElement (inputLineNumber)
 {
+  // set harmony's direct part uplink
+  msrAssert(
+    harmonyDirectPartUplink != 0,
+     "harmonyDirectPartUplink is null");
+     
+  fHarmonyDirectPartUplink =
+    harmonyDirectPartUplink;
+    
   fHarmonyRootQuartertonesPitch = harmonyRootQuartertonesPitch;
  
   fHarmonyKind                 = harmonyKind;
@@ -12592,29 +12636,44 @@ S_msrSegment msrSegment::create (
   msrSegment* o =
     new msrSegment (
       inputLineNumber,
+      segmentDirectPartUplink,
       segmentVoicekUplink);
   assert(o!=0);
 
-  // set segment's direct part uplink
-  msrAssert(
-    segmentDirectPartUplink != 0,
-    "segmentDirectPartUplink is null");
-    
-  o->fSegmentDirectPartUplink =
-    segmentDirectPartUplink;
-
-  // initialize segment
-  o->
-    initializeSegment ();
-  
   return o;
 }
 
 msrSegment::msrSegment (
   int        inputLineNumber,
+  S_msrPart  segmentDirectPartUplink,
   S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
+  // set segment's direct part uplink
+  msrAssert(
+    segmentDirectPartUplink != 0,
+    "segmentDirectPartUplink is null");
+    
+  fSegmentDirectPartUplink =
+    segmentDirectPartUplink;
+
+  // set segment's voice uplink
+  msrAssert(
+    segmentVoicekUplink != 0,
+    "segmentVoicekUplink is null");
+    
+  fSegmentVoiceUplink =
+    segmentVoicekUplink;
+
+  // initialize segment
+  initializeSegment ();
+}
+
+msrSegment::~msrSegment() {}
+
+void msrSegment::initializeSegment ()
+{
+  
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   
   if (false && gGeneralOptions->fTraceSegments) {
@@ -12624,13 +12683,6 @@ msrSegment::msrSegment (
       endl;
   }
 
-  fSegmentVoiceUplink = segmentVoicekUplink;
-}
-
-msrSegment::~msrSegment() {}
-
-void msrSegment::initializeSegment ()
-{
   fSegmentTime =
     fSegmentVoiceUplink->
       getVoiceTime ();
@@ -12707,8 +12759,7 @@ S_msrSegment msrSegment::createSegmentBareClone (
     clone =
       msrSegment::create (
         fInputLineNumber,
-        clonedVoice->
-          getVoiceDirectPartUplink (),
+        clonedVoice->getVoiceDirectPartUplink (),
         clonedVoice);
 
   clone->fSegmentTime =

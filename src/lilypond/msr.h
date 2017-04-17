@@ -1940,10 +1940,6 @@ class EXP msrMeasure : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setMeasureDirectPartUplink (S_msrPart part)
-                              { fMeasureDirectPartUplink = part; }
                               
     S_msrPart             getMeasureDirectPartUplink () const
                              { return fMeasureDirectPartUplink; }
@@ -2085,6 +2081,8 @@ class EXP msrMeasure : public msrElement
 
   private:
 
+    S_msrPart           fMeasureDirectPartUplink; // to accelerate things
+
     int                 fMeasureNumber;
     
     int                 fMeasureDivisionsPerFullMeasure;
@@ -2097,7 +2095,6 @@ class EXP msrMeasure : public msrElement
     S_msrNote           fMeasureLastHandledNote; // for chords handling
     
     S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
-    S_msrPart           fMeasureDirectPartUplink; // to accelerate things
 
     msrMeasureKind      fMeasureKind;
 
@@ -2134,6 +2131,7 @@ class EXP msrSegment : public msrElement
 
     msrSegment (
       int        inputLineNumber,
+      S_msrPart  segmentDirectPartUplink,
       S_msrVoice segmentVoicekUplink);
       
     virtual ~msrSegment();
@@ -2149,11 +2147,7 @@ class EXP msrSegment : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setSegmentDirectPartUplink (S_msrPart part)
-                              { fSegmentDirectPartUplink = part; }
-                              
+                            
     S_msrPart             getSegmentDirectPartUplink () const
                              { return fSegmentDirectPartUplink; }
 
@@ -2259,10 +2253,10 @@ class EXP msrSegment : public msrElement
 
   private:
 
-    static int            gSegmentsCounter;
-
     S_msrPart             fSegmentDirectPartUplink;
     
+    static int            gSegmentsCounter;
+
     int                   fSegmentAbsoluteNumber;
     
     S_msrTime             fSegmentTime;
@@ -2296,6 +2290,7 @@ class EXP msrGracenotes : public msrElement
 
     static SMARTP<msrGracenotes> create (
       int        inputLineNumber,
+      S_msrPart  gracenotesDirectPartUplink,
       bool       slashed,
       S_msrVoice gracenotesVoiceUplink);
     
@@ -2312,6 +2307,7 @@ class EXP msrGracenotes : public msrElement
 
     msrGracenotes (
       int        inputLineNumber,
+      S_msrPart  gracenotesDirectPartUplink,
       bool       gracenoteIsSlashed,
       S_msrVoice gracenotesVoiceUplink);
       
@@ -2321,14 +2317,6 @@ class EXP msrGracenotes : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setGracenotesDirectPartUplink (
-                            S_msrPart part)
-                              {
-                                fGracenotesDirectPartUplink =
-                                  part;
-                              }
                               
     S_msrPart             getGracenotesDirectPartUplink () const
                               { return fGracenotesDirectPartUplink; }
@@ -2361,9 +2349,9 @@ class EXP msrGracenotes : public msrElement
 
   private:
 
-    list<S_msrNote>       fGracenotesNotesList;
-
     S_msrPart             fGracenotesDirectPartUplink;
+
+    list<S_msrNote>       fGracenotesNotesList;
 
     bool                  fGracenotesIsSlashed;
 
@@ -2389,6 +2377,7 @@ class EXP msrAftergracenotes : public msrElement
 
     static SMARTP<msrAftergracenotes> create (
       int        inputLineNumber,
+      S_msrPart  aftergracenotesDirectPartUplink,
       bool       aftergracenoteIsSlashed,
       S_msrVoice aftergracenotesVoiceUplink);
     
@@ -2402,6 +2391,7 @@ class EXP msrAftergracenotes : public msrElement
 
     msrAftergracenotes (
       int        inputLineNumber,
+      S_msrPart  aftergracenotesDirectPartUplink,
       bool       slashed,
       S_msrVoice aftergracenotesVoiceUplink);
       
@@ -2411,14 +2401,6 @@ class EXP msrAftergracenotes : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setAftergracenotesDirectPartUplink (
-                            S_msrPart part)
-                              {
-                                fAftergracenotesDirectPartUplink =
-                                  part;
-                              }
                               
     S_msrPart             getAftergracenotesDirectPartUplink () const
                               { return fAftergracenotesDirectPartUplink; }
@@ -2451,10 +2433,10 @@ class EXP msrAftergracenotes : public msrElement
 
   private:
 
-    list<S_msrNote>       fAftergracenotesNotesList;
-
     S_msrPart             fAftergracenotesDirectPartUplink;
     
+    list<S_msrNote>       fAftergracenotesNotesList;
+
     bool                  fAftergracenotesIsSlashed;
     
     S_msrVoice            fAftergracenotesVoiceUplink;
@@ -2623,6 +2605,7 @@ class EXP msrSyllable : public msrElement
 
     msrSyllable (
       int                   inputLineNumber,
+      S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
@@ -2635,43 +2618,37 @@ class EXP msrSyllable : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setSyllableDirectPartUplink (S_msrPart part)
-                              { fSyllableDirectPartUplink = part; }
                               
     S_msrPart             getSyllableDirectPartUplink () const
                              { return fSyllableDirectPartUplink; }
 
-    msrSyllableKind
-                      getSyllableKind () const
-                          { return fSyllableKind; }
+    msrSyllableKind       getSyllableKind () const
+                              { return fSyllableKind; }
 
-    void              setSyllableNoteUplink (S_msrNote note);
+    void                  setSyllableNoteUplink (S_msrNote note);
 
-    S_msrNote         getSyllableNoteUplink () const
-                          { return fSyllableNoteUplink; }
+    S_msrNote             getSyllableNoteUplink () const
+                              { return fSyllableNoteUplink; }
 
-    string            getSyllableText () const
-                          { return fSyllableText; }
+    string                getSyllableText () const
+                              { return fSyllableText; }
 
-    msrSyllableExtendKind
-                      getSyllableExtendKind () const
-                          { return fSyllableExtendKind; }
+    msrSyllableExtendKind getSyllableExtendKind () const
+                              { return fSyllableExtendKind; }
 
-    int               getSyllableDivisions () const
-                          { return fSyllableDivisions; }
+    int                   getSyllableDivisions () const
+                              { return fSyllableDivisions; }
 
     // services
     // ------------------------------------------------------
   
-    string            syllableKindAsString () const;
+    string                syllableKindAsString () const;
 
-    string            syllableDivisionsAsString () const;
+    string                syllableDivisionsAsString () const;
 
-    string            syllableNoteUplinkAsString () const;
+    string                syllableNoteUplinkAsString () const;
 
-    string            syllableAsString () const;
+    string                syllableAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2688,7 +2665,6 @@ class EXP msrSyllable : public msrElement
 
   private:
   
-    // divisions handling is done at the part level
     S_msrPart             fSyllableDirectPartUplink;
 
     msrSyllableKind       fSyllableKind;
@@ -2756,6 +2732,7 @@ class EXP msrHarmony : public msrElement
 
     msrHarmony (
       int                  inputLineNumber,
+      S_msrPart            harmonyDirectPartUplink,
       msrQuartertonesPitch harmonyRootQuartertonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
@@ -2768,6 +2745,9 @@ class EXP msrHarmony : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    S_msrPart             getHarmonyDirectPartUplink () const
+                             { return fHarmonyDirectPartUplink; }
 
  // JMI   void                  setHarmonyDivisions (int divisions)
        //                       { fHarmonyDivisions = divisions; }
@@ -2785,15 +2765,7 @@ class EXP msrHarmony : public msrElement
                               { return fHarmonyKindText; }
                 
     msrQuartertonesPitch  getHarmonyBassQuartertonesPitch () const
-                              { return fHarmonyBassQuartertonesPitch; }
-                
-    // part direct uplink
-    void                  setHarmonyDirectPartUplink (S_msrPart part)
-                              { fHarmonyDirectPartUplink = part; }
-                              
-    S_msrPart             getHarmonyDirectPartUplink () const
-                             { return fHarmonyDirectPartUplink; }
-
+                              { return fHarmonyBassQuartertonesPitch; }                                              
 
     // services
     // ------------------------------------------------------
@@ -2897,6 +2869,8 @@ class EXP msrNote : public msrElement
 
     msrNote (
       int                  inputLineNumber,
+      S_msrPart            noteDirectPartUplink,
+
       msrNoteKind          noteKind,
     
       msrQuartertonesPitch noteQuatertonesPitch,
@@ -2914,6 +2888,13 @@ class EXP msrNote : public msrElement
         
     virtual ~msrNote();
     
+  private:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeNote ();
+  
   public:
 
     // set and get
@@ -2969,9 +2950,6 @@ class EXP msrNote : public msrElement
     // -------------------------------
 
     // part direct uplink
-    void                  setNoteDirectPartUplink (S_msrPart part)
-                              { fNoteDirectPartUplink = part; }
-                              
     S_msrPart             getNoteDirectPartUplink () const
                              { return fNoteDirectPartUplink; }
 
@@ -3224,6 +3202,9 @@ class EXP msrNote : public msrElement
 
   private:
 
+    // divisions handling is done at the part level
+    S_msrPart                 fNoteDirectPartUplink;
+    
     // basic note description
     // ------------------------------------------------------
 
@@ -3247,9 +3228,6 @@ class EXP msrNote : public msrElement
     // note context
     // ------------------------------------------------------
 
-    // divisions handling is done at the part level
-    S_msrPart                 fNoteDirectPartUplink;
-    
     int                       fNoteStaffNumber;
     int                       fNoteVoiceNumber;
 
@@ -3342,6 +3320,7 @@ class EXP msrChord : public msrElement
 
     msrChord (
       int         inputLineNumber,
+      S_msrPart   chordDirectPartUplink,
       int         chordDivisions,
       msrDuration chordGraphicDuration);
       
@@ -3351,10 +3330,6 @@ class EXP msrChord : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setChordDirectPartUplink (S_msrPart part)
-                              { fChordDirectPartUplink = part; }
                               
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
@@ -4667,6 +4642,7 @@ class EXP msrStanza : public msrElement
 
     msrStanza (
       int           inputLineNumber,
+      S_msrPart     stanzaDirectPartUplink,
       int           stanzaNumber,
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
@@ -4679,81 +4655,77 @@ class EXP msrStanza : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setStanzaDirectPartUplink (S_msrPart part)
-                              { fStanzaDirectPartUplink = part; }
                               
     S_msrPart             getStanzaDirectPartUplink () const
-                             { return fStanzaDirectPartUplink; }
+                              { return fStanzaDirectPartUplink; }
 
-    int             getStanzaNumber () const
-                        { return fStanzaNumber; }
+    int                   getStanzaNumber () const
+                              { return fStanzaNumber; }
                 
-    string          getStanzaName () const;
+    string                getStanzaName () const;
                 
-    S_msrVoice      getStanzaVoiceUplink () const
-                        { return fStanzaVoiceUplink; }
+    S_msrVoice            getStanzaVoiceUplink () const
+                              { return fStanzaVoiceUplink; }
                 
-    msrStanzaKind   getStanzaKind () const
-                        { return fStanzaKind; }
+    msrStanzaKind         getStanzaKind () const
+                              { return fStanzaKind; }
                 
     const vector<S_msrSyllable>&
-                    getSyllables () const
-                        { return fSyllables; }
+                          getSyllables () const
+                              { return fSyllables; }
 
-    void            setStanzaTextPresent ()
-                        { fStanzaTextPresent = true; }
+    void                  setStanzaTextPresent ()
+                              { fStanzaTextPresent = true; }
 
-    bool            getStanzaTextPresent () const
-                        { return fStanzaTextPresent; }
+    bool                  getStanzaTextPresent () const
+                              { return fStanzaTextPresent; }
 
 
     // services
     // ------------------------------------------------------
 
-    void            appendSyllableToStanza (
-                      S_msrSyllable syllable);
+    void                  appendSyllableToStanza (
+                            S_msrSyllable syllable);
       
-    S_msrSyllable   appendRestSyllableToStanza (
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendRestSyllableToStanza (
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendSkipSyllableToStanza (
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendSkipSyllableToStanza (
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendTiedSyllableToStanza ( // JMI
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendTiedSyllableToStanza ( // JMI
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendSlurSyllableToStanza ( // JMI
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendSlurSyllableToStanza ( // JMI
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendSlurBeyondEndSyllableToStanza ( // JMI
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendSlurBeyondEndSyllableToStanza ( // JMI
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendLigatureSyllableToStanza ( // JMI
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendLigatureSyllableToStanza ( // JMI
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendLigatureBeyondEndSyllableToStanza ( // JMI
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendLigatureBeyondEndSyllableToStanza ( // JMI
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendBarnumberCheckSyllableToStanza (
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendBarnumberCheckSyllableToStanza (
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendBarcheckSyllableToStanza (
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendBarcheckSyllableToStanza (
+                            int inputLineNumber,
+                            int divisions);
 
-    S_msrSyllable   appendBreakSyllableToStanza (
-                      int inputLineNumber,
-                      int divisions);
+    S_msrSyllable         appendBreakSyllableToStanza (
+                            int inputLineNumber,
+                            int divisions);
                 
     // visitors
     // ------------------------------------------------------
@@ -4770,8 +4742,7 @@ class EXP msrStanza : public msrElement
 
   private:
 
-    // part direct uplink
-    S_msrPart                 fStanzaDirectPartUplink;
+    S_msrPart             fStanzaDirectPartUplink;
 
     int                   fStanzaNumber;
     msrStanzaKind         fStanzaKind;
@@ -5502,189 +5473,185 @@ class EXP msrVoice : public msrElement
     // initialisation
     // ------------------------------------------------------
 
-    void            initializeVoice ();
+    void                  initializeVoice ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setVoiceDirectPartUplink (S_msrPart part)
-                              { fVoiceDirectPartUplink = part; }
                               
     S_msrPart             getVoiceDirectPartUplink () const
                              { return fVoiceDirectPartUplink; }
 
-    msrVoiceKind    getVoiceKind () const
-                        { return fVoiceKind; }
+    msrVoiceKind          getVoiceKind () const
+                              { return fVoiceKind; }
 
-    int             getExternalVoiceNumber () const
-                        { return fExternalVoiceNumber; }
+    int                   getExternalVoiceNumber () const
+                              { return fExternalVoiceNumber; }
                 
-    void            setExternalVoiceNumber (int externalVoiceNumber)
-                        { fExternalVoiceNumber = externalVoiceNumber; }
+    void                  setExternalVoiceNumber (int externalVoiceNumber)
+                              { fExternalVoiceNumber = externalVoiceNumber; }
 
-    int             getStaffRelativeVoiceNumber () const
-                        { return fStaffRelativeVoiceNumber; }
+    int                   getStaffRelativeVoiceNumber () const
+                              { return fStaffRelativeVoiceNumber; }
                 
-    S_msrStaff      getVoiceStaffUplink () const
-                        { return fVoiceStaffUplink; }
+    S_msrStaff            getVoiceStaffUplink () const
+                              { return fVoiceStaffUplink; }
                 
     const map<int, S_msrStanza>&
-                    getVoiceStanzasMap () const
-                        { return fVoiceStanzasMap; }
+                          getVoiceStanzasMap () const
+                              { return fVoiceStanzasMap; }
 
-    string          getVoiceName () const;
+    string                getVoiceName () const;
 
-    S_msrSegment    getVoiceLastSegment () const
-                        { return fVoiceLastSegment; }
+    S_msrSegment          getVoiceLastSegment () const
+                              { return fVoiceLastSegment; }
 
-    S_msrStanza     getVoiceStanzaMaster () const
-                        { return fVoiceStanzaMaster; }
+    S_msrStanza           getVoiceStanzaMaster () const
+                              { return fVoiceStanzaMaster; }
                
-    int             getVoiceActualNotesCounter () const
-                        { return fVoiceActualNotesCounter; }
+    int                   getVoiceActualNotesCounter () const
+                              { return fVoiceActualNotesCounter; }
 
-    int             getVoiceActualHarmoniesCounter () const
-                        { return fVoiceActualHarmoniesCounter; }
+    int                   getVoiceActualHarmoniesCounter () const
+                              { return fVoiceActualHarmoniesCounter; }
 
-    int             getMeasureZeroHasBeenMetInVoice () const
-                        { return fMeasureZeroHasBeenMetInVoice; }
+    int                   getMeasureZeroHasBeenMetInVoice () const
+                              { return fMeasureZeroHasBeenMetInVoice; }
 
-    S_msrTime       getVoiceTime () const
-                        { return fVoiceTime; }
+    S_msrTime             getVoiceTime () const
+                              { return fVoiceTime; }
                
      // measure number
-    void            setVoiceMeasureNumber (
-                      int inputLineNumber,
-                      int measureNumber);
+    void                  setVoiceMeasureNumber (
+                            int inputLineNumber,
+                            int measureNumber);
                       
-    const int       getVoiceMeasureNumber () const
-                        { return fVoiceMeasureNumber; }
+    const int             getVoiceMeasureNumber () const
+                              { return fVoiceMeasureNumber; }
 
     // has music been inserted in the voice?
-    void            setMusicHasBeenInsertedInVoice ()
-                        { fMusicHasBeenInsertedInVoice = true; }
+    void                  setMusicHasBeenInsertedInVoice ()
+                              { fMusicHasBeenInsertedInVoice = true; }
 
-    bool            getMusicHasBeenInsertedInVoice () const
-                        { return fMusicHasBeenInsertedInVoice; }
+    bool                  getMusicHasBeenInsertedInVoice () const
+                              { return fMusicHasBeenInsertedInVoice; }
 
     // services
     // ------------------------------------------------------
 
-    string          voiceKindAsString () const;
+    string                voiceKindAsString () const;
 
-    void            forceVoiceMeasureNumberTo (int measureNumber); // JMI
+    void                  forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
-    void            appendClefToVoice (S_msrClef clef);
-    void            appendKeyToVoice  (S_msrKey  key);
-    void            appendTimeToVoice (S_msrTime time);
+    void                  appendClefToVoice (S_msrClef clef);
+    void                  appendKeyToVoice  (S_msrKey  key);
+    void                  appendTimeToVoice (S_msrTime time);
     
-    void            appendTransposeToVoice (
-                      S_msrTranspose transpose);
+    void                  appendTransposeToVoice (
+                            S_msrTranspose transpose);
 
 // JMI    void          appendWordsToVoice  (S_msrWords words);
     
-    void            appendTempoToVoice (
-                      S_msrTempo tempo);
+    void                  appendTempoToVoice (
+                            S_msrTempo tempo);
     
-    void            appendRehearsalToVoice (
-                      S_msrRehearsal rehearsal);
+    void                  appendRehearsalToVoice (
+                            S_msrRehearsal rehearsal);
     
-    void            appendOctaveShiftToVoice (
-                      S_msrOctaveShift octaveShift);
+    void                  appendOctaveShiftToVoice (
+                            S_msrOctaveShift octaveShift);
     
-    void            appendNoteToVoice      (S_msrNote note);
-    void            appendNoteToVoiceClone (S_msrNote note);
+    void                  appendNoteToVoice      (S_msrNote note);
+    void                  appendNoteToVoiceClone (S_msrNote note);
 
-    void            appendChordToVoice  (S_msrChord chord);
-    void            appendTupletToVoice (S_msrTuplet tuplet);
+    void                  appendChordToVoice  (S_msrChord chord);
+    void                  appendTupletToVoice (S_msrTuplet tuplet);
 
-    void            appendHarmonyToVoice (S_msrHarmony harmony);
+    void                  appendHarmonyToVoice (S_msrHarmony harmony);
     
-    void            appendHarmonyToVoiceClone (S_msrHarmony harmony);
+    void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
-    void            bringVoiceToMeasurePosition (
-                      int inputLineNumber,
-                      int measurePosition);
+    void                  bringVoiceToMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
   
-    void            appendGracenotesToVoice (
-                      S_msrGracenotes gracenotes);
-    void            prependGracenotesToVoice (
-                      S_msrGracenotes gracenotes);
+    void                  appendGracenotesToVoice (
+                            S_msrGracenotes gracenotes);
+    void                  prependGracenotesToVoice (
+                            S_msrGracenotes gracenotes);
 
-    void            appendSyllableToVoice (
-                      int           inputLineNumber,
-                      int           stanzaNumber,
-                      S_msrSyllable syllable);
+    void                  appendSyllableToVoice (
+                            int           inputLineNumber,
+                            int           stanzaNumber,
+                            S_msrSyllable syllable);
                               
-    void            appendBarCheckToVoice (
-                      S_msrBarCheck barCheck);
+    void                  appendBarCheckToVoice (
+                            S_msrBarCheck barCheck);
                     
-    void            appendBarnumberCheckToVoice (
-                      S_msrBarnumberCheck barNumberCheck);
+    void                  appendBarnumberCheckToVoice (
+                            S_msrBarnumberCheck barNumberCheck);
 
-    void            appendBreakToVoice (S_msrBreak break_);
+    void                  appendBreakToVoice (S_msrBreak break_);
 
-    void            appendRepeatToVoice (int inputLineNumber);
+    void                  appendRepeatToVoice (int inputLineNumber);
     
-    void            appendRepeatCloneToVoice (
-                      int         inputLineNumber,
-                      S_msrRepeat repeatCLone);
+    void                  appendRepeatCloneToVoice (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatCLone);
     
-    void            appendRepeatendingToVoice (
-                      int       inputLineNumber,
-                      string    repeatendingNumber, // may be "1, 2"
-                      msrRepeatending::msrRepeatendingKind
-                                repeatendingKind);
+    void                  appendRepeatendingToVoice (
+                            int       inputLineNumber,
+                            string    repeatendingNumber, // may be "1, 2"
+                            msrRepeatending::msrRepeatendingKind
+                                      repeatendingKind);
 
-    void            appendRepeatendingCloneToVoice (
-                      S_msrRepeatending repeatendingClone);
+    void                  appendRepeatendingCloneToVoice (
+                            S_msrRepeatending repeatendingClone);
 
-    void            prependBarlineToVoice (S_msrBarline barline);
-    void            appendBarlineToVoice (S_msrBarline barline);
+    void                  prependBarlineToVoice (S_msrBarline barline);
+    void                  appendBarlineToVoice (S_msrBarline barline);
     
-    void            appendSegnoToVoice (S_msrSegno segno);
-    void            appendCodaToVoice (S_msrCoda coda);
-    void            appendEyeglassesToVoice (
-                      S_msrEyeglasses eyeglasses);
-    void            appendPedalToVoice (S_msrPedal pedal);
+    void                  appendSegnoToVoice (S_msrSegno segno);
+    void                  appendCodaToVoice (S_msrCoda coda);
+    void                  appendEyeglassesToVoice (
+                            S_msrEyeglasses eyeglasses);
+    void                  appendPedalToVoice (S_msrPedal pedal);
     
-    void            appendOtherElementToVoice (S_msrElement elem);
-                      // for other types of elements not known
-                      // in this header file, such as LPSR elements
+    void                  appendOtherElementToVoice (S_msrElement elem);
+                            // for other types of elements not known
+                            // in this header file, such as LPSR elements
 
-    S_msrElement    removeLastElementFromVoice (
-                      int inputLineNumber);
+    S_msrElement          removeLastElementFromVoice (
+                            int inputLineNumber);
 
-    void            removeFirstChordNoteFromVoice (
-                      int       inputLineNumber,
-                      S_msrNote note);
+    void                  removeFirstChordNoteFromVoice (
+                            int       inputLineNumber,
+                            S_msrNote note);
 
-    S_msrStanza     addStanzaToVoiceByItsNumber (
-                      int inputLineNumber,
-                      int stanzaNumber);
+    S_msrStanza           addStanzaToVoiceByItsNumber (
+                            int inputLineNumber,
+                            int stanzaNumber);
 
-    void            addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza);
+    void                  addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza);
 
-    void            catchUpWithVoiceStanzaMaster (
-                      S_msrStanza stanza);
+    void                  catchUpWithVoiceStanzaMaster (
+                            S_msrStanza stanza);
                     
-    void            addStanzaToVoiceWithCatchUp (S_msrStanza stanza);
+    void                  addStanzaToVoiceWithCatchUp (S_msrStanza stanza);
 
-    S_msrStanza     createStanzaInVoiceIfNeeded (
-                      int inputLineNumber,
-                      int stanzaNumber);
+    S_msrStanza           createStanzaInVoiceIfNeeded (
+                            int inputLineNumber,
+                            int stanzaNumber);
     
-    bool            checkForIncompleteVoiceLastMeasure (
-                      int inputLineNumber);
+    bool                  checkForIncompleteVoiceLastMeasure (
+                            int inputLineNumber);
 
-    void            createNewLastSegmentForVoice (int inputLineNumber);
+    void                  createNewLastSegmentForVoice (int inputLineNumber);
 
-    void            finalizeLastMeasureOfVoice (int inputLineNumber);
+    void                  finalizeLastMeasureOfVoice (int inputLineNumber);
 
-    void            finalizeVoice (int inputLineNumber);
+    void                  finalizeVoice (int inputLineNumber);
     
     // visitors
     // ------------------------------------------------------
@@ -5908,10 +5875,6 @@ class EXP msrStaff : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // part direct uplink
-    void                  setStaffDirectPartUplink ( S_msrPart part)
-                              { fStaffDirectPartUplink = part; }
 
     S_msrPart             getStaffDirectPartUplink () const
                               { return fStaffDirectPartUplink; }
