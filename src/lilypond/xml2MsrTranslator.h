@@ -797,9 +797,8 @@ class EXP xml2MsrTranslator :
     msrSyllable::msrSyllableKind
                               fFirstSyllableInLigatureKind;
     // the last lyric fragment met
-    string                    fCurrentText;
-    bool                      fCurrentElision;
-    string                    fCurrentExtendType;
+    string                    fCurrentLyricText;
+    bool                      fCurrentLyricElision;
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;
     bool                      fOnGoingSyllableExtend;
@@ -841,13 +840,8 @@ class EXP xml2MsrTranslator :
     bool                      fOnGoingBarline;
     bool                      fCurrentBarlineHasSegno;
     bool                      fCurrentBarlineHasCoda;
-    string                    fCurrentLocation;
-    string                    fCurrentStyle;
-    string                    fCurrentEndingtype;
-    string                    fCurrentEndingNumber;
+    string                    fCurrentBarlineEndingNumber; // vector<string> ??? JMI
                                 // may be "1, 2"
-    string                    fCurrentRepeatDirection;
-    string                    fCurrentRepeatWinged;
 
     msrBarline::msrBarlineLocation
                               fCurrentBarlineLocation;

@@ -136,8 +136,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingLyric = false;
   fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
-  fCurrentText = "";
-  fCurrentElision = false;
+  fCurrentLyricText = "";
+  fCurrentLyricElision = false;
   
   fCurrentSyllableKind       = msrSyllable::k_NoSyllable;
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
@@ -3630,7 +3630,7 @@ void xml2MsrTranslator::visitStart (S_lyric& elt )
   }
   
   fCurrentStanzaHasText = false;
-  fCurrentElision = false;
+  fCurrentLyricElision = false;
 
   fCurrentNoteHasStanza = true;
 
@@ -3680,10 +3680,10 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
   for_each (
     text.begin(), text.end(), stringSpaceRemover (dest));
 
-  if (fCurrentElision)
-    fCurrentText += " " + dest; // append to a list? JMI
+  if (fCurrentLyricElision)
+    fCurrentLyricText += " " + dest; // append to a list? JMI
   else
-    fCurrentText = dest;
+    fCurrentLyricText = dest;
 */
 
 /*
@@ -3702,14 +3702,14 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
   } // for
 
   // there can be several <text/>'s in a row, hence the concatenation
-  if (fCurrentElision)
-    fCurrentText += " " + textToUse; // append to a list? JMI
+  if (fCurrentLyricElision)
+    fCurrentLyricText += " " + textToUse; // append to a list? JMI
   else
-    fCurrentText += textToUse;
+    fCurrentLyricText += textToUse;
 */
 
   // there can be several <text/>'s in a row, hence the concatenation
-  fCurrentText += text;
+  fCurrentLyricText += text;
   
   fCurrentStanzaHasText = true;
 
@@ -3718,7 +3718,7 @@ void xml2MsrTranslator::visitStart ( S_text& elt )
       "--> line " << right << setw(5) << elt->getInputLineNumber () <<
       ", fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
       ", fCurrentSyllabic" << " = " << left << setw(6) << fCurrentSyllabic <<
-      ", fCurrentText" << " = |" << fCurrentText << "|" <<
+      ", fCurrentLyricText" << " = |" << fCurrentLyricText << "|" <<
       endl;
 }
 
@@ -3729,7 +3729,7 @@ void xml2MsrTranslator::visitStart ( S_elision& elt )
       "--> Start visiting S_elision" <<
       endl;
 
-  fCurrentElision = true;
+  fCurrentLyricElision = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_extend& elt ) 
@@ -3739,26 +3739,26 @@ void xml2MsrTranslator::visitStart ( S_extend& elt )
       "--> Start visiting S_extend" <<
       endl;
 
-  fCurrentExtendType =
+  string extendType =
     elt->getAttributeValue ("type");
 
   if (fOnGoingLyric) {
-    if      (fCurrentExtendType == "start") {
+    if      (extendType == "start") {
       fCurrentSyllableExtendKind =
         msrSyllable::kStartSyllableExtend;
     }
-    else if (fCurrentExtendType == "continue") {
+    else if (extendType == "continue") {
       fCurrentSyllableExtendKind =
         msrSyllable::kContinueSyllableExtend;
     }
-    else if (fCurrentExtendType == "stop") {
+    else if (extendType == "stop") {
       fCurrentSyllableExtendKind =
         msrSyllable::kStopSyllableExtend;
     }
-    else if (fCurrentExtendType.size()) {
+    else if (extendType.size()) {
         stringstream s;
         
-        s << "extend type" << fCurrentExtendType << "unknown";
+        s << "extend type" << extendType << "unknown";
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
@@ -3805,10 +3805,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
           setw(width) << "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
           endl <<
         idtr <<
-          setw(width) << "fCurrentText" << " = \"" << fCurrentText << "\"" <<
+          setw(width) << "fCurrentLyricText" << " = \"" << fCurrentLyricText << "\"" <<
           endl <<
         idtr <<
-          setw(width) << "fCurrentElision" << " = " << fCurrentElision <<
+          setw(width) << "fCurrentLyricElision" << " = " << fCurrentLyricElision <<
           endl <<
         idtr <<
           setw(width) << "fCurrentSyllableExtendKind" << " = " <<
@@ -3946,7 +3946,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
     else if (
       fOnGoingSlurHasStanza // JMI Ligature ???
         &&
-      ! fCurrentText.size ()) {
+      ! fCurrentLyricText.size ()) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
       }
@@ -3978,17 +3978,17 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
 
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
    // create a syllable
-   //     fCurrentElision ??? JMI
+   //     fCurrentLyricElision ??? JMI
     if (gGeneralOptions->fTraceLyrics) {      
       cerr << idtr <<
         "--> creating a " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
         " syllable"
-        ", text = \"" << fCurrentText << "\"" <<
+        ", text = \"" << fCurrentLyricText << "\"" <<
         ", line " << inputLineNumber <<
         ", divisions = " << fCurrentNoteDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", elision: " << fCurrentElision << 
+        ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
         endl;
     }
@@ -3998,7 +3998,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         inputLineNumber,
         fCurrentPart,
         fCurrentSyllableKind,
-        fCurrentText,
+        fCurrentLyricText,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteDivisions,
         stanza);
@@ -4330,12 +4330,8 @@ void xml2MsrTranslator::visitStart ( S_barline& elt )
         <coda default-y="16" relative-x="0"/>
       </barline>
 */
-  fCurrentLocation        = "";
-  fCurrentStyle           = "";
-  fCurrentEndingtype      = "";
-  fCurrentEndingNumber    = ""; // may be "1, 2"
-  fCurrentRepeatDirection = "";
-  fCurrentRepeatWinged    = "";
+
+  fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
 
   fCurrentBarlineHasSegno = false;
   fCurrentBarlineHasCoda  = false;
@@ -4346,26 +4342,31 @@ void xml2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineRepeatDirection = msrBarline::k_NoRepeatDirection;
   fCurrentBarlineRepeatWinged    = msrBarline::k_NoRepeatWinged;
 
-  fCurrentLocation = elt->getAttributeValue ("location");
+  string
+    location =
+      elt->getAttributeValue ("location");
 
   fCurrentBarlineLocation =
     msrBarline::kRight; // by default
     
-  if       (fCurrentLocation == "left") {
+  if       (location == "left") {
     fCurrentBarlineLocation =
       msrBarline::kLeft;
   }
-  else  if (fCurrentLocation == "middle") {
+  else  if (location == "middle") {
     fCurrentBarlineLocation =
       msrBarline::kMiddle;
   }
-  else if  (fCurrentLocation == "right") {
+  else if  (location == "right") {
     fCurrentBarlineLocation =
       msrBarline::kRight;
   }
   else {
     stringstream s;
-    s << "barline location " << fCurrentLocation << " is unknown";
+    
+    s <<
+      "barline location " << location << " is unknown";
+      
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
@@ -4382,55 +4383,55 @@ void xml2MsrTranslator::visitStart ( S_bar_style& elt )
       "--> Start visiting S_bar_style" <<
       endl;
 
-  fCurrentStyle = elt->getValue();
+  string barStyle = elt->getValue();
 
   fCurrentBarlineStyle =
     msrBarline::k_NoStyle;
 
-  if      (fCurrentStyle == "regular") {
+  if      (barStyle == "regular") {
     fCurrentBarlineStyle =
       msrBarline::kRegular;
   }
-  else if (fCurrentStyle == "dotted") {
+  else if (barStyle == "dotted") {
     fCurrentBarlineStyle =
       msrBarline::kDotted;
   }
-  else if (fCurrentStyle == "dashed") {
+  else if (barStyle == "dashed") {
     fCurrentBarlineStyle =
       msrBarline::kDashed;
   }
-  else if (fCurrentStyle == "heavy") {
+  else if (barStyle == "heavy") {
     fCurrentBarlineStyle =
       msrBarline::kHeavy;
   }
-  else if (fCurrentStyle == "light-light") {
+  else if (barStyle == "light-light") {
     fCurrentBarlineStyle =
       msrBarline::kLightLight;
   }
-  else if (fCurrentStyle == "light-heavy") {
+  else if (barStyle == "light-heavy") {
     fCurrentBarlineStyle =
       msrBarline::kLightHeavy;
   }
-  else if (fCurrentStyle == "heavy-light") {
+  else if (barStyle == "heavy-light") {
     fCurrentBarlineStyle =
       msrBarline::kHeavyLight;
   }
-  else if (fCurrentStyle == "heavy-heavy") {
+  else if (barStyle == "heavy-heavy") {
     fCurrentBarlineStyle =
       msrBarline::kHeavyHeavy;
   }
-  else if (fCurrentStyle == "tick") {
+  else if (barStyle == "tick") {
     fCurrentBarlineStyle =
       msrBarline::kTick;
   }
-  else if (fCurrentStyle == "short") {
+  else if (barStyle == "short") {
     fCurrentBarlineStyle =
       msrBarline::kShort;
   }
   else {
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      "barline style " + fCurrentStyle + " is unknown");
+      "barline style " + barStyle + " is unknown");
   }
 }
 
@@ -4650,27 +4651,31 @@ void xml2MsrTranslator::visitStart ( S_ending& elt )
       "--> Start visiting S_ending" <<
       endl;
 
-  fCurrentEndingNumber =
+  fCurrentBarlineEndingNumber =
     elt->getAttributeValue ("number"); // may be "1, 2"
 
-  fCurrentEndingtype   = elt->getAttributeValue ("type");
+  string type =
+    elt->getAttributeValue ("type");
       
-  if       (fCurrentEndingtype == "start") {
+  if       (type == "start") {
     fCurrentBarlineEndingType =
       msrBarline::kStart;
   }
-  else  if (fCurrentEndingtype == "stop") {
+  else  if (type == "stop") {
     fCurrentBarlineEndingType =
       msrBarline::kStop;
   }
-  else  if (fCurrentEndingtype == "discontinue") {
+  else  if (type == "discontinue") {
     fCurrentBarlineEndingType =
       msrBarline::kDiscontinue;
   }
   else {
     stringstream s;
     
-    s << "ending type " << fCurrentEndingtype << " is unknown";
+    s <<
+      "ending type " <<
+      type <<
+      " is unknown";
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
@@ -4686,10 +4691,10 @@ void xml2MsrTranslator::visitStart ( S_repeat& elt )
       "--> Start visiting S_repeat" <<
       endl;
 
-  fCurrentRepeatDirection =
+  string direction =
     elt->getAttributeValue ("direction");
 
-  fCurrentRepeatWinged =
+  string winged =
     elt->getAttributeValue ("winged");
 
   int inputLineNumber =
@@ -4698,18 +4703,21 @@ void xml2MsrTranslator::visitStart ( S_repeat& elt )
   fCurrentBarlineRepeatDirection =
     msrBarline::k_NoRepeatDirection;
     
-  if       (fCurrentRepeatDirection == "forward") {
+  if       (direction == "forward") {
     fCurrentBarlineRepeatDirection =
       msrBarline::kForward;
   }
-  else  if (fCurrentRepeatDirection == "backward") {
+  else  if (direction == "backward") {
     fCurrentBarlineRepeatDirection =
       msrBarline::kBackward;
   }
   else {
     stringstream s;
     
-    s << "repeat direction '" << fCurrentRepeatDirection << "' is unknown";
+    s <<
+      "repeat direction '" <<
+      direction <<
+      "' is unknown";
     
     msrMusicXMLError (
       inputLineNumber,
@@ -4719,31 +4727,34 @@ void xml2MsrTranslator::visitStart ( S_repeat& elt )
   fCurrentBarlineRepeatWinged =
     msrBarline::k_NoRepeatWinged;
 
-  if (fCurrentRepeatWinged.size()) {
-    if       (fCurrentRepeatWinged == "none") {
+  if (winged.size()) {
+    if       (winged == "none") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kNone;
     }
-    else if (fCurrentRepeatWinged == "straight") {
+    else if (winged == "straight") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kStraight;
     }
-    else  if (fCurrentRepeatWinged == "curved") {
+    else  if (winged == "curved") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kCurved;
     }
-    else  if (fCurrentRepeatWinged == "doubleStraight") {
+    else  if (winged == "doubleStraight") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kDoubleStraight;
     }
-    else  if (fCurrentRepeatWinged == "doubleCurved") {
+    else  if (winged == "doubleCurved") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kDoubleCurved;
     }
     else {
       stringstream s;
       
-      s << "repeat winged '" << fCurrentRepeatWinged << "' is unknown";
+      s <<
+        "repeat winged '" <<
+        winged <<
+        "' is unknown";
       
       msrMusicXMLError (
         inputLineNumber,
@@ -4781,7 +4792,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineLocation,
         fCurrentBarlineStyle,
         fCurrentBarlineEndingType,
-        fCurrentEndingNumber,
+        fCurrentBarlineEndingNumber,
         fCurrentBarlineRepeatDirection,
         fCurrentBarlineRepeatWinged);
 
@@ -5130,12 +5141,12 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
     
     s << left <<
       "cannot handle a barline containing:" << endl <<
-      idtr << "location = " << fCurrentLocation << endl <<
-      idtr << "style = " << fCurrentStyle << endl <<
-      idtr << "ending type = " << fCurrentEndingtype << endl <<
-      idtr << "ending number = " << fCurrentEndingNumber << endl <<
-      idtr << "repeat direction = " << fCurrentRepeatDirection << endl <<
-      idtr << "repeat winged = " << fCurrentRepeatWinged;
+      idtr << "location = " << fCurrentBarlineLocation << endl <<
+      idtr << "style = " << fCurrentBarlineStyle << endl <<
+      idtr << "ending type = " << fCurrentBarlineEndingType << endl <<
+      idtr << "ending number = " << fCurrentBarlineEndingNumber << endl <<
+      idtr << "repeat direction = " << fCurrentBarlineRepeatDirection << endl <<
+      idtr << "repeat winged = " << fCurrentBarlineRepeatWinged;
       
     msrMusicXMLError (
       inputLineNumber,
@@ -5212,7 +5223,7 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // for use by notes without lyrics
   
   fCurrentSyllabic = "";
-  fCurrentText = "";
+  fCurrentLyricText = "";
   fCurrentSyllableKind = msrSyllable::k_NoSyllable;
     // to handle properly a note without any <text/> JMI
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
@@ -9616,7 +9627,7 @@ void xml2MsrTranslator::handleLyric (
 
 /* JMI catchup !!!
   // handle notes without any <text/>
-  if (! fCurrentText.size ()) {
+  if (! fCurrentLyricText.size ()) {
         
     // fetch stanzaNumber in current voice
     S_msrStanza
@@ -9631,11 +9642,11 @@ void xml2MsrTranslator::handleLyric (
  // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
       cerr << idtr <<
         "--> creating a skip syllable for missing lyric"
-        ", text = \"" << fCurrentText << "\"" <<
+        ", text = \"" << fCurrentLyricText << "\"" <<
         ", line " << inputLineNumber <<
         ", divisions = " << fCurrentNoteDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", elision: " << fCurrentElision << 
+        ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
         endl;
     }
@@ -9647,7 +9658,7 @@ void xml2MsrTranslator::handleLyric (
         msrSyllable::create (
           inputLineNumber,
           fCurrentSyllableKind,
-          fCurrentText,
+          fCurrentLyricText,
           msrSyllable::k_NoSyllableExtend,
           fCurrentNoteDivisions,
           stanza);
@@ -10458,7 +10469,7 @@ void xml2MsrTranslator::handleRepeatEnd (
           msrBarline::kLeft,
           msrBarline::kHeavyLight,
           msrBarline::kStart,
-          fCurrentEndingNumber,
+          fCurrentBarlineEndingNumber,
           msrBarline::kForward,
           fCurrentBarlineRepeatWinged);
 
@@ -10597,7 +10608,7 @@ void xml2MsrTranslator::handleHookedEndingEnd (
   fCurrentPart->
     appendRepeatendingToPart (
       inputLineNumber,
-      fCurrentEndingNumber,
+      fCurrentBarlineEndingNumber,
       msrRepeatending::kHookedEnding);
 }
 
@@ -10695,7 +10706,7 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
   fCurrentPart->
     appendRepeatendingToPart (
       inputLineNumber,
-      fCurrentEndingNumber,
+      fCurrentBarlineEndingNumber,
       msrRepeatending::kHooklessEnding);
 }
 
