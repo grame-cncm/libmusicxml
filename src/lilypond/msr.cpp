@@ -16145,7 +16145,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsExternalNumber (
 {
   S_msrVoice result; // JMI avoid repetivite messages!
 
-  if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceALL)
+  if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Fetching external voice number " << externalVoiceNumber <<
      " in staff \"" << getStaffName () <<

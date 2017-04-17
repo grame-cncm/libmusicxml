@@ -129,15 +129,12 @@ class EXP msrGeneralOptions : public smartable
     
     bool                  fTraceMidi;
 
-    bool                  fTraceALL;
+    // measure number-selective detailed trace
+    bool                  fTraceDetailed;
+    set<int>              fTraceAllMeasureNumbersSet;
 
     // CPU usage
     bool                  fDisplayCPUusage;
-        
-    // measure number-selective debug
-    set<int>              fTraceAllMeasureNumbersSet;
-    bool                  fSaveDebug;
-    bool                  fSaveDebugDebug;
 };
 typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 

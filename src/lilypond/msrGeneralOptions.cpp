@@ -91,14 +91,11 @@ void msrGeneralOptions::initializeGeneralOptions (
   
   fTraceMidi = boolOptionsInitialValue;
 
-  fTraceALL = boolOptionsInitialValue;
+  // measure number-selective detailed trace
+  fTraceDetailed = boolOptionsInitialValue;
 
   // timing information
   fDisplayCPUusage = boolOptionsInitialValue;
-
-  // measure number-selective debug
-  fSaveDebug = boolOptionsInitialValue;
-  fSaveDebugDebug = boolOptionsInitialValue;
 }
 
 void msrGeneralOptions::printGeneralOptionsHelp ()
@@ -162,14 +159,12 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     "      --tharm, --traceHarmonies " << endl <<
     "           <harmony/> in MusicXML, \\chordmode in LilyPond" << endl <<
     endl <<
-    "    --dm, --debugMeasures measureNumbersSet" << endl <<
+    "    --td, --traceDetailed measureNumbersSet" << endl <<
     "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<
     "          where '^' excludes the corresponding numbers interval" << endl <<
     "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
-    "          Generate a trace of the activity and print additional" << endl <<
+    "          Generate a detailed trace of the activity and print additional" << endl <<
     "          debugging information to standard error for the specified measures." << endl <<
-    "    --ddm, --debugDebugMeasures <measuresSpec>" << endl <<
-    "          Same as above, but print even more debugging information." << endl <<
     endl <<
     "    --dCPU, --displayCPUusage" << endl <<
     "          Write CPU usage by the passes at the end of the translation." << endl <<
@@ -276,19 +271,26 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       booleanAsString (gGeneralOptions->fTraceHarmonies) <<
       endl <<
     indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceAllMeasureNumbersSet" << " : ";
+      setw(indentedFieldWidth) << "traceDetailed" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceDetailed) <<
+      endl;
 
-  if (gGeneralOptions->fTraceAllMeasureNumbersSet.empty ())
-    cerr << "none";
-  else
-    for (
-      set<int>::const_iterator i =
-        gGeneralOptions->fTraceAllMeasureNumbersSet.begin();
-      i != gGeneralOptions->fTraceAllMeasureNumbersSet.end();
-      i++) {
-        cerr << (*i) << " ";
-    } // for
-  cerr << endl;
+  if (gGeneralOptions->fTraceDetailed) {
+    cerr << left <<
+      "fTraceAllMeasureNumbersSet: ";
+      
+    if (gGeneralOptions->fTraceAllMeasureNumbersSet.empty ())
+      cerr << "none";
+    else
+      for (
+        set<int>::const_iterator i =
+          gGeneralOptions->fTraceAllMeasureNumbersSet.begin();
+        i != gGeneralOptions->fTraceAllMeasureNumbersSet.end();
+        i++) {
+          cerr << (*i) << " ";
+      } // for
+    cerr << endl;
+  }
 
   idtr--;
 

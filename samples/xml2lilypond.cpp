@@ -162,8 +162,7 @@ void analyzeOptions (
   
   int traceHarmoniesPresent             = 0;
   
-  int debugMeasuresPresent              = 0;
-  int debugdebugMeasuresPresent         = 0;
+  int traceDetailedPresent              = 0;
   
   int displayCPUusagePresent            = 0;
   
@@ -430,20 +429,12 @@ void analyzeOptions (
     },
     
     {
-      "dm",
-      required_argument, &debugMeasuresPresent, 1
+      "td",
+      required_argument, &traceDetailedPresent, 1
     },
     {
-      "debugMeasures",
-      required_argument, &debugMeasuresPresent, 1
-    },
-    {
-      "ddm",
-      required_argument, &debugdebugMeasuresPresent, 1
-    },
-    {
-      "debugDebugMeasures",
-      required_argument, &debugdebugMeasuresPresent, 1
+      "traceDetailed",
+      required_argument, &traceDetailedPresent, 1
     },
     
     {
@@ -978,40 +969,23 @@ void analyzeOptions (
           traceHarmoniesPresent = false;
         }
         
-        if (debugMeasuresPresent) {
+        if (traceDetailedPresent) {
           // optarg contains the measure numbers set specification
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceMeasures = true;
+          gGeneralOptions->fTraceDetailed = true;
           
           char*        measuresSpec = optarg;
           stringstream s;
 
           s <<
-            "--debugMeasures" << " " << measuresSpec << " ";
+            "--traceDetailed" << " " << measuresSpec << " ";
           gGeneralOptions->fCommandLineOptions +=
             s.str();
             
-          gGeneralOptions->fDebugMeasureNumbersSet =
+          gGeneralOptions->fTraceAllMeasureNumbersSet =
             decipherNumbersSetSpecification (
               measuresSpec, false); // 'true' to debug it
-          debugMeasuresPresent = false;
-        }
-        if (debugdebugMeasuresPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fDebugDebug = true;
-          
-          char*        measuresSpec = optarg;
-          stringstream s;
-
-          s <<
-            "--debugDebugMeasures" << " " << measuresSpec;
-          gGeneralOptions->fCommandLineOptions +=
-            s.str();
-            
-          gGeneralOptions->fDebugMeasureNumbersSet =
-            decipherNumbersSetSpecification (
-              measuresSpec, false); // 'true' to debug it
-          debugdebugMeasuresPresent = false;
+          traceDetailedPresent = false;
         }
 
         if (displayCPUusagePresent) {
@@ -1700,6 +1674,12 @@ int main (int argc, char *argv[])
 
   gGeneralOptions = msrGeneralOptions::create ();
   assert(gGeneralOptions != 0);
+
+  gGeneralOptionsUserChoices = msrGeneralOptions::create ();
+  assert(gGeneralOptionsUserChoices != 0);
+
+  gGeneralOptionsTraceAll = msrGeneralOptions::create ();
+  assert(gGeneralOptionsTraceAll != 0);
 
   gMsrOptions = msrOptions::create ();
   assert(gMsrOptions != 0);

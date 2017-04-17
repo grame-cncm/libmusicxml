@@ -3125,7 +3125,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentForwardVoiceNumber);
   
-    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceALL)
+    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices)
       cerr <<
         idtr <<
           "--> S_voice, fCurrentVoiceNumber         = " <<
@@ -3149,7 +3149,7 @@ void xml2MsrTranslator::visitStart (S_voice& elt )
         createStaffInCurrentPartIfNeeded (
           inputLineNumber, fCurrentNoteStaffNumber);
   
-    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceALL)
+    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices)
       cerr <<
         idtr <<
           "--> fCurrentNoteVoiceNumber        = " <<
@@ -4049,17 +4049,16 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
       inputLineNumber, measureNumber);
 
   // is this measure number in the debug set?
-  set<int>::iterator
-    it =
-      gGeneralOptions->
-        fTraceAllMeasureNumbersSet.find (measureNumber);
-        
-  if (it != gGeneralOptions->fTraceAllMeasureNumbersSet.end ()) {
-    // yes, activate trace all for it
-    gGeneralOptions->fSaveDebug =
-      gGeneralOptions->fTraceMeasures;
-    gGeneralOptions->fSaveDebugDebug =
-      gGeneralOptions->fTraceMeasures;
+  if (gGeneralOptions->fTraceDetailed) {
+    set<int>::iterator
+      it =
+        gGeneralOptions->
+          fTraceAllMeasureNumbersSet.find (measureNumber);
+          
+    if (it != gGeneralOptions->fTraceAllMeasureNumbersSet.end ()) {
+      // yes, activate trace all for it
+      gGeneralOptions = gGeneralOptionsTraceAll;
+    }
   }
 
   if (gGeneralOptions->fTraceMeasures) {
@@ -4098,10 +4097,7 @@ void xml2MsrTranslator::visitEnd (S_measure& elt)
       inputLineNumber);
 
   // restore debug options in case they were set in visitStart()
-  gGeneralOptions->fTraceMeasures =
-    gGeneralOptions->fSaveDebug;
-  gGeneralOptions->fTraceMeasures =
-    gGeneralOptions->fSaveDebugDebug;
+  gGeneralOptions = gGeneralOptionsUserChoices;
 }
 
 //______________________________________________________________________________
