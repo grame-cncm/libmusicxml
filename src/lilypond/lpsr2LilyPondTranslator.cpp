@@ -1564,25 +1564,23 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
- //   if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) {
-      fOstream <<
-        idtr <<
-          "\\new Lyrics" <<
-        endl;
-  
-      idtr++;
-      
-      fOstream <<
-        idtr <<
-          "\\lyricsto" " " <<
-          "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
-          endl <<
-        idtr <<
-          "\\" << elt->getStanza ()->getStanzaName () <<
-        endl;
+    fOstream <<
+      idtr <<
+        "\\new Lyrics" <<
+      endl;
 
-      idtr--;
- //   }
+    idtr++;
+    
+    fOstream <<
+      idtr <<
+        "\\lyricsto" " " <<
+        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+        endl <<
+      idtr <<
+        "\\" << elt->getStanza ()->getStanzaName () <<
+      endl;
+
+    idtr--;
   }
 }
 
@@ -1594,8 +1592,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
       endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) { // JMI
-    }
+    // JMI
   }
 }
 
@@ -2271,7 +2268,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
       endl;
 
   if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
-    if (gGeneralOptions->fForceDebug || fOngoingNonEmptyStanza) {
+    if (gGeneralOptions->fTraceLyrics || fOngoingNonEmptyStanza) {
       
       switch (elt->getSyllableKind ()) {
         case msrSyllable::kSingleSyllable:

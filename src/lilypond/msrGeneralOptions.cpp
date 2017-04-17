@@ -24,6 +24,8 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 S_msrGeneralOptions gGeneralOptions;
+S_msrGeneralOptions gGeneralOptionsUserChoices;
+S_msrGeneralOptions gGeneralOptionsTraceAll;
 
 S_msrGeneralOptions msrGeneralOptions::create ()
 {
@@ -274,15 +276,15 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       booleanAsString (gGeneralOptions->fTraceHarmonies) <<
       endl <<
     indenter::gIndenter <<
-      setw(indentedFieldWidth) << "debugMeasureNumbersSet" << " : ";
+      setw(indentedFieldWidth) << "traceAllMeasureNumbersSet" << " : ";
 
-  if (gGeneralOptions->fDebugMeasureNumbersSet.empty ())
+  if (gGeneralOptions->fTraceAllMeasureNumbersSet.empty ())
     cerr << "none";
   else
     for (
       set<int>::const_iterator i =
-        gGeneralOptions->fDebugMeasureNumbersSet.begin();
-      i != gGeneralOptions->fDebugMeasureNumbersSet.end();
+        gGeneralOptions->fTraceAllMeasureNumbersSet.begin();
+      i != gGeneralOptions->fTraceAllMeasureNumbersSet.end();
       i++) {
         cerr << (*i) << " ";
     } // for

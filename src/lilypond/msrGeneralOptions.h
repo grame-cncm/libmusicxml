@@ -133,22 +133,17 @@ class EXP msrGeneralOptions : public smartable
 
     // CPU usage
     bool                  fDisplayCPUusage;
-    
-    // debug
-//    bool                  fDebug;
-    bool                  fDebugDebug;
-
-    // forcing debug information at specific places in the code
-    bool                  fForceDebug;
-    
+        
     // measure number-selective debug
-    set<int>              fDebugMeasureNumbersSet;
+    set<int>              fTraceAllMeasureNumbersSet;
     bool                  fSaveDebug;
     bool                  fSaveDebugDebug;
 };
 typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 
 extern S_msrGeneralOptions gGeneralOptions;
+extern S_msrGeneralOptions gGeneralOptionsUserChoices;
+extern S_msrGeneralOptions gGeneralOptionsTraceAll;
 
 
 /*! @} */

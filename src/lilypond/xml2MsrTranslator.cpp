@@ -4052,10 +4052,10 @@ void xml2MsrTranslator::visitStart (S_measure& elt)
   set<int>::iterator
     it =
       gGeneralOptions->
-        fDebugMeasureNumbersSet.find (measureNumber);
+        fTraceAllMeasureNumbersSet.find (measureNumber);
         
-  if (it != gGeneralOptions->fDebugMeasureNumbersSet.end ()) {
-    // yes, activate debug for it
+  if (it != gGeneralOptions->fTraceAllMeasureNumbersSet.end ()) {
+    // yes, activate trace all for it
     gGeneralOptions->fSaveDebug =
       gGeneralOptions->fTraceMeasures;
     gGeneralOptions->fSaveDebugDebug =
@@ -9625,46 +9625,7 @@ void xml2MsrTranslator::handleLyric (
       endl;
   }
 
-/* JMI catchup !!!
-  // handle notes without any <text/>
-  if (! fCurrentLyricText.size ()) {
-        
-    // fetch stanzaNumber in current voice
-    S_msrStanza
-      stanza =
-        currentVoice->
-          createStanzaInVoiceIfNeeded (
-            inputLineNumber,
-            fCurrentStanzaNumber); // JMI
-
-    // create a syllable
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
- // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {      
-      cerr << idtr <<
-        "--> creating a skip syllable for missing lyric"
-        ", text = \"" << fCurrentLyricText << "\"" <<
-        ", line " << inputLineNumber <<
-        ", divisions = " << fCurrentNoteDivisions << 
-        ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", elision: " << fCurrentLyricElision << 
-        " in stanza " << stanza->getStanzaName () <<
-        endl;
-    }
-    
-    fCurrentSyllableKind = msrSyllable::kRestSyllable;
-
-    S_msrSyllable
-      syllable =
-        msrSyllable::create (
-          inputLineNumber,
-          fCurrentSyllableKind,
-          fCurrentLyricText,
-          msrSyllable::k_NoSyllableExtend,
-          fCurrentNoteDivisions,
-          stanza);
-
-    // register syllable in current note's syllables list
-    fCurrentNoteSyllables.push_back (syllable);
+/* JMI 
 
 // JMI ???
 
@@ -9715,37 +9676,6 @@ void xml2MsrTranslator::handleLyric (
           fCurrentVoiceNumber);
 
 /*
- // JMI   if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-    if (gGeneralOptions->fForceDebug || gGeneralOptions->fDebug) {
-      cerr <<
-        idtr <<
-          "--> note \"" << newNote->noteAsString () << "\"" <<
-          ", line " << inputLineNumber <<
-          ", has no lyrics," <<
-          endl;
-
-      idtr++;
-
-      cerr <<
-        idtr <<
-          "  appending a skip syllable to voice \"" <<
-          currentVoice-> getVoiceName () <<
-          "\"" <<
-          ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
-          endl;
-
-      idtr--;
-      }
-
-    // append a skip syllable to the voice
-    S_msrSyllable
-      syllable =
-        currentVoice->
-          addSkipSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            fCurrentNoteDivisions);
-
     // this ends the current syllable extension if any
     fOnGoingSyllableExtend = false;
 */
