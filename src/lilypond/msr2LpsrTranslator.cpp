@@ -1643,8 +1643,19 @@ void msr2LpsrTranslator::visitEnd (S_msrGracenotes& elt)
   // forget about these grace notes if any
   fCurrentGracenotesClone = 0;
 
-  // forget these after grace notes if any
-  fPendingAftergracenotes = 0;
+  if (fPendingAftergracenotes) {
+    // remove the current aftergracenotes note clone
+    // from the current voice clone
+    fCurrentVoiceClone->
+      removeNoteFromVoice (
+        elt->getInputLineNumber (),
+        fCurrentAftergracenotesNote);
+        
+    fCurrentAftergracenotesNote = 0;
+  
+    // forget these after grace notes if any
+    fPendingAftergracenotes = 0;
+  }
 }
 
 void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
@@ -1707,7 +1718,19 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-        
+    
+  // create the clone
+  fCurrentNoteClone =
+    elt->createNoteBareClone (
+      fCurrentPartClone);
+
+  // register clone in this tranlastors' voice notes map
+  fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
+  
+  if (! fFirstNoteCloneInVoice)
+    fFirstNoteCloneInVoice =
+      fCurrentNoteClone;
+
   // can we optiomize gracenotes into aftergracenotes?
   if (
     elt->getNoteHasATrill ()
@@ -1723,27 +1746,9 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
         false, // aftergracenoteIsSlashed, may be updated later
         fCurrentVoiceClone);
 
-    // remove the current note clone, the one for the aftergracenotes,
-    // from the current voice clone
-    fCurrentVoiceClone->
-      removeNoteFromVoice (
-        inputLineNumber,
-        fCurrentNoteClone);
-  }
-
-  else {
-    // create the clone
-    fCurrentNoteClone =
-      elt->createNoteBareClone (
-        fCurrentPartClone);
-  
-    // register clone in this tranlastors' voice notes map
-    fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL  
-
-    // register as first note clone in voice
-    if (! fFirstNoteCloneInVoice)
-      fFirstNoteCloneInVoice =
-        fCurrentNoteClone;
+    // register current aftergracenotes note
+    fCurrentAftergracenotesNote =
+      fCurrentNoteClone;
   }
 
   fOnGoingNote = true;
