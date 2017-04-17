@@ -105,8 +105,9 @@ xml2MsrTranslator::xml2MsrTranslator ()
   // initialize note data to a neutral state
   initializeNoteData ();
 
-  fMillimeters       = -1;
-  fTenths            = -1;
+  fCurrentMillimeters = -1;
+  fCurrentTenths      = -1;
+  
   fOnGoingPageLayout = false;
 
   fCurrentDivisionsPerQuarterNote = 0;
@@ -516,10 +517,10 @@ void xml2MsrTranslator::visitStart ( S_millimeters& elt )
       "--> Start visiting S_millimeters" <<
       endl;
 
-  fMillimeters = (float)(*elt);
+  fCurrentMillimeters = (float)(*elt);
   
   fMsrScore->getPageGeometry ()->
-    setMillimeters (fMillimeters);
+    setMillimeters (fCurrentMillimeters);
 }
 
 void xml2MsrTranslator::visitStart ( S_tenths& elt )
@@ -529,10 +530,10 @@ void xml2MsrTranslator::visitStart ( S_tenths& elt )
       "--> Start visiting S_tenths" <<
       endl;
 
-  fTenths = (int)(*elt);
+  fCurrentTenths = (int)(*elt);
 
   fMsrScore->getPageGeometry ()->
-    setTenths (fTenths);
+    setTenths (fCurrentTenths);
 }
 
 void xml2MsrTranslator::visitEnd ( S_scaling& elt)
@@ -544,8 +545,8 @@ void xml2MsrTranslator::visitEnd ( S_scaling& elt)
 
   if (gGeneralOptions->fTraceGeneral)
     cerr << idtr <<
-      "There are " << fTenths <<
-      " tenths for " <<  fMillimeters <<
+      "There are " << fCurrentTenths <<
+      " tenths for " <<  fCurrentMillimeters <<
       " millimeters, hence the global staff size is " <<
       fMsrScore->getPageGeometry ()->globalStaffSize () <<
       endl;
@@ -564,7 +565,7 @@ void xml2MsrTranslator::visitStart ( S_system_distance& elt )
 //  cerr << "--> systemDistance = " << systemDistance << endl;
   fMsrScore->getPageGeometry ()->
     setBetweenSystemSpace (
-      systemDistance * fMillimeters / fTenths / 10);  
+      systemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
 }
 
 void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
@@ -579,7 +580,7 @@ void xml2MsrTranslator::visitStart ( S_top_system_distance& elt )
 //  cerr << "--> fTopSystemDistance = " << topSystemDistance << endl;
     fMsrScore->getPageGeometry ()->
     setPageTopSpace (
-      topSystemDistance * fMillimeters / fTenths / 10);  
+      topSystemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
 }
 
 //______________________________________________________________________________
@@ -615,7 +616,7 @@ void xml2MsrTranslator::visitStart ( S_page_height& elt )
     //cerr << "--> pageHeight = " << pageHeight << endl;
     fMsrScore->getPageGeometry ()->
       setPaperHeight (
-        pageHeight * fMillimeters / fTenths / 10);  
+        pageHeight * fCurrentMillimeters / fCurrentTenths / 10);  
   }
 }
 
@@ -632,7 +633,7 @@ void xml2MsrTranslator::visitStart ( S_page_width& elt )
     //cerr << "--> pageWidth = " << pageWidth << endl;
     fMsrScore->getPageGeometry ()->
       setPaperWidth (
-        pageWidth * fMillimeters / fTenths / 10);  
+        pageWidth * fCurrentMillimeters / fCurrentTenths / 10);  
   }
 }
 
@@ -649,7 +650,7 @@ void xml2MsrTranslator::visitStart ( S_left_margin& elt )
     //cerr << "--> leftMargin = " << leftMargin << endl;
     fMsrScore->getPageGeometry ()->
       setLeftMargin (
-        leftMargin * fMillimeters / fTenths / 10);  
+        leftMargin * fCurrentMillimeters / fCurrentTenths / 10);  
   }
 }
 
@@ -666,7 +667,7 @@ void xml2MsrTranslator::visitStart ( S_right_margin& elt )
     //cerr << "--> rightMargin = " << rightMargin << endl;
     fMsrScore->getPageGeometry ()->
       setRightMargin (
-        rightMargin * fMillimeters / fTenths / 10);  
+        rightMargin * fCurrentMillimeters / fCurrentTenths / 10);  
   }
 }
 
@@ -683,7 +684,7 @@ void xml2MsrTranslator::visitStart ( S_top_margin& elt )
     //cerr << "--> topMargin = " << topMargin << endl;
     fMsrScore->getPageGeometry ()->
       setTopMargin (
-        topMargin * fMillimeters / fTenths / 10);  
+        topMargin * fCurrentMillimeters / fCurrentTenths / 10);  
   }
 }
 
@@ -700,7 +701,7 @@ void xml2MsrTranslator::visitStart ( S_bottom_margin& elt )
     //cerr << "--> bottomMargin = " << bottomMargin << endl;
     fMsrScore->getPageGeometry ()->
       setBottomMargin (
-        bottomMargin * fMillimeters / fTenths / 10);  
+        bottomMargin * fCurrentMillimeters / fCurrentTenths / 10);  
   }
 }
 
@@ -1911,9 +1912,9 @@ void xml2MsrTranslator::visitStart ( S_key& elt )
   fCurrentKeyStaffNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  fCurrentFifths   = 0;
-  fCurrentCancel   = 0;
-  fCurrentModeKind = msrKey::kMajorMode;
+  fCurrentKeyFifths   = 0;
+  fCurrentKeyCancel   = 0;
+  fCurrentKeyModeKind = msrKey::kMajorMode;
 }
   
 void xml2MsrTranslator::visitStart ( S_fifths& elt )
@@ -1923,7 +1924,7 @@ void xml2MsrTranslator::visitStart ( S_fifths& elt )
       "--> Start visiting S_fifths" <<
       endl;
 
-  fCurrentFifths = (int)(*elt);
+  fCurrentKeyFifths = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitStart ( S_mode& elt )
@@ -1936,10 +1937,10 @@ void xml2MsrTranslator::visitStart ( S_mode& elt )
   string mode = elt->getValue();
 
   if       (mode == "major") {
-    fCurrentModeKind = msrKey::kMajorMode;
+    fCurrentKeyModeKind = msrKey::kMajorMode;
   }
   else  if (mode == "minor") {
-    fCurrentModeKind = msrKey::kMinorMode;
+    fCurrentKeyModeKind = msrKey::kMinorMode;
   }
   else {
     stringstream s;
@@ -1959,7 +1960,7 @@ void xml2MsrTranslator::visitStart ( S_cancel& elt )
       "--> Start visiting S_cancel" <<
       endl;
 
-  fCurrentCancel = (int)(*elt);
+  fCurrentKeyCancel = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitEnd ( S_key& elt ) 
@@ -1975,7 +1976,7 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
   // key fifths number
   msrQuartertonesPitch keyTonicPitch;
   
-  switch (fCurrentFifths) {
+  switch (fCurrentKeyFifths) {
     case 0:
       keyTonicPitch = k_cNatural;
       break;
@@ -2026,7 +2027,7 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
       stringstream s;
       
       s << 
-        "ERROR: unknown key fifths number \"" << fCurrentFifths << "\"";
+        "ERROR: unknown key fifths number \"" << fCurrentKeyFifths << "\"";
         
       msrMusicXMLError (
         inputLineNumber,
@@ -2039,8 +2040,8 @@ void xml2MsrTranslator::visitEnd ( S_key& elt )
     key =
       msrKey::create (
         inputLineNumber,
-        keyTonicPitch, fCurrentModeKind,
-        fCurrentCancel);
+        keyTonicPitch, fCurrentKeyModeKind,
+        fCurrentKeyCancel);
 
   if (fCurrentKeyStaffNumber == 0)
     fCurrentPart->
@@ -2316,8 +2317,8 @@ void xml2MsrTranslator::visitStart (S_direction& elt)
 
   fCurrentWordsContents = ""; // there can be several such
 
-  fCurrentWords = 0;
-  fCurrentTempo = 0;
+  fCurrentMetronomeWords = 0;
+  fCurrentMetronomeTempo = 0;
 
   fOnGoingDirection = true;
 }
@@ -2496,19 +2497,19 @@ void xml2MsrTranslator::visitStart ( S_metronome& elt )
 
   string parentheses = elt->getAttributeValue("parentheses");
   
-  fBeatsData.clear();
-  fPerMinute = 0;
-  fCurrentBeat.fBeatUnit = "";
-  fCurrentBeat.fDots = 0;
+  fCurrentMetronomeBeatsData.clear();
+  fCurrentMetrenomePerMinute = 0;
+  fCurrentMetronomeBeat.fBeatUnit = "";
+  fCurrentMetronomeBeat.fDots = 0;
 
   if (parentheses.size()) {
     // cerr << "--> S_metronome, parentheses = " << parentheses << endl;
     
     if (parentheses == "yes")
-      fParentheses = true;
+      fCurrentMetronomeParentheses = true;
       
     else if (parentheses == "no")
-      fParentheses = true;
+      fCurrentMetronomeParentheses = true;
       
     else {
       stringstream s;
@@ -2548,28 +2549,28 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  // fParentheses ??? JMI
-  if (fCurrentBeat.fBeatUnit.size()) { // JMI
-    fBeatsData.push_back(fCurrentBeat);
-    fCurrentBeat.fBeatUnit = "";
-    fCurrentBeat.fDots = 0;
+  // fCurrentMetronomeParentheses ??? JMI
+  if (fCurrentMetronomeBeat.fBeatUnit.size()) { // JMI
+    fCurrentMetronomeBeatsData.push_back(fCurrentMetronomeBeat);
+    fCurrentMetronomeBeat.fBeatUnit = "";
+    fCurrentMetronomeBeat.fDots = 0;
   }
   
-  if (fBeatsData.size() != 1) {
+  if (fCurrentMetronomeBeatsData.size() != 1) {
     msrMusicXMLWarning (
       inputLineNumber,
       "multiple beats found, but only per-minute tempo is supported");
     return;
   }
   
-  if (! fPerMinute) {
+  if (! fCurrentMetrenomePerMinute) {
     msrMusicXMLWarning (
       inputLineNumber,
       "per-minute not found, only per-minute tempo is supported");
     return;
   }
 
-  msrBeatData b = fBeatsData[0];
+  msrBeatData b = fCurrentMetronomeBeatsData[0];
   rational         r = 
     NoteType::type2rational(
       NoteType::xml (b.fBeatUnit)), rdot(3,2);
@@ -2579,10 +2580,10 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
   }
   r.rationalise ();
 
-  fCurrentTempo =
+  fCurrentMetronomeTempo =
     msrTempo::create (
       inputLineNumber,
-      r.getDenominator(), fPerMinute);
+      r.getDenominator(), fCurrentMetrenomePerMinute);
 
   // fetch current voice
   S_msrVoice
@@ -2593,7 +2594,7 @@ void xml2MsrTranslator::visitEnd ( S_metronome& elt )
         fCurrentVoiceNumber);
 
   currentVoice->
-    appendTempoToVoice (fCurrentTempo);
+    appendTempoToVoice (fCurrentMetronomeTempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -2605,13 +2606,13 @@ void xml2MsrTranslator::visitStart ( S_beat_unit& elt )
       "--> Start visiting S_beat_unit" <<
       endl;
 
-  if (fCurrentBeat.fBeatUnit.size()) {
-    fBeatsData.push_back (fCurrentBeat); 
-    fCurrentBeat.fBeatUnit = "";
-    fCurrentBeat.fDots = 0;
+  if (fCurrentMetronomeBeat.fBeatUnit.size()) {
+    fCurrentMetronomeBeatsData.push_back (fCurrentMetronomeBeat); 
+    fCurrentMetronomeBeat.fBeatUnit = "";
+    fCurrentMetronomeBeat.fDots = 0;
   }
   
-  fCurrentBeat.fBeatUnit = elt->getValue();
+  fCurrentMetronomeBeat.fBeatUnit = elt->getValue();
 }
 
 void xml2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
@@ -2621,7 +2622,7 @@ void xml2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
       "--> Start visiting S_beat_unit_dot" <<
       endl;
 
-  fCurrentBeat.fDots++;
+  fCurrentMetronomeBeat.fDots++;
 }
   
 void xml2MsrTranslator::visitStart ( S_per_minute& elt )
@@ -2631,7 +2632,7 @@ void xml2MsrTranslator::visitStart ( S_per_minute& elt )
       "--> Start visiting S_per_minute" <<
       endl;
 
-  fPerMinute = (int)(*elt);
+  fCurrentMetrenomePerMinute = (int)(*elt);
 }
 
 void xml2MsrTranslator::visitEnd (S_direction& elt)
@@ -2641,9 +2642,9 @@ void xml2MsrTranslator::visitEnd (S_direction& elt)
       "--> End visiting S_direction" <<
       endl;
 
-  if (fCurrentTempo) {
+  if (fCurrentMetronomeTempo) {
     if (fCurrentWordsContents.size ())
-      fCurrentTempo->
+      fCurrentMetronomeTempo->
         setTempoIndication (fCurrentWordsContents);
   }
 

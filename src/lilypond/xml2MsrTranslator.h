@@ -610,8 +610,8 @@ class EXP xml2MsrTranslator :
 
     // geometry handling
     // ------------------------------------------------------
-    float                     fMillimeters;
-    int                       fTenths;
+    float                     fCurrentMillimeters;
+    int                       fCurrentTenths;
     bool                      fOnGoingPageLayout;
     
     // credits handling
@@ -740,9 +740,9 @@ class EXP xml2MsrTranslator :
     // key handling
     // ------------------------------------------------------
     int                       fCurrentKeyStaffNumber;
-    int                       fCurrentFifths;
-    int                       fCurrentCancel;
-    msrKey::msrKeyModeKind    fCurrentModeKind;
+    int                       fCurrentKeyFifths;
+    int                       fCurrentKeyCancel;
+    msrKey::msrKeyModeKind    fCurrentKeyModeKind;
 
     // transpose handling
     // ------------------------------------------------------
@@ -770,12 +770,12 @@ class EXP xml2MsrTranslator :
   
     // metronome handling
     // ------------------------------------------------------
-    vector<msrBeatData>       fBeatsData; // JMI
-    int                       fPerMinute;
-    msrBeatData               fCurrentBeat;
-    bool                      fParentheses;
-    S_msrWords                fCurrentWords;
-    S_msrTempo                fCurrentTempo;
+    vector<msrBeatData>       fCurrentMetronomeBeatsData; // JMI
+    int                       fCurrentMetrenomePerMinute;
+    msrBeatData               fCurrentMetronomeBeat;
+    bool                      fCurrentMetronomeParentheses;
+    S_msrWords                fCurrentMetronomeWords;
+    S_msrTempo                fCurrentMetronomeTempo;
 
     // time handling
     // ------------------------------------------------------
