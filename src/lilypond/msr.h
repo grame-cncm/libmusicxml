@@ -5870,8 +5870,7 @@ class EXP msrStaff : public msrElement
       int          inputLineNumber,
       S_msrPart    staffDirectPartUplink,
       msrStaffKind staffKind,
-      int          staffNumber,
-      S_msrPart    staffPartUplink);
+      int          staffNumber);
     
     SMARTP<msrStaff> createStaffBareClone (
       S_msrPart clonedPart);
@@ -5884,140 +5883,145 @@ class EXP msrStaff : public msrElement
     msrStaff (
       int          inputLineNumber,
       msrStaffKind staffKind,
-      int          staffNumber,
-      S_msrPart    staffPartUplink);
+      int          staffNumber);
       
     virtual ~msrStaff();
   
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  initializeStaff ();
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
     // part direct uplink
-    void            setStaffDirectPartUplink ( S_msrPart part)
-                        { fStaffDirectPartUplink = part; }
+    void                  setStaffDirectPartUplink ( S_msrPart part)
+                              { fStaffDirectPartUplink = part; }
 
-    S_msrPart       getStaffDirectPartUplink () const
-                        { return fStaffDirectPartUplink; }
+    S_msrPart             getStaffDirectPartUplink () const
+                              { return fStaffDirectPartUplink; }
 
-    msrStaffKind    getStaffKind () const
-                        { return fStaffKind; }
+    msrStaffKind          getStaffKind () const
+                              { return fStaffKind; }
                 
-    int             getStaffNumber () const
-                        { return fStaffNumber; }
+    int                   getStaffNumber () const
+                              { return fStaffNumber; }
                 
-    string          getStaffName () const;
+    string                getStaffName () const;
 
 // JMI    string          getStaffInstrumentName () const
       //                  { return fStaffInstrumentName; }
 
-    S_msrClef       getStaffClef () const { return fStaffClef; };
-    S_msrKey        getStaffKey  () const { return fStaffKey; };
-    S_msrTime       getStaffTime () const { return fStaffTime; };
+    S_msrClef             getStaffClef () const { return fStaffClef; };
+    S_msrKey              getStaffKey  () const { return fStaffKey; };
+    S_msrTime             getStaffTime () const { return fStaffTime; };
     
-    S_msrTranspose  getStaffTranspose () const
-                        { return fStaffTranspose; };
+    S_msrTranspose        getStaffTranspose () const
+                              { return fStaffTranspose; };
     
-    void            setStaffClef (S_msrClef clef);
-    void            setStaffKey  (S_msrKey  key);
-    void            setStaffTime (S_msrTime time);
+    void                  setStaffClef (S_msrClef clef);
+    void                  setStaffKey  (S_msrKey  key);
+    void                  setStaffTime (S_msrTime time);
 
-    void            setStaffTranspose (S_msrTranspose transpose);
+    void                  setStaffTranspose (S_msrTranspose transpose);
 
     const map<int, S_msrVoice>&
-                    getStaffVoiceRelativeNumberToVoiceMap () const
-                        { return fStaffVoiceRelativeNumberToVoiceMap; }
+                          getStaffVoiceRelativeNumberToVoiceMap () const
+                              { return fStaffVoiceRelativeNumberToVoiceMap; }
 
     const map<int, S_msrVoice>&
-                    getStaffAllVoicesMap () const
-                        { return fStaffAllVoicesMap; }
+                          getStaffAllVoicesMap () const
+                              { return fStaffAllVoicesMap; }
 
     const list<S_msrStafftuning>&
-                    getStafftuningsList ()
-                        { return fStafftuningsList; }
+                          getStafftuningsList ()
+                              { return fStafftuningsList; }
 
     // measure number
-    void            setStaffMeasureNumber (
-                      int inputLineNumber,
-                      int measureNumber);
+    void                  setStaffMeasureNumber (
+                            int inputLineNumber,
+                            int measureNumber);
                       
-    const int       getStaffMeasureNumber () const
-                        { return fStaffMeasureNumber; }
+    const int             getStaffMeasureNumber () const
+                              { return fStaffMeasureNumber; }
 
     // voice master
-    const S_msrVoice
-                    getStaffMasterVoice () const
-                        { return fStaffMasterVoice; }
+    const S_msrVoice      getStaffMasterVoice () const
+                              { return fStaffMasterVoice; }
 
     // services
     // ------------------------------------------------------
 
 /*
-    S_msrVoice      addVoiceMasterToStaff (
+    S_msrVoice      addVoiceMasterToStaff ( JMI
                       int inputLineNumber);
   */
   
-    const int       getStaffNumberOfMusicVoices () const;
+    const int             getStaffNumberOfMusicVoices () const;
 
-    S_msrVoice      addVoiceToStaffByItsRelativeNumber (
-                      int                    inputLineNumber,
-                      msrVoice::msrVoiceKind voiceKind,
-                      int                    voiceRelativeNumber);
+    S_msrVoice            addVoiceToStaffByItsRelativeNumber (
+                            int                    inputLineNumber,
+                            msrVoice::msrVoiceKind voiceKind,
+                            int                    voiceRelativeNumber);
   
-    S_msrVoice      addVoiceToStaffByItsExternalNumber (
-                      int inputLineNumber,
-                      int externalVoiceNumber);
-  
-    string          staffKindAsString () const;
+    S_msrVoice            addVoiceToStaffByItsExternalNumber (
+                            int inputLineNumber,
+                            int externalVoiceNumber);
+        
+    string                staffKindAsString () const;
     
-    S_msrVoice      createVoiceInStaffByItsExternalNumber (
-                      int inputLineNumber,
-                      int externalVoiceNumber);
+    S_msrVoice            createVoiceInStaffByItsExternalNumber (
+                            int inputLineNumber,
+                            int externalVoiceNumber);
 
-    void            registerVoiceInStaff (
-                      int inputLineNumber,
-                      S_msrVoice voice);
+    void                  registerVoiceInStaff (
+                            int inputLineNumber,
+                            S_msrVoice voice);
 
-    S_msrVoice      fetchVoiceFromStaffByItsExternalNumber (
-                      int inputLineNumber,
-                      int externalVoiceNumber);
+    S_msrVoice            fetchVoiceFromStaffByItsExternalNumber (
+                            int inputLineNumber,
+                            int externalVoiceNumber);
                               
-    void            appendClefToAllStaffVoices (S_msrClef clef);
-    void            appendKeyToAllStaffVoices  (S_msrKey   key);
-    void            appendTimeToAllStaffVoices (S_msrTime time);
+    void                  appendClefToAllStaffVoices (S_msrClef clef);
+    void                  appendKeyToAllStaffVoices  (S_msrKey   key);
+    void                  appendTimeToAllStaffVoices (S_msrTime time);
     
-    void            appendRepeatToStaff (int inputLineNumber);
+    void                  appendRepeatToStaff (int inputLineNumber);
     
-    void            appendRepeatCloneToStaff (
-                      int         inputLineNumber,
-                      S_msrRepeat repeatCLone);
+    void                  appendRepeatCloneToStaff (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatCLone);
 
-    void            appendRepeatendingToStaff (
-                      int       inputLineNumber,
-                      string    repeatendingNumber, // may be "1, 2"
-                      msrRepeatending::msrRepeatendingKind
-                                repeatendingKind);
+    void                  appendRepeatendingToStaff (
+                            int       inputLineNumber,
+                            string    repeatendingNumber, // may be "1, 2"
+                            msrRepeatending::msrRepeatendingKind
+                                      repeatendingKind);
 
-    void            appendRepeatendingCloneToStaff (
-                      S_msrRepeatending repeatendingClone);
+    void                  appendRepeatendingCloneToStaff (
+                            S_msrRepeatending repeatendingClone);
 
-    void            appendBarlineToStaff (S_msrBarline barline);
+    void                  appendBarlineToStaff (S_msrBarline barline);
     
-    void            appendRepeatToAllStaffVoices (int inputLineNumber);
+    void                  appendRepeatToAllStaffVoices (int inputLineNumber);
     
  //   void            appendHarmonyToStaff (S_msrHarmony harmony); // JMI
 
-    void            appendTransposeToAllStaffVoices (
-                      S_msrTranspose transpose);
+    void                  appendTransposeToAllStaffVoices (
+                            S_msrTranspose transpose);
 
-    void            addStafftuningToStaff (
-                      S_msrStafftuning stafftuning)
-                        { fStafftuningsList.push_back (stafftuning); }
+    void                  addStafftuningToStaff (
+                            S_msrStafftuning stafftuning)
+                              { fStafftuningsList.push_back (stafftuning); }
   
-    void            finalizeLastMeasureOfStaff (int inputLineNumber);
+    void                  finalizeLastMeasureOfStaff (int inputLineNumber);
     
-    void            finalizeStaff (int inputLineNumber);
+    void                  finalizeStaff (int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------

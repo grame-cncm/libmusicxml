@@ -4366,7 +4366,10 @@ S_msrNote msrNote::create (
   assert(o!=0);
 
   // set note's direct part uplink
-  msrAssert(noteDirectPartUplink != 0, "noteDirectPartUplink != 0"); // JMI
+  msrAssert(
+    noteDirectPartUplink != 0,
+    "noteDirectPartUplink is null");
+    
   o->fNoteDirectPartUplink =
     noteDirectPartUplink;
     
@@ -5418,12 +5421,11 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteGraphicDurationAsMsrString ();
+        noteGraphicDurationAsMsrString () <<
+        "[" << fNoteOctave << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
-        s << ".";
+        s << "."; // JMI
       } // for
       break;
       
@@ -5497,20 +5499,18 @@ string msrNote::noteAsShortString () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteDivisionsAsMsrString ();
+        noteDivisionsAsMsrString () <<
+        "[" << fNoteOctave << "]";
       break;
       
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteGraphicDurationAsMsrString ();
+        noteGraphicDurationAsMsrString () <<
+        "[" << fNoteOctave << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
-        s << ".";
+        s << "."; // JMI
       } // for
       break;
       
@@ -5531,27 +5531,23 @@ string msrNote::noteAsShortString () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteDivisionsAsMsrString ();
+        noteDivisionsAsMsrString () <<
+        "[" << fNoteOctave << "]";
       break;
       
     case msrNote::kTupletMemberNote:
       s <<
-        notePitchAsString ();
-
-      if (! fNoteIsARest)
-        s <<
-          "[" << fNoteOctave << "]";
-
-      s <<
-        ":" <<
+        notePitchAsString () <<
         fNoteDirectPartUplink->
           tupletDivisionsAsMsrString (
             fInputLineNumber,
             fNoteDivisions,
             fNoteTupletUplink->getTupletActualNotes (),
             fNoteTupletUplink->getTupletNormalNotes ());
+
+      if (! fNoteIsARest)
+        s <<
+          "[" << fNoteOctave << "]";
       break;
   } // switch
 
@@ -5568,28 +5564,26 @@ string msrNote::noteAsString () const
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
-        "k_NoNoteKind ???";
+        "k_NoNoteKind???";
       break;
       
     case msrNote::kStandaloneNote:
       s <<
         "Standalone note" " "<<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteDivisionsAsMsrString ();
+        noteDivisionsAsMsrString () <<
+        "[" << fNoteOctave << "]";
       break;
       
     case msrNote::kGraceNote:
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteGraphicDurationAsMsrString ();
+        noteGraphicDurationAsMsrString () <<
+        "[" << fNoteOctave << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
-        s << ".";
+        s << "."; // JMI
       } // for
       break;
       
@@ -5611,28 +5605,24 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
-        ":" <<
-        noteDivisionsAsMsrString ();
+        noteDivisionsAsMsrString () <<
+        "[" << fNoteOctave << "]";
       break;
       
     case msrNote::kTupletMemberNote:
       s <<
         "Tuplet member note"  " "<<
-        notePitchAsString ();
-
-      if (! fNoteIsARest)
-        s <<
-          "[" << fNoteOctave << "]";
-
-      s <<
-        ":" <<
+        notePitchAsString () <<
         fNoteDirectPartUplink->
           tupletDivisionsAsMsrString (
             fInputLineNumber,
             fNoteDivisions,
             fNoteTupletUplink->getTupletActualNotes (),
             fNoteTupletUplink->getTupletNormalNotes ());
+
+      if (! fNoteIsARest)
+        s <<
+          "[" << fNoteOctave << "]";
       break;
   } // switch
 
@@ -6056,7 +6046,10 @@ S_msrChord msrChord::create (
   assert(o!=0);
 
   // set chord's direct part uplink
-  msrAssert(chordDirectPartUplink != 0, "chordDirectPartUplink != 0"); // JMI
+  msrAssert(
+    chordDirectPartUplink != 0,
+    "chordDirectPartUplink is null");
+    
   o-> fChordDirectPartUplink =
     chordDirectPartUplink;
     
@@ -9075,7 +9068,10 @@ S_msrSyllable msrSyllable::create (
   assert(o!=0);
 
   // set syllable's direct part uplink
-  msrAssert(syllableDirectPartUplink != 0, "syllableDirectPartUplink != 0"); // JMI
+  msrAssert(
+    syllableDirectPartUplink != 0,
+    "syllableDirectPartUplink is null");
+    
   o->fSyllableDirectPartUplink =
     syllableDirectPartUplink;
     
@@ -9521,6 +9517,10 @@ S_msrStanza msrStanza::create (
   assert(o!=0);
 
   // set stanza's direct part uplink
+  msrAssert(
+    stanzaDirectPartUplink != 0,
+    "stanzaDirectPartUplink is null");
+
   o->fStanzaDirectPartUplink =
     stanzaDirectPartUplink;
     
@@ -9538,7 +9538,8 @@ msrStanza::msrStanza (
   fStanzaKind   = stanzaKind;
 
   msrAssert(
-    stanzaVoiceUplink != 0, "stanzaVoiceUplink is null");
+    stanzaVoiceUplink != 0,
+    "stanzaVoiceUplink is null");
 
   fStanzaVoiceUplink  = stanzaVoiceUplink;
   
@@ -10088,7 +10089,10 @@ S_msrHarmony msrHarmony::create (
   assert(o!=0);
 
   // set harmony's direct part uplink
-  msrAssert(harmonyDirectPartUplink != 0, "harmonyDirectPartUplink != 0"); // JMI
+  msrAssert(
+    harmonyDirectPartUplink != 0,
+     "harmonyDirectPartUplink is null");
+     
   o->fHarmonyDirectPartUplink =
     harmonyDirectPartUplink;
     
@@ -11060,6 +11064,10 @@ S_msrMeasure msrMeasure::create (
   assert(o!=0);
 
   // set measure's direct part uplink
+  msrAssert(
+    measureDirectPartUplink != 0,
+    "measureDirectPartUplink is null");
+    
   o->fMeasureDirectPartUplink =
     measureDirectPartUplink;
     
@@ -11277,7 +11285,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       "\"" <<
       endl;
 
-    //* JMI
+    /* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
     // append note to it via the segment
@@ -11286,7 +11294,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 
   else {
- // */
+  */
     // regular insertion in current measure
     
     // populate measure uplink
@@ -11391,7 +11399,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
-  }
+ // JMI }
 }
 
 void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
@@ -11410,7 +11418,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       "\"" <<
       endl;
 
-    //* JMI
+    /* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
     // append note to it via the segment
@@ -11419,7 +11427,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   }
 
   else {
- // */
+  */
     // regular insertion in current measure
     
     // populate measure uplink
@@ -11466,9 +11474,63 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       noteHarmony =
         note->getNoteHarmony ();
 
+
+   /*     
+    if (noteHarmony) {
+      // append the harmony to the harmony voice
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "Appending harmony '" << noteHarmony->harmonyAsString () <<
+          "' to measure '" << fMeasureNumber <<
+          "' in harmony voice \"" <<
+          partHarmonyVoice->getVoiceName () <<
+          "\"" <<
+          endl;
+
+      partHarmonyVoice->
+        appendHarmonyToVoice (
+          noteHarmony);
+    }
+
+    else {
+      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+      if (
+        fMeasureVoiceDirectUplink
+          ==
+        fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()) {
+        // yes, create a skip note of the same duration as the note
+        S_msrNote
+          skipNote =
+            msrNote::createSkipNote (
+              inputLineNumber,
+              fMeasureDirectPartUplink,
+              noteDivisions,
+              note->getNoteDotsNumber (),
+              partHarmonyVoice->
+                getVoiceStaffUplink ()->
+                  getStaffNumber (),
+              partHarmonyVoice->
+                getExternalVoiceNumber ());
+  
+        // append the skip to the part harmony voice
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+          cerr << idtr <<
+            "Appending skip '" << skipNote->noteAsShortString () <<
+            "' to measure '" << fMeasureNumber <<
+            "' in harmony voice \"" <<
+            partHarmonyVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+
+        partHarmonyVoice->
+          appendNoteToVoice (skipNote);
+      }
+    }
+*/
+
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
-  }
+ // JMI }
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
@@ -11638,7 +11700,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-//*
+/*
   if (
     appendMeasureIfOverflow (inputLineNumber)
     ) {
@@ -11649,7 +11711,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 
   else {
- // */
+  */
     // regular insertion in current measure
     
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
@@ -11727,7 +11789,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     
     // append the harmony to the measure elements list
     fMeasureElementsList.push_back (harmony);
-  }
+//  }
 }
 
 void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
@@ -12519,7 +12581,10 @@ S_msrSegment msrSegment::create (
   assert(o!=0);
 
   // set segment's direct part uplink
-  msrAssert(segmentDirectPartUplink != 0, "segmentDirectPartUplink != 0"); // JMI
+  msrAssert(
+    segmentDirectPartUplink != 0,
+    "segmentDirectPartUplink is null");
+    
   o->fSegmentDirectPartUplink =
     segmentDirectPartUplink;
 
@@ -13767,10 +13832,6 @@ void msrRepeat::setRepeatCommonSegment (
         "measures") <<
       endl;
       
-  if (repeatCommonSegment->getSegmentAbsoluteNumber () == 38) { // JMI
- //   msrAssert(false, "fSegmentAbsoluteNumber == 38");
-  }
-
   fRepeatCommonSegment = repeatCommonSegment;
 }
 
@@ -13933,7 +13994,10 @@ S_msrVoice msrVoice::create (
   assert(o!=0);
 
   // set voice's direct part uplink
-  msrAssert(voiceDirectPartUplink != 0, "voiceDirectPartUplink != 0"); // JMI
+  msrAssert(
+    voiceDirectPartUplink != 0,
+    "voiceDirectPartUplink is null");
+    
   o->fVoiceDirectPartUplink =
     voiceDirectPartUplink;
     
@@ -13958,9 +14022,11 @@ msrVoice::msrVoice (
   
   fStaffRelativeVoiceNumber = externalVoiceNumber;
     // may be changed afterwards JMI ???
-  
+
+  // set voice staff uplink
   msrAssert(
-    voiceStaffUplink != 0, "voiceStaffUplink is null");
+    voiceStaffUplink != 0,
+    "voiceStaffUplink is null");
 
   fVoiceStaffUplink = voiceStaffUplink;
 
@@ -15552,18 +15618,20 @@ S_msrStaff msrStaff::create (
   int          inputLineNumber,
   S_msrPart    staffDirectPartUplink,
   msrStaffKind staffKind,
-  int          staffNumber,
-  S_msrPart    staffPartUplink)
+  int          staffNumber)
 {
   msrStaff* o =
     new msrStaff (
       inputLineNumber,
       staffKind,
-      staffNumber,
-      staffPartUplink);
+      staffNumber);
   assert(o!=0);
 
-  // set skip's divisions per quarter note
+  // set staff part uplink
+  msrAssert(
+    staffDirectPartUplink != 0,
+    "staffDirectPartUplink is null");
+
   o->fStaffDirectPartUplink =
     staffDirectPartUplink;
     
@@ -15573,23 +15641,22 @@ S_msrStaff msrStaff::create (
 msrStaff::msrStaff (
   int          inputLineNumber,
   msrStaffKind staffKind,
-  int          staffNumber,
-  S_msrPart    staffPartUplink)
+  int          staffNumber)
     : msrElement (inputLineNumber)
 {
   fStaffKind = staffKind;
   
   fStaffNumber = staffNumber;
 
-  msrAssert(
-    staffPartUplink != 0, "staffPartUplink is null");
-  
-  fStaffDirectPartUplink = staffPartUplink;
+  initializeStaff ();
+}
 
+void msrStaff::initializeStaff ()
+{
   fRegisteredVoicesCounter = 0;
 
   // set staff name
-  switch (staffKind) {
+  switch (fStaffKind) {
     case msrStaff::kRegularStaff:
       fStaffName =
         fStaffDirectPartUplink->getPartMsrName () +
@@ -15628,11 +15695,11 @@ msrStaff::msrStaff (
     case msrStaff::kRegularStaff:
       // the staff number should not be negative
       // (0 is used for hidden staff containing the part voice master) JMI
-      if (staffNumber < 0) {
+      if (fStaffNumber < 0) {
         stringstream s;
     
         s <<
-          "regular staff number " << staffNumber <<
+          "regular staff number " << fStaffNumber <<
           " is not positive";
           
         msrAssert (false, s.str());
@@ -15648,15 +15715,15 @@ msrStaff::msrStaff (
       break;
       
     case msrStaff::kHarmonyStaff:
-      if (staffNumber != -1) {
+      if (fStaffNumber != -1) {
         stringstream s;
     
         s <<
-          "harmony staff number " << staffNumber <<
+          "harmony staff number " << fStaffNumber <<
           " is not equal to -1";
           
         msrInternalError (
-          inputLineNumber, s.str());
+          fInputLineNumber, s.str());
       }
       break;
   } // switch
@@ -15712,7 +15779,7 @@ msrStaff::msrStaff (
       // create the implicit initial G line 2 clef
       setStaffClef (
         msrClef::create (
-          inputLineNumber,
+          fInputLineNumber,
           msrClef::kTrebleClef));
     }
   }
@@ -15746,7 +15813,7 @@ msrStaff::msrStaff (
       // create the implicit initial C major key
       setStaffKey (
         msrKey::create (
-          inputLineNumber,
+          fInputLineNumber,
           k_cNatural, msrKey::kMajorMode, 0));
     }
   }
@@ -15780,7 +15847,7 @@ msrStaff::msrStaff (
       // create the implicit initial 4/4 time signature
       setStaffTime (
         msrTime::create (
-          inputLineNumber,
+          fInputLineNumber,
           4, 4));
     }
   }
@@ -15817,8 +15884,7 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
         fInputLineNumber,
         clonedPart,
         fStaffKind,
-        fStaffNumber,
-        clonedPart);
+        fStaffNumber);
 
   clone->fStaffName =
     fStaffName;
@@ -17374,7 +17440,9 @@ string msrPart::getPartCombinedName () const
 void msrPart::setPartDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
-  msrAssert(divisionsPerQuarterNote != 0, "divisionsPerQuarterNote != 0"); // JMI
+  msrAssert(
+    divisionsPerQuarterNote != 0,
+    "divisionsPerQuarterNote == 0");
   
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
@@ -17602,8 +17670,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
         inputLineNumber,
         this,
         staffKind,
-        staffNumber,
-        this);
+        staffNumber);
 
   // register staff in this part
   fPartStavesMap [staffNumber] = staff;
