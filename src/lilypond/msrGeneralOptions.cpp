@@ -355,7 +355,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
   // specific trace
   // --------------------------------------
   cerr <<
-    idtr << "Specific trace output to standard error:" <<
+    idtr << "Specific trace about elements:" <<
     endl <<
     endl;
 
@@ -382,24 +382,32 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "staves and voices" <<
       endl <<
+    endl <<
+      
     idtr <<
       "--tsegs, --traceSegments " <<
       endl <<
     idtr << tab << tab << tab <<
       "voices' segments" <<
       endl <<
+    endl <<
+      
     idtr <<
       "--trepeats, --traceRepeats " <<
       endl <<
     idtr << tab << tab << tab <<
       "repeats" <<
       endl <<
+    endl <<
+      
     idtr <<
       "--tmeas, --traceMeasures " <<
       endl <<
     idtr << tab << tab << tab <<
       "segments' measures" <<
       endl <<
+    endl <<
+
     idtr <<
       "--tnotes, --traceNotes " <<
       endl <<
@@ -412,6 +420,8 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "tremolos" <<
       endl <<
+    endl <<
+
     idtr <<
       "--tchords, --traceChords " <<
       endl <<
@@ -424,18 +434,24 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "tuplets" <<
       endl <<
+    endl <<
+
     idtr <<
       "--tgrace, --traceGracenotes " <<
       endl <<
     idtr << tab << tab << tab <<
       "grace notes" <<
       endl <<
+    endl <<
+
     idtr <<
       "--tlyrics, --traceLyrics " <<
       endl <<
     idtr << tab << tab << tab <<
       "lyrics in MusicXML, stanza in MSR" <<
       endl <<
+    endl <<
+
     idtr <<
       "--tharm, --traceHarmonies " <<
       endl <<

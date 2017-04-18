@@ -2331,6 +2331,8 @@ void msrOptions::printMsrOptionsHelp ()
       endl <<
     endl;
 
+  idtr--;
+
 /* JMI
     idtr <<
       "--kms, --keepMasterStanzas" <<
@@ -2339,6 +2341,7 @@ void msrOptions::printMsrOptionsHelp ()
       "Keep the master stanzas used intertally. By default, there are removed after usage." <<
       endl <<
 */
+  
   idtr--;
 
   idtr--; 
