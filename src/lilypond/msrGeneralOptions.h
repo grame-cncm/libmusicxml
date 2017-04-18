@@ -76,30 +76,58 @@ class EXP msrGeneralOptions : public smartable
  
   public:
 
-    // synthetic view
+    // command line
+    // --------------------------------------
+
     string                fProgramName;
+    
     string                fCommandLineOptions;
+
+    // input
+    // --------------------------------------
+
     string                fInputSourceName;
+    
     string                fTranslationDate;
+
+    // output
+    // --------------------------------------
 
     string                fOutputFileName;
     bool                  fAutoOutputFile;
     
-    // trace
+    // trace and display
+    // --------------------------------------
+  
     bool                  fTraceGeneral;
+
+    bool                  fTraceDetailed;
+    set<int>              fTraceAllMeasureNumbersSet;
+
+    // CPU usage
+    // --------------------------------------
+  
+    bool                  fDisplayCPUusage;
+
+    // specific trace
+    // --------------------------------------
     
     bool                  fTraceDivisions;
 
-    bool                  fTraceScore;
-
-    bool                  fTracePartgroups;
     bool                  fTraceParts;
-    bool                  fTraceStaves;
+
     bool                  fTraceVoices;
 
     bool                  fTraceSegments;
+
+    bool                  fTraceRepeats;
+
     bool                  fTraceMeasures;
-    
+
+    bool                  fTraceNotes;
+
+    bool                  fTraceTremolos;
+
     bool                  fTraceChords;
     bool                  fTraceTuplets;
     
@@ -111,12 +139,14 @@ class EXP msrGeneralOptions : public smartable
 
 
 
-    
-    
-    
-    bool                  fTraceNotes;
-    
-    bool                  fTraceTremolos;
+// JMI ??? missing
+
+
+    bool                  fTraceScore;
+
+    bool                  fTracePartgroups;
+    bool                  fTraceStaves;
+
     
     bool                  fTraceDynamics;
     bool                  fTraceWords;
@@ -124,18 +154,13 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceLigatures;
     bool                  fTraceWedges;
     
-    bool                  fTraceRepeats;
         
     bool                  fTraceStafftuning;
     
     bool                  fTraceMidi;
 
-    // measure number-selective detailed trace
-    bool                  fTraceDetailed;
-    set<int>              fTraceAllMeasureNumbersSet;
 
     // CPU usage
-    bool                  fDisplayCPUusage;
 };
 typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 
