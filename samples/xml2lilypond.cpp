@@ -71,7 +71,7 @@ void printUsage (
     "    printing views of the internal data or printing a summary of the score." << endl <<
     endl <<
     "    There are various options to fine tune the generated LilyPond code" << endl <<
-    "    and limit the need for manually editing of the latter." << endl <<
+    "    and limit the need for manually editing the latter." << endl <<
     endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
     endl;
