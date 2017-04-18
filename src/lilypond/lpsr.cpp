@@ -269,7 +269,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   idtr++;
 
-  // trace
+  // trace and display
+  // --------------------------------------
   cerr <<
     idtr << "Trace and display:" <<
     endl <<
@@ -314,7 +315,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl;
 
   idtr--;
-    
+
+  // languagues
   // --------------------------------------
   cerr <<
     idtr << "Languages:" <<
@@ -368,7 +370,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl;
 
   idtr--;
-  
+
+  // time
   // --------------------------------------
   cerr <<
     idtr << "Time:" <<
@@ -388,6 +391,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   idtr--;
 
+  // notes
   // --------------------------------------
   cerr <<
     idtr << "Notes:" <<
@@ -469,6 +473,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     
   idtr--;
 
+  // bars
   // --------------------------------------
   cerr <<
     idtr << "Bars:" <<
@@ -498,7 +503,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl;
 
   idtr--;
-  
+
+  // line breaks
   // --------------------------------------
   cerr <<
     idtr << "Line breaks:" <<
@@ -543,6 +549,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   idtr--;
 
+  // staves
   // --------------------------------------
   cerr <<
     idtr << "Staves:" <<
@@ -562,6 +569,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   idtr--;
 
+  // midi
   // --------------------------------------
   cerr <<
     idtr << "Midi:" <<
@@ -593,6 +601,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     
   idtr--;
 
+  // LilyPond code generation
   // --------------------------------------
   cerr <<
     idtr << "LilyPond code generation:" <<

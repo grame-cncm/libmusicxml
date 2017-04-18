@@ -2090,68 +2090,179 @@ bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
 
 void msrOptions::printMsrOptionsHelp ()
 {
-  cerr <<
-    "  MSR:" << endl <<
-    endl <<
+  idtr++;
 
-    "    --tmsr, --traceMsr " << endl <<
-    "          Write a trace of the LPSR graphs visiting activity to standard error." << endl <<
-    "    --tmvisit, --traceMsrVisitors " << endl <<
-    "          Write a trace of the MSR graphs visiting activity to standard error." << endl <<
+  cerr <<
+    idtr << "MSR:" <<
     endl <<
-    "    --mpl, --msrPitchesLanguage language" << endl <<
-    "          Use 'language' to display note pitches in the MSR logs and text views." << endl <<
-    "          The 12 LilyPond pitches languages are available:" << endl <<
-    "          nederlands, catalan, deutsch, english, espanol, français, " << endl <<
-    "          italiano, norsk, portugues, suomi, svenska and vlaams." << endl <<
-    "          The default is to use 'nederlands'." << endl <<
+    endl;
+
+  idtr++;
+
+  // trace and display
+  // --------------------------------------
+  cerr <<
+    idtr << "Trace and display:" <<
     endl <<
-    "    --srvn, --staffRelativeVoiceNumbers" << endl <<
-    "          Generate voices names with numbers relative to their staff." << endl <<
-    "          By default, the voice numbers found are used, " << endl <<
-    "          which may be global to the score." << endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--tmsr, --traceMsr " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the LPSR graphs visiting activity to standard error." <<
+      endl <<
     endl <<
     
-    "    --noms, --dontDisplayMsrStanzas" << endl <<
-    "          Don't display MSR stanzas while displaying MSR data." << endl <<
+    idtr <<
+      "--tmvisit, --traceMsrVisitors " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the MSR graphs visiting activity to standard error." <<
+      endl <<
     endl <<
 
-    "    Options to delay certain elements from a rest to the next note:" << endl <<
-    "      --drdyns, --delayRestsDynamics" << endl <<
-    "            dynamics" << endl <<
-    "      --drwords, --delayRestsWords" << endl <<
-    "            words" << endl <<
-    "      --drslurs, --delayRestsSlurs" << endl <<
-    "            slurs" << endl <<
-    "      --drligs, --delayRestsLigatures" << endl <<
-    "            <bracket/> in MusicXML, '\\['... \\}'' in LilyPond" << endl <<
-    "      --drwedges, --delayRestsWedges" << endl <<
-    "            '<wedge/>' in MusicXML, '<!' in LilyPond" << endl <<
+    idtr <<
+      "--msr, --displayMsr" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write the contents of the MSR data to standard error." <<
+      endl <<
+    endl <<
+   
+    idtr <<
+      "--mpl, --msrPitchesLanguage language" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Use 'language' to display note pitches in the MSR logs and text views." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "The 12 LilyPond pitches languages are available:" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "nederlands, catalan, deutsch, english, espanol, français, " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "italiano, norsk, portugues, suomi, svenska and vlaams." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default is to use 'nederlands'." <<
+      endl <<
     endl <<
 
-    "    --msr, --displayMsr" << endl <<
-    "          Write the contents of the MSR data to standard error." << endl <<
+    idtr <<
+      "--srvn, --staffRelativeVoiceNumbers" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate voices names with numbers relative to their staff." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "By default, the voice numbers found are used, " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "which may be global to the score." <<
+      endl <<
     endl <<
 
-    "    --kmv, --keepMasterVoices" << endl <<
-    "          Keep the master voices used intertally. By default, there are removed after usage." << endl <<
+    
+    idtr <<
+      "--noms, --dontDisplayMsrStanzas" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't display MSR stanzas while displaying MSR data." <<
+      endl <<
+    endl <<
+
+
+    idtr <<
+      "Options to delay certain elements from a rest to the next note:" <<
+      endl <<
+    idtr <<
+      "  --drdyns, --delayRestsDynamics" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "  dynamics" <<
+      endl <<
+    idtr <<
+      "  --drwords, --delayRestsWords" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "  words" <<
+      endl <<
+      endl <<
+    idtr <<
+      "  --drslurs, --delayRestsSlurs" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "  slurs" <<
+      endl <<
+    idtr <<
+      "  --drligs, --delayRestsLigatures" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "  <bracket/> in MusicXML, '\\['... \\}'' in LilyPond" <<
+      endl <<
+    idtr <<
+      "  --drwedges, --delayRestsWedges" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "  '<wedge/>' in MusicXML, '<!' in LilyPond" <<
+      endl <<
+    endl <<
+
+
+
+
+    idtr <<
+      "--kmv, --keepMasterVoices" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep the master voices used intertally. By default, there are removed after usage." <<
+      endl <<
 /* JMI
-    "    --kms, --keepMasterStanzas" << endl <<
-    "          Keep the master stanzas used intertally. By default, there are removed after usage." << endl <<
+    idtr <<
+      "--kms, --keepMasterStanzas" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep the master stanzas used intertally. By default, there are removed after usage." <<
+      endl <<
 */
+   
+      endl <<
+
+    idtr <<
+      "--sum, --displayMsrSummary" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Only write a summary of the MSR to standard error." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "This implies that no LilyPond code is generated." <<
+      endl <<
     endl <<
 
-    "    --sum, --displayMsrSummary" << endl <<
-    "          Only write a summary of the MSR to standard error." << endl <<
-    "          This implies that no LilyPond code is generated." << endl <<
-    endl <<
 
-    "    --part, --partName 'originalName = newName'" << endl <<
-    "    --part, --partName \"originalName = newName\"" << endl <<
-    "          Rename part 'original' to 'newName', for example after " << endl <<
-    "          displaying a summary of the score in a first xml2lilypond run." << endl <<
-    "          There can be several occurrences of this option." << endl <<
+    idtr <<
+      "--part, --partName 'originalName = newName'" <<
+      endl <<
+    idtr <<
+      "--part, --partName \"originalName = newName\"" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Rename part 'original' to 'newName', for example after " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "displaying a summary of the score in a first xml2lilypond run." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "There can be several occurrences of this option." <<
+      endl <<
     endl;
+
+   idtr--; 
 }
 
 void msrOptions::printMsrOptionsValues (int fieldWidth)
