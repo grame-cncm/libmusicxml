@@ -106,13 +106,17 @@ class indenter
     virtual ~indenter();
 
     // increase the indentation
-    indenter& operator++ (const int value);
+    indenter&       operator++ (const int value);
     
     // decrease the indentation
-    indenter& operator-- (const int value);
+    indenter&       operator-- (const int value);
 
     // output as much space as specified
-    void print (ostream& os) const;
+    void            print (ostream& os) const;
+
+    // get a spacer for adhoc uses, without increasing the indentation
+    string          getSpacer () const
+                        { return fSpacer; }
 
     // global variable for general use
     static indenter gIndenter; 
@@ -146,12 +150,12 @@ class outputLineElementsCounter
     void resetToZero (int value = 0);
     
     // compare the counter with a value
-    bool operator< (int value);
+    bool operator<  (int value);
     bool operator<= (int value);
     bool operator== (int value);
     bool operator!= (int value);
     bool operator>= (int value);
-    bool operator> (int value);
+    bool operator>  (int value);
     
     // global variable for general use
     static outputLineElementsCounter gOutputLineElementsCounter; 

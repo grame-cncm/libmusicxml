@@ -18,7 +18,7 @@
 
 #include "msrVersion.h"
 
-//#include "xml2Msr.h"    
+//#include "xml2Msr.h"
 
 #include "lpsr.h"
 
@@ -260,113 +260,372 @@ bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
 
 void lpsrOptions::printLpsrOptionsHelp ()
 {
+  idtr++;
+
   cerr <<
-    "  LPSR:" << endl <<
+    idtr << "LPSR:" <<
     endl <<
-
-    "    --tlpsr, --traceLpsr " << endl <<
-    "          Write a trace of the LPSR graphs visiting activity to standard error." << endl <<
-    "    --tlpvisit, --traceLpsrVisitors " << endl <<
-    "          Write a trace of the LPSR graphs visiting activity to standard error." << endl <<
-    endl <<
-    "    --lppl, --lpsrPitchesLanguage language" << endl <<
-    "          Use 'language' to display note pitches in the LPSR logs and views," << endl <<
-    "          as well as in the generated LilyPond code." << endl <<
-    "          The 12 LilyPond pitches languages are available:" << endl <<
-    "          nederlands, catalan, deutsch, english, espanol, français, " << endl <<
-    "          italiano, norsk, portugues, suomi, svenska and vlaams." << endl <<
-    "          The default is to use 'nederlands'." << endl <<
-    endl <<
-    "    --lpcl, --lpsrChordsLanguage language" << endl <<
-    "          Use 'language' to display chord names, their root and bass notes," << endl <<
-    "          in the LPSR logs and views and the generated LilyPond code." << endl <<
-    "          The 4 LilyPond chords languages are available:" << endl <<
-    "          german, semiGerman, italian and french." << endl <<
-    "          The default used by LilyPond is Ignatzek's jazz-like, english naming." << endl <<
-    endl <<
-
-    "    --lpsr, --displayLpsr" << endl <<
-    "          Write the contents of the LPSR data to standard error." << endl <<
-    endl <<
-
-    "    --abs, --absolute" << endl <<
-    "          Generate LilyPond absolute note octaves. " << endl <<
-    "          By default, relative octaves are generated." << endl <<
-    endl <<
-
-//    "    --indent" << endl <<
-    "    --sabn, --showAllBarNumbers" << endl <<
-    "          Generate LilyPond code to show all bar numbers." << endl <<
-    endl <<
-    "    --cfbr, --compressFullBarRests" << endl <<
-    "          Generate '\\compressFullBarRests' at the beginning of voices." << endl <<
-    "          Bt default, this command is commented." << endl <<
-    endl <<
-    "    --noBreaks, --dontKeepLineBreaks" << endl <<
-    "          Don't keep the line breaks from the MusicXML input" << endl <<
-    "          and let LilyPond decide about them." << endl <<
-    endl <<
-
-    "    --numericalTime" << endl <<
-    "          Don't generate non-numerical time signatures such as 'C'." << endl <<
-    "    --comments" << endl <<
-    "          Generate comments showing the structure of the score" << endl <<
-    "          such as '% part P_POne (P1)'." << endl <<
-    "    --stems" << endl <<
-    "          Generate \\stemUp and \\stemDown LilyPond commands." << endl <<
-    "          By default, LilyPond will take care of that by itself." << endl <<
-    "    --noab, --noAutoBeaming" << endl <<
-    "          Generate '\\set Voice.autoBeaming = ##f' in each voice " << endl <<
-    "          to prevent LilyPond from handling beams automatically." << endl <<
-    endl <<
-    "    --iln, --generateInputLineNumbers" << endl <<
-    "          Generate after each note and barline a comment containing" << endl <<
-    "          its MusicXML input line number." << endl <<
-    endl <<
-    "    --toal, --tupletsOnALine" << endl <<
-    "          Keep tuplets notes on the same line, instead of" << endl <<
-    "          'having \\tuplet {' and '}' on separate lines." << endl <<
-    endl <<
-    "    --blairm, --breakLinesAtIncompleteRightMeasures" << endl <<
-    "          Generate a '\\break' command at the end incomplete right measures" << endl <<
-    "          which is handy in popular folk dances and tunes." << endl <<
-    endl <<
-    "    --slenm, --separatorLineEveryNMeasures 'n'" << endl <<
-    "          Generate an additional separator line for readability every 'n' measures," << endl <<
-    "          where 'n' is a positive integer'." << endl <<
-    endl <<
-    "    --mtab, --modernTab" << endl <<
-    "          Generate '\\moderntab' instead of the default '\\tab'." << endl <<
-endl <<
-    "    --as, --accidentalStyle style" << endl <<
-    "          Choose the LilyPond accidental styles among: " << endl <<
-    "          voice, modern, modern-cautionary, modern-voice, " <<  endl <<
-    "          modern-voice-cautionary, piano, piano-cautionary, " << endl <<
-    "          neo-modern, neo-modern-cautionary, neo-modern-voice," << endl <<
-    "          neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat," << endl <<
-    "          dodecaphonic-first, teaching, no-reset, forget." << endl <<
-    "          The default is... 'default'." << endl <<
-    endl <<
-    "    --dof, --delayedOrnamentsFraction 'num/denom'" << endl <<
-    "    --dof, --delayedOrnamentsFraction \"num/denom\"" << endl <<
-    "          Place the delayed turn/reverseturn at the given fraction" << endl <<
-    "          between the ornemented note and the next one." << endl <<
-    "          The default fraction is '2/3'." << endl <<
-    endl <<
-    "    --mt, --midiTempo 'duration = perSecond'" << endl <<
-    "    --mt, --midiTempo \"duration = perSecond\"" << endl <<
-    "          Generate a '\\tempo duration = perSecond' command in the \\midi block." << endl <<
-    "          'duration' is a string such as '8.', and 'perSecond' is an integer," << endl <<
-    "          and spaces can be used frely in the argument." << endl <<
-    "          The default is '4 = 100'." << endl <<
-    endl <<
-    "    --nolpc, --dontGenerateLilyPondCode" << endl <<
-    "          Don't generate LilyPond code." << endl <<
-    "          This can be useful if only a summary of the score is needed." << endl <<
-    endl <<
-    "    --nolpl, --dontGenerateLilyPondLyrics" << endl <<
-    "          Don't generate lyrics in the LilyPond code." << endl <<
     endl;
+
+  idtr++;
+
+  // trace
+  cerr <<
+    idtr << "Trace:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--tlpsr, --traceLpsr " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the LPSR graphs visiting activity to standard error." <<
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--tlpvisit, --traceLpsrVisitors " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the LPSR graphs visiting activity to standard error." <<
+      endl <<
+    endl;
+
+  idtr--;
+    
+  // languages
+  cerr <<
+    idtr << "Languages:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+   idtr <<
+      "--lppl, --lpsrPitchesLanguage language" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Use 'language' to display note pitches in the LPSR logs and views," <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "as well as in the generated LilyPond code." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The 12 LilyPond pitches languages are available:" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "nederlands, catalan, deutsch, english, espanol, français, " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "italiano, norsk, portugues, suomi, svenska and vlaams." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default is to use 'nederlands'." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--lpcl, --lpsrChordsLanguage language" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Use 'language' to display chord names, their root and bass notes," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "in the LPSR logs and views and the generated LilyPond code." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The 4 LilyPond chords languages are available:" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "german, semiGerman, italian and french." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default used by LilyPond is Ignatzek's jazz-like, english naming." << 
+      endl <<
+    endl;
+
+  idtr--;
+  
+  // notes
+  cerr <<
+    idtr << "Notes:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--abs, --absolute" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate LilyPond absolute note octaves. " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "By default, relative octaves are generated." << 
+      endl <<
+    endl <<
+
+    idtr <<
+      "--stems" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate \\stemUp and \\stemDown LilyPond commands." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "By default, LilyPond will take care of that by itself." << 
+      endl <<
+    endl <<
+
+    idtr <<
+      "--noab, --noAutoBeaming" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate '\\set Voice.autoBeaming = ##f' in each voice " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "to prevent LilyPond from handling beams automatically." << 
+      endl <<
+    endl <<
+
+    idtr <<
+      "--as, --accidentalStyle style" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Choose the LilyPond accidental styles among: " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "voice, modern, modern-cautionary, modern-voice, " <<  
+      endl <<
+    idtr << tab << tab << tab <<
+      "modern-voice-cautionary, piano, piano-cautionary, " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "neo-modern, neo-modern-cautionary, neo-modern-voice," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "dodecaphonic-first, teaching, no-reset, forget." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default is... 'default'." << 
+      endl <<
+    endl <<
+  endl;
+    
+  idtr--;
+
+  // notes
+  cerr <<
+    idtr << "Bars:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--sabn, --showAllBarNumbers" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate LilyPond code to show all bar numbers." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--cfbr, --compressFullBarRests" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate '\\compressFullBarRests' at the beginning of voices." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Bt default, this command is commented." << 
+      endl <<
+    endl <<
+  endl;
+
+  idtr--;
+  
+  // line breaks
+  cerr <<
+    idtr << "Line breaks:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--noBreaks, --dontKeepLineBreaks" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't keep the line breaks from the MusicXML input" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "and let LilyPond decide about them." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--blairm, --breakLinesAtIncompleteRightMeasures" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate a '\\break' command at the end incomplete right measures" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "which is handy in popular folk dances and tunes." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--slenm, --separatorLineEveryNMeasures 'n'" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate an additional separator line for readability every 'n' measures," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "where 'n' is a positive integer'." << 
+      endl <<
+    endl <<
+  endl;
+
+  idtr--;
+
+  // staves
+  cerr <<
+    idtr << "Staves:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--mtab, --modernTab" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate '\\moderntab' instead of the default '\\tab'." << 
+      endl <<
+    endl <<
+  endl;
+
+  idtr--;
+
+
+  cerr <<
+    idtr <<
+      "--lpsr, --displayLpsr" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write the contents of the LPSR data to standard error." << 
+      endl <<
+    endl <<
+      
+
+    idtr <<
+      "--numericalTime" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't generate non-numerical time signatures such as 'C'." << 
+      endl <<
+    idtr <<
+      "--comments" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate comments showing the structure of the score" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "such as '% part P_POne (P1)'." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--iln, --generateInputLineNumbers" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate after each note and barline a comment containing" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "its MusicXML input line number." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--toal, --tupletsOnALine" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep tuplets notes on the same line, instead of" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "'having \\tuplet {' and '}' on separate lines." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--dof, --delayedOrnamentsFraction 'num/denom'" << 
+      endl <<
+    idtr <<
+      "--dof, --delayedOrnamentsFraction \"num/denom\"" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Place the delayed turn/reverseturn at the given fraction" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "between the ornemented note and the next one." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default fraction is '2/3'." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--mt, --midiTempo 'duration = perSecond'" << 
+      endl <<
+    idtr <<
+      "--mt, --midiTempo \"duration = perSecond\"" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate a '\\tempo duration = perSecond' command in the \\midi block." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "'duration' is a string such as '8.', and 'perSecond' is an integer," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "and spaces can be used frely in the argument." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default is '4 = 100'." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--nolpc, --dontGenerateLilyPondCode" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't generate LilyPond code." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "This can be useful if only a summary of the score is needed." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--nolpl, --dontGenerateLilyPondLyrics" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't generate lyrics in the LilyPond code." << 
+      endl <<
+    endl;
+
+  idtr--;
+  
+  idtr--;
 }
 
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)

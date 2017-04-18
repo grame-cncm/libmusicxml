@@ -103,7 +103,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 */
 //______________________________________________________________________________
 #define idtr indenter::gIndenter
-
+#define tab  indenter::gIndenter.getSpacer ()
 
 /*!
 \internal
