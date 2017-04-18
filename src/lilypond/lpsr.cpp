@@ -316,7 +316,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   idtr--;
 
-  // languagues
+  // languages
   // --------------------------------------
   cerr <<
     idtr << "Languages:" <<
@@ -673,34 +673,69 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   idtr++;
   
+  // trace and display
+  // --------------------------------------
+  cerr <<
+    idtr << "Trace and display:" <<
+    endl <<
+    endl;
+
+  idtr++;
+  
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "traceLpsr" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsr) <<
       endl <<
+    endl <<
+    
     idtr <<
       setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
       endl <<
+    endl <<
 
     idtr << setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
       endl <<
+    endl <<
 
+    idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
+      booleanAsString (gLpsrOptions->fDisplayLpsr) <<
+      endl <<
+    endl;
+
+  idtr--;
+  
+  // languages
+  // --------------------------------------
+  cerr <<
+    idtr << "Languages:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
     idtr << setw(fieldWidth) << "lpsrQuaterTonesPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
         gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
         "\"" <<
         endl <<
+    endl <<
+
     idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
       lpsrChordsLanguageAsString (
         gLpsrOptions->fLpsrChordsLanguage) <<
         "\"" <<
         endl <<
+    endl;
 
-    idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
-      booleanAsString (gLpsrOptions->fDisplayLpsr) <<
-      endl <<
+  idtr--;
+  
+
+
+
 
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<

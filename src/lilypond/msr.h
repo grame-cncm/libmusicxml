@@ -390,27 +390,36 @@ class EXP msrOptions : public smartable
 
     // trace and display
     // --------------------------------------
+    
     bool                  fTraceMsr;
+    
     bool                  fTraceMsrVisitors;
+    
     bool                  fDisplayMsr;
+    
     bool                  fDisplayMsrSummary;
     
     // languages
     // --------------------------------------
+    
     msrQuatertonesPitchesLanguage
                           fMsrQuatertonesPitchesLanguage;
     
     // parts
     // --------------------------------------
+    
     map<string, string>   fPartsRenaming;
 
     // voices
     // --------------------------------------
+    
     bool                  fCreateStaffRelativeVoiceNumbers;
+    
     bool                  fKeepMasterVoices;
 
     // notes
     // --------------------------------------
+    
     bool                  fDelayRestsDynamics;
     bool                  fDelayRestsWords; // JMI
     bool                  fDelayRestsSlurs; // JMI
@@ -419,11 +428,14 @@ class EXP msrOptions : public smartable
 
     // lyrics
     // --------------------------------------
+    
     bool                  fDontDisplayMsrStanzas;
+    
     bool                  fKeepMasterStanzas;
     
     // harmonies
     // --------------------------------------
+    
     bool                  fKeepEmptyHarmoniesVoice;
 };
 typedef SMARTP<msrOptions> S_msrOptions;

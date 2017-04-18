@@ -2146,7 +2146,7 @@ void msrOptions::printMsrOptionsHelp ()
    
   idtr--;
 
-  // languagues
+  // languages
   // --------------------------------------
   cerr <<
     idtr << "Languages:" <<
@@ -2252,38 +2252,34 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<    
     idtr <<
-      "Options to delay certain elements from a rest to the next note:" <<
-      endl <<
-    idtr <<
-      "  --drdyns, --delayRestsDynamics" <<
+      "--drdyns, --delayRestsDynamics" <<
       endl <<
     idtr << tab << tab << tab <<
-      "  dynamics" <<
+      "dynamics" <<
       endl <<
     idtr <<
-      "  --drwords, --delayRestsWords" <<
+      "--drwords, --delayRestsWords" <<
       endl <<
     idtr << tab << tab << tab <<
-      "  words" <<
-      endl <<
+      "words" <<
       endl <<
     idtr <<
-      "  --drslurs, --delayRestsSlurs" <<
+      "--drslurs, --delayRestsSlurs" <<
       endl <<
     idtr << tab << tab << tab <<
-      "  slurs" <<
+      "slurs" <<
       endl <<
     idtr <<
-      "  --drligs, --delayRestsLigatures" <<
+      "--drligs, --delayRestsLigatures" <<
       endl <<
     idtr << tab << tab << tab <<
-      "  <bracket/> in MusicXML, '\\['... \\}'' in LilyPond" <<
+      "<bracket/> in MusicXML, '\\['... \\}'' in LilyPond" <<
       endl <<
     idtr <<
-      "  --drwedges, --delayRestsWedges" <<
+      "--drwedges, --delayRestsWedges" <<
       endl <<
     idtr << tab << tab << tab <<
-      "  '<wedge/>' in MusicXML, '<!' in LilyPond" <<
+      "'<wedge/>' in MusicXML, '<!' in LilyPond" <<
       endl <<
     endl;
 
@@ -2376,6 +2372,16 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceMsrVisitors" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsrVisitors) <<
       endl <<
+    endl <<
+
+    idtr << setw(fieldWidth) << "displayMsr" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMsr) <<
+      endl <<
+    endl <<
+
+    idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
+      booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
+      endl <<
     endl;    
 
   idtr--;
@@ -2458,24 +2464,24 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<    
-    idtr << setw(indentedFieldWidth) << "delayRestsDynamics" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
       endl <<
-    idtr << setw(indentedFieldWidth) << "delayRestsWords" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWords) <<
       endl <<
-    idtr << setw(indentedFieldWidth) << "delayRestsSlurs" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
       endl <<
-    idtr << setw(indentedFieldWidth) << "delayRestsLigatures" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
       endl <<
-    idtr << setw(indentedFieldWidth) << "delayRestsWedges" << " : " <<
+    idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWedges) <<
       endl <<
     endl;
 
-   idtr--;
+  idtr--;
    
   // lyrics
   // --------------------------------------
@@ -2505,41 +2511,17 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // harmonies
   // --------------------------------------
   cerr <<
+    idtr << "Harmonies:" <<
+    endl <<
+    endl;
 
+  idtr++;    
 
-  
-  cerr << left <<
-    indenter::gIndenter <<
-      setw(fieldWidth) << "Delaying elements:" <<
-      endl;
-
-  idtr++;
-
-  const int indentedFieldWidth = fieldWidth - 2;
-  
-  cerr << left <<
-
-  idtr--;
-
-  cerr << left <<
-    idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "displayMsr" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMsr) <<
-      endl <<
-    
+  cerr <<
     idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
       booleanAsString (gMsrOptions->fKeepEmptyHarmoniesVoice) <<
       endl <<
-    
-    idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
-    
+    endl;
 
   idtr--;
 }

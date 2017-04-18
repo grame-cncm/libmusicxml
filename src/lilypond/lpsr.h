@@ -154,74 +154,103 @@ class EXP lpsrOptions : public smartable {
     // set and get
     // ------------------------------------------------------
 
-    bool                          setLpsrQuartertonesPitchesLanguage (
-                                    string language);    
+    bool                  setLpsrQuartertonesPitchesLanguage (
+                            string language);    
  
-    bool                          setLpsrChordsLanguage (
-                                    string language);    
+    bool                  setLpsrChordsLanguage (
+                            string language);    
 
-    bool                          setAccidentalStyle (
-                                    string accidentalStyle);    
+    bool                  setAccidentalStyle (
+                            string accidentalStyle);    
  
   public:
 
-    // trace
-    bool                          fTraceLpsr;
+    // trace and display
+    // --------------------------------------
     
-    bool                          fTraceLpsrVisitors;
+    bool                  fTraceLpsr;
+    bool                  fTraceLpsrVisitors;
+    bool                  fDisplayLpsr;
+    bool                  fGenerateComments;
 
     // languages
-    msrQuatertonesPitchesLanguage fLpsrQuatertonesPitchesLanguage;
-    lpsrChordsLanguage            fLpsrChordsLanguage;
+    // --------------------------------------
+
+    msrQuatertonesPitchesLanguage
+                          fLpsrQuatertonesPitchesLanguage;
     
-    // LPSR display
-    bool                          fDisplayLpsr;
+    lpsrChordsLanguage    fLpsrChordsLanguage;
+    
+    // time
+    // --------------------------------------
+    
+    bool                  fGenerateNumericalTime;
+
+    // notes
+    // --------------------------------------
+    
+    bool                  fGenerateAbsoluteOctaves;
+    
+    bool                  fGenerateStems;
+    bool                  fNoAutoBeaming;
+    
+    string                fAccidentalStyle;
+    
+    bool                  fGenerateInputLineNumbers;
+
+    // bars
+    // --------------------------------------
+    
+    bool                  fShowAllBarNumbers;
+    
+    bool                  fCompressFullBarRests;
+
+    // line breaks
+    // --------------------------------------
+    
+    bool                  fDontKeepLineBreaks;
+    
+    bool                  fBreakLinesAtIncompleteRightMeasures;
+    
+    bool                  fSeparatorLineEveryNMeasures;
+    int                   fSeparatorLineEveryNMeasuresValue;
+
+    // staves
+    // --------------------------------------
+    
+    bool                  fModernTab;
+
+    // midi
+    // --------------------------------------
+    
+    string                fMidiTempoDuration;
+    int                   fMidiTempoPerSecond;
+    
+    bool                  fDontGenerateMidiCommand; // JMI missing
 
     // LilyPond code generation
-    bool                          fGenerateAbsoluteOctaves;
+    // --------------------------------------
 
-    bool                          fDontKeepLineBreaks;
-    bool                          fKeepStaffSize;
+    bool                  fTupletsOnALine;
 
-    bool                          fShowAllBarNumbers;
-    
-    bool                          fCompressFullBarRests;
-    
-    bool                          fTupletsOnALine;
-    
-    bool                          fBreakLinesAtIncompleteRightMeasures;
-    
-    bool                          fSeparatorLineEveryNMeasures;
-    int                           fSeparatorLineEveryNMeasuresValue;
-    
-    bool                          fGenerateNumericalTime;
-    bool                          fGenerateComments;
-    bool                          fGenerateStems;
-    bool                          fNoAutoBeaming;
-    
-    bool                          fGenerateInputLineNumbers;
+    int                   fDelayedOrnamentFractionNumerator;
+    int                   fDelayedOrnamentFractionDenominator;
 
-    bool                          fModernTab;
-    
-    string                        fAccidentalStyle;
+    bool                  fDontGenerateLilyPondCode;
 
-    int                           fDelayedOrnamentFractionNumerator;
-    int                           fDelayedOrnamentFractionDenominator;
+    bool                  fDontGenerateLilyPondLyrics;
 
-    bool                          fGenerateMasterVoices; // JMI
-    
-    bool                          fDontGenerateLilyPondLyrics;
 
-    bool                          fDontGenerateLilyPondCode;
-    
-    bool                          fDontGenerateMidiCommand;
 
-    string                        fMidiTempoDuration;
-    int                           fMidiTempoPerSecond;
+// JMI ???
+
+    bool                  fKeepStaffSize; // JMI
+
+    bool                  fGenerateMasterVoices; // JMI
 
   private:
 
-    set<string>                   fLilyPondAccidentalStyles;
+    set<string>           fLilyPondAccidentalStyles;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 
