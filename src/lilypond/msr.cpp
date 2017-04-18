@@ -2513,6 +2513,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr--;
   
   idtr--;
+  
+  idtr--;
 }
 
 //______________________________________________________________________________

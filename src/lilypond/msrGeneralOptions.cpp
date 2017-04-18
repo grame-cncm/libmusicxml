@@ -355,7 +355,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
   // specific trace
   // --------------------------------------
   cerr <<
-    idtr << "Specific trace:" <<
+    idtr << "Specific trace output to standard error:" <<
     endl <<
     endl;
 
@@ -363,10 +363,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "Options to write specific trace information to standard error:" <<
-      endl <<
-    idtr <<
-      "  --tdivs, --traceDivisions " <<
+      "--tdivs, --traceDivisions " <<
       endl <<
     idtr << tab << tab << tab <<
       " divisions" <<
@@ -374,80 +371,84 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "  --tparts, --traceparts " <<
+      "--tparts, --traceparts " <<
       endl <<
     idtr << tab << tab << tab <<
       "score, part groups and parts" <<
       endl <<
     idtr <<
-      "  --tvoices, --traceVoices " <<
+      "--tvoices, --traceVoices " <<
       endl <<
     idtr << tab << tab << tab <<
       "staves and voices" <<
       endl <<
     idtr <<
-      "  --tsegs, --traceSegments " <<
+      "--tsegs, --traceSegments " <<
       endl <<
     idtr << tab << tab << tab <<
       "voices' segments" <<
       endl <<
     idtr <<
-      "  --trepeats, --traceRepeats " <<
+      "--trepeats, --traceRepeats " <<
       endl <<
     idtr << tab << tab << tab <<
       "repeats" <<
       endl <<
     idtr <<
-      "  --tmeas, --traceMeasures " <<
+      "--tmeas, --traceMeasures " <<
       endl <<
     idtr << tab << tab << tab <<
       "segments' measures" <<
       endl <<
     idtr <<
-      "  --tnotes, --traceNotes " <<
+      "--tnotes, --traceNotes " <<
       endl <<
     idtr << tab << tab << tab <<
       "notes" <<
       endl <<
     idtr <<
-      "  --ttrems, --traceTremolos " <<
+      "--ttrems, --traceTremolos " <<
       endl <<
     idtr << tab << tab << tab <<
       "tremolos" <<
       endl <<
     idtr <<
-      "  --tchords, --traceChords " <<
+      "--tchords, --traceChords " <<
       endl <<
     idtr << tab << tab << tab <<
       "chords" <<
       endl <<
     idtr <<
-      "  --ttuplets, --traceTuplets " <<
+      "--ttuplets, --traceTuplets " <<
       endl <<
     idtr << tab << tab << tab <<
       "tuplets" <<
       endl <<
     idtr <<
-      "  --tgrace, --traceGracenotes " <<
+      "--tgrace, --traceGracenotes " <<
       endl <<
     idtr << tab << tab << tab <<
       "grace notes" <<
       endl <<
     idtr <<
-      "  --tlyrics, --traceLyrics " <<
+      "--tlyrics, --traceLyrics " <<
       endl <<
     idtr << tab << tab << tab <<
       "lyrics in MusicXML, stanza in MSR" <<
       endl <<
     idtr <<
-      "  --tharm, --traceHarmonies " <<
+      "--tharm, --traceHarmonies " <<
       endl <<
     idtr << tab << tab << tab <<
       "<harmony/> in MusicXML, \\chordmode in LilyPond" <<
       endl <<      
     endl;
       
-  idtr++;
+  idtr--;
+  
+  idtr--;
+  
+  idtr--;
 }
 
 void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
