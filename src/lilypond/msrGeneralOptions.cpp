@@ -190,75 +190,264 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
 
 void msrGeneralOptions::printGeneralOptionsHelp ()
 {
- cerr <<
-    "  General:" << endl <<
-    endl <<
+  idtr++;
 
-    "    --v, --version" << endl <<
-    "          Display xml2lilypond's version number and exit." << endl <<
+  cerr <<
+    idtr << "General:" <<
     endl <<
-
-    "    --h, --help" << endl <<
-    "          Display this help and exit." << endl <<
-    endl <<
-    "    --hg, --helpGeneral" << endl <<
-    "          Display general help and exit." << endl <<
-    "    --hm, --helpMsr" << endl <<
-    "          Display MSR help and exit." << endl <<
-    "    --hlp, --helpLpsr" << endl <<
-    "          Display LPSR help and exit." << endl <<
-    endl <<
-
-    "    --of, --outputFile fileName" << endl <<
-    "          Write LilyPond code to file 'fileName' instead of standard output." << endl <<
-    "    --aof, --autoOutputFile" << endl <<
-    "          This option can only be used when reading from a file." << endl <<
-    "          Write LilyPond code to a file whose name is derived from that of the input file," << endl <<
-    "          replacing any suffix after the the '.' by 'ly' or adding '.ly' if none is present." << endl <<
-    endl <<
-
-    "    --t, --traceGeneral" << endl <<
-    "          Write a trace of the general activity to standard error." << endl <<
-    endl <<
-    "    Options to write specific trace information to standard error:" << endl <<
-    "      --tdivs, --traceDivisions " << endl <<
-    "           divisions" << endl <<
-    endl <<
-    "      --tparts, --traceparts " << endl <<
-    "            score, part groups and parts" << endl <<
-    "      --tvoices, --traceVoices " << endl <<
-    "            staves and voices" << endl <<
-    "      --tsegs, --traceSegments " << endl <<
-    "            voices' segments" << endl <<
-    "      --trepeats, --traceRepeats " << endl <<
-    "            repeats" << endl <<
-    "      --tmeas, --traceMeasures " << endl <<
-    "            segments' measures" << endl <<
-    "      --tnotes, --traceNotes " << endl <<
-    "            notes" << endl <<
-    "      --ttrems, --traceTremolos " << endl <<
-    "            tremolos" << endl <<
-    "      --tchords, --traceChords " << endl <<
-    "            chords" << endl <<
-    "      --ttuplets, --traceTuplets " << endl <<
-    "            tuplets" << endl <<
-    "      --tgrace, --traceGracenotes " << endl <<
-    "            grace notes" << endl <<
-    "      --tlyrics, --traceLyrics " << endl <<
-    "            lyrics in MusicXML, stanza in MSR" << endl <<
-    "      --tharm, --traceHarmonies " << endl <<
-    "           <harmony/> in MusicXML, \\chordmode in LilyPond" << endl <<
-    endl <<
-    "    --td, --traceDetailed measureNumbersSet" << endl <<
-    "          'measureNumbersSet' has a form such as '0,2-14,^8-10'," << endl <<
-    "          where '^' excludes the corresponding numbers interval" << endl <<
-    "          and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
-    "          Generate a detailed trace of the activity and print additional" << endl <<
-    "          debugging information to standard error for the specified measures." << endl <<
-    endl <<
-    "    --dCPU, --displayCPUusage" << endl <<
-    "          Write CPU usage by the passes at the end of the translation." << endl <<
     endl;
+
+  idtr++;
+
+  // version
+  // --------------------------------------
+  cerr <<
+    idtr << "Version:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--v, --version" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display xml2lilypond's version number and exit." <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // help
+  // --------------------------------------
+  cerr <<
+    idtr << "Help:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--h, --help" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display this help and exit." <<
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--hg, --helpGeneral" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display general help and exit." <<
+      endl <<
+    idtr <<
+      "--hm, --helpMsr" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display MSR help and exit." <<
+      endl <<
+    idtr <<
+      "--hlp, --helpLpsr" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display LPSR help and exit." <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // output
+  // --------------------------------------
+  cerr <<
+    idtr << "Output:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--of, --outputFile fileName" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write LilyPond code to file 'fileName' instead of standard output." <<
+      endl <<
+    endl <<
+    
+    idtr <<
+      "--aof, --autoOutputFile" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "This option can only be used when reading from a file." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write LilyPond code to a file whose name is derived from that of the input file," <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "replacing any suffix after the the '.' by 'ly' or adding '.ly' if none is present." <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // trace and display
+  // --------------------------------------
+  cerr <<
+    idtr << "Trace and display:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--t, --traceGeneral" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the general activity to standard error." <<
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--td, --traceDetailed measureNumbersSet" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "'measureNumbersSet' has a form such as '0,2-14,^8-10'," <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "where '^' excludes the corresponding numbers interval" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
+    idtr << tab << tab << tab <<
+      "Generate a detailed trace of the activity and print additional" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "debugging information to standard error for the specified measures." <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // CPU usage
+  // --------------------------------------
+  cerr <<
+    idtr << "CPU usage:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--dCPU, --displayCPUusage" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write CPU usage by the passes at the end of the translation." <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // specific trace
+  // --------------------------------------
+  cerr <<
+    idtr << "Specific trace:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "Options to write specific trace information to standard error:" <<
+      endl <<
+    idtr <<
+      "  --tdivs, --traceDivisions " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      " divisions" <<
+      endl <<
+    endl <<
+      
+    idtr <<
+      "  --tparts, --traceparts " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "score, part groups and parts" <<
+      endl <<
+    idtr <<
+      "  --tvoices, --traceVoices " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "staves and voices" <<
+      endl <<
+    idtr <<
+      "  --tsegs, --traceSegments " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "voices' segments" <<
+      endl <<
+    idtr <<
+      "  --trepeats, --traceRepeats " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "repeats" <<
+      endl <<
+    idtr <<
+      "  --tmeas, --traceMeasures " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "segments' measures" <<
+      endl <<
+    idtr <<
+      "  --tnotes, --traceNotes " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "notes" <<
+      endl <<
+    idtr <<
+      "  --ttrems, --traceTremolos " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "tremolos" <<
+      endl <<
+    idtr <<
+      "  --tchords, --traceChords " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "chords" <<
+      endl <<
+    idtr <<
+      "  --ttuplets, --traceTuplets " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "tuplets" <<
+      endl <<
+    idtr <<
+      "  --tgrace, --traceGracenotes " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "grace notes" <<
+      endl <<
+    idtr <<
+      "  --tlyrics, --traceLyrics " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "lyrics in MusicXML, stanza in MSR" <<
+      endl <<
+    idtr <<
+      "  --tharm, --traceHarmonies " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "<harmony/> in MusicXML, \\chordmode in LilyPond" <<
+      endl <<      
+    endl;
+      
+  idtr++;
 }
 
 void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
