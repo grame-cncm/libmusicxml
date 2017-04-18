@@ -2356,7 +2356,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Trace and display:" <<
-    endl <<
     endl;
 
   idtr++;
@@ -2366,23 +2365,19 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceMsr" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsr) <<
       endl <<
-    endl <<
     
     idtr <<
       setw(fieldWidth) << "traceMsrVisitors" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsrVisitors) <<
       endl <<
-    endl <<
 
     idtr << setw(fieldWidth) << "displayMsr" << " : " <<
       booleanAsString (gMsrOptions->fDisplayMsr) <<
       endl <<
-    endl <<
 
     idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
       booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
-      endl <<
-    endl;    
+      endl;    
 
   idtr--;
 
@@ -2390,7 +2385,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Languages:" <<
-    endl <<
     endl;
 
   idtr++;
@@ -2400,8 +2394,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       msrQuatertonesPitchesLanguageAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
         "\"" <<
-      endl <<
-    endl;
+      endl;
 
   idtr--;
 
@@ -2409,7 +2402,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Parts:" <<
-    endl <<
     endl;
 
   idtr++;
@@ -2436,7 +2428,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Voices:" <<
-    endl <<
     endl;
 
   idtr++;
@@ -2445,12 +2436,10 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
       booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
       endl <<
-    endl <<
     
     idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
       booleanAsString (gMsrOptions->fKeepMasterVoices) <<
-      endl <<
-    endl;
+      endl;
 
   idtr--;
 
@@ -2458,7 +2447,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Notes:" <<
-    endl <<
     endl;
 
   idtr++;
@@ -2467,19 +2455,22 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
       endl <<
+      
     idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWords) <<
       endl <<
+      
     idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
       endl <<
+      
     idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
       endl <<
+      
     idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWedges) <<
-      endl <<
-    endl;
+      endl;
 
   idtr--;
    
@@ -2487,7 +2478,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Lyrics:" <<
-    endl <<
     endl;
 
   idtr++;
@@ -2495,8 +2485,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
       booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
-      endl <<
-    endl;
+      endl;
 
 /* JMI
     idtr <<
@@ -2512,7 +2501,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // --------------------------------------
   cerr <<
     idtr << "Harmonies:" <<
-    endl <<
     endl;
 
   idtr++;    
@@ -2520,9 +2508,10 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
       booleanAsString (gMsrOptions->fKeepEmptyHarmoniesVoice) <<
-      endl <<
-    endl;
+      endl;
 
+  idtr--;
+  
   idtr--;
 }
 

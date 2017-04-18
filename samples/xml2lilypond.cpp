@@ -1605,9 +1605,11 @@ void analyzeOptions (
 void printOptions ()
 {
   if (gGeneralOptions->fTraceGeneral)
-    cerr << idtr <<
-      "The command line options and arguments have been analyzed" <<
-      endl;
+    cerr <<
+      endl <<
+      idtr <<
+        "The command line options and arguments have been analyzed" <<
+        endl;
 
   cerr << idtr <<
     "The command line is:" <<
@@ -1619,7 +1621,8 @@ void printOptions ()
       gGeneralOptions->fProgramName << " " <<
       gGeneralOptions->fCommandLineOptions <<
       gGeneralOptions->fInputSourceName <<
-      endl;
+      endl <<
+    endl;
   idtr--;
 
   // the option name field width
@@ -1631,6 +1634,8 @@ void printOptions ()
   // print the chosen general options
   gGeneralOptions->
     printGeneralOptionsValues (fieldWidth);
+  cerr <<
+    endl;
     
   // MSR options
   // -----------
@@ -1638,6 +1643,8 @@ void printOptions ()
   // print the chosen MSR options
   gMsrOptions->
     printMsrOptionsValues (fieldWidth);
+  cerr <<
+    endl;
     
   // LPSR options
   // ------------
@@ -1645,6 +1652,8 @@ void printOptions ()
   // print the chosen LPSR options
   gLpsrOptions->
     printLpsrOptionsValues (fieldWidth);
+  cerr <<
+    endl;
 }
 
 //_______________________________________________________________________________
