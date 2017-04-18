@@ -169,8 +169,11 @@ class EXP lpsrOptions : public smartable {
     // --------------------------------------
     
     bool                  fTraceLpsr;
+    
     bool                  fTraceLpsrVisitors;
+    
     bool                  fDisplayLpsr;
+    
     bool                  fGenerateComments;
 
     // languages
