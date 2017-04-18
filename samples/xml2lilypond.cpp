@@ -64,12 +64,14 @@ void printUsage (
     "                and converts it to a MusicXML tree;" << endl <<
     "        Pass 2: converts that tree to a Music Score Representation (MSR);" << endl <<
     "        Pass 3: converts the MSR to a LilyPond Score Representation (LPSR);" << endl <<
-    "        Pass 4: writes the LPSR as LilyPond source code to standard output." << endl <<
+    "        Pass 4: converts the LPSR to LilyPond source code " << endl <<
+    "                and writes it to standard output." << endl <<
     endl <<
     "    Other passes are performed according to the options, such as" << endl <<
     "    printing views of the internal data or printing a summary of the score." << endl <<
     endl <<
-    "    There are various options to fine tune the generated LilyPond code." << endl <<
+    "    There are various options to fine tune the generated LilyPond code" << endl <<
+    "    and limit the need for manually editing of the latter." << endl <<
     endl <<
     "    The activity log and warning/error messages go to standard error." << endl <<
     endl;

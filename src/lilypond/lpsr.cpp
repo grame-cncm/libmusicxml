@@ -271,7 +271,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   // trace
   cerr <<
-    idtr << "Trace:" <<
+    idtr << "Trace and display:" <<
     endl <<
     endl;
 
@@ -292,11 +292,30 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "Write a trace of the LPSR graphs visiting activity to standard error." <<
       endl <<
+    endl <<
+
+    idtr <<
+      "--lpsr, --displayLpsr" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write the contents of the LPSR data to standard error." << 
+      endl <<
+    endl <<
+
+    idtr <<
+      "--com, --comments" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate comments showing the structure of the score" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "such as '% part P_POne (P1)'." << 
+      endl <<
     endl;
 
   idtr--;
     
-  // languages
+  // --------------------------------------
   cerr <<
     idtr << "Languages:" <<
     endl <<
@@ -350,7 +369,26 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   idtr--;
   
-  // notes
+  // --------------------------------------
+  cerr <<
+    idtr << "Time:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--numericalTime" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't generate non-numerical time signatures such as 'C'." << 
+      endl <<
+    endl;
+
+  idtr--;
+
+  // --------------------------------------
   cerr <<
     idtr << "Notes:" <<
     endl <<
@@ -417,11 +455,21 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "The default is... 'default'." << 
       endl <<
     endl <<
-  endl;
+
+    idtr <<
+      "--iln, --generateInputLineNumbers" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate after each note and barline a comment containing" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "its MusicXML input line number." << 
+      endl <<
+    endl;
     
   idtr--;
 
-  // notes
+  // --------------------------------------
   cerr <<
     idtr << "Bars:" <<
     endl <<
@@ -447,12 +495,11 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "Bt default, this command is commented." << 
       endl <<
-    endl <<
-  endl;
+    endl;
 
   idtr--;
   
-  // line breaks
+  // --------------------------------------
   cerr <<
     idtr << "Line breaks:" <<
     endl <<
@@ -492,12 +539,11 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "where 'n' is a positive integer'." << 
       endl <<
-    endl <<
-  endl;
+    endl;
 
   idtr--;
 
-  // staves
+  // --------------------------------------
   cerr <<
     idtr << "Staves:" <<
     endl <<
@@ -512,50 +558,50 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "Generate '\\moderntab' instead of the default '\\tab'." << 
       endl <<
-    endl <<
-  endl;
+    endl;
 
   idtr--;
 
+  // --------------------------------------
+  cerr <<
+    idtr << "Midi:" <<
+    endl <<
+    endl;
+
+  idtr++;
 
   cerr <<
     idtr <<
-      "--lpsr, --displayLpsr" << 
+      "--mt, --midiTempo 'duration = perSecond'" << 
+      endl <<
+    idtr <<
+      "--mt, --midiTempo \"duration = perSecond\"" << 
       endl <<
     idtr << tab << tab << tab <<
-      "Write the contents of the LPSR data to standard error." << 
+      "Generate a '\\tempo duration = perSecond' command in the \\midi block." << 
       endl <<
-    endl <<
-      
+    idtr << tab << tab << tab <<
+      "'duration' is a string such as '8.', and 'perSecond' is an integer," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "and spaces can be used frely in the argument." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default is '4 = 100'." << 
+      endl <<      
+    endl;
+    
+  idtr--;
 
-    idtr <<
-      "--numericalTime" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Don't generate non-numerical time signatures such as 'C'." << 
-      endl <<
-    idtr <<
-      "--comments" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate comments showing the structure of the score" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "such as '% part P_POne (P1)'." << 
-      endl <<
+  // --------------------------------------
+  cerr <<
+    idtr << "LilyPond code generation:" <<
     endl <<
-      
-    idtr <<
-      "--iln, --generateInputLineNumbers" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate after each note and barline a comment containing" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "its MusicXML input line number." << 
-      endl <<
-    endl <<
-      
+    endl;
+
+  idtr++;
+
+  cerr <<
     idtr <<
       "--toal, --tupletsOnALine" << 
       endl <<
@@ -585,26 +631,6 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--mt, --midiTempo 'duration = perSecond'" << 
-      endl <<
-    idtr <<
-      "--mt, --midiTempo \"duration = perSecond\"" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate a '\\tempo duration = perSecond' command in the \\midi block." << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "'duration' is a string such as '8.', and 'perSecond' is an integer," << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "and spaces can be used frely in the argument." << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "The default is '4 = 100'." << 
-      endl <<
-    endl <<
-      
-    idtr <<
       "--nolpc, --dontGenerateLilyPondCode" << 
       endl <<
     idtr << tab << tab << tab <<
@@ -622,6 +648,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "Don't generate lyrics in the LilyPond code." << 
       endl <<
     endl;
+    
+  idtr--;
 
   idtr--;
   
