@@ -2132,7 +2132,30 @@ void msrOptions::printMsrOptionsHelp ()
       "Write the contents of the MSR data to standard error." <<
       endl <<
     endl <<
+
+    idtr <<
+      "--sum, --displayMsrSummary" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Only write a summary of the MSR to standard error." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "This implies that no LilyPond code is generated." <<
+      endl <<
+    endl;
    
+  idtr--;
+
+  // languagues
+  // --------------------------------------
+  cerr <<
+    idtr << "Languages:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
     idtr <<
       "--mpl, --msrPitchesLanguage language" <<
       endl <<
@@ -2151,8 +2174,49 @@ void msrOptions::printMsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "The default is to use 'nederlands'." <<
       endl <<
-    endl <<
+    endl;
 
+  idtr--;
+
+  // parts
+  // --------------------------------------
+  cerr <<
+    idtr << "Parts:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--part, --partName 'originalName = newName'" <<
+      endl <<
+    idtr <<
+      "--part, --partName \"originalName = newName\"" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Rename part 'original' to 'newName', for example after " <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "displaying a summary of the score in a first xml2lilypond run." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "There can be several occurrences of this option." <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // voices
+  // --------------------------------------
+  cerr <<
+    idtr << "Voices:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
     idtr <<
       "--srvn, --staffRelativeVoiceNumbers" <<
       endl <<
@@ -2166,17 +2230,27 @@ void msrOptions::printMsrOptionsHelp ()
       "which may be global to the score." <<
       endl <<
     endl <<
-
     
     idtr <<
-      "--noms, --dontDisplayMsrStanzas" <<
+      "--kmv, --keepMasterVoices" <<
       endl <<
     idtr << tab << tab << tab <<
-      "Don't display MSR stanzas while displaying MSR data." <<
+      "Keep the master voices used intertally. By default, there are removed after usage." <<
       endl <<
+    endl;
+
+  idtr--;
+
+  // notes
+  // --------------------------------------
+  cerr <<
+    idtr << "Notes:" <<
     endl <<
+    endl;
 
+  idtr++;
 
+  cerr <<    
     idtr <<
       "Options to delay certain elements from a rest to the next note:" <<
       endl <<
@@ -2211,17 +2285,28 @@ void msrOptions::printMsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "  '<wedge/>' in MusicXML, '<!' in LilyPond" <<
       endl <<
+    endl;
+
+   idtr--;
+   
+  // lyrics
+  // --------------------------------------
+  cerr <<
+    idtr << "Lyrics:" <<
     endl <<
+    endl;
 
+  idtr++;
 
-
-
+  cerr <<
     idtr <<
-      "--kmv, --keepMasterVoices" <<
+      "--noms, --dontDisplayMsrStanzas" <<
       endl <<
     idtr << tab << tab << tab <<
-      "Keep the master voices used intertally. By default, there are removed after usage." <<
+      "Don't display MSR stanzas while displaying MSR data." <<
       endl <<
+    endl;
+
 /* JMI
     idtr <<
       "--kms, --keepMasterStanzas" <<
@@ -2230,39 +2315,9 @@ void msrOptions::printMsrOptionsHelp ()
       "Keep the master stanzas used intertally. By default, there are removed after usage." <<
       endl <<
 */
-   
-      endl <<
+  idtr--;
 
-    idtr <<
-      "--sum, --displayMsrSummary" <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Only write a summary of the MSR to standard error." <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "This implies that no LilyPond code is generated." <<
-      endl <<
-    endl <<
-
-
-    idtr <<
-      "--part, --partName 'originalName = newName'" <<
-      endl <<
-    idtr <<
-      "--part, --partName \"originalName = newName\"" <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Rename part 'original' to 'newName', for example after " <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "displaying a summary of the score in a first xml2lilypond run." <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "There can be several occurrences of this option." <<
-      endl <<
-    endl;
-
-   idtr--; 
+  idtr--; 
 }
 
 void msrOptions::printMsrOptionsValues (int fieldWidth)
