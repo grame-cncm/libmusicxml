@@ -364,12 +364,12 @@ class EXP msrOptions : public smartable
     // initialisation
     // ------------------------------------------------------
 
-    void                          initializeMsrOptions (
-                                    bool boolOptionsInitialValue);
+    void                  initializeMsrOptions (
+                            bool boolOptionsInitialValue);
     
-    void                          printMsrOptionsHelp ();
+    void                  printMsrOptionsHelp ();
 
-    void                          printMsrOptionsValues (int fieldWidth);
+    void                  printMsrOptionsValues (int fieldWidth);
 
   public:
 
@@ -383,47 +383,48 @@ class EXP msrOptions : public smartable
     // set and get
     // ------------------------------------------------------
 
-    bool                          setMsrQuartertonesPitchesLanguage (
-                                    string language);    
+    bool                  setMsrQuartertonesPitchesLanguage (
+                            string language);    
  
   public:
 
-    // trace
-    bool                          fTraceMsr;
-    bool                          fTraceMsrVisitors;
+    // trace and display
+    // --------------------------------------
+    bool                  fTraceMsr;
+    bool                  fTraceMsrVisitors;
+    bool                  fDisplayMsr;
+    bool                  fDisplayMsrSummary;
     
     // languages
-    msrQuatertonesPitchesLanguage fMsrQuatertonesPitchesLanguage;
+    // --------------------------------------
+    msrQuatertonesPitchesLanguage
+                          fMsrQuatertonesPitchesLanguage;
     
-    // advanced options
-    bool                          fCreateStaffRelativeVoiceNumbers;
-    bool                          fDelayRestsDynamics;
-    bool                          fDelayRestsWords; // JMI
-    bool                          fDelayRestsSlurs; // JMI
-    bool                          fDelayRestsLigatures; // JMI
-    bool                          fDelayRestsWedges; // JMI
+    // parts
+    // --------------------------------------
+    map<string, string>   fPartsRenaming;
 
-    // master voices and stanzas
-    bool                          fKeepMasterVoices;
-    bool                          fKeepMasterStanzas;
+    // voices
+    // --------------------------------------
+    bool                  fCreateStaffRelativeVoiceNumbers;
+    bool                  fKeepMasterVoices;
+
+    // notes
+    // --------------------------------------
+    bool                  fDelayRestsDynamics;
+    bool                  fDelayRestsWords; // JMI
+    bool                  fDelayRestsSlurs; // JMI
+    bool                  fDelayRestsLigatures; // JMI
+    bool                  fDelayRestsWedges; // JMI
+
+    // lyrics
+    // --------------------------------------
+    bool                  fDontDisplayMsrStanzas;
+    bool                  fKeepMasterStanzas;
     
-    // MSR display
-    bool                          fDisplayMsr;
-
-    // stanza display
-    bool                          fDontDisplayMsrStanzas;
-    
-    // stanza display
-    bool                          fDontDisplayMsrHarmonies; // JMI
-    
-    // MSR score summary
-    bool                          fDisplayMsrSummary;
-
-    // parts renaming
-    map<string, string>           fPartsRenaming;
-
-  private:
-
+    // harmonies
+    // --------------------------------------
+    bool                  fKeepEmptyHarmoniesVoice;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

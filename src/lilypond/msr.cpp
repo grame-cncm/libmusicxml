@@ -2317,6 +2317,34 @@ void msrOptions::printMsrOptionsHelp ()
 */
   idtr--;
 
+  // harmonies
+  // --------------------------------------
+  cerr <<
+    idtr << "Harmonies:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--kehv, --keepEmptyHarmoniesVoice" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't display MSR stanzas while displaying MSR data." <<
+      endl <<
+    endl;
+
+/* JMI
+    idtr <<
+      "--kms, --keepMasterStanzas" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep the master stanzas used intertally. By default, there are removed after usage." <<
+      endl <<
+*/
+  idtr--;
+
   idtr--; 
 }
 
@@ -2328,40 +2356,108 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   idtr++;
   
+  // trace and display
+  // --------------------------------------
+  cerr <<
+    idtr << "Trace and display:" <<
+    endl <<
+    endl;
+
+  idtr++;
+  
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "traceMsr" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsr) <<
       endl <<
+    endl <<
+    
     idtr <<
       setw(fieldWidth) << "traceMsrVisitors" << " : " <<
       booleanAsString (gMsrOptions->fTraceMsrVisitors) <<
       endl <<
+    endl;    
 
+  idtr--;
+
+  // languages
+  // --------------------------------------
+  cerr <<
+    idtr << "Languages:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
         "\"" <<
-        endl <<
-    
-    idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
-      booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
       endl <<
+    endl;
 
-    idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
-      endl;
+  idtr--;
 
-  cerr << left <<
-    indenter::gIndenter <<
-      setw(fieldWidth) << "Delaying elements:" <<
-      endl;
+  // parts
+  // --------------------------------------
+  cerr <<
+    idtr << "Parts:" <<
+    endl <<
+    endl;
 
   idtr++;
 
-  const int indentedFieldWidth = fieldWidth - 2;
-  
-  cerr << left <<
+  if (gMsrOptions->fPartsRenaming.empty ())
+    cerr <<
+      idtr << "none";
+  else
+    for (
+      map<string, string>::const_iterator i =
+        gMsrOptions->fPartsRenaming.begin();
+      i != gMsrOptions->fPartsRenaming.end();
+      i++) {
+        cerr <<
+          "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
+    } // for
+
+  cerr <<
+    endl;
+
+  idtr--;
+
+  // voices
+  // --------------------------------------
+  cerr <<
+    idtr << "Voices:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
+      booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
+      endl <<
+    endl <<
+    
+    idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
+      booleanAsString (gMsrOptions->fKeepMasterVoices) <<
+      endl <<
+    endl;
+
+  idtr--;
+
+  // notes
+  // --------------------------------------
+  cerr <<
+    idtr << "Notes:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<    
     idtr << setw(indentedFieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
       endl <<
@@ -2376,14 +2472,56 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       endl <<
     idtr << setw(indentedFieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (gMsrOptions->fDelayRestsWedges) <<
+      endl <<
+    endl;
+
+   idtr--;
+   
+  // lyrics
+  // --------------------------------------
+  cerr <<
+    idtr << "Lyrics:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
+      endl <<
+    endl;
+
+/* JMI
+    idtr <<
+      "--kms, --keepMasterStanzas" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep the master stanzas used intertally. By default, there are removed after usage." <<
+      endl <<
+*/
+  idtr--;
+
+  // harmonies
+  // --------------------------------------
+  cerr <<
+
+
+  
+  cerr << left <<
+    indenter::gIndenter <<
+      setw(fieldWidth) << "Delaying elements:" <<
       endl;
+
+  idtr++;
+
+  const int indentedFieldWidth = fieldWidth - 2;
+  
+  cerr << left <<
 
   idtr--;
 
   cerr << left <<
-    idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
-      booleanAsString (gMsrOptions->fKeepMasterVoices) <<
-      endl <<
     idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
       booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
       endl <<
@@ -2392,24 +2530,16 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (gMsrOptions->fDisplayMsr) <<
       endl <<
     
+    idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
+      booleanAsString (gMsrOptions->fKeepEmptyHarmoniesVoice) <<
+      endl <<
+    
     idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
       booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
       endl <<
     
     idtr << setw(fieldWidth) << "partRenamingSpecifications" << " : ";
     
-  if (gMsrOptions->fPartsRenaming.empty ())
-    cerr << "none";
-  else
-    for (
-      map<string, string>::const_iterator i =
-        gMsrOptions->fPartsRenaming.begin();
-      i != gMsrOptions->fPartsRenaming.end();
-      i++) {
-        cerr << "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
-    } // for
-  
-  cerr << endl;
 
   idtr--;
 }
