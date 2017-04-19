@@ -3488,14 +3488,32 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       fMusicOlec++;
 
       switch ((*i)->getOrnamentAccidentalMarkKind ()) {
+        case msrOrnament::kDoubleFlat:
+          fOstream << " ^" "\\markup { \\doubleflat }";
+          break;
+        case msrOrnament::kSesquiFlat:
+          fOstream << " ^" "\\markup { \\sesquilat }";
+          break;
+        case msrOrnament::kFlat:
+          fOstream << " ^" "\\markup { \\flat }";
+          break;
+        case msrOrnament::kSemiFlat:
+          fOstream << " ^" "\\markup { \\semiflat }";
+          break;
         case msrOrnament::kNatural:
           fOstream << " ^" "\\markup { \\natural }";
+          break;
+        case msrOrnament::kSemiSharp:
+          fOstream << " ^" "\\markup { \\semisharp }";
           break;
         case msrOrnament::kSharp:
           fOstream << " ^" "\\markup { \\sharp }";
           break;
-        case msrOrnament::kFlat:
-          fOstream << " ^" "\\markup { \\flat }";
+        case msrOrnament::kSesquiSharp:
+          fOstream << " ^" "\\markup { \\sesquisharp }";
+          break;
+        case msrOrnament::kDoubleSharp:
+          fOstream << " ^" "\\markup { \\doublesharp }";
           break;
       } // switch
 

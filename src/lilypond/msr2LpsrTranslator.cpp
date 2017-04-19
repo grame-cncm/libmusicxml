@@ -1347,6 +1347,66 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
     fCurrentChordClone->
       addTechnicalToChord (elt);
   }
+
+  // doest the score need the 'tongue' function?
+  switch (elt->getTechnicalKind ()) {
+    case msrTechnical::kArrow:
+      break;
+    case msrTechnical::kBend:
+      break;
+    case msrTechnical::kDoubleTongue:
+      fCurrentScoreClone->
+        setTongueSchemeFunctionNeeded ();
+      break;
+    case msrTechnical::kDownBow:
+      break;
+    case msrTechnical::kFingering:
+      break;
+    case msrTechnical::kFingernails:
+      break;
+    case msrTechnical::kFret:
+      break;
+    case msrTechnical::kHammerOn:
+      break;
+    case msrTechnical::kHandbell:
+      break;
+    case msrTechnical::kHarmonic:
+      break;
+    case msrTechnical::kHeel:
+      break;
+    case msrTechnical::kHole:
+      break;
+    case msrTechnical::kOpenString:
+      break;
+    case msrTechnical::kOtherTechnical:
+      break;
+    case msrTechnical::kPluck:
+      break;
+    case msrTechnical::kPullOff:
+      break;
+    case msrTechnical::kSnapPizzicato:
+      break;
+    case msrTechnical::kStopped:
+      break;
+    case msrTechnical::kString:
+      break;
+    case msrTechnical::kTap:
+      break;
+    case msrTechnical::kThumbPosition:
+      break;
+    case msrTechnical::kToe:
+      break;
+    case msrTechnical::kTripleTongue:
+      fCurrentScoreClone->
+        setTongueSchemeFunctionNeeded ();
+      break;
+    case msrTechnical::kUpBow:
+      break;
+/* JMI
+    default:
+      {}
+      */
+  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
