@@ -7379,7 +7379,7 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
     currentOrnamentAccidentalMarkKind = msrOrnament::kSharp;
     
   else if (accidentalMark == "sesqui-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::sesquiSharp;
+    currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiSharp;
     
   else if (accidentalMark == "double-sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleSharp;
@@ -8674,6 +8674,8 @@ void xml2MsrTranslator::attachCurrentArticulationsToNote (
   
       note->
         addArticulationToNote (art);
+
+      // forget about this articulation
       fCurrentArticulations.pop_front();
     } // while
   }
@@ -8706,6 +8708,8 @@ void xml2MsrTranslator::attachCurrentTechnicalsToNote (
   
       note->
         addTechnicalToNote (art);
+
+      // forget about this technical
       fCurrentTechnicalsList.pop_front();
     } // while
   }
@@ -8738,6 +8742,8 @@ void xml2MsrTranslator::attachCurrentOrnamentsToNote (
   
       note->
         addOrnamentToNote (art);
+
+      // forget about this ornament
       fCurrentOrnamentsList.pop_front();
     } // while
   }
@@ -9375,7 +9381,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   attachCurrentArticulationsToNote (newNote);
 
   // attach the technicals if any to the note
-  attachCurrentOrnamentsToNote (newNote);
+  attachCurrentTechnicalsToNote (newNote);
 
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);

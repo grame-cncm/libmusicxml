@@ -5174,6 +5174,14 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
 
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
+  abort();
+  if (gGeneralOptions->fTraceNotes)
+    cerr << idtr <<
+      "Adding technical '" << technical->technicalKindAsString () <<
+      "' to note '" << noteAsShortString () <<
+      "', line " << fInputLineNumber <<
+      endl;
+
   // append the technical to the note technicals list
   fNoteTechnicals.push_back (technical);
 
