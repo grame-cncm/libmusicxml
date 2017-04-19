@@ -1515,8 +1515,8 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   idtr++;
 
   // escape quotes if any
-  std::string variableName;
-  std::string variableValue;
+  string variableName;
+  string variableValue;
 
   std::for_each (
     fVariableName.begin(),
@@ -1715,8 +1715,8 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   idtr++;
 
   // escape quotes if any
-  std::string variableName;
-  std::string variableValue;
+  string variableName;
+  string variableValue;
 
   std::for_each (
     fVariableName.begin(),
@@ -1775,44 +1775,32 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrSchemeFunction lpsrSchemeFunction::create (
-  int               inputLineNumber,
-  lpsrCommentedKind commentedKind,
-  string            variableName,
-  string            value, 
-  string            comment,
-  lpsrEndlKind      endlKind)
+  int    inputLineNumber,
+  string functionName,
+  string functionDescription,
+  string functionCode)
 {
   lpsrSchemeFunction* o =
     new lpsrSchemeFunction (
       inputLineNumber,
-      commentedKind, variableName, value, comment, endlKind);
+      functionName, functionDescription, functionCode);
   assert(o!=0);
   return o;
 }
 
 lpsrSchemeFunction::lpsrSchemeFunction (
-  int               inputLineNumber,
-  lpsrCommentedKind commentedKind,
-  string            variableName,
-  string            value, 
-  string            comment,
-  lpsrEndlKind      endlKind)
+  int    inputLineNumber,
+  string functionName,
+  string functionDescription,
+  string functionCode)
     : lpsrElement (inputLineNumber)
 {
-  fCommentedKind = commentedKind;
-
-  fVariableName  = variableName;
-  fVariableValue = value;
-
-  fComment       = comment;
-  
-  fEndlKind      = endlKind;
-}
+  fFunctionName        = functionName;
+  fFunctionDescription = functionDescription;
+  fFunctionCode        = functionCode;
+  }
 
 lpsrSchemeFunction::~lpsrSchemeFunction() {}
-
-string const lpsrSchemeFunction::g_SchemeFunctionNoUnit    = "";
-string const lpsrSchemeFunction::g_SchemeFunctionNoComment = "";
 
 void lpsrSchemeFunction::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1869,61 +1857,17 @@ void lpsrSchemeFunction::print (ostream& os)
 
   idtr++;
 
-  // escape quotes if any
-  std::string variableName;
-  std::string variableValue;
-
-  std::for_each (
-    fVariableName.begin(),
-    fVariableName.end(),
-    stringQuoteEscaper (variableName));
-  std::for_each (
-    fVariableValue.begin(),
-    fVariableValue.end(),
-    stringQuoteEscaper (variableValue));
-
-  os << idtr;
-  switch (fCommentedKind) {
-    case kCommented:
-      os << "commented";
-      break;
-    case kUncommented:
-      os << "uncommented";
-      break;
-  } // switch
-  os << endl;
-
   // print resulting strings
   os <<
-    idtr << "variable name : \"" << variableName << "\"" <<
-    endl <<
-    idtr << "variable value: \"" << variableValue << "\"" <<
-    endl;
-
-  os <<
-    idtr << "comment: ";
-  if (fComment.size())
-    os << "\"" << fComment << "\"";
-  else
-    os << "none";
-  os << endl;
-
-  os << idtr;
-  switch (fEndlKind) {
-    case kWithEndl:
-      os << "with end line";
-      break;
-    case kWithEndlTwice:
-      os << "with end line twice";
-      break;
-    case kWithoutEndl:
-      os << "without end line";
-      break;
-  } // switch
-  os << " afterwards";
-  os << endl;
-  
- // JMI os << endl;
+    idtr <<
+      "function name : \"" << fFunctionName << "\"" <<
+      endl <<
+    idtr <<
+      "function description: \"" << fFunctionDescription << "\"" <<
+      endl <<
+    idtr <<
+      "function code: \"" << fFunctionCode << "\"" <<
+      endl;
 
   idtr--;
 }

@@ -682,34 +682,14 @@ class EXP lpsrSchemeFunction : public lpsrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum lpsrCommentedKind {
-      kCommented, kUncommented};
-
-    static string commentedKindAsString (
-      lpsrCommentedKind commentedKind);
-      
-    enum lpsrEndlKind {
-      kWithEndl, kWithEndlTwice, kWithoutEndl};
-
-    static string endlKindAsString (
-      lpsrEndlKind endlKind);
-      
-    static string const g_SchemeFunctionNoUnit;
-    static string const g_SchemeFunctionNoComment;
-
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<lpsrSchemeFunction> create (
-      int               inputLineNumber,
-      lpsrCommentedKind commentedKind,
-      string            variableName,
-      string            value, 
-      string            comment,
-      lpsrEndlKind      endlKind);
+      int    inputLineNumber,
+      string functionName,
+      string functionDescription,
+      string functionCode);
     
   protected:
 
@@ -717,12 +697,10 @@ class EXP lpsrSchemeFunction : public lpsrElement
     // ------------------------------------------------------
 
     lpsrSchemeFunction (
-      int               inputLineNumber,
-      lpsrCommentedKind commentedKind,
-      string            variableName,
-      string            value, 
-      string            comment,
-      lpsrEndlKind      endlKind);
+      int    inputLineNumber,
+      string functionName,
+      string functionDescription,
+      string functionCode);
       
     virtual ~lpsrSchemeFunction();
   
@@ -730,22 +708,15 @@ class EXP lpsrSchemeFunction : public lpsrElement
 
     // set and get
     // ------------------------------------------------------
+         
+    string                getFunctionName  () const
+                              { return fFunctionName; };
+    
+    string                getFunctionDescription () const
+                              { return fFunctionDescription; };
 
-    void      changeAssocValue (string value)
-                  { fVariableValue = value; }
-
-    lpsrCommentedKind
-              getCommentedKind () const { return fCommentedKind; };
-
-    string    getVariableName  () const { return fVariableName; };
-    string    getVariableValue () const { return fVariableValue; };
-
-    string    getComment  () const
-                  { return fComment; }
-
-    lpsrEndlKind
-              getEndlKind () const
-                  { return fEndlKind; };
+    string                getFunctionCode () const
+                              { return fFunctionCode; }
 
     // services
     // ------------------------------------------------------
@@ -764,16 +735,12 @@ class EXP lpsrSchemeFunction : public lpsrElement
     virtual void print (ostream& os);
 
   private:
-
-    lpsrCommentedKind fCommentedKind;
     
-    string            fVariableName;
-    string            fVariableValue;
-
-    string            fComment;
-
-    lpsrEndlKind      fEndlKind;
+    string            fFunctionName;
     
+    string            fFunctionDescription;
+
+    string            fFunctionCode;    
 };
 typedef SMARTP<lpsrSchemeFunction> S_lpsrSchemeFunction;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& elt);
@@ -2343,7 +2310,7 @@ typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);
 
 /*
-const std::string str =
+const string str =
 R"("Beware the Jabberwock, my son!
   The jaws that bite, the claws that catch!
 Beware the Jubjub bird, and shun
