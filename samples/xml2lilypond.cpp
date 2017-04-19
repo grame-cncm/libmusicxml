@@ -234,7 +234,6 @@ void analyzeOptions (
 
   int dontGenerateLilyPondCodePresent   = 0;
 
-
   // long_options data structure
   static struct option long_options [] =
     {
@@ -1665,6 +1664,15 @@ int main (int argc, char *argv[])
     cerr << "argv[ " << i << "] = " << argv[i] << endl;
   }
   */
+
+       const std::string str =
+R"("Beware the Jabberwock, my son!
+  The jaws that bite, the claws that catch!
+Beware the Jubjub bird, and shun
+  The frumious Bandersnatch!"
+)";
+
+cerr << str << endl;
 
   // enlist versions information
   enlistVersion (

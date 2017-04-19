@@ -7357,14 +7357,32 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
   msrOrnament::msrOrnamentAccidentalMarkKind
     currentOrnamentAccidentalMarkKind;
     
+  if      (accidentalMark == "double-flat")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleFlat;
+    
+  if      (accidentalMark == "sesqui-flat")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiFlat;
+    
+  else if (accidentalMark == "flat")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kFlat;
+    
+  if      (accidentalMark == "semi-flat")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kSemiFlat;
+    
   if      (accidentalMark == "natural")
     currentOrnamentAccidentalMarkKind = msrOrnament::kNatural;
+    
+  else if (accidentalMark == "semi-sharp")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kSemiSharp;
     
   else if (accidentalMark == "sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSharp;
     
-  else if (accidentalMark == "flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kFlat;
+  else if (accidentalMark == "sesqui-sharp")
+    currentOrnamentAccidentalMarkKind = msrOrnament::sesquiSharp;
+    
+  else if (accidentalMark == "double-sharp")
+    currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleSharp;
     
   else if (accidentalMark.size ()) {
     stringstream s;

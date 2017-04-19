@@ -1019,7 +1019,9 @@ class EXP msrOrnament : public msrElement
       msrOrnamentPlacementKind ornamentPlacementKind);
       
     enum msrOrnamentAccidentalMarkKind {
-      kNatural, kSharp, kFlat};
+      kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
+      kNatural,
+      kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
 
     static string ornamentAccidentalMarkKindAsString (
       msrOrnamentAccidentalMarkKind ornamentAccidentalMarkKind);
@@ -6640,23 +6642,27 @@ class EXP msrScore : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrIdentification
-                    getIdentification () const
-                        { return fIdentification; }
+    S_msrIdentification   getIdentification () const
+                              { return fIdentification; }
 
-    S_msrPageGeometry
-                    getPageGeometry () const
-                        { return fPageGeometry; }
+    S_msrPageGeometry     getPageGeometry () const
+                              { return fPageGeometry; }
 
-    void            setCredit (S_msrCredit credit)
-                        { fCredit = credit; }
+    void                  setCredit (S_msrCredit credit)
+                              { fCredit = credit; }
                         
-    S_msrCredit     getCredit () const
-                        { return fCredit; }
+    S_msrCredit           getCredit () const
+                              { return fCredit; }
+    
+    void                  setTongueSchemeFunctionNeeded ()
+                              { fTongueSchemeFunctionNeeded = true; }
+                        
+    bool                  getTongueSchemeFunctionNeeded () const
+                              { return fTongueSchemeFunctionNeeded; }
     
     const list<S_msrPartgroup>&
-                    getPartgroupsList () const
-                        { return fPartgroupsList; }
+                          getPartgroupsList () const
+                              { return fPartgroupsList; }
 
     // services
     // ------------------------------------------------------
@@ -6687,6 +6693,8 @@ class EXP msrScore : public msrElement
     S_msrCredit          fCredit;
     
     list<S_msrPartgroup> fPartgroupsList;
+
+    bool                 fTongueSchemeFunctionNeeded;
  };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
