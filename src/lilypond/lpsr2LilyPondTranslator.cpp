@@ -350,7 +350,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
       result = "\\bendAfter #+4"; // JMI
       break;
     case msrTechnical::kDoubleTongue:
-      result = "\\DoubleTongue";
+      result = "-\\tongue #2";
       break;
     case msrTechnical::kDownBow:
       result = "\\downbow";
@@ -410,7 +410,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
       result = "\\ltoe"; // rtoe ??? JMI
       break;
     case msrTechnical::kTripleTongue:
-      result = "\\TripleTongue";
+      result = "-\\tongue #3";
       break;
     case msrTechnical::kUpBow:
       result = "\\upbow";

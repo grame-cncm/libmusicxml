@@ -9151,7 +9151,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (false && gGeneralOptions->fTraceNotes) { // JMI
     cerr <<
       endl <<
       idtr <<
@@ -9389,7 +9389,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (false && gGeneralOptions->fTraceNotes) { // JMI
     cerr <<
       endl <<
       idtr <<

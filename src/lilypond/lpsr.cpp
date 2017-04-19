@@ -1774,6 +1774,161 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_lpsrSchemeFunction lpsrSchemeFunction::create (
+  int               inputLineNumber,
+  lpsrCommentedKind commentedKind,
+  string            variableName,
+  string            value, 
+  string            comment,
+  lpsrEndlKind      endlKind)
+{
+  lpsrSchemeFunction* o =
+    new lpsrSchemeFunction (
+      inputLineNumber,
+      commentedKind, variableName, value, comment, endlKind);
+  assert(o!=0);
+  return o;
+}
+
+lpsrSchemeFunction::lpsrSchemeFunction (
+  int               inputLineNumber,
+  lpsrCommentedKind commentedKind,
+  string            variableName,
+  string            value, 
+  string            comment,
+  lpsrEndlKind      endlKind)
+    : lpsrElement (inputLineNumber)
+{
+  fCommentedKind = commentedKind;
+
+  fVariableName  = variableName;
+  fVariableValue = value;
+
+  fComment       = comment;
+  
+  fEndlKind      = endlKind;
+}
+
+lpsrSchemeFunction::~lpsrSchemeFunction() {}
+
+string const lpsrSchemeFunction::g_SchemeFunctionNoUnit    = "";
+string const lpsrSchemeFunction::g_SchemeFunctionNoComment = "";
+
+void lpsrSchemeFunction::acceptIn (basevisitor* v) {
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    cerr << idtr <<
+      "% ==> lpsrSchemeFunction::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_lpsrSchemeFunction>*
+    p =
+      dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
+        S_lpsrSchemeFunction elem = this;
+        
+        if (gLpsrOptions->fTraceLpsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching lpsrSchemeFunction::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void lpsrSchemeFunction::acceptOut (basevisitor* v) {
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    cerr << idtr <<
+      "% ==> lpsrSchemeFunction::acceptOut()" <<
+      endl;
+
+  if (visitor<S_lpsrSchemeFunction>*
+    p =
+      dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
+        S_lpsrSchemeFunction elem = this;
+      
+        if (gLpsrOptions->fTraceLpsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching lpsrSchemeFunction::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrSchemeFunction::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& assoc)
+{
+  assoc->print (os);
+  return os;
+}
+
+void lpsrSchemeFunction::print (ostream& os)
+{
+  os <<
+    "SchemeFunction" <<
+    endl;
+
+  idtr++;
+
+  // escape quotes if any
+  std::string variableName;
+  std::string variableValue;
+
+  std::for_each (
+    fVariableName.begin(),
+    fVariableName.end(),
+    stringQuoteEscaper (variableName));
+  std::for_each (
+    fVariableValue.begin(),
+    fVariableValue.end(),
+    stringQuoteEscaper (variableValue));
+
+  os << idtr;
+  switch (fCommentedKind) {
+    case kCommented:
+      os << "commented";
+      break;
+    case kUncommented:
+      os << "uncommented";
+      break;
+  } // switch
+  os << endl;
+
+  // print resulting strings
+  os <<
+    idtr << "variable name : \"" << variableName << "\"" <<
+    endl <<
+    idtr << "variable value: \"" << variableValue << "\"" <<
+    endl;
+
+  os <<
+    idtr << "comment: ";
+  if (fComment.size())
+    os << "\"" << fComment << "\"";
+  else
+    os << "none";
+  os << endl;
+
+  os << idtr;
+  switch (fEndlKind) {
+    case kWithEndl:
+      os << "with end line";
+      break;
+    case kWithEndlTwice:
+      os << "with end line twice";
+      break;
+    case kWithoutEndl:
+      os << "without end line";
+      break;
+  } // switch
+  os << " afterwards";
+  os << endl;
+  
+ // JMI os << endl;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_lpsrNewStaffgroupBlock lpsrNewStaffgroupBlock::create (
   int            inputLineNumber)
 {

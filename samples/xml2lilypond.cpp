@@ -1665,15 +1665,6 @@ int main (int argc, char *argv[])
   }
   */
 
-       const std::string str =
-R"("Beware the Jabberwock, my son!
-  The jaws that bite, the claws that catch!
-Beware the Jubjub bird, and shun
-  The frumious Bandersnatch!"
-)";
-
-cerr << str << endl;
-
   // enlist versions information
   enlistVersion (
     "0.0.0", "somewhere in 2016",

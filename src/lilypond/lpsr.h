@@ -675,6 +675,110 @@ typedef SMARTP<lpsrSchemeVarValAssoc> S_lpsrSchemeVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& elt);
 
 /*!
+\brief A lpsr Scheme variable/value association representation.
+*/
+//______________________________________________________________________________
+class EXP lpsrSchemeFunction : public lpsrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum lpsrCommentedKind {
+      kCommented, kUncommented};
+
+    static string commentedKindAsString (
+      lpsrCommentedKind commentedKind);
+      
+    enum lpsrEndlKind {
+      kWithEndl, kWithEndlTwice, kWithoutEndl};
+
+    static string endlKindAsString (
+      lpsrEndlKind endlKind);
+      
+    static string const g_SchemeFunctionNoUnit;
+    static string const g_SchemeFunctionNoComment;
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrSchemeFunction> create (
+      int               inputLineNumber,
+      lpsrCommentedKind commentedKind,
+      string            variableName,
+      string            value, 
+      string            comment,
+      lpsrEndlKind      endlKind);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrSchemeFunction (
+      int               inputLineNumber,
+      lpsrCommentedKind commentedKind,
+      string            variableName,
+      string            value, 
+      string            comment,
+      lpsrEndlKind      endlKind);
+      
+    virtual ~lpsrSchemeFunction();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void      changeAssocValue (string value)
+                  { fVariableValue = value; }
+
+    lpsrCommentedKind
+              getCommentedKind () const { return fCommentedKind; };
+
+    string    getVariableName  () const { return fVariableName; };
+    string    getVariableValue () const { return fVariableValue; };
+
+    string    getComment  () const
+                  { return fComment; }
+
+    lpsrEndlKind
+              getEndlKind () const
+                  { return fEndlKind; };
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    lpsrCommentedKind fCommentedKind;
+    
+    string            fVariableName;
+    string            fVariableValue;
+
+    string            fComment;
+
+    lpsrEndlKind      fEndlKind;
+    
+};
+typedef SMARTP<lpsrSchemeFunction> S_lpsrSchemeFunction;
+EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& elt);
+
+/*!
 \brief A lpsr comment representation.
 
   A comment is represented by its contents
@@ -1785,45 +1889,45 @@ class EXP lpsrStaffBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrStaff    getStaff () const
-                      { return fStaff; }
+    S_msrStaff            getStaff () const
+                              { return fStaff; }
 
     const list<S_msrElement>&
-                  getStaffBlockElements () const
-                      { return fStaffBlockElements; }
+                          getStaffBlockElements () const
+                              { return fStaffBlockElements; }
 
-    void          setStaffBlockInstrumentName (
-                    string instrumentName)
-                      {
-                        fStaffBlockInstrumentName =
-                          instrumentName;
-                      }
+    void                  setStaffBlockInstrumentName (
+                            string instrumentName)
+                              {
+                                fStaffBlockInstrumentName =
+                                  instrumentName;
+                              }
 
-    string        getStaffBlockInstrumentName () const
-                      { return fStaffBlockInstrumentName; }
+    string                getStaffBlockInstrumentName () const
+                              { return fStaffBlockInstrumentName; }
 
-    void          setStaffBlockShortInstrumentName (
-                    string shortInstrumentName)
-                      {
-                        fStaffBlockShortInstrumentName =
-                          shortInstrumentName;
-                      }
+    void                  setStaffBlockShortInstrumentName (
+                            string shortInstrumentName)
+                              {
+                                fStaffBlockShortInstrumentName =
+                                  shortInstrumentName;
+                              }
 
-    string        getStaffBlockShortInstrumentName () const
-                      { return fStaffBlockShortInstrumentName; }
+    string                getStaffBlockShortInstrumentName () const
+                              { return fStaffBlockShortInstrumentName; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendVoiceUseToStaffBlock (
-                    S_msrVoice voice);
+    void                  appendVoiceUseToStaffBlock (
+                            S_msrVoice voice);
 
-    void          appendLyricsUseToStaffBlock (
-                    S_msrStanza stanza);
+    void                  appendLyricsUseToStaffBlock (
+                            S_msrStanza stanza);
 
-    void          appendElementToStaffBlock (
-                    S_msrElement elem)
-                      { fStaffBlockElements.push_back (elem); }
+    void                  appendElementToStaffBlock (
+                            S_msrElement elem)
+                              { fStaffBlockElements.push_back (elem); }
                   
     // visitors
     // ------------------------------------------------------
@@ -1881,39 +1985,39 @@ class EXP lpsrPartBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart     getPart () const
-                      { return fPart; }
+    S_msrPart             getPart () const
+                              { return fPart; }
 
     const list<S_msrElement>&
-                  getPartBlockElements () const
-                      { return fPartBlockElements; }
+                          getPartBlockElements () const
+                              { return fPartBlockElements; }
 
-    void          setPartBlockInstrumentName (
-                    string instrumentName)
-                      {
-                        fPartBlockInstrumentName =
-                          instrumentName;
-                      }
+    void                  setPartBlockInstrumentName (
+                            string instrumentName)
+                              {
+                                fPartBlockInstrumentName =
+                                  instrumentName;
+                              }
 
-    string        getPartBlockInstrumentName () const
-                      { return fPartBlockInstrumentName; }
+    string                getPartBlockInstrumentName () const
+                              { return fPartBlockInstrumentName; }
 
-    void          setPartBlockShortInstrumentName (
-                    string shortInstrumentName)
-                      {
-                        fPartBlockShortInstrumentName =
-                          shortInstrumentName;
-                      }
+    void                  setPartBlockShortInstrumentName (
+                            string shortInstrumentName)
+                              {
+                                fPartBlockShortInstrumentName =
+                                  shortInstrumentName;
+                              }
 
-    string        getPartBlockShortInstrumentName () const
-                      { return fPartBlockShortInstrumentName; }
+    string                getPartBlockShortInstrumentName () const
+                              { return fPartBlockShortInstrumentName; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendElementToPartBlock (
-                    S_msrElement elem)
-                      { fPartBlockElements.push_back (elem); }
+    void                  appendElementToPartBlock (
+                            S_msrElement elem)
+                              { fPartBlockElements.push_back (elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -1971,20 +2075,19 @@ class EXP lpsrPartgroupBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPartgroup
-                  getPartgroup () const
-                      { return fPartgroup; }
+    S_msrPartgroup        getPartgroup () const
+                              { return fPartgroup; }
 
     const list<S_msrElement>&
-                  getPartgroupBlockElements () const
-                      { return fPartgroupBlockElements; }
+                          getPartgroupBlockElements () const
+                              { return fPartgroupBlockElements; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendElementToPartgroupBlock (
-                    S_msrElement elem)
-                      { fPartgroupBlockElements.push_back (elem); }
+    void                  appendElementToPartgroupBlock (
+                            S_msrElement elem)
+                              { fPartgroupBlockElements.push_back (elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -2039,32 +2142,31 @@ class EXP lpsrScoreBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_lpsrParallelMusic
-                  getScoreBlockParallelMusic () const
-                      { return fScoreBlockParallelMusic; }
+    S_lpsrParallelMusic   getScoreBlockParallelMusic () const
+                              { return fScoreBlockParallelMusic; }
 
 /*
     const vector<S_msrElement>&
                   getScoreBlockElements () const
                       { return fScoreBlockElements; }
 */
-    S_lpsrLayout  getScoreBlockLayout () const
-                    { return fScoreBlockLayout; }
+    S_lpsrLayout          getScoreBlockLayout () const
+                            { return fScoreBlockLayout; }
 
-    S_msrMidi     getScoreBlockMidi () const
-                      { return fScoreBlockMidi; }
+    S_msrMidi             getScoreBlockMidi () const
+                              { return fScoreBlockMidi; }
 
     // services
     // ------------------------------------------------------
 
-    void          appendPartgroupBlockToParallelMusic (
-                    S_lpsrPartgroupBlock partgroupBlock);
+    void                  appendPartgroupBlockToParallelMusic (
+                            S_lpsrPartgroupBlock partgroupBlock);
 
-    void          appendVoiceUseToParallelMusic (
-                    S_lpsrUseVoiceCommand voiceUse);
+    void                  appendVoiceUseToParallelMusic (
+                            S_lpsrUseVoiceCommand voiceUse);
 
-    void          appendLyricsUseToParallelMusic (
-                    S_lpsrNewLyricsBlock lyricsUse);
+    void                  appendLyricsUseToParallelMusic (
+                            S_lpsrNewLyricsBlock lyricsUse);
 
     // visitors
     // ------------------------------------------------------
@@ -2126,69 +2228,72 @@ class EXP lpsrScore : public lpsrElement
     // ------------------------------------------------------
                   
     S_lpsrLilypondVarValAssoc
-              getLilyPondVersion () const
-                  { return fLilyPondVersion; }
+                          getLilyPondVersion () const
+                              { return fLilyPondVersion; }
 
     S_lpsrSchemeVarValAssoc
-              getGlobalStaffSizeAssoc () const
-                  { return fGlobalStaffSizeAssoc; }
+                          getGlobalStaffSizeAssoc () const
+                              { return fGlobalStaffSizeAssoc; }
 
-    S_lpsrHeader
-              getHeader () const
-                  { return fHeader; }
+    S_lpsrHeader          getHeader () const
+                              { return fHeader; }
 
-    S_lpsrPaper
-              getPaper () const
-                  { return fPaper; }
+    S_lpsrPaper           getPaper () const
+                              { return fPaper; }
 
-    S_lpsrLayout
-              getScoreLayout () const
-                  { return fScoreLayout; }
+    S_lpsrLayout          getScoreLayout () const
+                              { return fScoreLayout; }
 
     const list<S_msrElement>&
-              getVoicesAndLyricsList () const
-                  { return fScoreElements; }
+                          getVoicesAndLyricsList () const
+                              { return fScoreElements; }
 
-    S_lpsrScoreBlock
-              getScoreBlock () const
-                  { return fScoreBlock; }
+    S_lpsrScoreBlock      getScoreBlock () const
+                              { return fScoreBlock; }
 
-    void      setGlobalStaffSize (float size)
-                  {
-                    stringstream s;
-                    s << size;
-                    fGlobalStaffSizeAssoc->
-                      changeAssocValue (s.str());
-                  }
+    void                  setGlobalStaffSize (float size)
+                              {
+                                stringstream s;
+                                s << size;
+                                fGlobalStaffSizeAssoc->
+                                  changeAssocValue (s.str());
+                              }
+
+    // Scheme functions
+    void                  setTongueSchemeFunctionNeeded ()
+                              { fTongueSchemeFunctionNeeded = true; }
+                        
+    bool                  getTongueSchemeFunctionNeeded () const
+                              { return fTongueSchemeFunctionNeeded; }
     
     // services
     // ------------------------------------------------------
 
-    void      appendCommentToScore (
-                S_lpsrComment comment)
-                  { fScoreElements.push_back (comment); }
+    void                  appendCommentToScore (
+                            S_lpsrComment comment)
+                              { fScoreElements.push_back (comment); }
                   
-    void      appendSchemeVarValAssocToScore (
-                S_lpsrSchemeVarValAssoc assoc)
-                  { fScoreElements.push_back (assoc); }
+    void                  appendSchemeVarValAssocToScore (
+                            S_lpsrSchemeVarValAssoc assoc)
+                              { fScoreElements.push_back (assoc); }
                   
-    void      prependSchemeVarValAssocToScore (
-                S_lpsrSchemeVarValAssoc assoc)
-                  { fScoreElements.push_front (assoc); }
+    void                  prependSchemeVarValAssocToScore (
+                            S_lpsrSchemeVarValAssoc assoc)
+                              { fScoreElements.push_front (assoc); }
                   
-    void      appendVoiceToScoreElements (
-                S_msrVoice voice)
-                  { fScoreElements.push_back (voice); }
+    void                  appendVoiceToScoreElements (
+                            S_msrVoice voice)
+                              { fScoreElements.push_back (voice); }
                   
-    void      appendStanzaToScoreElements (
-                S_msrStanza stanza)
-                  { fScoreElements.push_back (stanza); }
+    void                  appendStanzaToScoreElements (
+                            S_msrStanza stanza)
+                              { fScoreElements.push_back (stanza); }
 
-    void      appendVoiceUseToStoreCommand (
-                S_msrVoice voice);
+    void                  appendVoiceUseToStoreCommand (
+                            S_msrVoice voice);
 
-    void      appendLyricsUseToStoreCommand (
-                S_msrStanza stanza);
+    void                  appendLyricsUseToStoreCommand (
+                            S_msrStanza stanza);
 
     // visitors
     // ------------------------------------------------------
@@ -2230,9 +2335,63 @@ class EXP lpsrScore : public lpsrElement
 
     // score command
     S_lpsrScoreBlock          fScoreBlock;
+
+    // Scheme functions
+    bool                      fTongueSchemeFunctionNeeded;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);
+
+/*
+const std::string str =
+R"("Beware the Jabberwock, my son!
+  The jaws that bite, the claws that catch!
+Beware the Jubjub bird, and shun
+  The frumious Bandersnatch!"
+)";
+
+R"("
+tongue =
+#(define-music-function (parser location dots) (integer?)
+   (let ((script (make-music 'ArticulationEvent
+                   'articulation-type "staccato")))
+     (set! (ly:music-property script 'tweaks)
+           (acons 'stencil
+             (lambda (grob)
+               (let ((stil (ly:script-interface::print grob)))
+                 (let loop ((count (1- dots)) (new-stil stil))
+                   (if (> count 0)
+                       (loop (1- count)
+                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
+                       (ly:stencil-aligned-to new-stil X CENTER)))))
+             (ly:music-property script 'tweaks)))
+     script))
+)";
+*
+
+  if (elt->getTongueSchemeFunctionNeeded ()) {
+    fOstream <<
+R"(
+tongue =
+#(define-music-function (parser location dots) (integer?)
+   (let ((script (make-music 'ArticulationEvent
+                   'articulation-type "staccato")))
+     (set! (ly:music-property script 'tweaks)
+           (acons 'stencil
+             (lambda (grob)
+               (let ((stil (ly:script-interface::print grob)))
+                 (let loop ((count (1- dots)) (new-stil stil))
+                   (if (> count 0)
+                       (loop (1- count)
+                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
+                       (ly:stencil-aligned-to new-stil X CENTER)))))
+             (ly:music-property script 'tweaks)))
+     script))
+)";
+  }
+
+
+*/
 
 
 /*! @} */

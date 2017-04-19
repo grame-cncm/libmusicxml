@@ -2512,8 +2512,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
       booleanAsString (gMsrOptions->fKeepEmptyHarmoniesVoice) <<
       endl;
-
-  idtr--;
   
   idtr--;
   
@@ -3240,6 +3238,25 @@ ostream& operator<< (ostream& os, const S_msrTechnical& elt)
 {
   elt->print (os);
   return os;
+}
+
+string msrTechnical::technicalAsString () const
+{
+  string result;
+  
+  switch (fTechnicalPlacementKind) {
+    case msrTechnical::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTechnical::kAbove:
+      result = "above";
+      break;
+    case msrTechnical::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
 }
 
 void msrTechnical::print (ostream& os)
@@ -5174,10 +5191,9 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
 
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
-  abort();
   if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Adding technical '" << technical->technicalKindAsString () <<
+      "Adding technical '" << technical->technicalAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
       endl;
@@ -6607,7 +6623,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "% Adding technical '" <<
-      tech->technicalKindAsString () <<
+      tech->technicalAsString () <<
       "' to chord" <<
       endl;
 
