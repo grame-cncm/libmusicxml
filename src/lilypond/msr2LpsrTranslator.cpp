@@ -1355,7 +1355,11 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
     case msrTechnical::kBend:
       break;
     case msrTechnical::kDoubleTongue:
+<<<<<<< HEAD
       fLpsrScore->
+=======
+      fCurrentScoreClone->
+>>>>>>> 62a8bd8c9fe3f1a33555898784a4ec228f64d641
         setTongueSchemeFunctionNeeded ();
       break;
     case msrTechnical::kDownBow:
@@ -1397,7 +1401,11 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
     case msrTechnical::kToe:
       break;
     case msrTechnical::kTripleTongue:
+<<<<<<< HEAD
       fLpsrScore->
+=======
+      fCurrentScoreClone->
+>>>>>>> 62a8bd8c9fe3f1a33555898784a4ec228f64d641
         setTongueSchemeFunctionNeeded ();
       break;
     case msrTechnical::kUpBow:
