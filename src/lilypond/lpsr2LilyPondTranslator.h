@@ -60,6 +60,8 @@ class lpsr2LilyPondTranslator :
   public visitor<S_lpsrMelismaCommand>,
 
   public visitor<S_lpsrComment>,
+  
+  public visitor<S_lpsrSchemeFunction>,
 
   // MSR
   
@@ -219,6 +221,9 @@ class lpsr2LilyPondTranslator :
 
     virtual void visitStart (S_lpsrComment& elt);
     virtual void visitEnd   (S_lpsrComment& elt);
+
+    virtual void visitStart (S_lpsrSchemeFunction& elt);
+    virtual void visitEnd   (S_lpsrSchemeFunction& elt);
 
     // MSR
 

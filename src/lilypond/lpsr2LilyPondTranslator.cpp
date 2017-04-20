@@ -4737,6 +4737,33 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrComment& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_lpsrSchemeFunction& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting lpsrSchemeFunction" <<
+      endl;
+
+  fOstream <<
+    endl <<
+    "% Scheme function: \"" << elt->getFunctionName () << "\"" <<
+    // endl is in the decription
+    elt->getFunctionDescription () <<
+    // endl is in the decription
+    elt->getFunctionCode () <<
+    endl <<
+    endl;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting lpsrSchemeFunction" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrRehearsal& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

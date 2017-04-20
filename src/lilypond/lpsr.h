@@ -709,7 +709,7 @@ class EXP lpsrSchemeFunction : public lpsrElement
     // set and get
     // ------------------------------------------------------
          
-    string                getFunctionName  () const
+    string                getFunctionName () const
                               { return fFunctionName; };
     
     string                getFunctionDescription () const
@@ -2227,8 +2227,7 @@ class EXP lpsrScore : public lpsrElement
                               }
 
     // Scheme functions
-    void                  setTongueSchemeFunctionNeeded ()
-                              { fTongueSchemeFunctionNeeded = true; }
+    void                  setTongueSchemeFunctionNeeded ();
                         
     bool                  getTongueSchemeFunctionNeeded () const
                               { return fTongueSchemeFunctionNeeded; }
@@ -2305,6 +2304,9 @@ class EXP lpsrScore : public lpsrElement
 
     // Scheme functions
     bool                      fTongueSchemeFunctionNeeded;
+
+    map<string, S_lpsrSchemeFunction>
+                              fScoreSchemeFunctionsMap;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);

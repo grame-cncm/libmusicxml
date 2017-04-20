@@ -4011,6 +4011,53 @@ lpsrScore::lpsrScore (
 
 lpsrScore::~lpsrScore() {}
 
+void lpsrScore::setTongueSchemeFunctionNeeded ()
+{
+  fTongueSchemeFunctionNeeded = true;
+  
+  string
+    schemeFunctionName =
+      "tongue",
+      
+    schemeFunctionDescription =
+R"(
+% Creates multiple tongue technicals, argument is a number.
+% Example: 'c4 -\tongue #3' creates a triple tongue.
+)",
+
+    schemeFunctionCode =
+R"(
+tongue =
+#(define-music-function (parser location dots) (integer?)
+   (let ((script (make-music 'ArticulationEvent
+                   'articulation-type "staccato")))
+     (set! (ly:music-property script 'tweaks)
+           (acons 'stencil
+             (lambda (grob)
+               (let ((stil (ly:script-interface::print grob)))
+                 (let loop ((count (1- dots)) (new-stil stil))
+                   (if (> count 0)
+                       (loop (1- count)
+                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
+                       (ly:stencil-aligned-to new-stil X CENTER)))))
+             (ly:music-property script 'tweaks)))
+     script))
+)";
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    tongueSchemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    tongueSchemeFunction;
+}
+
 /* JMI
 void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
 {
@@ -4123,6 +4170,19 @@ void lpsrScore::browseData (basevisitor* v)
     // browse the score global size
     msrBrowser<lpsrSchemeVarValAssoc> browser (v);
     browser.browse (*fGlobalStaffSizeAssoc);
+  }
+
+  {
+    // browse the Scheme function map
+    for (
+      map<string, S_lpsrSchemeFunction>::const_iterator i =
+        fScoreSchemeFunctionsMap.begin();
+      i != fScoreSchemeFunctionsMap.end();
+      i++) {
+      // browse the Scheme function
+      msrBrowser<lpsrSchemeFunction> browser (v);
+      browser.browse (*(*i).second);
+    } // for
   }
 
   {
