@@ -451,6 +451,14 @@ void xml2MsrTranslator::visitStart ( S_creator& elt )
         elt->getValue ());
   }
   
+  else if (creatorType == "poet") { // JMI
+    fMsrScore->getIdentification () ->
+      addLyricist (
+        inputLineNumber,
+        creatorType,
+        elt->getValue ());
+  }
+  
   else if (creatorType == "lyricist") {
     fMsrScore->getIdentification () ->
       addLyricist (
