@@ -1020,11 +1020,7 @@ class EXP msrOrnament : public msrElement
     static string ornamentPlacementKindAsString (
       msrOrnamentPlacementKind ornamentPlacementKind);
       
-<<<<<<< HEAD
-    enum msrOrnamentAccidentalMarkKind {
-=======
     enum msrOrnamentAccidentalMarkKind { // JMI msrAlteration ?
->>>>>>> 62a8bd8c9fe3f1a33555898784a4ec228f64d641
       kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
       kNatural,
       kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
@@ -6656,12 +6652,6 @@ class EXP msrScore : public msrElement
 
     void                  setCredit (S_msrCredit credit)
                               { fCredit = credit; }
-<<<<<<< HEAD
-                        
-    S_msrCredit           getCredit () const
-                              { return fCredit; }
-=======
-                        
     S_msrCredit           getCredit () const
                               { return fCredit; }
     
@@ -6670,7 +6660,6 @@ class EXP msrScore : public msrElement
                         
     bool                  getTongueSchemeFunctionNeeded () const
                               { return fTongueSchemeFunctionNeeded; }
->>>>>>> 62a8bd8c9fe3f1a33555898784a4ec228f64d641
     
     const list<S_msrPartgroup>&
                           getPartgroupsList () const

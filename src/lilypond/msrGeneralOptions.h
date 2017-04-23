@@ -81,7 +81,8 @@ class EXP msrGeneralOptions : public smartable
 
     string                fProgramName;
     
-    string                fCommandLineOptions;
+    string                fCommandLineLongOptions;
+    string                fCommandLineShortOptions;
 
     // input
     // --------------------------------------

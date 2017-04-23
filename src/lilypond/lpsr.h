@@ -2284,7 +2284,8 @@ class EXP lpsrScore : public lpsrElement
     
     S_lpsrComment             fInputSourceNameComment;
     S_lpsrComment             fTranslationDateComment;
-    S_lpsrComment             fCommandLineOptionsComment;
+    S_lpsrComment             fCommandLineLongOptionsComment;
+    S_lpsrComment             fCommandLineShortOptionsComment;
     
     S_lpsrSchemeVarValAssoc   fGlobalStaffSizeAssoc;
     

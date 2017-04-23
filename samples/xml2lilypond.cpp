@@ -47,34 +47,35 @@ void printUsage (
   int         exitStatus)
 {
   cerr <<
-    endl <<
-    "                Welcome to xml2lilypond v" << currentVersionNumber () << ", " << endl <<
-    "              the MusicXML to LilyPond translator" << endl <<
-    "          delivered as part of the libmusicxml2 library." << endl <<
-    "      https://github.com/grame-cncm/libmusicxml/tree/lilypond" << endl <<
-    endl <<
-    "Usage:" << endl <<
-    endl <<
-    "    xml2lilypond [options] [MusicXMLFile|-]" << endl <<
-    endl <<
-    "What it does:" << endl <<
-    endl <<
-    "    This multi-pass translator basically performs 4 passes:" << endl <<
-    "        Pass 1: reads the contents of MusicXMLFile or stdin ('-')" << endl <<
-    "                and converts it to a MusicXML tree;" << endl <<
-    "        Pass 2: converts that tree to a Music Score Representation (MSR);" << endl <<
-    "        Pass 3: converts the MSR to a LilyPond Score Representation (LPSR);" << endl <<
-    "        Pass 4: converts the LPSR to LilyPond source code " << endl <<
-    "                and writes it to standard output." << endl <<
-    endl <<
-    "    Other passes are performed according to the options, such as" << endl <<
-    "    printing views of the internal data or printing a summary of the score." << endl <<
-    endl <<
-    "    There are various options to fine tune the generated LilyPond code" << endl <<
-    "    and limit the need for manually editing the latter." << endl <<
-    endl <<
-    "    The activity log and warning/error messages go to standard error." << endl <<
-    endl;
+R"(
+                Welcome to xml2lilypond v0.1.0, 
+              the MusicXML to LilyPond translator
+          delivered as part of the libmusicxml2 library.
+      https://github.com/grame-cncm/libmusicxml/tree/lilypond
+
+Usage:
+
+    xml2lilypond [options] [MusicXMLFile|-]
+
+What it does:
+
+    This multi-pass translator basically performs 4 passes:
+        Pass 1: reads the contents of MusicXMLFile or stdin ('-')
+                and converts it to a MusicXML tree;
+        Pass 2: converts that tree to a Music Score Representation (MSR);
+        Pass 3: converts the MSR to a LilyPond Score Representation (LPSR);
+        Pass 4: converts the LPSR to LilyPond source code 
+                and writes it to standard output.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    There are various options to fine tune the generated LilyPond code
+    and limit the need for manually editing the latter.
+
+    The activity log and warning/error messages go to standard error.
+)"
+    << endl;
 
   // print versions history
   printVersionsHistory (cerr);
@@ -124,6 +125,45 @@ void printUsage (
 }
 
 //_______________________________________________________________________________
+// a private variable
+map<string, string> pOptionShortNames;
+
+void checkOptionUniqueness (
+  string optionLongName, string optionShortName)
+{
+  for (
+    map<string, string>::iterator i = pOptionShortNames.begin();
+    i != pOptionShortNames.end();
+    i++) {
+      
+    // is optionLongName in the options names map?
+    if ((*i).first == optionLongName) {
+      stringstream s;
+  
+      s <<
+        "option long name '" << optionLongName << "'" <<
+        " is specified more that once";
+        
+      optionError (s.str());
+    }
+
+    // is optionShortName in the options names map?
+    if ((*i).second == optionShortName) {
+      stringstream s;
+  
+      s <<
+        "option short name '" << optionShortName << "'" <<
+        " is specified more that once";
+        
+      optionError (s.str());
+    }
+  } // for
+
+  // everything OK, register the option names
+  pOptionShortNames [optionLongName] = optionShortName;
+}
+
+//_______________________________________________________________________________
 void analyzeOptions (
   int            argc,
   char*          argv[],
@@ -133,17 +173,61 @@ void analyzeOptions (
   // General options
   // ---------------
 
-  int versionPresent                    = 0;
+  // version
+  
+  #define _VERSION_LONG_NAME_  "version"
+  #define _VERSION_SHORT_NAME_ "v"
+  checkOptionUniqueness (
+    _VERSION_LONG_NAME_, _VERSION_SHORT_NAME_);
+  int versionPresent = 0;
 
-  int helpPresent                       = 0;
-  int helpGeneralPresent                = 0;
-  int helpMsrPresent                    = 0;
+  // help
+  
+  #define _HELP_LONG_NAME_  "help"
+  #define _HELP_SHORT_NAME_ "h"
+  checkOptionUniqueness (
+    _HELP_LONG_NAME_, _HELP_SHORT_NAME_);
+  int helpPresent = 0;
+  
+  #define _HELP_GENERAL_LONG_NAME_  "helpGeneral"
+  #define _HELP_GENERAL_SHORT_NAME_ "hg"
+  checkOptionUniqueness (
+    _HELP_GENERAL_LONG_NAME_, _HELP_GENERAL_SHORT_NAME_);
+  int helpGeneralPresent = 0;
+
+  #define _HELP_MSR_LONG_NAME_  "helpMsr"
+  #define _HELP_MSR_SHORT_NAME_ "hm"
+  checkOptionUniqueness (
+    _HELP_MSR_LONG_NAME_, _HELP_MSR_SHORT_NAME_);
+  int helpMsrPresent = 0;
+
+  #define _HELP_LPSR_LONG_NAME_  "helpLpsr"
+  #define _HELP_LPSR_SHORT_NAME_ "hlp"
+  checkOptionUniqueness (
+    _HELP_LPSR_LONG_NAME_, _HELP_LPSR_SHORT_NAME_);
   int helpLpsrPresent                   = 0;
 
-  int outputFilePresent                 = 0;
-  int autoOutputFilePresent             = 0;
-    
-  int traceGeneralPresent               = 0;
+  // output file
+  
+  #define _OUTPUT_FILE_LONG_NAME_  "outputFile"
+  #define _OUTPUT_FILE_SHORT_NAME_ "of"
+  checkOptionUniqueness (
+    _OUTPUT_FILE_LONG_NAME_, _OUTPUT_FILE_SHORT_NAME_);
+  int outputFilePresent = 0;
+
+  #define _AUTO_OUTPUT_FILE_LONG_NAME_  "autoOutputFile"
+  #define _AUTO_OUTPUT_FILE_SHORT_NAME_ "aof"
+  checkOptionUniqueness (
+    _AUTO_OUTPUT_FILE_LONG_NAME_, _AUTO_OUTPUT_FILE_SHORT_NAME_);
+  int autoOutputFilePresent = 0;
+
+  // trace and display
+  
+  #define _TRACE_GENERAL_LONG_NAME_  "traceGeneral"
+  #define _TRACE_GENERAL_SHORT_NAME_ "t"
+  checkOptionUniqueness (
+    _TRACE_GENERAL_LONG_NAME_, _TRACE_GENERAL_SHORT_NAME_);
+  int traceGeneralPresent = 0;
   
   int traceDivisionsPresent             = 0;
   
@@ -242,73 +326,81 @@ void analyzeOptions (
     // General options
     // ---------------
 
+    // version
+
     {
-      "v",
+      _VERSION_LONG_NAME_,
       no_argument, &versionPresent, 1
     },
     {
-      "version",
+      _VERSION_SHORT_NAME_,
       no_argument, &versionPresent, 1
     },
-    
+
+    // help
+
     {
-      "h",
+      _HELP_LONG_NAME_,
       no_argument, &helpPresent, 1
     },
     {
-      "help",
+      _HELP_SHORT_NAME_,
       no_argument, &helpPresent, 1
     },
     
     {
-      "hg",
+      _HELP_GENERAL_LONG_NAME_,
       no_argument, &helpGeneralPresent, 1
     },
     {
-      "helpGeneral",
+      _HELP_GENERAL_SHORT_NAME_,
       no_argument, &helpGeneralPresent, 1
     },
     {
-      "hm",
+      _HELP_MSR_LONG_NAME_,
       no_argument, &helpMsrPresent, 1
     },
     {
-      "helpMsr",
+      _HELP_MSR_SHORT_NAME_,
       no_argument, &helpMsrPresent, 1
     },
     {
-      "hlp",
+      _HELP_LPSR_LONG_NAME_,
       no_argument, &helpLpsrPresent, 1
     },
     {
-      "helpLpsr",
+      _HELP_LPSR_SHORT_NAME_,
       no_argument, &helpLpsrPresent, 1
     },
-    
+
+    // output file
+
     {
-      "of",
+      _OUTPUT_FILE_LONG_NAME_,
       required_argument, &outputFilePresent, 1
     },
     {
-      "outputFile",
+      _OUTPUT_FILE_SHORT_NAME_,
       required_argument, &outputFilePresent, 1
     },
     
     {
-      "aof",
+      _AUTO_OUTPUT_FILE_LONG_NAME_,
       no_argument, &autoOutputFilePresent, 1
     },
     {
-      "autoOutputFile",
+      _AUTO_OUTPUT_FILE_SHORT_NAME_,
       no_argument, &autoOutputFilePresent, 1
     },
-    
+
+    // trace and display
+
     {
-      "t",
+      _TRACE_GENERAL_LONG_NAME_,
       no_argument, &traceGeneralPresent, 1
     },
     {
-      "traceGeneral",
+      _TRACE_GENERAL_SHORT_NAME_,
       no_argument, &traceGeneralPresent, 1
     },
     
@@ -802,6 +894,8 @@ void analyzeOptions (
         // General options
         // ------------
 
+        // version
+        
         {
         if (versionPresent) {
           idtr++;
@@ -811,17 +905,12 @@ void analyzeOptions (
             idtr <<
               "This is xml2lilypond version " <<
               currentVersionNumber () << "," <<
-              endl <<
-            idtr <<
-              "an open translator of MusicXML into LilyPond." <<
-              endl <<
-              endl <<
-            idtr <<
-              "See https://github.com/grame-cncm/libmusicxml/tree/lilypond" <<
-              endl <<
-            idtr <<
-              "for more information and access to the source code." <<
-              endl <<
+R"(
+  an open translator of MusicXML into LilyPond.
+
+  See https://github.com/grame-cncm/libmusicxml/tree/lilypond
+  for more information and access to the source code.
+)" <<
             endl;
 
           idtr--;
@@ -830,6 +919,8 @@ void analyzeOptions (
           break;
         }
 
+        // help
+        
         if (helpPresent) {
           printUsage (kAllHelp, 0);
           break;
@@ -848,37 +939,57 @@ void analyzeOptions (
           break;
         }
 
+        // output file
+        
         if (outputFilePresent) {
           outputFileName = optarg;
           gGeneralOptions->fOutputFileName = outputFileName;
-
-          stringstream s;
-
-          s <<
-            "--outputFile" << " " << outputFileName << " ";
-          gGeneralOptions->fCommandLineOptions +=
-            s.str();
+          
+          {
+            stringstream s;
+  
+            s <<
+              "--"_OUTPUT_FILE_LONG_NAME_ << " " << outputFileName << " ";
+            gGeneralOptions->fCommandLineLongOptions +=
+              s.str();
+          }
+          
+          {
+            stringstream s;
+  
+            s <<
+              "--"_OUTPUT_FILE_SHORT_NAME_ << " " << outputFileName << " ";
+            gGeneralOptions->fCommandLineShortOptions +=
+              s.str();
+          }
+          
           outputFilePresent = false;
         }
         
         if (autoOutputFilePresent) {
           gGeneralOptions->fAutoOutputFile = true;
-          gGeneralOptions->fCommandLineOptions +=
-            "--autoOutputFile ";
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_AUTO_OUTPUT_FILE_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_AUTO_OUTPUT_FILE_SHORT_NAME_" ";
           autoOutputFilePresent = false;
         }
+
+        // trace and display
         
         if (traceGeneralPresent) {
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fCommandLineOptions +=
-            "--traceGeneral ";
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_GENERAL_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_GENERAL_SHORT_NAME_" ";
           traceGeneralPresent = false;
         }
         
         if (traceDivisionsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceDivisions = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceDivisions ";
           traceDivisionsPresent = false;
         }
@@ -886,70 +997,70 @@ void analyzeOptions (
         if (tracePartsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceparts ";
           tracePartsPresent = false;
         }
         if (traceVoicesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceVoices ";
           traceVoicesPresent = false;
         }
         if (traceSegmentsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceSegments = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceSegments ";
           traceSegmentsPresent = false;
         }
         if (traceRepeatsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceRepeats = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceRepeats ";
           traceRepeatsPresent = false;
         }
         if (traceMeasuresPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceMeasures = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceMeasures ";
           traceMeasuresPresent = false;
         }
         if (traceNotesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceNotes = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceNotes ";
           traceNotesPresent = false;
         }
         if (traceTremolosPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTremolos = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceTremolos ";
           traceTremolosPresent = false;
         }
         if (traceChordsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceChords = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceChords ";
           traceChordsPresent = false;
         }
         if (traceTupletsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTuplets = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceTuplets ";
           traceTupletsPresent = false;
         }
         if (traceGracenotesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceGracenotes = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceGracenotes ";
           traceGracenotesPresent = false;
         }
@@ -957,7 +1068,7 @@ void analyzeOptions (
         if (traceLyricsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceLyrics = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceLyrics ";
           traceLyricsPresent = false;
         }
@@ -965,7 +1076,7 @@ void analyzeOptions (
         if (traceHarmoniesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceHarmonies = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceHarmonies ";
           traceHarmoniesPresent = false;
         }
@@ -980,7 +1091,7 @@ void analyzeOptions (
 
           s <<
             "--traceDetailed" << " " << measuresSpec << " ";
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             s.str();
             
           gGeneralOptions->fTraceAllMeasureNumbersSet =
@@ -992,7 +1103,7 @@ void analyzeOptions (
         if (displayCPUusagePresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fDisplayCPUusage = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--displayCPUusage ";
           displayCPUusagePresent = false;
         }
@@ -1003,7 +1114,7 @@ void analyzeOptions (
         
         if (traceMSRVisitorsPresent) {
           gMsrOptions->fTraceMsrVisitors = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceMSRVisitors ";
           traceMSRVisitorsPresent = false;
         }
@@ -1040,7 +1151,7 @@ void analyzeOptions (
             optionError (s.str());
           }
           
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--msrPitchesLanguage " +
             optargAsString +
             " ";
@@ -1049,69 +1160,69 @@ void analyzeOptions (
              
         if (staffRelativeVoiceNumbersPresent) {
           gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--staffRelativeVoiceNumbers ";
           staffRelativeVoiceNumbersPresent = false;
         }
         
         if (dontDisplayMsrStanzasPresent) {
           gMsrOptions->fDontDisplayMsrStanzas = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--dontGenerateMSRStanzas ";
           dontDisplayMsrStanzasPresent = false;
         }
         
         if (delayRestsDynamicsPresent) {
           gMsrOptions->fDelayRestsDynamics = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--delayRestsDynamics ";
           delayRestsDynamicsPresent = false;
         }
         
         if (delayRestsWordsPresent) {
           gMsrOptions->fDelayRestsWords = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--delayRestsWords ";
           delayRestsWordsPresent = false;
         }
         
         if (delayRestsSlursPresent) {
           gMsrOptions->fDelayRestsSlurs = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--delayRestsSlurs ";
           delayRestsSlursPresent = false;
         }
         
         if (delayRestsLigaturesPresent) {
           gMsrOptions->fDelayRestsLigatures = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--delayRestsLigatures ";
           delayRestsLigaturesPresent = false;
         }
         
         if (delayRestsWedgesPresent) {
           gMsrOptions->fDelayRestsWedges = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--delayRestsWedges ";
           delayRestsWedgesPresent = false;
         }
         
         if (keepMasterVoicesPresent) {
           gMsrOptions->fKeepMasterVoices = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--keepMasterVoices ";
           keepMasterVoicesPresent = false;
         }
         if (keepMasterStanzasPresent) {
           gMsrOptions->fKeepMasterStanzas = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--keepMasterStanzas ";
           keepMasterStanzasPresent = false;
         }
 
         if (displayMSRPresent) {
           gMsrOptions->fDisplayMsr = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--displayMSR ";
           displayMSRPresent = false;
         }
@@ -1119,7 +1230,7 @@ void analyzeOptions (
         if (displayMSRSummaryPresent) {
           gMsrOptions->fDisplayMsrSummary = true;
           gLpsrOptions->fDontGenerateLilyPondCode = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--displayScoreSummary ";
           displayMSRSummaryPresent = false;
         }
@@ -1132,7 +1243,7 @@ void analyzeOptions (
           s <<
             "--partName" << " \"" << partNameSpec << "\" ";
 
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             s.str();
 
           std::pair<string, string>
@@ -1175,7 +1286,7 @@ void analyzeOptions (
 
         if (traceLPSRVisitorsPresent) {
           gLpsrOptions->fTraceLpsrVisitors = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--traceLPSRVisitors ";
           traceLPSRVisitorsPresent = false;
         }
@@ -1212,7 +1323,7 @@ void analyzeOptions (
             optionError (s.str());
           }
           
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--lpsrPitchesLanguage " +
             optargAsString +
             " ";
@@ -1251,7 +1362,7 @@ void analyzeOptions (
             optionError (s.str());
           }
           
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--lpsrChordsLanguage " +
             optargAsString +
             " ";
@@ -1260,42 +1371,42 @@ void analyzeOptions (
              
         if (displayLPSRPresent) {
           gLpsrOptions->fDisplayLpsr = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--displayLpsr ";
           displayLPSRPresent = false;
         }
 
         if (absolutePresent) {
           gLpsrOptions->fGenerateAbsoluteOctaves = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--absolute ";
           absolutePresent = false;
         }
 
         if (showAllBarNumbersPresent) {
           gLpsrOptions->fShowAllBarNumbers = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--showAllBarNumbers ";
           showAllBarNumbersPresent = false;
         }
 
         if (compressFullBarRestsPresent) {
           gLpsrOptions->fCompressFullBarRests = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--compressFullBarRests ";
           compressFullBarRestsPresent = false;
         }
 
         if (tupletsOnALinePresent) {
           gLpsrOptions->fTupletsOnALine = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--tupletsOnALine ";
           tupletsOnALinePresent = false;
         }
 
         if (breakLinesAtIncompleteRightMeasuresPresent) {
           gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--breakLinesAtIncompleteRightMeasures ";
           breakLinesAtIncompleteRightMeasuresPresent = false;
         }
@@ -1304,53 +1415,53 @@ void analyzeOptions (
           gLpsrOptions->fSeparatorLineEveryNMeasures = true;
           gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
             atoi (optarg);
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--separatorLineEveryNMeasures ";
           separatorLineEveryNMeasuresPresent = false;
         }
 
         if (dontKeepLineBreaksPresent) {
           gLpsrOptions->fDontKeepLineBreaks = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--dontKeepLineBreaks ";
           dontKeepLineBreaksPresent = false;
         }
 
         if (numericaltimePresent) {
           gLpsrOptions->fGenerateNumericalTime = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--numericalTime ";
           numericaltimePresent = false;
         }
         if (commentsPresent) {
           gLpsrOptions->fGenerateComments = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--comments ";
           commentsPresent = false;
         }
         if (stemsPresent) {
           gLpsrOptions->fGenerateStems = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--stems ";
           stemsPresent = false;
         }
         if (noAutoBeamingPresent) {
           gLpsrOptions->fNoAutoBeaming = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--noAutoBeaming ";
           noAutoBeamingPresent = false;
         }
 
         if (noteInputLineNumbersPresent) {
           gLpsrOptions->fGenerateInputLineNumbers = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--generateInputLineNumbers ";
           noteInputLineNumbersPresent = false;
         }
         
         if (modernTabPresent) {
           gLpsrOptions->fModernTab = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--modernTab ";
           modernTabPresent = false;
         }
@@ -1370,7 +1481,7 @@ void analyzeOptions (
           s <<
             "--accidentalStyle " << optarg << " ";
           
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             s.str();
           accidentalStylePresent = false;
         }
@@ -1446,7 +1557,7 @@ void analyzeOptions (
           s <<
             "--delayedOrnamentFraction '" << optargAsString << "' ";
           
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             s.str();
           midiTempoPresent = false;
         }
@@ -1519,21 +1630,21 @@ void analyzeOptions (
           s <<
             "--midiTempo '" << optargAsString << "' ";
           
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             s.str();
           midiTempoPresent = false;
         }
         
         if (dontGenerateLilyPondLyricsPresent) {
           gLpsrOptions->fDontGenerateLilyPondLyrics = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--dontGenerateLilyPondLyrics ";
           dontGenerateLilyPondLyricsPresent = false;
         }
         
         if (dontGenerateLilyPondCodePresent) {
           gLpsrOptions->fDontGenerateLilyPondCode = true;
-          gGeneralOptions->fCommandLineOptions +=
+          gGeneralOptions->fCommandLineLongOptions +=
             "--dontGenerateLilyPondCode ";
           dontGenerateLilyPondCodePresent = false;
         }
@@ -1614,15 +1725,21 @@ void printOptions ()
     "The command line is:" <<
     endl;
 
-  idtr++;
   cerr <<
-    idtr <<
+    idtr << tab <<
       gGeneralOptions->fProgramName << " " <<
-      gGeneralOptions->fCommandLineOptions <<
+      gGeneralOptions->fCommandLineLongOptions <<
+      gGeneralOptions->fInputSourceName <<
+      endl <<
+    idtr <<
+      "or:" <<
+      endl <<
+    idtr << tab <<
+      gGeneralOptions->fProgramName << " " <<
+      gGeneralOptions->fCommandLineShortOptions <<
       gGeneralOptions->fInputSourceName <<
       endl <<
     endl;
-  idtr--;
 
   // the option name field width
   int const fieldWidth = 35;
@@ -1665,20 +1782,11 @@ int main (int argc, char *argv[])
   }
   */
 
-       const std::string str =
-R"(
-"Beware the Jabberwock, my son!
-  The jaws that bite, the claws that catch!
-Beware the Jubjub bird, and shun
-  The frumious Bandersnatch!"
-)";
-
-cerr << str << endl;
-
   // enlist versions information
   enlistVersion (
     "0.0.0", "somewhere in 2016",
     "Start as a clone of xml2guido");
+    
   enlistVersion (
     "0.1.0", "01-APR-2017",
     "Tentative version");

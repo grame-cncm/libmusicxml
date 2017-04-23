@@ -3917,17 +3917,17 @@ lpsrScore::lpsrScore (
       lpsrComment::kNoGapAfterwards);
   }
 
-  // create the command line options comment
+  // create the command line long options comment
   {
   stringstream s;
   
   s <<
     "  " <<
     gGeneralOptions->fProgramName << " " <<
-    gGeneralOptions->fCommandLineOptions <<
+    gGeneralOptions->fCommandLineLongOptions <<
     gGeneralOptions->fInputSourceName;
   
-  fCommandLineOptionsComment =
+  fCommandLineLongOptionsComment =
     lpsrComment::create (
       inputLineNumber,
       s.str (),
@@ -4163,7 +4163,7 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the command line optins comment
     msrBrowser<lpsrComment> browser (v);
-    browser.browse (*fCommandLineOptionsComment);
+    browser.browse (*fCommandLineLongOptionsComment);
   }
 
   {
