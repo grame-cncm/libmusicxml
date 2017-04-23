@@ -44,22 +44,38 @@ msrGeneralOptions::~msrGeneralOptions () {}
 void msrGeneralOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
+  // output file
+
   fAutoOutputFile = false;
   
-  // trace
+  // trace and display
+
   fTraceGeneral = boolOptionsInitialValue;
     
+  // specific trace    
+
   fTraceDivisions = boolOptionsInitialValue;
+
+  fTraceParts = boolOptionsInitialValue;
+  fTraceVoices = boolOptionsInitialValue;
+
+  fTraceSegments = boolOptionsInitialValue;
+  fTraceRepeats = boolOptionsInitialValue;
+
+  fTraceMeasures = boolOptionsInitialValue;
+
+
+
+
+
+
+
 
   fTraceScore = boolOptionsInitialValue;
 
   fTracePartgroups = boolOptionsInitialValue;
-  fTraceParts = boolOptionsInitialValue;
   fTraceStaves = boolOptionsInitialValue;
-  fTraceVoices = boolOptionsInitialValue;
 
-  fTraceSegments = boolOptionsInitialValue;
-  fTraceMeasures = boolOptionsInitialValue;
   
   fTraceChords = boolOptionsInitialValue;
   fTraceTuplets = boolOptionsInitialValue;
@@ -68,7 +84,10 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   fTraceHarmonies = boolOptionsInitialValue;
   
+  fTraceDetailed = false;
 
+
+  
     
   fTraceNotes = boolOptionsInitialValue;
   
@@ -85,7 +104,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   
   fTraceWords = boolOptionsInitialValue;
 
-  fTraceRepeats = boolOptionsInitialValue;
   
   fTraceStafftuning = boolOptionsInitialValue;
   

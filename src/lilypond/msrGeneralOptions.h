@@ -137,6 +137,8 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceLyrics;
 
     bool                  fTraceHarmonies;
+    
+    bool                  fTraceDetailed;
 
 
 

@@ -524,128 +524,128 @@ void analyzeOptions (
     // specific trace    
 
     {
-      "tdivs",
+      _TRACE_DIVISIONS_LONG_NAME_,
       no_argument, &traceDivisionsPresent, 1
     },
     {
-      "traceDivisions",
+      _TRACE_DIVISIONS_SHORT_NAME_,
       no_argument, &traceDivisionsPresent, 1
     },
     
     {
-      "tparts",
+      _TRACE_PARTS_LONG_NAME_,
       no_argument, &tracePartsPresent, 1
     },
     {
-      "traceparts",
+      _TRACE_PARTS_SHORT_NAME_,
       no_argument, &tracePartsPresent, 1
     },
     
     {
-      "tvoices",
+      _TRACE_VOICES_LONG_NAME_,
       no_argument, &traceVoicesPresent, 1
     },
     {
-      "traceVoices",
+      _TRACE_VOICES_SHORT_NAME_,
       no_argument, &traceVoicesPresent, 1
     },
     
     {
-      "tsegs",
+      _TRACE_SEGMENTS_LONG_NAME_,
       no_argument, &traceSegmentsPresent, 1
     },
     {
-      "traceSegments",
+      _TRACE_SEGMENTS_SHORT_NAME_,
       no_argument, &traceSegmentsPresent, 1
     },
     
     {
-      "trepeats",
+      _TRACE_REPEATS_LONG_NAME_,
       no_argument, &traceRepeatsPresent, 1
     },
     {
-      "traceRepeats",
+      _TRACE_REPEATS_SHORT_NAME_,
       no_argument, &traceRepeatsPresent, 1
     },
     
     {
-      "tmeas",
+      _TRACE_MEASURES_LONG_NAME_,
       no_argument, &traceMeasuresPresent, 1
     },
     {
-      "traceMeasures",
+      _TRACE_MEASURES_SHORT_NAME_,
       no_argument, &traceMeasuresPresent, 1
     },
     
     {
-      "tnotes",
+      _TRACE_NOTES_LONG_NAME_,
       no_argument, &traceNotesPresent, 1
     },
     {
-      "traceNotes",
+      _TRACE_NOTES_SHORT_NAME_,
       no_argument, &traceNotesPresent, 1
     },
     
     {
-      "ttrems",
+      _TRACE_TREMOLOS_LONG_NAME_,
       no_argument, &traceTremolosPresent, 1
     },
     {
-      "traceTremolos",
+      _TRACE_TREMOLOS_SHORT_NAME_,
       no_argument, &traceTremolosPresent, 1
     },
     
     {
-      "tchords",
+      _TRACE_CHORDS_LONG_NAME_,
       no_argument, &traceChordsPresent, 1
     },
     {
-      "traceChords",
+      _TRACE_CHORDS_SHORT_NAME_,
       no_argument, &traceChordsPresent, 1
     },
     
     {
-      "ttuplets",
+      _TRACE_TUPLETS_LONG_NAME_,
       no_argument, &traceTupletsPresent, 1
     },
     {
-      "traceTuplets",
+      _TRACE_TUPLETS_SHORT_NAME_,
       no_argument, &traceTupletsPresent, 1
     },
     
     {
-      "tgrace",
+      _TRACE_GRACENOTES_LONG_NAME_,
       no_argument, &traceGracenotesPresent, 1
     },
     {
-      "traceGracenotes",
+      _TRACE_GRACENOTES_SHORT_NAME_,
       no_argument, &traceGracenotesPresent, 1
     },
     
     {
-      "tlyrics",
+      _TRACE_LYRICS_LONG_NAME_,
       no_argument, &traceLyricsPresent, 1
     },
     {
-      "traceLyrics",
+      _TRACE_LYRICS_SHORT_NAME_,
       no_argument, &traceLyricsPresent, 1
     },
     
     {
-      "tharm",
+      _TRACE_HARMONIES_LONG_NAME_,
       no_argument, &traceHarmoniesPresent, 1
     },
     {
-      "traceHarmonies",
+      _TRACE_HARMONIES_SHORT_NAME_,
       no_argument, &traceHarmoniesPresent, 1
     },
     
     {
-      "td",
+      _TRACE_DETAILED_LONG_NAME_,
       required_argument, &traceDetailedPresent, 1
     },
     {
-      "traceDetailed",
+      _TRACE_DETAILED_SHORT_NAME_,
       required_argument, &traceDetailedPresent, 1
     },
     
