@@ -368,13 +368,20 @@ void analyzeOptions (
     _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
     
   int displayCPUusagePresent = 0;
+
   
   // MSR options
   // -----------
 
+  // trace and display
+
   int traceMSRVisitorsPresent         = 0;
 
   int msrPitchesLanguagePresent        = 0;
+
+  // languages
+
+  // parts
 
   int staffRelativeVoiceNumbersPresent = 0;
   
@@ -394,46 +401,106 @@ void analyzeOptions (
   int displayMSRSummaryPresent          = 0;
   
   int partNamePresent   = 0;
+
   
   // LPSR options
   // ------------
 
-  int traceLPSRVisitorsPresent          = 0;
+  // trace and display
+
+  #define _TRACE_LPSR_LONG_NAME_  "traceLpsr "
+  #define _TRACE_LPSR_SHORT_NAME_ "tlpsr"
+  
+  checkOptionUniqueness (
+    _TRACE_LPSR_LONG_NAME_, _TRACE_LPSR_SHORT_NAME_);
+    
+  int traceLPSRPresent = 0;
+
+  #define _TRACE_LPSR_VISITORS_LONG_NAME_  "traceLpsrVisitors "
+  #define _TRACE_LPSR_VISITORS_SHORT_NAME_ "tlpvisits"
+  
+  checkOptionUniqueness (
+    _TRACE_LPSR_VISITORS_LONG_NAME_, _TRACE_LPSR_VISITORS_SHORT_NAME_);
+    
+  int traceLPSRVisitorsPresent = 0;
+
+  #define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int displayLPSRPresent  = 0;
+
+  // languages
 
   int lpsrPitchesLanguagePresent        = 0;
   int lpsrChordsLanguagePresent         = 0;
   
-  int displayLPSRPresent  = 0;
+  // time
 
-  int dontKeepLineBreaksPresent         = 0;
+  int numericaltimePresent = 0;
+
+  // notes
+
+  int absolutePresent = 0;
+
+  int stemsPresent      = 0;
+  int noAutoBeamingPresent = 0;
+
+  int accidentalStylePresent            = 0;
+  
+  int noteInputLineNumbersPresent       = 0;
+
+  // bars
+
   int showAllBarNumbersPresent          = 0;
   int compressFullBarRestsPresent       = 0;
 
-  int tupletsOnALinePresent             = 0;
-  
+  // line breaks
+
+  int dontKeepLineBreaksPresent         = 0;
+
   int breakLinesAtIncompleteRightMeasuresPresent = 0;
+  
   int separatorLineEveryNMeasuresPresent = 0;
-//  int fKeepStaffSizePresent             = 0; JMI
-  
-  int absolutePresent = 0;
-  
-  int numericaltimePresent = 0;
-  int commentsPresent = 0;
-  int stemsPresent      = 0;
-  int noAutoBeamingPresent = 0;
-  int noteInputLineNumbersPresent       = 0;
-  
+
+  // staves
+
   int modernTabPresent  = 0;
-  
-  int accidentalStylePresent            = 0;
-  
-  int delayedOrnamentFractionPresent    = 0;
-  
+
+  // midi
+
   int midiTempoPresent  = 0;
+
+  int dontGenerateMidiCommandPresent = 0;
+
+  // LilyPond code generation
+
+  int tupletsOnALinePresent             = 0;
+
+  int delayedOrnamentFractionPresent    = 0;
+
+  int dontGenerateLilyPondCodePresent   = 0;
 
   int dontGenerateLilyPondLyricsPresent = 0;
 
-  int dontGenerateLilyPondCodePresent   = 0;
+
+
+
+
+
+
+  
+//  int fKeepStaffSizePresent             = 0; JMI
+  
+  
+  int commentsPresent = 0;
+  
+  
+  
+
+
 
   // long_options data structure
   static struct option long_options [] =
@@ -663,6 +730,8 @@ void analyzeOptions (
     // MSR options
     // -----------
 
+    // trace and display
+
     {
       "tmvisit",
       no_argument, &traceMSRVisitorsPresent, 1
@@ -786,14 +855,35 @@ void analyzeOptions (
     // LPSR options
     // ------------
 
+    // trace and display
+
     {
-      "tlpvisit",
+      _TRACE_LPSR_LONG_NAME_,
+      no_argument, &traceLpsrPresent, 1
+    },
+    {
+      _TRACE_LPSR_SHORT_NAME_,
+      no_argument, &traceLpsrPresent, 1
+    },
+
+    {
+      _TRACE_LPSR_VISITORS_LONG_NAME_,
       no_argument, &traceLPSRVisitorsPresent, 1
     },
     {
-      "traceLPSRVisitors",
+      _TRACE_LPSR_VISITORS_SHORT_NAME_,
       no_argument, &traceLPSRVisitorsPresent, 1
     },
+
+    {
+      "lpsr",
+      no_argument, &displayLPSRPresent, 1},
+    {
+      "displayLPSR",
+      no_argument, &displayLPSRPresent, 1
+    },
+
+    // languages
 
     {
       "lppl",
@@ -813,14 +903,6 @@ void analyzeOptions (
       required_argument, &lpsrChordsLanguagePresent, 1
     },
     
-    {
-      "lpsr",
-      no_argument, &displayLPSRPresent, 1},
-    {
-      "displayLPSR",
-      no_argument, &displayLPSRPresent, 1
-    },
-
     {
       "abs",
       no_argument, &absolutePresent, 1
@@ -1327,12 +1409,16 @@ R"(
         // MSR options
         // -----------
         
+        // trace and display
+
         if (traceMSRVisitorsPresent) {
           gMsrOptions->fTraceMsrVisitors = true;
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceMSRVisitors ";
           traceMSRVisitorsPresent = false;
         }
+
+        // languages
 
         if (msrPitchesLanguagePresent) {
           // optarg contains the language name
@@ -1373,6 +1459,8 @@ R"(
           msrPitchesLanguagePresent = false;
           }
              
+        // parts
+
         if (staffRelativeVoiceNumbersPresent) {
           gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
           gGeneralOptions->fCommandLineLongOptions +=
@@ -1499,12 +1587,39 @@ R"(
         // LPSR options
         // ------------
 
+      // trace and display
+
+        if (traceLpsrPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceLpsr = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_LPSR_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE__LPSR_SHORT_NAME_" ";
+            
+          traceLpsrPresent = false;
+        }
+
         if (traceLPSRVisitorsPresent) {
           gLpsrOptions->fTraceLpsrVisitors = true;
+
           gGeneralOptions->fCommandLineLongOptions +=
-            "--traceLPSRVisitors ";
+            "--"_TRACE_LPSR_VISITORS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_LPSR_VISITORS_SHORT_NAME_" ";
+            
           traceLPSRVisitorsPresent = false;
         }
+
+        if (commentsPresent) {
+          gLpsrOptions->fGenerateComments = true;
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--comments ";
+          commentsPresent = false;
+        }
+
+        // languages
 
         if (lpsrPitchesLanguagePresent) {
           // optarg contains the language name
@@ -1539,9 +1654,15 @@ R"(
           }
           
           gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_LPSR_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE__LPSR_SHORT_NAME_" ";
+
+          gGeneralOptions->fCommandLineLongOptions +=
             "--lpsrPitchesLanguage " +
             optargAsString +
             " ";
+
           lpsrPitchesLanguagePresent = false;
           }
              
@@ -1647,12 +1768,6 @@ R"(
           gGeneralOptions->fCommandLineLongOptions +=
             "--numericalTime ";
           numericaltimePresent = false;
-        }
-        if (commentsPresent) {
-          gLpsrOptions->fGenerateComments = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--comments ";
-          commentsPresent = false;
         }
         if (stemsPresent) {
           gLpsrOptions->fGenerateStems = true;
