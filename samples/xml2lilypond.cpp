@@ -131,6 +131,16 @@ map<string, string> pOptionShortNames;
 void checkOptionUniqueness (
   string optionLongName, string optionShortName)
 {
+  if (optionShortName == optionLongName) {
+    stringstream s;
+
+    s <<
+      "option long name '" << optionLongName << "'" <<
+      " is also used as short name";
+      
+    optionError (s.str());
+  }
+  
   for (
     map<string, string>::iterator i = pOptionShortNames.begin();
     i != pOptionShortNames.end();
@@ -375,32 +385,162 @@ void analyzeOptions (
 
   // trace and display
 
-  int traceMSRVisitorsPresent         = 0;
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int traceMSRVisitorsPresent = 0;
 
-  int msrPitchesLanguagePresent        = 0;
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int msrPitchesLanguagePresent = 0;
 
   // languages
 
+  #define _CPU_USAGE_LONG_NAME_  "msrPitchesLanguage"
+  #define _CPU_USAGE_SHORT_NAME_ "mpl"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
   // parts
 
-  int staffRelativeVoiceNumbersPresent = 0;
+  #define _CPU_USAGE_LONG_NAME_  "partName"
+  #define _CPU_USAGE_SHORT_NAME_ "part"
   
-  int dontDisplayMsrStanzasPresent     = 0;
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int partNamePresent = 0;
+  
+  // voices
 
-  int delayRestsDynamicsPresent        = 0;
-  int delayRestsWordsPresent           = 0;
-  int delayRestsSlursPresent           = 0;
-  int delayRestsLigaturesPresent       = 0;
-  int delayRestsWedgesPresent          = 0;
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
   
-  int keepMasterVoicesPresent          = 0;
-  int keepMasterStanzasPresent         = 0;
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int staffRelativeVoiceNumbersPresent = 0;
+
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
   
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int keepMasterVoicesPresent = 0;
+
+  // notes
+
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int dontDisplayMsrStanzasPresent = 0;
+
+  #define _CPU_USAGE_LONG_NAME_  "delayRestsDynamics"
+  #define _CPU_USAGE_SHORT_NAME_ "drdyns"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int delayRestsDynamicsPresent = 0;
+
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int delayRestsWordsPresent = 0;
+
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int delayRestsSlursPresent = 0;
+  
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int delayRestsLigaturesPresent = 0;
+
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int delayRestsWedgesPresent = 0;
+  
+  // lyrics
+
+  #define _CPU_USAGE_LONG_NAME_  "dontDisplayMsrStanzas"
+  #define _CPU_USAGE_SHORT_NAME_ "noms"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int dontDisplayMsrStanzasPresent = 0;
+  
+  #define _CPU_USAGE_LONG_NAME_  "keepMasterStanzas"
+  #define _CPU_USAGE_SHORT_NAME_ "kms"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int keepMasterStanzasPresent = 0;
+
+  // harmonies
+
+  #define _CPU_USAGE_LONG_NAME_  "-keepEmptyHarmoniesVoice"
+  #define _CPU_USAGE_SHORT_NAME_ "kehv"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int keepEmptyHarmoniesVoicePresent = 0;
+
+
+
+  
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
   int displayMSRPresent = 0;
   
-  int displayMSRSummaryPresent          = 0;
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
   
-  int partNamePresent   = 0;
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int displayMSRSummaryPresent = 0;
+  
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    
+  int partNamePresent = 0;
 
   
   // LPSR options
@@ -434,55 +574,178 @@ void analyzeOptions (
 
   // languages
 
-  int lpsrPitchesLanguagePresent        = 0;
-  int lpsrChordsLanguagePresent         = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "lpsrPitchesLanguage "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "lppl"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int lpsrPitchesLanguagePresent = 0;
+
+  #define _DISPLAY_LPSR_LONG_NAME_  "lpsrChordsLanguage "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "lpcl"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int lpsrChordsLanguagePresent = 0;
   
   // time
 
+  #define _DISPLAY_LPSR_LONG_NAME_  "numericalTime "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "numt"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int numericaltimePresent = 0;
 
   // notes
 
+  #define _DISPLAY_LPSR_LONG_NAME_  "absolute "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "abs"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int absolutePresent = 0;
 
-  int stemsPresent      = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "stems "
+  #define _DISPLAY_LPSR_SHORT_NAME_ ""
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int stemsPresent = 0;
+
+  #define _DISPLAY_LPSR_LONG_NAME_  "noAutoBeaming "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "noab"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int noAutoBeamingPresent = 0;
 
-  int accidentalStylePresent            = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "accidentalStyle "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "as"
   
-  int noteInputLineNumbersPresent       = 0;
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int accidentalStylePresent = 0;
+  
+  #define _DISPLAY_LPSR_LONG_NAME_  "inputLineNumbers "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "iln"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int noteInputLineNumbersPresent = 0;
 
   // bars
 
-  int showAllBarNumbersPresent          = 0;
-  int compressFullBarRestsPresent       = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "showAllBarNumbers "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "sabn"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int showAllBarNumbersPresent = 0;
+
+  #define _DISPLAY_LPSR_LONG_NAME_  "compressFullBarRests "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "cfbr"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int compressFullBarRestsPresent = 0;
 
   // line breaks
 
-  int dontKeepLineBreaksPresent         = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int dontKeepLineBreaksPresent = 0;
 
+  #define _DISPLAY_LPSR_LONG_NAME_  "breakLinesAtIncompleteRightMeasures "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "blairm"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int breakLinesAtIncompleteRightMeasuresPresent = 0;
   
+  #define _DISPLAY_LPSR_LONG_NAME_  "separatorLineEveryNMeasures "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "slenm"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int separatorLineEveryNMeasuresPresent = 0;
 
   // staves
 
-  int modernTabPresent  = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "modernTab "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "mtab"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int modernTabPresent = 0;
 
   // midi
 
-  int midiTempoPresent  = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "midiTempo "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "mt"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int midiTempoPresent = 0;
 
+  #define _DISPLAY_LPSR_LONG_NAME_  "noMidi "
+  #define _DISPLAY_LPSR_SHORT_NAME_ ""
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int dontGenerateMidiCommandPresent = 0;
 
   // LilyPond code generation
 
-  int tupletsOnALinePresent             = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "tupletsOnALine "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "toal"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int tupletsOnALinePresent = 0;
 
+  #define _DISPLAY_LPSR_LONG_NAME_  "delayedOrnamentsFraction "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "dof"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int delayedOrnamentFractionPresent    = 0;
 
-  int dontGenerateLilyPondCodePresent   = 0;
+  #define _DISPLAY_LPSR_LONG_NAME_  "dontGenerateLilyPondCode "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "nolpc"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
+  int dontGenerateLilyPondCodePresent = 0;
 
+  #define _DISPLAY_LPSR_LONG_NAME_  "dontGenerateLilyPondLyrics "
+  #define _DISPLAY_LPSR_SHORT_NAME_ "nolpl"
+  
+  checkOptionUniqueness (
+    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    
   int dontGenerateLilyPondLyricsPresent = 0;
 
 
@@ -492,7 +755,7 @@ void analyzeOptions (
 
 
   
-//  int fKeepStaffSizePresent             = 0; JMI
+//  int fKeepStaffSizePresent     = 0; JMI
   
   
   int commentsPresent = 0;
