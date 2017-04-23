@@ -18137,7 +18137,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   if (fPartStavesMap.count (staffNumber)) {
     cerr << idtr <<
       "### Internal error: staffNumber " << staffNumber <<
-      " already exists in part " << " " << getPartCombinedName () <<
+      " already exists in part " << getPartCombinedName () <<
       endl;
 
     return fPartStavesMap [staffNumber];

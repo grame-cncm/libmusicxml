@@ -81,7 +81,9 @@ void xml2MsrTranslator::initializeNoteData ()
 
   fCurrentNoteOctave = -1;
 
-  fCurrentNoteIsARest     = false;
+  fCurrentNoteIsARest = false;
+  fCurrentRestMeasure = false;
+  
   fCurrentNoteIsUnpitched = false;
   
   fCurrentNoteIsAGraceNote = false;
@@ -3817,6 +3819,10 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(width) << "fCurrentNoteIsARest" << " = " <<
           booleanAsString (fCurrentNoteIsARest) <<
+          endl <<
+        idtr <<
+          setw(width) << "fCurrentRestMeasure" << " = " <<
+          booleanAsString (fCurrentRestMeasure) <<
           endl;
   
       cerr <<
@@ -5412,6 +5418,19 @@ void xml2MsrTranslator::visitStart ( S_type& elt )
       elt->getInputLineNumber (),
       s.str());
   }
+
+  string noteTypeSize = elt->getAttributeValue ("size");
+
+  if (noteTypeSize == "cue") {
+     // USE IT! JMI ???
+  }
+
+  else {
+    if (noteTypeSize.size ())
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+          "unknown note type size \"" + noteTypeSize + "\"");
+  }  
 }
 
 void xml2MsrTranslator::visitStart ( S_stem& elt )
@@ -8098,6 +8117,21 @@ void xml2MsrTranslator::visitStart ( S_rest& elt)
 */
   //  cerr << "--> xml2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
   fCurrentNoteIsARest = true;
+
+  string restMeasure = elt->getAttributeValue ("measure");
+  
+  fCurrentRestMeasure = false;
+
+  if (restMeasure == "yes") {
+    fCurrentRestMeasure = true; // USE IT! JMI ???
+  }
+
+  else {
+    if (restMeasure.size ())
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+          "unknown rest measure \"" + restMeasure + "\"");
+  }  
 }
 
 //______________________________________________________________________________
@@ -8915,7 +8949,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsWords) {
         cerr << idtr <<
-          "--> Delaying words attached to a rest until next note" <<
+          "--> Delaying word(s) attached to a rest until next note" <<
           endl;
 
         delayAttachment = true;
@@ -8937,7 +8971,7 @@ void xml2MsrTranslator::attachPendingWordsToNote (
           "there " <<
           singularOrPlural (
             fPendingWords.size (), "there is", "there are") <<
-          " words attached to a rest";
+          " word(s) attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),

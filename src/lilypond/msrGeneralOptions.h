@@ -91,7 +91,7 @@ class EXP msrGeneralOptions : public smartable
     
     string                fTranslationDate;
 
-    // output
+    // output file
     // --------------------------------------
 
     string                fOutputFileName;
@@ -159,9 +159,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceStafftuning;
     
     bool                  fTraceMidi;
-
-
-    // CPU usage
 };
 typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
 

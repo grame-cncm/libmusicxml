@@ -762,11 +762,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       
     case msrVoice::kHarmonyVoice:
       {
-        // create a harmony voice in current part clone
-        fCurrentPartClone->
-          createPartHarmonyStaffAndVoice (
-            inputLineNumber);
-
         // fetch harmony voice
         fCurrentVoiceClone =
           fCurrentPartClone->

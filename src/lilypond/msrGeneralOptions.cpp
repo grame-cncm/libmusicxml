@@ -94,7 +94,9 @@ void msrGeneralOptions::initializeGeneralOptions (
   // measure number-selective detailed trace
   fTraceDetailed = boolOptionsInitialValue;
 
-  // timing information
+  // CPU usage
+  // --------------------------------------
+  
   fDisplayCPUusage = boolOptionsInitialValue;
 }
 
@@ -181,7 +183,9 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceDetailed =
     true;
 
-  // timing information
+  // CPU usage
+  // --------------------------------------
+  
   clone->fDisplayCPUusage =
     true;
     
@@ -589,6 +593,9 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   }
 
   idtr--;
+
+  // CPU usage
+  // --------------------------------------  
 
   cerr <<
     indenter::gIndenter <<

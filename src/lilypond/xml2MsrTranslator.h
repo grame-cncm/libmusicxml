@@ -908,6 +908,8 @@ class EXP xml2MsrTranslator :
     int                       fCurrentNoteOctave;
     
     bool                      fCurrentNoteIsARest;
+    bool                      fCurrentRestMeasure;
+    
     bool                      fCurrentNoteIsUnpitched;
   
     bool                      fCurrentNoteIsAGraceNote;

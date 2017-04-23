@@ -250,7 +250,13 @@ void analyzeOptions (
   
   int traceDetailedPresent              = 0;
   
-  int displayCPUusagePresent            = 0;
+  // CPU usage
+  
+  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  checkOptionUniqueness (
+    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+  int displayCPUusagePresent = 0;
   
   // MSR options
   // -----------
@@ -530,13 +536,15 @@ void analyzeOptions (
       required_argument, &traceDetailedPresent, 1
     },
     
+    // CPU usage
+
     {
-      "dCPU",
-      required_argument, &displayCPUusagePresent, 1
+      _CPU_USAGE_LONG_NAME_,
+      no_argument, &displayCPUusagePresent, 1
     },
     {
-      "displayCPUusage",
-      required_argument, &displayCPUusagePresent, 1
+      _CPU_USAGE_SHORT_NAME_,
+      no_argument, &displayCPUusagePresent, 1
     },
 
     // MSR options
@@ -968,10 +976,12 @@ R"(
         
         if (autoOutputFilePresent) {
           gGeneralOptions->fAutoOutputFile = true;
+          
           gGeneralOptions->fCommandLineLongOptions +=
             "--"_AUTO_OUTPUT_FILE_LONG_NAME_" ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--"_AUTO_OUTPUT_FILE_SHORT_NAME_" ";
+            
           autoOutputFilePresent = false;
         }
 
@@ -979,18 +989,22 @@ R"(
         
         if (traceGeneralPresent) {
           gGeneralOptions->fTraceGeneral = true;
+          
           gGeneralOptions->fCommandLineLongOptions +=
             "--"_TRACE_GENERAL_LONG_NAME_" ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--"_TRACE_GENERAL_SHORT_NAME_" ";
+            
           traceGeneralPresent = false;
         }
         
         if (traceDivisionsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceDivisions = true;
+          
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceDivisions ";
+            
           traceDivisionsPresent = false;
         }
         
@@ -1100,11 +1114,17 @@ R"(
           traceDetailedPresent = false;
         }
 
+      // CPU usage
+
         if (displayCPUusagePresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fDisplayCPUusage = true;
+          
           gGeneralOptions->fCommandLineLongOptions +=
-            "--displayCPUusage ";
+            "--"_CPU_USAGE_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_CPU_USAGE_SHORT_NAME_" ";
+            
           displayCPUusagePresent = false;
         }
         
