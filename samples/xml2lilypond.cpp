@@ -1111,125 +1111,41 @@ R"(
           traceGeneralPresent = false;
         }
 
-        // specific trace    
-        
-        if (traceDivisionsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceDivisions = true;
-          
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceDivisions ";
-            
-          traceDivisionsPresent = false;
-        }
-        
-        if (tracePartsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceParts = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceparts ";
-          tracePartsPresent = false;
-        }
-        if (traceVoicesPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceVoices = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceVoices ";
-          traceVoicesPresent = false;
-        }
-        if (traceSegmentsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceSegments = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceSegments ";
-          traceSegmentsPresent = false;
-        }
-        if (traceRepeatsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceRepeats = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceRepeats ";
-          traceRepeatsPresent = false;
-        }
-        if (traceMeasuresPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceMeasures = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceMeasures ";
-          traceMeasuresPresent = false;
-        }
-        if (traceNotesPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceNotes = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceNotes ";
-          traceNotesPresent = false;
-        }
-        if (traceTremolosPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceTremolos = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceTremolos ";
-          traceTremolosPresent = false;
-        }
-        if (traceChordsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceChords = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceChords ";
-          traceChordsPresent = false;
-        }
-        if (traceTupletsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceTuplets = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceTuplets ";
-          traceTupletsPresent = false;
-        }
-        if (traceGracenotesPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceGracenotes = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceGracenotes ";
-          traceGracenotesPresent = false;
-        }
-
-        if (traceLyricsPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceLyrics = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceLyrics ";
-          traceLyricsPresent = false;
-        }
-        
-        if (traceHarmoniesPresent) {
-          gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceHarmonies = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceHarmonies ";
-          traceHarmoniesPresent = false;
-        }
-        
         if (traceDetailedPresent) {
           // optarg contains the measure numbers set specification
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceDetailed = true;
-          
-          char*        measuresSpec = optarg;
-          stringstream s;
 
-          s <<
-            "--traceDetailed" << " " << measuresSpec << " ";
-          gGeneralOptions->fCommandLineLongOptions +=
-            s.str();
-            
+          char*        measuresSpec = optarg;
+
           gGeneralOptions->fTraceAllMeasureNumbersSet =
             decipherNumbersSetSpecification (
               measuresSpec, false); // 'true' to debug it
+
+          {
+            stringstream s;
+  
+            s <<
+               "--"_TRACE_DETAILED_LONG_NAME_" " << measuresSpec << " ";
+               
+            gGeneralOptions->fCommandLineLongOptions +=
+              s.str();
+          }
+
+          {
+            stringstream s;
+  
+            s <<
+               "--"_TRACE_DETAILED_SHORT_NAME_" " << measuresSpec << " ";
+               
+            gGeneralOptions->fCommandLineShortOptions +=
+              s.str();
+           }
+                  
           traceDetailedPresent = false;
         }
 
-      // CPU usage
+        // CPU usage
 
         if (displayCPUusagePresent) {
           gGeneralOptions->fTraceGeneral = true;
@@ -1243,7 +1159,171 @@ R"(
           displayCPUusagePresent = false;
         }
         
+        // specific trace    
 
+        if (traceDivisionsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceDivisions = true;
+          
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_DIVISIONS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_DIVISIONS_SHORT_NAME_" ";
+            
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--traceDivisions ";
+            
+          traceDivisionsPresent = false;
+        }
+        
+        if (tracePartsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceParts = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_PARTS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_PARTS_SHORT_NAME_" ";
+            
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--traceparts ";
+
+          tracePartsPresent = false;
+        }
+        if (traceVoicesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceVoices = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_VOICES_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_VOICES_SHORT_NAME_" ";
+            
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--traceVoices ";
+
+          traceVoicesPresent = false;
+        }
+        if (traceSegmentsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceSegments = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_SEGMENTS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_SEGMENTS_SHORT_NAME_" ";
+            
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--traceSegments ";
+
+          traceSegmentsPresent = false;
+        }
+        if (traceRepeatsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceRepeats = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_REPEATS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_REPEATS_SHORT_NAME_" ";
+            
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--traceRepeats ";
+
+          traceRepeatsPresent = false;
+        }
+        if (traceMeasuresPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceMeasures = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_MEASURES_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_MEASURES_SHORT_NAME_" ";
+
+          traceMeasuresPresent = false;
+        }
+        if (traceNotesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceNotes = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_NOTES_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_NOTES_SHORT_NAME_" ";
+            
+          traceNotesPresent = false;
+        }
+        if (traceTremolosPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTremolos = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_TREMOLOS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_TREMOLOS_SHORT_NAME_" ";
+            
+          traceTremolosPresent = false;
+        }
+        if (traceChordsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceChords = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_CHORDS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_CHORDS_SHORT_NAME_" ";
+            
+          traceChordsPresent = false;
+        }
+        if (traceTupletsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTuplets = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_TUPLETS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_TUPLETS_SHORT_NAME_" ";
+                        
+          traceTupletsPresent = false;
+        }
+        if (traceGracenotesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceGracenotes = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_GRACENOTES_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_GRACENOTES_SHORT_NAME_" ";
+            
+          traceGracenotesPresent = false;
+        }
+
+        if (traceLyricsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceLyrics = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_LYRICS_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_LYRICS_SHORT_NAME_" ";
+            
+          traceLyricsPresent = false;
+        }
+        
+        if (traceHarmoniesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceHarmonies = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--"_TRACE_HARMONIES_LONG_NAME_" ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--"_TRACE_HARMONIES_SHORT_NAME_" ";
+            
+          traceHarmoniesPresent = false;
+        }
+        
         // MSR options
         // -----------
         
