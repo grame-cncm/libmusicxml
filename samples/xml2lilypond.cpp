@@ -541,7 +541,12 @@ void analyzeOptions (
   checkOptionUniqueness (
     _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_, _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_);
     
-  int delayedOrnamentFractionPresent    = 0;
+  int delayedOrnamentFractionPresent = 0;
+
+  checkOptionUniqueness (
+    _DISPLAY_MUSIC_LONG_NAME_, _DISPLAY_MUSIC_SHORT_NAME_);
+    
+  int displayMusicPresent = 0;
 
   checkOptionUniqueness (
     _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_, _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_);
@@ -1137,6 +1142,15 @@ void analyzeOptions (
     {
       _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_,
       required_argument, &delayedOrnamentFractionPresent, 1
+    },
+    
+    {
+      _DISPLAY_MUSIC_LONG_NAME_,
+      required_argument, &displayMusicPresent, 1
+    },
+    {
+      _DISPLAY_MUSIC_SHORT_NAME_,
+      required_argument, &displayMusicPresent, 1
     },
     
     {
@@ -2291,6 +2305,17 @@ R"(
             optargAsString + "' ";
             
           delayedOrnamentFractionPresent = false;
+        }
+
+        if (displayMusicPresent) {
+          gLpsrOptions->fDisplayMusic = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DISPLAY_MUSIC_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DISPLAY_MUSIC_SHORT_NAME_ " ";
+            
+          displayMusicPresent = false;
         }
 
         if (dontGenerateLilyPondCodePresent) {

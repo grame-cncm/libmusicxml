@@ -107,12 +107,18 @@ lpsrOptions::~lpsrOptions() {}
 void lpsrOptions::initializeLpsrOptions (
   bool boolOptionsInitialValue)
 {
-  // trace
+  // trace and display
+  
   fTraceLpsr                           = boolOptionsInitialValue;
   
   fTraceLpsrVisitors                   = boolOptionsInitialValue;
+
+  fDisplayLpsr                         = boolOptionsInitialValue;
   
+  fGenerateComments                    = boolOptionsInitialValue;
+
   // languages
+  
   if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {
     stringstream s;
 
@@ -135,9 +141,36 @@ void lpsrOptions::initializeLpsrOptions (
     optionError (s.str());
   }
   
-  // LPSR display
-  fDisplayLpsr                         = boolOptionsInitialValue;
+  // time
+  
+  fGenerateNumericalTime               = boolOptionsInitialValue;
 
+  // notes
+  
+  fGenerateAbsoluteOctaves             = boolOptionsInitialValue;
+
+  fGenerateStems                       = boolOptionsInitialValue;
+  fNoAutoBeaming                       = boolOptionsInitialValue;
+  
+  fAccidentalStyle                     = "";
+
+  fGenerateInputLineNumbers            = boolOptionsInitialValue;
+
+  // bars
+  
+  // line breaks
+  
+  // staves
+  
+  fModernTab                           = boolOptionsInitialValue;
+
+  // midi
+
+  fDontGenerateMidiCommand             = boolOptionsInitialValue;
+  
+  fMidiTempoDuration                   = "4";
+  fMidiTempoPerSecond                  = 100;
+  
   // LilyPond code generation
   fDontKeepLineBreaks                  = boolOptionsInitialValue;
   fShowAllBarNumbers                   = boolOptionsInitialValue;
@@ -152,33 +185,22 @@ void lpsrOptions::initializeLpsrOptions (
   
   fKeepStaffSize                       = boolOptionsInitialValue;
     
-  fGenerateAbsoluteOctaves             = boolOptionsInitialValue;
-
-  fGenerateNumericalTime               = boolOptionsInitialValue;
-  fGenerateComments                    = boolOptionsInitialValue;
-  fGenerateStems                       = boolOptionsInitialValue;
-  fNoAutoBeaming                       = boolOptionsInitialValue;
   
-  fGenerateInputLineNumbers            = boolOptionsInitialValue;
   
-  fModernTab                           = boolOptionsInitialValue;
-  
-  fAccidentalStyle                     = "";
 
   fDelayedOrnamentFractionNumerator    = 2;
   fDelayedOrnamentFractionDenominator  = 3;
 
-  fDontGenerateMidiCommand             = boolOptionsInitialValue;
-  
-  fMidiTempoDuration                   = "4";
-  fMidiTempoPerSecond                  = 100;
-  
   fGenerateMasterVoices                = boolOptionsInitialValue;
   
   fDontGenerateLilyPondLyrics          = boolOptionsInitialValue;
   
+  fDisplayMusic                        = boolOptionsInitialValue;
+  
   fDontGenerateLilyPondCode            = boolOptionsInitialValue;
 
+  // register the LilyPond accidental styles
+  
   fLilyPondAccidentalStyles.insert ("voice");
   fLilyPondAccidentalStyles.insert ("modern");
   fLilyPondAccidentalStyles.insert ("modern-cautionary");
@@ -634,7 +656,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " 'num/denom'" << 
       endl <<
     idtr <<
-      "--dof, --delayedOrnamentsFraction \"num/denom\"" << 
+      "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " \"num/denom\"" << 
       endl <<
     idtr << tab << tab << tab <<
       "Place the delayed turn/reverseturn at the given fraction" << 
@@ -644,6 +666,17 @@ void lpsrOptions::printLpsrOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "The default fraction is '2/3'." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _DISPLAY_MUSIC_SHORT_NAME_ ", --" _DISPLAY_MUSIC_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Place the contents of all voices inside a '\\displayMusic' block," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "'for LilyPond to show its internal representation of the music." << 
       endl <<
     endl <<
       

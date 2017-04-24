@@ -210,6 +210,9 @@ void initializeLpsrChordsLanguages ();
 #define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction "
 #define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
 
+#define _DISPLAY_MUSIC_LONG_NAME_  "displayMusic "
+#define _DISPLAY_MUSIC_SHORT_NAME_ "dm"
+
 #define _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_  "dontGenerateLilyPondCode "
 #define _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ "nolpc"
 
@@ -227,12 +230,12 @@ class EXP lpsrOptions : public smartable {
     // initialisation
     // ------------------------------------------------------
 
-    void                          initializeLpsrOptions (
-                                    bool boolOptionsInitialValue);
+    void                  initializeLpsrOptions (
+                            bool boolOptionsInitialValue);
     
-    void                          printLpsrOptionsHelp ();
+    void                  printLpsrOptionsHelp ();
 
-    void                          printLpsrOptionsValues (int fieldWidth);
+    void                  printLpsrOptionsValues (int fieldWidth);
     
   public:
   
@@ -330,6 +333,8 @@ class EXP lpsrOptions : public smartable {
 
     int                   fDelayedOrnamentFractionNumerator;
     int                   fDelayedOrnamentFractionDenominator;
+
+    bool                  fDisplayMusic;
 
     bool                  fDontGenerateLilyPondCode;
 
