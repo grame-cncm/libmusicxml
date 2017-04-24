@@ -949,184 +949,211 @@ void analyzeOptions (
     },
 
     {
-      "lpsr",
+      _DISPLAY_LPSR_LONG_NAME_,
       no_argument, &displayLPSRPresent, 1},
     {
-      "displayLPSR",
+      _DISPLAY_LPSR_SHORT_NAME_,
       no_argument, &displayLPSRPresent, 1
     },
 
+    {
+      _COMMENTS_LONG_NAME_,
+      no_argument, &commentsPresent, 1
+    },
+    {
+      _COMMENTS_SHORT_NAME_,
+      no_argument, &commentsPresent, 1
+    },
+    
     // languages
 
     {
-      "lppl",
+      _LPSR_PITCHES_LANGUAGE_LONG_NAME_,
       required_argument, &lpsrPitchesLanguagePresent, 1
     },
     {
-      "lpsrPitchesLanguage",
+      _LPSR_PITCHES_LANGUAGE_SHORT_NAME_,
       required_argument, &lpsrPitchesLanguagePresent, 1
     },
     
     {
-      "lpcl",
+      _LPSR_CHORDS_LANGUAGE_LONG_NAME_,
       required_argument, &lpsrChordsLanguagePresent, 1
     },
     {
-      "lpsrChordsLanguage",
+      _LPSR_CHORDS_LANGUAGE_SHORT_NAME_,
       required_argument, &lpsrChordsLanguagePresent, 1
     },
     
+    // time
+
     {
-      "abs",
-      no_argument, &absolutePresent, 1
+      _NUMERICAL_TIME_LONG_NAME_,
+      no_argument, &numericaltimePresent, 1
     },
     {
-      "absolute",
-      no_argument, &absolutePresent, 1
-    },
-    
-    {
-      "sabn",
-      no_argument, &showAllBarNumbersPresent, 1
-    },
-    {
-      "showAllBarNumbers",
-      no_argument, &showAllBarNumbersPresent, 1
-    },
-    
-    {
-      "cfbr",
-      no_argument, &compressFullBarRestsPresent, 1
-    },
-    {
-      "compressFullBarRests",
-      no_argument, &compressFullBarRestsPresent, 1
-    },
-    
-    {
-      "toal",
-      no_argument, &tupletsOnALinePresent, 1
-    },
-    {
-      "tupletsOnALine",
-      no_argument, &tupletsOnALinePresent, 1
-    },
-    
-    {
-      "blairm",
-      no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
-    },
-    {
-      "breakLinesAtIncompleteRightMeasures",
-      no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
-    },
-    
-    {
-      "slenm",
-      required_argument, &separatorLineEveryNMeasuresPresent, 1
-    },
-    {
-      "separatorLineEveryNMeasures",
-      required_argument, &separatorLineEveryNMeasuresPresent, 1
-    },
-    
-    {
-      "noBreaks",
-      no_argument, &dontKeepLineBreaksPresent, 1
-    },
-    {
-      "dontKeepLineBreaks",
-      no_argument, &dontKeepLineBreaksPresent, 1
-    },
-    
-    {
-      "numericalTime",
+      _NUMERICAL_TIME_SHORT_NAME_,
       no_argument, &numericaltimePresent, 1
     },
     
+    // notes
+
     {
-      "com",
-      no_argument, &commentsPresent, 1
+      _ABSOLUTE_LONG_NAME_,
+      no_argument, &absolutePresent, 1
     },
     {
-      "comments",
-      no_argument, &commentsPresent, 1
+      _ABSOLUTE_SHORT_NAME_,
+      no_argument, &absolutePresent, 1
     },
     
     {
-      "stems",
+      _STEMS_LONG_NAME_,
       no_argument, &stemsPresent, 1
     },
     
     {
-      "noab",
+      _NO_AUTO_BEAMING_LONG_NAME_,
       no_argument, &noAutoBeamingPresent, 1
     },
     {
-      "noAutoBeaming",
+      _NO_AUTO_BEAMING_SHORT_NAME_,
       no_argument, &noAutoBeamingPresent, 1
     },
     
     {
-      "iln",
+      _ACCIDENTAL_STYLE_LONG_NAME_,
+      required_argument, &accidentalStylePresent, 1
+    },
+    {
+      _ACCIDENTAL_STYLE_SHORT_NAME_,
+      required_argument, &accidentalStylePresent, 1
+    },
+    
+    {
+      _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_,
       no_argument, &noteInputLineNumbersPresent, 1
     },
     {
-      "generateInputLineNumbers",
+      _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_,
       no_argument, &noteInputLineNumbersPresent, 1
     },    
 
+    // bars
+
     {
-      "mtab",
+      _SHOW_ALL_BAR_NUMBERS_LONG_NAME_,
+      no_argument, &showAllBarNumbersPresent, 1
+    },
+    {
+      _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_,
+      no_argument, &showAllBarNumbersPresent, 1
+    },
+    
+    {
+      _COMPRESS_FULL_BAR_RESTS_LONG_NAME_,
+      no_argument, &compressFullBarRestsPresent, 1
+    },
+    {
+      _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_,
+      no_argument, &compressFullBarRestsPresent, 1
+    },
+    
+    // line breaks
+
+    {
+      _DONT_KEEP_LINE_BREAKS_LONG_NAME_,
+      no_argument, &dontKeepLineBreaksPresent, 1
+    },
+    {
+      _DONT_KEEP_LINE_BREAKS_SHORT_NAME_,
+      no_argument, &dontKeepLineBreaksPresent, 1
+    },
+    
+    {
+      _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_,
+      no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
+    },
+    {
+      _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_,
+      no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
+    },
+    
+    {
+      _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_,
+      required_argument, &separatorLineEveryNMeasuresPresent, 1
+    },
+    {
+      _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_,
+      required_argument, &separatorLineEveryNMeasuresPresent, 1
+    },
+    
+    // staves
+
+    {
+      _MODERN_TAB_LONG_NAME_,
       no_argument, &modernTabPresent, 1
     },
     {
-      "modernTab",
+      _MODERN_TAB_SHORT_NAME_,
       no_argument, &modernTabPresent, 1
     },
     
+    // midi
+
     {
-      "as",
-      required_argument, &accidentalStylePresent, 1
-    },
-    {
-      "accidentalStyle",
-      required_argument, &accidentalStylePresent, 1
-    },
-    
-    {
-      "dof",
-      required_argument, &delayedOrnamentFractionPresent, 1
-    },
-    {
-      "delayedOrnamentFraction",
-      required_argument, &delayedOrnamentFractionPresent, 1
-    },
-    
-    {
-      "mt",
+      _MIDI_TEMPO_LONG_NAME_,
       required_argument, &midiTempoPresent, 1
     },
     {
-      "midiTempo",
+      _MIDI_TEMPO_SHORT_NAME_,
       required_argument, &midiTempoPresent, 1
     },
     
     {
-      "nolpc",
+      _NO_MIDI_LONG_NAME_,
+      required_argument, &dontGenerateMidiCommandPresent, 1
+    },
+    {
+      _NO_MIDI_SHORT_NAME_,
+      required_argument, &dontGenerateMidiCommandPresent, 1
+    },
+    
+    // LilyPond code generation
+
+    {
+      _TUPLETS_ON_A_LINE_LONG_NAME_,
+      no_argument, &tupletsOnALinePresent, 1
+    },
+    {
+      _TUPLETS_ON_A_LINE_SHORT_NAME_,
+      no_argument, &tupletsOnALinePresent, 1
+    },
+    
+    {
+      _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_,
+      required_argument, &delayedOrnamentFractionPresent, 1
+    },
+    {
+      _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_,
+      required_argument, &delayedOrnamentFractionPresent, 1
+    },
+    
+    {
+      _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_,
       no_argument, &dontGenerateLilyPondCodePresent, 1
     },
     {
-      "dontGenerateLilyPondCode",
+      _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_,
       no_argument, &dontGenerateLilyPondCodePresent, 1
     },
 
     {
-      "nolpl",
+      _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_,
       no_argument, &dontGenerateLilyPondLyricsPresent, 1
     },
     {
-      "dontGenerateLilyPondLyrics",
+      _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_,
       no_argument, &dontGenerateLilyPondLyricsPresent, 1
     },
 
@@ -2161,7 +2188,7 @@ R"(
         }
 
         if (dontGenerateMidiCommandPresent) {
-          gLpsrOptions->fTupletsOnALine = true;
+          gLpsrOptions->fDontGenerateMidiCommand = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NO_MIDI_LONG_NAME_ " ";

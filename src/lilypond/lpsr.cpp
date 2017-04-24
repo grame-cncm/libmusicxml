@@ -600,7 +600,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--" _NO_MIDI_SHORT_NAME_ ", --" _NO_MIDI_LONG_NAME_ << 
+      "--" _NO_MIDI_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate the '\\midi' block as a comment." << 

@@ -4815,6 +4815,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
       "% --> Start visiting msrMidi" <<
       endl;
 
+  if (gLpsrOptions->fDontGenerateMidiCommand) {
+    fOstream <<
+      idtr <<
+      "%{" <<
+      endl;
+
+     idtr++;
+  }
+
   fOstream << idtr <<
     "\\midi" << " {" <<
     endl;
@@ -4839,6 +4848,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
   fOstream << idtr <<
     "}" <<
     endl;
+
+  if (gLpsrOptions->fDontGenerateMidiCommand) {
+    fOstream <<
+      idtr <<
+      "%}" <<
+      endl;
+
+     idtr--;
+  }
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrMidi& elt)
