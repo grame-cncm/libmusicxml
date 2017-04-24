@@ -2489,16 +2489,12 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
       booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
+      booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
       endl;
 
-/* JMI
-    idtr <<
-      "--kms, --keepMasterStanzas" <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Keep the master stanzas used intertally. By default, there are removed after usage." <<
-      endl <<
-*/
   idtr--;
 
   // harmonies
