@@ -385,32 +385,32 @@ void analyzeOptions (
 
   // trace and display
 
-  #define _TRACE_MSR_LONG_NAME_  "displayCPUusage"
-  #define _TRACE_MSR_SHORT_NAME_ "dCPU"
+  #define _TRACE_MSR_LONG_NAME_  "traceMsr"
+  #define _TRACE_MSR_SHORT_NAME_ "tmsr"
   
   checkOptionUniqueness (
     _TRACE_MSR_LONG_NAME_, _TRACE_MSR_SHORT_NAME_);
     
   int traceMSRPresent = 0;
 
-  #define _TRACE_MSR_VISITORS_LONG_NAME_  "displayCPUusage"
-  #define _TRACE_MSR_VISITORS_SHORT_NAME_ "dCPU"
+  #define _TRACE_MSR_VISITORS_LONG_NAME_  "traceMsrVisitors"
+  #define _TRACE_MSR_VISITORS_SHORT_NAME_ "tmvisits"
   
   checkOptionUniqueness (
     _TRACE_MSR_VISITORS_LONG_NAME_, _TRACE_MSR_VISITORS_SHORT_NAME_);
     
   int traceMSRVisitorsPresent = 0;
 
-  #define _DISPLAY_MSR_LONG_NAME_  "displayCPUusage"
-  #define _DISPLAY_MSR_SHORT_NAME_ "dCPU"
+  #define _DISPLAY_MSR_LONG_NAME_  "displayMsr"
+  #define _DISPLAY_MSR_SHORT_NAME_ "msr"
   
   checkOptionUniqueness (
     _DISPLAY_MSR_LONG_NAME_, _DISPLAY_MSR_SHORT_NAME_);
     
   int displayMSRPresent = 0;
   
-  #define _DISPLAY_MSR_SUMMARY_LONG_NAME_  "displayCPUusage"
-  #define _DISPLAY_MSR_SUMMARY_SHORT_NAME_ "dCPU"
+  #define _DISPLAY_MSR_SUMMARY_LONG_NAME_  "displayMsrSummary"
+  #define _DISPLAY_MSR_SUMMARY_SHORT_NAME_ "sum"
   
   checkOptionUniqueness (
     _DISPLAY_MSR_SUMMARY_LONG_NAME_, _DISPLAY_MSR_SUMMARY_SHORT_NAME_);
@@ -439,16 +439,16 @@ void analyzeOptions (
   
   // voices
 
-  #define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "displayCPUusage"
-  #define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "dCPU"
+  #define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "staffRelativeVoiceNumbers"
+  #define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "srvn"
   
   checkOptionUniqueness (
     _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_, _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_);
     
   int staffRelativeVoiceNumbersPresent = 0;
 
-  #define _KEEP_MASTER_VOICES_LONG_NAME_  "displayCPUusage"
-  #define _KEEP_MASTER_VOICES_SHORT_NAME_ "dCPU"
+  #define _KEEP_MASTER_VOICES_LONG_NAME_  "keepMasterVoices"
+  #define _KEEP_MASTER_VOICES_SHORT_NAME_ "kmv"
   
   checkOptionUniqueness (
     _KEEP_MASTER_VOICES_LONG_NAME_, _KEEP_MASTER_VOICES_SHORT_NAME_);
@@ -465,32 +465,32 @@ void analyzeOptions (
     
   int delayRestsDynamicsPresent = 0;
 
-  #define _DELAY_RESTS_WORDS_LONG_NAME_  "displayCPUusage"
-  #define _DELAY_RESTS_WORDS_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_WORDS_LONG_NAME_  "delayRestsWords"
+  #define _DELAY_RESTS_WORDS_SHORT_NAME_ "drwords"
   
   checkOptionUniqueness (
     _DELAY_RESTS_WORDS_LONG_NAME_, _DELAY_RESTS_WORDS_SHORT_NAME_);
     
   int delayRestsWordsPresent = 0;
 
-  #define _DELAY_RESTS_SLURS_LONG_NAME_  "displayCPUusage"
-  #define _DELAY_RESTS_SLURS_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_SLURS_LONG_NAME_  "delayRestsSlurs"
+  #define _DELAY_RESTS_SLURS_SHORT_NAME_ "drslurs"
   
   checkOptionUniqueness (
     _DELAY_RESTS_SLURS_LONG_NAME_, _DELAY_RESTS_SLURS_SHORT_NAME_);
     
   int delayRestsSlursPresent = 0;
   
-  #define _DELAY_RESTS_LIGATURES_LONG_NAME_  "displayCPUusage"
-  #define _DELAY_RESTS_LIGATURES_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_LIGATURES_LONG_NAME_  "delayRestsLigatures"
+  #define _DELAY_RESTS_LIGATURES_SHORT_NAME_ "drligs"
   
   checkOptionUniqueness (
     _DELAY_RESTS_LIGATURES_LONG_NAME_, _DELAY_RESTS_LIGATURES_SHORT_NAME_);
     
   int delayRestsLigaturesPresent = 0;
 
-  #define _DELAY_RESTS_WEDGES_LONG_NAME_  "displayCPUusage"
-  #define _DELAY_RESTS_WEDGES_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_WEDGES_LONG_NAME_  "delayRestsWedges"
+  #define _DELAY_RESTS_WEDGES_SHORT_NAME_ "drwedges"
   
   checkOptionUniqueness (
     _DELAY_RESTS_WEDGES_LONG_NAME_, _DELAY_RESTS_WEDGES_SHORT_NAME_);
@@ -517,24 +517,13 @@ void analyzeOptions (
 
   // harmonies
 
-  #define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "-keepEmptyHarmoniesVoice"
+  #define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "keepEmptyHarmoniesVoice"
   #define _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ "kehv"
   
   checkOptionUniqueness (
     _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_, _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_);
     
   int keepEmptyHarmoniesVoicePresent = 0;
-
-
-
-  
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
-  
-  checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
-    
-  int partNamePresent = 0;
 
   
   // LPSR options
@@ -566,197 +555,189 @@ void analyzeOptions (
     
   int displayLPSRPresent  = 0;
 
-  // languages
-
-  #define _DISPLAY_LPSR_LONG_NAME_  "lpsrPitchesLanguage "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "lppl"
+  #define _COMMENTS_LONG_NAME_  "comments "
+  #define _COMMENTS_SHORT_NAME_ "com"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _COMMENTS_LONG_NAME_, _COMMENTS_SHORT_NAME_);
+    
+  int commentsPresent = 0;
+
+  // languages
+
+  #define _LPSR_PITCHES_LANGUAGE_LONG_NAME_  "lpsrPitchesLanguage "
+  #define _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ "lppl"
+  
+  checkOptionUniqueness (
+    _LPSR_PITCHES_LANGUAGE_LONG_NAME_, _LPSR_PITCHES_LANGUAGE_SHORT_NAME_);
     
   int lpsrPitchesLanguagePresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "lpsrChordsLanguage "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "lpcl"
+  #define _LPSR_CHORDS_LANGUAGE_LONG_NAME_  "lpsrChordsLanguage "
+  #define _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ "lpcl"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _LPSR_CHORDS_LANGUAGE_LONG_NAME_, _LPSR_CHORDS_LANGUAGE_SHORT_NAME_);
     
   int lpsrChordsLanguagePresent = 0;
   
   // time
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "numericalTime "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "numt"
+  #define _NUMERICAL_TIME_LONG_NAME_  "numericalTime "
+  #define _NUMERICAL_TIME_SHORT_NAME_ "numt"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _NUMERICAL_TIME_LONG_NAME_, _NUMERICAL_TIME_SHORT_NAME_);
     
   int numericaltimePresent = 0;
 
   // notes
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "absolute "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "abs"
+  #define _ABSOLUTE_LONG_NAME_  "absolute "
+  #define _ABSOLUTE_SHORT_NAME_ "abs"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _ABSOLUTE_LONG_NAME_, _ABSOLUTE_SHORT_NAME_);
     
   int absolutePresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "stems "
-  #define _DISPLAY_LPSR_SHORT_NAME_ ""
+  #define _STEMS_LONG_NAME_  "stems "
+  #define _STEMS_SHORT_NAME_ ""
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _STEMS_LONG_NAME_, _STEMS_SHORT_NAME_);
     
   int stemsPresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "noAutoBeaming "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "noab"
+  #define _NO_AUTO_BEAMING_LONG_NAME_  "noAutoBeaming "
+  #define _NO_AUTO_BEAMING_SHORT_NAME_ "noab"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _NO_AUTO_BEAMING_LONG_NAME_, _NO_AUTO_BEAMING_SHORT_NAME_);
     
   int noAutoBeamingPresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "accidentalStyle "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "as"
+  #define _ACCIDENTAL_STYLE_LONG_NAME_  "accidentalStyle "
+  #define _ACCIDENTAL_STYLE_SHORT_NAME_ "as"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _ACCIDENTAL_STYLE_LONG_NAME_, _ACCIDENTAL_STYLE_SHORT_NAME_);
     
   int accidentalStylePresent = 0;
   
-  #define _DISPLAY_LPSR_LONG_NAME_  "inputLineNumbers "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "iln"
+  #define _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_  "noteInputLineNumbers "
+  #define _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ "niln"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_, _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_);
     
   int noteInputLineNumbersPresent = 0;
 
   // bars
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "showAllBarNumbers "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "sabn"
+  #define _SHOW_ALL_BAR_NUMBERS_LONG_NAME_  "showAllBarNumbers "
+  #define _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ "sabn"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _SHOW_ALL_BAR_NUMBERS_LONG_NAME_, _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_);
     
   int showAllBarNumbersPresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "compressFullBarRests "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "cfbr"
+  #define _COMPRESS_FULL_BAR_RESTS_LONG_NAME_  "compressFullBarRests "
+  #define _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ "cfbr"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _COMPRESS_FULL_BAR_RESTS_LONG_NAME_, _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_);
     
   int compressFullBarRestsPresent = 0;
 
   // line breaks
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
+  #define _DONT_KEEP_LINE_BREAKS_LONG_NAME_  "dontKeepLineBreaks "
+  #define _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ "noBreaks"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _DONT_KEEP_LINE_BREAKS_LONG_NAME_, _DONT_KEEP_LINE_BREAKS_SHORT_NAME_);
     
   int dontKeepLineBreaksPresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "breakLinesAtIncompleteRightMeasures "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "blairm"
+  #define _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_  "breakLinesAtIncompleteRightMeasures "
+  #define _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ "blairm"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_, _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_);
     
   int breakLinesAtIncompleteRightMeasuresPresent = 0;
   
-  #define _DISPLAY_LPSR_LONG_NAME_  "separatorLineEveryNMeasures "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "slenm"
+  #define _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_  "separatorLineEveryNMeasures "
+  #define _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ "slenm"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_, _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_);
     
   int separatorLineEveryNMeasuresPresent = 0;
 
   // staves
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "modernTab "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "mtab"
+  #define _MODERN_TAB_LONG_NAME_  "modernTab "
+  #define _MODERN_TAB_SHORT_NAME_ "mtab"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _MODERN_TAB_LONG_NAME_, _MODERN_TAB_SHORT_NAME_);
     
   int modernTabPresent = 0;
 
   // midi
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "midiTempo "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "mt"
+  #define _MIDI_TEMPO_LONG_NAME_  "midiTempo "
+  #define _MIDI_TEMPO_SHORT_NAME_ "mt"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _MIDI_TEMPO_LONG_NAME_, _MIDI_TEMPO_SHORT_NAME_);
     
   int midiTempoPresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "noMidi "
-  #define _DISPLAY_LPSR_SHORT_NAME_ ""
+  #define _NO_MIDI_LONG_NAME_  "noMidi "
+  #define _NO_MIDI_SHORT_NAME_ ""
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _NO_MIDI_LONG_NAME_, _NO_MIDI_SHORT_NAME_);
     
   int dontGenerateMidiCommandPresent = 0;
 
   // LilyPond code generation
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "tupletsOnALine "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "toal"
+  #define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine "
+  #define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _TUPLETS_ON_A_LINE_LONG_NAME_, _TUPLETS_ON_A_LINE_SHORT_NAME_);
     
   int tupletsOnALinePresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "delayedOrnamentsFraction "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "dof"
+  #define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction "
+  #define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_, _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_);
     
   int delayedOrnamentFractionPresent    = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "dontGenerateLilyPondCode "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "nolpc"
+  #define _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_  "dontGenerateLilyPondCode "
+  #define _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ "nolpc"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_, _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_);
     
   int dontGenerateLilyPondCodePresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "dontGenerateLilyPondLyrics "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "nolpl"
+  #define _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_  "dontGenerateLilyPondLyrics "
+  #define _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ "nolpl"
   
   checkOptionUniqueness (
-    _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
+    _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_, _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_);
     
   int dontGenerateLilyPondLyricsPresent = 0;
-
-
-
-
-
-
-
-  
-//  int fKeepStaffSizePresent     = 0; JMI
-  
-  
-  int commentsPresent = 0;
-  
-  
-  
-
 
 
   // long_options data structure
