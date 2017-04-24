@@ -125,6 +125,98 @@ void initializeLpsrChordsLanguages ();
   to the various methods that need them.
 */
 //______________________________________________________________________________
+
+// trace and display
+
+#define _TRACE_LPSR_LONG_NAME_  "traceLpsr "
+#define _TRACE_LPSR_SHORT_NAME_ "tlpsr"
+
+#define _TRACE_LPSR_VISITORS_LONG_NAME_  "traceLpsrVisitors "
+#define _TRACE_LPSR_VISITORS_SHORT_NAME_ "tlpvisits"
+
+#define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr "
+#define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
+
+#define _COMMENTS_LONG_NAME_  "comments "
+#define _COMMENTS_SHORT_NAME_ "com"
+
+// languages
+
+#define _LPSR_PITCHES_LANGUAGE_LONG_NAME_  "lpsrPitchesLanguage "
+#define _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ "lppl"
+
+#define _LPSR_CHORDS_LANGUAGE_LONG_NAME_  "lpsrChordsLanguage "
+#define _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ "lpcl"
+
+// time
+
+#define _NUMERICAL_TIME_LONG_NAME_  "numericalTime "
+#define _NUMERICAL_TIME_SHORT_NAME_ "numt"
+
+// notes
+
+#define _ABSOLUTE_LONG_NAME_  "absolute "
+#define _ABSOLUTE_SHORT_NAME_ "abs"
+
+#define _STEMS_LONG_NAME_  "stems "
+#define _STEMS_SHORT_NAME_ ""
+
+#define _NO_AUTO_BEAMING_LONG_NAME_  "noAutoBeaming "
+#define _NO_AUTO_BEAMING_SHORT_NAME_ "noab"
+
+#define _ACCIDENTAL_STYLE_LONG_NAME_  "accidentalStyle "
+#define _ACCIDENTAL_STYLE_SHORT_NAME_ "as"
+
+#define _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_  "noteInputLineNumbers "
+#define _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ "niln"
+
+// bars
+
+#define _SHOW_ALL_BAR_NUMBERS_LONG_NAME_  "showAllBarNumbers "
+#define _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ "sabn"
+
+#define _COMPRESS_FULL_BAR_RESTS_LONG_NAME_  "compressFullBarRests "
+#define _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ "cfbr"
+
+// line breaks
+
+#define _DONT_KEEP_LINE_BREAKS_LONG_NAME_  "dontKeepLineBreaks "
+#define _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ "noBreaks"
+
+#define _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_  "breakLinesAtIncompleteRightMeasures "
+#define _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ "blairm"
+
+#define _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_  "separatorLineEveryNMeasures "
+#define _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ "slenm"
+
+// staves
+
+#define _MODERN_TAB_LONG_NAME_  "modernTab "
+#define _MODERN_TAB_SHORT_NAME_ "mtab"
+
+// midi
+
+#define _MIDI_TEMPO_LONG_NAME_  "midiTempo "
+#define _MIDI_TEMPO_SHORT_NAME_ "mt"
+
+#define _NO_MIDI_LONG_NAME_  "noMidi "
+#define _NO_MIDI_SHORT_NAME_ ""
+
+// LilyPond code generation
+
+#define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine "
+#define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
+
+#define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction "
+#define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
+
+#define _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_  "dontGenerateLilyPondCode "
+#define _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ "nolpc"
+
+#define _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_  "dontGenerateLilyPondLyrics "
+#define _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ "nolpl"
+
+
 class EXP lpsrOptions : public smartable {
   public:
 

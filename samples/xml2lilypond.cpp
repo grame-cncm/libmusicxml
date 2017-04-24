@@ -416,61 +416,40 @@ void analyzeOptions (
   // ------------
 
   // trace and display
-
-  #define _TRACE_LPSR_LONG_NAME_  "traceLpsr "
-  #define _TRACE_LPSR_SHORT_NAME_ "tlpsr"
   
   checkOptionUniqueness (
     _TRACE_LPSR_LONG_NAME_, _TRACE_LPSR_SHORT_NAME_);
     
   int traceLpsrPresent = 0;
 
-  #define _TRACE_LPSR_VISITORS_LONG_NAME_  "traceLpsrVisitors "
-  #define _TRACE_LPSR_VISITORS_SHORT_NAME_ "tlpvisits"
-  
   checkOptionUniqueness (
     _TRACE_LPSR_VISITORS_LONG_NAME_, _TRACE_LPSR_VISITORS_SHORT_NAME_);
     
   int traceLpsrVisitorsPresent = 0;
 
-  #define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr "
-  #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
-  
   checkOptionUniqueness (
     _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
     
   int displayLPSRPresent  = 0;
 
-  #define _COMMENTS_LONG_NAME_  "comments "
-  #define _COMMENTS_SHORT_NAME_ "com"
-  
   checkOptionUniqueness (
     _COMMENTS_LONG_NAME_, _COMMENTS_SHORT_NAME_);
     
   int commentsPresent = 0;
 
   // languages
-
-  #define _LPSR_PITCHES_LANGUAGE_LONG_NAME_  "lpsrPitchesLanguage "
-  #define _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ "lppl"
   
   checkOptionUniqueness (
     _LPSR_PITCHES_LANGUAGE_LONG_NAME_, _LPSR_PITCHES_LANGUAGE_SHORT_NAME_);
     
   int lpsrPitchesLanguagePresent = 0;
 
-  #define _LPSR_CHORDS_LANGUAGE_LONG_NAME_  "lpsrChordsLanguage "
-  #define _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ "lpcl"
-  
   checkOptionUniqueness (
     _LPSR_CHORDS_LANGUAGE_LONG_NAME_, _LPSR_CHORDS_LANGUAGE_SHORT_NAME_);
     
   int lpsrChordsLanguagePresent = 0;
   
   // time
-
-  #define _NUMERICAL_TIME_LONG_NAME_  "numericalTime "
-  #define _NUMERICAL_TIME_SHORT_NAME_ "numt"
   
   checkOptionUniqueness (
     _NUMERICAL_TIME_LONG_NAME_, _NUMERICAL_TIME_SHORT_NAME_);
@@ -478,41 +457,26 @@ void analyzeOptions (
   int numericaltimePresent = 0;
 
   // notes
-
-  #define _ABSOLUTE_LONG_NAME_  "absolute "
-  #define _ABSOLUTE_SHORT_NAME_ "abs"
   
   checkOptionUniqueness (
     _ABSOLUTE_LONG_NAME_, _ABSOLUTE_SHORT_NAME_);
     
   int absolutePresent = 0;
 
-  #define _STEMS_LONG_NAME_  "stems "
-  #define _STEMS_SHORT_NAME_ ""
-  
   checkOptionUniqueness (
     _STEMS_LONG_NAME_, _STEMS_SHORT_NAME_);
     
   int stemsPresent = 0;
 
-  #define _NO_AUTO_BEAMING_LONG_NAME_  "noAutoBeaming "
-  #define _NO_AUTO_BEAMING_SHORT_NAME_ "noab"
-  
   checkOptionUniqueness (
     _NO_AUTO_BEAMING_LONG_NAME_, _NO_AUTO_BEAMING_SHORT_NAME_);
     
   int noAutoBeamingPresent = 0;
 
-  #define _ACCIDENTAL_STYLE_LONG_NAME_  "accidentalStyle "
-  #define _ACCIDENTAL_STYLE_SHORT_NAME_ "as"
-  
   checkOptionUniqueness (
     _ACCIDENTAL_STYLE_LONG_NAME_, _ACCIDENTAL_STYLE_SHORT_NAME_);
     
   int accidentalStylePresent = 0;
-  
-  #define _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_  "noteInputLineNumbers "
-  #define _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ "niln"
   
   checkOptionUniqueness (
     _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_, _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_);
@@ -520,43 +484,28 @@ void analyzeOptions (
   int noteInputLineNumbersPresent = 0;
 
   // bars
-
-  #define _SHOW_ALL_BAR_NUMBERS_LONG_NAME_  "showAllBarNumbers "
-  #define _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ "sabn"
   
   checkOptionUniqueness (
     _SHOW_ALL_BAR_NUMBERS_LONG_NAME_, _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_);
     
   int showAllBarNumbersPresent = 0;
 
-  #define _COMPRESS_FULL_BAR_RESTS_LONG_NAME_  "compressFullBarRests "
-  #define _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ "cfbr"
-  
   checkOptionUniqueness (
     _COMPRESS_FULL_BAR_RESTS_LONG_NAME_, _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_);
     
   int compressFullBarRestsPresent = 0;
 
   // line breaks
-
-  #define _DONT_KEEP_LINE_BREAKS_LONG_NAME_  "dontKeepLineBreaks "
-  #define _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ "noBreaks"
   
   checkOptionUniqueness (
     _DONT_KEEP_LINE_BREAKS_LONG_NAME_, _DONT_KEEP_LINE_BREAKS_SHORT_NAME_);
     
   int dontKeepLineBreaksPresent = 0;
 
-  #define _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_  "breakLinesAtIncompleteRightMeasures "
-  #define _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ "blairm"
-  
   checkOptionUniqueness (
     _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_, _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_);
     
   int breakLinesAtIncompleteRightMeasuresPresent = 0;
-  
-  #define _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_  "separatorLineEveryNMeasures "
-  #define _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ "slenm"
   
   checkOptionUniqueness (
     _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_, _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_);
@@ -564,9 +513,6 @@ void analyzeOptions (
   int separatorLineEveryNMeasuresPresent = 0;
 
   // staves
-
-  #define _MODERN_TAB_LONG_NAME_  "modernTab "
-  #define _MODERN_TAB_SHORT_NAME_ "mtab"
   
   checkOptionUniqueness (
     _MODERN_TAB_LONG_NAME_, _MODERN_TAB_SHORT_NAME_);
@@ -574,52 +520,34 @@ void analyzeOptions (
   int modernTabPresent = 0;
 
   // midi
-
-  #define _MIDI_TEMPO_LONG_NAME_  "midiTempo "
-  #define _MIDI_TEMPO_SHORT_NAME_ "mt"
   
   checkOptionUniqueness (
     _MIDI_TEMPO_LONG_NAME_, _MIDI_TEMPO_SHORT_NAME_);
     
   int midiTempoPresent = 0;
 
-  #define _NO_MIDI_LONG_NAME_  "noMidi "
-  #define _NO_MIDI_SHORT_NAME_ ""
-  
   checkOptionUniqueness (
     _NO_MIDI_LONG_NAME_, _NO_MIDI_SHORT_NAME_);
     
   int dontGenerateMidiCommandPresent = 0;
 
   // LilyPond code generation
-
-  #define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine "
-  #define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
   
   checkOptionUniqueness (
     _TUPLETS_ON_A_LINE_LONG_NAME_, _TUPLETS_ON_A_LINE_SHORT_NAME_);
     
   int tupletsOnALinePresent = 0;
 
-  #define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction "
-  #define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
-  
   checkOptionUniqueness (
     _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_, _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_);
     
   int delayedOrnamentFractionPresent    = 0;
 
-  #define _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_  "dontGenerateLilyPondCode "
-  #define _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ "nolpc"
-  
   checkOptionUniqueness (
     _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_, _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_);
     
   int dontGenerateLilyPondCodePresent = 0;
 
-  #define _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_  "dontGenerateLilyPondLyrics "
-  #define _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ "nolpl"
-  
   checkOptionUniqueness (
     _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_, _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_);
     
