@@ -515,7 +515,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--noBreaks, --dontKeepLineBreaks" << 
+      "--" _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ ", --" _DONT_KEEP_LINE_BREAKS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Don't keep the line breaks from the MusicXML input" << 
@@ -526,7 +526,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--blairm, --breakLinesAtIncompleteRightMeasures" << 
+      "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ ", --" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate a '\\break' command at the end incomplete right measures" << 
@@ -537,7 +537,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--slenm, --separatorLineEveryNMeasures 'n'" << 
+      "--" _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ ", --" _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_ " 'n'" << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate an additional separator line for readability every 'n' measures," << 
@@ -560,7 +560,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--mtab, --modernTab" << 
+      "--" _MODERN_TAB_SHORT_NAME_ ", --" _MODERN_TAB_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate '\\moderntab' instead of the default '\\tab'." << 
@@ -580,10 +580,10 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--mt, --midiTempo 'duration = perSecond'" << 
+      "--" _MIDI_TEMPO_SHORT_NAME_ ", --" _MIDI_TEMPO_LONG_NAME_ " 'duration = perSecond'" << 
       endl <<
     idtr <<
-      "--mt, --midiTempo \"duration = perSecond\"" << 
+      "--" _MIDI_TEMPO_SHORT_NAME_ ", --" _MIDI_TEMPO_LONG_NAME_ " \"duration = perSecond\"" << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate a '\\tempo duration = perSecond' command in the \\midi block." << 
@@ -597,8 +597,16 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "The default is '4 = 100'." << 
       endl <<      
-    endl;
+    endl <<
     
+    idtr <<
+      "--" _NO_MIDI_SHORT_NAME_ ", --" _NO_MIDI_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate the '\\midi' block as a comment." << 
+      endl <<
+    endl;
+
   idtr--;
 
   // LilyPond code generation
@@ -612,7 +620,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--toal, --tupletsOnALine" << 
+      "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ ", --" _TUPLETS_ON_A_LINE_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Keep tuplets notes on the same line, instead of" << 
@@ -623,7 +631,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--dof, --delayedOrnamentsFraction 'num/denom'" << 
+      "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " 'num/denom'" << 
       endl <<
     idtr <<
       "--dof, --delayedOrnamentsFraction \"num/denom\"" << 
@@ -640,7 +648,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--nolpc, --dontGenerateLilyPondCode" << 
+      "--" _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ ", --" _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Don't generate LilyPond code." << 
@@ -651,7 +659,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--nolpl, --dontGenerateLilyPondLyrics" << 
+      "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ ", --" _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Don't generate lyrics in the LilyPond code." << 
