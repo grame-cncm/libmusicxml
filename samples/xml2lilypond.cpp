@@ -463,16 +463,10 @@ void analyzeOptions (
   
   // lyrics
 
-  #define _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_  "dontDisplayMsrStanzas"
-  #define _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ "noms"
-  
   checkOptionUniqueness (
     _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_, _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_);
     
   int dontDisplayMsrStanzasPresent = 0;
-  
-  #define _KEEP_MASTER_STANZAS_LONG_NAME_  "keepMasterStanzas"
-  #define _KEEP_MASTER_STANZAS_SHORT_NAME_ "kms"
   
   checkOptionUniqueness (
     _KEEP_MASTER_STANZAS_LONG_NAME_, _KEEP_MASTER_STANZAS_SHORT_NAME_);
@@ -481,9 +475,6 @@ void analyzeOptions (
 
   // harmonies
 
-  #define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "keepEmptyHarmoniesVoice"
-  #define _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ "kehv"
-  
   checkOptionUniqueness (
     _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_, _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_);
     

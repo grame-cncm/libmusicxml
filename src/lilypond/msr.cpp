@@ -2121,7 +2121,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--tmsr, --traceMsr " <<
+      "--"_TRACE_MSR_SHORT_NAME_", --"_TRACE_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the LPSR graphs visiting activity to standard error." <<
@@ -2129,7 +2129,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--tmvisit, --traceMsrVisitors " <<
+      "--"_TRACE_MSR_VISITORS_SHORT_NAME_", --"_TRACE_MSR_VISITORS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the MSR graphs visiting activity to standard error." <<
@@ -2137,7 +2137,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--msr, --displayMsr" <<
+      "--"_DISPLAY_MSR_SHORT_NAME_", --"_DISPLAY_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write the contents of the MSR data to standard error." <<
@@ -2145,7 +2145,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--sum, --displayMsrSummary" <<
+      "--"_DISPLAY_MSR_SUMMARY_SHORT_NAME_", --"_DISPLAY_MSR_SUMMARY_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Only write a summary of the MSR to standard error." <<
@@ -2168,7 +2168,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--mpl, --msrPitchesLanguage language" <<
+      "--"_MSR_PITCHES_LANGUAGE_SHORT_NAME_", --"_MSR_PITCHES_LANGUAGE_LONG_NAME_" language" <<
       endl <<
     idtr << tab << tab << tab <<
       "Use 'language' to display note pitches in the MSR logs and text views." <<
