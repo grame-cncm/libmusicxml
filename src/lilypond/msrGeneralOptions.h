@@ -46,6 +46,89 @@ namespace MusicXML2
   A class is used to avoid passing arguments one by one
   to the various methods that need them.
 */
+
+// version
+
+#define _VERSION_LONG_NAME_  "version"
+#define _VERSION_SHORT_NAME_ "v"
+
+// help
+
+#define _HELP_LONG_NAME_  "help"
+#define _HELP_SHORT_NAME_ "h"
+
+#define _HELP_GENERAL_LONG_NAME_  "helpGeneral"
+#define _HELP_GENERAL_SHORT_NAME_ "hg"
+
+#define _HELP_MSR_LONG_NAME_  "helpMsr"
+#define _HELP_MSR_SHORT_NAME_ "hm"
+
+#define _HELP_LPSR_LONG_NAME_  "helpLpsr"
+#define _HELP_LPSR_SHORT_NAME_ "hlp"
+
+// output file
+
+#define _OUTPUT_FILE_LONG_NAME_  "outputFile"
+#define _OUTPUT_FILE_SHORT_NAME_ "of"
+
+#define _AUTO_OUTPUT_FILE_LONG_NAME_  "autoOutputFile"
+#define _AUTO_OUTPUT_FILE_SHORT_NAME_ "aof"
+
+// trace and display
+
+#define _TRACE_GENERAL_LONG_NAME_  "traceGeneral"
+#define _TRACE_GENERAL_SHORT_NAME_ "t"
+
+// specific trace    
+
+#define _TRACE_DIVISIONS_LONG_NAME_  "traceDivisions"
+#define _TRACE_DIVISIONS_SHORT_NAME_ "tdivs"
+
+#define _TRACE_PARTS_LONG_NAME_  "traceParts"
+#define _TRACE_PARTS_SHORT_NAME_ "tparts"
+
+#define _TRACE_VOICES_LONG_NAME_  "traceVoices"
+#define _TRACE_VOICES_SHORT_NAME_ "tvoices"
+
+#define _TRACE_SEGMENTS_LONG_NAME_  "traceSegments"
+#define _TRACE_SEGMENTS_SHORT_NAME_ "tsegs"
+
+#define _TRACE_REPEATS_LONG_NAME_  "traceRepeats"
+#define _TRACE_REPEATS_SHORT_NAME_ "treps"
+
+#define _TRACE_MEASURES_LONG_NAME_  "traceMeasures"
+#define _TRACE_MEASURES_SHORT_NAME_ "tmeas"
+
+#define _TRACE_NOTES_LONG_NAME_  "traceNotes"
+#define _TRACE_NOTES_SHORT_NAME_ "tnotes"
+
+#define _TRACE_TREMOLOS_LONG_NAME_  "traceTremolos"
+#define _TRACE_TREMOLOS_SHORT_NAME_ "ttrem"
+
+#define _TRACE_CHORDS_LONG_NAME_  "traceChords"
+#define _TRACE_CHORDS_SHORT_NAME_ "tchords"
+
+#define _TRACE_TUPLETS_LONG_NAME_  "traceTuplets"
+#define _TRACE_TUPLETS_SHORT_NAME_ "ttuplets"
+
+#define _TRACE_GRACENOTES_LONG_NAME_  "traceGracenotes"
+#define _TRACE_GRACENOTES_SHORT_NAME_ "tgrace"
+
+#define _TRACE_LYRICS_LONG_NAME_  "traceLyrics"
+#define _TRACE_LYRICS_SHORT_NAME_ "tlyrics"
+
+#define _TRACE_HARMONIES_LONG_NAME_  "traceHarmonies"
+#define _TRACE_HARMONIES_SHORT_NAME_ "tharms"
+
+#define _TRACE_DETAILED_LONG_NAME_  "traceDetailed"
+#define _TRACE_DETAILED_SHORT_NAME_ "tdetail"
+
+// CPU usage
+
+#define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+#define _CPU_USAGE_SHORT_NAME_ "dCPU"
+
+
 class EXP msrGeneralOptions : public smartable
 {
   public:
