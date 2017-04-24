@@ -2200,10 +2200,10 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--part, --partName 'originalName = newName'" <<
+      "--"_MSR_PITCHES_LANGUAGE_SHORT_NAME_", --"_MSR_PITCHES_LANGUAGE_LONG_NAME_" 'originalName = newName'" <<
       endl <<
     idtr <<
-      "--part, --partName \"originalName = newName\"" <<
+      "--"_MSR_PITCHES_LANGUAGE_SHORT_NAME_", --"_MSR_PITCHES_LANGUAGE_LONG_NAME_" \"originalName = newName\"" <<
       endl <<
     idtr << tab << tab << tab <<
       "Rename part 'original' to 'newName', for example after " <<
@@ -2229,7 +2229,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--srvn, --staffRelativeVoiceNumbers" <<
+      "--"_STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_", --"_STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Generate voices names with numbers relative to their staff." <<
@@ -2243,7 +2243,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--kmv, --keepMasterVoices" <<
+      "--"_KEEP_MASTER_VOICES_SHORT_NAME_", --"_KEEP_MASTER_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master voices used intertally. By default, there are removed after usage." <<
@@ -2263,31 +2263,31 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<    
     idtr <<
-      "--drdyns, --delayRestsDynamics" <<
+      "--"_DELAY_RESTS_DYNAMICS_SHORT_NAME_", --"_DELAY_RESTS_DYNAMICS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "dynamics" <<
       endl <<
     idtr <<
-      "--drwords, --delayRestsWords" <<
+      "--"_DELAY_RESTS_WORDS_SHORT_NAME_", --"_DELAY_RESTS_WORDS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "words" <<
       endl <<
     idtr <<
-      "--drslurs, --delayRestsSlurs" <<
+      "--"_DELAY_RESTS_SLURS_SHORT_NAME_", --"_DELAY_RESTS_SLURS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "slurs" <<
       endl <<
     idtr <<
-      "--drligs, --delayRestsLigatures" <<
+      "--"_DELAY_RESTS_LIGATURES_SHORT_NAME_", --"_DELAY_RESTS_LIGATURES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "<bracket/> in MusicXML, '\\['... \\}'' in LilyPond" <<
       endl <<
     idtr <<
-      "--drwedges, --delayRestsWedges" <<
+      "--"_DELAY_RESTS_WEDGES_SHORT_NAME_", --"_DELAY_RESTS_WEDGES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "'<wedge/>' in MusicXML, '<!' in LilyPond" <<
@@ -2307,21 +2307,20 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--noms, --dontDisplayMsrStanzas" <<
+      "--"_DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_", --"_DONT_DISPLAY_MSR_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Don't display MSR stanzas while displaying MSR data." <<
       endl <<
-    endl;
+    endl <<
 
-/* JMI
     idtr <<
-      "--kms, --keepMasterStanzas" <<
+      "--"_KEEP_MASTER_STANZAS_SHORT_NAME_", --"_KEEP_MASTER_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master stanzas used intertally. By default, there are removed after usage." <<
-      endl <<
-*/
+      endl;
+
   idtr--;
 
   // harmonies
@@ -2335,7 +2334,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--kehv, --keepEmptyHarmoniesVoice" <<
+      "--"_KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_", --"_KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Don't display MSR stanzas while displaying MSR data." <<
@@ -2343,15 +2342,6 @@ void msrOptions::printMsrOptionsHelp ()
     endl;
 
   idtr--;
-
-/* JMI
-    idtr <<
-      "--kms, --keepMasterStanzas" <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Keep the master stanzas used intertally. By default, there are removed after usage." <<
-      endl <<
-*/
   
   idtr--;
 
