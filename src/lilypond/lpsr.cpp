@@ -3975,6 +3975,23 @@ lpsrScore::lpsrScore (
     lpsrComment::create (
       inputLineNumber,
       s.str (),
+      lpsrComment::kNoGapAfterwards);
+  }
+
+  // create the command line short options comment
+  {
+  stringstream s;
+  
+  s <<
+    "  " <<
+    gGeneralOptions->fProgramName << " " <<
+    gGeneralOptions->fCommandLineShortOptions <<
+    gGeneralOptions->fInputSourceName;
+  
+  fCommandLineShortOptionsComment =
+    lpsrComment::create (
+      inputLineNumber,
+      s.str (),
       lpsrComment::kGapAfterwards);
   }
 
@@ -4208,6 +4225,12 @@ void lpsrScore::browseData (basevisitor* v)
     // browse the command line optins comment
     msrBrowser<lpsrComment> browser (v);
     browser.browse (*fCommandLineLongOptionsComment);
+  }
+
+  {
+    // browse the command short optins comment
+    msrBrowser<lpsrComment> browser (v);
+    browser.browse (*fCommandLineShortOptionsComment);
   }
 
   {

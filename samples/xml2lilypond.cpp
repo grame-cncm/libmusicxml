@@ -1957,10 +1957,11 @@ R"(
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _STEMS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _STEMS_SHORT_NAME_ " ";
-            
+            "--" _STEMS_LONG_NAME_ " "; // _STEMS_SHORT_NAME_ is empty
+   
           stemsPresent = false;
         }
+        
         if (noAutoBeamingPresent) {
           gLpsrOptions->fNoAutoBeaming = true;
 
@@ -2207,7 +2208,7 @@ R"(
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NO_MIDI_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _NO_MIDI_SHORT_NAME_ " ";
+            "--" _NO_MIDI_LONG_NAME_ " "; // _NO_MIDI_SHORT_NAME_ is empty
             
           dontGenerateMidiCommandPresent = false;
         }

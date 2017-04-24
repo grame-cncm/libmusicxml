@@ -4850,12 +4850,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
     endl;
 
   if (gLpsrOptions->fDontGenerateMidiCommand) {
+    idtr--;
+
     fOstream <<
       idtr <<
       "%}" <<
       endl;
-
-     idtr--;
   }
 }
 

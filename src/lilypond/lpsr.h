@@ -324,7 +324,7 @@ class EXP lpsrOptions : public smartable {
     string                fMidiTempoDuration;
     int                   fMidiTempoPerSecond;
     
-    bool                  fDontGenerateMidiCommand; // JMI missing
+    bool                  fDontGenerateMidiCommand;
 
     // LilyPond code generation
     // --------------------------------------
