@@ -1771,16 +1771,25 @@ R"(
           traceLpsrVisitorsPresent = false;
         }
 
+        if (displayLPSRPresent) {
+          gLpsrOptions->fDisplayLpsr = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DISPLAY_LPSR_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DISPLAY_LPSR_SHORT_NAME_ " ";
+            
+          displayLPSRPresent = false;
+        }
+
         if (commentsPresent) {
           gLpsrOptions->fGenerateComments = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _COMMENTS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _COMMENTS_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--comments ";
           commentsPresent = false;
         }
 
@@ -1819,12 +1828,11 @@ R"(
           }
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_LONG_NAME_ " ";
+            "--" _LPSR_PITCHES_LANGUAGE_LONG_NAME_ " " +
+            optargAsString +
+            " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_SHORT_NAME_ " ";
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--lpsrPitchesLanguage " +
+            "--" _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ " " +
             optargAsString +
             " ";
 
@@ -1865,186 +1873,64 @@ R"(
           
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--lpsrChordsLanguage " +
+            "--" _LPSR_CHORDS_LANGUAGE_LONG_NAME_ " " +
             optargAsString +
             " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ " " +
+            optargAsString +
+            " ";
+
           lpsrChordsLanguagePresent = false;
-          }
-             
-        if (displayLPSRPresent) {
-          gLpsrOptions->fDisplayLpsr = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--displayLpsr ";
-          displayLPSRPresent = false;
         }
 
-        if (absolutePresent) {
-          gLpsrOptions->fGenerateAbsoluteOctaves = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--absolute ";
-          absolutePresent = false;
-        }
-
-        if (showAllBarNumbersPresent) {
-          gLpsrOptions->fShowAllBarNumbers = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--showAllBarNumbers ";
-          showAllBarNumbersPresent = false;
-        }
-
-        if (compressFullBarRestsPresent) {
-          gLpsrOptions->fCompressFullBarRests = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--compressFullBarRests ";
-          compressFullBarRestsPresent = false;
-        }
-
-        if (tupletsOnALinePresent) {
-          gLpsrOptions->fTupletsOnALine = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--tupletsOnALine ";
-          tupletsOnALinePresent = false;
-        }
-
-        if (breakLinesAtIncompleteRightMeasuresPresent) {
-          gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--breakLinesAtIncompleteRightMeasures ";
-          breakLinesAtIncompleteRightMeasuresPresent = false;
-        }
-
-        if (separatorLineEveryNMeasuresPresent) {
-          gLpsrOptions->fSeparatorLineEveryNMeasures = true;
-          gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
-            atoi (optarg);
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--separatorLineEveryNMeasures ";
-          separatorLineEveryNMeasuresPresent = false;
-        }
-
-        if (dontKeepLineBreaksPresent) {
-          gLpsrOptions->fDontKeepLineBreaks = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--dontKeepLineBreaks ";
-          dontKeepLineBreaksPresent = false;
-        }
+        // time
 
         if (numericaltimePresent) {
           gLpsrOptions->fGenerateNumericalTime = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _NUMERICAL_TIME_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _NUMERICAL_TIME_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--numericalTime ";
           numericaltimePresent = false;
         }
+
+        // notes
+        
+        if (absolutePresent) {
+          gLpsrOptions->fGenerateAbsoluteOctaves = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _ABSOLUTE_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _ABSOLUTE_SHORT_NAME_ " ";
+            
+          absolutePresent = false;
+        }
+
         if (stemsPresent) {
           gLpsrOptions->fGenerateStems = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _STEMS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _STEMS_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--stems ";
           stemsPresent = false;
         }
         if (noAutoBeamingPresent) {
           gLpsrOptions->fNoAutoBeaming = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _NO_AUTO_BEAMING_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _NO_AUTO_BEAMING_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--noAutoBeaming ";
           noAutoBeamingPresent = false;
         }
 
-        if (noteInputLineNumbersPresent) {
-          gLpsrOptions->fGenerateInputLineNumbers = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--generateInputLineNumbers ";
-          noteInputLineNumbersPresent = false;
-        }
-        
-        if (modernTabPresent) {
-          gLpsrOptions->fModernTab = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--modernTab ";
-          modernTabPresent = false;
-        }
-        
         if (accidentalStylePresent) {
           // optarg contains the accidental style name
           stringstream s;
@@ -2062,13 +1948,205 @@ R"(
           
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _ACCIDENTAL_STYLE_LONG_NAME_ " " +
+            optarg + " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _ACCIDENTAL_STYLE_SHORT_NAME_ " " +
+            optarg + " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            s.str();
           accidentalStylePresent = false;
+        }
+
+        if (noteInputLineNumbersPresent) {
+          gLpsrOptions->fGenerateInputLineNumbers = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ " ";
+            
+          noteInputLineNumbersPresent = false;
+        }
+        
+        // bars
+        
+        if (showAllBarNumbersPresent) {
+          gLpsrOptions->fShowAllBarNumbers = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _SHOW_ALL_BAR_NUMBERS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ " ";
+            
+          showAllBarNumbersPresent = false;
+        }
+
+        if (compressFullBarRestsPresent) {
+          gLpsrOptions->fCompressFullBarRests = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _COMPRESS_FULL_BAR_RESTS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ " ";
+            
+          compressFullBarRestsPresent = false;
+        }
+
+        // line breaks
+        
+        if (dontKeepLineBreaksPresent) {
+          gLpsrOptions->fDontKeepLineBreaks = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DONT_KEEP_LINE_BREAKS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ " ";
+            
+          dontKeepLineBreaksPresent = false;
+        }
+
+        if (breakLinesAtIncompleteRightMeasuresPresent) {
+          gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ " ";
+            
+          breakLinesAtIncompleteRightMeasuresPresent = false;
+        }
+
+        if (separatorLineEveryNMeasuresPresent) {
+          gLpsrOptions->fSeparatorLineEveryNMeasures = true;
+          gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
+            atoi (optarg);
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_ " " +
+            gLpsrOptions->fSeparatorLineEveryNMeasuresValue + " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ " "+
+            gLpsrOptions->fSeparatorLineEveryNMeasuresValue + " ";
+            
+          separatorLineEveryNMeasuresPresent = false;
+        }
+
+        // staves
+        
+        if (modernTabPresent) {
+          gLpsrOptions->fModernTab = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _MODERN_TAB_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _MODERN_TAB_SHORT_NAME_ " ";
+            
+          modernTabPresent = false;
+        }
+        
+        // midi
+        
+        if (midiTempoPresent) {
+          // optarg contains the midi tempo specification
+          // decipher it to extract duration and perSecond values
+          string optargAsString;
+          {
+            stringstream s;
+            s << optarg;
+            optargAsString = s.str();
+          }
+          
+          string regularExpression (
+            "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
+            "="
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+            
+          regex  e (regularExpression);
+          smatch sm;
+
+          regex_match (optargAsString, sm, e);
+
+          /*
+          cout <<
+            "There are " << sm.size() << " matches" <<
+            " for string '" << optargAsString <<
+            "' with regex '" << regularExpression <<
+            "'" <<
+            endl;
+          */
+        
+          if (sm.size ()) {
+            for (unsigned i = 0; i < sm.size (); ++i) {
+              cout << "[" << sm [i] << "] ";
+            } // for
+            cout << endl;
+          }
+          
+          else {
+            stringstream s;
+
+            s <<
+              "--midiTempo argument '" << optarg <<
+              "' is ill-formed";
+              
+            optionError (s.str());
+          }
+          
+          gLpsrOptions->fMidiTempoDuration =  sm [1];
+
+          {
+            stringstream s;
+            s << sm [2];
+            s >> gLpsrOptions->fMidiTempoPerSecond;
+          }
+          /*
+          cerr <<
+            "gLpsrOptions->fMidiTempoDuration = " <<
+            gLpsrOptions->fMidiTempoDuration <<
+            endl <<
+            "gLpsrOptions->fMidiTempoPerSecond = " <<
+            gLpsrOptions->fMidiTempoPerSecond <<
+            endl;
+          */
+
+          stringstream s;
+
+          s <<
+            "--midiTempo '" << optargAsString << "' ";
+          
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _MIDI_TEMPO_LONG_NAME_ " " +
+            optargAsString << "' ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _MIDI_TEMPO_SHORT_NAME_ " " +
+            optargAsString << "' ";
+            
+          midiTempoPresent = false;
+        }
+
+        if (noMidiPresent) {
+          gLpsrOptions->fTupletsOnALine = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _NO_MIDI_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _NO_MIDI_SHORT_NAME_ " ";
+            
+          noMidiPresent = false;
+        }
+
+        // LilyPond code generation
+        
+        if (tupletsOnALinePresent) {
+          gLpsrOptions->fTupletsOnALine = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TUPLETS_ON_A_LINE_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ " ";
+            
+          tupletsOnALinePresent = false;
         }
 
         if (delayedOrnamentFractionPresent) {
@@ -2144,120 +2222,37 @@ R"(
           
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " " +
+            optargAsString + "' ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ " " +
+            optargAsString + "' ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            s.str();
-          midiTempoPresent = false;
+          delayedOrnamentFractionPresent = false;
         }
 
-        if (midiTempoPresent) {
-          // optarg contains the midi tempo specification
-          // decipher it to extract duration and perSecond values
-          string optargAsString;
-          {
-            stringstream s;
-            s << optarg;
-            optargAsString = s.str();
-          }
-          
-          string regularExpression (
-            "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
-            "="
-            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-            
-          regex  e (regularExpression);
-          smatch sm;
-
-          regex_match (optargAsString, sm, e);
-
-          /*
-          cout <<
-            "There are " << sm.size() << " matches" <<
-            " for string '" << optargAsString <<
-            "' with regex '" << regularExpression <<
-            "'" <<
-            endl;
-          */
-        
-          if (sm.size ()) {
-            for (unsigned i = 0; i < sm.size (); ++i) {
-              cout << "[" << sm [i] << "] ";
-            } // for
-            cout << endl;
-          }
-          
-          else {
-            stringstream s;
-
-            s <<
-              "--midiTempo argument '" << optarg <<
-              "' is ill-formed";
-              
-            optionError (s.str());
-          }
-          
-          gLpsrOptions->fMidiTempoDuration =  sm [1];
-
-          {
-            stringstream s;
-            s << sm [2];
-            s >> gLpsrOptions->fMidiTempoPerSecond;
-          }
-          /*
-          cerr <<
-            "gLpsrOptions->fMidiTempoDuration = " <<
-            gLpsrOptions->fMidiTempoDuration <<
-            endl <<
-            "gLpsrOptions->fMidiTempoPerSecond = " <<
-            gLpsrOptions->fMidiTempoPerSecond <<
-            endl;
-          */
-
-          stringstream s;
-
-          s <<
-            "--midiTempo '" << optargAsString << "' ";
-          
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            s.str();
-          midiTempoPresent = false;
-        }
-        
-        if (dontGenerateLilyPondLyricsPresent) {
-          gLpsrOptions->fDontGenerateLilyPondLyrics = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--dontGenerateLilyPondLyrics ";
-          dontGenerateLilyPondLyricsPresent = false;
-        }
-        
         if (dontGenerateLilyPondCodePresent) {
           gLpsrOptions->fDontGenerateLilyPondCode = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+            "--" _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            "--" _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--dontGenerateLilyPondCode ";
           dontGenerateLilyPondCodePresent = false;
         }
 
+        if (dontGenerateLilyPondLyricsPresent) {
+          gLpsrOptions->fDontGenerateLilyPondLyrics = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ " ";
+            
+          dontGenerateLilyPondLyricsPresent = false;
+        }
+        
         }
         break;
         
