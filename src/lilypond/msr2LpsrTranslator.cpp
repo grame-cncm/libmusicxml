@@ -289,7 +289,22 @@ void msr2LpsrTranslator::visitStart (S_msrCredit& elt)
       "--> Start visiting msrCredit" <<
       endl;
 
-//  idtr++;
+  fCurrentCredit = elt;
+
+  // set elt as credit of the MSR score part of the LPSR score
+  fLpsrScore->
+    getMsrScore ()->
+      setCredit (fCurrentCredit);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrCredit" <<
+      endl;
+
+  fCurrentCredit = 0;
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
@@ -299,7 +314,20 @@ void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
       "--> Start visiting msrCreditWords" <<
       endl;
 
-//  idtr--;
+  // don't append it to the current credit, since the latter is no clone
+  /* JMI
+  fCurrentCredit->
+    appendCreditWordsToCredit (
+      elt);
+      */
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrCreditWords& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrCreditWords" <<
+      endl;
 }
 
 //________________________________________________________________________

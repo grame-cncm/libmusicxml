@@ -2300,7 +2300,10 @@ class EXP lpsrScore : public lpsrElement
 
     // set and get
     // ------------------------------------------------------
-                  
+
+    S_msrScore            getMsrScore () const
+                              { return fMsrScore; }
+
     S_lpsrLilypondVarValAssoc
                           getLilyPondVersion () const
                               { return fLilyPondVersion; }

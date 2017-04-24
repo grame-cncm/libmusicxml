@@ -1753,6 +1753,39 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrScore& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrCredit& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrCredit" <<
+      endl;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrCredit& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrCredit" <<
+      endl;
+}
+
+void lpsr2LilyPondTranslator::visitStart (S_msrCreditWords& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrCreditWords" <<
+      endl;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrCreditWords& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrCreditWords" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrPartgroup& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

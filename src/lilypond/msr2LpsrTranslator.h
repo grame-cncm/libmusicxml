@@ -140,7 +140,9 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrIdentification& elt);
 
     virtual void visitStart (S_msrCredit& elt);
+    virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
+    virtual void visitEnd   (S_msrCreditWords& elt);
 
     virtual void visitStart (S_msrPartgroup& elt);
     virtual void visitEnd   (S_msrPartgroup& elt);
@@ -306,6 +308,10 @@ class msr2LpsrTranslator :
     // page geometry
     // ------------------------------------------------------
 // JMI    S_msrPageGeometry    fCurrentPageGeometry;
+
+    // credits
+    // ------------------------------------------------------
+    S_msrCredit               fCurrentCredit;
     
     // part groups
     // ------------------------------------------------------
