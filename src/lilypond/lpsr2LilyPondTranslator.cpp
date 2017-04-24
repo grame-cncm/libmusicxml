@@ -1793,7 +1793,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
       "\"" <<
       endl;
  
-  fOstream << idtr <<
+  fOstream <<
+    idtr <<
     elt->getVoiceName () << " = ";
 
   switch (elt->getVoiceKind ()) {
@@ -1815,6 +1816,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
     "{" <<
     endl;
 
+  if (gLpsrOptions->fDisplayMusic) {
+    idtr++;
+
+    fOstream <<
+      idtr <<
+        "\\displayMusic {" <<
+        endl;
+  }
+    
   idtr++;
 
   fOstream <<
@@ -1891,6 +1901,15 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
       "\"" <<
       endl;
   
+  if (gLpsrOptions->fDisplayMusic) {
+    fOstream <<
+      idtr <<
+        "}" <<
+        endl;
+
+    idtr--;
+  }
+    
   fOstream << idtr <<
     "}" <<
     endl <<

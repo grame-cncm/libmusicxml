@@ -306,6 +306,13 @@ void analyzeOptions (
     
   int traceDetailedPresent = 0;
   
+  // MusicXML
+
+  checkOptionUniqueness (
+    _INGORE_MUSICXML_ERRORS_LONG_NAME_, _INGORE_MUSICXML_ERRORS_SHORT_NAME_);
+    
+  int ignoreMusicXMLErrorsPresent = 0;
+
   // CPU usage
   
   checkOptionUniqueness (
@@ -654,6 +661,17 @@ void analyzeOptions (
       required_argument, &traceDetailedPresent, 1
     },
     
+    // MusicXML
+
+    {
+      _INGORE_MUSICXML_ERRORS_LONG_NAME_,
+      no_argument, &ignoreMusicXMLErrorsPresent, 1
+    },
+    {
+      _INGORE_MUSICXML_ERRORS_SHORT_NAME_,
+      no_argument, &ignoreMusicXMLErrorsPresent, 1
+    },
+
     // CPU usage
 
     {
@@ -1146,11 +1164,11 @@ void analyzeOptions (
     
     {
       _DISPLAY_MUSIC_LONG_NAME_,
-      required_argument, &displayMusicPresent, 1
+      no_argument, &displayMusicPresent, 1
     },
     {
       _DISPLAY_MUSIC_SHORT_NAME_,
-      required_argument, &displayMusicPresent, 1
+      no_argument, &displayMusicPresent, 1
     },
     
     {
@@ -1343,10 +1361,22 @@ R"(
           traceDetailedPresent = false;
         }
 
+        // MusicXML
+
+        if (ignoreMusicXMLErrorsPresent) {
+          gGeneralOptions->fIgnoreMusicXMLErrors = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _INGORE_MUSICXML_ERRORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ " ";
+            
+          ignoreMusicXMLErrorsPresent = false;
+        }
+        
         // CPU usage
 
         if (displayCPUusagePresent) {
-          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fDisplayCPUusage = true;
           
           gGeneralOptions->fCommandLineLongOptions +=

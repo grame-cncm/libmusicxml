@@ -831,6 +831,7 @@ void optionError (string errorMessage)
 {
   cerr <<
     endl <<
+    endl <<
     "### ERROR in the options:" <<
     endl <<
     errorMessage <<

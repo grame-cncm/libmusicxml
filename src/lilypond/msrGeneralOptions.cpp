@@ -54,6 +54,10 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   fTraceDetailed = false;
 
+  // MusicXML
+
+  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
+  
   // CPU usage
   
   fDisplayCPUusage = boolOptionsInitialValue;
@@ -122,6 +126,11 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceDetailed =
     true;
 
+  // MusicXML
+
+  clone->fIgnoreMusicXMLErrors =
+    true;
+  
   // CPU usage
 
   clone->fDisplayCPUusage =
@@ -341,6 +350,27 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   idtr--;
 
+  // MusicXML
+  // --------------------------------------
+
+  cerr <<
+    idtr << "MusicXML:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't stop the translation after issuing a MusicXML error message'." <<
+      endl <<
+    endl;
+
+  idtr--;
+
   // CPU usage
   // --------------------------------------
   cerr <<
@@ -550,6 +580,23 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
         
   idtr--;
 
+  // MusicXML
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "MusicXML:" <<
+      endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
+      booleanAsString (gGeneralOptions->fIgnoreMusicXMLErrors) <<
+      endl;
+
+  idtr--;
+  
   // CPU usage
 
   cerr << left <<

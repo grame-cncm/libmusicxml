@@ -82,6 +82,11 @@ namespace MusicXML2
 #define _TRACE_DETAILED_LONG_NAME_  "traceDetailed"
 #define _TRACE_DETAILED_SHORT_NAME_ "tdetail"
 
+// MusicXML
+
+#define _INGORE_MUSICXML_ERRORS_LONG_NAME_  "ingoreMusicXMLErrors"
+#define _INGORE_MUSICXML_ERRORS_SHORT_NAME_ "ime"
+
 // CPU usage
 
 #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
@@ -187,6 +192,11 @@ class EXP msrGeneralOptions : public smartable
 
     bool                  fTraceDetailed;
     set<int>              fTraceAllMeasureNumbersSet;
+
+    // MusicXML
+    // --------------------------------------
+  
+    bool                  fIgnoreMusicXMLErrors;
 
     // CPU usage
     // --------------------------------------
