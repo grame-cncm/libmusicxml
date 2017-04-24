@@ -3482,7 +3482,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "\\spiccato";
           break;
         case msrArticulation::kStaccato:
-          fOstream << "-.";
+          fOstream << "\\staccato"; // JMI "-.";
           break;
         case msrArticulation::kStaccatissimo:
           fOstream << "-!";
@@ -4043,7 +4043,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
           fOstream << "spiccato";
           break;
         case msrArticulation::kStaccato:
-          fOstream << "-.";
+          fOstream << "\\staccato"; // JMI "-.";
           break;
         case msrArticulation::kStaccatissimo:
           fOstream << "-!";
