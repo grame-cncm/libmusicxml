@@ -2121,7 +2121,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_TRACE_MSR_SHORT_NAME_", --"_TRACE_MSR_LONG_NAME_ <<
+      "--" _TRACE_MSR_SHORT_NAME_ ", --" _TRACE_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the LPSR graphs visiting activity to standard error." <<
@@ -2129,7 +2129,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--"_TRACE_MSR_VISITORS_SHORT_NAME_", --"_TRACE_MSR_VISITORS_LONG_NAME_ <<
+      "--" _TRACE_MSR_VISITORS_SHORT_NAME_ ", --" _TRACE_MSR_VISITORS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the MSR graphs visiting activity to standard error." <<
@@ -2137,7 +2137,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_DISPLAY_MSR_SHORT_NAME_", --"_DISPLAY_MSR_LONG_NAME_ <<
+      "--" _DISPLAY_MSR_SHORT_NAME_ ", --" _DISPLAY_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write the contents of the MSR data to standard error." <<
@@ -2145,7 +2145,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_DISPLAY_MSR_SUMMARY_SHORT_NAME_", --"_DISPLAY_MSR_SUMMARY_LONG_NAME_ <<
+      "--" _DISPLAY_MSR_SUMMARY_SHORT_NAME_ ", --" _DISPLAY_MSR_SUMMARY_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Only write a summary of the MSR to standard error." <<
@@ -2168,7 +2168,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_MSR_PITCHES_LANGUAGE_SHORT_NAME_", --"_MSR_PITCHES_LANGUAGE_LONG_NAME_" language" <<
+      "--" _MSR_PITCHES_LANGUAGE_SHORT_NAME_ ", --" _MSR_PITCHES_LANGUAGE_LONG_NAME_ " language" <<
       endl <<
     idtr << tab << tab << tab <<
       "Use 'language' to display note pitches in the MSR logs and text views." <<
@@ -2200,10 +2200,10 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_MSR_PITCHES_LANGUAGE_SHORT_NAME_", --"_MSR_PITCHES_LANGUAGE_LONG_NAME_" 'originalName = newName'" <<
+      "--" _MSR_PITCHES_LANGUAGE_SHORT_NAME_ ", --" _MSR_PITCHES_LANGUAGE_LONG_NAME_ " 'originalName = newName'" <<
       endl <<
     idtr <<
-      "--"_MSR_PITCHES_LANGUAGE_SHORT_NAME_", --"_MSR_PITCHES_LANGUAGE_LONG_NAME_" \"originalName = newName\"" <<
+      "--" _MSR_PITCHES_LANGUAGE_SHORT_NAME_ ", --" _MSR_PITCHES_LANGUAGE_LONG_NAME_ " \"originalName = newName\"" <<
       endl <<
     idtr << tab << tab << tab <<
       "Rename part 'original' to 'newName', for example after " <<
@@ -2229,7 +2229,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_", --"_STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ <<
+      "--" _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ ", --" _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Generate voices names with numbers relative to their staff." <<
@@ -2243,7 +2243,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--"_KEEP_MASTER_VOICES_SHORT_NAME_", --"_KEEP_MASTER_VOICES_LONG_NAME_ <<
+      "--" _KEEP_MASTER_VOICES_SHORT_NAME_ ", --" _KEEP_MASTER_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master voices used intertally. By default, there are removed after usage." <<
@@ -2263,31 +2263,31 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<    
     idtr <<
-      "--"_DELAY_RESTS_DYNAMICS_SHORT_NAME_", --"_DELAY_RESTS_DYNAMICS_LONG_NAME_ <<
+      "--" _DELAY_RESTS_DYNAMICS_SHORT_NAME_ ", --" _DELAY_RESTS_DYNAMICS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "dynamics" <<
       endl <<
     idtr <<
-      "--"_DELAY_RESTS_WORDS_SHORT_NAME_", --"_DELAY_RESTS_WORDS_LONG_NAME_ <<
+      "--" _DELAY_RESTS_WORDS_SHORT_NAME_ ", --" _DELAY_RESTS_WORDS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "words" <<
       endl <<
     idtr <<
-      "--"_DELAY_RESTS_SLURS_SHORT_NAME_", --"_DELAY_RESTS_SLURS_LONG_NAME_ <<
+      "--" _DELAY_RESTS_SLURS_SHORT_NAME_ ", --" _DELAY_RESTS_SLURS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "slurs" <<
       endl <<
     idtr <<
-      "--"_DELAY_RESTS_LIGATURES_SHORT_NAME_", --"_DELAY_RESTS_LIGATURES_LONG_NAME_ <<
+      "--" _DELAY_RESTS_LIGATURES_SHORT_NAME_ ", --" _DELAY_RESTS_LIGATURES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "<bracket/> in MusicXML, '\\['... \\}'' in LilyPond" <<
       endl <<
     idtr <<
-      "--"_DELAY_RESTS_WEDGES_SHORT_NAME_", --"_DELAY_RESTS_WEDGES_LONG_NAME_ <<
+      "--" _DELAY_RESTS_WEDGES_SHORT_NAME_ ", --" _DELAY_RESTS_WEDGES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "'<wedge/>' in MusicXML, '<!' in LilyPond" <<
@@ -2307,7 +2307,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_", --"_DONT_DISPLAY_MSR_STANZAS_LONG_NAME_ <<
+      "--" _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ ", --" _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Don't display MSR stanzas while displaying MSR data." <<
@@ -2315,7 +2315,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_KEEP_MASTER_STANZAS_SHORT_NAME_", --"_KEEP_MASTER_STANZAS_LONG_NAME_ <<
+      "--" _KEEP_MASTER_STANZAS_SHORT_NAME_ ", --" _KEEP_MASTER_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master stanzas used intertally. By default, there are removed after usage." <<
@@ -2334,7 +2334,7 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_", --"_KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ <<
+      "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ ", --" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Don't display MSR stanzas while displaying MSR data." <<

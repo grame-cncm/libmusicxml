@@ -322,22 +322,22 @@ void analyzeOptions (
   checkOptionUniqueness (
     _TRACE_MSR_LONG_NAME_, _TRACE_MSR_SHORT_NAME_);
     
-  int traceMSRPresent = 0;
+  int traceMsrPresent = 0;
 
   checkOptionUniqueness (
     _TRACE_MSR_VISITORS_LONG_NAME_, _TRACE_MSR_VISITORS_SHORT_NAME_);
     
-  int traceMSRVisitorsPresent = 0;
+  int traceMsrVisitorsPresent = 0;
 
   checkOptionUniqueness (
     _DISPLAY_MSR_LONG_NAME_, _DISPLAY_MSR_SHORT_NAME_);
     
-  int displayMSRPresent = 0;
+  int displayMsrPresent = 0;
   
   checkOptionUniqueness (
     _DISPLAY_MSR_SUMMARY_LONG_NAME_, _DISPLAY_MSR_SUMMARY_SHORT_NAME_);
     
-  int displayMSRSummaryPresent = 0;
+  int displayMsrSummaryPresent = 0;
   
   // languages
 
@@ -640,6 +640,26 @@ void analyzeOptions (
       no_argument, &traceGeneralPresent, 1
     },
 
+    {
+      _TRACE_DETAILED_LONG_NAME_,
+      required_argument, &traceDetailedPresent, 1
+    },
+    {
+      _TRACE_DETAILED_SHORT_NAME_,
+      required_argument, &traceDetailedPresent, 1
+    },
+    
+    // CPU usage
+
+    {
+      _CPU_USAGE_LONG_NAME_,
+      no_argument, &displayCPUusagePresent, 1
+    },
+    {
+      _CPU_USAGE_SHORT_NAME_,
+      no_argument, &displayCPUusagePresent, 1
+    },
+
     // specific trace    
 
     {
@@ -759,39 +779,47 @@ void analyzeOptions (
       no_argument, &traceHarmoniesPresent, 1
     },
     
-    {
-      _TRACE_DETAILED_LONG_NAME_,
-      required_argument, &traceDetailedPresent, 1
-    },
-    {
-      _TRACE_DETAILED_SHORT_NAME_,
-      required_argument, &traceDetailedPresent, 1
-    },
-    
-    // CPU usage
-
-    {
-      _CPU_USAGE_LONG_NAME_,
-      no_argument, &displayCPUusagePresent, 1
-    },
-    {
-      _CPU_USAGE_SHORT_NAME_,
-      no_argument, &displayCPUusagePresent, 1
-    },
-
     // MSR options
     // -----------
 
     // trace and display
 
     {
+      _TRACE_MSR_LONG_NAME_,
+      no_argument, &traceMsrPresent, 1
+    },
+    {
+      _TRACE_MSR_SHORT_NAME_,
+      no_argument, &traceMsrPresent, 1
+    },
+
+    {
       "tmvisit",
-      no_argument, &traceMSRVisitorsPresent, 1
+      no_argument, &traceMsrVisitorsPresent, 1
     },
     {
       "traceMSRVisitors",
-      no_argument, &traceMSRVisitorsPresent, 1
+      no_argument, &traceMsrVisitorsPresent, 1
     },
+
+    {
+      "msr",
+      no_argument, &displayMsrPresent, 1},
+    {
+      "displayMSR",
+      no_argument, &displayMsrPresent, 1
+    },
+
+    {
+      "sum",
+      no_argument, &displayMsrSummaryPresent, 1
+    },
+    {
+      "displayMSRSummary",
+      no_argument, &displayMsrSummaryPresent, 1
+    },
+
+    // languages
 
     {
       "mpl",
@@ -801,7 +829,20 @@ void analyzeOptions (
       "msrPitchesLanguage",
       required_argument, &msrPitchesLanguagePresent, 1
     },
-    
+
+    // parts
+
+    {
+      "part",
+      required_argument, &partNamePresent, 1
+    },
+    {
+      "partName",
+      required_argument, &partNamePresent, 1
+    },
+
+    // voices
+
     {
       "srvn",
       no_argument,
@@ -812,14 +853,7 @@ void analyzeOptions (
       no_argument, &staffRelativeVoiceNumbersPresent, 1
     },
     
-    {
-      "noms",
-      no_argument, &dontDisplayMsrStanzasPresent, 1
-    },
-    {
-      "dontDisplayMsrStanzas",
-      no_argument, &dontDisplayMsrStanzasPresent, 1
-    },
+    // notes
 
     {
       "drdyn",
@@ -862,12 +896,15 @@ void analyzeOptions (
       no_argument, &delayRestsWedgesPresent, 1
     },
    
+    // lyrics
+
     {
-      "msr",
-      no_argument, &displayMSRPresent, 1},
+      "noms",
+      no_argument, &dontDisplayMsrStanzasPresent, 1
+    },
     {
-      "displayMSR",
-      no_argument, &displayMSRPresent, 1
+      "dontDisplayMsrStanzas",
+      no_argument, &dontDisplayMsrStanzasPresent, 1
     },
 
     {
@@ -886,23 +923,7 @@ void analyzeOptions (
       no_argument, &keepMasterStanzasPresent, 1
     },
 
-    {
-      "sum",
-      no_argument, &displayMSRSummaryPresent, 1
-    },
-    {
-      "displayMSRSummary",
-      no_argument, &displayMSRSummaryPresent, 1
-    },
-
-    {
-      "part",
-      required_argument, &partNamePresent, 1
-    },
-    {
-      "partName",
-      required_argument, &partNamePresent, 1
-    },
+    // harmonies
 
     // LPSR options
     // ------------
@@ -1204,7 +1225,7 @@ R"(
             stringstream s;
   
             s <<
-              "--"_OUTPUT_FILE_LONG_NAME_ << " " << outputFileName << " ";
+              "--" _OUTPUT_FILE_LONG_NAME_ << " " << outputFileName << " ";
             gGeneralOptions->fCommandLineLongOptions +=
               s.str();
           }
@@ -1213,7 +1234,7 @@ R"(
             stringstream s;
   
             s <<
-              "--"_OUTPUT_FILE_SHORT_NAME_ << " " << outputFileName << " ";
+              "--" _OUTPUT_FILE_SHORT_NAME_ << " " << outputFileName << " ";
             gGeneralOptions->fCommandLineShortOptions +=
               s.str();
           }
@@ -1225,9 +1246,9 @@ R"(
           gGeneralOptions->fAutoOutputFile = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_AUTO_OUTPUT_FILE_LONG_NAME_" ";
+            "--" _AUTO_OUTPUT_FILE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_AUTO_OUTPUT_FILE_SHORT_NAME_" ";
+            "--" _AUTO_OUTPUT_FILE_SHORT_NAME_ " ";
             
           autoOutputFilePresent = false;
         }
@@ -1238,9 +1259,9 @@ R"(
           gGeneralOptions->fTraceGeneral = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_GENERAL_LONG_NAME_" ";
+            "--" _TRACE_GENERAL_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_GENERAL_SHORT_NAME_" ";
+            "--" _TRACE_GENERAL_SHORT_NAME_ " ";
             
           traceGeneralPresent = false;
         }
@@ -1260,7 +1281,7 @@ R"(
             stringstream s;
   
             s <<
-               "--"_TRACE_DETAILED_LONG_NAME_" " << measuresSpec << " ";
+               "--" _TRACE_DETAILED_LONG_NAME_ " " << measuresSpec << " ";
                
             gGeneralOptions->fCommandLineLongOptions +=
               s.str();
@@ -1270,7 +1291,7 @@ R"(
             stringstream s;
   
             s <<
-               "--"_TRACE_DETAILED_SHORT_NAME_" " << measuresSpec << " ";
+               "--" _TRACE_DETAILED_SHORT_NAME_ " " << measuresSpec << " ";
                
             gGeneralOptions->fCommandLineShortOptions +=
               s.str();
@@ -1286,9 +1307,9 @@ R"(
           gGeneralOptions->fDisplayCPUusage = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_CPU_USAGE_LONG_NAME_" ";
+            "--" _CPU_USAGE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_CPU_USAGE_SHORT_NAME_" ";
+            "--" _CPU_USAGE_SHORT_NAME_ " ";
             
           displayCPUusagePresent = false;
         }
@@ -1301,9 +1322,9 @@ R"(
           
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_DIVISIONS_LONG_NAME_" ";
+            "--" _TRACE_DIVISIONS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_DIVISIONS_SHORT_NAME_" ";
+            "--" _TRACE_DIVISIONS_SHORT_NAME_ " ";
             
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceDivisions ";
@@ -1316,9 +1337,9 @@ R"(
           gGeneralOptions->fTraceParts = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_PARTS_LONG_NAME_" ";
+            "--" _TRACE_PARTS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_PARTS_SHORT_NAME_" ";
+            "--" _TRACE_PARTS_SHORT_NAME_ " ";
             
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceparts ";
@@ -1330,9 +1351,9 @@ R"(
           gGeneralOptions->fTraceVoices = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_VOICES_LONG_NAME_" ";
+            "--" _TRACE_VOICES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_VOICES_SHORT_NAME_" ";
+            "--" _TRACE_VOICES_SHORT_NAME_ " ";
             
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceVoices ";
@@ -1344,9 +1365,9 @@ R"(
           gGeneralOptions->fTraceSegments = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_SEGMENTS_LONG_NAME_" ";
+            "--" _TRACE_SEGMENTS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_SEGMENTS_SHORT_NAME_" ";
+            "--" _TRACE_SEGMENTS_SHORT_NAME_ " ";
             
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceSegments ";
@@ -1358,9 +1379,9 @@ R"(
           gGeneralOptions->fTraceRepeats = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_REPEATS_LONG_NAME_" ";
+            "--" _TRACE_REPEATS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_REPEATS_SHORT_NAME_" ";
+            "--" _TRACE_REPEATS_SHORT_NAME_ " ";
             
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceRepeats ";
@@ -1372,9 +1393,9 @@ R"(
           gGeneralOptions->fTraceMeasures = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_MEASURES_LONG_NAME_" ";
+            "--" _TRACE_MEASURES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_MEASURES_SHORT_NAME_" ";
+            "--" _TRACE_MEASURES_SHORT_NAME_ " ";
 
           traceMeasuresPresent = false;
         }
@@ -1383,9 +1404,9 @@ R"(
           gGeneralOptions->fTraceNotes = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_NOTES_LONG_NAME_" ";
+            "--" _TRACE_NOTES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_NOTES_SHORT_NAME_" ";
+            "--" _TRACE_NOTES_SHORT_NAME_ " ";
             
           traceNotesPresent = false;
         }
@@ -1394,9 +1415,9 @@ R"(
           gGeneralOptions->fTraceTremolos = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_TREMOLOS_LONG_NAME_" ";
+            "--" _TRACE_TREMOLOS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_TREMOLOS_SHORT_NAME_" ";
+            "--" _TRACE_TREMOLOS_SHORT_NAME_ " ";
             
           traceTremolosPresent = false;
         }
@@ -1405,9 +1426,9 @@ R"(
           gGeneralOptions->fTraceChords = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_CHORDS_LONG_NAME_" ";
+            "--" _TRACE_CHORDS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_CHORDS_SHORT_NAME_" ";
+            "--" _TRACE_CHORDS_SHORT_NAME_ " ";
             
           traceChordsPresent = false;
         }
@@ -1416,9 +1437,9 @@ R"(
           gGeneralOptions->fTraceTuplets = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_TUPLETS_LONG_NAME_" ";
+            "--" _TRACE_TUPLETS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_TUPLETS_SHORT_NAME_" ";
+            "--" _TRACE_TUPLETS_SHORT_NAME_ " ";
                         
           traceTupletsPresent = false;
         }
@@ -1427,9 +1448,9 @@ R"(
           gGeneralOptions->fTraceGracenotes = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_GRACENOTES_LONG_NAME_" ";
+            "--" _TRACE_GRACENOTES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_GRACENOTES_SHORT_NAME_" ";
+            "--" _TRACE_GRACENOTES_SHORT_NAME_ " ";
             
           traceGracenotesPresent = false;
         }
@@ -1439,9 +1460,9 @@ R"(
           gGeneralOptions->fTraceLyrics = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_LYRICS_LONG_NAME_" ";
+            "--" _TRACE_LYRICS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_LYRICS_SHORT_NAME_" ";
+            "--" _TRACE_LYRICS_SHORT_NAME_ " ";
             
           traceLyricsPresent = false;
         }
@@ -1451,9 +1472,9 @@ R"(
           gGeneralOptions->fTraceHarmonies = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_HARMONIES_LONG_NAME_" ";
+            "--" _TRACE_HARMONIES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_HARMONIES_SHORT_NAME_" ";
+            "--" _TRACE_HARMONIES_SHORT_NAME_ " ";
             
           traceHarmoniesPresent = false;
         }
@@ -1463,11 +1484,11 @@ R"(
         
         // trace and display
 
-        if (traceMSRVisitorsPresent) {
+        if (traceMsrVisitorsPresent) {
           gMsrOptions->fTraceMsrVisitors = true;
           gGeneralOptions->fCommandLineLongOptions +=
             "--traceMSRVisitors ";
-          traceMSRVisitorsPresent = false;
+          traceMsrVisitorsPresent = false;
         }
 
         // languages
@@ -1575,19 +1596,19 @@ R"(
           keepMasterStanzasPresent = false;
         }
 
-        if (displayMSRPresent) {
+        if (displayMsrPresent) {
           gMsrOptions->fDisplayMsr = true;
           gGeneralOptions->fCommandLineLongOptions +=
             "--displayMSR ";
-          displayMSRPresent = false;
+          displayMsrPresent = false;
         }
 
-        if (displayMSRSummaryPresent) {
+        if (displayMsrSummaryPresent) {
           gMsrOptions->fDisplayMsrSummary = true;
           gLpsrOptions->fDontGenerateLilyPondCode = true;
           gGeneralOptions->fCommandLineLongOptions +=
             "--displayScoreSummary ";
-          displayMSRSummaryPresent = false;
+          displayMsrSummaryPresent = false;
         }
         
         if (partNamePresent) {
@@ -1646,9 +1667,9 @@ R"(
           gLpsrOptions->fTraceLpsr = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_LPSR_LONG_NAME_" ";
+            "--" _TRACE_LPSR_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_LPSR_SHORT_NAME_" ";
+            "--" _TRACE_LPSR_SHORT_NAME_ " ";
             
           traceLpsrPresent = false;
         }
@@ -1657,9 +1678,9 @@ R"(
           gLpsrOptions->fTraceLpsrVisitors = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_LPSR_VISITORS_LONG_NAME_" ";
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_LPSR_VISITORS_SHORT_NAME_" ";
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
             
           traceLpsrVisitorsPresent = false;
         }
@@ -1706,9 +1727,9 @@ R"(
           }
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--"_TRACE_LPSR_LONG_NAME_" ";
+            "--" _TRACE_LPSR_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE_LPSR_SHORT_NAME_" ";
+            "--" _TRACE_LPSR_SHORT_NAME_ " ";
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--lpsrPitchesLanguage " +

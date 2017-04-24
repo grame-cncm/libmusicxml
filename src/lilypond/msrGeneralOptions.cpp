@@ -219,7 +219,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_VERSION_SHORT_NAME_", --"_VERSION_LONG_NAME_ <<
+      "--" _VERSION_SHORT_NAME_ ", --" _VERSION_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display xml2lilypond's version number and exit." <<
@@ -239,7 +239,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_HELP_SHORT_NAME_", --"_HELP_LONG_NAME_ <<
+      "--" _HELP_SHORT_NAME_ ", --" _HELP_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display this help and exit." <<
@@ -247,19 +247,19 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--"_HELP_GENERAL_SHORT_NAME_", --"_HELP_GENERAL_LONG_NAME_ <<
+      "--" _HELP_GENERAL_SHORT_NAME_ ", --" _HELP_GENERAL_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display general help and exit." <<
       endl <<
     idtr <<
-      "--"_HELP_MSR_SHORT_NAME_", --"_HELP_MSR_LONG_NAME_ <<
+      "--" _HELP_MSR_SHORT_NAME_ ", --" _HELP_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display MSR help and exit." <<
       endl <<
     idtr <<
-      "--"_HELP_LPSR_SHORT_NAME_", --"_HELP_LPSR_LONG_NAME_ <<
+      "--" _HELP_LPSR_SHORT_NAME_ ", --" _HELP_LPSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display LPSR help and exit." <<
@@ -279,7 +279,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_OUTPUT_FILE_SHORT_NAME_", --"_OUTPUT_FILE_LONG_NAME_" fileName" <<
+      "--" _OUTPUT_FILE_SHORT_NAME_ ", --" _OUTPUT_FILE_LONG_NAME_ " fileName" <<
       endl <<
     idtr << tab << tab << tab <<
       "Write LilyPond code to file 'fileName' instead of standard output." <<
@@ -287,7 +287,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
     
     idtr <<
-      "--"_AUTO_OUTPUT_FILE_SHORT_NAME_", --"_AUTO_OUTPUT_FILE_LONG_NAME_ <<
+      "--" _AUTO_OUTPUT_FILE_SHORT_NAME_ ", --" _AUTO_OUTPUT_FILE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "This option can only be used when reading from a file." <<
@@ -313,7 +313,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_TRACE_GENERAL_SHORT_NAME_", --"_TRACE_GENERAL_LONG_NAME_ <<
+      "--" _TRACE_GENERAL_SHORT_NAME_ ", --" _TRACE_GENERAL_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the general activity to standard error." <<
@@ -321,7 +321,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--"_TRACE_DETAILED_SHORT_NAME_", --"_TRACE_DETAILED_LONG_NAME_" measureNumbersSet" <<
+      "--" _TRACE_DETAILED_SHORT_NAME_ ", --" _TRACE_DETAILED_LONG_NAME_ " measureNumbersSet" <<
       endl <<
     idtr << tab << tab << tab <<
       "'measureNumbersSet' has a form such as '0,2-14,^8-10'," <<
@@ -352,7 +352,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_CPU_USAGE_SHORT_NAME_", --"_CPU_USAGE_LONG_NAME_ <<
+      "--" _CPU_USAGE_SHORT_NAME_ ", --" _CPU_USAGE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write CPU usage by the passes at the end of the translation." <<
@@ -372,7 +372,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--"_TRACE_DIVISIONS_SHORT_NAME_", --"_TRACE_DIVISIONS_LONG_NAME_ <<
+      "--" _TRACE_DIVISIONS_SHORT_NAME_ ", --" _TRACE_DIVISIONS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       " divisions" <<
@@ -380,13 +380,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--"_TRACE_PARTS_SHORT_NAME_", --"_TRACE_PARTS_LONG_NAME_ <<
+      "--" _TRACE_PARTS_SHORT_NAME_ ", --" _TRACE_PARTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "score, part groups and parts" <<
       endl <<
     idtr <<
-      "--"_TRACE_VOICES_SHORT_NAME_", --"_TRACE_VOICES_LONG_NAME_ <<
+      "--" _TRACE_VOICES_SHORT_NAME_ ", --" _TRACE_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "staves and voices" <<
@@ -394,7 +394,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--"_TRACE_SEGMENTS_SHORT_NAME_", --"_TRACE_SEGMENTS_LONG_NAME_ <<
+      "--" _TRACE_SEGMENTS_SHORT_NAME_ ", --" _TRACE_SEGMENTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "voices' segments" <<
@@ -402,7 +402,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--"_TRACE_REPEATS_SHORT_NAME_", --"_TRACE_REPEATS_LONG_NAME_ <<
+      "--" _TRACE_REPEATS_SHORT_NAME_ ", --" _TRACE_REPEATS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "repeats" <<
@@ -410,7 +410,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--"_TRACE_MEASURES_SHORT_NAME_", --"_TRACE_MEASURES_LONG_NAME_ <<
+      "--" _TRACE_MEASURES_SHORT_NAME_ ", --" _TRACE_MEASURES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "segments' measures" <<
@@ -418,13 +418,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_TRACE_NOTES_SHORT_NAME_", --"_TRACE_NOTES_LONG_NAME_ <<
+      "--" _TRACE_NOTES_SHORT_NAME_ ", --" _TRACE_NOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "notes" <<
       endl <<
     idtr <<
-      "--"_TRACE_TREMOLOS_SHORT_NAME_", --"_TRACE_TREMOLOS_LONG_NAME_ <<
+      "--" _TRACE_TREMOLOS_SHORT_NAME_ ", --" _TRACE_TREMOLOS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "tremolos" <<
@@ -432,13 +432,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_TRACE_CHORDS_SHORT_NAME_", --"_TRACE_CHORDS_LONG_NAME_ <<
+      "--" _TRACE_CHORDS_SHORT_NAME_ ", --" _TRACE_CHORDS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "chords" <<
       endl <<
     idtr <<
-      "--"_TRACE_TUPLETS_SHORT_NAME_", --"_TRACE_TUPLETS_LONG_NAME_ <<
+      "--" _TRACE_TUPLETS_SHORT_NAME_ ", --" _TRACE_TUPLETS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "tuplets" <<
@@ -446,7 +446,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_TRACE_GRACENOTES_SHORT_NAME_", --"_TRACE_GRACENOTES_LONG_NAME_ <<
+      "--" _TRACE_GRACENOTES_SHORT_NAME_ ", --" _TRACE_GRACENOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "grace notes" <<
@@ -454,7 +454,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_TRACE_LYRICS_SHORT_NAME_", --"_TRACE_LYRICS_LONG_NAME_ <<
+      "--" _TRACE_LYRICS_SHORT_NAME_ ", --" _TRACE_LYRICS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "lyrics in MusicXML, stanza in MSR" <<
@@ -462,7 +462,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--"_TRACE_HARMONIES_SHORT_NAME_", --"_TRACE_HARMONIES_LONG_NAME_ <<
+      "--" _TRACE_HARMONIES_SHORT_NAME_ ", --" _TRACE_HARMONIES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "<harmony/> in MusicXML, \\chordmode in LilyPond" <<
