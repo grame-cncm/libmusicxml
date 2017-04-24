@@ -207,6 +207,9 @@ void initializeLpsrChordsLanguages ();
 #define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine"
 #define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
 
+#define _REPEAT_BRACKETS_LONG_NAME_  "repeatBrackets"
+#define _REPEAT_BRACKETS_SHORT_NAME_ "rb"
+
 #define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction"
 #define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
 
@@ -330,6 +333,8 @@ class EXP lpsrOptions : public smartable {
     // --------------------------------------
 
     bool                  fTupletsOnALine;
+
+    bool                  fRepeatBrackets;
 
     int                   fDelayedOrnamentFractionNumerator;
     int                   fDelayedOrnamentFractionDenominator;

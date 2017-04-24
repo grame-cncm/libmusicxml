@@ -184,6 +184,8 @@ void lpsrOptions::initializeLpsrOptions (
   // LilyPond code generation
 
   fTupletsOnALine                     = boolOptionsInitialValue;
+  
+  fRepeatBrackets                     = boolOptionsInitialValue;
 
   fDelayedOrnamentFractionNumerator   = 2;
   fDelayedOrnamentFractionDenominator = 3;
@@ -910,6 +912,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
       booleanAsString (gLpsrOptions->fTupletsOnALine) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "repeatBrackets" << " : " <<
+      booleanAsString (gLpsrOptions->fRepeatBrackets) <<
       endl <<
     
     idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<

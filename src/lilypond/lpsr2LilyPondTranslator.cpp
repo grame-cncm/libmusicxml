@@ -913,46 +913,35 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
       "% --> End visiting lpsrLayout" <<
       endl;
 
-  /*
-   \layout {
-  \context {
-    \Score
-    startRepeatType = #"[|:"
-    endRepeatType = #":|]"
-    doubleRepeatType = #":|][|:"
-} }*/
-   
-// JMI XXL
-  if (true) {
+  if (gLpsrOptions->fRepeatBrackets) {
     fOstream <<
       idtr <<
       "\\context" " " "{" <<
       endl;
     
+    idtr++;
+
     fOstream <<
-      idtr << tab <<
+      idtr <<
         "\\Score" <<
         endl <<
-      idtr << tab <<
+      idtr <<
         "% defaultBarType = #\"!\"" <<
         endl <<
-      idtr << tab <<
+      idtr <<
         "startRepeatType = #\"[|:\"" <<
         endl <<
-      idtr << tab <<
+      idtr <<
         "endRepeatType = #\":|]\"" <<
         endl <<
-      idtr << tab <<
+      idtr <<
         "doubleRepeatType = #\":|][|:\"" <<
         endl <<
-      idtr << tab <<
+      idtr <<
         "}" <<
-        endl <<
-            
-      idtr << tab <<
-        "}" <<
-        endl <<
         endl;
+
+    idtr--;
   }
 
 // JMI XXL
@@ -976,14 +965,14 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
         endl;
         
     idtr--;
-    
-    fOstream << idtr <<
-      "}" <<
-      endl <<
-      endl;
-  
-    idtr--;
   }
+    
+  fOstream << idtr <<
+    "}" <<
+    endl <<
+    endl;
+
+  idtr--;
 }
 
 //________________________________________________________________________

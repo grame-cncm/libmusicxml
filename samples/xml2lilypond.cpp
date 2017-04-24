@@ -546,6 +546,11 @@ void analyzeOptions (
   int tupletsOnALinePresent = 0;
 
   checkOptionUniqueness (
+    _REPEAT_BRACKETS_LONG_NAME_, _REPEAT_BRACKETS_SHORT_NAME_);
+    
+  int repeatBracketsPresent = 0;
+
+  checkOptionUniqueness (
     _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_, _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_);
     
   int delayedOrnamentFractionPresent = 0;
@@ -1151,6 +1156,15 @@ void analyzeOptions (
     {
       _TUPLETS_ON_A_LINE_SHORT_NAME_,
       no_argument, &tupletsOnALinePresent, 1
+    },
+    
+    {
+      _REPEAT_BRACKETS_LONG_NAME_,
+      no_argument, &repeatBracketsPresent, 1
+    },
+    {
+      _REPEAT_BRACKETS_SHORT_NAME_,
+      no_argument, &repeatBracketsPresent, 1
     },
     
     {
@@ -2254,6 +2268,17 @@ R"(
             "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ " ";
             
           tupletsOnALinePresent = false;
+        }
+
+        if (repeatBracketsPresent) {
+          gLpsrOptions->fRepeatBrackets = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _REPEAT_BRACKETS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _REPEAT_BRACKETS_SHORT_NAME_ " ";
+            
+          repeatBracketsPresent = false;
         }
 
         if (delayedOrnamentFractionPresent) {
