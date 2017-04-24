@@ -2358,6 +2358,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   
   // trace and display
   // --------------------------------------
+  
   cerr <<
     idtr << "Trace and display:" <<
     endl;
@@ -2387,6 +2388,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // languages
   // --------------------------------------
+  
   cerr <<
     idtr << "Languages:" <<
     endl;
@@ -2404,6 +2406,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // parts
   // --------------------------------------
+  
   cerr <<
     idtr << "Parts:" <<
     endl;
@@ -2430,6 +2433,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // voices
   // --------------------------------------
+  
   cerr <<
     idtr << "Voices:" <<
     endl;
@@ -2449,6 +2453,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // notes
   // --------------------------------------
+  
   cerr <<
     idtr << "Notes:" <<
     endl;
@@ -2480,6 +2485,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
    
   // lyrics
   // --------------------------------------
+  
   cerr <<
     idtr << "Lyrics:" <<
     endl;
@@ -2499,6 +2505,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // harmonies
   // --------------------------------------
+  
   cerr <<
     idtr << "Harmonies:" <<
     endl;

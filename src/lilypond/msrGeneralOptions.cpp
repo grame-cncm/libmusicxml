@@ -477,107 +477,160 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 }
 
 void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
-{
-  cerr << indenter::gIndenter <<
+{  
+  cerr << idtr <<
     "The general options are:" <<
     endl;
 
-  indenter::gIndenter++;
+  idtr++;
 
+  // command line
+  
   cerr << left <<
-    indenter::gIndenter <<
-      setw(fieldWidth) << "input source name" << " : " <<
-      gGeneralOptions->fInputSourceName <<
-      endl <<
-      
-    indenter::gIndenter <<
-      setw(fieldWidth) << "translation date" << " : " <<
-      gGeneralOptions->fTranslationDate <<
-      endl <<
-        
-    indenter::gIndenter <<
-      setw(fieldWidth) << "outputFileName" << " : \"" <<
-      gGeneralOptions->fOutputFileName <<
-      "\"" <<
-      endl <<
-    indenter::gIndenter <<
-      setw(fieldWidth) << "autoOutputFile" << " : " <<
-      booleanAsString (gGeneralOptions->fAutoOutputFile) <<
-      endl <<
-        
-    indenter::gIndenter <<
-      setw(fieldWidth) << "traceGeneral" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceGeneral) <<
-      endl;
-
-  cerr << left <<
-    indenter::gIndenter <<
-      setw(fieldWidth) << "Specific tracing:" <<
+    idtr <<
+      setw(fieldWidth) << "Command line:" <<
       endl;
 
   idtr++;
 
-  const int indentedFieldWidth = fieldWidth - 2;
-  
   cerr << left <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceDivisions" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "input source name" << " : " <<
+      gGeneralOptions->fInputSourceName <<
+      endl <<
+      
+    idtr <<
+      setw(fieldWidth) << "translation date" << " : " <<
+      gGeneralOptions->fTranslationDate <<
+      endl;
+
+  idtr--;
+
+  // output file
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "Output file:" <<
+      endl;
+
+  idtr++;
+
+  cerr << left <<        
+    idtr <<
+      setw(fieldWidth) << "outputFileName" << " : \"" <<
+      gGeneralOptions->fOutputFileName <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "autoOutputFile" << " : " <<
+      booleanAsString (gGeneralOptions->fAutoOutputFile) <<
+      endl;
+
+  idtr--;
+
+  // trace and display
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "Trace and display:" <<
+      endl;
+
+  idtr++;
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "traceGeneral" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceGeneral) <<
+       endl <<
+       
+    idtr <<
+      setw(fieldWidth) << "traceDetailed" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceDetailed) <<
+     endl;
+        
+  idtr--;
+
+  // CPU usage
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "CPU usage:" <<
+      endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      setw(fieldWidth) << "displayCPUusage" << " : " <<
+      booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
+      endl;
+
+  idtr--;
+  
+  // specific trace    
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "Specific trace:" <<
+      endl;
+
+  idtr++;
+
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "traceDivisions" << " : " <<
       booleanAsString (gGeneralOptions->fTraceDivisions) <<
       endl <<
         
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceparts" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceparts" << " : " <<
       booleanAsString (gGeneralOptions->fTraceParts) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceVoices" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (gGeneralOptions->fTraceVoices) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceSegments" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceSegments" << " : " <<
       booleanAsString (gGeneralOptions->fTraceSegments) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceRepeats" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceRepeats" << " : " <<
       booleanAsString (gGeneralOptions->fTraceRepeats) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceMeasures" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceMeasures" << " : " <<
       booleanAsString (gGeneralOptions->fTraceMeasures) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceNotes" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceNotes) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceTremolos" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceTremolos" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTremolos) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceChords" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceChords" << " : " <<
       booleanAsString (gGeneralOptions->fTraceChords) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceTuplets" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceTuplets" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTuplets) <<
       endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceGracenotes" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceGracenotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceGracenotes) <<
       endl <<
 
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceLyrics" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceLyrics" << " : " <<
       booleanAsString (gGeneralOptions->fTraceLyrics) <<
       endl <<
       
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceHarmonies" << " : " <<
+    idtr <<
+      setw(fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (gGeneralOptions->fTraceHarmonies) <<
-      endl <<
-    indenter::gIndenter <<
-      setw(indentedFieldWidth) << "traceDetailed" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceDetailed) <<
       endl;
 
   if (gGeneralOptions->fTraceDetailed) {
@@ -599,16 +652,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 
   idtr--;
 
-  // CPU usage
-  // --------------------------------------  
-
-  cerr <<
-    indenter::gIndenter <<
-      setw(fieldWidth) << "displayCPUusage" << " : " <<
-      booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
-      endl;
-
-  indenter::gIndenter--;
+  idtr--;
 }
 
 
