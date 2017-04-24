@@ -913,32 +913,77 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
       "% --> End visiting lpsrLayout" <<
       endl;
 
+  /*
+   \layout {
+  \context {
+    \Score
+    startRepeatType = #"[|:"
+    endRepeatType = #":|]"
+    doubleRepeatType = #":|][|:"
+} }*/
+   
 // JMI XXL
-  fOstream <<
-    idtr <<
-    "\\context" " " "{" <<
-    endl;
-
-  idtr++;
-
-  fOstream <<
-    idtr <<
-      "\\Staff" <<
-      endl <<
-    idtr <<
-      "\\consists \"Span_arpeggio_engraver\"" <<
-      endl <<
-    idtr <<
-      "}" <<
+  if (true) {
+    fOstream <<
+      idtr <<
+      "\\context" " " "{" <<
       endl;
-      
-  idtr--;
-  
-  fOstream << idtr <<
-    "}" <<
-    endl << endl;
+    
+    fOstream <<
+      idtr << tab <<
+        "\\Score" <<
+        endl <<
+      idtr << tab <<
+        "% defaultBarType = #\"!\"" <<
+        endl <<
+      idtr << tab <<
+        "startRepeatType = #\"[|:\"" <<
+        endl <<
+      idtr << tab <<
+        "endRepeatType = #\":|]\"" <<
+        endl <<
+      idtr << tab <<
+        "doubleRepeatType = #\":|][|:\"" <<
+        endl <<
+      idtr << tab <<
+        "}" <<
+        endl <<
+            
+      idtr << tab <<
+        "}" <<
+        endl <<
+        endl;
+  }
 
-  idtr--;
+// JMI XXL
+  if (true) {
+    fOstream <<
+      idtr <<
+      "\\context" " " "{" <<
+      endl;
+  
+    idtr++;
+  
+    fOstream <<
+      idtr <<
+        "\\Staff" <<
+        endl <<
+      idtr <<
+        "\\consists \"Span_arpeggio_engraver\"" <<
+        endl <<
+      idtr <<
+        "}" <<
+        endl;
+        
+    idtr--;
+    
+    fOstream << idtr <<
+      "}" <<
+      endl <<
+      endl;
+  
+    idtr--;
+  }
 }
 
 //________________________________________________________________________
