@@ -372,7 +372,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--tdivs, --traceDivisions " <<
+      "--"_TRACE_DIVISIONS_SHORT_NAME_", --"_TRACE_DIVISIONS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       " divisions" <<
@@ -380,13 +380,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--tparts, --traceparts " <<
+      "--"_TRACE_PARTS_SHORT_NAME_", --"_TRACE_PARTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "score, part groups and parts" <<
       endl <<
     idtr <<
-      "--tvoices, --traceVoices " <<
+      "--"_TRACE_VOICES_SHORT_NAME_", --"_TRACE_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "staves and voices" <<
@@ -394,7 +394,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--tsegs, --traceSegments " <<
+      "--"_TRACE_SEGMENTS_SHORT_NAME_", --"_TRACE_SEGMENTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "voices' segments" <<
@@ -402,7 +402,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--trepeats, --traceRepeats " <<
+      "--"_TRACE_REPEATS_SHORT_NAME_", --"_TRACE_REPEATS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "repeats" <<
@@ -410,7 +410,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--tmeas, --traceMeasures " <<
+      "--"_TRACE_MEASURES_SHORT_NAME_", --"_TRACE_MEASURES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "segments' measures" <<
@@ -418,13 +418,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--tnotes, --traceNotes " <<
+      "--"_TRACE_NOTES_SHORT_NAME_", --"_TRACE_NOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "notes" <<
       endl <<
     idtr <<
-      "--ttrems, --traceTremolos " <<
+      "--"_TRACE_TREMOLOS_SHORT_NAME_", --"_TRACE_TREMOLOS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "tremolos" <<
@@ -432,13 +432,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--tchords, --traceChords " <<
+      "--"_TRACE_CHORDS_SHORT_NAME_", --"_TRACE_CHORDS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "chords" <<
       endl <<
     idtr <<
-      "--ttuplets, --traceTuplets " <<
+      "--"_TRACE_TUPLETS_SHORT_NAME_", --"_TRACE_TUPLETS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "tuplets" <<
@@ -446,7 +446,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--tgrace, --traceGracenotes " <<
+      "--"_TRACE_GRACENOTES_SHORT_NAME_", --"_TRACE_GRACENOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "grace notes" <<
@@ -454,7 +454,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--tlyrics, --traceLyrics " <<
+      "--"_TRACE_LYRICS_SHORT_NAME_", --"_TRACE_LYRICS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "lyrics in MusicXML, stanza in MSR" <<
@@ -462,7 +462,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
 
     idtr <<
-      "--tharm, --traceHarmonies " <<
+      "--"_TRACE_HARMONIES_SHORT_NAME_", --"_TRACE_HARMONIES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "<harmony/> in MusicXML, \\chordmode in LilyPond" <<
