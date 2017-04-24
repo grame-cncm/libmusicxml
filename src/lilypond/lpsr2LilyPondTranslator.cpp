@@ -848,8 +848,10 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
   // generate the default 'short-indent' setting ready for the user
   fOstream << idtr << 
     setw(13) << left << "short-indent" << " = " <<
-  setprecision(4) << 0.0 << "\\cm" <<
+  setprecision(4) << 1.0 << "\\cm" <<
   endl;
+
+  fOstream << endl;
 
   // generate a 'page-count' comment ready for the user
   fOstream << idtr << 
@@ -4527,8 +4529,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
   fOstream << idtr <<
-    "| % S_msrBarCheck " << nextBarNumber <<
-    endl;
+    "| % " << nextBarNumber <<
+    endl <<
+    idtr;
 
   fMusicOlec.resetToZero ();
 }
