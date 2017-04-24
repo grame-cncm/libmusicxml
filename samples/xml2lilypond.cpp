@@ -159,13 +159,16 @@ void checkOptionUniqueness (
 
     // is optionShortName in the options names map?
     if ((*i).second == optionShortName) {
-      stringstream s;
-  
-      s <<
-        "option short name '" << optionShortName << "'" <<
-        " is specified more that once";
-        
-      optionError (s.str());
+      if (optionShortName.size ()) {
+        stringstream s;
+    
+        s <<
+          "option short name '" << optionShortName << "'" <<
+          " for option long name '" << optionLongName << "'" <<
+          " is specified more that once";
+          
+        optionError (s.str());
+      }
     }
   } // for
 
@@ -537,7 +540,7 @@ void analyzeOptions (
   checkOptionUniqueness (
     _TRACE_LPSR_LONG_NAME_, _TRACE_LPSR_SHORT_NAME_);
     
-  int traceLPSRPresent = 0;
+  int traceLpsrPresent = 0;
 
   #define _TRACE_LPSR_VISITORS_LONG_NAME_  "traceLpsrVisitors "
   #define _TRACE_LPSR_VISITORS_SHORT_NAME_ "tlpvisits"
@@ -545,7 +548,7 @@ void analyzeOptions (
   checkOptionUniqueness (
     _TRACE_LPSR_VISITORS_LONG_NAME_, _TRACE_LPSR_VISITORS_SHORT_NAME_);
     
-  int traceLPSRVisitorsPresent = 0;
+  int traceLpsrVisitorsPresent = 0;
 
   #define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr "
   #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
@@ -1106,11 +1109,11 @@ void analyzeOptions (
 
     {
       _TRACE_LPSR_VISITORS_LONG_NAME_,
-      no_argument, &traceLPSRVisitorsPresent, 1
+      no_argument, &traceLpsrVisitorsPresent, 1
     },
     {
       _TRACE_LPSR_VISITORS_SHORT_NAME_,
-      no_argument, &traceLPSRVisitorsPresent, 1
+      no_argument, &traceLpsrVisitorsPresent, 1
     },
 
     {
@@ -1825,21 +1828,21 @@ R"(
         // LPSR options
         // ------------
 
-      // trace and display
+        // trace and display
 
         if (traceLpsrPresent) {
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceLpsr = true;
+          gLpsrOptions->fTraceLpsr = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--"_TRACE_LPSR_LONG_NAME_" ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE__LPSR_SHORT_NAME_" ";
+            "--"_TRACE_LPSR_SHORT_NAME_" ";
             
           traceLpsrPresent = false;
         }
 
-        if (traceLPSRVisitorsPresent) {
+        if (traceLpsrVisitorsPresent) {
           gLpsrOptions->fTraceLpsrVisitors = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
@@ -1847,7 +1850,7 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--"_TRACE_LPSR_VISITORS_SHORT_NAME_" ";
             
-          traceLPSRVisitorsPresent = false;
+          traceLpsrVisitorsPresent = false;
         }
 
         if (commentsPresent) {
@@ -1894,7 +1897,7 @@ R"(
           gGeneralOptions->fCommandLineLongOptions +=
             "--"_TRACE_LPSR_LONG_NAME_" ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--"_TRACE__LPSR_SHORT_NAME_" ";
+            "--"_TRACE_LPSR_SHORT_NAME_" ";
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--lpsrPitchesLanguage " +

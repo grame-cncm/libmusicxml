@@ -66,6 +66,7 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceVoices = boolOptionsInitialValue;
 
   fTraceSegments = boolOptionsInitialValue;
+  
   fTraceRepeats = boolOptionsInitialValue;
 
   fTraceMeasures = boolOptionsInitialValue;
@@ -96,9 +97,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceSlurs = boolOptionsInitialValue;
   fTraceLigatures = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
-  
-  fTraceWords = boolOptionsInitialValue;
-
   
   fTraceStafftuning = boolOptionsInitialValue;
   
@@ -195,6 +193,8 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   
   clone->fTraceMidi =
     true;
+
+  return clone;
 }
 
 void msrGeneralOptions::printGeneralOptionsHelp ()
