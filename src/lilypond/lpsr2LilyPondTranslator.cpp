@@ -1850,17 +1850,25 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
     "{" <<
     endl;
 
-  if (gLpsrOptions->fDisplayMusic) {
-    idtr++;
+  idtr++;
 
+  if (gLpsrOptions->fGenerateGlobal) {
+    fOstream <<
+      idtr <<
+        "\\global" <<
+        endl <<
+        endl;
+  }
+    
+  if (gLpsrOptions->fDisplayMusic) {
     fOstream <<
       idtr <<
         "\\displayMusic {" <<
         endl;
+
+    idtr++;
   }
     
-  idtr++;
-
   fOstream <<
     idtr <<
       "\\language \"" <<
