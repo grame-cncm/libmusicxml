@@ -1226,6 +1226,7 @@ R"(
   
             s <<
               "--" _OUTPUT_FILE_LONG_NAME_ << " " << outputFileName << " ";
+              
             gGeneralOptions->fCommandLineLongOptions +=
               s.str();
           }
@@ -1235,6 +1236,7 @@ R"(
   
             s <<
               "--" _OUTPUT_FILE_SHORT_NAME_ << " " << outputFileName << " ";
+              
             gGeneralOptions->fCommandLineShortOptions +=
               s.str();
           }
@@ -1326,9 +1328,6 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_DIVISIONS_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceDivisions ";
-            
           traceDivisionsPresent = false;
         }
         
@@ -1341,9 +1340,6 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_PARTS_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceparts ";
-
           tracePartsPresent = false;
         }
         if (traceVoicesPresent) {
@@ -1354,9 +1350,6 @@ R"(
             "--" _TRACE_VOICES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_VOICES_SHORT_NAME_ " ";
-            
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceVoices ";
 
           traceVoicesPresent = false;
         }
@@ -1369,9 +1362,6 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_SEGMENTS_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceSegments ";
-
           traceSegmentsPresent = false;
         }
         if (traceRepeatsPresent) {
@@ -1383,9 +1373,6 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_REPEATS_SHORT_NAME_ " ";
             
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--traceRepeats ";
-
           traceRepeatsPresent = false;
         }
         if (traceMeasuresPresent) {
@@ -1484,13 +1471,51 @@ R"(
         
         // trace and display
 
+        if (traceMsrresent) {
+          gMsrOptions->fTraceMsr = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_MSR_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_MSR_SHORT_NAME_ " ";
+            
+          traceMsrPresent = false;
+        }
+
         if (traceMsrVisitorsPresent) {
           gMsrOptions->fTraceMsrVisitors = true;
+
           gGeneralOptions->fCommandLineLongOptions +=
-            "--traceMSRVisitors ";
+            "--" _TRACE_MSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_MSR_VISITORS_SHORT_NAME_ " ";
+            
           traceMsrVisitorsPresent = false;
         }
 
+        if (displayMsrPresent) {
+          gMsrOptions->fDisplayMsr = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DISPLAY_MSR_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DISPLAY_MSR_SHORT_NAME_ " ";
+            
+          displayMsrPresent = false;
+        }
+
+        if (displayMsrSummaryPresent) {
+          gMsrOptions->fDisplayMsrSummary = true;
+          gLpsrOptions->fDontGenerateLilyPondCode = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DISPLAY_MSR_SUMMARY_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DISPLAY_MSR_SUMMARY_SHORT_NAME_ " ";
+            
+          displayMsrSummaryPresent = false;
+        }
+        
         // languages
 
         if (msrPitchesLanguagePresent) {
@@ -1526,102 +1551,43 @@ R"(
           }
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--msrPitchesLanguage " +
+            "--" _MSR_PITCHES_LANGUAGE_LONG_NAME_ " " +
             optargAsString +
             " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _MSR_PITCHES_LANGUAGE_SHORT_NAME_ " " +
+            optargAsString +
+            " ";
+            
           msrPitchesLanguagePresent = false;
           }
              
         // parts
 
-        if (staffRelativeVoiceNumbersPresent) {
-          gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--staffRelativeVoiceNumbers ";
-          staffRelativeVoiceNumbersPresent = false;
-        }
-        
-        if (dontDisplayMsrStanzasPresent) {
-          gMsrOptions->fDontDisplayMsrStanzas = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--dontGenerateMSRStanzas ";
-          dontDisplayMsrStanzasPresent = false;
-        }
-        
-        if (delayRestsDynamicsPresent) {
-          gMsrOptions->fDelayRestsDynamics = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--delayRestsDynamics ";
-          delayRestsDynamicsPresent = false;
-        }
-        
-        if (delayRestsWordsPresent) {
-          gMsrOptions->fDelayRestsWords = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--delayRestsWords ";
-          delayRestsWordsPresent = false;
-        }
-        
-        if (delayRestsSlursPresent) {
-          gMsrOptions->fDelayRestsSlurs = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--delayRestsSlurs ";
-          delayRestsSlursPresent = false;
-        }
-        
-        if (delayRestsLigaturesPresent) {
-          gMsrOptions->fDelayRestsLigatures = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--delayRestsLigatures ";
-          delayRestsLigaturesPresent = false;
-        }
-        
-        if (delayRestsWedgesPresent) {
-          gMsrOptions->fDelayRestsWedges = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--delayRestsWedges ";
-          delayRestsWedgesPresent = false;
-        }
-        
-        if (keepMasterVoicesPresent) {
-          gMsrOptions->fKeepMasterVoices = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--keepMasterVoices ";
-          keepMasterVoicesPresent = false;
-        }
-        if (keepMasterStanzasPresent) {
-          gMsrOptions->fKeepMasterStanzas = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--keepMasterStanzas ";
-          keepMasterStanzasPresent = false;
-        }
-
-        if (displayMsrPresent) {
-          gMsrOptions->fDisplayMsr = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--displayMSR ";
-          displayMsrPresent = false;
-        }
-
-        if (displayMsrSummaryPresent) {
-          gMsrOptions->fDisplayMsrSummary = true;
-          gLpsrOptions->fDontGenerateLilyPondCode = true;
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--displayScoreSummary ";
-          displayMsrSummaryPresent = false;
-        }
-        
         if (partNamePresent) {
           // optarg contains the part name
           char*        partNameSpec = optarg;
-          stringstream s;
 
-          s <<
-            "--partName" << " \"" << partNameSpec << "\" ";
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            s.str();
-
+          {
+            stringstream s;
+  
+            s <<
+              "--" _PART_NAME_LONG_NAME_ << " " << outputFileName << " ";
+              
+            gGeneralOptions->fCommandLineLongOptions +=
+              s.str();
+          }
+          
+          {
+            stringstream s;
+  
+            s <<
+              "--" _PART_NAME_SHORT_NAME_ << " " << outputFileName << " ";
+              
+            gGeneralOptions->fCommandLineShortOptions +=
+              s.str();
+          }
+          
           std::pair<string, string>
             pair =
               extractNamesPairFromString (
@@ -1650,6 +1616,7 @@ R"(
               
             optionError (s.str());
           }
+          
           else
             gMsrOptions->fPartsRenaming [pair.first] =
               pair.second;
@@ -1657,6 +1624,125 @@ R"(
           partNamePresent = false;
         }
         
+        // voices
+        
+        if (staffRelativeVoiceNumbersPresent) {
+          gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ " ";
+            
+          staffRelativeVoiceNumbersPresent = false;
+        }
+        
+        if (keepMasterVoicesPresent) {
+          gMsrOptions->fKeepMasterVoices = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _KEEP_MASTER_VOICES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _KEEP_MASTER_VOICES_SHORT_NAME_ " ";
+            
+          keepMasterVoicesPresent = false;
+        }
+
+        // notes
+        
+        if (delayRestsDynamicsPresent) {
+          gMsrOptions->fDelayRestsDynamics = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DELAY_RESTS_DYNAMICS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DELAY_RESTS_DYNAMICS_SHORT_NAME_ " ";
+            
+          delayRestsDynamicsPresent = false;
+        }
+        
+        if (delayRestsWordsPresent) {
+          gMsrOptions->fDelayRestsWords = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DELAY_RESTS_WORDS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DELAY_RESTS_WORDS_SHORT_NAME_ " ";
+            
+          delayRestsWordsPresent = false;
+        }
+        
+        if (delayRestsSlursPresent) {
+          gMsrOptions->fDelayRestsSlurs = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DELAY_RESTS_SLURS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DELAY_RESTS_SLURS_SHORT_NAME_ " ";
+            
+          delayRestsSlursPresent = false;
+        }
+        
+        if (delayRestsLigaturesPresent) {
+          gMsrOptions->fDelayRestsLigatures = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DELAY_RESTS_LIGATURES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DELAY_RESTS_LIGATURES_SHORT_NAME_ " ";
+            
+          delayRestsLigaturesPresent = false;
+        }
+        
+        if (delayRestsWedgesPresent) {
+          gMsrOptions->fDelayRestsWedges = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DELAY_RESTS_WEDGES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DELAY_RESTS_WEDGES_SHORT_NAME_ " ";
+            
+          delayRestsWedgesPresent = false;
+        }
+        
+        // lyrics
+        
+        if (dontDisplayMsrStanzasPresent) {
+          gMsrOptions->fDontDisplayMsrStanzas = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ " ";
+            
+          dontDisplayMsrStanzasPresent = false;
+        }
+        
+        if (keepMasterStanzasPresent) {
+          gMsrOptions->fKeepMasterStanzas = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _KEEP_MASTER_STANZAS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _KEEP_MASTER_STANZAS_SHORT_NAME_ " ";
+            
+          keepMasterStanzasPresent = false;
+        }
+
+        // harmonies
+
+        if (keepEmptyHarmoniesVoicePresent) {
+          gMsrOptions->fKeepEmptyHarmoniesVoice = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ " ";
+            
+          keepEmptyHarmoniesVoicePresent = false;
+        }
+      
+      
         // LPSR options
         // ------------
 
@@ -1687,6 +1773,12 @@ R"(
 
         if (commentsPresent) {
           gLpsrOptions->fGenerateComments = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--comments ";
           commentsPresent = false;
@@ -1771,6 +1863,12 @@ R"(
             optionError (s.str());
           }
           
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--lpsrChordsLanguage " +
             optargAsString +
@@ -1780,6 +1878,12 @@ R"(
              
         if (displayLPSRPresent) {
           gLpsrOptions->fDisplayLpsr = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--displayLpsr ";
           displayLPSRPresent = false;
@@ -1787,6 +1891,12 @@ R"(
 
         if (absolutePresent) {
           gLpsrOptions->fGenerateAbsoluteOctaves = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--absolute ";
           absolutePresent = false;
@@ -1794,6 +1904,12 @@ R"(
 
         if (showAllBarNumbersPresent) {
           gLpsrOptions->fShowAllBarNumbers = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--showAllBarNumbers ";
           showAllBarNumbersPresent = false;
@@ -1801,6 +1917,12 @@ R"(
 
         if (compressFullBarRestsPresent) {
           gLpsrOptions->fCompressFullBarRests = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--compressFullBarRests ";
           compressFullBarRestsPresent = false;
@@ -1808,6 +1930,12 @@ R"(
 
         if (tupletsOnALinePresent) {
           gLpsrOptions->fTupletsOnALine = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--tupletsOnALine ";
           tupletsOnALinePresent = false;
@@ -1815,6 +1943,12 @@ R"(
 
         if (breakLinesAtIncompleteRightMeasuresPresent) {
           gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--breakLinesAtIncompleteRightMeasures ";
           breakLinesAtIncompleteRightMeasuresPresent = false;
@@ -1824,6 +1958,12 @@ R"(
           gLpsrOptions->fSeparatorLineEveryNMeasures = true;
           gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
             atoi (optarg);
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--separatorLineEveryNMeasures ";
           separatorLineEveryNMeasuresPresent = false;
@@ -1831,6 +1971,12 @@ R"(
 
         if (dontKeepLineBreaksPresent) {
           gLpsrOptions->fDontKeepLineBreaks = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--dontKeepLineBreaks ";
           dontKeepLineBreaksPresent = false;
@@ -1838,18 +1984,36 @@ R"(
 
         if (numericaltimePresent) {
           gLpsrOptions->fGenerateNumericalTime = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--numericalTime ";
           numericaltimePresent = false;
         }
         if (stemsPresent) {
           gLpsrOptions->fGenerateStems = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--stems ";
           stemsPresent = false;
         }
         if (noAutoBeamingPresent) {
           gLpsrOptions->fNoAutoBeaming = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--noAutoBeaming ";
           noAutoBeamingPresent = false;
@@ -1857,6 +2021,12 @@ R"(
 
         if (noteInputLineNumbersPresent) {
           gLpsrOptions->fGenerateInputLineNumbers = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--generateInputLineNumbers ";
           noteInputLineNumbersPresent = false;
@@ -1864,6 +2034,12 @@ R"(
         
         if (modernTabPresent) {
           gLpsrOptions->fModernTab = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--modernTab ";
           modernTabPresent = false;
@@ -1884,6 +2060,12 @@ R"(
           s <<
             "--accidentalStyle " << optarg << " ";
           
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             s.str();
           accidentalStylePresent = false;
@@ -1960,6 +2142,12 @@ R"(
           s <<
             "--delayedOrnamentFraction '" << optargAsString << "' ";
           
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             s.str();
           midiTempoPresent = false;
@@ -2033,6 +2221,12 @@ R"(
           s <<
             "--midiTempo '" << optargAsString << "' ";
           
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             s.str();
           midiTempoPresent = false;
@@ -2040,6 +2234,12 @@ R"(
         
         if (dontGenerateLilyPondLyricsPresent) {
           gLpsrOptions->fDontGenerateLilyPondLyrics = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--dontGenerateLilyPondLyrics ";
           dontGenerateLilyPondLyricsPresent = false;
@@ -2047,6 +2247,12 @@ R"(
         
         if (dontGenerateLilyPondCodePresent) {
           gLpsrOptions->fDontGenerateLilyPondCode = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+            
           gGeneralOptions->fCommandLineLongOptions +=
             "--dontGenerateLilyPondCode ";
           dontGenerateLilyPondCodePresent = false;
