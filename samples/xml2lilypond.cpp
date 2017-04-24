@@ -1471,7 +1471,7 @@ R"(
         
         // trace and display
 
-        if (traceMsrresent) {
+        if (traceMsrPresent) {
           gMsrOptions->fTraceMsr = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
@@ -1933,9 +1933,9 @@ R"(
 
         if (accidentalStylePresent) {
           // optarg contains the accidental style name
-          stringstream s;
-
           if (! gLpsrOptions->setAccidentalStyle (optarg)) {
+            stringstream s;
+  
             s <<
               "--accidentalStyle argument '" << optarg <<
               "' is not known";
@@ -1943,16 +1943,27 @@ R"(
             optionError (s.str());
           }
 
-          s <<
-            "--accidentalStyle " << optarg << " ";
-          
+          {
+            stringstream s;
 
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _ACCIDENTAL_STYLE_LONG_NAME_ " " +
-            optarg + " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _ACCIDENTAL_STYLE_SHORT_NAME_ " " +
-            optarg + " ";
+            s <<
+              "--" _ACCIDENTAL_STYLE_LONG_NAME_ " "  <<
+              optarg << " ";
+  
+            gGeneralOptions->fCommandLineLongOptions +=
+              s.str();
+          }
+
+          {
+            stringstream s;
+
+            s <<
+              "--" _ACCIDENTAL_STYLE_SHORT_NAME_ " "  <<
+              optarg << " ";
+  
+            gGeneralOptions->fCommandLineShortOptions +=
+              s.str();
+          }
             
           accidentalStylePresent = false;
         }
@@ -2021,12 +2032,27 @@ R"(
           gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
             atoi (optarg);
 
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_ " " +
-            gLpsrOptions->fSeparatorLineEveryNMeasuresValue + " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ " "+
-            gLpsrOptions->fSeparatorLineEveryNMeasuresValue + " ";
+          {
+            stringstream s;
+
+            s <<
+              "--" _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_ " "  <<
+              optarg << " ";
+  
+            gGeneralOptions->fCommandLineLongOptions +=
+              s.str();
+          }
+
+          {
+            stringstream s;
+
+            s <<
+              "--" _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ " "  <<
+              optarg << " ";
+  
+            gGeneralOptions->fCommandLineShortOptions +=
+              s.str();
+          }
             
           separatorLineEveryNMeasuresPresent = false;
         }
@@ -2109,23 +2135,32 @@ R"(
             endl;
           */
 
-          stringstream s;
+          {
+            stringstream s;
 
-          s <<
-            "--midiTempo '" << optargAsString << "' ";
-          
+            s <<
+              "--" _MIDI_TEMPO_LONG_NAME_ " '"  <<
+              optarg << "' ";
+  
+            gGeneralOptions->fCommandLineLongOptions +=
+              s.str();
+          }
 
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _MIDI_TEMPO_LONG_NAME_ " " +
-            optargAsString << "' ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _MIDI_TEMPO_SHORT_NAME_ " " +
-            optargAsString << "' ";
-            
+          {
+            stringstream s;
+
+            s <<
+              "--" _MIDI_TEMPO_SHORT_NAME_ " '"  <<
+              optarg << "' ";
+  
+            gGeneralOptions->fCommandLineShortOptions +=
+              s.str();
+          }
+                        
           midiTempoPresent = false;
         }
 
-        if (noMidiPresent) {
+        if (dontGenerateMidiCommandPresent) {
           gLpsrOptions->fTupletsOnALine = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2133,7 +2168,7 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _NO_MIDI_SHORT_NAME_ " ";
             
-          noMidiPresent = false;
+          dontGenerateMidiCommandPresent = false;
         }
 
         // LilyPond code generation
