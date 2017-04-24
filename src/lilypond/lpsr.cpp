@@ -280,7 +280,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--tlpsr, --traceLpsr " <<
+      "--" _TRACE_LPSR_SHORT_NAME_ ", --" _TRACE_LPSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the LPSR graphs visiting activity to standard error." <<
@@ -288,7 +288,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--tlpvisit, --traceLpsrVisitors " <<
+      "--t" _TRACE_LPSR_VISITORS_SHORT_NAME_ ", --" _TRACE_LPSR_VISITORS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the LPSR graphs visiting activity to standard error." <<
@@ -296,7 +296,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--lpsr, --displayLpsr" << 
+      "--" _DISPLAY_LPSR_SHORT_NAME_ ", --" _DISPLAY_LPSR_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Write the contents of the LPSR data to standard error." << 
@@ -304,7 +304,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--com, --comments" << 
+      "--" _COMMENTS_SHORT_NAME_ ", --" _COMMENTS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate comments showing the structure of the score" << 
@@ -327,7 +327,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
    idtr <<
-      "--lppl, --lpsrPitchesLanguage language" << 
+      "--" _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ ", --" _LPSR_PITCHES_LANGUAGE_LONG_NAME_ " language" << 
       endl <<
     idtr << tab << tab << tab <<
       "Use 'language' to display note pitches in the LPSR logs and views," <<
@@ -350,7 +350,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--lpcl, --lpsrChordsLanguage language" << 
+      "--" _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ " , --" _LPSR_CHORDS_LANGUAGE_LONG_NAME_ " language" << 
       endl <<
     idtr << tab << tab << tab <<
       "Use 'language' to display chord names, their root and bass notes," << 
@@ -382,7 +382,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--numericalTime" << 
+      "--" _NUMERICAL_TIME_SHORT_NAME_ ", --" _NUMERICAL_TIME_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Don't generate non-numerical time signatures such as 'C'." << 
@@ -402,7 +402,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--abs, --absolute" << 
+      "--" _ABSOLUTE_SHORT_NAME_ ", --" _ABSOLUTE_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate LilyPond absolute note octaves. " << 
@@ -413,7 +413,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--stems" << 
+      "--" _STEMS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate \\stemUp and \\stemDown LilyPond commands." << 
@@ -424,7 +424,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--noab, --noAutoBeaming" << 
+      "--" _NO_AUTO_BEAMING_SHORT_NAME_ ", --" _NO_AUTO_BEAMING_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate '\\set Voice.autoBeaming = ##f' in each voice " << 
@@ -435,7 +435,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--as, --accidentalStyle style" << 
+      "--" _ACCIDENTAL_STYLE_SHORT_NAME_ ", --" _ACCIDENTAL_STYLE_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Choose the LilyPond accidental styles among: " << 
@@ -461,7 +461,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--iln, --generateInputLineNumbers" << 
+      "--" _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ ", --" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate after each note and barline a comment containing" << 
@@ -484,7 +484,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--sabn, --showAllBarNumbers" << 
+      "--" _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ ", --" _SHOW_ALL_BAR_NUMBERS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate LilyPond code to show all bar numbers." << 
@@ -492,7 +492,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
       
     idtr <<
-      "--cfbr, --compressFullBarRests" << 
+      "--" _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ ", --" _COMPRESS_FULL_BAR_RESTS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
       "Generate '\\compressFullBarRests' at the beginning of voices." << 
