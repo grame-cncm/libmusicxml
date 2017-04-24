@@ -385,154 +385,148 @@ void analyzeOptions (
 
   // trace and display
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _TRACE_MSR_LONG_NAME_  "displayCPUusage"
+  #define _TRACE_MSR_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _TRACE_MSR_LONG_NAME_, _TRACE_MSR_SHORT_NAME_);
+    
+  int traceMSRPresent = 0;
+
+  #define _TRACE_MSR_VISITORS_LONG_NAME_  "displayCPUusage"
+  #define _TRACE_MSR_VISITORS_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _TRACE_MSR_VISITORS_LONG_NAME_, _TRACE_MSR_VISITORS_SHORT_NAME_);
     
   int traceMSRVisitorsPresent = 0;
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _DISPLAY_MSR_LONG_NAME_  "displayCPUusage"
+  #define _DISPLAY_MSR_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DISPLAY_MSR_LONG_NAME_, _DISPLAY_MSR_SHORT_NAME_);
+    
+  int displayMSRPresent = 0;
+  
+  #define _DISPLAY_MSR_SUMMARY_LONG_NAME_  "displayCPUusage"
+  #define _DISPLAY_MSR_SUMMARY_SHORT_NAME_ "dCPU"
+  
+  checkOptionUniqueness (
+    _DISPLAY_MSR_SUMMARY_LONG_NAME_, _DISPLAY_MSR_SUMMARY_SHORT_NAME_);
+    
+  int displayMSRSummaryPresent = 0;
+  
+  // languages
+
+  #define _MSR_PITCHES_LANGUAGE_LONG_NAME_  "msrPitchesLanguage"
+  #define _MSR_PITCHES_LANGUAGE_SHORT_NAME_ "mpl"
+  
+  checkOptionUniqueness (
+    _MSR_PITCHES_LANGUAGE_LONG_NAME_, _MSR_PITCHES_LANGUAGE_SHORT_NAME_);
     
   int msrPitchesLanguagePresent = 0;
 
-  // languages
-
-  #define _CPU_USAGE_LONG_NAME_  "msrPitchesLanguage"
-  #define _CPU_USAGE_SHORT_NAME_ "mpl"
-  
-  checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
-    
   // parts
 
-  #define _CPU_USAGE_LONG_NAME_  "partName"
-  #define _CPU_USAGE_SHORT_NAME_ "part"
+  #define _PART_NAME_LONG_NAME_  "partName"
+  #define _PART_NAME_SHORT_NAME_ "part"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _PART_NAME_LONG_NAME_, _PART_NAME_SHORT_NAME_);
     
   int partNamePresent = 0;
   
   // voices
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "displayCPUusage"
+  #define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_, _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_);
     
   int staffRelativeVoiceNumbersPresent = 0;
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _KEEP_MASTER_VOICES_LONG_NAME_  "displayCPUusage"
+  #define _KEEP_MASTER_VOICES_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _KEEP_MASTER_VOICES_LONG_NAME_, _KEEP_MASTER_VOICES_SHORT_NAME_);
     
   int keepMasterVoicesPresent = 0;
 
   // notes
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_DYNAMICS_LONG_NAME_  "delayRestsDynamics"
+  #define _DELAY_RESTS_DYNAMICS_SHORT_NAME_ "drdyns"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
-    
-  int dontDisplayMsrStanzasPresent = 0;
-
-  #define _CPU_USAGE_LONG_NAME_  "delayRestsDynamics"
-  #define _CPU_USAGE_SHORT_NAME_ "drdyns"
-  
-  checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DELAY_RESTS_DYNAMICS_LONG_NAME_, _DELAY_RESTS_DYNAMICS_SHORT_NAME_);
     
   int delayRestsDynamicsPresent = 0;
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_WORDS_LONG_NAME_  "displayCPUusage"
+  #define _DELAY_RESTS_WORDS_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DELAY_RESTS_WORDS_LONG_NAME_, _DELAY_RESTS_WORDS_SHORT_NAME_);
     
   int delayRestsWordsPresent = 0;
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_SLURS_LONG_NAME_  "displayCPUusage"
+  #define _DELAY_RESTS_SLURS_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DELAY_RESTS_SLURS_LONG_NAME_, _DELAY_RESTS_SLURS_SHORT_NAME_);
     
   int delayRestsSlursPresent = 0;
   
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_LIGATURES_LONG_NAME_  "displayCPUusage"
+  #define _DELAY_RESTS_LIGATURES_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DELAY_RESTS_LIGATURES_LONG_NAME_, _DELAY_RESTS_LIGATURES_SHORT_NAME_);
     
   int delayRestsLigaturesPresent = 0;
 
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
+  #define _DELAY_RESTS_WEDGES_LONG_NAME_  "displayCPUusage"
+  #define _DELAY_RESTS_WEDGES_SHORT_NAME_ "dCPU"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DELAY_RESTS_WEDGES_LONG_NAME_, _DELAY_RESTS_WEDGES_SHORT_NAME_);
     
   int delayRestsWedgesPresent = 0;
   
   // lyrics
 
-  #define _CPU_USAGE_LONG_NAME_  "dontDisplayMsrStanzas"
-  #define _CPU_USAGE_SHORT_NAME_ "noms"
+  #define _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_  "dontDisplayMsrStanzas"
+  #define _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ "noms"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_, _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_);
     
   int dontDisplayMsrStanzasPresent = 0;
   
-  #define _CPU_USAGE_LONG_NAME_  "keepMasterStanzas"
-  #define _CPU_USAGE_SHORT_NAME_ "kms"
+  #define _KEEP_MASTER_STANZAS_LONG_NAME_  "keepMasterStanzas"
+  #define _KEEP_MASTER_STANZAS_SHORT_NAME_ "kms"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _KEEP_MASTER_STANZAS_LONG_NAME_, _KEEP_MASTER_STANZAS_SHORT_NAME_);
     
   int keepMasterStanzasPresent = 0;
 
   // harmonies
 
-  #define _CPU_USAGE_LONG_NAME_  "-keepEmptyHarmoniesVoice"
-  #define _CPU_USAGE_SHORT_NAME_ "kehv"
+  #define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "-keepEmptyHarmoniesVoice"
+  #define _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ "kehv"
   
   checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
+    _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_, _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_);
     
   int keepEmptyHarmoniesVoicePresent = 0;
 
 
 
-  
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
-  
-  checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
-    
-  int displayMSRPresent = 0;
-  
-  #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-  #define _CPU_USAGE_SHORT_NAME_ "dCPU"
-  
-  checkOptionUniqueness (
-    _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
-    
-  int displayMSRSummaryPresent = 0;
   
   #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
   #define _CPU_USAGE_SHORT_NAME_ "dCPU"
