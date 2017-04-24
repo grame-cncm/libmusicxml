@@ -54,7 +54,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fOnGoingNote = false;
 
   fCurrentStemKind = msrStem::k_NoStem;
-//  fOnGoingStemNone = false;
+//  fOnGoingStemNone = false; JMI
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -2991,15 +2991,73 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       fCurrentStem
         ? fCurrentStem->getStemKind ()
         : msrStem::k_NoStem;
+      
+  switch (note->getNoteKind ()) {
+    
+    case msrNote::k_NoNoteKind:
+      break;
+        
+    case msrNote::kStandaloneNote:
+      {
+        // should the stem be omitted?
+        if (note->getNoteIsStemless ()) {
+          fOstream <<
+            endl <<
+            idtr <<
+            "\\once\\omit Stem" " ";
+        }
 
-  // should the stem be omitted?
-  if (note->getNoteIsStemless ()) {
-    fOstream <<
-      endl <<
-      idtr <<
-      "\\once\\omit Stem" " ";
-  }
-  
+        // should stem direction be generated?
+        if (fLpsrOptions->fGenerateStems) {
+      
+          if (fCurrentStem) {
+            // should stem direction be generated?
+            if (stemKind != fCurrentStemKind) {
+              switch (stemKind) {
+                case msrStem::k_NoStem:
+                  fOstream << "\\stemNeutral" " ";
+                  break;
+                case msrStem::kStemUp:
+                  fOstream << "\\stemUp" " ";
+                  break;
+                case msrStem::kStemDown:
+                  fOstream << "\\stemDown" " ";
+                  break;
+                case msrStem::kStemNone:
+                  break;
+                case msrStem::kStemDouble: // JMI ???
+                  break;
+              } // switch
+            }
+            fMusicOlec++;
+      
+            // is there a stem kind change?
+            if (stemKind != fCurrentStemKind)
+              fCurrentStemKind = stemKind;
+          }
+        }
+      }
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+      
+    case msrNote::kRestNote:      
+      break;
+      
+    case msrNote::kSkipNote:      
+      break;
+      
+    case msrNote::kChordMemberNote:
+     // don't omit stems for chord member note
+     break;
+      
+    case msrNote::kTupletMemberNote:
+      break;
+  } // switch
+
+
+
 /* JMI
   // is there an unmetered (stemless) section?
   if (stemKind != fCurrentStemKind) {
@@ -3054,35 +3112,6 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
   }
 */
 
-  // should stem direction be generated?
-  if (fLpsrOptions->fGenerateStems) {
-
-    if (fCurrentStem) {
-      // should stem direction be generated?
-      if (stemKind != fCurrentStemKind) {
-        switch (stemKind) {
-          case msrStem::k_NoStem:
-            fOstream << "\\stemNeutral" " ";
-            break;
-          case msrStem::kStemUp:
-            fOstream << "\\stemUp" " ";
-            break;
-          case msrStem::kStemDown:
-            fOstream << "\\stemDown" " ";
-            break;
-          case msrStem::kStemNone:
-            break;
-          case msrStem::kStemDouble: // JMI ???
-            break;
-        } // switch
-      }
-      fMusicOlec++;
-
-      // is there a stem kind change?
-      if (stemKind != fCurrentStemKind)
-        fCurrentStemKind = stemKind;
-    }
-  }
 
   // fetch the note single tremolo
   S_msrSingleTremolo
@@ -4264,8 +4293,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
       "\\tuplet " <<
       elt->getTupletActualNotes () <<
       "/" <<
-      elt->getTupletNormalNotes() << " { " <<
-      endl;
+      elt->getTupletNormalNotes() << " { ";
   }
 
   fTupletsStack.push (elt);
@@ -4499,7 +4527,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
   fOstream << idtr <<
-    "| % " << nextBarNumber <<
+    "| % S_msrBarCheck " << nextBarNumber <<
     endl;
 
   fMusicOlec.resetToZero ();
@@ -4521,7 +4549,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarnumberCheck& elt)
       "% --> Start visiting msrBarnumberCheck" <<
       endl;
 
-  fOstream <<
+  fOstream << idtr <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl;
 
@@ -4544,7 +4572,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBreak& elt)
       "% --> Start visiting msrBreak" <<
       endl;
 
-  fOstream <<
+  fOstream << idtr <<
     "\\myBreak | % " << elt->getNextBarNumber () <<
     endl <<
     endl;

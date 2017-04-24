@@ -243,7 +243,7 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   
   if (fElementsCounter >= fMaxElementsPerLine) {
     cerr <<
-      "%{!%}" <<
+      "%{ " << fMaxElementsPerLine << " elems %}" <<
       endl <<
       indenter::gIndenter;
 
