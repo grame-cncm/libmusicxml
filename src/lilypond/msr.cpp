@@ -2021,12 +2021,18 @@ msrOptions::~msrOptions () {}
 void msrOptions::initializeMsrOptions (
   bool boolOptionsInitialValue)
 {
-  // trace
-  fTraceMsr                             = boolOptionsInitialValue;
+  // trace and display
+
+  fTraceMsr          = boolOptionsInitialValue;
   
-  fTraceMsrVisitors                     = boolOptionsInitialValue;
+  fTraceMsrVisitors  = boolOptionsInitialValue;
+
+  fDisplayMsr        = boolOptionsInitialValue;
+
+  fDisplayMsrSummary = boolOptionsInitialValue;
 
   // languages
+  
   if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
     stringstream s;
 
@@ -2049,26 +2055,31 @@ void msrOptions::initializeMsrOptions (
     optionError (s.str());
   }
   
-  // advanced options
-  fCreateStaffRelativeVoiceNumbers      = boolOptionsInitialValue;
-  fDelayRestsDynamics                   = boolOptionsInitialValue;
-  fDelayRestsWords                      = boolOptionsInitialValue; // JMI
-  fDelayRestsSlurs                      = boolOptionsInitialValue; // JMI
-  fDelayRestsLigatures                  = boolOptionsInitialValue; // JMI
-  fDelayRestsWedges                     = boolOptionsInitialValue; // JMI
-  
-  // master voices and stanzas
-  fKeepMasterVoices                     = boolOptionsInitialValue;
-  fKeepMasterStanzas                    = boolOptionsInitialValue;
-    
-  // stanza display
-  fDontDisplayMsrStanzas                = boolOptionsInitialValue;
-  
-  // MSR display
-  fDisplayMsr                           = boolOptionsInitialValue;
+  // parts
 
-  // MSR score summary
-  fDisplayMsrSummary                    = boolOptionsInitialValue;
+  // voices
+
+  fCreateStaffRelativeVoiceNumbers = boolOptionsInitialValue;
+  
+  fKeepMasterVoices                = boolOptionsInitialValue;
+
+  // notes
+
+  fDelayRestsDynamics  = boolOptionsInitialValue;
+  fDelayRestsWords     = boolOptionsInitialValue; // JMI
+  fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
+  fDelayRestsLigatures = boolOptionsInitialValue; // JMI
+  fDelayRestsWedges    = boolOptionsInitialValue; // JMI
+
+  // lyrics
+
+  fDontDisplayMsrStanzas = boolOptionsInitialValue;
+
+  fKeepMasterStanzas     = boolOptionsInitialValue;
+
+  // harmonies
+
+  fKeepEmptyHarmoniesVoice = boolOptionsInitialValue;  
 }
 
 bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)

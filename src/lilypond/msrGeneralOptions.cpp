@@ -51,6 +51,12 @@ void msrGeneralOptions::initializeGeneralOptions (
   // trace and display
 
   fTraceGeneral = boolOptionsInitialValue;
+
+  fTraceDetailed = false;
+
+  // CPU usage
+  
+  fDisplayCPUusage = boolOptionsInitialValue;
     
   // specific trace    
 
@@ -64,43 +70,32 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   fTraceMeasures = boolOptionsInitialValue;
 
-
-
-
-
-
-
-
-  fTraceScore = boolOptionsInitialValue;
-
-  fTracePartgroups = boolOptionsInitialValue;
-  fTraceStaves = boolOptionsInitialValue;
-
+  fTraceNotes = boolOptionsInitialValue;
+  
+  fTraceTremolos = boolOptionsInitialValue;
   
   fTraceChords = boolOptionsInitialValue;
   fTraceTuplets = boolOptionsInitialValue;
   
   fTraceGracenotes = boolOptionsInitialValue;
 
+  fTraceLyrics = boolOptionsInitialValue;
+
   fTraceHarmonies = boolOptionsInitialValue;
-  
-  fTraceDetailed = false;
 
 
-  
-    
-  fTraceNotes = boolOptionsInitialValue;
-  
-  fTraceTremolos = boolOptionsInitialValue;
-  
+  /* STUFF not yet handled JMI */
+
+  fTraceScore = boolOptionsInitialValue;
+
+  fTracePartgroups = boolOptionsInitialValue;
+  fTraceStaves = boolOptionsInitialValue;
+
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
   fTraceSlurs = boolOptionsInitialValue;
   fTraceLigatures = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
-  
-  
-  fTraceLyrics = boolOptionsInitialValue;
   
   fTraceWords = boolOptionsInitialValue;
 
@@ -108,14 +103,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceStafftuning = boolOptionsInitialValue;
   
   fTraceMidi = boolOptionsInitialValue;
-
-  // measure number-selective detailed trace
-  fTraceDetailed = boolOptionsInitialValue;
-
-  // CPU usage
-  // --------------------------------------
-  
-  fDisplayCPUusage = boolOptionsInitialValue;
 }
 
 S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
@@ -124,33 +111,49 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     clone =
       msrGeneralOptions::create ();
 
+  // output file
+
   clone->fAutoOutputFile =
     fAutoOutputFile;
   
-  // trace
+  // trace and display
+
   clone->fTraceGeneral =
     true;
     
+  clone->fTraceDetailed =
+    true;
+
+  // CPU usage
+
+  clone->fDisplayCPUusage =
+    true;
+    
+  // specific trace
+
   clone->fTraceDivisions =
     true;
 
-  clone->fTraceScore =
-    true;
-
-  clone->fTracePartgroups =
-    true;
   clone->fTraceParts =
-    true;
-  clone->fTraceStaves =
     true;
   clone->fTraceVoices =
     true;
 
   clone->fTraceSegments =
     true;
+    
+  clone->fTraceRepeats =
+    true;
+
   clone->fTraceMeasures =
     true;
   
+  clone->fTraceNotes =
+    true;
+  
+  clone->fTraceTremolos =
+    true;
+
   clone->fTraceChords =
     true;
   clone->fTraceTuplets =
@@ -159,17 +162,23 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceGracenotes =
     true;
 
+  clone->fTraceLyrics =
+    true;
+  
   clone->fTraceHarmonies =
     true;
   
-
     
-  clone->fTraceNotes =
+  /* STUFF not yet handled JMI */
+
+  clone->fTraceScore =
     true;
-  
-  clone->fTraceTremolos =
+
+  clone->fTracePartgroups =
     true;
-  
+  clone->fTraceStaves =
+    true;
+
   clone->fTraceDynamics =
     true;
   clone->fTraceWords =
@@ -181,33 +190,11 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceWedges =
     true;
   
-  
-  clone->fTraceLyrics =
-    true;
-  
-  clone->fTraceWords =
-    true;
-
-  clone->fTraceRepeats =
-    true;
-  
   clone->fTraceStafftuning =
     true;
   
   clone->fTraceMidi =
     true;
-
-  // measure number-selective detailed trace
-  clone->fTraceDetailed =
-    true;
-
-  // CPU usage
-  // --------------------------------------
-  
-  clone->fDisplayCPUusage =
-    true;
-    
-  return clone;
 }
 
 void msrGeneralOptions::printGeneralOptionsHelp ()
@@ -281,10 +268,10 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   idtr--;
 
-  // output
+  // output file
   // --------------------------------------
   cerr <<
-    idtr << "Output:" <<
+    idtr << "Output file:" <<
     endl <<
     endl;
 

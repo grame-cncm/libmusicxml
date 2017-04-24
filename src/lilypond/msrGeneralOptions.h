@@ -116,7 +116,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceDivisions;
 
     bool                  fTraceParts;
-
     bool                  fTraceVoices;
 
     bool                  fTraceSegments;
@@ -139,16 +138,13 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceHarmonies;
 
 
-
-// JMI ??? missing
-
+    /* STUFF not yet handled JMI */
 
     bool                  fTraceScore;
 
     bool                  fTracePartgroups;
     bool                  fTraceStaves;
 
-    
     bool                  fTraceDynamics;
     bool                  fTraceWords;
     bool                  fTraceSlurs;
