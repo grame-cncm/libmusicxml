@@ -79,6 +79,14 @@ namespace MusicXML2
 #define _TRACE_GENERAL_LONG_NAME_  "traceGeneral"
 #define _TRACE_GENERAL_SHORT_NAME_ "t"
 
+#define _TRACE_DETAILED_LONG_NAME_  "traceDetailed"
+#define _TRACE_DETAILED_SHORT_NAME_ "tdetail"
+
+// CPU usage
+
+#define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
+#define _CPU_USAGE_SHORT_NAME_ "dCPU"
+
 // specific trace    
 
 #define _TRACE_DIVISIONS_LONG_NAME_  "traceDivisions"
@@ -119,14 +127,6 @@ namespace MusicXML2
 
 #define _TRACE_HARMONIES_LONG_NAME_  "traceHarmonies"
 #define _TRACE_HARMONIES_SHORT_NAME_ "tharms"
-
-#define _TRACE_DETAILED_LONG_NAME_  "traceDetailed"
-#define _TRACE_DETAILED_SHORT_NAME_ "tdetail"
-
-// CPU usage
-
-#define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
-#define _CPU_USAGE_SHORT_NAME_ "dCPU"
 
 
 class EXP msrGeneralOptions : public smartable

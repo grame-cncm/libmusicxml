@@ -219,7 +219,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--v, --version" <<
+      "--"_VERSION_SHORT_NAME_", --"_VERSION_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display xml2lilypond's version number and exit." <<
@@ -239,7 +239,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--h, --help" <<
+      "--"_HELP_SHORT_NAME_", --"_HELP_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display this help and exit." <<
@@ -247,19 +247,19 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--hg, --helpGeneral" <<
+      "--"_HELP_GENERAL_SHORT_NAME_", --"_HELP_GENERAL_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display general help and exit." <<
       endl <<
     idtr <<
-      "--hm, --helpMsr" <<
+      "--"_HELP_MSR_SHORT_NAME_", --"_HELP_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display MSR help and exit." <<
       endl <<
     idtr <<
-      "--hlp, --helpLpsr" <<
+      "--"_HELP_LPSR_SHORT_NAME_", --"_HELP_LPSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display LPSR help and exit." <<
@@ -279,7 +279,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--of, --outputFile fileName" <<
+      "--"_OUTPUT_FILE_SHORT_NAME_", --"_OUTPUT_FILE_LONG_NAME_" fileName" <<
       endl <<
     idtr << tab << tab << tab <<
       "Write LilyPond code to file 'fileName' instead of standard output." <<
@@ -287,7 +287,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
     
     idtr <<
-      "--aof, --autoOutputFile" <<
+      "--"_AUTO_OUTPUT_FILE_SHORT_NAME_", --"_AUTO_OUTPUT_FILE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "This option can only be used when reading from a file." <<
@@ -313,7 +313,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--t, --traceGeneral" <<
+      "--"_TRACE_GENERAL_SHORT_NAME_", --"_TRACE_GENERAL_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write a trace of the general activity to standard error." <<
@@ -321,7 +321,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     endl <<
       
     idtr <<
-      "--td, --traceDetailed measureNumbersSet" <<
+      "--"_TRACE_DETAILED_SHORT_NAME_", --"_TRACE_DETAILED_LONG_NAME_" measureNumbersSet" <<
       endl <<
     idtr << tab << tab << tab <<
       "'measureNumbersSet' has a form such as '0,2-14,^8-10'," <<
@@ -352,7 +352,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--dCPU, --displayCPUusage" <<
+      "--"_CPU_USAGE_SHORT_NAME_", --"_CPU_USAGE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Write CPU usage by the passes at the end of the translation." <<
