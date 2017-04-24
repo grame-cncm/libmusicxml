@@ -388,32 +388,20 @@ void analyzeOptions (
 
   // trace and display
 
-  #define _TRACE_MSR_LONG_NAME_  "traceMsr"
-  #define _TRACE_MSR_SHORT_NAME_ "tmsr"
-  
   checkOptionUniqueness (
     _TRACE_MSR_LONG_NAME_, _TRACE_MSR_SHORT_NAME_);
     
   int traceMSRPresent = 0;
 
-  #define _TRACE_MSR_VISITORS_LONG_NAME_  "traceMsrVisitors"
-  #define _TRACE_MSR_VISITORS_SHORT_NAME_ "tmvisits"
-  
   checkOptionUniqueness (
     _TRACE_MSR_VISITORS_LONG_NAME_, _TRACE_MSR_VISITORS_SHORT_NAME_);
     
   int traceMSRVisitorsPresent = 0;
 
-  #define _DISPLAY_MSR_LONG_NAME_  "displayMsr"
-  #define _DISPLAY_MSR_SHORT_NAME_ "msr"
-  
   checkOptionUniqueness (
     _DISPLAY_MSR_LONG_NAME_, _DISPLAY_MSR_SHORT_NAME_);
     
   int displayMSRPresent = 0;
-  
-  #define _DISPLAY_MSR_SUMMARY_LONG_NAME_  "displayMsrSummary"
-  #define _DISPLAY_MSR_SUMMARY_SHORT_NAME_ "sum"
   
   checkOptionUniqueness (
     _DISPLAY_MSR_SUMMARY_LONG_NAME_, _DISPLAY_MSR_SUMMARY_SHORT_NAME_);
@@ -422,9 +410,6 @@ void analyzeOptions (
   
   // languages
 
-  #define _MSR_PITCHES_LANGUAGE_LONG_NAME_  "msrPitchesLanguage"
-  #define _MSR_PITCHES_LANGUAGE_SHORT_NAME_ "mpl"
-  
   checkOptionUniqueness (
     _MSR_PITCHES_LANGUAGE_LONG_NAME_, _MSR_PITCHES_LANGUAGE_SHORT_NAME_);
     
@@ -432,9 +417,6 @@ void analyzeOptions (
 
   // parts
 
-  #define _PART_NAME_LONG_NAME_  "partName"
-  #define _PART_NAME_SHORT_NAME_ "part"
-  
   checkOptionUniqueness (
     _PART_NAME_LONG_NAME_, _PART_NAME_SHORT_NAME_);
     
@@ -442,17 +424,11 @@ void analyzeOptions (
   
   // voices
 
-  #define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "staffRelativeVoiceNumbers"
-  #define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "srvn"
-  
   checkOptionUniqueness (
     _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_, _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_);
     
   int staffRelativeVoiceNumbersPresent = 0;
 
-  #define _KEEP_MASTER_VOICES_LONG_NAME_  "keepMasterVoices"
-  #define _KEEP_MASTER_VOICES_SHORT_NAME_ "kmv"
-  
   checkOptionUniqueness (
     _KEEP_MASTER_VOICES_LONG_NAME_, _KEEP_MASTER_VOICES_SHORT_NAME_);
     
@@ -460,41 +436,26 @@ void analyzeOptions (
 
   // notes
 
-  #define _DELAY_RESTS_DYNAMICS_LONG_NAME_  "delayRestsDynamics"
-  #define _DELAY_RESTS_DYNAMICS_SHORT_NAME_ "drdyns"
-  
   checkOptionUniqueness (
     _DELAY_RESTS_DYNAMICS_LONG_NAME_, _DELAY_RESTS_DYNAMICS_SHORT_NAME_);
     
   int delayRestsDynamicsPresent = 0;
 
-  #define _DELAY_RESTS_WORDS_LONG_NAME_  "delayRestsWords"
-  #define _DELAY_RESTS_WORDS_SHORT_NAME_ "drwords"
-  
   checkOptionUniqueness (
     _DELAY_RESTS_WORDS_LONG_NAME_, _DELAY_RESTS_WORDS_SHORT_NAME_);
     
   int delayRestsWordsPresent = 0;
 
-  #define _DELAY_RESTS_SLURS_LONG_NAME_  "delayRestsSlurs"
-  #define _DELAY_RESTS_SLURS_SHORT_NAME_ "drslurs"
-  
   checkOptionUniqueness (
     _DELAY_RESTS_SLURS_LONG_NAME_, _DELAY_RESTS_SLURS_SHORT_NAME_);
     
   int delayRestsSlursPresent = 0;
-  
-  #define _DELAY_RESTS_LIGATURES_LONG_NAME_  "delayRestsLigatures"
-  #define _DELAY_RESTS_LIGATURES_SHORT_NAME_ "drligs"
   
   checkOptionUniqueness (
     _DELAY_RESTS_LIGATURES_LONG_NAME_, _DELAY_RESTS_LIGATURES_SHORT_NAME_);
     
   int delayRestsLigaturesPresent = 0;
 
-  #define _DELAY_RESTS_WEDGES_LONG_NAME_  "delayRestsWedges"
-  #define _DELAY_RESTS_WEDGES_SHORT_NAME_ "drwedges"
-  
   checkOptionUniqueness (
     _DELAY_RESTS_WEDGES_LONG_NAME_, _DELAY_RESTS_WEDGES_SHORT_NAME_);
     

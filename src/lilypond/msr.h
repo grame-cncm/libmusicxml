@@ -353,6 +353,70 @@ string msrDurationAsString (msrDuration duration);
   A class is used to avoid passing arguments one by one
   to the various methods that need them.
 */
+
+// trace and display
+
+#define _TRACE_MSR_LONG_NAME_  "traceMsr"
+#define _TRACE_MSR_SHORT_NAME_ "tmsr"
+
+#define _TRACE_MSR_VISITORS_LONG_NAME_  "traceMsrVisitors"
+#define _TRACE_MSR_VISITORS_SHORT_NAME_ "tmvisits"
+
+#define _DISPLAY_MSR_LONG_NAME_  "displayMsr"
+#define _DISPLAY_MSR_SHORT_NAME_ "msr"
+
+#define _DISPLAY_MSR_SUMMARY_LONG_NAME_  "displayMsrSummary"
+#define _DISPLAY_MSR_SUMMARY_SHORT_NAME_ "sum"
+
+// languages
+
+#define _MSR_PITCHES_LANGUAGE_LONG_NAME_  "msrPitchesLanguage"
+#define _MSR_PITCHES_LANGUAGE_SHORT_NAME_ "mpl"
+
+// parts
+
+#define _PART_NAME_LONG_NAME_  "partName"
+#define _PART_NAME_SHORT_NAME_ "part"
+
+// voices
+
+#define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "staffRelativeVoiceNumbers"
+#define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "srvn"
+
+#define _KEEP_MASTER_VOICES_LONG_NAME_  "keepMasterVoices"
+#define _KEEP_MASTER_VOICES_SHORT_NAME_ "kmv"
+
+// notes
+
+#define _DELAY_RESTS_DYNAMICS_LONG_NAME_  "delayRestsDynamics"
+#define _DELAY_RESTS_DYNAMICS_SHORT_NAME_ "drdyns"
+
+#define _DELAY_RESTS_WORDS_LONG_NAME_  "delayRestsWords"
+#define _DELAY_RESTS_WORDS_SHORT_NAME_ "drwords"
+
+#define _DELAY_RESTS_SLURS_LONG_NAME_  "delayRestsSlurs"
+#define _DELAY_RESTS_SLURS_SHORT_NAME_ "drslurs"
+
+#define _DELAY_RESTS_LIGATURES_LONG_NAME_  "delayRestsLigatures"
+#define _DELAY_RESTS_LIGATURES_SHORT_NAME_ "drligs"
+
+#define _DELAY_RESTS_WEDGES_LONG_NAME_  "delayRestsWedges"
+#define _DELAY_RESTS_WEDGES_SHORT_NAME_ "drwedges"
+
+// lyrics
+
+#define _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_  "dontDisplayMsrStanzas"
+#define _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ "noms"
+
+#define _KEEP_MASTER_STANZAS_LONG_NAME_  "keepMasterStanzas"
+#define _KEEP_MASTER_STANZAS_SHORT_NAME_ "kms"
+
+// harmonies
+
+#define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "keepEmptyHarmoniesVoice"
+#define _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ "kehv"
+
+
 class EXP msrOptions : public smartable
 {
   public:

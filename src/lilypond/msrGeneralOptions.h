@@ -150,7 +150,6 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceSlurs;
     bool                  fTraceLigatures;
     bool                  fTraceWedges;
-    
         
     bool                  fTraceStafftuning;
     
