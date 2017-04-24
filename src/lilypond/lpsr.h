@@ -204,6 +204,9 @@ void initializeLpsrChordsLanguages ();
 
 // LilyPond code generation
 
+#define _GENERATE_GLOBAL_LONG_NAME_  "generateGlobal"
+#define _GENERATE_GLOBAL_SHORT_NAME_ "gb"
+
 #define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine"
 #define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
 
@@ -332,6 +335,8 @@ class EXP lpsrOptions : public smartable {
     // LilyPond code generation
     // --------------------------------------
 
+    bool                  fGenerateGlobal;
+    
     bool                  fTupletsOnALine;
 
     bool                  fRepeatBrackets;
@@ -2398,6 +2403,9 @@ class EXP lpsrScore : public lpsrElement
     // to keep the original line breaks
     S_lpsrLilypondVarValAssoc fMyBreakIsBreakAssoc;
     S_lpsrLilypondVarValAssoc fMyBreakIsEmptyAssoc;
+
+    // to generate 'global' variable
+    S_lpsrLilypondVarValAssoc fGlobalAssoc;
 
     // variables, voices and stanzas
     list<S_msrElement>        fScoreElements;

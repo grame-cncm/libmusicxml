@@ -541,6 +541,11 @@ void analyzeOptions (
   // LilyPond code generation
   
   checkOptionUniqueness (
+    _GENERATE_GLOBAL_LONG_NAME_, _GENERATE_GLOBAL_SHORT_NAME_);
+    
+  int generateGlobalPresent = 0;
+
+  checkOptionUniqueness (
     _TUPLETS_ON_A_LINE_LONG_NAME_, _TUPLETS_ON_A_LINE_SHORT_NAME_);
     
   int tupletsOnALinePresent = 0;
@@ -1149,6 +1154,15 @@ void analyzeOptions (
     
     // LilyPond code generation
 
+    {
+      _GENERATE_GLOBAL_LONG_NAME_,
+      no_argument, &generateGlobalPresent, 1
+    },
+    {
+      _GENERATE_GLOBAL_SHORT_NAME_,
+      no_argument, &generateGlobalPresent, 1
+    },
+    
     {
       _TUPLETS_ON_A_LINE_LONG_NAME_,
       no_argument, &tupletsOnALinePresent, 1
@@ -2259,6 +2273,17 @@ R"(
 
         // LilyPond code generation
         
+        if (generateGlobalPresent) {
+          gLpsrOptions->fGenerateGlobal = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _GENERATE_GLOBAL_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _GENERATE_GLOBAL_SHORT_NAME_ " ";
+            
+          generateGlobalPresent = false;
+        }
+
         if (tupletsOnALinePresent) {
           gLpsrOptions->fTupletsOnALine = true;
 

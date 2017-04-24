@@ -183,6 +183,8 @@ void lpsrOptions::initializeLpsrOptions (
   
   // LilyPond code generation
 
+  fGenerateGlobal                     = boolOptionsInitialValue;
+  
   fTupletsOnALine                     = boolOptionsInitialValue;
   
   fRepeatBrackets                     = boolOptionsInitialValue;
@@ -910,6 +912,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
+    idtr << setw(fieldWidth) << "generateGlobal" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateGlobal) <<
+      endl <<
+    
     idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
       booleanAsString (gLpsrOptions->fTupletsOnALine) <<
       endl <<
@@ -4069,7 +4075,23 @@ lpsrScore::lpsrScore (
       lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
       lpsrLilypondVarValAssoc::kWithEndl);
   }
- 
+
+  if (gLpsrOptions->fGenerateGlobal) {
+    // create the 'global' assoc
+    fGlobalAssoc =
+    lpsrLilypondVarValAssoc::create (
+      inputLineNumber,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
+      "global",
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+      "{ }",
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      "Place whatever you need in the following variable",
+      lpsrLilypondVarValAssoc::kWithEndl);
+  }
+  
   // create the score command
   fScoreBlock =
     lpsrScoreBlock::create (
@@ -4287,6 +4309,12 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fMyBreakIsEmptyAssoc);
   }
 
+  if (fGlobalAssoc) {
+    // browse the 'global' assoc
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    browser.browse (*fGlobalAssoc);
+  }
+
   {
     // browse the voices and stanzas list
     for (
@@ -4346,6 +4374,8 @@ void lpsrScore::print (ostream& os)
   os <<
     idtr << fScoreLayout <<
     endl;
+
+// myBreakAssoc, globalAssoc? JMI
 
   // print the voices
   if (fScoreElements.size()) {  
