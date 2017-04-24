@@ -109,13 +109,13 @@ void lpsrOptions::initializeLpsrOptions (
 {
   // trace and display
   
-  fTraceLpsr                           = boolOptionsInitialValue;
+  fTraceLpsr         = boolOptionsInitialValue;
   
-  fTraceLpsrVisitors                   = boolOptionsInitialValue;
+  fTraceLpsrVisitors = boolOptionsInitialValue;
 
-  fDisplayLpsr                         = boolOptionsInitialValue;
+  fDisplayLpsr       = boolOptionsInitialValue;
   
-  fGenerateComments                    = boolOptionsInitialValue;
+  fGenerateComments  = boolOptionsInitialValue;
 
   // languages
   
@@ -143,23 +143,23 @@ void lpsrOptions::initializeLpsrOptions (
   
   // time
   
-  fGenerateNumericalTime               = boolOptionsInitialValue;
+  fGenerateNumericalTime = boolOptionsInitialValue;
 
   // notes
   
-  fGenerateAbsoluteOctaves             = boolOptionsInitialValue;
+  fGenerateAbsoluteOctaves  = boolOptionsInitialValue;
 
-  fGenerateStems                       = boolOptionsInitialValue;
-  fNoAutoBeaming                       = boolOptionsInitialValue;
+  fGenerateStems            = boolOptionsInitialValue;
+  fNoAutoBeaming            = boolOptionsInitialValue;
   
-  fAccidentalStyle                     = "";
+  fAccidentalStyle          = "";
 
-  fGenerateInputLineNumbers            = boolOptionsInitialValue;
+  fGenerateInputLineNumbers = boolOptionsInitialValue;
 
   // bars
   
-  fShowAllBarNumbers                   = boolOptionsInitialValue;
-  fCompressFullBarRests                = boolOptionsInitialValue;
+  fShowAllBarNumbers    = boolOptionsInitialValue;
+  fCompressFullBarRests = boolOptionsInitialValue;
 
   // line breaks
   
@@ -172,34 +172,34 @@ void lpsrOptions::initializeLpsrOptions (
   
   // staves
   
-  fModernTab                           = boolOptionsInitialValue;
+  fModernTab = boolOptionsInitialValue;
 
   // midi
 
-  fMidiTempoDuration                   = "4";
-  fMidiTempoPerSecond                  = 100;
+  fMidiTempoDuration       = "4";
+  fMidiTempoPerSecond      = 100;
   
-  fDontGenerateMidiCommand             = boolOptionsInitialValue;
+  fDontGenerateMidiCommand = boolOptionsInitialValue;
   
   // LilyPond code generation
 
-  fTupletsOnALine                      = boolOptionsInitialValue;
+  fTupletsOnALine                     = boolOptionsInitialValue;
 
-  fDelayedOrnamentFractionNumerator    = 2;
-  fDelayedOrnamentFractionDenominator  = 3;
+  fDelayedOrnamentFractionNumerator   = 2;
+  fDelayedOrnamentFractionDenominator = 3;
 
-  fDisplayMusic                        = boolOptionsInitialValue;
+  fDisplayMusic                       = boolOptionsInitialValue;
   
-  fDontGenerateLilyPondCode            = boolOptionsInitialValue;
+  fDontGenerateLilyPondCode           = boolOptionsInitialValue;
   
-  fDontGenerateLilyPondLyrics          = boolOptionsInitialValue;
+  fDontGenerateLilyPondLyrics         = boolOptionsInitialValue;
     
   
   // JMI ???
 
-  fKeepStaffSize                       = boolOptionsInitialValue;
+  fKeepStaffSize        = boolOptionsInitialValue;
 
-  fGenerateMasterVoices                = boolOptionsInitialValue;
+  fGenerateMasterVoices = boolOptionsInitialValue;
 
 
   // register the LilyPond accidental styles
