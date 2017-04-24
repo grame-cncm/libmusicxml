@@ -1112,11 +1112,11 @@ void analyzeOptions (
     
     {
       _NO_MIDI_LONG_NAME_,
-      required_argument, &dontGenerateMidiCommandPresent, 1
+      no_argument, &dontGenerateMidiCommandPresent, 1
     },
     {
       _NO_MIDI_SHORT_NAME_,
-      required_argument, &dontGenerateMidiCommandPresent, 1
+      no_argument, &dontGenerateMidiCommandPresent, 1
     },
     
     // LilyPond code generation
