@@ -158,7 +158,17 @@ void lpsrOptions::initializeLpsrOptions (
 
   // bars
   
+  fShowAllBarNumbers                   = boolOptionsInitialValue;
+  fCompressFullBarRests                = boolOptionsInitialValue;
+
   // line breaks
+  
+  fDontKeepLineBreaks                  = boolOptionsInitialValue;
+
+  fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
+  
+  fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
+  fSeparatorLineEveryNMeasuresValue    = INT_MAX;
   
   // staves
   
@@ -166,38 +176,31 @@ void lpsrOptions::initializeLpsrOptions (
 
   // midi
 
-  fDontGenerateMidiCommand             = boolOptionsInitialValue;
-  
   fMidiTempoDuration                   = "4";
   fMidiTempoPerSecond                  = 100;
   
+  fDontGenerateMidiCommand             = boolOptionsInitialValue;
+  
   // LilyPond code generation
-  fDontKeepLineBreaks                  = boolOptionsInitialValue;
-  fShowAllBarNumbers                   = boolOptionsInitialValue;
-  fCompressFullBarRests                = boolOptionsInitialValue;
-  
+
   fTupletsOnALine                      = boolOptionsInitialValue;
-  
-  fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
-  
-  fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
-  fSeparatorLineEveryNMeasuresValue    = INT_MAX;
-  
-  fKeepStaffSize                       = boolOptionsInitialValue;
-    
-  
-  
 
   fDelayedOrnamentFractionNumerator    = 2;
   fDelayedOrnamentFractionDenominator  = 3;
 
-  fGenerateMasterVoices                = boolOptionsInitialValue;
-  
-  fDontGenerateLilyPondLyrics          = boolOptionsInitialValue;
-  
   fDisplayMusic                        = boolOptionsInitialValue;
   
   fDontGenerateLilyPondCode            = boolOptionsInitialValue;
+  
+  fDontGenerateLilyPondLyrics          = boolOptionsInitialValue;
+    
+  
+  // JMI ???
+
+  fKeepStaffSize                       = boolOptionsInitialValue;
+
+  fGenerateMasterVoices                = boolOptionsInitialValue;
+
 
   // register the LilyPond accidental styles
   
