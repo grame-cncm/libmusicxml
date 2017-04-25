@@ -1632,99 +1632,99 @@ class EXP lpsrHeader : public lpsrElement
 
     // MusicXML informations
 
-    void        setWorkNumber (
-                  int    inputLineNumber,
-                  string val);
+    void                  setWorkNumber (
+                            int    inputLineNumber,
+                            string val);
 
-    void        setWorkTitle (
-                  int    inputLineNumber,
-                  string val);
+    void                  setWorkTitle (
+                            int    inputLineNumber,
+                            string val);
 
-    void        setMovementNumber (
-                  int    inputLineNumber,
-                  string vall);
+    void                  setMovementNumber (
+                            int    inputLineNumber,
+                            string vall);
 
-    void        setMovementTitle (
-                  int    inputLineNumber,
-                  string val);
-
-    S_lpsrLilypondVarValAssoc
-                addComposer (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
+    void                  setMovementTitle (
+                            int    inputLineNumber,
+                            string val);
 
     S_lpsrLilypondVarValAssoc
-                addArranger (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
+                          addComposer (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
 
     S_lpsrLilypondVarValAssoc
-                addLyricist (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
-
-    void        setRights (
-                  int    inputLineNumber,
-                  string val);
-
-    void        addSoftware (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setEncodingDate (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setScoreInstrument (
-                  int    inputLineNumber,
-                  string val);
+                          addArranger (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
 
     S_lpsrLilypondVarValAssoc
-                getWorkNumber () const
-                    { return fWorkNumber; }
+                          addLyricist (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    void                  setRights (
+                            int    inputLineNumber,
+                            string val);
+
+    void                  addSoftware (
+                            int    inputLineNumber,
+                            string val);
+
+    void                  setEncodingDate (
+                            int    inputLineNumber,
+                            string val);
+
+    void                  setScoreInstrument (
+                            int    inputLineNumber,
+                            string val);
+
+    S_lpsrLilypondVarValAssoc
+                          getWorkNumber () const
+                              { return fWorkNumber; }
     
     S_lpsrLilypondVarValAssoc
-                getWorkTitle () const
-                    { return fWorkTitle; }
+                          getWorkTitle () const
+                              { return fWorkTitle; }
     
     S_lpsrLilypondVarValAssoc
-                getMovementNumber () const
-                    { return fMovementNumber; }
+                          getMovementNumber () const
+                              { return fMovementNumber; }
     
     S_lpsrLilypondVarValAssoc
-                getMovementTitle () const
-                    { return fMovementTitle; }
-    
-    const vector<S_lpsrLilypondVarValAssoc>&
-                getComposers () const
-                    { return fComposers; };
+                          getMovementTitle () const
+                              { return fMovementTitle; }
     
     const vector<S_lpsrLilypondVarValAssoc>&
-                getArrangers () const
-                    { return fArrangers; };
+                          getComposers () const
+                              { return fComposers; };
     
     const vector<S_lpsrLilypondVarValAssoc>&
-                getLyricists () const
-                    { return fLyricists; };
-    
-    S_lpsrLilypondVarValAssoc
-                getRights () const
-                    { return fRights; }
+                          getArrangers () const
+                              { return fArrangers; };
     
     const vector<S_lpsrLilypondVarValAssoc>&
-                getSoftwares () const
-                    { return fSoftwares; };
+                          getLyricists () const
+                              { return fLyricists; };
     
     S_lpsrLilypondVarValAssoc
-                getEncodingDate () const
-                    { return fEncodingDate; }
+                          getRights () const
+                              { return fRights; }
+    
+    const vector<S_lpsrLilypondVarValAssoc>&
+                          getSoftwares () const
+                              { return fSoftwares; };
     
     S_lpsrLilypondVarValAssoc
-                getScoreInstrument () const
-                    { return fScoreInstrument; }
+                          getEncodingDate () const
+                              { return fEncodingDate; }
+    
+    S_lpsrLilypondVarValAssoc
+                          getScoreInstrument () const
+                              { return fScoreInstrument; }
 
     // LilyPond informations
 
@@ -2580,73 +2580,10 @@ class EXP lpsrScore : public lpsrElement
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);
 
-/*
-const string str =
-R"("Beware the Jabberwock, my son!
-  The jaws that bite, the claws that catch!
-Beware the Jubjub bird, and shun
-  The frumious Bandersnatch!"
-)";
-
-R"("
-tongue =
-#(define-music-function (parser location dots) (integer?)
-   (let ((script (make-music 'ArticulationEvent
-                   'articulation-type "staccato")))
-     (set! (ly:music-property script 'tweaks)
-           (acons 'stencil
-             (lambda (grob)
-               (let ((stil (ly:script-interface::print grob)))
-                 (let loop ((count (1- dots)) (new-stil stil))
-                   (if (> count 0)
-                       (loop (1- count)
-                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
-                       (ly:stencil-aligned-to new-stil X CENTER)))))
-             (ly:music-property script 'tweaks)))
-     script))
-)";
-*
-
-  if (elt->getTongueSchemeFunctionNeeded ()) {
-    fOstream <<
-R"(
-tongue =
-#(define-music-function (parser location dots) (integer?)
-   (let ((script (make-music 'ArticulationEvent
-                   'articulation-type "staccato")))
-     (set! (ly:music-property script 'tweaks)
-           (acons 'stencil
-             (lambda (grob)
-               (let ((stil (ly:script-interface::print grob)))
-                 (let loop ((count (1- dots)) (new-stil stil))
-                   (if (> count 0)
-                       (loop (1- count)
-                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
-                       (ly:stencil-aligned-to new-stil X CENTER)))))
-             (ly:music-property script 'tweaks)))
-     script))
-)";
-  }
-
-
-*/
-
 
 /*! @} */
 
 }
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-    // visitors
-    // ------------------------------------------------------
 
 
 #endif
