@@ -1630,6 +1630,8 @@ class EXP lpsrHeader : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
+    // MusicXML informations
+
     void        setWorkNumber (
                   int    inputLineNumber,
                   string val);
@@ -1724,6 +1726,112 @@ class EXP lpsrHeader : public lpsrElement
                 getScoreInstrument () const
                     { return fScoreInstrument; }
 
+    // LilyPond informations
+
+    // centered
+    
+    string                getLilyPondDedication () const
+                              { return fLilyPondDedication; }
+    string                getLilyPondTitle () const
+                              { return fLilyPondTitle; }
+    string                getLilyPondSubtitle () const
+                              { return fLilyPondSubtitle; }
+    string                getLilyPondSubsubtitle () const
+                              { return fLilyPondSubsubtitle; }
+                              
+    void                  setLilyPondDedication (
+                            string lilyPondDedication)
+                              {
+                                fLilyPondDedication =
+                                  lilyPondDedication;
+                              }
+    void                  setLilyPondTitle (
+                            string lilyPondTitle)
+                              {
+                                fLilyPondTitle =
+                                  lilyPondTitle;
+                              }
+    void                  setLilyPondSubtitle (
+                            string lilyPondSubtitle)
+                              {
+                                fLilyPondSubtitle =
+                                  lilyPondSubtitle;
+                              }
+    void                  setLilyPondSubsubtitle (
+                            string lilyPondSubsubtitle)
+                              {
+                                fLilyPondSubsubtitle =
+                                  lilyPondSubsubtitle;
+                              }
+    
+    // evenly spread on one line
+    // "instrument" also appears on following pages
+    
+    string                getLilyPondInstrument () const
+                              { return fLilyPondInstrument; }
+    string                getLilyPondPoet () const
+                              { return fLilyPondPoet; }
+    string                getLilyPondComposer () const
+                              { return fLilyPondComposer; }
+                              
+    void                  setLilyPondInstrument (
+                            string lilyPondInstrument)
+                              {
+                                fLilyPondInstrument =
+                                  lilyPondInstrument;
+                              }
+    void                  setLilyPondPoet (
+                            string lilyPondPoet)
+                              {
+                                fLilyPondPoet =
+                                  lilyPondPoet;
+                              }
+    void                  setLilyPondComposer (
+                            string lilyPondComposer)
+                              {
+                                fLilyPondComposer =
+                                  lilyPondComposer;
+                              }
+    
+    // at opposite ends of the same line
+    string                getLilyPondMeter () const
+                              { return fLilyPondMeter; }
+    string                getLilyPondArranger () const
+                              { return fLilyPondArranger; }
+
+    void                  setLilyPondMeter (
+                            string lilyPondMeter)
+                              {
+                                fLilyPondMeter =
+                                  lilyPondMeter;
+                              }
+    void                  setLilyPondArranger (
+                            string lilyPondArranger)
+                              {
+                                fLilyPondArranger =
+                                  lilyPondArranger;
+                              }
+    
+    // centered at the bottom of the first page
+    string                getLilyPondCopyright () const
+                              { return fLilyPondCopyright; }
+    void                  setLilyPondCopyright (
+                            string lilyPondCopyright)
+                              {
+                                fLilyPondCopyright =
+                                  lilyPondCopyright;
+                              }
+    
+    // centered at the bottom of the last page
+    string                getLilyPondTagline () const
+                              { return fLilyPondTagline; }
+    void                  setLilyPondTagline (
+                            string lilyPondTagline)
+                              {
+                                fLilyPondTagline =
+                                  lilyPondTagline;
+                              }
+
     // services
     // ------------------------------------------------------
 
@@ -1758,6 +1866,8 @@ class EXP lpsrHeader : public lpsrElement
 
   private:
 
+    // MusicXML informations
+    
     S_lpsrLilypondVarValAssoc         fWorkNumber;
     S_lpsrLilypondVarValAssoc         fWorkTitle;
     S_lpsrLilypondVarValAssoc         fMovementNumber;
@@ -1773,6 +1883,51 @@ class EXP lpsrHeader : public lpsrElement
     S_lpsrLilypondVarValAssoc         fEncodingDate;
     
     S_lpsrLilypondVarValAssoc         fScoreInstrument;
+
+    // LilyPond informations
+
+    // centered
+    string                fLilyPondDedication;
+    string                fLilyPondTitle;
+    string                fLilyPondSubtitle;
+    string                fLilyPondSubsubtitle;
+    
+    // evenly spread on one line
+    // "instrument" also appears on following pages
+    string                fLilyPondInstrument;
+    string                fLilyPondPoet;
+    string                fLilyPondComposer;
+    
+    // at opposite ends of the same line
+    string                fLilyPondMeter;
+    string                fLilyPondArranger;
+    
+    // centered at the bottom of the first page
+    string                fLilyPondCopyright;
+    
+    // centered at the bottom of the last page
+    string                fLilyPondTagline;
+    
+    /*
+\header {
+      % The following fields are centered
+    dedication = "Dedication"
+    title = "Title"
+    subtitle = "Subtitle"
+    subsubtitle = "Subsubtitle"
+      % The following fields are evenly spread on one line
+      % the field "instrument" also appears on following pages
+    instrument = \markup \with-color #green "Instrument"
+    poet = "Poet"
+    composer = "Composer"
+      % The following fields are placed at opposite ends of the same line
+    meter = "Meter"
+    arranger = "Arranger"
+      % The following fields are centered at the bottom
+    tagline = "The tagline goes at the bottom of the last page"
+    copyright = "The copyright goes at the bottom of the first page"
+}
+    */
 
 };
 typedef SMARTP<lpsrHeader> S_lpsrHeader;
