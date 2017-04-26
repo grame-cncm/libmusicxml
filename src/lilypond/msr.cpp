@@ -3271,7 +3271,211 @@ void msrTechnical::print (ostream& os)
     ", line " << fInputLineNumber <<
     ", placement" << " = " << technicalPlacementKindAsString () <<
 //    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
-    ", note uplink" << " = " << fTechnicalNoteUplink->noteAsShortString () <<
+    ", note uplink" << " = " <<
+    fTechnicalNoteUplink->noteAsShortString () <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
+  int                         inputLineNumber,
+  msrTechnicalWithIntegerKind technicalWithIntegerKind)
+{
+  msrTechnicalWithInteger* o =
+    new msrTechnicalWithInteger (
+      inputLineNumber, technicalWithIntegerKind);
+  assert (o!=0);
+  return o;
+}
+
+msrTechnicalWithInteger::msrTechnicalWithInteger (
+  int                         inputLineNumber,
+  msrTechnicalWithIntegerKind technicalWithIntegerKind)
+    : msrElement (inputLineNumber)
+{
+  fTechnicalWithIntegerKind = technicalWithIntegerKind;
+
+  fTechnicalWithIntegerPlacementKind = k_NoPlacementKind;
+}
+
+msrTechnicalWithInteger::~msrTechnicalWithInteger() {}
+
+string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithIntegerKind) {
+    case msrTechnicalWithInteger::kArrow:
+      result = "Arrow";
+      break;
+    case msrTechnicalWithInteger::kBend:
+      result = "Bend";
+      break;
+    case msrTechnicalWithInteger::kDoubleTongue:
+      result = "DoubleTongue";
+      break;
+    case msrTechnicalWithInteger::kDownBow:
+      result = "DownBow";
+      break;
+    case msrTechnicalWithInteger::kFingering:
+      result = "Fingering";
+      break;
+    case msrTechnicalWithInteger::kFingernails:
+      result = "Fingernails";
+      break;
+    case msrTechnicalWithInteger::kFret:
+      result = "Fret";
+      break;
+    case msrTechnicalWithInteger::kHammerOn:
+      result = "HammerOn";
+      break;
+    case msrTechnicalWithInteger::kHandbell:
+      result = "Handbell";
+      break;
+    case msrTechnicalWithInteger::kHarmonic:
+      result = "Harmonic";
+      break;
+    case msrTechnicalWithInteger::kHeel:
+      result = "Heel";
+      break;
+    case msrTechnicalWithInteger::kHole:
+      result = "Hole";
+      break;
+    case msrTechnicalWithInteger::kOpenString:
+      result = "OpenString";
+      break;
+    case msrTechnicalWithInteger::kOtherTechnicalWithInteger:
+      result = "OtherTechnicalWithInteger";
+      break;
+    case msrTechnicalWithInteger::kPluck:
+      result = "Pluck";
+      break;
+    case msrTechnicalWithInteger::kPullOff:
+      result = "PullOff";
+      break;
+    case msrTechnicalWithInteger::kSnapPizzicato:
+      result = "SnapPizzicato";
+      break;
+    case msrTechnicalWithInteger::kStopped:
+      result = "Stopped";
+      break;
+    case msrTechnicalWithInteger::kString:
+      result = "String";
+      break;
+    case msrTechnicalWithInteger::kTap:
+      result = "Tap";
+      break;
+    case msrTechnicalWithInteger::kThumbPosition:
+      result = "ThumbPosition";
+      break;
+    case msrTechnicalWithInteger::kToe:
+      result = "Toe";
+      break;
+    case msrTechnicalWithInteger::kTripleTongue:
+      result = "TripleTongue";
+      break;
+    case msrTechnicalWithInteger::kUpBow:
+      result = "UpBow";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithIntegerPlacementKind) {
+    case msrTechnicalWithInteger::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTechnicalWithInteger::kAbove:
+      result = "above";
+      break;
+    case msrTechnicalWithInteger::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrTechnicalWithInteger::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTechnicalWithInteger::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrTechnicalWithInteger>*
+    p =
+      dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
+        S_msrTechnicalWithInteger elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTechnicalWithInteger::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTechnicalWithInteger::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTechnicalWithInteger::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrTechnicalWithInteger>*
+    p =
+      dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
+        S_msrTechnicalWithInteger elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTechnicalWithInteger::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTechnicalWithInteger::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTechnicalWithInteger::technicalWithIntegerAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithIntegerPlacementKind) {
+    case msrTechnicalWithInteger::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTechnicalWithInteger::kAbove:
+      result = "above";
+      break;
+    case msrTechnicalWithInteger::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrTechnicalWithInteger::print (ostream& os)
+{
+  os <<
+    "TechnicalWithInteger" " " <<
+    technicalWithIntegerKindAsString () <<
+    ", line " << fInputLineNumber <<
+    ", placement" << " = " << technicalWithIntegerPlacementKindAsString () <<
+    ", note uplink" << " = " <<
+    fTechnicalWithIntegerNoteUplink->noteAsShortString () <<
     endl;
 }
 

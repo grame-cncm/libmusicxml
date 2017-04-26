@@ -992,7 +992,7 @@ class EXP msrTechnical : public msrElement
                             msrTechnicalPlacementKind technicalPlacementKind)
                               {
                                 fTechnicalPlacementKind =
-                                technicalPlacementKind;
+                                  technicalPlacementKind;
                               }
         
     msrTechnicalPlacementKind
@@ -1055,6 +1055,136 @@ class EXP msrTechnical : public msrElement
 };
 typedef SMARTP<msrTechnical> S_msrTechnical;
 EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
+
+/*!
+/*!
+\brief A msr technicalWithInteger representation.
+
+  An technicalWithInteger is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrTechnicalWithInteger : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTechnicalWithIntegerKind {
+        kArrow,
+        kBend,
+        kDoubleTongue,
+        kDownBow,
+        kFingering,
+        kFingernails,
+        kFret,
+        kHammerOn,
+        kHandbell,
+        kHarmonic,
+        kHeel,
+        kHole,
+        kOpenString,
+        kOtherTechnicalWithInteger,
+        kPluck,
+        kPullOff,
+        kSnapPizzicato,
+        kStopped,
+        kString,
+        kTap,
+        kThumbPosition,
+        kToe,
+        kTripleTongue,
+        kUpBow};
+
+    static string technicalWithIntegerKindAsString (
+      msrTechnicalWithIntegerKind technicalWithIntegerKind);
+      
+    enum msrTechnicalWithIntegerPlacementKind {
+      k_NoPlacementKind, kAbove, kBelow};
+
+    static string technicalWithIntegerPlacementKindAsString (
+      msrTechnicalWithIntegerPlacementKind technicalWithIntegerPlacementKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTechnicalWithInteger> create (
+      int                         inputLineNumber,
+      msrTechnicalWithIntegerKind technicalWithIntegerKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTechnicalWithInteger (
+      int                         inputLineNumber,
+      msrTechnicalWithIntegerKind technicalWithIntegerKind);
+      
+    virtual ~msrTechnicalWithInteger();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrTechnicalWithIntegerKind
+                          getTechnicalWithIntegerKind () const
+                              { return fTechnicalWithIntegerKind; }
+        
+    void                  setTechnicalWithIntegerPlacementKind (
+                            msrTechnicalWithIntegerPlacementKind
+                              technicalWithIntegerPlacementKind)
+                              {
+                                fTechnicalWithIntegerPlacementKind =
+                                  technicalWithIntegerPlacementKind;
+                              }
+        
+    msrTechnicalWithIntegerPlacementKind
+                          getTechnicalWithIntegerPlacementKind () const
+                              { return fTechnicalWithIntegerPlacementKind; }
+
+    void                  setTechnicalWithIntegerNoteUplink (S_msrNote note)
+                              { fTechnicalWithIntegerNoteUplink = note; }
+
+    S_msrNote             getTechnicalWithIntegerNoteUplink () const
+                              { return fTechnicalWithIntegerNoteUplink; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                technicalWithIntegerKindAsString () const;
+
+    string                technicalWithIntegerPlacementKindAsString () const;
+
+    string                technicalWithIntegerAccidentalMarkKindAsString () const;
+    
+    string                technicalWithIntegerAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrTechnicalWithIntegerKind     fTechnicalWithIntegerKind;
+
+    msrTechnicalWithIntegerPlacementKind
+                                    fTechnicalWithIntegerPlacementKind;
+    
+    S_msrNote                       fTechnicalWithIntegerNoteUplink;
+};
+typedef SMARTP<msrTechnicalWithInteger> S_msrTechnicalWithInteger;
+EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
 
 /*!
 \brief A msr ornament representation.
