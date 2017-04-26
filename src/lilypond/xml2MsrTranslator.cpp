@@ -4122,7 +4122,7 @@ void xml2MsrTranslator::visitStart ( S_print& elt )
       "--> Start visiting S_print" <<
       endl;
 
-  const string& newSystem = elt->getAttributeValue ("new-system");
+  const string newSystem = elt->getAttributeValue ("new-system");
   
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6282,10 +6282,10 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  int fretValue = (int)(*elt);
     
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  string placement = elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
     currentTremoloPlacementKind =
@@ -6815,6 +6815,14 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
 
 void xml2MsrTranslator::visitStart ( S_string& elt )
 {
+/*
+        <notations>
+          <technical>
+            <string>5</string>
+            <fret>0</fret>
+          </technical>
+        </notations>
+*/
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting S_string" <<
@@ -6822,10 +6830,10 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+
+  int stringValue = (int)(*elt);
+  
+  string placement = elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
     currentTremoloPlacementKind =
