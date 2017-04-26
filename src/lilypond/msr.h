@@ -3244,10 +3244,13 @@ class EXP msrNote : public msrElement
                           getNoteArticulationsToModify ()
                               { return fNoteArticulations; }
 
-    // ornaments
+    // technicals
     const list<S_msrTechnical>&
                           getNoteTechnicals () const
                               { return fNoteTechnicals; }
+    const list<S_msrTechnicalWithInteger>&
+                          getNoteTechnicalWithIntegers () const
+                              { return fNoteTechnicalWithIntegers; }
                               
     // ornaments
     const list<S_msrOrnament>&
@@ -3396,11 +3399,11 @@ class EXP msrNote : public msrElement
     void                  addArticulationToNote (S_msrArticulation art);
     
     // technicals
-    void                  addTechnicalToNote (S_msrTechnical art);
-    void                  addTechnicalWithIntegerToNote (S_msrTechnical art);
+    void                  addTechnicalToNote (S_msrTechnical tech);
+    void                  addTechnicalWithIntegerToNote (S_msrTechnical tech);
     
     // ornaments
-    void                  addOrnamentToNote (S_msrOrnament art);
+    void                  addOrnamentToNote (S_msrOrnament orn);
     
     // singleTremolo
     void                  addSingleTremoloToNote (S_msrSingleTremolo trem);
@@ -3490,6 +3493,8 @@ class EXP msrNote : public msrElement
     list<S_msrArticulation>   fNoteArticulations;
 
     list<S_msrTechnical>      fNoteTechnicals;
+    list<S_msrTechnicalWithInteger>
+                              fNoteTechnicalWithIntegers;
     
     list<S_msrOrnament>       fNoteOrnaments;
     
@@ -3599,6 +3604,9 @@ class EXP msrChord : public msrElement
     const list<S_msrTechnical>&
                           getChordTechnicals () const
                               { return fChordTechnicals; }
+    const list<S_msrTechnicalWithInteger>&
+                          getChordTechnicalWithIntegers () const
+                              { return fChordTechnicalWithIntegers; }
     
     // ornaments
     const list<S_msrOrnament>&
@@ -3748,6 +3756,8 @@ class EXP msrChord : public msrElement
     S_msrSingleTremolo        fChordSingleTremolo;
     
     list<S_msrTechnical>      fChordTechnicals;
+    list<S_msrTechnicalWithInteger>
+                              fChordTechnicalWithIntegers;
     
     list<S_msrOrnament>       fChordOrnaments;
     
