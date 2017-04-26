@@ -1227,6 +1227,10 @@ void analyzeOptions (
   int option_index = 0;
 
   int c;
+
+  cerr <<
+    endl;
+  
   while (
     (c = getopt_long (
       argc, argv,
@@ -1264,9 +1268,8 @@ void analyzeOptions (
           idtr++;
           
           cerr <<
-            endl <<
             idtr <<
-              "This is xml2lilypond version " <<
+              "This is " << argv [0] << " version " <<
               currentVersionNumber () << "," <<
 R"(
   an open translator of MusicXML into LilyPond.
@@ -2425,7 +2428,19 @@ R"(
         break;
         
       default:
-        printUsage (kAllHelp, 1);
+        cerr <<
+          endl <<
+          idtr <<
+          "Use:" <<
+          endl <<
+          tab <<
+            argv [0] << " '--help'" <<
+            endl <<
+          "to know more about the options" <<
+          endl <<
+          endl;
+
+        exit (1);
         break;
       } // switch
     } // while
