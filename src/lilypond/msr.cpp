@@ -3053,8 +3053,9 @@ void msrArticulation::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTechnical msrTechnical::create (
-  int              inputLineNumber,
-  msrTechnicalKind technicalKind)
+  int                       inputLineNumber,
+  msrTechnicalKind          technicalKind,
+  msrTechnicalPlacementKind technicalPlacementKind)
 {
   msrTechnical* o =
     new msrTechnical (
@@ -3064,13 +3065,14 @@ S_msrTechnical msrTechnical::create (
 }
 
 msrTechnical::msrTechnical (
-  int              inputLineNumber,
-  msrTechnicalKind technicalKind)
+  int                       inputLineNumber,
+  msrTechnicalKind          technicalKind,
+  msrTechnicalPlacementKind technicalPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTechnicalKind = technicalKind;
 
-  fTechnicalPlacementKind = k_NoPlacementKind;
+  fTechnicalPlacementKind = technicalPlacementKind;
 }
 
 msrTechnical::~msrTechnical() {}
@@ -3268,13 +3270,16 @@ void msrTechnical::print (ostream& os)
 S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
   int                         inputLineNumber,
   msrTechnicalWithIntegerKind technicalWithIntegerKind,
-  int                         technicalWithIntegerValued)
+  int                         technicalWithIntegerValue,
+  msrTechnicalWithIntegerPlacementKind
+                              technicalWithIntegerPlacementKind)
 {
   msrTechnicalWithInteger* o =
     new msrTechnicalWithInteger (
       inputLineNumber,
       technicalWithIntegerKind,
-      technicalWithIntegerValued);
+      technicalWithIntegerValue,
+      technicalWithIntegerPlacementKind);
   assert (o!=0);
   return o;
 }
@@ -3282,14 +3287,16 @@ S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
 msrTechnicalWithInteger::msrTechnicalWithInteger (
   int                         inputLineNumber,
   msrTechnicalWithIntegerKind technicalWithIntegerKind,
-  int                         technicalWithIntegerValue)
+  int                         technicalWithIntegerValue,
+  msrTechnicalWithIntegerPlacementKind
+                              technicalWithIntegerPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTechnicalWithIntegerKind = technicalWithIntegerKind;
 
   fTechnicalWithIntegerValue = technicalWithIntegerValue;
 
-  fTechnicalWithIntegerPlacementKind = k_NoPlacementKind;
+  fTechnicalWithIntegerPlacementKind = technicalWithIntegerPlacementKind;
 }
 
 msrTechnicalWithInteger::~msrTechnicalWithInteger() {}
@@ -6744,7 +6751,8 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
   fChordTechnicals.push_back (tech);
 }
 
-void msrChord::addTechnicalWithIntegerToChord (S_msrTechnical tech)
+void msrChord::addTechnicalWithIntegerToChord (
+  S_msrTechnicalWithInteger tech)
 {
   msrTechnicalWithInteger::msrTechnicalWithIntegerKind
     technicalWithIntegerKind =

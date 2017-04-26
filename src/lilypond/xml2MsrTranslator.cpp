@@ -6014,19 +6014,17 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  string placement = elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    arrorPlacementKind =
+    arrowPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    arrorPlacementKind = msrTechnical::kAbove;
+    arrowPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    arrorPlacementKind = msrTechnical::kBelow;
+    arrowPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6045,7 +6043,8 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kArrow);
+        msrTechnical::kArrow,
+        arrowPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6100,7 +6099,8 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
       msrTechnicalWithInteger::create (
         inputLineNumber,
         msrTechnicalWithInteger::kBend,
-        fBendAlterValue);
+        fBendAlterValue,
+        bendPlacementKind);
       
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
@@ -6146,7 +6146,8 @@ void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kDoubleTongue);
+        msrTechnical::kDoubleTongue,
+        doubleTonguePlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6192,7 +6193,8 @@ void xml2MsrTranslator::visitStart ( S_down_bow& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kDownBow);
+        msrTechnical::kDownBow,
+        downBowPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6239,7 +6241,8 @@ void xml2MsrTranslator::visitStart ( S_fingering& elt )
       msrTechnicalWithInteger::create (
         inputLineNumber,
         msrTechnicalWithInteger::kFingering,
-        fingeringValue);
+        fingeringValue,
+        fingeringPlacementKind);
       
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
@@ -6285,7 +6288,8 @@ void xml2MsrTranslator::visitStart ( S_fingernails& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kFingernails);
+        msrTechnical::kFingernails,
+        fingernailsPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6304,15 +6308,15 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
     
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
+  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     fretPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoPlacementKind;
 
   if      (placement == "above")
-    fretPlacementKind = msrTechnical::kAbove;
+    fretPlacementKind = msrTechnicalWithInteger::kAbove;
     
   else if (placement == "below")
-    fretPlacementKind = msrTechnical::kBelow;
+    fretPlacementKind = msrTechnicalWithInteger::kBelow;
     
   else if (placement.size ()) {
     
@@ -6332,7 +6336,8 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
       msrTechnicalWithInteger::create (
         inputLineNumber,
         msrTechnicalWithInteger::kFret,
-        fretValue);
+        fretValue,
+        fretPlacementKind);
       
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
@@ -6378,7 +6383,8 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kHammerOn);
+        msrTechnical::kHammerOn,
+        hammerOnPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6424,7 +6430,8 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kHandbell);
+        msrTechnical::kHandbell,
+        handbellPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6470,7 +6477,8 @@ void xml2MsrTranslator::visitStart ( S_harmonic& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kHarmonic);
+        msrTechnical::kHarmonic,
+        harmonicPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6516,7 +6524,8 @@ void xml2MsrTranslator::visitStart ( S_heel& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kHeel);
+        msrTechnical::kHeel,
+        heelPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6562,7 +6571,8 @@ void xml2MsrTranslator::visitStart ( S_hole& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kHole);
+        msrTechnical::kHole,
+        holePlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6608,7 +6618,8 @@ void xml2MsrTranslator::visitStart ( S_open_string& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kOpenString);
+        msrTechnical::kOpenString,
+        openStringPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6654,7 +6665,8 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kOtherTechnical);
+        msrTechnical::kOtherTechnical,
+        otherTechnicalPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6700,7 +6712,8 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kPluck);
+        msrTechnical::kPluck,
+        pluckPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6746,7 +6759,8 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kPullOff);
+        msrTechnical::kPullOff,
+        pullOffPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6792,7 +6806,8 @@ void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kSnapPizzicato);
+        msrTechnical::kSnapPizzicato,
+        snapPizzicatoPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6838,7 +6853,8 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kStopped);
+        msrTechnical::kStopped,
+        stoppedPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6865,15 +6881,15 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
   
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
+  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     stringPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoPlacementKind;
 
   if      (placement == "above")
-    stringPlacementKind = msrTechnical::kAbove;
+    stringPlacementKind = msrTechnicalWithInteger::kAbove;
     
   else if (placement == "below")
-    stringPlacementKind = msrTechnical::kBelow;
+    stringPlacementKind = msrTechnicalWithInteger::kBelow;
     
   else if (placement.size ()) {
     
@@ -6893,7 +6909,8 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
       msrTechnicalWithInteger::create (
         inputLineNumber,
         msrTechnicalWithInteger::kString,
-        stringValue);
+        stringValue,
+        stringPlacementKind);
       
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
@@ -6939,7 +6956,8 @@ void xml2MsrTranslator::visitStart ( S_tap& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kTap);
+        msrTechnical::kTap,
+        tapPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -6985,7 +7003,8 @@ void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kThumbPosition);
+        msrTechnical::kThumbPosition,
+        thumbPositionPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -7031,7 +7050,8 @@ void xml2MsrTranslator::visitStart ( S_toe& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kToe);
+        msrTechnical::kToe,
+        toePlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -7077,7 +7097,8 @@ void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kTripleTongue);
+        msrTechnical::kTripleTongue,
+        tripleTonguePlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -7123,7 +7144,8 @@ void xml2MsrTranslator::visitStart ( S_up_bow& elt )
     technical =
       msrTechnical::create (
         inputLineNumber,
-        msrTechnical::kUpBow);
+        msrTechnical::kUpBow,
+        upBowPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -8863,7 +8885,7 @@ void xml2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
         endl;
 
     while (! fCurrentTechnicalWithIntegersList.empty()) {
-      S_msrTechnical
+      S_msrTechnicalWithInteger
         tech =
           fCurrentTechnicalWithIntegersList.front();
           

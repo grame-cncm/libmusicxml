@@ -962,8 +962,9 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnical> create (
-      int              inputLineNumber,
-      msrTechnicalKind technicalKind);
+      int                       inputLineNumber,
+      msrTechnicalKind          technicalKind,
+      msrTechnicalPlacementKind technicalPlacementKind);
 
   protected:
 
@@ -971,8 +972,9 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     msrTechnical (
-      int              inputLineNumber,
-      msrTechnicalKind technicalKind);
+      int                       inputLineNumber,
+      msrTechnicalKind          technicalKind,
+      msrTechnicalPlacementKind technicalPlacementKind);
       
     virtual ~msrTechnical();
   
@@ -1053,7 +1055,6 @@ typedef SMARTP<msrTechnical> S_msrTechnical;
 EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
 
 /*!
-/*!
 \brief A msr technicalWithInteger representation.
 
   An technicalWithInteger is represented by the numerator and denominator
@@ -1087,7 +1088,9 @@ class EXP msrTechnicalWithInteger : public msrElement
     static SMARTP<msrTechnicalWithInteger> create (
       int                         inputLineNumber,
       msrTechnicalWithIntegerKind technicalWithIntegerKind,
-      int                         technicalWithIntegerValue);
+      int                         technicalWithIntegerValue,
+      msrTechnicalWithIntegerPlacementKind
+                                  technicalWithIntegerPlacementKind);
 
   protected:
 
@@ -1097,7 +1100,9 @@ class EXP msrTechnicalWithInteger : public msrElement
     msrTechnicalWithInteger (
       int                         inputLineNumber,
       msrTechnicalWithIntegerKind technicalWithIntegerKind,
-      int                         technicalWithIntegerValue);
+      int                         technicalWithIntegerValue,
+      msrTechnicalWithIntegerPlacementKind
+                                  technicalWithIntegerPlacementKind);
       
     virtual ~msrTechnicalWithInteger();
   
@@ -3400,7 +3405,8 @@ class EXP msrNote : public msrElement
     
     // technicals
     void                  addTechnicalToNote (S_msrTechnical tech);
-    void                  addTechnicalWithIntegerToNote (S_msrTechnical tech);
+    void                  addTechnicalWithIntegerToNote (
+                            S_msrTechnicalWithInteger tech);
     
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament orn);
@@ -3692,7 +3698,8 @@ class EXP msrChord : public msrElement
     void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
     void                  addTechnicalToChord (S_msrTechnical tech);
-    void                  addTechnicalWithIntegerToChord (S_msrTechnical tech);
+    void                  addTechnicalWithIntegerToChord (
+                            S_msrTechnicalWithInteger tech);
     
     void                  addOrnamentToChord (S_msrOrnament orn);
      
