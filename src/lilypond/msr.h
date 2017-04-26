@@ -921,12 +921,9 @@ class EXP msrTechnical : public msrElement
 
     enum msrTechnicalKind {
         kArrow,
-        kBend,
         kDoubleTongue,
         kDownBow,
-        kFingering,
         kFingernails,
-        kFret,
         kHammerOn,
         kHandbell,
         kHarmonic,
@@ -938,7 +935,6 @@ class EXP msrTechnical : public msrElement
         kPullOff,
         kSnapPizzicato,
         kStopped,
-        kString,
         kTap,
         kThumbPosition,
         kToe,
@@ -1071,30 +1067,10 @@ class EXP msrTechnicalWithInteger : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalWithIntegerKind {
-        kArrow,
         kBend,
-        kDoubleTongue,
-        kDownBow,
         kFingering,
-        kFingernails,
         kFret,
-        kHammerOn,
-        kHandbell,
-        kHarmonic,
-        kHeel,
-        kHole,
-        kOpenString,
-        kOtherTechnicalWithInteger,
-        kPluck,
-        kPullOff,
-        kSnapPizzicato,
-        kStopped,
-        kString,
-        kTap,
-        kThumbPosition,
-        kToe,
-        kTripleTongue,
-        kUpBow};
+        kString};
 
     static string technicalWithIntegerKindAsString (
       msrTechnicalWithIntegerKind technicalWithIntegerKind);

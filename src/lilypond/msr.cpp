@@ -3083,23 +3083,14 @@ string msrTechnical::technicalKindAsString () const
     case msrTechnical::kArrow:
       result = "Arrow";
       break;
-    case msrTechnical::kBend:
-      result = "Bend";
-      break;
     case msrTechnical::kDoubleTongue:
       result = "DoubleTongue";
       break;
     case msrTechnical::kDownBow:
       result = "DownBow";
       break;
-    case msrTechnical::kFingering:
-      result = "Fingering";
-      break;
     case msrTechnical::kFingernails:
       result = "Fingernails";
-      break;
-    case msrTechnical::kFret:
-      result = "Fret";
       break;
     case msrTechnical::kHammerOn:
       result = "HammerOn";
@@ -3133,9 +3124,6 @@ string msrTechnical::technicalKindAsString () const
       break;
     case msrTechnical::kStopped:
       result = "Stopped";
-      break;
-    case msrTechnical::kString:
-      result = "String";
       break;
     case msrTechnical::kTap:
       result = "Tap";
@@ -3305,77 +3293,17 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
   string result;
   
   switch (fTechnicalWithIntegerKind) {
-    case msrTechnicalWithInteger::kArrow:
-      result = "Arrow";
-      break;
     case msrTechnicalWithInteger::kBend:
       result = "Bend";
       break;
-    case msrTechnicalWithInteger::kDoubleTongue:
-      result = "DoubleTongue";
-      break;
-    case msrTechnicalWithInteger::kDownBow:
-      result = "DownBow";
-      break;
-    case msrTechnicalWithInteger::kFingering:
+    case msrTechnical::kFingering:
       result = "Fingering";
-      break;
-    case msrTechnicalWithInteger::kFingernails:
-      result = "Fingernails";
       break;
     case msrTechnicalWithInteger::kFret:
       result = "Fret";
       break;
-    case msrTechnicalWithInteger::kHammerOn:
-      result = "HammerOn";
-      break;
-    case msrTechnicalWithInteger::kHandbell:
-      result = "Handbell";
-      break;
-    case msrTechnicalWithInteger::kHarmonic:
-      result = "Harmonic";
-      break;
-    case msrTechnicalWithInteger::kHeel:
-      result = "Heel";
-      break;
-    case msrTechnicalWithInteger::kHole:
-      result = "Hole";
-      break;
-    case msrTechnicalWithInteger::kOpenString:
-      result = "OpenString";
-      break;
-    case msrTechnicalWithInteger::kOtherTechnicalWithInteger:
-      result = "OtherTechnicalWithInteger";
-      break;
-    case msrTechnicalWithInteger::kPluck:
-      result = "Pluck";
-      break;
-    case msrTechnicalWithInteger::kPullOff:
-      result = "PullOff";
-      break;
-    case msrTechnicalWithInteger::kSnapPizzicato:
-      result = "SnapPizzicato";
-      break;
-    case msrTechnicalWithInteger::kStopped:
-      result = "Stopped";
-      break;
     case msrTechnicalWithInteger::kString:
       result = "String";
-      break;
-    case msrTechnicalWithInteger::kTap:
-      result = "Tap";
-      break;
-    case msrTechnicalWithInteger::kThumbPosition:
-      result = "ThumbPosition";
-      break;
-    case msrTechnicalWithInteger::kToe:
-      result = "Toe";
-      break;
-    case msrTechnicalWithInteger::kTripleTongue:
-      result = "TripleTongue";
-      break;
-    case msrTechnicalWithInteger::kUpBow:
-      result = "UpBow";
       break;
   } // switch
 
@@ -5408,61 +5336,6 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
 
   // append the technical to the note technicals list
   fNoteTechnicals.push_back (technical);
-
-  switch (technical->getTechnicalKind ()) {
-    case msrTechnical::kArrow:
-      break;
-    case msrTechnical::kBend:
-      break;
-    case msrTechnical::kDoubleTongue:
-      break;
-    case msrTechnical::kDownBow:
-      break;
-    case msrTechnical::kFingering:
-      break;
-    case msrTechnical::kFingernails:
-      break;
-    case msrTechnical::kFret:
-      break;
-    case msrTechnical::kHammerOn:
-      break;
-    case msrTechnical::kHandbell:
-      break;
-    case msrTechnical::kHarmonic:
-      break;
-    case msrTechnical::kHeel:
-      break;
-    case msrTechnical::kHole:
-      break;
-    case msrTechnical::kOpenString:
-      break;
-    case msrTechnical::kOtherTechnical:
-      break;
-    case msrTechnical::kPluck:
-      break;
-    case msrTechnical::kPullOff:
-      break;
-    case msrTechnical::kSnapPizzicato:
-      break;
-    case msrTechnical::kStopped:
-      break;
-    case msrTechnical::kString:
-      break;
-    case msrTechnical::kTap:
-      break;
-    case msrTechnical::kThumbPosition:
-      break;
-    case msrTechnical::kToe:
-      break;
-    case msrTechnical::kTripleTongue:
-      break;
-    case msrTechnical::kUpBow:
-      break;
-/* JMI
-    default:
-      {}
-      */
-  } // switch
 
   // set technical's note uplink
   technical->

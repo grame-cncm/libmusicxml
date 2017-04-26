@@ -200,6 +200,7 @@ class EXP xml2MsrTranslator :
   public visitor<S_technical>,
   public visitor<S_arrow>,
   public visitor<S_bend>,
+  public visitor<S_bend_alter>,
   public visitor<S_double_tongue>,
   public visitor<S_down_bow>,
   public visitor<S_fingering>,
@@ -499,6 +500,8 @@ class EXP xml2MsrTranslator :
     virtual void visitEnd   ( S_technical& elt );
     virtual void visitStart ( S_arrow& elt );
     virtual void visitStart ( S_bend& elt );
+    virtual void visitEnd   ( S_bend& elt );
+    virtual void visitStart ( S_bend_alter& elt );
     virtual void visitStart ( S_double_tongue& elt );
     virtual void visitStart ( S_down_bow& elt );
     virtual void visitStart ( S_fingering& elt );
@@ -995,6 +998,8 @@ class EXP xml2MsrTranslator :
     S_msrTechnical            fCurrentTechnical;
     list<S_msrTechnical>      fCurrentTechnicalsList;
 
+    int                       fBendAlterValue;
+    
     msrTechnical::msrTechnicalPlacementKind
                               fCurrentTechnicalPlacementKind;
 

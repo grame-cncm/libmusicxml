@@ -166,6 +166,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fOnGoingLigature          = false;
   fOnGoingLigatureHasStanza = false;
 
+  fBendAlterValue = -39;
+  
   fPendingHarmony                  = false;
   fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = k_NoAlteration;
@@ -6000,7 +6002,6 @@ void xml2MsrTranslator::visitEnd ( S_technical& elt )
     cerr << idtr <<
       "--> Start visiting S_technical" <<
       endl;
-
 }
 
 void xml2MsrTranslator::visitStart ( S_arrow& elt )
@@ -6018,14 +6019,14 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    arrorPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    arrorPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    arrorPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6048,6 +6049,16 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
 
+void xml2MsrTranslator::visitStart ( S_bend_alter& elt )
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_bend_alter" <<
+      endl;
+
+  fBendAlterValue = (int)(*elt);
+}
+  
 void xml2MsrTranslator::visitStart ( S_bend& elt )
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -6058,19 +6069,17 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  string placement = elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
+    bendPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    bendPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    bendPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6085,13 +6094,16 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
+  fCurrentTechnicalWithInteger =
+    msrTechnicalWithInteger::create (
       inputLineNumber,
-      msrTechnical::kBend);
+      msrTechnicalWithInteger::kBend,
+      fBendAlterValue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
+
+S_bend_alter
 
 void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
 {
@@ -6108,14 +6120,14 @@ void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    doubleTonguePlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    doubleTonguePlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    doubleTonguePlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6153,14 +6165,14 @@ void xml2MsrTranslator::visitStart ( S_down_bow& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    downBowPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    downBowPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    downBowPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6193,19 +6205,19 @@ void xml2MsrTranslator::visitStart ( S_fingering& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  int fingeringValue = (int)(*elt);
+
+  string placement = elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    fingeringPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    fingeringPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    fingeringPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6243,14 +6255,14 @@ void xml2MsrTranslator::visitStart ( S_fingernails& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    fingernailsPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    fingernailsPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    fingernailsPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6288,14 +6300,14 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
   string placement = elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    fretPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    fretPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    fretPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6310,10 +6322,11 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
+  fCurrentTechnicalWithInteger =
+    msrTechnicalWithInteger::create (
       inputLineNumber,
-      msrTechnical::kFret);
+      msrTechnicalWithInteger::kFret,
+      fretValue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6333,14 +6346,14 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    hammerOnPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    hammerOnPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    hammerOnPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6378,14 +6391,14 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    handbellPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    handbellPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    handbellPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6423,14 +6436,14 @@ void xml2MsrTranslator::visitStart ( S_harmonic& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    harmonicPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    harmonicPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    harmonicPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6468,14 +6481,14 @@ void xml2MsrTranslator::visitStart ( S_heel& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    heelPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    heelPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    heelPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6513,14 +6526,14 @@ void xml2MsrTranslator::visitStart ( S_hole& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    holePlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    holePlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    holePlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6558,14 +6571,14 @@ void xml2MsrTranslator::visitStart ( S_open_string& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    openStringPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    openStringPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    openStringPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6603,14 +6616,14 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    otherTechnicalPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    otherTechnicalPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    otherTechnicalPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6648,14 +6661,14 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    pluckPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    pluckPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    pluckPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6693,14 +6706,14 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    pullOffPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    pullOffPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    pullOffPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6738,14 +6751,14 @@ void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    snapPizzicatoPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    snapPizzicatoPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    snapPizzicatoPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6783,14 +6796,14 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    stoppedPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    stoppedPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    stoppedPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6836,14 +6849,14 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
   string placement = elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    stringPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    stringPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    stringPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6858,10 +6871,11 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
+  fCurrentTechnicalWithInteger =
+    msrTechnicalWithInteger::create (
       inputLineNumber,
-      msrTechnical::kString);
+      msrTechnicalWithInteger::kString,
+      stringValue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6881,14 +6895,14 @@ void xml2MsrTranslator::visitStart ( S_tap& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    tapPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    tapPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    tapPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6926,14 +6940,14 @@ void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    thumbPositionPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    thumbPositionPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    thumbPositionPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -6971,14 +6985,14 @@ void xml2MsrTranslator::visitStart ( S_toe& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    toePlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    toePlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    toePlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -7016,14 +7030,14 @@ void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    tripleTonguePlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    tripleTonguePlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    tripleTonguePlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
@@ -7061,14 +7075,14 @@ void xml2MsrTranslator::visitStart ( S_up_bow& elt )
       elt->getAttributeValue ("placement");
 
   msrTechnical::msrTechnicalPlacementKind
-    currentTremoloPlacementKind =
+    upBowPlacementKind =
       msrTechnical::k_NoPlacementKind;
 
   if      (placement == "above")
-    currentTremoloPlacementKind = msrTechnical::kAbove;
+    upBowPlacementKind = msrTechnical::kAbove;
     
   else if (placement == "below")
-    currentTremoloPlacementKind = msrTechnical::kBelow;
+    upBowPlacementKind = msrTechnical::kBelow;
     
   else if (placement.size ()) {
     
