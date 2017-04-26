@@ -1086,7 +1086,8 @@ class EXP msrTechnicalWithInteger : public msrElement
 
     static SMARTP<msrTechnicalWithInteger> create (
       int                         inputLineNumber,
-      msrTechnicalWithIntegerKind technicalWithIntegerKind);
+      msrTechnicalWithIntegerKind technicalWithIntegerKind,
+      int                         technicalWithIntegerValue);
 
   protected:
 
@@ -1095,7 +1096,8 @@ class EXP msrTechnicalWithInteger : public msrElement
 
     msrTechnicalWithInteger (
       int                         inputLineNumber,
-      msrTechnicalWithIntegerKind technicalWithIntegerKind);
+      msrTechnicalWithIntegerKind technicalWithIntegerKind,
+      int                         technicalWithIntegerValue);
       
     virtual ~msrTechnicalWithInteger();
   
@@ -1153,6 +1155,8 @@ class EXP msrTechnicalWithInteger : public msrElement
   private:
 
     msrTechnicalWithIntegerKind     fTechnicalWithIntegerKind;
+
+    int                             fTechnicalWithIntegerValue;
 
     msrTechnicalWithIntegerPlacementKind
                                     fTechnicalWithIntegerPlacementKind;
@@ -3393,6 +3397,7 @@ class EXP msrNote : public msrElement
     
     // technicals
     void                  addTechnicalToNote (S_msrTechnical art);
+    void                  addTechnicalWithIntegerToNote (S_msrTechnical art);
     
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament art);
@@ -3679,6 +3684,7 @@ class EXP msrChord : public msrElement
     void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
     void                  addTechnicalToChord (S_msrTechnical tech);
+    void                  addTechnicalWithIntegerToChord (S_msrTechnical tech);
     
     void                  addOrnamentToChord (S_msrOrnament orn);
      

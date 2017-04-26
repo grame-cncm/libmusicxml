@@ -995,21 +995,23 @@ class EXP xml2MsrTranslator :
        
     // ------------------------------------------------------
     // technicals handling
-    S_msrTechnical            fCurrentTechnical;
     list<S_msrTechnical>      fCurrentTechnicalsList;
+    list<S_msrTechnicalWithInteger>
+                              fCurrentTechnicalWithIntegersList;
 
     int                       fBendAlterValue;
     
-    msrTechnical::msrTechnicalPlacementKind
-                              fCurrentTechnicalPlacementKind;
-
     void                      attachCurrentTechnicalsToNote (
+                                S_msrNote note);
+    void                      attachCurrentTechnicalWithIntegersToNote (
                                 S_msrNote note);
 
 //    void                      attachCurrentTechnicalsToChord ( // JMI
  //                               S_msrChord chord);
 
     void                      copyNoteTechnicalsToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteTechnicalWithIntegersToChord (
                                 S_msrNote note, S_msrChord chord);
 
     // ------------------------------------------------------

@@ -6041,12 +6041,13 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kArrow);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kArrow);
       
-  fCurrentTechnicalsList.push_back (fCurrentTechnical);
+  fCurrentTechnicalsList.push_back (technical);
 }
 
 void xml2MsrTranslator::visitStart ( S_bend_alter& elt )
@@ -6073,13 +6074,13 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
 
   msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     bendPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoPlacementKind;
 
   if      (placement == "above")
-    bendPlacementKind = msrTechnical::kAbove;
+    bendPlacementKind = msrTechnicalWithInteger::kAbove;
     
   else if (placement == "below")
-    bendPlacementKind = msrTechnical::kBelow;
+    bendPlacementKind = msrTechnicalWithInteger::kBelow;
     
   else if (placement.size ()) {
     
@@ -6094,11 +6095,12 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
       s.str());    
   }
 
-  fCurrentTechnicalWithInteger =
-    msrTechnicalWithInteger::create (
-      inputLineNumber,
-      msrTechnicalWithInteger::kBend,
-      fBendAlterValue);
+  msrTechnical
+    technicalWithInteger =
+      msrTechnicalWithInteger::create (
+        inputLineNumber,
+        msrTechnicalWithInteger::kBend,
+        fBendAlterValue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6142,10 +6144,11 @@ void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kDoubleTongue);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kDoubleTongue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6187,10 +6190,11 @@ void xml2MsrTranslator::visitStart ( S_down_bow& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kDownBow);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kDownBow);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6232,10 +6236,11 @@ void xml2MsrTranslator::visitStart ( S_fingering& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kFingering);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kFingering);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6277,10 +6282,11 @@ void xml2MsrTranslator::visitStart ( S_fingernails& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kFingernails);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kFingernails);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6322,11 +6328,12 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
       s.str());    
   }
 
-  fCurrentTechnicalWithInteger =
-    msrTechnicalWithInteger::create (
-      inputLineNumber,
-      msrTechnicalWithInteger::kFret,
-      fretValue);
+  msrTechnical
+    technicalWithInteger =
+      msrTechnicalWithInteger::create (
+        inputLineNumber,
+        msrTechnicalWithInteger::kFret,
+        fretValue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6368,10 +6375,11 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kHammerOn);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kHammerOn);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6413,10 +6421,11 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kHandbell);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kHandbell);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6458,10 +6467,11 @@ void xml2MsrTranslator::visitStart ( S_harmonic& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kHarmonic);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kHarmonic);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6503,10 +6513,11 @@ void xml2MsrTranslator::visitStart ( S_heel& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kHeel);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kHeel);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6548,10 +6559,11 @@ void xml2MsrTranslator::visitStart ( S_hole& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kHole);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kHole);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6593,10 +6605,11 @@ void xml2MsrTranslator::visitStart ( S_open_string& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kOpenString);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kOpenString);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6638,10 +6651,11 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kOtherTechnical);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kOtherTechnical);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6683,10 +6697,11 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kPluck);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kPluck);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6728,10 +6743,11 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kPullOff);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kPullOff);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6773,10 +6789,11 @@ void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kSnapPizzicato);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kSnapPizzicato);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6818,10 +6835,11 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kStopped);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kStopped);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6871,11 +6889,12 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
       s.str());    
   }
 
-  fCurrentTechnicalWithInteger =
-    msrTechnicalWithInteger::create (
-      inputLineNumber,
-      msrTechnicalWithInteger::kString,
-      stringValue);
+  msrTechnical
+    technicalWithInteger =
+      msrTechnicalWithInteger::create (
+        inputLineNumber,
+        msrTechnicalWithInteger::kString,
+        stringValue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6917,10 +6936,11 @@ void xml2MsrTranslator::visitStart ( S_tap& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kTap);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kTap);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -6962,10 +6982,11 @@ void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kThumbPosition);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kThumbPosition);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -7007,10 +7028,11 @@ void xml2MsrTranslator::visitStart ( S_toe& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kToe);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kToe);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -7052,10 +7074,11 @@ void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kTripleTongue);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kTripleTongue);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -7097,10 +7120,11 @@ void xml2MsrTranslator::visitStart ( S_up_bow& elt )
       s.str());    
   }
 
-  fCurrentTechnical =
-    msrTechnical::create (
-      inputLineNumber,
-      msrTechnical::kUpBow);
+  msrTechnical
+    technical =
+      msrTechnical::create (
+        inputLineNumber,
+        msrTechnical::kUpBow);
       
   fCurrentTechnicalsList.push_back (fCurrentTechnical);
 }
@@ -8321,6 +8345,35 @@ void xml2MsrTranslator::copyNoteTechnicalsToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's technicals if any from the first note to chord
+  
+  list<S_msrTechnicalWithInteger>
+    noteTechnicalWithIntegers =
+      note->
+        getNoteTechnicalWithIntegers ();
+                          
+  list<S_msrTechnical>::const_iterator i;
+  for (
+    i=noteTechnicalWithIntegers.begin();
+    i!=noteTechnicalWithIntegers.end();
+    i++) {
+
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) // JMI
+      cerr << idtr <<
+        "--> copying technical '" <<
+        (*i)->technicalWithIntegerKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addTechnicalWithIntegerToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::copyNoteOrnamentsToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -8793,6 +8846,40 @@ void xml2MsrTranslator::attachCurrentTechnicalsToNote (
 
       // forget about this technical
       fCurrentTechnicalsList.pop_front();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
+  S_msrNote note)
+{
+  // attach the current technicals if any to the note
+  if (! fCurrentTechnicalWithIntegersList.empty()) {
+    
+    if (gGeneralOptions->fTraceNotes)
+      cerr << idtr <<
+        "--> attaching current technicals to note " <<
+        note->noteAsString () <<
+        endl;
+
+    while (! fCurrentTechnicalWithIntegersList.empty()) {
+      S_msrTechnical
+        art =
+          fCurrentTechnicalWithIntegersList.front();
+          
+      if (gGeneralOptions->fTraceNotes)
+        cerr << idtr <<
+          "--> attaching technical '" <<
+          art->technicalWithIntegerKindAsString () <<
+          "' to note " << note->noteAsString () <<
+          endl;
+  
+      note->
+        addTechnicalWithIntegerToNote (art);
+
+      // forget about this technical
+      fCurrentTechnicalWithIntegersList.pop_front();
     } // while
   }
 }

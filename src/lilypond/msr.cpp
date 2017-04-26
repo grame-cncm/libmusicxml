@@ -3267,21 +3267,27 @@ void msrTechnical::print (ostream& os)
 //______________________________________________________________________________
 S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
   int                         inputLineNumber,
-  msrTechnicalWithIntegerKind technicalWithIntegerKind)
+  msrTechnicalWithIntegerKind technicalWithIntegerKind,
+  int                         technicalWithIntegerValued)
 {
   msrTechnicalWithInteger* o =
     new msrTechnicalWithInteger (
-      inputLineNumber, technicalWithIntegerKind);
+      inputLineNumber,
+      technicalWithIntegerKind,
+      technicalWithIntegerValued);
   assert (o!=0);
   return o;
 }
 
 msrTechnicalWithInteger::msrTechnicalWithInteger (
   int                         inputLineNumber,
-  msrTechnicalWithIntegerKind technicalWithIntegerKind)
+  msrTechnicalWithIntegerKind technicalWithIntegerKind,
+  int                         technicalWithIntegerValue)
     : msrElement (inputLineNumber)
 {
   fTechnicalWithIntegerKind = technicalWithIntegerKind;
+
+  fTechnicalWithIntegerValue = technicalWithIntegerValue;
 
   fTechnicalWithIntegerPlacementKind = k_NoPlacementKind;
 }
@@ -3306,6 +3312,9 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
       result = "String";
       break;
   } // switch
+
+  result +=
+    " " + fTechnicalWithIntegerValue;
 
   return result;
 }
@@ -3391,6 +3400,9 @@ string msrTechnicalWithInteger::technicalWithIntegerAsString () const
       result = "below";
       break;
   } // switch
+
+  result +=
+    " " + fTechnicalWithIntegerValue;
 
   return result;
 }
@@ -5329,7 +5341,8 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
   if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Adding technical '" << technical->technicalAsString () <<
+      "Adding technical '" <<
+      technical->technicalAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
       endl;
@@ -5340,6 +5353,25 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
   // set technical's note uplink
   technical->
     setTechnicalNoteUplink (this);
+}
+
+void msrNote::addTechnicalWithIntegerToNote (
+  S_msrTechnicalWithInteger technicalWithInteger)
+{
+  if (gGeneralOptions->fTraceNotes)
+    cerr << idtr <<
+      "Adding technical '" <<
+      technicalWithInteger->technicalWithIntegerAsString () <<
+      "' to note '" << noteAsShortString () <<
+      "', line " << fInputLineNumber <<
+      endl;
+
+  // append the technical with integer to the note technicals with integers list
+  fNoteTechnicalsWithInteger.push_back (technicalWithInteger);
+
+  // set technical's note uplink
+  technicalWithInteger->
+    setTechnicaWithIntegerlNoteUplink (this);
 }
 
 void msrNote::addOrnamentToNote (S_msrOrnament ornament)
@@ -6694,7 +6726,8 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
 
   // don't add the same technical several times
   for (
-    list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin();
+    list<S_msrTechnical>::const_iterator i =
+      fChordTechnicals.begin();
     i!=fChordTechnicals.end();
     i++) {
       if ((*i)->getTechnicalKind () == technicalKind)
@@ -6709,6 +6742,33 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
       endl;
 
   fChordTechnicals.push_back (tech);
+}
+
+void msrChord::addTechnicalWithIntegerToChord (S_msrTechnical tech)
+{
+  msrTechnicalWithInteger::msrTechnicalWithIntegerKind
+    technicalWithIntegerKind =
+      tech->
+        getTechnicalWithIntegerKind ();
+
+  // don't add the same technical several times
+  for (
+    list<S_msrTechnicalWithInteger>::const_iterator i =
+      fChordTechnicalWithIntegers.begin();
+    i!=fChordTechnicalsWithInteger.end();
+    i++) {
+      if ((*i)->getTechnicalWithIntegerKind () == technicalWithIntegerKind)
+        return;
+  } // for
+
+  if (gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "% Adding technical with integer '" <<
+      tech->technicalWithIntegerAsString () <<
+      "' to chord" <<
+      endl;
+
+  fChordTechnicalWithIntegers.push_back (tech);
 }
 
 void msrChord::addOrnamentToChord (S_msrOrnament orn)
