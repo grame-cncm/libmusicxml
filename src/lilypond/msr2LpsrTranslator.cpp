@@ -1375,23 +1375,13 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
   switch (elt->getTechnicalKind ()) {
     case msrTechnical::kArrow:
       break;
-    case msrTechnical::kBend:
-      break;
     case msrTechnical::kDoubleTongue:
       fCurrentScoreClone->
         setTongueSchemeFunctionNeeded ();
       break;
     case msrTechnical::kDownBow:
       break;
-    case msrTechnical::kFingering:
-      break;
     case msrTechnical::kFingernails:
-      break;
-    case msrTechnical::kFret:
-      break;
-    case msrTechnical::kHammerOn:
-      break;
-    case msrTechnical::kHandbell:
       break;
     case msrTechnical::kHarmonic:
       break;
@@ -1401,17 +1391,9 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
       break;
     case msrTechnical::kOpenString:
       break;
-    case msrTechnical::kOtherTechnical:
-      break;
-    case msrTechnical::kPluck:
-      break;
-    case msrTechnical::kPullOff:
-      break;
     case msrTechnical::kSnapPizzicato:
       break;
     case msrTechnical::kStopped:
-      break;
-    case msrTechnical::kString:
       break;
     case msrTechnical::kTap:
       break;
@@ -1425,10 +1407,6 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
       break;
     case msrTechnical::kUpBow:
       break;
-/* JMI
-    default:
-      {}
-      */
   } // switch
 }
 
@@ -1441,178 +1419,84 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
+void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrTechnical" <<
+      "--> Start visiting msrTechnicalWithInteger" <<
       endl;
 
   if (fOnGoingNote) {
-    // don't add technicals to chord member notes
+    // don't add technicalWithIntegers to chord member notes
     if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
-        addTechnicalToNote (elt);
+        addTechnicalWithIntegerToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addTechnicalToChord (elt);
+      addTechnicalWithIntegerToChord (elt);
   }
 
   // doest the score need the 'tongue' function?
-  switch (elt->getTechnicalKind ()) {
-    case msrTechnical::kArrow:
+  switch (elt->getTechnicalWithIntegerKind ()) {
+    case msrTechnicalWithInteger::kBend:
       break;
-    case msrTechnical::kBend:
+    case msrTechnicalWithInteger::kFingering:
       break;
-    case msrTechnical::kDoubleTongue:
-      fCurrentScoreClone->
-        setTongueSchemeFunctionNeeded ();
+    case msrTechnicalWithInteger::kFret:
       break;
-    case msrTechnical::kDownBow:
+    case msrTechnicalWithInteger::kString:
       break;
-    case msrTechnical::kFingering:
-      break;
-    case msrTechnical::kFingernails:
-      break;
-    case msrTechnical::kFret:
-      break;
-    case msrTechnical::kHammerOn:
-      break;
-    case msrTechnical::kHandbell:
-      break;
-    case msrTechnical::kHarmonic:
-      break;
-    case msrTechnical::kHeel:
-      break;
-    case msrTechnical::kHole:
-      break;
-    case msrTechnical::kOpenString:
-      break;
-    case msrTechnical::kOtherTechnical:
-      break;
-    case msrTechnical::kPluck:
-      break;
-    case msrTechnical::kPullOff:
-      break;
-    case msrTechnical::kSnapPizzicato:
-      break;
-    case msrTechnical::kStopped:
-      break;
-    case msrTechnical::kString:
-      break;
-    case msrTechnical::kTap:
-      break;
-    case msrTechnical::kThumbPosition:
-      break;
-    case msrTechnical::kToe:
-      break;
-    case msrTechnical::kTripleTongue:
-      fCurrentScoreClone->
-        setTongueSchemeFunctionNeeded ();
-      break;
-    case msrTechnical::kUpBow:
-      break;
-/* JMI
-    default:
-      {}
-      */
   } // switch
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
+void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrTechnical" <<
+      "--> End visiting msrTechnicalWithInteger" <<
       endl;
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
+void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrTechnical" <<
+      "--> Start visiting msrTechnicalWithString" <<
       endl;
 
   if (fOnGoingNote) {
-    // don't add technicals to chord member notes
+    // don't add technicalWithStrings to chord member notes
     if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
-        addTechnicalToNote (elt);
+        addTechnicalWithStringToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addTechnicalToChord (elt);
+      addTechnicalWithStringToChord (elt);
   }
 
   // doest the score need the 'tongue' function?
-  switch (elt->getTechnicalKind ()) {
-    case msrTechnical::kArrow:
+  switch (elt->getTechnicalWithStringKind ()) {
+    case msrTechnicalWithString::kHammerOn:
       break;
-    case msrTechnical::kBend:
+    case msrTechnicalWithString::kHandbell:
       break;
-    case msrTechnical::kDoubleTongue:
-      fCurrentScoreClone->
-        setTongueSchemeFunctionNeeded ();
+    case msrTechnicalWithString::kOtherTechnical:
       break;
-    case msrTechnical::kDownBow:
+    case msrTechnicalWithString::kPluck:
       break;
-    case msrTechnical::kFingering:
+    case msrTechnicalWithString::kPullOff:
       break;
-    case msrTechnical::kFingernails:
-      break;
-    case msrTechnical::kFret:
-      break;
-    case msrTechnical::kHammerOn:
-      break;
-    case msrTechnical::kHandbell:
-      break;
-    case msrTechnical::kHarmonic:
-      break;
-    case msrTechnical::kHeel:
-      break;
-    case msrTechnical::kHole:
-      break;
-    case msrTechnical::kOpenString:
-      break;
-    case msrTechnical::kOtherTechnical:
-      break;
-    case msrTechnical::kPluck:
-      break;
-    case msrTechnical::kPullOff:
-      break;
-    case msrTechnical::kSnapPizzicato:
-      break;
-    case msrTechnical::kStopped:
-      break;
-    case msrTechnical::kString:
-      break;
-    case msrTechnical::kTap:
-      break;
-    case msrTechnical::kThumbPosition:
-      break;
-    case msrTechnical::kToe:
-      break;
-    case msrTechnical::kTripleTongue:
-      fCurrentScoreClone->
-        setTongueSchemeFunctionNeeded ();
-      break;
-    case msrTechnical::kUpBow:
-      break;
-/* JMI
-    default:
-      {}
-      */
   } // switch
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
+void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrTechnical" <<
+      "--> End visiting msrTechnicalWithString" <<
       endl;
 }
 

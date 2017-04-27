@@ -336,14 +336,18 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
 
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
-  int    inputLineNumber,
-  msrTechnical::msrTechnicalKind
-         technicalKind,
-  string noteUplinkDuration)
+  S_msrTechnical technical)
 {
   string result;
-  
-  switch (technicalKind) {
+
+  /* JMI
+  string
+    noteDuration =
+      (*i)->getTechnicalNoteUplink ()->
+        noteDivisionsAsMsrString ();
+  */
+
+  switch (technical->getTechnicalKind ()) {
     case msrTechnical::kArrow:
       result = "\\Arrow";
       break;
@@ -396,61 +400,63 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
 
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::technicalWithIntegerKindAsLilyPondString (
-  int    inputLineNumber,
-  msrTechnicalWithInteger::msrTechnicalWithIntegerKind
-         technicalWithIntegerKind,
-  string noteUplinkDuration)
+  S_msrTechnicalWithInteger technicalWithInteger)
 {
   string result;
   
-  switch (technicalKind) {
-    case msrTechnical::kBend:
+  switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
+    case msrTechnicalWithInteger::kBend:
       result = "\\bendAfter";
       break;
-    case msrTechnical::kFingering:
+    case msrTechnicalWithInteger::kFingering:
       result = "-";
       break;
-    case msrTechnical::kFret:
+    case msrTechnicalWithInteger::kFret:
       result = "\\Fret";
       break;
-    case msrTechnical::kString:
+    case msrTechnicalWithInteger::kString:
       result = "\\";
       break;
   } // switch
 
   result +=
-    technicalWithIntegerValue;
+    string (" ") +
+    to_string (
+      technicalWithInteger->
+        getTechnicalWithIntegerValue ());
     
   return result;
 }
 
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::technicalWithStringKindAsLilyPondString (
-  int    inputLineNumber,
-  msrTechnicalWithString::msrTechnicalWithStringKind
-         technicalWithStringKind,
-  string noteUplinkDuration)
+  S_msrTechnicalWithString technicalWithString)
 {
   string result;
   
-  switch (technicalKind) {
-    case msrTechnical::kHammerOn:
+  switch (technicalWithString->getTechnicalWithStringKind ()) {
+    case msrTechnicalWithString::kHammerOn:
       result = "\\HammerOn";
       break;
-    case msrTechnical::kHandbell:
+    case msrTechnicalWithString::kHandbell:
       result = "\\Handbell";
       break;
-    case msrTechnical::kOtherTechnical:
+    case msrTechnicalWithString::kOtherTechnical:
       result = "\\OtherTechnical";
       break;
-    case msrTechnical::kPluck:
+    case msrTechnicalWithString::kPluck:
       result = "\\Pluck";
       break;
-    case msrTechnical::kPullOff:
+    case msrTechnicalWithString::kPullOff:
       result = "\\PullOff";
       break;
   } // switch
 
+  result +=
+    string (" ") +
+    technicalWithString->
+      getTechnicalWithStringValue ();
+    
   return result;
 }
 
@@ -3576,18 +3582,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       i=noteTechnicals.begin();
       i!=noteTechnicals.end();
       i++) {
-      string
-        noteDuration =
-          (*i)->getTechnicalNoteUplink ()->
-            noteDivisionsAsMsrString ();
         
       fOstream <<
-        technicalKindAsLilyPondString (
-          (*i)->getInputLineNumber (), // some technicals are not yet supported
-          (*i)->getTechnicalKind (),
-          noteDuration);
-          // <<
-        // JMI " ";
+        technicalKindAsLilyPondString ((*i));
       fMusicOlec++;
 
       switch ((*i)->getTechnicalPlacementKind ()) {
@@ -4134,11 +4131,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       i!=chordTechnicals.end();
       i++) {
       fOstream <<
-        technicalKindAsLilyPondString (
-          (*i)->getInputLineNumber (), // some technicals are not yet supported
-          (*i)->getTechnicalKind (),
-          "") << // JMI
-        " ";
+        technicalKindAsLilyPondString ((*i)) <<
+        " "; // JMI
       fMusicOlec++;
     } // for
   }
