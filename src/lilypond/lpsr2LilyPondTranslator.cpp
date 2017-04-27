@@ -336,9 +336,10 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
 
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
-  int                            inputLineNumber,
-  msrTechnical::msrTechnicalKind technicalKind,
-  string                         noteUplinkDuration)
+  int    inputLineNumber,
+  msrTechnical::msrTechnicalKind
+         technicalKind,
+  string noteUplinkDuration)
 {
   string result;
   
@@ -346,29 +347,14 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
     case msrTechnical::kArrow:
       result = "\\Arrow";
       break;
-    case msrTechnical::kBend:
-      result = "\\bendAfter #+4"; // JMI
-      break;
     case msrTechnical::kDoubleTongue:
       result = "-\\tongue #2";
       break;
     case msrTechnical::kDownBow:
       result = "\\downbow";
       break;
-    case msrTechnical::kFingering:
-      result = "\\Fingering";
-      break;
     case msrTechnical::kFingernails:
       result = "\\Fingernails";
-      break;
-    case msrTechnical::kFret:
-      result = "\\Fret";
-      break;
-    case msrTechnical::kHammerOn:
-      result = "\\HammerOn";
-      break;
-    case msrTechnical::kHandbell:
-      result = "\\Handbell";
       break;
     case msrTechnical::kHarmonic:
       result = "\\flageolet"; // JMI "\\once\\override Staff.NoteHead.style = #'harmonic-mixed";
@@ -382,23 +368,11 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
     case msrTechnical::kOpenString:
       result = "\\open"; // halfopen ??? JMI
       break;
-    case msrTechnical::kOtherTechnical:
-      result = "\\OtherTechnical";
-      break;
-    case msrTechnical::kPluck:
-      result = "\\Pluck";
-      break;
-    case msrTechnical::kPullOff:
-      result = "\\PullOff";
-      break;
     case msrTechnical::kSnapPizzicato:
       result = "\\snappizzicato";
       break;
     case msrTechnical::kStopped:
       result = "\\stopped"; // or -+ JMI
-      break;
-    case msrTechnical::kString:
-      result = "\\String";
       break;
     case msrTechnical::kTap:
       result = "\\Tap";
@@ -414,6 +388,66 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
       break;
     case msrTechnical::kUpBow:
       result = "\\upbow";
+      break;
+  } // switch
+
+  return result;
+}
+
+//________________________________________________________________________
+string lpsr2LilyPondTranslator::technicalWithIntegerKindAsLilyPondString (
+  int    inputLineNumber,
+  msrTechnicalWithInteger::msrTechnicalWithIntegerKind
+         technicalWithIntegerKind,
+  string noteUplinkDuration)
+{
+  string result;
+  
+  switch (technicalKind) {
+    case msrTechnical::kBend:
+      result = "\\bendAfter";
+      break;
+    case msrTechnical::kFingering:
+      result = "-";
+      break;
+    case msrTechnical::kFret:
+      result = "\\Fret";
+      break;
+    case msrTechnical::kString:
+      result = "\\";
+      break;
+  } // switch
+
+  result +=
+    technicalWithIntegerValue;
+    
+  return result;
+}
+
+//________________________________________________________________________
+string lpsr2LilyPondTranslator::technicalWithStringKindAsLilyPondString (
+  int    inputLineNumber,
+  msrTechnicalWithString::msrTechnicalWithStringKind
+         technicalWithStringKind,
+  string noteUplinkDuration)
+{
+  string result;
+  
+  switch (technicalKind) {
+    case msrTechnical::kHammerOn:
+      result = "\\HammerOn";
+      break;
+    case msrTechnical::kHandbell:
+      result = "\\Handbell";
+      break;
+    case msrTechnical::kOtherTechnical:
+      result = "\\OtherTechnical";
+      break;
+    case msrTechnical::kPluck:
+      result = "\\Pluck";
+      break;
+    case msrTechnical::kPullOff:
+      result = "\\PullOff";
       break;
   } // switch
 

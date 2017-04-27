@@ -920,19 +920,14 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalKind {
-        kArrow,
+        kArrow, // rich JMI
         kDoubleTongue,
         kDownBow,
         kFingernails,
-        kHammerOn,
-        kHandbell,
         kHarmonic,
         kHeel,
-        kHole,
+        kHole, // rich JMI
         kOpenString,
-        kOtherTechnical,
-        kPluck,
-        kPullOff,
         kSnapPizzicato,
         kStopped,
         kTap,
@@ -1115,6 +1110,9 @@ class EXP msrTechnicalWithInteger : public msrElement
                           getTechnicalWithIntegerKind () const
                               { return fTechnicalWithIntegerKind; }
         
+    int                   getTechnicalWithIntegerValue () const
+                              { return fTechnicalWithIntegerValue; }
+        
     void                  setTechnicalWithIntegerPlacementKind (
                             msrTechnicalWithIntegerPlacementKind
                               technicalWithIntegerPlacementKind)
@@ -1170,6 +1168,127 @@ class EXP msrTechnicalWithInteger : public msrElement
 };
 typedef SMARTP<msrTechnicalWithInteger> S_msrTechnicalWithInteger;
 EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
+
+/*!
+\brief A msr technicalWithString representation.
+
+  An technicalWithString is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrTechnicalWithString : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTechnicalWithStringKind {
+        kHammerOn,
+        kHandbell,
+        kOtherTechnical,
+        kPluck,
+        kPullOff};
+
+    static string technicalWithStringKindAsString (
+      msrTechnicalWithStringKind technicalWithStringKind);
+      
+    enum msrTechnicalWithStringPlacementKind {
+      k_NoPlacementKind, kAbove, kBelow};
+
+    static string technicalWithStringPlacementKindAsString (
+      msrTechnicalWithStringPlacementKind technicalWithStringPlacementKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTechnicalWithString> create (
+      int                         inputLineNumber,
+      msrTechnicalWithStringKind technicalWithStringKind,
+      string                      technicalWithStringValue,
+      msrTechnicalWithStringPlacementKind
+                                  technicalWithStringPlacementKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTechnicalWithString (
+      int                         inputLineNumber,
+      msrTechnicalWithStringKind technicalWithStringKind,
+      string                      technicalWithStringValue,
+      msrTechnicalWithStringPlacementKind
+                                  technicalWithStringPlacementKind);
+      
+    virtual ~msrTechnicalWithString();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrTechnicalWithStringKind
+                          getTechnicalWithStringKind () const
+                              { return fTechnicalWithStringKind; }
+
+    string                getTechnicalWithStringValue () const
+                              { return fTechnicalWithStringValue; }
+        
+    void                  setTechnicalWithStringPlacementKind (
+                            msrTechnicalWithStringPlacementKind
+                              technicalWithStringPlacementKind)
+                              {
+                                fTechnicalWithStringPlacementKind =
+                                  technicalWithStringPlacementKind;
+                              }
+        
+    msrTechnicalWithStringPlacementKind
+                          getTechnicalWithStringPlacementKind () const
+                              { return fTechnicalWithStringPlacementKind; }
+
+    void                  setTechnicalWithStringNoteUplink (S_msrNote note)
+                              { fTechnicalWithStringNoteUplink = note; }
+
+    S_msrNote             getTechnicalWithStringNoteUplink () const
+                              { return fTechnicalWithStringNoteUplink; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                technicalWithStringKindAsString () const;
+
+    string                technicalWithStringPlacementKindAsString () const;
+
+    string                technicalWithStringAccidentalMarkKindAsString () const;
+    
+    string                technicalWithStringAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrTechnicalWithStringKind      fTechnicalWithStringKind;
+
+    string                          fTechnicalWithStringValue;
+
+    msrTechnicalWithStringPlacementKind
+                                    fTechnicalWithStringPlacementKind;
+    
+    S_msrNote                       fTechnicalWithStringNoteUplink;
+};
+typedef SMARTP<msrTechnicalWithString> S_msrTechnicalWithString;
+EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt);
 
 /*!
 \brief A msr ornament representation.
@@ -3253,9 +3372,14 @@ class EXP msrNote : public msrElement
     const list<S_msrTechnical>&
                           getNoteTechnicals () const
                               { return fNoteTechnicals; }
+                              
     const list<S_msrTechnicalWithInteger>&
                           getNoteTechnicalWithIntegers () const
                               { return fNoteTechnicalWithIntegers; }
+                              
+    const list<S_msrTechnicalWithString>&
+                          getNoteTechnicalWithStrings () const
+                              { return fNoteTechnicalWithStrings; }
                               
     // ornaments
     const list<S_msrOrnament>&
@@ -3405,8 +3529,12 @@ class EXP msrNote : public msrElement
     
     // technicals
     void                  addTechnicalToNote (S_msrTechnical tech);
+    
     void                  addTechnicalWithIntegerToNote (
                             S_msrTechnicalWithInteger tech);
+    
+    void                  addTechnicalWithStringToNote (
+                            S_msrTechnicalWithString tech);
     
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament orn);
@@ -3501,6 +3629,8 @@ class EXP msrNote : public msrElement
     list<S_msrTechnical>      fNoteTechnicals;
     list<S_msrTechnicalWithInteger>
                               fNoteTechnicalWithIntegers;
+    list<S_msrTechnicalWithString>
+                              fNoteTechnicalWithStrings;
     
     list<S_msrOrnament>       fNoteOrnaments;
     
@@ -3610,9 +3740,14 @@ class EXP msrChord : public msrElement
     const list<S_msrTechnical>&
                           getChordTechnicals () const
                               { return fChordTechnicals; }
+                              
     const list<S_msrTechnicalWithInteger>&
                           getChordTechnicalWithIntegers () const
                               { return fChordTechnicalWithIntegers; }
+    
+    const list<S_msrTechnicalWithString>&
+                          getChordTechnicalWithStrings () const
+                              { return fChordTechnicalWithStrings; }
     
     // ornaments
     const list<S_msrOrnament>&
@@ -3698,8 +3833,12 @@ class EXP msrChord : public msrElement
     void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
     void                  addTechnicalToChord (S_msrTechnical tech);
+    
     void                  addTechnicalWithIntegerToChord (
                             S_msrTechnicalWithInteger tech);
+    
+    void                  addTechnicalWithStringToChord (
+                            S_msrTechnicalWithString tech);
     
     void                  addOrnamentToChord (S_msrOrnament orn);
      
@@ -3763,8 +3902,12 @@ class EXP msrChord : public msrElement
     S_msrSingleTremolo        fChordSingleTremolo;
     
     list<S_msrTechnical>      fChordTechnicals;
+    
     list<S_msrTechnicalWithInteger>
                               fChordTechnicalWithIntegers;
+    
+    list<S_msrTechnicalWithString>
+                              fChordTechnicalWithStrings;
     
     list<S_msrOrnament>       fChordOrnaments;
     

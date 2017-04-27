@@ -97,6 +97,8 @@ class lpsr2LilyPondTranslator :
   public visitor<S_msrArticulation>,
   
   public visitor<S_msrTechnical>,
+  public visitor<S_msrTechnicalWithInteger>,
+  public visitor<S_msrTechnicalWithString>,
   
   public visitor<S_msrOrnament>,
   
@@ -285,6 +287,12 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 
+    virtual void visitStart (S_msrTechnicalWithInteger& elt);
+    virtual void visitEnd   (S_msrTechnicalWithInteger& elt);
+
+    virtual void visitStart (S_msrTechnicalWithString& elt);
+    virtual void visitEnd   (S_msrTechnicalWithString& elt);
+
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
 
@@ -381,9 +389,22 @@ class lpsr2LilyPondTranslator :
     void        printNoteAsLilyPondString (S_msrNote note);
 
     string      technicalKindAsLilyPondString (
-                  int                            inputLineNumber,
-                  msrTechnical::msrTechnicalKind technicalKind,
-                  string                         noteUplinkDuration);
+                  int    inputLineNumber,
+                  msrTechnical::msrTechnicalKind
+                         technicalKind,
+                  string noteUplinkDuration);
+
+    string      technicalWithIntegerKindAsLilyPondString (
+                  int    inputLineNumber,
+                  msrTechnicalWithInteger::msrTechnicalWithIntegerKind
+                         technicalWithIntegerKind,
+                  string noteUplinkDuration);
+
+    string      technicalWithStringKindAsLilyPondString (
+                  int    inputLineNumber,
+                  msrTechnicalWithString::msrTechnicalWithStringKind
+                         technicalWithStringKind,
+                  string noteUplinkDuration);
 
     string      ornamentKindAsLilyPondString (
                   int                          inputLineNumber,

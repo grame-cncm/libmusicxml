@@ -3094,12 +3094,6 @@ string msrTechnical::technicalKindAsString () const
     case msrTechnical::kFingernails:
       result = "Fingernails";
       break;
-    case msrTechnical::kHammerOn:
-      result = "HammerOn";
-      break;
-    case msrTechnical::kHandbell:
-      result = "Handbell";
-      break;
     case msrTechnical::kHarmonic:
       result = "Harmonic";
       break;
@@ -3111,15 +3105,6 @@ string msrTechnical::technicalKindAsString () const
       break;
     case msrTechnical::kOpenString:
       result = "OpenString";
-      break;
-    case msrTechnical::kOtherTechnical:
-      result = "OtherTechnical";
-      break;
-    case msrTechnical::kPluck:
-      result = "Pluck";
-      break;
-    case msrTechnical::kPullOff:
-      result = "PullOff";
       break;
     case msrTechnical::kSnapPizzicato:
       result = "SnapPizzicato";
@@ -3423,6 +3408,169 @@ void msrTechnicalWithInteger::print (ostream& os)
     ", placement" << " = " << technicalWithIntegerPlacementKindAsString () <<
     ", note uplink" << " = " <<
     fTechnicalWithIntegerNoteUplink->noteAsShortString () <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrTechnicalWithString msrTechnicalWithString::create (
+  int                         inputLineNumber,
+  msrTechnicalWithStringKind technicalWithStringKind,
+  string                      technicalWithStringValue,
+  msrTechnicalWithStringPlacementKind
+                              technicalWithStringPlacementKind)
+{
+  msrTechnicalWithString* o =
+    new msrTechnicalWithString (
+      inputLineNumber,
+      technicalWithStringKind,
+      technicalWithStringValue,
+      technicalWithStringPlacementKind);
+  assert (o!=0);
+  return o;
+}
+
+msrTechnicalWithString::msrTechnicalWithString (
+  int                         inputLineNumber,
+  msrTechnicalWithStringKind technicalWithStringKind,
+  string                      technicalWithStringValue,
+  msrTechnicalWithStringPlacementKind
+                              technicalWithStringPlacementKind)
+    : msrElement (inputLineNumber)
+{
+  fTechnicalWithStringKind = technicalWithStringKind;
+
+  fTechnicalWithStringValue = technicalWithStringValue;
+
+  fTechnicalWithStringPlacementKind = technicalWithStringPlacementKind;
+}
+
+msrTechnicalWithString::~msrTechnicalWithString() {}
+
+string msrTechnicalWithString::technicalWithStringKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithStringKind) {
+    case msrTechnicalWithString::kHammerOn:
+      result = "HammerOn";
+      break;
+    case msrTechnicalWithString::kHandbell:
+      result = "Handbell";
+      break;
+    case msrTechnicalWithString::kOtherTechnical:
+      result = "OtherTechnical";
+      break;
+    case msrTechnicalWithString::kPluck:
+      result = "Pluck";
+      break;
+    case msrTechnicalWithString::kPullOff:
+      result = "PullOff";
+      break;
+  } // switch
+
+  result +=
+    " " + fTechnicalWithStringValue;
+
+  return result;
+}
+
+string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithStringPlacementKind) {
+    case msrTechnicalWithString::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTechnicalWithString::kAbove:
+      result = "above";
+      break;
+    case msrTechnicalWithString::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrTechnicalWithString::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTechnicalWithString::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrTechnicalWithString>*
+    p =
+      dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
+        S_msrTechnicalWithString elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTechnicalWithString::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTechnicalWithString::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTechnicalWithString::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrTechnicalWithString>*
+    p =
+      dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
+        S_msrTechnicalWithString elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTechnicalWithString::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTechnicalWithString::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTechnicalWithString::technicalWithStringAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithStringPlacementKind) {
+    case msrTechnicalWithString::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrTechnicalWithString::kAbove:
+      result = "above";
+      break;
+    case msrTechnicalWithString::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  result +=
+    " " + fTechnicalWithStringValue;
+
+  return result;
+}
+
+void msrTechnicalWithString::print (ostream& os)
+{
+  os <<
+    "TechnicalWithString" " " <<
+    technicalWithStringKindAsString () <<
+    ", line " << fInputLineNumber <<
+    ", placement" << " = " << technicalWithStringPlacementKindAsString () <<
+    ", note uplink" << " = " <<
+    fTechnicalWithStringNoteUplink->noteAsShortString () <<
     endl;
 }
 
@@ -5381,6 +5529,25 @@ void msrNote::addTechnicalWithIntegerToNote (
     setTechnicaWithIntegerlNoteUplink (this);
 }
 
+void msrNote::addTechnicalWithStringToNote (
+  S_msrTechnicalWithString technicalWithString)
+{
+  if (gGeneralOptions->fTraceNotes)
+    cerr << idtr <<
+      "Adding technical '" <<
+      technicalWithString->technicalWithStringAsString () <<
+      "' to note '" << noteAsShortString () <<
+      "', line " << fInputLineNumber <<
+      endl;
+
+  // append the technical with integer to the note technicals with integers list
+  fNoteTechnicalsWithString.push_back (technicalWithString);
+
+  // set technical's note uplink
+  technicalWithString->
+    setTechnicaWithStringlNoteUplink (this);
+}
+
 void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 {
   // append the ornament to the note ornaments list
@@ -5643,7 +5810,40 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteTechnicals.size()) {
     idtr++;
     list<S_msrTechnical>::const_iterator i;
-    for (i=fNoteTechnicals.begin(); i!=fNoteTechnicals.end(); i++) {
+    for (
+      i=fNoteTechnicals.begin();
+      i!=fNoteTechnicals.end();
+      i++) {
+      // browse the technical
+      msrBrowser<msrTechnical> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+  
+  // browse the technicals with integer if any
+  if (fNoteTechnicalsWithInteger.size()) {
+    idtr++;
+    list<S_msrTechnicalWithInteger>::const_iterator i;
+    for (
+      i=fNoteTechnicalsWithInteger.begin();
+      i!=fNoteTechnicalsWithInteger.end();
+      i++) {
+      // browse the technical
+      msrBrowser<msrTechnical> browser (v);
+      browser.browse (*(*i));
+    } // for
+    idtr--;
+  }
+  
+  // browse the technicals with string if any
+  if (fNoteTechnicalsWithString.size()) {
+    idtr++;
+    list<S_msrTechnicalWithString>::const_iterator i;
+    for (
+      i=fNoteTechnicalsWithString.begin();
+      i!=fNoteTechnicalsWithString.end();
+      i++) {
       // browse the technical
       msrBrowser<msrTechnical> browser (v);
       browser.browse (*(*i));
@@ -6390,6 +6590,40 @@ void msrNote::print (ostream& os)
     idtr--;
   }
   
+  // print the technicals with integer if any
+  if (fNoteTechnicalsWithInteger.size()) {
+    idtr++;
+
+    list<S_msrTechnicalWithInteger>::const_iterator
+      iBegin = fNoteTechnicalsWithInteger.begin(),
+      iEnd   = fNoteTechnicalsWithInteger.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+        
+    idtr--;
+  }
+  
+  // print the technicals with string if any
+  if (fNoteTechnicalsWithString.size()) {
+    idtr++;
+
+    list<S_msrTechnicalWithString>::const_iterator
+      iBegin = fNoteTechnicalsWithString.begin(),
+      iEnd   = fNoteTechnicalsWithString.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+        
+    idtr--;
+  }
+  
   // print the ornaments if any
   if (fNoteOrnaments.size()) {
     idtr++;
@@ -6777,6 +7011,34 @@ void msrChord::addTechnicalWithIntegerToChord (
       endl;
 
   fChordTechnicalWithIntegers.push_back (tech);
+}
+
+void msrChord::addTechnicalWithStringToChord (
+  S_msrTechnicalWithString tech)
+{
+  msrTechnicalWithString::msrTechnicalWithStringKind
+    technicalWithStringKind =
+      tech->
+        getTechnicalWithStringKind ();
+
+  // don't add the same technical several times
+  for (
+    list<S_msrTechnicalWithString>::const_iterator i =
+      fChordTechnicalWithStrings.begin();
+    i!=fChordTechnicalsWithString.end();
+    i++) {
+      if ((*i)->getTechnicalWithStringKind () == technicalWithStringKind)
+        return;
+  } // for
+
+  if (gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "% Adding technical with integer '" <<
+      tech->technicalWithStringAsString () <<
+      "' to chord" <<
+      endl;
+
+  fChordTechnicalWithStrings.push_back (tech);
 }
 
 void msrChord::addOrnamentToChord (S_msrOrnament orn)

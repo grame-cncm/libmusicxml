@@ -6351,20 +6351,20 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
-  string
-    placement =
-      elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
+  string hammerOnValue = elt->getValue ();
+    
+  string placement = elt->getAttributeValue ("placement");
+
+  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     hammerOnPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoPlacementKind;
 
   if      (placement == "above")
-    hammerOnPlacementKind = msrTechnical::kAbove;
+    hammerOnPlacementKind = msrTechnicalWithString::kAbove;
     
   else if (placement == "below")
-    hammerOnPlacementKind = msrTechnical::kBelow;
+    hammerOnPlacementKind = msrTechnicalWithString::kBelow;
     
   else if (placement.size ()) {
     
@@ -6379,14 +6379,15 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
       s.str());    
   }
 
-  S_msrTechnical
-    technical =
-      msrTechnical::create (
+  S_msrTechnicalWithString
+    technicalWithString =
+      msrTechnicalWithString::create (
         inputLineNumber,
-        msrTechnical::kHammerOn,
+        msrTechnicalWithString::kHammerOn,
+        hammerOnValue,
         hammerOnPlacementKind);
       
-  fCurrentTechnicalsList.push_back (technical);
+  fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
 void xml2MsrTranslator::visitStart ( S_handbell& elt )
@@ -6399,19 +6400,21 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  string handBellValue = elt->getValue ();
+    
   string
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
+  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     handbellPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoPlacementKind;
 
   if      (placement == "above")
-    handbellPlacementKind = msrTechnical::kAbove;
+    handbellPlacementKind = msrTechnicalWithString::kAbove;
     
   else if (placement == "below")
-    handbellPlacementKind = msrTechnical::kBelow;
+    handbellPlacementKind = msrTechnicalWithString::kBelow;
     
   else if (placement.size ()) {
     
@@ -6426,14 +6429,15 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
       s.str());    
   }
 
-  S_msrTechnical
-    technical =
-      msrTechnical::create (
+  S_msrTechnicalWithString
+    technicalWithString =
+      msrTechnicalWithString::create (
         inputLineNumber,
-        msrTechnical::kHandbell,
+        msrTechnicalWithString::kHandbell,
+        handBellValue,
         handbellPlacementKind);
       
-  fCurrentTechnicalsList.push_back (technical);
+  fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
 void xml2MsrTranslator::visitStart ( S_harmonic& elt )
@@ -6634,19 +6638,21 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  string otherTechnicalValue = elt->getValue ();
+    
   string
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    otherTechnicalPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
+    otherTechnicalWithStringPlacementKind =
+      msrTechnicalWithString::k_NoPlacementKind;
 
   if      (placement == "above")
-    otherTechnicalPlacementKind = msrTechnical::kAbove;
+    otherTechnicalWithStringPlacementKind = msrTechnicalWithString::kAbove;
     
   else if (placement == "below")
-    otherTechnicalPlacementKind = msrTechnical::kBelow;
+    otherTechnicalWithStringPlacementKind = msrTechnicalWithString::kBelow;
     
   else if (placement.size ()) {
     
@@ -6661,14 +6667,15 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
       s.str());    
   }
 
-  S_msrTechnical
-    technical =
-      msrTechnical::create (
+  S_msrTechnicalWithString
+    technicalWithString =
+      msrTechnicalWithString::create (
         inputLineNumber,
-        msrTechnical::kOtherTechnical,
-        otherTechnicalPlacementKind);
+        msrTechnicalWithString::kOtherTechnical,
+        otherTechnicalValue,
+        otherTechnicalWithStringPlacementKind);
       
-  fCurrentTechnicalsList.push_back (technical);
+  fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
 void xml2MsrTranslator::visitStart ( S_pluck& elt )
@@ -6681,19 +6688,21 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  string pluckValue = elt->getValue ();
+    
   string
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
+  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     pluckPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoPlacementKind;
 
   if      (placement == "above")
-    pluckPlacementKind = msrTechnical::kAbove;
+    pluckPlacementKind = msrTechnicalWithString::kAbove;
     
   else if (placement == "below")
-    pluckPlacementKind = msrTechnical::kBelow;
+    pluckPlacementKind = msrTechnicalWithString::kBelow;
     
   else if (placement.size ()) {
     
@@ -6708,14 +6717,15 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
       s.str());    
   }
 
-  S_msrTechnical
-    technical =
-      msrTechnical::create (
+  S_msrTechnicalWithString
+    technicalWithString =
+      msrTechnicalWithString::create (
         inputLineNumber,
-        msrTechnical::kPluck,
+        msrTechnicalWithString::kPluck,
+        pluckValue,
         pluckPlacementKind);
       
-  fCurrentTechnicalsList.push_back (technical);
+  fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
 void xml2MsrTranslator::visitStart ( S_pull_off& elt )
@@ -6728,19 +6738,21 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  string pullOffValue = elt->getValue ();
+    
   string
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
+  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     pullOffPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoPlacementKind;
 
   if      (placement == "above")
-    pullOffPlacementKind = msrTechnical::kAbove;
+    pullOffPlacementKind = msrTechnicalWithString::kAbove;
     
   else if (placement == "below")
-    pullOffPlacementKind = msrTechnical::kBelow;
+    pullOffPlacementKind = msrTechnicalWithString::kBelow;
     
   else if (placement.size ()) {
     
@@ -6755,14 +6767,15 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
       s.str());    
   }
 
-  S_msrTechnical
-    technical =
-      msrTechnical::create (
+  S_msrTechnicalWithString
+    technicalWithString =
+      msrTechnicalWithString::create (
         inputLineNumber,
-        msrTechnical::kPullOff,
+        msrTechnicalWithString::kPullOff,
+        pullOffValue,
         pullOffPlacementKind);
       
-  fCurrentTechnicalsList.push_back (technical);
+  fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
 void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )

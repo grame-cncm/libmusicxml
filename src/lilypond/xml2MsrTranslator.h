@@ -998,6 +998,8 @@ class EXP xml2MsrTranslator :
     list<S_msrTechnical>      fCurrentTechnicalsList;
     list<S_msrTechnicalWithInteger>
                               fCurrentTechnicalWithIntegersList;
+    list<S_msrTechnicalWithString>
+                              fCurrentTechnicalWithStringsList;
 
     int                       fBendAlterValue;
     

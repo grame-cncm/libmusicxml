@@ -193,6 +193,12 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 
+    virtual void visitStart (S_msrTechnicalWithInteger& elt);
+    virtual void visitEnd   (S_msrTechnicalWithInteger& elt);
+
+    virtual void visitStart (S_msrTechnicalWithString& elt);
+    virtual void visitEnd   (S_msrTechnicalWithString& elt);
+
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
 
