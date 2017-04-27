@@ -2785,6 +2785,46 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTechnical& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrTechnicalWithInteger" <<
+      endl;
+
+  // don't generate the technicalWithInteger here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrTechnicalWithInteger" <<
+      endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrTechnicalWithString& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrTechnicalWithString" <<
+      endl;
+
+  // don't generate the technicalWithString here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrTechnicalWithString& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrTechnicalWithString" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -3605,6 +3645,74 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
+  // print the note technicals if any
+  list<S_msrTechnicalWithInteger>
+    noteTechnicalWithIntegers =
+      elt->getNoteTechnicalWithIntegers ();
+      
+  if (noteTechnicalWithIntegers.size()) {
+    list<S_msrTechnicalWithInteger>::const_iterator i;
+    for (
+      i=noteTechnicalWithIntegers.begin();
+      i!=noteTechnicalWithIntegers.end();
+      i++) {
+        
+      fOstream <<
+        technicalWithIntegerKindAsLilyPondString ((*i));
+      fMusicOlec++;
+
+      switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
+        case msrTechnicalWithInteger::k_NoPlacementKind:
+          break;
+        case msrTechnicalWithInteger::kAbove:
+ // JMI         fOstream << "^";
+          break;
+        case msrTechnicalWithInteger::kBelow:
+ // JMI         fOstream << "_";
+          break;
+      } // switch
+
+      fMusicOlec++;
+
+      fOstream << " ";
+      fMusicOlec++;
+    } // for
+  }
+
+  // print the note technicals if any
+  list<S_msrTechnicalWithString>
+    noteTechnicalWithStrings =
+      elt->getNoteTechnicalWithStrings ();
+      
+  if (noteTechnicalWithStrings.size()) {
+    list<S_msrTechnicalWithString>::const_iterator i;
+    for (
+      i=noteTechnicalWithStrings.begin();
+      i!=noteTechnicalWithStrings.end();
+      i++) {
+        
+      fOstream <<
+        technicalWithStringKindAsLilyPondString ((*i));
+      fMusicOlec++;
+
+      switch ((*i)->getTechnicalWithStringPlacementKind ()) {
+        case msrTechnicalWithString::k_NoPlacementKind:
+          break;
+        case msrTechnicalWithString::kAbove:
+ // JMI         fOstream << "^";
+          break;
+        case msrTechnicalWithString::kBelow:
+ // JMI         fOstream << "_";
+          break;
+      } // switch
+
+      fMusicOlec++;
+
+      fOstream << " ";
+      fMusicOlec++;
+    } // for
+  }
+
   // print the note ornaments if any
   list<S_msrOrnament>
     noteOrnaments =
@@ -4132,6 +4240,42 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       i++) {
       fOstream <<
         technicalKindAsLilyPondString ((*i)) <<
+        " "; // JMI
+      fMusicOlec++;
+    } // for
+  }
+
+  // print the chord technicals with integer if any
+  list<S_msrTechnicalWithInteger>
+    chordTechnicalWithIntegers =
+      elt->getChordTechnicalWithIntegers ();
+      
+  if (chordTechnicalWithIntegers.size()) {
+    list<S_msrTechnicalWithInteger>::const_iterator i;
+    for (
+      i=chordTechnicalWithIntegers.begin();
+      i!=chordTechnicalWithIntegers.end();
+      i++) {
+      fOstream <<
+        technicalWithIntegerKindAsLilyPondString ((*i)) <<
+        " "; // JMI
+      fMusicOlec++;
+    } // for
+  }
+
+  // print the chord technicals with string if any
+  list<S_msrTechnicalWithString>
+    chordTechnicalWithStrings =
+      elt->getChordTechnicalWithStrings ();
+      
+  if (chordTechnicalWithStrings.size()) {
+    list<S_msrTechnicalWithString>::const_iterator i;
+    for (
+      i=chordTechnicalWithStrings.begin();
+      i!=chordTechnicalWithStrings.end();
+      i++) {
+      fOstream <<
+        technicalWithStringKindAsLilyPondString ((*i)) <<
         " "; // JMI
       fMusicOlec++;
     } // for

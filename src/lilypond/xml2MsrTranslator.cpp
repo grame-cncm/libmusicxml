@@ -6059,7 +6059,15 @@ void xml2MsrTranslator::visitStart ( S_bend_alter& elt )
   fBendAlterValue = (int)(*elt);
 }
   
-void xml2MsrTranslator::visitStart ( S_bend& elt )
+void xml2MsrTranslator::visitStart ( S_bend& elt ) // JMI
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_bend" <<
+      endl;
+}
+
+void xml2MsrTranslator::visitEnd ( S_bend& elt )
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -6068,7 +6076,7 @@ void xml2MsrTranslator::visitStart ( S_bend& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
   string placement = elt->getAttributeValue ("placement");
 
   msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
