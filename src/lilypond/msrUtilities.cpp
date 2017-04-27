@@ -198,7 +198,8 @@ indenter& indenter::operator-- (const int value)
       endl <<
       "% ### Indentation has become negative..." <<
       endl << endl;
-  //  assert(false);
+
+    assert(false);
   }
     
   return *this;

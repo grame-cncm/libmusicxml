@@ -626,10 +626,98 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       
     case msrStaff::kTablatureStaff:
       // JMI
+      {
+        // create a staff clone
+        fCurrentStaffClone =
+          elt->createStaffBareClone (fCurrentPartClone);
+          
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartCloneByItsNumber (fCurrentStaffClone);
+      
+        // create a staff block
+        fCurrentStaffBlock =
+          lpsrStaffBlock::create (
+            fCurrentStaffClone);
+      
+        string
+          partName =
+            fCurrentPartClone->getPartName (),
+          partAbbreviation =
+            fCurrentPartClone->getPartAbbreviation ();
+      
+        string staffBlockInstrumentName;
+        string staffBlockShortInstrumentName;
+      
+        // don't set instrument name nor short instrument name // JMI
+        // if the staff belongs to a piano part where they're already set
+        if (! partName.size ())
+          staffBlockInstrumentName = partName;
+        if (! partAbbreviation.size ())
+          staffBlockShortInstrumentName = partAbbreviation;
+      
+        if (staffBlockInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockInstrumentName (staffBlockInstrumentName);
+            
+        if (staffBlockShortInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+              
+        // append the staff block to the current part block
+        fCurrentPartBlock->
+          appendElementToPartBlock (fCurrentStaffBlock);
+      
+        fOnGoingStaff = true;
+      }
       break;
       
     case msrStaff::kPercussionStaff:
       // JMI
+      {
+        // create a staff clone
+        fCurrentStaffClone =
+          elt->createStaffBareClone (fCurrentPartClone);
+          
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartCloneByItsNumber (fCurrentStaffClone);
+      
+        // create a staff block
+        fCurrentStaffBlock =
+          lpsrStaffBlock::create (
+            fCurrentStaffClone);
+      
+        string
+          partName =
+            fCurrentPartClone->getPartName (),
+          partAbbreviation =
+            fCurrentPartClone->getPartAbbreviation ();
+      
+        string staffBlockInstrumentName;
+        string staffBlockShortInstrumentName;
+      
+        // don't set instrument name nor short instrument name // JMI
+        // if the staff belongs to a piano part where they're already set
+        if (! partName.size ())
+          staffBlockInstrumentName = partName;
+        if (! partAbbreviation.size ())
+          staffBlockShortInstrumentName = partAbbreviation;
+      
+        if (staffBlockInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockInstrumentName (staffBlockInstrumentName);
+            
+        if (staffBlockShortInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+              
+        // append the staff block to the current part block
+        fCurrentPartBlock->
+          appendElementToPartBlock (fCurrentStaffBlock);
+      
+        fOnGoingStaff = true;
+      }
       break;
       
     case msrStaff::kHarmonyStaff:
