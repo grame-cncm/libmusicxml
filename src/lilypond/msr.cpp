@@ -3059,7 +3059,9 @@ S_msrTechnical msrTechnical::create (
 {
   msrTechnical* o =
     new msrTechnical (
-      inputLineNumber, technicalKind);
+      inputLineNumber,
+      technicalKind,
+      technicalPlacementKind);
   assert (o!=0);
   return o;
 }
@@ -3294,7 +3296,7 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
     case msrTechnicalWithInteger::kBend:
       result = "Bend";
       break;
-    case msrTechnical::kFingering:
+    case msrTechnicalWithInteger::kFingering:
       result = "Fingering";
       break;
     case msrTechnicalWithInteger::kFret:
@@ -3667,14 +3669,32 @@ string msrOrnament::ornamentAccidentalMarkKindAsString () const
   string result;
   
   switch (fOrnamentAccidentalMarkKind) {
+    case msrOrnament::kDoubleFlat:
+      result = "doubleFlat";
+      break;
+    case msrOrnament::kSesquiFlat:
+      result = "sesquiFlat";
+      break;
+    case msrOrnament::kFlat:
+      result = "flat";
+      break;
+    case msrOrnament::kSemiFlat:
+      result = "semiFlat";
+      break;
     case msrOrnament::kNatural:
       result = "natural";
+      break;
+    case msrOrnament::kSemiSharp:
+      result = "semiSharp";
       break;
     case msrOrnament::kSharp:
       result = "sharp";
       break;
-    case msrOrnament::kFlat:
-      result = "flat";
+    case msrOrnament::kSesquiSharp:
+      result = "sesquiSharp";
+      break;
+    case msrOrnament::kDoubleSharp:
+      result = "doubleSharp";
       break;
   } // switch
 
@@ -5522,11 +5542,11 @@ void msrNote::addTechnicalWithIntegerToNote (
       endl;
 
   // append the technical with integer to the note technicals with integers list
-  fNoteTechnicalsWithInteger.push_back (technicalWithInteger);
+  fNoteTechnicalWithIntegers.push_back (technicalWithInteger);
 
   // set technical's note uplink
   technicalWithInteger->
-    setTechnicaWithIntegerlNoteUplink (this);
+    setTechnicalWithIntegerNoteUplink (this);
 }
 
 void msrNote::addTechnicalWithStringToNote (
@@ -5541,11 +5561,11 @@ void msrNote::addTechnicalWithStringToNote (
       endl;
 
   // append the technical with integer to the note technicals with integers list
-  fNoteTechnicalsWithString.push_back (technicalWithString);
+  fNoteTechnicalWithStrings.push_back (technicalWithString);
 
   // set technical's note uplink
   technicalWithString->
-    setTechnicaWithStringlNoteUplink (this);
+    setTechnicalWithStringNoteUplink (this);
 }
 
 void msrNote::addOrnamentToNote (S_msrOrnament ornament)
@@ -5822,30 +5842,30 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the technicals with integer if any
-  if (fNoteTechnicalsWithInteger.size()) {
+  if (fNoteTechnicalWithIntegers.size()) {
     idtr++;
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
-      i=fNoteTechnicalsWithInteger.begin();
-      i!=fNoteTechnicalsWithInteger.end();
+      i=fNoteTechnicalWithIntegers.begin();
+      i!=fNoteTechnicalWithIntegers.end();
       i++) {
       // browse the technical
-      msrBrowser<msrTechnical> browser (v);
+      msrBrowser<msrTechnicalWithInteger> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
   }
   
   // browse the technicals with string if any
-  if (fNoteTechnicalsWithString.size()) {
+  if (fNoteTechnicalWithStrings.size()) {
     idtr++;
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
-      i=fNoteTechnicalsWithString.begin();
-      i!=fNoteTechnicalsWithString.end();
+      i=fNoteTechnicalWithStrings.begin();
+      i!=fNoteTechnicalWithStrings.end();
       i++) {
       // browse the technical
-      msrBrowser<msrTechnical> browser (v);
+      msrBrowser<msrTechnicalWithString> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -6591,12 +6611,12 @@ void msrNote::print (ostream& os)
   }
   
   // print the technicals with integer if any
-  if (fNoteTechnicalsWithInteger.size()) {
+  if (fNoteTechnicalWithIntegers.size()) {
     idtr++;
 
     list<S_msrTechnicalWithInteger>::const_iterator
-      iBegin = fNoteTechnicalsWithInteger.begin(),
-      iEnd   = fNoteTechnicalsWithInteger.end(),
+      iBegin = fNoteTechnicalWithIntegers.begin(),
+      iEnd   = fNoteTechnicalWithIntegers.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -6608,12 +6628,12 @@ void msrNote::print (ostream& os)
   }
   
   // print the technicals with string if any
-  if (fNoteTechnicalsWithString.size()) {
+  if (fNoteTechnicalWithStrings.size()) {
     idtr++;
 
     list<S_msrTechnicalWithString>::const_iterator
-      iBegin = fNoteTechnicalsWithString.begin(),
-      iEnd   = fNoteTechnicalsWithString.end(),
+      iBegin = fNoteTechnicalWithStrings.begin(),
+      iEnd   = fNoteTechnicalWithStrings.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -6997,7 +7017,7 @@ void msrChord::addTechnicalWithIntegerToChord (
   for (
     list<S_msrTechnicalWithInteger>::const_iterator i =
       fChordTechnicalWithIntegers.begin();
-    i!=fChordTechnicalsWithInteger.end();
+    i!=fChordTechnicalWithIntegers.end();
     i++) {
       if ((*i)->getTechnicalWithIntegerKind () == technicalWithIntegerKind)
         return;
@@ -7025,7 +7045,7 @@ void msrChord::addTechnicalWithStringToChord (
   for (
     list<S_msrTechnicalWithString>::const_iterator i =
       fChordTechnicalWithStrings.begin();
-    i!=fChordTechnicalsWithString.end();
+    i!=fChordTechnicalWithStrings.end();
     i++) {
       if ((*i)->getTechnicalWithStringKind () == technicalWithStringKind)
         return;
