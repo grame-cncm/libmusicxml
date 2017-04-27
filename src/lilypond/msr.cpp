@@ -3875,6 +3875,142 @@ void msrSingleTremolo::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrSingleTremolo msrSingleTremolo::create (
+  int                     inputLineNumber,
+  msrSingleTremoloKind    singleTremoloKind,
+  int                     singleTremoloMarksNumber,
+  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
+{
+  msrSingleTremolo* o =
+    new msrSingleTremolo (
+      inputLineNumber,
+      singleTremoloKind, singleTremoloMarksNumber, singleTremoloPlacementKind);
+  assert (o!=0);
+  return o;
+}
+
+msrSingleTremolo::msrSingleTremolo (
+  int                     inputLineNumber,
+  msrSingleTremoloKind    singleTremoloKind,
+  int                     singleTremoloMarksNumber,
+  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
+    : msrElement (inputLineNumber)
+{
+  fSingleTremoloKind          = singleTremoloKind;
+  fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
+  fSingleTremoloPlacementKind = singleTremoloPlacementKind;
+}
+
+msrSingleTremolo::~msrSingleTremolo() {}
+
+string msrSingleTremolo::singleTremoloKindAsString () const
+{
+  string result;
+  
+  switch (fSingleTremoloKind) {
+    case msrSingleTremolo::kSingleTremolo:
+      result = "single";
+      break;
+    case msrSingleTremolo::kDoubleTremolo:
+      result = "double";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSingleTremolo::singleTremoloPlacementKindAsString () const
+{
+  string result;
+  
+  switch (fSingleTremoloPlacementKind) {
+    case msrSingleTremolo::k_NoPlacementKind:
+      result = "none";
+      break;
+    case msrSingleTremolo::kAbove:
+      result = "above";
+      break;
+    case msrSingleTremolo::kBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrSingleTremolo::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrSingleTremolo::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrSingleTremolo>*
+    p =
+      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
+        S_msrSingleTremolo elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrSingleTremolo::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrSingleTremolo::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrSingleTremolo::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrSingleTremolo>*
+    p =
+      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
+        S_msrSingleTremolo elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrSingleTremolo::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrSingleTremolo::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrSingleTremolo::singleTremoloAsString () const
+{
+  stringstream s;
+  
+  s <<
+    "SingleTremolo" " " <<
+    singleTremoloKindAsString () <<
+    ", line " << fInputLineNumber <<
+    fSingleTremoloMarksNumber << " marks" <<
+    ", placement" << " = " << singleTremoloPlacementKindAsString ();
+
+  if (fSingleTremoloNoteUplink) // it may not yet be set
+    s <<
+      ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString ();
+
+  return s.str();
+}
+
+void msrSingleTremolo::print (ostream& os)
+{
+  os <<
+    singleTremoloAsString () <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrRehearsal msrRehearsal::create (
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,

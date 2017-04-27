@@ -1528,6 +1528,112 @@ class EXP msrSingleTremolo : public msrElement
 typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
 
+//______________________________________________________________________________
+class EXP msrDoubleTremolo : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrDoubleTremoloKind {
+        kDoubleTremolo, kDoubleTremolo };
+
+    static string singleTremoloKindAsString (
+      msrSingleTremoloKind singleTremoloKind);
+      
+    enum msrSingleTremoloPlacementKind {
+      k_NoPlacementKind, kAbove, kBelow};
+
+    static string SingleTremoloPlacementKindAsString (
+      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSingleTremolo> create (
+      int                     inputLineNumber,
+      msrSingleTremoloKind    singleTremoloKind,
+      int                     singleTremoloMarksNumber,
+      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSingleTremolo (
+      int                     inputLineNumber,
+      msrSingleTremoloKind    singleTremoloKind,
+      int                     singleTremoloMarksNumber,
+      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+      
+    virtual ~msrSingleTremolo();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSingleTremoloKind  getSingleTremoloKind () const
+                              { return fSingleTremoloKind; }
+        
+    void                  setSingleTremoloPlacementKind (
+                            msrSingleTremoloPlacementKind
+                              SingleTremoloPlacementKind)
+                              {
+                                fSingleTremoloPlacementKind =
+                                  SingleTremoloPlacementKind;
+                              }
+        
+    int                   getSingleTremoloMarksNumber () const
+                              { return fSingleTremoloMarksNumber; }
+                
+    msrSingleTremoloPlacementKind
+                          getSingleTremoloPlacementKind () const
+                              { return fSingleTremoloPlacementKind; }
+        
+    void                  setSingleTremoloNoteUplink (S_msrNote note)
+                              { fSingleTremoloNoteUplink = note; }
+
+    S_msrNote             getSingleTremoloNoteUplink () const
+                              { return fSingleTremoloNoteUplink; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                singleTremoloKindAsString () const;
+
+    string                singleTremoloPlacementKindAsString () const;
+    
+    string                singleTremoloAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    msrSingleTremoloKind          fSingleTremoloKind;
+
+    int                           fSingleTremoloMarksNumber;
+
+    msrSingleTremoloPlacementKind fSingleTremoloPlacementKind;
+    
+    S_msrNote                     fSingleTremoloNoteUplink;
+};
+typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
+EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
+
 /*!
 \brief A msr rehearsal representation.
 
