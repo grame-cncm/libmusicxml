@@ -3244,9 +3244,8 @@ void msrTechnical::print (ostream& os)
 {
   os <<
     "Technical" " " <<
-    technicalKindAsString () <<
+    technicalAsString () <<
     ", line " << fInputLineNumber <<
-    ", placement" << " = " << technicalPlacementKindAsString () <<
 //    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
     ", note uplink" << " = " <<
     fTechnicalNoteUplink->noteAsShortString () <<
@@ -3306,9 +3305,6 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
       result = "String";
       break;
   } // switch
-
-  result +=
-    " " + fTechnicalWithIntegerValue;
 
   return result;
 }
@@ -3381,33 +3377,24 @@ ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
 
 string msrTechnicalWithInteger::technicalWithIntegerAsString () const
 {
-  string result;
-  
-  switch (fTechnicalWithIntegerPlacementKind) {
-    case msrTechnicalWithInteger::k_NoPlacementKind:
-      result = "none";
-      break;
-    case msrTechnicalWithInteger::kAbove:
-      result = "above";
-      break;
-    case msrTechnicalWithInteger::kBelow:
-      result = "below";
-      break;
-  } // switch
+  stringstream s;
 
-  result +=
-    " " + fTechnicalWithIntegerValue;
+  s <<
+    technicalWithIntegerKindAsString () <<
+    " " <<
+    fTechnicalWithIntegerValue <<
+    ", placement " <<
+    technicalWithIntegerPlacementKindAsString ();
 
-  return result;
+  return s.str();
 }
 
 void msrTechnicalWithInteger::print (ostream& os)
 {
   os <<
     "TechnicalWithInteger" " " <<
-    technicalWithIntegerKindAsString () <<
+    technicalWithIntegerAsString () <<
     ", line " << fInputLineNumber <<
-    ", placement" << " = " << technicalWithIntegerPlacementKindAsString () <<
     ", note uplink" << " = " <<
     fTechnicalWithIntegerNoteUplink->noteAsShortString () <<
     endl;
@@ -3544,33 +3531,24 @@ ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)
 
 string msrTechnicalWithString::technicalWithStringAsString () const
 {
-  string result;
-  
-  switch (fTechnicalWithStringPlacementKind) {
-    case msrTechnicalWithString::k_NoPlacementKind:
-      result = "none";
-      break;
-    case msrTechnicalWithString::kAbove:
-      result = "above";
-      break;
-    case msrTechnicalWithString::kBelow:
-      result = "below";
-      break;
-  } // switch
+  stringstream s;
 
-  result +=
-    " " + fTechnicalWithStringValue;
+  s <<
+    technicalWithStringKindAsString () <<
+    " " <<
+    fTechnicalWithStringValue <<
+    ", placement " <<
+    technicalWithStringPlacementKindAsString ();
 
-  return result;
+  return s.str();
 }
 
 void msrTechnicalWithString::print (ostream& os)
 {
   os <<
     "TechnicalWithString" " " <<
-    technicalWithStringKindAsString () <<
+    technicalWithStringAsString () <<
     ", line " << fInputLineNumber <<
-    ", placement" << " = " << technicalWithStringPlacementKindAsString () <<
     ", note uplink" << " = " <<
     fTechnicalWithStringNoteUplink->noteAsShortString () <<
     endl;

@@ -8896,7 +8896,7 @@ void xml2MsrTranslator::attachCurrentTechnicalsToNote (
   // attach the current technicals if any to the note
   if (! fCurrentTechnicalsList.empty()) {
     
-    if (gGeneralOptions->fTraceNotes)
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       cerr << idtr <<
         "--> attaching current technicals to note " <<
         note->noteAsString () <<
@@ -8910,7 +8910,7 @@ void xml2MsrTranslator::attachCurrentTechnicalsToNote (
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
         cerr << idtr <<
           "--> attaching technical '" <<
-          tech->technicalKindAsString () <<
+          tech->technicalAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
   
@@ -8930,9 +8930,9 @@ void xml2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   // attach the current technicals if any to the note
   if (! fCurrentTechnicalWithIntegersList.empty()) {
     
-    if (gGeneralOptions->fTraceNotes)
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       cerr << idtr <<
-        "--> attaching current technicals to note " <<
+        "--> attaching current technical with integers to note " <<
         note->noteAsString () <<
         endl;
 
@@ -8943,8 +8943,8 @@ void xml2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
           
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
         cerr << idtr <<
-          "--> attaching technical '" <<
-          tech->technicalWithIntegerKindAsString () <<
+          "--> attaching technical with integer '" <<
+          tech->technicalWithIntegerAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
   
@@ -8964,9 +8964,9 @@ void xml2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   // attach the current technicals if any to the note
   if (! fCurrentTechnicalWithStringsList.empty()) {
     
-    if (gGeneralOptions->fTraceNotes)
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       cerr << idtr <<
-        "--> attaching current technicals to note " <<
+        "--> attaching current technical with strings to note " <<
         note->noteAsString () <<
         endl;
 
@@ -8977,8 +8977,8 @@ void xml2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
           
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
         cerr << idtr <<
-          "--> attaching technical '" <<
-          tech->technicalWithStringKindAsString () <<
+          "--> attaching technical with string '" <<
+          tech->technicalWithStringAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
   
