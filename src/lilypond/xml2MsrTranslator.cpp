@@ -8374,7 +8374,7 @@ void xml2MsrTranslator::copyNoteTechnicalsToChord (
     i!=noteTechnicals.end();
     i++) {
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) // JMI
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       cerr << idtr <<
         "--> copying technical '" <<
         (*i)->technicalKindAsString () <<
@@ -8403,7 +8403,7 @@ void xml2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
     i!=noteTechnicalWithIntegers.end();
     i++) {
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) // JMI
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       cerr << idtr <<
         "--> copying technical '" <<
         (*i)->technicalWithIntegerKindAsString () <<
@@ -8412,6 +8412,35 @@ void xml2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
         endl;
 
     chord->addTechnicalWithIntegerToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::copyNoteTechnicalWithStringsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's technicals if any from the first note to chord
+  
+  list<S_msrTechnicalWithString>
+    noteTechnicalWithStrings =
+      note->
+        getNoteTechnicalWithStrings ();
+                          
+  list<S_msrTechnicalWithString>::const_iterator i;
+  for (
+    i=noteTechnicalWithStrings.begin();
+    i!=noteTechnicalWithStrings.end();
+    i++) {
+
+    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
+      cerr << idtr <<
+        "--> copying technical '" <<
+        (*i)->technicalWithStringKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addTechnicalWithStringToChord ((*i));
   } // for      
 }
 
@@ -8644,7 +8673,9 @@ void xml2MsrTranslator::copyNoteElementsToChord (
   copyNoteArticulationsToChord (note, chord);
 
   // copy note's technicals if any to the chord
-  copyNoteOrnamentsToChord (note, chord);
+  copyNoteTechnicalsToChord (note, chord);
+  copyNoteTechnicalWithIntegersToChord (note, chord);
+  copyNoteTechnicalWithStringsToChord (note, chord);
 
   // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
@@ -8876,7 +8907,7 @@ void xml2MsrTranslator::attachCurrentTechnicalsToNote (
         tech =
           fCurrentTechnicalsList.front();
           
-      if (gGeneralOptions->fTraceNotes)
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
         cerr << idtr <<
           "--> attaching technical '" <<
           tech->technicalKindAsString () <<
@@ -8910,7 +8941,7 @@ void xml2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
         tech =
           fCurrentTechnicalWithIntegersList.front();
           
-      if (gGeneralOptions->fTraceNotes)
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
         cerr << idtr <<
           "--> attaching technical '" <<
           tech->technicalWithIntegerKindAsString () <<
@@ -8922,6 +8953,40 @@ void xml2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
 
       // forget about this technical
       fCurrentTechnicalWithIntegersList.pop_front();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
+  S_msrNote note)
+{
+  // attach the current technicals if any to the note
+  if (! fCurrentTechnicalWithStringsList.empty()) {
+    
+    if (gGeneralOptions->fTraceNotes)
+      cerr << idtr <<
+        "--> attaching current technicals to note " <<
+        note->noteAsString () <<
+        endl;
+
+    while (! fCurrentTechnicalWithStringsList.empty()) {
+      S_msrTechnicalWithString
+        tech =
+          fCurrentTechnicalWithStringsList.front();
+          
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
+        cerr << idtr <<
+          "--> attaching technical '" <<
+          tech->technicalWithStringKindAsString () <<
+          "' to note " << note->noteAsString () <<
+          endl;
+  
+      note->
+        addTechnicalWithStringToNote (tech);
+
+      // forget about this technical
+      fCurrentTechnicalWithStringsList.pop_front();
     } // while
   }
 }
@@ -9593,6 +9658,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   // attach the technicals if any to the note
   attachCurrentTechnicalsToNote (newNote);
+  attachCurrentTechnicalWithIntegersToNote (newNote);
+  attachCurrentTechnicalWithStringsToNote (newNote);
 
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);

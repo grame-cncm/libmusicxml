@@ -272,6 +272,11 @@ void analyzeOptions (
   int traceNotesPresent = 0;
   
   checkOptionUniqueness (
+    _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
+    
+  int traceTechnicalsPresent = 0;
+  
+  checkOptionUniqueness (
     _TRACE_TREMOLOS_LONG_NAME_, _TRACE_TREMOLOS_SHORT_NAME_);
     
   int traceTremolosPresent = 0;
@@ -756,6 +761,15 @@ void analyzeOptions (
     {
       _TRACE_NOTES_SHORT_NAME_,
       no_argument, &traceNotesPresent, 1
+    },
+    
+    {
+      _TRACE_TECHNICALS_LONG_NAME_,
+      no_argument, &traceTechnicalsPresent, 1
+    },
+    {
+      _TRACE_TECHNICALS_SHORT_NAME_,
+      no_argument, &traceTechnicalsPresent, 1
     },
     
     {
@@ -1498,6 +1512,17 @@ R"(
             "--" _TRACE_NOTES_SHORT_NAME_ " ";
             
           traceNotesPresent = false;
+        }
+        if (traceTechnicalsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTechnicals = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_TECHNICALS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_TECHNICALS_SHORT_NAME_ " ";
+            
+          traceTechnicalsPresent = false;
         }
         if (traceTremolosPresent) {
           gGeneralOptions->fTraceGeneral = true;

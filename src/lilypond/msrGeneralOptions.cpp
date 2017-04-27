@@ -76,6 +76,7 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceMeasures = boolOptionsInitialValue;
 
   fTraceNotes = boolOptionsInitialValue;
+  fTraceTechnicals = boolOptionsInitialValue;
   
   fTraceTremolos = boolOptionsInitialValue;
   
@@ -156,6 +157,8 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     true;
   
   clone->fTraceNotes =
+    true;
+  clone->fTraceTechnicals =
     true;
   
   clone->fTraceTremolos =
@@ -454,6 +457,14 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "notes" <<
       endl <<
     idtr <<
+      "--" _TRACE_TECHNICALS_SHORT_NAME_ ", --" _TRACE_TECHNICALS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "notes" <<
+      endl <<
+    endl <<
+      
+    idtr <<
       "--" _TRACE_TREMOLOS_SHORT_NAME_ ", --" _TRACE_TREMOLOS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
@@ -652,6 +663,10 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceNotes) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceTechnicals" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceTechnicals) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "traceTremolos" << " : " <<

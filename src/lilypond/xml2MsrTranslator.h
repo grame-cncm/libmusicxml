@@ -1007,6 +1007,8 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note);
     void                      attachCurrentTechnicalWithIntegersToNote (
                                 S_msrNote note);
+    void                      attachCurrentTechnicalWithStringsToNote (
+                                S_msrNote note);
 
 //    void                      attachCurrentTechnicalsToChord ( // JMI
  //                               S_msrChord chord);
@@ -1014,6 +1016,8 @@ class EXP xml2MsrTranslator :
     void                      copyNoteTechnicalsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteTechnicalWithIntegersToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteTechnicalWithStringsToChord (
                                 S_msrNote note, S_msrChord chord);
 
     // ------------------------------------------------------
