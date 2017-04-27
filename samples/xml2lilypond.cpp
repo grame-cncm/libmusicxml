@@ -1607,6 +1607,7 @@ R"(
         // trace and display
 
         if (traceMsrPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gMsrOptions->fTraceMsr = true;
 
           gGeneralOptions->fCommandLineLongOptions +=

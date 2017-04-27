@@ -199,7 +199,7 @@ indenter& indenter::operator-- (const int value)
       "% ### Indentation has become negative..." <<
       endl << endl;
 
-    assert(false);
+ // JMI   assert(false);
   }
     
   return *this;

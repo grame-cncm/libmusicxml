@@ -3122,7 +3122,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
           fOstream <<
             endl <<
             idtr <<
-            "\\once\\omit Stem" " ";
+            "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
         }
 
         // should stem direction be generated?
