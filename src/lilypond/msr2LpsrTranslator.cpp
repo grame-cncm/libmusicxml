@@ -1436,18 +1436,6 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
     fCurrentChordClone->
       addTechnicalWithIntegerToChord (elt);
   }
-
-  // doest the score need the 'tongue' function?
-  switch (elt->getTechnicalWithIntegerKind ()) {
-    case msrTechnicalWithInteger::kBend:
-      break;
-    case msrTechnicalWithInteger::kFingering:
-      break;
-    case msrTechnicalWithInteger::kFret:
-      break;
-    case msrTechnicalWithInteger::kString:
-      break;
-  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
@@ -1476,20 +1464,6 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
     fCurrentChordClone->
       addTechnicalWithStringToChord (elt);
   }
-
-  // doest the score need the 'tongue' function?
-  switch (elt->getTechnicalWithStringKind ()) {
-    case msrTechnicalWithString::kHammerOn:
-      break;
-    case msrTechnicalWithString::kHandbell:
-      break;
-    case msrTechnicalWithString::kOtherTechnical:
-      break;
-    case msrTechnicalWithString::kPluck:
-      break;
-    case msrTechnicalWithString::kPullOff:
-      break;
-  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)

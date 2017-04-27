@@ -841,28 +841,28 @@ void analyzeOptions (
     },
 
     {
-      "tmvisit",
+      _TRACE_MSR_VISITORS_LONG_NAME_,
       no_argument, &traceMsrVisitorsPresent, 1
     },
     {
-      "traceMSRVisitors",
+      _TRACE_MSR_VISITORS_SHORT_NAME_,
       no_argument, &traceMsrVisitorsPresent, 1
     },
 
     {
-      "msr",
+      _DISPLAY_MSR_LONG_NAME_,
       no_argument, &displayMsrPresent, 1},
     {
-      "displayMSR",
+      _DISPLAY_MSR_SHORT_NAME_,
       no_argument, &displayMsrPresent, 1
     },
 
     {
-      "sum",
+      _DISPLAY_MSR_SUMMARY_LONG_NAME_,
       no_argument, &displayMsrSummaryPresent, 1
     },
     {
-      "displayMSRSummary",
+      _DISPLAY_MSR_SUMMARY_SHORT_NAME_,
       no_argument, &displayMsrSummaryPresent, 1
     },
 

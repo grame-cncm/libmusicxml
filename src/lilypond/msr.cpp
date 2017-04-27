@@ -5492,7 +5492,7 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
 
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
-  if (gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
     cerr << idtr <<
       "Adding technical '" <<
       technical->technicalAsString () <<
@@ -5511,9 +5511,9 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
 void msrNote::addTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
-  if (gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
     cerr << idtr <<
-      "Adding technical '" <<
+      "Adding technical with integer '" <<
       technicalWithInteger->technicalWithIntegerAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
@@ -5530,9 +5530,9 @@ void msrNote::addTechnicalWithIntegerToNote (
 void msrNote::addTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
-  if (gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
     cerr << idtr <<
-      "Adding technical '" <<
+      "Adding technical with string'" <<
       technicalWithString->technicalWithStringAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
