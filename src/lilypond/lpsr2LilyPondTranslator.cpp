@@ -402,30 +402,33 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
 string lpsr2LilyPondTranslator::technicalWithIntegerKindAsLilyPondString (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
-  string result;
-  
+  stringstream s;
+
   switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
     case msrTechnicalWithInteger::kBend:
-      result = "\\bendAfter";
+      s <<
+        "\\bendAfter" " " <<
+       technicalWithInteger->
+          getTechnicalWithIntegerValue ();
       break;
     case msrTechnicalWithInteger::kFingering:
-      result = "-";
+      s <<
+        "-" " " <<
+       technicalWithInteger->
+          getTechnicalWithIntegerValue ();
       break;
     case msrTechnicalWithInteger::kFret:
-      result = "\\Fret";
+      // LilyPond will take care of that JMI
       break;
     case msrTechnicalWithInteger::kString:
-      result = "\\";
+      s <<
+        "\\" " " <<
+       technicalWithInteger->
+          getTechnicalWithIntegerValue ();
       break;
   } // switch
-
-  result +=
-    string (" ") +
-    to_string (
-      technicalWithInteger->
-        getTechnicalWithIntegerValue ());
-    
-  return result;
+     
+  return s.str();
 }
 
 //________________________________________________________________________

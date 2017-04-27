@@ -869,108 +869,116 @@ void analyzeOptions (
     // languages
 
     {
-      "mpl",
+      _MSR_PITCHES_LANGUAGE_LONG_NAME_,
       required_argument, &msrPitchesLanguagePresent, 1
     },
     {
-      "msrPitchesLanguage",
+      _MSR_PITCHES_LANGUAGE_SHORT_NAME_,
       required_argument, &msrPitchesLanguagePresent, 1
     },
 
     // parts
 
     {
-      "part",
+      _PART_NAME_LONG_NAME_,
       required_argument, &partNamePresent, 1
     },
     {
-      "partName",
+     _PART_NAME_SHORT_NAME_,
       required_argument, &partNamePresent, 1
     },
 
     // voices
 
     {
-      "srvn",
+      _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_,
       no_argument,
       &staffRelativeVoiceNumbersPresent, 1
     },
     {
-      "staffRelativeVoiceNumbers",
+      _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_,
       no_argument, &staffRelativeVoiceNumbersPresent, 1
     },
     
+    {
+      _KEEP_MASTER_VOICES_LONG_NAME_,
+      no_argument, &keepMasterVoicesPresent, 1},
+    {
+      _KEEP_MASTER_VOICES_SHORT_NAME_,
+      no_argument, &keepMasterVoicesPresent, 1
+    },
+
     // notes
 
     {
-      "drdyn",
+      _DELAY_RESTS_DYNAMICS_LONG_NAME_,
       no_argument, &delayRestsDynamicsPresent, 1
     },
     {
-      "delayRestsDynamics",
+      _DELAY_RESTS_DYNAMICS_SHORT_NAME_,
       no_argument, &delayRestsDynamicsPresent, 1
     },
     {
-      "drwords",
+      _DELAY_RESTS_WORDS_LONG_NAME_,
       no_argument, &delayRestsWordsPresent, 1
     },
     {
-      "delayRestsWords",
+      _DELAY_RESTS_WORDS_SHORT_NAME_,
       no_argument, &delayRestsWordsPresent, 1
     },
     {
-      "drslurs",
+      _DELAY_RESTS_SLURS_LONG_NAME_,
       no_argument, &delayRestsSlursPresent, 1
     },
     {
-      "delayRestsSlurs",
+      _DELAY_RESTS_SLURS_SHORT_NAME_,
       no_argument, &delayRestsSlursPresent, 1
     },
     {
-      "drligs",
+      _DELAY_RESTS_LIGATURES_LONG_NAME_,
       no_argument, &delayRestsLigaturesPresent, 1
     },
     {
-      "delayRestsLigatures",
+      _DELAY_RESTS_LIGATURES_SHORT_NAME_,
       no_argument, &delayRestsLigaturesPresent, 1
     },
     {
-      "drwedges",
+      _DELAY_RESTS_WEDGES_LONG_NAME_,
       no_argument, &delayRestsWedgesPresent, 1
     },
     {
-      "delayRestsWedges",
+     _DELAY_RESTS_WEDGES_SHORT_NAME_,
       no_argument, &delayRestsWedgesPresent, 1
     },
    
     // lyrics
 
     {
-      "noms",
+      _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_,
       no_argument, &dontDisplayMsrStanzasPresent, 1
     },
     {
-      "dontDisplayMsrStanzas",
+      _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_,
       no_argument, &dontDisplayMsrStanzasPresent, 1
     },
 
     {
-      "kmv",
-      no_argument, &keepMasterVoicesPresent, 1},
-    {
-      "keepMasterVoices",
-      no_argument, &keepMasterVoicesPresent, 1
-    },
-
-    {
-      "kms",
+      _KEEP_MASTER_STANZAS_LONG_NAME_,
       no_argument, &keepMasterStanzasPresent, 1},
     {
-      "keepMasterStanzas",
+      _KEEP_MASTER_STANZAS_SHORT_NAME_,
       no_argument, &keepMasterStanzasPresent, 1
     },
 
     // harmonies
+
+    {
+      _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_,
+      no_argument, &keepMasterStanzasPresent, 1},
+    {
+      _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_,
+      no_argument, &keepMasterStanzasPresent, 1
+    },
 
     // LPSR options
     // ------------

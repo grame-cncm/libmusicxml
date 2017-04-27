@@ -66,6 +66,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrArticulation>,
   
   public visitor<S_msrTechnical>,
+  public visitor<S_msrTechnicalWithInteger>,
+  public visitor<S_msrTechnicalWithString>,
   
   public visitor<S_msrOrnament>,
   
