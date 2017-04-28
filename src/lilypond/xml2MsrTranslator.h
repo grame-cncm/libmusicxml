@@ -1039,6 +1039,11 @@ class EXP xml2MsrTranslator :
 
     // ------------------------------------------------------
     // tremolos handling
+    enum MusicXMLTremoloType {
+        kSingle, kStart, kStop};
+
+    MusicXMLTremoloType       fCurrentMusicXMLTremoloType;
+
     S_msrSingleTremolo        fCurrentSingleTremolo;
 
     S_msrDoubleTremolo        fCurrentDoubleTremolo;

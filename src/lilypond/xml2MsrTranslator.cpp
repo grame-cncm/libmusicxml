@@ -7240,12 +7240,17 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   
   string tremoloType = elt->getAttributeValue ("type");
 
-  bool singleAndNotDouble = true;
-  
+  fCurrentMusicXMLTremoloType = kSingle; // default value
+    
   if      (tremoloType == "single")
-    singleAndNotDouble = true;
-  else if (tremoloType == "double")
-    singleAndNotDouble = false;
+    fCurrentMusicXMLTremoloType = kSingle;
+    
+  else if (tremoloType == "start")
+    fCurrentMusicXMLTremoloType = kStart;
+    
+  else if (tremoloType == "stop")
+    fCurrentMusicXMLTremoloType = kStop;
+    
   else {
     stringstream s;
     
@@ -7270,17 +7275,29 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       msrDoubleTremolo::k_NoPlacementKind;
 
   if      (tremoloPlacement == "above") {
-    if (singleAndNotDouble)
-      singleTremoloPlacementKind = msrSingleTremolo::kAbove;
-    else
-      doubleTremoloPlacementKind = msrDoubleTremolo::kAbove;
+    switch (fCurrentMusicXMLTremoloType) {
+      case kSingle:
+        singleTremoloPlacementKind = msrSingleTremolo::kAbove;
+        break;
+        
+      case kStart:
+      case kStop:
+        doubleTremoloPlacementKind = msrDoubleTremolo::kAbove;
+        break;
+    } // switch
   }
   
   else if (tremoloPlacement == "below") {
-    if (singleAndNotDouble)
-      singleTremoloPlacementKind = msrSingleTremolo::kBelow;
-    else
-      doubleTremoloPlacementKind = msrDoubleTremolo::kBelow;
+    switch (fCurrentMusicXMLTremoloType) {
+      case kSingle:
+        singleTremoloPlacementKind = msrSingleTremolo::kBelow;
+        break;
+        
+      case kStart:
+      case kStop:
+        doubleTremoloPlacementKind = msrDoubleTremolo::kBelow;
+        break;
+    } // switch
   }
     
   else if (tremoloPlacement.size ()) {
@@ -7296,21 +7313,55 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       s.str());    
   }
 
-  if (singleAndNotDouble) {
-    fCurrentSingleTremolo =
-      msrSingleTremolo::create (
-        inputLineNumber,
-        tremoloMarksNumber,
-        singleTremoloPlacementKind);
-  }
+  switch (fCurrentMusicXMLTremoloType) {
+    case kSingle:
+      // single tremolo: create it, it will be attached to current note later
+      fCurrentSingleTremolo =
+        msrSingleTremolo::create (
+          inputLineNumber,
+          tremoloMarksNumber,
+          singleTremoloPlacementKind);
+      break;
+      
+    case kStart:
+      if (! fCurrentDoubleTremolo) {
+        // create a double tremolo
+        fCurrentDoubleTremolo =
+          msrDoubleTremolo::create (
+            inputLineNumber,
+            tremoloMarksNumber,
+            doubleTremoloPlacementKind);
+      }
+      
+      else {
+        stringstream s;
 
-  else {
-    fCurrentDoubleTremolo =
-      msrDoubleTremolo::create (
-        inputLineNumber,
-        tremoloMarksNumber,
-        doubleTremoloPlacementKind);
-  }
+        s <<
+          "<tremolo/> start when a current double tremolo isalready open";
+
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str());    
+      }
+      break;
+
+    case kStop:
+      if (fCurrentDoubleTremolo) {
+        // used current a double tremolo
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "<tremolo/> stop when not double tremolo is open";
+
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str());    
+      }
+      break;
+  } // switch
 }
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
