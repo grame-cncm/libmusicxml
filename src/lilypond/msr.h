@@ -1569,11 +1569,17 @@ class EXP msrDoubleTremolo : public msrElement
                           getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
         
-    void                  setDoubleTremoloNoteUplink (S_msrNote note)
-                              { fDoubleTremoloNoteUplink = note; }
+    void                  setDoubleTremoloFirstNote (S_msrElement elem)
+                              { fDoubleTremoloFirstElement = elem; }
 
-    S_msrNote             getDoubleTremoloNoteUplink () const
-                              { return fDoubleTremoloNoteUplink; }
+    S_msrElement          getDoubleTremoloFirstElement () const
+                              { return fDoubleTremoloFirstElement; }
+        
+    void                  setDoubleTremoloSecondElement (S_msrElement elem)
+                              { fDoubleTremoloSecondElement = elem; }
+
+    S_msrElement          getDoubleTremoloSecondElement () const
+                              { return fDoubleTremoloSecondElement; }
         
     // services
     // ------------------------------------------------------
@@ -1600,8 +1606,10 @@ class EXP msrDoubleTremolo : public msrElement
     int                           fDoubleTremoloMarksNumber;
 
     msrDoubleTremoloPlacementKind fDoubleTremoloPlacementKind;
-    
-    S_msrNote                     fDoubleTremoloNoteUplink;
+
+    // the two elements of a double tremole are notes or chords
+    S_msrElement                  fDoubleTremoloFirstElement;
+    S_msrElement                  fDoubleTremoloSecondElement;
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);

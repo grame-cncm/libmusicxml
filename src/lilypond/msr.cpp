@@ -3956,9 +3956,13 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString ();
 
-  if (fDoubleTremoloNoteUplink) // it may not yet be set
+  if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
-      ", note uplink" << " = " << fDoubleTremoloNoteUplink->noteAsShortString ();
+      ", first element " << " = " << fDoubleTremoloFirstElement->noteAsShortString ();
+      
+  if (fDoubleTremoloSecondElement) // it may not yet be set
+    s <<
+      ", second element " << " = " << fDoubleTremoloSecondElement->noteAsShortString ();
 
   return s.str();
 }
