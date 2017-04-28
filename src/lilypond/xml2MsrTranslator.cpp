@@ -7329,6 +7329,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
         fCurrentDoubleTremolo =
           msrDoubleTremolo::create (
             inputLineNumber,
+            msrDoubleTremolo::kNotesDoubleTremolo,
             tremoloMarksNumber,
             doubleTremoloPlacementKind);
       }

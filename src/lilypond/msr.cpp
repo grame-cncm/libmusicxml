@@ -3896,7 +3896,7 @@ void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
   else if (
     S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
       ) {
-      chord->chordAsShortString ();
+      chord->chordAsString ();
   }
   
   else {
@@ -3913,8 +3913,8 @@ void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
   fDoubleTremoloSecondElement = elem;
 }
 
-string msrDoubleTremoloKindAsString (
-  msrDoubleTremoloKind doubleTremolotKind)
+string msrDoubleTremolo::msrDoubleTremoloKindAsString (
+  msrDoubleTremolo::msrDoubleTremoloKind doubleTremolotKind)
 {
   string result;
   
@@ -4011,7 +4011,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     s <<
       ", first element " << " = ";
       
-    switch (fDoubleTremolotKind) {
+    switch (fDoubleTremoloKind) {
       case msrDoubleTremolo::kNotesDoubleTremolo:
         if (
           S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
@@ -4029,7 +4029,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         if (
           S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
           ) {
-          chord->chordAsShortString ();
+          chord->chordAsString ();
         }
         else {
           msrInternalError (
@@ -4043,7 +4043,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     s <<
       ", second element " << " = ";
       
-    switch (fDoubleTremolotKind) {
+    switch (fDoubleTremoloKind) {
       case msrDoubleTremolo::kNotesDoubleTremolo:
         if (
           S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
@@ -4061,7 +4061,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         if (
           S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloSecondElement))
           ) {
-          chord->chordAsShortString ();
+          chord->chordAsString ();
         }
         else {
           msrInternalError (
@@ -4088,20 +4088,20 @@ void msrDoubleTremolo::print (ostream& os)
     "first element  : " <<
     endl;
   if (fDoubleTremoloFirstElement) // it may not yet be set
-    s <<
+    os <<
       fDoubleTremoloFirstElement;
   else
-    s << "none";
+    os << "none";
   os <<
     endl;
       
   os <<
     "second element : ";
   if (fDoubleTremoloSecondElement) // it may not yet be set
-    s <<
+    os <<
       fDoubleTremoloSecondElement;
   else
-    s << "none";
+    os << "none";
   os <<
     endl;
 }
