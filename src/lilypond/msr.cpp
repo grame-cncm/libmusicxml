@@ -12581,6 +12581,86 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
  // JMI }
 }
 
+void msrMeasure::appendDoubleTremoloToMeasure (
+  S_msrDoubleTremolo doubleTremolo)
+{
+  int inputLineNumber =
+    doubleTremolo->getInputLineNumber ();
+    
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
+    // append doubleTremolo to it thru the segment
+    fMeasureSegmentUplink->
+      appendDoubleTremoloToSegment (doubleTremolo);
+  }
+
+  else {
+    // regular insertion in current measure
+    
+    // populate measure uplink
+    doubleTremolo->setDoubleTremoloMeasureUplink (this);
+
+    if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Appending doubleTremolo '" << doubleTremolo->doubleTremoloAsString () <<
+        "' to measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+  
+    // register doubleTremolo measure number
+    doubleTremolo->
+      setDoubleTremoloMeasureNumber (fMeasureNumber);
+    
+    // register doubleTremolo measure position
+    doubleTremolo->
+      setDoubleTremoloPositionInMeasure (
+        fMeasurePosition);
+
+    // copy measure number to first note, that was created beforehand
+    doubleTremolo->
+      setDoubleTremoloMeasureNumber (
+        fMeasureNumber);
+    
+    // copy measure position to first note, that was created beforehand
+    doubleTremolo->
+      setDoubleTremoloPositionInMeasure (
+        fMeasurePosition);
+
+    // fetch doubleTremolo divisions
+    int doubleTremoloDivisions =
+      doubleTremolo->getDoubleTremoloDivisions ();
+      
+    // account for doubleTremolo duration in measure position
+    setMeasurePosition (
+      inputLineNumber, fMeasurePosition + doubleTremoloDivisions);
+  
+    // update part measure position high tide if need be
+    fMeasureDirectPartUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the doubleTremolo occupies a full measure
+// XXL  JMI  if (doubleTremoloDivisions == fMeasureDivisionsPerWholeMeasure)
+      // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
+  
+    // append the doubleTremolo to the measure elements list
+    fMeasureElementsList.push_back (doubleTremolo);
+
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
+  }
+}
+
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 {
   int inputLineNumber =
@@ -14481,6 +14561,13 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
     appendNoteToMeasureClone (note);
 }
 
+void msrSegment::appendDoubleTremoloToSegment (
+  S_msrDoubleTremolo doubleTremolo)
+{
+  fSegmentMeasuresList.back ()->
+    appendDoubleTremoloToMeasure (doubleTremolo);
+}
+
 void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 {
   fSegmentMeasuresList.back ()->
@@ -15903,6 +15990,24 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteDivisions);
+}
+
+void msrVoice::appendDoubleTremoloToVoice (
+  S_msrDoubleTremolo doubleTremolo)
+
+{
+  if (gGeneralOptions->fTraceTremolos) {
+    cerr << idtr <<
+      "Appending double tremolo '" <<
+      doubleTremolo->doubleTremoloAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  fVoiceLastSegment->
+    appendDoubleTremoloToSegment (doubleTremolo);
+
+  fMusicHasBeenInsertedInVoice = true;
 }
 
 void msrVoice::appendChordToVoice (S_msrChord chord)

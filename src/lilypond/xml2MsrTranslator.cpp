@@ -156,6 +156,8 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentNoteVoiceNumber = 0;
   fOnGoingNote            = false;
 
+  fCurrentMusicXMLTremoloType = k_NoTremolo;
+
   fOnGoingChord = false;
 
   fCurrentATupletStopIsPending = false;
@@ -5245,6 +5247,8 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentStem = 0;
 
+  fCurrentMusicXMLTremoloType = k_NoTremolo;
+
   fCurrentTie = 0;
   fCurrentTiedOrientation = "";
   
@@ -7240,16 +7244,16 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   
   string tremoloType = elt->getAttributeValue ("type");
 
-  fCurrentMusicXMLTremoloType = kSingle; // default value
+  fCurrentMusicXMLTremoloType = kSingleTremolo; // default value
     
   if      (tremoloType == "single")
-    fCurrentMusicXMLTremoloType = kSingle;
+    fCurrentMusicXMLTremoloType = kSingleTremolo;
     
   else if (tremoloType == "start")
-    fCurrentMusicXMLTremoloType = kStart;
+    fCurrentMusicXMLTremoloType = kStartTremolo;
     
   else if (tremoloType == "stop")
-    fCurrentMusicXMLTremoloType = kStop;
+    fCurrentMusicXMLTremoloType = kStopTremolo;
     
   else {
     stringstream s;
@@ -7276,12 +7280,12 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   if      (tremoloPlacement == "above") {
     switch (fCurrentMusicXMLTremoloType) {
-      case kSingle:
+      case kSingleTremolo:
         singleTremoloPlacementKind = msrSingleTremolo::kAbove;
         break;
         
-      case kStart:
-      case kStop:
+      case kStartTremolo:
+      case kStopTremolo:
         doubleTremoloPlacementKind = msrDoubleTremolo::kAbove;
         break;
     } // switch
@@ -7289,12 +7293,12 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   
   else if (tremoloPlacement == "below") {
     switch (fCurrentMusicXMLTremoloType) {
-      case kSingle:
+      case kSingleTremolo:
         singleTremoloPlacementKind = msrSingleTremolo::kBelow;
         break;
         
-      case kStart:
-      case kStop:
+      case kStartTremolo:
+      case kStopTremolo:
         doubleTremoloPlacementKind = msrDoubleTremolo::kBelow;
         break;
     } // switch
@@ -7314,7 +7318,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   }
 
   switch (fCurrentMusicXMLTremoloType) {
-    case kSingle:
+    case kSingleTremolo:
       // single tremolo: create it, it will be attached to current note later
       fCurrentSingleTremolo =
         msrSingleTremolo::create (
@@ -7323,7 +7327,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
           singleTremoloPlacementKind);
       break;
       
-    case kStart:
+    case kStartTremolo:
       if (! fCurrentDoubleTremolo) {
         // create a double tremolo
         fCurrentDoubleTremolo =
@@ -7338,7 +7342,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
         stringstream s;
 
         s <<
-          "<tremolo/> start when a current double tremolo isalready open";
+          "<tremolo/> start when a current double tremolo is already open";
 
         msrMusicXMLError (
           elt->getInputLineNumber (),
@@ -7346,7 +7350,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       }
       break;
 
-    case kStop:
+    case kStopTremolo:
       if (fCurrentDoubleTremolo) {
         // used current a double tremolo
       }
@@ -9658,22 +9662,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
     fPendingHarmony = false;
   }
 
-  /*
-  A rest can be standalone or belong to a tuplet
-
-  A note can be standalone or a member of a chord
-  which can belong to a tuplet,
-  */
-
-/* JMI
-  // are the display divisions different than the duration?
-  if (fCurrentNoteBelongsToATuplet)
-    // set tuplet member note display divisions
-    newNote->
-      applyTupletMemberDisplayFactor (
-        fCurrentActualNotes, fCurrentNormalNotes);
-*/
-
   // handle note
   if (fCurrentNoteBelongsToAChord && fCurrentNoteBelongsToATuplet) {
     
@@ -9918,6 +9906,40 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       appendNoteToGracenotes (newNote);
   }
 
+  else if (fCurrentMusicXMLTremoloType != k_NoTremolo) {
+    // newNote belongs to a double tremolo
+
+    switch (fCurrentMusicXMLTremoloType) {
+      case k_NoTremolo:
+        // just to avoid a compiler message
+        break;
+        
+      case kSingleTremolo:
+        // fCurrentSingleTremolo is handled elsewhere
+        break;
+        
+      case kStartTremolo:
+        // register newNote as first element of the current double tremolo
+        fCurrentDoubleTremolo->
+          setDoubleTremoloFirstElement (
+            newNote);
+        break;
+
+      case kStopTremolo:
+        // register newNote as second element of the current double tremolo
+        fCurrentDoubleTremolo->
+          setDoubleTremoloSecondElement (
+            newNote);
+
+        // append current double tremolo to current voice
+
+        // forget about the current double tremolo
+        fCurrentDoubleTremolo = 0;
+        break;
+    } // switch
+  }
+
+  
   else {
     // standalone note or rest
 

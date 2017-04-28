@@ -1595,6 +1595,43 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
         
+    // harmony
+    void                  setDoubleTremoloHarmony (S_msrHarmony harmony)
+                              { fDoubleTremoloHarmony = harmony; }
+                      
+    const S_msrHarmony&   getDoubleTremoloHarmony () const
+                              { return fDoubleTremoloHarmony; };
+                      
+     // divisions
+    void                  setDoubleTremoloDivisions (int divisions)
+                              { fDoubleTremoloDivisions = divisions; }
+            
+    int                   getDoubleTremoloDivisions () const
+                              { return fDoubleTremoloDivisions; }
+            
+    // measure uplink
+    void                  setDoubleTremoloMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fDoubleTremoloMeasureUplink = measure; }
+                      
+    S_msrMeasure          getDoubleTremoloMeasureUplink () const
+                            { return fDoubleTremoloMeasureUplink; }
+
+    // measure number
+    void                  setDoubleTremoloMeasureNumber (
+                            int measureNumber)
+                              { fDoubleTremoloMeasureNumber = measureNumber; }
+    
+    int                   getDoubleTremoloMeasureNumber () const
+                              { return fDoubleTremoloMeasureNumber; }
+ 
+    // position in measure
+    void                  setDoubleTremoloPositionInMeasure (int position)
+                              { fDoubleTremoloPositionInMeasure = position; }
+
+    const int             getDoubleTremoloPositionInMeasure () const
+                              { return fDoubleTremoloPositionInMeasure; }
+
     // services
     // ------------------------------------------------------
 
@@ -1602,6 +1639,12 @@ class EXP msrDoubleTremolo : public msrElement
     
     string                doubleTremoloAsString () const;
 
+    void                  setDoubleTremoloFirstNotePositionInMeasure (
+                            int position);
+                    
+    void                  setDoubleTremoloFirstNoteMeasureNumber (
+                            int measureNumber);
+                    
     // visitors
     // ------------------------------------------------------
 
@@ -1617,6 +1660,12 @@ class EXP msrDoubleTremolo : public msrElement
 
   private:
 
+    // divisions handling is done at the part level
+    S_msrPart                     fDoubleTremoloDirectPartUplink;
+
+    // sounding duration
+    int                           fDoubleTremoloDivisions;
+
     msrDoubleTremoloKind          fDoubleTremoloKind;
     
     int                           fDoubleTremoloMarksNumber;
@@ -1626,6 +1675,13 @@ class EXP msrDoubleTremolo : public msrElement
     // the two elements of a double tremole are notes or chords
     S_msrElement                  fDoubleTremoloFirstElement;
     S_msrElement                  fDoubleTremoloSecondElement;
+
+    S_msrMeasure                  fDoubleTremoloMeasureUplink;
+
+    int                           fDoubleTremoloMeasureNumber;
+    int                           fDoubleTremoloPositionInMeasure;
+    
+    S_msrHarmony                  fDoubleTremoloHarmony;
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
@@ -2454,6 +2510,9 @@ class EXP msrMeasure : public msrElement
     void                  appendNoteToMeasure      (S_msrNote note);
     void                  appendNoteToMeasureClone (S_msrNote note);
     
+    void                  appendDoubleTremoloToMeasure (
+                            S_msrDoubleTremolo doubleTremolo);
+
     void                  appendChordToMeasure (S_msrChord chord);
     void                  appendTupletToMeasure (S_msrTuplet tuplet);
     
@@ -2643,6 +2702,9 @@ class EXP msrSegment : public msrElement
     void                  appendNoteToSegment      (S_msrNote note);
     void                  appendNoteToSegmentClone (S_msrNote note);
     
+    void                  appendDoubleTremoloToSegment (
+                            S_msrDoubleTremolo doubleTremolo);
+
     void                  appendChordToSegment (S_msrChord chord);
     void                  appendTupletToSegment (S_msrTuplet tuplet);
     
@@ -6072,6 +6134,9 @@ class EXP msrVoice : public msrElement
     
     void                  appendNoteToVoice      (S_msrNote note);
     void                  appendNoteToVoiceClone (S_msrNote note);
+
+    void                  appendDoubleTremoloToVoice (
+                            S_msrDoubleTremolo doubleTremolo);
 
     void                  appendChordToVoice  (S_msrChord chord);
     void                  appendTupletToVoice (S_msrTuplet tuplet);
