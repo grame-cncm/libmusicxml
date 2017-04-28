@@ -119,16 +119,16 @@ namespace MusicXML2
 #define _TRACE_TECHNICALS_SHORT_NAME_ "ttechs"
 
 #define _TRACE_TREMOLOS_LONG_NAME_  "traceTremolos"
-#define _TRACE_TREMOLOS_SHORT_NAME_ "ttrem"
+#define _TRACE_TREMOLOS_SHORT_NAME_ "ttrems"
 
 #define _TRACE_CHORDS_LONG_NAME_  "traceChords"
 #define _TRACE_CHORDS_SHORT_NAME_ "tchords"
 
 #define _TRACE_TUPLETS_LONG_NAME_  "traceTuplets"
-#define _TRACE_TUPLETS_SHORT_NAME_ "ttuplets"
+#define _TRACE_TUPLETS_SHORT_NAME_ "ttups"
 
 #define _TRACE_GRACENOTES_LONG_NAME_  "traceGracenotes"
-#define _TRACE_GRACENOTES_SHORT_NAME_ "tgrace"
+#define _TRACE_GRACENOTES_SHORT_NAME_ "tgraces"
 
 #define _TRACE_LYRICS_LONG_NAME_  "traceLyrics"
 #define _TRACE_LYRICS_SHORT_NAME_ "tlyrics"
