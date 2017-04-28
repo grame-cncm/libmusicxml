@@ -3857,28 +3857,78 @@ void msrSingleTremolo::print (ostream& os)
 //______________________________________________________________________________
 S_msrDoubleTremolo msrDoubleTremolo::create (
   int                     inputLineNumber,
+  msrDoubleTremoloKind    doubleTremoloKind,
   int                     doubleTremoloMarksNumber,
   msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
 {
   msrDoubleTremolo* o =
     new msrDoubleTremolo (
       inputLineNumber,
-      doubleTremoloMarksNumber, doubleTremoloPlacementKind);
+      doubleTremoloKind,
+      doubleTremoloMarksNumber,
+      doubleTremoloPlacementKind);
   assert (o!=0);
   return o;
 }
 
 msrDoubleTremolo::msrDoubleTremolo (
   int                     inputLineNumber,
+  msrDoubleTremoloKind    doubleTremoloKind,
   int                     doubleTremoloMarksNumber,
   msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
+  fDoubleTremoloKind          = doubleTremoloKind;
   fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
   fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
 }
 
 msrDoubleTremolo::~msrDoubleTremolo() {}
+
+void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
+{
+  if (
+    S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
+    ) {    
+    note->noteAsShortString ();
+  }
+
+  else if (
+    S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
+      ) {
+      chord->chordAsShortString ();
+  }
+  
+  else {
+    msrInternalError (
+      fInputLineNumber,
+      "chords double tremolo first element should be a chord");
+  }
+
+  fDoubleTremoloFirstElement = elem;
+}
+
+void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
+{
+  fDoubleTremoloSecondElement = elem;
+}
+
+string msrDoubleTremoloKindAsString (
+  msrDoubleTremoloKind doubleTremolotKind)
+{
+  string result;
+  
+  switch (doubleTremolotKind) {
+    case msrDoubleTremolo::kNotesDoubleTremolo:
+      result = "Notes";
+      break;
+    case msrDoubleTremolo::kChordsDoubleTremolo:
+      result = "Chords";
+      break;
+  } // switch
+
+  return result;
+}
 
 string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
 {
@@ -3952,17 +4002,74 @@ string msrDoubleTremolo::doubleTremoloAsString () const
   
   s <<
     "DoubleTremolo" " " <<
+    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString ();
 
   if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
-      ", first element " << " = " << fDoubleTremoloFirstElement->noteAsShortString ();
+      ", first element " << " = ";
+      
+    switch (fDoubleTremolotKind) {
+      case msrDoubleTremolo::kNotesDoubleTremolo:
+        if (
+          S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
+          ) {    
+          note->noteAsShortString ();
+        }
+        else {
+          msrInternalError (
+            fInputLineNumber,
+            "notes double tremolo first element should be a note");
+        }
+        break;
+        
+      case msrDoubleTremolo::kChordsDoubleTremolo:
+        if (
+          S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
+          ) {
+          chord->chordAsShortString ();
+        }
+        else {
+          msrInternalError (
+            fInputLineNumber,
+            "chords double tremolo first element should be a chord");
+        }
+        break;
+    } // switch
       
   if (fDoubleTremoloSecondElement) // it may not yet be set
     s <<
-      ", second element " << " = " << fDoubleTremoloSecondElement->noteAsShortString ();
+      ", second element " << " = ";
+      
+    switch (fDoubleTremolotKind) {
+      case msrDoubleTremolo::kNotesDoubleTremolo:
+        if (
+          S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
+          ) {    
+          note->noteAsShortString ();
+        }
+        else {
+          msrInternalError (
+            fInputLineNumber,
+            "notes double tremolo second element should be a note");
+        }
+        break;
+        
+      case msrDoubleTremolo::kChordsDoubleTremolo:
+        if (
+          S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloSecondElement))
+          ) {
+          chord->chordAsShortString ();
+        }
+        else {
+          msrInternalError (
+            fInputLineNumber,
+            "chords double tremolo second element should be a chord");
+        }
+        break;
+    } // switch
 
   return s.str();
 }
@@ -3970,7 +4077,32 @@ string msrDoubleTremolo::doubleTremoloAsString () const
 void msrDoubleTremolo::print (ostream& os)
 {
   os <<
-    doubleTremoloAsString () <<
+    "DoubleTremolo" " " <<
+    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+    ", line " << fInputLineNumber <<
+    fDoubleTremoloMarksNumber << " marks" <<
+    ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
+    endl;
+
+  os <<
+    "first element  : " <<
+    endl;
+  if (fDoubleTremoloFirstElement) // it may not yet be set
+    s <<
+      fDoubleTremoloFirstElement;
+  else
+    s << "none";
+  os <<
+    endl;
+      
+  os <<
+    "second element : ";
+  if (fDoubleTremoloSecondElement) // it may not yet be set
+    s <<
+      fDoubleTremoloSecondElement;
+  else
+    s << "none";
+  os <<
     endl;
 }
 

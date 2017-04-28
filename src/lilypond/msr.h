@@ -1523,6 +1523,13 @@ class EXP msrDoubleTremolo : public msrElement
     // data types
     // ------------------------------------------------------
 
+    enum msrDoubleTremoloKind {
+      kNotesDoubleTremolo, kChordsDoubleTremolo};
+
+    static string msrDoubleTremoloKindAsString (
+      msrDoubleTremoloKind doubleTremolotKind);
+            
+    // creation from MusicXML
     enum msrDoubleTremoloPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
@@ -1534,6 +1541,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     static SMARTP<msrDoubleTremolo> create (
       int                     inputLineNumber,
+      msrDoubleTremoloKind    doubleTremoloKind,
       int                     doubleTremoloMarksNumber,
       msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
 
@@ -1544,6 +1552,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     msrDoubleTremolo (
       int                     inputLineNumber,
+      msrDoubleTremoloKind    doubleTremoloKind,
       int                     doubleTremoloMarksNumber,
       msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
       
@@ -1554,6 +1563,13 @@ class EXP msrDoubleTremolo : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setDoubleTremoloKind (
+                            msrDoubleTremoloKind doubleTremoloKind)
+                              { fDoubleTremoloKind = doubleTremoloKind; }
+
+    msrDoubleTremoloKind  getDoubleTremoloKind () const
+                              { return fDoubleTremoloKind; }
+        
     void                  setDoubleTremoloPlacementKind (
                             msrDoubleTremoloPlacementKind
                               DoubleTremoloPlacementKind)
@@ -1569,14 +1585,12 @@ class EXP msrDoubleTremolo : public msrElement
                           getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
         
-    void                  setDoubleTremoloFirstNote (S_msrElement elem)
-                              { fDoubleTremoloFirstElement = elem; }
+    void                  setDoubleTremoloFirstElement (S_msrElement elem);
 
     S_msrElement          getDoubleTremoloFirstElement () const
                               { return fDoubleTremoloFirstElement; }
         
-    void                  setDoubleTremoloSecondElement (S_msrElement elem)
-                              { fDoubleTremoloSecondElement = elem; }
+    void                  setDoubleTremoloSecondElement (S_msrElement elem);
 
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
@@ -1603,6 +1617,8 @@ class EXP msrDoubleTremolo : public msrElement
 
   private:
 
+    msrDoubleTremoloKind          fDoubleTremoloKind;
+    
     int                           fDoubleTremoloMarksNumber;
 
     msrDoubleTremoloPlacementKind fDoubleTremoloPlacementKind;
