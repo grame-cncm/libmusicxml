@@ -7240,12 +7240,12 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   
   string tremoloType = elt->getAttributeValue ("type");
 
-  msrSingleTremolo::msrSingleTremoloKind tremoloKind;
+  bool singleAndNotDouble = true;
   
   if      (tremoloType == "single")
-    tremoloKind = msrSingleTremolo::kSingleTremolo;
+    singleAndNotDouble = true;
   else if (tremoloType == "double")
-    tremoloKind = msrSingleTremolo::kDoubleTremolo;
+    singleAndNotDouble = false;
   else {
     stringstream s;
     
@@ -7263,14 +7263,25 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       elt->getAttributeValue ("placement");
 
   msrSingleTremolo::msrSingleTremoloPlacementKind
-    tremoloPlacementKind =
+    singleTremoloPlacementKind =
       msrSingleTremolo::k_NoPlacementKind;
+  msrDoubleTremolo::msrDoubleTremoloPlacementKind
+    doubleTremoloPlacementKind =
+      msrDoubleTremolo::k_NoPlacementKind;
 
-  if      (tremoloPlacement == "above")
-    tremoloPlacementKind = msrSingleTremolo::kAbove;
-    
-  else if (tremoloPlacement == "below")
-    tremoloPlacementKind = msrSingleTremolo::kBelow;
+  if      (tremoloPlacement == "above") {
+    if (singleAndNotDouble)
+      singleTremoloPlacementKind = msrSingleTremolo::kAbove;
+    else
+      doubleTremoloPlacementKind = msrDoubleTremolo::kAbove;
+  }
+  
+  else if (tremoloPlacement == "below") {
+    if (singleAndNotDouble)
+      singleTremoloPlacementKind = msrSingleTremolo::kBelow;
+    else
+      doubleTremoloPlacementKind = msrDoubleTremolo::kBelow;
+  }
     
   else if (tremoloPlacement.size ()) {
     
@@ -7285,12 +7296,21 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       s.str());    
   }
 
-  fCurrentSingleTremolo =
-    msrSingleTremolo::create (
-      inputLineNumber,
-      tremoloKind,
-      tremoloMarksNumber,
-      tremoloPlacementKind);
+  if (singleAndNotDouble) {
+    fCurrentSingleTremolo =
+      msrSingleTremolo::create (
+        inputLineNumber,
+        tremoloMarksNumber,
+        singleTremoloPlacementKind);
+  }
+
+  else {
+    fCurrentDoubleTremolo =
+      msrDoubleTremolo::create (
+        inputLineNumber,
+        tremoloMarksNumber,
+        doubleTremoloPlacementKind);
+  }
 }
 
 void xml2MsrTranslator::visitStart ( S_trill_mark& elt )
@@ -8487,7 +8507,7 @@ void xml2MsrTranslator::copyNoteSingleTremoloToChord (
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> copying singleTremolo '" <<
-      noteSingleTremolo->singleTremoloKindAsString () <<
+      noteSingleTremolo->singleTremoloAsString () <<
       "' from note " << note->noteAsString () <<
       " to chord" <<
       endl;

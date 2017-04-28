@@ -1430,12 +1430,6 @@ class EXP msrSingleTremolo : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrSingleTremoloKind {
-        kSingleTremolo, kDoubleTremolo };
-
-    static string singleTremoloKindAsString (
-      msrSingleTremoloKind singleTremoloKind);
-      
     enum msrSingleTremoloPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
@@ -1447,9 +1441,9 @@ class EXP msrSingleTremolo : public msrElement
 
     static SMARTP<msrSingleTremolo> create (
       int                     inputLineNumber,
-      msrSingleTremoloKind    singleTremoloKind,
       int                     singleTremoloMarksNumber,
-      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+      msrSingleTremoloPlacementKind
+                              singleTremoloPlacementKind);
 
   protected:
 
@@ -1458,9 +1452,9 @@ class EXP msrSingleTremolo : public msrElement
 
     msrSingleTremolo (
       int                     inputLineNumber,
-      msrSingleTremoloKind    singleTremoloKind,
       int                     singleTremoloMarksNumber,
-      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+      msrSingleTremoloPlacementKind
+                              singleTremoloPlacementKind);
       
     virtual ~msrSingleTremolo();
   
@@ -1469,9 +1463,6 @@ class EXP msrSingleTremolo : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrSingleTremoloKind  getSingleTremoloKind () const
-                              { return fSingleTremoloKind; }
-        
     void                  setSingleTremoloPlacementKind (
                             msrSingleTremoloPlacementKind
                               SingleTremoloPlacementKind)
@@ -1496,8 +1487,6 @@ class EXP msrSingleTremolo : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                singleTremoloKindAsString () const;
-
     string                singleTremoloPlacementKindAsString () const;
     
     string                singleTremoloAsString () const;
@@ -1516,8 +1505,6 @@ class EXP msrSingleTremolo : public msrElement
     virtual void print (ostream& os);
 
   private:
-
-    msrSingleTremoloKind          fSingleTremoloKind;
 
     int                           fSingleTremoloMarksNumber;
 
@@ -1536,77 +1523,64 @@ class EXP msrDoubleTremolo : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrDoubleTremoloKind {
-        kDoubleTremolo, kDoubleTremolo };
-
-    static string singleTremoloKindAsString (
-      msrSingleTremoloKind singleTremoloKind);
-      
-    enum msrSingleTremoloPlacementKind {
+    enum msrDoubleTremoloPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
-    static string SingleTremoloPlacementKindAsString (
-      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+    static string DoubleTremoloPlacementKindAsString (
+      msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
             
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrSingleTremolo> create (
+    static SMARTP<msrDoubleTremolo> create (
       int                     inputLineNumber,
-      msrSingleTremoloKind    singleTremoloKind,
-      int                     singleTremoloMarksNumber,
-      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+      int                     doubleTremoloMarksNumber,
+      msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSingleTremolo (
+    msrDoubleTremolo (
       int                     inputLineNumber,
-      msrSingleTremoloKind    singleTremoloKind,
-      int                     singleTremoloMarksNumber,
-      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
+      int                     doubleTremoloMarksNumber,
+      msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
       
-    virtual ~msrSingleTremolo();
+    virtual ~msrDoubleTremolo();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrSingleTremoloKind  getSingleTremoloKind () const
-                              { return fSingleTremoloKind; }
-        
-    void                  setSingleTremoloPlacementKind (
-                            msrSingleTremoloPlacementKind
-                              SingleTremoloPlacementKind)
+    void                  setDoubleTremoloPlacementKind (
+                            msrDoubleTremoloPlacementKind
+                              DoubleTremoloPlacementKind)
                               {
-                                fSingleTremoloPlacementKind =
-                                  SingleTremoloPlacementKind;
+                                fDoubleTremoloPlacementKind =
+                                  DoubleTremoloPlacementKind;
                               }
         
-    int                   getSingleTremoloMarksNumber () const
-                              { return fSingleTremoloMarksNumber; }
+    int                   getDoubleTremoloMarksNumber () const
+                              { return fDoubleTremoloMarksNumber; }
                 
-    msrSingleTremoloPlacementKind
-                          getSingleTremoloPlacementKind () const
-                              { return fSingleTremoloPlacementKind; }
+    msrDoubleTremoloPlacementKind
+                          getDoubleTremoloPlacementKind () const
+                              { return fDoubleTremoloPlacementKind; }
         
-    void                  setSingleTremoloNoteUplink (S_msrNote note)
-                              { fSingleTremoloNoteUplink = note; }
+    void                  setDoubleTremoloNoteUplink (S_msrNote note)
+                              { fDoubleTremoloNoteUplink = note; }
 
-    S_msrNote             getSingleTremoloNoteUplink () const
-                              { return fSingleTremoloNoteUplink; }
+    S_msrNote             getDoubleTremoloNoteUplink () const
+                              { return fDoubleTremoloNoteUplink; }
         
     // services
     // ------------------------------------------------------
 
-    string                singleTremoloKindAsString () const;
-
-    string                singleTremoloPlacementKindAsString () const;
+    string                doubleTremoloPlacementKindAsString () const;
     
-    string                singleTremoloAsString () const;
+    string                doubleTremoloAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1623,16 +1597,14 @@ class EXP msrDoubleTremolo : public msrElement
 
   private:
 
-    msrSingleTremoloKind          fSingleTremoloKind;
+    int                           fDoubleTremoloMarksNumber;
 
-    int                           fSingleTremoloMarksNumber;
-
-    msrSingleTremoloPlacementKind fSingleTremoloPlacementKind;
+    msrDoubleTremoloPlacementKind fDoubleTremoloPlacementKind;
     
-    S_msrNote                     fSingleTremoloNoteUplink;
+    S_msrNote                     fDoubleTremoloNoteUplink;
 };
-typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
-EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
+EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
 
 /*!
 \brief A msr rehearsal representation.

@@ -1041,6 +1041,8 @@ class EXP xml2MsrTranslator :
     // tremolos handling
     S_msrSingleTremolo        fCurrentSingleTremolo;
 
+    S_msrDoubleTremolo        fCurrentDoubleTremolo;
+
     void                      attachCurrentSingleTremoloToNote (
                                 S_msrNote note);
 

@@ -3741,47 +3741,28 @@ void msrOrnament::print (ostream& os)
 //______________________________________________________________________________
 S_msrSingleTremolo msrSingleTremolo::create (
   int                     inputLineNumber,
-  msrSingleTremoloKind    singleTremoloKind,
   int                     singleTremoloMarksNumber,
   msrSingleTremoloPlacementKind singleTremoloPlacementKind)
 {
   msrSingleTremolo* o =
     new msrSingleTremolo (
       inputLineNumber,
-      singleTremoloKind, singleTremoloMarksNumber, singleTremoloPlacementKind);
+      singleTremoloMarksNumber, singleTremoloPlacementKind);
   assert (o!=0);
   return o;
 }
 
 msrSingleTremolo::msrSingleTremolo (
   int                     inputLineNumber,
-  msrSingleTremoloKind    singleTremoloKind,
   int                     singleTremoloMarksNumber,
   msrSingleTremoloPlacementKind singleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
-  fSingleTremoloKind          = singleTremoloKind;
   fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
   fSingleTremoloPlacementKind = singleTremoloPlacementKind;
 }
 
 msrSingleTremolo::~msrSingleTremolo() {}
-
-string msrSingleTremolo::singleTremoloKindAsString () const
-{
-  string result;
-  
-  switch (fSingleTremoloKind) {
-    case msrSingleTremolo::kSingleTremolo:
-      result = "single";
-      break;
-    case msrSingleTremolo::kDoubleTremolo:
-      result = "double";
-      break;
-  } // switch
-
-  return result;
-}
 
 string msrSingleTremolo::singleTremoloPlacementKindAsString () const
 {
@@ -3855,7 +3836,6 @@ string msrSingleTremolo::singleTremoloAsString () const
   
   s <<
     "SingleTremolo" " " <<
-    singleTremoloKindAsString () <<
     ", line " << fInputLineNumber <<
     fSingleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << singleTremoloPlacementKindAsString ();
@@ -3875,62 +3855,43 @@ void msrSingleTremolo::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrSingleTremolo msrSingleTremolo::create (
+S_msrDoubleTremolo msrDoubleTremolo::create (
   int                     inputLineNumber,
-  msrSingleTremoloKind    singleTremoloKind,
-  int                     singleTremoloMarksNumber,
-  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
+  int                     doubleTremoloMarksNumber,
+  msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
 {
-  msrSingleTremolo* o =
-    new msrSingleTremolo (
+  msrDoubleTremolo* o =
+    new msrDoubleTremolo (
       inputLineNumber,
-      singleTremoloKind, singleTremoloMarksNumber, singleTremoloPlacementKind);
+      doubleTremoloMarksNumber, doubleTremoloPlacementKind);
   assert (o!=0);
   return o;
 }
 
-msrSingleTremolo::msrSingleTremolo (
+msrDoubleTremolo::msrDoubleTremolo (
   int                     inputLineNumber,
-  msrSingleTremoloKind    singleTremoloKind,
-  int                     singleTremoloMarksNumber,
-  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
+  int                     doubleTremoloMarksNumber,
+  msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
-  fSingleTremoloKind          = singleTremoloKind;
-  fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
-  fSingleTremoloPlacementKind = singleTremoloPlacementKind;
+  fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
+  fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
 }
 
-msrSingleTremolo::~msrSingleTremolo() {}
+msrDoubleTremolo::~msrDoubleTremolo() {}
 
-string msrSingleTremolo::singleTremoloKindAsString () const
+string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
 {
   string result;
   
-  switch (fSingleTremoloKind) {
-    case msrSingleTremolo::kSingleTremolo:
-      result = "single";
-      break;
-    case msrSingleTremolo::kDoubleTremolo:
-      result = "double";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrSingleTremolo::singleTremoloPlacementKindAsString () const
-{
-  string result;
-  
-  switch (fSingleTremoloPlacementKind) {
-    case msrSingleTremolo::k_NoPlacementKind:
+  switch (fDoubleTremoloPlacementKind) {
+    case msrDoubleTremolo::k_NoPlacementKind:
       result = "none";
       break;
-    case msrSingleTremolo::kAbove:
+    case msrDoubleTremolo::kAbove:
       result = "above";
       break;
-    case msrSingleTremolo::kBelow:
+    case msrDoubleTremolo::kBelow:
       result = "below";
       break;
   } // switch
@@ -3938,75 +3899,74 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString () const
   return result;
 }
 
-void msrSingleTremolo::acceptIn (basevisitor* v) {
+void msrDoubleTremolo::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrSingleTremolo::acceptIn()" <<
+      "% ==> msrDoubleTremolo::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrSingleTremolo>*
+  if (visitor<S_msrDoubleTremolo>*
     p =
-      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
-        S_msrSingleTremolo elem = this;
+      dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
+        S_msrDoubleTremolo elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrSingleTremolo::visitStart()" <<
+            "% ==> Launching msrDoubleTremolo::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrSingleTremolo::acceptOut (basevisitor* v) {
+void msrDoubleTremolo::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrSingleTremolo::acceptOut()" <<
+      "% ==> msrDoubleTremolo::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrSingleTremolo>*
+  if (visitor<S_msrDoubleTremolo>*
     p =
-      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
-        S_msrSingleTremolo elem = this;
+      dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
+        S_msrDoubleTremolo elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrSingleTremolo::visitEnd()" <<
+            "% ==> Launching msrDoubleTremolo::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrSingleTremolo::browseData (basevisitor* v)
+void msrDoubleTremolo::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt)
+ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrSingleTremolo::singleTremoloAsString () const
+string msrDoubleTremolo::doubleTremoloAsString () const
 {
   stringstream s;
   
   s <<
-    "SingleTremolo" " " <<
-    singleTremoloKindAsString () <<
+    "DoubleTremolo" " " <<
     ", line " << fInputLineNumber <<
-    fSingleTremoloMarksNumber << " marks" <<
-    ", placement" << " = " << singleTremoloPlacementKindAsString ();
+    fDoubleTremoloMarksNumber << " marks" <<
+    ", placement" << " = " << doubleTremoloPlacementKindAsString ();
 
-  if (fSingleTremoloNoteUplink) // it may not yet be set
+  if (fDoubleTremoloNoteUplink) // it may not yet be set
     s <<
-      ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString ();
+      ", note uplink" << " = " << fDoubleTremoloNoteUplink->noteAsShortString ();
 
   return s.str();
 }
 
-void msrSingleTremolo::print (ostream& os)
+void msrDoubleTremolo::print (ostream& os)
 {
   os <<
-    singleTremoloAsString () <<
+    doubleTremoloAsString () <<
     endl;
 }
 
@@ -7085,7 +7045,7 @@ void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "% Adding singleTremolo '" <<
-      trem->singleTremoloKindAsString () <<
+      trem->singleTremoloAsString () <<
       "' to chord" <<
       endl;
 
