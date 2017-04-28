@@ -72,6 +72,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrOrnament>,
   
   public visitor<S_msrSingleTremolo>,
+  
+  public visitor<S_msrDoubleTremolo>,
 
   public visitor<S_msrDynamics>,
   public visitor<S_msrSlur>,
@@ -206,6 +208,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);
+
+    virtual void visitStart (S_msrDoubleTremolo& elt);
+    virtual void visitEnd   (S_msrDoubleTremolo& elt);
 
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);
@@ -391,6 +396,10 @@ class msr2LpsrTranslator :
     S_msrNote                 fCurrentAftergracenotesNote;
                                 // to help optimise after grace notes
 
+    // double tremolos
+    S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
+    bool                      fOnGoingDoubleTremolo;
+    
     // stems
     // ------------------------------------------------------
     S_msrStem                 fCurrentStem;

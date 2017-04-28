@@ -1619,6 +1619,32 @@ void msr2LpsrTranslator::visitEnd (S_msrSingleTremolo& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrDoubleTremolo" <<
+      endl;
+
+  // create a repeat clone
+  fCurrentDoubleTremoloClone =
+    elt->createDoubleTremoloBareClone (
+      fCurrentVoiceClone);
+  
+  fOnGoingDoubleTremolo = true;
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrSingleTremolo" <<
+      endl;
+
+  fOnGoingDoubleTremolo = false;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

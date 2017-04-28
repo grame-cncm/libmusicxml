@@ -1540,10 +1540,16 @@ class EXP msrDoubleTremolo : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrDoubleTremolo> create (
-      int                     inputLineNumber,
-      msrDoubleTremoloKind    doubleTremoloKind,
-      int                     doubleTremoloMarksNumber,
-      msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
+      int                  inputLineNumber,
+      msrDoubleTremoloKind doubleTremoloKind,
+      int                  doubleTremoloMarksNumber,
+      msrDoubleTremoloPlacementKind
+                           doubleTremoloPlacementKind,
+      S_msrVoice           voiceUplink);
+
+
+    SMARTP<msrDoubleTremolo> createDoubleTremoloBareClone (
+      S_msrVoice clonedVoice);
 
   protected:
 
@@ -1551,10 +1557,12 @@ class EXP msrDoubleTremolo : public msrElement
     // ------------------------------------------------------
 
     msrDoubleTremolo (
-      int                     inputLineNumber,
-      msrDoubleTremoloKind    doubleTremoloKind,
-      int                     doubleTremoloMarksNumber,
-      msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
+      int                  inputLineNumber,
+      msrDoubleTremoloKind doubleTremoloKind,
+      int                  doubleTremoloMarksNumber,
+      msrDoubleTremoloPlacementKind
+                           doubleTremoloPlacementKind,
+      S_msrVoice           voiceUplink);
       
     virtual ~msrDoubleTremolo();
   
@@ -1595,6 +1603,9 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
         
+    S_msrVoice            getDoubleTremoloVoiceUplink () const
+                            { return fDoubleTremoloVoiceUplink; }
+
     // harmony
     void                  setDoubleTremoloHarmony (S_msrHarmony harmony)
                               { fDoubleTremoloHarmony = harmony; }
@@ -1682,6 +1693,9 @@ class EXP msrDoubleTremolo : public msrElement
     int                           fDoubleTremoloPositionInMeasure;
     
     S_msrHarmony                  fDoubleTremoloHarmony;
+
+    S_msrVoice                    fDoubleTremoloVoiceUplink;
+
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
@@ -5850,38 +5864,37 @@ class EXP msrRepeatending : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string          getRepeatendingNumber () const
-                        { return fRepeatendingNumber; }
+    string                getRepeatendingNumber () const
+                              { return fRepeatendingNumber; }
                 
-    void            setRepeatendingNumber (int repeatendingNumber)
-                        { fRepeatendingNumber = repeatendingNumber; }
+    void                  setRepeatendingNumber (int repeatendingNumber)
+                              { fRepeatendingNumber = repeatendingNumber; }
 
-    void            setRepeatendingInternalNumber (
-                      int repeatendingInternalNumber)
-                        {
-                          fRepeatendingInternalNumber =
-                            repeatendingInternalNumber;
-                        }
+    void                  setRepeatendingInternalNumber (
+                            int repeatendingInternalNumber)
+                              {
+                                fRepeatendingInternalNumber =
+                                  repeatendingInternalNumber;
+                              }
                       
-    int             getRepeatendingInternalNumber () const
-                        { return fRepeatendingInternalNumber; }
+    int                   getRepeatendingInternalNumber () const
+                              { return fRepeatendingInternalNumber; }
                 
-    msrRepeatendingKind
-                    getRepeatendingKind () const
-                        { return fRepeatendingKind; }
+    msrRepeatendingKind   getRepeatendingKind () const
+                              { return fRepeatendingKind; }
                 
-    S_msrSegment    getRepeatendingSegment () const
-                        { return fRepeatendingSegment; }
+    S_msrSegment          getRepeatendingSegment () const
+                              { return fRepeatendingSegment; }
                 
-    S_msrRepeat     getRepeatendingRepeatUplink () const
-                        { return fRepeatendingRepeatUplink; }
+    S_msrRepeat           getRepeatendingRepeatUplink () const
+                              { return fRepeatendingRepeatUplink; }
 
     // services
     // ------------------------------------------------------
   
-    string          repeatendingAsString () const;
+    string                repeatendingAsString () const;
 
-    void            appendElementToRepeatending (S_msrElement elem);
+    void                  appendElementToRepeatending (S_msrElement elem);
                     
     // visitors
     // ------------------------------------------------------
@@ -5948,23 +5961,23 @@ class EXP msrRepeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void            setRepeatCommonSegment (
-                      S_msrSegment repeatCommonSegment);
+    void                  setRepeatCommonSegment (
+                            S_msrSegment repeatCommonSegment);
                   
-    S_msrSegment    getRepeatCommonSegment () const
-                        { return fRepeatCommonSegment; }
+    S_msrSegment          getRepeatCommonSegment () const
+                              { return fRepeatCommonSegment; }
 
     const vector<S_msrRepeatending>&
-                    getRepeatEndings () const
-                      { return fRepeatEndings; }
+                          getRepeatEndings () const
+                            { return fRepeatEndings; }
 
-    S_msrVoice      getRepeatVoiceUplink () const
-                      { return fRepeatVoiceUplink; }
+    S_msrVoice            getRepeatVoiceUplink () const
+                            { return fRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    void            addRepeatending (S_msrRepeatending repeatending);
+    void                  addRepeatending (S_msrRepeatending repeatending);
 
     // visitors
     // ------------------------------------------------------

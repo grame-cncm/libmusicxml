@@ -3856,31 +3856,58 @@ void msrSingleTremolo::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrDoubleTremolo msrDoubleTremolo::create (
-  int                     inputLineNumber,
-  msrDoubleTremoloKind    doubleTremoloKind,
-  int                     doubleTremoloMarksNumber,
-  msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
+  int                  inputLineNumber,
+  msrDoubleTremoloKind doubleTremoloKind,
+  int                  doubleTremoloMarksNumber,
+  msrDoubleTremoloPlacementKind
+                       doubleTremoloPlacementKind,
+  S_msrVoice           voiceUplink)
 {
   msrDoubleTremolo* o =
     new msrDoubleTremolo (
       inputLineNumber,
       doubleTremoloKind,
       doubleTremoloMarksNumber,
-      doubleTremoloPlacementKind);
+      doubleTremoloPlacementKind,
+      voiceUplink);
   assert (o!=0);
   return o;
 }
 
 msrDoubleTremolo::msrDoubleTremolo (
-  int                     inputLineNumber,
-  msrDoubleTremoloKind    doubleTremoloKind,
-  int                     doubleTremoloMarksNumber,
-  msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
+  int                  inputLineNumber,
+  msrDoubleTremoloKind doubleTremoloKind,
+  int                  doubleTremoloMarksNumber,
+  msrDoubleTremoloPlacementKind
+                       doubleTremoloPlacementKind,
+  S_msrVoice           voiceUplink)
     : msrElement (inputLineNumber)
 {
   fDoubleTremoloKind          = doubleTremoloKind;
   fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
   fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
+  
+  fDoubleTremoloVoiceUplink = voiceUplink;
+}
+
+S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
+  S_msrVoice clonedVoice)
+{
+  if (gGeneralOptions->fTraceTremolos)
+    cerr << idtr <<
+      "Creating a bare clone of a double tremolo" <<
+      endl;
+  
+  S_msrDoubleTremolo
+    clone =
+      msrDoubleTremolo::create (
+        fInputLineNumber,
+        fDoubleTremoloKind,
+        fDoubleTremoloMarksNumber,
+        fDoubleTremoloPlacementKind,
+        clonedVoice);
+  
+  return clone;
 }
 
 msrDoubleTremolo::~msrDoubleTremolo() {}

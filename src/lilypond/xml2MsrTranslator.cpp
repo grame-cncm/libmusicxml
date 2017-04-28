@@ -7329,13 +7329,22 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
     case kStartTremolo:
       if (! fCurrentDoubleTremolo) {
+        // fetch current voice
+        S_msrVoice
+          currentVoice =
+            createVoiceInStaffInCurrentPartIfNeeded (
+              inputLineNumber,
+              fCurrentNoteStaffNumber,
+              fCurrentVoiceNumber);
+
         // create a double tremolo
         fCurrentDoubleTremolo =
           msrDoubleTremolo::create (
             inputLineNumber,
             msrDoubleTremolo::kNotesDoubleTremolo,
             tremoloMarksNumber,
-            doubleTremoloPlacementKind);
+            doubleTremoloPlacementKind,
+            currentVoice);
       }
       
       else {

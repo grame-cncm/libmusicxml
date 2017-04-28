@@ -2868,6 +2868,38 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSingleTremolo& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrDoubleTremolo" <<
+      endl;
+
+  fOstream <<
+    "\\repeat tremolo " << 8 << // JMI
+    " {" <<
+    endl;
+
+  idtr++;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrDoubleTremolo& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrDoubleTremolo" <<
+      endl;
+
+  idtr--;
+  
+  fOstream <<
+    endl <<
+    idtr <<
+    "}" <<
+    endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
