@@ -53,6 +53,8 @@ msr2LpsrTranslator::msr2LpsrTranslator (
 
   fOnGoingNote           = false;
 
+  fOnGoingDoubleTremolo  = false;
+
   fOnGoingChord          = false;
   
   fOnGoingStanza         = false;
@@ -2008,16 +2010,21 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kStandaloneNote:
-      if (gGeneralOptions->fTraceNotes) {
-        cerr << idtr <<
-          "--> appending " <<
-          fCurrentNoteClone->noteAsString () << " to voice " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
+      if (fOnGoingDoubleTremolo) {
       }
-          
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (fCurrentNoteClone);
+
+      else {
+        if (gGeneralOptions->fTraceNotes) {
+          cerr << idtr <<
+            "--> appending " <<
+            fCurrentNoteClone->noteAsString () << " to voice " <<
+            fCurrentVoiceClone->getVoiceName () <<
+            endl;
+        }
+            
+        fCurrentVoiceClone->
+          appendNoteToVoiceClone (fCurrentNoteClone);
+      }
       break;
       
     case msrNote::kGraceNote:
