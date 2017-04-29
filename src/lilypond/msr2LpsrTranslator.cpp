@@ -2011,6 +2011,43 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kStandaloneNote:
       if (fOnGoingDoubleTremolo) {
+        
+        if (fCurrentNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
+          if (gGeneralOptions->fTraceNotes) {
+            cerr <<  idtr <<
+              "--> setting standalone note '" <<
+              fCurrentNoteClone->noteAsString () <<
+              "', line " << fCurrentNoteClone->getInputLineNumber () <<
+              ", as double tremolo first element" <<
+              " in voice \"" <<
+              fCurrentVoiceClone->getVoiceName () <<
+              "\"" <<
+              endl;
+          }
+              
+          fCurrentDoubleTremoloClone->
+            setDoubleTremoloFirstElement (fCurrentNoteClone);
+        }
+        
+        else if (fCurrentNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
+          if (gGeneralOptions->fTraceNotes) {
+            cerr <<  idtr <<
+              "--> setting standalone note '" <<
+              fCurrentNoteClone->noteAsString () <<
+              "', line " << fCurrentNoteClone->getInputLineNumber () <<
+              ", as double tremolo second element" <<
+              " in voice \"" <<
+              fCurrentVoiceClone->getVoiceName () <<
+              "\"" <<
+              endl;
+          }
+              
+          fCurrentDoubleTremoloClone->
+            setDoubleTremoloSecondElement (fCurrentNoteClone);
+        }
+        
+        else {
+        }
       }
 
       else {

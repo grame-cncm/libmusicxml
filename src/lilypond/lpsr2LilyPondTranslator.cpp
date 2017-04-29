@@ -3060,14 +3060,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kStandaloneNote:
-      /*
-        if (fMusicElementsCounter > fMaxMusicElementsOnOneLine) {
-          fOstream <<
-            endl <<
-            idtr;
-          fMusicElementsCounter = 0;
-        }
-*/
         fOstream << "standalone";
         break;
         
@@ -3209,63 +3201,6 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       break;
   } // switch
 
-
-
-/* JMI
-  // is there an unmetered (stemless) section?
-  if (stemKind != fCurrentStemKind) {
-    switch (stemKind) {
-      case msrStem::kStemNone:
-        if (! fOnGoingStemNone) {
-          fOstream <<
-            endl <<
-            endl << //JMI
-            idtr <<
-              "\\temporary\\omit Stem" <<
-              endl <<
-            idtr <<
-              "\\once\\omit Staff.TimeSignature" <<
-              endl <<
-            idtr <<
-              "\\cadenzaOn" <<
-              endl <<
-            endl << //JMI
-            idtr;
-
-          fMusicOlec.resetToZero ();
-
-          fOnGoingStemNone = true;
-        }
-        else {
-          fOstream <<
-            endl <<
-            endl << //JMI
-            idtr <<
-              "\\cadenzaOff" <<
-              endl <<
-            idtr <<
-              "\\bar \"|\"" <<
-              endl <<
-            idtr <<
-              "\\undo\\omit Stem" <<
-              endl <<
-            endl << //JMI
-            idtr;
-
-          fMusicOlec.resetToZero ();
-        }
-        break;
-        
-      case msrStem::k_NoStem:
-      case msrStem::kStemUp:
-      case msrStem::kStemDown:
-      case msrStem::kStemDouble:
-        break;
-    } // switch
-  }
-*/
-
-
   // fetch the note single tremolo
   S_msrSingleTremolo
     noteSingleTremolo =
@@ -3292,12 +3227,7 @@ If used within a tuplet, this 2/1 ratio should be multiplied by the existing tup
 Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   */
-  /* JMI doubleTremolo
-    fOstream <<
-      "\\repeat tremolo " << 8 << // JMI
-      " {";
-      */
-  }
+}
   
   // print the note
   switch (note->getNoteKind ()) {
@@ -3316,7 +3246,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
-        // c2*2/3 ( s2*1/3\turn
+        // c2*2/3 ( s2*1/3\turn JMI
         fOstream <<
           "*" <<
           gLpsrOptions->fDelayedOrnamentFractionNumerator <<
@@ -5204,3 +5134,60 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMidi& elt)
 
 
 } // namespace
+
+
+
+
+/* JMI
+  // is there an unmetered (stemless) section?
+  if (stemKind != fCurrentStemKind) {
+    switch (stemKind) {
+      case msrStem::kStemNone:
+        if (! fOnGoingStemNone) {
+          fOstream <<
+            endl <<
+            endl << //JMI
+            idtr <<
+              "\\temporary\\omit Stem" <<
+              endl <<
+            idtr <<
+              "\\once\\omit Staff.TimeSignature" <<
+              endl <<
+            idtr <<
+              "\\cadenzaOn" <<
+              endl <<
+            endl << //JMI
+            idtr;
+
+          fMusicOlec.resetToZero ();
+
+          fOnGoingStemNone = true;
+        }
+        else {
+          fOstream <<
+            endl <<
+            endl << //JMI
+            idtr <<
+              "\\cadenzaOff" <<
+              endl <<
+            idtr <<
+              "\\bar \"|\"" <<
+              endl <<
+            idtr <<
+              "\\undo\\omit Stem" <<
+              endl <<
+            endl << //JMI
+            idtr;
+
+          fMusicOlec.resetToZero ();
+        }
+        break;
+        
+      case msrStem::k_NoStem:
+      case msrStem::kStemUp:
+      case msrStem::kStemDown:
+      case msrStem::kStemDouble:
+        break;
+    } // switch
+  }
+*/

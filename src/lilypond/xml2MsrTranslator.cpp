@@ -9998,9 +9998,9 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         // register newNote as first element of the current double tremolo
         if (gGeneralOptions->fTraceNotes) {
           cerr <<  idtr <<
-            "--> setting standalone " <<
+            "--> setting standalone note '" <<
             newNote->noteAsString () <<
-            ", line " << newNote->getInputLineNumber () <<
+            "', line " << newNote->getInputLineNumber () <<
             ", as double tremolo first element" <<
             " in voice \"" <<
             currentVoice->getVoiceName () <<
@@ -10017,9 +10017,9 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         // register newNote as second element of the current double tremolo
         if (gGeneralOptions->fTraceNotes) {
           cerr <<  idtr <<
-            "--> setting standalone " <<
+            "--> setting standalone note '" <<
             newNote->noteAsString () <<
-            ", line " << newNote->getInputLineNumber () <<
+            "', line " << newNote->getInputLineNumber () <<
             ", as double tremolo second element" <<
             " in voice \"" <<
             currentVoice->getVoiceName () <<
