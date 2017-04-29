@@ -7281,6 +7281,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   if      (tremoloPlacement == "above") {
     switch (fCurrentMusicXMLTremoloType) {
       case k_NoTremolo:
+        // just to avoid a compiler message
         break;
         
       case kSingleTremolo:
@@ -7297,6 +7298,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   else if (tremoloPlacement == "below") {
     switch (fCurrentMusicXMLTremoloType) {
       case k_NoTremolo:
+        // just to avoid a compiler message
         break;
         
       case kSingleTremolo:
@@ -7325,6 +7327,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   switch (fCurrentMusicXMLTremoloType) {
     case k_NoTremolo:
+      // just to avoid a compiler message
       break;
         
     case kSingleTremolo:
@@ -7337,16 +7340,17 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // create a single tremolo, it will be attached to current note
       // in attachCurrentSingleTremoloToNote()
-        if (gGeneralOptions->fTraceTremolos) {
-          cerr << idtr <<
-            "Creating a single tremolo" <<
-            ", line " << inputLineNumber <<
-            ", " << tremoloMarksNumber << " marks" <<
-            ", placement : " <<
-            msrSingleTremolo::singleTremoloPlacementKindAsString (
-              singleTremoloPlacementKind) <<
-            endl;
-        }
+      if (gGeneralOptions->fTraceTremolos) {
+        cerr << idtr <<
+          "Creating a single tremolo" <<
+          ", line " << inputLineNumber <<
+          singularOrPlural (
+            tremoloMarksNumber, "mark", "marks") <<
+          ", placement : " <<
+          msrSingleTremolo::singleTremoloPlacementKindAsString (
+            singleTremoloPlacementKind) <<
+          endl;
+      }
 
       fCurrentSingleTremolo =
         msrSingleTremolo::create (
@@ -7370,7 +7374,9 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
           cerr << idtr <<
             "Creating a double tremolo" <<
             ", line " << inputLineNumber <<
-            ", " << tremoloMarksNumber << " marks" <<
+            ", " <<
+            singularOrPlural (
+              tremoloMarksNumber, "mark", "marks") <<
             ", placement : " <<
             msrDoubleTremolo::doubleTremoloPlacementKindAsString (
               doubleTremoloPlacementKind) <<
@@ -7400,14 +7406,21 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
     case kStopTremolo:
       if (fCurrentDoubleTremolo) {
-        // if will be handled in handleStandaloneOrGraceNoteOrRest()
+        if (gGeneralOptions->fTraceTremolos) {
+          cerr << idtr <<
+            "Meeting a double tremolo stop" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+        // it will be handled in handleStandaloneOrGraceNoteOrRest()
       }
       
       else {
         stringstream s;
 
         s <<
-          "<tremolo/> stop when not double tremolo is open";
+          "<tremolo/> stop whit no preceeding <tremolo/> start";
 
         msrMusicXMLError (
           elt->getInputLineNumber (),
@@ -9955,7 +9968,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   }
 
   else if (fCurrentMusicXMLTremoloType != k_NoTremolo) {
-    // newNote belongs to a double tremolo
+    // newNote belongs to a tremolo
 
     switch (fCurrentMusicXMLTremoloType) {
       case k_NoTremolo:
@@ -9983,6 +9996,18 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         
       case kStartTremolo:
         // register newNote as first element of the current double tremolo
+        if (gGeneralOptions->fTraceNotes) {
+          cerr <<  idtr <<
+            "--> setting standalone " <<
+            newNote->noteAsString () <<
+            ", line " << newNote->getInputLineNumber () <<
+            ", as double tremolo first element" <<
+            " in voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+
         fCurrentDoubleTremolo->
           setDoubleTremoloFirstElement (
             newNote);
@@ -9990,6 +10015,18 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
 
       case kStopTremolo:
         // register newNote as second element of the current double tremolo
+        if (gGeneralOptions->fTraceNotes) {
+          cerr <<  idtr <<
+            "--> setting standalone " <<
+            newNote->noteAsString () <<
+            ", line " << newNote->getInputLineNumber () <<
+            ", as double tremolo second element" <<
+            " in voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+
         fCurrentDoubleTremolo->
           setDoubleTremoloSecondElement (
             newNote);

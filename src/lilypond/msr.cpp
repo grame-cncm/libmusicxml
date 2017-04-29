@@ -3923,15 +3923,15 @@ msrDoubleTremolo::~msrDoubleTremolo() {}
 void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
 {
   if (
-    S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
+    S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
     ) {    
-    note->noteAsShortString ();
+    // OK
   }
 
   else if (
-    S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
+    S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
       ) {
-      chord->chordAsString ();
+    // OK
   }
   
   else {
@@ -3945,6 +3945,24 @@ void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
 
 void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
 {
+  if (
+    S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
+    ) {    
+    // OK
+  }
+
+  else if (
+    S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
+      ) {
+    // OK
+  }
+  
+  else {
+    msrInternalError (
+      fInputLineNumber,
+      "chords double tremolo first element should be a chord");
+  }
+
   fDoubleTremoloSecondElement = elem;
 }
 
