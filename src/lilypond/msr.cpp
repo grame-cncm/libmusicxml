@@ -3931,6 +3931,14 @@ void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
   if (
     S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
     ) {    
+    if (gGeneralOptions->fTraceTremolos) {
+      cerr << idtr <<
+        "Setting note " << note->noteAsShortString () <<
+        " as first element of double tremolo " <<
+        doubleTremoloAsShortString () <<
+        endl;
+    }
+  
     note->
       setNoteIsFirstNoteInADoubleTremolo ();
   }
@@ -3938,6 +3946,14 @@ void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
   else if (
     S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
       ) {
+    if (gGeneralOptions->fTraceTremolos) {
+      cerr << idtr <<
+        "Setting chord " << chord->chordAsString () <<
+        " as first element of double tremolo " <<
+        doubleTremoloAsShortString () <<
+        endl;
+    }
+  
     chord->
       setChordIsFirstChordInADoubleTremolo ();
   }
@@ -3956,6 +3972,14 @@ void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
   if (
     S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
     ) {    
+    if (gGeneralOptions->fTraceTremolos) {
+      cerr << idtr <<
+        "Setting note " << note->noteAsShortString () <<
+        " as second element of double tremolo " <<
+        doubleTremoloAsShortString () <<
+        endl;
+    }
+  
     note->
       setNoteIsSecondNoteInADoubleTremolo ();
   }
@@ -3963,6 +3987,14 @@ void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
   else if (
     S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
       ) {
+    if (gGeneralOptions->fTraceTremolos) {
+      cerr << idtr <<
+        "Setting chord " << chord->chordAsString () <<
+        " as second element of double tremolo " <<
+        doubleTremoloAsShortString () <<
+        endl;
+    }
+  
     chord->
       setChordIsFirstChordInADoubleTremolo ();
   }
@@ -14709,6 +14741,14 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
 void msrSegment::appendDoubleTremoloToSegment ( // XXL
   S_msrDoubleTremolo doubleTremolo)
 {
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending double tremolo " <<
+        doubleTremolo->doubleTremoloAsShortString () <<
+        " to segment '" << segmentAsString () << "'" <<
+      endl;
+      
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
