@@ -1628,7 +1628,7 @@ void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
       "--> Start visiting msrDoubleTremolo" <<
       endl;
 
-  // create a repeat clone
+  // create a double tremolo clone
   fCurrentDoubleTremoloClone =
     elt->createDoubleTremoloBareClone (
       fCurrentVoiceClone);
@@ -2047,6 +2047,15 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         }
         
         else {
+          stringstream s;
+
+          s <<
+            "note '" << fCurrentNoteClone->noteAsShortString () << "'" <<
+            " belongs to a double tremolo, but is not marked as such";
+
+          msrInternalError (
+            elt->getInputLineNumber (),
+            s.str());
         }
       }
 

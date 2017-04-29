@@ -4066,10 +4066,12 @@ string msrDoubleTremolo::doubleTremoloAsShortString () const
   stringstream s;
   
   s <<
-    "DoubleTremolo" " " <<
+    "DoubleTremolo"<<
     ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
-    fDoubleTremoloMarksNumber << " marks" <<
+    ", " <<
+    singularOrPlural (
+      fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString ();
 
   return s.str();
@@ -4181,7 +4183,6 @@ void msrDoubleTremolo::print (ostream& os)
   }
   else {
     os <<
-      idtr <<
       " none" <<
       endl;
   }
@@ -4200,7 +4201,6 @@ void msrDoubleTremolo::print (ostream& os)
   }
   else {
     os <<
-      idtr <<
       " none" <<
       endl;
   }
@@ -12716,7 +12716,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
     if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
-        "Appending doubleTremolo '" <<
+        "Appending double tremolo '" <<
         doubleTremolo->doubleTremoloAsShortString () <<
         "' to measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -14674,7 +14674,7 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
     appendNoteToMeasureClone (note);
 }
 
-void msrSegment::appendDoubleTremoloToSegment (
+void msrSegment::appendDoubleTremoloToSegment ( // XXL
   S_msrDoubleTremolo doubleTremolo)
 {
   fSegmentMeasuresList.back ()->
