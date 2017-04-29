@@ -2879,6 +2879,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       endl;
 
   fOstream <<
+    idtr <<
     "\\repeat tremolo " << 8 << // JMI
     " {" <<
     endl;
@@ -2896,7 +2897,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrDoubleTremolo& elt)
   idtr--;
   
   fOstream <<
-    endl <<
     idtr <<
     "}" <<
     endl;
