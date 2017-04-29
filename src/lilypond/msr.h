@@ -1433,7 +1433,7 @@ class EXP msrSingleTremolo : public msrElement
     enum msrSingleTremoloPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
-    static string SingleTremoloPlacementKindAsString (
+    static string singleTremoloPlacementKindAsString (
       msrSingleTremoloPlacementKind singleTremoloPlacementKind);
             
     // creation from MusicXML
@@ -1533,7 +1533,7 @@ class EXP msrDoubleTremolo : public msrElement
     enum msrDoubleTremoloPlacementKind {
       k_NoPlacementKind, kAbove, kBelow};
 
-    static string DoubleTremoloPlacementKindAsString (
+    static string doubleTremoloPlacementKindAsString (
       msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
             
     // creation from MusicXML

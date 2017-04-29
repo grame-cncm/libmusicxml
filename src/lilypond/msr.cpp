@@ -3764,11 +3764,12 @@ msrSingleTremolo::msrSingleTremolo (
 
 msrSingleTremolo::~msrSingleTremolo() {}
 
-string msrSingleTremolo::singleTremoloPlacementKindAsString () const
+string msrSingleTremolo::singleTremoloPlacementKindAsString (
+  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
 {
   string result;
   
-  switch (fSingleTremoloPlacementKind) {
+  switch (singleTremoloPlacementKind) {
     case msrSingleTremolo::k_NoPlacementKind:
       result = "none";
       break;
@@ -3781,6 +3782,13 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString () const
   } // switch
 
   return result;
+}
+
+string msrSingleTremolo::singleTremoloPlacementKindAsString () const
+{
+  return
+    singleTremoloPlacementKindAsString (
+      fSingleTremoloPlacementKind);
 }
 
 void msrSingleTremolo::acceptIn (basevisitor* v) {
@@ -3957,11 +3965,12 @@ string msrDoubleTremolo::msrDoubleTremoloKindAsString (
   return result;
 }
 
-string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
+string msrDoubleTremolo::doubleTremoloPlacementKindAsString (
+  msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
 {
   string result;
   
-  switch (fDoubleTremoloPlacementKind) {
+  switch (doubleTremoloPlacementKind) {
     case msrDoubleTremolo::k_NoPlacementKind:
       result = "none";
       break;
@@ -3974,6 +3983,13 @@ string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
   } // switch
 
   return result;
+}
+
+string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
+{
+  return
+    doubleTremoloPlacementKindAsString (
+      fDoubleTremoloPlacementKind);
 }
 
 void msrDoubleTremolo::acceptIn (basevisitor* v) {
