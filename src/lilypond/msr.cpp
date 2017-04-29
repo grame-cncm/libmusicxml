@@ -3914,7 +3914,13 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
         fDoubleTremoloMarksNumber,
         fDoubleTremoloPlacementKind,
         clonedVoice);
-  
+
+  clone->fDoubleTremoloDivisions =
+    fDoubleTremoloDivisions;
+    
+  clone->fDoubleTremoloDivisions =
+    fDoubleTremoloDivisions;
+    
   return clone;
 }
 
@@ -5714,6 +5720,11 @@ S_msrNote msrNote::createNoteBareClone (
   clone->fNoteIsStemless =
     fNoteIsStemless;
 
+  clone->fNoteIsFirstNoteInADoubleTremolo =
+    fNoteIsFirstNoteInADoubleTremolo;
+  clone->fNoteIsSecondNoteInADoubleTremolo =
+    fNoteIsSecondNoteInADoubleTremolo;
+
   clone->fNoteHasATrill =
     fNoteHasATrill;
   clone->fNoteIsFollowedByGracenotes =
@@ -6792,11 +6803,32 @@ void msrNote::print (ostream& os)
         ")";
   }
 
-/* JMI
   if (fNoteOccupiesAFullMeasure)
     os <<
       ", full measure";
-*/
+
+  // note redundant information (for speed)
+  if (fNoteIsStemless)
+    os <<
+      ", stemless";
+
+  if (fNoteIsFirstNoteInADoubleTremolo)
+    os <<
+      ", first note in a double tremolo";
+  if (fNoteIsSecondNoteInADoubleTremolo)
+    os <<
+      ", second note in a double tremolo";
+
+  if (fNoteHasATrill)
+    os <<
+      ", has a trill";
+  if (fNoteIsFollowedByGracenotes)
+    os <<
+      ", is followed by gracenotes";
+
+  if (fNoteHasADelayedOrnament)
+    os <<
+      ", has a delayed ornament";
 
   os <<
       endl;
