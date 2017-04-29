@@ -3643,11 +3643,22 @@ class EXP msrNote : public msrElement
     bool                  getNoteOccupiesAFullMeasure () const
                               { return fNoteOccupiesAFullMeasure; }
 
-    // note measure information
-    // -------------------------------
+    // note redundant information (for speed)
 
     bool                  getNoteIsStemless () const
                               { return fNoteIsStemless; }
+
+    void                  setNoteIsFirstNoteInADoubleTremolo ()
+                              { fNoteIsFirstNoteInADoubleTremolo = true; }
+
+    bool                  getNoteIsFirstNoteInADoubleTremolo () const
+                              { return fNoteIsFirstNoteInADoubleTremolo; }
+                  
+    void                  setNoteIsSecondNoteInADoubleTremolo ()
+                              { fNoteIsSecondNoteInADoubleTremolo = true; }
+
+    bool                  getNoteIsSecondNoteInADoubleTremolo () const
+                              { return fNoteIsSecondNoteInADoubleTremolo; }
                   
     bool                  getNoteHasATrill () const
                               { return fNoteHasATrill; }
@@ -3842,6 +3853,10 @@ class EXP msrNote : public msrElement
     // because the <stem> is visited after 'visitorStart ( S_msrNote )' 
     bool                      fNoteIsStemless;
 
+    // this is needed to handle double tremolos
+    bool                      fNoteIsFirstNoteInADoubleTremolo;
+    bool                      fNoteIsSecondNoteInADoubleTremolo;
+
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
     bool                      fNoteIsFollowedByGracenotes;
@@ -3890,6 +3905,15 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
                               
+     // divisions
+    void                  setChordDivisions (int divisions)
+                              { fChordDivisions = divisions; }
+            
+    int                   getChordDivisions () const
+                              { return fChordDivisions; }
+            
+    string                chordDivisionsAsMsrString () const;
+
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
 
@@ -3900,22 +3924,28 @@ class EXP msrChord : public msrElement
                           getChordNotes () const
                               { return fChordNotes; }
 
-    // ties
-    void                  setChordTie (
-                            const S_msrTie tie)
-                              { fChordTie = tie; }
-
-    S_msrTie              getChordTie () const
-                              { return fChordTie; }
-
+    // articulations
     const list<S_msrArticulation>&
                           getChordArticulations () const
                               { return fChordArticulations; }
 
-    // singleTremolo
-    S_msrSingleTremolo          getChordSingleTremolo () const
+    // single tremolo
+    S_msrSingleTremolo    getChordSingleTremolo () const
                               { return fChordSingleTremolo; }
 
+    // double tremolo
+    void                  setChordIsFirstChordInADoubleTremolo ()
+                              { fChordIsFirstChordInADoubleTremolo = true; }
+
+    bool                  getChordIsFirstChordInADoubleTremolo () const
+                              { return fChordIsFirstChordInADoubleTremolo; }
+                  
+    void                  setChordIsSecondChordInADoubleTremolo ()
+                              { fChordIsSecondChordInADoubleTremolo = true; }
+
+    bool                  getChordIsSecondChordInADoubleTremolo () const
+                              { return fChordIsSecondChordInADoubleTremolo; }
+                  
     // technicals
     const list<S_msrTechnical>&
                           getChordTechnicals () const
@@ -3934,6 +3964,7 @@ class EXP msrChord : public msrElement
                           getChordOrnaments () const
                               { return fChordOrnaments; }
     
+    // dynamics
     const list<S_msrDynamics>&
                           getChordDynamics () const
                               { return fChordDynamics; }
@@ -3954,6 +3985,14 @@ class EXP msrChord : public msrElement
                           getChordWedges () const
                               { return fChordWedges; }
 
+    // ties
+    void                  setChordTie (
+                            const S_msrTie tie)
+                              { fChordTie = tie; }
+
+    S_msrTie              getChordTie () const
+                              { return fChordTie; }
+
     // harmony
     void                  setChordHarmony (S_msrHarmony harmony)
                               { fChordHarmony = harmony; }
@@ -3961,13 +4000,6 @@ class EXP msrChord : public msrElement
     const S_msrHarmony&   getChordHarmony () const
                               { return fChordHarmony; };
                       
-     // divisions
-    void                  setChordDivisions (int divisions)
-                              { fChordDivisions = divisions; }
-            
-    int                   getChordDivisions () const
-                              { return fChordDivisions; }
-            
     // measure uplink
     void                  setChordMeasureUplink (
                             const S_msrMeasure& measure)
@@ -3999,19 +4031,16 @@ class EXP msrChord : public msrElement
     void                  addFirstNoteToChord (S_msrNote note);
     void                  addAnotherNoteToChord (S_msrNote note);
 
-    void                  setChordFirstNotePositionInMeasure (
-                            int position);
-                    
-    void                  setChordFirstNoteMeasureNumber (
-                            int measureNumber);
-                    
  // JMI   S_msrNote     chordLastNote () const
        //               { return fChordNotes.back (); }
 
+    // articulations
     void                  addArticulationToChord (S_msrArticulation art);
      
+    // single tremolo
     void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
+    // technicals
     void                  addTechnicalToChord (S_msrTechnical tech);
     
     void                  addTechnicalWithIntegerToChord (
@@ -4020,8 +4049,10 @@ class EXP msrChord : public msrElement
     void                  addTechnicalWithStringToChord (
                             S_msrTechnicalWithString tech);
     
+    // ornaments
     void                  addOrnamentToChord (S_msrOrnament orn);
      
+    // dynamics
     void                  addDynamicsToChord (S_msrDynamics dyn)
                               { fChordDynamics.push_back (dyn); }
                     
@@ -4037,12 +4068,18 @@ class EXP msrChord : public msrElement
     void                  addWedgeToChord (S_msrWedge wedge)
                               { fChordWedges.push_back (wedge); }
 
-    string                chordDivisionsAsMsrString () const;
-
     // tuplet members
     void                  applyTupletMemberDisplayFactorToChordMembers (
                             int actualNotes, int normalNotes);
 
+    // position in measure
+    void                  setChordFirstNotePositionInMeasure (
+                            int position);
+                    
+    void                  setChordFirstNoteMeasureNumber (
+                            int measureNumber);
+                    
+    // harmony
     string                chordAsString () const;
 
     // visitors
@@ -4072,15 +4109,23 @@ class EXP msrChord : public msrElement
     
     vector<S_msrNote>         fChordNotes;
 
+    // position in measure
     S_msrMeasure              fChordMeasureUplink;
 
     int                       fChordMeasureNumber;
     int                       fChordPositionInMeasure;
-    
+
+    // articulations
     list<S_msrArticulation>   fChordArticulations;
 
+    // single tremolo
     S_msrSingleTremolo        fChordSingleTremolo;
     
+    // double tremolo
+    bool                      fChordIsFirstChordInADoubleTremolo;
+    bool                      fChordIsSecondChordInADoubleTremolo;
+
+    // technicals
     list<S_msrTechnical>      fChordTechnicals;
     
     list<S_msrTechnicalWithInteger>
@@ -4089,10 +4134,13 @@ class EXP msrChord : public msrElement
     list<S_msrTechnicalWithString>
                               fChordTechnicalWithStrings;
     
+    // ornaments
     list<S_msrOrnament>       fChordOrnaments;
     
+    // ties
     S_msrTie                  fChordTie;
     
+    // dynamics
     list<S_msrDynamics>       fChordDynamics;
     
     list<S_msrWords>          fChordWords;
@@ -4103,6 +4151,7 @@ class EXP msrChord : public msrElement
 
     list<S_msrWedge>          fChordWedges;
 
+    // harmony
     S_msrHarmony              fChordHarmony;
 };
 typedef SMARTP<msrChord> S_msrChord;

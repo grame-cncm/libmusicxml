@@ -3925,13 +3925,15 @@ void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
   if (
     S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
     ) {    
-    // OK
+    note->
+      setNoteIsFirstNoteInADoubleTremolo ();
   }
 
   else if (
     S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
       ) {
-    // OK
+    chord->
+      setChordIsFirstChordInADoubleTremolo ();
   }
   
   else {
@@ -3948,13 +3950,15 @@ void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
   if (
     S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
     ) {    
-    // OK
+    note->
+      setNoteIsSecondNoteInADoubleTremolo ();
   }
 
   else if (
     S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
       ) {
-    // OK
+    chord->
+      setChordIsFirstChordInADoubleTremolo ();
   }
   
   else {
