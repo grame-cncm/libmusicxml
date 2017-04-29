@@ -7319,6 +7319,13 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   switch (fCurrentMusicXMLTremoloType) {
     case kSingleTremolo:
+      if (gGeneralOptions->fTraceTremolos) {
+        cerr << idtr <<
+          "Creating a single tremolo" <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+      
       // single tremolo: create it, it will be attached to current note later
       fCurrentSingleTremolo =
         msrSingleTremolo::create (
@@ -7338,6 +7345,13 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
               fCurrentVoiceNumber);
 
         // create a double tremolo
+        if (gGeneralOptions->fTraceTremolos) {
+          cerr << idtr <<
+            "Creating a double tremolo" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
         fCurrentDoubleTremolo =
           msrDoubleTremolo::create (
             inputLineNumber,
@@ -9924,7 +9938,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         break;
         
       case kSingleTremolo:
-        // fCurrentSingleTremolo is handled elsewhere
+        // fCurrentSingleTremolo is handled in attachCurrentSingleTremoloToNote()
         break;
         
       case kStartTremolo:

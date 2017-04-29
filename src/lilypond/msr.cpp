@@ -3835,9 +3835,9 @@ string msrSingleTremolo::singleTremoloAsString () const
   stringstream s;
   
   s <<
-    "SingleTremolo" " " <<
+    "SingleTremolo" <<
     ", line " << fInputLineNumber <<
-    fSingleTremoloMarksNumber << " marks" <<
+    ", " << fSingleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << singleTremoloPlacementKindAsString ();
 
   if (fSingleTremoloNoteUplink) // it may not yet be set
@@ -5833,8 +5833,9 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
-      "% Adding singleTremolo " << trem->singleTremoloAsString () <<
-      " to note " << noteAsString () <<
+      "Adding singleTremolo " << trem->singleTremoloAsString () <<
+      " to note " << noteAsShortString () <<
+      ", line " << trem->getInputLineNumber () <<
       endl;
 
   // register the singleTremolo in the note
@@ -5843,6 +5844,24 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
   // set singleTremolo's note uplink
   trem->
     setSingleTremoloNoteUplink (this);
+
+    cerr <<
+      "*******" <<
+      endl;
+    this->print (cerr);
+    cerr <<
+      endl <<
+      "***********" <<
+      endl;
+
+    cerr <<
+      "*******" <<
+      endl <<
+      fNoteMeasureUplink->
+        getMeasureVoiceDirectUplink () <<
+      endl <<
+      "***********" <<
+      endl;
 }
 
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
@@ -5859,7 +5878,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 {
   if (gGeneralOptions->fTraceSlurs)
     cerr << idtr <<
-      "% Adding slur " << slur << " to note " << noteAsString ()
+      "Adding slur " << slur << " to note " << noteAsString ()
        << endl;
 
   if (fNoteSlurs.size ()) {
@@ -5903,7 +5922,7 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
   if (gGeneralOptions->fTraceLigatures)
     cerr << idtr <<
-      "% Adding ligature " << ligature << " to note " << noteAsString ()
+      "Adding ligature " << ligature << " to note " << noteAsString ()
        << endl;
 
   if (fNoteLigatures.size ()) {
@@ -7107,7 +7126,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding first note '" <<
+      "Adding first note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -7131,7 +7150,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding another note '" <<
+      "Adding another note '" <<
       note->noteAsString () <<
       "' to chord '" <<
       chordAsString () <<
@@ -7195,7 +7214,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) // JMI
     cerr << idtr <<
-      "% Adding articulation '" <<
+      "Adding articulation '" <<
       art->articulationKindAsString () <<
       "' to chord" <<
       endl;
@@ -7207,7 +7226,7 @@ void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding singleTremolo '" <<
+      "Adding singleTremolo '" <<
       trem->singleTremoloAsString () <<
       "' to chord" <<
       endl;
@@ -7234,7 +7253,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding technical '" <<
+      "Adding technical '" <<
       tech->technicalAsString () <<
       "' to chord" <<
       endl;
@@ -7262,7 +7281,7 @@ void msrChord::addTechnicalWithIntegerToChord (
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding technical with integer '" <<
+      "Adding technical with integer '" <<
       tech->technicalWithIntegerAsString () <<
       "' to chord" <<
       endl;
@@ -7290,7 +7309,7 @@ void msrChord::addTechnicalWithStringToChord (
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding technical with integer '" <<
+      "Adding technical with integer '" <<
       tech->technicalWithStringAsString () <<
       "' to chord" <<
       endl;
@@ -7316,7 +7335,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "% Adding ornament '" <<
+      "Adding ornament '" <<
       orn->ornamentKindAsString () <<
       "' to chord" <<
       endl;
@@ -8095,7 +8114,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% Adding note '" <<
+      "Adding note '" <<
       note->noteAsShortStringWithRawDivisions () <<
         // the information is missing to display it the normal way
       "' to tuplet '" <<
@@ -8128,7 +8147,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% Adding chord '" <<
+      "Adding chord '" <<
       chord->chordAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -8158,7 +8177,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% Adding tuplet '" <<
+      "Adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<
@@ -8202,7 +8221,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "% Adding tuplet '" <<
+      "Adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
       tupletAsString () <<

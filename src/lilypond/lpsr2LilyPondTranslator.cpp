@@ -981,16 +981,17 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
         endl <<
       idtr <<
         "doubleRepeatType = #\":|][|:\"" <<
-        endl <<
-      idtr <<
-        "}" <<
         endl;
 
     idtr--;
+        
+    fOstream <<
+      idtr <<
+        "}" <<
+        endl;
   }
 
-// JMI XXL
-  if (true) {
+  if (true) { // JMI XXL
     fOstream <<
       idtr <<
       "\\context" " " "{" <<
@@ -1004,20 +1005,22 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
         endl <<
       idtr <<
         "\\consists \"Span_arpeggio_engraver\"" <<
-        endl <<
+        endl;
+
+    idtr--;
+
+    fOstream <<
       idtr <<
         "}" <<
         endl;
-        
-    idtr--;
   }
     
+  idtr--;
+
   fOstream << idtr <<
     "}" <<
     endl <<
     endl;
-
-  idtr--;
 }
 
 //________________________________________________________________________
@@ -4768,8 +4771,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
-  fOstream << idtr <<
-    "| % " << nextBarNumber <<
+  fOstream <<
+    "| % " << nextBarNumber << "% bar check" <<
     endl <<
     idtr;
 
