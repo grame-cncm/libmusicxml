@@ -4057,6 +4057,20 @@ ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)
   return os;
 }
 
+string msrDoubleTremolo::doubleTremoloAsShortString () const
+{
+  stringstream s;
+  
+  s <<
+    "DoubleTremolo" " " <<
+    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+    ", line " << fInputLineNumber <<
+    fDoubleTremoloMarksNumber << " marks" <<
+    ", placement" << " = " << doubleTremoloPlacementKindAsString ();
+
+  return s.str();
+}
+
 string msrDoubleTremolo::doubleTremoloAsString () const
 {
   stringstream s;
@@ -4138,18 +4152,23 @@ string msrDoubleTremolo::doubleTremoloAsString () const
 void msrDoubleTremolo::print (ostream& os)
 {
   os <<
-    "DoubleTremolo" " " <<
+    "DoubleTremolo" <<
     ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
-    fDoubleTremoloMarksNumber << " marks" <<
-    ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
+    ", " <<
+    singularOrPlural (
+      fDoubleTremoloMarksNumber, "mark", "marks") <<
+    ", placement: " << doubleTremoloPlacementKindAsString () <<
     endl;
 
+  idtr++;
+  
   os <<
-    "first element  : " <<
+    idtr <<
+    "First element : " <<
     endl;
   if (fDoubleTremoloFirstElement) // it may not yet be set
-    os <<
+    os << idtr <<
       fDoubleTremoloFirstElement;
   else
     os << "none";
@@ -4157,14 +4176,18 @@ void msrDoubleTremolo::print (ostream& os)
     endl;
       
   os <<
-    "second element : ";
+    idtr <<
+    "Second element: " <<
+    endl;
   if (fDoubleTremoloSecondElement) // it may not yet be set
-    os <<
+    os << idtr <<
       fDoubleTremoloSecondElement;
   else
     os << "none";
   os <<
     endl;
+
+  idtr--;
 }
 
 //______________________________________________________________________________
@@ -12675,7 +12698,8 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
     if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
-        "Appending doubleTremolo '" << doubleTremolo->doubleTremoloAsString () <<
+        "Appending doubleTremolo '" <<
+        doubleTremolo->doubleTremoloAsShortString () <<
         "' to measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -16070,7 +16094,7 @@ void msrVoice::appendDoubleTremoloToVoice (
   if (gGeneralOptions->fTraceTremolos) {
     cerr << idtr <<
       "Appending double tremolo '" <<
-      doubleTremolo->doubleTremoloAsString () <<
+      doubleTremolo->doubleTremoloAsShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }

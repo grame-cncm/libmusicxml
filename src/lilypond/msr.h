@@ -1648,6 +1648,8 @@ class EXP msrDoubleTremolo : public msrElement
 
     string                doubleTremoloPlacementKindAsString () const;
     
+    string                doubleTremoloAsShortString () const;
+    
     string                doubleTremoloAsString () const;
 
     void                  setDoubleTremoloFirstNotePositionInMeasure (
