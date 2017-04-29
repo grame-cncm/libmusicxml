@@ -1641,6 +1641,14 @@ void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
       "--> End visiting msrSingleTremolo" <<
       endl;
 
+  // append the current double tremolo clone to the current voice clone
+  fCurrentVoiceClone->
+    appendDoubleTremoloToVoice (
+      fCurrentDoubleTremoloClone);
+
+  // forget about it
+  fCurrentDoubleTremoloClone = 0;
+  
   fOnGoingDoubleTremolo = false;
 }
 

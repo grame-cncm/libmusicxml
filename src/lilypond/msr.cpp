@@ -4165,25 +4165,41 @@ void msrDoubleTremolo::print (ostream& os)
   
   os <<
     idtr <<
-    "First element : " <<
-    endl;
-  if (fDoubleTremoloFirstElement) // it may not yet be set
+    "First element :";
+  if (fDoubleTremoloFirstElement) { // it may not yet be set
+    os <<
+      endl;
+      
+    idtr++;
     os << idtr <<
       fDoubleTremoloFirstElement;
-  else
-    os << "none";
+    idtr--;
+  }
+  else {
+    os <<
+      idtr <<
+      " none";
+  }
   os <<
     endl;
       
   os <<
     idtr <<
-    "Second element: " <<
-    endl;
-  if (fDoubleTremoloSecondElement) // it may not yet be set
+    "Second element:";
+  if (fDoubleTremoloSecondElement) { // it may not yet be set
+    os <<
+      endl;
+
+    idtr++;
     os << idtr <<
       fDoubleTremoloSecondElement;
-  else
-    os << "none";
+    idtr--;
+  }
+  else {
+    os <<
+      idtr <<
+      " none";
+  }
   os <<
     endl;
 
