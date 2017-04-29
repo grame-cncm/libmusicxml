@@ -9938,6 +9938,21 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         break;
         
       case kSingleTremolo:
+        // append newNote to the current voice
+        if (gGeneralOptions->fTraceNotes) {
+          cerr <<  idtr <<
+            "--> adding standalone " <<
+            newNote->noteAsString () <<
+            ", line " << newNote->getInputLineNumber () <<
+            ", to voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+    
+        currentVoice->
+          appendNoteToVoice (newNote);
+
         // fCurrentSingleTremolo is handled in attachCurrentSingleTremoloToNote()
         break;
         

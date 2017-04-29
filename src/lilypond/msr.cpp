@@ -5853,15 +5853,6 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
       endl <<
       "***********" <<
       endl;
-
-    cerr <<
-      "*******" <<
-      endl <<
-      fNoteMeasureUplink->
-        getMeasureVoiceDirectUplink () <<
-      endl <<
-      "***********" <<
-      endl;
 }
 
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
