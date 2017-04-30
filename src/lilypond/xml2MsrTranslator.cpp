@@ -9583,7 +9583,6 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // before we create the note
 
   if (fCurrentNoteIsAGraceNote) {
-    // gracenote
     // set current grace note divisions      
     fCurrentNoteDivisions =
       fCurrentPart->
@@ -9611,6 +9610,13 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         inputLineNumber,
         s.str());
     }
+
+    // set current double tremolo note display divisions      
+    fCurrentNoteDisplayDivisions =
+      fCurrentPart->
+        durationAsDivisions (
+          inputLineNumber,
+          fCurrentNoteGraphicDuration);
   }
 
   else {
