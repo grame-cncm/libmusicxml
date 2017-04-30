@@ -2926,18 +2926,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       *
     4 // quarter note
       /
-    fCurrentTremoloElementsLpsrDuration
-      /
-    2; // to account for both elements
+    fCurrentTremoloElementsLpsrDuration;
     
   // the number of repeats is the quotient of the number of divisions
   // by the duration of the elements
   int numberOfRepeats =
     doubleTremoloDivisions
       /
-    divisionsPerDoubleTremoloElement;
+    (2 * divisionsPerDoubleTremoloElement); // to account for both elements
 
-  if (gGeneralOptions->fTraceTremolos) {
+  if (false && gGeneralOptions->fTraceTremolos) { // JMI
     cerr <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
