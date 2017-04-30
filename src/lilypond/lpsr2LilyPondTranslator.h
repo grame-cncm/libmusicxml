@@ -434,7 +434,7 @@ class lpsr2LilyPondTranslator :
     
     // parts
     // ------------------------------------------------------
-    S_msrPart             fCurrentPart;
+    S_msrPart             fCurrentPart; // JMI jamais visitee
     
     // staves
     // ------------------------------------------------------

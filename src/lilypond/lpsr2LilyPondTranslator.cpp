@@ -2915,8 +2915,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
 
   // fetch the current part's number of divisions per quarter note
   int partDivisionsPerQuarterNote =
-    fCurrentPart->
-      getPartDivisionsPerQuarterNote ();
+    elt->
+      getDoubleTremoloVoiceUplink ()->
+        getVoiceDirectPartUplink ()->
+          getPartDivisionsPerQuarterNote ();
   
   // the number of repeats is the quotient of the number of divisions
   // by the duration of the elements
