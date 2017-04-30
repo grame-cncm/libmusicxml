@@ -481,6 +481,10 @@ class lpsr2LilyPondTranslator :
     // notes
     // ------------------------------------------------------
     bool                  fOnGoingNote;
+
+    // tremolos
+    // ------------------------------------------------------
+    int                   fCurrentTremoloElementsDuration;
     
     // chords
     // ------------------------------------------------------

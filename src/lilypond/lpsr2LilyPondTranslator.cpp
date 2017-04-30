@@ -2900,9 +2900,34 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       "% --> Start visiting msrDoubleTremolo" <<
       endl;
 
+  // fetch double tremolo divisions
+  int doubleTremoloDivisions =
+    elt->
+      getDoubleTremoloDivisions ();
+
+  // the marks number determines the duration of the two elements:
+  // '8' for 1, '16' for 2, etc
+  fCurrentTremoloElementsDuration =
+    int (
+      pow (
+        2,
+        elt->getDoubleTremoloMarksNumber () + 2));
+
+  // fetch the current part's number of divisions per quarter note
+  int partDivisionsPerQuarterNote =
+    fCurrentPart->
+      getPartDivisionsPerQuarterNote ();
+  
+  // the number of repeats is the quotient of the number of divisions
+  // by the duration of the elements
+  int numberOfRepeats =
+    doubleTremoloDivisions
+      /
+    (fCurrentTremoloElementsDuration * 2);
+      
   fOstream <<
     idtr <<
-    "\\repeat tremolo " << 8 << // JMI
+    "\\repeat tremolo " << numberOfRepeats <<
     " {" <<
     endl;
 
@@ -2919,6 +2944,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrDoubleTremolo& elt)
   idtr--;
   
   fOstream <<
+    endl <<
     idtr <<
     "}" <<
     endl;
@@ -3319,10 +3345,9 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       fOstream <<
         noteAsLilyPondString (note);
       
-      // print the note duration
+      // print the note duration, i.e. the double tremolo elements duration
       fOstream <<
-        lilypondizeDurationString (
-          note->noteDivisionsAsMsrString ());
+        fCurrentTremoloElementsDuration; // JMI
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
