@@ -3896,6 +3896,8 @@ msrDoubleTremolo::msrDoubleTremolo (
   fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
   
   fDoubleTremoloVoiceUplink = voiceUplink;
+
+  fDoubleTremoloDivisions = -1; // will be set later
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
@@ -3942,6 +3944,30 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   // mark it as being a double tremolo first element
   note->
     setNoteIsFirstNoteInADoubleTremolo ();
+
+  // fetch note divisions
+  int noteDivisions =
+    note->getNoteDivisions ();
+
+  // set double tremolo divisions to that of the note
+  if (fDoubleTremoloDivisions > 0) {
+    if (noteDivisions != fDoubleTremoloDivisions) { // JMI
+      stringstream s;
+
+      s <<
+        "attempt to set double tremolo divisions both to " <<
+        fDoubleTremoloDivisions <<
+        " and " <<
+        noteDivisions;
+        
+      msrInternalError (
+        note->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  else {
+    fDoubleTremoloDivisions = noteDivisions;
+  }
 }
 
 void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
@@ -3960,6 +3986,30 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
   // mark it as being a double tremolo first element
   chord->
     setChordIsFirstChordInADoubleTremolo ();
+
+  // fetch chord divisions
+  int chordDivisions =
+    chord->getChordDivisions ();
+    
+  // set double tremolo divisions to that of the chord
+  if (fDoubleTremoloDivisions > 0) {
+    if (chordDivisions != fDoubleTremoloDivisions) { // JMI
+      stringstream s;
+
+      s <<
+        "attempt to set double tremolo divisions both to " <<
+        fDoubleTremoloDivisions <<
+        " and " <<
+        chordDivisions;
+        
+      msrInternalError (
+        chord->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  else {
+    fDoubleTremoloDivisions = chordDivisions;
+  }
 }
 
 void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
@@ -3978,6 +4028,30 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
   // mark it as being a double tremolo second element
   note->
     setNoteIsSecondNoteInADoubleTremolo ();
+
+  // fetch note divisions
+  int noteDivisions =
+    note->getNoteDivisions ();
+
+  // set double tremolo divisions to that of the note
+  if (fDoubleTremoloDivisions > 0) {
+    if (noteDivisions != fDoubleTremoloDivisions) { // JMI
+      stringstream s;
+
+      s <<
+        "attempt to set double tremolo divisions both to " <<
+        fDoubleTremoloDivisions <<
+        " and " <<
+        noteDivisions;
+        
+      msrInternalError (
+        note->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  else {
+    fDoubleTremoloDivisions = noteDivisions;
+  }
 }
 
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
@@ -3996,6 +4070,30 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
   // mark it as being a double tremolo second element
   chord->
     setChordIsSecondChordInADoubleTremolo ();
+
+  // fetch chord divisions
+  int chordDivisions =
+    chord->getChordDivisions ();
+    
+  // set double tremolo divisions to that of the chord
+  if (fDoubleTremoloDivisions > 0) {
+    if (chordDivisions != fDoubleTremoloDivisions) { // JMI
+      stringstream s;
+
+      s <<
+        "attempt to set double tremolo divisions both to " <<
+        fDoubleTremoloDivisions <<
+        " and " <<
+        chordDivisions;
+        
+      msrInternalError (
+        chord->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  else {
+    fDoubleTremoloDivisions = chordDivisions;
+  }
 }
 
 string msrDoubleTremolo::msrDoubleTremoloKindAsString (

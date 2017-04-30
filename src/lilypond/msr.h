@@ -1679,6 +1679,8 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrPart                     fDoubleTremoloDirectPartUplink;
 
     // sounding duration
+    // the same as the display divisions of both member
+    // create kDoubleTremoloNode instead of kStandAloneNote ??? JMI
     int                           fDoubleTremoloDivisions;
 
     msrDoubleTremoloKind          fDoubleTremoloKind; // JMI ???

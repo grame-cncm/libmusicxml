@@ -2011,8 +2011,6 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kStandaloneNote:
       if (fOnGoingDoubleTremolo) {
-
-        cout << endl << endl << "!!!!!!!!!!!!!!!" << endl << endl;
         
         if (fCurrentNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
           if (gGeneralOptions->fTraceNotes) {

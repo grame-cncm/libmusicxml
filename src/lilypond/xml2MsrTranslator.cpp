@@ -3311,39 +3311,6 @@ void xml2MsrTranslator::visitEnd ( S_forward& elt )
       currentVoice->getVoiceName () <<
       "\" in staff \"" << staff->getStaffName () << "\"" <<
       endl;
-
-/* JMI
-  currentVoice->
-    catchupToMeasureLocation (
-      inputLineNumber,
-      measureLocation);
-        */
-                    
-/* JMI
-  for (int i = 0; i < fCurrentForwardDuration; i++) {
-    // generate rests for the duration of the forward move
-    int restDivisions = 1;
-    
-    S_msrNote
-      rest =
-        msrNote::createRest (
-            inputLineNumber,
-          1, // JMI
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
-  
-    // set its location
-    rest->setNoteMeasureLocation (
-      currentVoice->getVoiceMeasureLocation ());
-
-    // append it to the current voice
-    currentVoice->appendNoteToVoice (rest);
-  
-    // take it's duration into account
-    currentVoice->incrementPositionInMeasure (
-      restDivisions);
-  } // for
-  */
   
   fOnGoingForward = false;
 }
@@ -11548,3 +11515,38 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
 
 
 } // namespace
+
+
+/* JMI
+  currentVoice->
+    catchupToMeasureLocation (
+      inputLineNumber,
+      measureLocation);
+        */
+                    
+/* JMI
+  for (int i = 0; i < fCurrentForwardDuration; i++) {
+    // generate rests for the duration of the forward move
+    int restDivisions = 1;
+    
+    S_msrNote
+      rest =
+        msrNote::createRest (
+            inputLineNumber,
+          1, // JMI
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // set its location
+    rest->setNoteMeasureLocation (
+      currentVoice->getVoiceMeasureLocation ());
+
+    // append it to the current voice
+    currentVoice->appendNoteToVoice (rest);
+  
+    // take it's duration into account
+    currentVoice->incrementPositionInMeasure (
+      restDivisions);
+  } // for
+  */
+
