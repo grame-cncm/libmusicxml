@@ -3973,6 +3973,14 @@ lpsrScore::lpsrScore (
       lpsrComment::kNoGapAfterwards);
   }
 
+  // do the command line long and short options differ?
+  bool
+    longAndShortOptionsDiffer =
+      gGeneralOptions->fCommandLineShortOptions
+        !=
+      gGeneralOptions->fCommandLineLongOptions;
+
+    
   // create the command line long options comment
   {
   stringstream s;
@@ -3982,6 +3990,11 @@ lpsrScore::lpsrScore (
     gGeneralOptions->fProgramName << " " <<
     gGeneralOptions->fCommandLineLongOptions <<
     gGeneralOptions->fInputSourceName;
+
+  if (longAndShortOptionsDiffer)
+    s <<
+      endl <<
+      "% or:";
   
   fCommandLineLongOptionsComment =
     lpsrComment::create (
@@ -3990,21 +4003,21 @@ lpsrScore::lpsrScore (
       lpsrComment::kNoGapAfterwards);
   }
 
-  // create the command line short options comment
-  {
-  stringstream s;
-  
-  s <<
-    "  " <<
-    gGeneralOptions->fProgramName << " " <<
-    gGeneralOptions->fCommandLineShortOptions <<
-    gGeneralOptions->fInputSourceName;
-  
-  fCommandLineShortOptionsComment =
-    lpsrComment::create (
-      inputLineNumber,
-      s.str (),
-      lpsrComment::kGapAfterwards);
+  if (longAndShortOptionsDiffer) {
+    // create the command line short options comment
+    stringstream s;
+    
+    s <<
+      "  " <<
+      gGeneralOptions->fProgramName << " " <<
+      gGeneralOptions->fCommandLineShortOptions <<
+      gGeneralOptions->fInputSourceName;
+    
+    fCommandLineShortOptionsComment =
+      lpsrComment::create (
+        inputLineNumber,
+        s.str (),
+        lpsrComment::kGapAfterwards);
   }
 
   // create the global staff size assoc
@@ -4250,13 +4263,13 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the command line optins comment
+    // browse the command line long options comment
     msrBrowser<lpsrComment> browser (v);
     browser.browse (*fCommandLineLongOptionsComment);
   }
 
-  {
-    // browse the command short optins comment
+  if (fCommandLineShortOptionsComment) {
+    // browse the command line short options comment
     msrBrowser<lpsrComment> browser (v);
     browser.browse (*fCommandLineShortOptionsComment);
   }
