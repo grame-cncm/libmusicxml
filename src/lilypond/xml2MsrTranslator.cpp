@@ -5314,11 +5314,6 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
   
     fCurrentNoteDivisions = duration;
     
-    // all notes have their fDisplayDivisions
-    // set to fCurrentNoteDivision,
-    // except double tremolo and tuplet member notes
-    fCurrentNoteDisplayDivisions =
-      fCurrentNoteDivisions;
   }
   
   else {
@@ -9575,20 +9570,45 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentNoteDivisions << ", " << 
       "fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote << endl;
-      
-  if (fCurrentNoteGraphicDuration != k_NoDuration) {
-    if (fCurrentNoteIsAGraceNote) {
-      // set current grace note divisions      
-      fCurrentNoteDivisions =
-        fCurrentPart->
-          durationAsDivisions (
-            inputLineNumber,
-            fCurrentNoteGraphicDuration);
-    
-      // set current grace note display divisions      
-      fCurrentNoteDisplayDivisions =
-        fCurrentNoteDivisions;
+
+  // set current note display divisions right now,
+  // before we create the note
+
+  if (fCurrentNoteIsAGraceNote) {
+    // gracenote
+    // set current grace note divisions      
+    fCurrentNoteDivisions =
+      fCurrentPart->
+        durationAsDivisions (
+          inputLineNumber,
+          fCurrentNoteGraphicDuration);
+  
+    // set current grace note display divisions to note divisions JMI   
+    fCurrentNoteDisplayDivisions =
+      fCurrentNoteDivisions;
+  }
+  
+  else if (
+    fCurrentMusicXMLTremoloType == kStartTremolo
+     ||
+     fCurrentMusicXMLTremoloType == kStopTremolo) {
+    // double tremolo note
+    if (fCurrentNoteGraphicDuration == k_NoDuration) {
+      stringstream s;
+
+      s <<
+        "double tremolo note lacks a <type/>"; // JMI a completer
+
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
     }
+  }
+
+  else {
+    // standalone note or rest
+    fCurrentNoteDisplayDivisions =
+      fCurrentNoteDivisions;
   }
 
   // create the (new) note
