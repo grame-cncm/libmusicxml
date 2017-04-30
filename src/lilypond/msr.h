@@ -1593,12 +1593,14 @@ class EXP msrDoubleTremolo : public msrElement
                           getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
         
-    void                  setDoubleTremoloFirstElement (S_msrElement elem);
+    void                  setDoubleTremoloNoteFirstElement (S_msrNote note);
+    void                  setDoubleTremoloChordFirstElement (S_msrChord chord);
 
     S_msrElement          getDoubleTremoloFirstElement () const
                               { return fDoubleTremoloFirstElement; }
         
-    void                  setDoubleTremoloSecondElement (S_msrElement elem);
+    void                  setDoubleTremoloNoteSecondElement (S_msrNote note);
+    void                  setDoubleTremoloChordSecondElement (S_msrChord chord);
 
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
@@ -1679,7 +1681,7 @@ class EXP msrDoubleTremolo : public msrElement
     // sounding duration
     int                           fDoubleTremoloDivisions;
 
-    msrDoubleTremoloKind          fDoubleTremoloKind;
+    msrDoubleTremoloKind          fDoubleTremoloKind; // JMI ???
     
     int                           fDoubleTremoloMarksNumber;
 

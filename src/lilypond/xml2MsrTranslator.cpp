@@ -10009,7 +10009,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         }
 
         fCurrentDoubleTremolo->
-          setDoubleTremoloFirstElement (
+          setDoubleTremoloNoteFirstElement (
             newNote);
         break;
 
@@ -10028,7 +10028,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
         }
 
         fCurrentDoubleTremolo->
-          setDoubleTremoloSecondElement (
+          setDoubleTremoloNoteSecondElement (
             newNote);
 
         // append current double tremolo to current voice

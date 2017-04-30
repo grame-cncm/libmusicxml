@@ -2011,6 +2011,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kStandaloneNote:
       if (fOnGoingDoubleTremolo) {
+
+        cout << endl << endl << "!!!!!!!!!!!!!!!" << endl << endl;
         
         if (fCurrentNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
           if (gGeneralOptions->fTraceNotes) {
@@ -2026,7 +2028,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           }
               
           fCurrentDoubleTremoloClone->
-            setDoubleTremoloFirstElement (fCurrentNoteClone);
+            setDoubleTremoloNoteFirstElement (
+              fCurrentNoteClone);
         }
         
         else if (fCurrentNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
@@ -2043,7 +2046,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           }
               
           fCurrentDoubleTremoloClone->
-            setDoubleTremoloSecondElement (fCurrentNoteClone);
+            setDoubleTremoloNoteSecondElement (
+              fCurrentNoteClone);
         }
         
         else {

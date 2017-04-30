@@ -3926,86 +3926,76 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
 
 msrDoubleTremolo::~msrDoubleTremolo() {}
 
-void msrDoubleTremolo::setDoubleTremoloFirstElement (S_msrElement elem)
+void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
-  if (
-    S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
-    ) {    
-    if (gGeneralOptions->fTraceTremolos) {
-      cerr << idtr <<
-        "Setting note " << note->noteAsShortString () <<
-        " as first element of double tremolo " <<
-        doubleTremoloAsShortString () <<
-        endl;
-    }
-  
-    note->
-      setNoteIsFirstNoteInADoubleTremolo ();
+  if (gGeneralOptions->fTraceTremolos) {
+    cerr << idtr <<
+      "Setting note " << note->noteAsShortString () <<
+      " as first element of double tremolo " <<
+      doubleTremoloAsShortString () <<
+      endl;
   }
 
-  else if (
-    S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
-      ) {
-    if (gGeneralOptions->fTraceTremolos) {
-      cerr << idtr <<
-        "Setting chord " << chord->chordAsString () <<
-        " as first element of double tremolo " <<
-        doubleTremoloAsShortString () <<
-        endl;
-    }
-  
-    chord->
-      setChordIsFirstChordInADoubleTremolo ();
-  }
-  
-  else {
-    msrInternalError (
-      fInputLineNumber,
-      "chords double tremolo first element should be a chord");
-  }
+  // register note as first element of this double tremolo
+  fDoubleTremoloFirstElement = note;
 
-  fDoubleTremoloFirstElement = elem;
+  // mark it as being a double tremolo first element
+  note->
+    setNoteIsFirstNoteInADoubleTremolo ();
 }
 
-void msrDoubleTremolo::setDoubleTremoloSecondElement (S_msrElement elem)
+void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
 {
-  if (
-    S_msrNote note = dynamic_cast<msrNote*>(&(*elem))
-    ) {    
-    if (gGeneralOptions->fTraceTremolos) {
-      cerr << idtr <<
-        "Setting note " << note->noteAsShortString () <<
-        " as second element of double tremolo " <<
-        doubleTremoloAsShortString () <<
-        endl;
-    }
-  
-    note->
-      setNoteIsSecondNoteInADoubleTremolo ();
+  if (gGeneralOptions->fTraceTremolos) {
+    cerr << idtr <<
+      "Setting chord " << chord->chordAsString () <<
+      " as first element of double tremolo " <<
+      doubleTremoloAsShortString () <<
+      endl;
   }
 
-  else if (
-    S_msrChord chord = dynamic_cast<msrChord*>(&(*elem))
-      ) {
-    if (gGeneralOptions->fTraceTremolos) {
-      cerr << idtr <<
-        "Setting chord " << chord->chordAsString () <<
-        " as second element of double tremolo " <<
-        doubleTremoloAsShortString () <<
-        endl;
-    }
-  
-    chord->
-      setChordIsFirstChordInADoubleTremolo ();
-  }
-  
-  else {
-    msrInternalError (
-      fInputLineNumber,
-      "chords double tremolo first element should be a chord");
+  // register chord as first element of this double tremolo
+  fDoubleTremoloFirstElement = chord;
+
+  // mark it as being a double tremolo first element
+  chord->
+    setChordIsFirstChordInADoubleTremolo ();
+}
+
+void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
+{
+  if (gGeneralOptions->fTraceTremolos) {
+    cerr << idtr <<
+      "Setting note " << note->noteAsShortString () <<
+      " as second element of double tremolo " <<
+      doubleTremoloAsShortString () <<
+      endl;
   }
 
-  fDoubleTremoloSecondElement = elem;
+  // register note as second element of this double tremolo
+  fDoubleTremoloSecondElement = note;
+
+  // mark it as being a double tremolo second element
+  note->
+    setNoteIsSecondNoteInADoubleTremolo ();
+}
+
+void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
+{
+  if (gGeneralOptions->fTraceTremolos) {
+    cerr << idtr <<
+      "Setting chord " << chord->chordAsString () <<
+      " as second element of double tremolo " <<
+      doubleTremoloAsShortString () <<
+      endl;
+  }
+
+  // register chord as second element of this double tremolo
+  fDoubleTremoloSecondElement = chord;
+
+  // mark it as being a double tremolo second element
+  chord->
+    setChordIsSecondChordInADoubleTremolo ();
 }
 
 string msrDoubleTremolo::msrDoubleTremoloKindAsString (
@@ -4105,7 +4095,7 @@ string msrDoubleTremolo::doubleTremoloAsShortString () const
   
   s <<
     "DoubleTremolo"<<
-    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+ //   ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
@@ -4121,7 +4111,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
   
   s <<
     "DoubleTremolo" " " <<
-    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+//    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString ();
@@ -7235,6 +7225,14 @@ S_msrChord msrChord::createChordBareClone (
     fChordPositionInMeasure =
       fChordPositionInMeasure;
     
+  clone->
+    fChordIsFirstChordInADoubleTremolo =
+      fChordIsFirstChordInADoubleTremolo;
+    
+  clone->
+    fChordIsSecondChordInADoubleTremolo =
+      fChordIsSecondChordInADoubleTremolo;
+    
   clone->fChordTie =
     fChordTie; // JMI
 
@@ -7712,7 +7710,15 @@ void msrChord::print (ostream& os)
         chordPosition.getDenominator() <<
         ")";
  // JMI }
-  
+
+  if (fChordIsFirstChordInADoubleTremolo)
+    os <<
+      ", chord is first chord in a double tremolo";
+      
+  if (fChordIsSecondChordInADoubleTremolo)
+    os <<
+      ", chord is second chord in a double tremolo";
+      
   os <<
     endl;
     
