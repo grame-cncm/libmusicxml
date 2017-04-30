@@ -527,7 +527,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "Generate '\\compressFullBarRests' at the beginning of voices." << 
       endl <<
     idtr << tab << tab << tab <<
-      "Bt default, this command is commented." << 
+      "By default, this command is commented." << 
       endl <<
     endl;
 
