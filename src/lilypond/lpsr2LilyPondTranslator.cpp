@@ -2907,33 +2907,44 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
 
   // the marks number determines the duration of the two elements:
   // '8' for 1, '16' for 2, etc
-  fCurrentTremoloElementsDuration =
+  fCurrentTremoloElementsLpsrDuration =
     int (
       pow (
         2,
         elt->getDoubleTremoloMarksNumber () + 2));
 
-  // fetch the current part's number of divisions per quarter note
+  // fetch the current part's number of divisions per quarter element
   int partDivisionsPerQuarterNote =
     elt->
       getDoubleTremoloVoiceUplink ()->
         getVoiceDirectPartUplink ()->
           getPartDivisionsPerQuarterNote ();
-  
+
+  // fetch the number of divisions per double tremolo element
+  int divisionsPerDoubleTremoloElement =
+    partDivisionsPerQuarterNote
+      *
+    4 // quarter note
+      /
+    fCurrentTremoloElementsLpsrDuration
+      /
+    2; // to account for both elements
+    
   // the number of repeats is the quotient of the number of divisions
   // by the duration of the elements
   int numberOfRepeats =
     doubleTremoloDivisions
       /
-    (fCurrentTremoloElementsDuration * 2);
+    divisionsPerDoubleTremoloElement;
 
   if (gGeneralOptions->fTraceTremolos) {
     cerr <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
       tab << "% doubleTremoloDivisions = " << doubleTremoloDivisions <<
-      tab << "% fCurrentTremoloElementsDuration = " << fCurrentTremoloElementsDuration <<
+      tab << "% fCurrentTremoloElementsLpsrDuration = " << fCurrentTremoloElementsLpsrDuration <<
       tab << "% partDivisionsPerQuarterNote = " << partDivisionsPerQuarterNote <<
+      tab << "% divisionsPerDoubleTremoloElement = " << divisionsPerDoubleTremoloElement <<
       tab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;
   }
@@ -3360,7 +3371,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       
       // print the note duration, i.e. the double tremolo elements duration
       fOstream <<
-        fCurrentTremoloElementsDuration; // JMI
+        fCurrentTremoloElementsLpsrDuration; // JMI
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
