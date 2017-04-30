@@ -93,8 +93,12 @@ void xml2MsrTranslator::initializeNoteData ()
   fCurrentNoteStaffNumber = 0;
   fCurrentNoteVoiceNumber = 0;
 
-  fCurrentNoteBelongsToAChord = false;
+  fCurrentNoteHasATimeModification = false;
+  fCurrentActualNotes = -1;
+  fCurrentNormalNotes = -1;
   
+  fCurrentNoteBelongsToAChord = false;
+
   fCurrentNoteBelongsToATuplet = false;
 
   // note lyrics
@@ -5200,6 +5204,9 @@ void xml2MsrTranslator::visitStart ( S_note& elt )
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
 
+  fCurrentActualNotes = -1;
+  fCurrentNormalNotes = -1;
+
   // keep fCurrentStanzaNumber unchanged,
   // for use by notes without lyrics
   
@@ -8143,9 +8150,8 @@ void xml2MsrTranslator::visitStart ( S_time_modification& elt )
 
   // there may be no '<tuplet number="n" type="start" />'
   // in the tuplet notes after the first one,
-  // so we detect tuplet notes on '<time-modification>'
-  // so we detect tuplet notes on '<time-modification>'
-  fCurrentNoteBelongsToATuplet = true;
+  // so we detect tuplet notes on '<time-modification>' ??? JMI
+  fCurrentNoteHasATimeModification = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
@@ -8266,6 +8272,8 @@ void xml2MsrTranslator::visitStart ( S_tuplet& elt )
       elt->getInputLineNumber (),
       s.str());
   }
+
+  fCurrentNoteBelongsToATuplet = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_tuplet_number& elt )
@@ -9844,7 +9852,10 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
       setNoteKind (msrNote::kGraceNote);
   }
   
-  else if (fCurrentMusicXMLTremoloType != k_NoTremolo) {
+  else if (
+    fCurrentMusicXMLTremoloType == kStartTremolo
+      ||
+    fCurrentMusicXMLTremoloType == kStopTremolo) {
     // double tremolo note
     newNote->
       setNoteKind (msrNote::kDoubleTremoloMemberNote);

@@ -4784,10 +4784,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
+
+  if (fMusicOlec == 0)
+    fOstream <<
+      idtr;
+      
   fOstream <<
-    "| % " << nextBarNumber << "% bar check" <<
-    endl <<
-    idtr;
+    "| % " << nextBarNumber << " % bar check" <<
+    endl;
 
   fMusicOlec.resetToZero ();
 }

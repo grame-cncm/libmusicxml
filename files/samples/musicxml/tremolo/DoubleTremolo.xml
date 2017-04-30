@@ -102,6 +102,10 @@
         <duration>480</duration>
         <voice>1</voice>
         <type>whole</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <notations>
           <ornaments>
             <tremolo type="start">1</tremolo>
@@ -116,6 +120,10 @@
         <duration>480</duration>
         <voice>1</voice>
         <type>whole</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <notations>
           <ornaments>
             <tremolo type="stop">1</tremolo>
@@ -132,6 +140,10 @@
         <duration>480</duration>
         <voice>1</voice>
         <type>whole</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <notations>
           <ornaments>
             <tremolo type="start">2</tremolo>
@@ -146,6 +158,10 @@
         <duration>480</duration>
         <voice>1</voice>
         <type>whole</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <notations>
           <ornaments>
             <tremolo type="stop">2</tremolo>
@@ -163,6 +179,10 @@
         <voice>1</voice>
         <type>half</type>
         <stem>up</stem>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <notations>
           <ornaments>
             <tremolo type="start">1</tremolo>
@@ -177,6 +197,10 @@
         <duration>240</duration>
         <voice>1</voice>
         <type>half</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <stem>up</stem>
         <notations>
           <ornaments>
@@ -192,6 +216,10 @@
         <duration>240</duration>
         <voice>1</voice>
         <type>half</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <stem>up</stem>
         <notations>
           <ornaments>
@@ -207,6 +235,10 @@
         <duration>240</duration>
         <voice>1</voice>
         <type>half</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+        </time-modification>
         <stem>up</stem>
         <notations>
           <ornaments>

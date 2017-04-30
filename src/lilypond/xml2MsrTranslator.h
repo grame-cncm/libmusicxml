@@ -1074,7 +1074,8 @@ class EXP xml2MsrTranslator :
                                 string header);
 
     // tuplet handling
-     // ------------------------------------------------------
+    // ------------------------------------------------------
+    bool                      fCurrentNoteHasATimeModification;
     int                       fCurrentActualNotes;
     int                       fCurrentNormalNotes;
     string                    fCurrentNormalNoteType;
