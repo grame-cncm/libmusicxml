@@ -606,8 +606,8 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
-      case msrNote::kDoubleTremoloNote:
-        fOstream << "double tremolo note";
+      case msrNote::kDoubleTremoloMemberNote:
+        fOstream << "double tremolo member note";
         break;
       case msrNote::kRestNote:
         fOstream << "rest";
@@ -634,7 +634,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
     case msrNote::kStandaloneNote:
       fScoreStandaloneNotesCounter++;
       break;
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       fScoreStandaloneNotesCounter++;
       break;
     case msrNote::kRestNote:
@@ -666,8 +666,8 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
-      case msrNote::kDoubleTremoloNote:
-        fOstream << "double tremolo note";
+      case msrNote::kDoubleTremoloMemberNote:
+        fOstream << "double tremolo member note";
         break;
       case msrNote::kRestNote:
         fOstream << "rest";
@@ -693,7 +693,7 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
       break;
     case msrNote::kStandaloneNote:
       break;
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       break;
     case msrNote::kRestNote:
       break;

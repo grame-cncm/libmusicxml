@@ -3359,7 +3359,7 @@ class EXP msrNote : public msrElement
       k_NoNoteKind,
       kRestNote, kSkipNote,
       kStandaloneNote,
-      kDoubleTremoloNote,
+      kDoubleTremoloMemberNote,
       kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       

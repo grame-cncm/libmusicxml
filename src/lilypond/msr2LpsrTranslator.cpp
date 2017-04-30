@@ -2022,7 +2022,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         appendNoteToVoiceClone (fCurrentNoteClone);
       break;
       
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       if (fOnGoingDoubleTremolo) {
         
         if (fCurrentNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {

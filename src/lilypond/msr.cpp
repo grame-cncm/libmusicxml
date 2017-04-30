@@ -5886,8 +5886,8 @@ string msrNote::noteKindAsString (
       result = "standalone";
       break;
       
-    case msrNote::kDoubleTremoloNote:
-      result = "double tremolo note";
+    case msrNote::kDoubleTremoloMemberNote:
+      result = "double tremolo member note";
       break;
       
     case msrNote::kGraceNote:
@@ -6598,7 +6598,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s << " divs";
       break;
       
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
@@ -6697,7 +6697,7 @@ string msrNote::noteAsShortString () const
         "[" << fNoteOctave << "]";
       break;
       
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
         noteDivisionsAsMsrString () <<
@@ -6776,7 +6776,7 @@ string msrNote::noteAsString () const
         "[" << fNoteOctave << "]";
       break;
       
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       s <<
         "Double tremolo note" " "<<
         notePitchAsString () <<
@@ -6908,7 +6908,7 @@ void msrNote::print (ostream& os)
       
     case msrNote::k_NoNoteKind:
     case msrNote::kStandaloneNote:
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kRestNote:
     case msrNote::kSkipNote:
     case msrNote::kChordMemberNote:

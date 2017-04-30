@@ -5316,7 +5316,7 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
     
     // all notes have their fDisplayDivisions
     // set to fCurrentNoteDivision,
-    // except tuplet member notes
+    // except double tremolo and tuplet member notes
     fCurrentNoteDisplayDivisions =
       fCurrentNoteDivisions;
   }
@@ -9827,7 +9827,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   else if (fCurrentMusicXMLTremoloType != k_NoTremolo) {
     // double tremolo note
     newNote->
-      setNoteKind (msrNote::kDoubleTremoloNote);
+      setNoteKind (msrNote::kDoubleTremoloMemberNote);
   }
 
   else {
@@ -11538,7 +11538,7 @@ void xml2MsrTranslator::visitEnd ( S_harmony& elt )
     
     S_msrNote
       rest =
-        msrNote::createRest (
+        msrNote::  createRest (
             inputLineNumber,
           1, // JMI
           fCurrentStaffNumber,

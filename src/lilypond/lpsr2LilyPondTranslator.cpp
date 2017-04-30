@@ -3085,8 +3085,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         fOstream << "standalone";
         break;
         
-      case msrNote::kDoubleTremoloNote:
-        fOstream << "double tremolo note";
+      case msrNote::kDoubleTremoloMemberNote:
+        fOstream << "double tremolo member note";
         break;
         
       case msrNote::kGraceNote:
@@ -3210,7 +3210,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       }
       break;
 
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       {
         // should the stem be omitted?
         if (note->getNoteIsStemless ()) {
@@ -3314,7 +3314,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       fRelativeOctaveReference = note;
       break;
 
-    case msrNote::kDoubleTremoloNote:
+    case msrNote::kDoubleTremoloMemberNote:
       // print the note name
       fOstream <<
         noteAsLilyPondString (note);
