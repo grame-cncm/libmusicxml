@@ -9817,12 +9817,19 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
   int inputLineNumber =
     newNote->getInputLineNumber ();
     
-  // register note/rest kind
+  // register note/rest kind right now, to have a nice trace below
   if (fCurrentNoteIsAGraceNote) {
+    // gracenote
     newNote->
       setNoteKind (msrNote::kGraceNote);
   }
   
+  else if (fCurrentMusicXMLTremoloType != k_NoTremolo) {
+    // double tremolo note
+    newNote->
+      setNoteKind (msrNote::kDoubleTremoloNote);
+  }
+
   else {
     // standalone note or rest
     if (fCurrentNoteIsARest)
