@@ -372,43 +372,45 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
-    string      absoluteOctaveAsLilypondString (
-                  int absoluteOctave);
+    string                absoluteOctaveAsLilypondString (
+                            int absoluteOctave);
 
-    string      lilypondize (string msrDurationString);
+    string                lilypondizeDurationString (string msrDurationString);
     
-    string      divisionsAsLilyPondString (
-                  int       inputLineNumber,
-                  S_msrPart part,
-                  int       divisions);
+    string                divisionsAsLilyPondString (
+                            int       inputLineNumber,
+                            S_msrPart part,
+                            int       divisions);
 
-    string      tupletDivisionsAsLilypondString (
-                  int inputLineNumber,
-                  S_msrPart part,
-                  int divisions,
-                  int actualNotes,
-                  int normalNotes);
+    string                tupletDivisionsAsLilypondString (
+                            int inputLineNumber,
+                            S_msrPart part,
+                            int divisions,
+                            int actualNotes,
+                            int normalNotes);
   
-    string      noteAsLilyPondString (S_msrNote note);
+    string                noteDivisionsAsLpsrString (S_msrNote note); // JMI
 
-    void        printNoteAsLilyPondString (S_msrNote note);
+    string                noteAsLilyPondString (S_msrNote note);
 
-    string      technicalKindAsLilyPondString (
-                  S_msrTechnical technical);
+    void                  printNoteAsLilyPondString (S_msrNote note);
 
-    string      technicalWithIntegerKindAsLilyPondString (
-                  S_msrTechnicalWithInteger technicalWithInteger);
+    string                technicalKindAsLilyPondString (
+                            S_msrTechnical technical);
 
-    string      technicalWithStringKindAsLilyPondString (
-                  S_msrTechnicalWithString technicalWithString);
+    string                technicalWithIntegerKindAsLilyPondString (
+                            S_msrTechnicalWithInteger technicalWithInteger);
 
-    string      ornamentKindAsLilyPondString (
-                  int                          inputLineNumber,
-                  msrOrnament::msrOrnamentKind ornamentKind,
-                  string                       noteUplinkDuration);
+    string                technicalWithStringKindAsLilyPondString (
+                            S_msrTechnicalWithString technicalWithString);
 
-    string      harmonyAsLilyPondString (
-                  S_msrHarmony harmony);
+    string                ornamentKindAsLilyPondString (
+                            int                          inputLineNumber,
+                            msrOrnament::msrOrnamentKind ornamentKind,
+                            string                       noteUplinkDuration);
+
+    string                harmonyAsLilyPondString (
+                            S_msrHarmony harmony);
 
   private:
                      

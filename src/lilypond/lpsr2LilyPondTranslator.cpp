@@ -119,7 +119,7 @@ string lpsr2LilyPondTranslator::absoluteOctaveAsLilypondString (
 }
 
 //______________________________________________________________________________
-string lpsr2LilyPondTranslator::lilypondize (
+string lpsr2LilyPondTranslator::lilypondizeDurationString (
   string msrDurationString)
 {
   string result = msrDurationString;
@@ -146,7 +146,7 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
         inputLineNumber,
         divisions);
 
-  return lilypondize (result);
+  return lilypondizeDurationString (result);
 }
 
 string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
@@ -167,7 +167,7 @@ string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
         actualNotes,
         normalNotes);
 
-  return lilypondize (result);
+  return lilypondizeDurationString (result);
 }
 
 //________________________________________________________________________
@@ -187,12 +187,11 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
         gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
         note->getQuatertonesPitch ());
   
-  // in MusicXML, octave number is 4 for the octave starting with middle C
-
   msrQuartertonesPitch
     noteQuartertonesPitch =
       note->getQuatertonesPitch ();
               
+  // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
     note->getNoteOctave ();
 
@@ -334,6 +333,29 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
   return s.str();
 }
 
+//________________________________________________________________________
+string noteDivisionsAsLpsrString (S_msrNote note)
+{
+  string
+    noteDivisionsAsMsrString =
+      note->noteDivisionsAsMsrString ();
+
+  string
+    lilyPondDivisionsAsString =
+      noteDivisionsAsMsrString;
+
+  if (! isdigit (lilyPondDivisionsAsString [0])) {
+    if      (lilyPondDivisionsAsString == "Breve")
+      lilyPondDivisionsAsString = "\\breve";
+    else if (lilyPondDivisionsAsString == "Long")
+      lilyPondDivisionsAsString = "\\long";
+    else if (lilyPondDivisionsAsString == "Maxima")
+      lilyPondDivisionsAsString = "\\maxima";
+  }
+
+  return lilyPondDivisionsAsString;
+}
+        
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
   S_msrTechnical technical)
@@ -3194,7 +3216,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       break;
       
     case msrNote::kChordMemberNote:
-     // don't omit stems for chord member note
+     // don't omit stems for chord member note JMI
      break;
       
     case msrNote::kTupletMemberNote:
@@ -3205,30 +3227,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
   S_msrSingleTremolo
     noteSingleTremolo =
       note->getNoteSingleTremolo ();
-      
-  if (noteSingleTremolo) {
-    // print the single tremolo repeat start
-  /*
-    <notations>
-      <ornaments>
-        <tremolo type="single">3</tremolo>
-      </ornaments>
-    </notations>
 
-The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1.
-
-The text of the element indicates the number of tremolo marks and is an integer from 0 to 8.
-Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
-
-When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
-A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
-If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
-
-Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
-
-  */
-}
-  
   // print the note
   switch (note->getNoteKind ()) {
     
@@ -3242,7 +3241,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the note duration
       fOstream <<
-        note->noteDivisionsAsMsrString ();
+        lilypondizeDurationString (
+          note->noteDivisionsAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -3275,7 +3275,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the grace note's graphic duration
       fOstream <<
-        note->noteGraphicDurationAsMsrString ();
+        lilypondizeDurationString (
+          note->noteGraphicDurationAsMsrString ());
 
       // print the dots if any JMI ???
       for (int i = 0; i < note->getNoteDotsNumber (); i++) {
@@ -3307,7 +3308,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the rest duration
       fOstream <<
-        note->skipOrRestDivisionsAsMsrString ();
+        lilypondizeDurationString (
+          note->skipOrRestDivisionsAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -3319,7 +3321,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
       // print the skip duration
       fOstream <<
-        note->skipOrRestDivisionsAsMsrString ();
+        lilypondizeDurationString (
+          note->skipOrRestDivisionsAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -5191,3 +5194,24 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMidi& elt)
     } // switch
   }
 */
+
+
+  /*
+    <notations>
+      <ornaments>
+        <tremolo type="single">3</tremolo>
+      </ornaments>
+    </notations>
+
+The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1.
+
+The text of the element indicates the number of tremolo marks and is an integer from 0 to 8.
+Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
+
+When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
+A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
+If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+
+Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
+
+  */

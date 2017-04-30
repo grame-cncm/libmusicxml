@@ -4081,7 +4081,19 @@ void msrDoubleTremolo::acceptOut (basevisitor* v) {
 }
 
 void msrDoubleTremolo::browseData (basevisitor* v)
-{}
+{
+  if (fDoubleTremoloFirstElement) {
+    // browse the first element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*fDoubleTremoloFirstElement);
+  }
+
+  if (fDoubleTremoloSecondElement) {
+    // browse the second element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*fDoubleTremoloSecondElement);
+  }
+}
 
 ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)
 {
