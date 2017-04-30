@@ -3085,6 +3085,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrNote& elt)
         fOstream << "standalone";
         break;
         
+      case msrNote::kDoubleTremoloNote:
+        fOstream << "double tremolo note";
+        break;
+        
       case msrNote::kGraceNote:
         fOstream << "grace";
         break;
@@ -3206,6 +3210,48 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       }
       break;
 
+    case msrNote::kDoubleTremoloNote:
+      {
+        // should the stem be omitted?
+        if (note->getNoteIsStemless ()) {
+          fOstream <<
+            endl <<
+            idtr <<
+            "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
+        }
+
+        // should stem direction be generated?
+        if (fLpsrOptions->fGenerateStems) {
+      
+          if (fCurrentStem) {
+            // should stem direction be generated?
+            if (stemKind != fCurrentStemKind) {
+              switch (stemKind) {
+                case msrStem::k_NoStem:
+                  fOstream << "\\stemNeutral" " ";
+                  break;
+                case msrStem::kStemUp:
+                  fOstream << "\\stemUp" " ";
+                  break;
+                case msrStem::kStemDown:
+                  fOstream << "\\stemDown" " ";
+                  break;
+                case msrStem::kStemNone:
+                  break;
+                case msrStem::kStemDouble: // JMI ???
+                  break;
+              } // switch
+            }
+            fMusicOlec++;
+      
+            // is there a stem kind change?
+            if (stemKind != fCurrentStemKind)
+              fCurrentStemKind = stemKind;
+          }
+        }
+      }
+      break;
+
     case msrNote::kGraceNote:
       break;
       
@@ -3235,6 +3281,40 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       break;
         
     case msrNote::kStandaloneNote:
+      // print the note name
+      fOstream <<
+        noteAsLilyPondString (note);
+      
+      // print the note duration
+      fOstream <<
+        lilypondizeDurationString (
+          note->noteDivisionsAsMsrString ());
+
+      // handle delayed ornaments if any
+      if (note->getNoteHasADelayedOrnament ())
+        // c2*2/3 ( s2*1/3\turn JMI
+        fOstream <<
+          "*" <<
+          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          "/" <<
+          gLpsrOptions->fDelayedOrnamentFractionDenominator;
+      
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << " ~";
+          }
+        }
+      }
+
+      // this note is the new relative octave reference
+      fRelativeOctaveReference = note;
+      break;
+
+    case msrNote::kDoubleTremoloNote:
       // print the note name
       fOstream <<
         noteAsLilyPondString (note);

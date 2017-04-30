@@ -42,13 +42,14 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 
   fOnGoingStaff = false;
   
-  fScoreStandaloneNotesCounter = 0;
-  fScoreRestNotesCounter       = 0;
-  fScoreSkipNotesCounter       = 0;
-  fScoreGraceNotesCounter      = 0;
-  fScoreChordNotesCounter      = 0;
-  fScoreTupletNotesCounter     = 0;
-  fScoreChordsCounter          = 0;
+  fScoreStandaloneNotesCounter    = 0;
+  fScoreRestNotesCounter          = 0;
+  fScoreSkipNotesCounter          = 0;
+  fScoreDoubleTremoloNotesCounter = 0;
+  fScoreGraceNotesCounter         = 0;
+  fScoreChordNotesCounter         = 0;
+  fScoreTupletNotesCounter        = 0;
+  fScoreChordsCounter             = 0;
 };
   
 msr2SummaryVisitor::~msr2SummaryVisitor ()
@@ -109,6 +110,9 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
       endl <<
     idtr <<
       fScoreSkipNotesCounter << " skip notes" <<
+      endl <<
+    idtr <<
+      fScoreDoubleTremoloNotesCounter << " double tremolo notes" <<
       endl <<
     idtr <<
       fScoreGraceNotesCounter << " grace notes" <<
@@ -602,6 +606,9 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
+      case msrNote::kDoubleTremoloNote:
+        fOstream << "double tremolo note";
+        break;
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
@@ -625,6 +632,9 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kStandaloneNote:
+      fScoreStandaloneNotesCounter++;
+      break;
+    case msrNote::kDoubleTremoloNote:
       fScoreStandaloneNotesCounter++;
       break;
     case msrNote::kRestNote:
@@ -656,6 +666,9 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
+      case msrNote::kDoubleTremoloNote:
+        fOstream << "double tremolo note";
+        break;
       case msrNote::kRestNote:
         fOstream << "rest";
         break;
@@ -679,6 +692,8 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kStandaloneNote:
+      break;
+    case msrNote::kDoubleTremoloNote:
       break;
     case msrNote::kRestNote:
       break;

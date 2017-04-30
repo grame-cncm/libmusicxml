@@ -1679,8 +1679,7 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrPart                     fDoubleTremoloDirectPartUplink;
 
     // sounding duration
-    // the same as the display divisions of both member
-    // create kDoubleTremoloNode instead of kStandAloneNote ??? JMI
+    // the same as the display divisions of both members
     int                           fDoubleTremoloDivisions;
 
     msrDoubleTremoloKind          fDoubleTremoloKind; // JMI ???
@@ -3359,7 +3358,9 @@ class EXP msrNote : public msrElement
     enum msrNoteKind {
       k_NoNoteKind,
       kRestNote, kSkipNote,
-      kStandaloneNote,  kGraceNote,
+      kStandaloneNote,
+      kDoubleTremoloNote,
+      kGraceNote,
       kChordMemberNote, kTupletMemberNote};
       
     static string noteKindAsString (

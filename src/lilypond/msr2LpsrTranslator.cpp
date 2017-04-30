@@ -2010,6 +2010,19 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kStandaloneNote:
+      if (gGeneralOptions->fTraceNotes) {
+        cerr << idtr <<
+          "--> appending " <<
+          fCurrentNoteClone->noteAsString () << " to voice " <<
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
+      }
+          
+      fCurrentVoiceClone->
+        appendNoteToVoiceClone (fCurrentNoteClone);
+      break;
+      
+    case msrNote::kDoubleTremoloNote:
       if (fOnGoingDoubleTremolo) {
         
         if (fCurrentNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
@@ -2052,8 +2065,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           stringstream s;
 
           s <<
-            "note '" << fCurrentNoteClone->noteAsShortString () << "'" <<
-            " belongs to a double tremolo, but is not marked as such";
+            "note '" << fCurrentNoteClone->noteAsShortString () <<
+            "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
             elt->getInputLineNumber (),
@@ -2062,16 +2075,15 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
 
       else {
-        if (gGeneralOptions->fTraceNotes) {
-          cerr << idtr <<
-            "--> appending " <<
-            fCurrentNoteClone->noteAsString () << " to voice " <<
-            fCurrentVoiceClone->getVoiceName () <<
-            endl;
-        }
-            
-        fCurrentVoiceClone->
-          appendNoteToVoiceClone (fCurrentNoteClone);
+        stringstream s;
+
+        s <<
+          "double tremolo note '" << fCurrentNoteClone->noteAsShortString () <<
+          "' met outside of a double tremolo";
+
+        msrInternalError (
+          elt->getInputLineNumber (),
+          s.str());
       }
       break;
       
