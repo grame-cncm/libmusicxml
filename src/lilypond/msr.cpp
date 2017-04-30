@@ -3919,10 +3919,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
 
   clone->fDoubleTremoloDivisions =
     fDoubleTremoloDivisions;
-    
-  clone->fDoubleTremoloDivisions =
-    fDoubleTremoloDivisions;
-    
+        
   return clone;
 }
 
@@ -4224,7 +4221,8 @@ string msrDoubleTremolo::doubleTremoloAsString () const
 //    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
-    ", placement" << " = " << doubleTremoloPlacementKindAsString ();
+    ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
+    ", " << fDoubleTremoloDivisions << " divs";
 
   if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
@@ -4303,6 +4301,7 @@ void msrDoubleTremolo::print (ostream& os)
     singularOrPlural (
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement: " << doubleTremoloPlacementKindAsString () <<
+    ", " << fDoubleTremoloDivisions << " divs" <<
     endl;
 
   idtr++;

@@ -2214,7 +2214,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
         // we should set the score measure length in this case
         rational r (
-          mesurePosition,
+          mesurePosition - 1, // positions start at 1
           measureDivisionsPerFullMeasure);
         r.rationalise ();
   
