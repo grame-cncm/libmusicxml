@@ -3942,20 +3942,20 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   note->
     setNoteIsFirstNoteInADoubleTremolo ();
 
-  // fetch note divisions
-  int noteDivisions =
-    note->getNoteDivisions ();
+  // fetch note display divisions
+  int noteDisplayDivisions =
+    note->getNoteDisplayDivisions ();
 
   // set double tremolo divisions to that of the note
   if (fDoubleTremoloDivisions > 0) {
-    if (noteDivisions != fDoubleTremoloDivisions) { // JMI
+    if (noteDisplayDivisions != fDoubleTremoloDivisions) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo divisions both to " <<
         fDoubleTremoloDivisions <<
         " and " <<
-        noteDivisions;
+        noteDisplayDivisions;
         
       msrInternalError (
         note->getInputLineNumber (),
@@ -3963,7 +3963,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
     }
   }
   else {
-    fDoubleTremoloDivisions = noteDivisions;
+    fDoubleTremoloDivisions = noteDisplayDivisions;
   }
 }
 
@@ -4026,20 +4026,20 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
   note->
     setNoteIsSecondNoteInADoubleTremolo ();
 
-  // fetch note divisions
-  int noteDivisions =
-    note->getNoteDivisions ();
+  // fetch note display divisions
+  int noteDisplayDivisions =
+    note->getNoteDisplayDivisions ();
 
   // set double tremolo divisions to that of the note
   if (fDoubleTremoloDivisions > 0) {
-    if (noteDivisions != fDoubleTremoloDivisions) { // JMI
+    if (noteDisplayDivisions != fDoubleTremoloDivisions) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo divisions both to " <<
         fDoubleTremoloDivisions <<
         " and " <<
-        noteDivisions;
+        noteDisplayDivisions;
         
       msrInternalError (
         note->getInputLineNumber (),
@@ -4047,7 +4047,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
     }
   }
   else {
-    fDoubleTremoloDivisions = noteDivisions;
+    fDoubleTremoloDivisions = noteDisplayDivisions;
   }
 }
 
