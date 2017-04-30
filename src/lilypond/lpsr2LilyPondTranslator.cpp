@@ -2926,7 +2926,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
     doubleTremoloDivisions
       /
     (fCurrentTremoloElementsDuration * 2);
-      
+
+  if (gGeneralOptions->fTraceTremolos) {
+    cerr <<
+      "% visitStart (S_msrDoubleTremolo&)" <<
+      endl <<
+      tab << "% doubleTremoloDivisions = " << doubleTremoloDivisions <<
+      tab << "% fCurrentTremoloElementsDuration = " << fCurrentTremoloElementsDuration <<
+      tab << "% partDivisionsPerQuarterNote = " << partDivisionsPerQuarterNote <<
+      tab << "% numberOfRepeats = " << numberOfRepeats <<
+      endl;
+  }
+  
   fOstream <<
     idtr <<
     "\\repeat tremolo " << numberOfRepeats <<
