@@ -10242,6 +10242,10 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
     if we're not yet ??? JMI
 */
 
+  // set newChordNote kind as a chord member
+  newChordNote->
+    setNoteKind (msrNote::kChordMemberNote);
+
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChord()" <<
@@ -10442,10 +10446,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   
   fCurrentChord->
     addAnotherNoteToChord (newChordNote);
-
-  // set newChordNote kind as a chord member
-  newChordNote->
-    setNoteKind (msrNote::kChordMemberNote);
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (newChordNote, fCurrentChord);
