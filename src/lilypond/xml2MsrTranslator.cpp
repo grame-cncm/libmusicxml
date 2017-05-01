@@ -10197,8 +10197,6 @@ void xml2MsrTranslator::handleLyric (
     fOnGoingSyllableExtend = false;
 */
   }
-
-
  
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
@@ -10246,19 +10244,28 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChord()" <<
-      ", newChordNote = " << newChordNote <<
+      ", newChordNote:" <<
       endl;
+
+    idtr++;
+
+    cerr << idtr << newChordNote <<
+      endl;
+
+    idtr--;
+  }
 
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  if (fCurrentNoteIsARest)
+  if (fCurrentNoteIsARest) {
     msrMusicXMLError (
       inputLineNumber,
       "a rest cannot belong to a chord");
+  }
 
   // should a chord be created?
   if (! fOnGoingChord) {
@@ -10293,20 +10300,51 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         s.str());
     }
         
-    if (gGeneralOptions->fTraceChords)
+    if (gGeneralOptions->fTraceChords) {
       cerr << idtr <<
         "xml2MsrTranslator::handleNoteBelongingToAChord()" <<
-        ", chordFirstNote = " << chordFirstNote->noteAsShortString () <<
+        ", chordFirstNote:" <<
         endl;
+
+      idtr++;
+
+      cerr << idtr <<
+        chordFirstNote <<
+        endl;
+
+      idtr--;
+    }
+
+    // fetch chord first note's kind before createChordFromItsFirstNote(),
+    // because the latter will change it to kChordMemberNote
+    msrNote::msrNoteKind
+      savedChordFirstNoteKind =
+        chordFirstNote->getNoteKind ();
+        
+    if (gGeneralOptions->fTraceChords) {
+      cerr << idtr <<
+        "xml2MsrTranslator::handleNoteBelongingToAChord()" <<
+        ", savedChordFirstNoteKind = " <<
+        msrNote::noteKindAsString (savedChordFirstNoteKind) <<
+        endl;
+
+      idtr++;
+
+      cerr << idtr <<
+        chordFirstNote <<
+        endl;
+
+      idtr--;
+    }
 
     // create the chord from its first note
     fCurrentChord =
       createChordFromItsFirstNote (
         currentVoice,
         chordFirstNote);
-  
+
     // handle chord's first note
-    switch (chordFirstNote->getNoteKind ()) {
+    switch (savedChordFirstNoteKind) {
       case msrNote::kRestNote:
         break;
         
@@ -10315,13 +10353,14 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         
       case msrNote::kStandaloneNote:
         // remove last handled (previous current) note from the current voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
           cerr << idtr <<
             "--> removing chord first note " <<
             chordFirstNote->noteAsShortString () <<
             ", line " << inputLineNumber <<
             ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
             endl;
+        }
     
         if (false) { // JMI
           cerr <<
@@ -10340,13 +10379,14 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
             chordFirstNote);
     
         // add fCurrentChord to the voice instead
-        if (gGeneralOptions->fTraceChords)
+        if (gGeneralOptions->fTraceChords) {
           cerr << idtr <<
             "Appending chord " << fCurrentChord->chordAsString () <<
             " to voice \"" <<
             currentVoice->getVoiceName () <<
             "\"" <<
             endl;
+        }
             
         currentVoice->
           appendChordToVoice (fCurrentChord);
