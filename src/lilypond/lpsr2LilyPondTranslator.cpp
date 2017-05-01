@@ -2927,6 +2927,25 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
     4 // quarter note
       /
     fCurrentTremoloElementsLpsrDuration;
+
+  if (divisionsPerDoubleTremoloElement <= 0) {
+    stringstream s;
+
+    s <<
+      "divisionsPerDoubleTremoloElement = " <<
+      divisionsPerDoubleTremoloElement <<
+      " while it should be positive" <<
+      endl <<
+      tab << "partDivisionsPerQuarterNote = " << partDivisionsPerQuarterNote <<
+      endl <<
+      tab << "doubleTremoloDivisions = " << doubleTremoloDivisions <<
+      endl <<
+      tab << "fCurrentTremoloElementsLpsrDuration = " << fCurrentTremoloElementsLpsrDuration;
+    
+    msrInternalError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
     
   // the number of repeats is the quotient of the number of divisions
   // by the duration of the elements
@@ -2939,10 +2958,14 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
     cerr <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
-      tab << "% doubleTremoloDivisions = " << doubleTremoloDivisions <<
-      tab << "% fCurrentTremoloElementsLpsrDuration = " << fCurrentTremoloElementsLpsrDuration <<
       tab << "% partDivisionsPerQuarterNote = " << partDivisionsPerQuarterNote <<
+      endl <<
+      tab << "% doubleTremoloDivisions = " << doubleTremoloDivisions <<
+      endl <<
+      tab << "% fCurrentTremoloElementsLpsrDuration = " << fCurrentTremoloElementsLpsrDuration <<
+      endl <<
       tab << "% divisionsPerDoubleTremoloElement = " << divisionsPerDoubleTremoloElement <<
+      endl <<
       tab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;
   }
