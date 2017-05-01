@@ -10307,7 +10307,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
             ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
             endl;
     
-        if (false)
+        if (false) { // JMI
           cerr <<
             endl << endl <<
             "&&&&&&&&&&&&&&&&&& currentVoice (" <<
@@ -10316,7 +10316,8 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
             endl <<
             currentVoice <<
             endl << endl;
-    
+        }
+        
         // remove lastHandledNoteInVoice, the first chord note,
         // from the current voice
         currentVoice->
@@ -10338,10 +10339,49 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kDoubleTremoloMemberNote:
+        // remove last handled (previous current) note from the current voice
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
+          cerr << idtr <<
+            "--> removing last handled note " <<
+            lastHandledNoteInVoice->noteAsShortString () <<
+            ", line " << inputLineNumber <<
+            ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
+            endl;
+    
+        if (false) { // JMI
+          cerr <<
+            endl << endl <<
+            "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+            currentVoice->getVoiceName () <<
+            ") contents &&&&&&&&&&&&&&&&&&" <<
+            endl <<
+            currentVoice <<
+            endl << endl;
+        }
+        
+        // remove lastHandledNoteInVoice, the first chord note,
+        // from the current voice
+        currentVoice->
+          removeNoteFromVoice (
+            inputLineNumber,
+            lastHandledNoteInVoice);
+    
+        // add fCurrentChord to the voice instead
+        if (gGeneralOptions->fTraceChords)
+          cerr << idtr <<
+            "Appending chord " << fCurrentChord->chordAsString () <<
+            " to voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+            
+        currentVoice->
+          appendChordToVoice (fCurrentChord);
+
         if (newChordNote->getNoteIsFirstNoteInADoubleTremolo ()) {
           // replace double tremolo's first element by chord
           fCurrentDoubleTremolo->
-            setDoubleTremoloChordSecondElement (
+            setDoubleTremoloChordFirstElement (
               fCurrentChord);
         }
         
@@ -10383,7 +10423,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
     fOnGoingChord = true;
   }
 
-  // register note as another member of fCurrentChord
+  // register newChordNote as another member of fCurrentChord
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "Adding another note " <<
@@ -10395,7 +10435,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   fCurrentChord->
     addAnotherNoteToChord (newChordNote);
 
-  // set new note kind as a chord member
+  // set newChordNote kind as a chord member
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
