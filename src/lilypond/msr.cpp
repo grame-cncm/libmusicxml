@@ -3979,7 +3979,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 
 void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "Setting chord " << chord->chordAsString () <<
       " as first element of double tremolo " <<
@@ -4083,7 +4083,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
 
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
     cerr << idtr <<
       "Setting chord " << chord->chordAsString () <<
       " as second element of double tremolo " <<

@@ -2280,8 +2280,36 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         fCurrentChordClone);
   }
 
+  else if (fOnGoingDoubleTremolo) {
+    if (elt->getChordIsFirstChordInADoubleTremolo ()) {
+      // replace double tremolo's first element by chord
+      fCurrentDoubleTremoloClone->
+        setDoubleTremoloChordFirstElement (
+          elt);
+    }
+    
+    else if (elt->getChordIsSecondChordInADoubleTremolo ()) {
+      // replace double tremolo's second element by chord
+      fCurrentDoubleTremoloClone->
+        setDoubleTremoloChordSecondElement (
+          elt);
+    }
+    
+    else {
+      stringstream s;
+
+      s <<
+        "chord '" << elt->chordAsString () <<
+        "' belongs to a double tremolo, but is not marked as such";
+
+      msrInternalError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+  
   else {
-    // appending the chord to the voice at once
+    // appending the chord to the voice clone at once
     fCurrentVoiceClone->
       appendChordToVoice (
         fCurrentChordClone);

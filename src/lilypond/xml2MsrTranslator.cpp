@@ -10423,18 +10423,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
             setChordDivisions (
               chordFirstNoteDisplayDivisions);
               
-          // add fCurrentChord to the current voice
-          if (gGeneralOptions->fTraceChords)
-            cerr << idtr <<
-              "Appending chord in a double tremolo " << fCurrentChord->chordAsString () <<
-              " to voice \"" <<
-              currentVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-              
-          currentVoice->
-            appendChordToVoice (fCurrentChord);
-  
           if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
             // replace double tremolo's first element by chord
             fCurrentDoubleTremolo->
