@@ -4246,12 +4246,22 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
   fOstream <<
     ">";
 
-  // print the chord duration
-  fOstream <<
-    divisionsAsLilyPondString (
-      elt->getInputLineNumber (),
-      elt->getChordDirectPartUplink (),
-      elt->getChordDivisions ());
+  if (
+    elt->getChordIsFirstChordInADoubleTremolo ()
+      ||
+    elt->getChordIsSecondChordInADoubleTremolo ()) {
+      // print the note duration, i.e. the double tremolo elements duration
+      fOstream <<
+        fCurrentTremoloElementsLpsrDuration; // JMI
+  }
+  else {
+    // print the chord duration
+    fOstream <<
+      divisionsAsLilyPondString (
+        elt->getInputLineNumber (),
+        elt->getChordDirectPartUplink (),
+        elt->getChordDivisions ());
+  }
    
   fOstream <<
     " ";
