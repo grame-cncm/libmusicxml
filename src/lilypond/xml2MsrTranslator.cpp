@@ -9591,7 +9591,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
           inputLineNumber,
           fCurrentNoteGraphicDuration);
   
-    // set current grace note display divisions to note divisions JMI   
+    // set current grace note display divisions to note divisions JMI   ???
     fCurrentNoteDisplayDivisions =
       fCurrentNoteDivisions;
   }
@@ -9612,7 +9612,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         s.str());
     }
 
-    // set current double tremolo note display divisions      
+    // set current double tremolo note display divisions
     fCurrentNoteDisplayDivisions =
       fCurrentPart->
         durationAsDivisions (
@@ -10393,42 +10393,66 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kDoubleTremoloMemberNote:
-        // add fCurrentChord to the current voice
-        if (gGeneralOptions->fTraceChords)
-          cerr << idtr <<
-            "Appending chord " << fCurrentChord->chordAsString () <<
-            " to voice \"" <<
-            currentVoice->getVoiceName () <<
-            "\"" <<
-            endl;
-            
-        currentVoice->
-          appendChordToVoice (fCurrentChord);
-
-        if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
-          // replace double tremolo's first element by chord
-          fCurrentDoubleTremolo->
-            setDoubleTremoloChordFirstElement (
-              fCurrentChord);
-        }
-        
-        else if (chordFirstNote->getNoteIsSecondNoteInADoubleTremolo ()) {
-          // replace double tremolo's second element by chord
-          fCurrentDoubleTremolo->
-            setDoubleTremoloChordSecondElement (
-              fCurrentChord);
-        }
-        
-        else {
-          stringstream s;
-
-          s <<
-            "chord first note '" << chordFirstNote->noteAsShortString () <<
-            "' belongs to a double tremolo, but is not marked as such";
-
-          msrInternalError (
-            newChordNote->getInputLineNumber (),
-            s.str());
+        {
+          // fetch chordFirstNote's display divisions
+          int chordFirstNoteDisplayDivisions =
+            chordFirstNote->
+                getNoteDisplayDivisions ();
+          
+          // updating chord's divisions // JMI
+          if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
+            cerr <<
+              idtr <<
+                "Updating display divisions for double tremolo chord '" <<
+                "' " << fCurrentChord->chordAsString () <<
+                " to " << chordFirstNoteDisplayDivisions <<
+                " in voice \"" <<
+                currentVoice->getVoiceName () <<
+                "\"" <<
+                endl;
+          }
+          
+          fCurrentChord->
+            setChordDivisions (
+              chordFirstNoteDisplayDivisions);
+              
+          // add fCurrentChord to the current voice
+          if (gGeneralOptions->fTraceChords)
+            cerr << idtr <<
+              "Appending chord in a double tremolo " << fCurrentChord->chordAsString () <<
+              " to voice \"" <<
+              currentVoice->getVoiceName () <<
+              "\"" <<
+              endl;
+              
+          currentVoice->
+            appendChordToVoice (fCurrentChord);
+  
+          if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
+            // replace double tremolo's first element by chord
+            fCurrentDoubleTremolo->
+              setDoubleTremoloChordFirstElement (
+                fCurrentChord);
+          }
+          
+          else if (chordFirstNote->getNoteIsSecondNoteInADoubleTremolo ()) {
+            // replace double tremolo's second element by chord
+            fCurrentDoubleTremolo->
+              setDoubleTremoloChordSecondElement (
+                fCurrentChord);
+          }
+          
+          else {
+            stringstream s;
+  
+            s <<
+              "chord first note '" << chordFirstNote->noteAsShortString () <<
+              "' belongs to a double tremolo, but is not marked as such";
+  
+            msrInternalError (
+              newChordNote->getInputLineNumber (),
+              s.str());
+          }
         }
         break;
         

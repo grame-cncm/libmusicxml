@@ -3953,9 +3953,19 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 
       s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions <<
+        fDoubleTremoloDivisions << " (existing)" <<
         " and " <<
-        noteDisplayDivisions;
+        noteDisplayDivisions <<
+        " on note first element:" << " (note)" <<
+        endl;
+
+      idtr++;
+
+      s <<
+        note <<
+        endl;
+      
+      idtr--;
         
       msrInternalError (
         note->getInputLineNumber (),
@@ -3995,10 +4005,20 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
 
       s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions <<
+        fDoubleTremoloDivisions << " (existing)" <<
         " and " <<
-        chordDivisions;
-        
+        chordDivisions << " (chord)" <<
+        " on chord first element:" <<
+        endl;
+
+      idtr++;
+
+      s <<
+        chord <<
+        endl;
+      
+      idtr--;
+                
       msrInternalError (
         chord->getInputLineNumber (),
         s.str ());
@@ -4037,9 +4057,19 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
 
       s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions <<
+        fDoubleTremoloDivisions << " (existing)" <<
         " and " <<
-        noteDisplayDivisions;
+        noteDisplayDivisions <<
+        " on note second element:" << " (note)" <<
+        endl;
+
+      idtr++;
+
+      s <<
+        note <<
+        endl;
+      
+      idtr--;
         
       msrInternalError (
         note->getInputLineNumber (),
@@ -4077,11 +4107,21 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     if (chordDivisions != fDoubleTremoloDivisions) { // JMI
       stringstream s;
 
-      s <<
+     s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions <<
+        fDoubleTremoloDivisions << " (existing)" <<
         " and " <<
-        chordDivisions;
+        chordDivisions <<
+        " on chord second element:" << " (chord)" <<
+        endl;
+
+      idtr++;
+
+      s <<
+        chord <<
+        endl;
+      
+      idtr--;
         
       msrInternalError (
         chord->getInputLineNumber (),
@@ -7828,7 +7868,7 @@ void msrChord::print (ostream& os)
       fChordNotes.size (), "note", "notes") <<
     ", " <<
     chordDivisionsAsMsrString () << " divs" <<
-    "mea. "<<
+    ", mea. "<<
     getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<
