@@ -3649,7 +3649,6 @@ class EXP msrNote : public msrElement
                               { return fNoteOccupiesAFullMeasure; }
 
     // note redundant information (for speed)
-
     bool                  getNoteIsStemless () const
                               { return fNoteIsStemless; }
 

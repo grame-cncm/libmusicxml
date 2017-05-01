@@ -4000,7 +4000,9 @@ lpsrScore::lpsrScore (
     lpsrComment::create (
       inputLineNumber,
       s.str (),
-      lpsrComment::kNoGapAfterwards);
+      longAndShortOptionsDiffer
+        ? lpsrComment::kNoGapAfterwards
+        : lpsrComment::kGapAfterwards);
   }
 
   if (longAndShortOptionsDiffer) {

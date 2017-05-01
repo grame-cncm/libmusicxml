@@ -10289,43 +10289,95 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice,
         lastHandledNoteInVoice);
 
-    // remove last handled (previous current) note from the current voice
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
-      cerr << idtr <<
-        "--> removing last handled note " <<
-        lastHandledNoteInVoice->noteAsShortString () <<
-        ", line " << inputLineNumber <<
-        ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
-        endl;
-
-    if (false)
-      cerr <<
-        endl << endl <<
-        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
-        currentVoice->getVoiceName () <<
-        ") contents &&&&&&&&&&&&&&&&&&" <<
-        endl <<
-        currentVoice <<
-        endl << endl;
-
-    // remove lastHandledNoteInVoice, the first chord note,
-    // from the current voice
-    currentVoice->
-      removeNoteFromVoice (
-        inputLineNumber,
-        lastHandledNoteInVoice);
-
-    // add fCurrentChord to the voice instead
-    if (gGeneralOptions->fTraceChords)
-      cerr << idtr <<
-        "Appending chord " << fCurrentChord->chordAsString () <<
-        " to voice \"" <<
-        currentVoice->getVoiceName () <<
-        "\"" <<
-        endl;
+    // handle chord's first note
+    switch (lastHandledNoteInVoice->getNoteKind ()) {
+      case msrNote::kRestNote:
+        break;
         
-    currentVoice->
-      appendChordToVoice (fCurrentChord);
+      case msrNote::kSkipNote:
+        break;
+        
+      case msrNote::kStandaloneNote:
+        // remove last handled (previous current) note from the current voice
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
+          cerr << idtr <<
+            "--> removing last handled note " <<
+            lastHandledNoteInVoice->noteAsShortString () <<
+            ", line " << inputLineNumber <<
+            ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
+            endl;
+    
+        if (false)
+          cerr <<
+            endl << endl <<
+            "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+            currentVoice->getVoiceName () <<
+            ") contents &&&&&&&&&&&&&&&&&&" <<
+            endl <<
+            currentVoice <<
+            endl << endl;
+    
+        // remove lastHandledNoteInVoice, the first chord note,
+        // from the current voice
+        currentVoice->
+          removeNoteFromVoice (
+            inputLineNumber,
+            lastHandledNoteInVoice);
+    
+        // add fCurrentChord to the voice instead
+        if (gGeneralOptions->fTraceChords)
+          cerr << idtr <<
+            "Appending chord " << fCurrentChord->chordAsString () <<
+            " to voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+            
+        currentVoice->
+          appendChordToVoice (fCurrentChord);
+        break;
+        
+      case msrNote::kDoubleTremoloMemberNote:
+        if (newChordNote->getNoteIsFirstNoteInADoubleTremolo ()) {
+          // replace double tremolo's first element by chord
+          fCurrentDoubleTremolo->
+            setDoubleTremoloChordSecondElement (
+              fCurrentChord);
+        }
+        
+        else if (newChordNote->getNoteIsSecondNoteInADoubleTremolo ()) {
+          // replace double tremolo's second element by chord
+          fCurrentDoubleTremolo->
+            setDoubleTremoloChordSecondElement (
+              fCurrentChord);
+        }
+        
+        else {
+          stringstream s;
+
+          s <<
+            "note '" << newChordNote->noteAsShortString () <<
+            "' belongs to a double tremolo, but is not marked as such";
+
+          msrInternalError (
+            newChordNote->getInputLineNumber (),
+            s.str());
+        }
+        break;
+        
+      case msrNote::kGraceNote:
+        break;
+        
+      case msrNote::kChordMemberNote:
+        // error? JMI
+        break;
+        
+      case msrNote::kTupletMemberNote:
+        break;
+  
+      case msrNote::k_NoNoteKind:
+        break;
+    } // switch
 
     // account for chord being built
     fOnGoingChord = true;
