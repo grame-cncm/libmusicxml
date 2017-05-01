@@ -1062,6 +1062,7 @@ class EXP xml2MsrTranslator :
     S_msrChord                createChordFromItsFirstNote (
                                 S_msrVoice voice,
                                 S_msrNote  chordFirstNote);
+                                
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newChordNote);
     

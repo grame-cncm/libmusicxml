@@ -10244,8 +10244,8 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
 
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "xml2MsrTranslator::handleNoteBelongingToAChord " <<
-      newChordNote <<
+      "xml2MsrTranslator::handleNoteBelongingToAChord()" <<
+      ", newChordNote = " << newChordNote <<
       endl;
 
   int inputLineNumber =
@@ -10259,7 +10259,6 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   // should a chord be created?
   if (! fOnGoingChord) {
     // newChordNote is the second note of the chord to be created
-    // fLastHandledNote being the first one
 
     // fetch current voice
     S_msrVoice
@@ -10269,19 +10268,20 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
 
-    // fetch last handled note for this voice
+    // fetch this chord's first note,
+    // i.e the last handled note for this voice
     S_msrNote
-      lastHandledNoteInVoice =
-        fLastHandledNoteInVoice [currentVoice];
-
-    if (! lastHandledNoteInVoice) {
+      chordFirstNote =
+       fLastHandledNoteInVoice [currentVoice];
+    
+    if (! chordFirstNote) {
       stringstream s;
 
       s <<
-        "handleNoteBelongingToAChord:" <<
+        "handleNoteBelongingToAChord():" <<
         endl <<
         idtr <<
-          "lastHandledNoteInVoice is null on " <<
+          "chordFirstNote is null on " <<
           newChordNote->noteAsString ();
         
       msrInternalError (
@@ -10289,14 +10289,20 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         s.str());
     }
         
+    if (gGeneralOptions->fTraceChords)
+      cerr << idtr <<
+        "xml2MsrTranslator::handleNoteBelongingToAChord()" <<
+        ", chordFirstNote = " << chordFirstNote->noteAsShortString () <<
+        endl;
+
     // create the chord from its first note
     fCurrentChord =
       createChordFromItsFirstNote (
         currentVoice,
-        lastHandledNoteInVoice);
-
+        chordFirstNote);
+  
     // handle chord's first note
-    switch (lastHandledNoteInVoice->getNoteKind ()) {
+    switch (chordFirstNote->getNoteKind ()) {
       case msrNote::kRestNote:
         break;
         
@@ -10307,8 +10313,8 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         // remove last handled (previous current) note from the current voice
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
           cerr << idtr <<
-            "--> removing last handled note " <<
-            lastHandledNoteInVoice->noteAsShortString () <<
+            "--> removing chord first note " <<
+            chordFirstNote->noteAsShortString () <<
             ", line " << inputLineNumber <<
             ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
             endl;
@@ -10324,12 +10330,10 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
             endl << endl;
         }
         
-        // remove lastHandledNoteInVoice, the first chord note,
-        // from the current voice
         currentVoice->
           removeNoteFromVoice (
             inputLineNumber,
-            lastHandledNoteInVoice);
+            chordFirstNote);
     
         // add fCurrentChord to the voice instead
         if (gGeneralOptions->fTraceChords)
@@ -10348,8 +10352,8 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         // remove last handled (previous current) note from the current voice
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
           cerr << idtr <<
-            "--> removing last handled note " <<
-            lastHandledNoteInVoice->noteAsShortString () <<
+            "--> removing chord first note " <<
+            chordFirstNote->noteAsShortString () <<
             ", line " << inputLineNumber <<
             ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
             endl;
@@ -10365,12 +10369,10 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
             endl << endl;
         }
         
-        // remove lastHandledNoteInVoice, the first chord note,
-        // from the current voice
         currentVoice->
           removeNoteFromVoice (
             inputLineNumber,
-            lastHandledNoteInVoice);
+            chordFirstNote);
     
         // add fCurrentChord to the voice instead
         if (gGeneralOptions->fTraceChords)
@@ -10384,14 +10386,14 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice->
           appendChordToVoice (fCurrentChord);
 
-        if (newChordNote->getNoteIsFirstNoteInADoubleTremolo ()) {
+        if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
           // replace double tremolo's first element by chord
           fCurrentDoubleTremolo->
             setDoubleTremoloChordFirstElement (
               fCurrentChord);
         }
         
-        else if (newChordNote->getNoteIsSecondNoteInADoubleTremolo ()) {
+        else if (chordFirstNote->getNoteIsSecondNoteInADoubleTremolo ()) {
           // replace double tremolo's second element by chord
           fCurrentDoubleTremolo->
             setDoubleTremoloChordSecondElement (
@@ -10402,7 +10404,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           stringstream s;
 
           s <<
-            "note '" << newChordNote->noteAsShortString () <<
+            "chord first note '" << chordFirstNote->noteAsShortString () <<
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
