@@ -10393,32 +10393,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kDoubleTremoloMemberNote:
-        // remove last handled (previous current) note from the current voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
-          cerr << idtr <<
-            "--> removing chord first note " <<
-            chordFirstNote->noteAsShortString () <<
-            ", line " << inputLineNumber <<
-            ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
-            endl;
-    
-        if (false) { // JMI
-          cerr <<
-            endl << endl <<
-            "&&&&&&&&&&&&&&&&&& currentVoice (" <<
-            currentVoice->getVoiceName () <<
-            ") contents &&&&&&&&&&&&&&&&&&" <<
-            endl <<
-            currentVoice <<
-            endl << endl;
-        }
-        
-        currentVoice->
-          removeNoteFromVoice (
-            inputLineNumber,
-            chordFirstNote);
-    
-        // add fCurrentChord to the voice instead
+        // add fCurrentChord to the current voice
         if (gGeneralOptions->fTraceChords)
           cerr << idtr <<
             "Appending chord " << fCurrentChord->chordAsString () <<
