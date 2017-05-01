@@ -7329,7 +7329,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       break;
       
     case kStartTremolo:
-      if (! fCurrentDoubleTremolo) {
+  //    if (! fCurrentDoubleTremolo) { JMI
+      {
         // fetch current voice
         S_msrVoice
           currentVoice =
@@ -7361,6 +7362,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
             currentVoice);
       }
       
+/*
       else {
         stringstream s;
 
@@ -7371,6 +7373,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
           elt->getInputLineNumber (),
           s.str());    
       }
+*/
       break;
 
     case kStopTremolo:
@@ -9823,7 +9826,11 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
       // forget about this chord
       fCurrentChord = 0;
-      
+
+      if (fCurrentDoubleTremolo)
+        // forget about a double tremolo containing a chord
+      // JMI XXL BOFS  fCurrentDoubleTremolo = 0;
+
       fOnGoingChord = false;
     }
   }
@@ -10050,7 +10057,7 @@ void xml2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
             fCurrentDoubleTremolo);
 
         // forget about the current double tremolo
-        fCurrentDoubleTremolo = 0;
+       // fCurrentDoubleTremolo = 0; // JMI not if there's a chord in the double tremolo XXL BOF
         break;
     } // switch
   }
@@ -10512,7 +10519,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
 
   // is there an ongoing chord?
   if (! fOnGoingChord) {
-    // this note is the first one after a chord in a tuplet,
+    // note is the first one after a chord in a tuplet,
     // JMI
   }
 
