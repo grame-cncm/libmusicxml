@@ -2954,7 +2954,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       /
     (2 * divisionsPerDoubleTremoloElement); // to account for both elements
 
-  if (false && gGeneralOptions->fTraceTremolos) { // JMI
+//  if (false && gGeneralOptions->fTraceTremolos) { // JMI
+  if (gGeneralOptions->fTraceTremolos) { // JMI
     cerr <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
