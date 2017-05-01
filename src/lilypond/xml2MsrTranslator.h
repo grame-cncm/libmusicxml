@@ -896,7 +896,7 @@ class EXP xml2MsrTranslator :
     msrDiatonicPitch          fCurrentNoteDiatonicPitch;
     msrAlteration             fCurrentNoteAlteration;
     
-    void                      handleStandaloneOrGraceNoteOrRest (
+    void                      handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
                                 S_msrNote newNote);
 
     bool                      fOnGoingNote;

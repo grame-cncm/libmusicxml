@@ -7305,7 +7305,8 @@ S_msrChord msrChord::create (
 {
   if (gGeneralOptions->fTraceChords) {
     cerr <<
-      "Create a chord " <<
+      idtr <<
+      "Create a chord" <<
       ", chordDivisions = " << chordDivisions <<
       ", chordGraphicDuration = " <<
       msrDurationAsString (chordGraphicDuration) <<
@@ -7797,10 +7798,9 @@ string msrChord::chordAsString () const
         
       s <<
         note->notePitchAsString () <<
-        "[" << note->getNoteOctave () << "]" <<
-        ":" <<
-        note->noteDivisionsAsMsrString ();
-
+        note->noteDivisionsAsMsrString () <<
+        "[" << note->getNoteOctave () << "]";
+        
       if (++i == iEnd) break;
       s << " ";
     } // for

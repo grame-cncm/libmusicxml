@@ -7382,7 +7382,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
             endl;
         }
 
-        // it will be handled in handleStandaloneOrGraceNoteOrRest()
+        // it will be handled in
+        // handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest()
       }
       
       else {
@@ -9748,7 +9749,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   else {
     
     // note/rest is standalone or a member of grace notes
-    handleStandaloneOrGraceNoteOrRest (newNote);
+    handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (newNote);
   }
 
   // set its tie if any
@@ -9818,10 +9819,11 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingNote) {
-      // this is the first note after the chord
+      // newNote is the first note after the chord
 
       // forget about this chord
       fCurrentChord = 0;
+      
       fOnGoingChord = false;
     }
   }
@@ -9845,7 +9847,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 }
 
 //______________________________________________________________________________
-void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
+void xml2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
   S_msrNote newNote)
 {
   int inputLineNumber =
@@ -9890,7 +9892,7 @@ void xml2MsrTranslator::handleStandaloneOrGraceNoteOrRest (
 
     cerr <<
       idtr <<
-        "--> handleStandaloneOrGraceNoteOrRest: " <<
+        "--> handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest: " <<
         "newNote = " << newNote->noteAsString () <<
         endl;
 
@@ -10234,6 +10236,10 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
   a missing duration indicates the same length as the previous
   note, but the MusicXML format requires a duration for chord
   notes too.
+  *
+  Here:
+    fLastHandledNoteInVoice is the note preceding newChordNote
+    if we're not yet ??? JMI
 */
 
   if (gGeneralOptions->fTraceChords)
@@ -10252,7 +10258,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
 
   // should a chord be created?
   if (! fOnGoingChord) {
-    // this is the second note of the chord to be created,
+    // newChordNote is the second note of the chord to be created
     // fLastHandledNote being the first one
 
     // fetch current voice
@@ -10611,7 +10617,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
    The first note of a chord belonging to a tuplet
    is marked in MusicXML as a tuplet member only,
    it has already been appended to the voice in
-   handleStandaloneOrGraceNoteOrRest (),
+   handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (),
    and the following ones are marked as both a tuplet and a chord member
   */
   
