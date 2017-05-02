@@ -461,19 +461,19 @@ string lpsr2LilyPondTranslator::technicalWithStringKindAsLilyPondString (
   
   switch (technicalWithString->getTechnicalWithStringKind ()) {
     case msrTechnicalWithString::kHammerOn:
-      result = "\\HammerOn";
+      result = "%{\\HammerOn%}";
       break;
     case msrTechnicalWithString::kHandbell:
-      result = "\\Handbell";
+      result = "%{\\Handbell%}";
       break;
     case msrTechnicalWithString::kOtherTechnical:
-      result = "\\OtherTechnical";
+      result = "%{\\OtherTechnical%}";
       break;
     case msrTechnicalWithString::kPluck:
-      result = "\\Pluck";
+      result = "%{Pluck???%}";
       break;
     case msrTechnicalWithString::kPullOff:
-      result = "\\PullOff";
+      result = "%{\\PullOff%}";
       break;
   } // switch
 
@@ -499,7 +499,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       break;
       
     case msrOrnament::kWavyLine:
-      result = "\\wayvy line";
+      result = "%{\\wavy line%}";
       break;
       
     case msrOrnament::kTurn:
@@ -580,15 +580,15 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
       break;
       
     case msrOrnament::kInvertedMordent:
-      result = "\\inverted mordent";
+      result = "%{\\inverted mordent%}";
       break;
       \
     case msrOrnament::kSchleifer:
-      result = "\\schleifer";
+      result = "%{\\schleifer%}";
       break;
       
     case msrOrnament::kShake:
-      result = "\\shake";
+      result = "%{\\shake%}";
       break;
   } // switch
 
@@ -3716,7 +3716,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "-_";
           break;
         case msrArticulation::kStrongAccent:
-          fOstream << "\\strong accent";
+          fOstream << "\\accent %{strong???}";
           break;
         case msrArticulation::kTenuto:
           fOstream << "--";
@@ -3895,7 +3895,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << " ^" "\\markup { \\doubleflat }";
           break;
         case msrOrnament::kSesquiFlat:
-          fOstream << " ^" "\\markup { \\sesquilat }";
+          fOstream << " ^" "\\markup { \\sesquiflat }";
           break;
         case msrOrnament::kFlat:
           fOstream << " ^" "\\markup { \\flat }";
