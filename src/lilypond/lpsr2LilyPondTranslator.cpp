@@ -371,7 +371,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
 
   switch (technical->getTechnicalKind ()) {
     case msrTechnical::kArrow:
-      result = "\\Arrow";
+      result = "%{\\Arrow%}";
       break;
     case msrTechnical::kDoubleTongue:
       result = "-\\tongue #2";
@@ -380,7 +380,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
       result = "\\downbow";
       break;
     case msrTechnical::kFingernails:
-      result = "\\Fingernails";
+      result = "%{\\Fingernails%}";
       break;
     case msrTechnical::kHarmonic:
       result = "\\flageolet"; // JMI "\\once\\override Staff.NoteHead.style = #'harmonic-mixed";
@@ -389,7 +389,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
       result = "\\lheel"; // rheel??? JMI
       break;
     case msrTechnical::kHole:
-      result = "\\Hole";
+      result = "%{\\Hole%}";
       break;
     case msrTechnical::kOpenString:
       result = "\\open"; // halfopen ??? JMI
@@ -401,7 +401,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
       result = "\\stopped"; // or -+ JMI
       break;
     case msrTechnical::kTap:
-      result = "\\Tap";
+      result = "%{\\Tap%}";
       break;
     case msrTechnical::kThumbPosition:
       result = "\\thumb";

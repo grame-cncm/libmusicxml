@@ -4373,6 +4373,14 @@ void lpsrScore::print (ostream& os)
   fMsrScore->printStructure (os);
   os << endl;
 
+  // are some Scheme functions needed?
+  os <<
+    idtr <<
+      "TongueSchemeFunctionNeeded: " <<
+      booleanAsString (fTongueSchemeFunctionNeeded) <<
+      endl <<
+      endl;
+
   // print LPSR basic information
   os <<
     idtr << fLilyPondVersion <<
