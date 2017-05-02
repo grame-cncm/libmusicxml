@@ -3014,6 +3014,23 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrDynamics& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrOtherDynamics& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrOtherDynamics" <<
+      endl;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrOtherDynamics& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrOtherDynamics" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrWords& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -3924,6 +3941,23 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       fMusicOlec++;
     } // for
   }
+  
+  // print the note other dynamics if any
+  list<S_msrOtherDynamics>
+    noteOtherDynamics =
+      elt->getNoteOtherDynamics ();
+      
+  if (noteOtherDynamics.size()) {
+    list<S_msrOtherDynamics>::const_iterator i;
+    for (
+      i=noteOtherDynamics.begin();
+      i!=noteOtherDynamics.end();
+      i++) {
+      fOstream <<
+        "\\" << (*i)->otherDynamicsAsString () << " ";
+      fMusicOlec++;
+    } // for
+  }
 
   // print the note words if any
   list<S_msrWords>
@@ -4447,6 +4481,23 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       i++) {
       fOstream <<
         "\\" << (*i)->dynamicsKindAsString () << " ";
+      fMusicOlec++;
+    } // for
+  }
+  
+  // print the chord other dynamics if any
+  list<S_msrOtherDynamics>
+    chordOtherDynamics =
+      elt->getChordOtherDynamics ();
+      
+  if (chordOtherDynamics.size()) {
+    list<S_msrOtherDynamics>::const_iterator i;
+    for (
+      i=chordOtherDynamics.begin();
+      i!=chordOtherDynamics.end();
+      i++) {
+      fOstream <<
+        "\\" << (*i)->otherDynamicsAsString () << " ";
       fMusicOlec++;
     } // for
   }

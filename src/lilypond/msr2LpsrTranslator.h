@@ -76,6 +76,9 @@ class msr2LpsrTranslator :
   public visitor<S_msrDoubleTremolo>,
 
   public visitor<S_msrDynamics>,
+  
+  public visitor<S_msrOtherDynamics>,
+  
   public visitor<S_msrSlur>,
   public visitor<S_msrLigature>,
   public visitor<S_msrWedge>,
@@ -214,6 +217,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);
+    
+    virtual void visitStart (S_msrOtherDynamics& elt);
+    virtual void visitEnd   (S_msrOtherDynamics& elt);
 
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);

@@ -8822,6 +8822,8 @@ void xml2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's dynamics if any to the chord
   copyNoteDynamicsToChord (note, chord);
+
+  // copy note's other dynamics if any to the chord
   copyNoteOtherDynamicsToChord (note, chord);
 
   // copy note's words if any to the chord
@@ -9563,6 +9565,8 @@ void xml2MsrTranslator::attachPendingElementsToNote (
 {
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);
+
+  // attach the pending other dynamics, if any, to the note
   attachPendingOtherDynamicsToNote (note);
   
   // attach the pending words, if any, to the note

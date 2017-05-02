@@ -1683,6 +1683,34 @@ void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrOtherDynamics" <<
+      endl;
+
+  if (fOnGoingNote) {
+    // don't add other dynamics to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addOtherDynamicsToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addOrnamentToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrOtherDynamics& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrOtherDynamics" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
