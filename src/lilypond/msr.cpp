@@ -20915,6 +20915,7 @@ void msrScore::printStructure (ostream& os)
       "part group",
       "part groups") <<
     ")" <<
+    ", parts and staves not shown" <<
     endl << endl;
 
   idtr++;
