@@ -3954,7 +3954,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       i!=noteOtherDynamics.end();
       i++) {
       fOstream <<
-        "\\" << (*i)->otherDynamicsAsString () << " ";
+        "-\\markup { "
+        "\\dynamic \" " << (*i)->otherDynamicsAsString () << "\"} ";
       fMusicOlec++;
     } // for
   }

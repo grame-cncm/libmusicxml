@@ -6509,9 +6509,9 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteDynamics.size()) {
     idtr++;
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
-      // browse the dynamics
-      msrBrowser<msrDynamics> browser (v);
+    for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
+      // browse the other dynamics
+      msrBrowser<msrOtherDynamics> browser (v);
       browser.browse (*(*i));
     } // for
     idtr--;
@@ -7356,12 +7356,12 @@ void msrNote::print (ostream& os)
   }
 
   // print the other dynamics if any
-  if (fNoteDynamics.size()) {
+  if (fNoteOtherDynamics.size()) {
     idtr++;
     
     list<S_msrOtherDynamics>::const_iterator
-      iBegin = fNoteDynamics.begin(),
-      iEnd   = fNoteDynamics.end(),
+      iBegin = fNoteOtherDynamics.begin(),
+      iEnd   = fNoteOtherDynamics.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -7861,11 +7861,11 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrOtherDynamics>::const_iterator i = fChordDynamics.begin();
-    i != fChordDynamics.end();
+    list<S_msrOtherDynamics>::const_iterator i = fChordOtherDynamics.begin();
+    i != fChordOtherDynamics.end();
     i++ ) {
-    // browse the dynamics
-    msrBrowser<msrDynamics> browser (v);
+    // browse the other dynamics
+    msrBrowser<msrOtherDynamics> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -8088,10 +8088,10 @@ void msrChord::print (ostream& os)
     } // for
   }
 
-  // print the dynamics if any
-  if (fChordDynamics.size()) {
+  // print the other dynamics if any
+  if (fChordOtherDynamics.size()) {
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
+    for (i=fChordOtherDynamics.begin(); i!=fChordOtherDynamics.end(); i++) {
       os << idtr << (*i);
     } // for
   }

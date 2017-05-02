@@ -1698,7 +1698,7 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addOrnamentToChord (elt);
+      addOtherDynamicsToChord (elt);
   }
 }
 
