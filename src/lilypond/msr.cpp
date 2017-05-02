@@ -6191,15 +6191,6 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
   // set singleTremolo's note uplink
   trem->
     setSingleTremoloNoteUplink (this);
-
-    cerr <<
-      "*******" <<
-      endl;
-    this->print (cerr);
-    cerr <<
-      endl <<
-      "***********" <<
-      endl;
 }
 
 void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
