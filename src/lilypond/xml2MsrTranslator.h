@@ -267,6 +267,8 @@ class EXP xml2MsrTranslator :
   public visitor<S_sfp>,
   public visitor<S_sfpp>,
   public visitor<S_sffz>,
+  
+  public visitor<S_other_dynamics>,
 
   public visitor<S_wedge>,
   
@@ -569,6 +571,8 @@ class EXP xml2MsrTranslator :
     virtual void visitStart ( S_sfp& elt);
     virtual void visitStart ( S_sfpp& elt);
     virtual void visitStart ( S_sffz& elt);
+    
+    virtual void visitStart ( S_other_dynamics& elt);
 
     virtual void visitStart ( S_wedge& elt);
 
@@ -957,6 +961,7 @@ class EXP xml2MsrTranslator :
     // dynamics, words and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     list<S_msrDynamics>       fPendingDynamics;
+    list<S_msrOtherDynamics>  fPendingOtherDynamics;
     list<S_msrWords>          fPendingWords;
     list<S_msrSlur>           fPendingSlurs;
     list<S_msrLigature>       fPendingLigatures;
@@ -966,6 +971,8 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note);
                                 
     void                      attachPendingDynamicsToNote (
+                                S_msrNote note);
+    void                      attachPendingOtherDynamicsToNote (
                                 S_msrNote note);
     void                      attachPendingWordsToNote (
                                 S_msrNote note);
@@ -980,6 +987,8 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
                                 
     void                      copyNoteDynamicsToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteOtherDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWordsToChord (
                                 S_msrNote note, S_msrChord chord);

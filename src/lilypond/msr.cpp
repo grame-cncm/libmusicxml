@@ -4647,6 +4647,92 @@ void msrDynamics::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrOtherDynamics msrOtherDynamics::create (
+  int    inputLineNumber,
+  string otherDynamicsString)
+{
+  msrOtherDynamics* o =
+    new msrOtherDynamics (
+      inputLineNumber, otherDynamicsString);
+    assert(o!=0);
+  return o;
+}
+
+msrOtherDynamics::msrOtherDynamics (
+  int    inputLineNumber,
+  string otherDynamicsString)
+    : msrElement (inputLineNumber)
+{
+  fOtherDynamicsString = otherDynamicsString; 
+}
+msrOtherDynamics::~msrOtherDynamics() {}
+
+void msrOtherDynamics::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrOtherDynamics::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrOtherDynamics>*
+    p =
+      dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
+        S_msrOtherDynamics elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrOtherDynamics::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrOtherDynamics::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrOtherDynamics::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrOtherDynamics>*
+    p =
+      dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
+        S_msrOtherDynamics elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrOtherDynamics::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrOtherDynamics::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrOtherDynamics::otherDynamicsAsString ()
+{
+  stringstream s;
+  
+  s <<
+    "OtherDynamics '" << fOtherDynamicsString <<
+    "', line " << fInputLineNumber;
+
+  return s.str();
+}
+
+void msrOtherDynamics::print (ostream& os)
+{
+  os <<
+    otherDynamicsAsString ();
+}
+
+//______________________________________________________________________________
 S_msrWedge msrWedge::create (
   int           inputLineNumber,
   msrWedgeKind  wedgeKind)

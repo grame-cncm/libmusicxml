@@ -2055,14 +2055,13 @@ class EXP msrDynamics : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrDynamicsKind
-              getDynamicsKind () const
-                  { return fDynamicsKind; }
-
-    string  dynamicsKindAsString ();
+    msrDynamicsKind       getDynamicsKind () const
+                              { return fDynamicsKind; }
 
     // services
     // ------------------------------------------------------
+
+    string                dynamicsKindAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -2083,6 +2082,67 @@ class EXP msrDynamics : public msrElement
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
+
+/*!
+\brief A msr dynamics representation.
+
+  A dynamics is represented by a msrDynamicsKind value
+*/
+//______________________________________________________________________________
+class EXP msrOtherDynamics : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrOtherDynamics> create (
+      int    inputLineNumber,
+      string otherDynamicsString);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOtherDynamics (
+      int    inputLineNumber,
+      string otherDynamicsString);
+      
+    virtual ~msrOtherDynamics();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOtherDynamicsString () const
+                              { return fOtherDynamicsString; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                otherDynamicsAsString ();
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    string                fOtherDynamicsString;
+};
+typedef SMARTP<msrOtherDynamics> S_msrOtherDynamics;
+EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
 
 /*!
 \brief A msr wedge representation.

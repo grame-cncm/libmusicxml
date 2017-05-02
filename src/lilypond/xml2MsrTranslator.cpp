@@ -7224,7 +7224,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   else if (tremoloType == "stop")
     fCurrentMusicXMLTremoloType = kStopTremolo;
     
-  else {
+  else if (tremoloType.size ()) {
     stringstream s;
     
     s <<
@@ -7585,48 +7585,30 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
   if      (accidentalMark == "double-flat")
     currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleFlat;
     
-  if      (accidentalMark == "sesqui-flat")
+  else if (accidentalMark == "three-quarters-flat")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiFlat;
     
   else if (accidentalMark == "flat")
     currentOrnamentAccidentalMarkKind = msrOrnament::kFlat;
     
-  if      (accidentalMark == "semi-flat")
+  else if (accidentalMark == "quarter-flat")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSemiFlat;
     
-  if      (accidentalMark == "natural")
+  else if (accidentalMark == "natural")
     currentOrnamentAccidentalMarkKind = msrOrnament::kNatural;
     
-  else if (accidentalMark == "semi-sharp")
+  else if (accidentalMark == "quarter-sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSemiSharp;
     
   else if (accidentalMark == "sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSharp;
     
-  else if (accidentalMark == "sesqui-sharp")
+  else if (accidentalMark == "three-quarters-sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiSharp;
     
   else if (accidentalMark == "double-sharp")
     currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleSharp;
-    
-  else if (accidentalMark == "semi-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSemiSharp;
-    
-  else if (accidentalMark == "semi-flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSemiFlat;
-    
-  else if (accidentalMark == "sesqui-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiSharp;
-    
-  else if (accidentalMark == "sesqui-flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiFlat;
-    
-  else if (accidentalMark == "double-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleSharp;
-    
-  else if (accidentalMark == "double-flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleFlat;
-    
+        
   else if (accidentalMark.size ()) {
     stringstream s;
     
@@ -7750,12 +7732,12 @@ void xml2MsrTranslator::visitStart( S_f& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_ff& elt)
 {
@@ -7765,12 +7747,12 @@ void xml2MsrTranslator::visitStart( S_ff& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_fff& elt)
 {
@@ -7780,12 +7762,12 @@ void xml2MsrTranslator::visitStart( S_fff& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFFF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_ffff& elt)
 {
@@ -7795,12 +7777,12 @@ void xml2MsrTranslator::visitStart( S_ffff& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFFFF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_fffff& elt)
 {
@@ -7810,12 +7792,12 @@ void xml2MsrTranslator::visitStart( S_fffff& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFFFFF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_ffffff& elt)
 {
@@ -7825,12 +7807,12 @@ void xml2MsrTranslator::visitStart( S_ffffff& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFFFFFF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_p& elt)
@@ -7841,12 +7823,12 @@ void xml2MsrTranslator::visitStart( S_p& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_pp& elt)
 {
@@ -7856,12 +7838,12 @@ void xml2MsrTranslator::visitStart( S_pp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kPP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_ppp& elt)
 {
@@ -7871,12 +7853,12 @@ void xml2MsrTranslator::visitStart( S_ppp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kPP);
+        msrDynamics::kPPP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_pppp& elt)
 {
@@ -7886,12 +7868,12 @@ void xml2MsrTranslator::visitStart( S_pppp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kPPPP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_ppppp& elt)
 {
@@ -7901,12 +7883,12 @@ void xml2MsrTranslator::visitStart( S_ppppp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kPPPPP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_pppppp& elt)
 {
@@ -7916,12 +7898,12 @@ void xml2MsrTranslator::visitStart( S_pppppp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kPPPPPP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 
@@ -7933,12 +7915,12 @@ void xml2MsrTranslator::visitStart( S_mf& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kMF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_mp& elt)
 {
@@ -7948,12 +7930,12 @@ void xml2MsrTranslator::visitStart( S_mp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kMP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_fp& elt)
@@ -7964,12 +7946,12 @@ void xml2MsrTranslator::visitStart( S_fp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 void xml2MsrTranslator::visitStart( S_fz& elt)
 {
@@ -7979,12 +7961,12 @@ void xml2MsrTranslator::visitStart( S_fz& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFZ);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_rf& elt)
@@ -7995,12 +7977,12 @@ void xml2MsrTranslator::visitStart( S_rf& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kRF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_sf& elt)
@@ -8011,12 +7993,12 @@ void xml2MsrTranslator::visitStart( S_sf& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kSF);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_rfz& elt)
@@ -8027,12 +8009,12 @@ void xml2MsrTranslator::visitStart( S_rfz& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kRFZ);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_sfz& elt)
@@ -8043,12 +8025,12 @@ void xml2MsrTranslator::visitStart( S_sfz& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kSFZ);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_sfp& elt)
@@ -8059,12 +8041,12 @@ void xml2MsrTranslator::visitStart( S_sfp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kSFP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_sfpp& elt)
@@ -8075,12 +8057,12 @@ void xml2MsrTranslator::visitStart( S_sfpp& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kSFPP);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
 }
 
 void xml2MsrTranslator::visitStart( S_sffz& elt)
@@ -8091,12 +8073,30 @@ void xml2MsrTranslator::visitStart( S_sffz& elt)
       endl;
 
   S_msrDynamics
-    dyn =
+    dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kSFFZ);
         
-  fPendingDynamics.push_back(dyn);
+  fPendingDynamics.push_back(dynamics);
+}
+
+void xml2MsrTranslator::visitStart( S_other_dynamics& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_other_dynamics" <<
+      endl;
+
+  string otherDynamicsValue = elt->getValue ();
+  
+  S_msrOtherDynamics
+    otherDynamics =
+      msrOtherDynamics::create (
+        elt->getInputLineNumber (),
+        otherDynamicsValue);
+        
+  fPendingOtherDynamics.push_back(otherDynamics);
 }
 
 //______________________________________________________________________________
@@ -8636,6 +8636,35 @@ void xml2MsrTranslator::copyNoteDynamicsToChord (
 }
 
 //______________________________________________________________________________
+void xml2MsrTranslator::copyNoteOtherDynamicsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's other dynamics if any from the first note to chord
+  
+  list<S_msrOtherDynamics>
+    noteOtherDynamics =
+      note->
+        getNoteOtherDynamics ();
+                          
+  list<S_msrOtherDynamics>::const_iterator i;
+  for (
+    i=noteOtherDynamics.begin();
+    i!=noteOtherDynamics.end();
+    i++) {
+
+    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics)
+      cerr << idtr <<
+        "--> copying other dynamics '" <<
+        (*i)->dynamicsKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->addOtherDynamicsToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void xml2MsrTranslator::copyNoteWordsToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -8793,6 +8822,7 @@ void xml2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's dynamics if any to the chord
   copyNoteDynamicsToChord (note, chord);
+  copyNoteOtherDynamicsToChord (note, chord);
 
   // copy note's words if any to the chord
   copyNoteWordsToChord (note, chord);
@@ -9257,11 +9287,62 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
     if (! delayAttachment) {
       while (! fPendingDynamics.empty ()) {
         S_msrDynamics
-          dyn =
+          dynamics =
             fPendingDynamics.front ();
             
-        note->addDynamicsToNote (dyn);
+        note->addDynamicsToNote (dynamics);
         fPendingDynamics.pop_front ();
+      } // while
+    }
+  }
+}
+
+//______________________________________________________________________________
+void xml2MsrTranslator::attachPendingOtherDynamicsToNote (
+  S_msrNote note)
+{
+ // attach the pending dynamics if any to the note
+  if (! fPendingOtherDynamics.empty()) {
+    bool delayAttachment = false;
+    
+    
+    if (gGeneralOptions->fTraceDynamics)
+      cerr << idtr <<
+        "--> attaching pending dynamics to note " <<
+        note->noteAsString () <<
+        endl;
+
+    if (fCurrentNoteIsARest) {
+      if (gMsrOptions->fDelayRestsDynamics) {
+        cerr << idtr <<
+          "--> Delaying dynamics attached to a rest until next note" <<
+      endl;
+
+        delayAttachment = true;
+      }
+      else {
+        stringstream s;
+
+        s <<
+          "there " <<
+          singularOrPlural (
+            fPendingOtherDynamics.size (), "there is", "there are") <<
+          " other dynamics attached to a rest";
+          
+        msrMusicXMLWarning (
+          note->getInputLineNumber (),
+          s.str());
+      }
+    }
+    
+    if (! delayAttachment) {
+      while (! fPendingOtherDynamics.empty ()) {
+        S_msrOtherDynamics
+          otherDynamics =
+            fPendingOtherDynamics.front ();
+            
+        note->addOtherDynamicsToNote (otherDynamics);
+        fPendingOtherDynamics.pop_front ();
       } // while
     }
   }
@@ -9482,7 +9563,8 @@ void xml2MsrTranslator::attachPendingElementsToNote (
 {
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);
-
+  attachPendingOtherDynamicsToNote (note);
+  
   // attach the pending words, if any, to the note
   attachPendingWordsToNote (note);
 
