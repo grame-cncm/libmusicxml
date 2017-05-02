@@ -3649,8 +3649,11 @@ class EXP msrNote : public msrElement
     const list<S_msrDynamics>&
                           getNoteDynamics () const
                               { return fNoteDynamics; };
+    const list<S_msrOtherDynamics>&
+                          getNoteOtherDynamics () const
+                              { return fNoteOtherDynamics; };
 
-    list<S_msrDynamics>&  getNoteDynamicsToModify ()
+    list<S_msrDynamics>&  getNoteDynamicsToModify () // JMI
                               { return fNoteDynamics; };
         
     // words
@@ -3799,6 +3802,7 @@ class EXP msrNote : public msrElement
     
     // dynamics
     void                  addDynamicsToNote (S_msrDynamics dynamics);
+    void                  addOtherDynamicsToNote (S_msrOtherDynamics otherDynamics);
 
     S_msrDynamics         removeFirstDynamics (); // ???
 
@@ -3894,6 +3898,7 @@ class EXP msrNote : public msrElement
     S_msrTie                  fNoteTie;
     
     list<S_msrDynamics>       fNoteDynamics;
+    list<S_msrOtherDynamics>  fNoteOtherDynamics;
     list<S_msrWords>          fNoteWords;
     list<S_msrWedge>          fNoteWedges;
 
@@ -4032,6 +4037,9 @@ class EXP msrChord : public msrElement
     const list<S_msrDynamics>&
                           getChordDynamics () const
                               { return fChordDynamics; }
+    const list<S_msrOtherDynamics>&
+                          getChordOtherDynamics () const
+                              { return fChordOtherDynamics; }
                       
     const list<S_msrWords>&
                           getChordWords () const
@@ -4117,11 +4125,13 @@ class EXP msrChord : public msrElement
     void                  addOrnamentToChord (S_msrOrnament orn);
      
     // dynamics
-    void                  addDynamicsToChord (S_msrDynamics dyn)
-                              { fChordDynamics.push_back (dyn); }
+    void                  addDynamicsToChord (S_msrDynamics dynamic)
+                              { fChordDynamics.push_back (dynamic); }
+    void                  addOtherDynamicsToChord (S_msrOtherDynamics otherDynamic)
+                              { fChordOtherDynamics.push_back (otherDynamic); }
                     
-    void                  addWordsToChord (S_msrWords dyn)
-                              { fChordWords.push_back (dyn); }
+    void                  addWordsToChord (S_msrWords dynamic)
+                              { fChordWords.push_back (dynamic); }
                     
     void                  addSlurToChord (S_msrSlur slur)
                               { fChordSlurs.push_back (slur); }
@@ -4206,6 +4216,7 @@ class EXP msrChord : public msrElement
     
     // dynamics
     list<S_msrDynamics>       fChordDynamics;
+    list<S_msrOtherDynamics>  fChordOtherDynamics;
     
     list<S_msrWords>          fChordWords;
     

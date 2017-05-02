@@ -8655,7 +8655,7 @@ void xml2MsrTranslator::copyNoteOtherDynamicsToChord (
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics)
       cerr << idtr <<
         "--> copying other dynamics '" <<
-        (*i)->dynamicsKindAsString () <<
+        (*i)->otherDynamicsAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
         endl;

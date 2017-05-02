@@ -6206,6 +6206,10 @@ void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
 {
   fNoteDynamics.push_back (dynamics);
 }
+void msrNote::addOtherDynamicsToNote (S_msrOtherDynamics otherDynamics)
+{
+  fNoteOtherDynamics.push_back (otherDynamics);
+}
 
 void msrNote::addWordsToNote (S_msrWords words)
 {
