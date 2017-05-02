@@ -310,7 +310,7 @@ class msr2LpsrTranslator :
 
     // score
     // ------------------------------------------------------
-    S_msrScore                fCurrentScoreClone;
+    S_msrScore                fCurrentMsrScoreClone;
     
     // identification
     // ------------------------------------------------------

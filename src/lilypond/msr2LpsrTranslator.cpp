@@ -90,13 +90,13 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // create an empty clone of fVisitedMsrScore for use by the LPSR score
   // not sharing the visitiged MSR score allows cleaner data handling
   // and optimisations of the LPSR data
-  fCurrentScoreClone =
+  fCurrentMsrScoreClone =
     fVisitedMsrScore->createScoreBareClone ();
 
   // create the LPSR score
   fLpsrScore =
     lpsrScore::create (
-      0, fCurrentScoreClone);
+      0, fCurrentMsrScoreClone);
       
   // fetch score header
   fLpsrScoreHeader =
@@ -365,7 +365,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
   
 /*
   // add it to the MSR score clone
-  fCurrentScoreClone->
+  fCurrentMsrScoreClone->
     addPartgroupToScore (fCurrentPartgroupClone);
 */
 
@@ -427,7 +427,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
         " to MSR score" <<
         endl;
 
-    fCurrentScoreClone->
+    fCurrentMsrScoreClone->
       addPartgroupToScore (currentPartgroup);
 
     fPartgroupsStack.pop ();
@@ -1466,7 +1466,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
     case msrTechnical::kArrow:
       break;
     case msrTechnical::kDoubleTongue:
-      fCurrentScoreClone->
+      fLpsrScore->
         setTongueSchemeFunctionNeeded ();
       break;
     case msrTechnical::kDownBow:
@@ -1492,7 +1492,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
     case msrTechnical::kToe:
       break;
     case msrTechnical::kTripleTongue:
-      fCurrentScoreClone->
+      fLpsrScore->
         setTongueSchemeFunctionNeeded ();
       break;
     case msrTechnical::kUpBow:

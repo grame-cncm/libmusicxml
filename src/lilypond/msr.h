@@ -7297,13 +7297,7 @@ class EXP msrScore : public msrElement
                               { fCredit = credit; }
     S_msrCredit           getCredit () const
                               { return fCredit; }
-    
-    void                  setTongueSchemeFunctionNeeded ()
-                              { fTongueSchemeFunctionNeeded = true; }
-                        
-    bool                  getTongueSchemeFunctionNeeded () const
-                              { return fTongueSchemeFunctionNeeded; }
-    
+        
     const list<S_msrPartgroup>&
                           getPartgroupsList () const
                               { return fPartgroupsList; }
@@ -7337,9 +7331,7 @@ class EXP msrScore : public msrElement
     S_msrCredit          fCredit;
     
     list<S_msrPartgroup> fPartgroupsList;
-
-    bool                 fTongueSchemeFunctionNeeded;
- };
+};
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
 

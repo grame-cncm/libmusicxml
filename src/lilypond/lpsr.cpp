@@ -4032,6 +4032,9 @@ lpsrScore::lpsrScore (
       "Uncomment and adapt next line as needed (default is 20)",
       lpsrSchemeVarValAssoc::kWithEndlTwice);
 
+  // initialize Scheme functions informations
+  fTongueSchemeFunctionNeeded = false;
+  
   // create the header
   fHeader =
     lpsrHeader::create (
@@ -4117,49 +4120,57 @@ lpsrScore::~lpsrScore() {}
 
 void lpsrScore::setTongueSchemeFunctionNeeded ()
 {
-  fTongueSchemeFunctionNeeded = true;
+  if (! fTongueSchemeFunctionNeeded) {
+    string
+      schemeFunctionName =
+        "tongue",
+        
+      schemeFunctionDescription =
+  R"(
+  % Creates multiple tongue technicals, argument is a number.
+  % Example: 'c4 -\tongue #3' creates a triple tongue.
+  )",
   
-  string
-    schemeFunctionName =
-      "tongue",
-      
-    schemeFunctionDescription =
-R"(
-% Creates multiple tongue technicals, argument is a number.
-% Example: 'c4 -\tongue #3' creates a triple tongue.
-)",
+      schemeFunctionCode =
+  R"(
+  tongue =
+  #(define-music-function (parser location dots) (integer?)
+     (let ((script (make-music 'ArticulationEvent
+                     'articulation-type "staccato")))
+       (set! (ly:music-property script 'tweaks)
+             (acons 'stencil
+               (lambda (grob)
+                 (let ((stil (ly:script-interface::print grob)))
+                   (let loop ((count (1- dots)) (new-stil stil))
+                     (if (> count 0)
+                         (loop (1- count)
+                           (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
+                         (ly:stencil-aligned-to new-stil X CENTER)))))
+               (ly:music-property script 'tweaks)))
+       script))
+  )";
 
-    schemeFunctionCode =
-R"(
-tongue =
-#(define-music-function (parser location dots) (integer?)
-   (let ((script (make-music 'ArticulationEvent
-                   'articulation-type "staccato")))
-     (set! (ly:music-property script 'tweaks)
-           (acons 'stencil
-             (lambda (grob)
-               (let ((stil (ly:script-interface::print grob)))
-                 (let loop ((count (1- dots)) (new-stil stil))
-                   (if (> count 0)
-                       (loop (1- count)
-                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
-                       (ly:stencil-aligned-to new-stil X CENTER)))))
-             (ly:music-property script 'tweaks)))
-     script))
-)";
+    if (true || gGeneralOptions->fTraceGeneral) { // JMI
+      cerr << idtr <<
+        "Creating Scheme funcction '" << schemeFunctionName << "'" <<
+        endl;
+    }
+  
+    // create the Scheme function
+    S_lpsrSchemeFunction
+      tongueSchemeFunction =
+        lpsrSchemeFunction::create (
+          1, // inputLineNumber, JMI ???
+          schemeFunctionName,
+          schemeFunctionDescription,
+          schemeFunctionCode);
+  
+    // register it in the Scheme functions map
+    fScoreSchemeFunctionsMap [schemeFunctionName] =
+      tongueSchemeFunction;
 
-  // create the Scheme function
-  S_lpsrSchemeFunction
-    tongueSchemeFunction =
-      lpsrSchemeFunction::create (
-        1, // inputLineNumber, JMI ???
-        schemeFunctionName,
-        schemeFunctionDescription,
-        schemeFunctionCode);
-
-  // register it in the Scheme functions map
-  fScoreSchemeFunctionsMap [schemeFunctionName] =
-    tongueSchemeFunction;
+    fTongueSchemeFunctionNeeded = true;    
+  }
 }
 
 /* JMI
@@ -4282,6 +4293,8 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fGlobalStaffSizeAssoc);
   }
 
+cout << endl << "FOOFOO" << endl << endl;
+
   {
     // browse the Scheme function map
     for (
@@ -4289,6 +4302,7 @@ void lpsrScore::browseData (basevisitor* v)
         fScoreSchemeFunctionsMap.begin();
       i != fScoreSchemeFunctionsMap.end();
       i++) {
+cout << endl << "FAAFAA" << endl << endl;
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
       browser.browse (*(*i).second);
