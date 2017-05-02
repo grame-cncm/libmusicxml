@@ -443,8 +443,8 @@ string lpsr2LilyPondTranslator::technicalWithIntegerKindAsLilyPondString (
       // LilyPond will take care of that JMI
       break;
     case msrTechnicalWithInteger::kString:
-      s <<
-        "\\" " " <<
+      s << // no space is allowed between the backslash and the number
+        "\\" <<
        technicalWithInteger->
           getTechnicalWithIntegerValue ();
       break;
@@ -470,7 +470,7 @@ string lpsr2LilyPondTranslator::technicalWithStringKindAsLilyPondString (
       result = "%{\\OtherTechnical???%}";
       break;
     case msrTechnicalWithString::kPluck:
-      result = "%{Pluck??????%}";
+      result = "%{Pluck???%}";
       break;
     case msrTechnicalWithString::kPullOff:
       result = "%{\\PullOff???%}";
@@ -3696,7 +3696,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           break;
         case msrArticulation::kCaesura:
           fOstream <<
-            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"})"; // "\\caesura";
+            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)"; // "\\caesura";
           break;
         case msrArticulation::kSpiccato:
           fOstream << "%{\\spiccato???%}";
@@ -3717,7 +3717,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "-_";
           break;
         case msrArticulation::kStrongAccent:
-          fOstream << "\\accent %{strong???}";
+          fOstream << "\\accent %{strong???%}";
           break;
         case msrArticulation::kTenuto:
           fOstream << "--";
@@ -3956,7 +3956,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       i++) {
       fOstream <<
         "-\\markup { "
-        "\\dynamic \" " << (*i)->otherDynamicsAsString () << "\"} ";
+        "\\dynamic \" " << (*i)->getOtherDynamicsString () << "\"} ";
       fMusicOlec++;
     } // for
   }

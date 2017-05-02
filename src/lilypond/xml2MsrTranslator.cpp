@@ -6871,7 +6871,23 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  int stringValue = (int)(*elt);
+  string stringValue = elt->getValue();
+
+  int stringIntegerValue = atoi (stringValue.c_str());
+
+  if (! stringValue.size ()) {
+    stringstream s;
+    
+    stringIntegerValue = 0;
+
+    s <<
+      "string value \"" << stringValue <<
+      "\" is empoty, '" << stringIntegerValue << "' is assumed";
+    
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str());    
+  }
   
   string placement = elt->getAttributeValue ("placement");
 
@@ -6885,8 +6901,7 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
   else if (placement == "below")
     stringPlacementKind = msrTechnicalWithInteger::kBelow;
     
-  else if (placement.size ()) {
-    
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -6903,7 +6918,7 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
       msrTechnicalWithInteger::create (
         inputLineNumber,
         msrTechnicalWithInteger::kString,
-        stringValue,
+        stringIntegerValue,
         stringPlacementKind);
       
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
@@ -7186,18 +7201,20 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   string tremoloMarksNumberString =
     elt->getValue ();
     
+  int tremoloMarksNumber = (int)(*elt);
+
   if (! tremoloMarksNumberString.size ()) {
     stringstream s;
+
+    tremoloMarksNumber = 1;
     
     s <<
-      "--> tremolo value is missing, 0 assumed";
+      "--> tremolo value is missing, '" << tremoloMarksNumber << "' assumed";
     
     msrMusicXMLWarning (
       inputLineNumber,
       s.str());
   }
-
-  int tremoloMarksNumber = (int)(*elt);
 
   if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) { // JMI what does 0 mean?
     stringstream s;

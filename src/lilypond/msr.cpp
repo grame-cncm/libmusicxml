@@ -6497,7 +6497,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the other dynamics if any
-  if (fNoteDynamics.size()) {
+  if (fNoteOtherDynamics.size()) {
     idtr++;
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
