@@ -3695,10 +3695,11 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "\\breathe";
           break;
         case msrArticulation::kCaesura:
-          fOstream << "\\caesura";
+          fOstream <<
+            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"})"; // "\\caesura";
           break;
         case msrArticulation::kSpiccato:
-          fOstream << "\\spiccato";
+          fOstream << "%{\\spiccato???%}";
           break;
         case msrArticulation::kStaccato:
           fOstream << "\\staccato"; // JMI "-.";
@@ -3707,10 +3708,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "-!";
           break;
         case msrArticulation::kStress:
-          fOstream << "\\stress";
+          fOstream << "%{\\stress???%}";
           break;
         case msrArticulation::kUnstress:
-          fOstream << "\\unstress";
+          fOstream << "%{\\unstress???%}";
           break;
         case msrArticulation::kDetachedLegato:
           fOstream << "-_";
@@ -3738,10 +3739,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "\\bendAfter #-4";
           break;
         case msrArticulation::kPlop:
-          fOstream << "\\plop";
+          fOstream << "%{\\plop???%}";
           break;
         case msrArticulation::kScoop:
-          fOstream << "\\scoop";
+          fOstream << "%{\\scoop???%}";
           break;
       } // switch
       

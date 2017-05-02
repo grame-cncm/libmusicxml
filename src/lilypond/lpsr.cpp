@@ -4293,8 +4293,6 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fGlobalStaffSizeAssoc);
   }
 
-cout << endl << "FOOFOO" << endl << endl;
-
   {
     // browse the Scheme function map
     for (
@@ -4302,7 +4300,6 @@ cout << endl << "FOOFOO" << endl << endl;
         fScoreSchemeFunctionsMap.begin();
       i != fScoreSchemeFunctionsMap.end();
       i++) {
-cout << endl << "FAAFAA" << endl << endl;
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
       browser.browse (*(*i).second);
