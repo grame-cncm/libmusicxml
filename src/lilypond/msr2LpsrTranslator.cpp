@@ -2592,6 +2592,18 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" <<
       endl;
       
+  // forget about the current repeat clone
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Forgetting a repeat bare clone" <<
+      ", line " << elt->getInputLineNumber () <<
+      ", in voice \"" <<
+      fCurrentRepeatClone->
+        getRepeatVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+
   fCurrentRepeatClone = 0;
   
   fOnGoingRepeat = false;

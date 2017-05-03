@@ -15360,7 +15360,7 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a bare clone of a " <<
+      "Creating a bare clone of a FOO " <<
       repeatendingAsString () <<" repeat ending" <<
       endl;
   
@@ -15456,7 +15456,9 @@ string msrRepeatending::repeatendingAsString () const
   stringstream s;
 
   s <<
-   "Repeatending" <<
+    "Repeatending, " <<
+    repeatendingKindAsString (
+      fRepeatendingKind) <<
     ", line " << fInputLineNumber <<
     ", number " << fRepeatendingNumber <<
     ", internal number " << fRepeatendingInternalNumber <<
@@ -15470,8 +15472,7 @@ void msrRepeatending::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "Repeat ending" << repeatendingAsString () <<
-    ", line " << fInputLineNumber <<
+    repeatendingAsString () <<
     endl;
  
   idtr++;
