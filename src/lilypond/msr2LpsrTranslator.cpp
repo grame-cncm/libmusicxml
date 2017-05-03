@@ -2751,9 +2751,14 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
 
+        fCurrentVoiceClone->
+          appendRepeatendingCloneToVoice (
+            fCurrentRepeatendingClone);
+/* JMI
         fCurrentPartClone->
           appendRepeatendingCloneToPart (
             fCurrentRepeatendingClone);
+*/
       }
       break;
       
@@ -2790,9 +2795,14 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
 
+        fCurrentVoiceClone->
+          appendRepeatendingCloneToVoice (
+            fCurrentRepeatendingClone);
+/* JMI
         fCurrentPartClone->
           appendRepeatendingCloneToPart (
             fCurrentRepeatendingClone);
+*/
         }
       break;
   } // switch
