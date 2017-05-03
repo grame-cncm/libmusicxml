@@ -91,7 +91,8 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // not sharing the visitiged MSR score allows cleaner data handling
   // and optimisations of the LPSR data
   fCurrentMsrScoreClone =
-    fVisitedMsrScore->createScoreBareClone ();
+    fVisitedMsrScore->
+      createScoreBareClone ();
 
   // create the LPSR score
   fLpsrScore =
@@ -387,22 +388,6 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
   // don't append the pargroup block to the score block now:
   // this will be done when it gets popped from the stack
-
-/* JMI
- *   fCurrentVoiceClone =
-    elt->createVoiceBareClone (fCurrentStaffClone);
-    
-  fCurrentStaffClone->
-    registerVoiceInStaff (fCurrentVoiceClone);
-
-  // append the voice to the LPSR score elements list
-  fLpsrScore ->
-    appendVoiceToScoreElements (fCurrentVoiceClone);
-
-  // append the voice use to the LPSR score block
-  fLpsrScore ->
-    appendVoiceUseToStoreBlock (fCurrentVoiceClone);
-*/
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
@@ -583,11 +568,13 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (fCurrentPartClone);
+          elt->createStaffBareClone (
+            fCurrentPartClone);
           
         // add it to the part clone
         fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (fCurrentStaffClone);
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
       
         // create a staff block
         fCurrentStaffBlock =
@@ -631,11 +618,13 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (fCurrentPartClone);
+          elt->createStaffBareClone (
+            fCurrentPartClone);
           
         // add it to the part clone
         fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (fCurrentStaffClone);
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
       
         // create a staff block
         fCurrentStaffBlock =
@@ -679,11 +668,13 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (fCurrentPartClone);
+          elt->createStaffBareClone (
+            fCurrentPartClone);
           
         // add it to the part clone
         fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (fCurrentStaffClone);
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
       
         // create a staff block
         fCurrentStaffBlock =
@@ -821,11 +812,13 @@ void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
   
   // create a staff tuning clone
   fCurrentStafftuningClone =
-    elt->createStafftuningBareClone ();
+    elt->
+      createStafftuningBareClone ();
 
   // add it to the staff clone
   fCurrentStaffClone->
-    addStafftuningToStaff (fCurrentStafftuningClone);
+    addStafftuningToStaff (
+      fCurrentStafftuningClone);
 
   // create a staff tuning block
   S_lpsrNewStafftuningBlock
@@ -853,10 +846,12 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   idtr++;
 
   switch (elt->getVoiceKind ()) {
+    
     case msrVoice::kRegularVoice:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceBareClone (fCurrentStaffClone);
+        elt->createVoiceBareClone (
+          fCurrentStaffClone);
     
     /* JMI
       // re-number it's first measure to 1 if needed
@@ -1061,8 +1056,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   
   // create a clone of the measure
   fCurrentMeasureClone =
-    elt->createMeasureBareClone (
-      fCurrentSegmentClone);
+    elt->
+      createMeasureBareClone (
+        fCurrentSegmentClone);
       
   // append it to the current voice clone
   fCurrentSegmentClone->
@@ -3017,3 +3013,22 @@ void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
 
 
 } // namespace
+
+
+/* JMI
+ *   fCurrentVoiceClone =
+    elt->createVoiceBareClone (fCurrentStaffClone);
+    
+  fCurrentStaffClone->
+    registerVoiceInStaff (fCurrentVoiceClone);
+
+  // append the voice to the LPSR score elements list
+  fLpsrScore ->
+    appendVoiceToScoreElements (fCurrentVoiceClone);
+
+  // append the voice use to the LPSR score block
+  fLpsrScore ->
+    appendVoiceUseToStoreBlock (fCurrentVoiceClone);
+*/
+
+
