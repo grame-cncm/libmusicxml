@@ -15649,7 +15649,9 @@ void msrRepeat::print (ostream& os)
   int endingsNumber =
     fRepeatEndings.size ();
     
-  os << idtr <<
+  os <<
+    endl <<
+    idtr <<
     "Repeat endings: ";
   if (endingsNumber)
     os << "(" << endingsNumber << ")";
