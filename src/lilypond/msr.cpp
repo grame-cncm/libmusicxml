@@ -15360,7 +15360,8 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a bare clone of a repeat ending" <<
+      "Creating a bare clone of a " <<
+      repeatendingAsString () <<" repeat ending" <<
       endl;
   
   S_msrRepeatending
@@ -16727,7 +16728,11 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
       "\"" <<
       endl;
 
-  // register repeat as the (new) current one
+  // register repeat as the (new) current repeat
+  msrAssert(
+    repeat != 0,
+    "repeat is null");
+    
   fVoiceCurrentRepeat =
     repeat;
 
@@ -16761,7 +16766,11 @@ void msrVoice::appendRepeatCloneToVoice (
     setRepeatCommonSegment (
       fVoiceLastSegment);
     
-  // register repeat as the (new) current one
+  // register repeat clone as the (new) current repeat
+  msrAssert(
+    repeatCLone != 0,
+    "repeatCLone is null");
+
   fVoiceCurrentRepeat =
     repeatCLone;
 
@@ -16836,6 +16845,10 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
       "\"" <<
       endl;
       
+  msrAssert(
+    fVoiceCurrentRepeat != 0,
+    "fVoiceCurrentRepeat is null");
+    
   fVoiceCurrentRepeat->
     addRepeatending (repeatendingClone);
 

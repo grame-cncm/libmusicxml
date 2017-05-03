@@ -2747,18 +2747,13 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a repeat ending clone to part " <<
-            fCurrentPartClone->getPartCombinedName () << "\"" <<
+            "--> appending a hookled repeat ending clone to voice clone \"" <<
+            fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
         fCurrentVoiceClone->
           appendRepeatendingCloneToVoice (
             fCurrentRepeatendingClone);
-/* JMI
-        fCurrentPartClone->
-          appendRepeatendingCloneToPart (
-            fCurrentRepeatendingClone);
-*/
       }
       break;
       
@@ -2791,19 +2786,14 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a repeat ending clone to part " <<
-            fCurrentPartClone->getPartCombinedName () << "\"" <<
+            "--> appending a hookless repeat ending clone to voice clone \" " <<
+            fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
         fCurrentVoiceClone->
           appendRepeatendingCloneToVoice (
             fCurrentRepeatendingClone);
-/* JMI
-        fCurrentPartClone->
-          appendRepeatendingCloneToPart (
-            fCurrentRepeatendingClone);
-*/
-        }
+      }
       break;
   } // switch
 }
