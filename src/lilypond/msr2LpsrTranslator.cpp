@@ -2612,7 +2612,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
         elt->getRepeatendingKind ()) <<
       " repeat ending bare clone" <<
       ", line " << elt->getInputLineNumber () <<
-      ", in voice" <<
+      ", in voice \"" <<
       elt->
         getRepeatendingRepeatUplink ()->
           getRepeatVoiceUplink ()->
