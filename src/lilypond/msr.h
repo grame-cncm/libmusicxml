@@ -6387,6 +6387,10 @@ class EXP msrVoice : public msrElement
 
   private:
 
+    static int                gVoicesCounter;
+
+    int                       fVoiceAbsoluteNumber;
+
     S_msrPart                 fVoiceDirectPartUplink;
 
     msrVoiceKind              fVoiceKind;

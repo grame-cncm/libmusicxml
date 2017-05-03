@@ -60,6 +60,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingStanza         = false;
   fOnGoingSyllableExtend = false;
 
+  fCurrentPartCloneHasBeenAppendedToPartClone = false;
   fCurrentRepeatEndingsNumber = 0; // JMI
   fOnGoingRepeat         = false;
 };
@@ -2601,6 +2602,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       endl;
 
   fCurrentRepeatClone = 0;
+  fCurrentPartCloneHasBeenAppendedToPartClone = false;
   
   fOnGoingRepeat = false;
 }
@@ -2629,7 +2631,23 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       fCurrentPartClone->getPartCombinedName () <<
       endl;
   }
-                
+
+  if (! fCurrentPartCloneHasBeenAppendedToPartClone) {
+    // append the current repeat clone to the current part clone
+    if (gGeneralOptions->fTraceRepeats)
+      cerr << idtr <<
+        "--> appending a repeat clone to part " <<
+        fCurrentPartClone->getPartCombinedName () << "\"" <<
+        endl;
+  
+    fCurrentPartClone->
+      appendRepeatCloneToPart (
+        elt->getInputLineNumber (),
+        fCurrentRepeatClone);
+
+    fCurrentPartCloneHasBeenAppendedToPartClone = true;
+  }
+
   // create a repeat ending clone
   fCurrentRepeatendingClone =
     elt->createRepeatendingBareClone (
@@ -2699,13 +2717,14 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
 
+        // append the repeat clone to the current part clone
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
             "--> appending a repeat clone to part " <<
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
   
-        fCurrentPartClone->
+        fCurrentPartClone-> // no test needed JMI
           appendRepeatCloneToPart (
             inputLineNumber, fCurrentRepeatClone);
         }

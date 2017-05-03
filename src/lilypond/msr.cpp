@@ -15471,6 +15471,7 @@ void msrRepeatending::print (ostream& os)
 {
   os <<
     endl <<
+    idtr <<
     repeatendingAsString () <<
     endl;
  
@@ -15680,6 +15681,8 @@ void msrRepeat::print (ostream& os)
 }
 
 //______________________________________________________________________________ 
+int msrVoice::gVoicesCounter = 0;
+
 S_msrVoice msrVoice::create (
   int          inputLineNumber,
   S_msrPart    voiceDirectPartUplink,
@@ -15708,6 +15711,8 @@ msrVoice::msrVoice (
   S_msrStaff   voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
+  fVoiceAbsoluteNumber = ++gVoicesCounter;
+  
   // set voice's direct part uplink
   msrAssert(
     voiceDirectPartUplink != 0,
@@ -15765,6 +15770,8 @@ void msrVoice::initializeVoice ()
         "_MASTER_VOICE";
       break;
   } // switch
+  fVoiceName += // JMI
+    "[" + to_string (fVoiceAbsoluteNumber) + "]";
 
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<

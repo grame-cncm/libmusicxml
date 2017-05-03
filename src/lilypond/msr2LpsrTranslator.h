@@ -365,6 +365,7 @@ class msr2LpsrTranslator :
     // repeats
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeatClone;
+    bool                      fCurrentPartCloneHasBeenAppendedToPartClone;
     bool                      fOnGoingRepeat;
     S_msrRepeatending         fCurrentRepeatendingClone;
     int                       fCurrentRepeatEndingsNumber;
