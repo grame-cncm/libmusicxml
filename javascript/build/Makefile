@@ -13,22 +13,42 @@
 #
 
 srcdir := ../../src
+binddir := ../src
 folders := factory guido lib parser elements files interface operations	visitors
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
-sources = $(wildcard $(srcdir)/[^a]*/*.cpp src/*/*.cpp)		# antescofo folder ignored by [^a]*
-objects = $(patsubst $(srcdir)%, obj%, $(patsubst %.cpp,%.o,$(sources)))
+sources = $(wildcard $(srcdir)/[^a]*/*.cpp )    # reject atescofo folder
+bindsrc = $(wildcard $(binddir)/*.cpp) 
+objects = $(patsubst $(srcdir)%, obj%, $(patsubst %.cpp,%.o,$(sources)) $(patsubst $(binddir)%.cpp, obj/binding%.o,$(bindsrc)))
 
 GCC = emcc
 CXXFLAGS += -std=c++11  $(addprefix -I, $(subprojects)) -O3
 
 library = libmusicxml
-target = ../$(library).js
+
+OPTIONS :=  -s ALLOW_MEMORY_GROWTH=0 -s TOTAL_MEMORY=134217728 -s DISABLE_EXCEPTION_CATCHING=1 -s ASSERTIONS=0 -s MODULARIZE=1 -s EXPORT_NAME="'MusicXMLModule'"
+
+WASM ?= no
+ifeq ($(WASM), yes)
+	target = ../$(library).wasm.js
+else
+	target = ../$(library).js
+endif
+
+all :
+	make $(target)
+	
+##############################################################
+# building the library as asm.js
+##############################################################
+../$(library).js : $(objects)
+	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s ASM_JS=1
 
 ##############################################################
-# building the library
+# building the library as web assembly
 ##############################################################
-$(target) : $(objects)
-	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) -s ALLOW_MEMORY_GROWTH=0 -s ASM_JS=1 -s TOTAL_MEMORY=100663296 -s DISABLE_EXCEPTION_CATCHING=1 -s ASSERTIONS=0
+../$(library).wasm.js : $(objects)
+	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s WASM=1
+
 
 clean:
 	rm -f $(objects) $(target)
@@ -39,6 +59,11 @@ depend :
 ##############################################################
 # rules for building the library
 ##############################################################
+#obj/binding/%.o: ../src/%.cpp
+obj/binding/%.o: $(binddir)/%.cpp
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	$(GCC) -c $(CXXFLAGS) -I../../src/interface $< -o $@
+
 obj/%.o: $(srcdir)/%.cpp
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(GCC) -c $(CXXFLAGS) $< -o $@
@@ -46,3 +71,5 @@ obj/%.o: $(srcdir)/%.cpp
 obj/parser/xmlparse.o: $(srcdir)/parser/xmlparse.cpp
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(GCC) -c -Wno-deprecated-register $(CXXFLAGS) $< -o $@
+
+# DO NOT DELETE
