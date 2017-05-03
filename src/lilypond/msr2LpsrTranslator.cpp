@@ -2567,8 +2567,13 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a repeat bare clone in part " <<
-      fCurrentPartClone->getPartCombinedName () <<
+      "Creating a repeat bare clone" <<
+      ", line " << elt->getInputLineNumber () <<
+      ", in voice \"" <<
+      elt->
+        getRepeatVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
       endl;
 
   fCurrentRepeatClone =
@@ -2605,7 +2610,14 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       "Creating a " <<
       msrRepeatending::repeatendingKindAsString (
         elt->getRepeatendingKind ()) <<
-      " repeat ending bare clone in part " <<
+      " repeat ending bare clone" <<
+      ", line " << elt->getInputLineNumber () <<
+      ", in voice" <<
+      elt->
+        getRepeatendingRepeatUplink ()->
+          getRepeatVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<          
       fCurrentPartClone->getPartCombinedName () <<
       endl;
   }
