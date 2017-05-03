@@ -3696,7 +3696,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           break;
         case msrArticulation::kCaesura:
           fOstream <<
-            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)"; // "\\caesura";
+            endl <<
+            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
+            endl <<
+            idtr;
           break;
         case msrArticulation::kSpiccato:
           fOstream << "%{\\spiccato???%}";

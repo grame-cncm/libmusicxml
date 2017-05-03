@@ -2565,10 +2565,15 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       endl;
 
   // create a repeat clone
- // JMI S_msrRepeat
-    fCurrentRepeatClone =
-      elt->createRepeatBareClone (
-        fCurrentVoiceClone);
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a repeat bare clone in part " <<
+      fCurrentPartClone->getPartCombinedName () <<
+      endl;
+
+  fCurrentRepeatClone =
+    elt->createRepeatBareClone (
+      fCurrentVoiceClone);
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -2595,17 +2600,20 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       "--> Start visiting msrRepeatending" <<
       endl;
 
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     cerr << idtr <<
-      "Appending a repeat ending clone to part " <<
+      "Creating a " <<
+      msrRepeatending::repeatendingKindAsString (
+        elt->getRepeatendingKind ()) <<
+      " repeat ending bare clone in part " <<
       fCurrentPartClone->getPartCombinedName () <<
       endl;
+  }
                 
   // create a repeat ending clone
- // S_msrRepeatending
-    fCurrentRepeatendingClone =
-      elt->createRepeatendingBareClone (
-        fCurrentRepeatClone);
+  fCurrentRepeatendingClone =
+    elt->createRepeatendingBareClone (
+      fCurrentRepeatClone);
 
   fCurrentRepeatEndingsNumber++;
 }
