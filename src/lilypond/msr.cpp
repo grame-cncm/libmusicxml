@@ -19405,11 +19405,18 @@ void msrPart::appendRepeatCloneToPart (
       staff =
         (*i).second;
 
-    switch (getStaffKind ()) {
+    switch (staff->getStaffKind ()) {
+      case msrStaff::kRegularStaff:
+        staff->appendRepeatCloneToStaff (
+          inputLineNumber, repeatCLone);
+        break;
+      case msrStaff::kTablatureStaff:
+        break;
+      case msrStaff::kPercussionStaff:
+        break;
+      case msrStaff::kHarmonyStaff:
+        break;
     } // switch
-    
-    ->appendRepeatCloneToStaff (
-      inputLineNumber, repeatCLone);
   } // for
 }
 
