@@ -2561,7 +2561,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       "--> Start visiting msrRepeat" <<
       endl;
 
-/* JMI
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -2577,7 +2576,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   fCurrentRepeatClone =
     elt->createRepeatBareClone (
       fCurrentVoiceClone);
-*/
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -2591,7 +2589,6 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" <<
       endl;
 
-/* JMI      
   // forget about the current repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -2605,7 +2602,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       endl;
 
   fCurrentRepeatClone = 0;
-*/
+
   fCurrentPartCloneHasBeenAppendedToPartClone = false;
   
   fOnGoingRepeat = false;
@@ -2654,12 +2651,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
   }
 */
 
-/* JMI
   // create a repeat ending clone
   fCurrentRepeatendingClone =
     elt->createRepeatendingBareClone (
       fCurrentRepeatClone);
-*/
 
   fCurrentRepeatEndingsNumber++;
 }
@@ -2670,6 +2665,9 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> End visiting msrRepeatending" <<
       endl;
+
+  // forget current repeat ending clone
+  fCurrentRepeatendingClone = 0;
 }
 
 //________________________________________________________________________
@@ -2733,12 +2731,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
   
         fCurrentPartClone-> // no test needed JMI
-          appendRepeatToPart (
-            inputLineNumber);
-        /*
-          appendRepeatCloneToPart ( JMI
+          appendRepeatCloneToPart (
             inputLineNumber, fCurrentRepeatClone);
-            */
         }
       break;
             
@@ -2758,12 +2752,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
   
         fCurrentPartClone-> // no null test needed JMI
-          appendRepeatToPart (
-            inputLineNumber);
-        /*
-          appendRepeatCloneToPart ( JMI
+          appendRepeatCloneToPart (
             inputLineNumber, fCurrentRepeatClone);
-            */
 
         // append the barline to the current voice clone
         fCurrentVoiceClone->
