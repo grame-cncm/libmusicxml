@@ -5839,66 +5839,61 @@ class EXP msrBarline : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    bool          getBarlineHasSegno () const
-                      { return fBarlineHasSegno; }
-    bool          getBarlineHasCoda () const
-                      { return fBarlineHasCoda; }
+    bool                  getBarlineHasSegno () const
+                              { return fBarlineHasSegno; }
+    bool                  getBarlineHasCoda () const
+                              { return fBarlineHasCoda; }
 
-    msrBarlineLocation
-                  getLocation () const
-                      { return fLocation; }
+    msrBarlineLocation    getLocation () const
+                              { return fLocation; }
                     
-    msrBarlineStyle
-                  getStyle () const
-                      { return fStyle; }
+    msrBarlineStyle       getStyle () const
+                              { return fStyle; }
                     
-    msrBarlineEndingType
-                  getEndingType () const
-                      { return fEndingType; }
+    msrBarlineEndingType  getEndingType () const
+                              { return fEndingType; }
                     
-    string        getEndingNumber () const
-                      { return fEndingNumber; }
+    string                getEndingNumber () const
+                              { return fEndingNumber; }
                     
     msrBarlineRepeatDirection
-                  getRepeatDirection () const
-                      { return fRepeatDirection; }
+                          getRepeatDirection () const
+                              { return fRepeatDirection; }
                     
     msrBarlineRepeatWinged
-                  getRepeatWinged () const
-                      { return fRepeatWinged; }
+                          getRepeatWinged () const
+                              { return fRepeatWinged; }
                     
-    const list<int>&
-                  getEndingNumbersList () const
-                      { return fEndingNumbersList; }
+    const list<int>&      getEndingNumbersList () const
+                              { return fEndingNumbersList; }
                         
-    msrBarlineCategory
-                  getBarlineCategory () const
-                      { return fBarlineCategory; }
+    msrBarlineCategory    getBarlineCategory () const
+                              { return fBarlineCategory; }
 
-    void          setBarlineCategory (
-                  msrBarlineCategory barlineCategory)
-                    { fBarlineCategory = barlineCategory; }
+    void                  setBarlineCategory (
+                            msrBarlineCategory barlineCategory)
+                              { fBarlineCategory = barlineCategory; }
     
     // measure number
-    void          setBarlineMeasureNumber (
-                    int positionInMeasure)
-                      { fBarlineMeasureNumber= positionInMeasure; }
+    void                  setBarlineMeasureNumber (
+                            int positionInMeasure)
+                              { fBarlineMeasureNumber= positionInMeasure; }
                       
-    int           getBarlineMeasureNumber() const
-                      { return fBarlineMeasureNumber; }
+    int                   getBarlineMeasureNumber() const
+                              { return fBarlineMeasureNumber; }
 
     // position in measure
-    void          setBarlinePositionInMeasure (
-                    int positionInMeasure)
-                      { fBarlinePositionInMeasure = positionInMeasure; }
+    void                  setBarlinePositionInMeasure (
+                            int positionInMeasure)
+                              { fBarlinePositionInMeasure = positionInMeasure; }
                       
-    int           getBarlinePositionInMeasure () const
-                      { return fBarlinePositionInMeasure; }
+    int                   getBarlinePositionInMeasure () const
+                              { return fBarlinePositionInMeasure; }
 
     // services
     // ------------------------------------------------------
 
-    string        barlineAsString () const;
+    string                barlineAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -6311,7 +6306,7 @@ class EXP msrVoice : public msrElement
 
     void                  appendBreakToVoice (S_msrBreak break_);
 
-    void                  appendRepeatToVoice (int inputLineNumber);
+    void                  createAndAppendRepeatToVoice (int inputLineNumber);
     
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
@@ -6686,7 +6681,7 @@ class EXP msrStaff : public msrElement
     void                  appendKeyToAllStaffVoices  (S_msrKey   key);
     void                  appendTimeToAllStaffVoices (S_msrTime time);
     
-    void                  appendRepeatToStaff (int inputLineNumber);
+    void                  createAndAppendRepeatToStaff (int inputLineNumber);
     
     void                  appendRepeatCloneToStaff (
                             int         inputLineNumber,
@@ -6703,7 +6698,7 @@ class EXP msrStaff : public msrElement
 
     void                  appendBarlineToStaff (S_msrBarline barline);
     
-    void                  appendRepeatToAllStaffVoices (int inputLineNumber);
+    void                  createAndAppendRepeatToAllStaffVoices (int inputLineNumber);
     
  //   void            appendHarmonyToStaff (S_msrHarmony harmony); // JMI
 
@@ -6957,7 +6952,7 @@ class EXP msrPart : public msrElement
     void                  createPartHarmonyStaffAndVoice (
                             int inputLineNumber);
         
-    void                  appendRepeatToPart (int inputLineNumber);
+    void                  createAndAppendRepeatToPart (int inputLineNumber);
     
     void                  appendRepeatCloneToPart (
                             int         inputLineNumber,

@@ -2573,9 +2573,11 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       "\"" <<
       endl;
 
+/*
   fCurrentRepeatClone =
     elt->createRepeatBareClone (
       fCurrentVoiceClone);
+*/
 
   fCurrentRepeatEndingsNumber = 0;
   
@@ -2589,6 +2591,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" <<
       endl;
 
+/*
   // forget about the current repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -2604,6 +2607,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
   fCurrentRepeatClone = 0;
 
   fCurrentPartCloneHasBeenAppendedToPartClone = false;
+  */
   
   fOnGoingRepeat = false;
 }
@@ -2643,7 +2647,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
         endl;
   
     fCurrentPartClone->
-      appendRepeatCloneToPart (
+      createAndAppendRepeatToPart (
         elt->getInputLineNumber (),
         fCurrentRepeatClone);
 
@@ -2651,10 +2655,12 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
   }
 */
 
+/*
   // create a repeat ending clone
   fCurrentRepeatendingClone =
     elt->createRepeatendingBareClone (
       fCurrentRepeatClone);
+*/
 
   fCurrentRepeatEndingsNumber++;
 }
@@ -2731,8 +2737,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
   
         fCurrentPartClone-> // no test needed JMI
-          appendRepeatCloneToPart (
-            inputLineNumber, fCurrentRepeatClone);
+          createAndAppendRepeatToPart (
+            inputLineNumber);
         }
       break;
             
@@ -2752,8 +2758,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
   
         fCurrentPartClone-> // no null test needed JMI
-          appendRepeatCloneToPart (
-            inputLineNumber, fCurrentRepeatClone);
+          createAndAppendRepeatToPart (
+            inputLineNumber);
 
         // append the barline to the current voice clone
         fCurrentVoiceClone->
@@ -2801,9 +2807,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
-        fCurrentVoiceClone->
-          appendRepeatendingCloneToVoice (
-            fCurrentRepeatendingClone);
+        fCurrentPartClone->
+          appendRepeatendingToPart (
+            inputLineNumber,
+            elt->getEndingNumber (),
+            msrRepeatending::kHookedEnding);
       }
       break;
       
@@ -2839,9 +2847,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
-        fCurrentVoiceClone->
-          appendRepeatendingCloneToVoice (
-            fCurrentRepeatendingClone);
+        fCurrentPartClone->
+          appendRepeatendingToPart (
+            inputLineNumber,
+            elt->getEndingNumber (),
+            msrRepeatending::kHookedEnding);
       }
       break;
   } // switch

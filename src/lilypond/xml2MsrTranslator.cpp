@@ -11086,7 +11086,7 @@ void xml2MsrTranslator::handleRepeatStart (
         endl;
   
     fCurrentPart->
-      appendRepeatToPart (inputLineNumber);
+      createAndAppendRepeatToPart (inputLineNumber);
 
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }
@@ -11174,7 +11174,7 @@ void xml2MsrTranslator::handleRepeatEnd (
           endl;
 
       fCurrentPart->
-        appendRepeatToPart (inputLineNumber);
+        createAndAppendRepeatToPart (inputLineNumber);
   
       fRepeatHasBeenCreatedForCurrentPart = true;  
 */
@@ -11188,7 +11188,7 @@ void xml2MsrTranslator::handleRepeatEnd (
       endl;
 
   fCurrentPart->
-    appendRepeatToPart (inputLineNumber);
+    createAndAppendRepeatToPart (inputLineNumber);
 
   fRepeatHasBeenCreatedForCurrentPart = true;  
 }
@@ -11233,7 +11233,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
         endl;
   
     fCurrentPart->
-      appendRepeatToPart (inputLineNumber);
+      createAndAppendRepeatToPart (inputLineNumber);
 
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }

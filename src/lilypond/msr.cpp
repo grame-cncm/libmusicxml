@@ -16717,7 +16717,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       break_->getNextBarNumber ());
 }
 
-void msrVoice::appendRepeatToVoice (int inputLineNumber)
+void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -18069,7 +18069,7 @@ void msrStaff::setStaffTime (S_msrTime time)
   appendTimeToAllStaffVoices (time);
 }    
 
-void msrStaff::appendRepeatToStaff (int inputLineNumber)
+void msrStaff::createAndAppendRepeatToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -18082,7 +18082,7 @@ void msrStaff::appendRepeatToStaff (int inputLineNumber)
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatToVoice (inputLineNumber);
+    (*i).second->createAndAppendRepeatToVoice (inputLineNumber);
   } // for
 }
 
@@ -19414,13 +19414,13 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 }
 
 
-void msrPart::appendRepeatToPart (int inputLineNumber)
+void msrPart::createAndAppendRepeatToPart (int inputLineNumber)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendRepeatToStaff (inputLineNumber);
+    (*i).second->createAndAppendRepeatToStaff (inputLineNumber);
   } // for
 }
 
