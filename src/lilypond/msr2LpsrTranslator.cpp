@@ -2632,6 +2632,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       endl;
   }
 
+/* JMI
   if (! fCurrentPartCloneHasBeenAppendedToPartClone) {
     // append the current repeat clone to the current part clone
     if (gGeneralOptions->fTraceRepeats)
@@ -2647,6 +2648,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
 
     fCurrentPartCloneHasBeenAppendedToPartClone = true;
   }
+*/
 
   // create a repeat ending clone
   fCurrentRepeatendingClone =

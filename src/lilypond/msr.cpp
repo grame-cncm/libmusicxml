@@ -16735,7 +16735,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
   // set current last segment as the repeat common segment
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Segging current last segment as repeat common segment in voice \"" <<
+      "Setting current last segment as repeat common segment in voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -19401,7 +19401,14 @@ void msrPart::appendRepeatCloneToPart (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendRepeatCloneToStaff (
+    S_msrStaff
+      staff =
+        (*i).second;
+
+    switch (getStaffKind ()) {
+    } // switch
+    
+    ->appendRepeatCloneToStaff (
       inputLineNumber, repeatCLone);
   } // for
 }
