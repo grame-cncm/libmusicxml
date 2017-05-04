@@ -2191,16 +2191,25 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kIncompleteLeftMeasure:
       {
-        string
-          partialDuration =
-            divisionsAsLilyPondString (
-              inputLineNumber,
-              elt->getMeasureDirectPartUplink (),
-              elt->getMeasureLength ());
+        int measureLength =
+          elt->getMeasureLength ();
 
-        fOstream << idtr <<
-          "\\partial" " " << partialDuration <<
-          endl;
+        if (measureLength <= 0) { // TEMP JMI ???
+          // IGNORE
+        }
+
+        else {
+          string
+            partialDuration =
+              divisionsAsLilyPondString (
+                inputLineNumber,
+                elt->getMeasureDirectPartUplink (),
+                measureLength);
+  
+          fOstream << idtr <<
+            "\\partial" " " << partialDuration <<
+            endl;
+        }
       }
       break;
       
