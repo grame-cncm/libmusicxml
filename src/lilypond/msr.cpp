@@ -14157,11 +14157,12 @@ string msrMeasure::getMeasureLengthAsString () const
   return result;
 }
 
-string msrMeasure::getMeasureKindAsString () const
+string msrMeasure::measureKindAsString (
+  msrMeasureKind measureKind)
 {
   string result;
 
-  switch (fMeasureKind) {
+  switch (measureKind) {
     case kRegularMeasure:
       result = "regular";
       break;
@@ -14180,6 +14181,12 @@ string msrMeasure::getMeasureKindAsString () const
   } // switch
 
   return result;
+}
+
+string msrMeasure::getMeasureKindAsString () const
+{
+  return
+    measureKindAsString (fMeasureKind);
 }
 
 void msrMeasure::print (ostream& os)
@@ -14485,6 +14492,13 @@ void msrSegment::setSegmentMeasureNumber (
 {
   msrMeasure::msrMeasureKind measureKind;
   
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Setting measure to " << measureNumber <<
+      " in segment " << segmentAsString () <<
+      ", line " << inputLineNumber <<
+      endl;
+
   if (fSegmentMeasuresList.size () == 1) {
     // this is the first measure in the segment
     measureKind =
@@ -14496,6 +14510,15 @@ void msrSegment::setSegmentMeasureNumber (
     measureKind =
       msrMeasure::kIncompleteRightMeasure;
   }
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Setting measure to " << measureNumber <<
+      " in segment " << segmentAsString () <<
+      ", line " << inputLineNumber <<
+      ", the measure is " <<
+      msrMeasure::measureKindAsString (measureKind) <<
+      endl;
 
   checkForIncompleteSegmentLastMeasure (
     inputLineNumber,
