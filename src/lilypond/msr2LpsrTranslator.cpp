@@ -60,8 +60,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingStanza         = false;
   fOnGoingSyllableExtend = false;
 
-  fCurrentPartCloneHasBeenAppendedToPartClone = false;
-  fCurrentRepeatEndingsNumber = 0; // JMI
+  fRepeatHasBeenCreatedForCurrentPartClone = false;
   fOnGoingRepeat         = false;
 };
   
@@ -2572,14 +2571,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
           getVoiceName () <<
       "\"" <<
       endl;
-
-/*
-  fCurrentRepeatClone =
-    elt->createRepeatBareClone (
-      fCurrentVoiceClone);
-*/
-
-  fCurrentRepeatEndingsNumber = 0;
   
   fOnGoingRepeat = true;
 }
@@ -2591,23 +2582,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" <<
       endl;
 
-/*
-  // forget about the current repeat clone
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Forgetting a repeat bare clone" <<
-      ", line " << elt->getInputLineNumber () <<
-      ", in voice \"" <<
-      fCurrentRepeatClone->
-        getRepeatVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      endl;
-
-  fCurrentRepeatClone = 0;
-
-  fCurrentPartCloneHasBeenAppendedToPartClone = false;
-  */
+  fRepeatHasBeenCreatedForCurrentPartClone = false;
   
   fOnGoingRepeat = false;
 }
@@ -2619,50 +2594,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
     fOstream << idtr <<
       "--> Start visiting msrRepeatending" <<
       endl;
-
-/* JMI
-  if (gGeneralOptions->fTraceRepeats) {
-    cerr << idtr <<
-      "Creating a " <<
-      msrRepeatending::repeatendingKindAsString (
-        elt->getRepeatendingKind ()) <<
-      " repeat ending bare clone" <<
-      ", line " << elt->getInputLineNumber () <<
-      ", in voice \"" <<
-      elt->
-        getRepeatendingRepeatUplink ()->
-          getRepeatVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<          
-      fCurrentPartClone->getPartCombinedName () <<
-      endl;
-  }
-
-  if (! fCurrentPartCloneHasBeenAppendedToPartClone) {
-    // append the current repeat clone to the current part clone
-    if (gGeneralOptions->fTraceRepeats)
-      cerr << idtr <<
-        "--> appending a repeat clone to part " <<
-        fCurrentPartClone->getPartCombinedName () << "\"" <<
-        endl;
-  
-    fCurrentPartClone->
-      createAndAppendRepeatToPart (
-        elt->getInputLineNumber (),
-        fCurrentRepeatClone);
-
-    fCurrentPartCloneHasBeenAppendedToPartClone = true;
-  }
-*/
-
-/*
-  // create a repeat ending clone
-  fCurrentRepeatendingClone =
-    elt->createRepeatendingBareClone (
-      fCurrentRepeatClone);
-*/
-
-  fCurrentRepeatEndingsNumber++;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
@@ -2750,16 +2681,20 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
-        // append the repeat clone to the current part clone
-        if (gGeneralOptions->fTraceRepeats)
-          cerr << idtr <<
-            "--> appending a repeat to part " <<
-            fCurrentPartClone->getPartCombinedName () << "\"" <<
-            endl;
+        if (! fRepeatHasBeenCreatedForCurrentPartClone) {
+          // append a repeat clone to the current part clone
+          if (gGeneralOptions->fTraceRepeats)
+            cerr << idtr <<
+              "--> appending a repeat to part " <<
+              fCurrentPartClone->getPartCombinedName () << "\"" <<
+              endl;
+    
+          fCurrentPartClone-> // no null test needed JMI
+            createAndAppendRepeatToPart (
+              inputLineNumber);
   
-        fCurrentPartClone-> // no null test needed JMI
-          createAndAppendRepeatToPart (
-            inputLineNumber);
+          fRepeatHasBeenCreatedForCurrentPartClone = true;
+        }
 
         // append the barline to the current voice clone
         fCurrentVoiceClone->
@@ -2778,28 +2713,6 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
-
-        if (fCurrentRepeatEndingsNumber == 1) {
-          /*
-            this is the FIRST hooked repeat ending of the current repeat
-          */
-          
-        }
-
-        else {
-          /*
-            this is NOT the first hooked repeat ending of the current repeat
-          */
-          
-        }          
-
-/* JMI
-        // get the current segment
-        S_msrSegment
-          currentSegment =
-            fCurrentVoiceClone->
-              getVoiceLastSegment ();
-    */
     
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
