@@ -139,7 +139,7 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
 {
   string result;
 
-  msrAssert(part != 0, "part != 0"); // JMI
+  msrAssert(part != 0, "part == 0"); // JMI
   result =
     part->
       divisionsAsMsrString (
@@ -158,7 +158,7 @@ string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
 {
   string result;
 
-  msrAssert(part != 0, "part != 0"); // JMI
+  msrAssert(part != 0, "part == 0"); // JMI
   result =
     part->
       tupletDivisionsAsMsrString (

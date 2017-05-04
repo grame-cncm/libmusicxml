@@ -18840,7 +18840,7 @@ string msrPart::divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
   
-  if (false && gGeneralOptions->fTraceDivisions) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       endl <<
       "--> divisionsAsMsrString ():" <<
