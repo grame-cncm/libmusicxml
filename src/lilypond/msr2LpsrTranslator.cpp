@@ -2561,6 +2561,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       "--> Start visiting msrRepeat" <<
       endl;
 
+/* JMI
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -2573,7 +2574,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       "\"" <<
       endl;
 
-/* JMI
   fCurrentRepeatClone =
     elt->createRepeatBareClone (
       fCurrentVoiceClone);
@@ -2619,6 +2619,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       "--> Start visiting msrRepeatending" <<
       endl;
 
+/* JMI
   if (gGeneralOptions->fTraceRepeats) {
     cerr << idtr <<
       "Creating a " <<
@@ -2636,7 +2637,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
       endl;
   }
 
-/* JMI
   if (! fCurrentPartCloneHasBeenAppendedToPartClone) {
     // append the current repeat clone to the current part clone
     if (gGeneralOptions->fTraceRepeats)
@@ -2728,7 +2728,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the repeat clone to the current part clone
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a repeat clone to part " <<
+            "--> appending a repeat to part " <<
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
   
@@ -2753,7 +2753,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the repeat clone to the current part clone
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a repeat clone to part " <<
+            "--> appending a repeat to part " <<
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
   
@@ -2807,7 +2807,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a hookled repeat ending clone to voice clone \"" <<
+            "--> appending a hooked repeat ending clone to voice clone \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 

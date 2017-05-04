@@ -16725,7 +16725,7 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Creating a repeat to voice \"" << getVoiceName () <<  "\"" <<
+            "Creating a repeat in voice \"" << getVoiceName () <<  "\"" <<
             ", line " << inputLineNumber <<
             endl;
       
