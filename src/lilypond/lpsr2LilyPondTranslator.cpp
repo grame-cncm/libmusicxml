@@ -2250,20 +2250,29 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
               endl <<
             endl;
         }
-        
-        fOstream << idtr <<
-          "\\set Score.measureLength = #(ly:make-moment " <<
-          to_string (r.getNumerator ()) <<
-          "/" <<
-          to_string (r.getDenominator ()) <<
-          ")" << // JMI
-          endl;
-  
-        // should we generate a break?
-        if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
+
+        int numerator =
+          r.getNumerator ();
+
+        if (numerator <= 0) { // TEMP JMI ???
+          // IGNORE
+        }
+
+        else {
           fOstream << idtr <<
-            "\\break" <<
+            "\\set Score.measureLength = #(ly:make-moment " <<
+            to_string (numerator) <<
+            "/" <<
+            to_string (r.getDenominator ()) <<
+            ")" << // JMI
             endl;
+    
+          // should we generate a break?
+          if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
+            fOstream << idtr <<
+              "\\break" <<
+              endl;
+        }
       }
       break;
 
