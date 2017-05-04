@@ -16719,111 +16719,135 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
 
 void msrVoice::appendRepeatToVoice (int inputLineNumber)
 {
-  // create a repeat
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Creating a repeat to voice \"" << getVoiceName () <<  "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  S_msrRepeat
-    repeat =
-      msrRepeat::create (
-        inputLineNumber,
-        this);
-
-  // set current last segment as the repeat common segment
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Setting current last segment as repeat common segment in voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      endl;
-
-  repeat->
-    setRepeatCommonSegment (
-      fVoiceLastSegment);
-    
-  // register repeat as the (new) current repeat
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Registering repeat as the new current repeat in voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      endl;
-
-  msrAssert(
-    repeat != 0,
-    "repeat is null");
-    
-  fVoiceCurrentRepeat =
-    repeat;
-
-  // append it to the list of repeats and segments
-  fVoiceInitialRepeatsAndSegments.push_back (
-    repeat);
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Creating a new last segment for voice \"" <<
-      fVoiceName << "\"" <<
-      endl;
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        // create a repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Creating a repeat to voice \"" << getVoiceName () <<  "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
       
-  createNewLastSegmentForVoice (
-    inputLineNumber);
+        S_msrRepeat
+          repeat =
+            msrRepeat::create (
+              inputLineNumber,
+              this);
+      
+        // set current last segment as the repeat common segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as repeat common segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        repeat->
+          setRepeatCommonSegment (
+            fVoiceLastSegment);
+          
+        // register repeat as the (new) current repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Registering repeat as the new current repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        msrAssert(
+          repeat != 0,
+          "repeat is null");
+          
+        fVoiceCurrentRepeat =
+          repeat;
+      
+        // append it to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          repeat);
+      
+        // create a new segment for the voice
+        if (gGeneralOptions->fTraceSegments)
+          cerr << idtr <<
+            "Creating a new last segment for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
 }
 
 void msrVoice::appendRepeatCloneToVoice (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Appending repeat clone to voice clone \"" <<
-      getVoiceName () <<  "\"" <<
-      endl;
-
-  // set current last segment as the repeat common segment
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Segging current last segment as repeat common segment in voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      endl;
-
-  repeatCLone->
-    setRepeatCommonSegment (
-      fVoiceLastSegment);
-    
-  // register repeat clone as the (new) current repeat
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Registering repeat as the new current repeat in voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      endl;
-
-  msrAssert(
-    repeatCLone != 0,
-    "repeatCLone is null");
-
-  fVoiceCurrentRepeat =
-    repeatCLone;
-
-  // append it to the list of repeats and segments
-  fVoiceInitialRepeatsAndSegments.push_back (
-    repeatCLone);
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Creating a new last segment for voice BOF JMI \"" <<
-      fVoiceName << "\"" <<
-      endl;
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Appending repeat clone to voice clone \"" <<
+            getVoiceName () <<  "\"" <<
+            endl;
       
-  createNewLastSegmentForVoice (
-    inputLineNumber);
+        // set current last segment as the repeat common segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Segging current last segment as repeat common segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        repeatCLone->
+          setRepeatCommonSegment (
+            fVoiceLastSegment);
+          
+        // register repeat clone as the (new) current repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Registering repeat as the new current repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        msrAssert(
+          repeatCLone != 0,
+          "repeatCLone is null");
+      
+        fVoiceCurrentRepeat =
+          repeatCLone;
+      
+        // append it to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          repeatCLone);
+      
+        // create a new segment for the voice
+        if (gGeneralOptions->fTraceSegments)
+          cerr << idtr <<
+            "Creating a new last segment for voice BOF JMI \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+        }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
 }
     
 void msrVoice::appendRepeatendingToVoice (
@@ -16832,73 +16856,97 @@ void msrVoice::appendRepeatendingToVoice (
   msrRepeatending::msrRepeatendingKind
             repeatendingKind)
 {
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Appending a repeat ending to voice \"" <<
-      getVoiceName () <<  "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  S_msrRepeatending
-    repeatEnding =
-      msrRepeatending::create (
-        inputLineNumber,
-        repeatendingNumber,
-        repeatendingKind,
-        fVoiceLastSegment,
-        fVoiceCurrentRepeat);
-
-  // add the repeat ending it to the voice current repeat
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Appending repeat ending to current repeat in voice \"" <<
-      fVoiceName <<
-      "\"" <<
-      endl;
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Appending a repeat ending to voice \"" <<
+            getVoiceName () <<  "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
       
-  fVoiceCurrentRepeat->
-    addRepeatending (repeatEnding);
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Creating a new last segment for voice \"" <<
-      fVoiceName <<
-      "\"" <<
-      endl;
+        S_msrRepeatending
+          repeatEnding =
+            msrRepeatending::create (
+              inputLineNumber,
+              repeatendingNumber,
+              repeatendingKind,
+              fVoiceLastSegment,
+              fVoiceCurrentRepeat);
       
-  createNewLastSegmentForVoice (
-    inputLineNumber);
+        // add the repeat ending it to the voice current repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Appending repeat ending to current repeat in voice \"" <<
+            fVoiceName <<
+            "\"" <<
+            endl;
+            
+        fVoiceCurrentRepeat->
+          addRepeatending (repeatEnding);
+      
+        // create a new segment for the voice
+        if (gGeneralOptions->fTraceSegments)
+          cerr << idtr <<
+            "Creating a new last segment for voice \"" <<
+            fVoiceName <<
+            "\"" <<
+            endl;
+            
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
 }
 
 void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
   S_msrRepeatending repeatendingClone)
 {
-  // add the repeat ending it to the voice current repeat
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Appending repeat ending clone to current repeat in voice \"" <<
-      fVoiceName <<
-      "\"" <<
-      endl;
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        // add the repeat ending it to the voice current repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Appending repeat ending clone to current repeat in voice \"" <<
+            fVoiceName <<
+            "\"" <<
+            endl;
+            
+        msrAssert(
+          fVoiceCurrentRepeat != 0,
+          "fVoiceCurrentRepeat is null");
+          
+        fVoiceCurrentRepeat->
+          addRepeatending (repeatendingClone);
       
-  msrAssert(
-    fVoiceCurrentRepeat != 0,
-    "fVoiceCurrentRepeat is null");
-    
-  fVoiceCurrentRepeat->
-    addRepeatending (repeatendingClone);
-
-  // create a new segment for the voice
-  if (gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Creating a new last segment for voice \"" <<
-      fVoiceName <<
-      "\"" <<
-      endl;
+        // create a new segment for the voice
+        if (gGeneralOptions->fTraceSegments)
+          cerr << idtr <<
+            "Creating a new last segment for voice \"" <<
+            fVoiceName <<
+            "\"" <<
+            endl;
+            
+        createNewLastSegmentForVoice (
+          repeatendingClone->getInputLineNumber ());
+      }
+      break;
       
-  createNewLastSegmentForVoice (
-    repeatendingClone->getInputLineNumber ());
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
 }
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
