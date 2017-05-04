@@ -2738,6 +2738,10 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
+        // append the barline to the current voice clone
+        fCurrentVoiceClone->
+          appendBarlineToVoice (elt);
+
         // append the repeat clone to the current part clone
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2777,11 +2781,13 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           
         }          
 
-          // get the current segment
-          S_msrSegment
-            currentSegment =
-              fCurrentVoiceClone->
-                getVoiceLastSegment ();
+/* JMI
+        // get the current segment
+        S_msrSegment
+          currentSegment =
+            fCurrentVoiceClone->
+              getVoiceLastSegment ();
+    */
     
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2803,9 +2809,9 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
   
+        // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
-
       }
       break;
 
@@ -2817,8 +2823,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
   
-        // no need to keep that barline in the LPSR,
-        // LilyPond will take care of the repeat display
+        // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
 

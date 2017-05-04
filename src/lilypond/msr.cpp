@@ -15772,8 +15772,15 @@ void msrVoice::initializeVoice ()
         "_MASTER_VOICE";
       break;
   } // switch
+  
+  /*
+    CAUTION:
+      the following makes the lilypond not compilable, but may be useful
+      to disambiguate the voice and voice clones names
+
   fVoiceName += // JMI
     "[" + to_string (fVoiceAbsoluteNumber) + "]";
+  */
 
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
