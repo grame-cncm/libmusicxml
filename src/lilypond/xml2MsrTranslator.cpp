@@ -4799,7 +4799,7 @@ void xml2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineLocation == msrBarline::kLeft
       &&
     fCurrentBarlineEndingType == msrBarline::kStart
-     &&
+      &&
     fCurrentBarlineRepeatDirection == msrBarline::kForward) {
     // hooked ending start
     // ------------------------------------------------------
@@ -11069,6 +11069,7 @@ void xml2MsrTranslator::handleRepeatStart (
     setBarlineCategory (
       msrBarline::kRepeatStart);
 
+/* JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -11077,7 +11078,6 @@ void xml2MsrTranslator::handleRepeatStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-/* JMI
   if (! fRepeatHasBeenCreatedForCurrentPart) {
     if (gGeneralOptions->fTrace)
       cerr << idtr <<
@@ -11117,10 +11117,6 @@ void xml2MsrTranslator::handleRepeatEnd (
       endl;
   }
 
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kRepeatEnd);
-
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -11128,6 +11124,10 @@ void xml2MsrTranslator::handleRepeatEnd (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
+
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kRepeatEnd);
 
   // append the bar line to the current voice
   currentVoice->
@@ -11216,10 +11216,6 @@ void xml2MsrTranslator::handleHookedEndingStart (
       "--> barline, left, start and forward: hooked ending start" <<
       endl;
 
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kHookedEndingStart);
-  
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -11229,6 +11225,7 @@ void xml2MsrTranslator::handleHookedEndingStart (
         fCurrentVoiceNumber);
 
   if (! fRepeatHasBeenCreatedForCurrentPart) {
+    // append an implicit repeat to cht current part
     if (gGeneralOptions->fTraceRepeats)
       cerr << idtr <<
         "Appending an implicit repeat to part " <<
@@ -11241,6 +11238,10 @@ void xml2MsrTranslator::handleHookedEndingStart (
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }
 
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kHookedEndingStart);
+  
   // append the bar line to the voice
   currentVoice->
     appendBarlineToVoice (barline);
@@ -11265,10 +11266,6 @@ void xml2MsrTranslator::handleHookedEndingEnd (
       "--> barline right, stop: hooked ending end" <<
       endl;
 
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kHookedEndingEnd);
-
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -11276,6 +11273,10 @@ void xml2MsrTranslator::handleHookedEndingEnd (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
+
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kHookedEndingEnd);
 
   // append the bar line to the current segment
   currentVoice->
@@ -11318,10 +11319,6 @@ void xml2MsrTranslator::handleHooklessEndingStart (
       "--> barline, left and start: hookless ending start" <<
       endl;
 
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kHooklessEndingStart);
-  
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -11330,12 +11327,16 @@ void xml2MsrTranslator::handleHooklessEndingStart (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kHooklessEndingStart);
+  
   // append the bar line to the voice
-  currentVoice->
+  currentVoice-> // JMI
     appendBarlineToVoice (barline);
 
   // push the barline onto the stack
-  fPendingBarlines.push (barline);
+  fPendingBarlines.push (barline); // JMI
 }
 
 //______________________________________________________________________________
@@ -11363,10 +11364,6 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
       "--> barline, right and discontinue: hookless ending end" <<
       endl;
 
-  // set the barline category
-  barline->
-    setBarlineCategory (msrBarline::kHooklessEndingEnd);
-  
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -11375,6 +11372,10 @@ void xml2MsrTranslator::handleHooklessEndingEnd (
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
+  // set the barline category
+  barline->
+    setBarlineCategory (msrBarline::kHooklessEndingEnd);
+  
   // append the bar line to the current segment
   currentVoice->
     appendBarlineToVoice (barline);

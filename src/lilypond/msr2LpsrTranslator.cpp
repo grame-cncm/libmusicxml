@@ -2737,6 +2737,17 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             "--> handling kHookedEndingStart in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+
+        // append the repeat clone to the current part clone
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "--> appending a repeat clone to part " <<
+            fCurrentPartClone->getPartCombinedName () << "\"" <<
+            endl;
+  
+        fCurrentPartClone-> // no test needed JMI
+          appendRepeatCloneToPart (
+            inputLineNumber, fCurrentRepeatClone);
       }
       break;
       

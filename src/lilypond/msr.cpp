@@ -16712,9 +16712,10 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
 
 void msrVoice::appendRepeatToVoice (int inputLineNumber)
 {
+  // create a repeat
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending a repeat to voice \"" << getVoiceName () <<  "\"" <<
+      "Creating a repeat to voice \"" << getVoiceName () <<  "\"" <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -16724,20 +16725,26 @@ void msrVoice::appendRepeatToVoice (int inputLineNumber)
         inputLineNumber,
         this);
 
-  // set current segment as the repeat common segment
-  repeat->
-    setRepeatCommonSegment (
-      fVoiceLastSegment);
-    
-  // append the repeat to the current voice
+  // set current last segment as the repeat common segment
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat to voice \"" <<
+      "Segging current last segment as repeat common segment in voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
 
+  repeat->
+    setRepeatCommonSegment (
+      fVoiceLastSegment);
+    
   // register repeat as the (new) current repeat
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Registering repeat as the new current repeat in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+
   msrAssert(
     repeat != 0,
     "repeat is null");
@@ -16770,12 +16777,26 @@ void msrVoice::appendRepeatCloneToVoice (
       getVoiceName () <<  "\"" <<
       endl;
 
-  // set current segment as the repeat common segment
+  // set current last segment as the repeat common segment
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Segging current last segment as repeat common segment in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+
   repeatCLone->
     setRepeatCommonSegment (
       fVoiceLastSegment);
     
   // register repeat clone as the (new) current repeat
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Registering repeat as the new current repeat in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+
   msrAssert(
     repeatCLone != 0,
     "repeatCLone is null");
