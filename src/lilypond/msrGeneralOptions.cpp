@@ -514,7 +514,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
   
   idtr--;
   
-  idtr--;
+// JMI  idtr--;
 }
 
 void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)

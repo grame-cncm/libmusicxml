@@ -183,25 +183,49 @@ indenter::indenter (string spacer)
 
 indenter::~indenter () {}
 
+#define DEBUG_INDENTER
+
 indenter& indenter::operator++ (const int value)
 {
   fIndent++;
+  
+#ifdef DEBUG_INDENTER
+  cerr <<
+    "INDENTER: " << fIndent <<
+    endl;
+#endif
+
   return *this;
 }
 
 indenter& indenter::operator-- (const int value)
 {
   fIndent--;
-  
-  if (fIndent < 0) {
+
+#ifdef DEBUG_INDENTER
+  if (fIndent == 0) {
+    cerr <<
+      endl <<
+      "% ### Indentation has become null!" <<
+      endl << endl;
+  }
+
+  else if (fIndent < 0) {
     cerr <<
       endl <<
       "% ### Indentation has become negative..." <<
       endl << endl;
 
- // JMI   assert(false);
+    assert(false);
   }
-    
+
+  else {
+    cerr <<
+      "INDENTER: " << fIndent <<
+      endl;
+  }
+#endif
+
   return *this;
 }
 

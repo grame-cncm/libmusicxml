@@ -2535,14 +2535,9 @@ R"(
 //_______________________________________________________________________________
 void printOptions ()
 {
-  if (gGeneralOptions->fTraceGeneral)
-    cerr <<
-      endl <<
-      idtr <<
-        "The command line options and arguments have been analyzed" <<
-        endl;
-
-  cerr << idtr <<
+  cerr <<
+    endl <<
+    idtr <<
     "The command line is:" <<
     endl;
 
@@ -2591,6 +2586,14 @@ void printOptions ()
     printLpsrOptionsValues (fieldWidth);
   cerr <<
     endl;
+
+  // acknoledge end of command line analysis
+  if (gGeneralOptions->fTraceGeneral)
+    cerr <<
+      endl <<
+      idtr <<
+        "The command line options and arguments have been analyzed" <<
+        endl;
 }
 
 //_______________________________________________________________________________
