@@ -803,7 +803,7 @@ string quoteStringIfNonAlpha (
     else {
       // (*i) is not a letter
       if ((*i) == ' ')
-        result += "@"; // TEMP JMI
+        result += " "; // TEMP JMI
       else
         result += (*i);
 

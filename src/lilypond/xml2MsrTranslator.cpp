@@ -1844,7 +1844,7 @@ void xml2MsrTranslator::visitEnd ( S_clef& elt )
     }
   }
 
-  else if ("TAB") {
+  else if (fCurrentClefSign == "TAB") {
     
     switch (fCurrentClefLine) {
       case 4:

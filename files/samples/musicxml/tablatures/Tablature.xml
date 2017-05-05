@@ -89,6 +89,16 @@ Jonatha Brooke</credit-words>
         <midi-program>26</midi-program>
       </midi-instrument>
     </score-part>
+    <score-part id="P3">
+      <part-name print-object="no">Guitar</part-name>
+      <score-instrument id="P3-I1">
+        <instrument-name>Acoustic Guitar (steel)</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P3-I1">
+        <midi-channel>3</midi-channel>
+        <midi-program>36</midi-program>
+      </midi-instrument>
+    </score-part>
   </part-list>
   <!--=========================================================-->
   <part id="P1">
@@ -169,6 +179,197 @@ Jonatha Brooke</credit-words>
           <capo>4</capo>
           <staff-size>183</staff-size>
         </staff-details>
+      </attributes>
+      <sound tempo="84"/>
+      <direction placement="above">
+        <direction-type>
+          <words default-y="72" relative-x="-22">Tuning D-A-D-G-B-D, Capo 4th fret</words>
+        </direction-type>
+      </direction>
+      <harmony default-y="40" font-size="15.4">
+        <root>
+          <root-step>B</root-step>
+        </root>
+        <kind text="Maj7">major-seventh</kind>
+        <bass>
+          <bass-step>D</bass-step>
+          <bass-alter>1</bass-alter>
+        </bass>
+      </harmony>
+      <note default-x="41">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>5</string>
+            <fret>0</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="58">
+        <pitch>
+          <step>D</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>5</string>
+            <fret>2</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="86">
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>3</string>
+            <fret>0</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="114">
+        <pitch>
+          <step>A</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>4</string>
+            <fret>4</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="131" print-dot="no">
+        <pitch>
+          <step>D</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>3</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <dot/>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>5</string>
+            <fret>2</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="168">
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>3</string>
+            <fret>0</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="196">
+        <pitch>
+          <step>A</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>4</string>
+            <fret>4</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="213">
+        <pitch>
+          <step>D</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>5</string>
+            <fret>2</fret>
+          </technical>
+        </notations>
+      </note>
+      <note default-x="230" print-dot="no">
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>3</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <dot/>
+        <stem>none</stem>
+        <notations>
+          <technical>
+            <string>5</string>
+            <fret>0</fret>
+          </technical>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+  </part>
+  <!--=========================================================-->
+  <part id="P3">
+    <measure number="1" width="268">
+      <print>
+        <system-layout>
+          <top-system-distance>211</top-system-distance>
+        </system-layout>
+      </print>
+      <attributes>
+        <divisions>4</divisions>
+        <key>
+          <fifths>6</fifths>
+          <mode>major</mode>
+        </key>
+        <clef>
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
       </attributes>
       <sound tempo="84"/>
       <direction placement="above">
