@@ -183,7 +183,7 @@ indenter::indenter (string spacer)
 
 indenter::~indenter () {}
 
-#define DEBUG_INDENTER
+//#define DEBUG_INDENTER
 
 indenter& indenter::operator++ (const int value)
 {
@@ -191,7 +191,7 @@ indenter& indenter::operator++ (const int value)
   
 #ifdef DEBUG_INDENTER
   cerr <<
-    "INDENTER: " << fIndent <<
+    "% INDENTER: " << fIndent <<
     endl;
 #endif
 
@@ -203,14 +203,7 @@ indenter& indenter::operator-- (const int value)
   fIndent--;
 
 #ifdef DEBUG_INDENTER
-  if (fIndent == 0) {
-    cerr <<
-      endl <<
-      "% ### Indentation has become null!" <<
-      endl << endl;
-  }
-
-  else if (fIndent < 0) {
+  if (fIndent < 0) {
     cerr <<
       endl <<
       "% ### Indentation has become negative..." <<
@@ -221,7 +214,7 @@ indenter& indenter::operator-- (const int value)
 
   else {
     cerr <<
-      "INDENTER: " << fIndent <<
+      "% INDENTER: " << fIndent <<
       endl;
   }
 #endif
