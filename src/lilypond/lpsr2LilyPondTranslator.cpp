@@ -479,8 +479,9 @@ string lpsr2LilyPondTranslator::technicalWithStringKindAsLilyPondString (
 
   result +=
     string (" ") +
-    technicalWithString->
-      getTechnicalWithStringValue ();
+    "-\\markup {\"" + technicalWithString->
+      getTechnicalWithStringValue () +
+      "\"}";
     
   return result;
 }
@@ -3282,7 +3283,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
           fOstream <<
             endl <<
             idtr <<
-            "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
+            "\\stemNeutral" " "; // JMI ""\\once\\omit Stem" " ";
         }
 
         // should stem direction be generated?
