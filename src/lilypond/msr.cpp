@@ -21019,15 +21019,21 @@ void msrScore::print (ostream& os)
   idtr++;
   
   if (fIdentification) {
-    os << idtr << fIdentification;
+    os <<
+      idtr <<
+      fIdentification;
   }
   
   if (fPageGeometry) {
-    os << idtr << fPageGeometry;
+    os <<
+      idtr <<
+      fPageGeometry;
   }
   
   if (fCredit) {
-    os << idtr << fCredit;
+    os <<
+      idtr <<
+      fCredit;
   }
   
   for (

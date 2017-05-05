@@ -2260,7 +2260,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         }
 
         else {
-          fOstream << idtr <<
+          fOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
             to_string (numerator) <<
             "/" <<
@@ -4947,7 +4947,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
       
   fOstream <<
     "| % " << nextBarNumber << " % bar check" <<
-    endl;
+    endl <<
+    idtr;
 
   fMusicOlec.resetToZero ();
 }
