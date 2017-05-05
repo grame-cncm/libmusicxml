@@ -1456,10 +1456,10 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
       staff->getStafftuningsList ();
       
   if (stafftuningsList.size ()) {
-    // \set Staff.stringTunings = \stringTuning <c' g' d'' a''>
+    // \set TabStaff.stringTunings = \stringTuning <c' g' d'' a''>
 
     fOstream << idtr <<
-      "\\set Staff.stringTunings = \\stringTuning <";
+      "\\set TabStaff.stringTunings = \\stringTuning <";
 
     list<S_msrStafftuning>::const_iterator
       iBegin = stafftuningsList.begin(),
@@ -1580,23 +1580,28 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   msrStaff::msrStaffKind
     staffKind = staff->getStaffKind ();
   
-  string voiceContextName; // JMI ???
+  string staffContextName;
+  string voiceContextName;
   
   switch (staffKind) {
     case msrStaff::kRegularStaff:
-      voiceContextName = "\\context Staff";
+      staffContextName = "\\context Staff";
+      voiceContextName = "Voice";
       break;
       
     case msrStaff::kTablatureStaff:
-      voiceContextName = "\\context TabStaff";
+      staffContextName = "\\context TabStaff";
+      voiceContextName = "TabVoice";
       break;
       
     case msrStaff::kPercussionStaff:
-      voiceContextName = "\\context DrumVoice";
+      staffContextName = "\\context DrumStaff";
+      voiceContextName = "DrumVoice";
       break;
       
     case msrStaff::kHarmonyStaff:
-      voiceContextName = "\\context ChordNames";
+      staffContextName = "\\context ChordNames";
+      voiceContextName = "???"; // JMI
       break;
   } // switch
 
@@ -1604,7 +1609,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     // don't include the master voice in the staff by default
     
     fOstream << idtr <<
-      "\\context " "Voice" " = " "\"" <<
+      "\\context " << voiceContextName << " = " "\"" <<
       voice->getVoiceName () << "\"" << " <<" <<
        endl;
   
@@ -1612,7 +1617,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   
     if (fLpsrOptions->fNoAutoBeaming)
       fOstream << idtr <<
-        "\\set " << voiceContextName << ".autoBeaming = ##f" <<
+        "\\set " << staffContextName << ".autoBeaming = ##f" <<
         endl;
   
     if (staffKind == msrStaff::kRegularStaff) {
@@ -5302,7 +5307,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRehearsal& elt)
     endl <<
     endl <<
     idtr <<
-    "\\mark" " \""<< elt->getRehearsalText () << "\"" <<
+    "\\mark" "\\markup " "{" "\\box {"  "\""<< elt->getRehearsalText () << "\"" "}}" <<
     endl <<
     idtr;
   

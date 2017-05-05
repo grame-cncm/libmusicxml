@@ -202,16 +202,18 @@ indenter& indenter::operator-- (const int value)
 {
   fIndent--;
 
-#ifdef DEBUG_INDENTER
   if (fIndent < 0) {
     cerr <<
       endl <<
-      "% ### Indentation has become negative..." <<
+      "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
 
+#ifdef DEBUG_INDENTER
     assert(false);
+#endif
   }
 
+#ifdef DEBUG_INDENTER
   else {
     cerr <<
       "% INDENTER: " << fIndent <<
