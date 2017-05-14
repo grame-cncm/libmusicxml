@@ -11774,7 +11774,7 @@ string msrHarmony::harmonyAsString () const
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
       msrDiatonicPitchFromQuatertonesPitch (
         fInputLineNumber,
-        fHarmonyRootQuartertonesPitch)) <<
+        fHarmonyRootQuartertonesPitch)) << // alteration? JMI
           
     harmonyKindAsShortString ();
 
@@ -11796,7 +11796,7 @@ string msrHarmony::harmonyAsString () const
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
-          fHarmonyBassQuartertonesPitch));
+          fHarmonyBassQuartertonesPitch)); // alteration? JMI
 
   return s.str();
 }
@@ -11870,7 +11870,7 @@ void msrHarmony::print (ostream& os)
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
-          fHarmonyRootQuartertonesPitch)) <<        
+          fHarmonyRootQuartertonesPitch)) << // alteration? JMI   
       endl <<
     idtr <<
       setw(15) << "HarmonyKind" << " = " <<
@@ -11886,7 +11886,7 @@ void msrHarmony::print (ostream& os)
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
           fInputLineNumber,
-          fHarmonyBassQuartertonesPitch)) <<        
+          fHarmonyBassQuartertonesPitch)) << // alteration? JMI
       endl;
 
   idtr--;

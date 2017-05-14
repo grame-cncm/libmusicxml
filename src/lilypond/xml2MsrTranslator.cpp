@@ -11591,6 +11591,15 @@ void xml2MsrTranslator::visitStart ( S_kind& elt )
   else if (kind == "minor-ninth")
     fCurrentHarmonyKind = msrHarmony::kMinorNinth;
     
+  else if (kind == "none") {
+    // ad-hoc error recovery
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (),
+      "unknown harmony kind \"" + kind + "\", replaced by 'major'");
+
+    fCurrentHarmonyKind = msrHarmony::kMajor; 
+  }
+    
   else {
     if (kind.size ()) {
       msrMusicXMLError (
