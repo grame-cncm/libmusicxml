@@ -4029,12 +4029,13 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       
         s <<
           "\\markup" << " { ";
-        if (wordsFontStyle.size ())
-          s <<
-            "\\" << wordsFontStyle << " ";
-        if (wordsFontWeight.size () && wordsFontWeight != "normal") // JMI
-          s <<
-            "\\" << wordsFontWeight << " ";
+        if (wordsFontStyle.size ()) {
+          if (wordsFontWeight != "normal") {
+            // LilyPond produces 'normal' text by default
+            s <<
+              "\\" << wordsFontWeight << " ";
+          }
+        }
         s <<
           quoteStringIfNonAlpha (wordsContents) <<
           " } ";
