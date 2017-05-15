@@ -3060,6 +3060,18 @@ class EXP msrWords : public msrElement
     static string wordsPlacementKindAsString (
       msrWordsPlacementKind wordsPlacementKind);
       
+    enum msrWordsFontStyleKind {
+      kNormalStyle, KItalicStyle};
+
+    static string wordsFontStyleKindAsString (
+      msrWordsFontStyleKind wordsFontStyleKind);
+      
+    enum msrWordsFontWeightKind {
+      kNormalWeight, kBoldWeight};
+
+    static string msrWordsFontWeightKindAsString (
+      msrWordsFontWeightKind wordsFontWeightKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 

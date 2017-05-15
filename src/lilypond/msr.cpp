@@ -10419,6 +10419,40 @@ string msrWords::wordsPlacementKindAsString (
   return result;
 }
 
+string msrWords::wordsFontStyleKindAsString (
+  msrWordsFontStyleKind wordsFontStyleKind)
+{
+  string result;
+
+  switch (wordsFontStyleKind) {
+    case kNormalStyle:
+      result = "NormalStyle";
+      break;
+    case KItalicStyle:
+      result = "ItalicStyle";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrWords::msrWordsFontWeightKindAsString (
+  msrWordsFontWeightKind wordsFontWeightKind)
+{
+  string result;
+
+  switch (wordsFontWeightKind) {
+    case kNormalWeight:
+      result = "NormalWeight";
+      break;
+    case kBoldWeight:
+      result = "BoldWeight";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrWords::wordsAsString () const
 {
   stringstream s;
