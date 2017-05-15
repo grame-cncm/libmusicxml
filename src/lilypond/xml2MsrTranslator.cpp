@@ -2465,13 +2465,79 @@ void xml2MsrTranslator::visitStart (S_words& elt)
 
   fCurrentWordsContents = elt->getValue ();
 
-  fCurrentFontStyle   = elt->getAttributeValue ("font-style");
-  fCurrentFontSize    = elt->getAttributeValue ("font-size");
-  fCurrentFontWeight  = elt->getAttributeValue ("font-weight");
-  fCurrentFontXMLLang = elt->getAttributeValue ("xml:lanG");
+  string wordsFontStyle   = elt->getAttributeValue ("font-style");
 
-  if (! fCurrentFontXMLLang.size ())
-    fCurrentFontXMLLang = "it"; // default value
+  msrWords::msrWordsFontStyleKind
+    wordsFontStyleKind =
+      msrWords::kNormalStyle;
+
+  if      (wordsFontStyle == "normal")
+    wordsFontStyleKind = msrWords::kNormalStyle;
+  else if (wordsFontStyle == "italic")
+    wordsFontStyleKind = msrWords::KItalicStyle;
+  else {
+    stringstream s;
+    
+    s <<
+      "font-style value " << wordsFontStyle <<
+      " should be 'normal' or 'italic'";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+  
+  string wordsFontSize = elt->getAttributeValue ("font-size");
+  
+  string wordsFontWeight = elt->getAttributeValue ("font-weight");
+  
+  msrWords::msrWordsFontWeightKind
+    wordsFontWeightKind =
+      msrWords::kNormalWeight;
+
+  if      (wordsFontWeight == "normal")
+    wordsFontWeightKind = msrWords::kNormalWeight;
+  else if (wordsFontWeight == "bold")
+    wordsFontWeightKind = msrWords::kBoldWeight;
+  else {
+    stringstream s;
+    
+    s <<
+      "font-weight value " << wordsFontWeight <<
+      " should be 'normal' or 'bold'";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+  
+  string wordsXMLLang = elt->getAttributeValue ("xml:lang");
+
+  msrWords::msrWordsXMLLangKind
+    wordsXMLLangKind =
+      msrWords::kItLang; // default value
+
+  if      (wordsXMLLang == "it")
+    wordsXMLLangKind = msrWords::kItLang;
+  else if (wordsXMLLang == "en")
+    wordsXMLLangKind = msrWords::kEnLang;
+  else if (wordsXMLLang == "de")
+    wordsXMLLangKind = msrWords::kDeLang;
+  else if (wordsXMLLang == "fr")
+    wordsXMLLangKind = msrWords::kFrLang;
+  else {
+    if (wordsXMLLang.size ()) {
+      stringstream s;
+      
+      s <<
+        "xml:lang value " << wordsXMLLang <<
+        " should be 'it', 'en', 'de' or 'fr'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
 
   if (fCurrentWordsContents.size ()) {
     if (gGeneralOptions->fTraceWords)
@@ -2486,10 +2552,10 @@ void xml2MsrTranslator::visitStart (S_words& elt)
           elt->getInputLineNumber (),
           fCurrentWordsPlacementKind,
           fCurrentWordsContents,
-          fCurrentFontStyle,
-          fCurrentFontSize,
-          fCurrentFontWeight,
-          fCurrentFontXMLLang);
+          wordsFontStyleKind,
+          wordsFontSize,
+          wordsFontWeightKind,
+          wordsXMLLangKind);
 
     fPendingWords.push_back (words);
   }

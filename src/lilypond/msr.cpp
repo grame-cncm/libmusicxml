@@ -10312,13 +10312,13 @@ void msrTranspose::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  int                   inputLineNumber,
-  msrWordsPlacementKind wordsPlacementKind,
-  string                wordsContents,
-  string                wordsFontStyle,
-  string                wordsFontSize,
-  string                wordsFontWeight,
-  string                wordsFontXMLLang)
+  int                    inputLineNumber,
+  msrWordsPlacementKind  wordsPlacementKind,
+  string                 wordsContents,
+  msrWordsFontStyleKind  wordsFontStyleKind,
+  string                 wordsFontSize,
+  msrWordsFontWeightKind wordsFontWeightKind,
+  msrWordsXMLLangKind    wordsXMLLangKind)
 {
   msrWords* o =
     new msrWords (
@@ -10334,13 +10334,13 @@ S_msrWords msrWords::create (
 }
 
 msrWords::msrWords (
-  int                   inputLineNumber,
-  msrWordsPlacementKind wordsPlacementKind,
-  string                wordsContents,
-  string                wordsFontStyle,
-  string                wordsFontSize,
-  string                wordsFontWeight,
-  string                wordsFontXMLLang)
+  int                    inputLineNumber,
+  msrWordsPlacementKind  wordsPlacementKind,
+  string                 wordsContents,
+  msrWordsFontStyleKind  wordsFontStyleKind,
+  string                 wordsFontSize,
+  msrWordsFontWeightKind wordsFontWeightKind,
+  msrWordsXMLLangKind    wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind = wordsPlacementKind;
@@ -10447,6 +10447,33 @@ string msrWords::msrWordsFontWeightKindAsString (
       break;
     case kBoldWeight:
       result = "BoldWeight";
+      break;
+  } // switch
+
+  return result;
+}
+
+    enum msrWordsXMLLangKind {
+      , , , };
+
+    static string  (
+string msrWords::msrWordsXMLLangKindAsString (
+  msrWordsXMLLangKind wordsXMLLangKind)
+{
+  string result;
+
+  switch (wordsFontWeightKind) {
+    case kItLang:
+      result = "ItLang";
+      break;
+    case kEnLang:
+      result = "EnLang";
+      break;
+    case kDeLang:
+      result = "DeLang";
+      break;
+    case kFrLang:
+      result = "FrLang";
       break;
   } // switch
 

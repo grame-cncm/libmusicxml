@@ -4006,11 +4006,13 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       string wordsContents =
         (*i)->getWordsContents ();
 
-      string wordsFontStyle =
-        (*i)->getWordsFontStyle ();
+      msrWords::msrWordsFontStyleKind
+        wordsFontStyleKind =
+          (*i)->getWordsFontStyleKind ();
         
-      string wordsFontWeight =
-        (*i)->getWordsFontWeight ();
+      msrWords::msrWordsFontWeightKind
+        wordsFontWeightKind =
+          (*i)->getWordsFontWeightKind ();
 
       string markup;
       
@@ -4029,13 +4031,27 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       
         s <<
           "\\markup" << " { ";
-        if (wordsFontStyle.size ()) {
-          if (wordsFontWeight != "normal") {
-            // LilyPond produces 'normal' text by default
+
+        switch (wordsFontStyleKind) {
+          case msrWords::kNormalStyle:
+            // LilyPond produces 'normal style' text by default
+            break;
+          case msrWords::KItalicStyle:
             s <<
-              "\\" << wordsFontWeight << " ";
-          }
-        }
+              "\\" "italic" " ";
+            break;
+        } // switch
+
+        switch (wordsFontWeightKind) {
+          case msrWords::kNormalWeight:
+            // LilyPond produces 'normal weight' text by default
+            break;
+          case msrWords::kBoldWeight:
+            s <<
+              "\\" "bold" " ";
+            break;
+        } // switch
+
         s <<
           quoteStringIfNonAlpha (wordsContents) <<
           " } ";

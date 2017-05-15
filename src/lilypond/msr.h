@@ -3072,17 +3072,23 @@ class EXP msrWords : public msrElement
     static string msrWordsFontWeightKindAsString (
       msrWordsFontWeightKind wordsFontWeightKind);
       
+    enum msrWordsXMLLangKind {
+      kItLang, kEnLang, kDeLang, kFrLang};
+
+    static string msrWordsXMLLangKindAsString (
+      msrWordsXMLLangKind wordsXMLLangKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrWords> create (
-      int                   inputLineNumber,
-      msrWordsPlacementKind wordsPlacementKind,
-      string                wordsContents,
-      string                wordsFontStyle,
-      string                wordsFontSize,
-      string                wordsFontWeight,
-      string                wordsFontXMLLang);
+      int                    inputLineNumber,
+      msrWordsPlacementKind  wordsPlacementKind,
+      string                 wordsContents,
+      msrWordsFontStyleKind  wordsFontStyleKind,
+      string                 wordsFontSize,
+      msrWordsFontWeightKind wordsFontWeightKind,
+      msrWordsXMLLangKind    wordsXMLLangKind);
 
   protected:
 
@@ -3090,13 +3096,13 @@ class EXP msrWords : public msrElement
     // ------------------------------------------------------
 
     msrWords (
-      int                   inputLineNumber,
-      msrWordsPlacementKind wordsPlacementKind,
-      string                wordsContents,
-      string                wordsFontStyle,
-      string                wordsFontSize,
-      string                wordsFontWeight,
-      string                wordsFontXMLLang);
+      int                    inputLineNumber,
+      msrWordsPlacementKind  wordsPlacementKind,
+      string                 wordsContents,
+      msrWordsFontStyleKind  wordsFontStyleKind,
+      string                 wordsFontSize,
+      msrWordsFontWeightKind wordsFontWeightKind,
+      msrWordsXMLLangKind    wordsXMLLangKind);
       
     virtual ~msrWords();
   
@@ -3105,24 +3111,23 @@ class EXP msrWords : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrWordsPlacementKind
-              getWordsPlacementKind () const
-                  { return fWordsPlacementKind; }
+    msrWordsPlacementKind   getWordsPlacementKind () const
+                                { return fWordsPlacementKind; }
 
-    string    getWordsContents () const
-                  { return fWordsContents; }
+    string                  getWordsContents () const
+                                { return fWordsContents; }
 
-    string    getWordsFontStyle () const
-                  { return fWordsFontStyle; }
+    msrWordsFontStyleKind   getWordsFontStyleKind () const
+                                { return fWordsFontStyleKind; }
 
-    string    getWordsFontSize () const
-                  { return fWordsFontSize; }
+    string                  getWordsFontSize () const
+                                { return fWordsFontSize; }
 
-    string    getWordsFontWeight () const
-                  { return fWordsFontWeight; }
+    msrWordsFontWeightKind  getWordsFontWeightKind () const
+                                { return fWordsFontWeightKind; }
 
-    string    getWordsFontXMLLang () const
-                  { return fWordsFontXMLLang; }
+    msrWordsXMLLangKind     getWordsFontXMLLangKind () const
+                                { return fWordsFontXMLLangKind; }
 
     // services
     // ------------------------------------------------------
@@ -3144,14 +3149,15 @@ class EXP msrWords : public msrElement
 
   private:
                         
-  msrWordsPlacementKind fWordsPlacementKind;
+  msrWordsPlacementKind  fWordsPlacementKind;
   
-  string                fWordsContents;
+  string                 fWordsContents;
 
-  string                fWordsFontStyle;
-  string                fWordsFontSize;
-  string                fWordsFontWeight;
-  string                fWordsFontXMLLang;
+  msrWordsFontStyleKind  fWordsFontStyleKind;
+  string                 fWordsFontSize;
+  msrWordsFontWeightKind fWordsFontWeightKind;
+  
+  msrWordsXMLLangKind    fWordsFontXMLLangKind;
 };
 typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);

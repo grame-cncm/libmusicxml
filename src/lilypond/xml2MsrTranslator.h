@@ -762,10 +762,6 @@ class EXP xml2MsrTranslator :
     int                       fCurrentDirectionStaffNumber;
     string                    fCurrentDirectionPlacement;
     string                    fCurrentWordsContents;
-    string                    fCurrentFontStyle;
-    string                    fCurrentFontSize;
-    string                    fCurrentFontWeight;
-    string                    fCurrentFontXMLLang;
 
     msrWords::msrWordsPlacementKind
                               fCurrentWordsPlacementKind; // JMI
