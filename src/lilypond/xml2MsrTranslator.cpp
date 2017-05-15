@@ -2469,22 +2469,24 @@ void xml2MsrTranslator::visitStart (S_words& elt)
 
   msrWords::msrWordsFontStyleKind
     wordsFontStyleKind =
-      msrWords::kNormalStyle;
+      msrWords::kNormalStyle; // default value
 
   if      (wordsFontStyle == "normal")
     wordsFontStyleKind = msrWords::kNormalStyle;
   else if (wordsFontStyle == "italic")
     wordsFontStyleKind = msrWords::KItalicStyle;
   else {
-    stringstream s;
-    
-    s <<
-      "font-style value " << wordsFontStyle <<
-      " should be 'normal' or 'italic'";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
+    if (wordsFontStyle.size ()) {
+      stringstream s;
+      
+      s <<
+        "font-style value " << wordsFontStyle <<
+        " should be 'normal' or 'italic'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
   }
   
   string wordsFontSize = elt->getAttributeValue ("font-size");
@@ -2493,22 +2495,24 @@ void xml2MsrTranslator::visitStart (S_words& elt)
   
   msrWords::msrWordsFontWeightKind
     wordsFontWeightKind =
-      msrWords::kNormalWeight;
+      msrWords::kNormalWeight; // default value
 
   if      (wordsFontWeight == "normal")
     wordsFontWeightKind = msrWords::kNormalWeight;
   else if (wordsFontWeight == "bold")
     wordsFontWeightKind = msrWords::kBoldWeight;
   else {
-    stringstream s;
-    
-    s <<
-      "font-weight value " << wordsFontWeight <<
-      " should be 'normal' or 'bold'";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
+    if (wordsFontWeight.size ()) {
+      stringstream s;
+      
+      s <<
+        "font-weight value " << wordsFontWeight <<
+        " should be 'normal' or 'bold'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
   }
   
   string wordsXMLLang = elt->getAttributeValue ("xml:lang");
