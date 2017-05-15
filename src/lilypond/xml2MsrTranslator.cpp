@@ -9362,7 +9362,6 @@ void xml2MsrTranslator::attachPendingDynamicsToNote (
         stringstream s;
 
         s <<
-          "there " <<
           singularOrPlural (
             fPendingDynamics.size (), "there is", "there are") <<
           " dynamics attached to a rest";
@@ -9413,7 +9412,6 @@ void xml2MsrTranslator::attachPendingOtherDynamicsToNote (
         stringstream s;
 
         s <<
-          "there " <<
           singularOrPlural (
             fPendingOtherDynamics.size (), "there is", "there are") <<
           " other dynamics attached to a rest";
@@ -9473,7 +9471,6 @@ void xml2MsrTranslator::attachPendingWordsToNote (
         stringstream s;
 
         s <<
-          "there " <<
           singularOrPlural (
             fPendingWords.size (), "there is", "there are") <<
           " word(s) attached to a rest";
@@ -9523,7 +9520,6 @@ void xml2MsrTranslator::attachPendingSlursToNote (
         stringstream s;
 
         s <<
-          "there " <<
           singularOrPlural (
             fPendingSlurs.size (), "there is", "there are") <<
           " slur(s) attached to a rest";
@@ -9573,7 +9569,6 @@ void xml2MsrTranslator::attachPendingLigaturesToNote (
         stringstream s;
 
         s <<
-          "there " <<
           singularOrPlural (
             fPendingLigatures.size (), "there is", "there are") <<
           " ligatures(s) attached to a rest";
@@ -9623,7 +9618,6 @@ void xml2MsrTranslator::attachPendingWedgesToNote (
         stringstream s;
 
         s <<
-          "there " <<
           singularOrPlural (
             fPendingWedges.size (), "there is", "there are") <<
           " wedge(s) attached to a rest";
