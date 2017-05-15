@@ -5230,8 +5230,6 @@ S_msrGracenotes msrGracenotes::createSkipGracenotesClone (
     i++) {
     S_msrNote note = (*i);
     
-    cerr << "FAA" << endl;
-
     // create skip with same duration as note
     S_msrNote
       skip =
@@ -12706,7 +12704,7 @@ void msrMeasure::initializeMeasure ()
     fMeasureSegmentUplink->
       getSegmentTime ());
       
-  fMeasureKind = kRegularMeasure; // may be changed afterwards
+  fMeasureKind = kFullMeasure; // may be changed afterwards
 
   setMeasurePosition (
     fInputLineNumber, 1); // ready to receive the first note
@@ -14224,8 +14222,8 @@ string msrMeasure::measureKindAsString (
   string result;
 
   switch (measureKind) {
-    case kRegularMeasure:
-      result = "regular";
+    case kFullMeasure:
+      result = "full";
       break;
     case kIncompleteLeftMeasure:
       result = "incomplete left";

@@ -1210,7 +1210,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
 
   if (partgroupInstrumentName.size ())
     fOstream << idtr <<
-      "\\set PianoStaff.instrumentName = #\"" <<
+      "\\set PianoStaff.instrumentName = \"" <<
       partgroupInstrumentName <<
       "\"" <<
       endl;
@@ -1311,7 +1311,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
 
     if (partName.size ()) {
       fOstream << idtr <<
-        "\\set PianoStaff.instrumentName = #\"" <<
+        "\\set PianoStaff.instrumentName = \"" <<
         partName <<
         "\"" <<
         endl;
@@ -1319,7 +1319,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     
     if (partAbbreviation.size ()) {
       fOstream << idtr <<
-        "\\set PianoStaff.shortInstrumentName = #\"" <<
+        "\\set PianoStaff.shortInstrumentName = \"" <<
         partAbbreviation <<
         "\"" <<
         endl;
@@ -2192,7 +2192,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
   fSegmentNotesAndChordsCountersStack.push (0);
 
   switch (elt->getMeasureKind ()) {
-    case msrMeasure::kRegularMeasure:
+    case msrMeasure::kFullMeasure:
       break;
       
     case msrMeasure::kIncompleteLeftMeasure:
@@ -2325,7 +2325,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       endl;
 
   switch (elt->getMeasureKind ()) {
-    case msrMeasure::kRegularMeasure:
+    case msrMeasure::kFullMeasure:
       break;
       
     case msrMeasure::kIncompleteLeftMeasure:

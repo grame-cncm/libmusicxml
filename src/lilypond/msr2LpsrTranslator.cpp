@@ -1108,13 +1108,13 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
   }
 
   msrMeasure::msrMeasureKind measureKind; // JMI
- // JMI     fMeasureKind = kRegularMeasure; // may be changed afterwards
+ // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
     
   // positions start at 1
 
   if (measurePosition == measureDivisionsPerFullMeasure + 1) { // JMI
     measureKind =
-      msrMeasure::kRegularMeasure;
+      msrMeasure::kFullMeasure;
   }
       
   else if (measurePosition <= measureDivisionsPerFullMeasure) { // JMI
@@ -1175,7 +1175,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   
   switch (elt->getMeasureKind ()) {
     
-    case msrMeasure::kRegularMeasure:
+    case msrMeasure::kFullMeasure:
       // is the measure full? (positions start at 1)
       if (
         elt->getMeasureLength ()
