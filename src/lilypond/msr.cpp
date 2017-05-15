@@ -10325,10 +10325,10 @@ S_msrWords msrWords::create (
       inputLineNumber,
       wordsPlacementKind,
       wordsContents,
-      wordsFontStyle,
+      wordsFontStyleKind,
       wordsFontSize,
-      wordsFontWeight,
-      wordsFontXMLLang);
+      wordsFontWeightKind,
+      wordsXMLLangKind);
   assert(o!=0);
   return o;
 }
@@ -10343,14 +10343,15 @@ msrWords::msrWords (
   msrWordsXMLLangKind    wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
-  fWordsPlacementKind = wordsPlacementKind;
+  fWordsPlacementKind  = wordsPlacementKind;
   
-  fWordsContents      = wordsContents;
+  fWordsContents       = wordsContents;
 
-  fWordsFontStyle     = wordsFontStyle;
-  fWordsFontSize      = wordsFontSize;
-  fWordsFontWeight    = wordsFontWeight;
-  fWordsFontXMLLang   = wordsFontXMLLang;
+  fWordsFontStyleKind  = wordsFontStyleKind;
+  fWordsFontSize       = wordsFontSize;
+  fWordsFontWeightKind = wordsFontWeightKind;
+  
+  fWordsXMLLangKind    = wordsXMLLangKind;
 }
 msrWords::~msrWords() {}
 
@@ -10453,16 +10454,12 @@ string msrWords::msrWordsFontWeightKindAsString (
   return result;
 }
 
-    enum msrWordsXMLLangKind {
-      , , , };
-
-    static string  (
 string msrWords::msrWordsXMLLangKindAsString (
   msrWordsXMLLangKind wordsXMLLangKind)
 {
   string result;
 
-  switch (wordsFontWeightKind) {
+  switch (wordsXMLLangKind) {
     case kItLang:
       result = "ItLang";
       break;
@@ -10508,16 +10505,19 @@ void msrWords::print (ostream& os)
       wordsPlacementKindAsString (fWordsPlacementKind) <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontStyle" << " = " << fWordsFontStyle <<
+      setw(16) << "WordsFontStyle" << " = " <<
+      wordsFontStyleKindAsString (fWordsFontStyleKind) <<
       endl <<
     idtr <<
       setw(16) << "WordsFontSize" << " = " << fWordsFontSize <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontWeight" << " = " << fWordsFontWeight <<
+      setw(16) << "WordsFontWeight" << " = " <<
+      msrWordsFontWeightKindAsString (fWordsFontWeightKind) <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontXMLLang" << " = " << fWordsFontXMLLang <<
+      setw(16) << "WordsFontXMLLang" << " = " <<
+      msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
       endl;
   
   idtr--;

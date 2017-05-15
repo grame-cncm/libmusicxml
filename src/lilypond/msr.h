@@ -3126,8 +3126,8 @@ class EXP msrWords : public msrElement
     msrWordsFontWeightKind  getWordsFontWeightKind () const
                                 { return fWordsFontWeightKind; }
 
-    msrWordsXMLLangKind     getWordsFontXMLLangKind () const
-                                { return fWordsFontXMLLangKind; }
+    msrWordsXMLLangKind     getWordsXMLLangKind () const
+                                { return fWordsXMLLangKind; }
 
     // services
     // ------------------------------------------------------
@@ -3157,7 +3157,7 @@ class EXP msrWords : public msrElement
   string                 fWordsFontSize;
   msrWordsFontWeightKind fWordsFontWeightKind;
   
-  msrWordsXMLLangKind    fWordsFontXMLLangKind;
+  msrWordsXMLLangKind    fWordsXMLLangKind;
 };
 typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
