@@ -4354,6 +4354,11 @@ class EXP msrIdentification : public msrElement
                   string type,
                   string val);
 
+    void        addPoet (
+                  int    inputLineNumber,
+                  string type,
+                  string val);
+
     void        addLyricist (
                   int    inputLineNumber,
                   string type,
@@ -4400,6 +4405,10 @@ class EXP msrIdentification : public msrElement
                     { return fArrangers; };
                     
     const vector<S_msrVarValAssoc>&
+                getPoets () const
+                    { return fPoets; };
+    
+    const vector<S_msrVarValAssoc>&
                 getLyricists () const
                     { return fLyricists; };
     
@@ -4443,6 +4452,7 @@ class EXP msrIdentification : public msrElement
     S_msrVarValAssoc         fMovementTitle;
     vector<S_msrVarValAssoc> fComposers;
     vector<S_msrVarValAssoc> fArrangers;
+    vector<S_msrVarValAssoc> fPoets;
     vector<S_msrVarValAssoc> fLyricists;
     S_msrVarValAssoc         fRights;
     vector<S_msrVarValAssoc> fSoftwares;

@@ -20565,6 +20565,18 @@ void msrIdentification::addArranger (
   );
 }
 
+void msrIdentification::addPoet (
+  int    inputLineNumber,
+  string type,
+  string val)
+{
+  fPoets.push_back(
+    msrVarValAssoc::create (
+      inputLineNumber,
+      type, val)
+  );
+}
+
 void msrIdentification::addLyricist (
   int    inputLineNumber,
   string type,
@@ -20700,6 +20712,15 @@ void msrIdentification::browseData (basevisitor* v)
     } // for
   }
     
+  if (!fPoets.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fPoets.begin(); i!=fPoets.end(); i++) {
+      // browse creator
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+    
   if (!fLyricists.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fLyricists.begin(); i!=fLyricists.end(); i++) {
@@ -20794,6 +20815,20 @@ void msrIdentification::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+    
+  if (! fPoets.empty()) {
+    vector<S_msrVarValAssoc>::const_iterator
+      iBegin = fPoets.begin(),
+      iEnd   = fPoets.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
