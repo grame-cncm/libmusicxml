@@ -3994,20 +3994,20 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
   chord->
     setChordIsFirstChordInADoubleTremolo ();
 
-  // fetch chord divisions
-  int chordDivisions =
-    chord->getChordDivisions ();
+  // fetch chord sounding divisions
+  int chordSoundingDivisions =
+    chord->getChordSoundingDivisions ();
     
   // set double tremolo divisions to that of the chord
   if (fDoubleTremoloSoundingDivisions > 0) {
-    if (chordDivisions != fDoubleTremoloSoundingDivisions) { // JMI
+    if (chordSoundingDivisions != fDoubleTremoloSoundingDivisions) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo divisions both to " <<
         fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
-        chordDivisions << " (chord)" <<
+        chordSoundingDivisions << " (chord)" <<
         " on chord first element:" <<
         endl;
 
@@ -4025,7 +4025,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
     }
   }
   else {
-    fDoubleTremoloSoundingDivisions = chordDivisions;
+    fDoubleTremoloSoundingDivisions = chordSoundingDivisions;
   }
 }
 
@@ -4099,19 +4099,19 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     setChordIsSecondChordInADoubleTremolo ();
 
   // fetch chord divisions
-  int chordDivisions =
-    chord->getChordDivisions ();
+  int chordSoundingDivisions =
+    chord->getChordSoundingDivisions ();
     
   // set double tremolo divisions to that of the chord
   if (fDoubleTremoloSoundingDivisions > 0) {
-    if (chordDivisions != fDoubleTremoloSoundingDivisions) { // JMI
+    if (chordSoundingDivisions != fDoubleTremoloSoundingDivisions) { // JMI
       stringstream s;
 
      s <<
         "attempt to set double tremolo divisions both to " <<
         fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
-        chordDivisions <<
+        chordSoundingDivisions <<
         " on chord second element:" << " (chord)" <<
         endl;
 
@@ -4129,7 +4129,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     }
   }
   else {
-    fDoubleTremoloSoundingDivisions = chordDivisions;
+    fDoubleTremoloSoundingDivisions = chordSoundingDivisions;
   }
 }
 
@@ -7449,14 +7449,14 @@ void msrNote::print (ostream& os)
 S_msrChord msrChord::create (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
-  int         chordDivisions,
+  int         chordSoundingDivisions,
   msrDuration chordGraphicDuration)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr <<
       idtr <<
       "Create a chord" <<
-      ", chordDivisions = " << chordDivisions <<
+      ", chordSoundingDivisions = " << chordSoundingDivisions <<
       ", chordGraphicDuration = " <<
       msrDurationAsString (chordGraphicDuration) <<
       endl;
@@ -7466,7 +7466,7 @@ S_msrChord msrChord::create (
     new msrChord (
       inputLineNumber,
       chordDirectPartUplink,
-      chordDivisions,
+      chordSoundingDivisions,
       chordGraphicDuration);
   assert(o!=0);
 
@@ -7476,7 +7476,7 @@ S_msrChord msrChord::create (
 msrChord::msrChord (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
-  int         chordDivisions,
+  int         chordSoundingDivisions,
   msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
@@ -7488,7 +7488,7 @@ msrChord::msrChord (
   fChordDirectPartUplink =
     chordDirectPartUplink;
     
-  fChordDivisions = chordDivisions;
+  fChordSoundingDivisions = chordSoundingDivisions;
 
   fChordGraphicDuration = chordGraphicDuration;
 }
@@ -7511,7 +7511,7 @@ S_msrChord msrChord::createChordBareClone (
       msrChord::create (
         fInputLineNumber,
         partClone,
-        fChordDivisions,
+        fChordSoundingDivisions,
         fChordGraphicDuration);
 
   clone->
@@ -7907,7 +7907,7 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
   return os;
 }
 
-string msrChord::chordDivisionsAsMsrString () const
+string msrChord::chordSoundingDivisionsAsMsrString () const
 {
   string result;
 
@@ -7921,7 +7921,7 @@ string msrChord::chordDivisionsAsMsrString () const
     fChordDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
-        fChordDivisions);
+        fChordSoundingDivisions);
 
   return result;
 }
@@ -7980,12 +7980,12 @@ void msrChord::print (ostream& os)
     
   os <<
     "Chord:" <<
-    chordDivisionsAsMsrString () <<
+    chordSoundingDivisionsAsMsrString () <<
     ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
     ", " <<
-    chordDivisionsAsMsrString () << " divs" <<
+    chordSoundingDivisionsAsMsrString () << " divs" <<
     ", mea. "<<
     getChordMeasureNumber () <<
     ":" <<
@@ -8603,7 +8603,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
     
   // account for chord duration
   fTupletSoundingDivisions +=
-    chord->getChordDivisions ();
+    chord->getChordSoundingDivisions ();
     /*
   fTupletDisplayDivisions += // JMI
     chord->getChordDisplayDivisions ();  
@@ -8820,7 +8820,7 @@ int msrTuplet::setTupletPositionInMeasure (int position)
         setChordPositionInMeasure (currentPosition);
         
       currentPosition +=
-        chord->getChordDivisions ();
+        chord->getChordSoundingDivisions ();
     }
     
     else if (
@@ -13267,12 +13267,13 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
         fMeasurePosition);
 
     // fetch chord divisions
-    int chordDivisions =
-      chord->getChordDivisions ();
+    int chordSoundingDivisions =
+      chord->getChordSoundingDivisions ();
       
     // account for chord duration in measure position
     setMeasurePosition (
-      inputLineNumber, fMeasurePosition + chordDivisions);
+      inputLineNumber,
+      fMeasurePosition + chordSoundingDivisions);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
@@ -13280,7 +13281,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
         inputLineNumber, fMeasurePosition);
   
     // determine if the chord occupies a full measure
-// XXL  JMI  if (chordDivisions == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (chordSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
       // chord->setChordOccupiesAFullMeasure ();
   
     // append the chord to the measure elements list

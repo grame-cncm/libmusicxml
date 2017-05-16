@@ -4349,7 +4349,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       divisionsAsLilyPondString (
         elt->getInputLineNumber (),
         elt->getChordDirectPartUplink (),
-        elt->getChordDivisions ());
+        elt->getChordSoundingDivisions ());
   }
    
   fOstream <<

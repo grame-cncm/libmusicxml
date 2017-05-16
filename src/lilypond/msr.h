@@ -3965,7 +3965,7 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
-      int         chordDivisions,
+      int         chordSoundingDivisions,
       msrDuration chordGraphicDuration);
 
     // creation from MusicXML
@@ -3982,7 +3982,7 @@ class EXP msrChord : public msrElement
     msrChord (
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
-      int         chordDivisions,
+      int         chordSoundingDivisions,
       msrDuration chordGraphicDuration);
       
     virtual ~msrChord();
@@ -3993,13 +3993,13 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
                               
      // divisions
-    void                  setChordDivisions (int divisions)
-                              { fChordDivisions = divisions; }
+    void                  setChordSoundingDivisions (int divisions)
+                              { fChordSoundingDivisions = divisions; }
             
-    int                   getChordDivisions () const
-                              { return fChordDivisions; }
+    int                   getChordSoundingDivisions () const
+                              { return fChordSoundingDivisions; }
             
-    string                chordDivisionsAsMsrString () const;
+    string                chordSoundingDivisionsAsMsrString () const;
 
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
@@ -4193,7 +4193,7 @@ class EXP msrChord : public msrElement
     S_msrPart                 fChordDirectPartUplink;
 
     // sounding duration
-    int                       fChordDivisions;
+    int                       fChordSoundingDivisions;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration

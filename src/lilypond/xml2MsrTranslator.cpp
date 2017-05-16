@@ -10587,7 +10587,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           }
           
           fCurrentChord->
-            setChordDivisions (
+            setChordSoundingDivisions ( // ??? JMI
               chordFirstNoteDisplayDivisions);
               
           if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
