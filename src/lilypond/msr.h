@@ -1678,7 +1678,7 @@ class EXP msrDoubleTremolo : public msrElement
     // divisions handling is done at the part level
     S_msrPart                     fDoubleTremoloDirectPartUplink;
 
-    // sounding duration
+    // sounding divisions
     // the same as the display divisions of both members
     int                           fDoubleTremoloSoundingDivisions;
 
@@ -3454,7 +3454,7 @@ class EXP msrNote : public msrElement
       msrNoteKind          noteKind,
     
       msrQuartertonesPitch noteQuatertonesPitch,
-      int                  noteDivisions,
+      int                  noteSoundingDivisions,
       int                  noteDisplayDivisions,
       int                  noteDotsNumber,
       msrDuration          noteGraphicDuration,
@@ -3491,7 +3491,7 @@ class EXP msrNote : public msrElement
       msrNoteKind          noteKind,
     
       msrQuartertonesPitch noteQuatertonesPitch,
-      int                  noteDivisions,
+      int                  noteSoundingDivisions,
       int                  noteDisplayDivisions,
       int                  noteDotsNumber,
       msrDuration          noteGraphicDuration,
@@ -3529,8 +3529,8 @@ class EXP msrNote : public msrElement
     msrQuartertonesPitch  getQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
                               
-    int                   getNoteDivisions () const
-                              { return fNoteDivisions; }
+    int                   getNoteSoundingDivisions () const
+                              { return fNoteSoundingDivisions; }
 
     void                  setNoteDisplayDivisions (int divisions)
                               { fNoteDisplayDivisions = divisions; }
@@ -3783,7 +3783,7 @@ class EXP msrNote : public msrElement
     string                noteDiatonicPitchAsString (
                             int inputLineNumber) const;
 
-    string                noteDivisionsAsMsrString () const;
+    string                noteSoundingDivisionsAsMsrString () const;
     string                skipOrRestDivisionsAsMsrString () const;
     
     string                noteGraphicDurationAsMsrString () const;
@@ -3862,7 +3862,7 @@ class EXP msrNote : public msrElement
     msrNoteKind               fNoteKind;
 
     msrQuartertonesPitch      fNoteQuatertonesPitch;
-    int                       fNoteDivisions;
+    int                       fNoteSoundingDivisions;
     int                       fNoteDisplayDivisions;
     int                       fNoteDotsNumber;
     msrDuration               fNoteGraphicDuration;
@@ -5114,8 +5114,8 @@ class EXP msrTuplet : public msrElement
                   getTupletElements () const
                       { return fTupletElements; }
 
-    int           getTupletDivisions () const
-                      { return fTupletDivisions; }
+    int           getTupletSoundingDivisions () const
+                      { return fTupletSoundingDivisions; }
             
     // measure uplink
     void          setTupletMeasureUplink (
@@ -5180,7 +5180,7 @@ class EXP msrTuplet : public msrElement
     int                  fTupletActualNotes;
     int                  fTupletNormalNotes;
 
-    int                  fTupletDivisions;
+    int                  fTupletSoundingDivisions;
     int                  fTupletDisplayDivisions;
 
     S_msrMeasure         fTupletMeasureUplink;
@@ -6968,14 +6968,14 @@ class EXP msrPart : public msrElement
                             int  inputLineNumber,
                             int  divisions);
                   
-    string                tupletDivisionsAsMsrString (
+    string                tupletSoundingDivisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions,
                             int actualNotes,
                             int normalNotes);
   
     void                  testDivisionsAndDurations ();
-    void                  testTupletDivisionsAndDurations ();
+    void                  testTupletSoundingDivisionsAndDurations ();
   
     void                  createPartHarmonyStaffAndVoice (
                             int inputLineNumber);

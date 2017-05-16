@@ -149,19 +149,19 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
   return lilypondizeDurationString (result);
 }
 
-string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
-  int inputLineNumber,
+string lpsr2LilyPondTranslator::tupletSoundingDivisionsAsLilypondString (
+  int       inputLineNumber,
   S_msrPart part,
-  int divisions,
-  int actualNotes,
-  int normalNotes)
+  int       divisions,
+  int       actualNotes,
+  int       normalNotes)
 {
   string result;
 
   msrAssert(part != 0, "part == 0"); // JMI
   result =
     part->
-      tupletDivisionsAsMsrString (
+      tupletSoundingDivisionsAsMsrString (
         inputLineNumber,
         divisions,
         actualNotes,
@@ -334,15 +334,15 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
 }
 
 //________________________________________________________________________
-string noteDivisionsAsLpsrString (S_msrNote note)
+string noteSoundingDivisionsAsLpsrString (S_msrNote note)
 {
   string
-    noteDivisionsAsMsrString =
-      note->noteDivisionsAsMsrString ();
+    noteSoundingDivisionsAsMsrString =
+      note->noteSoundingDivisionsAsMsrString ();
 
   string
     lilyPondDivisionsAsString =
-      noteDivisionsAsMsrString;
+      noteSoundingDivisionsAsMsrString;
 
   if (! isdigit (lilyPondDivisionsAsString [0])) {
     if      (lilyPondDivisionsAsString == "Breve")
@@ -366,7 +366,7 @@ string lpsr2LilyPondTranslator::technicalKindAsLilyPondString (
   string
     noteDuration =
       (*i)->getTechnicalNoteUplink ()->
-        noteDivisionsAsMsrString ();
+        noteSoundingDivisionsAsMsrString ();
   */
 
   switch (technical->getTechnicalKind ()) {
@@ -3408,7 +3408,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       // print the note duration
       fOstream <<
         lilypondizeDurationString (
-          note->noteDivisionsAsMsrString ());
+          note->noteSoundingDivisionsAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -3564,10 +3564,10 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
           note->getNoteTupletUplink ();
           
       fOstream <<
-        tupletDivisionsAsLilypondString (
+        tupletSoundingDivisionsAsLilypondString (
           note->getInputLineNumber (),
           note->getNoteDirectPartUplink (),
-          note->getNoteDivisions (),
+          note->getNoteSoundingDivisions (),
           tuplet->getTupletActualNotes (),
           tuplet->getTupletNormalNotes ());
 
@@ -3646,7 +3646,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           getSingleTremoloNoteUplink ();
 
     int
-      singleTremoloNoteDivisions =
+      singleTremoloNoteSoundingDivisions =
         singleTremoloNote->getNoteDisplayDivisions ();
 
     msrDuration
@@ -3654,7 +3654,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         singleTremoloNote->getNoteGraphicDuration ();
     
     int durationToUse =
-      singleTremoloMarksNumber; // JMI / singleTremoloNoteDivisions;
+      singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingDivisions;
       
     if (gGeneralOptions->fTraceTremolos) {
       fOstream << idtr <<
@@ -3663,8 +3663,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         " for note " <<
         elt->noteAsShortString () <<
         ", line = " << inputLineNumber <<
-        ", singleTremoloMarksNumber = " << singleTremoloMarksNumber <<
-        ", singleTremoloNoteDivisions = " << singleTremoloNoteDivisions <<
+        ", singleTremoloMarksNumber = " <<
+        singleTremoloMarksNumber <<
+        ", singleTremoloNoteSoundingDivisions = " <<
+        singleTremoloNoteSoundingDivisions <<
         ", durationToUse = " << durationToUse <<
         endl;
     }
@@ -3901,7 +3903,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       string
         noteDuration =
           (*i)->getOrnamentNoteUplink ()->
-            noteDivisionsAsMsrString ();
+            noteSoundingDivisionsAsMsrString ();
         
       fOstream <<
         ornamentKindAsLilyPondString (

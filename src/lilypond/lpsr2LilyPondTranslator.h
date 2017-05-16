@@ -388,12 +388,12 @@ class lpsr2LilyPondTranslator :
                             S_msrPart part,
                             int       divisions);
 
-    string                tupletDivisionsAsLilypondString (
-                            int inputLineNumber,
+    string                tupletSoundingDivisionsAsLilypondString (
+                            int       inputLineNumber,
                             S_msrPart part,
-                            int divisions,
-                            int actualNotes,
-                            int normalNotes);
+                            int       divisions,
+                            int       actualNotes,
+                            int       normalNotes);
   
     string                noteDivisionsAsLpsrString (S_msrNote note); // JMI
 

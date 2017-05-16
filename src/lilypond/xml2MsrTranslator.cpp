@@ -73,11 +73,11 @@ void xml2MsrTranslator::initializeNoteData ()
 
 // JMI  fCurrentNoteKind = k_NoNoteKind;
 
-  fCurrentNoteQuatertonesPitch = k_NoQuaterTonesPitch;
-  fCurrentNoteDivisions        = -17;
-  fCurrentNoteDisplayDivisions = -19;
-  fCurrentNoteDotsNumber       = 0;
-  fCurrentNoteGraphicDuration  = k_NoDuration;
+  fCurrentNoteQuatertonesPitch  = k_NoQuaterTonesPitch;
+  fCurrentNoteSoundingDivisions = -17;
+  fCurrentNoteDisplayDivisions  = -19;
+  fCurrentNoteDotsNumber        = 0;
+  fCurrentNoteGraphicDuration   = k_NoDuration;
 
   fCurrentNoteOctave = -1;
 
@@ -4045,7 +4045,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         " syllable"
         ", text = \"" << fCurrentLyricText << "\"" <<
         ", line " << inputLineNumber <<
-        ", divisions = " << fCurrentNoteDivisions << 
+        ", divisions = " << fCurrentNoteSoundingDivisions << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -4059,7 +4059,7 @@ void xml2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentSyllableKind,
         fCurrentLyricText,
         msrSyllable::k_NoSyllableExtend,
-        fCurrentNoteDivisions,
+        fCurrentNoteSoundingDivisions,
         stanza);
 
 /* JMI
@@ -5389,7 +5389,7 @@ void xml2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
-    fCurrentNoteDivisions = duration;
+    fCurrentNoteSoundingDivisions = duration;
     
   }
   
@@ -8500,7 +8500,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
       msrChord::create (
         inputLineNumber,
         fCurrentPart,
-        chordFirstNote->getNoteDivisions (),
+        chordFirstNote->getNoteSoundingDivisions (),
         chordFirstNote->getNoteGraphicDuration ());
 
   // chord's tie kind is that of its first note
@@ -9745,8 +9745,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // set current voices' 'notes divisions per quarter note
   if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "fCurrentNoteDivisions = " << 
-      fCurrentNoteDivisions << ", " << 
+      "fCurrentNoteSoundingDivisions = " << 
+      fCurrentNoteSoundingDivisions << ", " << 
       "fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote << endl;
 
@@ -9755,7 +9755,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   if (fCurrentNoteIsAGraceNote) {
     // set current grace note divisions      
-    fCurrentNoteDivisions =
+    fCurrentNoteSoundingDivisions =
       fCurrentPart->
         durationAsDivisions (
           inputLineNumber,
@@ -9763,7 +9763,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   
     // set current grace note display divisions to note divisions JMI   ???
     fCurrentNoteDisplayDivisions =
-      fCurrentNoteDivisions;
+      fCurrentNoteSoundingDivisions;
   }
   
   else if (
@@ -9793,7 +9793,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   else {
     // standalone note or rest
     fCurrentNoteDisplayDivisions =
-      fCurrentNoteDivisions;
+      fCurrentNoteSoundingDivisions;
   }
 
   // create the (new) note
@@ -9806,7 +9806,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         msrNote::k_NoNoteKind, // will be set by 'setNodeKind()' later
         
         fCurrentNoteQuatertonesPitch,
-        fCurrentNoteDivisions,
+        fCurrentNoteSoundingDivisions,
         fCurrentNoteDisplayDivisions,
         fCurrentNoteDotsNumber,
         fCurrentNoteGraphicDuration,
@@ -9880,7 +9880,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentHarmonyKind,
           fCurrentHarmonyKindText,
           fCurrentHarmonyBassQuartertonesPitch,
-          fCurrentNoteDivisions);
+          fCurrentNoteSoundingDivisions);
   
     // attach the current harmony to the note
     newNote->
@@ -10265,7 +10265,7 @@ xml2MsrTranslator.cpp:4249
         setw(15) << "single" << ":" << fSyllableDivisions <<
         ", line " << right << setw(5) << fInputLineNumber <<
         ", " << fSyllableNote->notePitchAsString () <<
-        ":" << fSyllableNote->noteDivisionsAsMsrString () <<
+        ":" << fSyllableNote->noteSoundingDivisionsAsMsrString () <<
      */
       cerr <<
         endl << endl <<
