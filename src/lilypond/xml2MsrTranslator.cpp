@@ -8253,6 +8253,10 @@ void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
       endl;
 
   fCurrentActualNotes = (int)(*elt);
+
+  // notes inside a tuplet have no <tuplet/> markup
+  if (! fCurrentNoteBelongsToATuplet)
+    fCurrentNoteBelongsToATuplet = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
@@ -8263,6 +8267,10 @@ void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
       endl;
 
   fCurrentNormalNotes = (int)(*elt);
+
+  // notes inside a tuplet have no <tuplet/> markup
+  if (! fCurrentNoteBelongsToATuplet)
+    fCurrentNoteBelongsToATuplet = true;
 }
 
 void xml2MsrTranslator::visitStart ( S_normal_type& elt )
