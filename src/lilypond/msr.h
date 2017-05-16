@@ -3335,7 +3335,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
-      int                  harmonyDivisions);
+      int                  harmonySoundingDivisions);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
       S_msrPart clonedPart);
@@ -3352,7 +3352,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
-      int                  harmonyDivisions);
+      int                  harmonySoundingDivisions);
 
     virtual ~msrHarmony();
   
@@ -3364,11 +3364,11 @@ class EXP msrHarmony : public msrElement
     S_msrPart             getHarmonyDirectPartUplink () const
                              { return fHarmonyDirectPartUplink; }
 
- // JMI   void                  setHarmonyDivisions (int divisions)
-       //                       { fHarmonyDivisions = divisions; }
+ // JMI   void                  setHarmonySoundingDivisions (int divisions)
+       //                       { fHarmonySoundingDivisions = divisions; }
 
-    int                   getHarmonyDivisions () const
-                              { return fHarmonyDivisions; }
+    int                   getHarmonySoundingDivisions () const
+                              { return fHarmonySoundingDivisions; }
 
     msrQuartertonesPitch  getHarmonyRootQuartertonesPitch () const
                               { return fHarmonyRootQuartertonesPitch; }
@@ -3405,16 +3405,16 @@ class EXP msrHarmony : public msrElement
 
   private:
 
-    S_msrPart                 fHarmonyDirectPartUplink;
+    S_msrPart             fHarmonyDirectPartUplink;
 
-    int                       fHarmonyDivisions;
+    int                   fHarmonySoundingDivisions;
     
-    msrQuartertonesPitch      fHarmonyRootQuartertonesPitch;
+    msrQuartertonesPitch  fHarmonyRootQuartertonesPitch;
 
-    msrHarmonyKind            fHarmonyKind;
-    string                    fHarmonyKindText;
+    msrHarmonyKind        fHarmonyKind;
+    string                fHarmonyKindText;
 
-    msrQuartertonesPitch      fHarmonyBassQuartertonesPitch;
+    msrQuartertonesPitch  fHarmonyBassQuartertonesPitch;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);

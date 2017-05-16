@@ -615,7 +615,7 @@ string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
     harmony->getHarmonyDirectPartUplink ()->
       divisionsAsMsrString (
         inputLineNumber,
-        harmony->getHarmonyDivisions ());
+        harmony->getHarmonySoundingDivisions ());
     
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::kMajor:
@@ -2110,6 +2110,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
     fOstream <<
       harmonyAsLilyPondString (elt) <<
       " ";
+      
+    if (fLpsrOptions->fGenerateInputLineNumbers)
+      // print the harmony line number as a comment
+      fOstream <<
+        "%{ " << elt->getInputLineNumber () << " %} ";  
   }
 
 /* JMI

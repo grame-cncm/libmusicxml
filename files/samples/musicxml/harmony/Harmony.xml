@@ -146,6 +146,7 @@
       <harmony print-frame="no">
         <root>
           <root-step>C</root-step>
+          <root-alter>1</root-alter>
           </root>
         <kind use-symbols="yes">augmented</kind>
         </harmony>

@@ -11662,7 +11662,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
-  int                  harmonyDivisions)
+  int                  harmonySoundingDivisions)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -11671,7 +11671,7 @@ S_msrHarmony msrHarmony::create (
       harmonyRootQuartertonesPitch,
       harmonyKind, harmonyKindText,
       harmonyBassQuartertonesPitch,
-      harmonyDivisions);
+      harmonySoundingDivisions);
   assert(o!=0);
 
   return o;
@@ -11684,7 +11684,7 @@ msrHarmony::msrHarmony (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuartertonesPitch harmonyBassQuartertonesPitch,
-  int                  harmonyDivisions)
+  int                  harmonySoundingDivisions)
     : msrElement (inputLineNumber)
 {
   // set harmony's direct part uplink
@@ -11697,12 +11697,12 @@ msrHarmony::msrHarmony (
     
   fHarmonyRootQuartertonesPitch = harmonyRootQuartertonesPitch;
  
-  fHarmonyKind                 = harmonyKind;
-  fHarmonyKindText             = harmonyKindText;
+  fHarmonyKind     = harmonyKind;
+  fHarmonyKindText = harmonyKindText;
  
   fHarmonyBassQuartertonesPitch = harmonyBassQuartertonesPitch;
  
-  fHarmonyDivisions = harmonyDivisions;
+  fHarmonySoundingDivisions = harmonySoundingDivisions;
   
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
@@ -11733,7 +11733,7 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
         fHarmonyRootQuartertonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuartertonesPitch,
-        fHarmonyDivisions);
+        fHarmonySoundingDivisions);
   
   return clone;
 }
@@ -11842,7 +11842,7 @@ string msrHarmony::harmonyAsString () const
       fHarmonyDirectPartUplink->
         divisionsAsMsrString (
           fInputLineNumber,
-          fHarmonyDivisions);
+          fHarmonySoundingDivisions);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -11915,8 +11915,8 @@ void msrHarmony::print (ostream& os)
     fHarmonyDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
-        fHarmonyDivisions) <<
-    " (" << fHarmonyDivisions << " divs)" <<
+        fHarmonySoundingDivisions) <<
+    " (" << fHarmonySoundingDivisions << " divs)" <<
      ", line " << fInputLineNumber <<
     endl;
     
@@ -13441,8 +13441,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 
         
     // fetch harmony divisions
-    int harmonyDivisions =
-      harmony->getHarmonyDivisions ();
+    int harmonySoundingDivisions =
+      harmony->getHarmonySoundingDivisions ();
       
 //* JMI FOO
 /*
@@ -13452,7 +13452,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
           msrNote::createSkipNote (
             inputLineNumber,
             fMeasureDirectPartUplink,
-            harmonyDivisions,
+            harmonySoundingDivisions,
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),
             voice->
@@ -13465,7 +13465,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 
     // account for harmony duration in measure position
     setMeasurePosition (
-      inputLineNumber, fMeasurePosition + harmonyDivisions);
+      inputLineNumber,
+      fMeasurePosition + harmonySoundingDivisions);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
@@ -13497,12 +13498,13 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       endl;
       
   // fetch harmony divisions
-  int harmonyDivisions =
-    harmony->getHarmonyDivisions ();
+  int harmonySoundingDivisions =
+    harmony->getHarmonySoundingDivisions ();
     
   // account for harmony duration in measure position
   setMeasurePosition (
-    inputLineNumber, fMeasurePosition + harmonyDivisions);
+    inputLineNumber,
+    fMeasurePosition + harmonySoundingDivisions);
 
   // update part measure position high tide if need be
   fMeasureDirectPartUplink->
