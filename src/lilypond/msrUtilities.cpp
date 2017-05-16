@@ -175,6 +175,8 @@ void timing::print (ostream& os) const
 timing timing::gTiming;
 
 //______________________________________________________________________________
+//#define DEBUG_INDENTER
+
 indenter::indenter (string spacer)
 {
   fIndent = 0;
@@ -182,8 +184,6 @@ indenter::indenter (string spacer)
 }
 
 indenter::~indenter () {}
-
-//#define DEBUG_INDENTER
 
 indenter& indenter::operator++ (const int value)
 {
@@ -238,6 +238,8 @@ void indenter::print (ostream& os) const
 indenter indenter::gIndenter;
 
 //______________________________________________________________________________
+//#define DEBUG_OLEC
+
 outputLineElementsCounter::outputLineElementsCounter (int maxElementsPerLine)
 {
   fElementsCounter    = 0;
@@ -262,10 +264,12 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   fElementsCounter++;
   
   if (fElementsCounter >= fMaxElementsPerLine) {
-    cerr <<
-      "%{ " << fMaxElementsPerLine << " elems %}" <<
+#ifdef DEBUG_OLEC
+    cout <<
+      "%{ ~" << fMaxElementsPerLine << " elems %}" <<
       endl <<
       indenter::gIndenter;
+#endif
 
     fElementsCounter = 0;
   }
