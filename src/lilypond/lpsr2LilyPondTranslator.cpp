@@ -2925,9 +2925,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       endl;
 
   // fetch double tremolo divisions
-  int doubleTremoloDivisions =
+  int doubleTremoloSoundingDivisions =
     elt->
-      getDoubleTremoloDivisions ();
+      getDoubleTremoloSoundingDivisions ();
 
   // the marks number determines the duration of the two elements:
   // '8' for 1, '16' for 2, etc
@@ -2960,21 +2960,24 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       divisionsPerDoubleTremoloElement <<
       " while it should be positive" <<
       endl <<
-      tab << "partDivisionsPerQuarterNote = " << partDivisionsPerQuarterNote <<
+      tab << "partDivisionsPerQuarterNote = " << 
+      partDivisionsPerQuarterNote <<
       endl <<
-      tab << "doubleTremoloDivisions = " << doubleTremoloDivisions <<
+      tab << "doubleTremoloSoundingDivisions = " <<
+      doubleTremoloSoundingDivisions <<
       endl <<
-      tab << "fCurrentTremoloElementsLpsrDuration = " << fCurrentTremoloElementsLpsrDuration;
+      tab << "fCurrentTremoloElementsLpsrDuration = " <<
+      fCurrentTremoloElementsLpsrDuration;
     
     msrInternalError (
       elt->getInputLineNumber (),
       s.str());
   }
     
-  // the number of repeats is the quotient of the number of divisions
+  // the number of repeats is the quotient of the number of sounding divisions
   // by the duration of the elements
   int numberOfRepeats =
-    doubleTremoloDivisions
+    doubleTremoloSoundingDivisions
       /
     (2 * divisionsPerDoubleTremoloElement); // to account for both elements
 
@@ -2983,13 +2986,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
     cerr <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
-      tab << "% partDivisionsPerQuarterNote = " << partDivisionsPerQuarterNote <<
+      tab << "% partDivisionsPerQuarterNote = " <<
+      partDivisionsPerQuarterNote <<
       endl <<
-      tab << "% doubleTremoloDivisions = " << doubleTremoloDivisions <<
+      tab << "% doubleTremoloSoundingDivisions = " <<
+      doubleTremoloSoundingDivisions <<
       endl <<
-      tab << "% fCurrentTremoloElementsLpsrDuration = " << fCurrentTremoloElementsLpsrDuration <<
+      tab << "% fCurrentTremoloElementsLpsrDuration = " <<
+      fCurrentTremoloElementsLpsrDuration <<
       endl <<
-      tab << "% divisionsPerDoubleTremoloElement = " << divisionsPerDoubleTremoloElement <<
+      tab << "% divisionsPerDoubleTremoloElement = " <<
+      divisionsPerDoubleTremoloElement <<
       endl <<
       tab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;

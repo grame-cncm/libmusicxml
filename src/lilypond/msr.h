@@ -1616,11 +1616,11 @@ class EXP msrDoubleTremolo : public msrElement
                               { return fDoubleTremoloHarmony; };
                       
      // divisions
-    void                  setDoubleTremoloDivisions (int divisions)
-                              { fDoubleTremoloDivisions = divisions; }
+    void                  setDoubleTremoloSoundingDivisions (int divisions)
+                              { fDoubleTremoloSoundingDivisions = divisions; }
             
-    int                   getDoubleTremoloDivisions () const
-                              { return fDoubleTremoloDivisions; }
+    int                   getDoubleTremoloSoundingDivisions () const
+                              { return fDoubleTremoloSoundingDivisions; }
             
     // measure uplink
     void                  setDoubleTremoloMeasureUplink (
@@ -1680,7 +1680,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     // sounding duration
     // the same as the display divisions of both members
-    int                           fDoubleTremoloDivisions;
+    int                           fDoubleTremoloSoundingDivisions;
 
     msrDoubleTremoloKind          fDoubleTremoloKind; // JMI ???
     

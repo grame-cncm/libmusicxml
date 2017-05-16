@@ -3897,7 +3897,7 @@ msrDoubleTremolo::msrDoubleTremolo (
   
   fDoubleTremoloVoiceUplink = voiceUplink;
 
-  fDoubleTremoloDivisions = -1; // will be set later
+  fDoubleTremoloSoundingDivisions = -1; // will be set later
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
@@ -3917,8 +3917,8 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
         fDoubleTremoloPlacementKind,
         clonedVoice);
 
-  clone->fDoubleTremoloDivisions =
-    fDoubleTremoloDivisions;
+  clone->fDoubleTremoloSoundingDivisions =
+    fDoubleTremoloSoundingDivisions;
         
   return clone;
 }
@@ -3947,13 +3947,13 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
     note->getNoteDisplayDivisions ();
 
   // set double tremolo divisions to that of the note
-  if (fDoubleTremoloDivisions > 0) {
-    if (noteDisplayDivisions != fDoubleTremoloDivisions) { // JMI
+  if (fDoubleTremoloSoundingDivisions > 0) {
+    if (noteDisplayDivisions != fDoubleTremoloSoundingDivisions) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions << " (existing)" <<
+        fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
         noteDisplayDivisions <<
         " on note first element:" << " (note)" <<
@@ -3973,7 +3973,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
     }
   }
   else {
-    fDoubleTremoloDivisions = noteDisplayDivisions;
+    fDoubleTremoloSoundingDivisions = noteDisplayDivisions;
   }
 }
 
@@ -3999,13 +3999,13 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
     chord->getChordDivisions ();
     
   // set double tremolo divisions to that of the chord
-  if (fDoubleTremoloDivisions > 0) {
-    if (chordDivisions != fDoubleTremoloDivisions) { // JMI
+  if (fDoubleTremoloSoundingDivisions > 0) {
+    if (chordDivisions != fDoubleTremoloSoundingDivisions) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions << " (existing)" <<
+        fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
         chordDivisions << " (chord)" <<
         " on chord first element:" <<
@@ -4025,7 +4025,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
     }
   }
   else {
-    fDoubleTremoloDivisions = chordDivisions;
+    fDoubleTremoloSoundingDivisions = chordDivisions;
   }
 }
 
@@ -4051,13 +4051,13 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
     note->getNoteDisplayDivisions ();
 
   // set double tremolo divisions to that of the note
-  if (fDoubleTremoloDivisions > 0) {
-    if (noteDisplayDivisions != fDoubleTremoloDivisions) { // JMI
+  if (fDoubleTremoloSoundingDivisions > 0) {
+    if (noteDisplayDivisions != fDoubleTremoloSoundingDivisions) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions << " (existing)" <<
+        fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
         noteDisplayDivisions <<
         " on note second element:" << " (note)" <<
@@ -4077,7 +4077,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
     }
   }
   else {
-    fDoubleTremoloDivisions = noteDisplayDivisions;
+    fDoubleTremoloSoundingDivisions = noteDisplayDivisions;
   }
 }
 
@@ -4103,13 +4103,13 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     chord->getChordDivisions ();
     
   // set double tremolo divisions to that of the chord
-  if (fDoubleTremoloDivisions > 0) {
-    if (chordDivisions != fDoubleTremoloDivisions) { // JMI
+  if (fDoubleTremoloSoundingDivisions > 0) {
+    if (chordDivisions != fDoubleTremoloSoundingDivisions) { // JMI
       stringstream s;
 
      s <<
         "attempt to set double tremolo divisions both to " <<
-        fDoubleTremoloDivisions << " (existing)" <<
+        fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
         chordDivisions <<
         " on chord second element:" << " (chord)" <<
@@ -4129,7 +4129,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     }
   }
   else {
-    fDoubleTremoloDivisions = chordDivisions;
+    fDoubleTremoloSoundingDivisions = chordDivisions;
   }
 }
 
@@ -4262,7 +4262,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloDivisions << " divs";
+    ", " << fDoubleTremoloSoundingDivisions << " divs";
 
   if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
@@ -4341,7 +4341,7 @@ void msrDoubleTremolo::print (ostream& os)
     singularOrPlural (
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement: " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloDivisions << " divs" <<
+    ", " << fDoubleTremoloSoundingDivisions << " divs" <<
     endl;
 
   idtr++;
@@ -13186,12 +13186,13 @@ void msrMeasure::appendDoubleTremoloToMeasure (
         fMeasurePosition);
 
     // fetch doubleTremolo divisions
-    int doubleTremoloDivisions =
-      doubleTremolo->getDoubleTremoloDivisions ();
+    int DoubleTremoloSoundingDivisions =
+      doubleTremolo->getDoubleTremoloSoundingDivisions ();
       
     // account for doubleTremolo duration in measure position
     setMeasurePosition (
-      inputLineNumber, fMeasurePosition + doubleTremoloDivisions);
+      inputLineNumber,
+      fMeasurePosition + DoubleTremoloSoundingDivisions);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
@@ -13199,7 +13200,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
         inputLineNumber, fMeasurePosition);
   
     // determine if the doubleTremolo occupies a full measure
-// XXL  JMI  if (doubleTremoloDivisions == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (DoubleTremoloSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
       // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
   
     // append the doubleTremolo to the measure elements list
