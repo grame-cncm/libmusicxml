@@ -147,6 +147,8 @@
         <root>
           <root-step>C</root-step>
           <root-alter>1</root-alter>
+          <bass-step>G</bass-step>
+          <bass-alter>1</bass-alter>
           </root>
         <kind use-symbols="yes">augmented</kind>
         </harmony>

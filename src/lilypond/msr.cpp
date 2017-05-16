@@ -11831,14 +11831,7 @@ string msrHarmony::harmonyAsString () const
   s <<
     msrQuartertonesPitchAsString (
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      fHarmonyRootQuartertonesPitch) <<
-    "__" <<
-    msrDiatonicPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      msrDiatonicPitchFromQuatertonesPitch (
-        fInputLineNumber,
-        fHarmonyRootQuartertonesPitch)) << // alteration? JMI
-          
+      fHarmonyRootQuartertonesPitch) <<          
     harmonyKindAsShortString ();
 
   if (fHarmonyDirectPartUplink) // JMI ???
@@ -11855,11 +11848,9 @@ string msrHarmony::harmonyAsString () const
   if (fHarmonyBassQuartertonesPitch != k_NoQuaterTonesPitch)
     s <<
       "/" <<
-      msrDiatonicPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        msrDiatonicPitchFromQuatertonesPitch (
-          fInputLineNumber,
-          fHarmonyBassQuartertonesPitch)); // alteration? JMI
+    msrQuartertonesPitchAsString (
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
+      fHarmonyBassQuartertonesPitch);    
 
   return s.str();
 }
@@ -11933,12 +11924,6 @@ void msrHarmony::print (ostream& os)
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fHarmonyRootQuartertonesPitch) <<
       endl <<
-      msrDiatonicPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        msrDiatonicPitchFromQuatertonesPitch (
-          fInputLineNumber,
-          fHarmonyRootQuartertonesPitch)) << // alteration? JMI   
-      endl <<
     idtr <<
       setw(15) << "HarmonyKind" << " = " <<
       harmonyKindAsString (fHarmonyKind) <<
@@ -11949,11 +11934,9 @@ void msrHarmony::print (ostream& os)
       endl <<
     idtr <<
       setw(15) << "HarmonyBass" << " = " <<
-      msrDiatonicPitchAsString (
+      msrQuartertonesPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        msrDiatonicPitchFromQuatertonesPitch (
-          fInputLineNumber,
-          fHarmonyBassQuartertonesPitch)) << // alteration? JMI
+        fHarmonyBassQuartertonesPitch) <<
       endl;
 
   idtr--;

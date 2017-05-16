@@ -606,12 +606,9 @@ string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
   stringstream s;
 
   s <<
-    msrDiatonicPitchAsString (
+    msrQuartertonesPitchAsString (
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      msrDiatonicPitchFromQuatertonesPitch (
-        inputLineNumber,
-        harmony->getHarmonyRootQuartertonesPitch ())) <<
-           
+      harmony->getHarmonyRootQuartertonesPitch ()) <<                     
     harmony->getHarmonyDirectPartUplink ()->
       divisionsAsMsrString (
         inputLineNumber,
@@ -659,11 +656,9 @@ string lpsr2LilyPondTranslator::harmonyAsLilyPondString (
   if (harmonyBassQuartertonesPitch != k_NoQuaterTonesPitch)
     s <<
       "/" <<
-      msrDiatonicPitchAsString (
+      msrQuartertonesPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        msrDiatonicPitchFromQuatertonesPitch (
-          inputLineNumber,
-          harmonyBassQuartertonesPitch));
+        harmonyBassQuartertonesPitch);
 
   return s.str();
 }
