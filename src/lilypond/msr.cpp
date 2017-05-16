@@ -11829,6 +11829,10 @@ string msrHarmony::harmonyAsString () const
   stringstream s;
 
   s <<
+    msrQuartertonesPitchAsString (
+      gMsrOptions->fMsrQuatertonesPitchesLanguage,
+      fHarmonyRootQuartertonesPitch) <<
+    "__" <<
     msrDiatonicPitchAsString (
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
       msrDiatonicPitchFromQuatertonesPitch (
@@ -11925,6 +11929,10 @@ void msrHarmony::print (ostream& os)
   os << left <<
     idtr <<
       setw(15) << "HarmonyRoot" << " = " <<
+      msrQuartertonesPitchAsString (
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
+        fHarmonyRootQuartertonesPitch) <<
+      endl <<
       msrDiatonicPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         msrDiatonicPitchFromQuatertonesPitch (
