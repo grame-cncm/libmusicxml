@@ -8988,6 +8988,8 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // keep track of current tuplet in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord ?? JMI XXL
+
+  /* JMI
   if (gGeneralOptions->fTraceTuplets) {
     displayLastHandledTupletInVoice (
       "############## Before fLastHandledTupletInVoice");
@@ -8999,6 +9001,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
     displayLastHandledTupletInVoice (
       "############## After  fLastHandledNoteInVoice");
   }
+  */
 }
 
 //______________________________________________________________________________
@@ -9010,7 +9013,7 @@ void xml2MsrTranslator::finalizeTuplet (
       "xml2MsrTranslator::finalizeTuplet(), " <<
       "line " << inputLineNumber <<
       endl;
-      
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -10097,7 +10100,7 @@ void xml2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
     idtr--;
   }
 
-  // handle the pending tuplets if any
+  // handle the pending tuplets if any ??? JMI XXL
   handleTupletsPendingOnTupletStack (
     inputLineNumber);
 

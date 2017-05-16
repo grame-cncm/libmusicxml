@@ -430,7 +430,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_SEGMENTS_SHORT_NAME_ ", --" _TRACE_SEGMENTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "voices' segments" <<
+      "voices segments" <<
       endl <<
     endl <<
       
@@ -446,7 +446,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_MEASURES_SHORT_NAME_ ", --" _TRACE_MEASURES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "segments' measures" <<
+      "measures" <<
       endl <<
     endl <<
 
@@ -454,13 +454,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_NOTES_SHORT_NAME_ ", --" _TRACE_NOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "notes" <<
+      "notes (quite verbose)" <<
       endl <<
     idtr <<
       "--" _TRACE_TECHNICALS_SHORT_NAME_ ", --" _TRACE_TECHNICALS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "notes" <<
+      "technicals" <<
       endl <<
     endl <<
       
@@ -498,7 +498,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_LYRICS_SHORT_NAME_ ", --" _TRACE_LYRICS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "lyrics in MusicXML, stanza in MSR" <<
+      "lyrics in MusicXML, stanzas in MSR" <<
       endl <<
     endl <<
 
