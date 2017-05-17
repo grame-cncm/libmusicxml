@@ -5719,7 +5719,14 @@ void msrNote::initializeNote ()
   
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a " << noteKindAsString (fNoteKind) << " note" <<
+      "Creating a note, kind: ";
+    if (fNoteKind == k_NoNoteKind)
+      cerr <<
+        "not yet known";
+    else
+      cerr <<
+        noteKindAsString (fNoteKind);
+    cerr <<
       ", line " << fInputLineNumber << ":" <<
       endl;
 
