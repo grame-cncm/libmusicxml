@@ -4172,6 +4172,7 @@ class EXP msrChord : public msrElement
                             int measureNumber);
                     
     // harmony
+    string                chordAsStringwithRawDivisions () const;
     string                chordAsString () const;
 
     // visitors

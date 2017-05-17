@@ -2284,7 +2284,7 @@ void msrOptions::printMsrOptionsHelp ()
       "--" _DELAY_RESTS_LIGATURES_SHORT_NAME_ ", --" _DELAY_RESTS_LIGATURES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "<bracket/> in MusicXML, '\\['... \\}'' in LilyPond" <<
+      "<bracket/> in MusicXML, '\\[... \\}' in LilyPond" <<
       endl <<
     idtr <<
       "--" _DELAY_RESTS_WEDGES_SHORT_NAME_ ", --" _DELAY_RESTS_WEDGES_LONG_NAME_ <<
@@ -6077,7 +6077,7 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
 {
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Applying tuplet display factor ''" <<
+      "Applying tuplet display factor '" <<
       actualNotes << "/" << normalNotes <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
@@ -7938,9 +7938,9 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
 {
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "Applying tuplet member display factor ''" <<
+      "Applying tuplet member display factor '" <<
       actualNotes << "/" << normalNotes <<
-      "' to the members of chord '" << chordAsString () <<
+      "' to the members of chord '" << chordAsStringwithRawDivisions () <<
       "', line " << fInputLineNumber <<
       endl;
 
@@ -7952,6 +7952,40 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
       applyTupletMemberDisplayFactorToNote (
         actualNotes, normalNotes);
   } // for
+}
+
+string msrChord::chordAsStringwithRawDivisions () const
+{
+  stringstream s;
+
+  s << "<";
+
+  if (fChordNotes.size ()) {
+    vector<S_msrNote>::const_iterator
+      iBegin = fChordNotes.begin(),
+      iEnd   = fChordNotes.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrNote
+        note = (*i);
+        
+      s <<
+      /* JMI
+        note->notePitchAsString () <<
+        note->noteSoundingDivisionsAsMsrString () <<
+        "[" << note->getNoteOctave () << "]"
+        */
+
+        note->noteAsShortStringWithRawDivisions ();
+        
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  s << ">";
+  
+  return s.str();
 }
 
 string msrChord::chordAsString () const

@@ -8255,7 +8255,7 @@ void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
   fCurrentActualNotes = (int)(*elt);
 
   // notes inside a tuplet have no <tuplet/> markup
-  if (fTupletsStack.size ())
+// JMI  if (fTupletsStack.size ())
     fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -8269,7 +8269,7 @@ void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
   fCurrentNormalNotes = (int)(*elt);
 
   // notes inside a tuplet have no <tuplet/> markup
-  if (fTupletsStack.size ())
+// JMI  if (fTupletsStack.size ())
     fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -10027,18 +10027,22 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
+  /* JMI
   if (gGeneralOptions->fTraceNotes) {
     displayLastHandledNoteInVoice (
       "############## Before fLastHandledNoteInVoice");
   }
+  */
   
   fLastHandledNoteInVoice [currentVoice] = newNote;
-  
+
+  /* JMI
   if (gGeneralOptions->fTraceNotes) {
     displayLastHandledNoteInVoice (
       "############## After  fLastHandledNoteInVoice");
   }
-    
+  */
+  
   fOnGoingNote = false;
 }
 
