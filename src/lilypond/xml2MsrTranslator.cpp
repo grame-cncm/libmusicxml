@@ -8255,7 +8255,7 @@ void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
   fCurrentActualNotes = (int)(*elt);
 
   // notes inside a tuplet have no <tuplet/> markup
-  if (! fCurrentNoteBelongsToATuplet)
+  if (fTupletsStack.size ())
     fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -8269,7 +8269,7 @@ void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
   fCurrentNormalNotes = (int)(*elt);
 
   // notes inside a tuplet have no <tuplet/> markup
-  if (! fCurrentNoteBelongsToATuplet)
+  if (fTupletsStack.size ())
     fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -8516,7 +8516,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
     setChordTie (
       chordFirstNote->getNoteTie ());
   
-  // register note as first member of fCurrentChord
+  // register note as first member of chord
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "--> adding first note " <<
@@ -9909,7 +9909,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // handle note
   if (fCurrentNoteBelongsToAChord && fCurrentNoteBelongsToATuplet) {
     
-    // note is the second, third, ..., member of a chord in a tuplet
+    // note is the second, third, ..., member of a chord
     // that is a member of a tuplet
     handleNoteBelongingToAChordInATuplet (newNote);
   }
@@ -10003,7 +10003,17 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       // newNote is the first note after the chord
 
       // forget about this chord
+      if (gGeneralOptions->fTraceChords) {
+        cerr << idtr <<
+          "Forgetting about '" <<
+   // JMI       fCurrentChord->chordAsString () <<
+          "'" <<
+          endl;
+      }
+      
       fCurrentChord = 0;
+
+      abort ();
 
       if (fCurrentDoubleTremolo)
         // forget about a double tremolo containing a chord

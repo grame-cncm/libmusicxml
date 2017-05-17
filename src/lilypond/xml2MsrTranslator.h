@@ -1135,7 +1135,8 @@ class EXP xml2MsrTranslator :
     int                       fCurrentLigatureNumber;
     string                    fCurrentLigatureType;
     string                    fCurrentLigaturePlacement;
-    msrLigature::msrLigatureKind      fCurrentLigatureKind;
+    msrLigature::msrLigatureKind
+                              fCurrentLigatureKind;
     bool                      fOnGoingLigature;
     bool                      fOnGoingLigatureHasStanza;
 
