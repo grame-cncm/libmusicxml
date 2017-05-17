@@ -9971,7 +9971,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);
 
-  if (gGeneralOptions->fTraceNotes) { // JMI
+  if (false && gGeneralOptions->fTraceNotes) { // JMI
     cerr <<
       endl <<
       idtr <<

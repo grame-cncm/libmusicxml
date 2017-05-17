@@ -6075,7 +6075,7 @@ void msrNote::setNoteBelongsToAChord ()
 void msrNote::applyTupletMemberDisplayFactorToNote (
   int actualNotes, int normalNotes)
 {
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "Applying tuplet display factor ''" <<
       actualNotes << "/" << normalNotes <<
@@ -7936,6 +7936,14 @@ string msrChord::chordSoundingDivisionsAsMsrString () const
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "Applying tuplet member display factor ''" <<
+      actualNotes << "/" << normalNotes <<
+      "' to the members of chord '" << chordAsString () <<
+      "', line " << fInputLineNumber <<
+      endl;
+
   for (
     vector<S_msrNote>::const_iterator i = fChordNotes.begin();
     i != fChordNotes.end();
@@ -8851,6 +8859,26 @@ int msrTuplet::setTupletPositionInMeasure (int position)
 
 void msrTuplet::applyDisplayFactorToTupletMembers ()
 {
+  if (gGeneralOptions->fTraceTuplets) {
+    cerr <<
+      idtr <<
+        "% ==> applyDisplayFactorToTupletMembers()" <<
+        endl;
+
+    idtr++;
+    
+    cerr <<
+      idtr <<
+        "% fTupletActualNotes = " <<
+        fTupletActualNotes <<
+        ", fTupletNormalNotes = " <<
+        fTupletNormalNotes <<
+        endl <<
+      endl;
+
+    idtr--;
+  }
+
   for (
     list<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
