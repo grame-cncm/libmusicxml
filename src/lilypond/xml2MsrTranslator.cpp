@@ -8950,8 +8950,8 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       fCurrentActualNotes <<
       "/" <<
       fCurrentNormalNotes <<
-//  JMI    "' tuplet with first note " <<
-  //    firstNote->noteAsShortString () <<
+      "' tuplet with first note " <<
+      firstNote->noteAsShortStringWithRawDivisions () <<
       endl;
       
   S_msrTuplet
@@ -9971,7 +9971,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);
 
-  if (false && gGeneralOptions->fTraceNotes) { // JMI
+  if (gGeneralOptions->fTraceNotes) { // JMI
     cerr <<
       endl <<
       idtr <<
@@ -9999,25 +9999,26 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   if (! fCurrentNoteBelongsToAChord) {
-    if (fOnGoingNote) {
+    if (fOnGoingChord) {
       // newNote is the first note after the chord
 
+  // JMI    msrAssert (fCurrentChord != 0, "fCurrentChord is null");
+      
       // forget about this chord
       if (gGeneralOptions->fTraceChords) {
         cerr << idtr <<
           "Forgetting about '" <<
-   // JMI       fCurrentChord->chordAsString () <<
+          fCurrentChord->chordAsString () <<
           "'" <<
           endl;
       }
       
       fCurrentChord = 0;
 
-      abort ();
-
-      if (fCurrentDoubleTremolo)
+      if (fCurrentDoubleTremolo) {
         // forget about a double tremolo containing a chord
       // JMI XXL BOFS  fCurrentDoubleTremolo = 0;
+      }
 
       fOnGoingChord = false;
     }
