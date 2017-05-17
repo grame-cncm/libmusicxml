@@ -6079,7 +6079,7 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
     cerr << idtr <<
       "Applying tuplet display factor '" <<
       actualNotes << "/" << normalNotes <<
-      "' to note '" << noteAsShortString () <<
+      "' to note '" << noteAsShortStringWithRawDivisions () <<
       "', line " << fInputLineNumber <<
       endl;
 
