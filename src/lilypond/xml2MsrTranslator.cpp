@@ -8514,6 +8514,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
         inputLineNumber,
         fCurrentPart,
         chordFirstNote->getNoteSoundingDivisions (),
+        chordFirstNote->getNoteDisplayDivisions (),
         chordFirstNote->getNoteGraphicDuration ());
 
   // chord's tie kind is that of its first note
@@ -10012,7 +10013,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       // forget about this chord
       if (gGeneralOptions->fTraceChords) {
         cerr << idtr <<
-          "Forgetting about '" <<
+          "Forgetting about chord '" <<
           fCurrentChord->chordAsString () <<
           "'" <<
           endl;

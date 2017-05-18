@@ -7522,6 +7522,7 @@ S_msrChord msrChord::create (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
   int         chordSoundingDivisions,
+  int         chordDisplayDivisions,
   msrDuration chordGraphicDuration)
 {
   if (gGeneralOptions->fTraceChords) {
@@ -7538,7 +7539,7 @@ S_msrChord msrChord::create (
     new msrChord (
       inputLineNumber,
       chordDirectPartUplink,
-      chordSoundingDivisions,
+      chordSoundingDivisions, chordDisplayDivisions,
       chordGraphicDuration);
   assert(o!=0);
 
@@ -7549,6 +7550,7 @@ msrChord::msrChord (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
   int         chordSoundingDivisions,
+  int         chordDisplayDivisions,
   msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
@@ -7561,6 +7563,7 @@ msrChord::msrChord (
     chordDirectPartUplink;
     
   fChordSoundingDivisions = chordSoundingDivisions;
+  fChordDisplayDivisions  = chordDisplayDivisions;
   
   fChordGraphicDuration = chordGraphicDuration;
 
@@ -7587,6 +7590,7 @@ S_msrChord msrChord::createChordBareClone (
         fInputLineNumber,
         partClone,
         fChordSoundingDivisions,
+        fChordDisplayDivisions,
         fChordGraphicDuration);
 
   clone->
@@ -7619,6 +7623,20 @@ void msrChord::setChordSoundingDivisions (int divisions)
       endl;
 
   fChordSoundingDivisions = divisions;
+}
+
+void msrChord::setChordDisplayDivisions (int divisions)
+{
+  if (gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "Setting chord display divisions to '" <<
+      divisions <<
+      "' for chord '" <<
+      chordAsString () <<
+      "'" <<
+      endl;
+
+  fChordDisplayDivisions = divisions;
 }
 
 string msrChord::chordGraphicDurationAsMsrString () const
@@ -8015,6 +8033,25 @@ string msrChord::chordSoundingDivisionsAsMsrString () const
   return result;
 }
 
+string msrChord::chordDisplayDivisionsAsMsrString () const
+{
+  string result;
+
+/* JMI
+  int inputSourceSuppliedNumberOfDots =
+    fChordNotes [0]-> 
+      getNoteDotsNumber (); // any chord member note is fine
+  */
+  
+  result =
+    fChordDirectPartUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fChordDisplayDivisions);
+
+  return result;
+}
+
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
@@ -8087,6 +8124,7 @@ string msrChord::chordAsString () const
         
       s <<
         note->notePitchAsString () <<
+        ", " <<
         note->getNoteSoundingDivisions () <<
         " soundivs" <<
         "[" << note->getNoteOctave () << "]";
@@ -8116,8 +8154,10 @@ void msrChord::print (ostream& os)
     ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
-    ", " <<
+    ", divs: " <<
     fChordSoundingDivisions << " sounddivs" <<
+    ", " <<
+    fChordDisplayDivisions << " dispdivs" <<
     ", meas "<<
     getChordMeasureNumber () <<
     ":" <<

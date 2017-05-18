@@ -3968,6 +3968,7 @@ class EXP msrChord : public msrElement
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
       int         chordSoundingDivisions,
+      int         chordDisplayDivisions,
       msrDuration chordGraphicDuration);
 
     // creation from MusicXML
@@ -3985,6 +3986,7 @@ class EXP msrChord : public msrElement
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
       int         chordSoundingDivisions,
+      int         chordDisplayDivisions,
       msrDuration chordGraphicDuration);
       
     virtual ~msrChord();
@@ -4000,7 +4002,13 @@ class EXP msrChord : public msrElement
     int                   getChordSoundingDivisions () const
                               { return fChordSoundingDivisions; }
                         
+    void                  setChordDisplayDivisions (int divisions);
+            
+    int                   getChordDisplayDivisions () const
+                              { return fChordDisplayDivisions; }
+                        
     string                chordSoundingDivisionsAsMsrString () const;
+    string                chordDisplayDivisionsAsMsrString () const;
 
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
@@ -4194,8 +4202,10 @@ class EXP msrChord : public msrElement
     // divisions handling is done at the part level
     S_msrPart                 fChordDirectPartUplink;
 
-    // sounding duration
+    // sounding divisions
     int                       fChordSoundingDivisions;
+    // display divisions
+    int                       fChordDisplayDivisions;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
