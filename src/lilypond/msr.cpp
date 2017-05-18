@@ -5826,10 +5826,12 @@ void msrNote::initializeNote ()
           
     idtr--;
 
+/*
     cerr <<
       idtr <<
         "% <==" <<
         endl << endl;
+*/
   }
 
   // note measure information
@@ -6323,7 +6325,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
   if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "% ==> appending syllable " <<
+      "Appending syllable " <<
       syllable->syllableAsString () <<
       " to note " << noteAsString () <<
       endl;
@@ -9020,7 +9022,7 @@ void msrTuplet::unapplyDisplayFactorToTupletMembers (
   if (gGeneralOptions->fTraceTuplets) {
     cerr <<
       idtr <<
-        "% ==> unapplyDisplayFactorToTupletMembers()" <<
+        "UnapplyDisplayFactorToTupletMembers()" <<
         endl;
 
     idtr++;
@@ -10126,7 +10128,8 @@ string msrClef::clefAsString () const
 void msrClef::print (ostream& os)
 {
   os <<
-    clefAsString ();
+    clefAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -10244,7 +10247,8 @@ string msrKey::keyAsString () const
 void msrKey::print (ostream& os)
 {
   os <<
-    keyAsString ();
+    keyAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -10347,7 +10351,8 @@ string msrTime::timeAsString () const
 void msrTime::print (ostream& os)
 {
   os <<
-    timeAsString ();
+    timeAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -10854,7 +10859,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
   if (gGeneralOptions->fTraceLyrics) {
     cerr <<
       idtr <<
-      "% ==> setting syllable note uplink for:" <<
+      "Setting syllable note uplink for:" <<
       endl;
 
     idtr++;
@@ -16640,7 +16645,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "% ==> appending note:" <<
+      "Appending note:" <<
       endl;
 
     idtr++;
@@ -16683,7 +16688,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "% ==> appending note:" <<
+      "Appending note:" <<
       endl;
 
     idtr++;
@@ -16692,7 +16697,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       idtr <<
         note <<
       idtr <<
-        "to voice \"" << getVoiceName () << "\"" <<
+        "to voice clone \"" << getVoiceName () << "\"" <<
         endl;
 
     idtr--;
@@ -20333,10 +20338,13 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
 
   if (gGeneralOptions->fTracePartgroups) {
     cerr <<
-    endl <<
-    idtr <<
-      "% ==> After addPartToPartgroupByItsID, fPartgroupPartsMap contains:" << endl;
+      endl <<
+      idtr <<
+        "After addPartToPartgroupByItsID, fPartgroupPartsMap contains:" <<
+        endl;
+        
     idtr++;
+    
     for (
         map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
         i != fPartgroupPartsMap.end();
@@ -20346,14 +20354,17 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
         (*i).second->getPartCombinedName() <<
         endl;
     } // for
+    
     idtr--;
+    
     cerr << idtr <<
-      "% ==> addPartToPartgroup" <<
+ // JMI     "% ==> addPartToPartgroup" <<
       endl << endl <<
 
     idtr <<
-      "% ==> After addPartToPartgroupByItsID, fPartgroupPartsList contains:" <<
+      "After addPartToPartgroupByItsID, fPartgroupPartsList contains:" <<
       endl;
+      
     if (fPartgroupElements.size()) {
       list<S_msrElement>::const_iterator
         iBegin = fPartgroupElements.begin(),
@@ -20368,8 +20379,9 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
       } // for
       idtr--;
     }
+    
     cerr <<
-      idtr << "% ==> addPartToPartgroupByItsID" <<
+  // JMI    idtr << "% ==> addPartToPartgroupByItsID" <<
       endl << endl;
   }
   
@@ -20421,7 +20433,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
 {
   if (gGeneralOptions->fTracePartgroups) {
     cerr << idtr <<
-      "% ==> fetchPartFromPartgroup, fPartgroupPartsMap contains:" << endl;
+      "fetchPartFromPartgroup(), fPartgroupPartsMap contains:" << endl;
     for (
         map<string, S_msrPart>::const_iterator i = fPartgroupPartsMap.begin();
         i != fPartgroupPartsMap.end();
@@ -20432,7 +20444,7 @@ S_msrPart msrPartgroup::fetchPartFromPartgroup (
         endl;
     } // for
     cerr << idtr <<
-      "% ==> fetchPartFromPartgroup" <<
+  // JMI    "% ==> fetchPartFromPartgroup" <<
       endl;
   }
   

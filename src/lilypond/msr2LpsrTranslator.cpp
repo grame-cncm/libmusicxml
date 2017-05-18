@@ -2036,8 +2036,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kStandaloneNote:
       if (gGeneralOptions->fTraceNotes) {
         cerr << idtr <<
-          "--> appending " <<
-          fCurrentNoteClone->noteAsString () << " to voice " <<
+          "Appending " <<
+          fCurrentNoteClone->noteAsString () << " to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -2663,7 +2663,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the repeat clone to the current part clone
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a repeat to part " <<
+            "Appending a repeat to part clone " <<
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
   
@@ -2685,7 +2685,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
           // append a repeat clone to the current part clone
           if (gGeneralOptions->fTraceRepeats)
             cerr << idtr <<
-              "--> appending a repeat to part " <<
+              "Appending a repeat to part clone " <<
               fCurrentPartClone->getPartCombinedName () << "\"" <<
               endl;
     
@@ -2716,7 +2716,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a hooked repeat ending clone to voice clone \"" <<
+            "Appending a hooked repeat ending clone to voice clone \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
@@ -2756,7 +2756,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> appending a hookless repeat ending clone to voice clone \" " <<
+            "Appending a hookless repeat ending clone to voice clone \" " <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 

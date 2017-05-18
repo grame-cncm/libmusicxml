@@ -10166,7 +10166,7 @@ void xml2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
     // append newNote to the current grace notes
     if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGracenotes) {
       cerr <<  idtr <<
-        "--> appending note " <<
+        "Appending note " <<
         newNote->noteAsString () <<
         " to the grace notes in voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
