@@ -4262,7 +4262,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingDivisions << " divs";
+    ", " << fDoubleTremoloSoundingDivisions << " sounddivs";
 
   if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
@@ -4341,7 +4341,7 @@ void msrDoubleTremolo::print (ostream& os)
     singularOrPlural (
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement: " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingDivisions << " divs" <<
+    ", " << fDoubleTremoloSoundingDivisions << " sounddivs" <<
     endl;
 
   idtr++;
@@ -6764,7 +6764,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "R" <<
         ":" <<
-        fNoteSoundingDivisions << " divs";
+        fNoteSoundingDivisions << " sounddivs";
       break;
       
     case msrNote::kSkipNote:
@@ -7033,6 +7033,13 @@ void msrNote::print (ostream& os)
       break;
 
     case msrNote::kTupletMemberNote:
+      os <<
+        "divs: " <<
+        fNoteSoundingDivisions <<
+        " sound, " <<
+        fNoteDisplayDivisions<<
+        " disp";
+/* JMI
       if (
           fNoteSoundingDivisions
             ==
@@ -7041,6 +7048,7 @@ void msrNote::print (ostream& os)
           fNoteSoundingDivisions <<
           " divs";
       }
+      */
       break;
       
     case msrNote::k_NoNoteKind:
@@ -7050,10 +7058,11 @@ void msrNote::print (ostream& os)
     case msrNote::kSkipNote:
     case msrNote::kChordMemberNote:
       os <<
+        "divs: " <<
         fNoteSoundingDivisions <<
-        " divs, " <<
+        " sound, " <<
         fNoteDisplayDivisions<<
-        " dispdivs";
+        " disp";
   } // switch
 
   if (divisionsPerFullMeasure > 0)
@@ -7062,12 +7071,9 @@ void msrNote::print (ostream& os)
       divisionsPerFullMeasure <<
       " dpfm";
 
-  os <<
-    ")";
-
   // print measure related information
   os <<
-    " mea: ";
+    ", mea: ";
     
   if (fNoteMeasureNumber < 0)
     os << "?";
@@ -8034,7 +8040,7 @@ void msrChord::print (ostream& os)
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
     ", " <<
-    chordSoundingDivisionsAsMsrString () << " divs" <<
+    chordSoundingDivisionsAsMsrString () << " sounddivs" <<
     ", mea. "<<
     getChordMeasureNumber () <<
     ":" <<
@@ -9051,7 +9057,7 @@ string msrTuplet::tupletAsShortString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingDivisions << " divs" <<
+    " " << fTupletSoundingDivisions << " sounddivs" <<
     " @"<<
     fTupletMeasureNumber <<
     ":";
@@ -9115,7 +9121,7 @@ string msrTuplet::tupletAsString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingDivisions << " divs" <<
+    " " << fTupletSoundingDivisions << " sounddivs" <<
     " @"<<
     fTupletMeasureNumber <<
     ":";
@@ -9181,7 +9187,7 @@ void msrTuplet::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
-    " " << fTupletSoundingDivisions << " divs" <<
+    " " << fTupletSoundingDivisions << " sounddivs" <<
     " @"<<
     fTupletMeasureNumber <<
     ":";
@@ -9190,7 +9196,9 @@ void msrTuplet::print (ostream& os)
     os << "?";
   else
     os << fTupletPositionInMeasure;
-    
+  os <<
+    endl;
+  
   if (fTupletElements.size ()) {
     idtr++;
 
@@ -11345,7 +11353,6 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
       "% Appending 'Skip' syllable, " <<
       divisions << " divs" <<
       " to stanza " << getStanzaName () <<
-      ", divisions = " << divisions <<
       endl;
   }
   
@@ -11980,7 +11987,7 @@ void msrHarmony::print (ostream& os)
       divisionsAsMsrString (
         fInputLineNumber,
         fHarmonySoundingDivisions) <<
-    " (" << fHarmonySoundingDivisions << " divs)" <<
+    " (" << fHarmonySoundingDivisions << " sounddivs)" <<
      ", line " << fInputLineNumber <<
     endl;
     
@@ -13628,7 +13635,7 @@ void msrMeasure::bringMeasureToMeasurePosition (
       cerr << idtr <<
        "Appending " << skip->noteAsString () <<
        " (" << skipDuration <<
-       " divs.) to bring voice \"" << voice->getVoiceName () <<
+       " divs) to bring voice \"" << voice->getVoiceName () <<
        "\" measure '" << fMeasureNumber << "'" <<
        " from position " << fMeasurePosition <<
        " to position '" << measurePosition << "'" <<
@@ -14117,7 +14124,7 @@ void msrMeasure::finalizeMeasure (
     if (gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
        "Appending '" << skip->noteAsString () <<
-       " (" << skipDuration << " divs.)'" <<
+       " (" << skipDuration << " divs)'" <<
        " to finalize \"" << voice->getVoiceName () <<
        "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
        " % --> @" << fMeasureNumber <<
