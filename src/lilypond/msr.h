@@ -3784,6 +3784,8 @@ class EXP msrNote : public msrElement
                             int inputLineNumber) const;
 
     string                noteSoundingDivisionsAsMsrString () const;
+    string                noteDisplayDivisionsAsMsrString () const;
+    
     string                skipOrRestDivisionsAsMsrString () const;
     
     string                noteGraphicDurationAsMsrString () const;

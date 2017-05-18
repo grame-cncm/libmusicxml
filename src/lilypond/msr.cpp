@@ -6630,9 +6630,45 @@ string msrNote::noteSoundingDivisionsAsMsrString () const
       " needs " <<
       singularOrPlural (
         computedNumberOfDots, "dot", "dots") <<
-      "," <<
+      " for " << fNoteSoundingDivisions << " sounding divisions," <<
       endl <<
-      "but " << fNoteDotsNumber << " is found in MusicXML data" <<
+      "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
+      endl;
+      abort ();
+    fNoteDirectPartUplink->
+      printDurationsDivisions (s);
+
+    msrMusicXMLWarning (
+      fInputLineNumber,
+      s.str());
+  }
+
+  return result;
+}
+
+string msrNote::noteDisplayDivisionsAsMsrString () const
+{
+  string result;
+  int    computedNumberOfDots = 0;
+
+  result =
+    fNoteDirectPartUplink->
+      divisionsAsMsrString (
+        fInputLineNumber,
+        fNoteDisplayDivisions,
+        computedNumberOfDots);
+
+  if (computedNumberOfDots != fNoteDotsNumber) {
+    stringstream s;
+
+    s <<
+      "note " << noteAsShortStringWithRawDivisions () <<
+      " needs " <<
+      singularOrPlural (
+        computedNumberOfDots, "dot", "dots") <<
+      " for " << fNoteSoundingDivisions << " display divisions," <<
+      endl <<
+      "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
       endl;
       abort ();
     fNoteDirectPartUplink->
@@ -6876,12 +6912,17 @@ string msrNote::noteAsShortString () const
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
+        noteSoundingDivisionsAsMsrString () <<
+        "_" <<
+        noteDisplayDivisionsAsMsrString ();
+        /* JMI
         fNoteDirectPartUplink->
           tupletSoundingDivisionsAsMsrString (
             fInputLineNumber,
             fNoteSoundingDivisions,
             fNoteTupletUplink->getTupletActualNotes (),
             fNoteTupletUplink->getTupletNormalNotes ());
+            */
 
       if (! fNoteIsARest)
         s <<
@@ -6959,12 +7000,17 @@ string msrNote::noteAsString () const
       s <<
         "Tuplet member note"  " "<<
         notePitchAsString () <<
+        noteSoundingDivisionsAsMsrString () <<
+        "_" <<
+        noteDisplayDivisionsAsMsrString ();
+/* JMI
         fNoteDirectPartUplink->
           tupletSoundingDivisionsAsMsrString (
             fInputLineNumber,
             fNoteSoundingDivisions,
             fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ());
+            fNoteTupletUplink->getTupletNormalNotes ())
+            */
 
       if (! fNoteIsARest)
         s <<
@@ -13426,10 +13472,12 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     fMeasureDirectPartUplink->
       updatePartMeasurePositionHighTide (
         inputLineNumber, fMeasurePosition);
-  
+
+  /* JMI
     // set tuplet members' display divisions
     tuplet->
       applyDisplayFactorToTupletMembers ();
+      */
 
     // determine if the tuplet occupies a full measure
 // XXL    if (tupletSoundingDivisions == fMeasureDivisionsPerWholeMeasure)

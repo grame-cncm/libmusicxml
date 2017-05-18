@@ -10689,10 +10689,15 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   note->
     setNoteKind (msrNote::kTupletMemberNote);
 
+  // apply tuplet display factor to note
+  note->
+    applyTupletMemberDisplayFactorToNote (
+      fCurrentActualNotes, fCurrentNormalNotes);
+
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note->noteAsShortStringWithRawDivisions () <<
+      note->noteAsString () <<
       endl;
 
   // attach the pending elements, if any, to the note
@@ -10854,7 +10859,12 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
+  // apply tuplet display factor to note
+  newChordNote->
+    applyTupletMemberDisplayFactorToNote (
+      fCurrentActualNotes, fCurrentNormalNotes);
+
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
       newChordNote->noteAsShortStringWithRawDivisions () <<
