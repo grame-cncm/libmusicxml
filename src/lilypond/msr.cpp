@@ -7558,7 +7558,6 @@ msrChord::msrChord (
     chordDirectPartUplink;
     
   fChordSoundingDivisions = chordSoundingDivisions;
-
   fChordGraphicDuration = chordGraphicDuration;
 }
 
@@ -10329,9 +10328,12 @@ string msrTime::timeAsShortString () const
   stringstream s;
 
   s <<
+    fBeatsNumber << "/" << fBeatsValue;
+  /* JMI
     "Time \"" << 
     fBeatsNumber << "/" << fBeatsValue <<
     "\"";
+    */
 
   return s.str();
 }
@@ -18654,21 +18656,21 @@ void msrStaff::print (ostream& os)
     os << fStaffClef;
   else
     os << "NO_CLEF";
-  os << endl;
+// JMI  os << endl;
 
   os << idtr;
   if (fStaffKey)
     os << fStaffKey;
   else
     os << "NO_KEY";
-  os << endl;
+// JMI  os << endl;
 
   os << idtr;
   if (fStaffTime)
     os << fStaffTime;
   else
     os << "NO_TIME";
-  os << endl;
+// JMI  os << endl;
 
 /* JMI
   os <<

@@ -10595,9 +10595,9 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
       case msrNote::kDoubleTremoloMemberNote:
         {
           // fetch chordFirstNote's display divisions
-          int chordFirstNoteDisplayDivisions =
+          int chordFirstNoteSoundingDivisions =
             chordFirstNote->
-                getNoteDisplayDivisions ();
+              getNoteSoundingDivisions ();
           
           // updating chord's divisions // JMI
           if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
@@ -10605,7 +10605,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
               idtr <<
                 "Updating display divisions for double tremolo chord '" <<
                 "' " << fCurrentChord->chordAsString () <<
-                " to " << chordFirstNoteDisplayDivisions <<
+                " to " << chordFirstNoteSoundingDivisions <<
                 " in voice \"" <<
                 currentVoice->getVoiceName () <<
                 "\"" <<
@@ -10614,7 +10614,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           
           fCurrentChord->
             setChordSoundingDivisions ( // ??? JMI
-              chordFirstNoteDisplayDivisions);
+              chordFirstNoteSoundingDivisions);
               
           if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
             // replace double tremolo's first element by chord

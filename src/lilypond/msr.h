@@ -4000,7 +4000,7 @@ class EXP msrChord : public msrElement
             
     int                   getChordSoundingDivisions () const
                               { return fChordSoundingDivisions; }
-            
+                        
     string                chordSoundingDivisionsAsMsrString () const;
 
     S_msrPart             getChordDirectPartUplink () const
