@@ -21161,7 +21161,7 @@ void msrIdentification::print (ostream& os)
     os << idtr <<
       " " << "nothing specified" << endl;
 
-  os << endl;
+// JMI  os << endl;
   
   idtr--;
 }
