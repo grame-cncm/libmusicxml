@@ -3995,8 +3995,7 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
                               
      // divisions
-    void                  setChordSoundingDivisions (int divisions)
-                              { fChordSoundingDivisions = divisions; }
+    void                  setChordSoundingDivisions (int divisions);
             
     int                   getChordSoundingDivisions () const
                               { return fChordSoundingDivisions; }

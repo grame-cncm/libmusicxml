@@ -1640,7 +1640,8 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
       elt->getInputLineNumber (),
       "divisions per quarter note should be positive");
   }
-  
+
+  // set current part's divisions per quarter note
   if (gGeneralOptions->fTraceGeneral) {
     cerr << idtr;
     if (fCurrentDivisionsPerQuarterNote== 1)
@@ -1658,6 +1659,10 @@ void xml2MsrTranslator::visitStart ( S_divisions& elt )
   fCurrentPart->
     setPartDivisionsPerQuarterNote (
       fCurrentDivisionsPerQuarterNote);
+
+  // print the durations divisions
+  fCurrentPart->
+    printDurationsDivisions (cerr);
 }
 
 //______________________________________________________________________________

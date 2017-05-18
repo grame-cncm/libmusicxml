@@ -7524,7 +7524,7 @@ S_msrChord msrChord::create (
   if (gGeneralOptions->fTraceChords) {
     cerr <<
       idtr <<
-      "Create a chord" <<
+      "Creating a chord" <<
       ", chordSoundingDivisions = " << chordSoundingDivisions <<
       ", chordGraphicDuration = " <<
       msrDurationAsString (chordGraphicDuration) <<
@@ -7558,6 +7558,7 @@ msrChord::msrChord (
     chordDirectPartUplink;
     
   fChordSoundingDivisions = chordSoundingDivisions;
+  
   fChordGraphicDuration = chordGraphicDuration;
 }
 
@@ -7598,6 +7599,20 @@ S_msrChord msrChord::createChordBareClone (
     fChordTie; // JMI
 
   return clone;
+}
+
+void msrChord::setChordSoundingDivisions (int divisions)
+{
+  if (gGeneralOptions->fTraceChords)
+    cerr << idtr <<
+      "Setting chord sounding divisions to '" <<
+      divisions <<
+      "' for chord '" <<
+      chordAsString () <<
+      "'" <<
+      endl;
+
+  fChordSoundingDivisions = divisions;
 }
 
 string msrChord::chordGraphicDurationAsMsrString () const
