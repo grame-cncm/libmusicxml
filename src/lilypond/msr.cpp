@@ -8052,6 +8052,7 @@ string msrChord::chordDisplayDivisionsAsMsrString () const
   return result;
 }
 
+/* JMI
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
@@ -8072,6 +8073,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
         actualNotes, normalNotes);
   } // for
 }
+*/
 
 string msrChord::chordAsStringwithRawDivisions () const
 {
@@ -8661,11 +8663,11 @@ void msrBarnumberCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  int           inputLineNumber,
-  int           number,
-  int           actualNotes,
-  int           normalNotes,
-  int           notePositionInMeasure)
+  int inputLineNumber,
+  int number,
+  int actualNotes,
+  int normalNotes,
+  int notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
@@ -8676,11 +8678,11 @@ S_msrTuplet msrTuplet::create (
 }
 
 msrTuplet::msrTuplet (
-  int           inputLineNumber,
-  int           number,
-  int           actualNotes,
-  int           normalNotes,
-  int           notePositionInMeasure)
+  int inputLineNumber,
+  int number,
+  int actualNotes,
+  int normalNotes,
+  int notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
   fTupletNumber = number;
@@ -8776,10 +8778,8 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   // account for chord duration
   fTupletSoundingDivisions +=
     chord->getChordSoundingDivisions ();
-    /*
   fTupletDisplayDivisions += // JMI
     chord->getChordDisplayDivisions ();  
-    */
     
   // populate chord's measure number
   chord->setChordMeasureNumber (
@@ -8816,6 +8816,8 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   // account for tuplet duration
   fTupletSoundingDivisions +=
     tuplet->getTupletSoundingDivisions ();
+  fTupletDisplayDivisions += // JMI
+    tuplet->getTupletDisplayDivisions ();
     
     /*
   fTupletDisplayDivisions += // JMI
@@ -8854,6 +8856,8 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   // account for tuplet duration
   fTupletSoundingDivisions +=
     tuplet->getTupletSoundingDivisions ();
+  fTupletDisplayDivisions +=
+    tuplet->getTupletDisplayDivisions ();
 }
 
 void msrTuplet::removeFirstNoteFromTuplet (
@@ -8882,6 +8886,12 @@ void msrTuplet::removeFirstNoteFromTuplet (
         // found note, erase it
         fTupletElements.erase (i);
         
+        // account for note duration
+        fTupletSoundingDivisions -=
+          note->getNoteSoundingDivisions ();
+        fTupletDisplayDivisions -= // JMI
+          note->getNoteDisplayDivisions ();  
+
         // don't update measure number nor position in measure: // JMI
         // they have not been set yet
   
@@ -9014,6 +9024,7 @@ int msrTuplet::setTupletPositionInMeasure (int position)
   return currentPosition;
 }
 
+/* JMI
 void msrTuplet::applyDisplayFactorToTupletMembers ()
 {
   if (gGeneralOptions->fTraceTuplets) {
@@ -9074,6 +9085,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
 
   } // for
 }
+*/
 
 void msrTuplet::unapplyDisplayFactorToTupletMembers (
   int containingTupletActualNotes,
@@ -9304,8 +9316,10 @@ void msrTuplet::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
-    " " << fTupletSoundingDivisions << " sounddivs" <<
-    " @meas "<<
+    ", divs: " <<
+    fTupletSoundingDivisions << " sound, " <<
+    fTupletDisplayDivisions << " disp" <<
+    ", meas "<<
     fTupletMeasureNumber <<
     ":";
     

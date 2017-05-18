@@ -4170,8 +4170,10 @@ class EXP msrChord : public msrElement
                               { fChordWedges.push_back (wedge); }
 
     // tuplet members
+    /* JMI
     void                  applyTupletMemberDisplayFactorToChordMembers (
                             int actualNotes, int normalNotes);
+*/
 
     // position in measure
     void                  setChordFirstNotePositionInMeasure (
@@ -5087,11 +5089,11 @@ class EXP msrTuplet : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTuplet> create (
-      int           inputLineNumber,
-      int           number,
-      int           actualNotes,
-      int           normalNotes,
-      int           notePositionInMeasure);
+      int inputLineNumber,
+      int number,
+      int actualNotes,
+      int normalNotes,
+      int notePositionInMeasure);
 
     SMARTP<msrTuplet> createTupletBareClone ();
 
@@ -5101,11 +5103,11 @@ class EXP msrTuplet : public msrElement
     // ------------------------------------------------------
 
     msrTuplet (
-      int           inputLineNumber,
-      int           number,
-      int           actualNotes,
-      int           normalNotes,
-      int           notePositionInMeasure);
+      int inputLineNumber,
+      int number,
+      int actualNotes,
+      int normalNotes,
+      int notePositionInMeasure);
       
     virtual ~msrTuplet();
   
@@ -5114,63 +5116,65 @@ class EXP msrTuplet : public msrElement
     // set and get
     // ------------------------------------------------------
     
-    int           getTupletNumber () const
-                      { return fTupletNumber; }
+    int                   getTupletNumber () const
+                              { return fTupletNumber; }
 
-    int           getTupletActualNotes () const
-                      { return fTupletActualNotes; }
-    int           getTupletNormalNotes () const
-                      { return fTupletNormalNotes; }
+    int                   getTupletActualNotes () const
+                              { return fTupletActualNotes; }
+    int                   getTupletNormalNotes () const
+                              { return fTupletNormalNotes; }
     
     const list<S_msrElement>&
-                  getTupletElements () const
-                      { return fTupletElements; }
+                          getTupletElements () const
+                              { return fTupletElements; }
 
-    int           getTupletSoundingDivisions () const
-                      { return fTupletSoundingDivisions; }
+    int                   getTupletSoundingDivisions () const
+                              { return fTupletSoundingDivisions; }
+    int                   getTupletDisplayDivisions () const
+                              { return fTupletDisplayDivisions; }
             
     // measure uplink
-    void          setTupletMeasureUplink (
-                    const S_msrMeasure& measure)
-                      { fTupletMeasureUplink = measure; }
+    void                  setTupletMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fTupletMeasureUplink = measure; }
                       
-    S_msrMeasure  getTupletMeasureUplink () const
-                      { return fTupletMeasureUplink; }
+    S_msrMeasure          getTupletMeasureUplink () const
+                              { return fTupletMeasureUplink; }
 
     // measure number
-    void          setTupletMeasureNumber (int measureNumber);
+    void                  setTupletMeasureNumber (int measureNumber);
 
-    int           getTupletMeasureNumber () const
-                      { return fTupletMeasureNumber; }
+    int                   getTupletMeasureNumber () const
+                              { return fTupletMeasureNumber; }
  
     // position in measure
-    int           setTupletPositionInMeasure (int position);
-                    // returns the position after the tuplet
+    int                   setTupletPositionInMeasure (int position);
+                            // returns the position after the tuplet
 
-    const int     getTupletPositionInMeasure () const
-                      { return fTupletPositionInMeasure; }
+    const int             getTupletPositionInMeasure () const
+                              { return fTupletPositionInMeasure; }
                       
     // services
     // ------------------------------------------------------
 
-    void          addNoteToTuplet (S_msrNote note);
-    void          addChordToTuplet (S_msrChord chord);
-    void          addTupletToTuplet (S_msrTuplet tuplet);
+    void                  addNoteToTuplet (S_msrNote note);
+    void                  addChordToTuplet (S_msrChord chord);
+    void                  addTupletToTuplet (S_msrTuplet tuplet);
     
-    void          addTupletToTupletClone (S_msrTuplet tuplet);
+    void                  addTupletToTupletClone (S_msrTuplet tuplet);
     
-    void          removeFirstNoteFromTuplet (
-                    int       inputLineNumber,
-                    S_msrNote note);
+    void                  removeFirstNoteFromTuplet (
+                            int       inputLineNumber,
+                            S_msrNote note);
 
-    void          applyDisplayFactorToTupletMembers ();
+ // JMI   void                  applyDisplayFactorToTupletMembers ();
     
-    void          unapplyDisplayFactorToTupletMembers (
-                    int containingTupletActualNotes,
-                    int containingTupletNormalNotes);
+    void                  unapplyDisplayFactorToTupletMembers (
+                            int containingTupletActualNotes,
+                            int containingTupletNormalNotes);
 
-    string        tupletAsShortString () const;
-    string        tupletAsString () const;
+    string                tupletAsShortString () const;
+    string                tupletAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -5187,20 +5191,20 @@ class EXP msrTuplet : public msrElement
 
   private:
 
-    int                  fTupletNumber;
+    int                   fTupletNumber;
     
-    int                  fTupletActualNotes;
-    int                  fTupletNormalNotes;
+    int                   fTupletActualNotes;
+    int                   fTupletNormalNotes;
 
-    int                  fTupletSoundingDivisions;
-    int                  fTupletDisplayDivisions;
+    int                   fTupletSoundingDivisions;
+    int                   fTupletDisplayDivisions;
 
-    S_msrMeasure         fTupletMeasureUplink;
+    S_msrMeasure          fTupletMeasureUplink;
 
-    int                  fTupletMeasureNumber;
-    int                  fTupletPositionInMeasure;
+    int                   fTupletMeasureNumber;
+    int                   fTupletPositionInMeasure;
     
-    list<S_msrElement>   fTupletElements;
+    list<S_msrElement>    fTupletElements;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
