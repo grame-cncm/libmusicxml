@@ -7563,6 +7563,9 @@ msrChord::msrChord (
   fChordSoundingDivisions = chordSoundingDivisions;
   
   fChordGraphicDuration = chordGraphicDuration;
+
+  fChordIsFirstChordInADoubleTremolo  = false;
+  fChordIsSecondChordInADoubleTremolo = false;
 }
 
 msrChord::~msrChord() {}
