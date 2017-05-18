@@ -4643,7 +4643,8 @@ void msrDynamics::print (ostream& os)
 {
   os <<
     "Dynamics" " " << dynamicsKindAsString () <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -4729,7 +4730,8 @@ string msrOtherDynamics::otherDynamicsAsString ()
 void msrOtherDynamics::print (ostream& os)
 {
   os <<
-    otherDynamicsAsString ();
+    otherDynamicsAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -4823,7 +4825,8 @@ void msrWedge::print (ostream& os)
 {
   os <<
     "Wedge" << " " << wedgeKindAsString () <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -6912,6 +6915,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
+        ", " <<
         noteSoundingDivisionsAsMsrString () <<
         "[" << fNoteOctave << "]";
       break;
@@ -7000,8 +7004,7 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
-        fNoteSoundingDivisions <<
-        " sounddivs, " <<
+ // JMI       ", " << fNoteSoundingDivisions << " sounddivs, " <<
         "[" << fNoteOctave << "]";
       break;
       
@@ -7129,7 +7132,7 @@ void msrNote::print (ostream& os)
 
   // print measure related information
   os <<
-    ", mea: ";
+    ", meas ";
     
   if (fNoteMeasureNumber < 0)
     os << "?";
@@ -7306,7 +7309,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+// JMI      os << endl;
     } // for
         
     idtr--;
@@ -7323,7 +7326,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
         
     idtr--;
@@ -7340,7 +7343,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
         
     idtr--;
@@ -7357,7 +7360,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+// JMI      os << endl;
     } // for
         
     idtr--;
@@ -7374,7 +7377,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
         
     idtr--;
@@ -7406,9 +7409,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
 
     idtr--;
   }
@@ -7424,9 +7427,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+// JMI      os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
 
     idtr--;
   }
@@ -7442,9 +7445,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+// JMI      os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
 
     idtr--;
   }
@@ -7460,9 +7463,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
     
     idtr--;
   }
@@ -7478,9 +7481,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
     
     idtr--;
   }
@@ -7496,9 +7499,9 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
     
     idtr--;
   }
@@ -8111,8 +8114,8 @@ void msrChord::print (ostream& os)
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
     ", " <<
-    chordSoundingDivisionsAsMsrString () << " sounddivs" <<
-    ", mea. "<<
+    fChordSoundingDivisions << " sounddivs" <<
+    ", meas "<<
     getChordMeasureNumber () <<
     ":" <<
     fChordPositionInMeasure <<
@@ -18750,22 +18753,19 @@ void msrStaff::printStructure (ostream& os)
   if (fStaffClef)
     os << fStaffClef;
   else
-    os << "NO_CLEF";
-  os << endl;
+    os << "NO_CLEF" << endl;
 
   os << idtr;
   if (fStaffKey)
     os << fStaffKey;
   else
-    os << "NO_KEY";
-  os << endl;
+    os << "NO_KEY" << endl;
 
   os << idtr;
   if (fStaffTime)
     os << fStaffTime;
   else
-    os << "NO_TIME";
-  os << endl;
+    os << "NO_TIME" << endl;
 
 /* JMI
   os <<
@@ -18832,6 +18832,9 @@ void msrStaff::printStructure (ostream& os)
   }
 
   idtr--;
+
+  os <<
+    endl;
 }
 
 //______________________________________________________________________________ 
@@ -19050,8 +19053,10 @@ void msrPart::printDurationsDivisions (ostream& os)
       i != fPartDurationsToDivisions.end ();
       i++) {
       os << idtr <<
+        setw(6) << left <<
         msrDurationAsString (msrDuration((*i).first)) <<
         ": " <<
+        setw(4) << right <<
         (*i).second <<
         endl;
     } // for
@@ -20159,9 +20164,10 @@ void msrPart::printStructure (ostream& os)
     idtr <<
       setw(25) << "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
-      endl;
+      endl <<
+    endl;
 
-/*
+/* JMI
   // print the harmony staff
   if (fPartHarmonyStaff) {
     os <<
@@ -20178,16 +20184,17 @@ void msrPart::printStructure (ostream& os)
 
   // print the staves
   if (fPartStavesMap.size()) {
-    os << endl;
-    for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
-      i != fPartStavesMap.end();
-      i++) {
+    map<int, S_msrStaff>::const_iterator
+      iBegin = fPartStavesMap.begin(),
+      iEnd   = fPartStavesMap.end(),
+      i      = iBegin;
+          
+    for ( ; ; ) {
       os <<
         idtr;
       (*i).second->printStructure (os);
-      os <<
-        endl;
+      if (++i == iEnd) break;
+      cerr << endl;
     } // for
   }
 
@@ -21302,7 +21309,7 @@ void msrScore::print (ostream& os)
 void msrScore::printStructure (ostream& os)
 {
   os <<
-    "MSR structure" <<
+    "MSR component" <<
     " (" <<
     singularOrPlural (
       fPartgroupsList.size(),
