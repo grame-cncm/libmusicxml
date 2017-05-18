@@ -6619,7 +6619,7 @@ string msrNote::noteSoundingDivisionsAsMsrString () const
     fNoteDirectPartUplink->
       divisionsAsMsrString (
         fInputLineNumber,
-        fNoteDisplayDivisions,
+        fNoteSoundingDivisions,
         computedNumberOfDots);
 
   if (computedNumberOfDots != fNoteDotsNumber) {
