@@ -3952,7 +3952,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       stringstream s;
 
       s <<
-        "attempt to set double tremolo divisions both to " <<
+        "attempt to set double tremolo sounding divisions both to " <<
         fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
         noteDisplayDivisions <<
@@ -3972,6 +3972,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
         s.str ());
     }
   }
+  
   else {
     fDoubleTremoloSoundingDivisions = noteDisplayDivisions;
   }
@@ -4004,7 +4005,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
       stringstream s;
 
       s <<
-        "attempt to set double tremolo divisions both to " <<
+        "attempt to set double tremolo sounding divisions both to " <<
         fDoubleTremoloSoundingDivisions << " (existing)" <<
         " and " <<
         chordSoundingDivisions << " (chord)" <<
@@ -4024,6 +4025,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
         s.str ());
     }
   }
+  
   else {
     fDoubleTremoloSoundingDivisions = chordSoundingDivisions;
   }
@@ -7519,6 +7521,7 @@ S_msrChord msrChord::create (
       idtr <<
       "Creating a chord" <<
       ", chordSoundingDivisions = " << chordSoundingDivisions <<
+      ", chordDisplayDivisions = " << chordDisplayDivisions <<
       ", chordGraphicDuration = " <<
       msrDurationAsString (chordGraphicDuration) <<
       endl;
@@ -8115,9 +8118,11 @@ string msrChord::chordAsString () const
         
       s <<
         note->notePitchAsString () <<
-        ", " <<
+        ", divs: " <<
         note->getNoteSoundingDivisions () <<
-        " soundivs" <<
+        " sound, " <<
+        note->getNoteDisplayDivisions () <<
+        " disp," <<
         "[" << note->getNoteOctave () << "]";
         
       if (++i == iEnd) break;
