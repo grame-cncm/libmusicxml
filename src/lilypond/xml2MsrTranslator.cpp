@@ -8519,8 +8519,8 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
   // register note as first member of chord
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "--> adding first note " <<
-      chordFirstNote->noteAsString() <<
+      "--> adding first note 2 " <<
+      chordFirstNote->noteAsShortStringWithRawDivisions() <<
       ", line " << inputLineNumber <<
       ", to new chord" <<
       endl;
@@ -10857,7 +10857,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
-      newChordNote->noteAsString () <<
+      newChordNote->noteAsShortStringWithRawDivisions () <<
       endl;
 
   int inputLineNumber =
@@ -10926,7 +10926,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
         cerr << idtr <<
           "--> removing last handled note " <<
-          lastHandledNoteInVoice->noteAsShortString () <<
+          lastHandledNoteInVoice->noteAsShortStringWithRawDivisions () <<
           ", line " << inputLineNumber <<
           ", from tuplet '" <<
           currentTuplet->tupletAsShortString () <<

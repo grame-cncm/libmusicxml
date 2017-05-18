@@ -6634,7 +6634,7 @@ string msrNote::noteSoundingDivisionsAsMsrString () const
       endl <<
       "but " << fNoteDotsNumber << " is found in MusicXML data" <<
       endl;
-      
+      abort ();
     fNoteDirectPartUplink->
       printDurationsDivisions (s);
 
@@ -8746,7 +8746,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "Removing first note '" <<
-      note->noteAsString () <<
+      note->noteAsShortStringWithRawDivisions () <<
       "' from tuplet '" <<
       tupletAsString () <<
       "'" <<
@@ -9146,7 +9146,7 @@ string msrTuplet::tupletAsString () const
         S_msrNote note = dynamic_cast<msrNote*>(&(**i))
         ) {    
         s <<
-          note->noteAsShortString ();
+          note->noteAsShortStringWithRawDivisions ();
       }
     
       else if (
