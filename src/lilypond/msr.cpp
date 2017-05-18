@@ -15544,7 +15544,7 @@ void msrSegment::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      os << endl;
     } // for
     
     idtr--;
@@ -17520,6 +17520,7 @@ void msrVoice::print (ostream& os)
   
   os <<
     fVoiceLastSegment <<
+    endl <<
     endl;
   
   idtr--;
