@@ -7006,7 +7006,7 @@ string msrNote::noteAsString () const
       s <<
         "Tuplet member note"  " "<<
         notePitchAsString () <<
-        noteSoundingDivisionsAsMsrString () <<
+        fNoteSoundingDivisions <<
         " sounddivs, " <<
         noteDisplayDivisionsAsMsrString () <<
         " dispdivs";
@@ -9111,7 +9111,7 @@ string msrTuplet::tupletAsShortString () const
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
     " " << fTupletSoundingDivisions << " sounddivs" <<
-    " @"<<
+    " @meas "<<
     fTupletMeasureNumber <<
     ":";
 
@@ -9175,7 +9175,7 @@ string msrTuplet::tupletAsString () const
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
     " " << fTupletSoundingDivisions << " sounddivs" <<
-    " @"<<
+    " @meas "<<
     fTupletMeasureNumber <<
     ":";
 
@@ -9241,7 +9241,7 @@ void msrTuplet::print (ostream& os)
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
     " " << fTupletSoundingDivisions << " sounddivs" <<
-    " @"<<
+    " @meas "<<
     fTupletMeasureNumber <<
     ":";
     
@@ -14389,9 +14389,9 @@ void msrMeasure::print (ostream& os)
     endl <<
     idtr <<
       "Measure " << fMeasureNumber <<
+        ", " << fMeasureTime->timeAsShortString () <<
         ", " << getMeasureKindAsString () <<
         ", line " << fInputLineNumber <<
-        ", " << fMeasureTime->timeAsShortString () <<
         ", len: " << getMeasureLength () << " divs" <<
         " (" << getMeasureLengthAsString () << ")" <<
       ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
@@ -14413,8 +14413,8 @@ void msrMeasure::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        idtr << (*i) <<
-        endl;
+        idtr << (*i);
+        // JMI << endl;
       if (++i == iEnd) break;
   //    os << idtr;
     } // for
