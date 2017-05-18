@@ -6634,13 +6634,15 @@ string msrNote::noteSoundingDivisionsAsMsrString () const
       endl <<
       "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
       endl;
-      abort ();
+
     fNoteDirectPartUplink->
       printDurationsDivisions (s);
 
     msrMusicXMLWarning (
       fInputLineNumber,
       s.str());
+
+    abort ();
   }
 
   return result;
@@ -6670,13 +6672,15 @@ string msrNote::noteDisplayDivisionsAsMsrString () const
       endl <<
       "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
       endl;
-      abort ();
+
     fNoteDirectPartUplink->
       printDurationsDivisions (s);
 
     msrMusicXMLWarning (
       fInputLineNumber,
       s.str());
+
+    abort ();
   }
 
   return result;
@@ -6762,13 +6766,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        fNoteSoundingDivisions;
+        fNoteSoundingDivisions <<
+        " sounddivs";
         
       if (fNoteSoundingDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteDisplayDivisions;
-          
-      s << " divs";
+          ", " << fNoteDisplayDivisions <<
+        " dispdivs";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -6776,13 +6780,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        fNoteSoundingDivisions;
+        fNoteSoundingDivisions <<
+        " sounddivs";
         
       if (fNoteSoundingDivisions != fNoteDisplayDivisions) // JMI always true!
         s <<
-          "_" << fNoteDisplayDivisions;
-          
-      s << " divs";
+          ", " << fNoteDisplayDivisions <<
+        " dispdivs";
       break;
       
     case msrNote::kGraceNote:
@@ -6800,20 +6804,21 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "R" <<
         ":" <<
-        fNoteSoundingDivisions << " sounddivs";
+        fNoteSoundingDivisions <<
+        " sounddivs";
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        fNoteSoundingDivisions;
+        fNoteSoundingDivisions <<
+        " sounddivs";
         
       if (fNoteSoundingDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteDisplayDivisions;
-          
-      s << " divs";
+          ", " << fNoteDisplayDivisions <<
+        " dispdivs";
       break;
       
     case msrNote::kChordMemberNote:
@@ -6821,13 +6826,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
-        fNoteSoundingDivisions;
+        fNoteSoundingDivisions <<
+        " sounddivs";
         
       if (fNoteSoundingDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteDisplayDivisions;
-          
-      s << " divs";
+          ", " << fNoteDisplayDivisions <<
+        " dispdivs";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -6840,13 +6845,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
 
       s <<
         ":" <<
-        fNoteSoundingDivisions;
+        fNoteSoundingDivisions <<
+        " sounddivs";
         
       if (fNoteSoundingDivisions != fNoteDisplayDivisions)
         s <<
-          "_" << fNoteDisplayDivisions;
-            
-        s << " divs";
+          ", " << fNoteDisplayDivisions <<
+        " dispdivs";
       break;
   } // switch
 
@@ -6913,8 +6918,9 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString () <<
         noteSoundingDivisionsAsMsrString () <<
-        "_" <<
-        noteDisplayDivisionsAsMsrString ();
+        " sounddivs, " <<
+        noteDisplayDivisionsAsMsrString () <<
+        " dispdivs";
         /* JMI
         fNoteDirectPartUplink->
           tupletSoundingDivisionsAsMsrString (
@@ -7001,8 +7007,9 @@ string msrNote::noteAsString () const
         "Tuplet member note"  " "<<
         notePitchAsString () <<
         noteSoundingDivisionsAsMsrString () <<
-        "_" <<
-        noteDisplayDivisionsAsMsrString ();
+        " sounddivs, " <<
+        noteDisplayDivisionsAsMsrString () <<
+        " dispdivs";
 /* JMI
         fNoteDirectPartUplink->
           tupletSoundingDivisionsAsMsrString (
