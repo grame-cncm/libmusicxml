@@ -6771,13 +6771,11 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs";
-        
-      if (fNoteSoundingDivisions != fNoteDisplayDivisions)
-        s <<
-          ", " << fNoteDisplayDivisions <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayDivisions <<
+        " disp";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -6785,13 +6783,11 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
         ":" <<
+        " divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs";
-        
-      if (fNoteSoundingDivisions != fNoteDisplayDivisions) // JMI always true!
-        s <<
-          ", " << fNoteDisplayDivisions <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayDivisions <<
+        " disp";
       break;
       
     case msrNote::kGraceNote:
@@ -6817,27 +6813,22 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "S" <<
         ":" <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs";
-        
-      if (fNoteSoundingDivisions != fNoteDisplayDivisions)
-        s <<
-          ", " << fNoteDisplayDivisions <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayDivisions <<
+        " disp";
       break;
       
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
         "[" << fNoteOctave << "]" <<
-        ":" <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs";
-        
-      if (fNoteSoundingDivisions != fNoteDisplayDivisions)
-        s <<
-          ", " << fNoteDisplayDivisions <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayDivisions <<
+        " disp";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -6850,13 +6841,11 @@ string msrNote::noteAsShortStringWithRawDivisions () const
 
       s <<
         ":" <<
+        " divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs";
-        
-      if (fNoteSoundingDivisions != fNoteDisplayDivisions)
-        s <<
-          ", " << fNoteDisplayDivisions <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayDivisions <<
+        " disp";
       break;
   } // switch
 

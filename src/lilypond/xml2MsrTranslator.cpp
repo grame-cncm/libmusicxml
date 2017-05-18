@@ -8260,7 +8260,8 @@ void xml2MsrTranslator::visitStart ( S_actual_notes& elt )
   fCurrentActualNotes = (int)(*elt);
 
   // notes inside a tuplet have no <tuplet/> markup
-// JMI  if (fTupletsStack.size ())
+  // and 2 actual notes indicate a double tremolo
+  if (fCurrentActualNotes != 2)
     fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -8274,7 +8275,8 @@ void xml2MsrTranslator::visitStart ( S_normal_notes& elt )
   fCurrentNormalNotes = (int)(*elt);
 
   // notes inside a tuplet have no <tuplet/> markup
-// JMI  if (fTupletsStack.size ())
+  // and 1 actual note indicates a double tremolo
+  if (fCurrentNormalNotes != 1)
     fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -10604,15 +10606,16 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           int chordFirstNoteSoundingDivisions =
             chordFirstNote->
               getNoteSoundingDivisions ();
-          
+
+          /* JMI
           // updating chord's divisions // JMI
           if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
             cerr <<
               idtr <<
                 "Updating display divisions for double tremolo chord '" <<
                 "' " << fCurrentChord->chordAsString () <<
-                " to " << chordFirstNoteSoundingDivisions <<
-                " in voice \"" <<
+                " to '" << chordFirstNoteSoundingDivisions <<
+                "' in voice \"" <<
                 currentVoice->getVoiceName () <<
                 "\"" <<
                 endl;
@@ -10621,6 +10624,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           fCurrentChord->
             setChordSoundingDivisions ( // ??? JMI
               chordFirstNoteSoundingDivisions);
+              */
               
           if (chordFirstNote->getNoteIsFirstNoteInADoubleTremolo ()) {
             // replace double tremolo's first element by chord
@@ -10974,6 +10978,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           fTupletsStack.top ()->getTupletNormalNotes ());
   */
     }
+    
     else {
       stringstream s;
 
