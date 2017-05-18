@@ -6668,7 +6668,7 @@ string msrNote::noteDisplayDivisionsAsMsrString () const
       " needs " <<
       singularOrPlural (
         computedNumberOfDots, "dot", "dots") <<
-      " for " << fNoteSoundingDivisions << " display divisions," <<
+      " for " << fNoteDisplayDivisions << " display divisions," <<
       endl <<
       "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
       endl;
@@ -6917,7 +6917,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
-        noteSoundingDivisionsAsMsrString () <<
+        fNoteSoundingDivisions <<
         " sounddivs, " <<
         noteDisplayDivisionsAsMsrString () <<
         " dispdivs";

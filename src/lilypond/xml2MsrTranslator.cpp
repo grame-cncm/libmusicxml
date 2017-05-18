@@ -8969,7 +8969,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   if (gGeneralOptions->fTraceTuplets)
     // only after addNoteToTuplet() has set the note's tuplet uplink
     cerr << idtr <<
-      "Adding first note " << firstNote->noteAsString() <<
+      "Adding first note " << firstNote->noteAsShortStringWithRawDivisions () <<
       " to tuplet '" <<
       tuplet->tupletAsShortString () <<
        "'" <<
@@ -10697,7 +10697,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "xml2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note->noteAsString () <<
+      note->noteAsShortStringWithRawDivisions () <<
       endl;
 
   // attach the pending elements, if any, to the note
