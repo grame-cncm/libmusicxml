@@ -6063,7 +6063,7 @@ void msrNote::setNoteBelongsToAChord ()
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "Setting note '" << noteAsString () <<
+      "Setting note '" << noteAsShortStringWithRawDivisions () <<
       "' to belong to a chord"
       ", line " << fInputLineNumber <<
       endl;
@@ -6998,7 +6998,8 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
-        noteSoundingDivisionsAsMsrString () <<
+        fNoteSoundingDivisions <<
+        " sounddivs, " <<
         "[" << fNoteOctave << "]";
       break;
       
@@ -7638,7 +7639,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "Adding another note '" <<
-      note->noteAsString () <<
+      note->noteAsShortStringWithRawDivisions () <<
       "' to chord '" <<
       chordAsString () <<
       "'" <<
@@ -8064,7 +8065,8 @@ string msrChord::chordAsString () const
         
       s <<
         note->notePitchAsString () <<
-        note->noteSoundingDivisionsAsMsrString () <<
+        note->getNoteSoundingDivisions () <<
+        " soundivs" <<
         "[" << note->getNoteOctave () << "]";
         
       if (++i == iEnd) break;

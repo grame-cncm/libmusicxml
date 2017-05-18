@@ -10990,7 +10990,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding another note " <<
-      newChordNote->noteAsString() <<
+      newChordNote->noteAsShortStringWithRawDivisions() <<
       ", line " << inputLineNumber <<
       " to current chord" <<
       endl;
