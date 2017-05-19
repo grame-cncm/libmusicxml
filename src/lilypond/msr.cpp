@@ -3850,7 +3850,8 @@ string msrSingleTremolo::singleTremoloAsString () const
 
   if (fSingleTremoloNoteUplink) // it may not yet be set
     s <<
-      ", note uplink" << " = " << fSingleTremoloNoteUplink->noteAsShortString ();
+      ", note uplink" << " = " <<
+      fSingleTremoloNoteUplink->noteAsShortStringWithRawDivisions ();
 
   return s.str();
 }

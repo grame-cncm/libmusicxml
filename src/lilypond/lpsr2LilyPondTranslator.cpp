@@ -3662,7 +3662,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         "% Generating single tremolo " <<
         noteSingleTremolo->singleTremoloAsString () <<
         " for note " <<
-        elt->noteAsShortString () <<
+        elt->noteAsShortStringWithRawDivisions () <<
         ", line = " << inputLineNumber <<
         ", singleTremoloMarksNumber = " <<
         singleTremoloMarksNumber <<
