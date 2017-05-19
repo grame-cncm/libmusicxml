@@ -1073,7 +1073,8 @@ class EXP msrTechnicalWithInteger : public msrElement
       msrTechnicalWithIntegerKind technicalWithIntegerKind);
       
     enum msrTechnicalWithIntegerPlacementKind {
-      k_NoPlacementKind, kAbove, kBelow};
+      k_NoTechnicalWithIntegerPlacement,
+      kTechnicalWithIntegerPlacementAbove, kTechnicalWithIntegerPlacementBelow};
 
     static string technicalWithIntegerPlacementKindAsString (
       msrTechnicalWithIntegerPlacementKind technicalWithIntegerPlacementKind);

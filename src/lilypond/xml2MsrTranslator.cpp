@@ -6131,13 +6131,13 @@ void xml2MsrTranslator::visitEnd ( S_bend& elt )
 
   msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     bendPlacementKind =
-      msrTechnicalWithInteger::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
 
   if      (placement == "above")
-    bendPlacementKind = msrTechnicalWithInteger::kAbove;
+    bendPlacementKind = msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
     
   else if (placement == "below")
-    bendPlacementKind = msrTechnicalWithInteger::kBelow;
+    bendPlacementKind = msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6273,13 +6273,15 @@ void xml2MsrTranslator::visitStart ( S_fingering& elt )
 
   msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     fingeringPlacementKind =
-      msrTechnicalWithInteger::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
 
   if      (placement == "above")
-    fingeringPlacementKind = msrTechnicalWithInteger::kAbove;
+    fingeringPlacementKind =
+      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
     
   else if (placement == "below")
-    fingeringPlacementKind = msrTechnicalWithInteger::kBelow;
+    fingeringPlacementKind =
+      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6368,13 +6370,15 @@ void xml2MsrTranslator::visitStart ( S_fret& elt )
 
   msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     fretPlacementKind =
-      msrTechnicalWithInteger::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
 
   if      (placement == "above")
-    fretPlacementKind = msrTechnicalWithInteger::kAbove;
+    fretPlacementKind =
+      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
     
   else if (placement == "below")
-    fretPlacementKind = msrTechnicalWithInteger::kBelow;
+    fretPlacementKind =
+      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6970,13 +6974,15 @@ void xml2MsrTranslator::visitStart ( S_string& elt )
 
   msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
     stringPlacementKind =
-      msrTechnicalWithInteger::k_NoPlacementKind;
+      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
 
   if      (placement == "above")
-    stringPlacementKind = msrTechnicalWithInteger::kAbove;
+    stringPlacementKind =
+      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
     
   else if (placement == "below")
-    stringPlacementKind = msrTechnicalWithInteger::kBelow;
+    stringPlacementKind =
+      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
     
   else if (placement.size ()) {    
     stringstream s;

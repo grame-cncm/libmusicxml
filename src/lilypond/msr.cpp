@@ -3314,13 +3314,13 @@ string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () con
   string result;
   
   switch (fTechnicalWithIntegerPlacementKind) {
-    case msrTechnicalWithInteger::k_NoPlacementKind:
+    case msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement:
       result = "none";
       break;
-    case msrTechnicalWithInteger::kAbove:
+    case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove:
       result = "above";
       break;
-    case msrTechnicalWithInteger::kBelow:
+    case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow:
       result = "below";
       break;
   } // switch
