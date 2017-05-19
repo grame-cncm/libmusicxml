@@ -4344,13 +4344,14 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       fOstream <<
         fCurrentTremoloElementsLpsrDuration; // JMI
   }
+  
   else {
     // print the chord duration
     fOstream <<
       divisionsAsLilyPondString (
         elt->getInputLineNumber (),
         elt->getChordDirectPartUplink (),
-        elt->getChordSoundingDivisions ());
+        elt->getChordDisplayedDivisions ());
   }
    
   fOstream <<
