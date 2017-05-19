@@ -6984,7 +6984,7 @@ class EXP msrPart : public msrElement
                             int  inputLineNumber,
                             int  divisions);
                   
-    string                tupletSoundingDivisionsAsMsrString (
+    string                tupletDivisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions,
                             int actualNotes,

@@ -149,7 +149,7 @@ string lpsr2LilyPondTranslator::divisionsAsLilyPondString (
   return lilypondizeDurationString (result);
 }
 
-string lpsr2LilyPondTranslator::tupletSoundingDivisionsAsLilypondString (
+string lpsr2LilyPondTranslator::tupletDivisionsAsLilypondString (
   int       inputLineNumber,
   S_msrPart part,
   int       divisions,
@@ -162,7 +162,7 @@ string lpsr2LilyPondTranslator::tupletSoundingDivisionsAsLilypondString (
   
   result =
     part->
-      tupletSoundingDivisionsAsMsrString (
+      tupletDivisionsAsMsrString (
         inputLineNumber,
         divisions,
         actualNotes,
@@ -3565,10 +3565,10 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
           note->getNoteTupletUplink ();
           
       fOstream <<
-        tupletSoundingDivisionsAsLilypondString (
+        tupletDivisionsAsLilypondString (
           note->getInputLineNumber (),
           note->getNoteDirectPartUplink (),
-          note->getNoteSoundingDivisions (),
+          note->getNoteDisplayedDivisions (), // JMI
           tuplet->getTupletActualNotes (),
           tuplet->getTupletNormalNotes ());
 

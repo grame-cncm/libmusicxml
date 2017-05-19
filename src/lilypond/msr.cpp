@@ -6732,7 +6732,7 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
 
   result =
     fNoteDirectPartUplink->
-      tupletSoundingDivisionsAsMsrString (
+      tupletDivisionsAsMsrString (
         fInputLineNumber,
         fNoteSoundingDivisions,
         actualNotes,
@@ -19321,7 +19321,7 @@ string msrPart::divisionsAsMsrString (
       numberOfDots);
 }
 
-string msrPart::tupletSoundingDivisionsAsMsrString (
+string msrPart::tupletDivisionsAsMsrString (
   int inputLineNumber,
   int divisions,
   int actualNotes,
@@ -19413,11 +19413,11 @@ void msrPart::testTupletSoundingDivisionsAndDurations ()
   normal = 4;
 
   cerr <<
-    "tupletSoundingDivisionsAsMsrString (" << k <<
+    "tupletDivisionsAsMsrString (" << k << // JMI
     ", " << actual <<
     ", " << normal <<
     ") = " <<
-    tupletSoundingDivisionsAsMsrString (
+    tupletDivisionsAsMsrString (
       133,
       k,
       actual,
@@ -19430,11 +19430,11 @@ void msrPart::testTupletSoundingDivisionsAndDurations ()
   normal = 2;
 
   cerr <<
-    "tupletSoundingDivisionsAsMsrString (" << k <<
+    "tupletDivisionsAsMsrString (" << k <<
     ", " << actual <<
     ", " << normal <<
     ") = " <<
-    tupletSoundingDivisionsAsMsrString (
+    tupletDivisionsAsMsrString (
       133,
       k,
       actual,

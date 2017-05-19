@@ -388,7 +388,7 @@ class lpsr2LilyPondTranslator :
                             S_msrPart part,
                             int       divisions);
 
-    string                tupletSoundingDivisionsAsLilypondString (
+    string                tupletDivisionsAsLilypondString (
                             int       inputLineNumber,
                             S_msrPart part,
                             int       divisions,
