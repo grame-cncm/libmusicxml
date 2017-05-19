@@ -1679,7 +1679,7 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrPart                     fDoubleTremoloDirectPartUplink;
 
     // sounding divisions
-    // the same as the display divisions of both members
+    // the same as the displayed divisions of both members
     int                           fDoubleTremoloSoundingDivisions;
 
     msrDoubleTremoloKind          fDoubleTremoloKind; // JMI ???
@@ -3455,7 +3455,7 @@ class EXP msrNote : public msrElement
     
       msrQuartertonesPitch noteQuatertonesPitch,
       int                  noteSoundingDivisions,
-      int                  noteDisplayDivisions,
+      int                  noteDisplayedDivisions,
       int                  noteDotsNumber,
       msrDuration          noteGraphicDuration,
       
@@ -3492,7 +3492,7 @@ class EXP msrNote : public msrElement
     
       msrQuartertonesPitch noteQuatertonesPitch,
       int                  noteSoundingDivisions,
-      int                  noteDisplayDivisions,
+      int                  noteDisplayedDivisions,
       int                  noteDotsNumber,
       msrDuration          noteGraphicDuration,
       
@@ -3532,11 +3532,11 @@ class EXP msrNote : public msrElement
     int                   getNoteSoundingDivisions () const
                               { return fNoteSoundingDivisions; }
 
-    void                  setNoteDisplayDivisions (int divisions)
-                              { fNoteDisplayDivisions = divisions; }
+    void                  setNoteDisplayedDivisions (int divisions)
+                              { fNoteDisplayedDivisions = divisions; }
 
-    int                   getNoteDisplayDivisions () const
-                              { return fNoteDisplayDivisions; }
+    int                   getNoteDisplayedDivisions () const
+                              { return fNoteDisplayedDivisions; }
 
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
@@ -3784,7 +3784,7 @@ class EXP msrNote : public msrElement
                             int inputLineNumber) const;
 
     string                noteSoundingDivisionsAsMsrString () const;
-    string                noteDisplayDivisionsAsMsrString () const;
+    string                noteDisplayedDivisionsAsMsrString () const;
     
     string                skipOrRestDivisionsAsMsrString () const;
     
@@ -3865,7 +3865,7 @@ class EXP msrNote : public msrElement
 
     msrQuartertonesPitch      fNoteQuatertonesPitch;
     int                       fNoteSoundingDivisions;
-    int                       fNoteDisplayDivisions;
+    int                       fNoteDisplayedDivisions;
     int                       fNoteDotsNumber;
     msrDuration               fNoteGraphicDuration;
     
@@ -3968,7 +3968,7 @@ class EXP msrChord : public msrElement
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
       int         chordSoundingDivisions,
-      int         chordDisplayDivisions,
+      int         chordDisplayedDivisions,
       msrDuration chordGraphicDuration);
 
     // creation from MusicXML
@@ -3986,7 +3986,7 @@ class EXP msrChord : public msrElement
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
       int         chordSoundingDivisions,
-      int         chordDisplayDivisions,
+      int         chordDisplayedDivisions,
       msrDuration chordGraphicDuration);
       
     virtual ~msrChord();
@@ -4002,13 +4002,13 @@ class EXP msrChord : public msrElement
     int                   getChordSoundingDivisions () const
                               { return fChordSoundingDivisions; }
                         
-    void                  setChordDisplayDivisions (int divisions);
+    void                  setChordDisplayedDivisions (int divisions);
             
-    int                   getChordDisplayDivisions () const
-                              { return fChordDisplayDivisions; }
+    int                   getChordDisplayedDivisions () const
+                              { return fChordDisplayedDivisions; }
                         
     string                chordSoundingDivisionsAsMsrString () const;
-    string                chordDisplayDivisionsAsMsrString () const;
+    string                chordDisplayedDivisionsAsMsrString () const;
 
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
@@ -4171,7 +4171,7 @@ class EXP msrChord : public msrElement
 
     // tuplet members
     /* JMI
-    void                  applyTupletMemberDisplayFactorToChordMembers (
+    void                  applyTupletMemberDisplayedFactorToChordMembers (
                             int actualNotes, int normalNotes);
 */
 
@@ -4206,8 +4206,8 @@ class EXP msrChord : public msrElement
 
     // sounding divisions
     int                       fChordSoundingDivisions;
-    // display divisions
-    int                       fChordDisplayDivisions;
+    // displayed divisions
+    int                       fChordDisplayedDivisions;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
@@ -5130,8 +5130,8 @@ class EXP msrTuplet : public msrElement
 
     int                   getTupletSoundingDivisions () const
                               { return fTupletSoundingDivisions; }
-    int                   getTupletDisplayDivisions () const
-                              { return fTupletDisplayDivisions; }
+    int                   getTupletDisplayedDivisions () const
+                              { return fTupletDisplayedDivisions; }
             
     // measure uplink
     void                  setTupletMeasureUplink (
@@ -5197,7 +5197,7 @@ class EXP msrTuplet : public msrElement
     int                   fTupletNormalNotes;
 
     int                   fTupletSoundingDivisions;
-    int                   fTupletDisplayDivisions;
+    int                   fTupletDisplayedDivisions;
 
     S_msrMeasure          fTupletMeasureUplink;
 

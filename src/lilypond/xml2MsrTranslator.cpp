@@ -73,11 +73,11 @@ void xml2MsrTranslator::initializeNoteData ()
 
 // JMI  fCurrentNoteKind = k_NoNoteKind;
 
-  fCurrentNoteQuatertonesPitch  = k_NoQuaterTonesPitch;
-  fCurrentNoteSoundingDivisions = -17;
-  fCurrentNoteDisplayDivisions  = -19;
-  fCurrentNoteDotsNumber        = 0;
-  fCurrentNoteGraphicDuration   = k_NoDuration;
+  fCurrentNoteQuatertonesPitch   = k_NoQuaterTonesPitch;
+  fCurrentNoteSoundingDivisions  = -17;
+  fCurrentNoteDisplayedDivisions = -19;
+  fCurrentNoteDotsNumber         = 0;
+  fCurrentNoteGraphicDuration    = k_NoDuration;
 
   fCurrentNoteOctave = -1;
 
@@ -8516,7 +8516,7 @@ S_msrChord xml2MsrTranslator::createChordFromItsFirstNote (
         inputLineNumber,
         fCurrentPart,
         chordFirstNote->getNoteSoundingDivisions (),
-        chordFirstNote->getNoteDisplayDivisions (),
+        chordFirstNote->getNoteDisplayedDivisions (),
         chordFirstNote->getNoteGraphicDuration ());
 
   // chord's tie kind is that of its first note
@@ -8994,7 +8994,7 @@ void xml2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   fTupletsStack.push (tuplet);
 
 /* JMI
-  // set note display divisions
+  // set note displayed divisions
   firstNote->
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
@@ -9043,7 +9043,7 @@ void xml2MsrTranslator::finalizeTuplet (
     tuplet =
       fTupletsStack.top ();
 
-/*  // set note display divisions JMI
+/*  // set note displayed divisions JMI
   note->
     applyTupletMemberDisplayFactor (
       fCurrentActualNotes, fCurrentNormalNotes);
@@ -9769,7 +9769,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
       "fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote << endl;
 
-  // set current note display divisions right now,
+  // set current note displayed divisions right now,
   // before we create the note
 
   if (fCurrentNoteIsAGraceNote) {
@@ -9780,8 +9780,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
           inputLineNumber,
           fCurrentNoteGraphicDuration);
   
-    // set current grace note display divisions to note divisions JMI   ???
-    fCurrentNoteDisplayDivisions =
+    // set current grace note displayed divisions to note divisions JMI   ???
+    fCurrentNoteDisplayedDivisions =
       fCurrentNoteSoundingDivisions;
   }
   
@@ -9801,8 +9801,8 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         s.str());
     }
 
-    // set current double tremolo note display divisions
-    fCurrentNoteDisplayDivisions =
+    // set current double tremolo note displayed divisions
+    fCurrentNoteDisplayedDivisions =
       fCurrentPart->
         durationAsDivisions (
           inputLineNumber,
@@ -9811,7 +9811,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
 
   else {
     // standalone note or rest
-    fCurrentNoteDisplayDivisions =
+    fCurrentNoteDisplayedDivisions =
       fCurrentNoteSoundingDivisions;
   }
 
@@ -9826,7 +9826,7 @@ void xml2MsrTranslator::visitEnd ( S_note& elt )
         
         fCurrentNoteQuatertonesPitch,
         fCurrentNoteSoundingDivisions,
-        fCurrentNoteDisplayDivisions,
+        fCurrentNoteDisplayedDivisions,
         fCurrentNoteDotsNumber,
         fCurrentNoteGraphicDuration,
         
@@ -10602,7 +10602,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
         
       case msrNote::kDoubleTremoloMemberNote:
         {
-          // fetch chordFirstNote's display divisions
+          // fetch chordFirstNote's sounding divisions
           int chordFirstNoteSoundingDivisions =
             chordFirstNote->
               getNoteSoundingDivisions ();
@@ -10612,7 +10612,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChord (
           if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
             cerr <<
               idtr <<
-                "Updating display divisions for double tremolo chord '" <<
+                "Updating sounding divisions for double tremolo chord '" <<
                 "' " << fCurrentChord->chordAsString () <<
                 " to '" << chordFirstNoteSoundingDivisions <<
                 "' in voice \"" <<
@@ -10766,7 +10766,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         fTupletsStack.top()->
           addNoteToTuplet (note);
 /* JMI
-        // set note display divisions
+        // set note displayed divisions
         note->
           applyTupletMemberDisplayFactor (
             fTupletsStack.top ()->getTupletActualNotes (),
@@ -10811,7 +10811,7 @@ void xml2MsrTranslator::handleNoteBelongingToATuplet (
         fTupletsStack.top()->
           addNoteToTuplet (note);
 /* JMI
-        // set note display divisions
+        // set note displayed divisions
         note->
           applyTupletMemberDisplayFactor (
             fTupletsStack.top ()->getTupletActualNotes (),
@@ -10971,7 +10971,7 @@ void xml2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       currentTuplet->
         addChordToTuplet (fCurrentChord);
   /* JMI
-      // set note display divisions
+      // set note displayed divisions
       note->
         applyTupletMemberDisplayFactor (
           fTupletsStack.top ()->getTupletActualNotes (),

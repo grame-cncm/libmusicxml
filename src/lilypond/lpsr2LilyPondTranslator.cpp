@@ -3647,7 +3647,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
 
     int
       singleTremoloNoteSoundingDivisions =
-        singleTremoloNote->getNoteDisplayDivisions ();
+        singleTremoloNote->getNoteSoundingDivisions ();
 
     msrDuration
       singleTremoloNoteDuration =

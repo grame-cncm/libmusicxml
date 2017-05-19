@@ -904,7 +904,7 @@ class EXP xml2MsrTranslator :
     // basic note description
     msrQuartertonesPitch      fCurrentNoteQuatertonesPitch;
     int                       fCurrentNoteSoundingDivisions;
-    int                       fCurrentNoteDisplayDivisions;
+    int                       fCurrentNoteDisplayedDivisions;
     int                       fCurrentNoteDotsNumber;
     msrDuration               fCurrentNoteGraphicDuration;
     
