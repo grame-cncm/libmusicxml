@@ -1195,7 +1195,8 @@ class EXP msrTechnicalWithString : public msrElement
       msrTechnicalWithStringKind technicalWithStringKind);
       
     enum msrTechnicalWithStringPlacementKind {
-      k_NoPlacementKind, kAbove, kBelow};
+      k_NoTechnicalWithStringPlacement,
+      kTechnicalWithStringPlacementAbove, kTechnicalWithStringPlacementBelow};
 
     static string technicalWithStringPlacementKindAsString (
       msrTechnicalWithStringPlacementKind technicalWithStringPlacementKind);

@@ -6420,13 +6420,15 @@ void xml2MsrTranslator::visitStart ( S_hammer_on& elt )
 
   msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     hammerOnPlacementKind =
-      msrTechnicalWithString::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
 
   if      (placement == "above")
-    hammerOnPlacementKind = msrTechnicalWithString::kAbove;
+    hammerOnPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
     
   else if (placement == "below")
-    hammerOnPlacementKind = msrTechnicalWithString::kBelow;
+    hammerOnPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6470,13 +6472,15 @@ void xml2MsrTranslator::visitStart ( S_handbell& elt )
 
   msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     handbellPlacementKind =
-      msrTechnicalWithString::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
 
   if      (placement == "above")
-    handbellPlacementKind = msrTechnicalWithString::kAbove;
+    handbellPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
     
   else if (placement == "below")
-    handbellPlacementKind = msrTechnicalWithString::kBelow;
+    handbellPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6708,13 +6712,15 @@ void xml2MsrTranslator::visitStart ( S_other_technical& elt )
 
   msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     otherTechnicalWithStringPlacementKind =
-      msrTechnicalWithString::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
 
   if      (placement == "above")
-    otherTechnicalWithStringPlacementKind = msrTechnicalWithString::kAbove;
+    otherTechnicalWithStringPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
     
   else if (placement == "below")
-    otherTechnicalWithStringPlacementKind = msrTechnicalWithString::kBelow;
+    otherTechnicalWithStringPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6758,13 +6764,15 @@ void xml2MsrTranslator::visitStart ( S_pluck& elt )
 
   msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     pluckPlacementKind =
-      msrTechnicalWithString::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
 
   if      (placement == "above")
-    pluckPlacementKind = msrTechnicalWithString::kAbove;
+    pluckPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
     
   else if (placement == "below")
-    pluckPlacementKind = msrTechnicalWithString::kBelow;
+    pluckPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6808,13 +6816,15 @@ void xml2MsrTranslator::visitStart ( S_pull_off& elt )
 
   msrTechnicalWithString::msrTechnicalWithStringPlacementKind
     pullOffPlacementKind =
-      msrTechnicalWithString::k_NoPlacementKind;
+      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
 
   if      (placement == "above")
-    pullOffPlacementKind = msrTechnicalWithString::kAbove;
+    pullOffPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
     
   else if (placement == "below")
-    pullOffPlacementKind = msrTechnicalWithString::kBelow;
+    pullOffPlacementKind =
+      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
     
   else if (placement.size ()) {
     

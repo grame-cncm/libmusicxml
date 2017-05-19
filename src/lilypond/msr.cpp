@@ -3468,13 +3468,13 @@ string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
   string result;
   
   switch (fTechnicalWithStringPlacementKind) {
-    case msrTechnicalWithString::k_NoPlacementKind:
+    case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
       result = "none";
       break;
-    case msrTechnicalWithString::kAbove:
+    case msrTechnicalWithString::kTechnicalWithStringPlacementAbove:
       result = "above";
       break;
-    case msrTechnicalWithString::kBelow:
+    case msrTechnicalWithString::kTechnicalWithStringPlacementBelow:
       result = "below";
       break;
   } // switch

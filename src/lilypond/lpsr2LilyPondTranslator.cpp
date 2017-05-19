@@ -3873,12 +3873,12 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       fMusicOlec++;
 
       switch ((*i)->getTechnicalWithStringPlacementKind ()) {
-        case msrTechnicalWithString::k_NoPlacementKind:
+        case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
           break;
-        case msrTechnicalWithString::kAbove:
+        case msrTechnicalWithString::kTechnicalWithStringPlacementAbove:
  // JMI         fOstream << "^";
           break;
-        case msrTechnicalWithString::kBelow:
+        case msrTechnicalWithString::kTechnicalWithStringPlacementBelow:
  // JMI         fOstream << "_";
           break;
       } // switch
