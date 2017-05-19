@@ -159,6 +159,7 @@ string lpsr2LilyPondTranslator::tupletSoundingDivisionsAsLilypondString (
   string result;
 
   msrAssert(part != 0, "part == 0"); // JMI
+  
   result =
     part->
       tupletSoundingDivisionsAsMsrString (
