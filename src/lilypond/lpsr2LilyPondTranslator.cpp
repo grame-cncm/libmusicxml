@@ -3624,14 +3624,11 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
   S_msrSingleTremolo
     noteSingleTremolo =
       elt->getNoteSingleTremolo ();
-/* doubleTremolo JMI
-  if (noteSingleTremolo) {
-    // print the single tremolo repeat end
-    fOstream <<
-      "}"; // JMI
-      */
 
-  if (noteSingleTremolo) {
+  // generate code for the single tremolo only
+  // if note doesn't belong to a chord,
+  // otherwise it will be generated for the chord itself // JMI
+  if (noteSingleTremolo && ! elt->getNoteBelongsToAChord ()) {
     int
       inputLineNumber =
         noteSingleTremolo-> getInputLineNumber ();
