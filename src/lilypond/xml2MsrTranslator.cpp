@@ -7735,13 +7735,15 @@ void xml2MsrTranslator::visitStart ( S_accidental_mark& elt )
     elt->getAttributeValue ("placement");
 
   fCurrentOrnamentPlacementKind =
-    msrOrnament::k_NoPlacementKind;
+    msrOrnament::k_NoOrnamentPlacement;
 
   if      (placement == "above")
-    fCurrentOrnamentPlacementKind = msrOrnament::kAbove;
+    fCurrentOrnamentPlacementKind =
+      msrOrnament::kOrnamentPlacementAbove;
     
   else if (placement == "below")
-    fCurrentOrnamentPlacementKind = msrOrnament::kBelow;
+    fCurrentOrnamentPlacementKind =
+      msrOrnament::kOrnamentPlacementBelow;
     
   else if (placement.size ()) {
     

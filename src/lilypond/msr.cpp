@@ -3573,7 +3573,7 @@ msrOrnament::msrOrnament (
 {
   fOrnamentKind = ornamentKind;
 
-  fOrnamentPlacementKind = k_NoPlacementKind;
+  fOrnamentPlacementKind = k_NoOrnamentPlacement;
 
   fOrnamentAccidentalMarkKind = kNatural;
 }
@@ -3628,13 +3628,13 @@ string msrOrnament::ornamentPlacementKindAsString () const
   string result;
   
   switch (fOrnamentPlacementKind) {
-    case msrOrnament::k_NoPlacementKind:
+    case msrOrnament::k_NoOrnamentPlacement:
       result = "none";
       break;
-    case msrOrnament::kAbove:
+    case msrOrnament::kOrnamentPlacementAbove:
       result = "above";
       break;
-    case msrOrnament::kBelow:
+    case msrOrnament::kOrnamentPlacementBelow:
       result = "below";
       break;
   } // switch

@@ -1317,7 +1317,8 @@ class EXP msrOrnament : public msrElement
       msrOrnamentKind ornamentKind);
       
     enum msrOrnamentPlacementKind {
-      k_NoPlacementKind, kAbove, kBelow};
+      k_NoOrnamentPlacement,
+      kOrnamentPlacementAbove, kOrnamentPlacementBelow};
 
     static string ornamentPlacementKindAsString (
       msrOrnamentPlacementKind ornamentPlacementKind);

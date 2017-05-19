@@ -3916,12 +3916,12 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       fMusicOlec++;
 
       switch ((*i)->getOrnamentPlacementKind ()) {
-        case msrOrnament::k_NoPlacementKind:
+        case msrOrnament::k_NoOrnamentPlacement:
           break;
-        case msrOrnament::kAbove:
+        case msrOrnament::kOrnamentPlacementAbove:
  // JMI         fOstream << "^";
           break;
-        case msrOrnament::kBelow:
+        case msrOrnament::kOrnamentPlacementBelow:
  // JMI         fOstream << "_";
           break;
       } // switch
