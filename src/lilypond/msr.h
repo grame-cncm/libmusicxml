@@ -1435,7 +1435,8 @@ class EXP msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     enum msrSingleTremoloPlacementKind {
-      k_NoPlacementKind, kAbove, kBelow};
+      k_NoSingleTremoloPlacement,
+      kSingleTremoloPlacementAbove, kSingleTremoloPlacementBelow};
 
     static string singleTremoloPlacementKindAsString (
       msrSingleTremoloPlacementKind singleTremoloPlacementKind);

@@ -3770,13 +3770,13 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString (
   string result;
   
   switch (singleTremoloPlacementKind) {
-    case msrSingleTremolo::k_NoPlacementKind:
+    case msrSingleTremolo::k_NoSingleTremoloPlacement:
       result = "none";
       break;
-    case msrSingleTremolo::kAbove:
+    case msrSingleTremolo::kSingleTremoloPlacementAbove:
       result = "above";
       break;
-    case msrSingleTremolo::kBelow:
+    case msrSingleTremolo::kSingleTremoloPlacementBelow:
       result = "below";
       break;
   } // switch
