@@ -6176,6 +6176,78 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 /*!
+\brief A msr measure repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common segment
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrPercent : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPercent> create (
+      int          inputLineNumber,
+      S_msrVoice   voiceUplink);
+    
+    SMARTP<msrPercent> createPercentBareClone (
+      S_msrVoice clonedVoice);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrPercent (
+      int          inputLineNumber,
+      S_msrVoice   voiceUplink);
+      
+    virtual ~msrPercent();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setPercentSegment (
+                            S_msrSegment percentSegment);
+                  
+    S_msrSegment          getPercentSegment () const
+                              { return fPercentSegment; }
+
+    S_msrVoice            getPercentVoiceUplink () const
+                            { return fPercentVoiceUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void acceptIn  (basevisitor* v);
+    virtual void acceptOut (basevisitor* v);
+
+    virtual void browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void print (ostream& os);
+
+  private:
+
+    S_msrSegment              fPercentSegment;
+        
+    S_msrVoice                fPercentVoiceUplink;
+};
+typedef SMARTP<msrPercent> S_msrPercent;
+EXP ostream& operator<< (ostream& os, const S_msrPercent& elt);
+
+/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents

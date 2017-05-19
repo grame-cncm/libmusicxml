@@ -15974,6 +15974,147 @@ void msrRepeat::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+S_msrPercent msrPercent::create (
+  int          inputLineNumber,
+  S_msrVoice   voiceUplink)
+{
+  msrPercent* o =
+    new msrPercent (
+      inputLineNumber, voiceUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrPercent::msrPercent (
+  int          inputLineNumber,
+  S_msrVoice   voiceUplink)
+    : msrElement (inputLineNumber)
+{  
+  fPercentVoiceUplink = voiceUplink;
+}
+
+msrPercent::~msrPercent() {}
+
+S_msrPercent msrPercent::createPercentBareClone (S_msrVoice clonedVoice)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a bare clone of a repeat" <<
+      endl;
+  
+  S_msrPercent
+    clone =
+      msrPercent::create (
+        fInputLineNumber,
+        clonedVoice);
+  
+  return clone;
+}
+
+void msrPercent::setPercentSegment (
+  S_msrSegment percentSegment)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting percent segment containing " <<
+      singularOrPlural (
+        percentSegment->getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
+      endl;
+      
+  fPercentSegment = percentSegment;
+}
+
+void msrPercent::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrPercent::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrPercent>*
+    p =
+      dynamic_cast<visitor<S_msrPercent>*> (v)) {
+        S_msrPercent elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrPercent::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrPercent::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrPercent::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrPercent>*
+    p =
+      dynamic_cast<visitor<S_msrPercent>*> (v)) {
+        S_msrPercent elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrPercent::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrPercent::browseData (basevisitor* v)
+{
+  if (fPercentSegment) {
+  // browse the common segment
+    msrBrowser<msrSegment> browser (v);
+    browser.browse (*fPercentSegment);
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrPercent& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrPercent::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr << "Percent" <<
+    ", line " << fInputLineNumber <<
+    " (" <<
+      fPercentSegment->
+        getSegmentMeasuresList ().size () <<
+        " measures)" <<
+    endl;
+  
+  idtr++;
+  
+  // print the repeat common segment
+  os << idtr <<
+    "Percent segment: ";
+  if (! fPercentSegment)
+    os << "none";
+  os << endl;
+
+  if (fPercentSegment) {
+    idtr++;
+    
+    os <<
+      fPercentSegment;
+
+    idtr--;
+  }
+
+  os << endl;
+      
+  idtr--;
+}
+
 //______________________________________________________________________________ 
 int msrVoice::gVoicesCounter = 0;
 
