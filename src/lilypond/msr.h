@@ -3061,7 +3061,7 @@ class EXP msrWords : public msrElement
     // ------------------------------------------------------
 
     enum msrWordsPlacementKind {
-      kAbove, kBelow};
+      kWordsPlacementAbove, kWordsPlacementBelow};
 
     static string wordsPlacementKindAsString (
       msrWordsPlacementKind wordsPlacementKind);

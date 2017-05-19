@@ -10617,10 +10617,10 @@ string msrWords::wordsPlacementKindAsString (
   string result;
 
   switch (wordsPlacementKind) {
-    case kAbove:
+    case msrWords::kWordsPlacementAbove:
       result = "above";
       break;
-    case kBelow:
+    case msrWords::kWordsPlacementBelow:
       result = "below";
       break;
   } // switch

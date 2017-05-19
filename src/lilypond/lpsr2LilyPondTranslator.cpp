@@ -4031,10 +4031,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
         
         switch (wordsPlacementKind) {
-          case msrWords::kAbove:
+          case msrWords::kWordsPlacementAbove:
             s << "^";
             break;
-          case msrWords::kBelow:
+          case msrWords::kWordsPlacementBelow:
             s << "_";
             break;
         } // switch
@@ -4579,10 +4579,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
         (*i)->getWordsContents ();
     
       switch (wordsPlacementKind) {
-        case msrWords::kAbove:
+        case msrWords::kWordsPlacementAbove:
           fOstream << "^";
           break;
-        case msrWords::kBelow:
+        case msrWords::kWordsPlacementBelow:
           fOstream << "_";
           break;
       } // switch

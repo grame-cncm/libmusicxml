@@ -2321,10 +2321,10 @@ void xml2MsrTranslator::visitStart (S_direction& elt)
     elt->getAttributeValue ("placement");
 
   if (fCurrentDirectionPlacement == "above")
-    fCurrentWordsPlacementKind = msrWords::kAbove;
+    fCurrentWordsPlacementKind = msrWords::kWordsPlacementAbove;
     
   else if (fCurrentDirectionPlacement == "below")
-    fCurrentWordsPlacementKind = msrWords::kBelow;
+    fCurrentWordsPlacementKind = msrWords::kWordsPlacementBelow;
     
   else if (fCurrentDirectionPlacement.size ()) {
     stringstream s;
