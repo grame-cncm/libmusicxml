@@ -2534,6 +2534,8 @@ void xml2MsrTranslator::visitStart (S_words& elt)
     wordsXMLLangKind = msrWords::kDeLang;
   else if (wordsXMLLang == "fr")
     wordsXMLLangKind = msrWords::kFrLang;
+  else if (wordsXMLLang == "ja")
+    wordsXMLLangKind = msrWords::kJaLang;
   else {
     if (wordsXMLLang.size ()) {
       stringstream s;

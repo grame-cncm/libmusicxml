@@ -10669,16 +10669,18 @@ string msrWords::msrWordsXMLLangKindAsString (
 
   switch (wordsXMLLangKind) {
     case kItLang:
-      result = "ItLang";
+      result = "it";
       break;
     case kEnLang:
-      result = "EnLang";
+      result = "en";
       break;
     case kDeLang:
-      result = "DeLang";
+      result = "de";
       break;
     case kFrLang:
-      result = "FrLang";
+      result = "fr";
+    case kJaLang:
+      result = "ja";
       break;
   } // switch
 

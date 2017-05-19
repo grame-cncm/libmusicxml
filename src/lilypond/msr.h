@@ -3073,7 +3073,7 @@ class EXP msrWords : public msrElement
       msrWordsFontWeightKind wordsFontWeightKind);
       
     enum msrWordsXMLLangKind {
-      kItLang, kEnLang, kDeLang, kFrLang};
+      kItLang, kEnLang, kDeLang, kFrLang, kJaLang};
 
     static string msrWordsXMLLangKindAsString (
       msrWordsXMLLangKind wordsXMLLangKind);
