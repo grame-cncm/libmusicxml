@@ -3139,13 +3139,13 @@ string msrTechnical::technicalPlacementKindAsString () const
   string result;
   
   switch (fTechnicalPlacementKind) {
-    case msrTechnical::k_NoPlacementKind:
+    case msrTechnical::k_NoTechnicalPlacement:
       result = "none";
       break;
-    case msrTechnical::kAbove:
+    case msrTechnical::kTechnicalPlacementAbove:
       result = "above";
       break;
-    case msrTechnical::kBelow:
+    case msrTechnical::kTechnicalPlacementBelow:
       result = "below";
       break;
   } // switch
@@ -3226,13 +3226,13 @@ string msrTechnical::technicalAsString () const
   string result;
   
   switch (fTechnicalPlacementKind) {
-    case msrTechnical::k_NoPlacementKind:
+    case msrTechnical::k_NoTechnicalPlacement:
       result = "none";
       break;
-    case msrTechnical::kAbove:
+    case msrTechnical::kTechnicalPlacementAbove:
       result = "above";
       break;
-    case msrTechnical::kBelow:
+    case msrTechnical::kTechnicalPlacementBelow:
       result = "below";
       break;
   } // switch

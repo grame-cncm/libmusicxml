@@ -940,7 +940,8 @@ class EXP msrTechnical : public msrElement
       msrTechnicalKind technicalKind);
       
     enum msrTechnicalPlacementKind {
-      k_NoPlacementKind, kAbove, kBelow};
+      k_NoTechnicalPlacement,
+      kTechnicalPlacementAbove, kTechnicalPlacementBelow};
 
     static string technicalPlacementKindAsString (
       msrTechnicalPlacementKind technicalPlacementKind);

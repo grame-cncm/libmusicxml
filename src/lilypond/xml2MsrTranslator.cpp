@@ -6068,13 +6068,13 @@ void xml2MsrTranslator::visitStart ( S_arrow& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     arrowPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    arrowPlacementKind = msrTechnical::kAbove;
+    arrowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    arrowPlacementKind = msrTechnical::kBelow;
+    arrowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6179,13 +6179,13 @@ void xml2MsrTranslator::visitStart ( S_double_tongue& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     doubleTonguePlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    doubleTonguePlacementKind = msrTechnical::kAbove;
+    doubleTonguePlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    doubleTonguePlacementKind = msrTechnical::kBelow;
+    doubleTonguePlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6226,13 +6226,13 @@ void xml2MsrTranslator::visitStart ( S_down_bow& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     downBowPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    downBowPlacementKind = msrTechnical::kAbove;
+    downBowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    downBowPlacementKind = msrTechnical::kBelow;
+    downBowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6321,13 +6321,13 @@ void xml2MsrTranslator::visitStart ( S_fingernails& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     fingernailsPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    fingernailsPlacementKind = msrTechnical::kAbove;
+    fingernailsPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    fingernailsPlacementKind = msrTechnical::kBelow;
+    fingernailsPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6514,13 +6514,13 @@ void xml2MsrTranslator::visitStart ( S_harmonic& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     harmonicPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    harmonicPlacementKind = msrTechnical::kAbove;
+    harmonicPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    harmonicPlacementKind = msrTechnical::kBelow;
+    harmonicPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6561,13 +6561,13 @@ void xml2MsrTranslator::visitStart ( S_heel& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     heelPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    heelPlacementKind = msrTechnical::kAbove;
+    heelPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    heelPlacementKind = msrTechnical::kBelow;
+    heelPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6608,13 +6608,13 @@ void xml2MsrTranslator::visitStart ( S_hole& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     holePlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    holePlacementKind = msrTechnical::kAbove;
+    holePlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    holePlacementKind = msrTechnical::kBelow;
+    holePlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6655,13 +6655,13 @@ void xml2MsrTranslator::visitStart ( S_open_string& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     openStringPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    openStringPlacementKind = msrTechnical::kAbove;
+    openStringPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    openStringPlacementKind = msrTechnical::kBelow;
+    openStringPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6852,13 +6852,13 @@ void xml2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     snapPizzicatoPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    snapPizzicatoPlacementKind = msrTechnical::kAbove;
+    snapPizzicatoPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    snapPizzicatoPlacementKind = msrTechnical::kBelow;
+    snapPizzicatoPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -6899,13 +6899,13 @@ void xml2MsrTranslator::visitStart ( S_stopped& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     stoppedPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    stoppedPlacementKind = msrTechnical::kAbove;
+    stoppedPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    stoppedPlacementKind = msrTechnical::kBelow;
+    stoppedPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -7017,13 +7017,13 @@ void xml2MsrTranslator::visitStart ( S_tap& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     tapPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    tapPlacementKind = msrTechnical::kAbove;
+    tapPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    tapPlacementKind = msrTechnical::kBelow;
+    tapPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -7064,13 +7064,13 @@ void xml2MsrTranslator::visitStart ( S_thumb_position& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     thumbPositionPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    thumbPositionPlacementKind = msrTechnical::kAbove;
+    thumbPositionPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    thumbPositionPlacementKind = msrTechnical::kBelow;
+    thumbPositionPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -7111,13 +7111,13 @@ void xml2MsrTranslator::visitStart ( S_toe& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     toePlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    toePlacementKind = msrTechnical::kAbove;
+    toePlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    toePlacementKind = msrTechnical::kBelow;
+    toePlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -7158,13 +7158,13 @@ void xml2MsrTranslator::visitStart ( S_triple_tongue& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     tripleTonguePlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    tripleTonguePlacementKind = msrTechnical::kAbove;
+    tripleTonguePlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    tripleTonguePlacementKind = msrTechnical::kBelow;
+    tripleTonguePlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
@@ -7205,13 +7205,13 @@ void xml2MsrTranslator::visitStart ( S_up_bow& elt )
 
   msrTechnical::msrTechnicalPlacementKind
     upBowPlacementKind =
-      msrTechnical::k_NoPlacementKind;
+      msrTechnical::k_NoTechnicalPlacement;
 
   if      (placement == "above")
-    upBowPlacementKind = msrTechnical::kAbove;
+    upBowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (placement == "below")
-    upBowPlacementKind = msrTechnical::kBelow;
+    upBowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (placement.size ()) {
     
