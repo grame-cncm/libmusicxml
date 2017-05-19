@@ -7356,7 +7356,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       
   msrDoubleTremolo::msrDoubleTremoloPlacementKind
     doubleTremoloPlacementKind =
-      msrDoubleTremolo::k_NoPlacementKind;
+      msrDoubleTremolo::k_NoDoubleTremoloPlacement;
 
   if      (tremoloPlacement == "above") {
     switch (fCurrentMusicXMLTremoloType) {
@@ -7371,7 +7371,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
         
       case kStartTremolo:
       case kStopTremolo:
-        doubleTremoloPlacementKind = msrDoubleTremolo::kAbove;
+        doubleTremoloPlacementKind =
+          msrDoubleTremolo::kDoubleTremoloPlacementAbove;
         break;
     } // switch
   }
@@ -7389,7 +7390,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
         
       case kStartTremolo:
       case kStopTremolo:
-        doubleTremoloPlacementKind = msrDoubleTremolo::kBelow;
+        doubleTremoloPlacementKind =
+          msrDoubleTremolo::kDoubleTremoloPlacementBelow;
         break;
     } // switch
   }

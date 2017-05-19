@@ -1536,7 +1536,8 @@ class EXP msrDoubleTremolo : public msrElement
             
     // creation from MusicXML
     enum msrDoubleTremoloPlacementKind {
-      k_NoPlacementKind, kAbove, kBelow};
+      k_NoDoubleTremoloPlacement,
+      kDoubleTremoloPlacementAbove, kDoubleTremoloPlacementBelow};
 
     static string doubleTremoloPlacementKindAsString (
       msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);

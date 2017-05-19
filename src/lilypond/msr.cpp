@@ -4160,13 +4160,13 @@ string msrDoubleTremolo::doubleTremoloPlacementKindAsString (
   string result;
   
   switch (doubleTremoloPlacementKind) {
-    case msrDoubleTremolo::k_NoPlacementKind:
+    case msrDoubleTremolo::k_NoDoubleTremoloPlacement:
       result = "none";
       break;
-    case msrDoubleTremolo::kAbove:
+    case msrDoubleTremolo::kDoubleTremoloPlacementAbove:
       result = "above";
       break;
-    case msrDoubleTremolo::kBelow:
+    case msrDoubleTremolo::kDoubleTremoloPlacementBelow:
       result = "below";
       break;
   } // switch
