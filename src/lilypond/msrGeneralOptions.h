@@ -265,6 +265,7 @@ class EXP msrGeneralOptions : public smartable
 
     // notes
     bool                  fTraceNotes;
+    
     // technicals
     bool                  fTraceTechnicals;
 

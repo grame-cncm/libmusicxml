@@ -451,6 +451,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
   idtr++;
 
   cerr <<
+    // divisions
     idtr <<
       "--" _TRACE_DIVISIONS_SHORT_NAME_ ", --" _TRACE_DIVISIONS_LONG_NAME_ <<
       endl <<
@@ -459,12 +460,23 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
       
+    // part groups
     idtr <<
       "--" _TRACE_PARTS_SHORT_NAME_ ", --" _TRACE_PARTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "score, part groups and parts" <<
       endl <<
+      
+    // parts
+    idtr <<
+      "--" _TRACE_PARTS_SHORT_NAME_ ", --" _TRACE_PARTS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "score, part groups and parts" <<
+      endl <<
+
+    // voices
     idtr <<
       "--" _TRACE_VOICES_SHORT_NAME_ ", --" _TRACE_VOICES_LONG_NAME_ <<
       endl <<
@@ -473,7 +485,8 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
       
-    idtr <<
+     // segments
+   idtr <<
       "--" _TRACE_SEGMENTS_SHORT_NAME_ ", --" _TRACE_SEGMENTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
@@ -481,6 +494,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
       
+    // repeats
     idtr <<
       "--" _TRACE_REPEATS_SHORT_NAME_ ", --" _TRACE_REPEATS_LONG_NAME_ <<
       endl <<
@@ -489,6 +503,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
       
+    // measures
     idtr <<
       "--" _TRACE_MEASURES_SHORT_NAME_ ", --" _TRACE_MEASURES_LONG_NAME_ <<
       endl <<
@@ -497,12 +512,15 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
 
+    // notes
     idtr <<
       "--" _TRACE_NOTES_SHORT_NAME_ ", --" _TRACE_NOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "notes (quite verbose)" <<
       endl <<
+
+    // technicals
     idtr <<
       "--" _TRACE_TECHNICALS_SHORT_NAME_ ", --" _TRACE_TECHNICALS_LONG_NAME_ <<
       endl <<
@@ -511,6 +529,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
       
+    // tremolos
     idtr <<
       "--" _TRACE_TREMOLOS_SHORT_NAME_ ", --" _TRACE_TREMOLOS_LONG_NAME_ <<
       endl <<
@@ -519,12 +538,15 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
 
+    // chords
     idtr <<
       "--" _TRACE_CHORDS_SHORT_NAME_ ", --" _TRACE_CHORDS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "chords" <<
       endl <<
+
+    // tuplets
     idtr <<
       "--" _TRACE_TUPLETS_SHORT_NAME_ ", --" _TRACE_TUPLETS_LONG_NAME_ <<
       endl <<
@@ -533,6 +555,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
 
+    // grace notes
     idtr <<
       "--" _TRACE_GRACENOTES_SHORT_NAME_ ", --" _TRACE_GRACENOTES_LONG_NAME_ <<
       endl <<
@@ -541,6 +564,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
 
+    // lyrics
     idtr <<
       "--" _TRACE_LYRICS_SHORT_NAME_ ", --" _TRACE_LYRICS_LONG_NAME_ <<
       endl <<
@@ -549,6 +573,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
 
+    // harmonies
     idtr <<
       "--" _TRACE_HARMONIES_SHORT_NAME_ ", --" _TRACE_HARMONIES_LONG_NAME_ <<
       endl <<
@@ -573,7 +598,8 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr++;
 
   // command line
-  
+  // --------------------------------------
+
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "Command line:" <<
@@ -595,6 +621,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
 
   // output file
+  // --------------------------------------
 
   cerr << left <<
     idtr <<
@@ -617,6 +644,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
 
   // trace and display
+  // --------------------------------------
 
   cerr << left <<
     idtr <<
@@ -639,6 +667,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
 
   // MusicXML
+  // --------------------------------------
 
   cerr << left <<
     idtr <<
@@ -656,6 +685,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
   
   // CPU usage
+  // --------------------------------------
 
   cerr << left <<
     idtr <<
@@ -673,6 +703,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
   
   // specific trace    
+  // --------------------------------------
 
   cerr << left <<
     idtr <<
@@ -682,71 +713,97 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr++;
 
   cerr << left <<
+    // divisions
     idtr <<
       setw(fieldWidth) << "traceDivisions" << " : " <<
       booleanAsString (gGeneralOptions->fTraceDivisions) <<
       endl <<
         
+    // part groups
     idtr <<
       setw(fieldWidth) << "tracePartgroups" << " : " <<
       booleanAsString (gGeneralOptions->fTracePartgroups) <<
       endl <<
+      
+    // parts
     idtr <<
       setw(fieldWidth) << "traceParts" << " : " <<
       booleanAsString (gGeneralOptions->fTraceParts) <<
       endl <<
+      
+    // staves
     idtr <<
       setw(fieldWidth) << "traceStaves" << " : " <<
       booleanAsString (gGeneralOptions->fTraceStaves) <<
       endl <<
+      
+    // voices
     idtr <<
       setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (gGeneralOptions->fTraceVoices) <<
       endl <<
       
+    // segments
     idtr <<
       setw(fieldWidth) << "traceSegments" << " : " <<
       booleanAsString (gGeneralOptions->fTraceSegments) <<
       endl <<
+
+    // repeats
     idtr <<
       setw(fieldWidth) << "traceRepeats" << " : " <<
       booleanAsString (gGeneralOptions->fTraceRepeats) <<
       endl <<
+
+    // measures
     idtr <<
       setw(fieldWidth) << "traceMeasures" << " : " <<
       booleanAsString (gGeneralOptions->fTraceMeasures) <<
       endl <<
       
+    // notes
     idtr <<
       setw(fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceNotes) <<
       endl <<
+
+    // technicals
     idtr <<
       setw(fieldWidth) << "traceTechnicals" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTechnicals) <<
       endl <<
+
+    // tremolos
     idtr <<
       setw(fieldWidth) << "traceTremolos" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTremolos) <<
       endl <<
+
+    // chords
     idtr <<
       setw(fieldWidth) << "traceChords" << " : " <<
       booleanAsString (gGeneralOptions->fTraceChords) <<
       endl <<
+
+    // tuplets
     idtr <<
       setw(fieldWidth) << "traceTuplets" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTuplets) <<
       endl <<
+
+    // grace notes
     idtr <<
       setw(fieldWidth) << "traceGracenotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceGracenotes) <<
       endl <<
 
+    // lyrics
     idtr <<
       setw(fieldWidth) << "traceLyrics" << " : " <<
       booleanAsString (gGeneralOptions->fTraceLyrics) <<
       endl <<
       
+    // harmonies
     idtr <<
       setw(fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (gGeneralOptions->fTraceHarmonies) <<
