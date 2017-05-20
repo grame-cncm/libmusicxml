@@ -19048,11 +19048,14 @@ void msrStaff::printStructure (ostream& os)
 S_msrPart msrPart::create (
   int            inputLineNumber,
   string         partID,
+  int            partStavesLinesNumber,
   S_msrPartgroup partPartgroupUplink)
 {
   msrPart* o =
     new msrPart (
-      inputLineNumber, partID, partPartgroupUplink);
+      inputLineNumber,
+      partID, partStavesLinesNumber,
+      partPartgroupUplink);
   assert(o!=0);
   return o;
 }
@@ -19060,6 +19063,7 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   int            inputLineNumber,
   string         partID,
+  int            partStavesLinesNumber,
   S_msrPartgroup partPartgroupUplink)
     : msrElement (inputLineNumber)
 {
@@ -19068,7 +19072,10 @@ msrPart::msrPart (
     partID.begin(),
     partID.end(),
     stringSpaceReplacer (fPartID, '_'));
- 
+
+  // register part staves lines number
+  fPartStavesLinesNumber = partStavesLinesNumber;
+
   // set part's part group uplink
   msrAssert(
     partPartgroupUplink != 0,
@@ -19131,6 +19138,7 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
       msrPart::create (
         fInputLineNumber,
         fPartID,
+        fPartStavesLinesNumber,
         clonedPartgroup);
 
   clone->fPartDivisionsPerQuarterNote =
@@ -19968,7 +19976,12 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   // register staff in this part
   fPartStavesMap [staffNumber] = staff;
 
-  // return it
+  // set staff's lines number
+  staff->
+    setStaffLinesNumber (
+      fPartStavesLinesNumber);
+
+  // return staff
   return staff;
 }
 
@@ -20270,6 +20283,7 @@ void msrPart::print (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
+    ", " << fPartStavesLinesNumber << " lines per stave" <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
@@ -20338,6 +20352,7 @@ void msrPart::printStructure (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
+    ", " << fPartStavesLinesNumber << " lines per stave" <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
@@ -20528,7 +20543,8 @@ string msrPartgroup::getPartgroupCombinedName () const
 
 S_msrPart msrPartgroup::addPartToPartgroupByItsID (
   int    inputLineNumber,
-  string partID)
+  string partID,
+  int    stavesLinesNumber)
 {
   if (fPartgroupPartsMap.count (partID)) {
     stringstream s;
@@ -20551,6 +20567,7 @@ S_msrPart msrPartgroup::addPartToPartgroupByItsID (
       msrPart::create (
         inputLineNumber,
         partID,
+        stavesLinesNumber,
         this);
 
   // register it in this part group

@@ -6918,6 +6918,7 @@ class EXP msrPart : public msrElement
     static SMARTP<msrPart> create (
       int            inputLineNumber,
       string         partID,
+      int            partStavesLinesNumber,
       S_msrPartgroup partPartgroupUplink);
                 
     SMARTP<msrPart> createPartBareClone (
@@ -6931,6 +6932,7 @@ class EXP msrPart : public msrElement
     msrPart (
       int            inputLineNumber,
       string         partID,
+      int            partStavesLinesNumber,
       S_msrPartgroup partPartgroupUplink);
       
     virtual ~msrPart();
@@ -6953,6 +6955,9 @@ class EXP msrPart : public msrElement
     string                getPartID () const
                               { return fPartID; }
 
+    const int             getPartStavesLinesNumber () const
+                              { return fPartStavesLinesNumber; }
+          
     void                  setPartMsrName (string partMsrName);
     
     string                getPartMsrName () const
@@ -7150,6 +7155,8 @@ class EXP msrPart : public msrElement
   private:
     
     string                  fPartID; // native
+    int                     fPartStavesLinesNumber;
+    
     string                  fPartMsrName;
                               // may be different than fPartID
                               // if renamed,
@@ -7329,7 +7336,8 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPart     addPartToPartgroupByItsID (
                     int    inputLineNumber,
-                    string partID);
+                    string partID,
+                    int    stavesLinesNumber);
     
     void          addPartToPartgroup (S_msrPart part);
                 
