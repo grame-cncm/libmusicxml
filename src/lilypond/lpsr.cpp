@@ -476,7 +476,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "Generate '\\romanStringNumbers' in each voice " << 
       endl <<
     idtr << tab << tab << tab <<
-      "to have LilyPond from generating roman instead of arabic string numbers." << 
+      "for LilyPond to generate roman instead of arabic string numbers." << 
       endl <<
     endl <<
 
