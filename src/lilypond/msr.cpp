@@ -17941,7 +17941,9 @@ msrStaff::msrStaff (
 
 void msrStaff::initializeStaff ()
 {
-  fStaffLinesNumber = 5; // default
+  fStaffLinesNumber =
+    fStaffDirectPartUplink->
+      getPartStavesLinesNumber ();
   
   fRegisteredVoicesCounter = 0;
 

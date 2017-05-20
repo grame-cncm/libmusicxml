@@ -1472,10 +1472,24 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   idtr++;
 
+/* JMI
   // fetch part
   S_msrPart
     part =
       staff->getStaffDirectPartUplink ();
+*/
+
+  // fetch staff lines number
+  int
+    staffLinesNumber =
+      staff->getStaffLinesNumber ();
+
+  if (staffLinesNumber != 5) // default value
+    fOstream << idtr <<
+      "\\override Staff.StaffSymbol.line-count = " <<
+      staffLinesNumber <<
+    endl;
+    
 
   string
     staffBlockInstrumentName =
