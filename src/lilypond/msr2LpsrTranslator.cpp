@@ -35,33 +35,42 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   S_msrScore     mScore)
     : fOstream (os)
 {
+  // the MSR score we're visiting
   fVisitedMsrScore = mScore;
 
-// JMI  gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
- // gCurrentLocation.fPositionInMeasure = 1;
-
+  // identification
   fOnGoingIdentification = false;
 
+  // header
   fWorkNumberKnown       = false;
   fWorkTitleKnown        = false;
   fMovementNumberKnown   = false;
   fMovementTitleKnown    = false;
    
+  // staves
   fOnGoingStaff          = false;
 
+  // voices
   fOnGoingHarmonyVoice   = false;
 
-  fOnGoingNote           = false;
-
-  fOnGoingDoubleTremolo  = false;
-
-  fOnGoingChord          = false;
-  
-  fOnGoingStanza         = false;
-  fOnGoingSyllableExtend = false;
-
+  // repeats
   fRepeatHasBeenCreatedForCurrentPartClone = false;
   fOnGoingRepeat         = false;
+
+  // notes
+  fOnGoingNote           = false;
+
+  // double tremolos
+  fOnGoingDoubleTremolo  = false;
+
+  // chords
+  fOnGoingChord          = false;
+  
+  // stanzas
+  fOnGoingStanza         = false;
+
+  // syllables
+  fOnGoingSyllableExtend = false;
 };
   
 msr2LpsrTranslator::~msr2LpsrTranslator ()

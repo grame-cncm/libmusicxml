@@ -298,6 +298,8 @@ class msr2LpsrTranslator :
                      
     ostream&                  fOstream;
     
+    // the MSR score we're visiting
+    // ------------------------------------------------------
     S_msrScore                fVisitedMsrScore;
 
     // the LPSR score we're building
@@ -326,7 +328,6 @@ class msr2LpsrTranslator :
 
     // page geometry
     // ------------------------------------------------------
-// JMI    S_msrPageGeometry    fCurrentPageGeometry;
 
     // credits
     // ------------------------------------------------------
@@ -338,10 +339,6 @@ class msr2LpsrTranslator :
 
     // the current partgroup is the top of the stack
     stack<S_msrPartgroup>     fPartgroupsStack;
-    
-    // the current partgroup command is the top of the stack
-    stack<S_lpsrPartgroupBlock>
-                              fPartgroupBlocksStack;
     
     // parts
     // ------------------------------------------------------
@@ -384,16 +381,6 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrSegment              fCurrentSegmentClone;
     
-    // stanzas
-    // ------------------------------------------------------
-    S_msrStanza               fCurrentStanzaClone;
-    bool                      fOnGoingStanza;
-
-    // syllables
-    // ------------------------------------------------------
-    S_msrSyllable             fCurrentSyllableClone;
-    bool                      fOnGoingSyllableExtend;
-
     // notes
     // ------------------------------------------------------
     bool                      fOnGoingNote;
@@ -404,6 +391,7 @@ class msr2LpsrTranslator :
                                 // to help optimise after grace notes
 
     // double tremolos
+    // ------------------------------------------------------
     S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
     bool                      fOnGoingDoubleTremolo;
     
@@ -433,6 +421,21 @@ class msr2LpsrTranslator :
 //    S_msrTuplet             fCurrentTupletClone;
  //   bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fTupletClonesStack;
+
+    // stanzas
+    // ------------------------------------------------------
+    S_msrStanza               fCurrentStanzaClone;
+    bool                      fOnGoingStanza;
+
+    // syllables
+    // ------------------------------------------------------
+    S_msrSyllable             fCurrentSyllableClone;
+    bool                      fOnGoingSyllableExtend;
+
+    // part groups block
+    // the current partgroup command is the top of the stack
+    stack<S_lpsrPartgroupBlock>
+                              fPartgroupBlocksStack;
 };
 
 
