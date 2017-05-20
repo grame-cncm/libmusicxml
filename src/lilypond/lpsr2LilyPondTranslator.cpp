@@ -618,7 +618,7 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
 //________________________________________________________________________
 string lpsr2LilyPondTranslator::singleTremoloDurationAsLilyPondString (
   int         inputLineNumber,
-  msrDuration singleTremoloNoteDuration,
+  msrDuration singleTremoloDuration,
   int         singleTremoloMarksNumber)
 {  
   /*
@@ -639,9 +639,9 @@ string lpsr2LilyPondTranslator::singleTremoloDurationAsLilyPondString (
       endl;
   }
 
-  if (singleTremoloNoteDuration >= kEighth)
+  if (singleTremoloDuration >= kEighth)
     durationToUse +=
-      1 + (singleTremoloNoteDuration - kEighth);
+      1 + (singleTremoloDuration - kEighth);
   
   stringstream s;
 

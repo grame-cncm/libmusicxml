@@ -3916,9 +3916,11 @@ class EXP msrNote : public msrElement
                               fNoteTechnicalWithIntegers;
     list<S_msrTechnicalWithString>
                               fNoteTechnicalWithStrings;
-    
+
+    // ornaments
     list<S_msrOrnament>       fNoteOrnaments;
     
+    // single tremolo
     S_msrSingleTremolo        fNoteSingleTremolo;
 
     S_msrTie                  fNoteTie;
@@ -4031,23 +4033,6 @@ class EXP msrChord : public msrElement
                           getChordArticulations () const
                               { return fChordArticulations; }
 
-    // single tremolo
-    S_msrSingleTremolo    getChordSingleTremolo () const
-                              { return fChordSingleTremolo; }
-
-    // double tremolo
-    void                  setChordIsFirstChordInADoubleTremolo ()
-                              { fChordIsFirstChordInADoubleTremolo = true; }
-
-    bool                  getChordIsFirstChordInADoubleTremolo () const
-                              { return fChordIsFirstChordInADoubleTremolo; }
-                  
-    void                  setChordIsSecondChordInADoubleTremolo ()
-                              { fChordIsSecondChordInADoubleTremolo = true; }
-
-    bool                  getChordIsSecondChordInADoubleTremolo () const
-                              { return fChordIsSecondChordInADoubleTremolo; }
-                  
     // technicals
     const list<S_msrTechnical>&
                           getChordTechnicals () const
@@ -4066,6 +4051,10 @@ class EXP msrChord : public msrElement
                           getChordOrnaments () const
                               { return fChordOrnaments; }
     
+    // singleTremolo
+    S_msrSingleTremolo    getChordSingleTremolo () const
+                              { return fChordSingleTremolo; }
+
     // dynamics
     const list<S_msrDynamics>&
                           getChordDynamics () const
@@ -4090,6 +4079,19 @@ class EXP msrChord : public msrElement
                           getChordWedges () const
                               { return fChordWedges; }
 
+    // double tremolo
+    void                  setChordIsFirstChordInADoubleTremolo ()
+                              { fChordIsFirstChordInADoubleTremolo = true; }
+
+    bool                  getChordIsFirstChordInADoubleTremolo () const
+                              { return fChordIsFirstChordInADoubleTremolo; }
+                  
+    void                  setChordIsSecondChordInADoubleTremolo ()
+                              { fChordIsSecondChordInADoubleTremolo = true; }
+
+    bool                  getChordIsSecondChordInADoubleTremolo () const
+                              { return fChordIsSecondChordInADoubleTremolo; }
+                  
     // ties
     void                  setChordTie (
                             const S_msrTie tie)
@@ -4142,9 +4144,6 @@ class EXP msrChord : public msrElement
     // articulations
     void                  addArticulationToChord (S_msrArticulation art);
      
-    // single tremolo
-    void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
-    
     // technicals
     void                  addTechnicalToChord (S_msrTechnical tech);
     
@@ -4157,6 +4156,9 @@ class EXP msrChord : public msrElement
     // ornaments
     void                  addOrnamentToChord (S_msrOrnament orn);
      
+    // singleTremolo
+    void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
+    
     // dynamics
     void                  addDynamicsToChord (S_msrDynamics dynamic)
                               { fChordDynamics.push_back (dynamic); }
@@ -4248,6 +4250,9 @@ class EXP msrChord : public msrElement
     
     // ornaments
     list<S_msrOrnament>       fChordOrnaments;
+
+    // single tremolo
+    S_msrSingleTremolo        fNoteSingleTremolo;
     
     // ties
     S_msrTie                  fChordTie;
