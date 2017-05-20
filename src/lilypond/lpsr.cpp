@@ -712,7 +712,7 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ ", --" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
-      "Generate code to include the date when LilyPond was used in the score." << 
+      "Generate code to include the date when LilyPond creates the score in the latter." << 
       endl <<
     endl;
     
