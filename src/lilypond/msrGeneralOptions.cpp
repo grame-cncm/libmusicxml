@@ -45,48 +45,73 @@ void msrGeneralOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
   // output file
+  // --------------------------------------
 
   fAutoOutputFile = false;
   
   // trace and display
+  // --------------------------------------
 
   fTraceGeneral = boolOptionsInitialValue;
 
   fTraceDetailed = false;
 
   // MusicXML
+  // --------------------------------------
 
   fIgnoreMusicXMLErrors = boolOptionsInitialValue;
+  fLoopToMusicXML = boolOptionsInitialValue;
   
   // CPU usage
-  
+  // --------------------------------------
+
   fDisplayCPUusage = boolOptionsInitialValue;
     
   // specific trace    
+  // --------------------------------------
 
+  // divisions
   fTraceDivisions = boolOptionsInitialValue;
 
+  // part groups
+  fTracePartgroups = boolOptionsInitialValue;
+  // parts
   fTraceParts = boolOptionsInitialValue;
+  // staves
+  fTraceStaves = boolOptionsInitialValue;
+  // voices
   fTraceVoices = boolOptionsInitialValue;
 
+  // segments
   fTraceSegments = boolOptionsInitialValue;
   
+  // repeats
   fTraceRepeats = boolOptionsInitialValue;
 
+  // measures
   fTraceMeasures = boolOptionsInitialValue;
 
+  // notes
   fTraceNotes = boolOptionsInitialValue;
+  // technicals
   fTraceTechnicals = boolOptionsInitialValue;
   
+  // tremolos
   fTraceTremolos = boolOptionsInitialValue;
   
+  // chords
   fTraceChords = boolOptionsInitialValue;
+  
+  // tuplets
   fTraceTuplets = boolOptionsInitialValue;
   
+  // grace notes
   fTraceGracenotes = boolOptionsInitialValue;
 
+  // lyrics
   fTraceLyrics = boolOptionsInitialValue;
 
+  // harmonies
   fTraceHarmonies = boolOptionsInitialValue;
 
 
@@ -94,8 +119,6 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   fTraceScore = boolOptionsInitialValue;
 
-  fTracePartgroups = boolOptionsInitialValue;
-  fTraceStaves = boolOptionsInitialValue;
 
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
@@ -115,11 +138,13 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
       msrGeneralOptions::create ();
 
   // output file
+  // --------------------------------------
 
   clone->fAutoOutputFile =
     fAutoOutputFile;
   
   // trace and display
+  // --------------------------------------
 
   clone->fTraceGeneral =
     true;
@@ -128,53 +153,79 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     true;
 
   // MusicXML
+  // --------------------------------------
 
   clone->fIgnoreMusicXMLErrors =
     true;
+  clone->fLoopToMusicXML =
+    true;
   
   // CPU usage
+  // --------------------------------------
 
   clone->fDisplayCPUusage =
     true;
     
   // specific trace
+  // --------------------------------------
 
+  // divisions
   clone->fTraceDivisions =
     true;
 
+  // part groups
+  clone->fTracePartgroups =
+    true;
+  // parts
   clone->fTraceParts =
     true;
+  // staves
+  clone->fTraceStaves =
+    true;
+  // voices
   clone->fTraceVoices =
     true;
 
+  // segments
   clone->fTraceSegments =
     true;
     
+  // repeats
   clone->fTraceRepeats =
     true;
 
+  // measures
   clone->fTraceMeasures =
     true;
   
+  // notes
   clone->fTraceNotes =
     true;
+  // technicals
   clone->fTraceTechnicals =
     true;
   
+  // tremolos
   clone->fTraceTremolos =
     true;
 
+  // chords
   clone->fTraceChords =
     true;
+    
+  // tuplets
   clone->fTraceTuplets =
     true;
   
+  // grace notes
   clone->fTraceGracenotes =
     true;
 
+  // lyrics
   clone->fTraceLyrics =
     true;
   
+  // harmonies
   clone->fTraceHarmonies =
     true;
   
@@ -184,10 +235,6 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceScore =
     true;
 
-  clone->fTracePartgroups =
-    true;
-  clone->fTraceStaves =
-    true;
 
   clone->fTraceDynamics =
     true;
@@ -641,13 +688,22 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       endl <<
         
     idtr <<
-      setw(fieldWidth) << "traceparts" << " : " <<
+      setw(fieldWidth) << "tracePartgroups" << " : " <<
+      booleanAsString (gGeneralOptions->fTracePartgroups) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceParts" << " : " <<
       booleanAsString (gGeneralOptions->fTraceParts) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceStaves" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceStaves) <<
       endl <<
     idtr <<
       setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (gGeneralOptions->fTraceVoices) <<
       endl <<
+      
     idtr <<
       setw(fieldWidth) << "traceSegments" << " : " <<
       booleanAsString (gGeneralOptions->fTraceSegments) <<
@@ -660,6 +716,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceMeasures" << " : " <<
       booleanAsString (gGeneralOptions->fTraceMeasures) <<
       endl <<
+      
     idtr <<
       setw(fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (gGeneralOptions->fTraceNotes) <<

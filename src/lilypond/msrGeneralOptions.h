@@ -48,11 +48,13 @@ namespace MusicXML2
 */
 
 // version
+// --------------------------------------
 
 #define _VERSION_LONG_NAME_  "version"
 #define _VERSION_SHORT_NAME_ "v"
 
 // help
+// --------------------------------------
 
 #define _HELP_LONG_NAME_  "help"
 #define _HELP_SHORT_NAME_ "h"
@@ -67,6 +69,7 @@ namespace MusicXML2
 #define _HELP_LPSR_SHORT_NAME_ "hlp"
 
 // output file
+// --------------------------------------
 
 #define _OUTPUT_FILE_LONG_NAME_  "outputFile"
 #define _OUTPUT_FILE_SHORT_NAME_ "of"
@@ -75,6 +78,7 @@ namespace MusicXML2
 #define _AUTO_OUTPUT_FILE_SHORT_NAME_ "aof"
 
 // trace and display
+// --------------------------------------
 
 #define _TRACE_GENERAL_LONG_NAME_  "traceGeneral"
 #define _TRACE_GENERAL_SHORT_NAME_ "t"
@@ -83,56 +87,84 @@ namespace MusicXML2
 #define _TRACE_DETAILED_SHORT_NAME_ "tdetail"
 
 // MusicXML
+// --------------------------------------
 
 #define _INGORE_MUSICXML_ERRORS_LONG_NAME_  "ingoreMusicXMLErrors"
 #define _INGORE_MUSICXML_ERRORS_SHORT_NAME_ "ime"
 
+#define _LOOP_TO_MUSICXML_LONG_NAME_  "loopToMusicXML"
+#define _LOOP_TO_MUSICXML_SHORT_NAME_ "loop"
+
 // CPU usage
+// --------------------------------------
 
 #define _CPU_USAGE_LONG_NAME_  "displayCPUusage"
 #define _CPU_USAGE_SHORT_NAME_ "dCPU"
 
 // specific trace    
+// --------------------------------------
 
+// divisions
 #define _TRACE_DIVISIONS_LONG_NAME_  "traceDivisions"
 #define _TRACE_DIVISIONS_SHORT_NAME_ "tdivs"
 
+// part groups
+#define _TRACE_PARTGROUPS_LONG_NAME_  "tracePartGroupss"
+#define _TRACE_PARTGROUPS_SHORT_NAME_ "tpgs"
+
+// parts
 #define _TRACE_PARTS_LONG_NAME_  "traceParts"
 #define _TRACE_PARTS_SHORT_NAME_ "tparts"
 
+// staves
+#define _TRACE_STAVES_LONG_NAME_  "traceStaves"
+#define _TRACE_STAVES_SHORT_NAME_ "tstaves"
+
+// voices
 #define _TRACE_VOICES_LONG_NAME_  "traceVoices"
 #define _TRACE_VOICES_SHORT_NAME_ "tvoices"
 
+// segments
 #define _TRACE_SEGMENTS_LONG_NAME_  "traceSegments"
 #define _TRACE_SEGMENTS_SHORT_NAME_ "tsegs"
 
+// repeats
 #define _TRACE_REPEATS_LONG_NAME_  "traceRepeats"
 #define _TRACE_REPEATS_SHORT_NAME_ "treps"
 
+// measures
 #define _TRACE_MEASURES_LONG_NAME_  "traceMeasures"
 #define _TRACE_MEASURES_SHORT_NAME_ "tmeas"
 
+// notes
 #define _TRACE_NOTES_LONG_NAME_  "traceNotes"
 #define _TRACE_NOTES_SHORT_NAME_ "tnotes"
 
+// technicals
 #define _TRACE_TECHNICALS_LONG_NAME_  "traceTechnicals"
 #define _TRACE_TECHNICALS_SHORT_NAME_ "ttechs"
 
+// tremolos
 #define _TRACE_TREMOLOS_LONG_NAME_  "traceTremolos"
 #define _TRACE_TREMOLOS_SHORT_NAME_ "ttrems"
 
+// chords
 #define _TRACE_CHORDS_LONG_NAME_  "traceChords"
 #define _TRACE_CHORDS_SHORT_NAME_ "tchords"
 
+// tuplets
 #define _TRACE_TUPLETS_LONG_NAME_  "traceTuplets"
 #define _TRACE_TUPLETS_SHORT_NAME_ "ttups"
 
+// grace notes
 #define _TRACE_GRACENOTES_LONG_NAME_  "traceGracenotes"
 #define _TRACE_GRACENOTES_SHORT_NAME_ "tgraces"
 
+// lyrics
 #define _TRACE_LYRICS_LONG_NAME_  "traceLyrics"
 #define _TRACE_LYRICS_SHORT_NAME_ "tlyrics"
 
+// harmonies
 #define _TRACE_HARMONIES_LONG_NAME_  "traceHarmonies"
 #define _TRACE_HARMONIES_SHORT_NAME_ "tharms"
 
@@ -200,6 +232,7 @@ class EXP msrGeneralOptions : public smartable
     // --------------------------------------
   
     bool                  fIgnoreMusicXMLErrors;
+    bool                  fLoopToMusicXML;
 
     // CPU usage
     // --------------------------------------
@@ -209,39 +242,55 @@ class EXP msrGeneralOptions : public smartable
     // specific trace
     // --------------------------------------
     
+    // divisions
     bool                  fTraceDivisions;
 
+    // part groups
+    bool                  fTracePartgroups;
+    // parts
     bool                  fTraceParts;
+    // staves
+    bool                  fTraceStaves;
+    // voices
     bool                  fTraceVoices;
 
+    // segments
     bool                  fTraceSegments;
 
+    // repeats
     bool                  fTraceRepeats;
 
+    // measures
     bool                  fTraceMeasures;
 
+    // notes
     bool                  fTraceNotes;
-    
+    // technicals
     bool                  fTraceTechnicals;
 
+    // tremolos
     bool                  fTraceTremolos;
 
+    // chords
     bool                  fTraceChords;
+    
+    // tuplets
     bool                  fTraceTuplets;
     
+    // grace notes
     bool                  fTraceGracenotes;
     
+    // lyrics
     bool                  fTraceLyrics;
 
+    // harmonies
     bool                  fTraceHarmonies;
 
-
+    
     /* STUFF not yet handled JMI */
 
     bool                  fTraceScore;
 
-    bool                  fTracePartgroups;
-    bool                  fTraceStaves;
 
     bool                  fTraceDynamics;
     bool                  fTraceWords;

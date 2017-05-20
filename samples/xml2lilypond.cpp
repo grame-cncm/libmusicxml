@@ -187,6 +187,7 @@ void analyzeOptions (
   // ---------------
 
   // version
+  // --------------------------------------
   
   checkOptionUniqueness (
     _VERSION_LONG_NAME_, _VERSION_SHORT_NAME_);
@@ -194,6 +195,7 @@ void analyzeOptions (
   int versionPresent = 0;
 
   // help
+  // --------------------------------------
   
   checkOptionUniqueness (
     _HELP_LONG_NAME_, _HELP_SHORT_NAME_);
@@ -216,6 +218,7 @@ void analyzeOptions (
   int helpLpsrPresent = 0;
 
   // output file
+  // --------------------------------------
   
   checkOptionUniqueness (
     _OUTPUT_FILE_LONG_NAME_, _OUTPUT_FILE_SHORT_NAME_);
@@ -228,83 +231,12 @@ void analyzeOptions (
   int autoOutputFilePresent = 0;
 
   // trace and display
+  // --------------------------------------
   
   checkOptionUniqueness (
     _TRACE_GENERAL_LONG_NAME_, _TRACE_GENERAL_SHORT_NAME_);
     
   int traceGeneralPresent = 0;
-  
-  // specific trace    
-  
-  checkOptionUniqueness (
-    _TRACE_DIVISIONS_LONG_NAME_, _TRACE_DIVISIONS_SHORT_NAME_);
-    
-  int traceDivisionsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_PARTS_LONG_NAME_, _TRACE_PARTS_SHORT_NAME_);
-    
-  int tracePartsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_VOICES_LONG_NAME_, _TRACE_VOICES_SHORT_NAME_);
-    
-  int traceVoicesPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_SEGMENTS_LONG_NAME_, _TRACE_SEGMENTS_SHORT_NAME_);
-    
-  int traceSegmentsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_REPEATS_LONG_NAME_, _TRACE_REPEATS_SHORT_NAME_);
-    
-  int traceRepeatsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_MEASURES_LONG_NAME_, _TRACE_MEASURES_SHORT_NAME_);
-    
-  int traceMeasuresPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_NOTES_LONG_NAME_, _TRACE_NOTES_SHORT_NAME_);
-    
-  int traceNotesPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
-    
-  int traceTechnicalsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_TREMOLOS_LONG_NAME_, _TRACE_TREMOLOS_SHORT_NAME_);
-    
-  int traceTremolosPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_CHORDS_LONG_NAME_, _TRACE_CHORDS_SHORT_NAME_);
-    
-  int traceChordsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_TUPLETS_LONG_NAME_, _TRACE_TUPLETS_SHORT_NAME_);
-    
-  int traceTupletsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_GRACENOTES_LONG_NAME_, _TRACE_GRACENOTES_SHORT_NAME_);
-    
-  int traceGracenotesPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_LYRICS_LONG_NAME_, _TRACE_LYRICS_SHORT_NAME_);
-    
-  int traceLyricsPresent = 0;
-  
-  checkOptionUniqueness (
-    _TRACE_HARMONIES_LONG_NAME_, _TRACE_HARMONIES_SHORT_NAME_);
-    
-  int traceHarmoniesPresent = 0;
   
   checkOptionUniqueness (
     _TRACE_DETAILED_LONG_NAME_, _TRACE_DETAILED_SHORT_NAME_);
@@ -312,6 +244,7 @@ void analyzeOptions (
   int traceDetailedPresent = 0;
   
   // MusicXML
+  // --------------------------------------
 
   checkOptionUniqueness (
     _INGORE_MUSICXML_ERRORS_LONG_NAME_, _INGORE_MUSICXML_ERRORS_SHORT_NAME_);
@@ -319,17 +252,118 @@ void analyzeOptions (
   int ignoreMusicXMLErrorsPresent = 0;
 
   // CPU usage
+  // --------------------------------------
   
   checkOptionUniqueness (
     _CPU_USAGE_LONG_NAME_, _CPU_USAGE_SHORT_NAME_);
     
   int displayCPUusagePresent = 0;
 
+  // specific trace    
+  // --------------------------------------
+
+  // divisions
+  checkOptionUniqueness (
+    _TRACE_DIVISIONS_LONG_NAME_, _TRACE_DIVISIONS_SHORT_NAME_);
+    
+  int traceDivisionsPresent = 0;
+
+  // part groups
+  checkOptionUniqueness (
+    _TRACE_PARTGROUPS_LONG_NAME_, _TRACE_PARTGROUPS_SHORT_NAME_);
+    
+  int tracePartgroupsPresent = 0;
+
+  // parts
+  checkOptionUniqueness (
+    _TRACE_PARTS_LONG_NAME_, _TRACE_PARTS_SHORT_NAME_);
+    
+  int tracePartsPresent = 0;
+
+  // staves
+  checkOptionUniqueness (
+    _TRACE_STAVES_LONG_NAME_, _TRACE_STAVES_SHORT_NAME_);
+    
+  int traceStavesPresent = 0;
+
+  // voices
+  checkOptionUniqueness (
+    _TRACE_VOICES_LONG_NAME_, _TRACE_VOICES_SHORT_NAME_);
+    
+  int traceVoicesPresent = 0;
+
+  // segments
+  checkOptionUniqueness (
+    _TRACE_SEGMENTS_LONG_NAME_, _TRACE_SEGMENTS_SHORT_NAME_);
+    
+  int traceSegmentsPresent = 0;
+
+  // repeats
+  checkOptionUniqueness (
+    _TRACE_REPEATS_LONG_NAME_, _TRACE_REPEATS_SHORT_NAME_);
+    
+  int traceRepeatsPresent = 0;
+
+  // measures
+  checkOptionUniqueness (
+    _TRACE_MEASURES_LONG_NAME_, _TRACE_MEASURES_SHORT_NAME_);
+    
+  int traceMeasuresPresent = 0;
+
+  // notes
+  checkOptionUniqueness (
+    _TRACE_NOTES_LONG_NAME_, _TRACE_NOTES_SHORT_NAME_);
+    
+  int traceNotesPresent = 0;
+
+  // technicals
+  checkOptionUniqueness (
+    _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
+    
+  int traceTechnicalsPresent = 0;
+
+  // tremolos
+  checkOptionUniqueness (
+    _TRACE_TREMOLOS_LONG_NAME_, _TRACE_TREMOLOS_SHORT_NAME_);
+    
+  int traceTremolosPresent = 0;
+
+  // chords
+  checkOptionUniqueness (
+    _TRACE_CHORDS_LONG_NAME_, _TRACE_CHORDS_SHORT_NAME_);
+    
+  int traceChordsPresent = 0;
+
+  // tuplets
+  checkOptionUniqueness (
+    _TRACE_TUPLETS_LONG_NAME_, _TRACE_TUPLETS_SHORT_NAME_);
+    
+  int traceTupletsPresent = 0;
+
+  // grace notes
+  checkOptionUniqueness (
+    _TRACE_GRACENOTES_LONG_NAME_, _TRACE_GRACENOTES_SHORT_NAME_);
+    
+  int traceGracenotesPresent = 0;
+
+  // lyrics
+  checkOptionUniqueness (
+    _TRACE_LYRICS_LONG_NAME_, _TRACE_LYRICS_SHORT_NAME_);
+    
+  int traceLyricsPresent = 0;
+
+  // harmonies
+  checkOptionUniqueness (
+    _TRACE_HARMONIES_LONG_NAME_, _TRACE_HARMONIES_SHORT_NAME_);
+    
+  int traceHarmoniesPresent = 0;
+
   
   // MSR options
   // -----------
 
   // trace and display
+  // --------------------------------------
 
   checkOptionUniqueness (
     _TRACE_MSR_LONG_NAME_, _TRACE_MSR_SHORT_NAME_);
@@ -352,6 +386,7 @@ void analyzeOptions (
   int displayMsrSummaryPresent = 0;
   
   // languages
+  // --------------------------------------
 
   checkOptionUniqueness (
     _MSR_PITCHES_LANGUAGE_LONG_NAME_, _MSR_PITCHES_LANGUAGE_SHORT_NAME_);
@@ -359,6 +394,7 @@ void analyzeOptions (
   int msrPitchesLanguagePresent = 0;
 
   // parts
+  // --------------------------------------
 
   checkOptionUniqueness (
     _PART_NAME_LONG_NAME_, _PART_NAME_SHORT_NAME_);
@@ -366,6 +402,7 @@ void analyzeOptions (
   int partNamePresent = 0;
   
   // voices
+  // --------------------------------------
 
   checkOptionUniqueness (
     _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_, _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_);
@@ -378,6 +415,7 @@ void analyzeOptions (
   int keepMasterVoicesPresent = 0;
 
   // notes
+  // --------------------------------------
 
   checkOptionUniqueness (
     _DELAY_RESTS_DYNAMICS_LONG_NAME_, _DELAY_RESTS_DYNAMICS_SHORT_NAME_);
@@ -405,6 +443,7 @@ void analyzeOptions (
   int delayRestsWedgesPresent = 0;
   
   // lyrics
+  // --------------------------------------
 
   checkOptionUniqueness (
     _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_, _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_);
@@ -417,6 +456,7 @@ void analyzeOptions (
   int keepMasterStanzasPresent = 0;
 
   // harmonies
+  // --------------------------------------
 
   checkOptionUniqueness (
     _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_, _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_);
@@ -428,7 +468,8 @@ void analyzeOptions (
   // ------------
 
   // trace and display
-  
+  // --------------------------------------
+
   checkOptionUniqueness (
     _TRACE_LPSR_LONG_NAME_, _TRACE_LPSR_SHORT_NAME_);
     
@@ -450,6 +491,7 @@ void analyzeOptions (
   int commentsPresent = 0;
 
   // languages
+  // --------------------------------------
   
   checkOptionUniqueness (
     _LPSR_PITCHES_LANGUAGE_LONG_NAME_, _LPSR_PITCHES_LANGUAGE_SHORT_NAME_);
@@ -462,6 +504,7 @@ void analyzeOptions (
   int lpsrChordsLanguagePresent = 0;
   
   // time
+  // --------------------------------------
   
   checkOptionUniqueness (
     _NUMERICAL_TIME_LONG_NAME_, _NUMERICAL_TIME_SHORT_NAME_);
@@ -469,6 +512,7 @@ void analyzeOptions (
   int numericaltimePresent = 0;
 
   // notes
+  // --------------------------------------
   
   checkOptionUniqueness (
     _ABSOLUTE_LONG_NAME_, _ABSOLUTE_SHORT_NAME_);
@@ -496,6 +540,7 @@ void analyzeOptions (
   int noteInputLineNumbersPresent = 0;
 
   // bars
+  // --------------------------------------
   
   checkOptionUniqueness (
     _SHOW_ALL_BAR_NUMBERS_LONG_NAME_, _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_);
@@ -508,6 +553,7 @@ void analyzeOptions (
   int compressFullBarRestsPresent = 0;
 
   // line breaks
+  // --------------------------------------
   
   checkOptionUniqueness (
     _DONT_KEEP_LINE_BREAKS_LONG_NAME_, _DONT_KEEP_LINE_BREAKS_SHORT_NAME_);
@@ -525,6 +571,7 @@ void analyzeOptions (
   int separatorLineEveryNMeasuresPresent = 0;
 
   // staves
+  // --------------------------------------
   
   checkOptionUniqueness (
     _MODERN_TAB_LONG_NAME_, _MODERN_TAB_SHORT_NAME_);
@@ -532,6 +579,7 @@ void analyzeOptions (
   int modernTabPresent = 0;
 
   // midi
+  // --------------------------------------
   
   checkOptionUniqueness (
     _MIDI_TEMPO_LONG_NAME_, _MIDI_TEMPO_SHORT_NAME_);
@@ -544,6 +592,7 @@ void analyzeOptions (
   int dontGenerateMidiCommandPresent = 0;
 
   // LilyPond code generation
+  // --------------------------------------
   
   checkOptionUniqueness (
     _GENERATE_GLOBAL_LONG_NAME_, _GENERATE_GLOBAL_SHORT_NAME_);
