@@ -154,12 +154,13 @@ void lpsrOptions::initializeLpsrOptions (
   
   fAccidentalStyle          = "";
 
+  fCompressMultiMeasureRests = boolOptionsInitialValue;
+
   fGenerateInputLineNumbers = boolOptionsInitialValue;
 
   // bars
   
   fShowAllBarNumbers    = boolOptionsInitialValue;
-  fCompressFullBarRests = boolOptionsInitialValue;
 
   // line breaks
   
@@ -490,6 +491,17 @@ void lpsrOptions::printLpsrOptionsHelp ()
       "The default is... 'default'." << 
       endl <<
     endl <<
+      
+    idtr <<
+      "--" _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_ ", --" _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate '\\compressMMRests' at the beginning of voices." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "By default, this command is commented." << 
+      endl <<
+    endl <<
 
     idtr <<
       "--" _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ ", --" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ << 
@@ -519,17 +531,6 @@ void lpsrOptions::printLpsrOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "Generate LilyPond code to show all bar numbers." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ ", --" _COMPRESS_FULL_BAR_RESTS_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate '\\compressFullBarRests' at the beginning of voices." << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "By default, this command is commented." << 
       endl <<
     endl;
 
@@ -651,6 +652,14 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
+      "--" _GENERATE_GLOBAL_SHORT_NAME_ ", --" _GENERATE_GLOBAL_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate a 'global' empty variable and place a use of it at the beginning of all voices." << 
+      endl <<
+    endl <<
+      
+    idtr <<
       "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ ", --" _TUPLETS_ON_A_LINE_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
@@ -658,6 +667,14 @@ void lpsrOptions::printLpsrOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "'having \\tuplet {' and '}' on separate lines." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _REPEAT_BRACKETS_SHORT_NAME_ ", --" _REPEAT_BRACKETS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate repeats with brackets instead of regular bar lines." << 
       endl <<
     endl <<
       
@@ -822,6 +839,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     idtr << setw(fieldWidth) << "accidentalStyle" << " : " <<
       gLpsrOptions->fAccidentalStyle <<
       endl <<
+    
+    idtr << setw(fieldWidth) << "compressMultiMeasureRests" << " : " <<
+      booleanAsString (gLpsrOptions->fCompressMultiMeasureRests) <<
+      endl <<
 
     idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
       booleanAsString (gLpsrOptions->fGenerateInputLineNumbers) <<
@@ -840,10 +861,6 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
       booleanAsString (gLpsrOptions->fShowAllBarNumbers) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "compressFullBarRests" << " : " <<
-      booleanAsString (gLpsrOptions->fCompressFullBarRests) <<
       endl;
 
   idtr--;

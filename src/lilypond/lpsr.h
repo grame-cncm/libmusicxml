@@ -175,8 +175,8 @@ void initializeLpsrChordsLanguages ();
 #define _SHOW_ALL_BAR_NUMBERS_LONG_NAME_  "showAllBarNumbers"
 #define _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ "sabn"
 
-#define _COMPRESS_FULL_BAR_RESTS_LONG_NAME_  "compressFullBarRests"
-#define _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ "cfbr"
+#define _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_  "compressMultiMeasureRests"
+#define _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_ "cmmr"
 
 // line breaks
 
@@ -205,13 +205,13 @@ void initializeLpsrChordsLanguages ();
 // LilyPond code generation
 
 #define _GENERATE_GLOBAL_LONG_NAME_  "generateGlobal"
-#define _GENERATE_GLOBAL_SHORT_NAME_ "gb"
+#define _GENERATE_GLOBAL_SHORT_NAME_ "global"
 
 #define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine"
 #define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
 
 #define _REPEAT_BRACKETS_LONG_NAME_  "repeatBrackets"
-#define _REPEAT_BRACKETS_SHORT_NAME_ "rb"
+#define _REPEAT_BRACKETS_SHORT_NAME_ "rbracks"
 
 #define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction"
 #define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
@@ -303,6 +303,8 @@ class EXP lpsrOptions : public smartable {
     
     string                fAccidentalStyle;
     
+    bool                  fCompressMultiMeasureRests;
+
     bool                  fGenerateInputLineNumbers;
 
     // bars
@@ -310,8 +312,6 @@ class EXP lpsrOptions : public smartable {
     
     bool                  fShowAllBarNumbers;
     
-    bool                  fCompressFullBarRests;
-
     // line breaks
     // --------------------------------------
     

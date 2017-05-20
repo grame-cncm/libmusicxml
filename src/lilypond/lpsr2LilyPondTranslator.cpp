@@ -2068,10 +2068,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 // JMI   \set Score.alternativeNumberingStyle = #'numbers-with-letters
 
 
-  if (gLpsrOptions->fCompressFullBarRests)
+  if (gLpsrOptions->fCompressMultiMeasureRests)
     fOstream <<
       idtr <<
-        "\\compressFullBarRests" <<
+        "\\compressMMRests" <<
         endl <<
       endl;
 

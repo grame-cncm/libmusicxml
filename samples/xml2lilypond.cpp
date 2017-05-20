@@ -546,6 +546,11 @@ void analyzeOptions (
   int accidentalStylePresent = 0;
   
   checkOptionUniqueness (
+    _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_, _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_);
+    
+  int compressMultiMeasureRestsPresent = 0;
+
+  checkOptionUniqueness (
     _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_, _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_);
     
   int noteInputLineNumbersPresent = 0;
@@ -557,11 +562,6 @@ void analyzeOptions (
     _SHOW_ALL_BAR_NUMBERS_LONG_NAME_, _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_);
     
   int showAllBarNumbersPresent = 0;
-
-  checkOptionUniqueness (
-    _COMPRESS_FULL_BAR_RESTS_LONG_NAME_, _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_);
-    
-  int compressFullBarRestsPresent = 0;
 
   // line breaks
   // --------------------------------------
@@ -1222,6 +1222,15 @@ void analyzeOptions (
     },
     
     {
+      _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_,
+      no_argument, &compressMultiMeasureRestsPresent, 1
+    },
+    {
+      _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_,
+      no_argument, &compressMultiMeasureRestsPresent, 1
+    },
+    
+    {
       _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_,
       no_argument, &noteInputLineNumbersPresent, 1
     },
@@ -1240,15 +1249,6 @@ void analyzeOptions (
     {
       _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_,
       no_argument, &showAllBarNumbersPresent, 1
-    },
-    
-    {
-      _COMPRESS_FULL_BAR_RESTS_LONG_NAME_,
-      no_argument, &compressFullBarRestsPresent, 1
-    },
-    {
-      _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_,
-      no_argument, &compressFullBarRestsPresent, 1
     },
     
     // line breaks
@@ -2370,15 +2370,15 @@ R"(
           showAllBarNumbersPresent = false;
         }
 
-        if (compressFullBarRestsPresent) {
-          gLpsrOptions->fCompressFullBarRests = true;
+        if (compressMultiMeasureRestsPresent) {
+          gLpsrOptions->fCompressMultiMeasureRests = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _COMPRESS_FULL_BAR_RESTS_LONG_NAME_ " ";
+            "--" _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _COMPRESS_FULL_BAR_RESTS_SHORT_NAME_ " ";
+            "--" _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_ " ";
             
-          compressFullBarRestsPresent = false;
+          compressMultiMeasureRestsPresent = false;
         }
 
         // line breaks
