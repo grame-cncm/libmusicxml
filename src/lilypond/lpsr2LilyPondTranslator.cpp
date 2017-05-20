@@ -3437,11 +3437,6 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       break;
   } // switch
 
-  // fetch the note single tremolo
-  S_msrSingleTremolo
-    noteSingleTremolo =
-      note->getNoteSingleTremolo ();
-
   // print the note
   switch (note->getNoteKind ()) {
     
@@ -3611,11 +3606,11 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
         tuplet =
           note->getNoteTupletUplink ();
           
-      fOstream <<
+      fOstream << // JMI note display divisions are already known..., don't compute here
         tupletDivisionsAsLilypondString (
           note->getInputLineNumber (),
           note->getNoteDirectPartUplink (),
-          note->getNoteDisplayedDivisions (), // JMI
+          note->getNoteSoundingDivisions (), // JMI
           tuplet->getTupletActualNotes (),
           tuplet->getTupletNormalNotes ());
 
@@ -3690,55 +3685,16 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         singleTremoloNote =
           noteSingleTremolo->
             getSingleTremoloNoteUplink ();
-  
-      int
-        singleTremoloNoteSoundingDivisions =
-          singleTremoloNote->getNoteSoundingDivisions ();
-  
+    
       msrDuration
         singleTremoloNoteDuration =
           singleTremoloNote->getNoteGraphicDuration ();
-
-/* JMI
-      if (gGeneralOptions->fTraceTremolos) {
-        fOstream << idtr <<
-          "% Generating single tremolo " <<
-          noteSingleTremolo->singleTremoloAsString () <<
-          " for note " <<
-          elt->noteAsShortStringWithRawDivisions () <<
-          ", line = " << inputLineNumber <<
-          ", singleTremoloMarksNumber = " <<
-          singleTremoloMarksNumber <<
-          ", singleTremoloNoteSoundingDivisions = " <<
-          singleTremoloNoteSoundingDivisions <<
-          endl;
-      }
-  */
   
       fOstream <<
         singleTremoloDurationAsLilyPondString (
           inputLineNumber,
           singleTremoloNoteDuration,
           singleTremoloMarksNumber);
-
-        /* JMI
-      fOstream <<
-        ":";
-  
-      / *
-      The same output can be obtained by adding :N after the note,
-      where N indicates the duration of the subdivision (it must be at least 8).
-      If N is 8, one beam is added to the note’s stem.
-      * /
-      
-      if (singleTremoloNoteDuration >= kEighth)
-        durationToUse +=
-          1 + (singleTremoloNoteDuration - kEighth);
-  
-      fOstream <<
-        int (pow (2, durationToUse + 2)) <<
-        " ";
-        */
     }
   }
 
@@ -4328,9 +4284,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
       "% --> Start visiting msrChord" <<
       endl;
 
+/* JMI ???
   // indent before the fist chord of the msrSegment if needed
   if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
     fOstream << idtr;
+    */
 
   // print the chord ligatures if any
   list<S_msrLigature>
@@ -4415,29 +4373,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
         chordSingleTremolo->
           getSingleTremoloNoteUplink ();
 
-    int
-      singleTremoloNoteSoundingDivisions =
-        singleTremoloNote->getNoteSoundingDivisions ();
-
     msrDuration
       singleTremoloNoteDuration =
         singleTremoloNote->getNoteGraphicDuration ();
-
-/* JMI
-    if (gGeneralOptions->fTraceTremolos) {
-      fOstream << idtr <<
-        "% Generating single tremolo " <<
-        chordSingleTremolo->singleTremoloAsString () <<
-        " for chord " <<
-        elt->chordAsString () <<
-        ", line = " << inputLineNumber <<
-        ", singleTremoloMarksNumber = " <<
-        singleTremoloMarksNumber <<
-        ", singleTremoloNoteSoundingDivisions = " <<
-        singleTremoloNoteSoundingDivisions <<
-        endl;
-    }
-*/
 
     fOstream <<
       singleTremoloDurationAsLilyPondString (
@@ -5061,8 +4999,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarCheck& elt)
       
   fOstream <<
     "| % " << nextBarNumber << " % bar check" <<
-    endl <<
-    idtr;
+    endl;
 
   fMusicOlec.resetToZero ();
 }

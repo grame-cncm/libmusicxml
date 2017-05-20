@@ -6845,8 +6845,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
           "[" << fNoteOctave << "]";
 
       s <<
-        ":" <<
-        " divs:" <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
         " sound, " <<
         fNoteDisplayedDivisions <<
@@ -6917,10 +6916,11 @@ string msrNote::noteAsShortString () const
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs, " <<
-        noteDisplayedDivisionsAsMsrString () <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayedDivisions <<
+        " disp";
         /* JMI
         fNoteDirectPartUplink->
           tupletSoundingDivisionsAsMsrString (
@@ -7006,10 +7006,11 @@ string msrNote::noteAsString () const
       s <<
         "Tuplet member note"  " "<<
         notePitchAsString () <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs, " <<
-        noteDisplayedDivisionsAsMsrString () <<
-        " dispdivs";
+        " sound, " <<
+        fNoteDisplayedDivisions <<
+        " disp";
 /* JMI
         fNoteDirectPartUplink->
           tupletSoundingDivisionsAsMsrString (
