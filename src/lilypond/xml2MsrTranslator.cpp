@@ -33,40 +33,6 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-void checkStep (
-  int    inputLineNumber,
-  string stepValue)
-{  
-  if (stepValue.size () == 1) {
-    char firstChar = stepValue [0];
-
-    if (firstChar < 'A' || firstChar > 'G') {
-      stringstream s;
-      
-      s <<
-        "step value " << firstChar <<
-        " is not a letter from A to G";
-          
-      msrMusicXMLError (
-        inputLineNumber,
-        s.str());
-    }
-  }
-
-  else {
-    stringstream s;
-    
-    s <<
-      "root step value " << stepValue <<
-      " should be a single letter from A to G";
-      
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str());
-  }
-}
-
-//________________________________________________________________________
 void xml2MsrTranslator::initializeNoteData ()
 {
   // basic note description
@@ -111,69 +77,70 @@ xml2MsrTranslator::xml2MsrTranslator ()
   // initialize note data to a neutral state
   initializeNoteData ();
 
+  // the MSR score we're building
+  fMsrScore =
+    msrScore::create (0);
+
+  // dividing quater notes in MusicXML
+  fCurrentDivisionsPerQuarterNote = 0;
+
+  // geometry handling
   fCurrentMillimeters = -1;
   fCurrentTenths      = -1;
   
   fOnGoingPageLayout = false;
 
-  fCurrentDivisionsPerQuarterNote = 0;
-
-  // create the MSR score
-  fMsrScore =
-    msrScore::create (0);
-
+  // part group handling
   fCurrentPartUsesImplicitPartgroup = false;
   
   fOnGoingGroupNameDisplay = false;
 
+  // part handling
+
+  // measure style handling
   fCurrentMultipleRestCounter = 0;
   
-  fOnGoingBarline = false;
-  
+  // staff handling
+  fCurrentStaffNumber = -1;
+  fCurrentStaffTuningAlteration = k_NoAlteration;
+  fCurrentStaffTuningOctave     = -1;
+
+  // voice handling
+  fCurrentVoiceNumber = -1;
+
+  // clef handling
+
+  // key handling
+
+  // transpose handling
+
+  // direction handling
   fCurrentWordsContents = "";
+  fCurrentDirectionStaffNumber = 1; // it may be absent
+  fOnGoingDirection     = true;
 
-  fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentNoteAlteration    = k_NoAlteration;
+  // direction-type handling
+  fOnGoingDirectionType = false;
 
-  fCurrentForwardStaffNumber = 1; // JMI
-  fCurrentForwardVoiceNumber = 1; // JMI
-  fCurrentVoiceNumber = 1; // JMI
+  // metronome handling
 
+  // time handling
+
+  // lyric handling
   fOnGoingLyric = false;
   fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
   fCurrentLyricText = "";
   fCurrentLyricElision = false;
-  
+
   fCurrentSyllableKind       = msrSyllable::k_NoSyllable;
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
   fOnGoingSyllableExtend     = false;
 
   fFirstSyllableInSlurKind     = msrSyllable::k_NoSyllable;
   fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
-  
-  fCurrentBackupDuration = -1;
 
-  fCurrentDirectionStaffNumber = 1; // it may be absent
-
-  fCurrentNoteStaffNumber = 0;
-  fCurrentNoteVoiceNumber = 0;
-  fOnGoingNote            = false;
-
-  fCurrentMusicXMLTremoloType = k_NoTremolo;
-
-  fOnGoingChord = false;
-
-  fCurrentATupletStopIsPending = false;
-  
-  fOnGoingSlur          = false;
-  fOnGoingSlurHasStanza = false;
-
-  fOnGoingLigature          = false;
-  fOnGoingLigatureHasStanza = false;
-
-  fBendAlterValue = -39;
-  
+  // harmonies handling
   fPendingHarmony                  = false;
   fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = k_NoAlteration;
@@ -184,16 +151,55 @@ xml2MsrTranslator::xml2MsrTranslator ()
   fCurrentHarmonyDegreeValue       = -1;
   fCurrentHarmonyDegreeAlteration  = k_NoAlteration;
 
-  fOnGoingDirection     = true;
-  fOnGoingDirectionType = false;
+  // barline handling
+  fOnGoingBarline = false;
 
+  // repeats handling
   fRepeatHasBeenCreatedForCurrentPart = false;
-  
-  fOnGoingBackup  = false;
-  fOnGoingForward = false;
 
-  fCurrentStaffTuningAlteration = k_NoAlteration;
-  fCurrentStaffTuningOctave     = -1;
+  // MusicXML notes handling
+  fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
+  fCurrentNoteAlteration    = k_NoAlteration;
+  fOnGoingNote            = false;
+
+  // note context
+  fCurrentNoteStaffNumber = 0;
+  fCurrentNoteVoiceNumber = 0;
+
+  // technicals handling
+  fBendAlterValue = -39;
+
+  // ornaments handling
+
+  // grace notes handling
+
+  // tremolos handling
+  fCurrentMusicXMLTremoloType = k_NoTremolo;
+
+  // chords handling
+  fOnGoingChord = false;
+
+  // tuplets handling
+  fCurrentATupletStopIsPending = false;
+
+  // ties handling
+
+  // slurs handling
+  fOnGoingSlur          = false;
+  fOnGoingSlurHasStanza = false;
+
+  // ligatures handling
+  fOnGoingLigature          = false;
+  fOnGoingLigatureHasStanza = false;
+
+  // backup handling
+  fCurrentBackupDuration = -1;
+  fOnGoingBackup  = false;
+
+  // forward handling
+  fCurrentForwardStaffNumber = 1; // JMI
+  fCurrentForwardVoiceNumber = 1; // JMI
+  fOnGoingForward = false;
 }
 
 xml2MsrTranslator::~xml2MsrTranslator ()
@@ -217,6 +223,40 @@ S_msrScore xml2MsrTranslator::buildMsrScoreFromXMLElementTree (
   }
 
   return result;
+}
+
+//________________________________________________________________________
+void xml2MsrTranslator::checkStep (
+  int    inputLineNumber,
+  string stepValue)
+{  
+  if (stepValue.size () == 1) {
+    char firstChar = stepValue [0];
+
+    if (firstChar < 'A' || firstChar > 'G') {
+      stringstream s;
+      
+      s <<
+        "step value " << firstChar <<
+        " is not a letter from A to G";
+          
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+    }
+  }
+
+  else {
+    stringstream s;
+    
+    s <<
+      "root step value " << stepValue <<
+      " should be a single letter from A to G";
+      
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str());
+  }
 }
 
 //________________________________________________________________________

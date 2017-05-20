@@ -606,10 +606,6 @@ class EXP xml2MsrTranslator :
     // dividing quater notes in MusicXML
     // ------------------------------------------------------
     int                       fCurrentDivisionsPerQuarterNote;
-
-    // measure locations
-    // ------------------------------------------------------
-// JMI    msrMeasureLocation        fCurrentMeasureLocation;
     
     // the MSR score we're building
     // ------------------------------------------------------
@@ -655,13 +651,20 @@ class EXP xml2MsrTranslator :
     // if none is specified in the MusicXML data,
     // in which case a part group "stop" has to be forced later
     S_msrPartgroup            fImplicitPartgroup;
+    
+    void                      checkStep (
+                                int    inputLineNumber,
+                                string stepValue);
+                                
     S_msrPartgroup            createImplicitMsrPartgroupIfNeeded (
                                 int inputLineNumber);
+                                
     bool                      fCurrentPartUsesImplicitPartgroup;
     
     // part groups numbers can be re-used, they're no identifier
     // we use a map to access them by part group number
     map<int, S_msrPartgroup>  fPartgroupsMap;
+    
     S_msrPartgroup            fetchPartgroupInThisVisitor (
                                 int partgroupNumber);
 
@@ -816,7 +819,7 @@ class EXP xml2MsrTranslator :
                                 S_msrVoice currentVoice,
                                 S_msrNote newNote);
 
-    // harmony handling
+    // harmonies handling
     // ------------------------------------------------------
     bool                      fPendingHarmony;
     
@@ -857,7 +860,7 @@ class EXP xml2MsrTranslator :
     msrBarline::msrBarlineRepeatWinged
                               fCurrentBarlineRepeatWinged;
 
-    // repeat handling
+    // repeats handling
     // ------------------------------------------------------
     stack<S_msrBarline>       fPendingBarlines;
     bool                      fRepeatHasBeenCreatedForCurrentPart;
@@ -998,8 +1001,8 @@ class EXP xml2MsrTranslator :
     void                      copyNoteHarmonyToChord (
                                 S_msrNote note, S_msrChord chord);
        
-    // ------------------------------------------------------
     // technicals handling
+    // ------------------------------------------------------
     list<S_msrTechnical>      fCurrentTechnicalsList;
     list<S_msrTechnicalWithInteger>
                               fCurrentTechnicalWithIntegersList;
@@ -1025,8 +1028,8 @@ class EXP xml2MsrTranslator :
     void                      copyNoteTechnicalWithStringsToChord (
                                 S_msrNote note, S_msrChord chord);
 
-    // ------------------------------------------------------
     // ornaments handling
+    // ------------------------------------------------------
     S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
@@ -1042,8 +1045,8 @@ class EXP xml2MsrTranslator :
     void                      copyNoteOrnamentsToChord (
                                 S_msrNote note, S_msrChord chord);
 
-    // ------------------------------------------------------
     // tremolos handling
+    // ------------------------------------------------------
     enum MusicXMLTremoloType {
         k_NoTremolo, kSingleTremolo, kStartTremolo, kStopTremolo};
 
@@ -1060,7 +1063,7 @@ class EXP xml2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
 
     // ------------------------------------------------------
-    // chord handling
+    // chords handling
     S_msrChord                fCurrentChord;
     bool                      fOnGoingChord;
     
@@ -1079,7 +1082,7 @@ class EXP xml2MsrTranslator :
     void                      displayLastHandledNoteInVoice (
                                 string header);
 
-    // tuplet handling
+    // tuplets handling
     // ------------------------------------------------------
     bool                      fCurrentNoteHasATimeModification;
     int                       fCurrentActualNotes;
