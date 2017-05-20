@@ -144,6 +144,10 @@ namespace MusicXML2
 #define _TRACE_TECHNICALS_LONG_NAME_  "traceTechnicals"
 #define _TRACE_TECHNICALS_SHORT_NAME_ "ttechs"
 
+// words
+#define _TRACE_WORDS_LONG_NAME_  "traceWordss"
+#define _TRACE_WORDS_SHORT_NAME_ "twords"
+
 // tremolos
 #define _TRACE_TREMOLOS_LONG_NAME_  "traceTremolos"
 #define _TRACE_TREMOLOS_SHORT_NAME_ "ttrems"
@@ -269,6 +273,9 @@ class EXP msrGeneralOptions : public smartable
     // technicals
     bool                  fTraceTechnicals;
 
+    // words
+    bool                  fTraceWords;
+
     // tremolos
     bool                  fTraceTremolos;
 
@@ -294,7 +301,6 @@ class EXP msrGeneralOptions : public smartable
 
 
     bool                  fTraceDynamics;
-    bool                  fTraceWords;
     bool                  fTraceSlurs;
     bool                  fTraceLigatures;
     bool                  fTraceWedges;

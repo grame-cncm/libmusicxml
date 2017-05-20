@@ -97,6 +97,9 @@ void msrGeneralOptions::initializeGeneralOptions (
   // technicals
   fTraceTechnicals = boolOptionsInitialValue;
   
+  // words
+  fTraceWords = boolOptionsInitialValue;
+  
   // tremolos
   fTraceTremolos = boolOptionsInitialValue;
   
@@ -205,6 +208,10 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     
   // technicals
   clone->fTraceTechnicals =
+    true;
+  
+  // words
+  clone->fTraceWords =
     true;
   
   // tremolos
@@ -480,7 +487,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_PARTGROUPS_SHORT_NAME_ ", --" _TRACE_PARTGROUPS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "score, part groups" <<
+      "part groups" <<
       endl <<
       
     // parts
@@ -550,6 +557,15 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "technicals" <<
+      endl <<
+    endl <<
+      
+    // words
+    idtr <<
+      "--" _TRACE_WORDS_SHORT_NAME_ ", --" _TRACE_WORDS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "words" <<
       endl <<
     endl <<
       
@@ -796,6 +812,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceTechnicals" << " : " <<
       booleanAsString (gGeneralOptions->fTraceTechnicals) <<
+      endl <<
+
+    // words
+    idtr <<
+      setw(fieldWidth) << "traceWords" << " : " <<
+      booleanAsString (gGeneralOptions->fTraceWords) <<
       endl <<
 
     // tremolos

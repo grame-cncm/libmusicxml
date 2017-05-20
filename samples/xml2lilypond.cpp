@@ -326,6 +326,12 @@ void analyzeOptions (
     _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
     
   int traceTechnicalsPresent = 0;
+  
+  // words
+  checkOptionUniqueness (
+    _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
+    
+  int traceTechnicalsPresent = 0;
 
   // tremolos
   checkOptionUniqueness (
@@ -870,6 +876,16 @@ void analyzeOptions (
       no_argument, &traceTechnicalsPresent, 1
     },
     
+    // words
+    {
+      _TRACE_TECHNICALS_LONG_NAME_,
+      no_argument, &traceTechnicalsPresent, 1
+    },
+    {
+      _TRACE_TECHNICALS_SHORT_NAME_,
+      no_argument, &traceTechnicalsPresent, 1
+    },
+    
     // tremolos
     {
       _TRACE_TREMOLOS_LONG_NAME_,
@@ -1405,6 +1421,7 @@ void analyzeOptions (
         // ------------
 
         // version
+        // --------------------------------------
         
         {
         if (versionPresent) {
@@ -1449,6 +1466,7 @@ R"(
         }
 
         // output file
+        // --------------------------------------
         
         if (outputFilePresent) {
           outputFileName = optarg;
@@ -1489,6 +1507,7 @@ R"(
         }
 
         // trace and display
+        // --------------------------------------
         
         if (traceGeneralPresent) {
           gGeneralOptions->fTraceGeneral = true;
@@ -1536,6 +1555,7 @@ R"(
         }
 
         // MusicXML
+        // --------------------------------------
 
         if (ignoreMusicXMLErrorsPresent) {
           gGeneralOptions->fIgnoreMusicXMLErrors = true;
@@ -1560,6 +1580,7 @@ R"(
         }
         
         // CPU usage
+        // --------------------------------------
 
         if (displayCPUusagePresent) {
           gGeneralOptions->fDisplayCPUusage = true;
@@ -1572,8 +1593,10 @@ R"(
           displayCPUusagePresent = false;
         }
         
-        // specific trace    
+        // specific trace
+        // --------------------------------------
 
+        // divisions
         if (traceDivisionsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceDivisions = true;
@@ -1587,6 +1610,7 @@ R"(
           traceDivisionsPresent = false;
         }
         
+        // parts
         if (tracePartsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
@@ -1598,6 +1622,21 @@ R"(
             
           tracePartsPresent = false;
         }
+        
+        // part groups
+        if (tracePartsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceParts = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_PARTS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_PARTS_SHORT_NAME_ " ";
+            
+          tracePartsPresent = false;
+        }
+        
+        // staves
         if (traceVoicesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
@@ -1609,6 +1648,21 @@ R"(
 
           traceVoicesPresent = false;
         }
+        
+        // voices
+        if (traceVoicesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceVoices = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_VOICES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_VOICES_SHORT_NAME_ " ";
+
+          traceVoicesPresent = false;
+        }
+
+        // segments
         if (traceSegmentsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceSegments = true;
@@ -1620,6 +1674,8 @@ R"(
             
           traceSegmentsPresent = false;
         }
+
+        // repeats
         if (traceRepeatsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceRepeats = true;
@@ -1631,6 +1687,8 @@ R"(
             
           traceRepeatsPresent = false;
         }
+
+        // measures
         if (traceMeasuresPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceMeasures = true;
@@ -1642,6 +1700,8 @@ R"(
 
           traceMeasuresPresent = false;
         }
+
+        // notes
         if (traceNotesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceNotes = true;
@@ -1653,6 +1713,8 @@ R"(
             
           traceNotesPresent = false;
         }
+
+        // technicals
         if (traceTechnicalsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTechnicals = true;
@@ -1664,6 +1726,21 @@ R"(
             
           traceTechnicalsPresent = false;
         }
+        
+        // words
+        if (traceTechnicalsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTechnicals = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_TECHNICALS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_TECHNICALS_SHORT_NAME_ " ";
+            
+          traceTechnicalsPresent = false;
+        }
+        
+        // tremolos
         if (traceTremolosPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTremolos = true;
@@ -1675,6 +1752,8 @@ R"(
             
           traceTremolosPresent = false;
         }
+
+        // chords
         if (traceChordsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceChords = true;
@@ -1686,6 +1765,8 @@ R"(
             
           traceChordsPresent = false;
         }
+
+        // tuplets
         if (traceTupletsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTuplets = true;
@@ -1697,6 +1778,8 @@ R"(
                         
           traceTupletsPresent = false;
         }
+        
+        // grace notes
         if (traceGracenotesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceGracenotes = true;
@@ -1709,6 +1792,7 @@ R"(
           traceGracenotesPresent = false;
         }
 
+        // lyrics
         if (traceLyricsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceLyrics = true;
@@ -1721,6 +1805,7 @@ R"(
           traceLyricsPresent = false;
         }
         
+        // harmonies
         if (traceHarmoniesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceHarmonies = true;
@@ -1737,6 +1822,7 @@ R"(
         // -----------
         
         // trace and display
+        // --------------------------------------
 
         if (traceMsrPresent) {
           gGeneralOptions->fTraceGeneral = true;
@@ -1785,6 +1871,7 @@ R"(
         }
         
         // languages
+        // --------------------------------------
 
         if (msrPitchesLanguagePresent) {
           // optarg contains the language name
@@ -1831,6 +1918,7 @@ R"(
           }
              
         // parts
+        // --------------------------------------
 
         if (partNamePresent) {
           // optarg contains the part name
@@ -1893,6 +1981,7 @@ R"(
         }
         
         // voices
+        // --------------------------------------
         
         if (staffRelativeVoiceNumbersPresent) {
           gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
@@ -1917,6 +2006,7 @@ R"(
         }
 
         // notes
+        // --------------------------------------
         
         if (delayRestsDynamicsPresent) {
           gMsrOptions->fDelayRestsDynamics = true;
@@ -2015,6 +2105,7 @@ R"(
         // ------------
 
         // trace and display
+        // --------------------------------------
 
         if (traceLpsrPresent) {
           gGeneralOptions->fTraceGeneral = true;
@@ -2062,6 +2153,7 @@ R"(
         }
 
         // languages
+        // --------------------------------------
 
         if (lpsrPitchesLanguagePresent) {
           // optarg contains the language name
@@ -2153,6 +2245,7 @@ R"(
         }
 
         // time
+        // --------------------------------------
 
         if (numericaltimePresent) {
           gLpsrOptions->fGenerateNumericalTime = true;
@@ -2166,6 +2259,7 @@ R"(
         }
 
         // notes
+        // --------------------------------------
         
         if (absolutePresent) {
           gLpsrOptions->fGenerateAbsoluteOctaves = true;
@@ -2249,6 +2343,7 @@ R"(
         }
         
         // bars
+        // --------------------------------------
         
         if (showAllBarNumbersPresent) {
           gLpsrOptions->fShowAllBarNumbers = true;
@@ -2273,6 +2368,7 @@ R"(
         }
 
         // line breaks
+        // --------------------------------------
         
         if (dontKeepLineBreaksPresent) {
           gLpsrOptions->fDontKeepLineBreaks = true;
@@ -2327,6 +2423,7 @@ R"(
         }
 
         // staves
+        // --------------------------------------
         
         if (modernTabPresent) {
           gLpsrOptions->fModernTab = true;
@@ -2340,6 +2437,7 @@ R"(
         }
         
         // midi
+        // --------------------------------------
         
         if (midiTempoPresent) {
           // optarg contains the midi tempo specification
@@ -2441,6 +2539,7 @@ R"(
         }
 
         // LilyPond code generation
+        // --------------------------------------
         
         if (generateGlobalPresent) {
           gLpsrOptions->fGenerateGlobal = true;
