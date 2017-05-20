@@ -6955,6 +6955,13 @@ class EXP msrPart : public msrElement
     string                getPartID () const
                               { return fPartID; }
 
+    void                  setPartStavesLinesNumber (
+                            int partStavesLinesNumber)
+                              {
+                                fPartStavesLinesNumber =
+                                  partStavesLinesNumber;
+                              }
+
     const int             getPartStavesLinesNumber () const
                               { return fPartStavesLinesNumber; }
           
