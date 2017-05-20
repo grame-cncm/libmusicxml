@@ -4412,22 +4412,61 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
         elt->getChordDisplayedDivisions ());
   }
    
+  // fetch the chord single tremolo
+  S_msrSingleTremolo
+    chordSingleTremolo =
+      elt->getChordSingleTremolo ();
+
+  if (chordSingleTremolo) {
+    // generate code for the single tremolo
+    int
+      inputLineNumber =
+        chordSingleTremolo->getInputLineNumber ();
+      
+    int
+      singleTremoloMarksNumber =
+        chordSingleTremolo->
+          getSingleTremoloMarksNumber ();
+
+    S_msrNote
+      singleTremoloNote =
+        chordSingleTremolo->
+          getSingleTremoloNoteUplink ();
+
+    int
+      singleTremoloNoteSoundingDivisions =
+        singleTremoloNote->getNoteSoundingDivisions ();
+
+    msrDuration
+      singleTremoloNoteDuration =
+        singleTremoloNote->getNoteGraphicDuration ();
+
+    if (gGeneralOptions->fTraceTremolos) {
+      fOstream << idtr <<
+        "% Generating single tremolo " <<
+        chordSingleTremolo->singleTremoloAsString () <<
+        " for chord " <<
+        elt->chordAsString () <<
+        ", line = " << inputLineNumber <<
+        ", singleTremoloMarksNumber = " <<
+        singleTremoloMarksNumber <<
+        ", singleTremoloNoteSoundingDivisions = " <<
+        singleTremoloNoteSoundingDivisions <<
+        endl;
+    }
+
+    fOstream <<
+      singleTremoloDurationAsLilyPondString (
+        inputLineNumber,
+        singleTremoloNoteDuration,
+        singleTremoloMarksNumber);
+  }
+
   fOstream <<
     " ";
     
   fMusicOlec++;
 
-  // fetch the chord single tremolo
-  S_msrSingleTremolo
-    chordSingleTremolo =
-      elt->getChordSingleTremolo ();
-      
-  if (chordSingleTremolo) {
-    // print the single tremolo repeat end
-    fOstream <<
-      "}"; // JMI
-  }
-  
   // print the chord articulations if any
   list<S_msrArticulation>
     chordArticulations =
