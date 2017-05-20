@@ -18,7 +18,7 @@
 
 #include "msr.h"
 
-#include "xml2MsrInterface.h"
+#include "musicxml2MsrInterface.h"
 
 namespace MusicXML2
 {
