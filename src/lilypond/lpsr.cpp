@@ -152,6 +152,8 @@ void lpsrOptions::initializeLpsrOptions (
   fGenerateStems            = boolOptionsInitialValue;
   fNoAutoBeaming            = boolOptionsInitialValue;
   
+  fAvoidOpenString          = boolOptionsInitialValue;
+  
   fAccidentalStyle          = "";
 
   fCompressMultiMeasureRests = boolOptionsInitialValue;
@@ -834,6 +836,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "avoidOpenString" << " : " <<
+      booleanAsString (gLpsrOptions->fAvoidOpenString) <<
       endl <<
 
     idtr << setw(fieldWidth) << "accidentalStyle" << " : " <<

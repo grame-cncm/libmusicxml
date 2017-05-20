@@ -541,6 +541,11 @@ void analyzeOptions (
   int noAutoBeamingPresent = 0;
 
   checkOptionUniqueness (
+    _AVOID_OPEN_STRINGS_LONG_NAME_, _AVOID_OPEN_STRINGS_SHORT_NAME_);
+    
+  int avoidOpenStringPresent = 0;
+
+  checkOptionUniqueness (
     _ACCIDENTAL_STYLE_LONG_NAME_, _ACCIDENTAL_STYLE_SHORT_NAME_);
     
   int accidentalStylePresent = 0;
@@ -1210,6 +1215,15 @@ void analyzeOptions (
     {
       _NO_AUTO_BEAMING_SHORT_NAME_,
       no_argument, &noAutoBeamingPresent, 1
+    },
+    
+    {
+      _AVOID_OPEN_STRINGS_LONG_NAME_,
+      no_argument, &avoidOpenStringPresent, 1
+    },
+    {
+      _AVOID_OPEN_STRINGS_SHORT_NAME_,
+      no_argument, &avoidOpenStringPresent, 1
     },
     
     {
@@ -2306,6 +2320,17 @@ R"(
             "--" _NO_AUTO_BEAMING_SHORT_NAME_ " ";
             
           noAutoBeamingPresent = false;
+        }
+
+        if (avoidOpenStringPresent) {
+          gLpsrOptions->fAvoidOpenString = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _AVOID_OPEN_STRINGS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _AVOID_OPEN_STRINGS_SHORT_NAME_ " ";
+            
+          avoidOpenStringPresent = false;
         }
 
         if (accidentalStylePresent) {
