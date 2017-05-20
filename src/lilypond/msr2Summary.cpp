@@ -37,19 +37,22 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 {
   fMsrOptions = msrOpts;
 
-//  JMI gCurrentLocation.fMeasureNumber     = 0; // in case of an anacrusis
-//  gCurrentLocation.fPositionInMeasure = 1;
-
+  // staves
   fOnGoingStaff = false;
   
+  // notes
   fScoreStandaloneNotesCounter    = 0;
   fScoreRestNotesCounter          = 0;
   fScoreSkipNotesCounter          = 0;
   fScoreDoubleTremoloNotesCounter = 0;
   fScoreGraceNotesCounter         = 0;
+  
+  // chords
   fScoreChordNotesCounter         = 0;
-  fScoreTupletNotesCounter        = 0;
   fScoreChordsCounter             = 0;
+
+  // tuplets
+  fScoreTupletNotesCounter        = 0;
 };
   
 msr2SummaryVisitor::~msr2SummaryVisitor ()

@@ -27,7 +27,7 @@ cd cmake
 pwd
 echo
 
-if [ 1 -eq 1 ]; then # adapt to force running cmake after filenames changes
+if [ 0 -eq 1 ]; then # adapt to force running cmake after filenames changes
   echo '--> cmake .'
   echo
   cmake .

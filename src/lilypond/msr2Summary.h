@@ -200,28 +200,25 @@ class msr2SummaryVisitor :
     
     // part groups
     // ------------------------------------------------------
-    int            fPargroupsCounter;
+// JMI    int            fPargroupsCounter;
 
     // parts
     // ------------------------------------------------------
-    int            fPartsCounter;
+ // JMI   int            fPartsCounter;
 
     // staves
     // ------------------------------------------------------
-    int            fStavesCounter;
+ // JMI   int            fStavesCounter;
     // prevent clef, key and time from being handled twice
     bool           fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
-    int            fVoicesCounter;
-
-    // repeat groups
-    // ------------------------------------------------------
-    int            fScoreRestSegmentsCounter;
+ // JMI   int            fVoicesCounter;
 
     // stanzas
     // ------------------------------------------------------
+// JMI
 
     // notes
     // ------------------------------------------------------
