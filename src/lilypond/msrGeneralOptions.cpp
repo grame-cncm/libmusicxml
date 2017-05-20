@@ -93,6 +93,7 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   // notes
   fTraceNotes = boolOptionsInitialValue;
+  
   // technicals
   fTraceTechnicals = boolOptionsInitialValue;
   
@@ -201,6 +202,7 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   // notes
   clone->fTraceNotes =
     true;
+    
   // technicals
   clone->fTraceTechnicals =
     true;
@@ -419,14 +421,14 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Don't stop the translation after issuing a MusicXML error message'." <<
+      "Don't stop the translation after issuing a MusicXML error message." <<
       endl <<
       
     idtr <<
       "--" _LOOP_TO_MUSICXML_SHORT_NAME_ ", --" _LOOP_TO_MUSICXML_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Close the loop, gemerating a MusicXML file from the MSR. Currently under development'." <<
+      "Close the loop, gemerating a MusicXML file from the MSR. Currently under development." <<
       endl <<
     endl;
 
@@ -496,7 +498,6 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "staves" <<
       endl <<
-    endl <<
       
     // voices
     idtr <<
@@ -541,6 +542,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "notes (quite verbose)" <<
       endl <<
+    endl <<
 
     // technicals
     idtr <<
@@ -567,6 +569,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "chords" <<
       endl <<
+    endl <<
 
     // tuplets
     idtr <<
