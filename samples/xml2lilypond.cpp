@@ -251,6 +251,11 @@ void analyzeOptions (
     
   int ignoreMusicXMLErrorsPresent = 0;
 
+  checkOptionUniqueness (
+    _LOOP_TO_MUSICXML_LONG_NAME_, _LOOP_TO_MUSICXML_SHORT_NAME_);
+    
+  int loopToMusicXMLPresent = 0;
+
   // CPU usage
   // --------------------------------------
   
@@ -639,6 +644,7 @@ void analyzeOptions (
     // ---------------
 
     // version
+    // --------------------------------------
 
     {
       _VERSION_LONG_NAME_,
@@ -650,6 +656,7 @@ void analyzeOptions (
     },
 
     // help
+    // --------------------------------------
 
     {
       _HELP_LONG_NAME_,
@@ -686,6 +693,7 @@ void analyzeOptions (
     },
 
     // output file
+    // --------------------------------------
 
     {
       _OUTPUT_FILE_LONG_NAME_,
@@ -706,6 +714,7 @@ void analyzeOptions (
     },
 
     // trace and display
+    // --------------------------------------
 
     {
       _TRACE_GENERAL_LONG_NAME_,
@@ -726,6 +735,7 @@ void analyzeOptions (
     },
     
     // MusicXML
+    // --------------------------------------
 
     {
       _INGORE_MUSICXML_ERRORS_LONG_NAME_,
@@ -736,7 +746,17 @@ void analyzeOptions (
       no_argument, &ignoreMusicXMLErrorsPresent, 1
     },
 
+    {
+      _LOOP_TO_MUSICXML_LONG_NAME_,
+      no_argument, &loopToMusicXMLPresent, 1
+    },
+    {
+      _LOOP_TO_MUSICXML_SHORT_NAME_,
+      no_argument, &loopToMusicXMLPresent, 1
+    },
+
     // CPU usage
+    // --------------------------------------
 
     {
       _CPU_USAGE_LONG_NAME_,
@@ -748,7 +768,9 @@ void analyzeOptions (
     },
 
     // specific trace    
+    // --------------------------------------
 
+    // divisions
     {
       _TRACE_DIVISIONS_LONG_NAME_,
       no_argument, &traceDivisionsPresent, 1
@@ -758,6 +780,17 @@ void analyzeOptions (
       no_argument, &traceDivisionsPresent, 1
     },
     
+    // part groups
+    {
+      _TRACE_PARTGROUPS_LONG_NAME_,
+      no_argument, &tracePartgroupsPresent, 1
+    },
+    {
+      _TRACE_PARTGROUPS_SHORT_NAME_,
+      no_argument, &tracePartgroupsPresent, 1
+    },
+    
+    // parts
     {
       _TRACE_PARTS_LONG_NAME_,
       no_argument, &tracePartsPresent, 1
@@ -767,6 +800,17 @@ void analyzeOptions (
       no_argument, &tracePartsPresent, 1
     },
     
+    // staves
+    {
+      _TRACE_STAVES_LONG_NAME_,
+      no_argument, &traceStavesPresent, 1
+    },
+    {
+      _TRACE_STAVES_SHORT_NAME_,
+      no_argument, &traceStavesPresent, 1
+    },
+    
+    // voices
     {
       _TRACE_VOICES_LONG_NAME_,
       no_argument, &traceVoicesPresent, 1
@@ -776,6 +820,7 @@ void analyzeOptions (
       no_argument, &traceVoicesPresent, 1
     },
     
+    // segments
     {
       _TRACE_SEGMENTS_LONG_NAME_,
       no_argument, &traceSegmentsPresent, 1
@@ -785,6 +830,7 @@ void analyzeOptions (
       no_argument, &traceSegmentsPresent, 1
     },
     
+    // repeats
     {
       _TRACE_REPEATS_LONG_NAME_,
       no_argument, &traceRepeatsPresent, 1
@@ -794,6 +840,7 @@ void analyzeOptions (
       no_argument, &traceRepeatsPresent, 1
     },
     
+    // measures
     {
       _TRACE_MEASURES_LONG_NAME_,
       no_argument, &traceMeasuresPresent, 1
@@ -803,6 +850,7 @@ void analyzeOptions (
       no_argument, &traceMeasuresPresent, 1
     },
     
+    // notes
     {
       _TRACE_NOTES_LONG_NAME_,
       no_argument, &traceNotesPresent, 1
@@ -812,6 +860,7 @@ void analyzeOptions (
       no_argument, &traceNotesPresent, 1
     },
     
+    // technicals
     {
       _TRACE_TECHNICALS_LONG_NAME_,
       no_argument, &traceTechnicalsPresent, 1
@@ -821,6 +870,7 @@ void analyzeOptions (
       no_argument, &traceTechnicalsPresent, 1
     },
     
+    // tremolos
     {
       _TRACE_TREMOLOS_LONG_NAME_,
       no_argument, &traceTremolosPresent, 1
@@ -830,6 +880,7 @@ void analyzeOptions (
       no_argument, &traceTremolosPresent, 1
     },
     
+    // chords
     {
       _TRACE_CHORDS_LONG_NAME_,
       no_argument, &traceChordsPresent, 1
@@ -839,6 +890,7 @@ void analyzeOptions (
       no_argument, &traceChordsPresent, 1
     },
     
+    // tuplets
     {
       _TRACE_TUPLETS_LONG_NAME_,
       no_argument, &traceTupletsPresent, 1
@@ -848,6 +900,7 @@ void analyzeOptions (
       no_argument, &traceTupletsPresent, 1
     },
     
+    // grace notes
     {
       _TRACE_GRACENOTES_LONG_NAME_,
       no_argument, &traceGracenotesPresent, 1
@@ -857,6 +910,7 @@ void analyzeOptions (
       no_argument, &traceGracenotesPresent, 1
     },
     
+    // lyrics
     {
       _TRACE_LYRICS_LONG_NAME_,
       no_argument, &traceLyricsPresent, 1
@@ -866,6 +920,7 @@ void analyzeOptions (
       no_argument, &traceLyricsPresent, 1
     },
     
+    // harmonies
     {
       _TRACE_HARMONIES_LONG_NAME_,
       no_argument, &traceHarmoniesPresent, 1
@@ -879,6 +934,7 @@ void analyzeOptions (
     // -----------
 
     // trace and display
+    // --------------------------------------
 
     {
       _TRACE_MSR_LONG_NAME_,
@@ -916,6 +972,7 @@ void analyzeOptions (
     },
 
     // languages
+    // --------------------------------------
 
     {
       _MSR_PITCHES_LANGUAGE_LONG_NAME_,
@@ -927,6 +984,7 @@ void analyzeOptions (
     },
 
     // parts
+    // --------------------------------------
 
     {
       _PART_NAME_LONG_NAME_,
@@ -938,6 +996,7 @@ void analyzeOptions (
     },
 
     // voices
+    // --------------------------------------
 
     {
       _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_,
@@ -958,6 +1017,7 @@ void analyzeOptions (
     },
 
     // notes
+    // --------------------------------------
 
     {
       _DELAY_RESTS_DYNAMICS_LONG_NAME_,
@@ -1001,6 +1061,7 @@ void analyzeOptions (
     },
    
     // lyrics
+    // --------------------------------------
 
     {
       _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_,
@@ -1020,6 +1081,7 @@ void analyzeOptions (
     },
 
     // harmonies
+    // --------------------------------------
 
     {
       _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_,
@@ -1033,6 +1095,7 @@ void analyzeOptions (
     // ------------
 
     // trace and display
+    // --------------------------------------
 
     {
       _TRACE_LPSR_LONG_NAME_,
@@ -1070,6 +1133,7 @@ void analyzeOptions (
     },
     
     // languages
+    // --------------------------------------
 
     {
       _LPSR_PITCHES_LANGUAGE_LONG_NAME_,
@@ -1090,6 +1154,7 @@ void analyzeOptions (
     },
     
     // time
+    // --------------------------------------
 
     {
       _NUMERICAL_TIME_LONG_NAME_,
@@ -1101,6 +1166,7 @@ void analyzeOptions (
     },
     
     // notes
+    // --------------------------------------
 
     {
       _ABSOLUTE_LONG_NAME_,
@@ -1144,6 +1210,7 @@ void analyzeOptions (
     },    
 
     // bars
+    // --------------------------------------
 
     {
       _SHOW_ALL_BAR_NUMBERS_LONG_NAME_,
@@ -1164,6 +1231,7 @@ void analyzeOptions (
     },
     
     // line breaks
+    // --------------------------------------
 
     {
       _DONT_KEEP_LINE_BREAKS_LONG_NAME_,
@@ -1193,6 +1261,7 @@ void analyzeOptions (
     },
     
     // staves
+    // --------------------------------------
 
     {
       _MODERN_TAB_LONG_NAME_,
@@ -1204,6 +1273,7 @@ void analyzeOptions (
     },
     
     // midi
+    // --------------------------------------
 
     {
       _MIDI_TEMPO_LONG_NAME_,
@@ -1224,6 +1294,7 @@ void analyzeOptions (
     },
     
     // LilyPond code generation
+    // --------------------------------------
 
     {
       _GENERATE_GLOBAL_LONG_NAME_,
@@ -1290,6 +1361,7 @@ void analyzeOptions (
 
     {0, 0, 0, 0}
     };
+
 
   // initialize output file name
   outputFileName = "";
@@ -1474,6 +1546,17 @@ R"(
             "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ " ";
             
           ignoreMusicXMLErrorsPresent = false;
+        }
+        
+        if (loopToMusicXMLPresent) {
+          gGeneralOptions->fLoopToMusicXML = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _LOOP_TO_MUSICXML_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _LOOP_TO_MUSICXML_SHORT_NAME_ " ";
+            
+          loopToMusicXMLPresent = false;
         }
         
         // CPU usage
