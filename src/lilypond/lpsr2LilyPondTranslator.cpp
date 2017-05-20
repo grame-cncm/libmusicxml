@@ -630,15 +630,6 @@ string lpsr2LilyPondTranslator::singleTremoloDurationAsLilyPondString (
   int durationToUse =
     singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingDivisions;
         
-  if (gGeneralOptions->fTraceTremolos) {
-    fOstream << idtr <<
-      "% Generating single tremolo as LilyPond string" <<
-      ", line = " << inputLineNumber <<
-      ", singleTremoloMarksNumber = " <<
-      singleTremoloMarksNumber <<
-      endl;
-  }
-
   if (singleTremoloDuration >= kEighth)
     durationToUse +=
       1 + (singleTremoloDuration - kEighth);
@@ -3708,6 +3699,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
         singleTremoloNoteDuration =
           singleTremoloNote->getNoteGraphicDuration ();
 
+/* JMI
       if (gGeneralOptions->fTraceTremolos) {
         fOstream << idtr <<
           "% Generating single tremolo " <<
@@ -3721,6 +3713,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
           singleTremoloNoteSoundingDivisions <<
           endl;
       }
+  */
   
       fOstream <<
         singleTremoloDurationAsLilyPondString (
@@ -4367,18 +4360,6 @@ void lpsr2LilyPondTranslator::visitStart (S_msrChord& elt)
    } // for
   }
 
-  // fetch the chord singleTremolo
-  S_msrSingleTremolo
-    chordSingleTremolo =
-      elt->getChordSingleTremolo ();
-      
-  if (chordSingleTremolo) {
-    // print the single tremolo repeat start
-    fOstream <<
-      "\\repeat tremolo " << 8 << // JMI
-      " {"; 
-  }
-  
   // don't take the chord into account for line breaking ??? JMI
   
   fOstream << "<";
@@ -4442,6 +4423,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
       singleTremoloNoteDuration =
         singleTremoloNote->getNoteGraphicDuration ();
 
+/* JMI
     if (gGeneralOptions->fTraceTremolos) {
       fOstream << idtr <<
         "% Generating single tremolo " <<
@@ -4455,6 +4437,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
         singleTremoloNoteSoundingDivisions <<
         endl;
     }
+*/
 
     fOstream <<
       singleTremoloDurationAsLilyPondString (

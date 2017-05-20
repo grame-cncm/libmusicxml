@@ -8722,16 +8722,18 @@ void xml2MsrTranslator::copyNoteSingleTremoloToChord (
     noteSingleTremolo =
       note->
         getNoteSingleTremolo ();
-                          
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
-    cerr << idtr <<
-      "--> copying singleTremolo '" <<
-      noteSingleTremolo->singleTremoloAsString () <<
-      "' from note " << note->noteAsString () <<
-      " to chord" <<
-      endl;
 
-  chord->addSingleTremoloToChord (noteSingleTremolo);
+  if (noteSingleTremolo) {
+    if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
+      cerr << idtr <<
+        "--> copying singleTremolo '" <<
+        noteSingleTremolo->singleTremoloAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+    
+    chord->addSingleTremoloToChord (noteSingleTremolo);
+  }
 }
 
 //______________________________________________________________________________
