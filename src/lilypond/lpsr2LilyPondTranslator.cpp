@@ -40,32 +40,49 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
 {
   fMsrOptions       = msrOpts;
   fLpsrOptions      = lpsrOpts;
+  
+  // the LPSR score we're visiting
   fVisitedLpsrScore = lpScore;
 
+  // header handling
   fOnGoingHeader = false;
   
+  // staves
   fOnGoingStaff = false;
 
+  // voices
   fOnGoingVoice = false;
   fOnGoingHarmonyVoice = false;
 
-  fOngoingNonEmptyStanza = false;
-
+  // repeats
+  fCurrentRepeatEndingsNumber = 0;
+  
+  // notes
   fOnGoingNote = false;
 
+  // stems
   fCurrentStemKind = msrStem::k_NoStem;
 //  fOnGoingStemNone = false; JMI
 
-  fCurrentRepeatEndingsNumber = 0;
-  
+  // double tremolos
+  fCurrentDoubleTremoloElementsLpsrDuration = -39;
+
+  // chords
+  fOnGoingChord = false; // JMI
+
+  // stanzas
+  fOngoingNonEmptyStanza = false;
+
+  // score blocks
   fOnGoingScoreBlock = false;
 
+  // limiting output line size
+  fStanzaOlec.setMaxElementsPerLine (10);
+  
   fMusicOlec.setMaxElementsPerLine (
     fLpsrOptions->fGenerateInputLineNumbers
       ?  5
       : 10);
-      
-  fStanzaOlec.setMaxElementsPerLine (10);
 };
   
 lpsr2LilyPondTranslator::~lpsr2LilyPondTranslator () {}
@@ -335,7 +352,8 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
 }
 
 //________________________________________________________________________
-string noteSoundingDivisionsAsLpsrString (S_msrNote note)
+string lpsr2LilyPondTranslator::noteSoundingDivisionsAsLpsrString (
+  S_msrNote note)
 {
   string
     noteSoundingDivisionsAsMsrString =
@@ -595,6 +613,43 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
   } // switch
 
   return result;
+}
+
+//________________________________________________________________________
+string lpsr2LilyPondTranslator::singleTremoloDurationAsLilyPondString (
+  int         inputLineNumber,
+  msrDuration singleTremoloNoteDuration,
+  int         singleTremoloMarksNumber)
+{  
+  /*
+  The same output can be obtained by adding :N after the note,
+  where N indicates the duration of the subdivision (it must be at least 8).
+  If N is 8, one beam is added to the note’s stem.
+  */
+  
+  int durationToUse =
+    singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingDivisions;
+        
+  if (gGeneralOptions->fTraceTremolos) {
+    fOstream << idtr <<
+      "% Generating single tremolo as LilyPond string" <<
+      ", line = " << inputLineNumber <<
+      ", singleTremoloMarksNumber = " <<
+      singleTremoloMarksNumber <<
+      endl;
+  }
+
+  if (singleTremoloNoteDuration >= kEighth)
+    durationToUse +=
+      1 + (singleTremoloNoteDuration - kEighth);
+  
+  stringstream s;
+
+  s <<
+    int (pow (2, durationToUse + 2)) <<
+    " ";
+    
+  return s.str();
 }
 
 //________________________________________________________________________
@@ -2932,7 +2987,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
 
   // the marks number determines the duration of the two elements:
   // '8' for 1, '16' for 2, etc
-  fCurrentTremoloElementsLpsrDuration =
+  fCurrentDoubleTremoloElementsLpsrDuration =
     int (
       pow (
         2,
@@ -2951,7 +3006,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       *
     4 // quarter note
       /
-    fCurrentTremoloElementsLpsrDuration;
+    fCurrentDoubleTremoloElementsLpsrDuration;
 
   if (divisionsPerDoubleTremoloElement <= 0) {
     stringstream s;
@@ -2967,8 +3022,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       tab << "doubleTremoloSoundingDivisions = " <<
       doubleTremoloSoundingDivisions <<
       endl <<
-      tab << "fCurrentTremoloElementsLpsrDuration = " <<
-      fCurrentTremoloElementsLpsrDuration;
+      tab << "fCurrentDoubleTremoloElementsLpsrDuration = " <<
+      fCurrentDoubleTremoloElementsLpsrDuration;
     
     msrInternalError (
       elt->getInputLineNumber (),
@@ -2993,8 +3048,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrDoubleTremolo& elt)
       tab << "% doubleTremoloSoundingDivisions = " <<
       doubleTremoloSoundingDivisions <<
       endl <<
-      tab << "% fCurrentTremoloElementsLpsrDuration = " <<
-      fCurrentTremoloElementsLpsrDuration <<
+      tab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
+      fCurrentDoubleTremoloElementsLpsrDuration <<
       endl <<
       tab << "% divisionsPerDoubleTremoloElement = " <<
       divisionsPerDoubleTremoloElement <<
@@ -3442,7 +3497,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       
       // print the note duration, i.e. the double tremolo elements duration
       fOstream <<
-        fCurrentTremoloElementsLpsrDuration; // JMI
+        fCurrentDoubleTremoloElementsLpsrDuration; // JMI
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -3625,68 +3680,74 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     noteSingleTremolo =
       elt->getNoteSingleTremolo ();
 
-  // generate code for the single tremolo only
-  // if note doesn't belong to a chord,
-  // otherwise it will be generated for the chord itself // JMI
-  if (noteSingleTremolo && ! elt->getNoteBelongsToAChord ()) {
-    int
-      inputLineNumber =
-        noteSingleTremolo-> getInputLineNumber ();
-      
-    int
-      singleTremoloMarksNumber =
-        noteSingleTremolo->
-          getSingleTremoloMarksNumber ();
-
-    S_msrNote
-      singleTremoloNote =
-        noteSingleTremolo->
-          getSingleTremoloNoteUplink ();
-
-    int
-      singleTremoloNoteSoundingDivisions =
-        singleTremoloNote->getNoteSoundingDivisions ();
-
-    msrDuration
-      singleTremoloNoteDuration =
-        singleTremoloNote->getNoteGraphicDuration ();
-    
-    int durationToUse =
-      singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingDivisions;
-      
-    if (gGeneralOptions->fTraceTremolos) {
-      fOstream << idtr <<
-        "% Generating single tremolo " <<
-        noteSingleTremolo->singleTremoloAsString () <<
-        " for note " <<
-        elt->noteAsShortStringWithRawDivisions () <<
-        ", line = " << inputLineNumber <<
-        ", singleTremoloMarksNumber = " <<
-        singleTremoloMarksNumber <<
-        ", singleTremoloNoteSoundingDivisions = " <<
-        singleTremoloNoteSoundingDivisions <<
-        ", durationToUse = " << durationToUse <<
-        endl;
-    }
-
-    fOstream <<
-      ":";
-
-    /*
-    The same output can be obtained by adding :N after the note,
-    where N indicates the duration of the subdivision (it must be at least 8).
-    If N is 8, one beam is added to the note’s stem.
-    */
-    
-    if (singleTremoloNoteDuration >= kEighth)
-      durationToUse +=
-        1 + (singleTremoloNoteDuration - kEighth);
-
-    fOstream <<
-      int (pow (2, durationToUse + 2)) <<
-      " ";
-  }
+  if (noteSingleTremolo) {
+    // generate code for the single tremolo only
+    // if note doesn't belong to a chord,
+    // otherwise it will be generated for the chord itself
+    if (! elt->getNoteBelongsToAChord ()) {
+      int
+        inputLineNumber =
+          noteSingleTremolo-> getInputLineNumber ();
+        
+      int
+        singleTremoloMarksNumber =
+          noteSingleTremolo->
+            getSingleTremoloMarksNumber ();
   
+      S_msrNote
+        singleTremoloNote =
+          noteSingleTremolo->
+            getSingleTremoloNoteUplink ();
+  
+      int
+        singleTremoloNoteSoundingDivisions =
+          singleTremoloNote->getNoteSoundingDivisions ();
+  
+      msrDuration
+        singleTremoloNoteDuration =
+          singleTremoloNote->getNoteGraphicDuration ();
+
+      if (gGeneralOptions->fTraceTremolos) {
+        fOstream << idtr <<
+          "% Generating single tremolo " <<
+          noteSingleTremolo->singleTremoloAsString () <<
+          " for note " <<
+          elt->noteAsShortStringWithRawDivisions () <<
+          ", line = " << inputLineNumber <<
+          ", singleTremoloMarksNumber = " <<
+          singleTremoloMarksNumber <<
+          ", singleTremoloNoteSoundingDivisions = " <<
+          singleTremoloNoteSoundingDivisions <<
+          endl;
+      }
+  
+      fOstream <<
+        singleTremoloDurationAsLilyPondString (
+          inputLineNumber,
+          singleTremoloNoteDuration,
+          singleTremoloMarksNumber);
+
+        /* JMI
+      fOstream <<
+        ":";
+  
+      / *
+      The same output can be obtained by adding :N after the note,
+      where N indicates the duration of the subdivision (it must be at least 8).
+      If N is 8, one beam is added to the note’s stem.
+      * /
+      
+      if (singleTremoloNoteDuration >= kEighth)
+        durationToUse +=
+          1 + (singleTremoloNoteDuration - kEighth);
+  
+      fOstream <<
+        int (pow (2, durationToUse + 2)) <<
+        " ";
+        */
+    }
+  }
+
   // get note stem kind 
   msrStem::msrStemKind
     stemKind = // JMI
@@ -4339,7 +4400,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrChord& elt)
     elt->getChordIsSecondChordInADoubleTremolo ()) {
       // print the note duration, i.e. the double tremolo elements duration
       fOstream <<
-        fCurrentTremoloElementsLpsrDuration; // JMI
+        fCurrentDoubleTremoloElementsLpsrDuration; // JMI
   }
   
   else {

@@ -378,6 +378,8 @@ class lpsr2LilyPondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
+    // utilities
+    
     string                absoluteOctaveAsLilypondString (
                             int absoluteOctave);
 
@@ -401,6 +403,9 @@ class lpsr2LilyPondTranslator :
 
     void                  printNoteAsLilyPondString (S_msrNote note);
 
+    string                noteSoundingDivisionsAsLpsrString (
+                            S_msrNote note);
+
     string                technicalKindAsLilyPondString (
                             S_msrTechnical technical);
 
@@ -415,6 +420,11 @@ class lpsr2LilyPondTranslator :
                             msrOrnament::msrOrnamentKind ornamentKind,
                             string                       noteUplinkDuration);
 
+    string                singleTremoloDurationAsLilyPondString (
+                            int         inputLineNumber,
+                            msrDuration singleTremoloNoteDuration,
+                            int         singleTremoloMarksNumber);
+
     string                harmonyAsLilyPondString (
                             S_msrHarmony harmony);
 
@@ -422,18 +432,25 @@ class lpsr2LilyPondTranslator :
                      
     S_msrOptions          fMsrOptions;
     S_lpsrOptions         fLpsrOptions;
+    
     ostream&              fOstream;
+    
+    // the LPSR score we're visiting
+    // ------------------------------------------------------
     S_lpsrScore           fVisitedLpsrScore;
 
     // the LPSR score we're building
     // ------------------------------------------------------
     S_lpsrScore           fLpsrScore;
 
+    // header handling
+    // ------------------------------------------------------
+    bool                  fOnGoingHeader;
+
     // score
     // ------------------------------------------------------
     S_msrScore            fCurrentMsrScoreClone;
-    bool                  fOnGoingScoreBlock;
-    
+
     // part groups
     // ------------------------------------------------------
  // JMI   S_msrPartgroup        fCurrentMsrPartgroupClone;
@@ -444,13 +461,11 @@ class lpsr2LilyPondTranslator :
     
     // staves
     // ------------------------------------------------------
-   // JMI S_msrStaff            fCurrentMsrStaffClone;
     // prevent clef, key and time from being handled twice
     bool                  fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
- // JMI   S_msrVoice           fCurrentMsrVoiceClone;
     bool                  fOnGoingVoice;
     bool                  fOnGoingHarmonyVoice;
     
@@ -469,28 +484,18 @@ class lpsr2LilyPondTranslator :
     // in a consistent way
     stack<int>            fSegmentNotesAndChordsCountersStack;
 
-    // stanzas
+    // notes
     // ------------------------------------------------------
-    S_msrStanza           fCurrentStanzaClone;
-    bool                  fOngoingNonEmptyStanza;
-    int                   fSyllablesCounter;
-    
-    // syllables
-    // ------------------------------------------------------
-    S_msrSyllable         fCurrentMsrSyllableClone;
+    bool                  fOnGoingNote;
 
     // stems
     msrStem::msrStemKind  fCurrentStemKind;
     S_msrStem             fCurrentStem;
     bool                  fOnGoingStemNone;
 
-    // notes
+    // double tremolos
     // ------------------------------------------------------
-    bool                  fOnGoingNote;
-
-    // tremolos
-    // ------------------------------------------------------
-    int                   fCurrentTremoloElementsLpsrDuration;
+    int                   fCurrentDoubleTremoloElementsLpsrDuration;
     
     // chords
     // ------------------------------------------------------
@@ -501,11 +506,20 @@ class lpsr2LilyPondTranslator :
 // JMI     S_msrTuplet          fCurrentMsrTupletClone;
     stack<S_msrTuplet>    fTupletsStack;
 
-    // header handling
+    // stanzas
     // ------------------------------------------------------
-    bool                  fOnGoingHeader;
+    S_msrStanza           fCurrentStanzaClone;
+    bool                  fOngoingNonEmptyStanza;
+    
+    // syllables
+    // ------------------------------------------------------
+    S_msrSyllable         fCurrentMsrSyllableClone;
 
-    // limiting line size
+    // score blocks
+    // ------------------------------------------------------
+    bool                  fOnGoingScoreBlock; // JMI
+    
+    // limiting output line size
     outputLineElementsCounter
                           fMusicOlec;
     outputLineElementsCounter
