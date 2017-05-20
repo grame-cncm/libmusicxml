@@ -197,7 +197,7 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
     
   stringstream s;
 
-  // is the note unpitched
+  // is the note unpitched?
   if (note->getNoteIsUnpitched ())
     s <<
       "\\once \\override NoteHead #'style = #'cross ";

@@ -2909,7 +2909,8 @@ void msrBeam::print (ostream& os)
     "Beam" <<
     " number " << fBeamNumber <<
     ", line " << fInputLineNumber << " " <<
-    beamKindAsString (fBeamKind);
+    beamKindAsString (fBeamKind) <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -6600,10 +6601,13 @@ string msrNote::notePitchAsString () const
     ", fQuartertonesPitch = " << fQuartertonesPitch << endl;
   */
   
-  if (fNoteIsARest)
-
-    s << "r"; // JMI R ???
-
+  if (fNoteIsARest) {
+    if (fNoteOccupiesAFullMeasure) // JMI
+      s << "R";
+    else
+      s << "r";
+  }
+  
   else if (fNoteIsUnpitched)
 
     s << "unpitched ";
@@ -14438,13 +14442,13 @@ string msrMeasure::measureKindAsString (
       result = "full";
       break;
     case kIncompleteLeftMeasure:
-      result = "incomplete left";
+      result = "**incomplete left**";
       break;
     case kIncompleteRightMeasure:
-      result = "incomplete right";
+      result = "**incomplete right**";
       break;
     case kOverfullMeasure:
-      result = "over full";
+      result = "**over full**";
       break;
     case kEmptyMeasure:
       result = "empty";
@@ -16198,13 +16202,13 @@ void msrVoice::initializeVoice ()
     case msrVoice::kHarmonyVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_HARMONY_VOICE";
+        "_HarmonyVoice";
       break;
       
     case msrVoice::kMasterVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_MASTER_VOICE";
+        "_MASTERVOICE";
       break;
   } // switch
   
@@ -17971,7 +17975,7 @@ void msrStaff::initializeStaff ()
     case msrStaff::kHarmonyStaff:
       fStaffName =
         fStaffDirectPartUplink->getPartMsrName () +
-        "_Harmony_Staff";
+        "_HarmonyStaff";
       break;
   } // switch
 
@@ -18469,10 +18473,23 @@ void msrStaff::setStaffClef (S_msrClef clef)
   fStaffClef = clef;
 
   // is this a tablature or percussion staff?
-  if (clef->clefIsATablatureClef ())
-    fStaffKind = kTablatureStaff;
-  else if (clef->clefIsAPercussionClef ())
-    fStaffKind = kPercussionStaff;
+  switch (fStaffKind) {
+    case msrStaff::kRegularStaff: // JMI
+      if (clef->clefIsATablatureClef ())
+        fStaffKind = kTablatureStaff;
+      else if (clef->clefIsAPercussionClef ())
+        fStaffKind = kPercussionStaff;
+      break;
+      
+    case msrStaff::kTablatureStaff:
+      break;
+      
+    case msrStaff::kPercussionStaff:
+      break;
+      
+    case msrStaff::kHarmonyStaff:
+      break;
+  } // switch
   
   // propagate clef to all voices
   appendClefToAllStaffVoices (clef);
@@ -19912,10 +19929,13 @@ void msrPart::appendRepeatCloneToPart (
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
+        
       case msrStaff::kTablatureStaff:
         break;
+        
       case msrStaff::kPercussionStaff:
         break;
+        
       case msrStaff::kHarmonyStaff:
         break;
     } // switch

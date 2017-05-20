@@ -3558,7 +3558,6 @@ class EXP msrNote : public msrElement
                             { return fNoteIsARest; }
                       
     bool                  getNoteIsUnpitched () const
-                            // useful for rest tuplet members
                               { return fNoteIsUnpitched; }
                       
     // octave shifts
