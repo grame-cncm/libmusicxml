@@ -269,6 +269,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   // version
   // --------------------------------------
+  
   cerr <<
     idtr << "Version:" <<
     endl <<
@@ -289,6 +290,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   // help
   // --------------------------------------
+  
   cerr <<
     idtr << "Help:" <<
     endl <<
@@ -329,6 +331,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   // output file
   // --------------------------------------
+  
   cerr <<
     idtr << "Output file:" <<
     endl <<
@@ -363,6 +366,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   // trace and display
   // --------------------------------------
+  
   cerr <<
     idtr << "Trace and display:" <<
     endl <<
@@ -417,12 +421,20 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "Don't stop the translation after issuing a MusicXML error message'." <<
       endl <<
+      
+    idtr <<
+      "--" _LOOP_TO_MUSICXML_SHORT_NAME_ ", --" _LOOP_TO_MUSICXML_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Close the loop, gemerating a MusicXML file from the MSR. Currently under development'." <<
+      endl <<
     endl;
 
   idtr--;
 
   // CPU usage
   // --------------------------------------
+  
   cerr <<
     idtr << "CPU usage:" <<
     endl <<
@@ -443,6 +455,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   // specific trace
   // --------------------------------------
+  
   cerr <<
     idtr << "Specific trace about elements:" <<
     endl <<
@@ -462,10 +475,10 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       
     // part groups
     idtr <<
-      "--" _TRACE_PARTS_SHORT_NAME_ ", --" _TRACE_PARTS_LONG_NAME_ <<
+      "--" _TRACE_PARTGROUPS_SHORT_NAME_ ", --" _TRACE_PARTGROUPS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "score, part groups and parts" <<
+      "score, part groups" <<
       endl <<
       
     // parts
@@ -473,15 +486,24 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_PARTS_SHORT_NAME_ ", --" _TRACE_PARTS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "score, part groups and parts" <<
+      "parts" <<
       endl <<
 
+    // staves
+    idtr <<
+      "--" _TRACE_STAVES_SHORT_NAME_ ", --" _TRACE_STAVES_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "staves" <<
+      endl <<
+    endl <<
+      
     // voices
     idtr <<
       "--" _TRACE_VOICES_SHORT_NAME_ ", --" _TRACE_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "staves and voices" <<
+      "voices" <<
       endl <<
     endl <<
       
