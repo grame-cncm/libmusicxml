@@ -364,7 +364,10 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "This option can only be used when reading from a file." <<
       endl <<
     idtr << tab << tab << tab <<
-      "Write LilyPond code to a file whose name is derived from that of the input file," <<
+      "Write LilyPond code to a file in the current working directory." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "The file name is derived from that of the input file," <<
       endl <<
     idtr << tab << tab << tab <<
       "replacing any suffix after the the '.' by 'ly' or adding '.ly' if none is present." <<
