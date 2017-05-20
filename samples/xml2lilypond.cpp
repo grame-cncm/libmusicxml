@@ -329,9 +329,9 @@ void analyzeOptions (
   
   // words
   checkOptionUniqueness (
-    _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
+    _TRACE_WORDS_LONG_NAME_, _TRACE_WORDS_SHORT_NAME_);
     
-  int traceTechnicalsPresent = 0;
+  int traceWordsPresent = 0;
 
   // tremolos
   checkOptionUniqueness (
@@ -640,6 +640,11 @@ void analyzeOptions (
     
   int dontGenerateLilyPondLyricsPresent = 0;
 
+  checkOptionUniqueness (
+    _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_, _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_);
+    
+  int generateLilyPondCompileDatePresent = 0;
+
 
   // long_options data structure
   static struct option long_options [] =
@@ -878,12 +883,12 @@ void analyzeOptions (
     
     // words
     {
-      _TRACE_TECHNICALS_LONG_NAME_,
-      no_argument, &traceTechnicalsPresent, 1
+      _TRACE_WORDS_LONG_NAME_,
+      no_argument, &traceWordsPresent, 1
     },
     {
-      _TRACE_TECHNICALS_SHORT_NAME_,
-      no_argument, &traceTechnicalsPresent, 1
+      _TRACE_WORDS_SHORT_NAME_,
+      no_argument, &traceWordsPresent, 1
     },
     
     // tremolos
@@ -1375,6 +1380,15 @@ void analyzeOptions (
       no_argument, &dontGenerateLilyPondLyricsPresent, 1
     },
 
+    {
+      _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_,
+      no_argument, &generateLilyPondCompileDatePresent, 1
+    },
+    {
+      _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_,
+      no_argument, &generateLilyPondCompileDatePresent, 1
+    },
+
     {0, 0, 0, 0}
     };
 
@@ -1610,20 +1624,20 @@ R"(
           traceDivisionsPresent = false;
         }
         
-        // parts
-        if (tracePartsPresent) {
+        // part groupss
+        if (tracePartgroupsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_PARTS_LONG_NAME_ " ";
+            "--" _TRACE_PARTGROUPS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_PARTS_SHORT_NAME_ " ";
+            "--" _TRACE_PARTGROUPS_SHORT_NAME_ " ";
             
-          tracePartsPresent = false;
+          tracePartgroupsPresent = false;
         }
         
-        // part groups
+        // parts
         if (tracePartsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
@@ -1639,14 +1653,14 @@ R"(
         // staves
         if (traceVoicesPresent) {
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceVoices = true;
+          gGeneralOptions->fTraceStaves = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _TRACE_VOICES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_VOICES_SHORT_NAME_ " ";
 
-          traceVoicesPresent = false;
+          traceStavesPresent = false;
         }
         
         // voices
@@ -1728,16 +1742,16 @@ R"(
         }
         
         // words
-        if (traceTechnicalsPresent) {
+        if (traceWordsPresent) {
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceTechnicals = true;
+          gGeneralOptions->fTraceWords = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_TECHNICALS_LONG_NAME_ " ";
+            "--" _TRACE_WORDS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_TECHNICALS_SHORT_NAME_ " ";
+            "--" _TRACE_WORDS_SHORT_NAME_ " ";
             
-          traceTechnicalsPresent = false;
+          traceWordsPresent = false;
         }
         
         // tremolos
@@ -2687,6 +2701,17 @@ R"(
             "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ " ";
             
           dontGenerateLilyPondLyricsPresent = false;
+        }
+        
+        if (generateLilyPondCompileDatePresent) {
+          gLpsrOptions->fGenerateLilyPondCompileDate = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ " ";
+            
+          generateLilyPondCompileDatePresent = false;
         }
         
         }

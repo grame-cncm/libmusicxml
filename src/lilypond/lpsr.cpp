@@ -197,6 +197,8 @@ void lpsrOptions::initializeLpsrOptions (
   fDontGenerateLilyPondCode           = boolOptionsInitialValue;
   
   fDontGenerateLilyPondLyrics         = boolOptionsInitialValue;
+  
+  fGenerateLilyPondCompileDate        = boolOptionsInitialValue;
     
   
   // JMI ???
@@ -704,6 +706,14 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "Don't generate lyrics in the LilyPond code." << 
       endl <<
+    endl <<
+      
+    idtr <<
+      "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ ", --" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate code to include the date when LilyPond was used in the score." << 
+      endl <<
     endl;
     
   idtr--;
@@ -938,6 +948,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
       booleanAsString (gLpsrOptions->fDontGenerateLilyPondLyrics) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "generateLilyPondCompileDate" << " : " <<
+      booleanAsString (gLpsrOptions->fGenerateLilyPondCompileDate) <<
       endl;
 
   idtr--;

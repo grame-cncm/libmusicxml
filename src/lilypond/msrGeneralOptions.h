@@ -110,7 +110,7 @@ namespace MusicXML2
 
 // part groups
 #define _TRACE_PARTGROUPS_LONG_NAME_  "tracePartGroupss"
-#define _TRACE_PARTGROUPS_SHORT_NAME_ "tpgs"
+#define _TRACE_PARTGROUPS_SHORT_NAME_ "tpgrps"
 
 // parts
 #define _TRACE_PARTS_LONG_NAME_  "traceParts"

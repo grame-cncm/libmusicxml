@@ -225,6 +225,9 @@ void initializeLpsrChordsLanguages ();
 #define _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_  "dontGenerateLilyPondLyrics"
 #define _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ "nolpl"
 
+#define _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_  "generateLilyPondCompileDate"
+#define _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ "glpcd"
+
 
 class EXP lpsrOptions : public smartable {
   public:
@@ -350,7 +353,7 @@ class EXP lpsrOptions : public smartable {
 
     bool                  fDontGenerateLilyPondLyrics;
 
-
+    bool                  fGenerateLilyPondCompileDate;
 
 // JMI ???
 
