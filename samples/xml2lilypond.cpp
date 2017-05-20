@@ -541,6 +541,11 @@ void analyzeOptions (
   int noAutoBeamingPresent = 0;
 
   checkOptionUniqueness (
+    _ROMAN_STRING_NUMBERS_LONG_NAME_, _ROMAN_STRING_NUMBERS_SHORT_NAME_);
+    
+  int romanStringNumbersPresent = 0;
+
+  checkOptionUniqueness (
     _AVOID_OPEN_STRINGS_LONG_NAME_, _AVOID_OPEN_STRINGS_SHORT_NAME_);
     
   int avoidOpenStringPresent = 0;
@@ -1215,6 +1220,15 @@ void analyzeOptions (
     {
       _NO_AUTO_BEAMING_SHORT_NAME_,
       no_argument, &noAutoBeamingPresent, 1
+    },
+    
+    {
+      _ROMAN_STRING_NUMBERS_LONG_NAME_,
+      no_argument, &romanStringNumbersPresent, 1
+    },
+    {
+      _ROMAN_STRING_NUMBERS_SHORT_NAME_,
+      no_argument, &romanStringNumbersPresent, 1
     },
     
     {
@@ -2322,7 +2336,18 @@ R"(
           noAutoBeamingPresent = false;
         }
 
-        if (avoidOpenStringPresent) {
+        if (romanStringNumbersPresent) {
+          gLpsrOptions->fRomanStringNumbers = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _ROMAN_STRING_NUMBERS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _ROMAN_STRING_NUMBERS_SHORT_NAME_ " ";
+            
+          romanStringNumbersPresent = false;
+        }
+
+       if (avoidOpenStringPresent) {
           gLpsrOptions->fAvoidOpenString = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2333,7 +2358,7 @@ R"(
           avoidOpenStringPresent = false;
         }
 
-        if (accidentalStylePresent) {
+         if (accidentalStylePresent) {
           // optarg contains the accidental style name
           if (! gLpsrOptions->setAccidentalStyle (optarg)) {
             stringstream s;

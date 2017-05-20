@@ -152,6 +152,7 @@ void lpsrOptions::initializeLpsrOptions (
   fGenerateStems            = boolOptionsInitialValue;
   fNoAutoBeaming            = boolOptionsInitialValue;
   
+  fRomanStringNumbers       = boolOptionsInitialValue;
   fAvoidOpenString          = boolOptionsInitialValue;
   
   fAccidentalStyle          = "";
@@ -465,6 +466,17 @@ void lpsrOptions::printLpsrOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "to prevent LilyPond from handling beams automatically." << 
+      endl <<
+    endl <<
+
+    idtr <<
+      "--" _ROMAN_STRING_NUMBERS_SHORT_NAME_ ", --" _ROMAN_STRING_NUMBERS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate '\\romanStringNumbers' in each voice " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "to have LilyPond from generating roman instead of arabic string numbers." << 
       endl <<
     endl <<
 
@@ -849,6 +861,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
       booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
       endl <<
 
+    idtr << setw(fieldWidth) << "romanStringNumbers" << " : " <<
+      booleanAsString (gLpsrOptions->fRomanStringNumbers) <<
+      endl <<
+      
     idtr << setw(fieldWidth) << "avoidOpenString" << " : " <<
       booleanAsString (gLpsrOptions->fAvoidOpenString) <<
       endl <<

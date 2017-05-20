@@ -164,6 +164,9 @@ void initializeLpsrChordsLanguages ();
 #define _NO_AUTO_BEAMING_LONG_NAME_  "noAutoBeaming"
 #define _NO_AUTO_BEAMING_SHORT_NAME_ "noab"
 
+#define _ROMAN_STRING_NUMBERS_LONG_NAME_  "romanStringNumbers"
+#define _ROMAN_STRING_NUMBERS_SHORT_NAME_ "rsn"
+
 #define _AVOID_OPEN_STRINGS_LONG_NAME_  "avoidOpenString"
 #define _AVOID_OPEN_STRINGS_SHORT_NAME_ "aos"
 
@@ -304,6 +307,7 @@ class EXP lpsrOptions : public smartable {
     bool                  fGenerateStems;
     bool                  fNoAutoBeaming;
     
+    bool                  fRomanStringNumbers;
     bool                  fAvoidOpenString;
     
     string                fAccidentalStyle;
