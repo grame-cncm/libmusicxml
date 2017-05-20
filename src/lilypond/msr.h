@@ -6726,6 +6726,13 @@ class EXP msrStaff : public msrElement
     msrStaffKind          getStaffKind () const
                               { return fStaffKind; }
                 
+    void                  setStaffLinesNumber (
+                            int staffLinesNumber)
+                              { fStaffLinesNumber = staffLinesNumber; }
+
+    int                   getStaffLinesNumber () const
+                              { return fStaffLinesNumber; }
+                
     int                   getStaffNumber () const
                               { return fStaffNumber; }
                 
@@ -6863,6 +6870,8 @@ class EXP msrStaff : public msrElement
     string                  fStaffName;
     
     msrStaffKind            fStaffKind;
+
+    int                     fStaffLinesNumber;
     
     static int              gMaxStaffVoices;
 

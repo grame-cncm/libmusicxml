@@ -196,14 +196,17 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
     note->getInputLineNumber ();
     
   stringstream s;
-  
+
+  // is the note unpitched
   if (note->getNoteIsUnpitched ())
-    s << "unpitched ";
-  else
     s <<
-      msrQuartertonesPitchAsString (
-        gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-        note->getQuatertonesPitch ());
+      "\\once \\override NoteHead #'style = #'cross ";
+
+  // generate the pitch in all cases
+  s <<
+    msrQuartertonesPitchAsString (
+      gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
+      note->getQuatertonesPitch ());
   
   msrQuartertonesPitch
     noteQuartertonesPitch =

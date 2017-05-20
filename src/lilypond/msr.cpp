@@ -17933,7 +17933,7 @@ msrStaff::msrStaff (
     staffDirectPartUplink;
     
   fStaffKind = staffKind;
-  
+
   fStaffNumber = staffNumber;
 
   initializeStaff ();
@@ -17941,6 +17941,8 @@ msrStaff::msrStaff (
 
 void msrStaff::initializeStaff ()
 {
+  fStaffLinesNumber = 5; // default
+  
   fRegisteredVoicesCounter = 0;
 
   // set staff name
@@ -18174,6 +18176,9 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
         fStaffKind,
         fStaffNumber);
 
+  clone->fStaffLinesNumber =
+    fStaffLinesNumber;
+    
   clone->fStaffName =
     fStaffName;
     
@@ -18860,6 +18865,9 @@ void msrStaff::print (ostream& os)
   os <<
     "Staff" " " << getStaffName () <<
     ", " << staffKindAsString () <<
+    ", " <<
+    singularOrPlural (
+      fStaffLinesNumber, "line", "lines") <<
     " (" <<
     singularOrPlural (
       fStaffVoiceRelativeNumberToVoiceMap.size(), "voice", "voices") <<
