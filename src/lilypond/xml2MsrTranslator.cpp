@@ -8948,6 +8948,9 @@ void xml2MsrTranslator::copyNoteElementsToChord (
   // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
 
+  // copy note's single tremolo if any to the chord
+  copyNoteSingleTremoloToChord (note, chord);
+
   // copy note's dynamics if any to the chord
   copyNoteDynamicsToChord (note, chord);
 
