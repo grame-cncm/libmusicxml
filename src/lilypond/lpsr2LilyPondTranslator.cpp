@@ -646,6 +646,7 @@ string lpsr2LilyPondTranslator::singleTremoloDurationAsLilyPondString (
   stringstream s;
 
   s <<
+    ":" <<
     int (pow (2, durationToUse + 2)) <<
     " ";
     
@@ -3687,7 +3688,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
     if (! elt->getNoteBelongsToAChord ()) {
       int
         inputLineNumber =
-          noteSingleTremolo-> getInputLineNumber ();
+          noteSingleTremolo->getInputLineNumber ();
         
       int
         singleTremoloMarksNumber =

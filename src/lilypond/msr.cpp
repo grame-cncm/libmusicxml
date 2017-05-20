@@ -19236,8 +19236,8 @@ int msrPart::durationAsDivisions (
 
 void msrPart::printDurationsDivisions (ostream& os)
 {
-  os <<
-    "==> The mapping of durations to divisions with " <<
+  os << idtr <<
+    "The mapping of durations to divisions with " <<
     fPartDivisionsPerQuarterNote << " divisions per quarter note" <<
     " is:" <<
     endl;
@@ -19263,8 +19263,6 @@ void msrPart::printDurationsDivisions (ostream& os)
       "an empty list";
 
   idtr--;
-
-  os << endl;
 }
 
 string msrPart::divisionsAsMsrString (
