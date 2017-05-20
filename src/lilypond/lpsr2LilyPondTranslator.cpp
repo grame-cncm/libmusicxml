@@ -2727,7 +2727,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
           fOstream << "tab";
         break;
       case msrClef::kPercussionClef:
-        fOstream << "perc";
+        fOstream << "percussion";
         break;
     } // switch
   }
