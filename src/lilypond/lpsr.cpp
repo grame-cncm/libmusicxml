@@ -469,6 +469,17 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl <<
 
     idtr <<
+      "--" _AVOID_OPEN_STRINGS_SHORT_NAME_ ", --" _AVOID_OPEN_STRINGS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate '\\set TabStaff.restrainOpenStrings = ##t' in each voice " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "to prevent LilyPond from using open strings." << 
+      endl <<
+    endl <<
+
+    idtr <<
       "--" _ACCIDENTAL_STYLE_SHORT_NAME_ ", --" _ACCIDENTAL_STYLE_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
