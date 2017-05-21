@@ -6191,6 +6191,16 @@ class EXP msrPercent : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
+    enum msrPercentKind {
+      kStartPercent, kStopPercent, 
+      k_NoPercent };
+
+    static string percentKindAsString (
+      msrPercentKind percentKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
