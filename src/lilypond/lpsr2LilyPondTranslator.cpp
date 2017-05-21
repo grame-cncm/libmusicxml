@@ -80,7 +80,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   fStanzaOlec.setMaxElementsPerLine (10);
   
   fMusicOlec.setMaxElementsPerLine (
-    fLpsrOptions->fGenerateInputLineNumbers
+    gLilypondOptions->fGenerateInputLineNumbers
       ?  5
       : 10);
 };
@@ -218,7 +218,7 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
 
   // should an absolute octave be generated?
   bool genAbsoluteOctave =
-    fLpsrOptions->fGenerateAbsoluteOctaves
+    gLilypondOptions->fGenerateAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
 
@@ -542,11 +542,11 @@ string lpsr2LilyPondTranslator::ornamentKindAsLilyPondString (
           "s" <<
           noteUplinkDuration <<
           "*" <<
-          gLpsrOptions->fDelayedOrnamentFractionDenominator
+          gLilypondOptions->fDelayedOrnamentFractionDenominator
             -
-          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
           "/" <<
-          gLpsrOptions->fDelayedOrnamentFractionDenominator <<
+          gLilypondOptions->fDelayedOrnamentFractionDenominator <<
           "\\turn";
           
         result = s.str ();
@@ -1027,7 +1027,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrLayout& elt)
       "% --> End visiting lpsrLayout" <<
       endl;
 
-  if (gLpsrOptions->fRepeatBrackets) {
+  if (gLilypondOptions->fRepeatBrackets) {
     fOstream <<
       idtr <<
       "\\context" " " "{" <<
@@ -1245,7 +1245,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
     fOstream << idtr <<
       setw(30) << partGroupContextName + " " "<<";
       
-    if (fLpsrOptions->fGenerateComments)
+    if (gLilypondOptions->fGenerateComments)
       fOstream <<
         "% part group " <<
         partgroup->getPartgroupCombinedName ();
@@ -1303,7 +1303,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
     fOstream <<
       idtr <<
       setw(30) << ">>";
-    if (fLpsrOptions->fGenerateComments)
+    if (gLilypondOptions->fGenerateComments)
       fOstream <<
          "% part group " <<
         partgroup->getPartgroupCombinedName ();
@@ -1340,7 +1340,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
         part->getPartInstrumentAbbreviation ();
         */
   
-    if (fLpsrOptions->fGenerateComments) {
+    if (gLilypondOptions->fGenerateComments) {
       fOstream << left <<
         idtr <<
         setw(30) << "\\new PianoStaff <<" <<
@@ -1401,7 +1401,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
 
     idtr--;
   
-    if (fLpsrOptions->fGenerateComments) {
+    if (gLilypondOptions->fGenerateComments) {
       fOstream <<
         idtr <<
         setw(30) << ">>" <<    
@@ -1456,7 +1456,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
   newContext =
     "\\new " + staffContextName + " <<" ;
       
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     fOstream << left <<
       idtr <<
       setw(30) << newContext <<
@@ -1554,7 +1554,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 
   idtr--;
 
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     fOstream <<
       idtr <<
       setw(30) << ">>" <<    
@@ -1675,7 +1675,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   
     idtr++;
   
-    if (fLpsrOptions->fNoAutoBeaming)
+    if (gLilypondOptions->fNoAutoBeaming)
       fOstream << idtr <<
         "\\set " << staffContextName << ".autoBeaming = ##f" <<
         endl;
@@ -1733,7 +1733,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "% --> Start visiting lpsrNewLyricsBlock" <<
       endl;
 
-  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+  if (! gLilypondOptions->fDontGenerateLilyPondLyrics) {
     fOstream <<
       idtr <<
         "\\new Lyrics" <<
@@ -1761,7 +1761,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
       "% --> End visiting lpsrNewLyricsBlock" <<
       endl;
 
-  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+  if (! gLilypondOptions->fDontGenerateLilyPondLyrics) {
     // JMI
   }
 }
@@ -2002,7 +2002,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   switch (elt->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      if (! fLpsrOptions->fGenerateAbsoluteOctaves)
+      if (! gLilypondOptions->fGenerateAbsoluteOctaves)
         fOstream << "\\relative ";
       break;
       
@@ -2021,7 +2021,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 
   idtr++;
 
-  if (gLpsrOptions->fGenerateGlobal) {
+  if (gLilypondOptions->fGenerateGlobal) {
     fOstream <<
       idtr <<
         "\\global" <<
@@ -2029,7 +2029,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
         endl;
   }
     
-  if (gLpsrOptions->fDisplayMusic) {
+  if (gLilypondOptions->fDisplayMusic) {
     fOstream <<
       idtr <<
         "\\displayMusic {" <<
@@ -2055,7 +2055,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
         "Chords" <<
         endl;
 
-  if (gLpsrOptions->fShowAllBarNumbers)
+  if (gLilypondOptions->fShowAllBarNumbers)
     fOstream <<
       idtr <<
         "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
@@ -2068,17 +2068,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
 // JMI   \set Score.alternativeNumberingStyle = #'numbers-with-letters
 
 
-  if (gLpsrOptions->fCompressMultiMeasureRests)
+  if (gLilypondOptions->fCompressMultiMeasureRests)
     fOstream <<
       idtr <<
         "\\compressMMRests" <<
         endl <<
       endl;
 
-  if (gLpsrOptions->fAccidentalStyle.size ())
+  if (gLilypondOptions->fAccidentalStyle.size ())
     fOstream <<
       idtr <<
-        "\\accidentalStyle Score." << gLpsrOptions->fAccidentalStyle <<
+        "\\accidentalStyle Score." << gLilypondOptions->fAccidentalStyle <<
         endl <<
       endl;
 
@@ -2112,7 +2112,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
       "\"" <<
       endl;
   
-  if (gLpsrOptions->fDisplayMusic) {
+  if (gLilypondOptions->fDisplayMusic) {
     fOstream <<
       idtr <<
         "}" <<
@@ -2171,7 +2171,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrHarmony& elt)
       harmonyAsLilyPondString (elt) <<
       " ";
       
-    if (fLpsrOptions->fGenerateInputLineNumbers)
+    if (gLilypondOptions->fGenerateInputLineNumbers)
       // print the harmony line number as a comment
       fOstream <<
         "%{ " << elt->getInputLineNumber () << " %} ";  
@@ -2193,7 +2193,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
       "% --> Start visiting msrSegment" <<
       endl;
 
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     fOstream << idtr <<
       setw(30) << "" << "% start of segment" <<
       endl;
@@ -2211,7 +2211,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
       "% --> End visiting msrSegment" <<
       endl;
 
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     idtr--;
     
     fOstream <<
@@ -2244,7 +2244,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       ", line " << inputLineNumber<<
       endl;
 
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     fOstream << idtr <<
       setw(30) << "" << "% start of measure " <<
       measureNumber <<
@@ -2339,7 +2339,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
             endl;
     
           // should we generate a break?
-          if (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures)
+          if (gLilypondOptions->fBreakLinesAtIncompleteRightMeasures)
             fOstream << idtr <<
               "\\break" <<
               endl;
@@ -2422,7 +2422,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       break;
   } // switch
     
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     idtr--;
 
     if (fMusicOlec > 0) {
@@ -2444,8 +2444,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
     }
   }
 
-  if (gLpsrOptions->fSeparatorLineEveryNMeasures) {
-    if (measureNumber % gLpsrOptions->fSeparatorLineEveryNMeasuresValue == 0)
+  if (gLilypondOptions->fSeparatorLineEveryNMeasures) {
+    if (measureNumber % gLilypondOptions->fSeparatorLineEveryNMeasuresValue == 0)
       fOstream <<
         endl <<
         idtr <<
@@ -2468,7 +2468,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrStanza& elt)
       "\"" <<
       endl;
 
-  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+  if (! gLilypondOptions->fDontGenerateLilyPondLyrics) {
     // don't generate code for the stanza inside the code for the voice
     fOngoingNonEmptyStanza =
       ! fOnGoingVoice && elt->getStanzaTextPresent ();
@@ -2496,7 +2496,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrStanza& elt)
       "\"" <<
       endl;
 
-  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+  if (! gLilypondOptions->fDontGenerateLilyPondLyrics) {
     if (fOngoingNonEmptyStanza) {
       idtr--;
     
@@ -2520,7 +2520,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
       "'" <<
       endl;
 
-  if (! fLpsrOptions->fDontGenerateLilyPondLyrics) {
+  if (! gLilypondOptions->fDontGenerateLilyPondLyrics) {
     if (gGeneralOptions->fTraceLyrics || fOngoingNonEmptyStanza) {
       
       switch (elt->getSyllableKind ()) {
@@ -2643,7 +2643,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
       
-      if (fLpsrOptions->fGenerateInputLineNumbers)
+      if (gLilypondOptions->fGenerateInputLineNumbers)
         // print the note line number as a comment
         fOstream <<
           "%{ " << elt->getInputLineNumber () << " %} ";  
@@ -2720,25 +2720,25 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
         fOstream << "bass^15";
         break;
       case msrClef::kTablature4Clef:
-        if (gLpsrOptions->fModernTab)
+        if (gLilypondOptions->fModernTab)
           fOstream << "moderntab";
         else
           fOstream << "tab";
         break;
       case msrClef::kTablature5Clef:
-        if (gLpsrOptions->fModernTab)
+        if (gLilypondOptions->fModernTab)
           fOstream << "moderntab";
         else
           fOstream << "tab";
         break;
       case msrClef::kTablature6Clef:
-        if (gLpsrOptions->fModernTab)
+        if (gLilypondOptions->fModernTab)
           fOstream << "moderntab";
         else
           fOstream << "tab";
         break;
       case msrClef::kTablature7Clef:
-        if (gLpsrOptions->fModernTab)
+        if (gLilypondOptions->fModernTab)
           fOstream << "moderntab";
         else
           fOstream << "tab";
@@ -2805,7 +2805,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTime& elt)
       "'"  <<
       endl;
 
-  if (fLpsrOptions->fGenerateNumericalTime)
+  if (gLilypondOptions->fGenerateNumericalTime)
     fOstream << "\\numericTimeSignature ";
     
   fOstream << idtr <<
@@ -3364,7 +3364,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
         }
 
         // should stem direction be generated?
-        if (fLpsrOptions->fGenerateStems) {
+        if (gLilypondOptions->fGenerateStems) {
       
           if (fCurrentStem) {
             // should stem direction be generated?
@@ -3406,7 +3406,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
         }
 
         // should stem direction be generated?
-        if (fLpsrOptions->fGenerateStems) {
+        if (gLilypondOptions->fGenerateStems) {
       
           if (fCurrentStem) {
             // should stem direction be generated?
@@ -3475,9 +3475,9 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
         // c2*2/3 ( s2*1/3\turn JMI
         fOstream <<
           "*" <<
-          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
           "/" <<
-          gLpsrOptions->fDelayedOrnamentFractionDenominator;
+          gLilypondOptions->fDelayedOrnamentFractionDenominator;
       
       // print the tie if any
       {
@@ -3508,9 +3508,9 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
         // c2*2/3 ( s2*1/3\turn JMI
         fOstream <<
           "*" <<
-          gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
           "/" <<
-          gLpsrOptions->fDelayedOrnamentFractionDenominator;
+          gLilypondOptions->fDelayedOrnamentFractionDenominator;
       
       // print the tie if any
       {
@@ -3600,7 +3600,7 @@ void lpsr2LilyPondTranslator::printNoteAsLilyPondString (S_msrNote note)
       break;
       
     case msrNote::kTupletMemberNote:
-      if (! gLpsrOptions->fTupletsOnALine) {
+      if (! gLilypondOptions->fTupletsOnALine) {
         fOstream <<
           endl <<
           idtr;
@@ -3729,7 +3729,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrNote& elt)
       idtr;
   }
   
-  if (fLpsrOptions->fGenerateInputLineNumbers)
+  if (gLilypondOptions->fGenerateInputLineNumbers)
     // print the note line number as a comment
     fOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
@@ -4761,7 +4761,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrTuplet& elt)
           getTupletNormalNotes ());
   }
 
-  if (gLpsrOptions->fTupletsOnALine) {
+  if (gLilypondOptions->fTupletsOnALine) {
     fOstream <<
       "\\tuplet " <<
       elt->getTupletActualNotes () <<
@@ -4795,7 +4795,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrTuplet& elt)
 
   idtr--;
 
-  if (gLpsrOptions->fTupletsOnALine) {
+  if (gLilypondOptions->fTupletsOnALine) {
     fOstream <<
       "} ";
   }
@@ -4968,7 +4968,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
         fOstream <<
           "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
 
-      if (fLpsrOptions->fGenerateInputLineNumbers)
+      if (gLilypondOptions->fGenerateInputLineNumbers)
         // print the barline line number as a comment
         fOstream <<
           "%{ " << elt->getInputLineNumber () << " %} ";
@@ -5095,7 +5095,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeat& elt)
   s <<
     "\\repeat volta " << fCurrentRepeatEndingsNumber << " {";
   
-  if (fLpsrOptions->fGenerateComments) {
+  if (gLilypondOptions->fGenerateComments) {
     fOstream << idtr <<
       setw(30) << s.str() << "% start of repeat" <<
       endl;
@@ -5129,7 +5129,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
 
     idtr--;
 
-    if (fLpsrOptions->fGenerateComments) {      
+    if (gLilypondOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
         setw(30) << "}" << "% end of repeat" <<
@@ -5163,7 +5163,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
     
     // first repeat ending is in charge of
     // outputting the end of the repeat
-    if (fLpsrOptions->fGenerateComments) {      
+    if (gLilypondOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
         setw(30) << "}" << "% end of repeat" <<
@@ -5179,7 +5179,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
 
     // first repeat ending is in charge of
     // outputting the start of the alternative
-    if (fLpsrOptions->fGenerateComments) {      
+    if (gLilypondOptions->fGenerateComments) {      
       fOstream <<
         endl <<
         idtr <<
@@ -5201,7 +5201,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
   // output the start of the ending
   switch (elt->getRepeatendingKind ()) {
     case msrRepeatending::kHookedEnding:
-      if (fLpsrOptions->fGenerateComments) {  
+      if (gLilypondOptions->fGenerateComments) {  
         fOstream <<
           idtr <<
           setw(30) << "{" << "% start of repeat hooked ending" <<
@@ -5217,7 +5217,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       break;
       
     case msrRepeatending::kHooklessEnding:
-      if (fLpsrOptions->fGenerateComments)    
+      if (gLilypondOptions->fGenerateComments)    
         fOstream <<
           idtr <<
           setw(30) << "{" << "% start of repeat hookless ending" <<
@@ -5246,7 +5246,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
   // output the end of the ending
   switch (elt->getRepeatendingKind ()) {
     case msrRepeatending::kHookedEnding:
-      if (fLpsrOptions->fGenerateComments) {
+      if (gLilypondOptions->fGenerateComments) {
         fOstream <<
           idtr <<
           setw(30) << "}" << "% end of repeat hooked ending" <<
@@ -5262,7 +5262,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
       break;
       
     case msrRepeatending::kHooklessEnding:
-      if (fLpsrOptions->fGenerateComments)   { 
+      if (gLilypondOptions->fGenerateComments)   { 
         fOstream <<
           idtr <<
           setw(30) << "}" << "% end of repeat hookless ending" <<
@@ -5287,7 +5287,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     
     // last repeat ending is in charge of
     // outputting the end of the alternative
-    if (fLpsrOptions->fGenerateComments)   { 
+    if (gLilypondOptions->fGenerateComments)   { 
       fOstream <<
         idtr <<
         setw(30) << "}" << "% end of alternative" <<
@@ -5392,7 +5392,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
       "% --> Start visiting msrMidi" <<
       endl;
 
-  if (gLpsrOptions->fDontGenerateMidiCommand) {
+  if (gLilypondOptions->fDontGenerateMidiCommand) {
     fOstream <<
       idtr <<
       "%{" <<
@@ -5409,7 +5409,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
   
   fOstream << idtr;
 
-  if (gLpsrOptions->fDontGenerateMidiCommand)
+  if (gLilypondOptions->fDontGenerateMidiCommand)
     fOstream <<
       "% ";
   
@@ -5426,7 +5426,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
     "}" <<
     endl;
 
-  if (gLpsrOptions->fDontGenerateMidiCommand) {
+  if (gLilypondOptions->fDontGenerateMidiCommand) {
     idtr--;
 
     fOstream <<

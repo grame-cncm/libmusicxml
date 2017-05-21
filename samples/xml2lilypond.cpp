@@ -496,11 +496,6 @@ void analyzeOptions (
     
   int displayLPSRPresent  = 0;
 
-  checkOptionUniqueness (
-    _COMMENTS_LONG_NAME_, _COMMENTS_SHORT_NAME_);
-    
-  int commentsPresent = 0;
-
   // languages
   // --------------------------------------
   
@@ -615,6 +610,11 @@ void analyzeOptions (
   // LilyPond code generation
   // --------------------------------------
   
+  checkOptionUniqueness (
+    _COMMENTS_LONG_NAME_, _COMMENTS_SHORT_NAME_);
+    
+  int commentsPresent = 0;
+
   checkOptionUniqueness (
     _GENERATE_GLOBAL_LONG_NAME_, _GENERATE_GLOBAL_SHORT_NAME_);
     
@@ -1154,15 +1154,6 @@ void analyzeOptions (
       no_argument, &displayLPSRPresent, 1
     },
 
-    {
-      _COMMENTS_LONG_NAME_,
-      no_argument, &commentsPresent, 1
-    },
-    {
-      _COMMENTS_SHORT_NAME_,
-      no_argument, &commentsPresent, 1
-    },
-    
     // languages
     // --------------------------------------
 
@@ -1345,6 +1336,15 @@ void analyzeOptions (
     // LilyPond code generation
     // --------------------------------------
 
+    {
+      _COMMENTS_LONG_NAME_,
+      no_argument, &commentsPresent, 1
+    },
+    {
+      _COMMENTS_SHORT_NAME_,
+      no_argument, &commentsPresent, 1
+    },
+    
     {
       _GENERATE_GLOBAL_LONG_NAME_,
       no_argument, &generateGlobalPresent, 1
@@ -2183,17 +2183,6 @@ R"(
           displayLPSRPresent = false;
         }
 
-        if (commentsPresent) {
-          gLpsrOptions->fGenerateComments = true;
-
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _COMMENTS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _COMMENTS_SHORT_NAME_ " ";
-            
-          commentsPresent = false;
-        }
-
         // languages
         // --------------------------------------
 
@@ -2605,6 +2594,17 @@ R"(
         // LilyPond code generation
         // --------------------------------------
         
+        if (commentsPresent) {
+          gLpsrOptions->fGenerateComments = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _COMMENTS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _COMMENTS_SHORT_NAME_ " ";
+            
+          commentsPresent = false;
+        }
+
         if (generateGlobalPresent) {
           gLpsrOptions->fGenerateGlobal = true;
 

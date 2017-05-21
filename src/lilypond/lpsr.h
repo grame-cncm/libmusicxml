@@ -125,6 +125,7 @@ void initializeLpsrChordsLanguages ();
   to the various methods that need them.
 */
 //______________________________________________________________________________
+// LPSR options
 
 // trace and display
 
@@ -137,9 +138,6 @@ void initializeLpsrChordsLanguages ();
 #define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr"
 #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
 
-#define _COMMENTS_LONG_NAME_  "comments"
-#define _COMMENTS_SHORT_NAME_ "com"
-
 // languages
 
 #define _LPSR_PITCHES_LANGUAGE_LONG_NAME_  "lpsrPitchesLanguage"
@@ -147,6 +145,67 @@ void initializeLpsrChordsLanguages ();
 
 #define _LPSR_CHORDS_LANGUAGE_LONG_NAME_  "lpsrChordsLanguage"
 #define _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ "lpcl"
+
+class EXP lpsrOptions : public smartable {
+  public:
+
+    static SMARTP<lpsrOptions> create ();
+    
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeLpsrOptions (
+                            bool boolOptionsInitialValue);
+    
+    void                  printLpsrOptionsHelp ();
+
+    void                  printLpsrOptionsValues (int fieldWidth);
+    
+  public:
+  
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrOptions();
+    
+    virtual ~lpsrOptions();
+
+    // set and get
+    // ------------------------------------------------------
+
+    bool                  setLpsrQuartertonesPitchesLanguage (
+                            string language);    
+ 
+    bool                  setLpsrChordsLanguage (
+                            string language);    
+ 
+  public:
+
+    // trace and display
+    // --------------------------------------
+    
+    bool                  fTraceLpsr;
+    
+    bool                  fTraceLpsrVisitors;
+    
+    bool                  fDisplayLpsr;
+    
+    // languages
+    // --------------------------------------
+
+    msrQuatertonesPitchesLanguage
+                          fLpsrQuatertonesPitchesLanguage;
+    
+    lpsrChordsLanguage    fLpsrChordsLanguage;
+};
+typedef SMARTP<lpsrOptions> S_lpsrOptions;
+
+extern S_lpsrOptions gLpsrOptions;
+
+//______________________________________________________________________________
+// LilyPond options
 
 // time
 
@@ -210,6 +269,9 @@ void initializeLpsrChordsLanguages ();
 
 // LilyPond code generation
 
+#define _COMMENTS_LONG_NAME_  "comments"
+#define _COMMENTS_SHORT_NAME_ "com"
+
 #define _GENERATE_GLOBAL_LONG_NAME_  "generateGlobal"
 #define _GENERATE_GLOBAL_SHORT_NAME_ "global"
 
@@ -235,65 +297,40 @@ void initializeLpsrChordsLanguages ();
 #define _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ "glpcd"
 
 
-class EXP lpsrOptions : public smartable {
+class EXP lilypondOptions : public smartable {
   public:
 
-    static SMARTP<lpsrOptions> create ();
+    static SMARTP<lilypondOptions> create ();
     
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeLpsrOptions (
+    void                  initializeLilypondOptions (
                             bool boolOptionsInitialValue);
     
-    void                  printLpsrOptionsHelp ();
+    void                  printLilypondOptionsHelp ();
 
-    void                  printLpsrOptionsValues (int fieldWidth);
+    void                  printLilypondOptionsValues (int fieldWidth);
     
   public:
   
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrOptions();
+    lilypondOptions();
     
-    virtual ~lpsrOptions();
+    virtual ~lilypondOptions();
 
     // set and get
     // ------------------------------------------------------
-
-    bool                  setLpsrQuartertonesPitchesLanguage (
-                            string language);    
- 
-    bool                  setLpsrChordsLanguage (
-                            string language);    
 
     bool                  setAccidentalStyle (
                             string accidentalStyle);    
  
   public:
 
-    // trace and display
-    // --------------------------------------
-    
-    bool                  fTraceLpsr;
-    
-    bool                  fTraceLpsrVisitors;
-    
-    bool                  fDisplayLpsr;
-    
-    bool                  fGenerateComments;
-
-    // languages
-    // --------------------------------------
-
-    msrQuatertonesPitchesLanguage
-                          fLpsrQuatertonesPitchesLanguage;
-    
-    lpsrChordsLanguage    fLpsrChordsLanguage;
-    
     // time
     // --------------------------------------
     
@@ -347,6 +384,8 @@ class EXP lpsrOptions : public smartable {
     // LilyPond code generation
     // --------------------------------------
 
+    bool                  fGenerateComments;
+
     bool                  fGenerateGlobal;
     
     bool                  fTupletsOnALine;
@@ -374,9 +413,9 @@ class EXP lpsrOptions : public smartable {
 
     set<string>           fLilyPondAccidentalStyles;
 };
-typedef SMARTP<lpsrOptions> S_lpsrOptions;
+typedef SMARTP<lilypondOptions> S_lilypondOptions;
 
-extern S_lpsrOptions gLpsrOptions;
+extern S_lilypondOptions gLilypondOptions;
 
 /*!
 \brief A generic msr element representation.

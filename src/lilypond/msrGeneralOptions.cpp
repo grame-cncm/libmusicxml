@@ -438,7 +438,8 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _LOOP_TO_MUSICXML_SHORT_NAME_ ", --" _LOOP_TO_MUSICXML_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Close the loop, gemerating a MusicXML file from the MSR. Currently under development." <<
+      "Close the loop, gemerating a MusicXML file from the MSR. " << endl <<
+      "The file name receives a '_loop' suffix. Currently under development." <<
       endl <<
     endl;
 

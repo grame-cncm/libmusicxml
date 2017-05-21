@@ -115,8 +115,6 @@ void lpsrOptions::initializeLpsrOptions (
 
   fDisplayLpsr       = boolOptionsInitialValue;
   
-  fGenerateComments  = boolOptionsInitialValue;
-
   // languages
   
   if (! setLpsrQuartertonesPitchesLanguage ("nederlands")) {
@@ -140,106 +138,6 @@ void lpsrOptions::initializeLpsrOptions (
 
     optionError (s.str());
   }
-  
-  // time
-  
-  fGenerateNumericalTime = boolOptionsInitialValue;
-
-  // notes
-  
-  fGenerateAbsoluteOctaves  = boolOptionsInitialValue;
-
-  fGenerateStems            = boolOptionsInitialValue;
-  fNoAutoBeaming            = boolOptionsInitialValue;
-  
-  fRomanStringNumbers       = boolOptionsInitialValue;
-  fAvoidOpenString          = boolOptionsInitialValue;
-  
-  fAccidentalStyle          = "";
-
-  fCompressMultiMeasureRests = boolOptionsInitialValue;
-
-  fGenerateInputLineNumbers = boolOptionsInitialValue;
-
-  // bars
-  
-  fShowAllBarNumbers    = boolOptionsInitialValue;
-
-  // line breaks
-  
-  fDontKeepLineBreaks                  = boolOptionsInitialValue;
-
-  fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
-  
-  fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
-  fSeparatorLineEveryNMeasuresValue    = INT_MAX;
-  
-  // staves
-  
-  fModernTab = boolOptionsInitialValue;
-
-  // midi
-
-  fMidiTempoDuration       = "4";
-  fMidiTempoPerSecond      = 100;
-  
-  fDontGenerateMidiCommand = boolOptionsInitialValue;
-  
-  // LilyPond code generation
-
-  fGenerateGlobal                     = boolOptionsInitialValue;
-  
-  fTupletsOnALine                     = boolOptionsInitialValue;
-  
-  fRepeatBrackets                     = boolOptionsInitialValue;
-
-  fDelayedOrnamentFractionNumerator   = 2;
-  fDelayedOrnamentFractionDenominator = 3;
-
-  fDisplayMusic                       = boolOptionsInitialValue;
-  
-  fDontGenerateLilyPondCode           = boolOptionsInitialValue;
-  
-  fDontGenerateLilyPondLyrics         = boolOptionsInitialValue;
-  
-  fGenerateLilyPondCompileDate        = boolOptionsInitialValue;
-    
-  
-  // JMI ???
-
-  fKeepStaffSize        = boolOptionsInitialValue;
-
-  fGenerateMasterVoices = boolOptionsInitialValue;
-
-
-  // register the LilyPond accidental styles
-  
-  fLilyPondAccidentalStyles.insert ("voice");
-  fLilyPondAccidentalStyles.insert ("modern");
-  fLilyPondAccidentalStyles.insert ("modern-cautionary");
-  fLilyPondAccidentalStyles.insert ("modern-voice");
-  fLilyPondAccidentalStyles.insert ("modern-voice-cautionary");
-  fLilyPondAccidentalStyles.insert ("piano");
-  fLilyPondAccidentalStyles.insert ("piano-cautionary");
-  fLilyPondAccidentalStyles.insert ("neo-modern");
-  fLilyPondAccidentalStyles.insert ("neo-modern-cautionary");
-  fLilyPondAccidentalStyles.insert ("neo-modern-voice");
-  fLilyPondAccidentalStyles.insert ("neo-modern-voice-cautionary");
-  fLilyPondAccidentalStyles.insert ("dodecaphonic");
-  fLilyPondAccidentalStyles.insert ("dodecaphonic-no-repeat");
-  fLilyPondAccidentalStyles.insert ("dodecaphonic-first");
-  fLilyPondAccidentalStyles.insert ("teaching");
-  fLilyPondAccidentalStyles.insert ("no-reset");
-  fLilyPondAccidentalStyles.insert ("forget");
-
-  /* JMI
-  for (
-    set<string>::const_iterator i=fLilyPondAccidentalStyles.begin();
-    i!=fLilyPondAccidentalStyles.end();
-    i++) {
-      cout << (*i) << endl;
-  } // for
-  */
 }
 
 bool lpsrOptions::setLpsrQuartertonesPitchesLanguage (string language)
@@ -275,23 +173,6 @@ bool lpsrOptions::setLpsrChordsLanguage (string language)
   
   return true;
 }
-
-bool lpsrOptions::setAccidentalStyle (string accidentalStyle)
-{
-  // is accidentalStyle in the accidental styles set?
-  set<string>::const_iterator
-    it =
-      fLilyPondAccidentalStyles.find (accidentalStyle);
-        
-  if (it == fLilyPondAccidentalStyles.end ()) {
-    // no, accidentalStyle is unknown
-    return false;
-  }
-
-  fAccidentalStyle = accidentalStyle;
-  
-  return true;
-} 
 
 void lpsrOptions::printLpsrOptionsHelp ()
 {
@@ -335,17 +216,6 @@ void lpsrOptions::printLpsrOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "Write the contents of the LPSR data to standard error." << 
-      endl <<
-    endl <<
-
-    idtr <<
-      "--" _COMMENTS_SHORT_NAME_ ", --" _COMMENTS_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate comments showing the structure of the score" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "such as '% part P_POne (P1)'." << 
       endl <<
     endl;
 
@@ -405,6 +275,223 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl;
 
   idtr--;
+    
+
+  idtr--;
+  
+  idtr--;
+}
+
+void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
+{
+  cerr << idtr <<
+    "The LPSR options are:" <<
+    endl;
+
+  idtr++;
+  
+  // trace and display
+  // --------------------------------------
+  cerr <<
+    idtr << "Trace and display:" <<
+    endl;
+
+  idtr++;
+  
+  cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "traceLpsr" << " : " <<
+      booleanAsString (gLpsrOptions->fTraceLpsr) <<
+      endl <<
+    
+    idtr <<
+      setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
+      booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
+      booleanAsString (gLpsrOptions->fDisplayLpsr) <<
+      endl;
+
+  idtr--;
+  
+  // languages
+  // --------------------------------------
+  cerr <<
+    idtr << "Languages:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "lpsrQuaterTonesPitchesLanguage" << " : \"" <<
+      msrQuatertonesPitchesLanguageAsString (
+        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
+        "\"" <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
+      lpsrChordsLanguageAsString (
+        gLpsrOptions->fLpsrChordsLanguage) <<
+        "\"" <<
+      endl;  
+
+  idtr--;
+
+  
+  idtr--;
+}
+
+//_______________________________________________________________________________
+S_lilypondOptions gLilypondOptions;
+
+S_lilypondOptions lilypondOptions::create()
+{
+  lilypondOptions* o = new lilypondOptions();
+  assert(o!=0);
+  return o;
+}
+
+lilypondOptions::lilypondOptions()
+{
+  initializeLilypondOptions (false);
+}
+
+lilypondOptions::~lilypondOptions() {}
+
+void lilypondOptions::initializeLilypondOptions (
+  bool boolOptionsInitialValue)
+{
+  // time
+  
+  fGenerateNumericalTime = boolOptionsInitialValue;
+
+  // notes
+  
+  fGenerateAbsoluteOctaves  = boolOptionsInitialValue;
+
+  fGenerateStems            = boolOptionsInitialValue;
+  fNoAutoBeaming            = boolOptionsInitialValue;
+  
+  fRomanStringNumbers       = boolOptionsInitialValue;
+  fAvoidOpenString          = boolOptionsInitialValue;
+  
+  fAccidentalStyle          = "";
+
+  fCompressMultiMeasureRests = boolOptionsInitialValue;
+
+  fGenerateInputLineNumbers = boolOptionsInitialValue;
+
+  // bars
+  
+  fShowAllBarNumbers    = boolOptionsInitialValue;
+
+  // line breaks
+  
+  fDontKeepLineBreaks                  = boolOptionsInitialValue;
+
+  fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
+  
+  fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
+  fSeparatorLineEveryNMeasuresValue    = INT_MAX;
+  
+  // staves
+  
+  fModernTab = boolOptionsInitialValue;
+
+  // midi
+
+  fMidiTempoDuration       = "4";
+  fMidiTempoPerSecond      = 100;
+  
+  fDontGenerateMidiCommand = boolOptionsInitialValue;
+  
+  // LilyPond code generation
+
+  fGenerateComments                   = boolOptionsInitialValue;
+
+  fGenerateGlobal                     = boolOptionsInitialValue;
+  
+  fTupletsOnALine                     = boolOptionsInitialValue;
+  
+  fRepeatBrackets                     = boolOptionsInitialValue;
+
+  fDelayedOrnamentFractionNumerator   = 2;
+  fDelayedOrnamentFractionDenominator = 3;
+
+  fDisplayMusic                       = boolOptionsInitialValue;
+  
+  fDontGenerateLilyPondCode           = boolOptionsInitialValue;
+  
+  fDontGenerateLilyPondLyrics         = boolOptionsInitialValue;
+  
+  fGenerateLilyPondCompileDate        = boolOptionsInitialValue;
+    
+  
+  // JMI ???
+
+  fKeepStaffSize        = boolOptionsInitialValue;
+
+  fGenerateMasterVoices = boolOptionsInitialValue;
+
+
+  // register the LilyPond accidental styles
+  
+  fLilyPondAccidentalStyles.insert ("voice");
+  fLilyPondAccidentalStyles.insert ("modern");
+  fLilyPondAccidentalStyles.insert ("modern-cautionary");
+  fLilyPondAccidentalStyles.insert ("modern-voice");
+  fLilyPondAccidentalStyles.insert ("modern-voice-cautionary");
+  fLilyPondAccidentalStyles.insert ("piano");
+  fLilyPondAccidentalStyles.insert ("piano-cautionary");
+  fLilyPondAccidentalStyles.insert ("neo-modern");
+  fLilyPondAccidentalStyles.insert ("neo-modern-cautionary");
+  fLilyPondAccidentalStyles.insert ("neo-modern-voice");
+  fLilyPondAccidentalStyles.insert ("neo-modern-voice-cautionary");
+  fLilyPondAccidentalStyles.insert ("dodecaphonic");
+  fLilyPondAccidentalStyles.insert ("dodecaphonic-no-repeat");
+  fLilyPondAccidentalStyles.insert ("dodecaphonic-first");
+  fLilyPondAccidentalStyles.insert ("teaching");
+  fLilyPondAccidentalStyles.insert ("no-reset");
+  fLilyPondAccidentalStyles.insert ("forget");
+
+  /* JMI
+  for (
+    set<string>::const_iterator i=fLilyPondAccidentalStyles.begin();
+    i!=fLilyPondAccidentalStyles.end();
+    i++) {
+      cout << (*i) << endl;
+  } // for
+  */
+}
+
+bool lilypondOptions::setAccidentalStyle (string accidentalStyle)
+{
+  // is accidentalStyle in the accidental styles set?
+  set<string>::const_iterator
+    it =
+      fLilyPondAccidentalStyles.find (accidentalStyle);
+        
+  if (it == fLilyPondAccidentalStyles.end ()) {
+    // no, accidentalStyle is unknown
+    return false;
+  }
+
+  fAccidentalStyle = accidentalStyle;
+  
+  return true;
+} 
+
+void lilypondOptions::printLilypondOptionsHelp ()
+{
+  idtr++;
+
+  cerr <<
+    idtr << "LilyPond:" <<
+    endl <<
+    endl;
+
+  idtr++;
 
   // time
   // --------------------------------------
@@ -677,6 +764,17 @@ void lpsrOptions::printLpsrOptionsHelp ()
 
   cerr <<
     idtr <<
+      "--" _COMMENTS_SHORT_NAME_ ", --" _COMMENTS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate comments showing the structure of the score" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "such as '% part P_POne (P1)'." << 
+      endl <<
+    endl <<
+
+    idtr <<
       "--" _GENERATE_GLOBAL_SHORT_NAME_ ", --" _GENERATE_GLOBAL_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
@@ -760,70 +858,17 @@ void lpsrOptions::printLpsrOptionsHelp ()
     
   idtr--;
 
-  idtr--;
   
   idtr--;
 }
 
-void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
+void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
   cerr << idtr <<
     "The LPSR options are:" <<
     endl;
 
   idtr++;
-  
-  // trace and display
-  // --------------------------------------
-  cerr <<
-    idtr << "Trace and display:" <<
-    endl;
-
-  idtr++;
-  
-  cerr << left <<
-    idtr <<
-      setw(fieldWidth) << "traceLpsr" << " : " <<
-      booleanAsString (gLpsrOptions->fTraceLpsr) <<
-      endl <<
-    
-    idtr <<
-      setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
-      booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
-      booleanAsString (gLpsrOptions->fDisplayLpsr) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "generateComments" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateComments) <<
-      endl;
-
-  idtr--;
-  
-  // languages
-  // --------------------------------------
-  cerr <<
-    idtr << "Languages:" <<
-    endl;
-
-  idtr++;
-
-  cerr <<
-    idtr << setw(fieldWidth) << "lpsrQuaterTonesPitchesLanguage" << " : \"" <<
-      msrQuatertonesPitchesLanguageAsString (
-        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
-        "\"" <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
-      lpsrChordsLanguageAsString (
-        gLpsrOptions->fLpsrChordsLanguage) <<
-        "\"" <<
-      endl;
-
-  idtr--;
   
   // time
   // --------------------------------------
@@ -835,7 +880,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "generateNumericalTime" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateNumericalTime) <<
+      booleanAsString (fGenerateNumericalTime) <<
       endl;
 
   idtr--;
@@ -850,35 +895,35 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateAbsoluteOctaves) <<
+      booleanAsString (gLilypondOptions->fGenerateAbsoluteOctaves) <<
       endl <<
     
     idtr << setw(fieldWidth) << "generateStems" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateStems) <<
+      booleanAsString (gLilypondOptions->fGenerateStems) <<
       endl <<
 
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
-      booleanAsString (gLpsrOptions->fNoAutoBeaming) <<
+      booleanAsString (gLilypondOptions->fNoAutoBeaming) <<
       endl <<
 
     idtr << setw(fieldWidth) << "romanStringNumbers" << " : " <<
-      booleanAsString (gLpsrOptions->fRomanStringNumbers) <<
+      booleanAsString (gLilypondOptions->fRomanStringNumbers) <<
       endl <<
       
     idtr << setw(fieldWidth) << "avoidOpenString" << " : " <<
-      booleanAsString (gLpsrOptions->fAvoidOpenString) <<
+      booleanAsString (gLilypondOptions->fAvoidOpenString) <<
       endl <<
 
     idtr << setw(fieldWidth) << "accidentalStyle" << " : " <<
-      gLpsrOptions->fAccidentalStyle <<
+      gLilypondOptions->fAccidentalStyle <<
       endl <<
     
     idtr << setw(fieldWidth) << "compressMultiMeasureRests" << " : " <<
-      booleanAsString (gLpsrOptions->fCompressMultiMeasureRests) <<
+      booleanAsString (gLilypondOptions->fCompressMultiMeasureRests) <<
       endl <<
 
     idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateInputLineNumbers) <<
+      booleanAsString (gLilypondOptions->fGenerateInputLineNumbers) <<
       endl;
 
   idtr--;
@@ -893,7 +938,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
-      booleanAsString (gLpsrOptions->fShowAllBarNumbers) <<
+      booleanAsString (gLilypondOptions->fShowAllBarNumbers) <<
       endl;
 
   idtr--;
@@ -908,19 +953,19 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
-      booleanAsString (gLpsrOptions->fDontKeepLineBreaks) <<
+      booleanAsString (gLilypondOptions->fDontKeepLineBreaks) <<
       endl <<
 
     idtr << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
-      booleanAsString (gLpsrOptions->fBreakLinesAtIncompleteRightMeasures) <<
+      booleanAsString (gLilypondOptions->fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
     
     idtr << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
-      booleanAsString (gLpsrOptions->fSeparatorLineEveryNMeasures) <<
+      booleanAsString (gLilypondOptions->fSeparatorLineEveryNMeasures) <<
       endl <<
 
     idtr << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
-      gLpsrOptions->fSeparatorLineEveryNMeasuresValue <<
+      gLilypondOptions->fSeparatorLineEveryNMeasuresValue <<
       endl;
 
   idtr--;
@@ -935,7 +980,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "modernTab" << " : " <<
-      booleanAsString (gLpsrOptions->fModernTab) <<
+      booleanAsString (gLilypondOptions->fModernTab) <<
       endl;
 
   idtr--;
@@ -950,15 +995,15 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "midiTempoDuration" << " : " <<
-      gLpsrOptions->fMidiTempoDuration <<
+      gLilypondOptions->fMidiTempoDuration <<
       endl <<
 
     idtr << setw(fieldWidth) << "midiTempoPerSecond" << " : " <<
-      gLpsrOptions->fMidiTempoPerSecond <<
+      gLilypondOptions->fMidiTempoPerSecond <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateMidiCommand" << " : " <<
-      booleanAsString (gLpsrOptions->fDontGenerateMidiCommand) <<
+      booleanAsString (gLilypondOptions->fDontGenerateMidiCommand) <<
       endl;
 
   idtr--;
@@ -972,49 +1017,44 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
+    idtr << setw(fieldWidth) << "generateComments" << " : " <<
+      booleanAsString (gLilypondOptions->fGenerateComments) <<
+      endl <<
+
     idtr << setw(fieldWidth) << "generateGlobal" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateGlobal) <<
+      booleanAsString (gLilypondOptions->fGenerateGlobal) <<
       endl <<
     
     idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
-      booleanAsString (gLpsrOptions->fTupletsOnALine) <<
+      booleanAsString (gLilypondOptions->fTupletsOnALine) <<
       endl <<
     
     idtr << setw(fieldWidth) << "repeatBrackets" << " : " <<
-      booleanAsString (gLpsrOptions->fRepeatBrackets) <<
+      booleanAsString (gLilypondOptions->fRepeatBrackets) <<
       endl <<
     
     idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
-      gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+      gLilypondOptions->fDelayedOrnamentFractionNumerator <<
       endl <<
 
     idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
-      gLpsrOptions->fDelayedOrnamentFractionDenominator <<
+      gLilypondOptions->fDelayedOrnamentFractionDenominator <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
-      booleanAsString (gLpsrOptions->fDontGenerateLilyPondCode) <<
+      booleanAsString (gLilypondOptions->fDontGenerateLilyPondCode) <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
-      booleanAsString (gLpsrOptions->fDontGenerateLilyPondLyrics) <<
+      booleanAsString (gLilypondOptions->fDontGenerateLilyPondLyrics) <<
       endl <<
 
     idtr << setw(fieldWidth) << "generateLilyPondCompileDate" << " : " <<
-      booleanAsString (gLpsrOptions->fGenerateLilyPondCompileDate) <<
+      booleanAsString (gLilypondOptions->fGenerateLilyPondCompileDate) <<
       endl;
 
   idtr--;
   
-
-/* JMI
-    idtr << setw(fieldWidth) << "keepStaffSize" << " : " <<
-      booleanAsString (gLpsrOptions->fKeepStaffSize) <<
-      endl <<
-    */
-
-
-    //     bool                          fGenerateMasterVoices; // JMI
 
   idtr--;
 }
@@ -3813,8 +3853,8 @@ lpsrScoreBlock::lpsrScoreBlock (
   fScoreBlockMidi =
     msrMidi::create (
       inputLineNumber,
-      gLpsrOptions->fMidiTempoDuration,
-      gLpsrOptions->fMidiTempoPerSecond);
+      gLilypondOptions->fMidiTempoDuration,
+      gLilypondOptions->fMidiTempoPerSecond);
 }
 
 lpsrScoreBlock::~lpsrScoreBlock() {}
@@ -4118,7 +4158,7 @@ lpsrScore::lpsrScore (
   {
   lpsrLilypondVarValAssoc::lpsrCommentedKind
     commentedKind =
-      gLpsrOptions->fDontKeepLineBreaks
+      gLilypondOptions->fDontKeepLineBreaks
         ? lpsrLilypondVarValAssoc::kCommented
         : lpsrLilypondVarValAssoc::kUncommented;
 
@@ -4140,7 +4180,7 @@ lpsrScore::lpsrScore (
   {
   lpsrLilypondVarValAssoc::lpsrCommentedKind
     commentedKind =
-      gLpsrOptions->fDontKeepLineBreaks
+      gLilypondOptions->fDontKeepLineBreaks
         ? lpsrLilypondVarValAssoc::kUncommented
         : lpsrLilypondVarValAssoc::kCommented;
 
@@ -4158,7 +4198,7 @@ lpsrScore::lpsrScore (
       lpsrLilypondVarValAssoc::kWithEndl);
   }
 
-  if (gLpsrOptions->fGenerateGlobal) {
+  if (gLilypondOptions->fGenerateGlobal) {
     // create the 'global' assoc
     fGlobalAssoc =
     lpsrLilypondVarValAssoc::create (
