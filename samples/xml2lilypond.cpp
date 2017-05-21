@@ -1902,7 +1902,7 @@ R"(
 
         if (displayMsrSummaryPresent) {
           gMsrOptions->fDisplayMsrSummary = true;
-          gLpsrOptions->fDontGenerateLilyPondCode = true;
+          gLilypondOptions->fDontGenerateLilyPondCode = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _DISPLAY_MSR_SUMMARY_LONG_NAME_ " ";
@@ -2279,7 +2279,7 @@ R"(
         // --------------------------------------
 
         if (numericaltimePresent) {
-          gLpsrOptions->fGenerateNumericalTime = true;
+          gLilypondOptions->fGenerateNumericalTime = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NUMERICAL_TIME_LONG_NAME_ " ";
@@ -2293,7 +2293,7 @@ R"(
         // --------------------------------------
         
         if (absolutePresent) {
-          gLpsrOptions->fGenerateAbsoluteOctaves = true;
+          gLilypondOptions->fGenerateAbsoluteOctaves = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _ABSOLUTE_LONG_NAME_ " ";
@@ -2304,7 +2304,7 @@ R"(
         }
 
         if (stemsPresent) {
-          gLpsrOptions->fGenerateStems = true;
+          gLilypondOptions->fGenerateStems = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _STEMS_LONG_NAME_ " ";
@@ -2315,7 +2315,7 @@ R"(
         }
         
         if (noAutoBeamingPresent) {
-          gLpsrOptions->fNoAutoBeaming = true;
+          gLilypondOptions->fNoAutoBeaming = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NO_AUTO_BEAMING_LONG_NAME_ " ";
@@ -2326,7 +2326,7 @@ R"(
         }
 
         if (romanStringNumbersPresent) {
-          gLpsrOptions->fRomanStringNumbers = true;
+          gLilypondOptions->fRomanStringNumbers = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _ROMAN_STRING_NUMBERS_LONG_NAME_ " ";
@@ -2337,7 +2337,7 @@ R"(
         }
 
        if (avoidOpenStringPresent) {
-          gLpsrOptions->fAvoidOpenString = true;
+          gLilypondOptions->fAvoidOpenString = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _AVOID_OPEN_STRINGS_LONG_NAME_ " ";
@@ -2349,7 +2349,7 @@ R"(
 
          if (accidentalStylePresent) {
           // optarg contains the accidental style name
-          if (! gLpsrOptions->setAccidentalStyle (optarg)) {
+          if (! gLilypondOptions->setAccidentalStyle (optarg)) {
             stringstream s;
   
             s <<
@@ -2385,7 +2385,7 @@ R"(
         }
 
         if (noteInputLineNumbersPresent) {
-          gLpsrOptions->fGenerateInputLineNumbers = true;
+          gLilypondOptions->fGenerateInputLineNumbers = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ " ";
@@ -2399,7 +2399,7 @@ R"(
         // --------------------------------------
         
         if (showAllBarNumbersPresent) {
-          gLpsrOptions->fShowAllBarNumbers = true;
+          gLilypondOptions->fShowAllBarNumbers = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _SHOW_ALL_BAR_NUMBERS_LONG_NAME_ " ";
@@ -2410,7 +2410,7 @@ R"(
         }
 
         if (compressMultiMeasureRestsPresent) {
-          gLpsrOptions->fCompressMultiMeasureRests = true;
+          gLilypondOptions->fCompressMultiMeasureRests = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_ " ";
@@ -2424,7 +2424,7 @@ R"(
         // --------------------------------------
         
         if (dontKeepLineBreaksPresent) {
-          gLpsrOptions->fDontKeepLineBreaks = true;
+          gLilypondOptions->fDontKeepLineBreaks = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _DONT_KEEP_LINE_BREAKS_LONG_NAME_ " ";
@@ -2435,7 +2435,7 @@ R"(
         }
 
         if (breakLinesAtIncompleteRightMeasuresPresent) {
-          gLpsrOptions->fBreakLinesAtIncompleteRightMeasures = true;
+          gLilypondOptions->fBreakLinesAtIncompleteRightMeasures = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_ " ";
@@ -2446,8 +2446,8 @@ R"(
         }
 
         if (separatorLineEveryNMeasuresPresent) {
-          gLpsrOptions->fSeparatorLineEveryNMeasures = true;
-          gLpsrOptions->fSeparatorLineEveryNMeasuresValue =
+          gLilypondOptions->fSeparatorLineEveryNMeasures = true;
+          gLilypondOptions->fSeparatorLineEveryNMeasuresValue =
             atoi (optarg);
 
           {
@@ -2479,7 +2479,7 @@ R"(
         // --------------------------------------
         
         if (modernTabPresent) {
-          gLpsrOptions->fModernTab = true;
+          gLilypondOptions->fModernTab = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _MODERN_TAB_LONG_NAME_ " ";
@@ -2538,20 +2538,20 @@ R"(
             optionError (s.str());
           }
           
-          gLpsrOptions->fMidiTempoDuration =  sm [1];
+          gLilypondOptions->fMidiTempoDuration =  sm [1];
 
           {
             stringstream s;
             s << sm [2];
-            s >> gLpsrOptions->fMidiTempoPerSecond;
+            s >> gLilypondOptions->fMidiTempoPerSecond;
           }
           /*
           cerr <<
-            "gLpsrOptions->fMidiTempoDuration = " <<
-            gLpsrOptions->fMidiTempoDuration <<
+            "gLilypondOptions->fMidiTempoDuration = " <<
+            gLilypondOptions->fMidiTempoDuration <<
             endl <<
-            "gLpsrOptions->fMidiTempoPerSecond = " <<
-            gLpsrOptions->fMidiTempoPerSecond <<
+            "gLilypondOptions->fMidiTempoPerSecond = " <<
+            gLilypondOptions->fMidiTempoPerSecond <<
             endl;
           */
 
@@ -2581,7 +2581,7 @@ R"(
         }
 
         if (dontGenerateMidiCommandPresent) {
-          gLpsrOptions->fDontGenerateMidiCommand = true;
+          gLilypondOptions->fDontGenerateMidiCommand = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NO_MIDI_LONG_NAME_ " ";
@@ -2595,7 +2595,7 @@ R"(
         // --------------------------------------
         
         if (commentsPresent) {
-          gLpsrOptions->fGenerateComments = true;
+          gLilypondOptions->fGenerateComments = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _COMMENTS_LONG_NAME_ " ";
@@ -2606,7 +2606,7 @@ R"(
         }
 
         if (generateGlobalPresent) {
-          gLpsrOptions->fGenerateGlobal = true;
+          gLilypondOptions->fGenerateGlobal = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _GENERATE_GLOBAL_LONG_NAME_ " ";
@@ -2617,7 +2617,7 @@ R"(
         }
 
         if (tupletsOnALinePresent) {
-          gLpsrOptions->fTupletsOnALine = true;
+          gLilypondOptions->fTupletsOnALine = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _TUPLETS_ON_A_LINE_LONG_NAME_ " ";
@@ -2628,7 +2628,7 @@ R"(
         }
 
         if (repeatBracketsPresent) {
-          gLpsrOptions->fRepeatBrackets = true;
+          gLilypondOptions->fRepeatBrackets = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _REPEAT_BRACKETS_LONG_NAME_ " ";
@@ -2687,20 +2687,20 @@ R"(
           {
             stringstream s;
             s << sm [1];
-            s >> gLpsrOptions->fDelayedOrnamentFractionNumerator;
+            s >> gLilypondOptions->fDelayedOrnamentFractionNumerator;
           }
           {
             stringstream s;
             s << sm [2];
-            s >> gLpsrOptions->fDelayedOrnamentFractionDenominator;
+            s >> gLilypondOptions->fDelayedOrnamentFractionDenominator;
           }
           /*
           cerr << JMI
-            "gLpsrOptions->fDelayedOrnamentFractionNumerator = " <<
-            gLpsrOptions->fDelayedOrnamentFractionNumerator <<
+            "gLilypondOptions->fDelayedOrnamentFractionNumerator = " <<
+            gLilypondOptions->fDelayedOrnamentFractionNumerator <<
             endl <<
-            "gLpsrOptions->fDelayedOrnamentFractionDenominator = " <<
-            gLpsrOptions->fDelayedOrnamentFractionDenominator <<
+            "gLilypondOptions->fDelayedOrnamentFractionDenominator = " <<
+            gLilypondOptions->fDelayedOrnamentFractionDenominator <<
             endl;
           */
 
@@ -2721,7 +2721,7 @@ R"(
         }
 
         if (displayMusicPresent) {
-          gLpsrOptions->fDisplayMusic = true;
+          gLilypondOptions->fDisplayMusic = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _DISPLAY_MUSIC_LONG_NAME_ " ";
@@ -2732,7 +2732,7 @@ R"(
         }
 
         if (dontGenerateLilyPondCodePresent) {
-          gLpsrOptions->fDontGenerateLilyPondCode = true;
+          gLilypondOptions->fDontGenerateLilyPondCode = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_ " ";
@@ -2743,7 +2743,7 @@ R"(
         }
 
         if (dontGenerateLilyPondLyricsPresent) {
-          gLpsrOptions->fDontGenerateLilyPondLyrics = true;
+          gLilypondOptions->fDontGenerateLilyPondLyrics = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_ " ";
@@ -2754,7 +2754,7 @@ R"(
         }
         
         if (generateLilyPondCompileDatePresent) {
-          gLpsrOptions->fGenerateLilyPondCompileDate = true;
+          gLilypondOptions->fGenerateLilyPondCompileDate = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
@@ -3065,7 +3065,7 @@ int main (int argc, char *argv[])
 
   S_lpsrScore lpScore;
         
-  if (! gLpsrOptions->fDontGenerateLilyPondCode) {
+  if (! gLilypondOptions->fDontGenerateLilyPondCode) {
     if (outputFileName.size()) // ??? JMI
       lpScore =
         msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
@@ -3085,7 +3085,7 @@ int main (int argc, char *argv[])
   // generate LilyPond code from LPSR
   // ------------------------------------------------------
 
-  if (! gLpsrOptions->fDontGenerateLilyPondCode) {
+  if (! gLilypondOptions->fDontGenerateLilyPondCode) {
     if (outputFileName.size ())
       lpsr2LilyPond (
         lpScore, gMsrOptions, gLpsrOptions, outStream);
