@@ -7,6 +7,10 @@ before_install:
   - sudo apt-get -qq update
 
 branches:
+  except:
+  - lilypond
+
+branches:
   only:
   - dev
   - master
