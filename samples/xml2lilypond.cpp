@@ -2892,8 +2892,18 @@ void printOptions ()
     printLpsrOptionsValues (fieldWidth);
   cerr <<
     endl;
+        
+  // LilyPond options
+  // ------------
+
+  // print the chosen LilyPond options
+  gLilypondOptions->
+    printLilypondOptionsValues (fieldWidth);
+  cerr <<
+    endl;
 
   // acknoledge end of command line analysis
+  // ------------
   if (gGeneralOptions->fTraceGeneral)
     cerr <<
       endl <<
@@ -2927,7 +2937,7 @@ int main (int argc, char *argv[])
   initializePitchesLanguages ();
   initializeLpsrChordsLanguages ();
   
-  // analyze the command line options
+  // create the options variables
   // ------------------------------------------------------
 
   gGeneralOptionsUserChoices = msrGeneralOptions::create ();
@@ -2942,6 +2952,12 @@ int main (int argc, char *argv[])
   gLpsrOptions = lpsrOptions::create();
   assert(gLpsrOptions != 0);
   
+  gLilypondOptions = lilypondOptions::create();
+  assert(gLilypondOptions != 0);
+  
+  // analyze the command line options
+  // ------------------------------------------------------
+
   string    inputFileName;
   string    outputFileName;
   
