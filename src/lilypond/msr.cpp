@@ -3910,6 +3910,10 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
       "Creating a bare clone of a double tremolo" <<
       endl;
   
+  msrAssert(
+    clonedVoice != 0,
+    "clonedVoice is null");
+    
   S_msrDoubleTremolo
     clone =
       msrDoubleTremolo::create (
@@ -5197,6 +5201,10 @@ S_msrGracenotes msrGracenotes::createGracenotesBareClone (
       endl;
   }
   
+  msrAssert(
+    voiceClone != 0,
+    "voiceClone is null");
+    
   S_msrGracenotes
     clone =
       msrGracenotes::create (
@@ -5426,6 +5434,14 @@ S_msrAftergracenotes msrAftergracenotes::createAftergracenotesBareClone (
       endl;
   }
 
+  msrAssert(
+    noteClone != 0,
+    "noteClone is null");
+    
+  msrAssert(
+    voiceClone != 0,
+    "voiceClone is null");
+    
   /* JMI ???
   // set after grace note's direct part uplink
   o->fAftergracenotesDirectPartUplink =
@@ -5874,6 +5890,10 @@ S_msrNote msrNote::createNoteBareClone (
       endl;
   }
 
+  msrAssert(
+    clonedPart != 0,
+    "clonedPart is null");
+    
   S_msrNote
     clone =
       msrNote::create (
@@ -7584,6 +7604,10 @@ S_msrChord msrChord::createChordBareClone (
       endl;
   }
 
+  msrAssert(
+    partClone != 0,
+    "partClone is null");
+    
   S_msrChord
     clone =
       msrChord::create (
@@ -10898,7 +10922,7 @@ msrSyllable::~msrSyllable()
 {}
 
 S_msrSyllable msrSyllable::createSyllableBareClone (
-  S_msrPart part)
+  S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -10908,11 +10932,15 @@ S_msrSyllable msrSyllable::createSyllableBareClone (
       endl;
   }
 
+  msrAssert(
+    partClone != 0,
+    "partClone is null");
+    
   S_msrSyllable
     clone =
       msrSyllable::create (
         fInputLineNumber,
-        part,
+        partClone,
         fSyllableKind,
         fSyllableText,
         fSyllableExtendKind,
@@ -11390,6 +11418,10 @@ S_msrStanza msrStanza::createStanzaBareClone (
       endl;
   }
 
+  msrAssert(
+    clonedVoice != 0,
+    "clonedVoice is null");
+    
   S_msrStanza
     clone =
       msrStanza::create (
@@ -11942,6 +11974,10 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
       endl;
   }
 
+  msrAssert(
+    clonedPart != 0,
+    "clonedPart is null");
+    
   S_msrHarmony
     clone =
       msrHarmony::create (
@@ -14645,6 +14681,10 @@ S_msrSegment msrSegment::createSegmentBareClone (
       endl;
   }
 
+  msrAssert(
+    clonedVoice != 0,
+    "clonedVoice is null");
+    
   S_msrSegment
     clone =
       msrSegment::create (
@@ -15697,6 +15737,10 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
       repeatendingAsString () <<
       endl;
   
+  msrAssert(
+    clonedRepeat != 0,
+    "clonedRepeat is null");
+    
   S_msrRepeatending
     clone =
       msrRepeatending::create (
@@ -15847,6 +15891,10 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
       "Creating a bare clone of a repeat" <<
       endl;
   
+  msrAssert(
+    clonedVoice != 0,
+    "clonedVoice is null");
+    
   S_msrRepeat
     clone =
       msrRepeat::create (
@@ -16060,6 +16108,14 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
       "Creating a bare clone of a repeat" <<
       endl;
   
+  msrAssert(
+    repeatedMeasureClone != 0,
+    "repeatedMeasureClone is null");
+    
+  msrAssert(
+    clonedVoice != 0,
+    "clonedVoice is null");
+    
   S_msrMeasureRepeat
     clone =
       msrMeasureRepeat::create (
@@ -16445,6 +16501,10 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
       endl;
   }
 
+  msrAssert(
+    clonedStaff != 0,
+    "clonedStaff is null");
+    
   S_msrVoice
     clone =
       msrVoice::create (
@@ -18416,6 +18476,10 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
       endl;
   }
   
+  msrAssert(
+    clonedPart != 0,
+    "clonedPart is null");
+    
   S_msrStaff
     clone =
       msrStaff::create (
@@ -19440,6 +19504,10 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
       endl;
   }
 
+  msrAssert(
+    clonedPartgroup != 0,
+    "clonedPartgroup is null");
+    
   S_msrPart
     clone =
       msrPart::create (
@@ -20849,6 +20917,10 @@ S_msrPartgroup msrPartgroup::createPartgroupBareClone (
       getPartgroupCombinedName () <<
       endl;
 
+  msrAssert(
+    clonedPartgroup != 0,
+    "clonedPartgroup is null");
+    
   S_msrPartgroup
     clone =
       msrPartgroup::create (

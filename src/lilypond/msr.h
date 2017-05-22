@@ -3215,7 +3215,7 @@ class EXP msrSyllable : public msrElement
       int                   divisions,
       S_msrStanza           syllableStanzaUplink);
 
-    SMARTP<msrSyllable> createSyllableBareClone (S_msrPart part);
+    SMARTP<msrSyllable> createSyllableBareClone (S_msrPart partClone);
 
   protected:
 
