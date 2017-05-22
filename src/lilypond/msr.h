@@ -6444,6 +6444,9 @@ class EXP msrVoice : public msrElement
 
     void                  createAndAppendRepeatToVoice (int inputLineNumber);
     
+    void                  createPercentFromItsFirstMeasureInVoice (
+                            int inputLineNumber);
+    
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
@@ -6826,6 +6829,9 @@ class EXP msrStaff : public msrElement
     
     void                  createAndAppendRepeatToStaff (int inputLineNumber);
     
+    void                  createPercentFromItsFirstMeasureInStaff (
+                            int inputLineNumber);
+    
     void                  appendRepeatCloneToStaff (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
@@ -7125,6 +7131,9 @@ class EXP msrPart : public msrElement
                             S_msrRepeatending repeatendingCLone);
 
 //    void            appendRepeatendingToPart (int inputLineNumber);
+
+    void                  createPercentFromItsFirstMeasureInPart (
+                            int inputLineNumber);
 
     void                  appendBarlineToPart (S_msrBarline barline);
               

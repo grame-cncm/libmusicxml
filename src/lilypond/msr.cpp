@@ -17225,6 +17225,78 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
   } // switch
 }
 
+void msrVoice::createPercentFromItsFirstMeasureInVoice (
+  int inputLineNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        // create a repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Creating a percent from it's first measure in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+      
+        S_msrRepeat
+          repeat =
+            msrRepeat::create (
+              inputLineNumber,
+              this);
+      
+        // set current last segment as the repeat common segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as repeat common segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        repeat->
+          setRepeatCommonSegment (
+            fVoiceLastSegment);
+          
+        // register repeat as the (new) current repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Registering repeat as the new current repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        msrAssert(
+          repeat != 0,
+          "repeat is null");
+          
+        fVoiceCurrentRepeat =
+          repeat;
+      
+        // append it to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          repeat);
+      
+        // create a new segment for the voice
+        if (gGeneralOptions->fTraceSegments)
+          cerr << idtr <<
+            "Creating a new last segment for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
+}
+
 void msrVoice::appendRepeatCloneToVoice (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
@@ -18567,6 +18639,25 @@ void msrStaff::appendRepeatendingToStaff (
       inputLineNumber,
       repeatendingNumber,
       repeatendingKind);
+  } // for
+}
+
+void msrStaff::createPercentFromItsFirstMeasureInStaff (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a percent from it's first measure in staff " << fStaffNumber <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->createPercentFromItsFirstMeasureInVoice (
+      inputLineNumber);
   } // for
 }
 
@@ -19950,6 +20041,18 @@ void msrPart::appendRepeatendingCloneToPart (
     i != fPartStavesMap.end();
     i++) {
     (*i).second->appendRepeatendingCloneToStaff (repeatendingCLone);
+  } // for
+}
+
+void msrPart::createPercentFromItsFirstMeasureInPart (
+  int inputLineNumber)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->createPercentFromItsFirstMeasureInStaff (
+      inputLineNumber);
   } // for
 }
 
