@@ -301,16 +301,16 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "traceLpsr" << " : " <<
-      booleanAsString (gLpsrOptions->fTraceLpsr) <<
+      booleanAsString (fTraceLpsr) <<
       endl <<
     
     idtr <<
       setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
-      booleanAsString (gLpsrOptions->fTraceLpsrVisitors) <<
+      booleanAsString (fTraceLpsrVisitors) <<
       endl <<
 
     idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
-      booleanAsString (gLpsrOptions->fDisplayLpsr) <<
+      booleanAsString (fDisplayLpsr) <<
       endl;
 
   idtr--;
@@ -326,13 +326,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "lpsrQuaterTonesPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
-        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
+        fLpsrQuatertonesPitchesLanguage) <<
         "\"" <<
       endl <<
 
     idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
       lpsrChordsLanguageAsString (
-        gLpsrOptions->fLpsrChordsLanguage) <<
+        fLpsrChordsLanguage) <<
         "\"" <<
       endl;  
 
@@ -895,35 +895,35 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "generateAbsoluteOctaves" << " : " <<
-      booleanAsString (gLilypondOptions->fGenerateAbsoluteOctaves) <<
+      booleanAsString (fGenerateAbsoluteOctaves) <<
       endl <<
     
     idtr << setw(fieldWidth) << "generateStems" << " : " <<
-      booleanAsString (gLilypondOptions->fGenerateStems) <<
+      booleanAsString (fGenerateStems) <<
       endl <<
 
     idtr << setw(fieldWidth) << "noAutoBeaming" << " : " <<
-      booleanAsString (gLilypondOptions->fNoAutoBeaming) <<
+      booleanAsString (fNoAutoBeaming) <<
       endl <<
 
     idtr << setw(fieldWidth) << "romanStringNumbers" << " : " <<
-      booleanAsString (gLilypondOptions->fRomanStringNumbers) <<
+      booleanAsString (fRomanStringNumbers) <<
       endl <<
       
     idtr << setw(fieldWidth) << "avoidOpenString" << " : " <<
-      booleanAsString (gLilypondOptions->fAvoidOpenString) <<
+      booleanAsString (fAvoidOpenString) <<
       endl <<
 
     idtr << setw(fieldWidth) << "accidentalStyle" << " : " <<
-      gLilypondOptions->fAccidentalStyle <<
+      fAccidentalStyle <<
       endl <<
     
     idtr << setw(fieldWidth) << "compressMultiMeasureRests" << " : " <<
-      booleanAsString (gLilypondOptions->fCompressMultiMeasureRests) <<
+      booleanAsString (fCompressMultiMeasureRests) <<
       endl <<
 
     idtr << setw(fieldWidth) << "generateInputLineNumbers" << " : " <<
-      booleanAsString (gLilypondOptions->fGenerateInputLineNumbers) <<
+      booleanAsString (fGenerateInputLineNumbers) <<
       endl;
 
   idtr--;
@@ -938,7 +938,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "showAllBarNumbers" << " : " <<
-      booleanAsString (gLilypondOptions->fShowAllBarNumbers) <<
+      booleanAsString (fShowAllBarNumbers) <<
       endl;
 
   idtr--;
@@ -953,19 +953,19 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "dontKeepLineBreaks" << " : " <<
-      booleanAsString (gLilypondOptions->fDontKeepLineBreaks) <<
+      booleanAsString (fDontKeepLineBreaks) <<
       endl <<
 
     idtr << setw(fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
-      booleanAsString (gLilypondOptions->fBreakLinesAtIncompleteRightMeasures) <<
+      booleanAsString (fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
     
     idtr << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
-      booleanAsString (gLilypondOptions->fSeparatorLineEveryNMeasures) <<
+      booleanAsString (fSeparatorLineEveryNMeasures) <<
       endl <<
 
     idtr << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
-      gLilypondOptions->fSeparatorLineEveryNMeasuresValue <<
+      fSeparatorLineEveryNMeasuresValue <<
       endl;
 
   idtr--;
@@ -980,7 +980,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "modernTab" << " : " <<
-      booleanAsString (gLilypondOptions->fModernTab) <<
+      booleanAsString (fModernTab) <<
       endl;
 
   idtr--;
@@ -995,15 +995,15 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "midiTempoDuration" << " : " <<
-      gLilypondOptions->fMidiTempoDuration <<
+      fMidiTempoDuration <<
       endl <<
 
     idtr << setw(fieldWidth) << "midiTempoPerSecond" << " : " <<
-      gLilypondOptions->fMidiTempoPerSecond <<
+      fMidiTempoPerSecond <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateMidiCommand" << " : " <<
-      booleanAsString (gLilypondOptions->fDontGenerateMidiCommand) <<
+      booleanAsString (fDontGenerateMidiCommand) <<
       endl;
 
   idtr--;
@@ -1018,39 +1018,39 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "generateComments" << " : " <<
-      booleanAsString (gLilypondOptions->fGenerateComments) <<
+      booleanAsString (fGenerateComments) <<
       endl <<
 
     idtr << setw(fieldWidth) << "generateGlobal" << " : " <<
-      booleanAsString (gLilypondOptions->fGenerateGlobal) <<
+      booleanAsString (fGenerateGlobal) <<
       endl <<
     
     idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
-      booleanAsString (gLilypondOptions->fTupletsOnALine) <<
+      booleanAsString (fTupletsOnALine) <<
       endl <<
     
     idtr << setw(fieldWidth) << "repeatBrackets" << " : " <<
-      booleanAsString (gLilypondOptions->fRepeatBrackets) <<
+      booleanAsString (fRepeatBrackets) <<
       endl <<
     
     idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
-      gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+      fDelayedOrnamentFractionNumerator <<
       endl <<
 
     idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
-      gLilypondOptions->fDelayedOrnamentFractionDenominator <<
+      fDelayedOrnamentFractionDenominator <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
-      booleanAsString (gLilypondOptions->fDontGenerateLilyPondCode) <<
+      booleanAsString (fDontGenerateLilyPondCode) <<
       endl <<
 
     idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
-      booleanAsString (gLilypondOptions->fDontGenerateLilyPondLyrics) <<
+      booleanAsString (fDontGenerateLilyPondLyrics) <<
       endl <<
 
     idtr << setw(fieldWidth) << "generateLilyPondCompileDate" << " : " <<
-      booleanAsString (gLilypondOptions->fGenerateLilyPondCompileDate) <<
+      booleanAsString (fGenerateLilyPondCompileDate) <<
       endl;
 
   idtr--;

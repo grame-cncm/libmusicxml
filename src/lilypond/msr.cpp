@@ -2368,20 +2368,20 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "traceMsr" << " : " <<
-      booleanAsString (gMsrOptions->fTraceMsr) <<
+      booleanAsString (fTraceMsr) <<
       endl <<
     
     idtr <<
       setw(fieldWidth) << "traceMsrVisitors" << " : " <<
-      booleanAsString (gMsrOptions->fTraceMsrVisitors) <<
+      booleanAsString (fTraceMsrVisitors) <<
       endl <<
 
     idtr << setw(fieldWidth) << "displayMsr" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMsr) <<
+      booleanAsString (fDisplayMsr) <<
       endl <<
 
     idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
-      booleanAsString (gMsrOptions->fDisplayMsrSummary) <<
+      booleanAsString (fDisplayMsrSummary) <<
       endl;    
 
   idtr--;
@@ -2398,7 +2398,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuatertonesPitchesLanguageAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage) <<
+        fMsrQuatertonesPitchesLanguage) <<
         "\"" <<
       endl;
 
@@ -2413,14 +2413,14 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   idtr++;
 
-  if (gMsrOptions->fPartsRenaming.empty ())
+  if (fPartsRenaming.empty ())
     cerr <<
       idtr << "none";
   else
     for (
       map<string, string>::const_iterator i =
-        gMsrOptions->fPartsRenaming.begin();
-      i != gMsrOptions->fPartsRenaming.end();
+        fPartsRenaming.begin();
+      i != fPartsRenaming.end();
       i++) {
         cerr <<
           "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
@@ -2442,11 +2442,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
-      booleanAsString (gMsrOptions->fCreateStaffRelativeVoiceNumbers) <<
+      booleanAsString (fCreateStaffRelativeVoiceNumbers) <<
       endl <<
     
     idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
-      booleanAsString (gMsrOptions->fKeepMasterVoices) <<
+      booleanAsString (fKeepMasterVoices) <<
       endl;
 
   idtr--;
@@ -2462,23 +2462,23 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   cerr <<    
     idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsDynamics) <<
+      booleanAsString (fDelayRestsDynamics) <<
       endl <<
       
     idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsWords) <<
+      booleanAsString (fDelayRestsWords) <<
       endl <<
       
     idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsSlurs) <<
+      booleanAsString (fDelayRestsSlurs) <<
       endl <<
       
     idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsLigatures) <<
+      booleanAsString (fDelayRestsLigatures) <<
       endl <<
       
     idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
-      booleanAsString (gMsrOptions->fDelayRestsWedges) <<
+      booleanAsString (fDelayRestsWedges) <<
       endl;
 
   idtr--;
@@ -2494,11 +2494,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fDontDisplayMsrStanzas) <<
+      booleanAsString (fDontDisplayMsrStanzas) <<
       endl <<
 
     idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
-      booleanAsString (gMsrOptions->fKeepMasterStanzas) <<
+      booleanAsString (fKeepMasterStanzas) <<
       endl;
 
   idtr--;
@@ -2514,7 +2514,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
-      booleanAsString (gMsrOptions->fKeepEmptyHarmoniesVoice) <<
+      booleanAsString (fKeepEmptyHarmoniesVoice) <<
       endl;
   
   idtr--;

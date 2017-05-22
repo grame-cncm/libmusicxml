@@ -655,12 +655,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "input source name" << " : " <<
-      gGeneralOptions->fInputSourceName <<
+      fInputSourceName <<
       endl <<
       
     idtr <<
       setw(fieldWidth) << "translation date" << " : " <<
-      gGeneralOptions->fTranslationDate <<
+      fTranslationDate <<
       endl;
 
   idtr--;
@@ -678,12 +678,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   cerr << left <<        
     idtr <<
       setw(fieldWidth) << "outputFileName" << " : \"" <<
-      gGeneralOptions->fOutputFileName <<
+      fOutputFileName <<
       "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) << "autoOutputFile" << " : " <<
-      booleanAsString (gGeneralOptions->fAutoOutputFile) <<
+      booleanAsString (fAutoOutputFile) <<
       endl;
 
   idtr--;
@@ -701,12 +701,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   cerr << left <<
     idtr <<
       setw(fieldWidth) << "traceGeneral" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceGeneral) <<
+      booleanAsString (fTraceGeneral) <<
        endl <<
        
     idtr <<
       setw(fieldWidth) << "traceDetailed" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceDetailed) <<
+      booleanAsString (fTraceDetailed) <<
      endl;
         
   idtr--;
@@ -724,7 +724,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   cerr <<
     idtr <<
       setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
-      booleanAsString (gGeneralOptions->fIgnoreMusicXMLErrors) <<
+      booleanAsString (fIgnoreMusicXMLErrors) <<
       endl;
 
   idtr--;
@@ -742,7 +742,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   cerr <<
     idtr <<
       setw(fieldWidth) << "displayCPUusage" << " : " <<
-      booleanAsString (gGeneralOptions->fDisplayCPUusage) <<
+      booleanAsString (fDisplayCPUusage) <<
       endl;
 
   idtr--;
@@ -761,116 +761,116 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     // divisions
     idtr <<
       setw(fieldWidth) << "traceDivisions" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceDivisions) <<
+      booleanAsString (fTraceDivisions) <<
       endl <<
         
     // part groups
     idtr <<
       setw(fieldWidth) << "tracePartgroups" << " : " <<
-      booleanAsString (gGeneralOptions->fTracePartgroups) <<
+      booleanAsString (fTracePartgroups) <<
       endl <<
       
     // parts
     idtr <<
       setw(fieldWidth) << "traceParts" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceParts) <<
+      booleanAsString (fTraceParts) <<
       endl <<
       
     // staves
     idtr <<
       setw(fieldWidth) << "traceStaves" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceStaves) <<
+      booleanAsString (fTraceStaves) <<
       endl <<
       
     // voices
     idtr <<
       setw(fieldWidth) << "traceVoices" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceVoices) <<
+      booleanAsString (fTraceVoices) <<
       endl <<
       
     // segments
     idtr <<
       setw(fieldWidth) << "traceSegments" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceSegments) <<
+      booleanAsString (fTraceSegments) <<
       endl <<
 
     // repeats
     idtr <<
       setw(fieldWidth) << "traceRepeats" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceRepeats) <<
+      booleanAsString (fTraceRepeats) <<
       endl <<
 
     // measures
     idtr <<
       setw(fieldWidth) << "traceMeasures" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceMeasures) <<
+      booleanAsString (fTraceMeasures) <<
       endl <<
       
     // notes
     idtr <<
       setw(fieldWidth) << "traceNotes" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceNotes) <<
+      booleanAsString (fTraceNotes) <<
       endl <<
 
     // technicals
     idtr <<
       setw(fieldWidth) << "traceTechnicals" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceTechnicals) <<
+      booleanAsString (fTraceTechnicals) <<
       endl <<
 
     // words
     idtr <<
       setw(fieldWidth) << "traceWords" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceWords) <<
+      booleanAsString (fTraceWords) <<
       endl <<
 
     // tremolos
     idtr <<
       setw(fieldWidth) << "traceTremolos" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceTremolos) <<
+      booleanAsString (fTraceTremolos) <<
       endl <<
 
     // chords
     idtr <<
       setw(fieldWidth) << "traceChords" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceChords) <<
+      booleanAsString (fTraceChords) <<
       endl <<
 
     // tuplets
     idtr <<
       setw(fieldWidth) << "traceTuplets" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceTuplets) <<
+      booleanAsString (fTraceTuplets) <<
       endl <<
 
     // grace notes
     idtr <<
       setw(fieldWidth) << "traceGracenotes" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceGracenotes) <<
+      booleanAsString (fTraceGracenotes) <<
       endl <<
 
     // lyrics
     idtr <<
       setw(fieldWidth) << "traceLyrics" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceLyrics) <<
+      booleanAsString (fTraceLyrics) <<
       endl <<
       
     // harmonies
     idtr <<
       setw(fieldWidth) << "traceHarmonies" << " : " <<
-      booleanAsString (gGeneralOptions->fTraceHarmonies) <<
+      booleanAsString (fTraceHarmonies) <<
       endl;
 
-  if (gGeneralOptions->fTraceDetailed) {
+  if (fTraceDetailed) {
     cerr << left <<
       "fTraceAllMeasureNumbersSet: ";
       
-    if (gGeneralOptions->fTraceAllMeasureNumbersSet.empty ())
+    if (fTraceAllMeasureNumbersSet.empty ())
       cerr << "none";
     else
       for (
         set<int>::const_iterator i =
-          gGeneralOptions->fTraceAllMeasureNumbersSet.begin();
-        i != gGeneralOptions->fTraceAllMeasureNumbersSet.end();
+          fTraceAllMeasureNumbersSet.begin();
+        i != fTraceAllMeasureNumbersSet.end();
         i++) {
           cerr << (*i) << " ";
       } // for
