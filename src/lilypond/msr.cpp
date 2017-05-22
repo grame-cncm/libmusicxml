@@ -12936,6 +12936,10 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
       "'" <<
       endl;
   
+  msrAssert(
+    clonedSegment != 0,
+    "clonedSegment is null");
+    
   S_msrMeasure
     clone =
       msrMeasure::create (
