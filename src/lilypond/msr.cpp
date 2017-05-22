@@ -15981,119 +15981,120 @@ void msrRepeat::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrPercent msrPercent::create (
+S_msrMeasureRepeat msrMeasureRepeat::create (
   int          inputLineNumber,
   S_msrVoice   voiceUplink)
 {
-  msrPercent* o =
-    new msrPercent (
+  msrMeasureRepeat* o =
+    new msrMeasureRepeat (
       inputLineNumber, voiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrPercent::msrPercent (
+msrMeasureRepeat::msrMeasureRepeat (
   int          inputLineNumber,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {  
-  fPercentVoiceUplink = voiceUplink;
+  fMeasureRepeatVoiceUplink = voiceUplink;
 }
 
-msrPercent::~msrPercent() {}
+msrMeasureRepeat::~msrMeasureRepeat() {}
 
-S_msrPercent msrPercent::createPercentBareClone (S_msrVoice clonedVoice)
+S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
+  S_msrVoice clonedVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Creating a bare clone of a repeat" <<
       endl;
   
-  S_msrPercent
+  S_msrMeasureRepeat
     clone =
-      msrPercent::create (
+      msrMeasureRepeat::create (
         fInputLineNumber,
         clonedVoice);
   
   return clone;
 }
 
-void msrPercent::setPercentSegment (
-  S_msrSegment percentSegment)
+void msrMeasureRepeat::setMeasureRepeatSegment (
+  S_msrSegment measureRepeatSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Setting percent segment containing " <<
+      "Setting measure repeat segment containing " <<
       singularOrPlural (
-        percentSegment->getSegmentMeasuresList ().size (),
+        measureRepeatSegment->getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
       
-  fPercentSegment = percentSegment;
+  fMeasureRepeatSegment = measureRepeatSegment;
 }
 
-void msrPercent::acceptIn (basevisitor* v) {
+void msrMeasureRepeat::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrPercent::acceptIn()" <<
+      "% ==> msrMeasureRepeat::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrPercent>*
+  if (visitor<S_msrMeasureRepeat>*
     p =
-      dynamic_cast<visitor<S_msrPercent>*> (v)) {
-        S_msrPercent elem = this;
+      dynamic_cast<visitor<S_msrMeasureRepeat>*> (v)) {
+        S_msrMeasureRepeat elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrPercent::visitStart()" <<
+            "% ==> Launching msrMeasureRepeat::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrPercent::acceptOut (basevisitor* v) {
+void msrMeasureRepeat::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrPercent::acceptOut()" <<
+      "% ==> msrMeasureRepeat::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrPercent>*
+  if (visitor<S_msrMeasureRepeat>*
     p =
-      dynamic_cast<visitor<S_msrPercent>*> (v)) {
-        S_msrPercent elem = this;
+      dynamic_cast<visitor<S_msrMeasureRepeat>*> (v)) {
+        S_msrMeasureRepeat elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrPercent::visitEnd()" <<
+            "% ==> Launching msrMeasureRepeat::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrPercent::browseData (basevisitor* v)
+void msrMeasureRepeat::browseData (basevisitor* v)
 {
-  if (fPercentSegment) {
+  if (fMeasureRepeatSegment) {
   // browse the common segment
     msrBrowser<msrSegment> browser (v);
-    browser.browse (*fPercentSegment);
+    browser.browse (*fMeasureRepeatSegment);
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrPercent& elt)
+ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrPercent::print (ostream& os)
+void msrMeasureRepeat::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "Percent" <<
+    idtr << "MeasureRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
-      fPercentSegment->
+      fMeasureRepeatSegment->
         getSegmentMeasuresList ().size () <<
         " measures)" <<
     endl;
@@ -16102,16 +16103,16 @@ void msrPercent::print (ostream& os)
   
   // print the repeat common segment
   os << idtr <<
-    "Percent segment: ";
-  if (! fPercentSegment)
+    "MeasureRepeat segment: ";
+  if (! fMeasureRepeatSegment)
     os << "none";
   os << endl;
 
-  if (fPercentSegment) {
+  if (fMeasureRepeatSegment) {
     idtr++;
     
     os <<
-      fPercentSegment;
+      fMeasureRepeatSegment;
 
     idtr--;
   }
@@ -17225,27 +17226,28 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
   } // switch
 }
 
-void msrVoice::createPercentFromItsFirstMeasureInVoice (
+void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
   int inputLineNumber)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       {
-        // create a repeat
+        // create a measure repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Creating a percent from it's first measure in voice \"" <<
+            "Creating a measure repeat from it's first measure in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
       
         S_msrRepeat
-          repeat =
-            msrRepeat::create (
+          measureRepeat =
+            msrMeasureRepeat::create (
               inputLineNumber,
               this);
-      
+
+      /*
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -17276,6 +17278,7 @@ void msrVoice::createPercentFromItsFirstMeasureInVoice (
         // append it to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
           repeat);
+          */
       
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments)
@@ -18642,12 +18645,13 @@ void msrStaff::appendRepeatendingToStaff (
   } // for
 }
 
-void msrStaff::createPercentFromItsFirstMeasureInStaff (
+void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a percent from it's first measure in staff " << fStaffNumber <<
+      "Creating a measure repeat from it's first measure in staff " <<
+      fStaffNumber <<
       " in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
@@ -18656,7 +18660,7 @@ void msrStaff::createPercentFromItsFirstMeasureInStaff (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->createPercentFromItsFirstMeasureInVoice (
+    (*i).second->createMeasureRepeatFromItsFirstMeasureInVoice (
       inputLineNumber);
   } // for
 }
@@ -20044,14 +20048,14 @@ void msrPart::appendRepeatendingCloneToPart (
   } // for
 }
 
-void msrPart::createPercentFromItsFirstMeasureInPart (
+void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
   int inputLineNumber)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->createPercentFromItsFirstMeasureInStaff (
+    (*i).second->createMeasureRepeatFromItsFirstMeasureInStaff (
       inputLineNumber);
   } // for
 }

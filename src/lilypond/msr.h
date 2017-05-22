@@ -6187,28 +6187,28 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrPercent : public msrElement
+class EXP msrMeasureRepeat : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrPercentKind {
-      kStartPercent, kStopPercent, 
-      k_NoPercent };
+    enum msrMeasureRepeatKind {
+      kStartMeasureRepeat, kStopMeasureRepeat, 
+      k_NoMeasureRepeat };
 
-    static string percentKindAsString (
-      msrPercentKind percentKind);
+    static string measureRepeatKindAsString (
+      msrMeasureRepeatKind measureRepeatKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrPercent> create (
+    static SMARTP<msrMeasureRepeat> create (
       int          inputLineNumber,
       S_msrVoice   voiceUplink);
     
-    SMARTP<msrPercent> createPercentBareClone (
+    SMARTP<msrMeasureRepeat> createMeasureRepeatBareClone (
       S_msrVoice clonedVoice);
 
   protected:
@@ -6216,25 +6216,26 @@ class EXP msrPercent : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPercent (
+    msrMeasureRepeat (
       int          inputLineNumber,
+      int          measureRepeatReplicasNumber,
       S_msrVoice   voiceUplink);
       
-    virtual ~msrPercent();
+    virtual ~msrMeasureRepeat();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setPercentSegment (
-                            S_msrSegment percentSegment);
+    void                  setMeasureRepeatSegment (
+                            S_msrSegment measureRepeatSegment);
                   
-    S_msrSegment          getPercentSegment () const
-                              { return fPercentSegment; }
+    S_msrSegment          getMeasureRepeatSegment () const
+                              { return fMeasureRepeatSegment; }
 
-    S_msrVoice            getPercentVoiceUplink () const
-                            { return fPercentVoiceUplink; }
+    S_msrVoice            getMeasureRepeatVoiceUplink () const
+                            { return fMeasureRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -6254,12 +6255,12 @@ class EXP msrPercent : public msrElement
 
   private:
 
-    S_msrSegment              fPercentSegment;
+    S_msrSegment              fMeasureRepeatSegment;
         
-    S_msrVoice                fPercentVoiceUplink;
+    S_msrVoice                fMeasureRepeatVoiceUplink;
 };
-typedef SMARTP<msrPercent> S_msrPercent;
-EXP ostream& operator<< (ostream& os, const S_msrPercent& elt);
+typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
+EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt);
 
 /*!
 \brief A msr voice representation.
@@ -6444,7 +6445,7 @@ class EXP msrVoice : public msrElement
 
     void                  createAndAppendRepeatToVoice (int inputLineNumber);
     
-    void                  createPercentFromItsFirstMeasureInVoice (
+    void                  createMeasureRepeatFromItsFirstMeasureInVoice (
                             int inputLineNumber);
     
     void                  appendRepeatCloneToVoice (
@@ -6829,7 +6830,7 @@ class EXP msrStaff : public msrElement
     
     void                  createAndAppendRepeatToStaff (int inputLineNumber);
     
-    void                  createPercentFromItsFirstMeasureInStaff (
+    void                  createMeasureRepeatFromItsFirstMeasureInStaff (
                             int inputLineNumber);
     
     void                  appendRepeatCloneToStaff (
@@ -7132,8 +7133,10 @@ class EXP msrPart : public msrElement
 
 //    void            appendRepeatendingToPart (int inputLineNumber);
 
-    void                  createPercentFromItsFirstMeasureInPart (
-                            int inputLineNumber);
+    void                  createMeasureRepeatFromItsFirstMeasureInPart (
+                            int inputLineNumber,
+                            int measureRepeatReplicasNumber,
+                            int measureRepeatSlashes);
 
     void                  appendBarlineToPart (S_msrBarline barline);
               
