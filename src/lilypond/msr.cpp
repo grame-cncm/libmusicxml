@@ -14657,110 +14657,6 @@ S_msrSegment msrSegment::createSegmentBareClone (
   return clone;
 }
 
-bool msrSegment::checkForIncompleteSegmentLastMeasure (
-  int                        inputLineNumber,
-  msrMeasure::msrMeasureKind measureKind)
-{
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Checking for incomplete last measure in segment '" <<
-      segmentAsString () <<
-      ", in voice \"" <<
-      fSegmentVoiceUplink->
-        getVoiceName () <<
-      "\"" <<
-      "', line " << inputLineNumber <<
-      endl;
-
-  // fetch segment last measure
-  S_msrMeasure
-    lastMeasure =
-      fSegmentMeasuresList.back ();
-
-  return
-    lastMeasure->
-      checkForIncompleteMeasure (
-        inputLineNumber,
-        measureKind);
-        
-/* JMI
-  // fetch its last measure position and length
-  int
-    lastMeasureNumber =
-      lastMeasure->
-        getMeasureNumber (),
-        
-    lastMeasurePosition =
-      lastMeasure->
-        getMeasurePosition (),
-      
-    lastMeasureLength =
-      lastMeasure->
-        getMeasureLength (),
-      
-    lastMeasureDivisionsPerFullMeasure =
-      lastMeasure->
-        getMeasureDivisionsPerFullMeasure ();
-        
- // JMI if (gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fDebug) {
-    idtr++;
-
-    cerr <<
-      idtr <<
-        setw(38) << "lastMeasureNumber" << " = " <<
-        lastMeasureNumber <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasureDivisionsPerFullMeasure" << " = " <<
-        lastMeasureDivisionsPerFullMeasure <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasurePosition" << " = " <<
-        lastMeasurePosition <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasureLength" << " = " <<
-        lastMeasureLength <<
-        endl;
-
-    idtr--;
-  }
-
-  bool lastMeasureIsIncomplete =
-    // is the last measure full? (positions start at 1)
-    lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure;
-
-  if (lastMeasureIsIncomplete) {    
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-          "Measure " << lastMeasureNumber <<
-          " of segment " << segmentAsString () <<
-          " in voice \"" <<
-          getSegmentVoiceUplink ()->getVoiceName () << "\"" <<
-          " is " <<
-          string(
-            lastMeasurePosition == 1
-              ? "incomplete"
-              : "empty") <<
-          ", line " << inputLineNumber <<
-          ": position = " << lastMeasurePosition <<
-          ", divisionsPerWholeMeasure = " <<
-          lastMeasureDivisionsPerFullMeasure <<
-        endl;
-    }
-    
-    // set measure kind
-    lastMeasure->
-      setMeasureKind (
-        measureKind);
-  }
-
-  return lastMeasureIsIncomplete;
-  */
-}
-
 void msrSegment::setSegmentMeasureNumber (
   int inputLineNumber,
   int measureNumber)
@@ -15480,6 +15376,141 @@ void msrSegment::removeNoteFromSegment (
       segmentAsString () <<
       " since it is empty");
   }
+}
+
+S_msrMeasure msrSegment::removeLastMeasureFromSegment (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Removing last measure from segment '" <<
+      fSegmentAbsoluteNumber <<
+      "'" <<
+      endl;
+
+  if (! fSegmentMeasuresList.size ()) {
+    stringstream s;
+
+    s <<
+      "cannot remove last measure from from segment '" <<
+      fSegmentAbsoluteNumber <<
+      "' since it is empty";
+
+    msrInternalError (
+      inputLineNumber, s.str());
+  }
+
+  S_msrMeasure
+    result =
+      fSegmentMeasuresList.back ();
+
+  fSegmentMeasuresList.pop_back ();
+  
+  return result;
+}
+
+bool msrSegment::checkForIncompleteSegmentLastMeasure (
+  int                        inputLineNumber,
+  msrMeasure::msrMeasureKind measureKind)
+{
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Checking for incomplete last measure in segment '" <<
+      segmentAsString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->
+        getVoiceName () <<
+      "\"" <<
+      "', line " << inputLineNumber <<
+      endl;
+
+  // fetch segment last measure
+  S_msrMeasure
+    lastMeasure =
+      fSegmentMeasuresList.back ();
+
+  return
+    lastMeasure->
+      checkForIncompleteMeasure (
+        inputLineNumber,
+        measureKind);
+        
+/* JMI
+  // fetch its last measure position and length
+  int
+    lastMeasureNumber =
+      lastMeasure->
+        getMeasureNumber (),
+        
+    lastMeasurePosition =
+      lastMeasure->
+        getMeasurePosition (),
+      
+    lastMeasureLength =
+      lastMeasure->
+        getMeasureLength (),
+      
+    lastMeasureDivisionsPerFullMeasure =
+      lastMeasure->
+        getMeasureDivisionsPerFullMeasure ();
+        
+ // JMI if (gGeneralOptions->fDebug) {
+  if (gGeneralOptions->fDebug) {
+    idtr++;
+
+    cerr <<
+      idtr <<
+        setw(38) << "lastMeasureNumber" << " = " <<
+        lastMeasureNumber <<
+        endl <<
+      idtr <<
+        setw(38) << "lastMeasureDivisionsPerFullMeasure" << " = " <<
+        lastMeasureDivisionsPerFullMeasure <<
+        endl <<
+      idtr <<
+        setw(38) << "lastMeasurePosition" << " = " <<
+        lastMeasurePosition <<
+        endl <<
+      idtr <<
+        setw(38) << "lastMeasureLength" << " = " <<
+        lastMeasureLength <<
+        endl;
+
+    idtr--;
+  }
+
+  bool lastMeasureIsIncomplete =
+    // is the last measure full? (positions start at 1)
+    lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure;
+
+  if (lastMeasureIsIncomplete) {    
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr <<
+        idtr <<
+          "Measure " << lastMeasureNumber <<
+          " of segment " << segmentAsString () <<
+          " in voice \"" <<
+          getSegmentVoiceUplink ()->getVoiceName () << "\"" <<
+          " is " <<
+          string(
+            lastMeasurePosition == 1
+              ? "incomplete"
+              : "empty") <<
+          ", line " << inputLineNumber <<
+          ": position = " << lastMeasurePosition <<
+          ", divisionsPerWholeMeasure = " <<
+          lastMeasureDivisionsPerFullMeasure <<
+        endl;
+    }
+    
+    // set measure kind
+    lastMeasure->
+      setMeasureKind (
+        measureKind);
+  }
+
+  return lastMeasureIsIncomplete;
+  */
 }
 
 void msrSegment::acceptIn (basevisitor* v) {
@@ -17278,6 +17309,9 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
               measureRepeatSlashes,
               this);
 
+        // grab the last measure from the voice
+
+        
       /*
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
@@ -17568,7 +17602,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 S_msrElement msrVoice::removeLastElementFromVoice (  // JMI
   int inputLineNumber)
 {
-  if (gGeneralOptions->fDebugDebug)
+  if (gGeneralOptions->fTraceGeneral)
     cerr << idtr <<
       "Removing last note" <<
       " from voice " << getVoiceName () <<
@@ -17596,6 +17630,21 @@ void msrVoice::removeNoteFromVoice (
     removeNoteFromSegment (
       inputLineNumber,
       note);
+}
+
+S_msrMeasure msrVoice::removeLastMeasureFromVoice (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Removing last measure from voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+  
+  return
+    fVoiceLastSegment->
+      removeLastMeasureFromSegment (inputLineNumber);
 }
 
 void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)

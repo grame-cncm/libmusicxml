@@ -2814,14 +2814,12 @@ class EXP msrSegment : public msrElement
     void                  prependBarlineToSegment (
                             S_msrBarline barline);
 
-/* JMI
-    S_msrElement          removeLastElementFromSegment (
-                            int inputLineNumber);
-*/
-
     void                  removeNoteFromSegment (
                             int       inputLineNumber,
                             S_msrNote note);
+
+    S_msrMeasure          removeLastMeasureFromSegment (
+                            int inputLineNumber);
 
     bool                  checkForIncompleteSegmentLastMeasure (
                             int                        inputLineNumber,
@@ -6492,14 +6490,12 @@ class EXP msrVoice : public msrElement
                             // for other types of elements not known
                             // in this header file, such as LPSR elements
 
-/* JMI
-    S_msrElement          removeLastElementFromVoice (
-                            int inputLineNumber);
-*/
-
     void                  removeNoteFromVoice (
                             int       inputLineNumber,
                             S_msrNote note);
+
+    S_msrMeasure          removeLastMeasureFromVoice (
+                            int inputLineNumber);
 
     S_msrStanza           addStanzaToVoiceByItsNumber (
                             int inputLineNumber,
