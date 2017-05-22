@@ -6466,7 +6466,10 @@ class EXP msrVoice : public msrElement
                             int inputLineNumber,
                             int measureRepeatReplicasNumber,
                             int measureRepeatSlashes);
-    
+
+    void                  appendPendingMeasureRepeatToVoice (
+                            int inputLineNumber);
+                            
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
@@ -6584,6 +6587,11 @@ class EXP msrVoice : public msrElement
     // fVoiceCurrentRepeat is null or
     // the last msrRepeat in fVoiceInitialRepeatsAndSegments
     S_msrRepeat               fVoiceCurrentRepeat;
+
+    // fVoicePendingMeasureRepeat is null
+    // or the last msrMeasureRepeat created with its repeated measure,
+    // but not yet appended to the voice
+    S_msrMeasureRepeat        fVoicePendingMeasureRepeat;
 
     // the stanza master, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
@@ -6852,6 +6860,9 @@ class EXP msrStaff : public msrElement
                             int measureRepeatReplicasNumber,
                             int measureRepeatSlashes);
     
+    void                  appendPendingMeasureRepeatToStaff (
+                            int inputLineNumber);
+                            
     void                  appendRepeatCloneToStaff (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
@@ -7157,6 +7168,9 @@ class EXP msrPart : public msrElement
                             int measureRepeatReplicasNumber,
                             int measureRepeatSlashes);
 
+    void                  appendPendingMeasureRepeatToPart (
+                            int inputLineNumber);
+                            
     void                  appendBarlineToPart (S_msrBarline barline);
               
     S_msrStaff            addStaffToPartByItsNumber (

@@ -17314,15 +17314,24 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
-        // create the measure repeat
-        S_msrMeasureRepeat
-          measureRepeat =
-            msrMeasureRepeat::create (
-              inputLineNumber,
-              measureRepeatReplicasNumber,
-              measureRepeatSlashes,
-              voiceLastMeasure,
-              this);
+        // create the measure repeat and keep it pending
+        if (fVoicePendingMeasureRepeat) {
+          stringstream s;
+
+          s <<
+            "attempting to create a measure repeat while another one is pending";
+
+          msrInternalError (
+            inputLineNumber, s.str());
+        }
+        
+        fVoicePendingMeasureRepeat =
+          msrMeasureRepeat::create (
+            inputLineNumber,
+            measureRepeatReplicasNumber,
+            measureRepeatSlashes,
+            voiceLastMeasure,
+            this);
 
         // create a new segment to collect the neasure repeat replicas
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -17334,7 +17343,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         createNewLastSegmentForVoice (
           inputLineNumber);
 
-      /*
+      /* JMI
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -17367,6 +17376,67 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           repeat);
           */
       
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
+}
+
+void msrVoice::appendPendingMeasureRepeatToVoice (
+  int inputLineNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        // create a measure repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Creating a measure repeat from it's first measure in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+      
+        // grab the last measure from the voice
+        S_msrMeasure
+          voiceLastMeasure =
+            removeLastMeasureFromVoice (
+              inputLineNumber);
+
+        // create the measure repeat and keep it pending
+        if (! fVoicePendingMeasureRepeat) {
+          stringstream s;
+
+          s <<
+            "attempting to append a pending measure repeat which doesn't exist";
+
+          msrInternalError (
+            inputLineNumber, s.str());
+        }
+        
+        // set current last segment as the measure repeat replicas segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as measure repeat replicas segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        fVoicePendingMeasureRepeat->
+          setMeasureRepeatReplicasSegment (
+            fVoiceLastSegment);
+                
+        // append pending measure repeat to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          fVoicePendingMeasureRepeat);
+
+        // forget about this pending measure repeat
+        fVoicePendingMeasureRepeat = 0;
       }
       break;
       
@@ -18760,6 +18830,27 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
         inputLineNumber,
         measureRepeatReplicasNumber,
         measureRepeatSlashes);
+  } // for
+}
+
+void msrStaff::appendPendingMeasureRepeatToStaff (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending the pending measure repeat in staff " <<
+      fStaffNumber <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendPendingMeasureRepeatToVoice (
+        inputLineNumber);
   } // for
 }
 
@@ -20160,6 +20251,19 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
         inputLineNumber,
         measureRepeatReplicasNumber,
         measureRepeatSlashes);
+  } // for
+}
+
+void msrPart::appendPendingMeasureRepeatToPart (
+  int inputLineNumber)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      appendPendingMeasureRepeatToStaff (
+        inputLineNumber);
   } // for
 }
 
