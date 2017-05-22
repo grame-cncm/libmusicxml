@@ -16016,12 +16016,14 @@ S_msrMeasureRepeat msrMeasureRepeat::create (
   int          inputLineNumber,
   int          measureRepeatReplicasNumber,
   int          measureRepeatSlashesNumber,
+  S_msrMeasure repeatedMeasure,
   S_msrVoice   voiceUplink)
 {
   msrMeasureRepeat* o =
     new msrMeasureRepeat (
       inputLineNumber,
       measureRepeatReplicasNumber, measureRepeatSlashesNumber,
+      repeatedMeasure,
       voiceUplink);
   assert(o!=0);
   return o;
@@ -16031,19 +16033,23 @@ msrMeasureRepeat::msrMeasureRepeat (
   int          inputLineNumber,
   int          measureRepeatReplicasNumber,
   int          measureRepeatSlashesNumber,
+  S_msrMeasure repeatedMeasure,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureRepeatReplicasNumber = measureRepeatReplicasNumber;
   fMeasureRepeatSlashesNumber  = measureRepeatSlashesNumber;
 
+  fMeasureRepeatRepeatedMeasure = repeatedMeasure;
+  
   fMeasureRepeatVoiceUplink = voiceUplink;
 }
 
 msrMeasureRepeat::~msrMeasureRepeat() {}
 
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
-  S_msrVoice clonedVoice)
+  S_msrMeasure repeatedMeasureClone,
+  S_msrVoice   clonedVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -16056,6 +16062,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
         fInputLineNumber,
         fMeasureRepeatReplicasNumber,
         fMeasureRepeatSlashesNumber,
+        repeatedMeasureClone,
         clonedVoice);
   
   return clone;
@@ -17265,7 +17272,7 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
           repeat);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "Creating a new last segment for voice \"" <<
             fVoiceName << "\"" <<
@@ -17301,17 +17308,32 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             ", line " << inputLineNumber <<
             endl;
       
+        // grab the last measure from the voice
+        S_msrMeasure
+          voiceLastMeasure =
+            removeLastMeasureFromVoice (
+              inputLineNumber);
+
+        // create the measure repeat
         S_msrMeasureRepeat
           measureRepeat =
             msrMeasureRepeat::create (
               inputLineNumber,
               measureRepeatReplicasNumber,
               measureRepeatSlashes,
+              voiceLastMeasure,
               this);
 
-        // grab the last measure from the voice
+        // create a new segment to collect the neasure repeat replicas
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "Creating a new last segment for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentForVoice (
+          inputLineNumber);
 
-        
       /*
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
@@ -17345,15 +17367,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           repeat);
           */
       
-        // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments)
-          cerr << idtr <<
-            "Creating a new last segment for voice \"" <<
-            fVoiceName << "\"" <<
-            endl;
-            
-        createNewLastSegmentForVoice (
-          inputLineNumber);
       }
       break;
       
@@ -17410,7 +17423,7 @@ void msrVoice::appendRepeatCloneToVoice (
           repeatCLone);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "Creating a new last segment for voice BOF JMI \"" <<
             fVoiceName << "\"" <<
@@ -17466,7 +17479,7 @@ void msrVoice::appendRepeatendingToVoice (
           addRepeatending (repeatEnding);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "Creating a new last segment for voice \"" <<
             fVoiceName <<
@@ -17508,7 +17521,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
           addRepeatending (repeatendingClone);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "Creating a new last segment for voice \"" <<
             fVoiceName <<
