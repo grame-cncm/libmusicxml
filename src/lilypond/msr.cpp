@@ -15983,20 +15983,29 @@ void msrRepeat::print (ostream& os)
 //______________________________________________________________________________
 S_msrMeasureRepeat msrMeasureRepeat::create (
   int          inputLineNumber,
+  int          measureRepeatReplicasNumber,
+  int          measureRepeatSlashesNumber,
   S_msrVoice   voiceUplink)
 {
   msrMeasureRepeat* o =
     new msrMeasureRepeat (
-      inputLineNumber, voiceUplink);
+      inputLineNumber,
+      measureRepeatReplicasNumber, measureRepeatSlashesNumber,
+      voiceUplink);
   assert(o!=0);
   return o;
 }
 
 msrMeasureRepeat::msrMeasureRepeat (
   int          inputLineNumber,
+  int          measureRepeatReplicasNumber,
+  int          measureRepeatSlashesNumber,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
-{  
+{
+  fMeasureRepeatReplicasNumber = measureRepeatReplicasNumber;
+  fMeasureRepeatSlashesNumber  = measureRepeatSlashesNumber;
+
   fMeasureRepeatVoiceUplink = voiceUplink;
 }
 
@@ -16014,24 +16023,26 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
     clone =
       msrMeasureRepeat::create (
         fInputLineNumber,
+        fMeasureRepeatReplicasNumber,
+        fMeasureRepeatSlashesNumber,
         clonedVoice);
   
   return clone;
 }
 
-void msrMeasureRepeat::setMeasureRepeatSegment (
-  S_msrSegment measureRepeatSegment)
+void msrMeasureRepeat::setMeasureRepeatReplicasSegment (
+  S_msrSegment measureRepeatReplicasSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Setting measure repeat segment containing " <<
+      "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
-        measureRepeatSegment->getSegmentMeasuresList ().size (),
+        measureRepeatReplicasSegment->getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
       
-  fMeasureRepeatSegment = measureRepeatSegment;
+  fMeasureRepeatReplicasSegment = measureRepeatReplicasSegment;
 }
 
 void msrMeasureRepeat::acceptIn (basevisitor* v) {
@@ -16074,10 +16085,16 @@ void msrMeasureRepeat::acceptOut (basevisitor* v) {
 
 void msrMeasureRepeat::browseData (basevisitor* v)
 {
-  if (fMeasureRepeatSegment) {
-  // browse the common segment
+  if (fMeasureRepeatRepeatedMeasure) {
+  // browse the repeated measure
+    msrBrowser<msrMeasure> browser (v);
+    browser.browse (*fMeasureRepeatRepeatedMeasure);
+  }
+  
+  if (fMeasureRepeatReplicasSegment) {
+  // browse the replicas segment
     msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMeasureRepeatSegment);
+    browser.browse (*fMeasureRepeatReplicasSegment);
   }
 }
 
@@ -16094,25 +16111,35 @@ void msrMeasureRepeat::print (ostream& os)
     idtr << "MeasureRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
-      fMeasureRepeatSegment->
-        getSegmentMeasuresList ().size () <<
-        " measures)" <<
+      singularOrPlural (
+        fMeasureRepeatReplicasSegment->getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
+    ")" <<
     endl;
   
   idtr++;
   
-  // print the repeat common segment
+  // print the repeated measure
   os << idtr <<
-    "MeasureRepeat segment: ";
-  if (! fMeasureRepeatSegment)
+    "Repeated measure: ";
+  idtr++;
+  os <<
+    fMeasureRepeatRepeatedMeasure;
+  idtr--;
+  
+  // print the replicas segment
+  os << idtr <<
+    "Replicas segment: ";
+  if (! fMeasureRepeatReplicasSegment)
     os << "none";
   os << endl;
 
-  if (fMeasureRepeatSegment) {
+  if (fMeasureRepeatReplicasSegment) {
     idtr++;
     
     os <<
-      fMeasureRepeatSegment;
+      fMeasureRepeatReplicasSegment;
 
     idtr--;
   }
@@ -17227,7 +17254,9 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
 }
 
 void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
-  int inputLineNumber)
+  int inputLineNumber,
+  int measureRepeatReplicasNumber,
+  int measureRepeatSlashes)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -17241,10 +17270,12 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             ", line " << inputLineNumber <<
             endl;
       
-        S_msrRepeat
+        S_msrMeasureRepeat
           measureRepeat =
             msrMeasureRepeat::create (
               inputLineNumber,
+              measureRepeatReplicasNumber,
+              measureRepeatSlashes,
               this);
 
       /*
@@ -18646,7 +18677,9 @@ void msrStaff::appendRepeatendingToStaff (
 }
 
 void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
-  int inputLineNumber)
+  int inputLineNumber,
+  int measureRepeatReplicasNumber,
+  int measureRepeatSlashes)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -18660,8 +18693,11 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
     map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->createMeasureRepeatFromItsFirstMeasureInVoice (
-      inputLineNumber);
+    (*i).second->
+      createMeasureRepeatFromItsFirstMeasureInVoice (
+        inputLineNumber,
+        measureRepeatReplicasNumber,
+        measureRepeatSlashes);
   } // for
 }
 
@@ -20049,14 +20085,19 @@ void msrPart::appendRepeatendingCloneToPart (
 }
 
 void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
-  int inputLineNumber)
+  int inputLineNumber,
+  int measureRepeatReplicasNumber,
+  int measureRepeatSlashes)
 {
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->createMeasureRepeatFromItsFirstMeasureInStaff (
-      inputLineNumber);
+    (*i).second->
+      createMeasureRepeatFromItsFirstMeasureInStaff (
+        inputLineNumber,
+        measureRepeatReplicasNumber,
+        measureRepeatSlashes);
   } // for
 }
 
