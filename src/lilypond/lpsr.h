@@ -485,15 +485,16 @@ template <typename T> class EXP lpsrBrowser : public browser<T>
     
     virtual ~lpsrBrowser() {}
 
-    virtual void set (basevisitor* v) { fVisitor = v; }
+    virtual void          set (basevisitor* v) { fVisitor = v; }
     
-    virtual void browse (T& t) {
-      enter (t);
+    virtual               void browse (T& t)
+                            {
+                              enter (t);
 
-      t.browseData (fVisitor);
-      
-      leave (t);
-    }
+                              t.browseData (fVisitor);
+                              
+                              leave (t);
+                            }
 };
 
 /*!
@@ -537,20 +538,20 @@ class EXP lpsrParallelMusic : public lpsrElement
     // ------------------------------------------------------
 
     const vector<S_msrElement>&
-                  getParallelMusicElements () const
-                      { return fParallelMusicElements; }
+                          getParallelMusicElements () const
+                              { return fParallelMusicElements; }
 
     // services
     // ------------------------------------------------------
 
-    void          addElementToParallelMusic (S_msrElement elem)
-                      { fParallelMusicElements.push_back(elem); }
+    void                  addElementToParallelMusic (S_msrElement elem)
+                              { fParallelMusicElements.push_back(elem); }
                     
-    S_msrElement  getLastElementOfParallelMusic()
-                      { return fParallelMusicElements.back(); }
+    S_msrElement          getLastElementOfParallelMusic()
+                              { return fParallelMusicElements.back(); }
                     
-    void          removeLastElementOfParallelMusic ()
-                      { fParallelMusicElements.pop_back(); }
+    void                  removeLastElementOfParallelMusic ()
+                              { fParallelMusicElements.pop_back(); }
 
     // visitors
     // ------------------------------------------------------
@@ -657,47 +658,41 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    lpsrCommentedKind
-              getCommentedKind () const
-                  { return fCommentedKind; };
+    lpsrCommentedKind     getCommentedKind () const
+                              { return fCommentedKind; };
 
-    lpsrBackslashKind
-              getBackslashKind () const
-                  { return fBackslashKind; }
+    lpsrBackslashKind     getBackslashKind () const
+                              { return fBackslashKind; }
                   
-    string    getVariableName () const
-                  { return fVariableName; };
+    string                getVariableName () const
+                              { return fVariableName; };
                   
-    lpsrVarValSeparator
-              getVarValSeparator () const
-                  { return fVarValSeparator; };
+    lpsrVarValSeparator   getVarValSeparator () const
+                              { return fVarValSeparator; };
     
-    lpsrQuotesKind
-              getQuotesKind () const
-                  { return fQuotesKind; };
+    lpsrQuotesKind        getQuotesKind () const
+                              { return fQuotesKind; };
                   
-    string    getVariableValue () const
-                  { return fVariableValue; };
+    string                getVariableValue () const
+                              { return fVariableValue; };
     
-    string    getUnit () const
-                  { return fUnit; };
+    string                getUnit () const
+                              { return fUnit; };
 
-    string
-              getComment  () const
-                  { return fComment; }
+    string                getComment  () const
+                              { return fComment; }
 
-    lpsrEndlKind
-              getEndlKind () const
-                  { return fEndlKind; };
+    lpsrEndlKind          getEndlKind () const
+                              { return fEndlKind; };
 
     // services
     // ------------------------------------------------------
 
-    void      changeAssocVariableName (string name)
-                  { fVariableName = name; }
+    void                  changeAssocVariableName (string name)
+                              { fVariableName = name; }
 
-    void      changeAssocVariableValue (string value)
-                  { fVariableValue = value; }
+    void                  changeAssocVariableValue (string value)
+                              { fVariableValue = value; }
 
 
     // visitors
@@ -785,21 +780,19 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    void      changeAssocValue (string value)
-                  { fVariableValue = value; }
+    void                  changeAssocValue (string value)
+                              { fVariableValue = value; }
 
-    lpsrCommentedKind
-              getCommentedKind () const { return fCommentedKind; };
+    lpsrCommentedKind     getCommentedKind () const { return fCommentedKind; };
 
-    string    getVariableName  () const { return fVariableName; };
-    string    getVariableValue () const { return fVariableValue; };
+    string                getVariableName  () const { return fVariableName; };
+    string                getVariableValue () const { return fVariableValue; };
 
-    string    getComment  () const
-                  { return fComment; }
+    string                getComment  () const
+                              { return fComment; }
 
-    lpsrEndlKind
-              getEndlKind () const
-                  { return fEndlKind; };
+    lpsrEndlKind          getEndlKind () const
+                              { return fEndlKind; };
 
     // services
     // ------------------------------------------------------
@@ -947,11 +940,11 @@ class EXP lpsrComment : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    string              getContents () const
-                            { return fContents; }
+    string                getContents () const
+                              { return fContents; }
 
-    lpsrCommentGapKind  getCommentGapKind  () const
-                            { return fCommentGapKind; }
+    lpsrCommentGapKind    getCommentGapKind  () const
+                              { return fCommentGapKind; }
 
     // services
     // ------------------------------------------------------
@@ -1066,8 +1059,11 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void addElementToNewStaffgroupBlock (S_msrElement elem)
-        { fNewStaffgroupElements.push_back (elem); }
+    void                  addElementToNewStaffgroupBlock (
+                            S_msrElement elem)
+                              {
+                                fNewStaffgroupElements.push_back (elem);
+                              }
 
     // visitors
     // ------------------------------------------------------
@@ -1122,9 +1118,8 @@ class EXP lpsrNewStafftuningBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrStafftuning
-                getStafftuning () const
-                    { return fStafftuning; }
+    S_msrStafftuning      getStafftuning () const
+                              { return fStafftuning; }
 
     // services
     // ------------------------------------------------------
@@ -1183,8 +1178,8 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void addElementToNewStaff (S_msrElement elem)
-        { fNewStaffElements.push_back(elem); }
+    void                  addElementToNewStaff (S_msrElement elem)
+                              { fNewStaffElements.push_back(elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -1239,7 +1234,7 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrVoice   getVoice () const { return fVoice; }
+    S_msrVoice            getVoice () const { return fVoice; }
 
     // services
     // ------------------------------------------------------
@@ -1300,8 +1295,8 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrStanza  getStanza () const { return fStanza; }
-    S_msrVoice   getVoice  () const { return fVoice; }
+    S_msrStanza           getStanza () const { return fStanza; }
+    S_msrVoice            getVoice  () const { return fVoice; }
     
     // services
     // ------------------------------------------------------
@@ -1489,20 +1484,22 @@ class EXP lpsrContext : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    lpsrContextKind   getContextKind () const
-                          { return fContextKind; }
+    lpsrContextKind       getContextKind () const
+                              { return fContextKind; }
 
-    string            getContextType () const
-                          { return fContextType; }
+    string                getContextType () const
+                              { return fContextType; }
 
-    string            getContextName () const
-                          { return fContextName; }
+    string                getContextName () const
+                              { return fContextName; }
 
     // services
     // ------------------------------------------------------
 
-    void addElementToContext (S_msrElement elem)
-        { fContextElements.push_back(elem); }
+    void                  addElementToContext (S_msrElement elem)
+                            {
+                              fContextElements.push_back(elem);
+                            }
 
     // visitors
     // ------------------------------------------------------
@@ -1622,9 +1619,8 @@ class EXP lpsrMelismaCommand : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    lpsrMelismaKind
-                getMelismaKind () const
-                    { return fMelismaKind; }
+    lpsrMelismaKind       getMelismaKind () const
+                              { return fMelismaKind; }
 
     // services
     // ------------------------------------------------------
@@ -1886,18 +1882,18 @@ class EXP lpsrHeader : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void        changeWorkTitleVariableName (string name);
-    void        changeMovementTitleVariableName (string name);
+    void                  changeWorkTitleVariableName (string name);
+    void                  changeMovementTitleVariableName (string name);
     
-    void        changeWorkNumberVariableName (string name);
-    void        changeMovementNumberVariableName (string name);
+    void                  changeWorkNumberVariableName (string name);
+    void                  changeMovementNumberVariableName (string name);
     
-    void        changeRightsTitleVariableName (string name);
+    void                  changeRightsTitleVariableName (string name);
     
-//    void        changeCreatorVariableName ( // JMI
- //                 string typeName, string newName);
+//    void                  changeCreatorVariableName ( // JMI
+ //                           string typeName, string newName);
 
-    int         maxLilyPondVariablesNamesLength ();
+    int                   maxLilyPondVariablesNamesLength ();
 
     // visitors
     // ------------------------------------------------------
@@ -2098,22 +2094,26 @@ class EXP lpsrLayout : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    float   getStaffSize () const
-                { return fStaffSize; }
+    float                 getStaffSize () const
+                              { return fStaffSize; }
                 
-    void    setGlobalStaffSize (float size)
-                { fStaffSize = size; }
+    void                  setGlobalStaffSize (float size)
+                              { fStaffSize = size; }
 
     // services
     // ------------------------------------------------------
 
-    void    addLilypondVarValAssoc (
-              S_lpsrLilypondVarValAssoc assoc)
-                { flpsrLilypondVarValAssocs.push_back (assoc); }
+    void                  addLilypondVarValAssoc (
+                            S_lpsrLilypondVarValAssoc assoc)
+                              {
+                                flpsrLilypondVarValAssocs.push_back (assoc);
+                              }
       
-    void    addSchemeVarValAssoc (
-              S_lpsrSchemeVarValAssoc assoc)
-                { fLpsrSchemeVarValAssocs.push_back (assoc); }
+    void                  addSchemeVarValAssoc (
+                            S_lpsrSchemeVarValAssoc assoc)
+                              {
+                                fLpsrSchemeVarValAssocs.push_back (assoc);
+                              }
 
     // visitors
     // ------------------------------------------------------
