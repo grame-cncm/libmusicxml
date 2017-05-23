@@ -1078,27 +1078,27 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 void msr2LpsrTranslator::finalizeMeasure ( // JMI
   int          inputLineNumber,
   S_msrMeasure originalMeasure,
-  S_msrMeasure clonedMeasure)
+  S_msrMeasure measureClone)
 {
   // fetch the voice
   S_msrVoice
     voice =
-      clonedMeasure->getMeasureSegmentUplink ()->
+      measureClone->getMeasureSegmentUplink ()->
         getSegmentVoiceUplink ();
     
   // fetch the part measure position high tide
   int partMeasurePositionHighTide =
-    clonedMeasure->getMeasureDirectPartUplink ()->
+    measureClone->getMeasureDirectPartUplink ()->
       getPartMeasurePositionHighTide ();
 
   int measureNumber =
-    clonedMeasure->getMeasureNumber ();
+    measureClone->getMeasureNumber ();
     
   int measurePosition =
-    clonedMeasure->getMeasurePosition ();
+    measureClone->getMeasurePosition ();
 
   int measureDivisionsPerFullMeasure =
-    clonedMeasure->getMeasureDivisionsPerFullMeasure ();
+    measureClone->getMeasureDivisionsPerFullMeasure ();
     
   if (gGeneralOptions->fTraceMeasures) {
     cerr <<
@@ -1157,7 +1157,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
       endl <<
       "clone measure:" <<
       endl <<
-      clonedMeasure <<
+      measureClone <<
       endl <<
       "differs from original measure:" <<
       originalMeasure;

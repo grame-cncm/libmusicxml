@@ -2486,7 +2486,7 @@ class EXP msrMeasure : public msrElement
       S_msrSegment  measureSegmentUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
-      S_msrSegment clonedSegment);
+      S_msrSegment segmentClone);
 
   protected:
 
@@ -6016,7 +6016,7 @@ class EXP msrRepeatending : public msrElement
       S_msrRepeat         repeatUplink);
     
     SMARTP<msrRepeatending> createRepeatendingBareClone (
-      S_msrRepeat clonedRepeat);
+      S_msrRepeat repeatClone);
 
   protected:
 

@@ -11434,7 +11434,7 @@ S_msrStanza msrStanza::createStanzaBareClone (
   clone->fStanzaTextPresent =
     fStanzaTextPresent;
 
-  // add the stanza clone to the cloned voice
+  // add the stanza clone to the voice clone
   voiceClone->
     addStanzaToVoiceWithoutCatchUp (clone);
     
@@ -12963,7 +12963,7 @@ msrMeasure::~msrMeasure()
 {}
 
 S_msrMeasure msrMeasure::createMeasureBareClone (
-  S_msrSegment clonedSegment)
+  S_msrSegment segmentClone)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
@@ -12973,16 +12973,16 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
       endl;
   
   msrAssert(
-    clonedSegment != 0,
-    "clonedSegment is null");
+    segmentClone != 0,
+    "segmentClone is null");
     
   S_msrMeasure
     clone =
       msrMeasure::create (
         fInputLineNumber,
-        clonedSegment->getSegmentDirectPartUplink (),
+        segmentClone->getSegmentDirectPartUplink (),
         fMeasureNumber,
-        clonedSegment);
+        segmentClone);
 
   clone->
     setMeasureTime (fMeasureTime);
@@ -15729,7 +15729,7 @@ msrRepeatending::msrRepeatending (
 msrRepeatending::~msrRepeatending() {}
 
 S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
-  S_msrRepeat clonedRepeat)
+  S_msrRepeat repeatClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -15738,8 +15738,8 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
       endl;
   
   msrAssert(
-    clonedRepeat != 0,
-    "clonedRepeat is null");
+    repeatClone != 0,
+    "repeatClone is null");
     
   S_msrRepeatending
     clone =
@@ -15747,8 +15747,8 @@ S_msrRepeatending msrRepeatending::createRepeatendingBareClone (
         fInputLineNumber,
         fRepeatendingNumber,
         fRepeatendingKind,
-        clonedRepeat->getRepeatCommonSegment (), // JMI
-        clonedRepeat);
+        repeatClone->getRepeatCommonSegment (), // JMI
+        repeatClone);
   
   return clone;
 }

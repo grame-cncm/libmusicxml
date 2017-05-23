@@ -379,7 +379,7 @@ class msr2LpsrTranslator :
     void                      finalizeMeasure (
                                 int          inputLineNumber,
                                 S_msrMeasure originalMeasure,
-                                S_msrMeasure clonedMeasure);
+                                S_msrMeasure measureClone);
 
     // segments
     // ------------------------------------------------------
