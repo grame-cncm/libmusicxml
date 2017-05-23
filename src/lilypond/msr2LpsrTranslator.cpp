@@ -2569,6 +2569,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       "--> Start visiting msrRepeat" <<
       endl;
 
+/* JMI
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -2580,6 +2581,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
           getVoiceName () <<
       "\"" <<
       endl;
+  */
   
   fOnGoingRepeat = true;
 }

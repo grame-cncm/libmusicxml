@@ -5385,6 +5385,44 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRehearsal& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrMeasureRepeat" <<
+      endl;
+
+  int replicasNumber =
+    elt->getMeasureRepeatReplicasNumber ();
+  
+  fOstream <<
+    endl <<
+    endl <<
+    idtr <<
+    "\\repeat" "percent " <<
+    replicasNumber <<
+     " { " <<
+    endl <<
+    idtr;
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrMeasureRepeat" <<
+      endl;
+
+  fOstream <<
+    endl <<
+    endl <<
+    idtr <<
+    " }" <<
+    endl <<
+    idtr;
+}
+
+//________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
