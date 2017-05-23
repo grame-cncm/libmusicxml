@@ -3800,8 +3800,9 @@ void lpsrPartgroupBlock::print (ostream& os)
     endl <<
     idtr <<
     "PartgroupBlock" << " " <<
-    "for partgroup \"" << fPartgroup->getPartgroupCombinedName () <<
-    "\", " << fPartgroup->pargroupSymbolKindAsString () <<
+    "for partgroup \"" <<
+    fPartgroup->getPartgroupCombinedName () <<
+    "\", " << fPartgroup->partgroupSymbolKindAsString () <<
     ", " <<
     singularOrPlural (
       fPartgroupBlockElements.size(), "element", "elements") <<

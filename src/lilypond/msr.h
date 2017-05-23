@@ -1756,14 +1756,12 @@ class EXP msrRehearsal : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrRehearsalKind
-            getRehearsalKind () const
-                { return fRehearsalKind; }
+    msrRehearsalKind      getRehearsalKind () const
+                              { return fRehearsalKind; }
         
     // services
-    string
-            getRehearsalText () const
-                { return fRehearsalText; }
+    string                getRehearsalText () const
+                              { return fRehearsalText; }
         
     // services
     // ------------------------------------------------------
@@ -1833,14 +1831,14 @@ class EXP msrTie : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrTieKind  getTieKind () const
-                    { return fTieKind; }
+    msrTieKind            getTieKind () const
+                              { return fTieKind; }
 
     // services
     // ------------------------------------------------------
 
-    string     tieKindAsString () const // JMI
-                  { return tieKindAsString (fTieKind); }
+    string                tieKindAsString () const // JMI
+                              { return tieKindAsString (fTieKind); }
 
     // visitors
     // ------------------------------------------------------
@@ -1907,14 +1905,14 @@ class EXP msrSlur : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getSlurNumber () const { return fSlurNumber; }
+    int                   getSlurNumber () const { return fSlurNumber; }
     
-    msrSlurKind getSlurKind () const { return fSlurKind; }
+    msrSlurKind           getSlurKind () const { return fSlurKind; }
 
     // services
     // ------------------------------------------------------
 
-    string      slurKindAsString ();
+    string                slurKindAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -1983,16 +1981,16 @@ class EXP msrLigature : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int               getLigatureNumber () const
-                          { return fLigatureNumber; }
+    int                   getLigatureNumber () const
+                              { return fLigatureNumber; }
     
-    msrLigatureKind getLigatureKind () const
-                          { return fLigatureKind; }
+    msrLigatureKind       getLigatureKind () const
+                              { return fLigatureKind; }
 
     // services
     // ------------------------------------------------------
 
-    string            ligatureKindAsString ();
+    string                ligatureKindAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -2192,9 +2190,9 @@ class EXP msrWedge : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrWedgeKind getWedgeKind () const { return fWedgeKind; }
+    msrWedgeKind          getWedgeKind () const { return fWedgeKind; }
 
-    string  wedgeKindAsString ();
+    string                wedgeKindAsString ();
 
     // services
     // ------------------------------------------------------
@@ -2269,17 +2267,17 @@ class EXP msrClef : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrClefKind   getClefKind () const
-                      { return fClefKind; }
+    msrClefKind           getClefKind () const
+                              { return fClefKind; }
                 
     // services
     // ------------------------------------------------------
 
-    string        clefAsString () const;
+    string                clefAsString () const;
 
-    bool          clefIsATablatureClef () const;
+    bool                  clefIsATablatureClef () const;
     
-    bool          clefIsAPercussionClef () const;
+    bool                  clefIsAPercussionClef () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2417,11 +2415,11 @@ class EXP msrTime : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int       getBeatsNumber () const
-                  { return fBeatsNumber; }
+    int                   getBeatsNumber () const
+                              { return fBeatsNumber; }
                   
-    int       getBeatsValue () const
-                  { return fBeatsValue; }
+    int                   getBeatsValue () const
+                              { return fBeatsValue; }
                   
     // services
     // ------------------------------------------------------
@@ -2780,9 +2778,9 @@ class EXP msrSegment : public msrElement
     
     void                  appendHarmonyToSegmentClone (S_msrHarmony harmony);
 
-    void                    bringSegmentToMeasurePosition (
-                              int inputLineNumber,
-                              int measurePosition);
+    void                  bringSegmentToMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
   
     void                  appendNoteToSegment      (S_msrNote note);
     void                  appendNoteToSegmentClone (S_msrNote note);
@@ -4368,105 +4366,98 @@ class EXP msrIdentification : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void        setWorkNumber (
-                  int    inputLineNumber,
-                  string val);
+    void                  setWorkNumber (
+                            int    inputLineNumber,
+                            string val);
 
-    void        setWorkTitle (
-                  int    inputLineNumber,
-                  string val);
+    void                  setWorkTitle (
+                            int    inputLineNumber,
+                            string val);
 
-    void        setMovementNumber (
-                  int    inputLineNumber,
-                  string val);
+    void                  setMovementNumber (
+                            int    inputLineNumber,
+                            string val);
+          
+    void                  setMovementTitle (
+                            int    inputLineNumber,
+                            string val);
+          
+    void                  addComposer (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
 
-    void        setMovementTitle (
-                  int    inputLineNumber,
-                  string val);
+    void                  addArranger (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
 
-    void        addComposer (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
+    void                  addPoet (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
 
-    void        addArranger (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
+    void                  addLyricist (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
 
-    void        addPoet (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
+    void                  setRights (
+                            int    inputLineNumber,
+                            string val);
 
-    void        addLyricist (
-                  int    inputLineNumber,
-                  string type,
-                  string val);
+    void                  addSoftware (
+                            int    inputLineNumber,
+                            string val);
 
-    void        setRights (
-                  int    inputLineNumber,
-                  string val);
+    void                  setEncodingDate (
+                            int    inputLineNumber,
+                            string val);
 
-    void        addSoftware (
-                  int    inputLineNumber,
-                  string val);
+    void                  setScoreInstrumentAssoc (
+                            int    inputLineNumber,
+                            string val);
 
-    void        setEncodingDate (
-                  int    inputLineNumber,
-                  string val);
-
-    void        setScoreInstrumentAssoc (
-                  int    inputLineNumber,
-                  string val);
-
-    S_msrVarValAssoc
-                getWorkNumber () const
-                    { return fWorkNumber; }
+    S_msrVarValAssoc      getWorkNumber () const
+                              { return fWorkNumber; }
     
-    S_msrVarValAssoc
-                getWorkTitle () const
-                    { return fWorkTitle; }
+    S_msrVarValAssoc      getWorkTitle () const
+                              { return fWorkTitle; }
     
-    S_msrVarValAssoc
-                getMovementNumber () const
-                    { return fMovementNumber; }
+    S_msrVarValAssoc      getMovementNumber () const
+                              { return fMovementNumber; }
     
-    S_msrVarValAssoc
-                getMovementTitle () const
-                    { return fMovementTitle; }
+    S_msrVarValAssoc      getMovementTitle () const
+                              { return fMovementTitle; }
     
     const vector<S_msrVarValAssoc>&
-                getComposers () const
-                    { return fComposers; };
+                          getComposers () const
+                              { return fComposers; };
                     
     const vector<S_msrVarValAssoc>&
-                getArrangers () const
-                    { return fArrangers; };
+                          getArrangers () const
+                              { return fArrangers; };
                     
     const vector<S_msrVarValAssoc>&
-                getPoets () const
-                    { return fPoets; };
+                          getPoets () const
+                              { return fPoets; };
     
     const vector<S_msrVarValAssoc>&
-                getLyricists () const
-                    { return fLyricists; };
+                          getLyricists () const
+                              { return fLyricists; };
     
-    S_msrVarValAssoc
-                getRights () const
-                    { return fRights; }
+    S_msrVarValAssoc      getRights () const
+                              { return fRights; }
     
     const vector<S_msrVarValAssoc>&
-                getSoftwares () const
-                    { return fSoftwares; };
+                          getSoftwares () const
+                              { return fSoftwares; };
     
-    S_msrVarValAssoc
-                getEncodingDate () const
-                    { return fEncodingDate; }
+    S_msrVarValAssoc      getEncodingDate () const
+                              { return fEncodingDate; }
     
-    S_msrVarValAssoc
-                getScoreInstrumentAssoc () const
-                    { return fScoreInstrumentAssoc; }
+    S_msrVarValAssoc      getScoreInstrumentAssoc () const
+                              { return fScoreInstrumentAssoc; }
 
     // services
     // ------------------------------------------------------
@@ -4646,11 +4637,11 @@ class EXP msrCreditWords : public msrElement
 
     // set and get
     // ------------------------------------------------------
-    string            getCreditWordsContents () const
-                          { return fCreditWordsContents; }
+    string                getCreditWordsContents () const
+                              { return fCreditWordsContents; }
 
-    int               getCreditWordsFontSize () const
-                          { return fCreditWordsFontSize; }
+    int                   getCreditWordsFontSize () const
+                              { return fCreditWordsFontSize; }
 
     // services
     // ------------------------------------------------------
@@ -4720,18 +4711,18 @@ class EXP msrCredit : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int               getCreditPageNumber () const
-                          { return fCreditPageNumber; }
+    int                   getCreditPageNumber () const
+                              { return fCreditPageNumber; }
 
     const vector<S_msrCreditWords>&
-                      getCreditWordsList () const
-                          { return fCreditWordsList; }
+                          getCreditWordsList () const
+                              { return fCreditWordsList; }
 
     // services
     // ------------------------------------------------------
 
-    void              appendCreditWordsToCredit (
-                        S_msrCreditWords creditWords);
+    void                  appendCreditWordsToCredit (
+                            S_msrCreditWords creditWords);
 
     // visitors
     // ------------------------------------------------------
@@ -4789,8 +4780,8 @@ class EXP msrLayout : public msrElement // JMI
     // services
     // ------------------------------------------------------
 
-    void  addMsrVarValAssoc (S_msrVarValAssoc assoc)
-              { fVarValAssocs.push_back(assoc); } // JMI ???
+    void                  addMsrVarValAssoc (S_msrVarValAssoc assoc)
+                              { fVarValAssocs.push_back(assoc); } // JMI ???
       
     // visitors
     // ------------------------------------------------------
@@ -4857,12 +4848,11 @@ class EXP msrComment : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string        getContents () const
-                      { return fContents; }
+    string                getContents () const
+                              { return fContents; }
                     
-    msrCommentGapKind
-                  getCommentGapKind  () const
-                      { return fCommentGapKind; }
+    msrCommentGapKind     getCommentGapKind  () const
+                              { return fCommentGapKind; }
     
     // services
     // ------------------------------------------------------
@@ -4921,13 +4911,13 @@ class EXP msrBreak : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getNextBarNumber () const
-                  { return fNextBarNumber; }
+    int                   getNextBarNumber () const
+                              { return fNextBarNumber; }
 
     // services
     // ------------------------------------------------------
 
-    string      breakAsString () const;
+    string                breakAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -5043,13 +5033,13 @@ class EXP msrBarnumberCheck : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getNextBarNumber () const
-                    { return fNextBarNumber; }
+    int                   getNextBarNumber () const
+                              { return fNextBarNumber; }
 
     // services
     // ------------------------------------------------------
 
-    string      barnumberCheckAsString () const;
+    string                barnumberCheckAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -5252,16 +5242,16 @@ class EXP msrTranspose : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int       getTransposeDiatonic () const
-                  { return fTransposeDiatonic; }
+    int                   getTransposeDiatonic () const
+                              { return fTransposeDiatonic; }
                   
-    int       getTransposeChromatic () const
-                  { return fTransposeChromatic; }
+    int                   getTransposeChromatic () const
+                              { return fTransposeChromatic; }
                   
     // services
     // ------------------------------------------------------
 
-    string    transposeAsString () const;
+    string                transposeAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -5319,21 +5309,21 @@ class EXP msrTempo : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string    getTempoIndication () const
-                  { return fTempoIndication; }
+    string                getTempoIndication () const
+                              { return fTempoIndication; }
 
-    void      setTempoIndication (string indication);
+    void                  setTempoIndication (string indication);
 
-    int       getTempoUnit () const
-                  { return fTempoUnit; }
+    int                   getTempoUnit () const
+                              { return fTempoUnit; }
 
-    int       getPerMinute () const
-                  { return fPerMinute; }
+    int                   getPerMinute () const
+                              { return fPerMinute; }
 
     // services
     // ------------------------------------------------------
 
-    string    tempoAsString () const;
+    string                tempoAsString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -5552,8 +5542,6 @@ class EXP msrSegno : public msrElement
     // set and get
     // ------------------------------------------------------
     
-    // position in measure
-
     // services
     // ------------------------------------------------------
 
@@ -5729,19 +5717,17 @@ class EXP msrPedal : public msrElement
     // set and get
     // ------------------------------------------------------
     
-    msrPedalType
-                getPedalType () const
-                    { return fPedalType; }
+    msrPedalType          getPedalType () const
+                              { return fPedalType; }
                     
-    msrPedalLine
-                getPedalLine () const
-                    { return fPedalLine; }
+    msrPedalLine          getPedalLine () const
+                              { return fPedalLine; }
                     
     // services
     // ------------------------------------------------------
 
-    string        pedalTypeAsString ();
-    string        pedalLineAsString ();
+    string                 pedalTypeAsString ();
+    string                 pedalLineAsString ();
     
     // visitors
     // ------------------------------------------------------
@@ -6649,20 +6635,19 @@ class EXP msrStafftuning : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int             getStafftuningLineNumber () const
-                        { return fStafftuningLineNumber; }
+    int                   getStafftuningLineNumber () const
+                              { return fStafftuningLineNumber; }
 
-    msrQuartertonesPitch
-                    getStafftuningQuartertonesPitch () const
-                        { return fStafftuningQuartertonesPitch; }
+    msrQuartertonesPitch  getStafftuningQuartertonesPitch () const
+                              { return fStafftuningQuartertonesPitch; }
 
-    int             getStafftuningOctave () const
-                        { return fStafftuningOctave; }
+    int                   getStafftuningOctave () const
+                              { return fStafftuningOctave; }
 
     // services
     // ------------------------------------------------------
 
-    string          stafftuningAsString () const;
+    string                stafftuningAsString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -7341,74 +7326,70 @@ class EXP msrPartgroup : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int           getPartgroupNumber () const
-                      { return fPartgroupNumber; }
+    int                   getPartgroupNumber () const
+                              { return fPartgroupNumber; }
     
-    string        getPartgroupDisplayText () const
-                      { return fPartgroupDisplayText; }
+    string                getPartgroupDisplayText () const
+                              { return fPartgroupDisplayText; }
 
-    string        getPartgroupAccidentalText () const
-                      { return fPartgroupAccidentalText; }
+    string                getPartgroupAccidentalText () const
+                              { return fPartgroupAccidentalText; }
 
-    string        getPartgroupName () const
-                      { return fPartgroupName; }
+    string                getPartgroupName () const
+                              { return fPartgroupName; }
 
-    string        getPartgroupAbbreviation () const
-                      { return fPartgroupAbbreviation; }
+    string                getPartgroupAbbreviation () const
+                              { return fPartgroupAbbreviation; }
 
     msrPartgroupSymbolKind
-                  getPartgroupSymbolKind () const
-                      { return fPartgroupSymbolKind; }
+                          getPartgroupSymbolKind () const
+                              { return fPartgroupSymbolKind; }
 
-    static string pargroupSymbolKindAsString (
-                  msrPartgroupSymbolKind partgroupSymbolKind);
+    string                partgroupSymbolKindAsString () const
+                              {
+                                return
+                                  partgroupSymbolKindAsString (
+                                    fPartgroupSymbolKind);
+                              }
 
-    string        pargroupSymbolKindAsString ()
-                      {
-                        return
-                          pargroupSymbolKindAsString (
-                            fPartgroupSymbolKind);
-                      }
+    int                   getPartgroupSymbolDefaultX () const
+                              { return fPartgroupSymbolDefaultX; }
 
-    int           getPartgroupSymbolDefaultX () const
-                      { return fPartgroupSymbolDefaultX; }
-
-    bool          getPartgroupBarline () const
-                      { return fPartgroupBarline; }
+    bool                  getPartgroupBarline () const
+                              { return fPartgroupBarline; }
     
-    string        getPartgroupCombinedName () const;
+    string                getPartgroupCombinedName () const;
 
-    void          setPartgroupInstrumentName (string name)
-                      { fPartgroupInstrumentName = name; }
+    void                  setPartgroupInstrumentName (string name)
+                              { fPartgroupInstrumentName = name; }
                 
-    string        getPartgroupInstrumentName () const
-                      { return fPartgroupInstrumentName; }
+    string                getPartgroupInstrumentName () const
+                              { return fPartgroupInstrumentName; }
                 
     const list<S_msrElement>&
-                  getPartgroupElements () const
-                      { return fPartgroupElements; }
+                          getPartgroupElements () const
+                              { return fPartgroupElements; }
 
-    S_msrPartgroup
-                  getPartgroupPartgroupUplink () const
-                      { return fPartgroupPartgroupUplink; }
+    S_msrPartgroup        getPartgroupPartgroupUplink () const
+                              { return fPartgroupPartgroupUplink; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrPart     addPartToPartgroupByItsID (
-                    int    inputLineNumber,
-                    string partID,
-                    int    stavesLinesNumber);
+    S_msrPart             addPartToPartgroupByItsID (
+                            int    inputLineNumber,
+                            string partID,
+                            int    stavesLinesNumber);
     
-    void          addPartToPartgroup (S_msrPart part);
+    void                  addPartToPartgroup (S_msrPart part);
                 
-    void          prependSubPartgroupToPartgroup (
-                    S_msrPartgroup partgroup);
+    void                  prependSubPartgroupToPartgroup (
+                            S_msrPartgroup partgroup);
 
-    void          appendSubPartgroupToPartgroup (
-                    S_msrPartgroup partgroup);
+    void                  appendSubPartgroupToPartgroup (
+                            S_msrPartgroup partgroup);
 
-    S_msrPart     fetchPartFromPartgroup (string partID);
+    S_msrPart             fetchPartFromPartgroup (string partID);
 
     // visitors
     // ------------------------------------------------------
@@ -7509,7 +7490,8 @@ class EXP msrScore : public msrElement
     // services
     // ------------------------------------------------------
 
-    void addPartgroupToScore (S_msrPartgroup partgroup);
+    void                  addPartgroupToScore (
+                            S_msrPartgroup partgroup);
 
     // visitors
     // ------------------------------------------------------
@@ -7573,11 +7555,11 @@ class EXP msrMidi : public msrElement
 
     // set and get
     // ------------------------------------------------------
-    string        getMidiTempoDuration () const
-                      { return fMidiTempoDuration; }
+    string                getMidiTempoDuration () const
+                              { return fMidiTempoDuration; }
 
-    int           getMidiTempoPerSecond () const
-                      { return fMidiTempoPerSecond; }
+    int                   getMidiTempoPerSecond () const
+                              { return fMidiTempoPerSecond; }
 
     // services
     // ------------------------------------------------------

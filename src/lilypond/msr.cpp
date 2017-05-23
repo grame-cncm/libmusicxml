@@ -21194,7 +21194,7 @@ ostream& operator<< (ostream& os, const S_msrPartgroup& elt)
   return os;
 }
 
-string msrPartgroup::pargroupSymbolKindAsString (
+string msrPartgroup::partgroupSymbolKindAsString (
   msrPartgroupSymbolKind partgroupSymbolKind)
 {
   string result;
@@ -21261,7 +21261,7 @@ void msrPartgroup::print (ostream& os)
         endl <<
     idtr <<
       setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
-      pargroupSymbolKindAsString (fPartgroupSymbolKind) <<
+      partgroupSymbolKindAsString (fPartgroupSymbolKind) <<
       "\"" <<
       endl;
     
@@ -21323,7 +21323,7 @@ void msrPartgroup::printStructure (ostream& os)
         endl <<
     idtr <<
       setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
-      pargroupSymbolKindAsString (fPartgroupSymbolKind) <<
+      partgroupSymbolKindAsString (fPartgroupSymbolKind) <<
       "\"" <<
       endl;
     
