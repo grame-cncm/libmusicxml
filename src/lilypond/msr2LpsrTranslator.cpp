@@ -2617,6 +2617,15 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMeasureRepeat" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

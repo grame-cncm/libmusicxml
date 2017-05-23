@@ -1555,7 +1555,7 @@ class EXP msrDoubleTremolo : public msrElement
 
 
     SMARTP<msrDoubleTremolo> createDoubleTremoloBareClone (
-      S_msrVoice clonedVoice);
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -2704,7 +2704,7 @@ class EXP msrSegment : public msrElement
       S_msrVoice segmentVoicekUplink);
 
     SMARTP<msrSegment> createSegmentBareClone (
-      S_msrVoice clonedVoice);
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -3342,7 +3342,7 @@ class EXP msrHarmony : public msrElement
       int                  harmonySoundingDivisions);
     
     SMARTP<msrHarmony> createHarmonyBareClone (
-      S_msrPart clonedPart);
+      S_msrPart partClone);
 
   protected:
 
@@ -3470,7 +3470,7 @@ class EXP msrNote : public msrElement
     
       bool                 noteIsAGraceNote);
     
-    SMARTP<msrNote> createNoteBareClone (S_msrPart clonedPart);
+    SMARTP<msrNote> createNoteBareClone (S_msrPart partClone);
     
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -5388,7 +5388,7 @@ class EXP msrStanza : public msrElement
       S_msrVoice    stanzaVoiceUplink);
     
     SMARTP<msrStanza> createStanzaBareClone (
-      S_msrVoice clonedVoice);
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -6116,7 +6116,7 @@ class EXP msrRepeat : public msrElement
       S_msrVoice   voiceUplink);
     
     SMARTP<msrRepeat> createRepeatBareClone (
-      S_msrVoice clonedVoice);
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -6211,7 +6211,7 @@ class EXP msrMeasureRepeat : public msrElement
     
     SMARTP<msrMeasureRepeat> createMeasureRepeatBareClone (
       S_msrMeasure repeatedMeasureClone,
-      S_msrVoice clonedVoice);
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -6309,7 +6309,7 @@ class EXP msrVoice : public msrElement
       S_msrStaff   voiceStaffUplink);
     
     SMARTP<msrVoice> createVoiceBareClone (
-      S_msrStaff clonedStaff);
+      S_msrStaff staffClone);
 
   protected:
 
@@ -6731,7 +6731,7 @@ class EXP msrStaff : public msrElement
       int          staffNumber);
     
     SMARTP<msrStaff> createStaffBareClone (
-      S_msrPart clonedPart);
+      S_msrPart partClone);
 
   protected:
 
@@ -6968,7 +6968,7 @@ class EXP msrPart : public msrElement
       S_msrPartgroup partPartgroupUplink);
                 
     SMARTP<msrPart> createPartBareClone (
-      S_msrPartgroup clonedPartgroup);
+      S_msrPartgroup partgroupClone);
 
   protected:
 
@@ -7315,7 +7315,7 @@ class EXP msrPartgroup : public msrElement
       S_msrPartgroup         partgroupPartgroupUplink);
 
     SMARTP<msrPartgroup> createPartgroupBareClone (
-      S_msrPartgroup clonedPartgroup); // the uplink
+      S_msrPartgroup partgroupClone); // the uplink
 
   protected:
 

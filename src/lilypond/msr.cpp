@@ -3903,7 +3903,7 @@ msrDoubleTremolo::msrDoubleTremolo (
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
-  S_msrVoice clonedVoice)
+  S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
@@ -3911,8 +3911,8 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
       endl;
   
   msrAssert(
-    clonedVoice != 0,
-    "clonedVoice is null");
+    voiceClone != 0,
+    "voiceClone is null");
     
   S_msrDoubleTremolo
     clone =
@@ -3921,7 +3921,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloBareClone (
         fDoubleTremoloKind,
         fDoubleTremoloMarksNumber,
         fDoubleTremoloPlacementKind,
-        clonedVoice);
+        voiceClone);
 
   clone->fDoubleTremoloSoundingDivisions =
     fDoubleTremoloSoundingDivisions;
@@ -5881,7 +5881,7 @@ msrNote::~msrNote()
 {}
 
 S_msrNote msrNote::createNoteBareClone (
-  S_msrPart clonedPart)
+  S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
@@ -5891,14 +5891,14 @@ S_msrNote msrNote::createNoteBareClone (
   }
 
   msrAssert(
-    clonedPart != 0,
-    "clonedPart is null");
+    partClone != 0,
+    "partClone is null");
     
   S_msrNote
     clone =
       msrNote::create (
         fInputLineNumber,
-        clonedPart,
+        partClone,
         
         fNoteKind,
         
@@ -11406,36 +11406,36 @@ string msrStanza::getStanzaName () const
 msrStanza::~msrStanza() {}
 
 S_msrStanza msrStanza::createStanzaBareClone (
-  S_msrVoice clonedVoice)
+  S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Creating a bare clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
-      clonedVoice->getVoiceName () <<
+      voiceClone->getVoiceName () <<
       "\"" <<
       endl;
   }
 
   msrAssert(
-    clonedVoice != 0,
-    "clonedVoice is null");
+    voiceClone != 0,
+    "voiceClone is null");
     
   S_msrStanza
     clone =
       msrStanza::create (
         fInputLineNumber,
-        clonedVoice->getVoiceDirectPartUplink (),
+        voiceClone->getVoiceDirectPartUplink (),
         fStanzaNumber,
         fStanzaKind,
-        clonedVoice);
+        voiceClone);
 
   clone->fStanzaTextPresent =
     fStanzaTextPresent;
 
   // add the stanza clone to the cloned voice
-  clonedVoice->
+  voiceClone->
     addStanzaToVoiceWithoutCatchUp (clone);
     
   return clone;
@@ -11964,7 +11964,7 @@ msrHarmony::msrHarmony (
 
 msrHarmony::~msrHarmony() {}
 
-S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
+S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
@@ -11975,14 +11975,14 @@ S_msrHarmony msrHarmony::createHarmonyBareClone (S_msrPart clonedPart)
   }
 
   msrAssert(
-    clonedPart != 0,
-    "clonedPart is null");
+    partClone != 0,
+    "partClone is null");
     
   S_msrHarmony
     clone =
       msrHarmony::create (
         fInputLineNumber,
-        clonedPart,
+        partClone,
         fHarmonyRootQuartertonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuartertonesPitch,
@@ -14672,7 +14672,7 @@ void msrSegment::initializeSegment ()
 }
 
 S_msrSegment msrSegment::createSegmentBareClone (
-  S_msrVoice clonedVoice)
+  S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
@@ -14682,15 +14682,15 @@ S_msrSegment msrSegment::createSegmentBareClone (
   }
 
   msrAssert(
-    clonedVoice != 0,
-    "clonedVoice is null");
+    voiceClone != 0,
+    "voiceClone is null");
     
   S_msrSegment
     clone =
       msrSegment::create (
         fInputLineNumber,
-        clonedVoice->getVoiceDirectPartUplink (),
-        clonedVoice);
+        voiceClone->getVoiceDirectPartUplink (),
+        voiceClone);
 
   clone->fSegmentTime =
     fSegmentTime;
@@ -15884,7 +15884,7 @@ msrRepeat::msrRepeat (
 
 msrRepeat::~msrRepeat() {}
 
-S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
+S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -15892,14 +15892,14 @@ S_msrRepeat msrRepeat::createRepeatBareClone (S_msrVoice clonedVoice)
       endl;
   
   msrAssert(
-    clonedVoice != 0,
-    "clonedVoice is null");
+    voiceClone != 0,
+    "voiceClone is null");
     
   S_msrRepeat
     clone =
       msrRepeat::create (
         fInputLineNumber,
-        clonedVoice);
+        voiceClone);
   
   return clone;
 }
@@ -16092,6 +16092,10 @@ msrMeasureRepeat::msrMeasureRepeat (
   fMeasureRepeatReplicasNumber = measureRepeatReplicasNumber;
   fMeasureRepeatSlashesNumber  = measureRepeatSlashesNumber;
 
+  msrAssert (
+    repeatedMeasure != 0,
+    "repeatedMeasure is null");
+    
   fMeasureRepeatRepeatedMeasure = repeatedMeasure;
   
   fMeasureRepeatVoiceUplink = voiceUplink;
@@ -16101,7 +16105,7 @@ msrMeasureRepeat::~msrMeasureRepeat() {}
 
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
   S_msrMeasure repeatedMeasureClone,
-  S_msrVoice   clonedVoice)
+  S_msrVoice   voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -16113,8 +16117,8 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
     "repeatedMeasureClone is null");
     
   msrAssert(
-    clonedVoice != 0,
-    "clonedVoice is null");
+    voiceClone != 0,
+    "voiceClone is null");
     
   S_msrMeasureRepeat
     clone =
@@ -16123,7 +16127,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
         fMeasureRepeatReplicasNumber,
         fMeasureRepeatSlashesNumber,
         repeatedMeasureClone,
-        clonedVoice);
+        voiceClone);
   
   return clone;
 }
@@ -16221,10 +16225,15 @@ void msrMeasureRepeat::print (ostream& os)
   // print the repeated measure
   os << idtr <<
     "Repeated measure: ";
-  idtr++;
-  os <<
-    fMeasureRepeatRepeatedMeasure;
-  idtr--;
+
+  if (fMeasureRepeatRepeatedMeasure) {
+    idtr++;
+    
+    os <<
+      fMeasureRepeatRepeatedMeasure;
+
+    idtr--;
+  }
   
   // print the replicas segment
   os << idtr <<
@@ -16491,7 +16500,7 @@ void msrVoice::initializeVoice ()
   }
 }
 
-S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
+S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff staffClone)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -16502,18 +16511,18 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff clonedStaff)
   }
 
   msrAssert(
-    clonedStaff != 0,
-    "clonedStaff is null");
+    staffClone != 0,
+    "staffClone is null");
     
   S_msrVoice
     clone =
       msrVoice::create (
         fInputLineNumber,
-        clonedStaff->
+        staffClone->
           getStaffDirectPartUplink (),
         fVoiceKind,
         fExternalVoiceNumber,
-        clonedStaff);
+        staffClone);
 
   // populate the voice clone
   clone->fVoiceName =
@@ -18466,7 +18475,7 @@ void msrStaff::initializeStaff ()
 msrStaff::~msrStaff()
 {}
 
-S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
+S_msrStaff msrStaff::createStaffBareClone (S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
@@ -18477,14 +18486,14 @@ S_msrStaff msrStaff::createStaffBareClone (S_msrPart clonedPart)
   }
   
   msrAssert(
-    clonedPart != 0,
-    "clonedPart is null");
+    partClone != 0,
+    "partClone is null");
     
   S_msrStaff
     clone =
       msrStaff::create (
         fInputLineNumber,
-        clonedPart,
+        partClone,
         fStaffKind,
         fStaffNumber);
 
@@ -19495,7 +19504,7 @@ void msrPart::initializePart ()
 
 msrPart::~msrPart() {}
 
-S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
+S_msrPart msrPart::createPartBareClone (S_msrPartgroup partgroupClone)
 {
   if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
@@ -19505,8 +19514,8 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
   }
 
   msrAssert(
-    clonedPartgroup != 0,
-    "clonedPartgroup is null");
+    partgroupClone != 0,
+    "partgroupClone is null");
     
   S_msrPart
     clone =
@@ -19514,7 +19523,7 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup clonedPartgroup)
         fInputLineNumber,
         fPartID,
         fPartStavesLinesNumber,
-        clonedPartgroup);
+        partgroupClone);
 
   clone->fPartDivisionsPerQuarterNote =
     fPartDivisionsPerQuarterNote;
@@ -20905,7 +20914,7 @@ msrPartgroup::~msrPartgroup()
 {}
 
 S_msrPartgroup msrPartgroup::createPartgroupBareClone (
-  S_msrPartgroup clonedPartgroup)
+  S_msrPartgroup partgroupClone)
 {
   if (gGeneralOptions->fTracePartgroups)
     cerr <<
@@ -20917,9 +20926,13 @@ S_msrPartgroup msrPartgroup::createPartgroupBareClone (
       getPartgroupCombinedName () <<
       endl;
 
+  // don't check against 0, since the partgroup stack
+  // that it comes from may be empty
+/* JMI
   msrAssert(
-    clonedPartgroup != 0,
-    "clonedPartgroup is null");
+    partgroupClone != 0,
+    "partgroupClone is null");
+    */
     
   S_msrPartgroup
     clone =
@@ -20933,7 +20946,7 @@ S_msrPartgroup msrPartgroup::createPartgroupBareClone (
         fPartgroupSymbolKind,
         fPartgroupSymbolDefaultX,
         fPartgroupBarline,
-        clonedPartgroup);
+        partgroupClone);
 
   // avoid part group clone to keep its (new) absolute number
   clone->fPartgroupAbsoluteNumber =

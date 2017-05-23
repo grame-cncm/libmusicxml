@@ -113,6 +113,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatending>,
   
+  public visitor<S_msrMeasureRepeat>,
+  
 //  public visitor<S_msrComment>, // JMI
   
   public visitor<S_msrVarValAssoc>,
@@ -275,6 +277,8 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrRepeat& elt);
     virtual void visitStart (S_msrRepeatending& elt);
     virtual void visitEnd   (S_msrRepeatending& elt);
+
+    virtual void visitStart (S_msrMeasureRepeat& elt);
 
 //    virtual void visitStart (S_msrComment& elt);
 //    virtual void visitEnd   (S_msrComment& elt);
