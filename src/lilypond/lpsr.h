@@ -455,10 +455,10 @@ class EXP lpsrElement : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 };
 typedef SMARTP<lpsrElement> S_lpsrElement;
 EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
@@ -556,15 +556,15 @@ class EXP lpsrParallelMusic : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -698,15 +698,15 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -800,15 +800,15 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -875,15 +875,15 @@ class EXP lpsrSchemeFunction : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
     
@@ -952,15 +952,15 @@ class EXP lpsrComment : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -1009,15 +1009,15 @@ class EXP lpsrBarNumberCheck : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -1068,15 +1068,15 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1127,15 +1127,15 @@ class EXP lpsrNewStafftuningBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1184,15 +1184,15 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1242,15 +1242,15 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1304,15 +1304,15 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1362,15 +1362,15 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1407,15 +1407,15 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   protected:
 
@@ -1504,15 +1504,15 @@ class EXP lpsrContext : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -1562,15 +1562,15 @@ class EXP lpsrBarCommand : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 };
@@ -1628,15 +1628,15 @@ class EXP lpsrMelismaCommand : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -1901,15 +1901,15 @@ class EXP lpsrHeader : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -2036,15 +2036,15 @@ class EXP lpsrPaper : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
 
   private:
@@ -2118,15 +2118,15 @@ class EXP lpsrLayout : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
   
@@ -2212,15 +2212,15 @@ class EXP lpsrStaffBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -2302,15 +2302,15 @@ class EXP lpsrPartBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -2372,15 +2372,15 @@ class EXP lpsrPartgroupBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -2451,15 +2451,15 @@ class EXP lpsrScoreBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
@@ -2580,15 +2580,15 @@ class EXP lpsrScore : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void acceptIn  (basevisitor* v);
-    virtual void acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
 
-    virtual void browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
 
-    virtual void print (ostream& os);
+    virtual void          print (ostream& os);
 
   private:
 
