@@ -15448,6 +15448,10 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     result =
       fSegmentMeasuresList.back ();
 
+  cerr <<
+    result <<
+    endl;
+
   fSegmentMeasuresList.pop_back ();
   
   return result;
@@ -17332,11 +17336,7 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
             getVoiceName () <<
             "\"" <<
             endl;
-      
-        msrAssert(
-          repeat != 0,
-          "repeat is null");
-          
+                
         fVoiceCurrentRepeat =
           repeat;
       
@@ -17797,7 +17797,15 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
       getVoiceName () <<
       "\"" <<
       endl;
-  
+
+  // removing empty measure created just before S_measure_repeat was visited
+  // since it is empty
+  S_msrMeasure
+    dummy = // JMI
+      fVoiceLastSegment->
+        removeLastMeasureFromSegment (inputLineNumber);
+
+  // remove (new) last measure and return it
   return
     fVoiceLastSegment->
       removeLastMeasureFromSegment (inputLineNumber);
