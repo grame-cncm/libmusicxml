@@ -6362,6 +6362,10 @@ class EXP msrVoice : public msrElement
 
     string                getVoiceName () const;
 
+    S_msrSegment          setVoiceCloneLastSegment (
+                            S_msrSegment segment)
+                              { fVoiceLastSegment = segment; }
+
     S_msrSegment          getVoiceLastSegment () const
                               { return fVoiceLastSegment; }
 

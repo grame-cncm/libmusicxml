@@ -975,12 +975,14 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
       "--> Start visiting msrSegment" <<
       endl;
 
+/* JMI
+
   // fetch the current segment clone
   fCurrentSegmentClone =
     fCurrentVoiceClone->
       getVoiceLastSegment ();
+      */
 
-/* JMI
   // create a clone of the segment
   fCurrentSegmentClone =
     elt->createSegmentBareClone (
@@ -988,9 +990,8 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 
   // append it to the current voice
   fCurrentVoiceClone->
-    appendSegmentToVoice (
+    setVoiceCloneLastSegment ( // cut's link to the one created by default JMI ???
       fCurrentSegmentClone);
-      */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)

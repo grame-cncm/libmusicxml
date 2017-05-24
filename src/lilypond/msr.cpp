@@ -16324,7 +16324,7 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
-// for regular voices
+// for regular voices JMI
 msrVoice::msrVoice (
   int          inputLineNumber,
   S_msrPart    voiceDirectPartUplink,
