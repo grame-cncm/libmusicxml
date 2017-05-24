@@ -44,6 +44,12 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   // the LPSR score we're visiting
   fVisitedLpsrScore = lpScore;
 
+  // inhibit the browsing of measure repeats replicas,
+  // since LilyPond only needs the repeat measure
+  fVisitedLpsrScore->
+    getMsrScore ()->
+      setInhibitMeasureRepeatReplicasBrowsing ();
+
   // header handling
   fOnGoingHeader = false;
   

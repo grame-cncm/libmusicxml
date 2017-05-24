@@ -16196,11 +16196,22 @@ void msrMeasureRepeat::browseData (basevisitor* v)
     msrBrowser<msrMeasure> browser (v);
     browser.browse (*fMeasureRepeatRepeatedMeasure);
   }
-  
+
+  // fetch the score
   if (fMeasureRepeatReplicasSegment) {
-  // browse the replicas segment
-    msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMeasureRepeatReplicasSegment);
+    msrScore
+      score =
+        fMeasureRepeatVoiceUplink->
+          getVoiceDirectPartUplink ()->
+            getPartPartgroupUplink ()->
+              getPartgroupScoreUplink ();
+              
+          
+    if (! score->fInhibitMeasureRepeatReplicasBrowsing) {
+      // browse the replicas segment
+      msrBrowser<msrSegment> browser (v);
+      browser.browse (*fMeasureRepeatReplicasSegment);
+    }
   }
 }
 
@@ -17417,6 +17428,13 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           inputLineNumber);
 
       /* JMI
+       
+        if (l.size() > N)
+{
+    std::list<Object>::iterator it = std::next(l.begin(), N);
+}
+
+ 
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -20859,7 +20877,8 @@ S_msrPartgroup msrPartgroup::create (
   msrPartgroupSymbolKind partgroupSymbolKind,
   int                    partgroupSymbolDefaultX,
   bool                   partgroupBarline,
-  S_msrPartgroup         partgroupPartgroupUplink)
+  S_msrPartgroup         partgroupPartgroupUplink,
+  S_msrScore             partgroupScoreUplink)
 {
   msrPartgroup* o =
     new msrPartgroup (
@@ -20872,7 +20891,8 @@ S_msrPartgroup msrPartgroup::create (
       partgroupSymbolKind,
       partgroupSymbolDefaultX,
       partgroupBarline,
-      partgroupPartgroupUplink);
+      partgroupPartgroupUplink,
+      partgroupScoreUplink);
   assert(o!=0);
   return o;
 }
@@ -20887,9 +20907,11 @@ msrPartgroup::msrPartgroup (
   msrPartgroupSymbolKind partgroupSymbolKind,
   int                    partgroupSymbolDefaultX,
   bool                   partgroupBarline,
-  S_msrPartgroup         partgroupPartgroupUplink)
+  S_msrPartgroup         partgroupPartgroupUplink,
+  S_msrScore             partgroupScoreUplink)
     : msrElement (inputLineNumber)
 {
+  // generate a new partgroup absolute number
   fPartgroupAbsoluteNumber = ++gPartgroupsCounter;
   
   fPartgroupNumber = partgroupNumber;
@@ -20907,6 +20929,8 @@ msrPartgroup::msrPartgroup (
   fPartgroupBarline = partgroupBarline;
 
   fPartgroupPartgroupUplink = partgroupPartgroupUplink;
+
+  fPPartgroupScoreUplink = partgroupScoreUplink;
   
   if (gGeneralOptions->fTracePartgroups)
     cerr <<
@@ -20922,7 +20946,8 @@ msrPartgroup::~msrPartgroup()
 {}
 
 S_msrPartgroup msrPartgroup::createPartgroupBareClone (
-  S_msrPartgroup partgroupClone)
+  S_msrPartgroup partgroupClone,
+  S_msrScore     scoreClone)
 {
   if (gGeneralOptions->fTracePartgroups)
     cerr <<
@@ -20954,7 +20979,8 @@ S_msrPartgroup msrPartgroup::createPartgroupBareClone (
         fPartgroupSymbolKind,
         fPartgroupSymbolDefaultX,
         fPartgroupBarline,
-        partgroupClone);
+        partgroupClone,
+        scoreClone);
 
   // avoid part group clone to keep its (new) absolute number
   clone->fPartgroupAbsoluteNumber =
@@ -21778,13 +21804,18 @@ msrScore::msrScore (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
+  // create the identification
   fIdentification =
     msrIdentification::create (
       inputLineNumber);
-      
+
+  // create the page geometry
   fPageGeometry =
     msrPageGeometry::create (
       inputLineNumber);
+
+  // measure repeats replicas should be browsed by default
+  fInhibitMeasureRepeatReplicasBrowsing = false;
 }
 
 msrScore::~msrScore() {}

@@ -93,6 +93,9 @@ typedef SMARTP<msrPart> S_msrPart;
 class msrPartgroup;
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
 
+class msrScore;
+typedef SMARTP<msrScore> S_msrScore;
+
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
@@ -7297,10 +7300,12 @@ class EXP msrPartgroup : public msrElement
       msrPartgroupSymbolKind partgroupSymbolKind,
       int                    partgroupSymbolDefaultX,
       bool                   partgroupBarline,
-      S_msrPartgroup         partgroupPartgroupUplink);
+      S_msrPartgroup         partgroupPartgroupUplink,
+      S_msrScore             partgroupScoreUplink);
 
     SMARTP<msrPartgroup> createPartgroupBareClone (
-      S_msrPartgroup partgroupClone); // the uplink
+      S_msrPartgroup partgroupClone, // the uplink for embeddeed part groups
+      S_msrScore     scoreClone);
 
   protected:
 
@@ -7317,7 +7322,8 @@ class EXP msrPartgroup : public msrElement
       msrPartgroupSymbolKind partgroupSymbolKind,
       int                    partgroupSymbolDefaultX,
       bool                   partgroupBarline,
-      S_msrPartgroup         partgroupPartgroupUplink);
+      S_msrPartgroup         partgroupPartgroupUplink,
+      S_msrScore             partgroupScoreUplink);
             
     virtual ~msrPartgroup();
   
@@ -7372,6 +7378,9 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPartgroup        getPartgroupPartgroupUplink () const
                               { return fPartgroupPartgroupUplink; }
+
+    S_msrScore            getPartgroupScoreUplink () const
+                              { return fPartgroupScoreUplink; }
 
     // services
     // ------------------------------------------------------
@@ -7435,6 +7444,8 @@ class EXP msrPartgroup : public msrElement
     list<S_msrElement>      fPartgroupElements;
     
     S_msrPartgroup          fPartgroupPartgroupUplink;
+
+    S_msrScore              fPartgroupScoreUplink;
 };
 typedef SMARTP<msrPartgroup> S_msrPartgroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
@@ -7487,6 +7498,19 @@ class EXP msrScore : public msrElement
                           getPartgroupsList () const
                               { return fPartgroupsList; }
 
+    void                  setInhibitMeasureRepeatReplicasBrowsing ()
+                              {
+                                fInhibitMeasureRepeatReplicasBrowsing =
+                                  true;
+                              }
+                            
+    bool                  getInhibitMeasureRepeatReplicasBrowsing ()
+                            const
+                              {
+                                return
+                                  fInhibitMeasureRepeatReplicasBrowsing;
+                              };
+
     // services
     // ------------------------------------------------------
 
@@ -7517,6 +7541,10 @@ class EXP msrScore : public msrElement
     S_msrCredit          fCredit;
     
     list<S_msrPartgroup> fPartgroupsList;
+
+    // in <measure-repeat/>, the measure replicas are explicit,
+    // whereas LilyPond only needs the repeated measure
+    bool                 fInhibitMeasureRepeatReplicasBrowsing;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);

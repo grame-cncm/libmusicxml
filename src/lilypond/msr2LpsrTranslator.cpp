@@ -106,7 +106,8 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // create the LPSR score
   fLpsrScore =
     lpsrScore::create (
-      0, fCurrentMsrScoreClone);
+      0, // input line number
+      fCurrentMsrScoreClone);
       
   // fetch score header
   fLpsrScoreHeader =
@@ -359,7 +360,8 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
       elt->createPartgroupBareClone (
         fPartgroupsStack.size ()
           ? fPartgroupsStack.top ()
-          : 0);
+          : 0,
+        fLpsrScore->getMsrScore ());
 
   // push it onto this visitors's stack,
   // making it the current partgroup block
