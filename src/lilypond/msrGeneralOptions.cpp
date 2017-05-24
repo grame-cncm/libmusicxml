@@ -155,15 +155,29 @@ void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   // trace and display
   // --------------------------------------
+  
+  cerr <<
+    idtr << "Trace and display:" <<
+    endl;
+
+  idtr++;
 
   cerr <<
     idtr <<
       setw(fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
       booleanAsString (fTraceMusicXMLTreeVisitors) <<
       endl;
+
+  idtr--;
       
   // other
   // --------------------------------------
+
+  cerr <<
+    idtr << "Other:" <<
+    endl;
+
+  idtr++;
 
   cerr <<
     idtr <<
@@ -175,6 +189,9 @@ void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
       setw(fieldWidth) << "loopToMusicXML" << " : " <<
       booleanAsString (fLoopToMusicXML) <<
       endl;
+
+  idtr--;
+
 
   idtr--;
 }
