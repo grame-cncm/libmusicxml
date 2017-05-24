@@ -15445,12 +15445,13 @@ void msrSegment::removeNoteFromSegment (
 S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       "'" <<
       endl;
+  }
 
   if (! fSegmentMeasuresList.size ()) {
     stringstream s;
@@ -15468,9 +15469,18 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     result =
       fSegmentMeasuresList.back ();
 
-  cerr <<
-    result <<
-    endl;
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    cerr << idtr <<
+      "This measure contains:";
+
+    idtr++;
+
+    cerr <<
+      result <<
+      endl;
+
+    idtr--;
+  }
 
   fSegmentMeasuresList.pop_back ();
   
