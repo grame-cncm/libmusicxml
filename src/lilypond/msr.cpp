@@ -17479,7 +17479,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             repeatedMeasure,
             this);
 
-        // create a new segment to collect the neasure repeat replicas
+        // create a new segment to collect the measure repeat replicas
         // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
@@ -17546,8 +17546,8 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             fVoiceLastSegment->
               getSegmentMeasuresListToModify ();
        
-        // grab the repeated measure,
-        // which is first in the current last segment measure list
+        // grab the measure following the measure repeat,
+        // which is the last in the current last segment measure list
         if (! voiceLastSegmentMeasureList.size ()) {
           stringstream s;
 
@@ -17558,18 +17558,47 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             inputLineNumber, s.str());
         }
 
-        list<S_msrMeasure>::iterator firstMeasureInList =
-          next (voiceLastSegmentMeasureList.begin(), 0); // first element
-
+        S_msrMeasure
+          followingMeasure =
+            voiceLastSegmentMeasureList.back ();
+            
         cerr <<
           endl <<
-          "==========> firstMeasureInList:" <<
+          "==========> followingMeasure:" <<
           endl;
           
-          (*firstMeasureInList)->print (cerr);
+          followingMeasure->print (cerr);
           
         cerr <<
           endl;
+
+        // remove the following measure from teh current last segment measure list
+        voiceLastSegmentMeasureList.pop_back ();
+
+        // create a new segment to collect the remainder of the voice,
+        // containing the following, yet incomplete, measure
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "Creating a new last segment with the following measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentWithFirstMeasureForVoice (
+          inputLineNumber,
+          followingMeasure);
+
+        // print resulting voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "The resulting voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
+
 
   /* JMI
         // remove the repeated measure from the last segment measure list
@@ -17586,7 +17615,6 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         idtr++;
         print (cerr);
         idtr--;
-*/
 
         // set current last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
@@ -17599,8 +17627,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         fVoicePendingMeasureRepeat->
           setMeasureRepeatReplicasSegment (
             fVoiceLastSegment);
+*/
                 
-       // append pending measure repeat to the list of repeats and segments
+        // append pending measure repeat to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMeasureRepeat);
 
