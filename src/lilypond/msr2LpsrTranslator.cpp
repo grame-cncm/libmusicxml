@@ -1057,15 +1057,15 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       "--> Start visiting msrMeasure" <<
       endl;
 
+/* JMI
   fCurrentPartClone->
     setPartMeasureNumber (
       elt->getInputLineNumber (),
       elt->getMeasureNumber ());
-    //*/
+    */
 
   // measure 1 is created by default initially
   
-/* JMI
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->
@@ -1076,7 +1076,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   fCurrentSegmentClone->
     appendMeasureToSegment (
       fCurrentMeasureClone);
-      */
 }
 
 void msr2LpsrTranslator::finalizeMeasure ( // JMI
