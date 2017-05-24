@@ -17519,7 +17519,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
     case msrVoice::kRegularVoice:
       {
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -17548,7 +17548,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
        
         // grab the repeated measure,
         // which is first in the current last segment measure list
-        if (voiceLastSegmentMeasureList.size () < 0) {
+        if (! voiceLastSegmentMeasureList.size ()) {
           stringstream s;
 
           s <<
@@ -17570,13 +17570,14 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           
         cerr <<
           endl;
-  
+
+  /* JMI
         // remove the repeated measure from the last segment measure list
         voiceLastSegmentMeasureList.
           erase (firstMeasureInList);
           
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -17585,6 +17586,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         idtr++;
         print (cerr);
         idtr--;
+*/
 
         // set current last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
@@ -17603,7 +17605,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           fVoicePendingMeasureRepeat);
 
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
