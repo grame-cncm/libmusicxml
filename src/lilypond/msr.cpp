@@ -17486,8 +17486,9 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentForVoice (
-          inputLineNumber);
+        createNewLastSegmentWithFirstMeasureForVoice (
+          inputLineNumber,
+          firstReplicaMeasure);
       }
       break;
       
