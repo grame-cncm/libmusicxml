@@ -2705,10 +2705,10 @@ class EXP msrSegment : public msrElement
       S_msrVoice segmentVoicekUplink);
 
     static SMARTP<msrSegment> createWithFirstMeasure (
-      int        inputLineNumber,
-      S_measure  firstMeasure,
-      S_msrPart  segmentDirectPartUplink,
-      S_msrVoice segmentVoicekUplink);
+      int          inputLineNumber,
+      S_msrPart    segmentDirectPartUplink,
+      S_msrVoice   segmentVoicekUplink,
+      S_msrMeasure firstMeasure);
 
     SMARTP<msrSegment> createSegmentBareClone (
       S_msrVoice voiceClone);
@@ -2719,10 +2719,10 @@ class EXP msrSegment : public msrElement
     // ------------------------------------------------------
 
     msrSegment (
-      int        inputLineNumber,
-      S_msrPart  segmentDirectPartUplink,
-      S_msrVoice segmentVoicekUplink,
-      S_measure  firstMeasure = 0); // only supplied for measure repeats
+      int          inputLineNumber,
+      S_msrPart    segmentDirectPartUplink,
+      S_msrVoice   segmentVoicekUplink,
+      S_msrMeasure firstMeasure = 0); // only supplied for measure repeats
       
     virtual ~msrSegment();
     
@@ -2731,7 +2731,8 @@ class EXP msrSegment : public msrElement
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeSegment (S_measure firstMeasure);
+    void                  initializeSegment (
+                            S_msrMeasure firstMeasure);
 
   public:
 
