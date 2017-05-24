@@ -431,6 +431,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr <<
+      "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ ", --" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the MusicXML tree visiting activity to standard error." <<
+      endl <<
+      
+    idtr <<
       "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
