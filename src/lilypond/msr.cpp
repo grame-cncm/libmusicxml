@@ -17487,47 +17487,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             
         createNewLastSegmentForVoice (
           inputLineNumber);
-
-      /* JMI
-       
-        if (l.size() > N)
-{
-    std::list<Object>::iterator it = std::next(l.begin(), N);
-}
-
- 
-        // set current last segment as the repeat common segment
-        if (gGeneralOptions->fTraceRepeats)
-          cerr << idtr <<
-            "Setting current last segment as repeat common segment in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            endl;
-      
-        repeat->
-          setRepeatCommonSegment (
-            fVoiceLastSegment);
-          
-        // register repeat as the (new) current repeat
-        if (gGeneralOptions->fTraceRepeats)
-          cerr << idtr <<
-            "Registering repeat as the new current repeat in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            endl;
-      
-        msrAssert(
-          repeat != 0,
-          "repeat is null");
-          
-        fVoiceCurrentRepeat =
-          repeat;
-      
-        // append it to the list of repeats and segments
-        fVoiceInitialRepeatsAndSegments.push_back (
-          repeat);
-          */
-      
       }
       break;
       
@@ -17545,22 +17504,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       {
-        // create a measure repeat
-        if (gGeneralOptions->fTraceRepeats)
-          cerr << idtr <<
-            "Creating a measure repeat from it's first measure in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-      
-        // grab the last measure from the voice
-        S_msrMeasure
-          voiceLastMeasure =
-            removeLastMeasureFromVoice (
-              inputLineNumber);
-
-        // create the measure repeat and keep it pending
+        // does the pending measure repeat exist?
         if (! fVoicePendingMeasureRepeat) {
           stringstream s;
 
@@ -17570,7 +17514,28 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           msrInternalError (
             inputLineNumber, s.str());
         }
-        
+
+        // fetch the last segment measure list
+        list<S_msrMeasure>&
+          voiceLastSegmentMeasureList =
+            fVoiceLastSegment->
+              getSegmentMeasuresListToModify ();
+       
+        // grab the repeated measure,
+        // which is first in the current last segment measure list
+        if (voiceLastSegmentMeasureList.size () < 1) {
+          stringstream s;
+
+          s <<
+            "attempting to grab first measure of voice last segment, that contains none";
+
+          msrInternalError (
+            inputLineNumber, s.str());
+        }
+
+        list<S_msrMeasure>::iterator it =
+          next (voiceLastSegmentMeasureList.begin(), 1);
+
         // set current last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -17583,7 +17548,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           setMeasureRepeatReplicasSegment (
             fVoiceLastSegment);
                 
-        // append pending measure repeat to the list of repeats and segments
+       // append pending measure repeat to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMeasureRepeat);
 

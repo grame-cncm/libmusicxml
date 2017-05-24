@@ -2752,6 +2752,9 @@ class EXP msrSegment : public msrElement
                           getSegmentMeasuresList () const
                               { return fSegmentMeasuresList; }
                                             
+    list<S_msrMeasure>&   getSegmentMeasuresListToModify ()
+                              { return fSegmentMeasuresList; }
+                                            
     void                  setSegmentTime (S_msrTime time)
                               { fSegmentTime = time; }
 
