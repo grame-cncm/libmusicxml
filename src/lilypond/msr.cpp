@@ -15714,7 +15714,7 @@ void msrSegment::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
     
     idtr--;
@@ -16295,8 +16295,6 @@ void msrMeasureRepeat::print (ostream& os)
 
     idtr--;
   }
-
-  os << endl;
       
   idtr--;
 }
@@ -17547,12 +17545,22 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             inputLineNumber, s.str());
         }
 
-        list<S_msrMeasure>::iterator repeatedMeasureInList =
+        list<S_msrMeasure>::iterator firstMeasureInList =
           next (voiceLastSegmentMeasureList.begin(), 1);
+
+        cerr <<
+          endl <<
+          "==========> firstMeasureInList:" <<
+          endl;
+          
+          (*firstMeasureInList)->print (cerr);
+          
+        cerr <<
+          endl;
   
         // remove the repeated measure from the last segment measure list
         voiceLastSegmentMeasureList.
-          erase (repeatedMeasureInList);
+          erase (firstMeasureInList);
           
         // set current last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
