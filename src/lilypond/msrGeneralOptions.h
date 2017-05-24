@@ -38,11 +38,14 @@ namespace MusicXML2
 // MusicXML options
 //______________________________________________________________________________
 
-// MusicXML
+// trace and display
 // --------------------------------------
 
 #define _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_  "traceMusicXMLTreeVisitors"
 #define _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ "tmxtvisits"
+
+// other
+// --------------------------------------
 
 #define _INGORE_MUSICXML_ERRORS_LONG_NAME_  "ingoreMusicXMLErrors"
 #define _INGORE_MUSICXML_ERRORS_SHORT_NAME_ "ime"
@@ -80,10 +83,14 @@ class EXP msrMusicXMLOptions : public smartable
  
   public:
 
-    // MusicXML
+    // trace and display
+    // --------------------------------------
+    
+    bool                  fTraceMusicXMLTreeVisitors;
+
+    // other
     // --------------------------------------
   
-    bool                  fTraceMusicXMLTreeVisitors;
     bool                  fIgnoreMusicXMLErrors;
     bool                  fLoopToMusicXML;
 };

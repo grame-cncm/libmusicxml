@@ -257,24 +257,6 @@ void analyzeOptions (
     
   int traceDetailedPresent = 0;
   
-  // MusicXML
-  // --------------------------------------
-
-  checkOptionUniqueness (
-    _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_, _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_);
-    
-  int traceMusicXMLTreeVisitorsPresent = 0;
-
-  checkOptionUniqueness (
-    _INGORE_MUSICXML_ERRORS_LONG_NAME_, _INGORE_MUSICXML_ERRORS_SHORT_NAME_);
-    
-  int ignoreMusicXMLErrorsPresent = 0;
-
-  checkOptionUniqueness (
-    _LOOP_TO_MUSICXML_LONG_NAME_, _LOOP_TO_MUSICXML_SHORT_NAME_);
-    
-  int loopToMusicXMLPresent = 0;
-
   // CPU usage
   // --------------------------------------
   
@@ -389,6 +371,30 @@ void analyzeOptions (
   int traceHarmoniesPresent = 0;
 
   
+  // MusicXML options
+  // ----------------
+
+  // trace and display
+  // --------------------------------------
+
+  checkOptionUniqueness (
+    _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_, _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_);
+    
+  int traceMusicXMLTreeVisitorsPresent = 0;
+
+  // other
+  // --------------------------------------
+
+  checkOptionUniqueness (
+    _INGORE_MUSICXML_ERRORS_LONG_NAME_, _INGORE_MUSICXML_ERRORS_SHORT_NAME_);
+    
+  int ignoreMusicXMLErrorsPresent = 0;
+
+  checkOptionUniqueness (
+    _LOOP_TO_MUSICXML_LONG_NAME_, _LOOP_TO_MUSICXML_SHORT_NAME_);
+    
+  int loopToMusicXMLPresent = 0;
+
   // MSR options
   // -----------
 
@@ -782,36 +788,6 @@ void analyzeOptions (
       required_argument, &traceDetailedPresent, 1
     },
     
-    // MusicXML
-    // --------------------------------------
-
-    {
-      _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_,
-      no_argument, &traceMusicXMLTreeVisitorsPresent, 1
-    },
-    {
-      _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_,
-      no_argument, &traceMusicXMLTreeVisitorsPresent, 1
-    },
-
-    {
-      _INGORE_MUSICXML_ERRORS_LONG_NAME_,
-      no_argument, &ignoreMusicXMLErrorsPresent, 1
-    },
-    {
-      _INGORE_MUSICXML_ERRORS_SHORT_NAME_,
-      no_argument, &ignoreMusicXMLErrorsPresent, 1
-    },
-
-    {
-      _LOOP_TO_MUSICXML_LONG_NAME_,
-      no_argument, &loopToMusicXMLPresent, 1
-    },
-    {
-      _LOOP_TO_MUSICXML_SHORT_NAME_,
-      no_argument, &loopToMusicXMLPresent, 1
-    },
-
     // CPU usage
     // --------------------------------------
 
@@ -997,6 +973,42 @@ void analyzeOptions (
       no_argument, &traceHarmoniesPresent, 1
     },
     
+    // MusicXML options
+    // ----------------
+
+    // trace and display
+    // --------------------------------------
+
+    {
+      _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_,
+      no_argument, &traceMusicXMLTreeVisitorsPresent, 1
+    },
+    {
+      _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_,
+      no_argument, &traceMusicXMLTreeVisitorsPresent, 1
+    },
+
+    // other
+    // --------------------------------------
+
+    {
+      _INGORE_MUSICXML_ERRORS_LONG_NAME_,
+      no_argument, &ignoreMusicXMLErrorsPresent, 1
+    },
+    {
+      _INGORE_MUSICXML_ERRORS_SHORT_NAME_,
+      no_argument, &ignoreMusicXMLErrorsPresent, 1
+    },
+
+    {
+      _LOOP_TO_MUSICXML_LONG_NAME_,
+      no_argument, &loopToMusicXMLPresent, 1
+    },
+    {
+      _LOOP_TO_MUSICXML_SHORT_NAME_,
+      no_argument, &loopToMusicXMLPresent, 1
+    },
+
     // MSR options
     // -----------
 
@@ -1636,42 +1648,6 @@ R"(
           traceDetailedPresent = false;
         }
 
-        // MusicXML
-        // --------------------------------------
-
-        if (traceMusicXMLTreeVisitorsPresent) {
-          gMusicXMLOptions->fTraceMusicXMLTreeVisitors = true;
-          
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ " ";
-            
-          traceMusicXMLTreeVisitorsPresent = false;
-        }
-        
-        if (ignoreMusicXMLErrorsPresent) {
-          gMusicXMLOptions->fIgnoreMusicXMLErrors = true;
-          
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _INGORE_MUSICXML_ERRORS_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ " ";
-            
-          ignoreMusicXMLErrorsPresent = false;
-        }
-        
-        if (loopToMusicXMLPresent) {
-          gMusicXMLOptions->fLoopToMusicXML = true;
-          
-          gGeneralOptions->fCommandLineLongOptions +=
-            "--" _LOOP_TO_MUSICXML_LONG_NAME_ " ";
-          gGeneralOptions->fCommandLineShortOptions +=
-            "--" _LOOP_TO_MUSICXML_SHORT_NAME_ " ";
-            
-          loopToMusicXMLPresent = false;
-        }
-        
         // CPU usage
         // --------------------------------------
 
@@ -1909,6 +1885,48 @@ R"(
             "--" _TRACE_HARMONIES_SHORT_NAME_ " ";
             
           traceHarmoniesPresent = false;
+        }
+        
+        // MusicXML options
+        // ----------------
+
+        // trace and display
+        // --------------------------------------
+
+        if (traceMusicXMLTreeVisitorsPresent) {
+          gMusicXMLOptions->fTraceMusicXMLTreeVisitors = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ " ";
+            
+          traceMusicXMLTreeVisitorsPresent = false;
+        }
+        
+        // other
+        // --------------------------------------
+
+        if (ignoreMusicXMLErrorsPresent) {
+          gMusicXMLOptions->fIgnoreMusicXMLErrors = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _INGORE_MUSICXML_ERRORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ " ";
+            
+          ignoreMusicXMLErrorsPresent = false;
+        }
+        
+        if (loopToMusicXMLPresent) {
+          gMusicXMLOptions->fLoopToMusicXML = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _LOOP_TO_MUSICXML_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _LOOP_TO_MUSICXML_SHORT_NAME_ " ";
+            
+          loopToMusicXMLPresent = false;
         }
         
         // MSR options

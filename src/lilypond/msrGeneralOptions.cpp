@@ -44,10 +44,14 @@ msrMusicXMLOptions::~msrMusicXMLOptions () {}
 void msrMusicXMLOptions::initializeMusicXMLOptions (
   bool boolOptionsInitialValue)
 {
-  // MusicXML
+  // trace and display
   // --------------------------------------
 
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
+
+  // other
+  // --------------------------------------
+
   fIgnoreMusicXMLErrors = boolOptionsInitialValue;
   fLoopToMusicXML = boolOptionsInitialValue;
 }
@@ -58,11 +62,15 @@ S_msrMusicXMLOptions msrMusicXMLOptions::createCloneWithDetailedTrace ()
     clone =
       msrMusicXMLOptions::create ();
 
-  // MusicXML
+  // trace and display
   // --------------------------------------
 
   clone->fTraceMusicXMLTreeVisitors =
     true;
+
+  // other
+  // --------------------------------------
+
   clone->fIgnoreMusicXMLErrors =
     true;
   clone->fLoopToMusicXML =
@@ -82,6 +90,16 @@ void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
 
   idtr++;
 
+  // trace and display
+  // --------------------------------------
+  
+  cerr <<
+    idtr << "Trace and display:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
   cerr <<
     idtr <<
       "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ ", --" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ <<
@@ -89,8 +107,21 @@ void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
     idtr << tab << tab << tab <<
       "Write a trace of the MusicXML tree visiting activity to standard error." <<
       endl <<
-    endl <<
+    endl;
+
+  idtr--;
       
+  // other
+  // --------------------------------------
+  
+  cerr <<
+    idtr << "Other:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
     idtr <<
       "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
       endl <<
@@ -122,12 +153,19 @@ void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   idtr++;
 
+  // trace and display
+  // --------------------------------------
+
   cerr <<
     idtr <<
       setw(fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
       booleanAsString (fTraceMusicXMLTreeVisitors) <<
-      endl <<
+      endl;
       
+  // other
+  // --------------------------------------
+
+  cerr <<
     idtr <<
       setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
       booleanAsString (fIgnoreMusicXMLErrors) <<
