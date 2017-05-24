@@ -16199,7 +16199,7 @@ void msrMeasureRepeat::browseData (basevisitor* v)
 
   // fetch the score
   if (fMeasureRepeatReplicasSegment) {
-    msrScore
+    S_msrScore
       score =
         fMeasureRepeatVoiceUplink->
           getVoiceDirectPartUplink ()->
@@ -16207,7 +16207,7 @@ void msrMeasureRepeat::browseData (basevisitor* v)
               getPartgroupScoreUplink ();
               
           
-    if (! score->fInhibitMeasureRepeatReplicasBrowsing) {
+    if (! score->getInhibitMeasureRepeatReplicasBrowsing ()) {
       // browse the replicas segment
       msrBrowser<msrSegment> browser (v);
       browser.browse (*fMeasureRepeatReplicasSegment);
@@ -20930,7 +20930,7 @@ msrPartgroup::msrPartgroup (
 
   fPartgroupPartgroupUplink = partgroupPartgroupUplink;
 
-  fPPartgroupScoreUplink = partgroupScoreUplink;
+  fPartgroupScoreUplink = partgroupScoreUplink;
   
   if (gGeneralOptions->fTracePartgroups)
     cerr <<
