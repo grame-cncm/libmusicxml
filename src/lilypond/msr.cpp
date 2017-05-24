@@ -17447,6 +17447,8 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             endl;
       
         // grab the just created last measure from the voice,
+        // (i.e. the one containing:
+        //   <measure-repeat ... type="start">2</measure-repeat>)
         // which is the first replica measure
         S_msrMeasure
           firstReplicaMeasure =
@@ -17460,7 +17462,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
-        // create the measure repeat and keep it pending
+        // create the measure repeat
         if (fVoicePendingMeasureRepeat) {
           stringstream s;
 
@@ -17479,7 +17481,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             repeatedMeasure,
             this);
 
-        // create a new segment to collect the measure repeat replicas
+        // create a new segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
@@ -17501,6 +17503,8 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         idtr++;
         print (cerr);
         idtr--;
+
+        // keep the measure repeat pending
       }
       break;
       
@@ -17540,14 +17544,16 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             inputLineNumber, s.str());
         }
 
-        // fetch the last segment measure list
+        // fetch the last segment's measure list
         list<S_msrMeasure>&
           voiceLastSegmentMeasureList =
             fVoiceLastSegment->
               getSegmentMeasuresListToModify ();
        
-        // grab the measure following the measure repeat,
-        // which is the last in the current last segment measure list
+        // grab the just created last measure in the last segment's measure list,
+        // (i.e. the one containing:
+        //   <measure-repeat type="stop"/>)
+        // which is the next measure after the measure repeat
         if (! voiceLastSegmentMeasureList.size ()) {
           stringstream s;
 
@@ -17559,33 +17565,60 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         }
 
         S_msrMeasure
-          followingMeasure =
+          nextMeasureAfterMeasureRepeat =
             voiceLastSegmentMeasureList.back ();
             
         cerr <<
           endl <<
-          "==========> followingMeasure:" <<
+          "==========> nextMeasureAfterMeasureRepeat:" <<
           endl;
           
-          followingMeasure->print (cerr);
+          nextMeasureAfterMeasureRepeat->print (cerr);
           
         cerr <<
           endl;
 
-        // remove the following measure from teh current last segment measure list
+        // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
+        // set last segment as the measure repeat replicas segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as measure repeat replicas segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        fVoicePendingMeasureRepeat->
+          setMeasureRepeatReplicasSegment (
+            fVoiceLastSegment);
+
+        // append pending measure repeat to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          fVoicePendingMeasureRepeat);
+
+        // print current voice contents
+   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
         // create a new segment to collect the remainder of the voice,
-        // containing the following, yet incomplete, measure
+        // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the following measure for voice \"" <<
+            "Creating a new last segment with the next measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
         createNewLastSegmentWithFirstMeasureForVoice (
           inputLineNumber,
-          followingMeasure);
+          nextMeasureAfterMeasureRepeat);
 
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -17616,23 +17649,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         print (cerr);
         idtr--;
 
-        // set current last segment as the measure repeat replicas segment
-        if (gGeneralOptions->fTraceRepeats)
-          cerr << idtr <<
-            "Setting current last segment as measure repeat replicas segment in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            endl;
-      
-        fVoicePendingMeasureRepeat->
-          setMeasureRepeatReplicasSegment (
-            fVoiceLastSegment);
-*/
                 
-        // append pending measure repeat to the list of repeats and segments
-        fVoiceInitialRepeatsAndSegments.push_back (
-          fVoicePendingMeasureRepeat);
-
         // print current voice contents
    //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
@@ -17643,6 +17660,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         idtr++;
         print (cerr);
         idtr--;
+*/
 
         // forget about this pending measure repeat
         fVoicePendingMeasureRepeat = 0;
