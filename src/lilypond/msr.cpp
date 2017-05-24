@@ -14118,6 +14118,7 @@ bool msrMeasure::checkForIncompleteMeasure (
     idtr++;
 
     const int fieldWidth = 31;
+    
     cerr << left <<
       idtr <<
         setw(fieldWidth) << "MeasureDivisionsPerFullMeasure" << " = " <<
@@ -14189,17 +14190,19 @@ bool msrMeasure::checkForOverfullMeasure (
   if (gGeneralOptions->fTraceMeasures) {
     idtr++;
 
+    const int fieldWidth = 31;
+    
     cerr <<
       idtr <<
-        setw(38) << "MeasureDivisionsPerFullMeasure" << " = " <<
+        setw(fieldWidth) << "MeasureDivisionsPerFullMeasure" << " = " <<
         fMeasureDivisionsPerFullMeasure <<
         endl <<
       idtr <<
-        setw(38) << "MeasurePosition" << " = " <<
+        setw(fieldWidth) << "MeasurePosition" << " = " <<
         fMeasurePosition <<
         endl <<
       idtr <<
-        setw(38) << "MeasureLength" << " = " <<
+        setw(fieldWidth) << "MeasureLength" << " = " <<
         getMeasureLength () <<
         endl;
 
@@ -17498,7 +17501,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         idtr++;
         print (cerr);
         idtr--;
-          
       }
       break;
       
@@ -17516,6 +17518,17 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       {
+        // print current voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
         // does the pending measure repeat exist?
         if (! fVoicePendingMeasureRepeat) {
           stringstream s;
@@ -17535,7 +17548,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
        
         // grab the repeated measure,
         // which is first in the current last segment measure list
-        if (voiceLastSegmentMeasureList.size () < 1) {
+        if (voiceLastSegmentMeasureList.size () < 0) {
           stringstream s;
 
           s <<
@@ -17546,7 +17559,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         }
 
         list<S_msrMeasure>::iterator firstMeasureInList =
-          next (voiceLastSegmentMeasureList.begin(), 1);
+          next (voiceLastSegmentMeasureList.begin(), 0); // first element
 
         cerr <<
           endl <<
@@ -17562,6 +17575,17 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         voiceLastSegmentMeasureList.
           erase (firstMeasureInList);
           
+        // print current voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
         // set current last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -17577,6 +17601,17 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
        // append pending measure repeat to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMeasureRepeat);
+
+        // print current voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
 
         // forget about this pending measure repeat
         fVoicePendingMeasureRepeat = 0;
@@ -18986,7 +19021,7 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending the pending measure repeat in staff " <<
+      "Appending the pending measure repeat to staff " <<
       fStaffNumber <<
       " in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
