@@ -247,6 +247,11 @@ void analyzeOptions (
   // --------------------------------------
 
   checkOptionUniqueness (
+    _TRACE_MUSICXML_VISITORS_LONG_NAME_, _TRACE_MUSICXML_VISITORS_SHORT_NAME_);
+    
+  int traceMusicXMLTreeVisitorsPresent = 0;
+
+  checkOptionUniqueness (
     _INGORE_MUSICXML_ERRORS_LONG_NAME_, _INGORE_MUSICXML_ERRORS_SHORT_NAME_);
     
   int ignoreMusicXMLErrorsPresent = 0;
@@ -757,6 +762,15 @@ void analyzeOptions (
     
     // MusicXML
     // --------------------------------------
+
+    {
+      _TRACE_MUSICXML_VISITORS_LONG_NAME_,
+      no_argument, &traceMusicXMLTreeVisitorsPresent, 1
+    },
+    {
+      _TRACE_MUSICXML_VISITORS_SHORT_NAME_,
+      no_argument, &traceMusicXMLTreeVisitorsPresent, 1
+    },
 
     {
       _INGORE_MUSICXML_ERRORS_LONG_NAME_,
@@ -1599,6 +1613,17 @@ R"(
         // MusicXML
         // --------------------------------------
 
+        if (traceMusicXMLTreeVisitorsPresent) {
+          gGeneralOptions->fTraceMusicXMLTreeVisitors = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_MUSICXML_VISITORS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_MUSICXML_VISITORS_SHORT_NAME_ " ";
+            
+          traceMusicXMLTreeVisitorsPresent = false;
+        }
+        
         if (ignoreMusicXMLErrorsPresent) {
           gGeneralOptions->fIgnoreMusicXMLErrors = true;
           

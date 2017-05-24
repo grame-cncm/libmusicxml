@@ -89,6 +89,9 @@ namespace MusicXML2
 // MusicXML
 // --------------------------------------
 
+#define _TRACE_MUSICXML_VISITORS_LONG_NAME_  "traceMusicXMLTreeVisitors"
+#define _TRACE_MUSICXML_VISITORS_SHORT_NAME_ "tmxtvisits"
+
 #define _INGORE_MUSICXML_ERRORS_LONG_NAME_  "ingoreMusicXMLErrors"
 #define _INGORE_MUSICXML_ERRORS_SHORT_NAME_ "ime"
 
@@ -235,6 +238,7 @@ class EXP msrGeneralOptions : public smartable
     // MusicXML
     // --------------------------------------
   
+    bool                  fTraceMusicXMLTreeVisitors;
     bool                  fIgnoreMusicXMLErrors;
     bool                  fLoopToMusicXML;
 

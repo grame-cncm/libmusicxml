@@ -59,6 +59,7 @@ void msrGeneralOptions::initializeGeneralOptions (
   // MusicXML
   // --------------------------------------
 
+  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
   fIgnoreMusicXMLErrors = boolOptionsInitialValue;
   fLoopToMusicXML = boolOptionsInitialValue;
   
@@ -159,6 +160,8 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   // MusicXML
   // --------------------------------------
 
+  clone->fTraceMusicXMLTreeVisitors =
+    true;
   clone->fIgnoreMusicXMLErrors =
     true;
   clone->fLoopToMusicXML =
@@ -723,8 +726,18 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 
   cerr <<
     idtr <<
+      setw(fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
+      booleanAsString (fTraceMusicXMLTreeVisitors) <<
+      endl <<
+      
+    idtr <<
       setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
       booleanAsString (fIgnoreMusicXMLErrors) <<
+      endl <<
+      
+    idtr <<
+      setw(fieldWidth) << "loopToMusicXML" << " : " <<
+      booleanAsString (fLoopToMusicXML) <<
       endl;
 
   idtr--;
