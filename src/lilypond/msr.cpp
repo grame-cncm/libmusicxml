@@ -14117,17 +14117,18 @@ bool msrMeasure::checkForIncompleteMeasure (
   if (gGeneralOptions->fTraceMeasures) {
     idtr++;
 
-    cerr <<
+    const int fieldWidth = 31;
+    cerr << left <<
       idtr <<
-        setw(38) << "MeasureDivisionsPerFullMeasure" << " = " <<
+        setw(fieldWidth) << "MeasureDivisionsPerFullMeasure" << " = " <<
         fMeasureDivisionsPerFullMeasure <<
         endl <<
       idtr <<
-        setw(38) << "MeasurePosition" << " = " <<
+        setw(fieldWidth) << "MeasurePosition" << " = " <<
         fMeasurePosition <<
         endl <<
       idtr <<
-        setw(38) << "MeasureLength" << " = " <<
+        setw(fieldWidth) << "MeasureLength" << " = " <<
         getMeasureLength () <<
         endl;
 
@@ -17841,13 +17842,6 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
       getVoiceName () <<
       "\"" <<
       endl;
-
-  // removing empty measure created just before S_measure_repeat was visited
-  // since it is empty
-  S_msrMeasure
-    dummy = // JMI
-      fVoiceLastSegment->
-        removeLastMeasureFromSegment (inputLineNumber);
 
   // remove (new) last measure and return it
   return
