@@ -17489,6 +17489,18 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         createNewLastSegmentWithFirstMeasureForVoice (
           inputLineNumber,
           firstReplicaMeasure);
+
+        // print resulting voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "The resulting voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+          
       }
       break;
       
@@ -17535,9 +17547,13 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             inputLineNumber, s.str());
         }
 
-        list<S_msrMeasure>::iterator it =
+        list<S_msrMeasure>::iterator repeatedMeasureInList =
           next (voiceLastSegmentMeasureList.begin(), 1);
-
+  
+        // remove the repeated measure from the last segment measure list
+        voiceLastSegmentMeasureList.
+          erase (repeatedMeasureInList);
+          
         // set current last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
