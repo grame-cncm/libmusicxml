@@ -15476,8 +15476,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     idtr++;
 
     cerr <<
-      result <<
-      endl;
+      result;
 
     idtr--;
   }
