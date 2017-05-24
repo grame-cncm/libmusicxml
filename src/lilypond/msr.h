@@ -1966,7 +1966,7 @@ class EXP msrLigature : public msrElement
       int             inputLineNumber,
       int             ligatureNumber,
       msrLigatureKind ligatureKind);
-
+      
   protected:
 
     // constructors/destructor
@@ -2704,6 +2704,12 @@ class EXP msrSegment : public msrElement
       S_msrPart  segmentDirectPartUplink,
       S_msrVoice segmentVoicekUplink);
 
+    static SMARTP<msrSegment> createWithFirstMeasure (
+      int        inputLineNumber,
+      S_measure  firstMeasure,
+      S_msrPart  segmentDirectPartUplink,
+      S_msrVoice segmentVoicekUplink);
+
     SMARTP<msrSegment> createSegmentBareClone (
       S_msrVoice voiceClone);
 
@@ -2715,7 +2721,8 @@ class EXP msrSegment : public msrElement
     msrSegment (
       int        inputLineNumber,
       S_msrPart  segmentDirectPartUplink,
-      S_msrVoice segmentVoicekUplink);
+      S_msrVoice segmentVoicekUplink,
+      S_measure  firstMeasure = 0); // only supplied for measure repeats
       
     virtual ~msrSegment();
     
@@ -2724,7 +2731,7 @@ class EXP msrSegment : public msrElement
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeSegment ();
+    void                  initializeSegment (S_measure firstMeasure);
 
   public:
 
@@ -6511,6 +6518,10 @@ class EXP msrVoice : public msrElement
                             int inputLineNumber);
 
     void                  createNewLastSegmentForVoice (int inputLineNumber);
+    
+    void                  createNewLastSegmentWithFirstMeasureForVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure firstMeasure);
 
     void                  finalizeLastMeasureOfVoice (int inputLineNumber);
 

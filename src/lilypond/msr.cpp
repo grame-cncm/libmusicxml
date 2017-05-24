@@ -14569,10 +14569,28 @@ S_msrSegment msrSegment::create (
   return o;
 }
 
+S_msrSegment msrSegment::createWithFirstMeasure (
+  int        inputLineNumber,
+  S_measure  firstMeasure,
+  S_msrPart  segmentDirectPartUplink,
+  S_msrVoice segmentVoicekUplink)
+{
+  msrSegment* o =
+    new msrSegment (
+      inputLineNumber,
+      firstMeasure,
+      segmentDirectPartUplink,
+      segmentVoicekUplink);
+  assert(o!=0);
+
+  return o;
+}
+
 msrSegment::msrSegment (
   int        inputLineNumber,
   S_msrPart  segmentDirectPartUplink,
-  S_msrVoice segmentVoicekUplink)
+  S_msrVoice segmentVoicekUplink,
+  S_measure  firstMeasure)
     : msrElement (inputLineNumber)
 {
   // set segment's direct part uplink
@@ -14592,12 +14610,12 @@ msrSegment::msrSegment (
     segmentVoicekUplink;
 
   // initialize segment
-  initializeSegment ();
+  initializeSegment (firstMeasure);
 }
 
 msrSegment::~msrSegment() {}
 
-void msrSegment::initializeSegment ()
+void msrSegment::initializeSegment (S_measure firstMeasure)
 {
   
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
@@ -14645,14 +14663,15 @@ void msrSegment::initializeSegment ()
         endl;
   }
 
-  // create a first measure
-  S_msrMeasure
-    measure =
+  if (! firstMeasure) {
+    // create a first measure
+    firstMeasure =
       msrMeasure::create (
         fInputLineNumber,
         fSegmentDirectPartUplink,
         firstMeasureNumber,
         this);
+  }
 
   // set the measure clef, key and time if any
   /* JMI
@@ -14661,12 +14680,12 @@ void msrSegment::initializeSegment ()
   measure->setMeasureKey (
     lastMeasure->getMeasureKey ());
     */
-  measure->
-    setMeasureTime (
+  firstMeasure->
+    setMeasureTime ( // JMI
       fSegmentTime);
         
   // append the measure to the segment
-  appendMeasureToSegment (measure);
+  appendMeasureToSegment (firstMeasure);
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -16657,6 +16676,35 @@ void msrVoice::createNewLastSegmentForVoice (
         inputLineNumber);
 }
 
+void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
+  int          inputLineNumber,
+  S_msrMeasure firstMeasure)
+{
+  // check for incomplete last measure
+  // before creating the new last measure
+  bool lastMeasureIsIncomplete =
+    checkForIncompleteVoiceLastMeasure (
+      inputLineNumber);
+    
+  // create the segment
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "Creating a new segment with first measure '" <<
+      firstMeasure->getMeasureNumber () <<
+      "'for voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fVoiceLastSegment =
+    msrSegment::createwithFirstMeasure (
+      inputLineNumber,
+      firstMeasure,
+      fVoiceDirectPartUplink,
+      this);
+}
+
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
   int inputLineNumber,
   int stanzaNumber)
@@ -17392,9 +17440,17 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             ", line " << inputLineNumber <<
             endl;
       
-        // grab the last measure from the voice
+        // grab the just created last measure from the voice,
+        // which is the first replica measure
         S_msrMeasure
-          voiceLastMeasure =
+          firstReplicaMeasure =
+            removeLastMeasureFromVoice (
+              inputLineNumber);
+
+        // grab the (new current) last measure from the voice,
+        // which is the repeated measure
+        S_msrMeasure
+          repeatedMeasure =
             removeLastMeasureFromVoice (
               inputLineNumber);
 
@@ -17414,13 +17470,14 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             inputLineNumber,
             measureRepeatReplicasNumber,
             measureRepeatSlashes,
-            voiceLastMeasure,
+            repeatedMeasure,
             this);
 
         // create a new segment to collect the neasure repeat replicas
+        // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment for voice \"" <<
+            "Creating a new last segment with the first replica for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
