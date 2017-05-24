@@ -103,7 +103,7 @@ What it does:
       
     case kMusicXMLHelp:
       cerr <<
-        "General options (use '--h, --help' to see all the options):" <<
+        "MusicXML options (use '--h, --help' to see all the options):" <<
         endl <<
         endl;
       gMusicXMLOptions->printMusicXMLOptionsHelp ();
@@ -714,6 +714,14 @@ void analyzeOptions (
     {
       _HELP_GENERAL_SHORT_NAME_,
       no_argument, &helpGeneralPresent, 1
+    },
+    {
+      _HELP_MUSICXML_LONG_NAME_,
+      no_argument, &helpMusicXMLPresent, 1
+    },
+    {
+      _HELP_MUSICXML_SHORT_NAME_,
+      no_argument, &helpMusicXMLPresent, 1
     },
     {
       _HELP_MSR_LONG_NAME_,
@@ -2915,6 +2923,15 @@ void printOptions ()
   // print the chosen general options
   gGeneralOptions->
     printGeneralOptionsValues (fieldWidth);
+  cerr <<
+    endl;
+    
+  // MusicXML options
+  // -----------
+
+  // print the chosen MusicXML options
+  gMusicXMLOptions->
+    printMusicXMLOptionsValues (fieldWidth);
   cerr <<
     endl;
     

@@ -530,45 +530,6 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   idtr--;
 
-  // MusicXML
-  // --------------------------------------
-
-  cerr <<
-    idtr << "MusicXML:" <<
-    endl <<
-    endl;
-
-  idtr++;
-
-  cerr <<
-    idtr <<
-      "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ ", --" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Write a trace of the MusicXML tree visiting activity to standard error." <<
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Don't stop the translation after issuing a MusicXML error message." <<
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _LOOP_TO_MUSICXML_SHORT_NAME_ ", --" _LOOP_TO_MUSICXML_LONG_NAME_ <<
-      endl <<
-    idtr << tab << tab << tab <<
-      "Close the loop, generating a MusicXML file from the MSR. " << endl <<
-    idtr << tab << tab << tab <<
-      "The file name receives a '_loop' suffix. Currently under development." <<
-      endl <<
-    endl;
-
-  idtr--;
-
   // CPU usage
   // --------------------------------------
   
