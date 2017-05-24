@@ -21885,6 +21885,9 @@ S_msrScore msrScore::createScoreBareClone ()
       msrScore::create (
         fInputLineNumber);
 
+  clone->fInhibitMeasureRepeatReplicasBrowsing =
+    fInhibitMeasureRepeatReplicasBrowsing;
+    
   return clone;
 }
 

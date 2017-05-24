@@ -2627,6 +2627,26 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
     fOstream << idtr <<
       "--> Start visiting msrMeasureRepeat" <<
       endl;
+
+  fOstream << idtr <<
+    "\repeat percent { " <<
+    endl;
+
+  idtr++;
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMeasureRepeat" <<
+      endl;
+
+  idtr--;
+  
+  fOstream << idtr <<
+    "}" <<
+    endl;
 }
 
 //________________________________________________________________________

@@ -279,6 +279,7 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrRepeatending& elt);
 
     virtual void visitStart (S_msrMeasureRepeat& elt);
+    virtual void visitEnd   (S_msrMeasureRepeat& elt);
 
 //    virtual void visitStart (S_msrComment& elt);
 //    virtual void visitEnd   (S_msrComment& elt);
