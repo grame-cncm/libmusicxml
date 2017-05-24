@@ -39,7 +39,7 @@ using namespace MusicXML2;
 
 enum msrHelpKind {
   kAllHelp,
-  kGeneralHelp, kMsrHelp, kLpsrHelp};
+  kGeneralHelp, kMusicXMLHelp, kMsrHelp, kLpsrHelp};
   
 //_______________________________________________________________________________
 void printUsage (
@@ -88,6 +88,7 @@ What it does:
         endl <<
         endl;
       gGeneralOptions->printGeneralOptionsHelp ();
+      gMusicXMLOptions->printMusicXMLOptionsHelp ();
       gMsrOptions->printMsrOptionsHelp ();
       gLpsrOptions->printLpsrOptionsHelp ();
       break;
@@ -98,6 +99,14 @@ What it does:
         endl <<
         endl;
       gGeneralOptions->printGeneralOptionsHelp ();
+      break;
+      
+    case kMusicXMLHelp:
+      cerr <<
+        "General options (use '--h, --help' to see all the options):" <<
+        endl <<
+        endl;
+      gMusicXMLOptions->printMusicXMLOptionsHelp ();
       break;
       
     case kMsrHelp:
@@ -206,6 +215,11 @@ void analyzeOptions (
     _HELP_GENERAL_LONG_NAME_, _HELP_GENERAL_SHORT_NAME_);
     
   int helpGeneralPresent = 0;
+
+  checkOptionUniqueness (
+    _HELP_MUSICXML_LONG_NAME_, _HELP_MUSICXML_SHORT_NAME_);
+    
+  int helpMusicXMLPresent = 0;
 
   checkOptionUniqueness (
     _HELP_MSR_LONG_NAME_, _HELP_MSR_SHORT_NAME_);
@@ -1512,6 +1526,10 @@ R"(
           printUsage (kGeneralHelp, 0);
           break;
         }
+        if (helpMusicXMLPresent) {
+          printUsage (kMusicXMLHelp, 0);
+          break;
+        }
         if (helpMsrPresent) {
           printUsage (kMsrHelp, 0);
           break;
@@ -1614,7 +1632,7 @@ R"(
         // --------------------------------------
 
         if (traceMusicXMLTreeVisitorsPresent) {
-          gGeneralOptions->fTraceMusicXMLTreeVisitors = true;
+          gMusicXMLOptions->fTraceMusicXMLTreeVisitors = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ " ";
@@ -1625,7 +1643,7 @@ R"(
         }
         
         if (ignoreMusicXMLErrorsPresent) {
-          gGeneralOptions->fIgnoreMusicXMLErrors = true;
+          gMusicXMLOptions->fIgnoreMusicXMLErrors = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _INGORE_MUSICXML_ERRORS_LONG_NAME_ " ";
@@ -1636,7 +1654,7 @@ R"(
         }
         
         if (loopToMusicXMLPresent) {
-          gGeneralOptions->fLoopToMusicXML = true;
+          gMusicXMLOptions->fLoopToMusicXML = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _LOOP_TO_MUSICXML_LONG_NAME_ " ";
@@ -2970,6 +2988,9 @@ int main (int argc, char *argv[])
 
   gGeneralOptions =
     gGeneralOptionsUserChoices;
+
+  gMusicXMLOptions = msrMusicXMLOptions::create ();
+  assert(gMusicXMLOptions != 0);
 
   gMsrOptions = msrOptions::create ();
   assert(gMsrOptions != 0);

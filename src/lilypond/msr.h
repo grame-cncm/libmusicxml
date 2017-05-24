@@ -165,7 +165,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     endl << endl << \
     idtr; \
 \
-  if (! gGeneralOptions->fIgnoreMusicXMLErrors) \
+  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
     assert(false); \
 }
 
@@ -6362,7 +6362,7 @@ class EXP msrVoice : public msrElement
 
     string                getVoiceName () const;
 
-    S_msrSegment          setVoiceCloneLastSegment (
+    void                  setVoiceCloneLastSegment (
                             S_msrSegment segment)
                               { fVoiceLastSegment = segment; }
 

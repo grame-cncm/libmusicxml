@@ -35,17 +35,67 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-/*!
-  \brief The LilyPond note names language.
-*/
+// MusicXML options
+//______________________________________________________________________________
+
+// MusicXML
+// --------------------------------------
+
+#define _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_  "traceMusicXMLTreeVisitors"
+#define _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ "tmxtvisits"
+
+#define _INGORE_MUSICXML_ERRORS_LONG_NAME_  "ingoreMusicXMLErrors"
+#define _INGORE_MUSICXML_ERRORS_SHORT_NAME_ "ime"
+
+#define _LOOP_TO_MUSICXML_LONG_NAME_  "loopToMusicXML"
+#define _LOOP_TO_MUSICXML_SHORT_NAME_ "loop"
+
+class EXP msrMusicXMLOptions : public smartable
+{
+  public:
+
+    static SMARTP<msrMusicXMLOptions> create ();
+    
+    SMARTP<msrMusicXMLOptions>        createCloneWithDetailedTrace ();
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeMusicXMLOptions (
+                            bool boolOptionsInitialValue);
+        
+    void                  printMusicXMLOptionsHelp ();
+
+    void                  printMusicXMLOptionsValues (int fieldWidth);
+    
+  protected:
+  
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMusicXMLOptions();
+  
+    virtual ~msrMusicXMLOptions();
+ 
+  public:
+
+    // MusicXML
+    // --------------------------------------
+  
+    bool                  fTraceMusicXMLTreeVisitors;
+    bool                  fIgnoreMusicXMLErrors;
+    bool                  fLoopToMusicXML;
+};
+typedef SMARTP<msrMusicXMLOptions> S_msrMusicXMLOptions;
+
+extern S_msrMusicXMLOptions gMusicXMLOptions;
+extern S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
+extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
-/*!
-  \brief The general options.
-
-  A class is used to avoid passing arguments one by one
-  to the various methods that need them.
-*/
+// General options
+//______________________________________________________________________________
 
 // version
 // --------------------------------------
@@ -61,6 +111,9 @@ namespace MusicXML2
 
 #define _HELP_GENERAL_LONG_NAME_  "helpGeneral"
 #define _HELP_GENERAL_SHORT_NAME_ "hg"
+
+#define _HELP_MUSICXML_LONG_NAME_  "helpMusicXML"
+#define _HELP_MUSICXML_SHORT_NAME_ "hmxml"
 
 #define _HELP_MSR_LONG_NAME_  "helpMsr"
 #define _HELP_MSR_SHORT_NAME_ "hm"
@@ -85,18 +138,6 @@ namespace MusicXML2
 
 #define _TRACE_DETAILED_LONG_NAME_  "traceDetailed"
 #define _TRACE_DETAILED_SHORT_NAME_ "tdetail"
-
-// MusicXML
-// --------------------------------------
-
-#define _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_  "traceMusicXMLTreeVisitors"
-#define _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ "tmxtvisits"
-
-#define _INGORE_MUSICXML_ERRORS_LONG_NAME_  "ingoreMusicXMLErrors"
-#define _INGORE_MUSICXML_ERRORS_SHORT_NAME_ "ime"
-
-#define _LOOP_TO_MUSICXML_LONG_NAME_  "loopToMusicXML"
-#define _LOOP_TO_MUSICXML_SHORT_NAME_ "loop"
 
 // CPU usage
 // --------------------------------------
@@ -234,13 +275,6 @@ class EXP msrGeneralOptions : public smartable
 
     bool                  fTraceDetailed;
     set<int>              fTraceAllMeasureNumbersSet;
-
-    // MusicXML
-    // --------------------------------------
-  
-    bool                  fTraceMusicXMLTreeVisitors;
-    bool                  fIgnoreMusicXMLErrors;
-    bool                  fLoopToMusicXML;
 
     // CPU usage
     // --------------------------------------

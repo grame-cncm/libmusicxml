@@ -23,6 +23,125 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
+S_msrMusicXMLOptions gMusicXMLOptions;
+S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
+S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
+
+S_msrMusicXMLOptions msrMusicXMLOptions::create ()
+{
+  msrMusicXMLOptions* o = new msrMusicXMLOptions();
+  assert(o!=0);
+  return o;
+}
+
+msrMusicXMLOptions::msrMusicXMLOptions ()
+{
+  initializeMusicXMLOptions (false);
+}
+
+msrMusicXMLOptions::~msrMusicXMLOptions () {}
+
+void msrMusicXMLOptions::initializeMusicXMLOptions (
+  bool boolOptionsInitialValue)
+{
+  // MusicXML
+  // --------------------------------------
+
+  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
+  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
+  fLoopToMusicXML = boolOptionsInitialValue;
+}
+
+S_msrMusicXMLOptions msrMusicXMLOptions::createCloneWithDetailedTrace ()
+{
+  S_msrMusicXMLOptions
+    clone =
+      msrMusicXMLOptions::create ();
+
+  // MusicXML
+  // --------------------------------------
+
+  clone->fTraceMusicXMLTreeVisitors =
+    true;
+  clone->fIgnoreMusicXMLErrors =
+    true;
+  clone->fLoopToMusicXML =
+    true;
+
+  return clone;
+}  
+
+void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
+{
+  idtr++;
+
+  cerr <<
+    idtr << "MusicXML:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ ", --" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Write a trace of the MusicXML tree visiting activity to standard error." <<
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't stop the translation after issuing a MusicXML error message." <<
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _LOOP_TO_MUSICXML_SHORT_NAME_ ", --" _LOOP_TO_MUSICXML_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Close the loop, generating a MusicXML file from the MSR. " << endl <<
+    idtr << tab << tab << tab <<
+      "The file name receives a '_loop' suffix. Currently under development." <<
+      endl <<
+    endl;
+
+  idtr--;
+  
+  idtr--;
+}
+
+void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
+{  
+  cerr << idtr <<
+    "The MusicXML options are:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      setw(fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
+      booleanAsString (fTraceMusicXMLTreeVisitors) <<
+      endl <<
+      
+    idtr <<
+      setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
+      booleanAsString (fIgnoreMusicXMLErrors) <<
+      endl <<
+      
+    idtr <<
+      setw(fieldWidth) << "loopToMusicXML" << " : " <<
+      booleanAsString (fLoopToMusicXML) <<
+      endl;
+
+  idtr--;
+}
+
+//_______________________________________________________________________________
 S_msrGeneralOptions gGeneralOptions;
 S_msrGeneralOptions gGeneralOptionsUserChoices;
 S_msrGeneralOptions gGeneralOptionsWithDetailedTrace;
@@ -56,13 +175,6 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   fTraceDetailed = false;
 
-  // MusicXML
-  // --------------------------------------
-
-  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
-  fLoopToMusicXML = boolOptionsInitialValue;
-  
   // CPU usage
   // --------------------------------------
 
@@ -157,16 +269,6 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceDetailed =
     true;
 
-  // MusicXML
-  // --------------------------------------
-
-  clone->fTraceMusicXMLTreeVisitors =
-    true;
-  clone->fIgnoreMusicXMLErrors =
-    true;
-  clone->fLoopToMusicXML =
-    true;
-  
   // CPU usage
   // --------------------------------------
 
@@ -325,12 +427,21 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "Display general help and exit." <<
       endl <<
+      
+    idtr <<
+      "--" _HELP_MUSICXML_SHORT_NAME_ ", --" _HELP_MUSICXML_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display MusicXML help and exit." <<
+      endl <<
+      
     idtr <<
       "--" _HELP_MSR_SHORT_NAME_ ", --" _HELP_MSR_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Display MSR help and exit." <<
       endl <<
+      
     idtr <<
       "--" _HELP_LPSR_SHORT_NAME_ ", --" _HELP_LPSR_LONG_NAME_ <<
       endl <<
@@ -436,6 +547,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "Write a trace of the MusicXML tree visiting activity to standard error." <<
       endl <<
+    endl <<
       
     idtr <<
       "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ ", --" _INGORE_MUSICXML_ERRORS_LONG_NAME_ <<
@@ -443,12 +555,14 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "Don't stop the translation after issuing a MusicXML error message." <<
       endl <<
+    endl <<
       
     idtr <<
       "--" _LOOP_TO_MUSICXML_SHORT_NAME_ ", --" _LOOP_TO_MUSICXML_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Close the loop, gemerating a MusicXML file from the MSR. " << endl <<
+      "Close the loop, generating a MusicXML file from the MSR. " << endl <<
+    idtr << tab << tab << tab <<
       "The file name receives a '_loop' suffix. Currently under development." <<
       endl <<
     endl;
@@ -721,34 +835,6 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
         
   idtr--;
 
-  // MusicXML
-  // --------------------------------------
-
-  cerr << left <<
-    idtr <<
-      setw(fieldWidth) << "MusicXML:" <<
-      endl;
-
-  idtr++;
-
-  cerr <<
-    idtr <<
-      setw(fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
-      booleanAsString (fTraceMusicXMLTreeVisitors) <<
-      endl <<
-      
-    idtr <<
-      setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
-      booleanAsString (fIgnoreMusicXMLErrors) <<
-      endl <<
-      
-    idtr <<
-      setw(fieldWidth) << "loopToMusicXML" << " : " <<
-      booleanAsString (fLoopToMusicXML) <<
-      endl;
-
-  idtr--;
-  
   // CPU usage
   // --------------------------------------
 
