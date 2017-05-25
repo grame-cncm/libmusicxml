@@ -6238,8 +6238,8 @@ class EXP msrMeasureRepeat : public msrElement
     int                   getMeasureRepeatSlashesNumber () const
                               { return fMeasureRepeatSlashesNumber; }
                               
-    S_msrMeasure          getMeasureRepeatRepeatedMeasure () const
-                              { return fMeasureRepeatRepeatedMeasure; }
+    S_msrSegment          getMeasureRepeatRepeatedSegment () const
+                              { return fMeasureRepeatRepeatedSegment; }
 
     void                  setMeasureRepeatReplicasSegment (
                             S_msrSegment measureRepeatReplicasSegment);
@@ -6270,7 +6270,8 @@ class EXP msrMeasureRepeat : public msrElement
     int                   fMeasureRepeatReplicasNumber;
     int                   fMeasureRepeatSlashesNumber;
 
-    S_msrMeasure          fMeasureRepeatRepeatedMeasure;
+    // a single measure is repeated, but it should belong to a segment
+    S_msrSegment          fMeasureRepeatRepeatedSegment;
     
     S_msrSegment          fMeasureRepeatReplicasSegment;
         

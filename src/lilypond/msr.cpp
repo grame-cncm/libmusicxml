@@ -16132,8 +16132,10 @@ msrMeasureRepeat::msrMeasureRepeat (
   msrAssert (
     repeatedMeasure != 0,
     "repeatedMeasure is null");
-    
-  fMeasureRepeatRepeatedMeasure = repeatedMeasure;
+
+  // append repeated measure to repeated segment
+  fMeasureRepeatRepeatedSegment->
+    appendMeasureToSegment (repeatedMeasure);
   
   fMeasureRepeatVoiceUplink = voiceUplink;
 }
@@ -16224,22 +16226,21 @@ void msrMeasureRepeat::acceptOut (basevisitor* v) {
 
 void msrMeasureRepeat::browseData (basevisitor* v)
 {
-  if (fMeasureRepeatRepeatedMeasure) {
+  if (fMeasureRepeatRepeatedSegment) {
   // browse the repeated measure
-    msrBrowser<msrMeasure> browser (v);
-    browser.browse (*fMeasureRepeatRepeatedMeasure);
+    msrBrowser<msrSegment> browser (v);
+    browser.browse (*fMeasureRepeatRepeatedSegment);
   }
 
   // fetch the score
-  if (fMeasureRepeatReplicasSegment) {
-    S_msrScore
-      score =
-        fMeasureRepeatVoiceUplink->
-          getVoiceDirectPartUplink ()->
-            getPartPartgroupUplink ()->
-              getPartgroupScoreUplink ();
+  S_msrScore
+    score =
+      fMeasureRepeatVoiceUplink->
+        getVoiceDirectPartUplink ()->
+          getPartPartgroupUplink ()->
+            getPartgroupScoreUplink ();
               
-          
+  if (fMeasureRepeatReplicasSegment) {
     if (! score->getInhibitMeasureRepeatReplicasBrowsing ()) {
       // browse the replicas segment
       msrBrowser<msrSegment> browser (v);
@@ -16274,11 +16275,11 @@ void msrMeasureRepeat::print (ostream& os)
   os << idtr <<
     "Repeated measure: ";
 
-  if (fMeasureRepeatRepeatedMeasure) {
+  if (fMeasureRepeatRepeatedSegment) {
     idtr++;
     
     os <<
-      fMeasureRepeatRepeatedMeasure;
+      fMeasureRepeatRepeatedSegment;
 
     idtr--;
   }
