@@ -16270,11 +16270,16 @@ void msrMeasureRepeat::print (ostream& os)
   
   idtr++;
   
-  // print the repeated measure
+  // print the repeated segment
   os << idtr <<
-    "Repeated measure: ";
+    "Repeated segment:";
 
-  if (fMeasureRepeatRepeatedSegment) {
+  if (! fMeasureRepeatRepeatedSegment) {
+    os <<
+      " none" <<
+      endl;
+  }
+  else {
     idtr++;
     
     os <<
@@ -16282,15 +16287,19 @@ void msrMeasureRepeat::print (ostream& os)
 
     idtr--;
   }
+
+  os << endl;
   
   // print the replicas segment
   os << idtr <<
-    "Replicas segment: ";
-  if (! fMeasureRepeatReplicasSegment)
-    os << "none";
-  os << endl;
-
-  if (fMeasureRepeatReplicasSegment) {
+    "Replicas segment:";
+    
+  if (! fMeasureRepeatReplicasSegment) {
+    os <<
+      " none" <<
+      endl;
+  }
+  else {
     idtr++;
     
     os <<
