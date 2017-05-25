@@ -5398,15 +5398,51 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
 
+  int measuresNumber =
+    elt->getMeasureRepeatMeasuresNumber ();
+
+  S_msrSegment
+    replicasSegment =
+      elt->getMeasureRepeatReplicasSegment ();
+
+  const list<S_msrMeasure>&
+    replicasMeasures =
+      replicasSegment->
+        getSegmentMeasuresList ();
+
+  int replicasMeasuresNumber =
+    replicasMeasures.size ();
+    
   int replicasNumber =
-    elt->getMeasureRepeatReplicasNumber ();
+    replicasMeasuresNumber
+      /
+    measuresNumber;
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+    cerr << idtr <<
+      "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
+      endl;
+
+    const int fieldWidth = 22;
+
+    cerr <<
+      idtr <<
+        "% measuresNumber" << " = " << measuresNumber <<
+        endl <<
+      idtr <<
+        "% replicasMeasuresNumber" << " = " << replicasMeasuresNumber <<
+        endl <<
+      idtr <<
+        "% replicasNumber" << " = " << replicasNumber <<
+        endl;
+  }
   
   fOstream <<
     endl <<
     endl <<
     idtr <<
     "\\repeat" "percent " <<
-    replicasNumber <<
+    replicasNumber + 1 <<
      " { " <<
     endl <<
     idtr;

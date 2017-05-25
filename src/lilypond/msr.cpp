@@ -16109,7 +16109,7 @@ void msrRepeat::print (ostream& os)
 //______________________________________________________________________________
 S_msrMeasureRepeat msrMeasureRepeat::create (
   int          inputLineNumber,
-  int          measureRepeatReplicasNumber,
+  int          measureRepeatMeasuresNumber,
   int          measureRepeatSlashesNumber,
   S_msrSegment repeatedSegment,
   S_msrVoice   voiceUplink)
@@ -16117,7 +16117,7 @@ S_msrMeasureRepeat msrMeasureRepeat::create (
   msrMeasureRepeat* o =
     new msrMeasureRepeat (
       inputLineNumber,
-      measureRepeatReplicasNumber, measureRepeatSlashesNumber,
+      measureRepeatMeasuresNumber, measureRepeatSlashesNumber,
       repeatedSegment,
       voiceUplink);
   assert(o!=0);
@@ -16126,13 +16126,13 @@ S_msrMeasureRepeat msrMeasureRepeat::create (
 
 msrMeasureRepeat::msrMeasureRepeat (
   int          inputLineNumber,
-  int          measureRepeatReplicasNumber,
+  int          measureRepeatMeasuresNumber,
   int          measureRepeatSlashesNumber,
   S_msrSegment repeatedSegment,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fMeasureRepeatReplicasNumber = measureRepeatReplicasNumber;
+  fMeasureRepeatMeasuresNumber = measureRepeatMeasuresNumber;
   fMeasureRepeatSlashesNumber  = measureRepeatSlashesNumber;
 
   msrAssert (
@@ -16168,7 +16168,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
     clone =
       msrMeasureRepeat::create (
         fInputLineNumber,
-        fMeasureRepeatReplicasNumber,
+        fMeasureRepeatMeasuresNumber,
         fMeasureRepeatSlashesNumber,
         repeatedSegmentClone,
         voiceClone);
@@ -17446,7 +17446,7 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
 
 void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
   int inputLineNumber,
-  int measureRepeatReplicasNumber,
+  int measureRepeatMeasuresNumber,
   int measureRepeatSlashes)
 {
   switch (fVoiceKind) {
@@ -17504,7 +17504,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         fVoicePendingMeasureRepeat =
           msrMeasureRepeat::create (
             inputLineNumber,
-            measureRepeatReplicasNumber,
+            measureRepeatMeasuresNumber,
             measureRepeatSlashes,
             repeatedSegment,
             this);
@@ -19070,7 +19070,7 @@ void msrStaff::appendRepeatendingToStaff (
 
 void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
   int inputLineNumber,
-  int measureRepeatReplicasNumber,
+  int measureRepeatMeasuresNumber,
   int measureRepeatSlashes)
 {
   if (gGeneralOptions->fTraceRepeats)
@@ -19088,7 +19088,7 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
     (*i).second->
       createMeasureRepeatFromItsFirstMeasureInVoice (
         inputLineNumber,
-        measureRepeatReplicasNumber,
+        measureRepeatMeasuresNumber,
         measureRepeatSlashes);
   } // for
 }
@@ -20503,7 +20503,7 @@ void msrPart::appendRepeatendingCloneToPart (
 
 void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
   int inputLineNumber,
-  int measureRepeatReplicasNumber,
+  int measureRepeatMeasuresNumber,
   int measureRepeatSlashes)
 {
   for (
@@ -20513,7 +20513,7 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
     (*i).second->
       createMeasureRepeatFromItsFirstMeasureInStaff (
         inputLineNumber,
-        measureRepeatReplicasNumber,
+        measureRepeatMeasuresNumber,
         measureRepeatSlashes);
   } // for
 }

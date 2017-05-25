@@ -6204,7 +6204,7 @@ class EXP msrMeasureRepeat : public msrElement
 
     static SMARTP<msrMeasureRepeat> create (
       int          inputLineNumber,
-      int          measureRepeatReplicasNumber,
+      int          measureRepeatMeasuresNumber,
       int          measureRepeatSlashesNumber,
       S_msrSegment repeatedSegment,
       S_msrVoice   voiceUplink);
@@ -6220,7 +6220,7 @@ class EXP msrMeasureRepeat : public msrElement
 
     msrMeasureRepeat (
       int          inputLineNumber,
-      int          measureRepeatReplicasNumber,
+      int          measureRepeatMeasuresNumber,
       int          measureRepeatSlashesNumber,
       S_msrSegment repeatedSegment,
       S_msrVoice   voiceUplink);
@@ -6232,8 +6232,8 @@ class EXP msrMeasureRepeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getMeasureRepeatReplicasNumber () const
-                              { return fMeasureRepeatReplicasNumber; }
+    int                   getMeasureRepeatMeasuresNumber () const
+                              { return fMeasureRepeatMeasuresNumber; }
                               
     int                   getMeasureRepeatSlashesNumber () const
                               { return fMeasureRepeatSlashesNumber; }
@@ -6267,10 +6267,9 @@ class EXP msrMeasureRepeat : public msrElement
     virtual void          print (ostream& os);
 
   private:
-    int                   fMeasureRepeatReplicasNumber;
+    int                   fMeasureRepeatMeasuresNumber;
     int                   fMeasureRepeatSlashesNumber;
 
-    // a single measure is repeated, but it should belong to a segment
     S_msrSegment          fMeasureRepeatRepeatedSegment;
     
     S_msrSegment          fMeasureRepeatReplicasSegment;
@@ -6469,7 +6468,7 @@ class EXP msrVoice : public msrElement
     
     void                  createMeasureRepeatFromItsFirstMeasureInVoice (
                             int inputLineNumber,
-                            int measureRepeatReplicasNumber,
+                            int measureRepeatMeasuresNumber,
                             int measureRepeatSlashes);
 
     void                  appendPendingMeasureRepeatToVoice (
@@ -6865,7 +6864,7 @@ class EXP msrStaff : public msrElement
     
     void                  createMeasureRepeatFromItsFirstMeasureInStaff (
                             int inputLineNumber,
-                            int measureRepeatReplicasNumber,
+                            int measureRepeatMeasuresNumber,
                             int measureRepeatSlashes);
     
     void                  appendPendingMeasureRepeatToStaff (
@@ -7173,7 +7172,7 @@ class EXP msrPart : public msrElement
 
     void                  createMeasureRepeatFromItsFirstMeasureInPart (
                             int inputLineNumber,
-                            int measureRepeatReplicasNumber,
+                            int measureRepeatMeasuresNumber,
                             int measureRepeatSlashes);
 
     void                  appendPendingMeasureRepeatToPart (
