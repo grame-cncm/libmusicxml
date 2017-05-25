@@ -6253,6 +6253,23 @@ class EXP msrMeasureRepeat : public msrElement
     // services
     // ------------------------------------------------------
 
+    int                   measureRepeatRepeatedMeasuresNumber () const
+                            {
+                              return
+                                fMeasureRepeatRepeatedSegment->
+                                  getSegmentMeasuresList ().size ();
+                            }
+    
+    int                   measureRepeatReplicasMeasuresNumber () const
+                            {
+                              return
+                                fMeasureRepeatReplicasSegment->
+                                  getSegmentMeasuresList ().size ();
+                            }
+    
+    int                   measureRepeatReplicasNumber () const;
+    
+
     // visitors
     // ------------------------------------------------------
 
@@ -6273,7 +6290,7 @@ class EXP msrMeasureRepeat : public msrElement
     S_msrSegment          fMeasureRepeatRepeatedSegment;
     
     S_msrSegment          fMeasureRepeatReplicasSegment;
-        
+
     S_msrVoice            fMeasureRepeatVoiceUplink;
 };
 typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;

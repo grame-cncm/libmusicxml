@@ -16141,7 +16141,7 @@ msrMeasureRepeat::msrMeasureRepeat (
 
   // append repeated measure to repeated segment
   fMeasureRepeatRepeatedSegment = repeatedSegment;
-  
+
   fMeasureRepeatVoiceUplink = voiceUplink;
 }
 
@@ -16172,7 +16172,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
         fMeasureRepeatSlashesNumber,
         repeatedSegmentClone,
         voiceClone);
-  
+
   return clone;
 }
 
@@ -16189,6 +16189,15 @@ void msrMeasureRepeat::setMeasureRepeatReplicasSegment (
       endl;
       
   fMeasureRepeatReplicasSegment = measureRepeatReplicasSegment;
+}
+
+int msrMeasureRepeat::measureRepeatReplicasNumber () const
+{
+  // compute replicas number
+  return
+    measureRepeatRepeatedMeasuresNumber ()
+      /
+    measureRepeatReplicasMeasuresNumber ();    
 }
 
 void msrMeasureRepeat::acceptIn (basevisitor* v) {
@@ -16263,16 +16272,13 @@ ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt)
 void msrMeasureRepeat::print (ostream& os)
 {
   int repeatedMeasuresNumber =
-    fMeasureRepeatRepeatedSegment->getSegmentMeasuresList ().size ();
+    fMeasureRepeatRepeatedSegment->
+      getSegmentMeasuresList ().size ();
     
   int replicasMeasuresNumber =
-    fMeasureRepeatReplicasSegment->getSegmentMeasuresList ().size ();
+    fMeasureRepeatReplicasSegment->
+      getSegmentMeasuresList ().size ();
     
-  int replicasNumber =
-    replicasMeasuresNumber
-      /
-    fMeasureRepeatMeasuresNumber;
-
   os <<
     endl <<
     idtr << "MeasureRepeat" <<
@@ -16288,8 +16294,9 @@ void msrMeasureRepeat::print (ostream& os)
       "replicas measure",
       "replicas measures") <<
     ", " <<
-    replicasNumber << " replicas" <<
+    measureRepeatReplicasNumber () << " replicas" <<
     ")" <<
+    endl <<
     endl;
   
   idtr++;
@@ -16304,6 +16311,9 @@ void msrMeasureRepeat::print (ostream& os)
       endl;
   }
   else {
+    os <<
+      endl;
+      
     idtr++;
     
     os <<
@@ -16324,6 +16334,9 @@ void msrMeasureRepeat::print (ostream& os)
       endl;
   }
   else {
+    os <<
+      endl;
+      
     idtr++;
     
     os <<
@@ -17573,7 +17586,8 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl;
+            endl <<
+            idtr;
 
         idtr++;
         print (cerr);
@@ -17648,7 +17662,8 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl;
+            endl <<
+            idtr;
 
         idtr++;
         print (cerr);
@@ -17689,7 +17704,8 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl;
+            endl <<
+            idtr;
 
         idtr++;
         print (cerr);
@@ -17701,7 +17717,8 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl;
+            endl <<
+            idtr;
 
         idtr++;
         print (cerr);

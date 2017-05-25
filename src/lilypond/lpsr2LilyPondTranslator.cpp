@@ -5398,36 +5398,25 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
 
-  int measuresNumber =
-    elt->getMeasureRepeatMeasuresNumber ();
-
-  S_msrSegment
-    replicasSegment =
-      elt->getMeasureRepeatReplicasSegment ();
-
-  const list<S_msrMeasure>&
-    replicasMeasures =
-      replicasSegment->
-        getSegmentMeasuresList ();
+  int repeatMeasuresNumber =
+    elt->measureRepeatRepeatedMeasuresNumber ();
 
   int replicasMeasuresNumber =
-    replicasMeasures.size ();
+    elt->measureRepeatReplicasMeasuresNumber ();
     
   int replicasNumber =
-    replicasMeasuresNumber
-      /
-    measuresNumber;
+    elt->measureRepeatReplicasNumber ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
     cerr << idtr <<
       "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
 
-    const int fieldWidth = 22;
+    const int fieldWidth = 24;
 
     cerr <<
       idtr <<
-        "% measuresNumber" << " = " << measuresNumber <<
+        "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
         endl <<
       idtr <<
         "% replicasMeasuresNumber" << " = " << replicasMeasuresNumber <<
