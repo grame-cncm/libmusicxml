@@ -2629,11 +2629,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
       "--> Start visiting msrMeasureRepeat" <<
       endl;
 
-  fOstream << idtr <<
-    "\repeat percent { " <<
-    endl;
-
   idtr++;
+
+  // JMI
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
@@ -2645,9 +2643,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
   idtr--;
   
-  fOstream << idtr <<
-    "}" <<
-    endl;
+  // JMI
 }
 
 //________________________________________________________________________

@@ -16195,9 +16195,9 @@ int msrMeasureRepeat::measureRepeatReplicasNumber () const
 {
   // compute replicas number
   return
-    measureRepeatRepeatedMeasuresNumber ()
+    measureRepeatReplicasMeasuresNumber ()
       /
-    measureRepeatReplicasMeasuresNumber ();    
+    measureRepeatRepeatedMeasuresNumber ();    
 }
 
 void msrMeasureRepeat::acceptIn (basevisitor* v) {
@@ -16271,26 +16271,18 @@ ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt)
 
 void msrMeasureRepeat::print (ostream& os)
 {
-  int repeatedMeasuresNumber =
-    fMeasureRepeatRepeatedSegment->
-      getSegmentMeasuresList ().size ();
-    
-  int replicasMeasuresNumber =
-    fMeasureRepeatReplicasSegment->
-      getSegmentMeasuresList ().size ();
-    
   os <<
     endl <<
     idtr << "MeasureRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      repeatedMeasuresNumber,
+      measureRepeatRepeatedMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ", " <<
     singularOrPlural (
-      replicasMeasuresNumber,
+      measureRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
     ", " <<
