@@ -2413,10 +2413,15 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   idtr++;
 
-  if (fPartsRenaming.empty ())
+  cerr <<
+    idtr << setw(fieldWidth) << "parts renaming" << " : ";
+
+  if (fPartsRenaming.empty ()) {
     cerr <<
-      idtr << "none";
-  else
+      "none";
+  }
+  
+  else {
     for (
       map<string, string>::const_iterator i =
         fPartsRenaming.begin();
@@ -2425,6 +2430,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
         cerr <<
           "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
     } // for
+  }
 
   cerr <<
     endl;
