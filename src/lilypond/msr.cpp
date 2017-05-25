@@ -16262,15 +16262,33 @@ ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt)
 
 void msrMeasureRepeat::print (ostream& os)
 {
+  int repeatedMeasuresNumber =
+    fMeasureRepeatRepeatedSegment->getSegmentMeasuresList ().size ();
+    
+  int replicasMeasuresNumber =
+    fMeasureRepeatReplicasSegment->getSegmentMeasuresList ().size ();
+    
+  int replicasNumber =
+    replicasMeasuresNumber
+      /
+    fMeasureRepeatMeasuresNumber;
+
   os <<
     endl <<
     idtr << "MeasureRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
-      singularOrPlural (
-        fMeasureRepeatReplicasSegment->getSegmentMeasuresList ().size (),
-        "measure",
-        "measures") <<
+    singularOrPlural (
+      repeatedMeasuresNumber,
+      "repeated measure",
+      "repeated measures") <<
+    ", " <<
+    singularOrPlural (
+      replicasMeasuresNumber,
+      "replicas measure",
+      "replicas measures") <<
+    ", " <<
+    replicasNumber << " replicas" <<
     ")" <<
     endl;
   
