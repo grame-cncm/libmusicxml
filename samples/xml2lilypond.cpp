@@ -225,26 +225,31 @@ void analyzeOptions (
     _HELP_LONG_NAME_, _HELP_SHORT_NAME_);
     
   int helpPresent = 0;
+
   
   checkOptionUniqueness (
     _HELP_GENERAL_LONG_NAME_, _HELP_GENERAL_SHORT_NAME_);
     
   int helpGeneralPresent = 0;
 
+
   checkOptionUniqueness (
     _HELP_MUSICXML_LONG_NAME_, _HELP_MUSICXML_SHORT_NAME_);
     
   int helpMusicXMLPresent = 0;
+
 
   checkOptionUniqueness (
     _HELP_MSR_LONG_NAME_, _HELP_MSR_SHORT_NAME_);
     
   int helpMsrPresent = 0;
 
+
   checkOptionUniqueness (
     _HELP_LPSR_LONG_NAME_, _HELP_LPSR_SHORT_NAME_);
     
   int helpLpsrPresent = 0;
+
 
   checkOptionUniqueness (
     _HELP_LILYPOND_LONG_NAME_, _HELP_LILYPOND_SHORT_NAME_);
@@ -259,6 +264,7 @@ void analyzeOptions (
     
   int outputFilePresent = 0;
 
+
   checkOptionUniqueness (
     _AUTO_OUTPUT_FILE_LONG_NAME_, _AUTO_OUTPUT_FILE_SHORT_NAME_);
     
@@ -271,6 +277,7 @@ void analyzeOptions (
     _TRACE_GENERAL_LONG_NAME_, _TRACE_GENERAL_SHORT_NAME_);
     
   int traceGeneralPresent = 0;
+
   
   checkOptionUniqueness (
     _TRACE_DETAILED_LONG_NAME_, _TRACE_DETAILED_SHORT_NAME_);
@@ -410,6 +417,7 @@ void analyzeOptions (
     
   int ignoreMusicXMLErrorsPresent = 0;
 
+
   checkOptionUniqueness (
     _LOOP_TO_MUSICXML_LONG_NAME_, _LOOP_TO_MUSICXML_SHORT_NAME_);
     
@@ -426,15 +434,18 @@ void analyzeOptions (
     
   int traceMsrPresent = 0;
 
+
   checkOptionUniqueness (
     _TRACE_MSR_VISITORS_LONG_NAME_, _TRACE_MSR_VISITORS_SHORT_NAME_);
     
   int traceMsrVisitorsPresent = 0;
 
+
   checkOptionUniqueness (
     _DISPLAY_MSR_LONG_NAME_, _DISPLAY_MSR_SHORT_NAME_);
     
   int displayMsrPresent = 0;
+
   
   checkOptionUniqueness (
     _DISPLAY_MSR_SUMMARY_LONG_NAME_, _DISPLAY_MSR_SUMMARY_SHORT_NAME_);
@@ -465,6 +476,7 @@ void analyzeOptions (
     
   int staffRelativeVoiceNumbersPresent = 0;
 
+
   checkOptionUniqueness (
     _KEEP_MASTER_VOICES_LONG_NAME_, _KEEP_MASTER_VOICES_SHORT_NAME_);
     
@@ -478,20 +490,24 @@ void analyzeOptions (
     
   int delayRestsDynamicsPresent = 0;
 
+
   checkOptionUniqueness (
     _DELAY_RESTS_WORDS_LONG_NAME_, _DELAY_RESTS_WORDS_SHORT_NAME_);
     
   int delayRestsWordsPresent = 0;
 
+
   checkOptionUniqueness (
     _DELAY_RESTS_SLURS_LONG_NAME_, _DELAY_RESTS_SLURS_SHORT_NAME_);
     
   int delayRestsSlursPresent = 0;
+
   
   checkOptionUniqueness (
     _DELAY_RESTS_LIGATURES_LONG_NAME_, _DELAY_RESTS_LIGATURES_SHORT_NAME_);
     
   int delayRestsLigaturesPresent = 0;
+
 
   checkOptionUniqueness (
     _DELAY_RESTS_WEDGES_LONG_NAME_, _DELAY_RESTS_WEDGES_SHORT_NAME_);
@@ -505,6 +521,7 @@ void analyzeOptions (
     _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_, _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_);
     
   int dontDisplayMsrStanzasPresent = 0;
+
   
   checkOptionUniqueness (
     _KEEP_MASTER_STANZAS_LONG_NAME_, _KEEP_MASTER_STANZAS_SHORT_NAME_);
@@ -531,10 +548,12 @@ void analyzeOptions (
     
   int traceLpsrPresent = 0;
 
+
   checkOptionUniqueness (
     _TRACE_LPSR_VISITORS_LONG_NAME_, _TRACE_LPSR_VISITORS_SHORT_NAME_);
     
   int traceLpsrVisitorsPresent = 0;
+
 
   checkOptionUniqueness (
     _DISPLAY_LPSR_LONG_NAME_, _DISPLAY_LPSR_SHORT_NAME_);
@@ -548,6 +567,7 @@ void analyzeOptions (
     _LPSR_PITCHES_LANGUAGE_LONG_NAME_, _LPSR_PITCHES_LANGUAGE_SHORT_NAME_);
     
   int lpsrPitchesLanguagePresent = 0;
+
 
   checkOptionUniqueness (
     _LPSR_CHORDS_LANGUAGE_LONG_NAME_, _LPSR_CHORDS_LANGUAGE_SHORT_NAME_);
@@ -570,35 +590,42 @@ void analyzeOptions (
     
   int absolutePresent = 0;
 
+
   checkOptionUniqueness (
     _STEMS_LONG_NAME_, _STEMS_SHORT_NAME_);
     
   int stemsPresent = 0;
+
 
   checkOptionUniqueness (
     _NO_AUTO_BEAMING_LONG_NAME_, _NO_AUTO_BEAMING_SHORT_NAME_);
     
   int noAutoBeamingPresent = 0;
 
+
   checkOptionUniqueness (
     _ROMAN_STRING_NUMBERS_LONG_NAME_, _ROMAN_STRING_NUMBERS_SHORT_NAME_);
     
   int romanStringNumbersPresent = 0;
+
 
   checkOptionUniqueness (
     _AVOID_OPEN_STRINGS_LONG_NAME_, _AVOID_OPEN_STRINGS_SHORT_NAME_);
     
   int avoidOpenStringPresent = 0;
 
+
   checkOptionUniqueness (
     _ACCIDENTAL_STYLE_LONG_NAME_, _ACCIDENTAL_STYLE_SHORT_NAME_);
     
   int accidentalStylePresent = 0;
+
   
   checkOptionUniqueness (
     _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_, _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_);
     
   int compressMultiMeasureRestsPresent = 0;
+
 
   checkOptionUniqueness (
     _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_, _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_);
@@ -621,10 +648,12 @@ void analyzeOptions (
     
   int dontKeepLineBreaksPresent = 0;
 
+
   checkOptionUniqueness (
     _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_, _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_);
     
   int breakLinesAtIncompleteRightMeasuresPresent = 0;
+
   
   checkOptionUniqueness (
     _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_, _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_);
@@ -647,6 +676,7 @@ void analyzeOptions (
     
   int midiTempoPresent = 0;
 
+
   checkOptionUniqueness (
     _NO_MIDI_LONG_NAME_, _NO_MIDI_SHORT_NAME_);
     
@@ -660,10 +690,12 @@ void analyzeOptions (
     
   int commentsPresent = 0;
 
+
   checkOptionUniqueness (
     _GENERATE_GLOBAL_LONG_NAME_, _GENERATE_GLOBAL_SHORT_NAME_);
     
   int generateGlobalPresent = 0;
+
 
   checkOptionUniqueness (
     _TUPLETS_ON_A_LINE_LONG_NAME_, _TUPLETS_ON_A_LINE_SHORT_NAME_);
@@ -675,25 +707,30 @@ void analyzeOptions (
     
   int repeatBracketsPresent = 0;
 
+
   checkOptionUniqueness (
     _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_, _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_);
     
   int delayedOrnamentFractionPresent = 0;
+
 
   checkOptionUniqueness (
     _DISPLAY_MUSIC_LONG_NAME_, _DISPLAY_MUSIC_SHORT_NAME_);
     
   int displayMusicPresent = 0;
 
+
   checkOptionUniqueness (
     _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_, _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_);
     
   int dontGenerateLilyPondCodePresent = 0;
 
+
   checkOptionUniqueness (
     _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_, _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_);
     
   int dontGenerateLilyPondLyricsPresent = 0;
+
 
   checkOptionUniqueness (
     _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_, _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_);
