@@ -18097,39 +18097,6 @@ void msrVoice::appendPendingMultipleRestToVoice (
         print (cerr);
         idtr--;
 
-
-
-  /* JMI
-        // remove the repeated measure from the last segment measure list
-        voiceLastSegmentMeasureList.
-          erase (firstMeasureInList);
-          
-        // print current voice contents
-   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          cerr << idtr <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl <<
-            idtr;
-
-        idtr++;
-        print (cerr);
-        idtr--;
-
-                
-        // print current voice contents
-   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          cerr << idtr <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl <<
-            idtr;
-
-        idtr++;
-        print (cerr);
-        idtr--;
-*/
-
         // forget about this pending measure repeat
         fVoicePendingMultipleRest = 0;
       }
