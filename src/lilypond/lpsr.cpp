@@ -209,8 +209,9 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "Write a trace of the LPSR graphs visiting activity to standard error." <<
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _DISPLAY_LPSR_SHORT_NAME_ ", --" _DISPLAY_LPSR_LONG_NAME_ << 
       endl <<
@@ -252,8 +253,9 @@ void lpsrOptions::printLpsrOptionsHelp ()
     idtr << tab << tab << tab <<
       "The default is to use 'nederlands'." << 
       endl <<
-    endl <<
-      
+    endl;
+
+  cerr <<
     idtr <<
       "--" _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ " , --" _LPSR_CHORDS_LANGUAGE_LONG_NAME_ " language" << 
       endl <<
@@ -532,8 +534,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "By default, relative octaves are generated." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _STEMS_LONG_NAME_ << 
       endl <<
@@ -543,8 +546,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "By default, LilyPond will take care of that by itself." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _NO_AUTO_BEAMING_SHORT_NAME_ ", --" _NO_AUTO_BEAMING_LONG_NAME_ << 
       endl <<
@@ -554,8 +558,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "to prevent LilyPond from handling beams automatically." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _ROMAN_STRING_NUMBERS_SHORT_NAME_ ", --" _ROMAN_STRING_NUMBERS_LONG_NAME_ << 
       endl <<
@@ -565,8 +570,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "for LilyPond to generate roman instead of arabic string numbers." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _AVOID_OPEN_STRINGS_SHORT_NAME_ ", --" _AVOID_OPEN_STRINGS_LONG_NAME_ << 
       endl <<
@@ -576,8 +582,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "to prevent LilyPond from using open strings." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _ACCIDENTAL_STYLE_SHORT_NAME_ ", --" _ACCIDENTAL_STYLE_LONG_NAME_ << 
       endl <<
@@ -613,8 +620,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "By default, this command is commented." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ ", --" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ << 
       endl <<
@@ -804,8 +812,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "such as '% part P_POne (P1)'." << 
       endl <<
-    endl <<
+    endl;
 
+  cerr <<
     idtr <<
       "--" _GENERATE_GLOBAL_SHORT_NAME_ ", --" _GENERATE_GLOBAL_LONG_NAME_ << 
       endl <<
