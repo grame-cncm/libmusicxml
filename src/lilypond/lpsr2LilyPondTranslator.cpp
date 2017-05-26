@@ -2202,7 +2202,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrSegment" <<
+      "--> Start visiting msrSegment '" <<
+      elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
 
   if (gLilypondOptions->fGenerateComments) {
@@ -2220,7 +2221,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrSegment" <<
+      "--> End visiting msrSegment '" <<
+      elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
 
   if (gLilypondOptions->fGenerateComments) {

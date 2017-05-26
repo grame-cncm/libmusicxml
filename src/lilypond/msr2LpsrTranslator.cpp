@@ -972,7 +972,8 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrSegment" <<
+      "--> Start visiting msrSegment '" <<
+      elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
 
 /* JMI
@@ -998,7 +999,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrSegment" <<
+      "--> End visiting msrSegment '" <<
+      elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
 
   // forget current segment clone
