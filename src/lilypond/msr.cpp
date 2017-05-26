@@ -17665,13 +17665,14 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
     case msrVoice::kRegularVoice:
       {
         // create a measure repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
             "Creating a measure repeat from it's first measure in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
+        }
       
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
@@ -17894,7 +17895,7 @@ void msrVoice::createMultipleRestInVoice (
     case msrVoice::kRegularVoice:
       {
         // create a measure repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
             "Creating a multiple rest in voice \"" <<
             getVoiceName () <<
@@ -17904,6 +17905,7 @@ void msrVoice::createMultipleRestInVoice (
             singularOrPlural (
               multipleRestMeasuresNumber, "measure", "measures") <<
             endl;
+        }
       
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
@@ -17986,6 +17988,15 @@ void msrVoice::appendPendingMultipleRestToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       {
+        if (gGeneralOptions->fTraceRepeats) {
+          cerr << idtr <<
+            "Appending the pending multiple rest to voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
         // print current voice contents
    //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
@@ -21012,6 +21023,12 @@ void msrPart::createMultipleRestInPart (
 void msrPart::appendPendingMultipleRestToPart (
   int inputLineNumber)
 {
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending the pending multiple rest to part " <<
+      getPartCombinedName () <<
+      endl;
+
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
