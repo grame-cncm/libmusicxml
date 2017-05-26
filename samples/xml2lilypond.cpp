@@ -769,19 +769,23 @@ void analyzeOptions (
       _HELP_SHORT_NAME_,
       no_argument, &helpPresent, 1
     },
+
     
     {
       _HELP_GENERAL_LONG_NAME_,
       no_argument, &helpGeneralPresent, 1
     },
+
     {
       _HELP_GENERAL_SHORT_NAME_,
       no_argument, &helpGeneralPresent, 1
     },
+
     {
       _HELP_MUSICXML_LONG_NAME_,
       no_argument, &helpMusicXMLPresent, 1
     },
+
     {
       _HELP_MUSICXML_SHORT_NAME_,
       no_argument, &helpMusicXMLPresent, 1
@@ -790,22 +794,27 @@ void analyzeOptions (
       _HELP_MSR_LONG_NAME_,
       no_argument, &helpMsrPresent, 1
     },
+
     {
       _HELP_MSR_SHORT_NAME_,
       no_argument, &helpMsrPresent, 1
     },
+
     {
       _HELP_LPSR_LONG_NAME_,
       no_argument, &helpLpsrPresent, 1
     },
+
     {
       _HELP_LPSR_SHORT_NAME_,
       no_argument, &helpLpsrPresent, 1
     },
+
     {
       _HELP_LILYPOND_LONG_NAME_,
       no_argument, &helpLilypondPresent, 1
     },
+
     {
       _HELP_LILYPOND_SHORT_NAME_,
       no_argument, &helpLilypondPresent, 1
@@ -818,15 +827,18 @@ void analyzeOptions (
       _OUTPUT_FILE_LONG_NAME_,
       required_argument, &outputFilePresent, 1
     },
+
     {
       _OUTPUT_FILE_SHORT_NAME_,
       required_argument, &outputFilePresent, 1
     },
+
     
     {
       _AUTO_OUTPUT_FILE_LONG_NAME_,
       no_argument, &autoOutputFilePresent, 1
     },
+
     {
       _AUTO_OUTPUT_FILE_SHORT_NAME_,
       no_argument, &autoOutputFilePresent, 1
@@ -839,15 +851,18 @@ void analyzeOptions (
       _TRACE_GENERAL_LONG_NAME_,
       no_argument, &traceGeneralPresent, 1
     },
+
     {
       _TRACE_GENERAL_SHORT_NAME_,
       no_argument, &traceGeneralPresent, 1
     },
 
+
     {
       _TRACE_DETAILED_LONG_NAME_,
       required_argument, &traceDetailedPresent, 1
     },
+
     {
       _TRACE_DETAILED_SHORT_NAME_,
       required_argument, &traceDetailedPresent, 1
@@ -860,6 +875,7 @@ void analyzeOptions (
       _CPU_USAGE_LONG_NAME_,
       no_argument, &displayCPUusagePresent, 1
     },
+
     {
       _CPU_USAGE_SHORT_NAME_,
       no_argument, &displayCPUusagePresent, 1
@@ -873,6 +889,7 @@ void analyzeOptions (
       _TRACE_DIVISIONS_LONG_NAME_,
       no_argument, &traceDivisionsPresent, 1
     },
+
     {
       _TRACE_DIVISIONS_SHORT_NAME_,
       no_argument, &traceDivisionsPresent, 1
@@ -883,6 +900,7 @@ void analyzeOptions (
       _TRACE_PARTGROUPS_LONG_NAME_,
       no_argument, &tracePartgroupsPresent, 1
     },
+
     {
       _TRACE_PARTGROUPS_SHORT_NAME_,
       no_argument, &tracePartgroupsPresent, 1
@@ -893,6 +911,7 @@ void analyzeOptions (
       _TRACE_PARTS_LONG_NAME_,
       no_argument, &tracePartsPresent, 1
     },
+
     {
       _TRACE_PARTS_SHORT_NAME_,
       no_argument, &tracePartsPresent, 1
@@ -903,6 +922,7 @@ void analyzeOptions (
       _TRACE_STAVES_LONG_NAME_,
       no_argument, &traceStavesPresent, 1
     },
+
     {
       _TRACE_STAVES_SHORT_NAME_,
       no_argument, &traceStavesPresent, 1
@@ -913,6 +933,7 @@ void analyzeOptions (
       _TRACE_VOICES_LONG_NAME_,
       no_argument, &traceVoicesPresent, 1
     },
+
     {
       _TRACE_VOICES_SHORT_NAME_,
       no_argument, &traceVoicesPresent, 1
@@ -923,6 +944,7 @@ void analyzeOptions (
       _TRACE_SEGMENTS_LONG_NAME_,
       no_argument, &traceSegmentsPresent, 1
     },
+
     {
       _TRACE_SEGMENTS_SHORT_NAME_,
       no_argument, &traceSegmentsPresent, 1
@@ -933,6 +955,7 @@ void analyzeOptions (
       _TRACE_REPEATS_LONG_NAME_,
       no_argument, &traceRepeatsPresent, 1
     },
+
     {
       _TRACE_REPEATS_SHORT_NAME_,
       no_argument, &traceRepeatsPresent, 1
@@ -943,6 +966,7 @@ void analyzeOptions (
       _TRACE_MEASURES_LONG_NAME_,
       no_argument, &traceMeasuresPresent, 1
     },
+
     {
       _TRACE_MEASURES_SHORT_NAME_,
       no_argument, &traceMeasuresPresent, 1
@@ -953,6 +977,7 @@ void analyzeOptions (
       _TRACE_NOTES_LONG_NAME_,
       no_argument, &traceNotesPresent, 1
     },
+
     {
       _TRACE_NOTES_SHORT_NAME_,
       no_argument, &traceNotesPresent, 1
@@ -963,6 +988,7 @@ void analyzeOptions (
       _TRACE_TECHNICALS_LONG_NAME_,
       no_argument, &traceTechnicalsPresent, 1
     },
+
     {
       _TRACE_TECHNICALS_SHORT_NAME_,
       no_argument, &traceTechnicalsPresent, 1
@@ -973,6 +999,7 @@ void analyzeOptions (
       _TRACE_WORDS_LONG_NAME_,
       no_argument, &traceWordsPresent, 1
     },
+
     {
       _TRACE_WORDS_SHORT_NAME_,
       no_argument, &traceWordsPresent, 1
@@ -983,6 +1010,7 @@ void analyzeOptions (
       _TRACE_TREMOLOS_LONG_NAME_,
       no_argument, &traceTremolosPresent, 1
     },
+
     {
       _TRACE_TREMOLOS_SHORT_NAME_,
       no_argument, &traceTremolosPresent, 1
@@ -993,6 +1021,7 @@ void analyzeOptions (
       _TRACE_CHORDS_LONG_NAME_,
       no_argument, &traceChordsPresent, 1
     },
+
     {
       _TRACE_CHORDS_SHORT_NAME_,
       no_argument, &traceChordsPresent, 1
@@ -1003,6 +1032,7 @@ void analyzeOptions (
       _TRACE_TUPLETS_LONG_NAME_,
       no_argument, &traceTupletsPresent, 1
     },
+
     {
       _TRACE_TUPLETS_SHORT_NAME_,
       no_argument, &traceTupletsPresent, 1
@@ -1013,6 +1043,7 @@ void analyzeOptions (
       _TRACE_GRACENOTES_LONG_NAME_,
       no_argument, &traceGracenotesPresent, 1
     },
+
     {
       _TRACE_GRACENOTES_SHORT_NAME_,
       no_argument, &traceGracenotesPresent, 1
@@ -1023,6 +1054,7 @@ void analyzeOptions (
       _TRACE_LYRICS_LONG_NAME_,
       no_argument, &traceLyricsPresent, 1
     },
+
     {
       _TRACE_LYRICS_SHORT_NAME_,
       no_argument, &traceLyricsPresent, 1
@@ -1033,6 +1065,7 @@ void analyzeOptions (
       _TRACE_HARMONIES_LONG_NAME_,
       no_argument, &traceHarmoniesPresent, 1
     },
+
     {
       _TRACE_HARMONIES_SHORT_NAME_,
       no_argument, &traceHarmoniesPresent, 1
@@ -1048,6 +1081,7 @@ void analyzeOptions (
       _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_,
       no_argument, &traceMusicXMLTreeVisitorsPresent, 1
     },
+
     {
       _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_,
       no_argument, &traceMusicXMLTreeVisitorsPresent, 1
@@ -1060,15 +1094,18 @@ void analyzeOptions (
       _INGORE_MUSICXML_ERRORS_LONG_NAME_,
       no_argument, &ignoreMusicXMLErrorsPresent, 1
     },
+
     {
       _INGORE_MUSICXML_ERRORS_SHORT_NAME_,
       no_argument, &ignoreMusicXMLErrorsPresent, 1
     },
 
+
     {
       _LOOP_TO_MUSICXML_LONG_NAME_,
       no_argument, &loopToMusicXMLPresent, 1
     },
+
     {
       _LOOP_TO_MUSICXML_SHORT_NAME_,
       no_argument, &loopToMusicXMLPresent, 1
@@ -1084,15 +1121,18 @@ void analyzeOptions (
       _TRACE_MSR_LONG_NAME_,
       no_argument, &traceMsrPresent, 1
     },
+
     {
       _TRACE_MSR_SHORT_NAME_,
       no_argument, &traceMsrPresent, 1
     },
 
+
     {
       _TRACE_MSR_VISITORS_LONG_NAME_,
       no_argument, &traceMsrVisitorsPresent, 1
     },
+
     {
       _TRACE_MSR_VISITORS_SHORT_NAME_,
       no_argument, &traceMsrVisitorsPresent, 1
@@ -1100,16 +1140,20 @@ void analyzeOptions (
 
     {
       _DISPLAY_MSR_LONG_NAME_,
-      no_argument, &displayMsrPresent, 1},
+      no_argument, &displayMsrPresent, 1
+    },
+    
     {
       _DISPLAY_MSR_SHORT_NAME_,
       no_argument, &displayMsrPresent, 1
     },
 
+
     {
       _DISPLAY_MSR_SUMMARY_LONG_NAME_,
       no_argument, &displayMsrSummaryPresent, 1
     },
+
     {
       _DISPLAY_MSR_SUMMARY_SHORT_NAME_,
       no_argument, &displayMsrSummaryPresent, 1
@@ -1122,6 +1166,7 @@ void analyzeOptions (
       _MSR_PITCHES_LANGUAGE_LONG_NAME_,
       required_argument, &msrPitchesLanguagePresent, 1
     },
+
     {
       _MSR_PITCHES_LANGUAGE_SHORT_NAME_,
       required_argument, &msrPitchesLanguagePresent, 1
@@ -1134,6 +1179,7 @@ void analyzeOptions (
       _PART_NAME_LONG_NAME_,
       required_argument, &partNamePresent, 1
     },
+
     {
      _PART_NAME_SHORT_NAME_,
       required_argument, &partNamePresent, 1
@@ -1147,14 +1193,18 @@ void analyzeOptions (
       no_argument,
       &staffRelativeVoiceNumbersPresent, 1
     },
+
     {
       _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_,
       no_argument, &staffRelativeVoiceNumbersPresent, 1
     },
+
     
     {
       _KEEP_MASTER_VOICES_LONG_NAME_,
-      no_argument, &keepMasterVoicesPresent, 1},
+      no_argument, &keepMasterVoicesPresent, 1
+    },
+    
     {
       _KEEP_MASTER_VOICES_SHORT_NAME_,
       no_argument, &keepMasterVoicesPresent, 1
@@ -1167,38 +1217,47 @@ void analyzeOptions (
       _DELAY_RESTS_DYNAMICS_LONG_NAME_,
       no_argument, &delayRestsDynamicsPresent, 1
     },
+
     {
       _DELAY_RESTS_DYNAMICS_SHORT_NAME_,
       no_argument, &delayRestsDynamicsPresent, 1
     },
+
     {
       _DELAY_RESTS_WORDS_LONG_NAME_,
       no_argument, &delayRestsWordsPresent, 1
     },
+
     {
       _DELAY_RESTS_WORDS_SHORT_NAME_,
       no_argument, &delayRestsWordsPresent, 1
     },
+
     {
       _DELAY_RESTS_SLURS_LONG_NAME_,
       no_argument, &delayRestsSlursPresent, 1
     },
+
     {
       _DELAY_RESTS_SLURS_SHORT_NAME_,
       no_argument, &delayRestsSlursPresent, 1
     },
+
     {
       _DELAY_RESTS_LIGATURES_LONG_NAME_,
       no_argument, &delayRestsLigaturesPresent, 1
     },
+
     {
       _DELAY_RESTS_LIGATURES_SHORT_NAME_,
       no_argument, &delayRestsLigaturesPresent, 1
     },
+
     {
       _DELAY_RESTS_WEDGES_LONG_NAME_,
       no_argument, &delayRestsWedgesPresent, 1
     },
+
     {
      _DELAY_RESTS_WEDGES_SHORT_NAME_,
       no_argument, &delayRestsWedgesPresent, 1
@@ -1211,14 +1270,18 @@ void analyzeOptions (
       _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_,
       no_argument, &dontDisplayMsrStanzasPresent, 1
     },
+
     {
       _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_,
       no_argument, &dontDisplayMsrStanzasPresent, 1
     },
 
+
     {
       _KEEP_MASTER_STANZAS_LONG_NAME_,
-      no_argument, &keepMasterStanzasPresent, 1},
+      no_argument, &keepMasterStanzasPresent, 1
+    },
+
     {
       _KEEP_MASTER_STANZAS_SHORT_NAME_,
       no_argument, &keepMasterStanzasPresent, 1
@@ -1229,7 +1292,9 @@ void analyzeOptions (
 
     {
       _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_,
-      no_argument, &keepMasterStanzasPresent, 1},
+      no_argument, &keepMasterStanzasPresent, 1
+    },
+    
     {
       _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_,
       no_argument, &keepMasterStanzasPresent, 1
@@ -1245,23 +1310,29 @@ void analyzeOptions (
       _TRACE_LPSR_LONG_NAME_,
       no_argument, &traceLpsrPresent, 1
     },
+    
     {
       _TRACE_LPSR_SHORT_NAME_,
       no_argument, &traceLpsrPresent, 1
     },
 
+
     {
       _TRACE_LPSR_VISITORS_LONG_NAME_,
       no_argument, &traceLpsrVisitorsPresent, 1
     },
+
     {
       _TRACE_LPSR_VISITORS_SHORT_NAME_,
       no_argument, &traceLpsrVisitorsPresent, 1
     },
 
+
     {
       _DISPLAY_LPSR_LONG_NAME_,
-      no_argument, &displayLPSRPresent, 1},
+      no_argument, &displayLPSRPresent, 1
+    },
+
     {
       _DISPLAY_LPSR_SHORT_NAME_,
       no_argument, &displayLPSRPresent, 1
@@ -1274,15 +1345,18 @@ void analyzeOptions (
       _LPSR_PITCHES_LANGUAGE_LONG_NAME_,
       required_argument, &lpsrPitchesLanguagePresent, 1
     },
+    
     {
       _LPSR_PITCHES_LANGUAGE_SHORT_NAME_,
       required_argument, &lpsrPitchesLanguagePresent, 1
     },
     
+
     {
       _LPSR_CHORDS_LANGUAGE_LONG_NAME_,
       required_argument, &lpsrChordsLanguagePresent, 1
     },
+
     {
       _LPSR_CHORDS_LANGUAGE_SHORT_NAME_,
       required_argument, &lpsrChordsLanguagePresent, 1
@@ -1295,6 +1369,7 @@ void analyzeOptions (
       _NUMERICAL_TIME_LONG_NAME_,
       no_argument, &numericaltimePresent, 1
     },
+
     {
       _NUMERICAL_TIME_SHORT_NAME_,
       no_argument, &numericaltimePresent, 1
@@ -1307,65 +1382,80 @@ void analyzeOptions (
       _ABSOLUTE_LONG_NAME_,
       no_argument, &absolutePresent, 1
     },
+
     {
       _ABSOLUTE_SHORT_NAME_,
       no_argument, &absolutePresent, 1
     },
+
     
     {
       _STEMS_LONG_NAME_,
       no_argument, &stemsPresent, 1
     },
+    // _STEMS_SHORT_NAME_ is empty
     
+
     {
       _NO_AUTO_BEAMING_LONG_NAME_,
       no_argument, &noAutoBeamingPresent, 1
     },
+
     {
       _NO_AUTO_BEAMING_SHORT_NAME_,
       no_argument, &noAutoBeamingPresent, 1
     },
+
     
     {
       _ROMAN_STRING_NUMBERS_LONG_NAME_,
       no_argument, &romanStringNumbersPresent, 1
     },
+
     {
       _ROMAN_STRING_NUMBERS_SHORT_NAME_,
       no_argument, &romanStringNumbersPresent, 1
     },
+
     
     {
       _AVOID_OPEN_STRINGS_LONG_NAME_,
       no_argument, &avoidOpenStringPresent, 1
     },
+
     {
       _AVOID_OPEN_STRINGS_SHORT_NAME_,
       no_argument, &avoidOpenStringPresent, 1
     },
+
     
     {
       _ACCIDENTAL_STYLE_LONG_NAME_,
       required_argument, &accidentalStylePresent, 1
     },
+
     {
       _ACCIDENTAL_STYLE_SHORT_NAME_,
       required_argument, &accidentalStylePresent, 1
     },
+
     
     {
       _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_,
       no_argument, &compressMultiMeasureRestsPresent, 1
     },
+
     {
       _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_,
       no_argument, &compressMultiMeasureRestsPresent, 1
     },
+
     
     {
       _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_,
       no_argument, &noteInputLineNumbersPresent, 1
     },
+
     {
       _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_,
       no_argument, &noteInputLineNumbersPresent, 1
@@ -1378,6 +1468,7 @@ void analyzeOptions (
       _SHOW_ALL_BAR_NUMBERS_LONG_NAME_,
       no_argument, &showAllBarNumbersPresent, 1
     },
+
     {
       _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_,
       no_argument, &showAllBarNumbersPresent, 1
@@ -1390,24 +1481,29 @@ void analyzeOptions (
       _DONT_KEEP_LINE_BREAKS_LONG_NAME_,
       no_argument, &dontKeepLineBreaksPresent, 1
     },
+
     {
       _DONT_KEEP_LINE_BREAKS_SHORT_NAME_,
       no_argument, &dontKeepLineBreaksPresent, 1
     },
+
     
     {
       _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_,
       no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
     },
+
     {
       _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_,
       no_argument, &breakLinesAtIncompleteRightMeasuresPresent, 1
     },
+
     
     {
       _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_,
       required_argument, &separatorLineEveryNMeasuresPresent, 1
     },
+
     {
       _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_,
       required_argument, &separatorLineEveryNMeasuresPresent, 1
@@ -1420,6 +1516,7 @@ void analyzeOptions (
       _MODERN_TAB_LONG_NAME_,
       no_argument, &modernTabPresent, 1
     },
+
     {
       _MODERN_TAB_SHORT_NAME_,
       no_argument, &modernTabPresent, 1
@@ -1432,15 +1529,18 @@ void analyzeOptions (
       _MIDI_TEMPO_LONG_NAME_,
       required_argument, &midiTempoPresent, 1
     },
+
     {
       _MIDI_TEMPO_SHORT_NAME_,
       required_argument, &midiTempoPresent, 1
     },
+
     
     {
       _NO_MIDI_LONG_NAME_,
       no_argument, &dontGenerateMidiCommandPresent, 1
     },
+
     {
       _NO_MIDI_SHORT_NAME_,
       no_argument, &dontGenerateMidiCommandPresent, 1
@@ -1453,24 +1553,29 @@ void analyzeOptions (
       _COMMENTS_LONG_NAME_,
       no_argument, &commentsPresent, 1
     },
+
     {
       _COMMENTS_SHORT_NAME_,
       no_argument, &commentsPresent, 1
     },
+
     
     {
       _GENERATE_GLOBAL_LONG_NAME_,
       no_argument, &generateGlobalPresent, 1
     },
+
     {
       _GENERATE_GLOBAL_SHORT_NAME_,
       no_argument, &generateGlobalPresent, 1
     },
+
     
     {
       _TUPLETS_ON_A_LINE_LONG_NAME_,
       no_argument, &tupletsOnALinePresent, 1
     },
+
     {
       _TUPLETS_ON_A_LINE_SHORT_NAME_,
       no_argument, &tupletsOnALinePresent, 1
@@ -1480,55 +1585,67 @@ void analyzeOptions (
       _REPEAT_BRACKETS_LONG_NAME_,
       no_argument, &repeatBracketsPresent, 1
     },
+
     {
       _REPEAT_BRACKETS_SHORT_NAME_,
       no_argument, &repeatBracketsPresent, 1
     },
+
     
     {
       _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_,
       required_argument, &delayedOrnamentFractionPresent, 1
     },
+
     {
       _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_,
       required_argument, &delayedOrnamentFractionPresent, 1
     },
+
     
     {
       _DISPLAY_MUSIC_LONG_NAME_,
       no_argument, &displayMusicPresent, 1
     },
+
     {
       _DISPLAY_MUSIC_SHORT_NAME_,
       no_argument, &displayMusicPresent, 1
     },
+
     
     {
       _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_,
       no_argument, &dontGenerateLilyPondCodePresent, 1
     },
+
     {
       _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_,
       no_argument, &dontGenerateLilyPondCodePresent, 1
     },
 
+
     {
       _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_,
       no_argument, &dontGenerateLilyPondLyricsPresent, 1
     },
+
     {
       _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_,
       no_argument, &dontGenerateLilyPondLyricsPresent, 1
     },
 
+
     {
       _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_,
       no_argument, &generateLilyPondCompileDatePresent, 1
     },
+
     {
       _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_,
       no_argument, &generateLilyPondCompileDatePresent, 1
     },
+
 
     {0, 0, 0, 0}
     };
