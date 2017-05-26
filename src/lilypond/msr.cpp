@@ -16342,6 +16342,240 @@ void msrMeasureRepeat::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+S_msrMultipleRest msrMultipleRest::create (
+  int          inputLineNumber,
+  int          multipleRestMeasuresNumber,
+  int          multipleRestSlashesNumber,
+  S_msrSegment repeatedSegment,
+  S_msrVoice   voiceUplink)
+{
+  msrMultipleRest* o =
+    new msrMultipleRest (
+      inputLineNumber,
+      multipleRestMeasuresNumber, multipleRestSlashesNumber,
+      repeatedSegment,
+      voiceUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrMultipleRest::msrMultipleRest (
+  int          inputLineNumber,
+  int          multipleRestMeasuresNumber,
+  int          multipleRestSlashesNumber,
+  S_msrSegment repeatedSegment,
+  S_msrVoice   voiceUplink)
+    : msrElement (inputLineNumber)
+{
+  fMultipleRestMeasuresNumber = multipleRestMeasuresNumber;
+  fMultipleRestSlashesNumber  = multipleRestSlashesNumber;
+
+  msrAssert (
+    repeatedSegment != 0,
+    "repeatedSegment is null");
+
+  // append repeated measure to repeated segment
+  fMultipleRestRepeatedSegment = repeatedSegment;
+
+  fMultipleRestVoiceUplink = voiceUplink;
+}
+
+msrMultipleRest::~msrMultipleRest() {}
+
+S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
+  S_msrSegment repeatedSegmentClone,
+  S_msrVoice   voiceClone)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a bare clone of a repeat" <<
+      endl;
+  
+  msrAssert(
+    repeatedSegmentClone != 0,
+    "repeatedSegmentClone is null");
+    
+  msrAssert(
+    voiceClone != 0,
+    "voiceClone is null");
+    
+  S_msrMultipleRest
+    clone =
+      msrMultipleRest::create (
+        fInputLineNumber,
+        fMultipleRestMeasuresNumber,
+        fMultipleRestSlashesNumber,
+        repeatedSegmentClone,
+        voiceClone);
+
+  return clone;
+}
+
+void msrMultipleRest::setMultipleRestReplicasSegment (
+  S_msrSegment multipleRestReplicasSegment)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting measure repeat replicas segment containing " <<
+      singularOrPlural (
+        multipleRestReplicasSegment->getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
+      endl;
+      
+  fMultipleRestReplicasSegment = multipleRestReplicasSegment;
+}
+
+int msrMultipleRest::multipleRestReplicasNumber () const
+{
+  // compute replicas number
+  return
+    multipleRestReplicasMeasuresNumber ()
+      /
+    multipleRestRepeatedMeasuresNumber ();    
+}
+
+void msrMultipleRest::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMultipleRest::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrMultipleRest>*
+    p =
+      dynamic_cast<visitor<S_msrMultipleRest>*> (v)) {
+        S_msrMultipleRest elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrMultipleRest::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrMultipleRest::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMultipleRest::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrMultipleRest>*
+    p =
+      dynamic_cast<visitor<S_msrMultipleRest>*> (v)) {
+        S_msrMultipleRest elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrMultipleRest::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrMultipleRest::browseData (basevisitor* v)
+{
+  if (fMultipleRestRepeatedSegment) {
+  // browse the repeated measure
+    msrBrowser<msrSegment> browser (v);
+    browser.browse (*fMultipleRestRepeatedSegment);
+  }
+
+  // fetch the score
+  S_msrScore
+    score =
+      fMultipleRestVoiceUplink->
+        getVoiceDirectPartUplink ()->
+          getPartPartgroupUplink ()->
+            getPartgroupScoreUplink ();
+              
+  if (fMultipleRestReplicasSegment) {
+    if (! score->getInhibitMultipleRestReplicasBrowsing ()) {
+      // browse the replicas segment
+      msrBrowser<msrSegment> browser (v);
+      browser.browse (*fMultipleRestReplicasSegment);
+    }
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrMultipleRest& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrMultipleRest::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr << "MultipleRest" <<
+    ", line " << fInputLineNumber <<
+    " (" <<
+    singularOrPlural (
+      multipleRestRepeatedMeasuresNumber (),
+      "repeated measure",
+      "repeated measures") <<
+    ", " <<
+    singularOrPlural (
+      multipleRestReplicasMeasuresNumber (),
+      "replicas measure",
+      "replicas measures") <<
+    ", " <<
+    multipleRestReplicasNumber () << " replicas" <<
+    ")" <<
+    endl <<
+    endl;
+  
+  idtr++;
+  
+  // print the repeated segment
+  os << idtr <<
+    "Repeated segment:";
+
+  if (! fMultipleRestRepeatedSegment) {
+    os <<
+      " none" <<
+      endl;
+  }
+  else {
+    os <<
+      endl;
+      
+    idtr++;
+    
+    os <<
+      fMultipleRestRepeatedSegment;
+
+    idtr--;
+  }
+
+  os << endl;
+  
+  // print the replicas segment
+  os << idtr <<
+    "Replicas segment:";
+    
+  if (! fMultipleRestReplicasSegment) {
+    os <<
+      " none" <<
+      endl;
+  }
+  else {
+    os <<
+      endl;
+      
+    idtr++;
+    
+    os <<
+      fMultipleRestReplicasSegment;
+
+    idtr--;
+  }
+      
+  idtr--;
+}
+
 //______________________________________________________________________________ 
 int msrVoice::gVoicesCounter = 0;
 

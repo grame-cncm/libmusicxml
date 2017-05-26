@@ -6296,6 +6296,118 @@ class EXP msrMeasureRepeat : public msrElement
 typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt);
 
+//______________________________________________________________________________
+class EXP msrMultipleRest : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrMultipleRestKind {
+      kStartMultipleRest, kStopMultipleRest, 
+      k_NoMultipleRest };
+
+    static string multipleRestKindAsString (
+      msrMultipleRestKind multipleRestKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMultipleRest> create (
+      int          inputLineNumber,
+      int          multipleRestMeasuresNumber,
+      int          multipleRestSlashesNumber,
+      S_msrSegment repeatedSegment,
+      S_msrVoice   voiceUplink);
+    
+    SMARTP<msrMultipleRest> createMultipleRestBareClone (
+      S_msrSegment repeatedSegmentClone,
+      S_msrVoice   voiceClone);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMultipleRest (
+      int          inputLineNumber,
+      int          multipleRestMeasuresNumber,
+      int          multipleRestSlashesNumber,
+      S_msrSegment repeatedSegment,
+      S_msrVoice   voiceUplink);
+      
+    virtual ~msrMultipleRest();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getMultipleRestMeasuresNumber () const
+                              { return fMultipleRestMeasuresNumber; }
+                              
+    int                   getMultipleRestSlashesNumber () const
+                              { return fMultipleRestSlashesNumber; }
+                              
+    S_msrSegment          getMultipleRestRepeatedSegment () const
+                              { return fMultipleRestRepeatedSegment; }
+
+    void                  setMultipleRestReplicasSegment (
+                            S_msrSegment multipleRestReplicasSegment);
+                  
+    S_msrSegment          getMultipleRestReplicasSegment () const
+                              { return fMultipleRestReplicasSegment; }
+
+    S_msrVoice            getMultipleRestVoiceUplink () const
+                            { return fMultipleRestVoiceUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    int                   multipleRestRepeatedMeasuresNumber () const
+                            {
+                              return
+                                fMultipleRestRepeatedSegment->
+                                  getSegmentMeasuresList ().size ();
+                            }
+    
+    int                   multipleRestReplicasMeasuresNumber () const
+                            {
+                              return
+                                fMultipleRestReplicasSegment->
+                                  getSegmentMeasuresList ().size ();
+                            }
+    
+    int                   multipleRestReplicasNumber () const;
+    
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+    int                   fMultipleRestMeasuresNumber;
+    int                   fMultipleRestSlashesNumber;
+
+    S_msrSegment          fMultipleRestRepeatedSegment;
+    
+    S_msrSegment          fMultipleRestReplicasSegment;
+
+    S_msrVoice            fMultipleRestVoiceUplink;
+};
+typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
+EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
+
 /*!
 \brief A msr voice representation.
 
@@ -7547,6 +7659,13 @@ class EXP msrScore : public msrElement
                                   fInhibitMeasureRepeatReplicasBrowsing;
                               };
 
+    bool                  getInhibitMultipleRestReplicasBrowsing ()
+                            const
+                              {
+                                return
+                                  fInhibitMultipleRestReplicasBrowsing;
+                              };
+
     // services
     // ------------------------------------------------------
 
@@ -7581,6 +7700,10 @@ class EXP msrScore : public msrElement
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure
     bool                 fInhibitMeasureRepeatReplicasBrowsing;
+
+    // in <multiple-rest/>, the measure replicas are explicit,
+    // whereas LilyPond only needs the repeated measure
+    bool                 fInhibitMultipleRestReplicasBrowsing;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
