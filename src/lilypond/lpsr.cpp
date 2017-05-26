@@ -713,6 +713,147 @@ void lilypondOptions::printLilypondOptionsHelp ()
 
   idtr--;
 
+  // tuplets
+  // --------------------------------------
+  cerr <<
+    idtr << "Tuplets:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ ", --" _TUPLETS_ON_A_LINE_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep tuplets notes on the same line, instead of" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "'having \\tuplet {' and '}' on separate lines." << 
+      endl <<
+    endl;
+      
+  idtr--;
+
+  // repeats
+  // --------------------------------------
+  cerr <<
+    idtr << "Repeats:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _REPEAT_BRACKETS_SHORT_NAME_ ", --" _REPEAT_BRACKETS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate repeats with brackets instead of regular bar lines." << 
+      endl <<
+    endl;
+      
+  idtr--;
+
+  // ornaments
+  // --------------------------------------
+  cerr <<
+    idtr << "Ornaments:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " 'num/denom'" << 
+      endl <<
+    idtr <<
+      "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " \"num/denom\"" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Place the delayed turn/reverseturn at the given fraction" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "between the ornemented note and the next one." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "The default fraction is '2/3'." << 
+      endl <<
+    endl;
+      
+  idtr--;
+
+  // code generation
+  // --------------------------------------
+  cerr <<
+    idtr << "Code generation:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _COMMENTS_SHORT_NAME_ ", --" _COMMENTS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate comments showing the structure of the score" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "such as '% part P_POne (P1)'." << 
+      endl <<
+    endl <<
+
+    idtr <<
+      "--" _GENERATE_GLOBAL_SHORT_NAME_ ", --" _GENERATE_GLOBAL_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate a 'global' empty variable and place a use of it at the beginning of all voices." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _DISPLAY_MUSIC_SHORT_NAME_ ", --" _DISPLAY_MUSIC_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Place the contents of all voices inside a '\\displayMusic' block," << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "'for LilyPond to show its internal representation of the music." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ ", --" _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't generate LilyPond code." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "This can be useful if only a summary of the score is needed." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ ", --" _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't generate lyrics in the LilyPond code." << 
+      endl <<
+    endl <<
+      
+    idtr <<
+      "--" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ ", --" _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate code to include the date when LilyPond creates the score in the latter." << 
+      endl <<
+    endl;
+    
+  idtr--;
+
   // midi
   // --------------------------------------
   cerr <<
@@ -751,111 +892,6 @@ void lilypondOptions::printLilypondOptionsHelp ()
       endl <<
     endl;
 
-  idtr--;
-
-  // LilyPond code generation
-  // --------------------------------------
-  cerr <<
-    idtr << "LilyPond code generation:" <<
-    endl <<
-    endl;
-
-  idtr++;
-
-  cerr <<
-    idtr <<
-      "--" _COMMENTS_SHORT_NAME_ ", --" _COMMENTS_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate comments showing the structure of the score" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "such as '% part P_POne (P1)'." << 
-      endl <<
-    endl <<
-
-    idtr <<
-      "--" _GENERATE_GLOBAL_SHORT_NAME_ ", --" _GENERATE_GLOBAL_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate a 'global' empty variable and place a use of it at the beginning of all voices." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ ", --" _TUPLETS_ON_A_LINE_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Keep tuplets notes on the same line, instead of" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "'having \\tuplet {' and '}' on separate lines." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _REPEAT_BRACKETS_SHORT_NAME_ ", --" _REPEAT_BRACKETS_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate repeats with brackets instead of regular bar lines." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " 'num/denom'" << 
-      endl <<
-    idtr <<
-      "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ ", --" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " \"num/denom\"" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Place the delayed turn/reverseturn at the given fraction" << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "between the ornemented note and the next one." << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "The default fraction is '2/3'." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _DISPLAY_MUSIC_SHORT_NAME_ ", --" _DISPLAY_MUSIC_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Place the contents of all voices inside a '\\displayMusic' block," << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "'for LilyPond to show its internal representation of the music." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ ", --" _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Don't generate LilyPond code." << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "This can be useful if only a summary of the score is needed." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ ", --" _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Don't generate lyrics in the LilyPond code." << 
-      endl <<
-    endl <<
-      
-    idtr <<
-      "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ ", --" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ << 
-      endl <<
-    idtr << tab << tab << tab <<
-      "Generate code to include the date when LilyPond creates the score in the latter." << 
-      endl <<
-    endl;
-    
   idtr--;
 
   

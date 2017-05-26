@@ -208,11 +208,13 @@ extern S_lpsrOptions gLpsrOptions;
 // LilyPond options
 
 // time
+// --------------------------------------
 
 #define _NUMERICAL_TIME_LONG_NAME_  "numericalTime"
 #define _NUMERICAL_TIME_SHORT_NAME_ "numt"
 
 // notes
+// --------------------------------------
 
 #define _ABSOLUTE_LONG_NAME_  "absolute"
 #define _ABSOLUTE_SHORT_NAME_ "abs"
@@ -236,6 +238,7 @@ extern S_lpsrOptions gLpsrOptions;
 #define _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ "niln"
 
 // bars
+// --------------------------------------
 
 #define _SHOW_ALL_BAR_NUMBERS_LONG_NAME_  "showAllBarNumbers"
 #define _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ "sabn"
@@ -244,6 +247,7 @@ extern S_lpsrOptions gLpsrOptions;
 #define _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_ "cmmr"
 
 // line breaks
+// --------------------------------------
 
 #define _DONT_KEEP_LINE_BREAKS_LONG_NAME_  "dontKeepLineBreaks"
 #define _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ "noBreaks"
@@ -255,34 +259,37 @@ extern S_lpsrOptions gLpsrOptions;
 #define _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ "slenm"
 
 // staves
+// --------------------------------------
 
 #define _MODERN_TAB_LONG_NAME_  "modernTab"
 #define _MODERN_TAB_SHORT_NAME_ "mtab"
 
-// midi
+// tuplets
+// --------------------------------------
 
-#define _MIDI_TEMPO_LONG_NAME_  "midiTempo"
-#define _MIDI_TEMPO_SHORT_NAME_ "mt"
+#define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine"
+#define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
 
-#define _NO_MIDI_LONG_NAME_  "noMidi"
-#define _NO_MIDI_SHORT_NAME_ ""
+// repeats
+// --------------------------------------
 
-// LilyPond code generation
+#define _REPEAT_BRACKETS_LONG_NAME_  "repeatBrackets"
+#define _REPEAT_BRACKETS_SHORT_NAME_ "rbracks"
+
+// ornaments
+// --------------------------------------
+
+#define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction"
+#define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
+
+// code generation
+// --------------------------------------
 
 #define _COMMENTS_LONG_NAME_  "comments"
 #define _COMMENTS_SHORT_NAME_ "com"
 
 #define _GENERATE_GLOBAL_LONG_NAME_  "generateGlobal"
 #define _GENERATE_GLOBAL_SHORT_NAME_ "global"
-
-#define _TUPLETS_ON_A_LINE_LONG_NAME_  "tupletsOnALine"
-#define _TUPLETS_ON_A_LINE_SHORT_NAME_ "toal"
-
-#define _REPEAT_BRACKETS_LONG_NAME_  "repeatBrackets"
-#define _REPEAT_BRACKETS_SHORT_NAME_ "rbracks"
-
-#define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction"
-#define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
 
 #define _DISPLAY_MUSIC_LONG_NAME_  "displayMusic"
 #define _DISPLAY_MUSIC_SHORT_NAME_ "dm"
@@ -295,6 +302,15 @@ extern S_lpsrOptions gLpsrOptions;
 
 #define _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_  "generateLilyPondCompileDate"
 #define _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ "glpcd"
+
+// midi
+// --------------------------------------
+
+#define _MIDI_TEMPO_LONG_NAME_  "midiTempo"
+#define _MIDI_TEMPO_SHORT_NAME_ "mt"
+
+#define _NO_MIDI_LONG_NAME_  "noMidi"
+#define _NO_MIDI_SHORT_NAME_ ""
 
 
 class EXP lilypondOptions : public smartable {
@@ -373,6 +389,37 @@ class EXP lilypondOptions : public smartable {
     
     bool                  fModernTab;
 
+    // tuplets
+    // --------------------------------------
+    
+    bool                  fTupletsOnALine;
+
+    // repeats
+    // --------------------------------------
+    
+    bool                  fRepeatBrackets;
+
+    // ornaments
+    // --------------------------------------
+
+    int                   fDelayedOrnamentFractionNumerator;
+    int                   fDelayedOrnamentFractionDenominator;
+
+    // code generation
+    // --------------------------------------
+
+    bool                  fGenerateComments;
+
+    bool                  fGenerateGlobal;
+    
+    bool                  fDisplayMusic;
+
+    bool                  fDontGenerateLilyPondCode;
+
+    bool                  fDontGenerateLilyPondLyrics;
+
+    bool                  fGenerateLilyPondCompileDate;
+
     // midi
     // --------------------------------------
     
@@ -381,27 +428,6 @@ class EXP lilypondOptions : public smartable {
     
     bool                  fDontGenerateMidiCommand;
 
-    // LilyPond code generation
-    // --------------------------------------
-
-    bool                  fGenerateComments;
-
-    bool                  fGenerateGlobal;
-    
-    bool                  fTupletsOnALine;
-
-    bool                  fRepeatBrackets;
-
-    int                   fDelayedOrnamentFractionNumerator;
-    int                   fDelayedOrnamentFractionDenominator;
-
-    bool                  fDisplayMusic;
-
-    bool                  fDontGenerateLilyPondCode;
-
-    bool                  fDontGenerateLilyPondLyrics;
-
-    bool                  fGenerateLilyPondCompileDate;
 
 // JMI ???
 

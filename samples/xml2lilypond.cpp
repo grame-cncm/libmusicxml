@@ -92,6 +92,7 @@ What it does:
       gMusicXMLOptions->printMusicXMLOptionsHelp ();
       gMsrOptions->printMsrOptionsHelp ();
       gLpsrOptions->printLpsrOptionsHelp ();
+      gLilypondOptions->printLilypondOptionsHelp ();
       break;
       
     case kGeneralHelp:
@@ -766,11 +767,11 @@ void analyzeOptions (
     },
     {
       _HELP_LILYPOND_LONG_NAME_,
-      no_argument, &helpLpsrPresent, 1
+      no_argument, &helpLilypondPresent, 1
     },
     {
       _HELP_LILYPOND_SHORT_NAME_,
-      no_argument, &helpLpsrPresent, 1
+      no_argument, &helpLilypondPresent, 1
     },
 
     // output file
