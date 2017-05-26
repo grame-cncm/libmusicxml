@@ -50,6 +50,12 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
     getMsrScore ()->
       setInhibitMeasureRepeatReplicasBrowsing ();
 
+  // inhibit the browsing of multiple rest replicas,
+  // since LilyPond only needs the measure number
+  fVisitedLpsrScore->
+    getMsrScore ()->
+      setInhibitMultipleRestReplicasBrowsing ();
+
   // header handling
   fOnGoingHeader = false;
   

@@ -16346,14 +16346,13 @@ void msrMeasureRepeat::print (ostream& os)
 S_msrMultipleRest msrMultipleRest::create (
   int          inputLineNumber,
   int          multipleRestMeasuresNumber,
-  int          multipleRestSlashesNumber,
   S_msrSegment repeatedSegment,
   S_msrVoice   voiceUplink)
 {
   msrMultipleRest* o =
     new msrMultipleRest (
       inputLineNumber,
-      multipleRestMeasuresNumber, multipleRestSlashesNumber,
+      multipleRestMeasuresNumber,
       repeatedSegment,
       voiceUplink);
   assert(o!=0);
@@ -16363,20 +16362,15 @@ S_msrMultipleRest msrMultipleRest::create (
 msrMultipleRest::msrMultipleRest (
   int          inputLineNumber,
   int          multipleRestMeasuresNumber,
-  int          multipleRestSlashesNumber,
   S_msrSegment repeatedSegment,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMultipleRestMeasuresNumber = multipleRestMeasuresNumber;
-  fMultipleRestSlashesNumber  = multipleRestSlashesNumber;
 
   msrAssert (
     repeatedSegment != 0,
     "repeatedSegment is null");
-
-  // append repeated measure to repeated segment
-  fMultipleRestRepeatedSegment = repeatedSegment;
 
   fMultipleRestVoiceUplink = voiceUplink;
 }
@@ -16405,35 +16399,25 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
       msrMultipleRest::create (
         fInputLineNumber,
         fMultipleRestMeasuresNumber,
-        fMultipleRestSlashesNumber,
         repeatedSegmentClone,
         voiceClone);
 
   return clone;
 }
 
-void msrMultipleRest::setMultipleRestReplicasSegment (
-  S_msrSegment multipleRestReplicasSegment)
+void msrMultipleRest::setMultipleRestSegment (
+  S_msrSegment multipleRestSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
-        multipleRestReplicasSegment->getSegmentMeasuresList ().size (),
+        multipleRestSegment->getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
       
-  fMultipleRestReplicasSegment = multipleRestReplicasSegment;
-}
-
-int msrMultipleRest::multipleRestReplicasNumber () const
-{
-  // compute replicas number
-  return
-    multipleRestReplicasMeasuresNumber ()
-      /
-    multipleRestRepeatedMeasuresNumber ();    
+  fMultipleRestSegment = multipleRestSegment;
 }
 
 void msrMultipleRest::acceptIn (basevisitor* v) {
@@ -16476,12 +16460,6 @@ void msrMultipleRest::acceptOut (basevisitor* v) {
 
 void msrMultipleRest::browseData (basevisitor* v)
 {
-  if (fMultipleRestRepeatedSegment) {
-  // browse the repeated measure
-    msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMultipleRestRepeatedSegment);
-  }
-
   // fetch the score
   S_msrScore
     score =
@@ -16490,11 +16468,11 @@ void msrMultipleRest::browseData (basevisitor* v)
           getPartPartgroupUplink ()->
             getPartgroupScoreUplink ();
               
-  if (fMultipleRestReplicasSegment) {
+  if (fMultipleRestSegment) {
     if (! score->getInhibitMultipleRestReplicasBrowsing ()) {
       // browse the replicas segment
       msrBrowser<msrSegment> browser (v);
-      browser.browse (*fMultipleRestReplicasSegment);
+      browser.browse (*fMultipleRestSegment);
     }
   }
 }
@@ -16513,50 +16491,20 @@ void msrMultipleRest::print (ostream& os)
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      multipleRestRepeatedMeasuresNumber (),
-      "repeated measure",
-      "repeated measures") <<
-    ", " <<
-    singularOrPlural (
-      multipleRestReplicasMeasuresNumber (),
-      "replicas measure",
-      "replicas measures") <<
-    ", " <<
-    multipleRestReplicasNumber () << " replicas" <<
+      fMultipleRestMeasuresNumber,
+      "rest measure",
+      "rest measures") <<
     ")" <<
     endl <<
     endl;
   
   idtr++;
   
-  // print the repeated segment
-  os << idtr <<
-    "Repeated segment:";
-
-  if (! fMultipleRestRepeatedSegment) {
-    os <<
-      " none" <<
-      endl;
-  }
-  else {
-    os <<
-      endl;
-      
-    idtr++;
-    
-    os <<
-      fMultipleRestRepeatedSegment;
-
-    idtr--;
-  }
-
-  os << endl;
-  
   // print the replicas segment
   os << idtr <<
     "Replicas segment:";
     
-  if (! fMultipleRestReplicasSegment) {
+  if (! fMultipleRestSegment) {
     os <<
       " none" <<
       endl;
@@ -16568,7 +16516,7 @@ void msrMultipleRest::print (ostream& os)
     idtr++;
     
     os <<
-      fMultipleRestReplicasSegment;
+      fMultipleRestSegment;
 
     idtr--;
   }
@@ -17901,13 +17849,234 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the next measure for voice \"" <<
+            "Creating a new last segment with the measure repeat next measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
         createNewLastSegmentWithFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMeasureRepeat);
+
+        // print resulting voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "The resulting voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
+        // forget about this pending measure repeat
+        fVoicePendingMeasureRepeat = 0;
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
+}
+
+void msrVoice::createMultipleRestInVoice (
+  int inputLineNumber,
+  int multipleRestMeasuresNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        // create a measure repeat
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Creating a multiple rest in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+      
+        // grab the just created last measure from the voice,
+        // (i.e. the one containing:
+        //   <multiple-rest ... type="start">2</multiple-rest>)
+        // which is the first rest measure
+        S_msrMeasure
+          firstRestMeasure =
+            removeLastMeasureFromVoice (
+              inputLineNumber);
+
+        // create the multiple rest rests segment
+        S_msrSegment
+          restsSegment =
+            msrSegment::create (
+              inputLineNumber,
+              fVoiceDirectPartUplink,
+              this);
+
+        // append the first rest measure to the rests segment
+        restsSegment->
+          appendMeasureToSegment (
+            firstRestMeasure);
+            
+        // create the multiple rest
+        if (fVoicePendingMultipleRest) {
+          stringstream s;
+
+          s <<
+            "attempting to create a multiple rest while another one is pending";
+
+          msrInternalError (
+            inputLineNumber, s.str());
+        }
+        
+        fVoicePendingMultipleRest =
+          msrMultipleRest::create (
+            inputLineNumber,
+            multipleRestMeasuresNumber,
+            restsSegment,
+            this);
+
+        // create a new segment to collect the multiple rest measures,
+        // containing the first, yet incomplete, rest measure
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "Creating a new last segment with the first rest measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentWithFirstMeasureForVoice (
+          inputLineNumber,
+          firstRestMeasure);
+
+        // print resulting voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "The resulting voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
+        // keep the measure repeat pending
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
+}
+
+void msrVoice::appendPendingMultipleRestToVoice (
+  int inputLineNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        // print current voice contents
+   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl <<
+            idtr;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
+        // does the pending measure repeat exist?
+        if (! fVoicePendingMultipleRest) {
+          stringstream s;
+
+          s <<
+            "attempting to append a pending measure repeat which doesn't exist";
+
+          msrInternalError (
+            inputLineNumber, s.str());
+        }
+
+        // fetch the last segment's measure list
+        list<S_msrMeasure>&
+          voiceLastSegmentMeasureList =
+            fVoiceLastSegment->
+              getSegmentMeasuresListToModify ();
+       
+        // grab the just created last measure in the last segment's measure list,
+        // (i.e. the one containing:
+        //   <measure-repeat type="stop"/>)
+        // which is the next measure after the measure repeat
+        if (! voiceLastSegmentMeasureList.size ()) {
+          stringstream s;
+
+          s <<
+            "attempting to grab first measure of voice last segment, that contains none";
+
+          msrInternalError (
+            inputLineNumber, s.str());
+        }
+
+        S_msrMeasure
+          nextMeasureAfterMultipleRest =
+            voiceLastSegmentMeasureList.back ();
+            
+        cerr <<
+          endl <<
+          "==========> nextMeasureAfterMultipleRest:" <<
+          endl;
+          
+          nextMeasureAfterMultipleRest->print (cerr);
+          
+        cerr <<
+          endl;
+
+        // remove the next measure from the last segment's measure list
+        voiceLastSegmentMeasureList.pop_back ();
+
+        // set last segment as the measure repeat replicas segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as measure repeat replicas segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        fVoicePendingMultipleRest->
+          setMultipleRestSegment (
+            fVoiceLastSegment);
+
+        // append pending measure repeat to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          fVoicePendingMultipleRest);
+
+        // print current voice contents
+   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl <<
+            idtr;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+
+        // create a new segment to collect the remainder of the voice,
+        // containing the next, yet incomplete, measure
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "Creating a new last segment with the next measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+            
+        createNewLastSegmentWithFirstMeasureForVoice (
+          inputLineNumber,
+          nextMeasureAfterMultipleRest);
 
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -17954,7 +18123,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 */
 
         // forget about this pending measure repeat
-        fVoicePendingMeasureRepeat = 0;
+        fVoicePendingMultipleRest = 0;
       }
       break;
       
@@ -19377,6 +19546,50 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
   } // for
 }
 
+void msrStaff::createMultipleRestInStaff (
+  int inputLineNumber,
+  int multipleRestMeasuresNumber)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a measure repeat from it's first measure in staff " <<
+      fStaffNumber <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      createMultipleRestInVoice (
+        inputLineNumber,
+        multipleRestMeasuresNumber);
+  } // for
+}
+
+void msrStaff::appendPendingMultipleRestToStaff (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending the pending measure repeat to staff " <<
+      fStaffNumber <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendPendingMultipleRestToVoice (
+        inputLineNumber);
+  } // for
+}
+
 void msrStaff::appendRepeatCloneToStaff (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
@@ -20790,6 +21003,34 @@ void msrPart::appendPendingMeasureRepeatToPart (
     i++) {
     (*i).second->
       appendPendingMeasureRepeatToStaff (
+        inputLineNumber);
+  } // for
+}
+
+void msrPart::createMultipleRestInPart (
+  int inputLineNumber,
+  int multipleRestMeasuresNumber)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      createMultipleRestInStaff (
+        inputLineNumber,
+        multipleRestMeasuresNumber);
+  } // for
+}
+
+void msrPart::appendPendingMultipleRestToPart (
+  int inputLineNumber)
+{
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      appendPendingMultipleRestToStaff (
         inputLineNumber);
   } // for
 }

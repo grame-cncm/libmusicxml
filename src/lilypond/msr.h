@@ -6268,7 +6268,6 @@ class EXP msrMeasureRepeat : public msrElement
                             }
     
     int                   measureRepeatReplicasNumber () const;
-    
 
     // visitors
     // ------------------------------------------------------
@@ -6317,8 +6316,7 @@ class EXP msrMultipleRest : public msrElement
     static SMARTP<msrMultipleRest> create (
       int          inputLineNumber,
       int          multipleRestMeasuresNumber,
-      int          multipleRestSlashesNumber,
-      S_msrSegment repeatedSegment,
+      S_msrSegment restsSegment,
       S_msrVoice   voiceUplink);
     
     SMARTP<msrMultipleRest> createMultipleRestBareClone (
@@ -6333,8 +6331,7 @@ class EXP msrMultipleRest : public msrElement
     msrMultipleRest (
       int          inputLineNumber,
       int          multipleRestMeasuresNumber,
-      int          multipleRestSlashesNumber,
-      S_msrSegment repeatedSegment,
+      S_msrSegment restsSegment,
       S_msrVoice   voiceUplink);
       
     virtual ~msrMultipleRest();
@@ -6347,17 +6344,11 @@ class EXP msrMultipleRest : public msrElement
     int                   getMultipleRestMeasuresNumber () const
                               { return fMultipleRestMeasuresNumber; }
                               
-    int                   getMultipleRestSlashesNumber () const
-                              { return fMultipleRestSlashesNumber; }
-                              
-    S_msrSegment          getMultipleRestRepeatedSegment () const
-                              { return fMultipleRestRepeatedSegment; }
-
-    void                  setMultipleRestReplicasSegment (
-                            S_msrSegment multipleRestReplicasSegment);
+    void                  setMultipleRestSegment (
+                            S_msrSegment multipleRestSegment);
                   
-    S_msrSegment          getMultipleRestReplicasSegment () const
-                              { return fMultipleRestReplicasSegment; }
+    S_msrSegment          getMultipleRestSegment () const
+                              { return fMultipleRestSegment; }
 
     S_msrVoice            getMultipleRestVoiceUplink () const
                             { return fMultipleRestVoiceUplink; }
@@ -6365,22 +6356,12 @@ class EXP msrMultipleRest : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   multipleRestRepeatedMeasuresNumber () const
-                            {
-                              return
-                                fMultipleRestRepeatedSegment->
-                                  getSegmentMeasuresList ().size ();
-                            }
-    
     int                   multipleRestReplicasMeasuresNumber () const
                             {
                               return
-                                fMultipleRestReplicasSegment->
+                                fMultipleRestSegment->
                                   getSegmentMeasuresList ().size ();
                             }
-    
-    int                   multipleRestReplicasNumber () const;
-    
 
     // visitors
     // ------------------------------------------------------
@@ -6397,11 +6378,8 @@ class EXP msrMultipleRest : public msrElement
 
   private:
     int                   fMultipleRestMeasuresNumber;
-    int                   fMultipleRestSlashesNumber;
-
-    S_msrSegment          fMultipleRestRepeatedSegment;
     
-    S_msrSegment          fMultipleRestReplicasSegment;
+    S_msrSegment          fMultipleRestSegment;
 
     S_msrVoice            fMultipleRestVoiceUplink;
 };
@@ -6603,6 +6581,13 @@ class EXP msrVoice : public msrElement
     void                  appendPendingMeasureRepeatToVoice (
                             int inputLineNumber);
                             
+    void                  createMultipleRestInVoice (
+                            int inputLineNumber,
+                            int multipleRestMeasuresNumber);
+
+    void                  appendPendingMultipleRestToVoice (
+                            int inputLineNumber);
+                            
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
@@ -6729,6 +6714,11 @@ class EXP msrVoice : public msrElement
     // or the last msrMeasureRepeat created with its repeated measure,
     // but not yet appended to the voice
     S_msrMeasureRepeat        fVoicePendingMeasureRepeat;
+
+    // fVoicePendingMeasureRepeat is null
+    // or the last msrMeasureRepeat created with its repeated measure,
+    // but not yet appended to the voice
+    S_msrMultipleRest         fVoicePendingMultipleRest;
 
     // the stanza master, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
@@ -6997,6 +6987,13 @@ class EXP msrStaff : public msrElement
                             int measureRepeatSlashes);
     
     void                  appendPendingMeasureRepeatToStaff (
+                            int inputLineNumber);
+                            
+    void                  createMultipleRestInStaff (
+                            int inputLineNumber,
+                            int multipleRestMeasuresNumber);
+    
+    void                  appendPendingMultipleRestToStaff (
                             int inputLineNumber);
                             
     void                  appendRepeatCloneToStaff (
@@ -7305,6 +7302,13 @@ class EXP msrPart : public msrElement
                             int measureRepeatSlashes);
 
     void                  appendPendingMeasureRepeatToPart (
+                            int inputLineNumber);
+                            
+    void                  createMultipleRestInPart (
+                            int inputLineNumber,
+                            int multipleRestMeasuresNumber);
+
+    void                  appendPendingMultipleRestToPart (
                             int inputLineNumber);
                             
     void                  appendBarlineToPart (S_msrBarline barline);
@@ -7659,6 +7663,12 @@ class EXP msrScore : public msrElement
                                   fInhibitMeasureRepeatReplicasBrowsing;
                               };
 
+    void                  setInhibitMultipleRestReplicasBrowsing ()
+                              {
+                                fInhibitMultipleRestReplicasBrowsing =
+                                  true;
+                              }
+                            
     bool                  getInhibitMultipleRestReplicasBrowsing ()
                             const
                               {
