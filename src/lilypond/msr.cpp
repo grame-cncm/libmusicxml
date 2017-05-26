@@ -11853,7 +11853,7 @@ void msrStanza::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrStanza::browseData()" <<
+      "% <== msrStanza::browseData()" <<
       endl;
 }
 
@@ -14434,7 +14434,7 @@ void msrMeasure::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrMeasure::browseData()" <<
+      "% <== msrMeasure::browseData()" <<
       endl;
 }
 
@@ -15658,7 +15658,7 @@ void msrSegment::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrSegment::browseData()" <<
+      "% <== msrSegment::browseData()" <<
       endl;
 }
 
@@ -18509,7 +18509,7 @@ void msrVoice::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrVoice::browseData()" <<
+      "% <== msrVoice::browseData()" <<
       endl;
 }
 
@@ -19849,7 +19849,7 @@ void msrStaff::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrStaff::browseData()" <<
+      "% <== msrStaff::browseData()" <<
       endl;
 }
 
@@ -21377,7 +21377,7 @@ void msrPart::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrPart::browseData()" <<
+      "% <== msrPart::browseData()" <<
       endl;
 }
 
@@ -21883,7 +21883,7 @@ void msrPartgroup::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrPartgroup::browseData()" <<
+      "% <== msrPartgroup::browseData()" <<
       endl;
 }
 
@@ -22481,6 +22481,9 @@ msrScore::msrScore (
 
   // measure repeats replicas should be browsed by default
   fInhibitMeasureRepeatReplicasBrowsing = false;
+
+  // multiple rest measures should be browsed by default
+  fInhibitMultipleRestMeasuresBrowsing = false;
 }
 
 msrScore::~msrScore() {}
@@ -22500,6 +22503,9 @@ S_msrScore msrScore::createScoreBareClone ()
 
   clone->fInhibitMeasureRepeatReplicasBrowsing =
     fInhibitMeasureRepeatReplicasBrowsing;
+    
+  clone->fInhibitMultipleRestMeasuresBrowsing =
+    fInhibitMultipleRestMeasuresBrowsing;
     
   return clone;
 }
@@ -22608,7 +22614,7 @@ void msrScore::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrScore::browseData()" <<
+      "% <== msrScore::browseData()" <<
       endl;
   }
 

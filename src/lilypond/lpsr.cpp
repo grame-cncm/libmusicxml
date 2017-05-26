@@ -1282,7 +1282,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrParallelMusic::browseData()" <<
+      "% <== lpsrParallelMusic::browseData()" <<
       endl;
 }
 
@@ -3623,7 +3623,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrStaffBlock::browseData()" <<
+      "% <== lpsrStaffBlock::browseData()" <<
       endl;
 }
 
@@ -3736,7 +3736,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrPartBlock::browseData()" <<
+      "% <== lpsrPartBlock::browseData()" <<
       endl;
 }
 
@@ -3870,7 +3870,7 @@ void lpsrPartgroupBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrPartgroupBlock::browseData()" <<
+      "% <== lpsrPartgroupBlock::browseData()" <<
       endl;
 }
 
@@ -4067,7 +4067,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrScoreBlock::browseData()" <<
+      "% <== lpsrScoreBlock::browseData()" <<
       endl;
 }
 
@@ -4552,7 +4552,7 @@ void lpsrScore::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrScore::browseData()" <<
+      "% <== lpsrScore::browseData()" <<
       endl;
 }
 
