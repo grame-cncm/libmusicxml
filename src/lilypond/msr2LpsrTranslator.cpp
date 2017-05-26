@@ -1988,7 +1988,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fOstream << idtr <<
-      "--> Start visiting " <<
+      "--> Start visiting msrNote " <<
       elt->noteAsString () <<
       endl;
   }
@@ -2035,7 +2035,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fOstream << idtr <<
-      "--> End visiting " <<
+      "--> End visiting msrNote " <<
       elt->noteAsString () <<
       endl;
   }

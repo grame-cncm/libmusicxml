@@ -1034,6 +1034,90 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   idtr--;
   
+  // tuplets
+  // --------------------------------------
+
+  cerr <<
+    idtr << "Tuplets:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
+      booleanAsString (fTupletsOnALine) <<
+      endl;
+    
+  idtr--;
+
+  // repeats
+  // --------------------------------------
+
+  cerr <<
+    idtr << "Repeats:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "repeatBrackets" << " : " <<
+      booleanAsString (fRepeatBrackets) <<
+      endl;
+    
+  idtr--;
+
+  // ornaments
+  // --------------------------------------
+
+  cerr <<
+    idtr << "Ornaments:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
+      fDelayedOrnamentFractionNumerator <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
+      fDelayedOrnamentFractionDenominator <<
+      endl;
+
+  idtr--;
+
+  // code generation
+  // --------------------------------------
+
+  cerr <<
+    idtr << "LilyPond code generation:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "generateComments" << " : " <<
+      booleanAsString (fGenerateComments) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "generateGlobal" << " : " <<
+      booleanAsString (fGenerateGlobal) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
+      booleanAsString (fDontGenerateLilyPondCode) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
+      booleanAsString (fDontGenerateLilyPondLyrics) <<
+      endl <<
+
+    idtr << setw(fieldWidth) << "generateLilyPondCompileDate" << " : " <<
+      booleanAsString (fGenerateLilyPondCompileDate) <<
+      endl;
+
+  idtr--;
+  
   // midi
   // --------------------------------------
   cerr <<
@@ -1053,53 +1137,6 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
     idtr << setw(fieldWidth) << "dontGenerateMidiCommand" << " : " <<
       booleanAsString (fDontGenerateMidiCommand) <<
-      endl;
-
-  idtr--;
-  
-  // LilyPond code generation
-  // --------------------------------------
-  cerr <<
-    idtr << "LilyPond code generation:" <<
-    endl;
-
-  idtr++;
-
-  cerr <<
-    idtr << setw(fieldWidth) << "generateComments" << " : " <<
-      booleanAsString (fGenerateComments) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "generateGlobal" << " : " <<
-      booleanAsString (fGenerateGlobal) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "tupletsOnALine" << " : " <<
-      booleanAsString (fTupletsOnALine) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "repeatBrackets" << " : " <<
-      booleanAsString (fRepeatBrackets) <<
-      endl <<
-    
-    idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
-      fDelayedOrnamentFractionNumerator <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
-      fDelayedOrnamentFractionDenominator <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "dontGenerateLilyPondCode" << " : " <<
-      booleanAsString (fDontGenerateLilyPondCode) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "dontGenerateLilyPondLyrics" << " : " <<
-      booleanAsString (fDontGenerateLilyPondLyrics) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "generateLilyPondCompileDate" << " : " <<
-      booleanAsString (fGenerateLilyPondCompileDate) <<
       endl;
 
   idtr--;
