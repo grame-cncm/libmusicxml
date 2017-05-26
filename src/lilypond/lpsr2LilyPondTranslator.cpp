@@ -5420,14 +5420,17 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
 
     const int fieldWidth = 24;
 
-    cerr <<
+    cerr << left <<
       idtr <<
+        setw(fieldWidth) <<
         "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
         endl <<
       idtr <<
+        setw(fieldWidth) <<
         "% replicasMeasuresNumber" << " = " << replicasMeasuresNumber <<
         endl <<
       idtr <<
+        setw(fieldWidth) <<
         "% replicasNumber" << " = " << replicasNumber <<
         endl;
   }
@@ -5480,11 +5483,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
 
     const int fieldWidth = 24;
 
-    cerr <<
+    cerr << left <<
       idtr <<
+        setw(fieldWidth) <<
         "% restMeasuresNumber" << " = " << restMeasuresNumber <<
         endl <<
       idtr <<
+        setw(fieldWidth) <<
         "% restSegmentMeasuresNumber" << " = " << restSegmentMeasuresNumber <<
         endl <<
       endl;

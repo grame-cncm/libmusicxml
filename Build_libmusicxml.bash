@@ -34,7 +34,7 @@ if [ 0 -eq 1 ]; then # adapt to force running cmake after filenames changes
   echo
 fi
 
-if [ 0 -eq 1 ]; then # adapt to force make on everything
+if [ 1 -eq 1 ]; then # adapt to force make on everything
   echo '--> make clean'
   echo
   make clean
