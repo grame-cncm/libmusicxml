@@ -39,7 +39,7 @@ using namespace MusicXML2;
 
 enum msrHelpKind {
   kAllHelp,
-  kGeneralHelp, kMusicXMLHelp, kMsrHelp, kLpsrHelp};
+  kGeneralHelp, kMusicXMLHelp, kMsrHelp, kLpsrHelp, kLilypondHelp};
   
 //_______________________________________________________________________________
 void printUsage (
@@ -87,6 +87,7 @@ What it does:
         "All options:" <<
         endl <<
         endl;
+        
       gGeneralOptions->printGeneralOptionsHelp ();
       gMusicXMLOptions->printMusicXMLOptionsHelp ();
       gMsrOptions->printMsrOptionsHelp ();
@@ -98,6 +99,7 @@ What it does:
         "General options (use '--h, --help' to see all the options):" <<
         endl <<
         endl;
+        
       gGeneralOptions->printGeneralOptionsHelp ();
       break;
       
@@ -106,6 +108,7 @@ What it does:
         "MusicXML options (use '--h, --help' to see all the options):" <<
         endl <<
         endl;
+        
       gMusicXMLOptions->printMusicXMLOptionsHelp ();
       break;
       
@@ -114,6 +117,7 @@ What it does:
         "MSR options (use '--h, --help' to see all the options):" <<
         endl <<
         endl;
+        
       gMsrOptions->printMsrOptionsHelp ();
       break;
       
@@ -122,7 +126,17 @@ What it does:
         "LPSR options (use '--h, --help' to see all the options):" <<
         endl <<
         endl;
+        
       gLpsrOptions->printLpsrOptionsHelp ();
+      break;
+      
+    case kLilypondHelp:
+      cerr <<
+        "LilyPond options (use '--h, --help' to see all the options):" <<
+        endl <<
+        endl;
+        
+      gLilypondOptions->printLilypondOptionsHelp ();
       break;
   } // switch
   
@@ -230,6 +244,11 @@ void analyzeOptions (
     _HELP_LPSR_LONG_NAME_, _HELP_LPSR_SHORT_NAME_);
     
   int helpLpsrPresent = 0;
+
+  checkOptionUniqueness (
+    _HELP_LILYPOND_LONG_NAME_, _HELP_LILYPOND_SHORT_NAME_);
+    
+  int helpLilypondPresent = 0;
 
   // output file
   // --------------------------------------
@@ -743,6 +762,14 @@ void analyzeOptions (
     },
     {
       _HELP_LPSR_SHORT_NAME_,
+      no_argument, &helpLpsrPresent, 1
+    },
+    {
+      _HELP_LILYPOND_LONG_NAME_,
+      no_argument, &helpLpsrPresent, 1
+    },
+    {
+      _HELP_LILYPOND_SHORT_NAME_,
       no_argument, &helpLpsrPresent, 1
     },
 
@@ -1556,6 +1583,10 @@ R"(
         }
         if (helpLpsrPresent) {
           printUsage (kLpsrHelp, 0);
+          break;
+        }
+        if (helpLilypondPresent) {
+          printUsage (kLilypondHelp, 0);
           break;
         }
 

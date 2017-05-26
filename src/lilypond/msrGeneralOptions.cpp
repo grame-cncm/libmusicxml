@@ -143,6 +143,9 @@ void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
   idtr--;
   
   idtr--;
+
+  
+  idtr--;
 }
 
 void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
@@ -771,7 +774,8 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
   
   idtr--;
   
-// JMI  idtr--;
+
+  idtr--;
 }
 
 void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)

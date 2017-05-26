@@ -128,6 +128,9 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _HELP_LPSR_LONG_NAME_  "helpLpsr"
 #define _HELP_LPSR_SHORT_NAME_ "hlp"
 
+#define _HELP_LILYPOND_LONG_NAME_  "helpLilyPond"
+#define _HELP_LILYPOND_SHORT_NAME_ "hlily"
+
 // output file
 // --------------------------------------
 
