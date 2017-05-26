@@ -17895,6 +17895,9 @@ void msrVoice::createMultipleRestInVoice (
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
+            ", " <<
+            singularOrPlural (
+              multipleRestMeasuresNumber, "measure", "measures") <<
             endl;
       
         // grab the just created last measure from the voice,
@@ -17990,7 +17993,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         print (cerr);
         idtr--;
 
-        // does the pending measure repeat exist?
+        // does the pending multiple rest exist?
         if (! fVoicePendingMultipleRest) {
           stringstream s;
 
@@ -19552,10 +19555,13 @@ void msrStaff::createMultipleRestInStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a measure repeat from it's first measure in staff " <<
+      "Creating a multiple rest in staff " <<
       fStaffNumber <<
       " in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
+      ", " <<
+      singularOrPlural (
+        multipleRestMeasuresNumber, "measure", "measures") <<
       endl;
 
   for (
@@ -19574,7 +19580,7 @@ void msrStaff::appendPendingMultipleRestToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending the pending measure repeat to staff " <<
+      "Appending the pending multiple rest to staff " <<
       fStaffNumber <<
       " in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21011,6 +21017,15 @@ void msrPart::createMultipleRestInPart (
   int inputLineNumber,
   int multipleRestMeasuresNumber)
 {
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a multiple rest in part " <<
+      getPartCombinedName () <<
+      ", " <<
+      singularOrPlural (
+        multipleRestMeasuresNumber, "measure", "measures") <<
+      endl;
+
   for (
     map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
