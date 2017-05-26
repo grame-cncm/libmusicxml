@@ -54,7 +54,7 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   // since LilyPond only needs the measure number
   fVisitedLpsrScore->
     getMsrScore ()->
-      setInhibitMultipleRestReplicasBrowsing ();
+      setInhibitMultipleRestMeasuresBrowsing ();
 
   // header handling
   fOnGoingHeader = false;
@@ -5448,6 +5448,63 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrMeasureRepeat" <<
+      endl;
+
+  fOstream <<
+    endl <<
+    endl <<
+    idtr <<
+    " }" <<
+    endl <<
+    idtr;
+}
+
+//________________________________________________________________________
+void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrMultipleRest" <<
+      endl;
+
+  int restMeasuresNumber =
+    elt->getMultipleRestMeasuresNumber ();
+
+  int restSegmentMeasuresNumber =
+    elt->multipleRestSegmentMeasuresNumber ();
+    
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+    cerr << idtr <<
+      "% multiple rest, line " << elt->getInputLineNumber () << ":" <<
+      endl;
+
+    const int fieldWidth = 24;
+
+    cerr <<
+      idtr <<
+        "% restMeasuresNumber" << " = " << restMeasuresNumber <<
+        endl <<
+      idtr <<
+        "% restSegmentMeasuresNumber" << " = " << restSegmentMeasuresNumber <<
+        endl <<
+      endl;
+  }
+  
+  fOstream <<
+    endl <<
+    endl <<
+    idtr <<
+    "R1" << // JMI
+    "*" <<
+    restMeasuresNumber <<
+    " ";
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRest& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrMultipleRest" <<
       endl;
 
   fOstream <<

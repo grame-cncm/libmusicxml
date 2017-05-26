@@ -2647,6 +2647,31 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrMultipleRest& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMultipleRest" <<
+      endl;
+
+  idtr++;
+
+  // JMI
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMultipleRest" <<
+      endl;
+
+  idtr--;
+  
+  // JMI
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

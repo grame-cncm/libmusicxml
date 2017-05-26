@@ -16469,7 +16469,7 @@ void msrMultipleRest::browseData (basevisitor* v)
             getPartgroupScoreUplink ();
               
   if (fMultipleRestSegment) {
-    if (! score->getInhibitMultipleRestReplicasBrowsing ()) {
+    if (! score->getInhibitMultipleRestMeasuresBrowsing ()) {
       // browse the replicas segment
       msrBrowser<msrSegment> browser (v);
       browser.browse (*fMultipleRestSegment);

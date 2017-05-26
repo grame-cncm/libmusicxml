@@ -6356,7 +6356,7 @@ class EXP msrMultipleRest : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   multipleRestReplicasMeasuresNumber () const
+    int                   multipleRestSegmentMeasuresNumber () const
                             {
                               return
                                 fMultipleRestSegment->
@@ -7663,17 +7663,17 @@ class EXP msrScore : public msrElement
                                   fInhibitMeasureRepeatReplicasBrowsing;
                               };
 
-    void                  setInhibitMultipleRestReplicasBrowsing ()
+    void                  setInhibitMultipleRestMeasuresBrowsing ()
                               {
-                                fInhibitMultipleRestReplicasBrowsing =
+                                fInhibitMultipleRestMeasuresBrowsing =
                                   true;
                               }
                             
-    bool                  getInhibitMultipleRestReplicasBrowsing ()
+    bool                  getInhibitMultipleRestMeasuresBrowsing ()
                             const
                               {
                                 return
-                                  fInhibitMultipleRestReplicasBrowsing;
+                                  fInhibitMultipleRestMeasuresBrowsing;
                               };
 
     // services
@@ -7711,9 +7711,9 @@ class EXP msrScore : public msrElement
     // whereas LilyPond only needs the repeated measure
     bool                 fInhibitMeasureRepeatReplicasBrowsing;
 
-    // in <multiple-rest/>, the measure replicas are explicit,
-    // whereas LilyPond only needs the repeated measure
-    bool                 fInhibitMultipleRestReplicasBrowsing;
+    // in <multiple-rest/>, the rest measures are explicit,
+    // whereas LilyPond only needs the number of rest measures
+    bool                 fInhibitMultipleRestMeasuresBrowsing;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
