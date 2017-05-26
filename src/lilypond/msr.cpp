@@ -16155,7 +16155,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a bare clone of a repeat" <<
+      "Creating a bare clone of a measure repeat" <<
       endl;
   
   msrAssert(
@@ -16346,14 +16346,14 @@ void msrMeasureRepeat::print (ostream& os)
 S_msrMultipleRest msrMultipleRest::create (
   int          inputLineNumber,
   int          multipleRestMeasuresNumber,
-  S_msrSegment repeatedSegment,
+  S_msrSegment restsSegment,
   S_msrVoice   voiceUplink)
 {
   msrMultipleRest* o =
     new msrMultipleRest (
       inputLineNumber,
       multipleRestMeasuresNumber,
-      repeatedSegment,
+      restsSegment,
       voiceUplink);
   assert(o!=0);
   return o;
@@ -16362,15 +16362,15 @@ S_msrMultipleRest msrMultipleRest::create (
 msrMultipleRest::msrMultipleRest (
   int          inputLineNumber,
   int          multipleRestMeasuresNumber,
-  S_msrSegment repeatedSegment,
+  S_msrSegment restsSegment,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMultipleRestMeasuresNumber = multipleRestMeasuresNumber;
 
   msrAssert (
-    repeatedSegment != 0,
-    "repeatedSegment is null");
+    restsSegment != 0,
+    "restsSegment is null");
 
   fMultipleRestVoiceUplink = voiceUplink;
 }
@@ -16378,17 +16378,22 @@ msrMultipleRest::msrMultipleRest (
 msrMultipleRest::~msrMultipleRest() {}
 
 S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
-  S_msrSegment repeatedSegmentClone,
+  S_msrSegment restsSegmentClone,
   S_msrVoice   voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a bare clone of a repeat" <<
+      "Creating a bare clone of a multiple rest" <<
+      ", " <<
+        singularOrPlural (
+          fMultipleRestMeasuresNumber,
+          "measure",
+          "measures") <<
       endl;
   
   msrAssert(
-    repeatedSegmentClone != 0,
-    "repeatedSegmentClone is null");
+    restsSegmentClone != 0,
+    "restsSegmentClone is null");
     
   msrAssert(
     voiceClone != 0,
@@ -16399,7 +16404,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
       msrMultipleRest::create (
         fInputLineNumber,
         fMultipleRestMeasuresNumber,
-        repeatedSegmentClone,
+        restsSegmentClone,
         voiceClone);
 
   return clone;
@@ -16410,7 +16415,7 @@ void msrMultipleRest::setMultipleRestSegment (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Setting measure repeat replicas segment containing " <<
+      "Setting multiple rest segment containing " <<
       singularOrPlural (
         multipleRestSegment->getSegmentMeasuresList ().size (),
         "measure",
@@ -18041,7 +18046,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
-        // set last segment as the measure repeat replicas segment
+        // set last segment as the multiple rest segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
             "Setting current last segment as measure repeat replicas segment in voice \"" <<
