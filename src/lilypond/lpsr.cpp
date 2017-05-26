@@ -181,6 +181,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
   cerr <<
     idtr << "LPSR:" <<
     endl <<
+    idtr << "----" <<
+    endl <<
     endl;
 
   idtr++;
@@ -490,6 +492,8 @@ void lilypondOptions::printLilypondOptionsHelp ()
 
   cerr <<
     idtr << "LilyPond:" <<
+    endl <<
+    idtr << "--------" <<
     endl <<
     endl;
 

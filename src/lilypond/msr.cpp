@@ -2106,6 +2106,8 @@ void msrOptions::printMsrOptionsHelp ()
   cerr <<
     idtr << "MSR:" <<
     endl <<
+    idtr << "---" <<
+    endl <<
     endl;
 
   idtr++;

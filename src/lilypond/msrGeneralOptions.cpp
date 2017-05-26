@@ -86,6 +86,8 @@ void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
   cerr <<
     idtr << "MusicXML:" <<
     endl <<
+    idtr << "--------" <<
+    endl <<
     endl;
 
   idtr++;
@@ -434,6 +436,8 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
 
   cerr <<
     idtr << "General:" <<
+    endl <<
+    idtr << "-------" <<
     endl <<
     endl;
 
