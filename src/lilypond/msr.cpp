@@ -17924,7 +17924,7 @@ void msrVoice::createMultipleRestInVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       {
-        // create a measure repeat
+        // create a multiple rest
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
             "Creating a multiple rest in voice \"" <<
@@ -18000,7 +18000,7 @@ void msrVoice::createMultipleRestInVoice (
         print (cerr);
         idtr--;
 
-        // keep the measure repeat pending
+        // keep the multiple rest pending
       }
       break;
       
@@ -18044,7 +18044,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           stringstream s;
 
           s <<
-            "attempting to append a pending measure repeat which doesn't exist";
+            "attempting to append a pending multiple rest which doesn't exist";
 
           msrInternalError (
             inputLineNumber, s.str());
@@ -18057,9 +18057,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
               getSegmentMeasuresListToModify ();
        
         // grab the just created last measure in the last segment's measure list,
-        // (i.e. the one containing:
-        //   <measure-repeat type="stop"/>)
-        // which is the next measure after the measure repeat
+        // which is the next measure after the multiple rest
         if (! voiceLastSegmentMeasureList.size ()) {
           stringstream s;
 
@@ -18090,7 +18088,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // set last segment as the multiple rest segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Setting current last segment as measure repeat replicas segment in voice \"" <<
+            "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
@@ -18099,7 +18097,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           setMultipleRestSegment (
             fVoiceLastSegment);
 
-        // append pending measure repeat to the list of repeats and segments
+        // append pending multiple rest to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMultipleRest);
 
@@ -18138,7 +18136,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         print (cerr);
         idtr--;
 
-        // forget about this pending measure repeat
+        // forget about this pending multiple rest
         fVoicePendingMultipleRest = 0;
       }
       break;
