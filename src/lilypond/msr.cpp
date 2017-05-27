@@ -16524,7 +16524,7 @@ void msrMultipleRest::print (ostream& os)
   
   // print the rests segment
   os << idtr <<
-    "Replicas segment:";
+    "Rests segment:";
     
   if (! fMultipleRestSegment) {
     os <<
