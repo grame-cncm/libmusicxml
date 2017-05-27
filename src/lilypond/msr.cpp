@@ -16265,7 +16265,7 @@ void msrMeasureRepeat::browseData (basevisitor* v)
     score->getInhibitMeasureRepeatReplicasBrowsing ();
 
   if (inhibitMeasureRepeatReplicasBrowsing) {
-    if (gGeneralOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
+    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
       cerr << idtr <<
         "% ==> visiting measure repeat replicas is inhibited" <<
         endl;
@@ -16497,7 +16497,7 @@ void msrMultipleRest::browseData (basevisitor* v)
     score->getInhibitMultipleRestMeasuresBrowsing ();
 
   if (inhibitMultipleRestMeasuresBrowsing) {
-    if (gGeneralOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
+    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
       cerr << idtr <<
         "% ==> visiting multiple rest measures is inhibited" <<
         endl;
