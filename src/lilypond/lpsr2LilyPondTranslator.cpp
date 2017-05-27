@@ -275,13 +275,13 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
     msrDiatonicPitch
       noteDiatonicPitch =
         note->
-          getDiatonicPitch (
+          noteDiatonicPitch (
             inputLineNumber);
 
     msrDiatonicPitch
       referenceDiatonicPitch =
         fRelativeOctaveReference->
-          getDiatonicPitch (
+          noteDiatonicPitch (
             inputLineNumber);
 
     string

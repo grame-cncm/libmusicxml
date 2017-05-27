@@ -6079,7 +6079,7 @@ string msrNote::noteKindAsString (
   return result;
 }
 
-msrDiatonicPitch msrNote::getDiatonicPitch (
+msrDiatonicPitch msrNote::noteDiatonicPitch (
   int inputLineNumber) const
 {
   return
@@ -6772,15 +6772,6 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
         normalNotes);
 
   return result;
-}
-
-msrDiatonicPitch msrNote::noteDiatonicPitch (
-  int inputLineNumber) const
-{
-  return
-    msrDiatonicPitchFromQuatertonesPitch (
-      inputLineNumber,
-      fNoteQuatertonesPitch);
 }
 
 string msrNote::noteDiatonicPitchAsString (
@@ -16361,14 +16352,12 @@ void msrMeasureRepeat::print (ostream& os)
 S_msrMultipleRest msrMultipleRest::create (
   int          inputLineNumber,
   int          multipleRestMeasuresNumber,
-  S_msrSegment restsSegment,
   S_msrVoice   voiceUplink)
 {
   msrMultipleRest* o =
     new msrMultipleRest (
       inputLineNumber,
       multipleRestMeasuresNumber,
-      restsSegment,
       voiceUplink);
   assert(o!=0);
   return o;
@@ -16377,15 +16366,10 @@ S_msrMultipleRest msrMultipleRest::create (
 msrMultipleRest::msrMultipleRest (
   int          inputLineNumber,
   int          multipleRestMeasuresNumber,
-  S_msrSegment restsSegment,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMultipleRestMeasuresNumber = multipleRestMeasuresNumber;
-
-  msrAssert (
-    restsSegment != 0,
-    "restsSegment is null");
 
   fMultipleRestVoiceUplink = voiceUplink;
 }
@@ -16437,6 +16421,10 @@ void msrMultipleRest::setMultipleRestSegment (
         "measures") <<
       endl;
       
+  msrAssert (
+    multipleRestSegment != 0,
+    "multipleRestSegment is null");
+
   fMultipleRestSegment = multipleRestSegment;
 }
 
@@ -16535,7 +16523,7 @@ void msrMultipleRest::print (ostream& os)
   
   idtr++;
   
-  // print the replicas segment
+  // print the rests segment
   os << idtr <<
     "Replicas segment:";
     
@@ -17946,6 +17934,7 @@ void msrVoice::createMultipleRestInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
+/*
         // create the multiple rest rests segment
         S_msrSegment
           restsSegment =
@@ -17953,12 +17942,8 @@ void msrVoice::createMultipleRestInVoice (
               inputLineNumber,
               fVoiceDirectPartUplink,
               this);
+*/
 
-        // append the first rest measure to the rests segment
-        restsSegment->
-          appendMeasureToSegment (
-            firstRestMeasure);
-            
         // create the multiple rest
         if (fVoicePendingMultipleRest) {
           stringstream s;
@@ -17978,10 +17963,10 @@ void msrVoice::createMultipleRestInVoice (
             this);
 
         // create a new segment to collect the multiple rest measures,
-        // containing the first, yet incomplete, rest measure
+        // containing the first, rest measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the first rest measure for voice \"" <<
+            "Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -17989,6 +17974,11 @@ void msrVoice::createMultipleRestInVoice (
           inputLineNumber,
           firstRestMeasure);
 
+        // append the first rest measure to the new last segment
+        fVoiceLastSegment->
+          appendMeasureToSegment (
+            firstRestMeasure);
+            
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
@@ -18077,7 +18067,8 @@ void msrVoice::appendPendingMultipleRestToVoice (
           "==========> nextMeasureAfterMultipleRest:" <<
           endl;
           
-          nextMeasureAfterMultipleRest->print (cerr);
+        nextMeasureAfterMultipleRest->
+          print (cerr);
           
         cerr <<
           endl;
@@ -18124,6 +18115,12 @@ void msrVoice::appendPendingMultipleRestToVoice (
         createNewLastSegmentWithFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMultipleRest);
+
+        // append the next measure after the multiple rest
+        // to the new last segment
+        fVoiceLastSegment->
+          appendMeasureToSegment (
+            nextMeasureAfterMultipleRest);
 
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)

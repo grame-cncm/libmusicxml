@@ -3783,26 +3783,26 @@ class EXP msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
-    msrDiatonicPitch      getDiatonicPitch (
-                            int inputLineNumber) const;
-
     string                notePitchAsString () const;
 
     string                noteAsShortStringWithRawDivisions () const;
     string                noteAsShortString () const;
     string                noteAsString () const;
       
+    // diatonic pitch
     msrDiatonicPitch      noteDiatonicPitch (
                             int inputLineNumber) const;
                             
     string                noteDiatonicPitchAsString (
                             int inputLineNumber) const;
 
+    // divisions
     string                noteSoundingDivisionsAsMsrString () const;
     string                noteDisplayedDivisionsAsMsrString () const;
     
     string                skipOrRestDivisionsAsMsrString () const;
     
+    // graphic duration
     string                noteGraphicDurationAsMsrString () const;
     string                tupletNoteGraphicDurationAsMsrString (
                             int actualNotes, int normalNotes) const;
@@ -3893,32 +3893,53 @@ class EXP msrNote : public msrElement
     
     S_msrOctaveShift          fNoteOctaveShift; // JMI ???
 
-    // note context
+    // staff and voice context
     // ------------------------------------------------------
 
     int                       fNoteStaffNumber;
     int                       fNoteVoiceNumber;
 
+    // chord member?
+    // ------------------------------------------------------
+
     bool                      fNoteBelongsToAChord;
     
+    // tuplet member?
+    // ------------------------------------------------------
+
     bool                      fNoteBelongsToATuplet;
     S_msrTuplet               fNoteTupletUplink;
 
-    // note lyrics
+    // multiple rest member?
+    // ------------------------------------------------------
+
+    bool                      fNoteBelongsToAMultipleRest; // JMI
+    int                       fNoteMultipleRestSequenceNumber; // JMI
+
+    // lyrics
     // ------------------------------------------------------
 
    list<S_msrSyllable>        fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
                               fNoteSyllableExtendKind; // MEGA JMI
     
-    // elements attached to the note
+    // stem
     // ------------------------------------------------------
 
     S_msrStem                 fNoteStem;
 
+    // beams
+    // ------------------------------------------------------
+
     list<S_msrBeam>           fNoteBeams;
                                       
+    // articulations
+    // ------------------------------------------------------
+
     list<S_msrArticulation>   fNoteArticulations;
+
+    // technicals
+    // ------------------------------------------------------
 
     list<S_msrTechnical>      fNoteTechnicals;
     list<S_msrTechnicalWithInteger>
@@ -3927,20 +3948,44 @@ class EXP msrNote : public msrElement
                               fNoteTechnicalWithStrings;
 
     // ornaments
+    // ------------------------------------------------------
+
     list<S_msrOrnament>       fNoteOrnaments;
     
     // single tremolo
+    // ------------------------------------------------------
+
     S_msrSingleTremolo        fNoteSingleTremolo;
+
+    // tie
+    // ------------------------------------------------------
 
     S_msrTie                  fNoteTie;
     
+    // dynamics
+    // ------------------------------------------------------
+
     list<S_msrDynamics>       fNoteDynamics;
     list<S_msrOtherDynamics>  fNoteOtherDynamics;
-    list<S_msrWords>          fNoteWords;
     list<S_msrWedge>          fNoteWedges;
 
+    // words
+    // ------------------------------------------------------
+
+    list<S_msrWords>          fNoteWords;
+
+    // slurs
+    // ------------------------------------------------------
+
     list<S_msrSlur>           fNoteSlurs;
+
+    // ligatures
+    // ------------------------------------------------------
+
     list<S_msrLigature>       fNoteLigatures;
+
+    // harmony
+    // ------------------------------------------------------
 
     S_msrHarmony              fNoteHarmony;
 
@@ -4027,12 +4072,15 @@ class EXP msrChord : public msrElement
     string                chordSoundingDivisionsAsMsrString () const;
     string                chordDisplayedDivisionsAsMsrString () const;
 
+    // direct part uplink
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }
 
+    // graphic duration
     msrDuration           getChordGraphicDuration () const
                               { return fChordGraphicDuration; }
             
+    // chord notes
     const vector<S_msrNote>&
                           getChordNotes () const
                               { return fChordNotes; }
@@ -4072,22 +4120,25 @@ class EXP msrChord : public msrElement
                           getChordOtherDynamics () const
                               { return fChordOtherDynamics; }
                       
-    const list<S_msrWords>&
-                          getChordWords () const
-                              { return fChordWords; }
-                      
-    const list<S_msrSlur>&
-                          getChordSlurs () const
-                              { return fChordSlurs; }
-                      
-    const list<S_msrLigature>&
-                          getChordLigatures () const
-                              { return fChordLigatures; }
-                      
     const list<S_msrWedge>&
                           getChordWedges () const
                               { return fChordWedges; }
 
+    // words
+    const list<S_msrWords>&
+                          getChordWords () const
+                              { return fChordWords; }
+                      
+    // slurs
+    const list<S_msrSlur>&
+                          getChordSlurs () const
+                              { return fChordSlurs; }
+                      
+    // ligatures
+    const list<S_msrLigature>&
+                          getChordLigatures () const
+                              { return fChordLigatures; }
+                      
     // double tremolo
     void                  setChordIsFirstChordInADoubleTremolo ()
                               { fChordIsFirstChordInADoubleTremolo = true; }
@@ -4101,7 +4152,7 @@ class EXP msrChord : public msrElement
     bool                  getChordIsSecondChordInADoubleTremolo () const
                               { return fChordIsSecondChordInADoubleTremolo; }
                   
-    // ties
+    // tie
     void                  setChordTie (
                             const S_msrTie tie)
                               { fChordTie = tie; }
@@ -4173,19 +4224,21 @@ class EXP msrChord : public msrElement
                               { fChordDynamics.push_back (dynamic); }
     void                  addOtherDynamicsToChord (S_msrOtherDynamics otherDynamic)
                               { fChordOtherDynamics.push_back (otherDynamic); }
+    void                  addWedgeToChord (S_msrWedge wedge)
+                              { fChordWedges.push_back (wedge); }
                     
+    // words
     void                  addWordsToChord (S_msrWords dynamic)
                               { fChordWords.push_back (dynamic); }
                     
+    // slurs
     void                  addSlurToChord (S_msrSlur slur)
                               { fChordSlurs.push_back (slur); }
                       
+    // ligatures
     void                  addLigatureToChord (S_msrLigature ligature)
                               { fChordLigatures.push_back (ligature); }
                       
-    void                  addWedgeToChord (S_msrWedge wedge)
-                              { fChordWedges.push_back (wedge); }
-
     // tuplet members
     /* JMI
     void                  applyTupletMemberDisplayedFactorToChordMembers (
@@ -4269,14 +4322,17 @@ class EXP msrChord : public msrElement
     // dynamics
     list<S_msrDynamics>       fChordDynamics;
     list<S_msrOtherDynamics>  fChordOtherDynamics;
-    
-    list<S_msrWords>          fChordWords;
-    
-    list<S_msrSlur>           fChordSlurs;
-
-    list<S_msrLigature>       fChordLigatures;
 
     list<S_msrWedge>          fChordWedges;
+    
+    // words
+    list<S_msrWords>          fChordWords;
+    
+    // slurs
+    list<S_msrSlur>           fChordSlurs;
+
+    // ligatures
+    list<S_msrLigature>       fChordLigatures;
 
     // harmony
     S_msrHarmony              fChordHarmony;
@@ -6316,7 +6372,6 @@ class EXP msrMultipleRest : public msrElement
     static SMARTP<msrMultipleRest> create (
       int          inputLineNumber,
       int          multipleRestMeasuresNumber,
-      S_msrSegment restsSegment,
       S_msrVoice   voiceUplink);
     
     SMARTP<msrMultipleRest> createMultipleRestBareClone (
@@ -6331,7 +6386,6 @@ class EXP msrMultipleRest : public msrElement
     msrMultipleRest (
       int          inputLineNumber,
       int          multipleRestMeasuresNumber,
-      S_msrSegment restsSegment,
       S_msrVoice   voiceUplink);
       
     virtual ~msrMultipleRest();
