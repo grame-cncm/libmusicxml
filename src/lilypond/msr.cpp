@@ -13485,7 +13485,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
         "Appending multiple rest '" <<
-    // JMI    multipleRest->multipleRestAsShortString () <<
+        multipleRest->multipleRestAsString () <<
         "' to measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -15421,12 +15421,9 @@ void msrSegment::appendMultipleRestToSegment (
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "Appending multiple rest " <<
-        ", " <<
-        singularOrPlural (
-          multipleRest->getMultipleRestMeasuresNumber (),
-          "measure", "measures") <<
-        ", to segment '" << segmentAsString () << "'" <<
+        "Appending multiple rest '" <<
+        multipleRest->multipleRestAsString () <<
+        "' to segment '" << segmentAsString () << "'" <<
       endl;
       
   fSegmentMeasuresList.back ()->
@@ -16597,7 +16594,7 @@ string msrMultipleRest::multipleRestAsString () const
   stringstream s;
 
   s <<
-    "Multiple rest, " <<
+    "Multiple rest" <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
