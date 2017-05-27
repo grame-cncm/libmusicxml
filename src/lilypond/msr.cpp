@@ -7189,10 +7189,6 @@ void msrNote::print (ostream& os)
         ")";
   }
 
-  if (fNoteOccupiesAFullMeasure)
-    os <<
-      ", full measure";
-
   // note redundant information (for speed)
   if (fNoteIsStemless)
     os <<
@@ -13463,6 +13459,88 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   }
 }
 
+void msrMeasure::appendMultipleRestToMeasure (
+  S_msrMultipleRest multipleRest)
+{
+  int inputLineNumber =
+    multipleRest->getInputLineNumber ();
+    
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
+    // append multipleRest to it thru the segment
+    fMeasureSegmentUplink->
+      appendmMltipleRestToSegment (multipleRest);
+  }
+
+  else {
+    // regular insertion in current measure
+    
+    // populate measure uplink
+    multipleRest->setMultipleRestMeasureUplink (this);
+
+    if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Appending multiple rest '" <<
+        doubleTremolo->doubleTremoloAsShortString () <<
+        "' to measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+  
+    // register doubleTremolo measure number
+    multipleRest->
+      setmMltipleRestMeasureNumber (fMeasureNumber);
+    
+    // register doubleTremolo measure position
+    doubleTremolo->
+      setDoubleTremoloPositionInMeasure (
+        fMeasurePosition);
+
+    // copy measure number to first note, that was created beforehand
+    doubleTremolo->
+      setDoubleTremoloMeasureNumber (
+        fMeasureNumber);
+    
+    // copy measure position to first note, that was created beforehand
+    doubleTremolo->
+      setDoubleTremoloPositionInMeasure (
+        fMeasurePosition);
+
+    // fetch doubleTremolo divisions
+    int doubleTremoloSoundingDivisions =
+      doubleTremolo->getDoubleTremoloSoundingDivisions ();
+      
+    // account for doubleTremolo duration in measure position
+    setMeasurePosition (
+      inputLineNumber,
+      fMeasurePosition + doubleTremoloSoundingDivisions);
+  
+    // update part measure position high tide if need be
+    fMeasureDirectPartUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the doubleTremolo occupies a full measure
+// XXL  JMI  if (doubleTremoloSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
+      // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
+  
+    // append the doubleTremolo to the measure elements list
+    fMeasureElementsList.push_back (doubleTremolo);
+
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
+  }
+}
+
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 {
   int inputLineNumber =
@@ -15329,6 +15407,24 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
       
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
+}
+
+void msrSegment::appendMultipleRestToSegment (
+  S_msrMultipleRest multipleRest)
+{
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending multiple rest " <<
+        ", " <<
+        singularOrPlural (
+          multipleRest->getMultipleRestMeasuresNumber (),
+          "measure", "measures") <<
+        ", to segment '" << segmentAsString () << "'" <<
+      endl;
+      
+  fSegmentMeasuresList.back ()->
+    appendMultipleRestToMeasure (multipleRest);
 }
 
 void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
@@ -17739,7 +17835,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             repeatedSegment,
             this);
 
-        // create a new segment to collect the measure repeat replicas,
+        // create a new last segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
@@ -17868,7 +17964,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         print (cerr);
         idtr--;
 
-        // create a new segment to collect the remainder of the voice,
+        // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<

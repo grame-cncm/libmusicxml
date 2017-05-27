@@ -57,6 +57,9 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
+class msrMultipleRest;
+typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
+
 class msrGracenotes;
 typedef SMARTP<msrGracenotes> S_msrGracenotes;
 
@@ -2599,6 +2602,9 @@ class EXP msrMeasure : public msrElement
     void                  appendDoubleTremoloToMeasure (
                             S_msrDoubleTremolo doubleTremolo);
 
+    void                  appendMultipleRestToMeasure (
+                            S_msrMultipleRest multipleRest);
+
     void                  appendChordToMeasure (S_msrChord chord);
     void                  appendTupletToMeasure (S_msrTuplet tuplet);
     
@@ -2772,7 +2778,9 @@ class EXP msrSegment : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  forceSegmentMeasureNumberTo (int measureNumber); // JMI
+    void                  forceSegmentMeasureNumberTo (
+                            int measureNumber); // JMI
+                            
     void                  incrementSegmentLastMeasureNumber (
                             int inputLineNumber);
 
@@ -2801,6 +2809,9 @@ class EXP msrSegment : public msrElement
     
     void                  appendDoubleTremoloToSegment (
                             S_msrDoubleTremolo doubleTremolo);
+
+    void                  appendMultipleRestToSegment (
+                            S_msrMultipleRest multipleRest);
 
     void                  appendChordToSegment (S_msrChord chord);
     void                  appendTupletToSegment (S_msrTuplet tuplet);
