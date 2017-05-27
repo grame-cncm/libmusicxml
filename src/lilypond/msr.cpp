@@ -16377,7 +16377,7 @@ msrMultipleRest::msrMultipleRest (
 msrMultipleRest::~msrMultipleRest() {}
 
 S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
-  S_msrSegment restsSegmentClone,
+  S_msrSegment restsSegmentClone, // JMI
   S_msrVoice   voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
@@ -16403,7 +16403,6 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
       msrMultipleRest::create (
         fInputLineNumber,
         fMultipleRestMeasuresNumber,
-        restsSegmentClone,
         voiceClone);
 
   return clone;
@@ -17959,7 +17958,6 @@ void msrVoice::createMultipleRestInVoice (
           msrMultipleRest::create (
             inputLineNumber,
             multipleRestMeasuresNumber,
-            restsSegment,
             this);
 
         // create a new segment to collect the multiple rest measures,
