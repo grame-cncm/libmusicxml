@@ -6427,6 +6427,8 @@ class EXP msrMultipleRest : public msrElement
                                   getSegmentMeasuresList ().size ();
                             }
 
+    string                multipleRestAsString () const;
+    
     // visitors
     // ------------------------------------------------------
 

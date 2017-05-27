@@ -16483,12 +16483,8 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a bare clone of a multiple rest" <<
-      ", " <<
-        singularOrPlural (
-          fMultipleRestMeasuresNumber,
-          "measure",
-          "measures") <<
+      "Creating a bare clone of multiple rest " <<
+      multipleRestAsString () <<
       endl;
   
   msrAssert(
@@ -16596,6 +16592,22 @@ void msrMultipleRest::browseData (basevisitor* v)
   }
 }
 
+string msrMultipleRest::multipleRestAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Multiple rest, " <<
+    ", line " << fInputLineNumber <<
+    ", " <<
+    singularOrPlural (
+      fMultipleRestMeasuresNumber,
+        "rest measure",
+        "rest measures");
+    
+  return s.str();
+}
+
 ostream& operator<< (ostream& os, const S_msrMultipleRest& elt)
 {
   elt->print (os);
@@ -16606,14 +16618,8 @@ void msrMultipleRest::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "MultipleRest" <<
-    ", line " << fInputLineNumber <<
-    " (" <<
-    singularOrPlural (
-      fMultipleRestMeasuresNumber,
-      "rest measure",
-      "rest measures") <<
-    ")" <<
+    idtr <<
+    multipleRestAsString () <<
     endl <<
     endl;
   
