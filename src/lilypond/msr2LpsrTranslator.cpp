@@ -2658,10 +2658,6 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRest& elt)
 
   idtr++;
 
-    SMARTP<msrMultipleRest> createMultipleRestBareClone (
-      S_msrSegment repeatedSegmentClone,
-      S_msrVoice   voiceClone);
-
   // create a new last segment to collect the rest measures
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
@@ -2686,10 +2682,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // create the multiple rest clone
   S_msrMultipleRest
     multipleRestClone =
-      elt->
-      msrMultipleRest::create (
-        elt->getInputLineNumber (),
-        elt->getMultipleRestMeasuresNumber (),
+      elt->createMultipleRestBareClone (
         fCurrentVoiceClone);
 
   // set last segment as the multiple rest segment
@@ -2700,7 +2693,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       "\"" <<
       endl;
 
-  multipleRest->
+  multipleRestClone->
     setMultipleRestSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
@@ -2717,7 +2710,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
   fCurrentVoiceClone->
     getVoiceLastSegment ()->
       appendMultipleRestToSegment (
-        multipleRest);
+        multipleRestClone);
 }
 
 //________________________________________________________________________

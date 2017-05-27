@@ -13471,19 +13471,21 @@ void msrMeasure::appendMultipleRestToMeasure (
     // a new measure has been appended to the segment
     // append multipleRest to it thru the segment
     fMeasureSegmentUplink->
-      appendmMltipleRestToSegment (multipleRest);
+      appendMultipleRestToSegment (multipleRest);
   }
 
   else {
     // regular insertion in current measure
-    
+
+  /* JMI  
     // populate measure uplink
     multipleRest->setMultipleRestMeasureUplink (this);
+*/
 
     if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
         "Appending multiple rest '" <<
-        doubleTremolo->doubleTremoloAsShortString () <<
+    // JMI    multipleRest->multipleRestAsShortString () <<
         "' to measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -13491,53 +13493,57 @@ void msrMeasure::appendMultipleRestToMeasure (
             getVoiceName () <<
         "\"" <<
         endl;
-  
-    // register doubleTremolo measure number
+
+  /* JMI
+    // register multipleRest measure number
     multipleRest->
-      setmMltipleRestMeasureNumber (fMeasureNumber);
+      setMultipleRestMeasureNumber (fMeasureNumber);
     
-    // register doubleTremolo measure position
-    doubleTremolo->
-      setDoubleTremoloPositionInMeasure (
+    // register multipleRest measure position
+    multipleRest->
+      setMultipleRestPositionInMeasure (
         fMeasurePosition);
 
     // copy measure number to first note, that was created beforehand
-    doubleTremolo->
-      setDoubleTremoloMeasureNumber (
+    multipleRest->
+      setMultipleRestMeasureNumber (
         fMeasureNumber);
     
     // copy measure position to first note, that was created beforehand
-    doubleTremolo->
-      setDoubleTremoloPositionInMeasure (
+    multipleRest->
+      setMultipleRestPositionInMeasure (
         fMeasurePosition);
 
-    // fetch doubleTremolo divisions
-    int doubleTremoloSoundingDivisions =
-      doubleTremolo->getDoubleTremoloSoundingDivisions ();
+    // fetch multipleRest divisions
+    int multipleRestSoundingDivisions =
+      multipleRest->getmultipleRestSoundingDivisions ();
       
-    // account for doubleTremolo duration in measure position
+    // account for multipleRest duration in measure position
     setMeasurePosition (
       inputLineNumber,
-      fMeasurePosition + doubleTremoloSoundingDivisions);
+      fMeasurePosition + multipleRestSoundingDivisions);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
       updatePartMeasurePositionHighTide (
         inputLineNumber, fMeasurePosition);
   
-    // determine if the doubleTremolo occupies a full measure
-// XXL  JMI  if (doubleTremoloSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
-      // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
+    // determine if the multipleRest occupies a full measure
+// XXL  JMI  if (multipleRestSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
+      // multipleRest->setmultipleRestOccupiesAFullMeasure ();
+  */
   
-    // append the doubleTremolo to the measure elements list
-    fMeasureElementsList.push_back (doubleTremolo);
+    // append the multipleRest to the measure elements list
+    fMeasureElementsList.push_back (multipleRest);
 
+/* JMI
     // bring harmony voice to the same measure position
     fMeasureDirectPartUplink->
       getPartHarmonyVoice ()->
         bringVoiceToMeasurePosition (
           inputLineNumber,
           fMeasurePosition);
+          */
   }
 }
 
@@ -16446,9 +16452,9 @@ void msrMeasureRepeat::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrMultipleRest msrMultipleRest::create (
-  int          inputLineNumber,
-  int          multipleRestMeasuresNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  int        multipleRestMeasuresNumber,
+  S_msrVoice voiceUplink)
 {
   msrMultipleRest* o =
     new msrMultipleRest (
@@ -16460,9 +16466,9 @@ S_msrMultipleRest msrMultipleRest::create (
 }
 
 msrMultipleRest::msrMultipleRest (
-  int          inputLineNumber,
-  int          multipleRestMeasuresNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  int        multipleRestMeasuresNumber,
+  S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMultipleRestMeasuresNumber = multipleRestMeasuresNumber;
@@ -16473,8 +16479,7 @@ msrMultipleRest::msrMultipleRest (
 msrMultipleRest::~msrMultipleRest() {}
 
 S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
-  S_msrSegment restsSegmentClone, // JMI
-  S_msrVoice   voiceClone)
+  S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -16486,10 +16491,6 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
           "measures") <<
       endl;
   
-  msrAssert(
-    restsSegmentClone != 0,
-    "restsSegmentClone is null");
-    
   msrAssert(
     voiceClone != 0,
     "voiceClone is null");

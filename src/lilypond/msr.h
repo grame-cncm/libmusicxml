@@ -6381,13 +6381,12 @@ class EXP msrMultipleRest : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMultipleRest> create (
-      int          inputLineNumber,
-      int          multipleRestMeasuresNumber,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      int        multipleRestMeasuresNumber,
+      S_msrVoice voiceUplink);
     
     SMARTP<msrMultipleRest> createMultipleRestBareClone (
-      S_msrSegment repeatedSegmentClone,
-      S_msrVoice   voiceClone);
+      S_msrVoice voiceClone);
 
   protected:
 
@@ -6395,9 +6394,9 @@ class EXP msrMultipleRest : public msrElement
     // ------------------------------------------------------
 
     msrMultipleRest (
-      int          inputLineNumber,
-      int          multipleRestMeasuresNumber,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      int        multipleRestMeasuresNumber,
+      S_msrVoice voiceUplink);
       
     virtual ~msrMultipleRest();
   
