@@ -16242,6 +16242,11 @@ void msrMeasureRepeat::acceptOut (basevisitor* v) {
 
 void msrMeasureRepeat::browseData (basevisitor* v)
 {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMeasureRepeat::browseData()" <<
+      endl;
+
   if (fMeasureRepeatRepeatedSegment) {
   // browse the repeated measure
     msrBrowser<msrSegment> browser (v);
@@ -16256,9 +16261,19 @@ void msrMeasureRepeat::browseData (basevisitor* v)
           getPartPartgroupUplink ()->
             getPartgroupScoreUplink ();
               
+  bool inhibitMeasureRepeatReplicasBrowsing =
+    score->getInhibitMeasureRepeatReplicasBrowsing ();
+
+  if (inhibitMeasureRepeatReplicasBrowsing) {
+    if (gGeneralOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
+      cerr << idtr <<
+        "% ==> visiting measure repeat replicas is inhibited" <<
+        endl;
+  }
+
   if (fMeasureRepeatReplicasSegment) {
-    if (! score->getInhibitMeasureRepeatReplicasBrowsing ()) {
-      // browse the replicas segment
+    if (! inhibitMeasureRepeatReplicasBrowsing) {
+      // browse the measure repeat replicas segment
       msrBrowser<msrSegment> browser (v);
       browser.browse (*fMeasureRepeatReplicasSegment);
     }
@@ -16465,6 +16480,11 @@ void msrMultipleRest::acceptOut (basevisitor* v) {
 
 void msrMultipleRest::browseData (basevisitor* v)
 {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMultipleRest::browseData()" <<
+      endl;
+
   // fetch the score
   S_msrScore
     score =
@@ -16472,10 +16492,20 @@ void msrMultipleRest::browseData (basevisitor* v)
         getVoiceDirectPartUplink ()->
           getPartPartgroupUplink ()->
             getPartgroupScoreUplink ();
-              
+
+  bool inhibitMultipleRestMeasuresBrowsing =
+    score->getInhibitMultipleRestMeasuresBrowsing ();
+
+  if (inhibitMultipleRestMeasuresBrowsing) {
+    if (gGeneralOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
+      cerr << idtr <<
+        "% ==> visiting multiple rest measures is inhibited" <<
+        endl;
+  }
+
   if (fMultipleRestSegment) {
-    if (! score->getInhibitMultipleRestMeasuresBrowsing ()) {
-      // browse the replicas segment
+    if (! inhibitMultipleRestMeasuresBrowsing) {
+      // browse the multiple rest segment
       msrBrowser<msrSegment> browser (v);
       browser.browse (*fMultipleRestSegment);
     }

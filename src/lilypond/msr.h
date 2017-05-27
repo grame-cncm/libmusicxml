@@ -6689,7 +6689,7 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceMeasureNumber;
     
-    // anacrusis detection
+    // anacrusis detection JMI ???
     bool                      fMeasureZeroHasBeenMetInVoice;
     bool                      fMeasureNumberHasBeenSetInVoice;
     bool                      fMusicHasBeenInsertedInVoice;
