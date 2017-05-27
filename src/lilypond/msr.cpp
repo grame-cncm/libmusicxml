@@ -15670,7 +15670,7 @@ string msrSegment::segmentAsString ()
   
   if (! fSegmentMeasuresList.size ())
     s <<
-      " (No actual measures)";
+      " (0 measures)";
   else
     s <<
       " (" <<
