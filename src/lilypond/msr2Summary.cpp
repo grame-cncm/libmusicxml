@@ -350,8 +350,29 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
   fOstream << left <<
     idtr <<
       setw(fieldWidth) <<
+      "VoiceAbsoluteNumber" << " : " <<
+      elt->getVoiceAbsoluteNumber () <<
+    idtr <<
+      setw(fieldWidth) <<
       "ExternalVoiceNumber" << " : " <<
       elt->getExternalVoiceNumber () <<
+    idtr <<
+      setw(fieldWidth) <<
+      "StaffRelativeVoiceNumber" << " : " <<
+      elt->getStaffRelativeVoiceNumber () <<
+    idtr <<
+      setw(fieldWidth) <<
+      "VoiceActualNotesCounter" << " : " <<
+      elt->getVoiceActualNotesCounter () <<
+    idtr <<
+      setw(fieldWidth) <<
+      "VoiceActualHarmoniesCounter" << " : " <<
+      elt->getVoiceActualHarmoniesCounter () <<
+    idtr <<
+      setw(fieldWidth) <<
+      "MeasureZeroHasBeenMetInVoice" << " : " <<
+      booleanAsString (
+        elt->getMeasureZeroHasBeenMetInVoice ()) <<
     endl;
 
   fOstream <<

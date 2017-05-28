@@ -6511,6 +6511,9 @@ class EXP msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
                               
+    int                   getVoiceAbsoluteNumber () const
+                            { return fVoiceAbsoluteNumber; }
+                            
     S_msrPart             getVoiceDirectPartUplink () const
                              { return fVoiceDirectPartUplink; }
 
