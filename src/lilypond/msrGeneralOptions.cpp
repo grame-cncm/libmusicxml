@@ -10,9 +10,11 @@
   research@grame.fr
 */
 
+/*
 #include <iostream>
 #include <list>
 #include <algorithm>
+*/
 #include <iomanip>      // setw, set::precision, ...
 
 #include "msr.h"

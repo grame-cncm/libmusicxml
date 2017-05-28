@@ -13,25 +13,8 @@
 #ifndef __msrGeneralOptions__
 #define __msrGeneralOptions__
 
-/*
-#include <sstream>
-#include <vector>
-#include <string>
-#include <list>
-#include <map>
-*/
-
 #include "smartpointer.h"
-/*
-#include "exports.h"
-#include "typedefs.h"
 
-#include "tree_browser.h"
-
-#include "msrUtilities.h"
-
-//JMI #include "musicxml2msr.h"
-*/
 
 namespace MusicXML2 
 {
