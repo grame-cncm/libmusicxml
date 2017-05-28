@@ -13,11 +13,13 @@
 #ifndef __msrGeneralOptions__
 #define __msrGeneralOptions__
 
+/*
 #include <sstream>
 #include <vector>
 #include <string>
 #include <list>
 #include <map>
+*/
 
 #include "smartpointer.h"
 /*

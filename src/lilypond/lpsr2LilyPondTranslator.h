@@ -18,7 +18,8 @@
 
 #include "lpsr.h"
 
-//#include "musicxml2msr.h"
+#include "lpsrOptions.h"
+
 
 namespace MusicXML2
 {
