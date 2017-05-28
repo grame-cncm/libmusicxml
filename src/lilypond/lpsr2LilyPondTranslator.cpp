@@ -30,6 +30,8 @@ using namespace std;
 namespace MusicXML2
 {
 
+const int commentFieldWidth = 30;
+
 //________________________________________________________________________
 lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
   S_msrOptions&  msrOpts,
@@ -934,73 +936,93 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
 
   idtr++;
   
-  const int fieldWidth = 28;
+  const int fieldWidth = 13;
 
   if (elt->getPaperWidth () > 0) {
-    fOstream << idtr <<
-      setw(13) << left << "paper-width" << " = " <<
-      setprecision(4) << elt->getPaperWidth () << "\\cm" <<
-      endl;
+    fOstream <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "paper-width" << " = " <<
+        setprecision(4) << elt->getPaperWidth () << "\\cm" <<
+        endl;
   }
   if (elt->getPaperHeight () > 0) {
-    fOstream << idtr << 
-      setw(13) << left << "paper-height" << " = " <<
-      setprecision(4) << elt->getPaperHeight () << "\\cm" <<
-      endl;
+    fOstream <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "paper-height" << " = " <<
+        setprecision(4) << elt->getPaperHeight () << "\\cm" <<
+        endl;
   }
   
   if (elt->getTopMargin () > 0) {
-    fOstream << idtr << 
-      setw(13) << left << "top-margin" << " = " <<
-      setprecision(4) << elt->getTopMargin () << "\\cm" <<
-      endl;
+    fOstream <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "top-margin" << " = " <<
+        setprecision(4) << elt->getTopMargin () << "\\cm" <<
+        endl;
   }
   if (elt->getBottomMargin () > 0) {
-    fOstream << idtr << 
-      setw(13) << left << "bottom-margin" << " = " <<
-      setprecision(4) << elt->getBottomMargin () << "\\cm" <<
-      endl;
+    fOstream <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "bottom-margin" << " = " <<
+        setprecision(4) << elt->getBottomMargin () << "\\cm" <<
+        endl;
   }
   if (elt->getLeftMargin () > 0) {
-    fOstream << idtr << 
-      setw(13) << left << "left-margin" << " = " <<
-      setprecision(4) << elt->getLeftMargin () << "\\cm" <<
-      endl;
+    fOstream <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "left-margin" << " = " <<
+        setprecision(4) << elt->getLeftMargin () << "\\cm" <<
+        endl;
   }
   if (elt->getRightMargin () > 0) {
-    fOstream << idtr << 
-      setw(13) << left << "right-margin" << " = " <<
-    setprecision(4) << elt->getRightMargin () << "\\cm" <<
-    endl;
+    fOstream <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "right-margin" << " = " <<
+      setprecision(4) << elt->getRightMargin () << "\\cm" <<
+      endl;
   }
 
   fOstream << endl;
 
   // generate the default 'indent' setting ready for the user
-  fOstream << idtr << 
-    setw(13) << left << "indent" << " = " <<
-  setprecision(4) << 1.5 << "\\cm" <<
-  endl;
+  fOstream <<
+    idtr << left <<
+      setw(fieldWidth) <<
+      "indent" << " = " <<
+    setprecision(4) << 1.5 << "\\cm" <<
+    endl;
 
   // generate the default 'short-indent' setting ready for the user
-  fOstream << idtr << 
-    setw(13) << left << "short-indent" << " = " <<
-  setprecision(4) << 1.0 << "\\cm" <<
-  endl;
+  fOstream <<
+    idtr << left <<
+      setw(fieldWidth) <<
+      "short-indent" << " = " <<
+    setprecision(4) << 1.0 << "\\cm" <<
+    endl;
 
   fOstream << endl;
 
   // generate a 'page-count' comment ready for the user
-  fOstream << idtr << 
-    setw(13) << left << "%" "page-count" << " = " <<
-  setprecision(4) << 1 <<
-  endl;
+  fOstream <<
+    idtr << left <<
+      setw(fieldWidth) <<
+      "%" "page-count" << " = " <<
+    setprecision(4) << 1 <<
+    endl;
 
   // generate a 'system-count' comment ready for the user
-  fOstream << idtr << 
-    setw(13) << left << "%" "system-count" << " = " <<
-  setprecision(4) << 1 <<
-  endl;
+  fOstream <<
+    idtr << left <<
+      setw(fieldWidth) <<
+      "%" "system-count" << " = " <<
+    setprecision(4) << 1 <<
+    endl;
 
 /*
  * 
@@ -1268,7 +1290,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
     } // switch
   
     fOstream << idtr <<
-      setw(30) << partGroupContextName + " " "<<";
+      setw(commentFieldWidth) <<
+      partGroupContextName + " " "<<";
       
     if (gLilypondOptions->fGenerateComments)
       fOstream <<
@@ -1327,13 +1350,16 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
   if (elt->getPartgroupBlockElements ().size () > 1) {
     fOstream <<
       idtr <<
-      setw(30) << ">>";
+      setw(commentFieldWidth) << ">>";
+      
     if (gLilypondOptions->fGenerateComments)
       fOstream <<
          "% part group " <<
         partgroup->getPartgroupCombinedName ();
+        
     fOstream <<
-      endl << endl;
+      endl <<
+      endl;
   }
 }
 
@@ -1368,7 +1394,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPartBlock& elt)
     if (gLilypondOptions->fGenerateComments) {
       fOstream << left <<
         idtr <<
-        setw(30) << "\\new PianoStaff <<" <<
+        setw(commentFieldWidth) <<
+        "\\new PianoStaff <<" <<
         "% part " << part->getPartCombinedName ();
     }
     else {
@@ -1429,7 +1456,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
     if (gLilypondOptions->fGenerateComments) {
       fOstream <<
         idtr <<
-        setw(30) << ">>" <<    
+        setw(commentFieldWidth) << ">>" <<    
         "% part " <<
         part->getPartCombinedName ();
     }
@@ -1440,7 +1467,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrPartBlock& elt)
     }
     
     fOstream <<
-      endl << endl;
+      endl <<
+      endl;
   }
 }
 
@@ -1484,7 +1512,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrStaffBlock& elt)
   if (gLilypondOptions->fGenerateComments) {
     fOstream << left <<
       idtr <<
-      setw(30) << newContext <<
+      setw(commentFieldWidth) <<
+       newContext <<
       "% staff \"" << staff->getStaffName () << "\"";
   }
   else {
@@ -1582,7 +1611,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   if (gLilypondOptions->fGenerateComments) {
     fOstream <<
       idtr <<
-      setw(30) << ">>" <<    
+      setw(commentFieldWidth) << ">>" <<    
       "% staff " <<
       elt->getStaff ()->getStaffName ();
   }
@@ -1593,7 +1622,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   }
 
   fOstream <<
-    endl << endl;
+    endl <<
+    endl;
 }
 
 /*
@@ -2221,7 +2251,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrSegment& elt)
 
   if (gLilypondOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "" << "% start of segment" <<
+      setw(commentFieldWidth) <<
+      "% start of segment" <<
       endl;
 
     idtr++;
@@ -2243,7 +2274,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrSegment& elt)
     
     fOstream <<
       idtr <<
-      setw(30) << "" << "% end of segment" <<
+      setw(commentFieldWidth) <<
+      "% end of segment" <<
       endl;
   }
   /* JMI
@@ -2273,7 +2305,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
   if (gLilypondOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << "" << "% start of measure " <<
+      setw(commentFieldWidth) <<
+      "% start of measure " <<
       measureNumber <<
       ", line " << inputLineNumber<<
       endl;
@@ -2456,18 +2489,22 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       fOstream <<
         endl <<
         idtr <<
-          setw(30) << "" << "% end of measure " <<
+          setw(commentFieldWidth) <<
+           "% end of measure " <<
           measureNumber <<
           ", line " << inputLineNumber<<
-          endl << endl;
+          endl <<
+          endl;
     }
     else {
       fOstream <<
         idtr <<
-          setw(30) << "" << "% end of msrMeasure " <<
+          setw(commentFieldWidth) <<
+          "% end of msrMeasure " <<
           measureNumber <<
           ", line " << inputLineNumber<<
-          endl << endl;      
+          endl <<
+          endl;      
     }
   }
 
@@ -5124,7 +5161,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeat& elt)
   
   if (gLilypondOptions->fGenerateComments) {
     fOstream << idtr <<
-      setw(30) << s.str() << "% start of repeat" <<
+      setw(commentFieldWidth) <<
+      s.str() << "% start of repeat" <<
       endl;
   }
   else {
@@ -5159,7 +5197,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeat& elt)
     if (gLilypondOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
-        setw(30) << "}" << "% end of repeat" <<
+        setw(commentFieldWidth) <<
+        "}" << "% end of repeat" <<
         endl;
     }
     else {
@@ -5193,7 +5232,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
     if (gLilypondOptions->fGenerateComments) {      
       fOstream <<
         idtr <<
-        setw(30) << "}" << "% end of repeat" <<
+        setw(commentFieldWidth) <<
+        "}" << "% end of repeat" <<
         endl;
     }
     else {
@@ -5210,7 +5250,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       fOstream <<
         endl <<
         idtr <<
-        setw(30) << "\\alternative" " " "{" <<
+        setw(commentFieldWidth) <<
+        "\\alternative" " " "{" <<
         "% start of alternative" <<
         endl;
     }
@@ -5231,7 +5272,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       if (gLilypondOptions->fGenerateComments) {  
         fOstream <<
           idtr <<
-          setw(30) << "{" << "% start of repeat hooked ending" <<
+          setw(commentFieldWidth) <<
+          "{" << "% start of repeat hooked ending" <<
           endl;
       }
       else {
@@ -5247,7 +5289,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrRepeatending& elt)
       if (gLilypondOptions->fGenerateComments)    
         fOstream <<
           idtr <<
-          setw(30) << "{" << "% start of repeat hookless ending" <<
+          setw(commentFieldWidth) <<
+          "{" << "% start of repeat hookless ending" <<
           endl;
       else
         fOstream <<
@@ -5276,7 +5319,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
       if (gLilypondOptions->fGenerateComments) {
         fOstream <<
           idtr <<
-          setw(30) << "}" << "% end of repeat hooked ending" <<
+          setw(commentFieldWidth) <<
+          "}" << "% end of repeat hooked ending" <<
           endl;
       }
       else {
@@ -5292,7 +5336,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
       if (gLilypondOptions->fGenerateComments)   { 
         fOstream <<
           idtr <<
-          setw(30) << "}" << "% end of repeat hookless ending" <<
+          setw(commentFieldWidth) <<
+          "}" << "% end of repeat hookless ending" <<
           endl;
       }
       else {
@@ -5317,7 +5362,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrRepeatending& elt)
     if (gLilypondOptions->fGenerateComments)   { 
       fOstream <<
         idtr <<
-        setw(30) << "}" << "% end of alternative" <<
+        setw(commentFieldWidth) <<
+        "}" << "% end of alternative" <<
         endl;
     }
     else {
