@@ -6517,12 +6517,12 @@ class EXP msrVoice : public msrElement
     msrVoiceKind          getVoiceKind () const
                               { return fVoiceKind; }
 
-    int                   getExternalVoiceNumber () const
-                              { return fExternalVoiceNumber; }
-                
     void                  setExternalVoiceNumber (int externalVoiceNumber)
                               { fExternalVoiceNumber = externalVoiceNumber; }
 
+    int                   getExternalVoiceNumber () const
+                              { return fExternalVoiceNumber; }
+                
     int                   getStaffRelativeVoiceNumber () const
                               { return fStaffRelativeVoiceNumber; }
                 

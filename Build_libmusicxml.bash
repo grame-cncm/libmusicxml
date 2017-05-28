@@ -45,10 +45,11 @@ for PARAM in "$@"; do
   esac
 done
 
-echo "User choices:"
-echo "  CMAKE = $CMAKE"
-echo "  CLEAN = $CLEAN"
-echo
+#echo "User choices:"
+#echo "  CMAKE   = $CMAKE"
+#echo "  CLEAN   = $CLEAN"
+#echo "  INSTALL = $INSTALL"
+#echo
 
 
 # Write all output to logfile
@@ -79,7 +80,7 @@ echo
 # Should 'cmake' be run?
 # -----------------------------------------
 
-if [ $CMAKE ]; then # run cmake after filenames changes
+if [ $CMAKE -eq 1 ]; then # run cmake after filenames changes
   echo '--> cmake .'
   echo
   cmake .
@@ -90,7 +91,7 @@ fi
 # Should 'make clean' be run?
 # -----------------------------------------
 
-if [ $CLEAN ]; then # make everything
+if [ $CLEAN -eq 1 ]; then # make everything
   echo '--> make clean'
   echo
   make clean
@@ -126,7 +127,7 @@ pwd
 ls -sal $PWD/xml2lilypond
 echo
 
-if [ 1 -eq 1 ]; then
+#if [ 1 -eq 1 ]; then
   cd ../samples
   pwd
   echo
@@ -144,7 +145,7 @@ if [ 1 -eq 1 ]; then
   echo
   ls -sal
   echo
-fi
+#fi
 
 
 #grep -i error ${HOME}/Build_libmusicxml.bash.log
@@ -154,7 +155,7 @@ echo
 # Should 'make install' be run?
 # -----------------------------------------
 
-if [ $INSTALL ]; then
+if [ $INSTALL -eq 1 ]; then
   echo '--> sudo make install'
   echo
   sudo make install

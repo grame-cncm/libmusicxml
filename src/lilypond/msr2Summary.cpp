@@ -81,12 +81,11 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
   int partgroupsListSize = elt->getPartgroupsList ().size();
   
   fOstream << idtr <<
-    "Score contains " << partgroupsListSize;
-  if (partgroupsListSize == 1)
-    fOstream << " part group";
-  else
-    fOstream << " part groups";
-  fOstream << endl << endl;
+    "Score contains " <<
+    singularOrPlural (
+      partgroupsListSize, "part group", "part groups") <<
+    endl <<
+    endl;
 
   idtr++;
 }
@@ -144,59 +143,42 @@ void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
   
   fOstream << idtr <<
     "Partgroup" << " " << elt->getPartgroupCombinedName () <<
-    " contains " << partgroupElementsSize;
-  if (partgroupElementsSize == 1)
-    fOstream << " part or sub part group";
-  else
-    fOstream << " parts or sub part groups";
-  fOstream << endl;
+    " contains " <<
+    singularOrPlural (
+      partgroupElementsSize,
+      " part or sub part group",
+      " parts or sub part groups") <<
+    endl;
 
   idtr++;
 
+  const int fieldWidth = 23;
+  
   fOstream << left <<
     idtr <<
-      setw(24) << "PartgroupName" << " : \"" <<
+      setw(fieldWidth) << "PartgroupName" << " : \"" <<
       elt->getPartgroupName  () << "\"" <<
       endl <<
     idtr <<
-      setw(24) << "PartgroupAbbrevation" << " : \"" <<
+      setw(fieldWidth) << "PartgroupAbbrevation" << " : \"" <<
       elt->getPartgroupAbbreviation  () << "\"" <<
       endl <<
     idtr <<
-      setw(24) << "fPartgroupSymbolDefaultX" << " : " <<
+      setw(fieldWidth) << "PartgroupSymbolDefaultX" << " : " <<
       elt->getPartgroupSymbolDefaultX  () <<
       endl <<
     idtr <<
-    setw(24) << "fPartgroupSymbolKind" << " : \"";
-    
-  switch (elt->getPartgroupSymbolKind ()) {
-    case msrPartgroup::kBracePartgroupSymbol:
-      fOstream << "brace";
-      break;
-    case msrPartgroup::kBracketPartgroupSymbol:
-      fOstream << "bracket";
-      break;
-    case msrPartgroup::kLinePartgroupSymbol:
-      fOstream << "line";
-      break;
-    case msrPartgroup::kSquarePartgroupSymbol:
-      fOstream << "square";
-      break;
-    case msrPartgroup::k_NoPartgroupSymbol:
-      break;
-  } // switch
-  
-  fOstream << "\"" <<
-    endl <<
+      setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
+      msrPartgroup::partgroupSymbolKindAsString (
+        elt->getPartgroupSymbolKind ()) <<
+      "\"" <<
+      endl <<
     idtr <<
-      setw(24) << "PartgroupBarline" << " : ";
-      
-  if (elt->getPartgroupBarline ())
-    fOstream << "true";
-  else
-    fOstream << "false";
-  fOstream <<
-    endl << endl;
+      setw(fieldWidth) << "PartgroupBarline" << " : " <<
+      booleanAsString (
+        elt->getPartgroupBarline ()) <<
+      endl <<
+    endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
@@ -219,38 +201,38 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   fOstream << idtr <<
     "Part " << elt->getPartCombinedName () <<
-    " contains " << partStavesMapSize;
-  if (partStavesMapSize == 1)
-    fOstream << " staff";
-  else
-    fOstream << " staves";
-  fOstream << endl;
+    " contains " <<
+    singularOrPlural (
+      partStavesMapSize, "staff", "staves") <<
+    endl;
     
   idtr++;
   
+  const int fieldWidth = 28;
+  
   fOstream << left <<
     idtr <<
-      setw(25) << "PartID" << " : \"" <<
+      setw(fieldWidth) << "PartID" << " : \"" <<
       elt->getPartID () << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartMsrName" << " : \"" <<
+      setw(fieldWidth) << "PartMsrName" << " : \"" <<
       elt->getPartMsrName () << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartName" << " : \"" <<
+      setw(fieldWidth) << "PartName" << " : \"" <<
       elt->getPartName  () << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartAbbrevation" << " : \"" <<
+      setw(fieldWidth) << "PartAbbrevation" << " : \"" <<
       elt->getPartAbbreviation () << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartDivisionsPerQuarterNote" << " : " <<
+      setw(fieldWidth) << "PartDivisionsPerQuarterNote" << " : " <<
       elt->getPartDivisionsPerQuarterNote () <<
       endl <<
     idtr <<
-      setw(25) << "PartInstrumentName" << " : \"" <<
+      setw(fieldWidth) << "PartInstrumentName" << " : \"" <<
       elt->getPartInstrumentName () << "\"" <<
       endl <<
     endl;
@@ -276,32 +258,42 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     
   fOstream << idtr <<
     "Staff" << " " << elt->getStaffName () <<
-    " contains " << staffAllVoicesMapSize;
-  if (staffAllVoicesMapSize == 1)
-    fOstream << " voice";
-  else
-    fOstream << " voices";
-  fOstream << endl;
+    " contains " <<
+    singularOrPlural (
+      staffAllVoicesMapSize, "voice", "voices") <<
+    endl;
 
   idtr++;
   
   if (elt->getStaffClef ())
-    fOstream << idtr << elt->getStaffClef ();
+    fOstream <<
+      idtr <<
+        elt->getStaffClef ();
   else
-    fOstream << idtr << "NO_CLEF";
-  fOstream << endl;
+    fOstream <<
+      idtr <<
+        "NO_CLEF" <<
+        endl;
 
   if (elt->getStaffKey ())
-    fOstream << idtr << elt->getStaffKey ();
+    fOstream <<
+      idtr <<
+        elt->getStaffKey ();
   else
-    fOstream << idtr << "NO_KEY";
-  fOstream << endl;
+    fOstream <<
+      idtr <<
+        "NO_KEY" <<
+        endl;
 
   if (elt->getStaffTime ())
-    fOstream << idtr << elt->getStaffTime ();
+    fOstream <<
+      idtr <<
+        elt->getStaffTime ();
   else
-    fOstream << idtr << "NO_TIME";
-  fOstream << endl;
+    fOstream <<
+      idtr <<
+        "NO_TIME" <<
+        endl;
 
 /* JMI
   fOstream <<
@@ -336,14 +328,24 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
   fOstream << idtr <<
     "Voice" << " " << elt->getVoiceName () <<
-    " has " << voiceStanzasMapSize;
-  if (voiceStanzasMapSize == 1)
-    fOstream << " stanza";
-  else
-    fOstream << " stanzas";
-  fOstream << endl << endl;
+    " has " <<
+    singularOrPlural (
+      voiceStanzasMapSize, "stanza", "stanzas") <<
+    endl;
 
   idtr++;
+
+  const int fieldWidth = 19;
+  
+  fOstream << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "ExternalVoiceNumber" << " : " <<
+      elt->getExternalVoiceNumber () <<
+    endl;
+
+  fOstream <<
+    endl;
 
   // don't show fVoiceMasterStanza in the summary
 }
@@ -368,11 +370,9 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
 
   fOstream << idtr <<
     "Stanza" << " " << elt->getStanzaName () <<
-    " contains " << syllablesSize;
-  if (syllablesSize == 1)
-    fOstream << " syllable";
-  else
-    fOstream << " syllables";
+    " contains " <<
+    singularOrPlural (
+      syllablesSize, "syllable", "syllables");
 
   if (! elt->getStanzaTextPresent ())
     fOstream << " (No actual text)";
@@ -430,14 +430,9 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
       "--> Start visiting msrKey" << endl;
 
   if (! fOnGoingStaff) {
-    fOstream << idtr <<
-      "\\key " <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        elt->getKeyTonicQuartertonesPitch ()) <<
-      " " <<
-      msrKey::keyModeKindAsString (
-        elt->getKeyModeKind ()) <<
+    fOstream <<
+      idtr <<
+        elt->keyAsString () <<
       endl;
   }
 }
@@ -454,12 +449,13 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrTime" << endl;
+      "--> Start visiting msrTime" <<
+      endl;
 
   if (! fOnGoingStaff) {    
-    fOstream << idtr <<
-      "Time " << 
-      elt->getBeatsNumber () << "/" << elt->getBeatsValue ();
+    fOstream <<
+      idtr <<
+        elt->timeAsString ();
   }
 }
 
@@ -467,7 +463,8 @@ void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrTime" << endl;
+      "--> End visiting msrTime" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -475,7 +472,8 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrTempo" << endl;
+      "--> Start visiting msrTempo" <<
+       endl;
 
   fOstream << idtr <<
     "Tempo" << " " <<
@@ -487,54 +485,25 @@ void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrTempo" << endl;
+      "--> End visiting msrTempo" <<
+      endl;
 }
 
 //________________________________________________________________________
-/*
-void msr2SummaryVisitor::visitStart (S_msrSequentialMusic& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
-      "--> Start visiting msrSequentialMusic" << endl;
-
-  int sequenceElementsSize =
-    elt->getSequentialMusicElements ().size();
-
-  fOstream << idtr <<
-    "SequentialMusic" <<
-    " contains " << sequenceElementsSize;
-  if (sequenceElementsSize == 1)
-    fOstream << " element";
-  else
-    fOstream << " elements";
-  
-  if (! sequenceElementsSize)
-    fOstream << " (No actual notes)";
-  fOstream << endl << endl;
-}
-
-void msr2SummaryVisitor::visitEnd (S_msrSequentialMusic& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
-      "--> End visiting msrSequentialMusic" << endl;
-}
-*/
-//________________________________________________________________________
-
 void msr2SummaryVisitor::visitStart (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrSegment" << endl;
+      "--> Start visiting msrSegment" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrSegment" << endl;
+      "--> End visiting msrSegment" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -542,14 +511,16 @@ void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrArticulation" << endl;
+      "--> Start visiting msrArticulation" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrArticulation& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrArticulation" << endl;
+      "--> End visiting msrArticulation" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -557,14 +528,16 @@ void msr2SummaryVisitor::visitStart (S_msrDynamics& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrDynamics" << endl;
+      "--> Start visiting msrDynamics" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrDynamics& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrDynamics" << endl;
+      "--> End visiting msrDynamics" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -602,33 +575,11 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fOstream << idtr <<
-      "--> Start visiting ";
-    switch (elt->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
-        break;
-      case msrNote::kStandaloneNote:
-        fOstream << "standalone";
-        break;
-      case msrNote::kDoubleTremoloMemberNote:
-        fOstream << "double tremolo member note";
-        break;
-      case msrNote::kRestNote:
-        fOstream << "rest";
-        break;
-      case msrNote::kSkipNote:
-        fOstream << "skip";
-        break;
-      case msrNote::kGraceNote:
-        fOstream << "grace";
-        break;
-      case msrNote::kChordMemberNote:
-        fOstream << "chord member";
-        break;
-      case msrNote::kTupletMemberNote:
-        fOstream << "tuplet member";
-        break;
-    } // switch
-    fOstream << " msrNote" << endl;
+      "--> Start visiting " <<
+      msrNote::noteKindAsString (
+        elt->getNoteKind ()) <<
+      " msrNote" <<
+      endl;
   }
 
   switch (elt->getNoteKind ()) {
@@ -662,33 +613,11 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fOstream << idtr <<
-      "--> Start visiting ";
-    switch (elt->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
-        break;
-      case msrNote::kStandaloneNote:
-        fOstream << "standalone";
-        break;
-      case msrNote::kDoubleTremoloMemberNote:
-        fOstream << "double tremolo member note";
-        break;
-      case msrNote::kRestNote:
-        fOstream << "rest";
-        break;
-      case msrNote::kSkipNote:
-        fOstream << "skip";
-        break;
-      case msrNote::kGraceNote:
-        fOstream << "grace";
-        break;
-      case msrNote::kChordMemberNote:
-        fOstream << "chord member";
-        break;
-      case msrNote::kTupletMemberNote:
-        fOstream << "tuplet member";
-        break;
-    } // switch
-    fOstream << " msrNote" << endl;
+      "--> End visiting " <<
+      msrNote::noteKindAsString (
+        elt->getNoteKind ()) <<
+      " msrNote" <<
+      endl;
   }
 
   switch (elt->getNoteKind ()) { // JMI
