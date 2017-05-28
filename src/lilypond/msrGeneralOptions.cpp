@@ -854,6 +854,37 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       booleanAsString (fTraceDetailed) <<
      endl;
         
+    if (fTraceDetailed) {
+      cerr <<
+        idtr <<
+          setw(fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
+        
+      if (fTraceDetailedMeasureNumbersSet.empty ())
+        cerr << "none";
+        
+      else {
+        cerr <<
+          "'";
+          
+        set<int>::const_iterator
+          iBegin = fTraceDetailedMeasureNumbersSet.begin(),
+          iEnd   = fTraceDetailedMeasureNumbersSet.end(),
+          i      = iBegin;
+          
+        for ( ; ; ) {
+          cerr << (*i);
+          if (++i == iEnd) break;
+          cerr << " ";
+        } // for
+      
+        cerr <<
+          "'";
+      }
+      
+      cerr <<
+        endl;
+    }
+
   idtr--;
 
   // CPU usage
@@ -986,23 +1017,6 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (fTraceHarmonies) <<
       endl;
-
-  if (fTraceDetailed) {
-    cerr << left <<
-      "fTraceDetailedMeasureNumbersSet: ";
-      
-    if (fTraceDetailedMeasureNumbersSet.empty ())
-      cerr << "none";
-    else
-      for (
-        set<int>::const_iterator i =
-          fTraceDetailedMeasureNumbersSet.begin();
-        i != fTraceDetailedMeasureNumbersSet.end();
-        i++) {
-          cerr << (*i) << " ";
-      } // for
-    cerr << endl;
-  }
 
   idtr--;
 
