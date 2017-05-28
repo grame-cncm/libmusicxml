@@ -2592,9 +2592,17 @@ void msrElement::print (ostream& os)
 //______________________________________________________________________________
 void msrBeatData::print (ostream& os)
 {
-  os <<
-    left << setw(26) << "fBeatUnit = " << fBeatUnit <<  endl <<
-    left << setw(26) << "fDots = " << fDots <<  endl;
+  const int fieldWidth = 9;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fBeatUnit" << " = " << fBeatUnit <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fDots" << " = " << fDots <<
+      endl;
 };
 
 //______________________________________________________________________________
@@ -5765,25 +5773,29 @@ void msrNote::initializeNote ()
 
     idtr++;
     
-    const int width = 23;
+    const int fieldWidth = 23;
     
     cerr <<
       idtr << left <<
-        setw(width) << "fNoteQuatertonesPitch" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteQuatertonesPitch" << " = " <<
         msrQuartertonesPitchAsString (
           gMsrOptions->fMsrQuatertonesPitchesLanguage,
           fNoteQuatertonesPitch) <<
         endl <<
       idtr << left <<
-        setw(width) << "fNoteSoundingDivisions" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteSoundingDivisions" << " = " <<
         fNoteSoundingDivisions <<
         endl <<
       idtr << left <<
-        setw(width) << "fNoteDisplayedDivisions" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteDisplayedDivisions" << " = " <<
         fNoteDisplayedDivisions <<
         endl <<
       idtr << left <<
-        setw(width) << "fNoteDotsNumber" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteDotsNumber" << " = " <<
         fNoteDotsNumber <<
         endl <<
 
@@ -5791,7 +5803,7 @@ void msrNote::initializeNote ()
     if (fNoteDirectPartUplink) // it may not have been set yet
     cerr <<
       idtr << left <<
-        setw(width) << "fNoteGraphicDuration" << " = " <<
+        setw(fieldWidth) << "fNoteGraphicDuration" << " = " <<
         fNoteDirectPartUplink->
           divisionsAsMsrString (
             fInputLineNumber,
@@ -5799,7 +5811,8 @@ void msrNote::initializeNote ()
         endl <<
 */
       idtr << left <<
-        setw(width) << "fNoteGraphicDuration" << " = ";
+        setw(fieldWidth) <<
+        "fNoteGraphicDuration" << " = ";
       if (fNoteGraphicDuration != k_NoDuration)
         cerr <<
           msrDurationAsString (
@@ -5811,21 +5824,25 @@ void msrNote::initializeNote ()
         endl <<
 
       idtr << left <<
-        setw(width) << "fNoteOctave" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteOctave" << " = " <<
         fNoteOctave <<
         endl <<
 
       idtr << left <<
-        setw(width) << "fNoteIsARest" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteIsARest" << " = " <<
         fNoteIsARest <<
         endl <<
       idtr << left <<
-        setw(width) << "fNoteIsUnpitched" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteIsUnpitched" << " = " <<
         fNoteIsUnpitched <<
         endl <<
 
       idtr << left <<
-        setw(width) << "fNoteIsAGraceNote" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteIsAGraceNote" << " = " <<
         fNoteIsAGraceNote <<
         endl <<
 
@@ -5833,26 +5850,31 @@ void msrNote::initializeNote ()
         
             
       idtr << left <<
-        setw(width) << "fStaffNumber" << " = " <<
+        setw(fieldWidth) <<
+        "fStaffNumber" << " = " <<
         fNoteStaffNumber <<
         endl <<
       idtr <<
-        setw(width) << "fVoiceNumber" << " = " <<
+        setw(fieldWidth) <<
+        "fVoiceNumber" << " = " <<
         fNoteVoiceNumber <<
         endl <<
 
       idtr << left <<
-        setw(width) << "fNoteBelongsToAChord" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteBelongsToAChord" << " = " <<
         fNoteBelongsToAChord <<
         endl <<
             
       idtr << left <<
-        setw(width) << "fNoteBelongsToATuplet" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteBelongsToATuplet" << " = " <<
         fNoteBelongsToATuplet <<
         endl <<
           
       idtr << left <<
-        setw(width) << "fNoteSyllableExtendKind" << " = " <<
+        setw(fieldWidth) <<
+        "fNoteSyllableExtendKind" << " = " <<
         msrSyllable::syllableExtendKindAsString (
           fNoteSyllableExtendKind) <<
         endl;
@@ -9502,63 +9524,96 @@ void msrPageGeometry::print (ostream& os) {
   
   idtr++;
   
+    const int fieldWidth = 12;
+
   if (fPaperWidth > 0) {
-    os <<
-      idtr << setw(12) << left << "PaperWidth" << " = " <<
-      setprecision(4) << fPaperWidth << " cm" << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "PaperWidth" << " = " <<
+        setprecision(4) << fPaperWidth << " cm" <<
+        endl;
     emptyGeometry = false;
   }
+  
   if (fPaperHeight > 0) {
-    os <<
-      idtr << setw(12) << left << "PaperHeight" << " = " <<
-      setprecision(4) << fPaperHeight << " cm" << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "PaperHeight" << " = " <<
+        setprecision(4) << fPaperHeight << " cm" <<
+        endl;
     emptyGeometry = false;
   }
   
   if (fTopMargin > 0) {
-    os <<
-      idtr << setw(12) << left << "TopMargin" << " = " <<
-      setprecision(4) << fTopMargin << " cm" << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "TopMargin" << " = " <<
+        setprecision(4) << fTopMargin << " cm" <<
+        endl;
     emptyGeometry = false;
   }
+  
   if (fBottomMargin > 0) {
-    os <<
-      idtr << setw(12) << left << "BottomMargin" << " = " <<
-      setprecision(4) << fBottomMargin << " cm" << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "BottomMargin" << " = " <<
+        setprecision(4) << fBottomMargin << " cm" <<
+        endl;
     emptyGeometry = false;
   }
+  
   if (fLeftMargin > 0) {
-    os <<
-      idtr << setw(12) << left << "LeftMargin" << " = " <<
-      setprecision(4) << fLeftMargin << " cm" << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "LeftMargin" << " = " <<
+        setprecision(4) << fLeftMargin << " cm" <<
+        endl;
     emptyGeometry = false;
   }
+  
   if (fRightMargin > 0) {
-    os <<
-      idtr << setw(12) << left << "RightMargin" << " = " <<
-      setprecision(4) << fRightMargin << " cm" << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "RightMargin" << " = " <<
+        setprecision(4) << fRightMargin << " cm" <<
+        endl;
     emptyGeometry = false;
   }
 
+
   if (fMillimeters > 0) {
-    os <<
-      idtr << setw(12) << left << "Millimeters" << " = " <<
-      setprecision(4) << fMillimeters << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "Millimeters" << " = " <<
+        setprecision(4) << fMillimeters <<
+        endl;
     emptyGeometry = false;
   }
 
   if (fTenths > 0) {
-    os <<
-      idtr << setw(12) << left << "Tenths" << " = " <<
-      setprecision(4) << fTenths << endl;
+    os << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "Tenths" << " = " <<
+        setprecision(4) << fTenths <<
+        endl;
     emptyGeometry = false;
   }
 
   if (emptyGeometry)
     os << idtr <<
-      " " << "nothing specified" << endl;
+      " " << "nothing specified" <<
+      endl;
   
-  os << endl;
+  os <<
+    endl;
 
   idtr--;
 }
@@ -9833,7 +9888,7 @@ void msrCredit::print (ostream& os)
   
   os <<
     idtr <<
-      setw(21) << "fCreditPageNumber" << " = " << fCreditPageNumber <<
+      "fCreditPageNumber" << " = " << fCreditPageNumber <<
       endl <<
     endl;
 
@@ -10734,24 +10789,31 @@ void msrWords::print (ostream& os)
 
   idtr++;
 
+  const int fieldWidth = 16;
+
   os <<
     idtr << left <<
-      setw(16) << "Placement" << " = " <<
+      setw(fieldWidth) <<
+      "Placement" << " = " <<
       wordsPlacementKindAsString (fWordsPlacementKind) <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontStyle" << " = " <<
+      setw(fieldWidth) <<
+      "WordsFontStyle" << " = " <<
       wordsFontStyleKindAsString (fWordsFontStyleKind) <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontSize" << " = " << fWordsFontSize <<
+      setw(fieldWidth) <<
+      "WordsFontSize" << " = " << fWordsFontSize <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontWeight" << " = " <<
+      setw(fieldWidth) <<
+      "WordsFontWeight" << " = " <<
       msrWordsFontWeightKindAsString (fWordsFontWeightKind) <<
       endl <<
     idtr <<
-      setw(16) << "WordsFontXMLLang" << " = " <<
+      setw(fieldWidth) <<
+      "WordsFontXMLLang" << " = " <<
       msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
       endl;
   
@@ -11313,8 +11375,8 @@ string msrSyllable::syllableAsString () const
 void msrSyllable::print (ostream& os)
 {  
   os <<
-    "Syllable" << " " <<
-    setw(15) << syllableAsString () <<
+    "Syllable" " " <<
+    syllableAsString () <<
     endl;
 }
 
@@ -12165,23 +12227,29 @@ void msrHarmony::print (ostream& os)
     
   idtr++;
 
+  const int fieldWidth = 15;
+
   os << left <<
     idtr <<
-      setw(15) << "HarmonyRoot" << " = " <<
+      setw(fieldWidth) <<
+      "HarmonyRoot" << " = " <<
       msrQuartertonesPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fHarmonyRootQuartertonesPitch) <<
       endl <<
     idtr <<
-      setw(15) << "HarmonyKind" << " = " <<
+      setw(fieldWidth) <<
+      "HarmonyKind" << " = " <<
       harmonyKindAsString (fHarmonyKind) <<
       endl <<
     idtr <<
-      setw(15) << "HarmonyKindText" << " = " <<
+      setw(fieldWidth) <<
+      "HarmonyKindText" << " = " <<
       fHarmonyKindText <<
       endl <<
     idtr <<
-      setw(15) << "HarmonyBass" << " = " <<
+      setw(fieldWidth) <<
+      "HarmonyBass" << " = " <<
       msrQuartertonesPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fHarmonyBassQuartertonesPitch) <<
@@ -12837,38 +12905,49 @@ void msrBarline::print (ostream& os)
 
   idtr++;
 
+  const int fieldWidth = 15;
+
   os <<
     idtr << left <<
-      setw(15) << "Location" << " : " <<
+      setw(fieldWidth) <<
+      "Location" << " : " <<
       barlineLocationAsString (fLocation) <<
       endl <<
     idtr <<
-      setw(15) << "Style" << " : " <<
+      setw(fieldWidth) <<
+      "Style" << " : " <<
       barlineStyleAsString (fStyle) <<
       endl <<
     idtr <<
-      setw(15) << "EndingType" << " : " <<
+      setw(fieldWidth) <<
+      "EndingType" << " : " <<
       barlineEndingTypeAsString (fEndingType) <<
       endl;
   
   os <<
     idtr <<
-      setw(15) << "Ending number" << " : ";
+      setw(fieldWidth) <<
+      "Ending number" << " : ";
+      
   list<int>::const_iterator i;
   for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
     os << (*i) << " ";
   } // for
-  os << endl;
+  
+  os <<
+    endl;
  
   os <<
     idtr <<
-      setw(15) << "RepeatDirection" << " : " <<
+      setw(fieldWidth) <<
+       "RepeatDirection" << " : " <<
       barlineRepeatDirectionAsString (fRepeatDirection) <<
       endl;
   
   os <<
     idtr <<
-      setw(15) << "RepeatWinged" << " : " <<
+      setw(fieldWidth) <<
+      "RepeatWinged" << " : " <<
       barlineRepeatWingedAsString (fRepeatWinged) <<
       endl;
      
@@ -14957,6 +15036,8 @@ void msrSegment::setSegmentMeasureNumber (
 
   bool doCreateAMeasure = false;
               
+  const int fieldWidth = 31;
+
   switch (measureNumber) {
     case 0:
       // measure 1 has already been created by default, re-number it a 0
@@ -14969,7 +15050,8 @@ void msrSegment::setSegmentMeasureNumber (
             " in segment " << segmentAsString () <<
             endl <<
           idtr <<
-            setw(31) << "renumbering measure 1 as 0" << // JMI
+            setw(fieldWidth) <<
+            "renumbering measure 1 as 0" << // JMI
             endl;
   
       lastMeasure->
@@ -14989,9 +15071,9 @@ void msrSegment::setSegmentMeasureNumber (
             " measures in segment " << segmentAsString () <<
               endl <<
             idtr <<
-              setw(31) <<
-                "Measure 1 found after measure 0, "
-                "a new measure is being created" <<
+              setw(fieldWidth) <<
+              "Measure 1 found after measure 0, "
+              "a new measure is being created" <<
               endl;
               
         doCreateAMeasure = true;
@@ -15010,9 +15092,9 @@ void msrSegment::setSegmentMeasureNumber (
             " measures in segment " << segmentAsString () <<
             endl <<
           idtr <<
-            setw(31) <<
-              "% --> measure " << measureNumber <<
-              " found, a new measure is being created" <<
+            setw(fieldWidth) <<
+            "% --> measure " << measureNumber <<
+            " found, a new measure is being created" <<
             endl;
               
       doCreateAMeasure = true;    
@@ -18932,19 +19014,24 @@ void msrStafftuning::print (ostream& os)
 
   idtr++;
 
+  const int fieldWidth = 29;
+
   os << left <<  
     idtr <<
-      setw(21) << "StafftuningLineNumber" << " = " <<
+      setw(fieldWidth) <<
+      "StafftuningLineNumber" << " = " <<
       fStafftuningLineNumber <<
       endl <<
     idtr <<
-      setw(21) << "fStafftuningQuartertonesPitch" << " = " <<
+      setw(fieldWidth) <<
+      "fStafftuningQuartertonesPitch" << " = " <<
       msrQuartertonesPitchAsString (
         gMsrOptions->fMsrQuatertonesPitchesLanguage,
         fStafftuningQuartertonesPitch) <<
       endl <<
     idtr <<
-      setw(21) << "StafftuningOctave" << " = " <<
+      setw(fieldWidth) <<
+      "StafftuningOctave" << " = " <<
       fStafftuningOctave <<
       endl;
 
@@ -20184,19 +20271,20 @@ void msrStaff::printStructure (ostream& os)
         voice =
           (*i).second;
           
-      os << idtr << left <<
-        setw(30) << voice->getVoiceName () <<
-        " (" <<
-        singularOrPlural (
-          voice->getVoiceActualNotesCounter (),
-          "actual note",
-          "actual notes") <<
-        ", " <<
-        singularOrPlural (
-          voice->getVoiceStanzasMap ().size(),
-          "stanza",
-          "stanzas") <<
-        ")";
+      os <<
+        idtr << left <<
+          voice->getVoiceName () <<
+          " (" <<
+          singularOrPlural (
+            voice->getVoiceActualNotesCounter (),
+            "actual note",
+            "actual notes") <<
+          ", " <<
+          singularOrPlural (
+            voice->getVoiceStanzasMap ().size(),
+            "stanza",
+            "stanzas") <<
+          ")";
       if (++i == iEnd) break;
       os << endl;
     } // for
