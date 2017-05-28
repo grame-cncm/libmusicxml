@@ -13,12 +13,7 @@
 #ifndef __msr2Summary__
 #define __msr2Summary__
 
-#include <map>
-#include <vector>
-
 #include "msr.h"
-
-#include "musicxml2MsrInterface.h"
 
 namespace MusicXML2
 {
