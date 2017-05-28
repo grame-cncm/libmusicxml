@@ -3259,8 +3259,8 @@ int main (int argc, char *argv[])
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
-  gMusiXMLOptionsWithDetailedTrace =
-    gMusiXMLOptions->
+  gMusicXMLOptionsWithDetailedTrace =
+    gMusicXMLOptions->
       createCloneWithDetailedTrace ();
 
   gGeneralOptionsWithDetailedTrace =
@@ -3273,6 +3273,10 @@ int main (int argc, char *argv[])
 
   gLpsrOptionsWithDetailedTrace =
     gLpsrOptions->
+      createCloneWithDetailedTrace ();
+
+  gLilypondOptionsWithDetailedTrace =
+    gLilypondOptions->
       createCloneWithDetailedTrace ();
 
   // welcome message

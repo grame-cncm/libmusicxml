@@ -151,6 +151,8 @@ class EXP lpsrOptions : public smartable {
 
     static SMARTP<lpsrOptions> create ();
     
+    SMARTP<lpsrOptions>        createCloneWithDetailedTrace ();
+
   public:
 
     // initialisation
@@ -203,6 +205,8 @@ class EXP lpsrOptions : public smartable {
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 
 extern S_lpsrOptions gLpsrOptions;
+extern S_lpsrOptions gLpsrOptionsUserChoices;
+extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 // LilyPond options
@@ -444,6 +448,8 @@ class EXP lilypondOptions : public smartable {
 typedef SMARTP<lilypondOptions> S_lilypondOptions;
 
 extern S_lilypondOptions gLilypondOptions;
+extern S_lilypondOptions gLilypondOptionsUserChoices;
+extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
 /*!
 \brief A generic msr element representation.

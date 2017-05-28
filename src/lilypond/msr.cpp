@@ -2003,6 +2003,8 @@ string msrDurationAsString (msrDuration duration)
 
 //_______________________________________________________________________________
 S_msrOptions gMsrOptions;
+S_msrOptions gMsrOptionsUserChoices;
+S_msrOptions gMsrOptionsWithDetailedTrace;
 
 S_msrOptions msrOptions::create ()
 {
@@ -2081,6 +2083,51 @@ void msrOptions::initializeMsrOptions (
 
   fKeepEmptyHarmoniesVoice = boolOptionsInitialValue;  
 }
+
+S_msrOptions msrOptions::createCloneWithDetailedTrace ()
+{
+  S_msrOptions
+    clone =
+      msrOptions::create ();
+
+  // trace and display
+  // --------------------------------------
+
+  clone->fTraceMsr =
+    true;
+
+  clone->fTraceMsrVisitors =
+    true;
+
+  clone->fDisplayMsr =
+    true;
+
+  clone->fDisplayMsrSummary = // JMI
+    true;
+
+  // languages
+    
+  // parts
+
+  // voices
+  
+  clone->fKeepMasterVoices =
+    true;
+
+  // notes
+
+  // lyrics
+    
+  clone->fKeepMasterStanzas =
+    true;
+
+  // harmonies
+
+  clone->fKeepEmptyHarmoniesVoice =
+    true;
+
+  return clone;
+}  
 
 bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
 {

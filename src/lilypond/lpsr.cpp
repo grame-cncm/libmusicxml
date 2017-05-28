@@ -89,6 +89,8 @@ string existingLpsrChordsLanguages ()
 
 //_______________________________________________________________________________
 S_lpsrOptions gLpsrOptions;
+S_lpsrOptions gLpsrOptionsUserChoices;
+S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 S_lpsrOptions lpsrOptions::create()
 {
@@ -140,9 +142,9 @@ void lpsrOptions::initializeLpsrOptions (
   }
 }
 
-lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
+S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 {
-  lpsrOptions
+  S_lpsrOptions
     clone =
       lpsrOptions::create ();
 
@@ -366,6 +368,8 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
 //_______________________________________________________________________________
 S_lilypondOptions gLilypondOptions;
+S_lilypondOptions gLilypondOptionsUserChoices;
+S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
 S_lilypondOptions lilypondOptions::create()
 {
@@ -421,26 +425,25 @@ void lilypondOptions::initializeLilypondOptions (
   
   fModernTab = boolOptionsInitialValue;
 
-  // midi
+  // tuplets
+  
+  fTupletsOnALine                     = boolOptionsInitialValue;
+  
+  // repeats
+  
+  fRepeatBrackets                     = boolOptionsInitialValue;
 
-  fMidiTempoDuration       = "4";
-  fMidiTempoPerSecond      = 100;
+  // ornaments
   
-  fDontGenerateMidiCommand = boolOptionsInitialValue;
-  
-  // LilyPond code generation
+  fDelayedOrnamentFractionNumerator   = 2;
+  fDelayedOrnamentFractionDenominator = 3;
+
+  // code generation
 
   fGenerateComments                   = boolOptionsInitialValue;
 
   fGenerateGlobal                     = boolOptionsInitialValue;
   
-  fTupletsOnALine                     = boolOptionsInitialValue;
-  
-  fRepeatBrackets                     = boolOptionsInitialValue;
-
-  fDelayedOrnamentFractionNumerator   = 2;
-  fDelayedOrnamentFractionDenominator = 3;
-
   fDisplayMusic                       = boolOptionsInitialValue;
   
   fDontGenerateLilyPondCode           = boolOptionsInitialValue;
@@ -449,6 +452,13 @@ void lilypondOptions::initializeLilypondOptions (
   
   fGenerateLilyPondCompileDate        = boolOptionsInitialValue;
     
+  // midi
+
+  fMidiTempoDuration       = "4";
+  fMidiTempoPerSecond      = 100;
+  
+  fDontGenerateMidiCommand = boolOptionsInitialValue;
+  
   
   // JMI ???
 
@@ -485,6 +495,50 @@ void lilypondOptions::initializeLilypondOptions (
       cout << (*i) << endl;
   } // for
   */
+}
+
+S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
+{
+  S_lilypondOptions
+    clone =
+      lilypondOptions::create ();
+
+  // time
+  
+  // notes
+  
+  clone->fGenerateInputLineNumbers =
+    true;
+
+  // bars
+  
+  clone->fShowAllBarNumbers =
+    true;
+
+  // line breaks
+    
+  // staves
+  
+  // tuplets
+    
+  // repeats
+  
+  // ornaments
+  
+  // code generation
+
+  clone->fGenerateComments =
+    true;
+  
+  clone->fDisplayMusic =
+    true;  
+  
+  clone->fGenerateLilyPondCompileDate =
+    true;
+    
+  // midi
+  
+  return clone;
 }
 
 bool lilypondOptions::setAccidentalStyle (string accidentalStyle)

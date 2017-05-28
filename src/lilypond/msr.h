@@ -430,6 +430,8 @@ class EXP msrOptions : public smartable
 
     static SMARTP<msrOptions> create ();
       
+    SMARTP<msrOptions>        createCloneWithDetailedTrace ();
+
   public:
 
     // initialisation
@@ -512,6 +514,8 @@ class EXP msrOptions : public smartable
 typedef SMARTP<msrOptions> S_msrOptions;
 
 extern S_msrOptions gMsrOptions;
+extern S_msrOptions gMsrOptionsUserChoices;
+extern S_msrOptions gMsrOptionsWithDetailedTrace;
 
 /*!
 \brief A generic msr element representation.
