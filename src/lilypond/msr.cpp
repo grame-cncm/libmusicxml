@@ -21629,25 +21629,32 @@ void msrPart::print (ostream& os)
     
   idtr++;
   
+  const int fieldWidth = 29;
+
   os << left <<
     idtr <<
-      setw(25) << "*** PartDivisionsPerQuarterNote" << ": " <<
+      setw(fieldWidth) <<
+      "PartDivisionsPerQuarterNote" << ": " <<
       fPartDivisionsPerQuarterNote << " ***" <<
       endl <<
     idtr <<
-      setw(25) << "PartMsrName" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartMsrName" << ": \"" <<
       fPartMsrName << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartName" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartName" << ": \"" <<
       fPartName << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartAbbrevation" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartInstrumentName" << ": \"" <<
+      setw(fieldWidth) <<
+       "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
       endl;
 
@@ -21698,25 +21705,32 @@ void msrPart::printStructure (ostream& os)
     
   idtr++;
   
+  const int fieldWidth = 27;
+
   os << left <<
     idtr <<
-      setw(25) << "PartDivisionsPerQuarterNote" << ": " <<
+      setw(fieldWidth) <<
+      "PartDivisionsPerQuarterNote" << ": " <<
       fPartDivisionsPerQuarterNote <<
       endl <<
     idtr <<
-      setw(25) << "PartMsrName" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartMsrName" << ": \"" <<
       fPartMsrName << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartName" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartName" << ": \"" <<
       fPartName << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartAbbrevation" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" <<
       endl <<
     idtr <<
-      setw(25) << "PartInstrumentName" << ": \"" <<
+      setw(fieldWidth) <<
+      "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
       endl <<
     endl;
@@ -23010,12 +23024,16 @@ void msrMidi::print (ostream& os)
 
   idtr++;
 
+  const int fieldWidth = 19;
+
   os <<
     idtr <<
-      setw(18) << "fMidiTempoDuration" << " = " << fMidiTempoDuration <<
+      setw(fieldWidth) <<
+      "fMidiTempoDuration" << " = " << fMidiTempoDuration <<
       endl <<
     idtr <<
-      setw(18) << "fMidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
+      setw(fieldWidth) <<
+      "fMidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
       endl <<
     endl;
       

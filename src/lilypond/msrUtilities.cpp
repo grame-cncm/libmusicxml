@@ -128,11 +128,13 @@ void timing::print (ostream& os) const
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
         totalMandatoryClock += timingItemClock;
-        os << setw(kindWidth) <<"mandatory";
+        os <<
+          setw(kindWidth) << "mandatory";
         break;
       case timingItem::kOptional:
         totalOptionalClock += timingItemClock;
-        os << setw(kindWidth) <<"optional";
+        os <<
+          setw(kindWidth) << "optional";
         break;
     } // switch
 
