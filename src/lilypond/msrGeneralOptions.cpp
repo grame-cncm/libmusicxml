@@ -992,15 +992,15 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 
   if (fTraceDetailed) {
     cerr << left <<
-      "fTraceAllMeasureNumbersSet: ";
+      "fTraceDetailedMeasureNumbersSet: ";
       
-    if (fTraceAllMeasureNumbersSet.empty ())
+    if (fTraceDetailedMeasureNumbersSet.empty ())
       cerr << "none";
     else
       for (
         set<int>::const_iterator i =
-          fTraceAllMeasureNumbersSet.begin();
-        i != fTraceAllMeasureNumbersSet.end();
+          fTraceDetailedMeasureNumbersSet.begin();
+        i != fTraceDetailedMeasureNumbersSet.end();
         i++) {
           cerr << (*i) << " ";
       } // for

@@ -284,7 +284,7 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceGeneral;
 
     bool                  fTraceDetailed;
-    set<int>              fTraceAllMeasureNumbersSet;
+    set<int>              fTraceDetailedMeasureNumbersSet;
 
     // CPU usage
     // --------------------------------------

@@ -1807,9 +1807,10 @@ R"(
 
           char*        measuresSpec = optarg;
 
-          gGeneralOptions->fTraceAllMeasureNumbersSet =
-            decipherNumbersSetSpecification (
-              measuresSpec, false); // 'true' to debug it
+          gGeneralOptions->
+            fTraceDetailedMeasureNumbersSet =
+              decipherNumbersSetSpecification (
+                measuresSpec, false); // 'true' to debug it
 
           {
             stringstream s;
