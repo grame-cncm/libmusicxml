@@ -218,29 +218,48 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   fOstream << left <<
     idtr <<
-      setw(fieldWidth) << "PartID" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartID" << " : \"" <<
       elt->getPartID () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartMsrName" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartMsrName" << " : \"" <<
       elt->getPartMsrName () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartName" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartName" << " : \"" <<
       elt->getPartName  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartAbbrevation" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartAbbrevation" << " : \"" <<
       elt->getPartAbbreviation () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartDivisionsPerQuarterNote" << " : " <<
+      setw(fieldWidth) <<
+      "PartDivisionsPerQuarterNote" << " : " <<
       elt->getPartDivisionsPerQuarterNote () <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartInstrumentName" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartInstrumentName" << " : \"" <<
       elt->getPartInstrumentName () << "\"" <<
       endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "PartInstrumentAbbreviation" << " : \"" <<
+      elt->getPartInstrumentAbbreviation () << "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "MeasureZeroHasBeenMetInPart" << " : " <<
+      booleanAsString (
+        elt->getMeasureZeroHasBeenMetInPart ()) <<
+      endl;
+
+  fOstream <<
     endl;
 }
 
@@ -272,6 +291,21 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     endl;
 
   idtr++;
+
+  
+  const int fieldWidth = 17;
+  
+  fOstream << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "StaffLinesNumber" << " : " <<
+      elt->getStaffLinesNumber () <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "StaffNumber" << " : " <<
+      elt->getStaffNumber () <<
+      endl;
   
   if (elt->getStaffClef ())
     fOstream <<
@@ -345,34 +379,51 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
   idtr++;
 
-  const int fieldWidth = 19;
+  const int fieldWidth = 30;
   
   fOstream << left <<
     idtr <<
       setw(fieldWidth) <<
       "VoiceAbsoluteNumber" << " : " <<
       elt->getVoiceAbsoluteNumber () <<
+      endl <<
     idtr <<
       setw(fieldWidth) <<
       "ExternalVoiceNumber" << " : " <<
       elt->getExternalVoiceNumber () <<
+      endl <<
     idtr <<
       setw(fieldWidth) <<
       "StaffRelativeVoiceNumber" << " : " <<
       elt->getStaffRelativeVoiceNumber () <<
+      endl <<
     idtr <<
       setw(fieldWidth) <<
       "VoiceActualNotesCounter" << " : " <<
       elt->getVoiceActualNotesCounter () <<
+      endl <<
     idtr <<
       setw(fieldWidth) <<
       "VoiceActualHarmoniesCounter" << " : " <<
       elt->getVoiceActualHarmoniesCounter () <<
+      endl <<
     idtr <<
       setw(fieldWidth) <<
       "MeasureZeroHasBeenMetInVoice" << " : " <<
       booleanAsString (
         elt->getMeasureZeroHasBeenMetInVoice ()) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "MeasureNumberHasBeenSetInVoice" << " : " <<
+      booleanAsString (
+        elt->getMeasureNumberHasBeenSetInVoice ()) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "MusicHasBeenInsertedInVoice" << " : " <<
+      booleanAsString (
+        elt->getMusicHasBeenInsertedInVoice ()) <<
     endl;
 
   fOstream <<

@@ -6568,6 +6568,10 @@ class EXP msrVoice : public msrElement
     const int             getVoiceMeasureNumber () const
                               { return fVoiceMeasureNumber; }
 
+    // has measure number been set in the voice?
+    bool                  getMeasureNumberHasBeenSetInVoice () const
+                              { return fMeasureNumberHasBeenSetInVoice; }
+
     // has music been inserted in the voice?
     void                  setMusicHasBeenInsertedInVoice ()
                               { fMusicHasBeenInsertedInVoice = true; }
