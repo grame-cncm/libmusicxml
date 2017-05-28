@@ -3205,24 +3205,46 @@ int main (int argc, char *argv[])
   // create the options variables
   // ------------------------------------------------------
 
+  // MusicXML options
+  
+  gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
+  assert(gMusicXMLOptionsUserChoices != 0);
+
+  gMusicXMLOptions =
+    gMusicXMLOptionsUserChoices;
+
+  // general options
+  
   gGeneralOptionsUserChoices = msrGeneralOptions::create ();
   assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =
     gGeneralOptionsUserChoices;
 
-  gMusicXMLOptions = msrMusicXMLOptions::create ();
-  assert(gMusicXMLOptions != 0);
-
-  gMsrOptions = msrOptions::create ();
-  assert(gMsrOptions != 0);
-
-  gLpsrOptions = lpsrOptions::create();
-  assert(gLpsrOptions != 0);
+  // MSR options
   
-  gLilypondOptions = lilypondOptions::create();
-  assert(gLilypondOptions != 0);
+  gMsrOptionsUserChoices = msrOptions::create ();
+  assert(gMsrOptionsUserChoices != 0);
+
+  gMsrOptions =
+    gMsrOptionsUserChoices;
+
+  // LPSR options
   
+  gLpsrOptionsUserChoices = lpsrOptions::create();
+  assert(gLpsrOptionsUserChoices != 0);
+  
+  gLpsrOptions =
+    gLpsrOptionsUserChoices;
+
+  // LilyPond options
+  
+  gLilypondOptionsUserChoices = lilypondOptions::create();
+  assert(gLilypondOptionsUserChoices != 0);
+  
+  gLilypondOptions =
+    gLilypondOptionsUserChoices;
+
   // analyze the command line options
   // ------------------------------------------------------
 
