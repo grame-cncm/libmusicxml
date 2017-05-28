@@ -76,7 +76,8 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrScore" << endl;
+      "--> Start visiting msrScore" <<
+      endl;
 
   int partgroupsListSize = elt->getPartgroupsList ().size();
   
@@ -96,10 +97,12 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrScore" << endl;
+      "--> End visiting msrScore" <<
+      endl;
   
   fOstream <<
-    idtr << "The score contains:" << endl;
+    idtr << "The score contains:" <<
+    endl;
 
   idtr++;
   
@@ -137,7 +140,8 @@ void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrPartgroup" << endl;
+      "--> Start visiting msrPartgroup" <<
+      endl;
 
   int partgroupElementsSize = elt->getPartgroupElements ().size();
   
@@ -187,7 +191,8 @@ void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrPartgroup" << endl;
+      "--> End visiting msrPartgroup" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -195,7 +200,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrPart" << endl;
+      "--> Start visiting msrPart" <<
+      endl;
 
   int partStavesMapSize = elt->getPartStavesMap ().size();
   
@@ -244,7 +250,8 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrPart" << endl;
+      "--> End visiting msrPart" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -252,7 +259,8 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrStaff" << endl;
+      "--> Start visiting msrStaff" <<
+      endl;
 
   int staffAllVoicesMapSize = elt->getStaffAllVoicesMap ().size();
     
@@ -312,7 +320,8 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrStaff" << endl;
+      "--> End visiting msrStaff" <<
+      endl;
 
   fOnGoingStaff = false;
 }
@@ -322,7 +331,8 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrVoice" << endl;
+      "--> Start visiting msrVoice" <<
+      endl;
 
   int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size();
 
@@ -356,7 +366,8 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrVoice" << endl;
+      "--> End visiting msrVoice" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -364,7 +375,8 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrStanza" << endl;
+      "--> Start visiting msrStanza" <<
+      endl;
 
   int syllablesSize = elt->getSyllables ().size();
 
@@ -384,7 +396,8 @@ void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrStanza" << endl;
+      "--> End visiting msrStanza" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -392,14 +405,16 @@ void msr2SummaryVisitor::visitStart (S_msrSyllable& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrSyllable" << endl;
+      "--> Start visiting msrSyllable" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSyllable& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrSyllable" << endl;
+      "--> End visiting msrSyllable" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -407,11 +422,14 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrClef" << endl;
+      "--> Start visiting msrClef" <<
+      endl;
 
   if (! fOnGoingStaff) {
-    fOstream << idtr <<
-      elt->clefAsString ();
+    fOstream <<
+      idtr <<
+      elt->clefAsString () <<
+      endl;
   }
 }
 
@@ -419,7 +437,8 @@ void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrClef" << endl;
+      "--> End visiting msrClef" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -427,12 +446,13 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrKey" << endl;
+      "--> Start visiting msrKey" <<
+      endl;
 
   if (! fOnGoingStaff) {
     fOstream <<
       idtr <<
-        elt->keyAsString () <<
+      elt->keyAsString () <<
       endl;
   }
 }
@@ -441,7 +461,8 @@ void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrKey" << endl;
+      "--> End visiting msrKey" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -455,7 +476,8 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
   if (! fOnGoingStaff) {    
     fOstream <<
       idtr <<
-        elt->timeAsString ();
+      elt->timeAsString () <<
+      endl;
   }
 }
 
@@ -464,7 +486,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrTime" <<
-      endl;
+    endl;
 }
 
 //________________________________________________________________________
@@ -486,7 +508,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
       "--> End visiting msrTempo" <<
-      endl;
+    endl;
 }
 
 //________________________________________________________________________
@@ -652,7 +674,8 @@ void msr2SummaryVisitor::visitEnd (S_msrStem& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrStem" << endl;
+      "--> End visiting msrStem" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -667,7 +690,8 @@ void msr2SummaryVisitor::visitEnd (S_msrBeam& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrBeam" << endl;
+      "--> End visiting msrBeam" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -675,7 +699,8 @@ void msr2SummaryVisitor::visitStart (S_msrChord& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrChord" << endl;
+      "--> Start visiting msrChord" <<
+      endl;
 
   fScoreChordsCounter++;
 }
@@ -684,7 +709,8 @@ void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrChord" << endl;
+      "--> End visiting msrChord" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -692,14 +718,16 @@ void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrTuplet" << endl;
+      "--> Start visiting msrTuplet" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrTuplet" << endl;
+      "--> End visiting msrTuplet" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -707,14 +735,16 @@ void msr2SummaryVisitor::visitStart (S_msrSlur& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrSlur" << endl;
+      "--> Start visiting msrSlur" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrSlur& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrSlur" << endl;
+      "--> End visiting msrSlur" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -722,14 +752,16 @@ void msr2SummaryVisitor::visitStart (S_msrBarline& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrBarline" << endl;
+      "--> Start visiting msrBarline" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrBarline" << endl;
+      "--> End visiting msrBarline" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -737,14 +769,16 @@ void msr2SummaryVisitor::visitStart (S_msrBarnumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrBarnumberCheck" << endl;
+      "--> Start visiting msrBarnumberCheck" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrBarnumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrBarnumberCheck" << endl;
+      "--> End visiting msrBarnumberCheck" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -752,14 +786,16 @@ void msr2SummaryVisitor::visitStart (S_msrBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrBreak" << endl;
+      "--> Start visiting msrBreak" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrBreak" << endl;
+      "--> End visiting msrBreak" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -767,14 +803,16 @@ void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrRepeat" << endl;
+      "--> Start visiting msrRepeat" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrRepeat" << endl;
+      "--> End visiting msrRepeat" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -783,14 +821,16 @@ void msr2SummaryVisitor::visitStart (S_msrComment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrComment" << endl;
+      "--> Start visiting msrComment" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrComment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrComment" << endl;
+      "--> End visiting msrComment" <<
+      endl;
 }
 */
 
@@ -799,7 +839,8 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrVarValAssoc" << endl;
+      "--> Start visiting msrVarValAssoc" <<
+      endl;
 
   fOstream << idtr <<
     "VarValAssoc" << endl;
@@ -807,10 +848,14 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
   idtr++;
   
   fOstream <<
-    idtr << "variable name : " <<
-    "\"" << elt->getVariableName () << "\"" << endl <<
-    idtr << "variable value: " <<
-    "\"" << elt->getVariableValue () << "\"" << endl;
+    idtr <<
+      "variable name : " <<
+      "\"" << elt->getVariableName () << "\"" <<
+      endl <<
+    idtr <<
+      "variable value: " <<
+      "\"" << elt->getVariableValue () << "\"" <<
+      endl;
   
   idtr--;
 }
@@ -819,7 +864,8 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrVarValAssoc" << endl;
+      "--> End visiting msrVarValAssoc" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -827,7 +873,8 @@ void msr2SummaryVisitor::visitStart (S_msrPageGeometry& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrPageGeometry" << endl;
+      "--> Start visiting msrPageGeometry" <<
+      endl;
 
   fOstream <<
     idtr << elt;
@@ -837,7 +884,8 @@ void msr2SummaryVisitor::visitEnd (S_msrPageGeometry& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrPageGeometry" << endl;
+      "--> End visiting msrPageGeometry" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -845,7 +893,8 @@ void msr2SummaryVisitor::visitStart (S_msrLayout& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrLayout" << endl;
+      "--> Start visiting msrLayout" <<
+      endl;
 
   fOstream << "Layout" << endl;
 
@@ -858,7 +907,8 @@ void msr2SummaryVisitor::visitEnd (S_msrLayout& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrLayout" << endl;
+      "--> End visiting msrLayout" <<
+      endl;
 }
 
 //________________________________________________________________________
@@ -866,14 +916,16 @@ void msr2SummaryVisitor::visitStart (S_msrMidi& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMidi" << endl;
+      "--> Start visiting msrMidi" <<
+      endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrMidi& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMidi" << endl;
+      "--> End visiting msrMidi" <<
+      endl;
 }
 
 
