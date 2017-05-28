@@ -156,31 +156,56 @@ void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
 
   idtr++;
 
-  const int fieldWidth = 23;
+  const int fieldWidth = 24;
   
   fOstream << left <<
     idtr <<
-      setw(fieldWidth) << "PartgroupName" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartgroupAbsoluteNumber" << " : \"" <<
+      elt->getPartgroupAbsoluteNumber  () << "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "PartgroupName" << " : \"" <<
       elt->getPartgroupName  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartgroupAbbrevation" << " : \"" <<
+      setw(fieldWidth) <<
+      "PartgroupDisplayText" << " : \"" <<
+      elt->getPartgroupDisplayText  () << "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "PartgroupAccidentalText" << " : \"" <<
+      elt->getPartgroupAccidentalText  () << "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "PartgroupAbbrevation" << " : \"" <<
       elt->getPartgroupAbbreviation  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartgroupSymbolDefaultX" << " : " <<
+      setw(fieldWidth) <<
+      "PartgroupSymbolKind" << " : " <<
+      msrPartgroup::partgroupSymbolKindAsString (
+        elt->getPartgroupSymbolKind  ()) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "PartgroupSymbolDefaultX" << " : " <<
       elt->getPartgroupSymbolDefaultX  () <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
-      msrPartgroup::partgroupSymbolKindAsString (
-        elt->getPartgroupSymbolKind ()) <<
+      setw(fieldWidth) <<
+      "fPartgroupBarline" << " : \"" <<
+      booleanAsString (
+        elt->getPartgroupBarline ()) <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartgroupBarline" << " : " <<
-      booleanAsString (
-        elt->getPartgroupBarline ()) <<
+      setw(fieldWidth) <<
+      "PartgroupInstrumentName" << " : \"" <<
+        elt->getPartgroupInstrumentName () << "\"" <<
       endl <<
     endl;
 }

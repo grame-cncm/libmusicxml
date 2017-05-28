@@ -7557,6 +7557,9 @@ class EXP msrPartgroup : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    int                   getPartgroupAbsoluteNumber () const
+                              { return fPartgroupAbsoluteNumber; }
+    
     int                   getPartgroupNumber () const
                               { return fPartgroupNumber; }
     
