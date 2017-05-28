@@ -71,11 +71,6 @@ S_msrMusicXMLOptions msrMusicXMLOptions::createCloneWithDetailedTrace ()
   // other
   // --------------------------------------
 
-  clone->fIgnoreMusicXMLErrors =
-    true;
-  clone->fLoopToMusicXML =
-    true;
-
   return clone;
 }  
 

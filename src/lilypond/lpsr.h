@@ -318,6 +318,8 @@ class EXP lilypondOptions : public smartable {
 
     static SMARTP<lilypondOptions> create ();
     
+    SMARTP<lilypondOptions>        createCloneWithDetailedTrace ();
+
   public:
 
     // initialisation

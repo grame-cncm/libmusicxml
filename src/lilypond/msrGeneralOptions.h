@@ -60,6 +60,7 @@ class EXP msrMusicXMLOptions : public smartable
     static SMARTP<msrMusicXMLOptions> create ();
     
     SMARTP<msrMusicXMLOptions>        createCloneWithDetailedTrace ();
+    
   public:
 
     // initialisation

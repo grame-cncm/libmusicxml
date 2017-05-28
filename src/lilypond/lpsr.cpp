@@ -140,6 +140,24 @@ void lpsrOptions::initializeLpsrOptions (
   }
 }
 
+lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
+{
+  lpsrOptions
+    clone =
+      lpsrOptions::create ();
+
+  clone->fTraceLpsr =
+    true;
+
+  clone->fTraceLpsrVisitors =
+    true;
+
+  clone->fDisplayLpsr =
+    true;
+
+  return clone;
+}
+
 bool lpsrOptions::setLpsrQuartertonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
