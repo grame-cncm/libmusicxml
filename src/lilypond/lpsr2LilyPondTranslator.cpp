@@ -235,15 +235,19 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
     ! fRelativeOctaveReference;
 
   if (gGeneralOptions->fTraceNotes) {
+    const int fieldWidth = 28;
+
     cerr << left <<
       endl <<
       idtr <<
-          setw(33) << "% line" <<
+          setw(fieldWidth) <<
+          "% line" <<
           " = " <<
           note->getInputLineNumber () <<
           endl <<
       idtr <<
-        setw(33) << "% msrQuartertonesPitch" <<
+        setw(fieldWidth) <<
+        "% msrQuartertonesPitch" <<
         " = - " <<
         msrQuartertonesPitchAsString (
           gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
@@ -251,7 +255,8 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
         " -" <<
         endl <<
       idtr <<
-        setw(33) << "% noteAbsoluteOctave" <<
+        setw(fieldWidth) <<
+        "% noteAbsoluteOctave" <<
         " = - " <<
         noteAbsoluteOctave <<
         " -" <<
@@ -312,33 +317,39 @@ string lpsr2LilyPondTranslator::noteAsLilyPondString (
         referenceDiatonicPitch - kC;
 
     if (gGeneralOptions->fTraceNotes) {
+      const int fieldWidth = 28;
+
       cerr << left <<
 /*
         idtr <<
-          setw(33) <<
+          setw(fieldWidth) <<
           "% referenceDiatonicPitch" <<
           " = " <<
           referenceDiatonicPitch <<
           endl <<
 */
         idtr <<
-          setw(33) << "% referenceDiatonicPitchAsString" <<
+          setw(fieldWidth) <<
+          "% referenceDiatonicPitchAsString" <<
           " = " <<
           referenceDiatonicPitchAsString <<
           endl <<
         idtr <<
-          setw(33) << "% referenceAbsoluteOctave" <<
+          setw(fieldWidth) <<
+          "% referenceAbsoluteOctave" <<
            " = " <<
            referenceAbsoluteOctave <<
            endl <<
         endl <<
         idtr <<
-          setw(33) << "% referenceAboluteDiatonicOrdinal" <<
+          setw(fieldWidth) <<
+          "% referenceAboluteDiatonicOrdinal" <<
           " = " <<
           referenceAboluteDiatonicOrdinal <<
           endl <<
         idtr <<
-          setw(33) << "% noteAboluteDiatonicOrdinal" <<
+          setw(fieldWidth) <<
+          "% noteAboluteDiatonicOrdinal" <<
           " = " <<
           noteAboluteDiatonicOrdinal <<
           endl <<
@@ -923,6 +934,8 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
 
   idtr++;
   
+  const int fieldWidth = 28;
+
   if (elt->getPaperWidth () > 0) {
     fOstream << idtr <<
       setw(13) << left << "paper-width" << " = " <<

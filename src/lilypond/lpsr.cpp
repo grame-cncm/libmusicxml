@@ -3359,48 +3359,63 @@ void lpsrPaper::print (ostream& os) {
   bool emptyPaper = true;
 
   idtr++;
+
+  const int fieldWidth = 13;
   
   if (fPaperWidth > 0) {
-    os << idtr <<
-      setw(13) << left << "paper-width" << " = " <<
-      setprecision(4) << fPaperWidth << "\\cm" << endl;
+    os << idtr << left <<
+      setw(fieldWidth) <<
+      "paper-width" << " = " <<
+      setprecision(4) << fPaperWidth << "\\cm" <<
+      endl;
     emptyPaper = false;
   }
   if (fPaperHeight > 0) {
-    os << idtr << 
-      setw(13) << left << "paper-height" << " = " <<
-      setprecision(4) << fPaperHeight << "\\cm" << endl;
+    os << idtr << left <<
+      setw(fieldWidth) <<
+      "paper-height" << " = " <<
+      setprecision(4) << fPaperHeight << "\\cm" <<
+      endl;
     emptyPaper = false;
   }
   
   if (fTopMargin > 0) {
-    os << idtr << 
-      setw(13) << left << "top-margin" << " = " <<
-      setprecision(4) << fTopMargin << "\\cm" << endl;
+    os << idtr <<  left <<
+      setw(fieldWidth) <<
+      "top-margin" << " = " <<
+      setprecision(4) << fTopMargin << "\\cm" <<
+      endl;
     emptyPaper = false;
   }
   if (fBottomMargin > 0) {
-    os << idtr << 
-      setw(13) << left << "bottom-margin" << " = " <<
-      setprecision(4) << fBottomMargin << "\\cm" << endl;
+    os << idtr <<  left <<
+      setw(fieldWidth) <<
+      "bottom-margin" << " = " <<
+      setprecision(4) << fBottomMargin << "\\cm" <<
+      endl;
     emptyPaper = false;
   }
   if (fLeftMargin > 0) {
-    os << idtr << 
-      setw(13) << left << "left-margin" << " = " <<
-      setprecision(4) << fLeftMargin << "\\cm" << endl;
+    os << idtr <<  left <<
+      setw(fieldWidth) <<
+      "left-margin" << " = " <<
+      setprecision(4) << fLeftMargin << "\\cm" <<
+      endl;
     emptyPaper = false;
   }
   if (fRightMargin > 0) {
-    os << idtr << 
-      setw(13) << left << "right-margin" << " = " <<
-    setprecision(4) << fRightMargin << "\\cm" << endl;
+    os << idtr <<  left <<
+      setw(fieldWidth) <<
+      "right-margin" << " = " <<
+      setprecision(4) << fRightMargin << "\\cm" <<
+      endl;
     emptyPaper = false;
   }
 
   if (emptyPaper)
     os << idtr <<
-      " " << "nothing specified" << endl;
+      " " << "nothing specified" <<
+      endl;
   
   idtr--;
 }
@@ -3758,23 +3773,24 @@ void lpsrPartBlock::print (ostream& os)
 
   idtr++;
 
-  os << left <<
-    idtr <<
-      setw(17) << string ("(") + "PartName" << " = \"" <<
-      fPart->getPartName () << "\")" <<
-      endl <<
-    idtr <<
-      setw(17) << string ("(") + "PartAbbreviation" << " = \"" <<
-      fPart->getPartAbbreviation () << "\")" <<
-      endl;
+  const int fieldWidth = 28;
 
   os << left <<
     idtr <<
-      setw(17) << "PartBlockInstrumentName" << " = \"" <<
+      setw(fieldWidth) << string ("(") + "PartName" << " = \"" <<
+      fPart->getPartName () << "\")" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
+      fPart->getPartAbbreviation () << "\")" <<
+      endl <<
+
+    idtr <<
+      setw(fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
       fPartBlockInstrumentName <<
       endl <<
     idtr <<
-      setw(17) << "PartBlockShortInstrumentName" << " = \"" <<
+      setw(fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
       fPartBlockShortInstrumentName <<
       endl;
 

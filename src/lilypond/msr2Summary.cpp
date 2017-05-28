@@ -940,7 +940,8 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
       endl;
 
   fOstream << idtr <<
-    "VarValAssoc" << endl;
+    "VarValAssoc" <<
+    endl;
   
   idtr++;
   
@@ -952,7 +953,8 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
     idtr <<
       "variable value: " <<
       "\"" << elt->getVariableValue () << "\"" <<
-      endl;
+      endl <<
+    endl;
   
   idtr--;
 }

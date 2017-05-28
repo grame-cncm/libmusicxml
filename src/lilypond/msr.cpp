@@ -17880,8 +17880,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       {
+        /* JMI
         // print current voice contents
-   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -17891,6 +17892,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         idtr++;
         print (cerr);
         idtr--;
+*/
 
         // does the pending measure repeat exist?
         if (! fVoicePendingMeasureRepeat) {
@@ -17926,16 +17928,18 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         S_msrMeasure
           nextMeasureAfterMeasureRepeat =
             voiceLastSegmentMeasureList.back ();
-            
+
+            /* JMI
         cerr <<
           endl <<
           "==========> nextMeasureAfterMeasureRepeat:" <<
           endl;
           
-          nextMeasureAfterMeasureRepeat->print (cerr);
+        nextMeasureAfterMeasureRepeat->print (cerr);
           
         cerr <<
           endl;
+*/
 
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
@@ -17956,8 +17960,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMeasureRepeat);
 
+/* JMI
         // print current voice contents
-   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -17967,6 +17972,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         idtr++;
         print (cerr);
         idtr--;
+        */
 
         // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
@@ -18115,8 +18121,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
             endl;
         }
 
+/*
         // print current voice contents
-   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -18126,6 +18133,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         idtr++;
         print (cerr);
         idtr--;
+*/
 
         // does the pending multiple rest exist?
         if (! fVoicePendingMultipleRest) {
@@ -18159,18 +18167,21 @@ void msrVoice::appendPendingMultipleRestToVoice (
         S_msrMeasure
           nextMeasureAfterMultipleRest =
             voiceLastSegmentMeasureList.back ();
-            
+
+        /* JMI
         cerr <<
           endl <<
           "==========> nextMeasureAfterMultipleRest:" <<
           endl;
+
           
         nextMeasureAfterMultipleRest->
           print (cerr);
           
         cerr <<
           endl;
-
+          */
+          
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
@@ -18190,8 +18201,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMultipleRest);
 
+/* JMI
         // print current voice contents
-   //     if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -18201,6 +18213,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         idtr++;
         print (cerr);
         idtr--;
+*/
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
@@ -18687,19 +18700,21 @@ void msrVoice::print (ostream& os)
 
   idtr++;
 
+  const int fieldWidth = 33;
+
   os <<
     idtr <<
-      setw(32) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
+      setw(fieldWidth) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
       booleanAsString (fMeasureZeroHasBeenMetInVoice) <<
       ")" <<
       endl <<
     idtr <<
-      setw(32) << "(fMeasureNumberHasBeenSetInVoice" << " = " <<
+      setw(fieldWidth) << "(fMeasureNumberHasBeenSetInVoice" << " = " <<
       booleanAsString (fMeasureNumberHasBeenSetInVoice) <<
       ")" <<
       endl <<
     idtr <<
-      setw(32) << "(fMusicHasBeenInsertedInVoice" << " = " <<
+      setw(fieldWidth) << "(fMusicHasBeenInsertedInVoice" << " = " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
       ")" <<
       endl;
