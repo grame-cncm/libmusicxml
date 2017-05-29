@@ -12757,13 +12757,13 @@ string msrBarline::barlineLocationAsString (
     case k_NoLocation:
       result = "none";
       break;
-    case kLeft:
+    case kLeftLocation:
       result = "Left";
       break;
-    case kMiddle:
+    case kMiddleLocation:
       result = "Middle";
       break;
-    case kRight:
+    case kRightLocation:
       result = "Right";
       break;
   } // switch
