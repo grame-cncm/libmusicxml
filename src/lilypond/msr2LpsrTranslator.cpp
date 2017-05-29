@@ -985,14 +985,19 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
       */
 
   // create a clone of the segment
-  fCurrentSegmentClone =
-    elt->createSegmentBareClone (
-      fCurrentVoiceClone);
+  S_msrSegment
+    segmentClone =
+      elt->createSegmentBareClone (
+        fCurrentVoiceClone);
 
+  // push it onto the segment clones stack
+  fCurrentSegmentClonesStack.push (
+    segmentClone);
+    
   // append it to the current voice
   fCurrentVoiceClone->
-    setVoiceCloneLastSegment ( // cut's link to the one created by default JMI ???
-      fCurrentSegmentClone);
+    setVoiceCloneLastSegment ( // cuts link to the one created by default JMI ???
+      segmentClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
@@ -1004,7 +1009,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
       endl;
 
   // forget current segment clone
-  fCurrentSegmentClone = 0;
+  fCurrentSegmentClonesStack.pop ();
 }
 
 //________________________________________________________________________
@@ -1072,10 +1077,10 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   fCurrentMeasureClone =
     elt->
       createMeasureBareClone (
-        fCurrentSegmentClone);
+        fCurrentSegmentClonesStack.top ());
       
-  // append it to the current voice clone
-  fCurrentSegmentClone->
+  // append it to the current segment clone
+  fCurrentSegmentClonesStack.top ()->
     appendMeasureToSegment (
       fCurrentMeasureClone);
 }
@@ -2649,7 +2654,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
   S_msrMeasureRepeat
     measureRepeatClone =
       elt->createMeasureRepeatBareClone (
-        fCurrentSegmentClone,
+        fCurrentSegmentClonesStack.top (),
         fCurrentVoiceClone);
 
   // set last segment as the measure repeat replicas segment

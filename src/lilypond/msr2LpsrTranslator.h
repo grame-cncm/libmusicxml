@@ -389,7 +389,9 @@ class msr2LpsrTranslator :
 
     // segments
     // ------------------------------------------------------
-    S_msrSegment              fCurrentSegmentClone;
+    // segments can be imbedded in others,
+    // the current segment clone is the one at the top of the stack
+    stack<S_msrSegment>       fCurrentSegmentClonesStack;
     
     // notes
     // ------------------------------------------------------
