@@ -13585,6 +13585,94 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   }
 }
 
+void msrMeasure::appendMeasureRepeatToMeasure (
+  S_msrMeasureRepeat measureRepeat)
+{
+  int inputLineNumber =
+    measureRepeat->getInputLineNumber ();
+    
+  if (
+    appendMeasureIfOverflow (inputLineNumber)
+    ) {
+    // a new measure has been appended to the segment
+    // append measureRepeat to it thru the segment
+    fMeasureSegmentUplink->
+      appendMeasureRepeatToSegment (measureRepeat);
+  }
+
+  else {
+    // regular insertion in current measure
+
+  /* JMI  
+    // populate measure uplink
+    measureRepeat->setMeasureRepeatMeasureUplink (this);
+*/
+
+    if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Appending multiple rest '" <<
+        measureRepeat->measureRepeatAsString () <<
+        "' to measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+
+  /* JMI
+    // register measureRepeat measure number
+    measureRepeat->
+      setmeasureRepeatMeasureNumber (fMeasureNumber);
+    
+    // register measureRepeat measure position
+    measureRepeat->
+      setmeasureRepeatPositionInMeasure (
+        fMeasurePosition);
+
+    // copy measure number to first note, that was created beforehand
+    measureRepeat->
+      setmeasureRepeatMeasureNumber (
+        fMeasureNumber);
+    
+    // copy measure position to first note, that was created beforehand
+    measureRepeat->
+      setmeasureRepeatPositionInMeasure (
+        fMeasurePosition);
+
+    // fetch measureRepeat divisions
+    int measureRepeatSoundingDivisions =
+      measureRepeat->getmeasureRepeatSoundingDivisions ();
+      
+    // account for measureRepeat duration in measure position
+    setMeasurePosition (
+      inputLineNumber,
+      fMeasurePosition + measureRepeatSoundingDivisions);
+  
+    // update part measure position high tide if need be
+    fMeasureDirectPartUplink->
+      updatePartMeasurePositionHighTide (
+        inputLineNumber, fMeasurePosition);
+  
+    // determine if the measureRepeat occupies a full measure
+// XXL  JMI  if (measureRepeatSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
+      // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
+  */
+  
+    // append the measureRepeat to the measure elements list
+    fMeasureElementsList.push_back (measureRepeat);
+
+/* JMI
+    // bring harmony voice to the same measure position
+    fMeasureDirectPartUplink->
+      getPartHarmonyVoice ()->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          fMeasurePosition);
+          */
+  }
+}
+
 void msrMeasure::appendMultipleRestToMeasure (
   S_msrMultipleRest multipleRest)
 {
@@ -15881,6 +15969,9 @@ void msrSegment::browseData (basevisitor* v)
       "% ==> msrSegment::browseData()" <<
       endl;
 
+  cerr <<
+    idtr << tab << fSegmentMeasuresList.size () << " measures" << endl;
+    
   for (
     list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
     i != fSegmentMeasuresList.end();
@@ -16518,6 +16609,31 @@ ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt)
 {
   elt->print (os);
   return os;
+}
+
+string msrMeasureRepeat::measureRepeatAsString () const
+{
+  stringstream s;
+
+  s <<
+
+    "MeasureRepeat" <<
+    ", line " << fInputLineNumber <<
+    " (" <<
+    singularOrPlural (
+      measureRepeatRepeatedMeasuresNumber (),
+      "repeated measure",
+      "repeated measures") <<
+    ", " <<
+    singularOrPlural (
+      measureRepeatReplicasMeasuresNumber (),
+      "replicas measure",
+      "replicas measures") <<
+    ", " <<
+    measureRepeatReplicasNumber () << " replicas" <<
+    ")"; 
+
+  return s.str();
 }
 
 void msrMeasureRepeat::print (ostream& os)
