@@ -15551,12 +15551,12 @@ void msrSegment::appendMeasureRepeatToSegment (
     cerr <<
       idtr <<
         "Appending measure repeat '" <<
-        measureRepeat->measureKindAsString () << // JMI
+        measureRepeat->measureRepeatAsString () <<
         "' to segment '" << segmentAsString () << "'" <<
       endl;
       
   fSegmentMeasuresList.back ()->
-    appendMeasureRepeatToMeasure (multipleRest);
+    appendMeasureRepeatToMeasure (measureRepeat);
 }
 
 void msrSegment::appendMultipleRestToSegment (

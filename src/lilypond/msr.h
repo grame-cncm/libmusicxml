@@ -2609,6 +2609,9 @@ class EXP msrMeasure : public msrElement
     void                  appendDoubleTremoloToMeasure (
                             S_msrDoubleTremolo doubleTremolo);
 
+    void                  appendMeasureRepeatToMeasure (
+                            S_msrMeasureRepeat measureRepeat);
+
     void                  appendMultipleRestToMeasure (
                             S_msrMultipleRest multipleRest);
 
@@ -6345,6 +6348,8 @@ class EXP msrMeasureRepeat : public msrElement
                             }
     
     int                   measureRepeatReplicasNumber () const;
+
+    string                measureRepeatAsString () const;
 
     // visitors
     // ------------------------------------------------------
