@@ -4981,7 +4981,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
 
   switch (elt->getBarlineCategory ()) {
     
-    case msrBarline::kStandaloneBar:
+    case msrBarline::kStandaloneBarline:
       fOstream <<
         endl <<
         idtr;
@@ -4989,35 +4989,45 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
       switch (elt->getStyle ()) {
         case msrBarline::k_NoStyle:
           break;
-        case msrBarline::kRegular:
+        case msrBarline::kRegularStyle:
           fOstream << "\\bar \"|\"";
           break;
-        case msrBarline::kDotted:
+        case msrBarline::kDottedStyle:
           fOstream << "\\bar \";\"";
           break;
-        case msrBarline::kDashed:
+        case msrBarline::kDashedStyle:
           fOstream << "\\bar \"!\"";
           break;
-        case msrBarline::kHeavy:
+        case msrBarline::kHeavyStyle:
           fOstream << "\\bar \".\"";
           break;
-        case msrBarline::kLightLight:
+        case msrBarline::kLightLightStyle:
           fOstream << "\\bar \"||\"";
           break;
-        case msrBarline::kLightHeavy:
+        case msrBarline::kLightHeavyStyle:
           fOstream << "\\bar \"|.\"";
           break;
-        case msrBarline::kHeavyLight:
+        case msrBarline::kHeavyLightStyle:
           fOstream << "\\bar \".|\"";
           break;
-        case msrBarline::kHeavyHeavy:
+        case msrBarline::kHeavyHeavyStyle:
           fOstream << "\\bar \"..\"";
           break;
-        case msrBarline::kTick:
+        case msrBarline::kTickStyle:
           fOstream << "\\bar \"'\"";
           break;
-        case msrBarline::kShort:
-          fOstream << "\\bar \"|short???\"";
+        case msrBarline::kShortStyle:
+          fOstream << "\\bar \"'\""; // JMI
+          /* JMI ??? from gregorian.ly
+          divisioMaior = {
+            \once \override BreathingSign.stencil = #ly:breathing-sign::divisio-maior
+            \once \override BreathingSign.Y-offset = #0
+            \breathe
+          }
+          */
+          break;
+        case msrBarline::kNoneStyle:
+          fOstream << "\\bar \"\"";
           break;
       } // switch
 
@@ -5038,12 +5048,12 @@ void lpsr2LilyPondTranslator::visitStart (S_msrBarline& elt)
           "%{ " << elt->getInputLineNumber () << " %} ";
       break;
 
-    case msrBarline::kRepeatStart:
-    case msrBarline::kRepeatEnd:
-    case msrBarline::kHookedEndingStart:
-    case msrBarline::kHookedEndingEnd:
-    case msrBarline::kHooklessEndingStart:
-    case msrBarline::kHooklessEndingEnd:
+    case msrBarline::kRepeatStartBarline:
+    case msrBarline::kRepeatEndBarline:
+    case msrBarline::kHookedEndingStartBarline:
+    case msrBarline::kHookedEndingEndBarline:
+    case msrBarline::kHooklessEndingStartBarline:
+    case msrBarline::kHooklessEndingEndBarline:
       // should not occur, since
       // LilyPond will take care of displaying the repeat
       break;

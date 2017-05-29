@@ -5895,10 +5895,11 @@ class EXP msrBarline : public msrElement
       
     enum msrBarlineStyle {
       k_NoStyle,
-      kRegular,  // by default
-      kDotted, kDashed, kHeavy,
-      kLightLight, kLightHeavy, kHeavyLight, kHeavyHeavy,
-      kTick, kShort};
+      kRegularStyle,  // by default
+      kDottedStyle, kDashedStyle, kHeavyStyle,
+      kLightLightStyle, kLightHeavyStyle, kHeavyLightStyle, kHeavyHeavyStyle,
+      kTickStyle, kShortStyle,
+      kNoneStyle};
 
     static string barlineStyleAsString (
       msrBarlineStyle barlineStyle);
@@ -5919,17 +5920,18 @@ class EXP msrBarline : public msrElement
       
     enum msrBarlineRepeatWinged {
       k_NoRepeatWinged,
-      kNone,
-      kStraight, kCurved, kDoubleStraight, kDoubleCurved };
+      kNoneRepeatWinged,
+      kStraightRepeatWinged, kCurvedRepeatWinged,
+      kDoubleStraightRepeatWinged, kDoubleCurvedRepeatWinged };
 
     static string barlineRepeatWingedAsString (
       msrBarlineRepeatWinged barlineRepeatWinged);
       
     enum msrBarlineCategory {
-      kStandaloneBar,
-      kRepeatStart, kRepeatEnd,
-      kHookedEndingStart, kHookedEndingEnd,
-      kHooklessEndingStart, kHooklessEndingEnd};
+      kStandaloneBarline,
+      kRepeatStartBarline, kRepeatEndBarline,
+      kHookedEndingStartBarline, kHookedEndingEndBarline,
+      kHooklessEndingStartBarline, kHooklessEndingEndBarline};
       
     static string barlineCategoryAsString (
       msrBarlineCategory barlineCategory);

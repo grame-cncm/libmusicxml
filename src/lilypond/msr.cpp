@@ -4982,7 +4982,6 @@ void msrTie::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrTie::browseData (basevisitor* v)
 {}
 
@@ -12778,25 +12777,25 @@ string msrBarline::barlineCategoryAsString (
   string result;
   
   switch (barlineCategory) {
-    case kStandaloneBar:
+    case kStandaloneBarline:
       result = "standalone";
       break;
-    case kRepeatStart:
+    case kRepeatStartBarline:
       result = "repeat start";
       break;
-    case kRepeatEnd:
+    case kRepeatEndBarline:
       result = "repeat end";
       break;
-    case kHookedEndingStart:
+    case kHookedEndingStartBarline:
       result = "hooked ending start";
       break;
-    case kHookedEndingEnd:
+    case kHookedEndingEndBarline:
       result = "hooked ending end";
       break;
-    case kHooklessEndingStart:
+    case kHooklessEndingStartBarline:
       result = "hookless ending start";
       break;
-    case kHooklessEndingEnd:
+    case kHooklessEndingEndBarline:
       result = "hookless ending end";
       break;
   } // switch
@@ -12842,6 +12841,9 @@ string msrBarline::barlineStyleAsString (
       break;
     case kShort:
       result = "Short";
+      break;
+    case kNone:
+      result = "None";
       break;
   } // switch
 

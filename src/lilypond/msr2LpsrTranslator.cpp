@@ -2777,11 +2777,11 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     
   switch (elt->getBarlineCategory ()) {
     
-    case msrBarline::kStandaloneBar:
+    case msrBarline::kStandaloneBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "--> handling kStandaloneBar in voice \"" <<
+            "--> handling kStandaloneBarline in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
 
@@ -2791,7 +2791,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kRepeatStart:
+    case msrBarline::kRepeatStartBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2805,7 +2805,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
 
-    case msrBarline::kRepeatEnd:
+    case msrBarline::kRepeatEndBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2830,7 +2830,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         }
       break;
             
-    case msrBarline::kHookedEndingStart:
+    case msrBarline::kHookedEndingStartBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2859,7 +2859,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kHookedEndingEnd:
+    case msrBarline::kHookedEndingEndBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2885,7 +2885,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kHooklessEndingStart:
+    case msrBarline::kHooklessEndingStartBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -2899,7 +2899,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
 
-    case msrBarline::kHooklessEndingEnd:
+    case msrBarline::kHooklessEndingEndBarline:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
