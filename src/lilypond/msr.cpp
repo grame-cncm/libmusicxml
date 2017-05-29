@@ -12812,37 +12812,37 @@ string msrBarline::barlineStyleAsString (
     case k_NoStyle:
       result = "none";
       break;
-    case kRegular:
+    case kRegularStyle:
       result = "Regular";
       break;
-    case kDotted:
+    case kDottedStyle:
       result = "Dotted";
       break;
-    case kDashed:
+    case kDashedStyle:
       result = "Dashed";
       break;
-    case kHeavy:
+    case kHeavyStyle:
       result = "Heavy";
       break;
-    case kLightLight:
+    case kLightLightStyle:
       result = "LightLight";
       break;
-    case kLightHeavy:
+    case kLightHeavyStyle:
       result = "LightHeavy";
       break;
-    case kHeavyLight:
+    case kHeavyLightStyle:
       result = "HeavyLight";
       break;
-    case kHeavyHeavy:
+    case kHeavyHeavyStyle:
       result = "HeavyHeavy";
       break;
-    case kTick:
+    case kTickStyle:
       result = "Tick";
       break;
-    case kShort:
+    case kShortStyle:
       result = "Short";
       break;
-    case kNone:
+    case kNoneStyle:
       result = "None";
       break;
   } // switch
@@ -12902,19 +12902,19 @@ string msrBarline::barlineRepeatWingedAsString (
     case k_NoRepeatWinged:
       result = "none"; // ??? JMI
       break;
-    case kNone:
+    case kNoneRepeatWinged:
       result = "none";
       break;
-    case kStraight:
+    case kStraightRepeatWinged:
       result = "Straight";
       break;
-    case kCurved:
+    case kCurvedRepeatWinged:
       result = "Curved";
       break;
-    case kDoubleStraight:
+    case kDoubleStraightRepeatWinged:
       result = "DoubleStraight";
       break;
-    case kDoubleCurved:
+    case kDoubleCurvedRepeatWinged:
       result = "DoubleCurved";
       break;
   } // switch
