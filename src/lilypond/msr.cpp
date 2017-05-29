@@ -15544,6 +15544,21 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
 
+void msrSegment::appendMeasureRepeatToSegment (
+  S_msrMeasureRepeat measureRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending measure repeat '" <<
+        measureRepeat->measureKindAsString () << // JMI
+        "' to segment '" << segmentAsString () << "'" <<
+      endl;
+      
+  fSegmentMeasuresList.back ()->
+    appendMeasureRepeatToMeasure (multipleRest);
+}
+
 void msrSegment::appendMultipleRestToSegment (
   S_msrMultipleRest multipleRest)
 {

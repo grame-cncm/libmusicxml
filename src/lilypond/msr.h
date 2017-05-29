@@ -57,6 +57,9 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
+class msrMeasureRepeat;
+typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
+
 class msrMultipleRest;
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 
@@ -2813,6 +2816,9 @@ class EXP msrSegment : public msrElement
     
     void                  appendDoubleTremoloToSegment (
                             S_msrDoubleTremolo doubleTremolo);
+
+    void                  appendMeasureRepeatToSegment (
+                            S_msrMeasureRepeat measureRepeat);
 
     void                  appendMultipleRestToSegment (
                             S_msrMultipleRest multipleRest);

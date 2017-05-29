@@ -2645,7 +2645,39 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
   idtr--;
   
-  // JMI
+  // create the measure repeat clone
+  S_msrMeasureRepeat
+    measureRepeatClone =
+      elt->createMeasureRepeatBareClone (
+        fCurrentSegmentClone,
+        fCurrentVoiceClone);
+
+  // set last segment as the measure repeat replicas segment
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting current last segment as measure repeat replicas segment in voice \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+
+  measureRepeatClone->
+    setMeasureRepeatReplicasSegment (
+      fCurrentVoiceClone->
+        getVoiceLastSegment ());
+
+  // create a new last segment to collect the remainder of the voice,
+  // containing the next, yet incomplete, measure
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Creating a new last segment with the measure repeat next measure for voice \"" <<
+      fCurrentVoiceClone->getVoiceName () << "\"" <<
+      endl;
+
+  // append the measure repeat to the new last segment
+  fCurrentVoiceClone->
+    getVoiceLastSegment ()->
+      appendMeasureRepeatToSegment (
+        measureRepeatClone);
 }
 
 //________________________________________________________________________
