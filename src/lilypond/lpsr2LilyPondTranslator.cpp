@@ -2300,7 +2300,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure " <<
       measureNumber <<
-      ", line " << inputLineNumber<<
+      ", line " << inputLineNumber <<
       endl;
 
   if (gLilypondOptions->fGenerateComments) {
@@ -2308,7 +2308,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       setw(commentFieldWidth) <<
       "% start of measure " <<
       measureNumber <<
-      ", line " << inputLineNumber<<
+      ", line " << inputLineNumber <<
       endl;
 
     idtr++;
@@ -2492,7 +2492,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
           setw(commentFieldWidth) <<
            "% end of measure " <<
           measureNumber <<
-          ", line " << inputLineNumber<<
+          ", line " << inputLineNumber <<
           endl <<
           endl;
     }
@@ -2500,9 +2500,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       fOstream <<
         idtr <<
           setw(commentFieldWidth) <<
-          "% end of msrMeasure " <<
+          "% end of measure " <<
           measureNumber <<
-          ", line " << inputLineNumber<<
+          ", line " << inputLineNumber <<
           endl <<
           endl;      
     }
@@ -5496,6 +5496,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
         endl;
   }
   
+  if (gLilypondOptions->fGenerateComments) {
+    fOstream << idtr <<
+      setw(commentFieldWidth) <<
+      "% start of measure repeat" <<
+      singularOrPlural (
+        elt->measureRepeatReplicasNumber (),
+        "replica",
+        "replicas") <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
   fOstream <<
     endl <<
     endl <<
@@ -5505,6 +5517,8 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
      " { " <<
     endl <<
     idtr;
+
+    idtr++;
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
@@ -5514,6 +5528,8 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
 
+  idtr--;
+  
   fOstream <<
     endl <<
     endl <<
@@ -5521,6 +5537,36 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
     " }" <<
     endl <<
     idtr;
+
+  if (gLilypondOptions->fGenerateComments) {
+    if (fMusicOlec > 0) {
+      fOstream <<
+        endl <<
+        idtr <<
+          setw(commentFieldWidth) <<
+          "% end of measure repeat " <<
+          singularOrPlural (
+            elt->measureRepeatReplicasNumber (),
+            "replica",
+              "replicas") <<
+          ", line " << elt->getInputLineNumber () <<
+          endl <<
+          endl;
+    }
+    else {
+      fOstream <<
+        idtr <<
+          setw(commentFieldWidth) <<
+          "% end of measure repeat" <<
+          singularOrPlural (
+            elt->measureRepeatReplicasNumber (),
+            "replica",
+            "replicas") <<
+          ", line " << elt->getInputLineNumber () <<
+          endl <<
+          endl;      
+    }
+  }
 }
 
 //________________________________________________________________________
@@ -5556,6 +5602,18 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
   
+  if (gLilypondOptions->fGenerateComments) {
+    fOstream << idtr <<
+      setw(commentFieldWidth) <<
+      "% start of multiple rest" <<
+      singularOrPlural (
+        elt->getMultipleRestMeasuresNumber (),
+        "measure",
+        "measures") <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
   fOstream <<
     endl <<
     endl <<
@@ -5580,6 +5638,38 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRest& elt)
     " }" <<
     endl <<
     idtr;
+    
+  if (gLilypondOptions->fGenerateComments) {
+    idtr--;
+
+    if (fMusicOlec > 0) {
+      fOstream <<
+        endl <<
+        idtr <<
+          setw(commentFieldWidth) <<
+          "% end of multiple rest " <<
+          singularOrPlural (
+            elt->getMultipleRestMeasuresNumber (),
+            "measure",
+            "measures") <<
+          ", line " << elt->getInputLineNumber () <<
+          endl <<
+          endl;
+    }
+    else {
+      fOstream <<
+        idtr <<
+          setw(commentFieldWidth) <<
+          "% end of multiple rest" <<
+          singularOrPlural (
+            elt->getMultipleRestMeasuresNumber (),
+            "measure",
+            "measures") <<
+          ", line " << elt->getInputLineNumber () <<
+          endl <<
+          endl;      
+    }
+  }
 }
 
 //________________________________________________________________________
