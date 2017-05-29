@@ -6286,11 +6286,9 @@ class EXP msrMeasureRepeat : public msrElement
       int          inputLineNumber,
       int          measureRepeatMeasuresNumber,
       int          measureRepeatSlashesNumber,
-      S_msrSegment repeatedSegment,
       S_msrVoice   voiceUplink);
     
     SMARTP<msrMeasureRepeat> createMeasureRepeatBareClone (
-      S_msrSegment repeatedSegmentClone,
       S_msrVoice   voiceClone);
 
   protected:
@@ -6302,7 +6300,6 @@ class EXP msrMeasureRepeat : public msrElement
       int          inputLineNumber,
       int          measureRepeatMeasuresNumber,
       int          measureRepeatSlashesNumber,
-      S_msrSegment repeatedSegment,
       S_msrVoice   voiceUplink);
       
     virtual ~msrMeasureRepeat();
@@ -6318,6 +6315,9 @@ class EXP msrMeasureRepeat : public msrElement
     int                   getMeasureRepeatSlashesNumber () const
                               { return fMeasureRepeatSlashesNumber; }
                               
+    void                  setMeasureRepeatRepeatedSegment (
+                            S_msrSegment measureRepeatRepeatedSegment);
+                  
     S_msrSegment          getMeasureRepeatRepeatedSegment () const
                               { return fMeasureRepeatRepeatedSegment; }
 

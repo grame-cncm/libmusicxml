@@ -16439,14 +16439,12 @@ S_msrMeasureRepeat msrMeasureRepeat::create (
   int          inputLineNumber,
   int          measureRepeatMeasuresNumber,
   int          measureRepeatSlashesNumber,
-  S_msrSegment repeatedSegment,
   S_msrVoice   voiceUplink)
 {
   msrMeasureRepeat* o =
     new msrMeasureRepeat (
       inputLineNumber,
       measureRepeatMeasuresNumber, measureRepeatSlashesNumber,
-      repeatedSegment,
       voiceUplink);
   assert(o!=0);
   return o;
@@ -16456,19 +16454,11 @@ msrMeasureRepeat::msrMeasureRepeat (
   int          inputLineNumber,
   int          measureRepeatMeasuresNumber,
   int          measureRepeatSlashesNumber,
-  S_msrSegment repeatedSegment,
   S_msrVoice   voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureRepeatMeasuresNumber = measureRepeatMeasuresNumber;
   fMeasureRepeatSlashesNumber  = measureRepeatSlashesNumber;
-
-  msrAssert (
-    repeatedSegment != 0,
-    "repeatedSegment is null");
-
-  // append repeated measure to repeated segment
-  fMeasureRepeatRepeatedSegment = repeatedSegment;
 
   fMeasureRepeatVoiceUplink = voiceUplink;
 }
@@ -16476,7 +16466,6 @@ msrMeasureRepeat::msrMeasureRepeat (
 msrMeasureRepeat::~msrMeasureRepeat() {}
 
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
-  S_msrSegment repeatedSegmentClone,
   S_msrVoice   voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
@@ -16484,10 +16473,6 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
       "Creating a bare clone of a measure repeat" <<
       endl;
   
-  msrAssert(
-    true || /* JMI */ repeatedSegmentClone != 0,
-    "repeatedSegmentClone is null");
-    
   msrAssert(
     voiceClone != 0,
     "voiceClone is null");
@@ -16498,10 +16483,28 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
         fInputLineNumber,
         fMeasureRepeatMeasuresNumber,
         fMeasureRepeatSlashesNumber,
-        repeatedSegmentClone,
         voiceClone);
 
   return clone;
+}
+
+void msrMeasureRepeat::setMeasureRepeatRepeatedSegment (
+  S_msrSegment measureRepeatRepeatedSegment)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting measure repeat repeated segment containing " <<
+      singularOrPlural (
+        measureRepeatRepeatedSegment->getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
+      endl;
+      
+  msrAssert (
+    measureRepeatRepeatedSegment != 0,
+    "measureRepeatRepeatedSegment is null");
+
+  fMeasureRepeatRepeatedSegment = measureRepeatRepeatedSegment;
 }
 
 void msrMeasureRepeat::setMeasureRepeatReplicasSegment (
@@ -16516,6 +16519,10 @@ void msrMeasureRepeat::setMeasureRepeatReplicasSegment (
         "measures") <<
       endl;
       
+  msrAssert (
+    measureRepeatReplicasSegment != 0,
+    "measureRepeatReplicasSegment is null");
+
   fMeasureRepeatReplicasSegment = measureRepeatReplicasSegment;
 }
 
@@ -18097,9 +18104,13 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             inputLineNumber,
             measureRepeatMeasuresNumber,
             measureRepeatSlashes,
-            repeatedSegment,
             this);
 
+        // set the measure repeat repeated segment
+        fVoicePendingMeasureRepeat->
+          setMeasureRepeatRepeatedSegment (
+            repeatedSegment);
+        
         // create a new last segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
