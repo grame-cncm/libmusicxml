@@ -5913,7 +5913,7 @@ class EXP msrBarline : public msrElement
       
     enum msrBarlineRepeatDirection {
       k_NoRepeatDirection,
-      kForward, kBackward};
+      kForwardRepeatDirection, kBackwardRepeatDirection};
 
     static string barlineRepeatDirectionAsString (
       msrBarlineRepeatDirection barlineRepeatDirection);

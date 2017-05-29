@@ -12882,10 +12882,10 @@ string msrBarline::barlineRepeatDirectionAsString (
     case k_NoRepeatDirection:
       result ="none";
       break;
-    case kForward:
+    case kForwardRepeatDirection:
       result ="Forward";
       break;
-    case kBackward:
+    case kBackwardRepeatDirection:
       result ="Backward";
       break;
   } // switch
