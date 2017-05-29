@@ -16485,7 +16485,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
       endl;
   
   msrAssert(
-    repeatedSegmentClone != 0,
+    true || /* JMI */ repeatedSegmentClone != 0,
     "repeatedSegmentClone is null");
     
   msrAssert(
