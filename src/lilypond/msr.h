@@ -5906,7 +5906,7 @@ class EXP msrBarline : public msrElement
       
     enum msrBarlineEndingType {
       k_NoEndingType,
-      kStart, kStop, kDiscontinue};
+      kStartEndingType, kStopEndingType, kDiscontinueEndingType};
 
     static string barlineEndingTypeAsString (
       msrBarlineEndingType barlineEndingType);

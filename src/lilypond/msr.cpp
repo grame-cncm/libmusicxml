@@ -12859,13 +12859,13 @@ string msrBarline::barlineEndingTypeAsString (
     case k_NoEndingType:
       result = "none";
       break;
-    case kStart:
+    case kStartEndingType:
       result = "Start";
       break;
-    case kStop:
+    case kStopEndingType:
       result = "Stop";
       break;
-    case kDiscontinue:
+    case kDiscontinueEndingType:
       result = "Discontinue";
       break;
   } // switch
