@@ -15015,9 +15015,6 @@ S_msrSegment msrSegment::createSegmentBareClone (
 
   clone->fSegmentTime =
     fSegmentTime;
-
-  // remove the initial measure created implicitly
-// JMI  fSegmentMeasuresList.clear ();
   
   return clone;
 }
@@ -15969,10 +15966,12 @@ void msrSegment::browseData (basevisitor* v)
       "% ==> msrSegment::browseData()" <<
       endl;
 
+/* JMI
   cerr <<
     idtr << tab <<
     "==========>>> " <<
     fSegmentMeasuresList.size () << " measures" << endl;
+    */
     
   for (
     list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();

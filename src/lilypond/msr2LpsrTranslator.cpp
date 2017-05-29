@@ -1994,7 +1994,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       elt->noteAsString () <<
       endl;
   }
-abort();
+
   int inputLineNumber =
     elt->getInputLineNumber ();
     
