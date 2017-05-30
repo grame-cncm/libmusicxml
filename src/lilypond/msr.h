@@ -6280,7 +6280,7 @@ class EXP msrMeasureRepeatRepeatedContents : public msrElement
       S_msrVoice   voiceUplink);
     
     SMARTP<msrMeasureRepeatRepeatedContents>
-      createeasureRepeatRepeatedContentsBareClone (
+      createMeasureRepeatRepeatedContentsBareClone (
         S_msrVoice   voiceClone);
 
   protected:
@@ -6304,7 +6304,7 @@ class EXP msrMeasureRepeatRepeatedContents : public msrElement
                               { return fMeasureRepeatRepeatedContentsSegment; }
 
     S_msrVoice            getMeasureRepeatRepeatedContentsVoiceUplink () const
-                            { return fMeasureRepeatRepeatedContentsSegmentVoiceUplink; }
+                            { return fMeasureRepeatRepeatedContentsVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -6334,9 +6334,10 @@ class EXP msrMeasureRepeatRepeatedContents : public msrElement
     virtual void          print (ostream& os);
 
   private:
+  
     S_msrSegment          fMeasureRepeatRepeatedContentsSegment;
     
-    S_msrVoice            fMeasureRepeatRepeatedContentsSegmentVoiceUplink;
+    S_msrVoice            fMeasureRepeatRepeatedContentsVoiceUplink;
 };
 typedef SMARTP<msrMeasureRepeatRepeatedContents> S_msrMeasureRepeatRepeatedContents;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeatRepeatedContents& elt);
