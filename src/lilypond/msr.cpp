@@ -16490,14 +16490,15 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
   return clone;
 }
 
-void msrMeasureRepeat::S_msrMeasureRepeatRepeated (
+void msrMeasureRepeat::setMeasureRepeatRepeated (
   S_msrMeasureRepeatRepeated measureRepeatRepeated)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting measure repeat repeated segment containing " <<
       singularOrPlural (
-        measureRepeatRepeated->getSegmentMeasuresList ().size (),
+        measureRepeatRepeated->
+          measureRepeatRepeatedMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -16516,7 +16517,8 @@ void msrMeasureRepeat::setMeasureRepeatReplicas (
     cerr << idtr <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
-        measureRepeatReplicas->getSegmentMeasuresList ().size (),
+        measureRepeatReplicas->
+          measureRepeatReplicasMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -16670,11 +16672,11 @@ void msrMeasureRepeat::print (ostream& os)
   
   idtr++;
   
-  // print the repeated segment
+  // print the repeated contents
   os << idtr <<
-    "Repeated segment:";
+    "Repeated:";
 
-  if (! fMeasureRepeatRepeatedSegment) {
+  if (! fMeasureRepeatRepeated) {
     os <<
       " none" <<
       endl;
@@ -16686,18 +16688,18 @@ void msrMeasureRepeat::print (ostream& os)
     idtr++;
     
     os <<
-      fMeasureRepeatRepeatedSegment;
+      fMeasureRepeatRepeated;
 
     idtr--;
   }
 
   os << endl;
   
-  // print the replicas segment
+  // print the replicas contents
   os << idtr <<
     "Replicas segment:";
     
-  if (! fMeasureRepeatReplicasSegment) {
+  if (! fMeasureRepeatReplicas) {
     os <<
       " none" <<
       endl;
@@ -16709,7 +16711,7 @@ void msrMeasureRepeat::print (ostream& os)
     idtr++;
     
     os <<
-      fMeasureRepeatReplicasSegment;
+      fMeasureRepeatReplicas;
 
     idtr--;
   }
