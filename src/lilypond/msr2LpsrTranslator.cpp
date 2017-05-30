@@ -2668,7 +2668,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
 /* JMI
   measureRepeatClone->
-    setMeasureRepeatRepeatedSegment (
+    setMeasureRepeatRepeatedContentsSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
 
@@ -2681,7 +2681,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
       endl;
 
   measureRepeatClone->
-    setMeasureRepeatReplicasSegment (
+    setMeasureRepeatReplicasContentsSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
 
@@ -2701,11 +2701,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
         */
 }
 
-void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatRepeated& elt)
+void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatRepeatedContents& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMeasureRepeatRepeated" <<
+      "--> Start visiting msrMeasureRepeatRepeatedContents" <<
       endl;
 
   idtr++;
@@ -2713,21 +2713,21 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatRepeated& elt)
   // JMI
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatRepeated& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatRepeatedContents& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMeasureRepeatRepeated" <<
+      "--> End visiting msrMeasureRepeatRepeatedContents" <<
       endl;
 
   idtr--;
 }
   
-void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
+void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicasContents& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMeasureRepeatReplicas" <<
+      "--> Start visiting msrMeasureRepeatReplicasContents" <<
       endl;
 
   idtr++;
@@ -2735,11 +2735,11 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
   // JMI
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicasContents& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMeasureRepeatReplicas" <<
+      "--> End visiting msrMeasureRepeatReplicasContents" <<
       endl;
 
   idtr--;
