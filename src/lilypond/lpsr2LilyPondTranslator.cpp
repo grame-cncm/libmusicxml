@@ -5579,6 +5579,50 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
   }
 }
 
+void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatRepeated& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMeasureRepeatRepeated" <<
+      endl;
+
+  idtr++;
+
+  // JMI
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeatRepeated& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMeasureRepeatRepeated" <<
+      endl;
+
+  idtr--;
+}
+  
+void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMeasureRepeatReplicas" <<
+      endl;
+
+  idtr++;
+
+  // JMI
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMeasureRepeatReplicas" <<
+      endl;
+
+  idtr--;
+}
+
 //________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
 {

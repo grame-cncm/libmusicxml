@@ -2666,6 +2666,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
       "\"" <<
       endl;
 
+/* JMI
   measureRepeatClone->
     setMeasureRepeatRepeatedSegment (
       fCurrentVoiceClone->
@@ -2697,6 +2698,51 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
     getVoiceLastSegment ()->
       appendMeasureRepeatToSegment (
         measureRepeatClone);
+        */
+}
+
+void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatRepeated& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMeasureRepeatRepeated" <<
+      endl;
+
+  idtr++;
+
+  // JMI
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatRepeated& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMeasureRepeatRepeated" <<
+      endl;
+
+  idtr--;
+}
+  
+void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMeasureRepeatReplicas" <<
+      endl;
+
+  idtr++;
+
+  // JMI
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMeasureRepeatReplicas" <<
+      endl;
+
+  idtr--;
 }
 
 //________________________________________________________________________
