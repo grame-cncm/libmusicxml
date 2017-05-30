@@ -16608,11 +16608,11 @@ void msrMeasureRepeat::browseData (basevisitor* v)
         endl;
   }
 
-  if (fMeasureRepeatReplicas) {
+  if (fMeasureRepeatReplicasContents) {
     if (! inhibitMeasureRepeatReplicasBrowsing) {
       // browse the measure repeat replicas
-      msrBrowser<msrMeasureRepeatReplicas> browser (v);
-      browser.browse (*fMeasureRepeatReplicas);
+      msrBrowser<msrMeasureRepeatReplicasContents> browser (v);
+      browser.browse (*fMeasureRepeatReplicasContents);
     }
   }
 }
@@ -18235,7 +18235,28 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
-        // set last segment as the measure repeat replicas segment
+         // create the measure repeat replicas contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "Creating a measure repeat replicas contents for voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        S_msrMeasureRepeatReplicasContents
+          measureRepeatReplicasContents =
+            msrMeasureRepeatReplicasContents::create (
+              inputLineNumber,
+              fVoiceLastSegment,
+              this);
+
+        // set the measure repeat replicas contents
+        fVoicePendingMeasureRepeat->
+          setMeasureRepeatReplicasContents (
+            measureRepeatReplicasContents);
+        
+
+/* JMI BOF
+       // set last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
             "Setting current last segment as measure repeat replicas segment in voice \"" <<
@@ -18250,6 +18271,23 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         // append pending measure repeat to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
           fVoicePendingMeasureRepeat);
+
+        // set multipleRestContents as the multiple rest contents
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as multiple rest segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        fVoicePendingMultipleRest->
+          setMultipleRestContents (
+            multipleRestContents);
+*/
+
+
+
+
 
 /* JMI
         // print current voice contents
@@ -18330,7 +18368,7 @@ void msrVoice::createMultipleRestInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
-/*
+/* JMI
         // create the multiple rest rests segment
         S_msrSegment
           restsSegment =
@@ -18476,6 +18514,21 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
+        // create the multiple rest contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "Creating a measure repeated contents for voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        S_msrMultipleRestContents
+          multipleRestContents =
+            msrMultipleRestContents::create (
+              inputLineNumber,
+              fVoiceLastSegment,
+              this);
+
+/* JMI BOF
         // set last segment as the multiple rest segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -18487,6 +18540,19 @@ void msrVoice::appendPendingMultipleRestToVoice (
         fVoicePendingMultipleRest->
           setMultipleRestSegment (
             fVoiceLastSegment);
+*/
+
+        // set multipleRestContents as the multiple rest contents
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting current last segment as multiple rest segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      
+        fVoicePendingMultipleRest->
+          setMultipleRestContents (
+            multipleRestContents);
 
         // append pending multiple rest to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
