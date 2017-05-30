@@ -5635,7 +5635,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
     elt->getMultipleRestMeasuresNumber ();
 
   int restSegmentMeasuresNumber =
-    elt->multipleRestSegmentMeasuresNumber ();
+    elt->multipleRestContentsMeasuresNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
     cerr << idtr <<

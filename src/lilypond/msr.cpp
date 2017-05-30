@@ -16490,42 +16490,42 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatBareClone (
   return clone;
 }
 
-void msrMeasureRepeat::setMeasureRepeatRepeatedSegment (
-  S_msrSegment measureRepeatRepeatedSegment)
+void msrMeasureRepeat::S_msrMeasureRepeatRepeated (
+  S_msrMeasureRepeatRepeated measureRepeatRepeated)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting measure repeat repeated segment containing " <<
       singularOrPlural (
-        measureRepeatRepeatedSegment->getSegmentMeasuresList ().size (),
+        measureRepeatRepeated->getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
       
   msrAssert (
-    measureRepeatRepeatedSegment != 0,
-    "measureRepeatRepeatedSegment is null");
+    measureRepeatRepeated != 0,
+    "measureRepeatRepeated is null");
 
-  fMeasureRepeatRepeatedSegment = measureRepeatRepeatedSegment;
+  fMeasureRepeatRepeated = measureRepeatRepeated;
 }
 
-void msrMeasureRepeat::setMeasureRepeatReplicasSegment (
-  S_msrSegment measureRepeatReplicasSegment)
+void msrMeasureRepeat::setMeasureRepeatReplicas (
+  S_msrMeasureRepeatReplicas measureRepeatReplicas)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
-        measureRepeatReplicasSegment->getSegmentMeasuresList ().size (),
+        measureRepeatReplicas->getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
       
   msrAssert (
-    measureRepeatReplicasSegment != 0,
-    "measureRepeatReplicasSegment is null");
+    measureRepeatReplicas != 0,
+    "measureRepeatReplicas is null");
 
-  fMeasureRepeatReplicasSegment = measureRepeatReplicasSegment;
+  fMeasureRepeatReplicas = measureRepeatReplicas;
 }
 
 int msrMeasureRepeat::measureRepeatReplicasNumber () const
@@ -16582,10 +16582,10 @@ void msrMeasureRepeat::browseData (basevisitor* v)
       "% ==> msrMeasureRepeat::browseData()" <<
       endl;
 
-  if (fMeasureRepeatRepeatedSegment) {
-  // browse the repeated measure
-    msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMeasureRepeatRepeatedSegment);
+  if (fMeasureRepeatRepeated) {
+  // browse the repeated contents
+    msrBrowser<msrMeasureRepeatRepeated> browser (v);
+    browser.browse (*fMeasureRepeatRepeated);
   }
 
   // fetch the score
@@ -16606,11 +16606,11 @@ void msrMeasureRepeat::browseData (basevisitor* v)
         endl;
   }
 
-  if (fMeasureRepeatReplicasSegment) {
+  if (fMeasureRepeatReplicas) {
     if (! inhibitMeasureRepeatReplicasBrowsing) {
-      // browse the measure repeat replicas segment
-      msrBrowser<msrSegment> browser (v);
-      browser.browse (*fMeasureRepeatReplicasSegment);
+      // browse the measure repeat replicas
+      msrBrowser<msrMeasureRepeatReplicas> browser (v);
+      browser.browse (*fMeasureRepeatReplicas);
     }
   }
 }

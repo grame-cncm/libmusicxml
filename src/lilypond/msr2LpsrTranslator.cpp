@@ -2790,6 +2790,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       "\"" <<
       endl;
 
+/* JMI
   multipleRestClone->
     setMultipleRestSegment (
       fCurrentVoiceClone->
@@ -2808,6 +2809,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     getVoiceLastSegment ()->
       appendMultipleRestToSegment (
         multipleRestClone);
+        */
 }
 
 //________________________________________________________________________

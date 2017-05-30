@@ -6271,9 +6271,6 @@ class EXP msrMeasureRepeatRepeated : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -6348,9 +6345,6 @@ class EXP msrMeasureRepeatReplicas : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -6473,19 +6467,17 @@ class EXP msrMeasureRepeat : public msrElement
                               { return fMeasureRepeatSlashesNumber; }
                               
     void                  setMeasureRepeatRepeated (
-                            S_msrMeasureRepeatReplicas
-                              measureRepeatRepeated);
+                            S_msrMeasureRepeatRepeated measureRepeatRepeated);
                   
     S_msrMeasureRepeatRepeated
                           getMeasureRepeatRepeated () const
                               { return fMeasureRepeatRepeated; }
 
-    void                  setMeasureRepeatReplicasSegment (
-                            S_msrMeasureRepeatReplicas
-                              measureRepeatReplicasSegment);
+    void                  setMeasureRepeatReplicas (
+                            S_msrMeasureRepeatReplicas measureRepeatReplicas);
                   
     S_msrMeasureRepeatReplicas
-                          getMeasureRepeatReplicasSegment () const
+                          getMeasureRepeatReplicas () const
                               { return fMeasureRepeatReplicas; }
 
     S_msrVoice            getMeasureRepeatVoiceUplink () const
@@ -6541,6 +6533,79 @@ typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt);
 
 //______________________________________________________________________________
+class EXP msrMultipleRestContents : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMultipleRestContents> create (
+      int          inputLineNumber,
+      S_msrSegment segment,
+      S_msrVoice   voiceUplink);
+    
+    SMARTP<msrMultipleRestContents> createMultipleRestContentsBareClone (
+      S_msrVoice voiceClone);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMultipleRestContents (
+      int          inputLineNumber,
+      S_msrSegment segment,
+      S_msrVoice   voiceUplink);
+      
+    virtual ~msrMultipleRestContents();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrSegment          getMultipleRestContentsSegment () const
+                              { return fMultipleRestContentsSegment; }
+
+    S_msrVoice            getMultipleRestContentsVoiceUplink () const
+                            { return fMultipleRestContentsVoiceUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    int                   multipleRestContentsMeasuresNumber () const
+                            {
+                              return
+                                fMultipleRestContentsSegment->
+                                  getSegmentMeasuresList ().size ();
+                            }
+
+    string                multipleRestContentsAsString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+    
+    S_msrSegment          fMultipleRestContentsSegment;
+
+    S_msrVoice            fMultipleRestContentsVoiceUplink;
+};
+typedef SMARTP<msrMultipleRestContents> S_msrMultipleRestContents;
+EXP ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt);
+
+//______________________________________________________________________________
 class EXP msrMultipleRest : public msrElement
 {
   public:
@@ -6586,11 +6651,12 @@ class EXP msrMultipleRest : public msrElement
     int                   getMultipleRestMeasuresNumber () const
                               { return fMultipleRestMeasuresNumber; }
                               
-    void                  setMultipleRestSegment (
-                            S_msrSegment multipleRestSegment);
+    void                  setMultipleRestContents (
+                            S_msrSegment multipleRestContents);
                   
-    S_msrSegment          getMultipleRestSegment () const
-                              { return fMultipleRestSegment; }
+    S_msrMultipleRestContents
+                          getMultipleRestContents () const
+                              { return fMultipleRestContents; }
 
     S_msrVoice            getMultipleRestVoiceUplink () const
                             { return fMultipleRestVoiceUplink; }
@@ -6598,11 +6664,11 @@ class EXP msrMultipleRest : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   multipleRestSegmentMeasuresNumber () const
+    int                   multipleRestContentsMeasuresNumber () const
                             {
                               return
-                                fMultipleRestSegment->
-                                  getSegmentMeasuresList ().size ();
+                                fMultipleRestContents->
+                                  multipleRestContentsMeasuresNumber ();
                             }
 
     string                multipleRestAsString () const;
@@ -6623,7 +6689,8 @@ class EXP msrMultipleRest : public msrElement
   private:
     int                   fMultipleRestMeasuresNumber;
     
-    S_msrSegment          fMultipleRestSegment;
+    S_msrMultipleRestContents
+                          fMultipleRestContents;
 
     S_msrVoice            fMultipleRestVoiceUplink;
 };
