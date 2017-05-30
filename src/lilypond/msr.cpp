@@ -16770,23 +16770,24 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestBareClone (
   return clone;
 }
 
-void msrMultipleRest::setMultipleRestSegment (
-  S_msrSegment multipleRestSegment)
+void msrMultipleRest::setMultipleRestContents (
+  S_msrMultipleRestContents multipleRestContents)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting multiple rest segment containing " <<
       singularOrPlural (
-        multipleRestSegment->getSegmentMeasuresList ().size (),
+        multipleRestContents->
+          multipleRestContentsMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
       
   msrAssert (
-    multipleRestSegment != 0,
-    "multipleRestSegment is null");
+    multipleRestContents != 0,
+    "multipleRestContents is null");
 
-  fMultipleRestSegment = multipleRestSegment;
+  fMultipleRestContents = multipleRestContents;
 }
 
 void msrMultipleRest::acceptIn (basevisitor* v) {
@@ -16852,11 +16853,11 @@ void msrMultipleRest::browseData (basevisitor* v)
         endl;
   }
 
-  if (fMultipleRestSegment) {
+  if (fMultipleRestContents) {
     if (! inhibitMultipleRestMeasuresBrowsing) {
-      // browse the multiple rest segment
-      msrBrowser<msrSegment> browser (v);
-      browser.browse (*fMultipleRestSegment);
+      // browse the multiple rest contents
+      msrBrowser<msrMultipleRestContents> browser (v);
+      browser.browse (*fMultipleRestContents);
     }
   }
 }
@@ -16896,9 +16897,9 @@ void msrMultipleRest::print (ostream& os)
   
   // print the rests segment
   os << idtr <<
-    "Rests segment:";
+    "Rests contents:";
     
-  if (! fMultipleRestSegment) {
+  if (! fMultipleRestContents) {
     os <<
       " none" <<
       endl;
@@ -16910,7 +16911,7 @@ void msrMultipleRest::print (ostream& os)
     idtr++;
     
     os <<
-      fMultipleRestSegment;
+      fMultipleRestContents;
 
     idtr--;
   }

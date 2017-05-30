@@ -6652,7 +6652,7 @@ class EXP msrMultipleRest : public msrElement
                               { return fMultipleRestMeasuresNumber; }
                               
     void                  setMultipleRestContents (
-                            S_msrSegment multipleRestContents);
+                            S_msrMultipleRestContents multipleRestContents);
                   
     S_msrMultipleRestContents
                           getMultipleRestContents () const
