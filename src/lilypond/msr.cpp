@@ -17053,47 +17053,29 @@ void msrMeasureRepeat::print (ostream& os)
   idtr++;
   
   // print the measure repeat pattern
-  os << idtr <<
-    "Measure repeat pattern:";
-
   if (! fMeasureRepeatPattern) {
-    os <<
-      " none" <<
+    os << idtr <<
+      "Measure repeat pattern: none" <<
       endl;
   }
+
   else {
     os <<
-      endl;
-      
-    idtr++;
-    
-    os <<
       fMeasureRepeatPattern;
-
-    idtr--;
   }
 
   os << endl;
   
   // print the measure repeat replicas
-  os << idtr <<
-    "Measure repeat replicas:";
-    
   if (! fMeasureRepeatReplicas) {
-    os <<
-      " none" <<
+    os << idtr <<
+      "Measure repeat replicas: none" <<
       endl;
   }
+
   else {
     os <<
-      endl;
-      
-    idtr++;
-    
-    os <<
       fMeasureRepeatReplicas;
-
-    idtr--;
   }
       
   idtr--;
@@ -17460,30 +17442,20 @@ void msrMultipleRest::print (ostream& os)
     endl <<
     idtr <<
     multipleRestAsString () <<
-    endl <<
     endl;
   
   idtr++;
   
-  // print the rests segment
-  os << idtr <<
-    "Multiple rests contents:";
-    
+  // print the rests contents
   if (! fMultipleRestContents) {
-    os <<
-      " none" <<
+    os << idtr <<
+      "Multiple rests contents: none" <<
       endl;
   }
+
   else {
     os <<
-      endl;
-      
-    idtr++;
-    
-    os <<
       fMultipleRestContents;
-
-    idtr--;
   }
       
   idtr--;
