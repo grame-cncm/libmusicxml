@@ -16559,6 +16559,20 @@ ostream& operator<< (ostream& os, const S_msrMeasureRepeatPattern& elt)
   return os;
 }
 
+int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
+{
+  int result;
+
+  if (fMeasureRepeatPatternSegment)
+    result =
+      fMeasureRepeatPatternSegment->
+      getSegmentMeasuresList ().size ();
+  else
+    result = 0;
+
+  return result;
+}
+
 string msrMeasureRepeatPattern::measureRepeatPatternAsString () const
 {
   stringstream s;

@@ -6309,12 +6309,7 @@ class EXP msrMeasureRepeatPattern : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   measureRepeatPatternMeasuresNumber () const
-                            {
-                              return
-                                fMeasureRepeatPatternSegment->
-                                  getSegmentMeasuresList ().size ();
-                            }
+    int                   measureRepeatPatternMeasuresNumber () const;
         
     string                measureRepeatPatternAsString () const;
 
