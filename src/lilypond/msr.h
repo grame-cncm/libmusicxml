@@ -6544,9 +6544,8 @@ class EXP msrMultipleRestContents : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMultipleRestContents> create (
-      int          inputLineNumber,
-      S_msrSegment segment,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
     
     SMARTP<msrMultipleRestContents> createMultipleRestContentsBareClone (
       S_msrVoice voiceClone);
@@ -6557,9 +6556,8 @@ class EXP msrMultipleRestContents : public msrElement
     // ------------------------------------------------------
 
     msrMultipleRestContents (
-      int          inputLineNumber,
-      S_msrSegment segment,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
       
     virtual ~msrMultipleRestContents();
   
@@ -6567,6 +6565,9 @@ class EXP msrMultipleRestContents : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    void                  setMultipleRestContentsSegment (
+                            S_msrSegment multipleRestContentsSegment);
 
     S_msrSegment          getMultipleRestContentsSegment () const
                               { return fMultipleRestContentsSegment; }

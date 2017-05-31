@@ -17072,6 +17072,182 @@ void msrMeasureRepeat::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrMultipleRestContents msrMultipleRestContents::create (
+  int        inputLineNumber,
+  S_msrVoice voiceUplink)
+{
+  msrMultipleRestContents* o =
+    new msrMultipleRestContents (
+      inputLineNumber,
+      voiceUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrMultipleRestContents::msrMultipleRestContents (
+  int        inputLineNumber,
+  S_msrVoice voiceUplink)
+    : msrElement (inputLineNumber)
+{
+  fMultipleRestContentsVoiceUplink = voiceUplink;
+}
+
+msrMultipleRestContents::~msrMultipleRestContents() {}
+
+S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsBareClone (
+  S_msrVoice voiceClone)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a bare clone of a multiple rest contents" <<
+      endl;
+  
+  msrAssert(
+    voiceClone != 0,
+    "voiceClone is null");
+    
+  S_msrMultipleRestContents
+    clone =
+      msrMultipleRestContents::create (
+        fInputLineNumber,
+        voiceClone);
+
+  return clone;
+}
+
+void msrMultipleRestContents::setMultipleRestContentsSegment (
+    S_msrSegment multipleRestContentsSegment)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting multiple rest contents segment containing " <<
+      singularOrPlural (
+          multipleRestContentsMeasuresNumber (),
+        "measure",
+        "measures") <<
+      endl;
+      
+  msrAssert (
+    multipleRestContentsSegment != 0,
+    "multipleRestContentsSegment is null");
+
+  fMultipleRestContentsSegment =
+    multipleRestContentsSegment;
+}
+
+void msrMultipleRestContents::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMultipleRestContents::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrMultipleRestContents>*
+    p =
+      dynamic_cast<visitor<S_msrMultipleRestContents>*> (v)) {
+        S_msrMultipleRestContents elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrMultipleRestContents::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrMultipleRestContents::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMultipleRestContents::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrMultipleRestContents>*
+    p =
+      dynamic_cast<visitor<S_msrMultipleRestContents>*> (v)) {
+        S_msrMultipleRestContents elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrMultipleRestContents::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrMultipleRestContents::browseData (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrMultipleRestContents::browseData()" <<
+      endl;
+
+  if (fMultipleRestContentsSegment) {
+  // browse the pattern segment
+    msrBrowser<msrSegment> browser (v);
+    browser.browse (*fMultipleRestContentsSegment);
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrMultipleRestContents::multipleRestContentsAsString () const
+{
+  stringstream s;
+
+  s <<
+
+    "MultipleRestContents" <<
+    ", line " << fInputLineNumber <<
+    " (" <<
+    singularOrPlural (
+      multipleRestContentsMeasuresNumber (),
+      "repeated measure",
+      "repeated measures") <<
+    ")"; 
+
+  return s.str();
+}
+
+void msrMultipleRestContents::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr <<
+    multipleRestContentsAsString () <<
+    "MultipleRestContents" <<
+    endl <<
+    endl;
+  
+  idtr++;
+  
+  // print the pattern segment
+  os << idtr <<
+    "Repeated:";
+
+  if (! fMultipleRestContentsSegment) {
+    os <<
+      " none" <<
+      endl;
+  }
+  else {
+    os <<
+      endl;
+      
+    idtr++;
+    
+    os <<
+      fMultipleRestContentsSegment;
+
+    idtr--;
+  }
+      
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrMultipleRest msrMultipleRest::create (
   int        inputLineNumber,
   int        multipleRestMeasuresNumber,
@@ -18886,11 +19062,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
           multipleRestContents =
             msrMultipleRestContents::create (
               inputLineNumber,
-              fVoiceLastSegment,
               this);
 
-/* JMI BOF
-        // set last segment as the multiple rest segment
+        // set voice last segment as the multiple rest segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
             "Setting current last segment as multiple rest segment in voice \"" <<
@@ -18898,10 +19072,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "\"" <<
             endl;
       
-        fVoicePendingMultipleRest->
-          setMultipleRestSegment (
+        multipleRestContents->
+          setMultipleRestContentsSegment (
             fVoiceLastSegment);
-*/
 
         // set multipleRestContents as the multiple rest contents
         if (gGeneralOptions->fTraceRepeats)
