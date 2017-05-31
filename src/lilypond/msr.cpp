@@ -16498,7 +16498,7 @@ void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
     "measureRepeatPatternSegment is null");
 
   fMeasureRepeatPatternSegment =
-    fMeasureRepeatPatternSegment;
+    measureRepeatPatternSegment;
 }
 
 void msrMeasureRepeatPattern::acceptIn (basevisitor* v) {
@@ -16547,7 +16547,7 @@ void msrMeasureRepeatPattern::browseData (basevisitor* v)
       endl;
 
   if (fMeasureRepeatPatternSegment) {
-  // browse the pattern
+  // browse the pattern segment
     msrBrowser<msrSegment> browser (v);
     browser.browse (*fMeasureRepeatPatternSegment);
   }
@@ -16627,8 +16627,8 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::create (
 }
 
 msrMeasureRepeatReplicas::msrMeasureRepeatReplicas (
-  int          inputLineNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureRepeatReplicasVoiceUplink = voiceUplink;
@@ -16657,53 +16657,24 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
   return clone;
 }
 
-void msrMeasureRepeatReplicas::setMeasureRepeatReplicasPattern (
-  S_msrMeasureRepeatReplicasPattern measureRepeatReplicasPattern)
+void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
+    S_msrSegment measureRepeatReplicasSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Setting measure repeat repeated segment containing " <<
+      "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
-        measureRepeatReplicasPattern->
-          measureRepeatReplicasPatternMeasuresNumber (),
+          measureRepeatReplicasMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
       
   msrAssert (
-    measureRepeatReplicasPattern != 0,
-    "measureRepeatReplicasPattern is null");
+    measureRepeatReplicasSegment != 0,
+    "measureRepeatReplicasSegment is null");
 
-  fMeasureRepeatReplicasPattern = measureRepeatReplicasPattern;
-}
-
-void msrMeasureRepeatReplicas::setMeasureRepeatReplicasReplicas (
-  S_msrMeasureRepeatReplicasReplicas measureRepeatReplicasReplicas)
-{
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Setting measure repeat replicas contents containing " <<
-      singularOrPlural (
-        measureRepeatReplicasReplicas->
-          measureRepeatReplicasReplicasMeasuresNumber (),
-        "measure",
-        "measures") <<
-      endl;
-      
-  msrAssert (
-    measureRepeatReplicasReplicas != 0,
-    "measureRepeatReplicasReplicas is null");
-
-  fMeasureRepeatReplicasReplicas = measureRepeatReplicasReplicas;
-}
-
-int msrMeasureRepeatReplicas::measureRepeatReplicasReplicasNumber () const
-{
-  // compute replicas number
-  return
-    measureRepeatReplicasReplicasMeasuresNumber ()
-      /
-    measureRepeatReplicasPatternMeasuresNumber ();    
+  fMeasureRepeatReplicasSegment =
+    measureRepeatReplicasSegment;
 }
 
 void msrMeasureRepeatReplicas::acceptIn (basevisitor* v) {
@@ -16751,36 +16722,10 @@ void msrMeasureRepeatReplicas::browseData (basevisitor* v)
       "% ==> msrMeasureRepeatReplicas::browseData()" <<
       endl;
 
-  if (fMeasureRepeatReplicasPattern) {
-  // browse the pattern
-    msrBrowser<msrMeasureRepeatReplicasPattern> browser (v);
-    browser.browse (*fMeasureRepeatReplicasPattern);
-  }
-
-  // fetch the score
-  S_msrScore
-    score =
-      fMeasureRepeatReplicasVoiceUplink->
-        getVoiceDirectPartUplink ()->
-          getPartPartgroupUplink ()->
-            getPartgroupScoreUplink ();
-              
-  bool inhibitMeasureRepeatReplicasReplicasBrowsing =
-    score->getInhibitMeasureRepeatReplicasReplicasBrowsing ();
-
-  if (inhibitMeasureRepeatReplicasReplicasBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceGeneral)
-      cerr << idtr <<
-        "% ==> visiting measure repeat replicas is inhibited" <<
-        endl;
-  }
-
-  if (fMeasureRepeatReplicasReplicas) {
-    if (! inhibitMeasureRepeatReplicasReplicasBrowsing) {
-      // browse the measure repeat replicas
-      msrBrowser<msrMeasureRepeatReplicasReplicas> browser (v);
-      browser.browse (*fMeasureRepeatReplicasReplicas);
-    }
+  if (fMeasureRepeatReplicasSegment) {
+  // browse the replicas segment
+    msrBrowser<msrSegment> browser (v);
+    browser.browse (*fMeasureRepeatReplicasSegment);
   }
 }
 
@@ -16800,16 +16745,9 @@ string msrMeasureRepeatReplicas::measureRepeatReplicasAsString () const
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measureRepeatReplicasPatternMeasuresNumber (),
-      "pattern measure",
-      "pattern measures") <<
-    ", " <<
-    singularOrPlural (
-      measureRepeatReplicasReplicasMeasuresNumber (),
+      measureRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
-    ", " <<
-    measureRepeatReplicasReplicasNumber () << " replicas" <<
     ")"; 
 
   return s.str();
@@ -16819,31 +16757,18 @@ void msrMeasureRepeatReplicas::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "MeasureRepeatReplicas" <<
-    ", line " << fInputLineNumber <<
-    " (" <<
-    singularOrPlural (
-      measureRepeatReplicasPatternMeasuresNumber (),
-      "pattern measure",
-      "pattern measures") <<
-    ", " <<
-    singularOrPlural (
-      measureRepeatReplicasReplicasMeasuresNumber (),
-      "replicas measure",
-      "replicas measures") <<
-    ", " <<
-    measureRepeatReplicasReplicasNumber () << " replicas" <<
-    ")" <<
+    idtr <<
+    measureRepeatReplicasAsString () <<
     endl <<
     endl;
   
   idtr++;
   
-  // print the pattern
+  // print the replicas segment
   os << idtr <<
     "pattern:";
 
-  if (! fMeasureRepeatReplicasPattern) {
+  if (! fMeasureRepeatReplicasSegment) {
     os <<
       " none" <<
       endl;
@@ -16855,34 +16780,11 @@ void msrMeasureRepeatReplicas::print (ostream& os)
     idtr++;
     
     os <<
-      fMeasureRepeatReplicasPattern;
+      fMeasureRepeatReplicasSegment;
 
     idtr--;
   }
 
-  os << endl;
-  
-  // print the replicas contents
-  os << idtr <<
-    "Replicas segment:";
-    
-  if (! fMeasureRepeatReplicasReplicas) {
-    os <<
-      " none" <<
-      endl;
-  }
-  else {
-    os <<
-      endl;
-      
-    idtr++;
-    
-    os <<
-      fMeasureRepeatReplicasReplicas;
-
-    idtr--;
-  }
-      
   idtr--;
 }
 
@@ -18554,9 +18456,14 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           measureRepeatPattern =
             msrMeasureRepeatPattern::create (
               inputLineNumber,
-              repeatedSegment,
               this);
-              
+
+
+        // set the repeated segment as the measure repeat pattern segment
+        measureRepeatPattern->
+          setMeasureRepeatPatternSegment (
+            repeatedSegment);
+            
         // create the measure repeat
         if (fVoicePendingMeasureRepeat) {
           stringstream s;
@@ -18696,8 +18603,12 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           measureRepeatReplicas =
             msrMeasureRepeatReplicas::create (
               inputLineNumber,
-              fVoiceLastSegment,
               this);
+
+        // set the voice last segment as the measure repeat replicas segment
+        measureRepeatReplicas->
+          setMeasureRepeatReplicasSegment (
+            fVoiceLastSegment);
 
         // set the measure repeat replicas contents
         fVoicePendingMeasureRepeat->
