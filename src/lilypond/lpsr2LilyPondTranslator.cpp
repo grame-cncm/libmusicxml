@@ -5476,10 +5476,10 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeat& elt)
       endl;
 
   int repeatMeasuresNumber =
-    elt->measureRepeatRepeatedContentsMeasuresNumber ();
+    elt->measureRepeatPatternMeasuresNumber ();
 
   int replicasMeasuresNumber =
-    elt->measureRepeatReplicasContentsMeasuresNumber ();
+    elt->measureRepeatReplicasMeasuresNumber ();
     
   int replicasNumber =
     elt->measureRepeatReplicasNumber ();
@@ -5579,11 +5579,11 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeat& elt)
   }
 }
 
-void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatRepeatedContents& elt)
+void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMeasureRepeatRepeatedContents" <<
+      "--> Start visiting msrMeasureRepeatPattern" <<
       endl;
 
   idtr++;
@@ -5591,21 +5591,21 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatRepeatedContents& el
   // JMI
 }
 
-void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeatRepeatedContents& elt)
+void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMeasureRepeatRepeatedContents" <<
+      "--> End visiting msrMeasureRepeatPattern" <<
       endl;
 
   idtr--;
 }
   
-void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatReplicasContents& elt)
+void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMeasureRepeatReplicasContents" <<
+      "--> Start visiting msrMeasureRepeatReplicas" <<
       endl;
 
   idtr++;
@@ -5613,11 +5613,11 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasureRepeatReplicasContents& el
   // JMI
 }
 
-void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeatReplicasContents& elt)
+void lpsr2LilyPondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMeasureRepeatReplicasContents" <<
+      "--> End visiting msrMeasureRepeatReplicas" <<
       endl;
 
   idtr--;

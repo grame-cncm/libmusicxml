@@ -114,8 +114,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrRepeatending>,
   
   public visitor<S_msrMeasureRepeat>,
-  public visitor<S_msrMeasureRepeatRepeatedContents>,
-  public visitor<S_msrMeasureRepeatReplicasContents>,
+  public visitor<S_msrMeasureRepeatPattern>,
+  public visitor<S_msrMeasureRepeatReplicas>,
   
   public visitor<S_msrMultipleRest>,
   
@@ -284,10 +284,10 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrMeasureRepeat& elt);
     virtual void visitEnd   (S_msrMeasureRepeat& elt);
-    virtual void visitStart (S_msrMeasureRepeatRepeatedContents& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatRepeatedContents& elt);
-    virtual void visitStart (S_msrMeasureRepeatReplicasContents& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatReplicasContents& elt);
+    virtual void visitStart (S_msrMeasureRepeatPattern& elt);
+    virtual void visitEnd   (S_msrMeasureRepeatPattern& elt);
+    virtual void visitStart (S_msrMeasureRepeatReplicas& elt);
+    virtual void visitEnd   (S_msrMeasureRepeatReplicas& elt);
 
     virtual void visitStart (S_msrMultipleRest& elt);
     virtual void visitEnd   (S_msrMultipleRest& elt);
