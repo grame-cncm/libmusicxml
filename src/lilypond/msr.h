@@ -6275,12 +6275,11 @@ class EXP msrMeasureRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasureRepeatPattern> create (
-      int          inputLineNumber,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatPattern>
-      createMeasureRepeatPatternBareClone (
-        S_msrVoice   voiceClone);
+    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternBareClone (
+        S_msrVoice voiceClone);
 
   protected:
 
@@ -6288,8 +6287,8 @@ class EXP msrMeasureRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     msrMeasureRepeatPattern (
-      int          inputLineNumber,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
       
     virtual ~msrMeasureRepeatPattern();
   
@@ -6298,6 +6297,9 @@ class EXP msrMeasureRepeatPattern : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setMeasureRepeatPatternSegment (
+                            S_msrSegment measureRepeatPatternSegment);
+                              
     S_msrSegment          getMeasureRepeatPatternSegment () const
                               { return fMeasureRepeatPatternSegment; }
 
@@ -6314,8 +6316,6 @@ class EXP msrMeasureRepeatPattern : public msrElement
                                   getSegmentMeasuresList ().size ();
                             }
         
-    int                   measureRepeatPatternReplicasNumber () const;
-
     string                measureRepeatPatternAsString () const;
 
     // visitors
@@ -6349,13 +6349,11 @@ class EXP msrMeasureRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasureRepeatReplicas> create (
-      int          inputLineNumber,
-      S_msrSegment segment,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatReplicas>
-      createMeasureRepeatReplicasBareClone (
-        S_msrVoice   voiceClone);
+    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasBareClone (
+        S_msrVoice voiceClone);
 
   protected:
 
@@ -6363,9 +6361,8 @@ class EXP msrMeasureRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     msrMeasureRepeatReplicas (
-      int          inputLineNumber,
-      S_msrSegment segment,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
       
     virtual ~msrMeasureRepeatReplicas();
   
@@ -6373,6 +6370,9 @@ class EXP msrMeasureRepeatReplicas : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    void                  setMeasureRepeatReplicasSegment (
+                            S_msrSegment measureRepeatReplicasSegment);
 
     S_msrSegment          getMeasureRepeatReplicasSegment () const
                               { return fMeasureRepeatReplicasSegment; }
