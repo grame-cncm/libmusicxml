@@ -5726,6 +5726,30 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRest& elt)
   }
 }
 
+void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRestContents& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMultipleRestContents" <<
+      endl;
+
+  idtr++;
+
+  // JMI
+}
+
+void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRestContents& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMultipleRestContents" <<
+      endl;
+
+  idtr--;
+
+  // JMI
+}
+
 //________________________________________________________________________
 void lpsr2LilyPondTranslator::visitStart (S_msrMidi& elt)
 {

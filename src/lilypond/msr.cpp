@@ -16605,7 +16605,7 @@ void msrMeasureRepeatPattern::print (ostream& os)
   
   // print the pattern segment
   os << idtr <<
-    "Repeated:";
+    "Pattern segment:";
 
   if (! fMeasureRepeatPatternSegment) {
     os <<
@@ -16794,7 +16794,7 @@ void msrMeasureRepeatReplicas::print (ostream& os)
   
   // print the replicas segment
   os << idtr <<
-    "pattern:";
+    "Replicas segment:";
 
   if (! fMeasureRepeatReplicasSegment) {
     os <<
@@ -17054,7 +17054,7 @@ void msrMeasureRepeat::print (ostream& os)
   
   // print the measure repeat pattern
   os << idtr <<
-    "Pattern:";
+    "Measure repeat pattern:";
 
   if (! fMeasureRepeatPattern) {
     os <<
@@ -17077,7 +17077,7 @@ void msrMeasureRepeat::print (ostream& os)
   
   // print the measure repeat replicas
   os << idtr <<
-    "Replicas:";
+    "Measure repeat replicas:";
     
   if (! fMeasureRepeatReplicas) {
     os <<
@@ -17267,7 +17267,7 @@ void msrMultipleRestContents::print (ostream& os)
   
   // print the pattern segment
   os << idtr <<
-    "Repeated:";
+    "Contents segment:";
 
   if (! fMultipleRestContentsSegment) {
     os <<
@@ -17467,7 +17467,7 @@ void msrMultipleRest::print (ostream& os)
   
   // print the rests segment
   os << idtr <<
-    "Rests contents:";
+    "Multiple rests contents:";
     
   if (! fMultipleRestContents) {
     os <<

@@ -2667,6 +2667,35 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
       endl;
 
 /* JMI
+ *
+ *   // create a multiple rest contents
+  S_msrMultipleRestContents
+    multipleRestContents =
+      msrMultipleRestContents::create (
+        elt->getInputLineNumber (),
+        fCurrentVoiceClone);
+        
+  // set last segment as the multiple rest contents segment
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting current last segment as multiple rest contents segment in voice \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+
+  multipleRestContents->
+    setMultipleRestContentsSegment (
+      fCurrentVoiceClone->
+        getVoiceLastSegment ());
+
+  // set the multiple rest clone's contents
+  multipleRestClone->
+    setMultipleRestContents (
+      multipleRestContents);
+    
+
+
+
   measureRepeatClone->
     setMeasureRepeatPatternSegment (
       fCurrentVoiceClone->
@@ -2832,6 +2861,34 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     getVoiceLastSegment ()->
       appendMultipleRestToSegment (
         multipleRestClone);
+}
+
+void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    fOstream << idtr <<
+      "--> Start visiting msrMultipleRestContents" <<
+      endl;
+
+  idtr++;
+
+  // create a measure repeat replicas clone
+  fCurrentMultipleRestContentsClone =
+    elt->createMultipleRestContentsBareClone (
+      fCurrentVoiceClone);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    fOstream << idtr <<
+      "--> End visiting msrMultipleRestContents" <<
+      endl;
+
+  idtr--;
+
+  // forget about the current multiple rest contents clone
+  fCurrentMultipleRestContentsClone = 0;
 }
 
 //________________________________________________________________________

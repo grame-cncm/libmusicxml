@@ -118,6 +118,7 @@ class msr2LpsrTranslator :
   public visitor<S_msrMeasureRepeatReplicas>,
   
   public visitor<S_msrMultipleRest>,
+  public visitor<S_msrMultipleRestContents>,
   
 //  public visitor<S_msrComment>, // JMI
   
@@ -291,6 +292,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrMultipleRest& elt);
     virtual void visitEnd   (S_msrMultipleRest& elt);
+    virtual void visitStart (S_msrMultipleRestContents& elt);
+    virtual void visitEnd   (S_msrMultipleRestContents& elt);
 
 //    virtual void visitStart (S_msrComment& elt);
 //    virtual void visitEnd   (S_msrComment& elt);
@@ -393,6 +396,7 @@ class msr2LpsrTranslator :
     // multiple rests
     // ------------------------------------------------------
 
+    S_msrMultipleRestContents   fCurrentMultipleRestContentsClone;
 
     // measures
     // ------------------------------------------------------
