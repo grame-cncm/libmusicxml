@@ -6378,12 +6378,7 @@ class EXP msrMeasureRepeatReplicas : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   measureRepeatReplicasMeasuresNumber () const
-                            {
-                              return
-                                fMeasureRepeatReplicasSegment->
-                                  getSegmentMeasuresList ().size ();
-                            }
+    int                   measureRepeatReplicasMeasuresNumber () const;
     
     int                   measureRepeatReplicasNumber () const;
 
@@ -6573,12 +6568,7 @@ class EXP msrMultipleRestContents : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   multipleRestContentsMeasuresNumber () const
-                            {
-                              return
-                                fMultipleRestContentsSegment->
-                                  getSegmentMeasuresList ().size ();
-                            }
+    int                   multipleRestContentsMeasuresNumber () const;
 
     string                multipleRestContentsAsString () const;
     

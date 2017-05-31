@@ -16501,6 +16501,20 @@ void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
     measureRepeatPatternSegment;
 }
 
+int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
+{
+  int result;
+
+  if (fMeasureRepeatPatternSegment)
+    result =
+      fMeasureRepeatPatternSegment->
+      getSegmentMeasuresList ().size ();
+  else
+    result = 0;
+
+  return result;
+}
+
 void msrMeasureRepeatPattern::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -16557,20 +16571,6 @@ ostream& operator<< (ostream& os, const S_msrMeasureRepeatPattern& elt)
 {
   elt->print (os);
   return os;
-}
-
-int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
-{
-  int result;
-
-  if (fMeasureRepeatPatternSegment)
-    result =
-      fMeasureRepeatPatternSegment->
-      getSegmentMeasuresList ().size ();
-  else
-    result = 0;
-
-  return result;
 }
 
 string msrMeasureRepeatPattern::measureRepeatPatternAsString () const
@@ -16689,6 +16689,20 @@ void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
 
   fMeasureRepeatReplicasSegment =
     measureRepeatReplicasSegment;
+}
+
+int msrMeasureRepeatReplicas::measureRepeatReplicasMeasuresNumber () const
+{
+  int result;
+
+  if (fMeasureRepeatReplicasSegment)
+    result =
+      fMeasureRepeatReplicasSegment->
+      getSegmentMeasuresList ().size ();
+  else
+    result = 0;
+
+  return result;
 }
 
 void msrMeasureRepeatReplicas::acceptIn (basevisitor* v) {
@@ -17147,6 +17161,20 @@ void msrMultipleRestContents::setMultipleRestContentsSegment (
 
   fMultipleRestContentsSegment =
     multipleRestContentsSegment;
+}
+
+int msrMultipleRestContents::multipleRestContentsMeasuresNumber () const
+{
+  int result;
+
+  if (fMultipleRestContentsSegment)
+    result =
+      fMultipleRestContentsSegment->
+      getSegmentMeasuresList ().size ();
+  else
+    result = 0;
+
+  return result;
 }
 
 void msrMultipleRestContents::acceptIn (basevisitor* v) {
