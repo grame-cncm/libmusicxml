@@ -384,6 +384,16 @@ class msr2LpsrTranslator :
     int                       fCurrentRepeatEndingsNumber;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
 
+    // measure repeats
+    // ------------------------------------------------------
+
+    S_msrMeasureRepeatPattern   fCurrentMeasureRepeatPatternClone;
+    S_msrMeasureRepeatReplicas  fCurrentMeasureRepeatReplicasClone;
+
+    // multiple rests
+    // ------------------------------------------------------
+
+
     // measures
     // ------------------------------------------------------
     S_msrMeasure              fCurrentMeasureClone;

@@ -16561,7 +16561,7 @@ void msrMeasureRepeatPattern::browseData (basevisitor* v)
       endl;
 
   if (fMeasureRepeatPatternSegment) {
-  // browse the pattern segment
+    // browse the pattern segment
     msrBrowser<msrSegment> browser (v);
     browser.browse (*fMeasureRepeatPatternSegment);
   }
@@ -16965,7 +16965,7 @@ void msrMeasureRepeat::browseData (basevisitor* v)
       endl;
 
   if (fMeasureRepeatPattern) {
-  // browse the pattern
+  // browse the measdure repeat pattern
     msrBrowser<msrMeasureRepeatPattern> browser (v);
     browser.browse (*fMeasureRepeatPattern);
   }
@@ -17052,9 +17052,9 @@ void msrMeasureRepeat::print (ostream& os)
   
   idtr++;
   
-  // print the pattern
+  // print the measure repeat pattern
   os << idtr <<
-    "Repeated:";
+    "Pattern:";
 
   if (! fMeasureRepeatPattern) {
     os <<
@@ -17075,9 +17075,9 @@ void msrMeasureRepeat::print (ostream& os)
 
   os << endl;
   
-  // print the replicas contents
+  // print the measure repeat replicas
   os << idtr <<
-    "Replicas segment:";
+    "Replicas:";
     
   if (! fMeasureRepeatReplicas) {
     os <<

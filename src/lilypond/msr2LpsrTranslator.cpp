@@ -2658,10 +2658,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
 //         fCurrentSegmentClonesStack.top (),
 
-  // set last segment as the measure repeat repeated segment
+  // set last segment as the measure repeat pattern segment
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Setting current last segment as measure repeat repeated segment in voice \"" <<
+      "Setting current last segment as measure repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
@@ -2710,7 +2710,10 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 
   idtr++;
 
-  // JMI
+  // create a measure repeat pattern clone
+  fCurrentMeasureRepeatPatternClone =
+    elt->createMeasureRepeatPatternBareClone (
+      fCurrentVoiceClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
@@ -2721,6 +2724,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
       endl;
 
   idtr--;
+
+  // forget about the current measure repeat pattern clone
+  fCurrentMeasureRepeatPatternClone = 0;
 }
   
 void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
@@ -2732,7 +2738,10 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 
   idtr++;
 
-  // JMI
+  // create a measure repeat replicas clone
+  fCurrentMeasureRepeatReplicasClone =
+    elt->createMeasureRepeatReplicasBareClone (
+      fCurrentVoiceClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
@@ -2743,6 +2752,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
       endl;
 
   idtr--;
+
+  // forget about the current measure repeat replicas clone
+  fCurrentMeasureRepeatReplicasClone = 0;
 }
 
 //________________________________________________________________________
@@ -2782,20 +2794,31 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       elt->createMultipleRestBareClone (
         fCurrentVoiceClone);
 
-  // set last segment as the multiple rest segment
+  // create a multiple rest contents
+  S_msrMultipleRestContents
+    multipleRestContents =
+      msrMultipleRestContents::create (
+        elt->getInputLineNumber (),
+        fCurrentVoiceClone);
+        
+  // set last segment as the multiple rest contents segment
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Setting current last segment as multiple rest segment in voice \"" <<
+      "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
 
-/* JMI
-  multipleRestClone->
-    setMultipleRestSegment (
+  multipleRestContents->
+    setMultipleRestContentsSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
 
+  // set the multiple rest clone's contents
+  multipleRestClone->
+    setMultipleRestContents (
+      multipleRestContents);
+    
   // create a new last segment to collect the remainder of the voice,
   // containing the next, yet incomplete, measure
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -2809,7 +2832,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     getVoiceLastSegment ()->
       appendMultipleRestToSegment (
         multipleRestClone);
-        */
 }
 
 //________________________________________________________________________
