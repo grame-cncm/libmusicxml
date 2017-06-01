@@ -15072,16 +15072,16 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 }
 
 void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
-  int inputLineNumber,
-  int measureNumber)
+  int    inputLineNumber,
+  string measureNumber)
 {
-  /*
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
     S_msrMeasure
       newMeasure =
         msrMeasure::create (
           inputLineNumber,
+          fSegmentDirectPartUplink,
           measureNumber,
           this);
 
@@ -15089,7 +15089,6 @@ void msrSegment::appendMeasureToSegmentIfNeeded ( // JMI
     appendMeasureToSegment (
       newMeasure);
   }
-  */
 }
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
@@ -15235,11 +15234,9 @@ void msrSegment::prependAftergracenotesToSegment (
 
 void msrSegment::appendOtherElementToSegment (S_msrElement elem)
 {
-  /*
   appendMeasureToSegmentIfNeeded ( // JMI
     elem->getInputLineNumber (),
-    fSegmentMeasureNumber + 1);
-  */
+    fSegmentMeasureNumber); // +1??? JMI
   
   fSegmentMeasuresList.back ()->
     appendOtherElementToMeasure (elem);
@@ -17142,8 +17139,7 @@ void msrVoice::initializeVoice ()
       break;
   } // switch
 
-  // there may be an anacrusis, but let's start with 1 anyway
-  fVoiceMeasureNumber = 1;
+  fVoiceMeasureNumber = "??";
 
   fMusicHasBeenInsertedInVoice    = false;
   
@@ -17160,7 +17156,10 @@ void msrVoice::initializeVoice ()
       0,    // this stanza number is unused anyway
       msrStanza::kMasterStanza,
       this);
+}
 
+void msrVoice::appendAFirstMeasureToVoice ()
+{
   // create the initial segment for this voice
   if (gGeneralOptions->fTraceSegments)
     cerr << idtr <<
@@ -17231,7 +17230,7 @@ void msrVoice::initializeVoice ()
     }
   }
 }
-
+  
 S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff staffClone)
 {
   if (gGeneralOptions->fTraceVoices) {
@@ -17300,6 +17299,11 @@ void msrVoice::setVoiceMeasureNumber (
 {
   fVoiceMeasureNumber = measureNumber;
 
+  // create the voice last segment and first measure not yet done
+  if (! fVoiceLastSegment)
+    appendAFirstMeasureToVoice ();
+
+  // set the last segment measure number
   fVoiceLastSegment->
     setSegmentMeasureNumber (
       inputLineNumber,

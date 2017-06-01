@@ -2792,8 +2792,8 @@ class EXP msrSegment : public msrElement
     void                  appendMeasureToSegment (S_msrMeasure measure);
 
     void                  appendMeasureToSegmentIfNeeded (  // JMI
-                            int inputLineNumber,
-                            int measureNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
   
     void                  appendClefToSegment (S_msrClef clef);
     void                  appendKeyToSegment (S_msrKey key);
@@ -6732,6 +6732,8 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     void                  initializeVoice ();
+
+    void                  appendAFirstMeasureToVoice ();
   
   public:
 
