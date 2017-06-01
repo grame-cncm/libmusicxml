@@ -17148,7 +17148,9 @@ void msrVoice::initializeVoice ()
       break;
   } // switch
 
-  fVoiceMeasureNumber = "??";
+  fVoiceMeasureNumber = //"??";
+    fVoiceDirectPartUplink->
+      getPartMeasureNumber ();
 
   fMusicHasBeenInsertedInVoice    = false;
   
