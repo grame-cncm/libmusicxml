@@ -7010,8 +7010,8 @@ class EXP msrVoice : public msrElement
     int                       fVoiceMeasureNumber;
     
     // anacrusis detection JMI ???
-    bool                      fMeasureZeroHasBeenMetInVoice;
-    bool                      fMeasureNumberHasBeenSetInVoice;
+    bool                      fMeasureZeroHasBeenMetInVoice; // JMI virer
+    bool                      fMeasureNumberHasBeenSetInVoice; // JMI virer
     bool                      fMusicHasBeenInsertedInVoice;
     
     // fVoiceLastSegment contains the music
