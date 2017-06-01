@@ -14727,6 +14727,7 @@ void msrSegment::createSegmentInitialMeasure ()
         4, 4);
   }
 
+/* JMI
   string firstMeasureNumber = "?";
   
   if (gGeneralOptions->fTraceSegments) {
@@ -14760,10 +14761,10 @@ void msrSegment::createSegmentInitialMeasure ()
   firstMeasure->
     setMeasureTime ( // JMI
       fSegmentTime);        
-*/
 
   // append firstMeasure to the segment
   appendMeasureToSegment (firstMeasure);
+*/
 }
 
 S_msrSegment msrSegment::createWithFirstMeasure (
