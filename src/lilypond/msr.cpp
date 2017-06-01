@@ -14707,16 +14707,20 @@ S_msrSegment msrSegment::create (
       segmentVoicekUplink);
   assert(o!=0);
 
+/* JMI
   // create the segment initial segment
   o->
     createSegmentInitialMeasure ();
+  */
   
   return o;
 }
 
 void msrSegment::createSegmentInitialMeasure ()
 {
-  string firstMeasureNumber = "?";
+  string firstMeasureNumber = // JMI
+    fSegmentDirectPartUplink->
+      getPartMeasureNumber (); // JMI "?";
   
   if (gGeneralOptions->fTraceSegments) {
     cerr <<
