@@ -2486,7 +2486,14 @@ class EXP msrMeasure : public msrElement
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
+
+    enum msrMeasureImplicitKind {
+        kMeasureImplicitYes,
+        kMeasureImplicitNo };
       
+    static string measureImplicitKindAsString (
+      msrMeasureImplicitKind measureImplicitKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2683,6 +2690,8 @@ class EXP msrMeasure : public msrElement
     S_msrPart           fMeasureDirectPartUplink; // to accelerate things
 
     int                 fMeasureNumber;
+    msrMeasureImplicitKind
+                        fMeasureImplicitKind;
     
     int                 fMeasureDivisionsPerFullMeasure;
 
