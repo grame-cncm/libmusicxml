@@ -2500,7 +2500,7 @@ class EXP msrMeasure : public msrElement
     static SMARTP<msrMeasure> create (
       int           inputLineNumber,
       S_msrPart     measureDirectPartUplink,
-      int           measureNumber,
+      string        measureNumber,
       S_msrSegment  measureSegmentUplink);
     
     SMARTP<msrMeasure> createMeasureBareClone (
@@ -2514,7 +2514,7 @@ class EXP msrMeasure : public msrElement
     msrMeasure (
       int           inputLineNumber,
       S_msrPart     measureDirectPartUplink,
-      int           measureNumber,
+      string        measureNumber,
       S_msrSegment  measureSegmentUplink);
       
     virtual ~msrMeasure();
@@ -5555,16 +5555,16 @@ class EXP msrStanza : public msrElement
                             int divisions);
 
     S_msrSyllable         appendBarnumberCheckSyllableToStanza (
-                            int inputLineNumber,
-                            int divisions);
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
 
     S_msrSyllable         appendBarcheckSyllableToStanza (
                             int inputLineNumber,
                             int divisions);
 
     S_msrSyllable         appendBreakSyllableToStanza (
-                            int inputLineNumber,
-                            int divisions);
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
                 
     // visitors
     // ------------------------------------------------------
@@ -7225,10 +7225,10 @@ class EXP msrStaff : public msrElement
 
     // measure number
     void                  setStaffMeasureNumber (
-                            int inputLineNumber,
-                            int measureNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
                       
-    const int             getStaffMeasureNumber () const
+    const string          getStaffMeasureNumber () const
                               { return fStaffMeasureNumber; }
 
     // voice master
@@ -7361,7 +7361,7 @@ class EXP msrStaff : public msrElement
 
  // JMI   string                  fStaffInstrumentName;
 
-    int                     fStaffMeasureNumber;
+    string                  fStaffMeasureNumber;
     
     S_msrVoice              fStaffMasterVoice;
 
@@ -7523,9 +7523,6 @@ class EXP msrPart : public msrElement
     const int             getPartMeasureNumber () const
                               { return fPartMeasureNumber; }
 
-    const bool            getMeasureZeroHasBeenMetInPart () const
-                              { return fMeasureZeroHasBeenMetInPart; }
-
     void                  setPartMeasurePositionHighTide (
                             int inputLineNumber,
                             int measurePosition);
@@ -7683,7 +7680,6 @@ class EXP msrPart : public msrElement
                             fPartDurationsToDivisions;
 
     int                     fPartMeasureNumber;
-    bool                    fMeasureZeroHasBeenMetInPart;
     int                     fPartMeasurePositionHighTide;
 
     int                     fPartMeasureNumberMin;

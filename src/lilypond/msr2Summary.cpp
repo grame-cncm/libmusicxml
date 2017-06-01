@@ -271,12 +271,6 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       setw(fieldWidth) <<
       "PartInstrumentAbbreviation" << " : \"" <<
       elt->getPartInstrumentAbbreviation () << "\"" <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "MeasureZeroHasBeenMetInPart" << " : " <<
-      booleanAsString (
-        elt->getMeasureZeroHasBeenMetInPart ()) <<
       endl;
 
   fOstream <<

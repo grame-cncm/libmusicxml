@@ -5941,7 +5941,7 @@ void msrNote::initializeNote ()
   // note measure information
   // ------------------------------------------------------
 
-  fNoteMeasureNumber = -10011;
+  fNoteMeasureNumber = "-10011";
   fNotePositionInMeasure = -20022;
   fNoteOccupiesAFullMeasure = false;
 
@@ -7221,14 +7221,8 @@ void msrNote::print (ostream& os)
 
   // print measure related information
   os <<
-    ", meas ";
-    
-  if (fNoteMeasureNumber < 0)
-    os << "?";
-  else
-    os << fNoteMeasureNumber;
-
-  os <<
+    ", meas " <<
+    fNoteMeasureNumber <<
     ":";
     
   if (fNotePositionInMeasure < 0)
@@ -11826,8 +11820,8 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendBarnumberCheckSyllableToStanza (
-  int inputLineNumber,
-  int nextMeasureNumber)
+  int    inputLineNumber,
+  string nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -11859,8 +11853,8 @@ S_msrSyllable msrStanza::appendBarnumberCheckSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendBreakSyllableToStanza (
-  int inputLineNumber,
-  int nextMeasureNumber)
+  int    inputLineNumber,
+  string nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13011,7 +13005,7 @@ void msrBarline::print (ostream& os)
 S_msrMeasure msrMeasure::create (
   int           inputLineNumber,
   S_msrPart     measureDirectPartUplink,
-  int           measureNumber,
+  string        measureNumber,
   S_msrSegment  measureSegmentUplink)
 {
   msrMeasure* o =
@@ -13028,7 +13022,7 @@ S_msrMeasure msrMeasure::create (
 msrMeasure::msrMeasure (
   int           inputLineNumber,
   S_msrPart     measureDirectPartUplink,
-  int           measureNumber,
+  string        measureNumber,
   S_msrSegment  measureSegmentUplink)
     : msrElement (inputLineNumber)
 {
@@ -14786,18 +14780,9 @@ void msrSegment::initializeSegment (S_msrMeasure firstMeasure)
           fInputLineNumber,
           4, 4);
     }
-  
-    // has measure number 0 been met?
-    bool measureZeroHasBeenMet = // JMI
-      fSegmentDirectPartUplink->
-        getMeasureZeroHasBeenMetInPart ();
-  
-    // first measure number
-    int firstMeasureNumber =
-      measureZeroHasBeenMet
-        ? 0
-        : 1;
-  
+
+    string firstMeasureNumber = "?";
+    
     if (gGeneralOptions->fTraceSegments) {
       cerr <<
         idtr <<
@@ -17302,7 +17287,7 @@ string msrVoice::getVoiceName () const
 
 void msrVoice::setVoiceMeasureNumber (
   int    inputLineNumber,
-  string measureNumbe)
+  string measureNumber)
 {
   fVoiceMeasureNumber = measureNumber;
 
@@ -20841,8 +20826,6 @@ void msrPart::initializePart ()
       "Creating part " << getPartCombinedName () << endl;
 
   fPartDivisionsPerQuarterNote = -417; // JMI
-
-  fMeasureZeroHasBeenMetInPart = false;
   
   setPartMeasurePositionHighTide (
     fInputLineNumber, 1);
@@ -21500,10 +21483,6 @@ void msrPart::setPartMeasureNumber
 
   // set part measure location
   fPartMeasureNumber = measureNumber;
-
-  if (measureNumber == 0) {  
-    fMeasureZeroHasBeenMetInPart = true;
-  }
 
   // propagate it to all staves
   for (
