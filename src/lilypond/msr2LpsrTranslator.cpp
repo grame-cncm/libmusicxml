@@ -2730,6 +2730,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
         */
 }
 
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2757,7 +2758,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
   // forget about the current measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone = 0;
 }
-  
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2825,16 +2827,22 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     createNewLastSegmentForVoice (
       elt->getInputLineNumber ());
 
-  // append the multiple rest to the new last segment
+  // append the multiple rest clone to the new last segment
   fCurrentVoiceClone->
     getVoiceLastSegment ()->
       appendMultipleRestToSegment (
         multipleRestClone);
 
+  cerr <<
+      "+++++++++++++" <<
+      fCurrentVoiceClone <<
+      endl;
+      
   // forget about the current multiple rest contents clone
   fCurrentMultipleRestContentsClone = 0;
 }
 
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2876,12 +2884,21 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
+      endl <<
+      "+++++++++++++" <<
+      fCurrentVoiceClone->
+        getVoiceLastSegment () <<
       endl;
 
   fCurrentMultipleRestContentsClone->
     setMultipleRestContentsSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
+
+  cerr <<
+      "+++++++++++++" <<
+      fCurrentMultipleRestContentsClone <<
+      endl;
 }
 
 //________________________________________________________________________
