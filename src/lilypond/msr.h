@@ -4979,8 +4979,8 @@ class EXP msrBreak : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBreak> create (
-      int           inputLineNumber,
-      int           nextBarNumber);
+      int    inputLineNumber,
+      string nextBarNumber);
 
   protected:
 
@@ -4988,8 +4988,8 @@ class EXP msrBreak : public msrElement
     // ------------------------------------------------------
 
     msrBreak (
-      int           inputLineNumber,
-      int           nextBarNumber);
+      int    inputLineNumber,
+      string nextBarNumber);
       
     virtual ~msrBreak();
   
@@ -4998,7 +4998,7 @@ class EXP msrBreak : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getNextBarNumber () const
+    string                getNextBarNumber () const
                               { return fNextBarNumber; }
 
     // services
@@ -5021,7 +5021,7 @@ class EXP msrBreak : public msrElement
 
   private:
 
-    int fNextBarNumber;
+    string                fNextBarNumber;
 };
 typedef SMARTP<msrBreak> S_msrBreak;
 EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
@@ -5101,8 +5101,8 @@ class EXP msrBarnumberCheck : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarnumberCheck> create (
-      int           inputLineNumber,
-      int           nextBarNumber);
+      int    inputLineNumber,
+      string nextBarNumber);
 
   protected:
 
@@ -5110,8 +5110,8 @@ class EXP msrBarnumberCheck : public msrElement
     // ------------------------------------------------------
 
     msrBarnumberCheck (
-      int           inputLineNumber,
-      int           nextBarNumber);
+      int    inputLineNumber,
+      string nextBarNumber);
       
     virtual ~msrBarnumberCheck();
   
@@ -5120,7 +5120,7 @@ class EXP msrBarnumberCheck : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getNextBarNumber () const
+    string                getNextBarNumber () const
                               { return fNextBarNumber; }
 
     // services
@@ -5143,7 +5143,7 @@ class EXP msrBarnumberCheck : public msrElement
 
   private:
 
-    int fNextBarNumber;
+    string                fNextBarNumber;
 };
 typedef SMARTP<msrBarnumberCheck> S_msrBarnumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt);

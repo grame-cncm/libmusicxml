@@ -398,6 +398,12 @@ class msr2LpsrTranslator :
 
     S_msrMultipleRestContents   fCurrentMultipleRestContentsClone;
 
+    // segments
+    // ------------------------------------------------------
+    // segments can be imbedded in others,
+    // the current segment clone is the one at the top of the stack
+    stack<S_msrSegment>       fCurrentSegmentClonesStack;
+    
     // measures
     // ------------------------------------------------------
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
@@ -411,12 +417,6 @@ class msr2LpsrTranslator :
                                 S_msrMeasure originalMeasure,
                                 S_msrMeasure measureClone);
 
-    // segments
-    // ------------------------------------------------------
-    // segments can be imbedded in others,
-    // the current segment clone is the one at the top of the stack
-    stack<S_msrSegment>       fCurrentSegmentClonesStack;
-    
     // notes
     // ------------------------------------------------------
     bool                      fOnGoingNote;

@@ -57,6 +57,9 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fRepeatHasBeenCreatedForCurrentPartClone = false;
   fOnGoingRepeat         = false;
 
+  // measures
+  fMeasuresCounter = 0;
+    
   // notes
   fOnGoingNote           = false;
 
@@ -1096,6 +1099,9 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
   S_msrMeasure originalMeasure,
   S_msrMeasure measureClone)
 {
+  // take this measure into account
+  fMeasuresCounter++;
+  
   // fetch the voice
   S_msrVoice
     voice =
@@ -1232,7 +1238,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       barCheck =
         msrBarCheck::create (
           elt->getInputLineNumber (),
-          elt->getMeasureNumber () + 1);
+          fMeasuresCounter + 1);
               
     // append it to the current voice clone
     fCurrentVoiceClone->

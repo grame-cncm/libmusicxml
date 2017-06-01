@@ -8491,8 +8491,8 @@ void msrComment::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBreak msrBreak::create (
-  int           inputLineNumber,
-  int           nextBarNumber)
+  int    inputLineNumber,
+  string nextBarNumber)
 {
   msrBreak* o =
     new msrBreak (
@@ -8502,8 +8502,8 @@ S_msrBreak msrBreak::create (
 }
 
 msrBreak::msrBreak (
-  int           inputLineNumber,
-  int           nextBarNumber)
+  int    inputLineNumber,
+  string nextBarNumber)
     : msrElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
@@ -8672,8 +8672,8 @@ void msrBarCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarnumberCheck msrBarnumberCheck::create (
-  int           inputLineNumber,
-  int           nextBarNumber)
+  int    inputLineNumber,
+  string nextBarNumber)
 {
   msrBarnumberCheck* o =
     new msrBarnumberCheck (
@@ -8683,8 +8683,8 @@ S_msrBarnumberCheck msrBarnumberCheck::create (
 }
 
 msrBarnumberCheck::msrBarnumberCheck (
-  int           inputLineNumber,
-  int           nextBarNumber)
+  int    inputLineNumber,
+  string nextBarNumber)
     : msrElement (inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
