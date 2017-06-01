@@ -2829,7 +2829,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
 
   // append the multiple rest clone to the current part clone
   fCurrentPartClone->
-    appendMultipleRestToPartClone (
+    appendMultipleRestCloneToPart (
       elt->getInputLineNumber (), // JMI ???
       multipleRestClone);
 

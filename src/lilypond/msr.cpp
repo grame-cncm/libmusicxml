@@ -19162,7 +19162,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
   } // switch
 }
 
-void msrVoice::appendMultipleRestToVoiceClone (
+void msrVoice::appendMultipleRestCloneToVoice (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
@@ -20684,7 +20684,7 @@ void msrStaff::appendPendingMultipleRestToStaff (
   } // for
 }
 
-void msrStaff::appendMultipleRestToStaffClone (
+void msrStaff::appendMultipleRestCloneToStaff (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
@@ -20702,7 +20702,7 @@ void msrStaff::appendMultipleRestToStaffClone (
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      appendMultipleRestToVoiceClone (
+      appendMultipleRestCloneToVoice (
         inputLineNumber,
         multipleRest);
   } // for
@@ -22169,7 +22169,7 @@ void msrPart::appendPendingMultipleRestToPart (
   } // for
 }
 
-void msrPart::appendMultipleRestToPartClone (
+void msrPart::appendMultipleRestCloneToPart (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
@@ -22186,7 +22186,7 @@ void msrPart::appendMultipleRestToPartClone (
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      appendMultipleRestToStaffClone (
+      appendMultipleRestCloneToStaff (
         inputLineNumber,
         multipleRest);
   } // for

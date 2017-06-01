@@ -6904,7 +6904,7 @@ class EXP msrVoice : public msrElement
     void                  appendPendingMultipleRestToVoice (
                             int inputLineNumber);
                             
-    void                  appendMultipleRestToVoiceClone (
+    void                  appendMultipleRestCloneToVoice (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
   
@@ -7316,7 +7316,7 @@ class EXP msrStaff : public msrElement
     void                  appendPendingMultipleRestToStaff (
                             int inputLineNumber);
                             
-    void                  appendMultipleRestToStaffClone (
+    void                  appendMultipleRestCloneToStaff (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
   
@@ -7628,6 +7628,10 @@ class EXP msrPart : public msrElement
     void                  appendPendingMeasureRepeatToPart (
                             int inputLineNumber);
                             
+    void                  appendMeasureRepeatCloneToPart (
+                            int               inputLineNumber,
+                            S_msrMultipleRest multipleRest);
+  
     void                  createMultipleRestInPart (
                             int inputLineNumber,
                             int multipleRestMeasuresNumber);
@@ -7635,7 +7639,7 @@ class EXP msrPart : public msrElement
     void                  appendPendingMultipleRestToPart (
                             int inputLineNumber);
                             
-    void                  appendMultipleRestToPartClone (
+    void                  appendMultipleRestCloneToPart (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
   

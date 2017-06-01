@@ -5675,7 +5675,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
     "R1" << // JMI
     "*" <<
     restMeasuresNumber <<
-    "| ";
+    " | ";
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRest& elt)
