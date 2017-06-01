@@ -2808,30 +2808,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       elt->createMultipleRestBareClone (
         fCurrentVoiceClone);
 
-  // create a multiple rest contents
-  S_msrMultipleRestContents
-    multipleRestContents =
-      msrMultipleRestContents::create (
-        elt->getInputLineNumber (),
-        fCurrentVoiceClone);
-        
-  // set last segment as the multiple rest contents segment
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Setting current last segment as multiple rest contents segment in voice \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      endl;
-
-  multipleRestContents->
-    setMultipleRestContentsSegment (
-      fCurrentVoiceClone->
-        getVoiceLastSegment ());
-
   // set the multiple rest clone's contents
   multipleRestClone->
     setMultipleRestContents (
-      multipleRestContents);
+      fCurrentMultipleRestContentsClone);
     
   // create a new last segment to collect the remainder of the voice,
   // containing the next, yet incomplete, measure
