@@ -2592,10 +2592,6 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  forceMeasureInputLineNumber (
-                            int inputLineNumber)
-                              { fInputLineNumber = inputLineNumber; }
-
     int                   getMeasureLength () const
                             // divisions, positions start at 1
                               { return fMeasurePosition - 1; }
@@ -2797,10 +2793,7 @@ class EXP msrSegment : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  forceSegmentMeasureNumberTo (
-                            int measureNumber); // JMI
-                            
-    void                  incrementSegmentLastMeasureNumber (
+    void                  incrementSegmentLastMeasureNumber ( // JMI
                             int inputLineNumber);
 
     string                segmentAsString ();
@@ -6797,9 +6790,6 @@ class EXP msrVoice : public msrElement
     int                   getVoiceActualHarmoniesCounter () const
                               { return fVoiceActualHarmoniesCounter; }
 
-    int                   getMeasureZeroHasBeenMetInVoice () const
-                              { return fMeasureZeroHasBeenMetInVoice; }
-
     S_msrTime             getVoiceTime () const
                               { return fVoiceTime; }
                
@@ -6810,10 +6800,6 @@ class EXP msrVoice : public msrElement
                       
     const int             getVoiceMeasureNumber () const
                               { return fVoiceMeasureNumber; }
-
-    // has measure number been set in the voice?
-    bool                  getMeasureNumberHasBeenSetInVoice () const
-                              { return fMeasureNumberHasBeenSetInVoice; }
 
     // has music been inserted in the voice?
     void                  setMusicHasBeenInsertedInVoice ()
@@ -6826,8 +6812,6 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     string                voiceKindAsString () const;
-
-    void                  forceVoiceMeasureNumberTo (int measureNumber); // JMI
                       
     void                  appendClefToVoice (S_msrClef clef);
     void                  appendKeyToVoice  (S_msrKey  key);
@@ -7009,9 +6993,7 @@ class EXP msrVoice : public msrElement
 
     int                       fVoiceMeasureNumber;
     
-    // anacrusis detection JMI ???
-    bool                      fMeasureZeroHasBeenMetInVoice; // JMI virer
-    bool                      fMeasureNumberHasBeenSetInVoice; // JMI virer
+    // checking for musically empty voices
     bool                      fMusicHasBeenInsertedInVoice;
     
     // fVoiceLastSegment contains the music

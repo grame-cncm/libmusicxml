@@ -429,18 +429,6 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "MeasureZeroHasBeenMetInVoice" << " : " <<
-      booleanAsString (
-        elt->getMeasureZeroHasBeenMetInVoice ()) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "MeasureNumberHasBeenSetInVoice" << " : " <<
-      booleanAsString (
-        elt->getMeasureNumberHasBeenSetInVoice ()) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
       "MusicHasBeenInsertedInVoice" << " : " <<
       booleanAsString (
         elt->getMusicHasBeenInsertedInVoice ()) <<

@@ -15056,7 +15056,7 @@ void msrSegment::setSegmentMeasureNumber (
       "Setting measure to " << measureNumber <<
       " in segment " << segmentAsString () <<
       ", line " << inputLineNumber <<
-      ", the measure is " <<
+      ", the POTENTIAL measure kind is " <<
       msrMeasure::measureKindAsString (measureKind) <<
       endl;
 
@@ -15064,214 +15064,34 @@ void msrSegment::setSegmentMeasureNumber (
     inputLineNumber,
     measureKind);
 
+  fSegmentMeasureNumber = measureNumber; // JMI
+
   // fetch segment last measure
   S_msrMeasure
     lastMeasure =
       fSegmentMeasuresList.back ();
 
-  /* JMI
-  // fetch its last measure position and length
-  int
-    lastMeasureNumber =
-      lastMeasure->
-        getMeasureNumber (),
-        
-    lastMeasurePosition =
-      lastMeasure->
-        getMeasurePosition (),
-      
-    lastMeasureLength =
-      lastMeasure->
-        getMeasureLength (),
-      
-    lastMeasureDivisionsPerFullMeasure =
-      lastMeasure->
-        getMeasureDivisionsPerFullMeasure ();
-
-/ * JMI
-  msrMeasure::msrMeasureKind
-    lastMeasureKind =
-      lastMeasure->
-        getMeasureKind ();
-* /
-        
- // JMI if (gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fDebug) {
-    cerr <<
-      idtr <<
-        setw(38) << "% --> setSegmentMeasureNumber (" <<
-        measureNumber <<
-        ") for segment " << segmentAsString () <<
-        endl;
-
-    idtr++;
-
-    cerr <<
-      idtr <<
-        setw(38) << "lastMeasureNumber" << " = " <<
-        lastMeasureNumber <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasureDivisionsPerFullMeasure" << " = " <<
-        lastMeasureDivisionsPerFullMeasure <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasurePosition" << " = " <<
-        lastMeasurePosition <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasureLength" << " = " <<
-        lastMeasureLength <<
-        endl;
-
-    idtr--;
-  }
-      
-  // is the last measure full? (positions start at 1)
-  if (lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure) {
-    // no, register last measure as incomplete
+  // finalize last measure
+  lastMeasure->
+    finalizeMeasure (
+      inputLineNumber,
+      measureKind);
     
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-          "Measure " << measureNumber <<
-          " of segment " << fSegmentAbsoluteNumber <<
-          " in voice \"" <<
-          getSegmentVoiceUplink ()->getVoiceName () << "\"" <<
-          " is " <<
-          string(
-            lastMeasurePosition == 1
-              ? "incomplete"
-              : "empty") <<
-          ", line " << inputLineNumber <<
-          ": position = " << lastMeasurePosition <<
-          ", divisionsPerWholeMeasure = " <<
-          lastMeasureDivisionsPerFullMeasure <<
-        endl;
-    }
-    
-    if (fSegmentMeasuresList.size () == 1) {
-      // this is the first measure in the segment
-      lastMeasure->
-        setMeasureKind (
-          msrMeasure::kIncompleteLeftMeasure);
-    }
-    
-    else {
-      // this is the last measure in the segment
-      lastMeasure->
-        setMeasureKind (
-          msrMeasure::kIncompleteRightMeasure);
-    }
-  }
-  
-  else {
-    // yes, last measure is full JMI
-  }
-
-  */
-  
-  fSegmentMeasureNumber = measureNumber; // JMI
-
-  bool doCreateAMeasure = false;
-              
-  const int fieldWidth = 31;
-
-  switch (measureNumber) {
-    case 0:
-      // measure 1 has already been created by default, re-number it a 0
-      if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
-        cerr <<
-          idtr <<
-            "There are currently " <<
-            singularOrPlural(
-              fSegmentMeasuresList.size (), "measure", "measures") <<
-            " in segment " << segmentAsString () <<
-            endl <<
-          idtr <<
-            setw(fieldWidth) <<
-            "renumbering measure 1 as 0" << // JMI
-            endl;
-  
-      lastMeasure->
-        setMeasureNumber (0);
-        
-      doCreateAMeasure = false;    
-      break;
-
-    case 1:
-      if (lastMeasure->getMeasureNumber () == 0) {
-        // this is the second measure, that should be created
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
-          cerr <<
-            idtr <<
-              "There are currently " <<
-              fSegmentMeasuresList.size () <<
-            " measures in segment " << segmentAsString () <<
-              endl <<
-            idtr <<
-              setw(fieldWidth) <<
-              "Measure 1 found after measure 0, "
-              "a new measure is being created" <<
-              endl;
-              
-        doCreateAMeasure = true;
-      }
-      else {
-        // measure 1 has already been created by default
-      }
-      break;
-      
-    default:
-      if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
-        cerr <<
-          idtr <<
-            "### there are currently " <<
-            fSegmentMeasuresList.size () <<
-            " measures in segment " << segmentAsString () <<
-            endl <<
-          idtr <<
-            setw(fieldWidth) <<
-            "% --> measure " << measureNumber <<
-            " found, a new measure is being created" <<
-            endl;
-              
-      doCreateAMeasure = true;    
-  } // switch
-
-  if (doCreateAMeasure) {
-    // finalize last measure
-    lastMeasure->
-      finalizeMeasure (
+  // create a new measure
+  S_msrMeasure
+    newMeasure =
+      msrMeasure::create (
         inputLineNumber,
-        measureKind);
-      
-    // create a new measure
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fSegmentDirectPartUplink,
-          measureNumber,
-          this);
-  
-    // append it to the segment's measures list
-    fSegmentMeasuresList.push_back (
-      newMeasure);
-  }
+        fSegmentDirectPartUplink,
+        measureNumber,
+        this);
+
+  // append it to the segment's measures list
+  fSegmentMeasuresList.push_back (
+    newMeasure);
   
   fMeasureNumberHasBeenSetInSegment = true;
 }
-
-void msrSegment::forceSegmentMeasureNumberTo (int measureNumber) // JMI
-{
-  fSegmentMeasureNumber = measureNumber;
-
-  if (fSegmentMeasuresList.size ()) {
-    fSegmentMeasuresList.back ()->
-      setMeasureNumber (measureNumber);
-  }
-};
 
 void msrSegment::incrementSegmentLastMeasureNumber (
   int inputLineNumber)
@@ -17517,8 +17337,6 @@ void msrVoice::initializeVoice ()
   // there may be an anacrusis, but let's start with 1 anyway
   fVoiceMeasureNumber = 1;
 
-  fMeasureZeroHasBeenMetInVoice   = false;
-  fMeasureNumberHasBeenSetInVoice = false;
   fMusicHasBeenInsertedInVoice    = false;
   
   fVoiceActualNotesCounter     = 0;
@@ -17640,10 +17458,6 @@ S_msrVoice msrVoice::createVoiceBareClone (S_msrStaff staffClone)
   clone->fVoiceTime =
     fVoiceTime;
 
-  clone->fMeasureZeroHasBeenMetInVoice =
-    fMeasureZeroHasBeenMetInVoice;
-  clone->fMeasureNumberHasBeenSetInVoice =
-    fMeasureNumberHasBeenSetInVoice;
   clone->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
   
@@ -17682,21 +17496,7 @@ void msrVoice::setVoiceMeasureNumber (
     setSegmentMeasureNumber (
       inputLineNumber,
       fVoiceMeasureNumber);
-
-  fMeasureNumberHasBeenSetInVoice = true;
-
-  if (measureNumber == 0) {  
-    fMeasureZeroHasBeenMetInVoice = true;
-  }
 }
-
-void msrVoice::forceVoiceMeasureNumberTo (int measureNumber) // JMI
-{
-  fVoiceMeasureNumber = measureNumber;
-
-  fVoiceLastSegment->
-    forceSegmentMeasureNumberTo (measureNumber);
-};
 
 bool msrVoice::checkForIncompleteVoiceLastMeasure (
   int inputLineNumber)
@@ -19634,16 +19434,6 @@ void msrVoice::print (ostream& os)
   const int fieldWidth = 33;
 
   os <<
-    idtr <<
-      setw(fieldWidth) << "(fMeasureZeroHasBeenMetInVoice" << " = " <<
-      booleanAsString (fMeasureZeroHasBeenMetInVoice) <<
-      ")" <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) << "(fMeasureNumberHasBeenSetInVoice" << " = " <<
-      booleanAsString (fMeasureNumberHasBeenSetInVoice) <<
-      ")" <<
-      endl <<
     idtr <<
       setw(fieldWidth) << "(fMusicHasBeenInsertedInVoice" << " = " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
@@ -23938,113 +23728,4 @@ void msrMidi::print (ostream& os)
 
 
 }
-
-      /* JMI virer
-// JMI    if (lastMeasureNumber == measureNumber) {
-    if (lastMeasureNumber == 1 && measureNumber == 1) {
-      // don't append measure 1 if it is already present
-
-      if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-        cerr << idtr <<
-          "### % --> replacing initial measure 1 of segment " <<
-          segmentAsString () <<
-        " by new one" <<
-          ", line " << inputLineNumber <<
-          endl;
-
-
-      // remove previous measure with same number XXL
-      fSegmentMeasuresList.pop_back ();
-
-
-      // fetch lastMeasure clef, key and time if any
-      measure->setMeasureClef (
-        lastMeasure->getMeasureClef ());
-      measure->setMeasureKey (
-        lastMeasure->getMeasureKey ());
-      measure->setMeasureTime (
-        lastMeasure->getMeasureTime ());
-    }
-    
-    else if (lastMeasureNumber == 1 && measureNumber == 0) {
-      // remove initial measure 1
-
-      if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-        cerr << idtr <<
-          "### % --> replacing initial measure 1 of segment " <<
-          segmentAsString () <<
-          " by measure 0" <<
-          ", line " << inputLineNumber <<
-          endl;
-
-      fSegmentMeasuresList.pop_back ();
-    }
-
-    else if (lastMeasureNumber == measureNumber) {
-      
-   //   if (lastMeasure->getMeasureElementsList ().size ()) {
-        // keep existing measure, since it's empty
-        if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-          cerr << idtr <<
-            "### % --> keeping measure " << lastMeasureNumber <<
-            " of segment " << segmentAsString () <<
-            " that already exists" <<
-            ", line " << inputLineNumber <<
-            endl;
-
-      // fetch measure clef, key and time if any
-      lastMeasure->setMeasureClef (
-        measure->getMeasureClef ());
-      lastMeasure->setMeasureKey (
-        measure->getMeasureKey ());
-      lastMeasure->setMeasureTime (
-        measure->getMeasureTime ());
-
-      // use new measure's input line number for existing one
-      lastMeasure->
-        forceMeasureInputLineNumber (inputLineNumber);
-        
-      doAppendMeasure = false;
-//      // remove previous measure with same number XXL
- // JMI     fSegmentMeasuresList.pop_back ();
- /*
-      }
-      
-      else {
-        stringstream s;
-
-        s <<
-          "measure " << measureNumber <<
-          " already exists and is not empty" <<
-          " cannot append it to segment " <<
-          fSegmentAbsoluteNumber;
-
-        msrInternalError (
-          inputLineNumber,
-          s.str());
-      }
-    */
-
-
-/* JMI
-  bool doAppendMeasure = true; // JMI
-  
-  if (fSegmentMeasuresList.size ()) {
-
-    int inputLineNumber =
-      measure-> getInputLineNumber ();
-      
-    S_msrMeasure
-      lastMeasure =
-        fSegmentMeasuresList.back ();
-
-    int
-      measureNumber =
-        measure->getMeasureNumber (),
-      lastMeasureNumber =
-        lastMeasure->getMeasureNumber ();
-
-  if (doAppendMeasure)
-  }
-  */
 
