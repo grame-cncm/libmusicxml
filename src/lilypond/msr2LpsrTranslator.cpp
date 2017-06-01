@@ -1985,7 +1985,7 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
           getStaffAllVoicesMap ();
           
     for (
-      map<int, S_msrVoice>::iterator j=staffAllVoicesMap.begin();
+      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin();
       j!=staffAllVoicesMap.end();
       j++) {
 

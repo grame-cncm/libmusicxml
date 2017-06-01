@@ -14705,7 +14705,65 @@ S_msrSegment msrSegment::create (
       segmentVoicekUplink);
   assert(o!=0);
 
+  // create the segment initial segment
+  o->
+    createSegmentInitialMeasure ();
+  
   return o;
+}
+
+void msrSegment::createSegmentInitialMeasure ()
+{
+  // regular segment creation
+  fSegmentTime =
+    fSegmentVoiceUplink->
+      getVoiceTime ();
+
+  if (! fSegmentTime) {
+    // use the implicit initial 4/4 time signature
+    fSegmentTime =
+      msrTime::create (
+        fInputLineNumber,
+        4, 4);
+  }
+
+  string firstMeasureNumber = "?";
+  
+  if (gGeneralOptions->fTraceSegments) {
+    cerr <<
+      idtr <<
+        "Creating segment " << segmentAsString () <<
+        "'s first measure with number " <<
+        firstMeasureNumber <<
+        ", in voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        endl;
+  }
+
+  // create a first measure
+  S_msrMeasure
+    firstMeasure =
+      msrMeasure::create (
+        fInputLineNumber,
+        fSegmentDirectPartUplink,
+        firstMeasureNumber,
+        this);
+
+  // set the measure clef, key and time if any
+  /*  JMI
+  measure->setMeasureClef (
+    lastMeasure->getMeasureClef ());
+  measure->setMeasureKey (
+    lastMeasure->getMeasureKey ());
+    * /
+  firstMeasure->
+    setMeasureTime ( // JMI
+      fSegmentTime);        
+*/
+
+  // append firstMeasure to the segment
+  appendMeasureToSegment (firstMeasure);
 }
 
 S_msrSegment msrSegment::createWithFirstMeasure (
@@ -14767,57 +14825,6 @@ void msrSegment::initializeSegment ()
       fSegmentAbsoluteNumber <<
       endl;
   }
-
-/* JMI
-  if (! firstMeasure) {
-    // regular segment creation
-    fSegmentTime =
-      fSegmentVoiceUplink->
-        getVoiceTime ();
-  
-  
-    if (! fSegmentTime) {
-      // use the implicit initial 4/4 time signature
-      fSegmentTime =
-        msrTime::create (
-          fInputLineNumber,
-          4, 4);
-    }
-
-    string firstMeasureNumber = "?";
-    
-    if (gGeneralOptions->fTraceSegments) {
-      cerr <<
-        idtr <<
-          "Creating segment " << segmentAsString () <<
-          "'s first measure with number " <<
-          firstMeasureNumber <<
-          ", in voice \"" <<
-          fSegmentVoiceUplink->getVoiceName () <<
-          "\"" <<
-          endl;
-    }
-
-    // create a first measure
-    firstMeasure =
-      msrMeasure::create (
-        fInputLineNumber,
-        fSegmentDirectPartUplink,
-        firstMeasureNumber,
-        this);
-
-    // set the measure clef, key and time if any
-    /*  JMI
-    measure->setMeasureClef (
-      lastMeasure->getMeasureClef ());
-    measure->setMeasureKey (
-      lastMeasure->getMeasureKey ());
-      * /
-    firstMeasure->
-      setMeasureTime ( // JMI
-        fSegmentTime);        
-  }
-*/
 
   fMeasureNumberHasBeenSetInSegment = false;
 }

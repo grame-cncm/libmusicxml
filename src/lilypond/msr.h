@@ -2747,6 +2747,8 @@ class EXP msrSegment : public msrElement
 
     void                  initializeSegment ();
 
+    void                  createSegmentInitialMeasure ();
+
   public:
 
     // set and get
