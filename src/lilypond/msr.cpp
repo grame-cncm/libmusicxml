@@ -19162,6 +19162,63 @@ void msrVoice::appendPendingMultipleRestToVoice (
   } // switch
 }
 
+void msrVoice::appendMultipleRestToVoiceClone (
+  int               inputLineNumber,
+  S_msrMultipleRest multipleRest)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      {
+        if (gGeneralOptions->fTraceRepeats) {
+          cerr << idtr <<
+            "Appending multiple rest '" <<
+            multipleRest->multipleRestAsString () <<
+            " to voice clone \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+/*
+        // print current voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl <<
+            idtr;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+*/
+
+        // append pending multiple rest to the list of repeats and segments
+        fVoiceInitialRepeatsAndSegments.push_back (
+          multipleRest);
+
+        // print resulting voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "The resulting voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        print (cerr);
+        idtr--;
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+  } // switch
+}
+
 void msrVoice::appendRepeatCloneToVoice (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
@@ -20627,6 +20684,30 @@ void msrStaff::appendPendingMultipleRestToStaff (
   } // for
 }
 
+void msrStaff::appendMultipleRestToStaffClone (
+  int               inputLineNumber,
+  S_msrMultipleRest multipleRest)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending multiple rest '" <<
+      multipleRest->multipleRestAsString () <<
+      "' to staff clone \"" <<
+      getStaffName () <<
+      "\"" <<
+      endl;
+
+  for (
+    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendMultipleRestToVoiceClone (
+        inputLineNumber,
+        multipleRest);
+  } // for
+}
+
 void msrStaff::appendRepeatCloneToStaff (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
@@ -22085,6 +22166,29 @@ void msrPart::appendPendingMultipleRestToPart (
     (*i).second->
       appendPendingMultipleRestToStaff (
         inputLineNumber);
+  } // for
+}
+
+void msrPart::appendMultipleRestToPartClone (
+  int               inputLineNumber,
+  S_msrMultipleRest multipleRest)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending multiple rest '" <<
+      multipleRest->multipleRestAsString () <<
+      "' to part clone " <<
+      getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      appendMultipleRestToStaffClone (
+        inputLineNumber,
+        multipleRest);
   } // for
 }
 

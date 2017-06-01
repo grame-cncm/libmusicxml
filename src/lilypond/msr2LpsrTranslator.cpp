@@ -2827,11 +2827,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     createNewLastSegmentForVoice (
       elt->getInputLineNumber ());
 
-  // append the multiple rest clone to the new last segment
-  fCurrentVoiceClone->
-    getVoiceLastSegment ()->
-      appendMultipleRestToSegment (
-        multipleRestClone);
+  // append the multiple rest clone to the current part clone
+  fCurrentPartClone->
+    appendMultipleRestToPartClone (
+      elt->getInputLineNumber (), // JMI ???
+      multipleRestClone);
 
   cerr <<
       "+++++++++++++" <<
