@@ -2600,9 +2600,6 @@ class EXP msrMeasure : public msrElement
     
     string                getMeasureKindAsString () const;
 
-    S_msrMeasure          appendMeasureIfOverflow (
-                            int inputLineNumber);
-
     void                  appendBarlineToMeasure (S_msrBarline barline);
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
     

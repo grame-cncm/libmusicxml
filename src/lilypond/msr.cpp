@@ -13153,81 +13153,11 @@ void msrMeasure::setMeasureTime (S_msrTime time)
       /
     time->getBeatsValue ();
 }
-
-S_msrMeasure msrMeasure::appendMeasureIfOverflow (
-  int inputLineNumber)
-{
-  S_msrMeasure
-    newMeasure;
-
-/* KEEP JMI
-  // the first barline in a part comes before <divisions/>,
-  // hence fMeasureDivisionsPerWholeMeasure may be 0:
-  // don't test for measure measure change in that case
-  
-  if (
-    fMeasureDivisionsPerFullMeasure > 0
-      &&
-    fMeasurePosition > fMeasureDivisionsPerFullMeasure
-    ) {
-    // measure overflows, we must synchonize all voices in this part
-    
-    if (gGeneralOptions->fTraceMeasures)
-      cerr <<
-        idtr <<
-          "@@@@@@@@@@@@@@@@@ % --> measure " << fMeasureNumber <<
-          " overflows, line " << inputLineNumber <<
-          endl<<
-        idtr <<
-          "fMeasurePosition = " << fMeasurePosition <<
-          ", fMeasureDivisionsPerFullMeasure = " << fMeasureDivisionsPerFullMeasure <<
-        endl;
-  
-    // finalize this measure
-    this->
-      finalizeMeasure (
-        inputLineNumber,
-        msrMeasure::kOverfullMeasure); // JMI see cadenzas
-      
-    // create a new measure
-    newMeasure =
-      msrMeasure::create (
-        inputLineNumber,
-        fMeasureNumber + 1,
-        fMeasureSegmentUplink);
-
-    // append it to the segment
-    fMeasureSegmentUplink->
-      appendMeasureToSegment (
-        newMeasure);
-  }
-*/
-
-  return newMeasure;
-}
   
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
-  /* JMI
-  int inputLineNumber =
-    barline->getInputLineNumber ();
-
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append barline to it thru the segment
-    fMeasureSegmentUplink->
-      appendBarlineToSegment (barline);
-  }
-
-  else
-  */
-  {
-    // regular insertion in current measure
-    // append the bar check to the measure elements list
-    fMeasureElementsList.push_back (barline);
-  }  
+  // append the bar check to the measure elements list
+  fMeasureElementsList.push_back (barline);
 }
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
@@ -13253,130 +13183,117 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       "\"" <<
       endl;
 
-    /* JMI
-  if (appendMeasureIfOverflow (inputLineNumber)) {
-    // a new measure has been appended to the segment
-    // append note to it via the segment
-    fMeasureSegmentUplink->
-      appendNoteToSegment (note);
-  }
+  // populate measure uplink
+  note->setNoteMeasureUplink (this);
 
-  else {
-  */
-    // regular insertion in current measure
-    
-    // populate measure uplink
-    note->setNoteMeasureUplink (this);
-
-    // register note measure number
-    note->setNoteMeasureNumber (fMeasureNumber);
-    
-    // register note measure position
-    int noteMeasurePosition = fMeasurePosition; // for harmony voice
-    
-    note->setNotePositionInMeasure (noteMeasurePosition);
-    
-    // fetch note sounding divisions
-    int noteSoundingDivisions =
-      note->getNoteSoundingDivisions ();
-
-    // account for note duration in measure position
-    setMeasurePosition (
-      inputLineNumber,
-      fMeasurePosition + noteSoundingDivisions);
+  // register note measure number
+  note->setNoteMeasureNumber (fMeasureNumber);
   
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
+  // register note measure position
+  int noteMeasurePosition = fMeasurePosition; // for harmony voice
   
-    // determine if the note occupies a full measure
-    if (noteSoundingDivisions == fMeasureDivisionsPerFullMeasure)
-      note->setNoteOccupiesAFullMeasure ();
+  note->setNotePositionInMeasure (noteMeasurePosition);
   
-    // append the note to the measure elements list
-  // JMI  // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    fMeasureElementsList.push_back (note);
+  // fetch note sounding divisions
+  int noteSoundingDivisions =
+    note->getNoteSoundingDivisions ();
 
-    // fetch part harmony voice
-    S_msrVoice
-      partHarmonyVoice =
-        fMeasureDirectPartUplink->
-          getPartHarmonyVoice ();
+  // account for note duration in measure position
+  setMeasurePosition (
+    inputLineNumber,
+    fMeasurePosition + noteSoundingDivisions);
 
-    // fetch part harmony supplier voice
-    S_msrVoice
-      partHarmoniesSupplierVoice =
-        fMeasureDirectPartUplink->
-          getPartHarmoniesSupplierVoice ();
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
 
-    // fetch note harmony
-    S_msrHarmony
-      noteHarmony =
-        note->getNoteHarmony ();
-        
-    // don't handle the note harmony here,
-    // this has been done after harmony::create()
-    if (! noteHarmony) {
-      if (partHarmoniesSupplierVoice) {
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+  // determine if the note occupies a full measure
+  if (noteSoundingDivisions == fMeasureDivisionsPerFullMeasure)
+    note->setNoteOccupiesAFullMeasure ();
+
+  // append the note to the measure elements list
+// JMI  // only now to make it possible to remove it afterwards
+  // if it happens to be the first note of a chord
+  fMeasureElementsList.push_back (note);
+
+  // fetch part harmony voice
+  S_msrVoice
+    partHarmonyVoice =
+      fMeasureDirectPartUplink->
+        getPartHarmonyVoice ();
+
+  // fetch part harmony supplier voice
+  S_msrVoice
+    partHarmoniesSupplierVoice =
+      fMeasureDirectPartUplink->
+        getPartHarmoniesSupplierVoice ();
+
+  // fetch note harmony
+  S_msrHarmony
+    noteHarmony =
+      note->getNoteHarmony ();
+      
+  // don't handle the note harmony here,
+  // this has been done after harmony::create()
+  if (! noteHarmony) {
+    if (partHarmoniesSupplierVoice) {
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "fMeasureVoiceDirectUplink = \"" <<
+          fMeasureVoiceDirectUplink->getVoiceName () <<
+          "\"" <<
+          endl <<
+          "partHarmoniesSupplierVoice = \"" <<
+          partHarmoniesSupplierVoice->getVoiceName () <<
+          "\"" <<
+          endl;
+
+/* JMI
+      // bring harmony voice to the same measure position
+      partHarmonyVoice->
+        bringVoiceToMeasurePosition (
+          inputLineNumber,
+          noteMeasurePosition);
+*/
+
+      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+      if (
+        fMeasureVoiceDirectUplink
+          ==
+        partHarmoniesSupplierVoice) {
+        // yes, create a skip note of the same duration as the note
+        S_msrNote
+          skipNote =
+            msrNote::createSkipNote (
+              inputLineNumber,
+              fMeasureDirectPartUplink,
+              noteSoundingDivisions,
+              note->getNoteDotsNumber (),
+              partHarmonyVoice->
+                getVoiceStaffUplink ()->
+                  getStaffNumber (),
+              partHarmonyVoice->
+                getExternalVoiceNumber ());
+  
+        // append the skip to the part harmony voice
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
           cerr << idtr <<
-            "fMeasureVoiceDirectUplink = \"" <<
-            fMeasureVoiceDirectUplink->getVoiceName () <<
-            "\"" <<
-            endl <<
-            "partHarmoniesSupplierVoice = \"" <<
-            partHarmoniesSupplierVoice->getVoiceName () <<
+            "Appending skip '" << skipNote->noteAsShortString () <<
+            "' to measure '" << fMeasureNumber <<
+            "' in harmony voice \"" <<
+            partHarmonyVoice->getVoiceName () <<
             "\"" <<
             endl;
-  
-  /* JMI
-        // bring harmony voice to the same measure position
+
         partHarmonyVoice->
-          bringVoiceToMeasurePosition (
-            inputLineNumber,
-            noteMeasurePosition);
-  */
-  
-        // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
-        if (
-          fMeasureVoiceDirectUplink
-            ==
-          partHarmoniesSupplierVoice) {
-          // yes, create a skip note of the same duration as the note
-          S_msrNote
-            skipNote =
-              msrNote::createSkipNote (
-                inputLineNumber,
-                fMeasureDirectPartUplink,
-                noteSoundingDivisions,
-                note->getNoteDotsNumber (),
-                partHarmonyVoice->
-                  getVoiceStaffUplink ()->
-                    getStaffNumber (),
-                partHarmonyVoice->
-                  getExternalVoiceNumber ());
-    
-          // append the skip to the part harmony voice
-          if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-            cerr << idtr <<
-              "Appending skip '" << skipNote->noteAsShortString () <<
-              "' to measure '" << fMeasureNumber <<
-              "' in harmony voice \"" <<
-              partHarmonyVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-  
-          partHarmonyVoice->
-            appendNoteToVoice (skipNote);
-        }
+          appendNoteToVoice (skipNote);
       }
     }
+  }
 
-    // register note as the last one in this measure
-    fMeasureLastHandledNote = note;
- // JMI }
+  // register note as the last one in this measure
+  fMeasureLastHandledNote = note;
 }
 
 void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
@@ -13515,81 +13432,68 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 {
   int inputLineNumber =
     doubleTremolo->getInputLineNumber ();
-    
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append doubleTremolo to it thru the segment
-    fMeasureSegmentUplink->
-      appendDoubleTremoloToSegment (doubleTremolo);
-  }
-
-  else {
-    // regular insertion in current measure
-    
-    // populate measure uplink
-    doubleTremolo->setDoubleTremoloMeasureUplink (this);
-
-    if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending double tremolo '" <<
-        doubleTremolo->doubleTremoloAsShortString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        endl;
   
-    // register doubleTremolo measure number
-    doubleTremolo->
-      setDoubleTremoloMeasureNumber (fMeasureNumber);
-    
-    // register doubleTremolo measure position
-    doubleTremolo->
-      setDoubleTremoloPositionInMeasure (
-        fMeasurePosition);
+  // populate measure uplink
+  doubleTremolo->setDoubleTremoloMeasureUplink (this);
 
-    // copy measure number to first note, that was created beforehand
-    doubleTremolo->
-      setDoubleTremoloMeasureNumber (
-        fMeasureNumber);
-    
-    // copy measure position to first note, that was created beforehand
-    doubleTremolo->
-      setDoubleTremoloPositionInMeasure (
-        fMeasurePosition);
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending double tremolo '" <<
+      doubleTremolo->doubleTremoloAsShortString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
 
-    // fetch doubleTremolo divisions
-    int doubleTremoloSoundingDivisions =
-      doubleTremolo->getDoubleTremoloSoundingDivisions ();
-      
-    // account for doubleTremolo duration in measure position
-    setMeasurePosition (
-      inputLineNumber,
-      fMeasurePosition + doubleTremoloSoundingDivisions);
+  // register doubleTremolo measure number
+  doubleTremolo->
+    setDoubleTremoloMeasureNumber (fMeasureNumber);
   
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
+  // register doubleTremolo measure position
+  doubleTremolo->
+    setDoubleTremoloPositionInMeasure (
+      fMeasurePosition);
+
+  // copy measure number to first note, that was created beforehand
+  doubleTremolo->
+    setDoubleTremoloMeasureNumber (
+      fMeasureNumber);
   
-    // determine if the doubleTremolo occupies a full measure
+  // copy measure position to first note, that was created beforehand
+  doubleTremolo->
+    setDoubleTremoloPositionInMeasure (
+      fMeasurePosition);
+
+  // fetch doubleTremolo divisions
+  int doubleTremoloSoundingDivisions =
+    doubleTremolo->getDoubleTremoloSoundingDivisions ();
+    
+  // account for doubleTremolo duration in measure position
+  setMeasurePosition (
+    inputLineNumber,
+    fMeasurePosition + doubleTremoloSoundingDivisions);
+
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
+
+  // determine if the doubleTremolo occupies a full measure
 // XXL  JMI  if (doubleTremoloSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
-      // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
-  
-    // append the doubleTremolo to the measure elements list
-    fMeasureElementsList.push_back (doubleTremolo);
+    // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
 
-    // bring harmony voice to the same measure position
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          fMeasurePosition);
-  }
+  // append the doubleTremolo to the measure elements list
+  fMeasureElementsList.push_back (doubleTremolo);
+
+  // bring harmony voice to the same measure position
+  fMeasureDirectPartUplink->
+    getPartHarmonyVoice ()->
+      bringVoiceToMeasurePosition (
+        inputLineNumber,
+        fMeasurePosition);
 }
 
 void msrMeasure::appendMeasureRepeatToMeasure (
@@ -13598,86 +13502,73 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   int inputLineNumber =
     measureRepeat->getInputLineNumber ();
     
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append measureRepeat to it thru the segment
-    fMeasureSegmentUplink->
-      appendMeasureRepeatToSegment (measureRepeat);
-  }
-
-  else {
-    // regular insertion in current measure
-
-  /* JMI  
-    // populate measure uplink
-    measureRepeat->setMeasureRepeatMeasureUplink (this);
+/* JMI  
+  // populate measure uplink
+  measureRepeat->setMeasureRepeatMeasureUplink (this);
 */
 
-    if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending multiple rest '" <<
-        measureRepeat->measureRepeatAsString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        endl;
-
-  /* JMI
-    // register measureRepeat measure number
-    measureRepeat->
-      setmeasureRepeatMeasureNumber (fMeasureNumber);
-    
-    // register measureRepeat measure position
-    measureRepeat->
-      setmeasureRepeatPositionInMeasure (
-        fMeasurePosition);
-
-    // copy measure number to first note, that was created beforehand
-    measureRepeat->
-      setmeasureRepeatMeasureNumber (
-        fMeasureNumber);
-    
-    // copy measure position to first note, that was created beforehand
-    measureRepeat->
-      setmeasureRepeatPositionInMeasure (
-        fMeasurePosition);
-
-    // fetch measureRepeat divisions
-    int measureRepeatSoundingDivisions =
-      measureRepeat->getmeasureRepeatSoundingDivisions ();
-      
-    // account for measureRepeat duration in measure position
-    setMeasurePosition (
-      inputLineNumber,
-      fMeasurePosition + measureRepeatSoundingDivisions);
-  
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
-  
-    // determine if the measureRepeat occupies a full measure
-// XXL  JMI  if (measureRepeatSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
-      // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
-  */
-  
-    // append the measureRepeat to the measure elements list
-    fMeasureElementsList.push_back (measureRepeat);
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending multiple rest '" <<
+      measureRepeat->measureRepeatAsString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
 
 /* JMI
-    // bring harmony voice to the same measure position
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          fMeasurePosition);
-          */
-  }
+  // register measureRepeat measure number
+  measureRepeat->
+    setmeasureRepeatMeasureNumber (fMeasureNumber);
+  
+  // register measureRepeat measure position
+  measureRepeat->
+    setmeasureRepeatPositionInMeasure (
+      fMeasurePosition);
+
+  // copy measure number to first note, that was created beforehand
+  measureRepeat->
+    setmeasureRepeatMeasureNumber (
+      fMeasureNumber);
+  
+  // copy measure position to first note, that was created beforehand
+  measureRepeat->
+    setmeasureRepeatPositionInMeasure (
+      fMeasurePosition);
+
+  // fetch measureRepeat divisions
+  int measureRepeatSoundingDivisions =
+    measureRepeat->getmeasureRepeatSoundingDivisions ();
+    
+  // account for measureRepeat duration in measure position
+  setMeasurePosition (
+    inputLineNumber,
+    fMeasurePosition + measureRepeatSoundingDivisions);
+
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
+
+  // determine if the measureRepeat occupies a full measure
+// XXL  JMI  if (measureRepeatSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
+    // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
+*/
+
+  // append the measureRepeat to the measure elements list
+  fMeasureElementsList.push_back (measureRepeat);
+
+/* JMI
+  // bring harmony voice to the same measure position
+  fMeasureDirectPartUplink->
+    getPartHarmonyVoice ()->
+      bringVoiceToMeasurePosition (
+        inputLineNumber,
+        fMeasurePosition);
+        */
 }
 
 void msrMeasure::appendMultipleRestToMeasure (
@@ -13686,86 +13577,73 @@ void msrMeasure::appendMultipleRestToMeasure (
   int inputLineNumber =
     multipleRest->getInputLineNumber ();
     
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append multipleRest to it thru the segment
-    fMeasureSegmentUplink->
-      appendMultipleRestToSegment (multipleRest);
-  }
-
-  else {
-    // regular insertion in current measure
-
   /* JMI  
     // populate measure uplink
     multipleRest->setMultipleRestMeasureUplink (this);
 */
 
-    if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending multiple rest '" <<
-        multipleRest->multipleRestAsString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        endl;
-
-  /* JMI
-    // register multipleRest measure number
-    multipleRest->
-      setMultipleRestMeasureNumber (fMeasureNumber);
-    
-    // register multipleRest measure position
-    multipleRest->
-      setMultipleRestPositionInMeasure (
-        fMeasurePosition);
-
-    // copy measure number to first note, that was created beforehand
-    multipleRest->
-      setMultipleRestMeasureNumber (
-        fMeasureNumber);
-    
-    // copy measure position to first note, that was created beforehand
-    multipleRest->
-      setMultipleRestPositionInMeasure (
-        fMeasurePosition);
-
-    // fetch multipleRest divisions
-    int multipleRestSoundingDivisions =
-      multipleRest->getmultipleRestSoundingDivisions ();
-      
-    // account for multipleRest duration in measure position
-    setMeasurePosition (
-      inputLineNumber,
-      fMeasurePosition + multipleRestSoundingDivisions);
-  
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
-  
-    // determine if the multipleRest occupies a full measure
-// XXL  JMI  if (multipleRestSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
-      // multipleRest->setmultipleRestOccupiesAFullMeasure ();
-  */
-  
-    // append the multipleRest to the measure elements list
-    fMeasureElementsList.push_back (multipleRest);
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending multiple rest '" <<
+      multipleRest->multipleRestAsString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
 
 /* JMI
-    // bring harmony voice to the same measure position
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          fMeasurePosition);
-          */
-  }
+  // register multipleRest measure number
+  multipleRest->
+    setMultipleRestMeasureNumber (fMeasureNumber);
+  
+  // register multipleRest measure position
+  multipleRest->
+    setMultipleRestPositionInMeasure (
+      fMeasurePosition);
+
+  // copy measure number to first note, that was created beforehand
+  multipleRest->
+    setMultipleRestMeasureNumber (
+      fMeasureNumber);
+  
+  // copy measure position to first note, that was created beforehand
+  multipleRest->
+    setMultipleRestPositionInMeasure (
+      fMeasurePosition);
+
+  // fetch multipleRest divisions
+  int multipleRestSoundingDivisions =
+    multipleRest->getmultipleRestSoundingDivisions ();
+    
+  // account for multipleRest duration in measure position
+  setMeasurePosition (
+    inputLineNumber,
+    fMeasurePosition + multipleRestSoundingDivisions);
+
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
+
+  // determine if the multipleRest occupies a full measure
+// XXL  JMI  if (multipleRestSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
+    // multipleRest->setmultipleRestOccupiesAFullMeasure ();
+*/
+
+  // append the multipleRest to the measure elements list
+  fMeasureElementsList.push_back (multipleRest);
+
+/* JMI
+  // bring harmony voice to the same measure position
+  fMeasureDirectPartUplink->
+    getPartHarmonyVoice ()->
+      bringVoiceToMeasurePosition (
+        inputLineNumber,
+        fMeasurePosition);
+        */
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
@@ -13773,79 +13651,66 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   int inputLineNumber =
     chord->getInputLineNumber ();
     
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append chord to it thru the segment
-    fMeasureSegmentUplink->
-      appendChordToSegment (chord);
-  }
+  // populate measure uplink
+  chord->setChordMeasureUplink (this);
 
-  else {
-    // regular insertion in current measure
-    
-    // populate measure uplink
-    chord->setChordMeasureUplink (this);
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending chord '" << chord->chordAsString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending chord '" << chord->chordAsString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        endl;
+  // register chord measure number
+  chord->
+    setChordMeasureNumber (fMeasureNumber);
   
-    // register chord measure number
-    chord->
-      setChordMeasureNumber (fMeasureNumber);
-    
-    // register chord measure position
-    chord->
-      setChordPositionInMeasure (
-        fMeasurePosition);
+  // register chord measure position
+  chord->
+    setChordPositionInMeasure (
+      fMeasurePosition);
 
-    // copy measure number to first note, that was created beforehand
-    chord->
-      setChordFirstNoteMeasureNumber (
-        fMeasureNumber);
-    
-    // copy measure position to first note, that was created beforehand
-    chord->
-      setChordFirstNotePositionInMeasure (
-        fMeasurePosition);
+  // copy measure number to first note, that was created beforehand
+  chord->
+    setChordFirstNoteMeasureNumber (
+      fMeasureNumber);
+  
+  // copy measure position to first note, that was created beforehand
+  chord->
+    setChordFirstNotePositionInMeasure (
+      fMeasurePosition);
 
-    // fetch chord divisions
-    int chordSoundingDivisions =
-      chord->getChordSoundingDivisions ();
-      
-    // account for chord duration in measure position
-    setMeasurePosition (
-      inputLineNumber,
-      fMeasurePosition + chordSoundingDivisions);
-  
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
-  
-    // determine if the chord occupies a full measure
+  // fetch chord divisions
+  int chordSoundingDivisions =
+    chord->getChordSoundingDivisions ();
+    
+  // account for chord duration in measure position
+  setMeasurePosition (
+    inputLineNumber,
+    fMeasurePosition + chordSoundingDivisions);
+
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
+
+  // determine if the chord occupies a full measure
 // XXL  JMI  if (chordSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
-      // chord->setChordOccupiesAFullMeasure ();
-  
-    // append the chord to the measure elements list
-    fMeasureElementsList.push_back (chord);
+    // chord->setChordOccupiesAFullMeasure ();
 
-    // bring harmony voice to the same measure position
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
-          inputLineNumber,
-          fMeasurePosition);
-  }
+  // append the chord to the measure elements list
+  fMeasureElementsList.push_back (chord);
+
+  // bring harmony voice to the same measure position
+  fMeasureDirectPartUplink->
+    getPartHarmonyVoice ()->
+      bringVoiceToMeasurePosition (
+        inputLineNumber,
+        fMeasurePosition);
 }
 
 void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
@@ -13853,77 +13718,65 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   int inputLineNumber =
     tuplet->getInputLineNumber ();
     
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append tuplet to it thru the segment
-    fMeasureSegmentUplink->
-      appendTupletToSegment (tuplet);
-  }
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending tuplet '" << tuplet->tupletAsString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
 
-  else {
-    // regular insertion in current measure
-    
-    if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending tuplet '" << tuplet->tupletAsString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        endl;
+  // populate measure uplink
+  tuplet->setTupletMeasureUplink (this);
+
+  // register tuplet measure number
+  tuplet->
+    setTupletMeasureNumber (fMeasureNumber);
   
-    // populate measure uplink
-    tuplet->setTupletMeasureUplink (this);
-
-    // register tuplet measure number
+  // register tuplet measure position
+  int dummy = // JMI
     tuplet->
-      setTupletMeasureNumber (fMeasureNumber);
-    
-    // register tuplet measure position
-    int dummy = // JMI
-      tuplet->
-        setTupletPositionInMeasure (fMeasurePosition);
+      setTupletPositionInMeasure (fMeasurePosition);
 
 /* JMI
-    // copy measure number to first note, that was created beforehand
-    tuplet->
-      setTupletFirstNoteMeasureNumber (fMeasureNumber);
-    
-    // copy measure position to first note, that was created beforehand
-    tuplet->
-      setTupletFirstNotePositionInMeasure (fMeasurePosition);
-   */
-    
-    // fetch tuplet divisions
-    int tupletSoundingDivisions =
-      tuplet->getTupletSoundingDivisions ();
-      
-    // account for tuplet duration in measure position
-    setMeasurePosition (
-      inputLineNumber,
-      fMeasurePosition + tupletSoundingDivisions);
+  // copy measure number to first note, that was created beforehand
+  tuplet->
+    setTupletFirstNoteMeasureNumber (fMeasureNumber);
   
-    // update part measure position high tide if need be
-    fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasurePosition);
+  // copy measure position to first note, that was created beforehand
+  tuplet->
+    setTupletFirstNotePositionInMeasure (fMeasurePosition);
+ */
+  
+  // fetch tuplet divisions
+  int tupletSoundingDivisions =
+    tuplet->getTupletSoundingDivisions ();
+    
+  // account for tuplet duration in measure position
+  setMeasurePosition (
+    inputLineNumber,
+    fMeasurePosition + tupletSoundingDivisions);
 
-  /* JMI
-    // set tuplet members' displayed divisions
-    tuplet->
-      applyDisplayFactorToTupletMembers ();
-      */
+  // update part measure position high tide if need be
+  fMeasureDirectPartUplink->
+    updatePartMeasurePositionHighTide (
+      inputLineNumber, fMeasurePosition);
 
-    // determine if the tuplet occupies a full measure
+/* JMI
+  // set tuplet members' displayed divisions
+  tuplet->
+    applyDisplayFactorToTupletMembers ();
+    */
+
+  // determine if the tuplet occupies a full measure
 // XXL    if (tupletSoundingDivisions == fMeasureDivisionsPerWholeMeasure)
-      // tuplet->setTupletOccupiesAFullMeasure ();
-  
-    // append the tuplet to the measure elements list
-    fMeasureElementsList.push_back (tuplet);
+    // tuplet->setTupletOccupiesAFullMeasure ();
+
+  // append the tuplet to the measure elements list
+  fMeasureElementsList.push_back (tuplet);
 
     // bring harmony voice to the same measure position
     fMeasureDirectPartUplink->
@@ -13931,7 +13784,6 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
         bringVoiceToMeasurePosition (
           inputLineNumber,
           fMeasurePosition);
-  }
 }
 
 void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
@@ -13939,71 +13791,57 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-/*
-  if (
-    appendMeasureIfOverflow (inputLineNumber)
-    ) {
-    // a new measure has been appended to the segment
-    // append harmony to it thru the segment
-    fMeasureSegmentUplink->
-      appendHarmonyToSegment (harmony);
-  }
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending harmony '" << harmony->harmonyAsString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      ", fMeasurePosition = " << fMeasurePosition <<
+      endl;
 
-  else {
-  */
-    // regular insertion in current measure
-    
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Appending harmony '" << harmony->harmonyAsString () <<
-        "' to measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        ", fMeasurePosition = " << fMeasurePosition <<
-        endl;
+  // populate measure uplink
+// JMI   harmony->setHarmonyMeasureUplink (this);
+
+  // register harmony measure number
+//   harmony->
+// JMI     setHarmonyMeasureNumber (fMeasureNumber);
   
-    // populate measure uplink
- // JMI   harmony->setHarmonyMeasureUplink (this);
-
-    // register harmony measure number
+  // register harmony measure position
+//  int dummy = // JMI
  //   harmony->
- // JMI     setHarmonyMeasureNumber (fMeasureNumber);
-    
-    // register harmony measure position
-  //  int dummy = // JMI
-   //   harmony->
-    //    setHarmonyPositionInMeasure (fMeasurePosition);
+  //    setHarmonyPositionInMeasure (fMeasurePosition);
 
 
 /* JMI
-    // fetch voice
-    S_msrVoice
-      voice =
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ();
+  // fetch voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
 
-    // register voice as part harmonies supplied
-    // this will abort if another voice is already supplying harmonies
-    fMeasureDirectPartUplink->
-      setPartHarmoniesSupplierVoice (
-        voice);
+  // register voice as part harmonies supplied
+  // this will abort if another voice is already supplying harmonies
+  fMeasureDirectPartUplink->
+    setPartHarmoniesSupplierVoice (
+      voice);
 
-        */
+      */
 
-        
-    // fetch harmony divisions
-    int harmonySoundingDivisions =
-      harmony->getHarmonySoundingDivisions ();
       
+  // fetch harmony divisions
+  int harmonySoundingDivisions =
+    harmony->getHarmonySoundingDivisions ();
+    
 //* JMI FOO
 /*
-    // append a skip syllable of the same duration to the part harmony voice
-    S_msrNote
-      skip =
-          msrNote::createSkipNote (
+  // append a skip syllable of the same duration to the part harmony voice
+  S_msrNote
+    skip =
+        msrNote::createSkipNote (
             inputLineNumber,
             fMeasureDirectPartUplink,
             harmonySoundingDivisions,
@@ -14029,7 +13867,6 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     
     // append the harmony to the measure elements list
     fMeasureElementsList.push_back (harmony);
-//  }
 }
 
 void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
