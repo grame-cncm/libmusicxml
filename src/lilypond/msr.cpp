@@ -8966,7 +8966,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
         fTupletElements.front ();
 
     for (
-      list<S_msrElement>::iterator i=fTupletElements.begin();
+      list<S_msrElement>::const_iterator i=fTupletElements.begin();
       i!=fTupletElements.end();
       ++i) {
       if ((*i) == note) {
@@ -14107,7 +14107,7 @@ void msrMeasure::removeNoteFromMeasure (
   }
 
   for (
-    list<S_msrElement>::iterator i=fMeasureElementsList.begin();
+    list<S_msrElement>::const_iterator i=fMeasureElementsList.begin();
     i!=fMeasureElementsList.end();
     ++i) {
     if ((*i) == note) {
@@ -20360,20 +20360,22 @@ void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendKeyToVoice (key);
+    (*i).second->
+      appendKeyToVoice (key);
   } // for
 }
 
 void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendTimeToVoice (time);
+    (*i).second->
+      appendTimeToVoice (time);
   } // for
 }
 
@@ -20381,7 +20383,7 @@ void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
 void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendHarmonyToVoice (harmony);
@@ -20392,17 +20394,18 @@ void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
 void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendTransposeToVoice (transpose);
+    (*i).second->
+      appendTransposeToVoice (transpose);
   } // for
 }
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
  // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
@@ -20459,10 +20462,11 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->finalizeLastMeasureOfVoice (inputLineNumber);
+    (*i).second->
+      finalizeLastMeasureOfVoice (inputLineNumber);
   } // for
 }
 
@@ -20519,7 +20523,7 @@ void msrStaff::browseData (basevisitor* v)
 
   if (fStafftuningsList.size ()) {
     for (
-      list<S_msrStafftuning>::iterator i = fStafftuningsList.begin();
+      list<S_msrStafftuning>::const_iterator i = fStafftuningsList.begin();
       i != fStafftuningsList.end();
       i++) {
       // browse the voice
@@ -20531,7 +20535,7 @@ void msrStaff::browseData (basevisitor* v)
 
   if (fStaffAllVoicesMap.size ()) {
     for (
-      map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
       i != fStaffAllVoicesMap.end();
       i++) {
  // JMI     if ((*i).second->getStaffRelativeVoiceNumber () != 0) {
@@ -20813,7 +20817,7 @@ msrPart::msrPart (
 void msrPart::initializePart ()
 {
   // is this part name in the part renaming map?
-  map<string, string>::iterator
+  map<string, string>::const_iterator
     it =
       gMsrOptions->fPartsRenaming.find (fPartID);
         
@@ -21400,7 +21404,7 @@ void msrPart::updatePartMeasurePositionHighTide (
 void msrPart::setPartMsrName (string partMsrName)
 {
   // is this part name in the part renaming map?
-  map<string, string>::iterator
+  map<string, string>::const_iterator
     it =
       gMsrOptions->fPartsRenaming.find (fPartMsrName);
         
@@ -21484,7 +21488,7 @@ void msrPart::setPartMeasureNumber (
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -21506,10 +21510,11 @@ void msrPart::setPartClef (S_msrClef clef)
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffClef (clef);
+    (*i).second->
+      setStaffClef (clef);
   } // for
 }
 
@@ -21526,10 +21531,11 @@ void msrPart::setPartKey  (S_msrKey  key)
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffKey (key);
+    (*i).second->
+      setStaffKey (key);
   } // for
 }
 
@@ -21546,10 +21552,11 @@ void msrPart::setPartTime (S_msrTime time)
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffTime (time);
+    (*i).second->
+      setStaffTime (time);
   } // for
 }
 
@@ -21566,10 +21573,11 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->setStaffTranspose (transpose);
+    (*i).second->
+      setStaffTranspose (transpose);
   } // for
 }
 
@@ -21577,10 +21585,11 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
 void msrPart::createAndAppendRepeatToPart (int inputLineNumber)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->createAndAppendRepeatToStaff (inputLineNumber);
+    (*i).second->
+      createAndAppendRepeatToStaff (inputLineNumber);
   } // for
 }
 
@@ -21591,13 +21600,14 @@ void msrPart::appendRepeatendingToPart (
             repeatendingKind)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendRepeatendingToStaff (
-      inputLineNumber,
-      repeatendingNumber,
-      repeatendingKind);
+    (*i).second->
+      appendRepeatendingToStaff (
+        inputLineNumber,
+        repeatendingNumber,
+        repeatendingKind);
   } // for
 }
 
@@ -21606,7 +21616,7 @@ void msrPart::appendRepeatCloneToPart (
   S_msrRepeat repeatCLone)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     S_msrStaff
@@ -21635,10 +21645,11 @@ void msrPart::appendRepeatendingCloneToPart (
   S_msrRepeatending repeatendingCLone)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendRepeatendingCloneToStaff (repeatendingCLone);
+    (*i).second->
+      appendRepeatendingCloneToStaff (repeatendingCLone);
   } // for
 }
 
@@ -21648,7 +21659,7 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
   int measureRepeatSlashes)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -21663,7 +21674,7 @@ void msrPart::appendPendingMeasureRepeatToPart (
   int inputLineNumber)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -21686,7 +21697,7 @@ void msrPart::createMultipleRestInPart (
       endl;
 
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -21706,7 +21717,7 @@ void msrPart::appendPendingMultipleRestToPart (
       endl;
 
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -21728,7 +21739,7 @@ void msrPart::appendMultipleRestCloneToPart (
       endl;
 
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
@@ -21741,10 +21752,11 @@ void msrPart::appendMultipleRestCloneToPart (
 void msrPart::appendBarlineToPart (S_msrBarline barline)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->appendBarlineToStaff (barline);
+    (*i).second->
+      appendBarlineToStaff (barline);
   } // for
 }
      
@@ -21997,20 +22009,22 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
       endl;
 
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->finalizeLastMeasureOfStaff (inputLineNumber);
+    (*i).second->
+      finalizeLastMeasureOfStaff (inputLineNumber);
   } // for
 }
 
 void msrPart::finalizePart (int inputLineNumber)
 {
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->finalizeStaff (inputLineNumber);
+    (*i).second->
+      finalizeStaff (inputLineNumber);
   } // for
 }
 
@@ -22066,7 +22080,7 @@ void msrPart::browseData (basevisitor* v)
   */
   
   for (
-    map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     // browse the staff
@@ -22149,7 +22163,7 @@ void msrPart::print (ostream& os)
   if (fPartStavesMap.size()) {
     os << endl;
     for (
-      map<int, S_msrStaff>::iterator i = fPartStavesMap.begin();
+      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
       i++) {
       os <<
@@ -22584,7 +22598,7 @@ void msrPartgroup::browseData (basevisitor* v)
       endl;
   
   for (
-    list<S_msrElement>::iterator i = fPartgroupElements.begin();
+    list<S_msrElement>::const_iterator i = fPartgroupElements.begin();
     i != fPartgroupElements.end();
     i++) {
     // browse the part element
@@ -23315,7 +23329,7 @@ void msrScore::browseData (basevisitor* v)
   }
 
   for (
-    list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
+    list<S_msrPartgroup>::const_iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
     i++) {
     // browse the part group
@@ -23368,7 +23382,7 @@ void msrScore::print (ostream& os)
   }
   
   for (
-    list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
+    list<S_msrPartgroup>::const_iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
     i++) {
     os << idtr << (*i);
@@ -23405,11 +23419,12 @@ void msrScore::printStructure (ostream& os)
   }
   
   for (
-    list<S_msrPartgroup>::iterator i = fPartgroupsList.begin();
+    list<S_msrPartgroup>::const_iterator i = fPartgroupsList.begin();
     i != fPartgroupsList.end();
     i++) {
     os << idtr;
-    (*i)->printStructure (os);
+    (*i)->
+      printStructure (os);
   } // for
   
   idtr--;
