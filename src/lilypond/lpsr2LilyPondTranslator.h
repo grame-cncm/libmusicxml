@@ -504,6 +504,12 @@ class lpsr2LilyPondTranslator :
     // in a consistent way
     stack<int>            fSegmentNotesAndChordsCountersStack;
 
+    // measures
+    // ------------------------------------------------------
+    // we need to count the measures for option fSeparatorLineEveryNMeasures,
+    // since measure numbers are actually strings
+    int                   fMeasuresCounter;
+    
     // notes
     // ------------------------------------------------------
     bool                  fOnGoingNote;

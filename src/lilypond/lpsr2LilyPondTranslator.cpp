@@ -70,6 +70,9 @@ lpsr2LilyPondTranslator::lpsr2LilyPondTranslator (
 
   // repeats
   fCurrentRepeatEndingsNumber = 0;
+
+  // measures
+  fMeasuresCounter = 0;
   
   // notes
   fOnGoingNote = false;
@@ -2309,10 +2312,15 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 {    
   int
     inputLineNumber =
-      elt->getInputLineNumber (),
+      elt->getInputLineNumber ();
+
+  string
     measureNumber =
       elt->getMeasureNumber ();
-    
+
+  // take this measure into account
+  fMeasuresCounter++;
+  
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure " <<
@@ -2455,7 +2463,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
 {
   int
     inputLineNumber =
-      elt->getInputLineNumber (),
+      elt->getInputLineNumber ();
+
+  string
     measureNumber =
       elt->getMeasureNumber ();
     
@@ -2526,7 +2536,12 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
   }
 
   if (gLilypondOptions->fSeparatorLineEveryNMeasures) {
-    if (measureNumber % gLilypondOptions->fSeparatorLineEveryNMeasuresValue == 0)
+    if (
+      fMeasuresCounter
+        %
+      gLilypondOptions->fSeparatorLineEveryNMeasuresValue
+        ==
+      0)
       fOstream <<
         endl <<
         idtr <<

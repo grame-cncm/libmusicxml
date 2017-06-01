@@ -1651,10 +1651,10 @@ class EXP msrDoubleTremolo : public msrElement
 
     // measure number
     void                  setDoubleTremoloMeasureNumber (
-                            int measureNumber)
+                            string measureNumber)
                               { fDoubleTremoloMeasureNumber = measureNumber; }
     
-    int                   getDoubleTremoloMeasureNumber () const
+    string                getDoubleTremoloMeasureNumber () const
                               { return fDoubleTremoloMeasureNumber; }
  
     // position in measure
@@ -1677,7 +1677,7 @@ class EXP msrDoubleTremolo : public msrElement
                             int position);
                     
     void                  setDoubleTremoloFirstNoteMeasureNumber (
-                            int measureNumber);
+                            string measureNumber);
                     
     // visitors
     // ------------------------------------------------------
@@ -1713,7 +1713,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     S_msrMeasure                  fDoubleTremoloMeasureUplink;
 
-    int                           fDoubleTremoloMeasureNumber;
+    string                        fDoubleTremoloMeasureNumber;
     int                           fDoubleTremoloPositionInMeasure;
     
     S_msrHarmony                  fDoubleTremoloHarmony;
@@ -2534,13 +2534,10 @@ class EXP msrMeasure : public msrElement
     S_msrPart             getMeasureDirectPartUplink () const
                              { return fMeasureDirectPartUplink; }
 
-    void                  setMeasureNumber (int measureNumber)
+    void                  setMeasureNumber (string measureNumber)
                               { fMeasureNumber = measureNumber; }
 
-    void                  incrementMeasureNumber ()
-                              { fMeasureNumber++; }
-
-    int                   getMeasureNumber () const
+    string                getMeasureNumber () const
                               { return fMeasureNumber; }
 
     void                  setMeasureClef (S_msrClef clef)
@@ -2682,7 +2679,7 @@ class EXP msrMeasure : public msrElement
 
     S_msrPart           fMeasureDirectPartUplink; // to accelerate things
 
-    int                 fMeasureNumber;
+    string              fMeasureNumber;
     msrMeasureImplicitKind
                         fMeasureImplicitKind;
     
@@ -2781,17 +2778,14 @@ class EXP msrSegment : public msrElement
 
     // measure number
     void                  setSegmentMeasureNumber (
-                            int inputLineNumber,
-                            int measureNumber);
+                            int    inputLineNumber,
+                            string measureNumbe);
                       
-    const int             getSegmentMeasureNumber () const
+    const string          getSegmentMeasureNumber () const
                               { return fSegmentMeasureNumber; }
 
     // services
     // ------------------------------------------------------
-
-    void                  incrementSegmentLastMeasureNumber ( // JMI
-                            int inputLineNumber);
 
     string                segmentAsString ();
 
@@ -2889,7 +2883,7 @@ class EXP msrSegment : public msrElement
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
 
-    int                   fSegmentMeasureNumber;
+    string                fSegmentMeasureNumber;
 
     bool                  fMeasureNumberHasBeenSetInSegment; // JMI
 
@@ -3744,10 +3738,10 @@ class EXP msrNote : public msrElement
 
     // measure number
     void                  setNoteMeasureNumber (
-                            int measureNumber)
+                            string measureNumber)
                               { fNoteMeasureNumber = measureNumber; }
 
-    int                   getNoteMeasureNumber () const
+    string                getNoteMeasureNumber () const
                               { return fNoteMeasureNumber; }
  
     // position in measure
@@ -4015,7 +4009,7 @@ class EXP msrNote : public msrElement
     // note measure information
     // ------------------------------------------------------
 
-    int                       fNoteMeasureNumber;
+    string                    fNoteMeasureNumber;
     int                       fNotePositionInMeasure;
     bool                      fNoteOccupiesAFullMeasure;
     S_msrMeasure              fNoteMeasureUplink;
@@ -4200,10 +4194,10 @@ class EXP msrChord : public msrElement
 
     // measure number
     void                  setChordMeasureNumber (
-                            int measureNumber)
+                            string measureNumber)
                               { fChordMeasureNumber = measureNumber; }
     
-    int                   getChordMeasureNumber () const
+    string                getChordMeasureNumber () const
                               { return fChordMeasureNumber; }
  
     // position in measure
@@ -4273,7 +4267,7 @@ class EXP msrChord : public msrElement
                             int position);
                     
     void                  setChordFirstNoteMeasureNumber (
-                            int measureNumber);
+                            string measureNumber);
                     
     // harmony
     string                chordAsStringwithRawDivisions () const;
@@ -4311,7 +4305,7 @@ class EXP msrChord : public msrElement
     // position in measure
     S_msrMeasure              fChordMeasureUplink;
 
-    int                       fChordMeasureNumber;
+    string                    fChordMeasureNumber;
     int                       fChordPositionInMeasure;
 
     // articulations
@@ -5233,9 +5227,9 @@ class EXP msrTuplet : public msrElement
                               { return fTupletMeasureUplink; }
 
     // measure number
-    void                  setTupletMeasureNumber (int measureNumber);
+    void                  setTupletMeasureNumber (string measureNumber);
 
-    int                   getTupletMeasureNumber () const
+    string                   getTupletMeasureNumber () const
                               { return fTupletMeasureNumber; }
  
     // position in measure
@@ -5292,7 +5286,7 @@ class EXP msrTuplet : public msrElement
 
     S_msrMeasure          fTupletMeasureUplink;
 
-    int                   fTupletMeasureNumber;
+    string                fTupletMeasureNumber;
     int                   fTupletPositionInMeasure;
     
     list<S_msrElement>    fTupletElements;
@@ -6009,7 +6003,7 @@ class EXP msrBarline : public msrElement
     
     // measure number
     void                  setBarlineMeasureNumber (
-                            int positionInMeasure)
+                            int positionInMeasure) // JMI virer???
                               { fBarlineMeasureNumber= positionInMeasure; }
                       
     int                   getBarlineMeasureNumber() const
@@ -6792,10 +6786,10 @@ class EXP msrVoice : public msrElement
                
      // measure number
     void                  setVoiceMeasureNumber (
-                            int inputLineNumber,
-                            int measureNumber);
+                            int    inputLineNumber,
+                            string measureNumbe);
                       
-    const int             getVoiceMeasureNumber () const
+    const string          getVoiceMeasureNumber () const
                               { return fVoiceMeasureNumber; }
 
     // has music been inserted in the voice?
@@ -6988,7 +6982,7 @@ class EXP msrVoice : public msrElement
 
     S_msrTime                 fVoiceTime;
 
-    int                       fVoiceMeasureNumber;
+    string                    fVoiceMeasureNumber;
     
     // checking for musically empty voices
     bool                      fMusicHasBeenInsertedInVoice;
@@ -7523,8 +7517,8 @@ class EXP msrPart : public msrElement
     
     // measure number
     void                  setPartMeasureNumber (
-                            int inputLineNumber,
-                            int measureNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
                       
     const int             getPartMeasureNumber () const
                               { return fPartMeasureNumber; }

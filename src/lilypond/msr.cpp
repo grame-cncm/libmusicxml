@@ -7802,7 +7802,7 @@ void msrChord::setChordFirstNotePositionInMeasure (
 }
                     
 void msrChord::setChordFirstNoteMeasureNumber (
-  int measureNumber)
+  string measureNumber)
 {
   if (fChordNotes.size ()) {
     fChordNotes.front ()->
@@ -9023,7 +9023,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   }
 }
 
-void msrTuplet::setTupletMeasureNumber (int measureNumber) // JMI
+void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
 {
   fTupletMeasureNumber = measureNumber;
 
@@ -14864,8 +14864,8 @@ S_msrSegment msrSegment::createSegmentBareClone (
 }
 
 void msrSegment::setSegmentMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
+  int    inputLineNumber,
+  string measureNumber)
 {
   msrMeasure::msrMeasureKind measureKind;
   
@@ -14929,29 +14929,6 @@ void msrSegment::setSegmentMeasureNumber (
   
   fMeasureNumberHasBeenSetInSegment = true;
 }
-
-void msrSegment::incrementSegmentLastMeasureNumber (
-  int inputLineNumber)
-{
-  if (fSegmentMeasuresList.size ()) {
-    fSegmentMeasuresList.back ()->
-      incrementMeasureNumber ();
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "segment " << fSegmentAbsoluteNumber <<
-      " contains no measure," <<
-      endl <<
-      " cannot increment the absolute number of its last measure";
-
-    msrInternalError (
-      inputLineNumber,
-      s.str());
-  }
-};
 
 void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
 {
@@ -17324,8 +17301,8 @@ string msrVoice::getVoiceName () const
 }
 
 void msrVoice::setVoiceMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
+  int    inputLineNumber,
+  string measureNumbe)
 {
   fVoiceMeasureNumber = measureNumber;
 
@@ -17376,13 +17353,15 @@ void msrVoice::createNewLastSegmentForVoice (
       fVoiceDirectPartUplink,
       this);
 
+/* JMI BOF
   // the new last measure keeps the measure number
   // of the preceeding one whenever the latter is incomplete
   if (! lastMeasureIsIncomplete)
     // increment new segment's first measure's number
     fVoiceLastSegment->
-      incrementSegmentLastMeasureNumber (
+      incrementSegmentLastMeasureNumber ( // JMI
         inputLineNumber);
+        */
 }
 
 void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
@@ -19858,8 +19837,8 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 }
 
 void msrStaff::setStaffMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
+  int    inputLineNumber,
+  string measureNumber)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -21507,9 +21486,9 @@ void msrPart::setPartDivisionsPerQuarterNote (
     fPartDivisionsPerQuarterNote);
 }
 
-void msrPart::setPartMeasureNumber (
-  int inputLineNumber,
-  int measureNumber)
+void msrPart::setPartMeasureNumber
+  int    inputLineNumber,
+  string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr <<

@@ -1107,7 +1107,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
     measureClone->getMeasureDirectPartUplink ()->
       getPartMeasurePositionHighTide ();
 
-  int measureNumber =
+  string measureNumber =
     measureClone->getMeasureNumber ();
     
   int measurePosition =
