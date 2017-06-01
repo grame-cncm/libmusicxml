@@ -18251,8 +18251,41 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // register actual note
   fVoiceActualNotesCounter++;
-  fMusicHasBeenInsertedInVoice = true;
 
+  // register whether music (i.e. not just skips)
+  // has been inserted into the voice
+  switch (note->getNoteKind ()) {
+    case msrNote::kRestNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kSkipNote:
+      break;
+      
+    case msrNote::kStandaloneNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kDoubleTremoloMemberNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kGraceNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kChordMemberNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+
+    case msrNote::k_NoNoteKind:
+      break;
+  } // switch
+  
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (note);
