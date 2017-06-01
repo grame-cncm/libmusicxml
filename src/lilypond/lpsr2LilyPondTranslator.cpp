@@ -5675,7 +5675,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMultipleRest& elt)
     "R1" << // JMI
     "*" <<
     restMeasuresNumber <<
-    " ";
+    "| ";
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRest& elt)
@@ -5684,14 +5684,6 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMultipleRest& elt)
     fOstream << idtr <<
       "% --> Start visiting msrMultipleRest" <<
       endl;
-
-  fOstream <<
-    endl <<
-    endl <<
-    idtr <<
-    " }" <<
-    endl <<
-    idtr;
     
   if (gLilypondOptions->fGenerateComments) {
     idtr--;
