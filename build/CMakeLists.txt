@@ -31,9 +31,9 @@ if(APPLE)
 	if ( IOS STREQUAL "yes" )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
+		set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s")
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set (libtype STATIC)
+		#set (libtype STATIC)
 	else ()
 		if ( C++11 )
 			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
@@ -122,6 +122,7 @@ set_target_properties (${target} PROPERTIES
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
+			MACOSX_FRAMEWORK_IDENTIFIER ${target}
 )
 if ( IOS STREQUAL "no" )
 	set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )

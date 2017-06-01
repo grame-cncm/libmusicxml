@@ -80,6 +80,7 @@ void notevisitor::reset ()
     fLyricText="";
     fGraphicType="";
     fAccidental = "";
+    fCautionary = "";
 }
 
 //________________________________________________________________________
@@ -200,6 +201,11 @@ void notevisitor::visitStart ( S_note& elt )
 	reset();
 	fDynamics = elt->getAttributeLongValue("dynamics", kUndefinedDynamics);
     fAccidental = elt->getValue(k_accidental);
+    if (!fAccidental.empty()) {
+        auto accidental = elt->find(k_accidental);
+        fCautionary = accidental->getAttributeValue("cautionary");
+    }
+    
     fThisSNote = elt;
     x_default = elt->getAttributeIntValue("default-x", -1);
 }

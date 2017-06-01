@@ -92,6 +92,7 @@ class EXP notevisitor :
         S_notehead fNotehead;
         std::string fGraphicType;
         std::string fAccidental;
+        std::string fCautionary;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };

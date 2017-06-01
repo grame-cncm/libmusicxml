@@ -324,11 +324,11 @@ namespace MusicXML2
                 {
                     Sguidoelement tag = guidotag::create("staffFormat");
                     if (fStaffDistance.find(fTargetStaff)->second != 0.0) {
-                    stringstream s;
-                    s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
-                    tag->add (guidoparam::create(s.str(), false));
-                    add(tag);
-                    //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
+                        stringstream s;
+                        s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
+                        tag->add (guidoparam::create(s.str(), false));
+                        add(tag);
+                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
                     }
                 }
             }
@@ -949,7 +949,19 @@ namespace MusicXML2
             bool senzamesura = (iter->find(k_senza_misura) != iter->end());
             string timesymbol = iter->getAttributeValue("symbol");
             std::vector<std::pair<std::string,std::string> > fTimeSignInternal ;
-            fTimeSignInternal.push_back(make_pair(iter->getValue(k_beats), iter->getValue(k_beat_type)));
+            
+            // IOSEPRAC-185: Get all pairs for Composite Time Signatures
+            ctree<xmlelement>::iterator iter_beat = iter->find(k_beats);
+            ctree<xmlelement>::iterator iter_beatType = iter->find(k_beat_type);
+
+            while (iter_beat != iter->end())
+            {
+                //                fTimeSignInternal.push_back(make_pair(iter_beat->getValue(k_beats), iter2->getValue(k_beat_type)));
+                fTimeSignInternal.push_back(make_pair(iter_beat->getValue(),
+                                                      iter_beatType->getValue()));
+                iter_beat = iter->find(k_beats, iter_beat++);
+                iter_beatType = iter->find(k_beat_type, iter_beatType++);
+            }
             
             //cout << "\tS_attribute visitor: Got Time "<<timebeat_type<<timebeats<<endl;
             //// Actions:
@@ -980,6 +992,7 @@ namespace MusicXML2
                     fCurrentTimeSign = rational(2,2);
                 }
                 else {
+
                     stringstream s; string sep ="";
                     fCurrentTimeSign.set(0,1);
                     for (unsigned int i = 0; i < fTimeSignInternal.size(); i++) {
@@ -1893,7 +1906,7 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure )
     {
-        checkTiedBegin (nv.getTied());
+        //checkTiedBegin (nv.getTied());
         
         int octave = nv.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
         string accident = alter2accident(nv.getAlter());
@@ -1904,7 +1917,7 @@ namespace MusicXML2
         
         /// Force Accidental if accidental XML tag is present
         bool forcedAccidental = false;
-        if (!nv.fAccidental.empty())
+        if (!nv.fCautionary.empty())
         {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);
@@ -1966,7 +1979,7 @@ namespace MusicXML2
         if (forcedAccidental)
             pop();
         
-        checkTiedEnd (nv.getTied());
+        //checkTiedEnd (nv.getTied());
     }
     
     int xmlpart2guido::checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure)
@@ -2106,6 +2119,9 @@ namespace MusicXML2
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
         
+        // Check for TIES before creating the chord sequence. \tieBeing and \tieEnd should live OUTSIDE chord sequence in Guido
+        checkTiedBegin((*this).getTied());
+        
         vector<Sxmlelement> chord = getChord(elt);
         if (chord.size() || (chordOrnaments>0) || fWavyTrillOpened || fSingleScopeTrill)     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
         {
@@ -2119,6 +2135,7 @@ namespace MusicXML2
         newNote (*this, thisNoteHeadPosition);
         // Add chord notes (in case of a real chord)
         for (vector<Sxmlelement>::const_iterator iter = chord.begin(); iter != chord.end(); iter++) {
+            isProcessingChord = true;
             notevisitor nv;
             xml_tree_browser browser(&nv);
             Sxmlelement note = *iter;
@@ -2126,8 +2143,11 @@ namespace MusicXML2
             checkStaff(nv.getStaff());
             newNote (nv, thisNoteHeadPosition);
         }
+        
+        checkTiedEnd((*this).getTied());
+
         // generate Guido Ornaments in case of checkChordOrnaments
-        if (chordOrnaments>0) {
+        if (chordOrnaments>0 || fWavyTrillOpened || fSingleScopeTrill ) {
             generateOrnaments(*this);
         }
         isProcessingChord = false;
