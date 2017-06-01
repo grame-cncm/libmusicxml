@@ -2055,7 +2055,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
     idtr <<
     elt->getVoiceName () << " = ";
 
-  // generate the beginning of the voice definition if needed
+  // generate the beginning of the voice definition
   switch (elt->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
       if (! gLilypondOptions->fGenerateAbsoluteOctaves)
@@ -2065,11 +2065,9 @@ void lpsr2LilyPondTranslator::visitStart (S_msrVoice& elt)
       break;
       
     case msrVoice::kHarmonyVoice:
-      if (elt->getMusicHasBeenInsertedInVoice ())
-        // don't generate empty harmony voices
-        fOstream <<
-          "\\chordmode " << "{" <<
-          endl;
+      fOstream <<
+        "\\chordmode " << "{" <<
+        endl;
       break;
       
     case msrVoice::kMasterVoice:
@@ -2179,23 +2177,20 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrVoice& elt)
     idtr--;
   }
     
-  // generate the end of the voice definition if needed
+  // generate the end of the voice definition
   switch (elt->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      if (! gLilypondOptions->fGenerateAbsoluteOctaves)
-        fOstream << idtr <<
-          "}" <<
-          endl <<
-          endl;
+      fOstream << idtr <<
+        "}" <<
+        endl <<
+        endl;
       break;
       
     case msrVoice::kHarmonyVoice:
-      if (elt->getMusicHasBeenInsertedInVoice ())
-        // don't generate empty harmony voices
-        fOstream << idtr <<
-          "}" <<
-          endl <<
-          endl;
+      fOstream << idtr <<
+        "}" <<
+        endl <<
+        endl;
       break;
       
     case msrVoice::kMasterVoice:

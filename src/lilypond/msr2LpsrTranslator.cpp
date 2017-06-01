@@ -891,44 +891,50 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           fCurrentPartClone->
             getPartHarmonyVoice ();
 
-        // append the voice clone to the LPSR score elements list
-        fLpsrScore ->
-          appendVoiceToScoreElements (fCurrentVoiceClone);
-    
-        // create a ChordNames context command
-        string voiceName =
-          elt->getVoiceName ();
-
-        string partCombinedName =
-          elt->getVoiceDirectPartUplink ()->
-            getPartCombinedName ();
-                        
-        if (gGeneralOptions->fTraceHarmonies)
-          cerr << idtr <<
-            "Creating a ChordNames context for \"" << voiceName <<
-            "\" in part " << partCombinedName <<
-            endl;
-
-        S_lpsrContext
-          chordNamesContext =
-            lpsrContext::create (
-              inputLineNumber,
-              lpsrContext::kExistingContext,
-              "ChordNames",
-              voiceName);
-
-        // append it to the current part block
-        if (gGeneralOptions->fTraceHarmonies)
-          cerr << idtr <<
-            "Appending the ChordNames context for \"" << voiceName <<
-            "\" in part " << partCombinedName <<
-            endl;
-
-        fCurrentPartBlock->
-          appendElementToPartBlock (
-            chordNamesContext);
-
-        fOnGoingHarmonyVoice = true;
+        if (
+          elt->getMusicHasBeenInsertedInVoice ()
+            ||
+          gMsrOptions->fKeepEmptyHarmoniesVoice
+          ) {          
+          // append the voice clone to the LPSR score elements list
+          fLpsrScore ->
+            appendVoiceToScoreElements (fCurrentVoiceClone);
+      
+          // create a ChordNames context command
+          string voiceName =
+            elt->getVoiceName ();
+  
+          string partCombinedName =
+            elt->getVoiceDirectPartUplink ()->
+              getPartCombinedName ();
+                          
+          if (gGeneralOptions->fTraceHarmonies)
+            cerr << idtr <<
+              "Creating a ChordNames context for \"" << voiceName <<
+              "\" in part " << partCombinedName <<
+              endl;
+  
+          S_lpsrContext
+            chordNamesContext =
+              lpsrContext::create (
+                inputLineNumber,
+                lpsrContext::kExistingContext,
+                "ChordNames",
+                voiceName);
+  
+          // append it to the current part block
+          if (gGeneralOptions->fTraceHarmonies)
+            cerr << idtr <<
+              "Appending the ChordNames context for \"" << voiceName <<
+              "\" in part " << partCombinedName <<
+              endl;
+  
+          fCurrentPartBlock->
+            appendElementToPartBlock (
+              chordNamesContext);
+  
+          fOnGoingHarmonyVoice = true;
+        }
       }
       break;
       

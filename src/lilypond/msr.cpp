@@ -2386,7 +2386,10 @@ void msrOptions::printMsrOptionsHelp ()
       "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ ", --" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Don't display MSR stanzas while displaying MSR data." <<
+      "Keep the harmonies voice in the MSR data even though is does not contain music." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "It is thrown away in such a case by default." <<
       endl <<
     endl;
 
@@ -18260,6 +18263,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
       
     case msrNote::kSkipNote:
+      // don't account skips as music
       break;
       
     case msrNote::kStandaloneNote:
@@ -18327,8 +18331,42 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
 
   // register actual note
   fVoiceActualNotesCounter++;
-  fMusicHasBeenInsertedInVoice = true;
 
+  // register whether music (i.e. not just skips)
+  // has been inserted into the voice
+  switch (note->getNoteKind ()) {
+    case msrNote::kRestNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kSkipNote:
+      // don't account skips as music
+      break;
+      
+    case msrNote::kStandaloneNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kDoubleTremoloMemberNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kGraceNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kChordMemberNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+
+    case msrNote::k_NoNoteKind:
+      break;
+  } // switch
+  
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
