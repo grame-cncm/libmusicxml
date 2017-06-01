@@ -13229,7 +13229,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       note->getNoteHarmony ();
       
   // don't handle the note harmony here,
-  // this has been done after harmony::create()
+  // this has been done after harmony::create ()
   if (! noteHarmony) {
     if (partHarmoniesSupplierVoice) {
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
@@ -20830,9 +20830,6 @@ void msrPart::initializePart ()
   setPartMeasurePositionHighTide (
     fInputLineNumber, 1);
 
-  fPartMeasureNumberMin = INT_MAX;
-  fPartMeasureNumberMax = INT_MIN;
-
   // create the part harmony staff and voice
   createPartHarmonyStaffAndVoice (
     fInputLineNumber);
@@ -20874,11 +20871,6 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup partgroupClone)
   clone->fPartInstrumentAbbreviation =
     fPartInstrumentAbbreviation;
 
-  clone->fPartMeasureNumberMin =
-    fPartMeasureNumberMin;
-  clone->fPartMeasureNumberMax =
-    fPartMeasureNumberMax;
-    
   return clone;
 }
 
@@ -21469,7 +21461,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
     fPartDivisionsPerQuarterNote);
 }
 
-void msrPart::setPartMeasureNumber
+void msrPart::setPartMeasureNumber (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -21493,12 +21485,6 @@ void msrPart::setPartMeasureNumber
       setStaffMeasureNumber (
         inputLineNumber, measureNumber);
   } // for
-
-  // compute min and max measure numbers
-  if (measureNumber < fPartMeasureNumberMin)
-    fPartMeasureNumberMin = measureNumber;
-  if (measureNumber > fPartMeasureNumberMax)
-    fPartMeasureNumberMax = measureNumber;
 }
 
 void msrPart::setPartClef (S_msrClef clef)
@@ -22103,7 +22089,6 @@ void msrPart::print (ostream& os)
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
     ", measures " <<
-      fPartMeasureNumberMin << ".." << fPartMeasureNumberMax <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
@@ -22179,7 +22164,6 @@ void msrPart::printStructure (ostream& os)
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
     ", measures " <<
-      fPartMeasureNumberMin << ".." << fPartMeasureNumberMax <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
