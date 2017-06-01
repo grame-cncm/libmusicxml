@@ -17167,7 +17167,8 @@ void msrVoice::initializeVoice ()
       this);
 }
 
-void msrVoice::appendAFirstMeasureToVoiceIfNeeded ()
+void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
+  int inputLineNumber)
 {
   if (! fVoiceLastSegment) {
     // create the initial segment for this voice
@@ -17182,7 +17183,13 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded ()
         fInputLineNumber,
         fVoiceDirectPartUplink,
         this);
-  
+
+    // set the new last segment's measure number
+    fVoiceLastSegment->
+      setSegmentMeasureNumber (
+        inputLineNumber,
+        fVoiceMeasureNumber);
+      
     // register voice first segment for LilyPond issue 34
     fVoiceFirstSegment =
       fVoiceLastSegment;
@@ -17311,7 +17318,8 @@ void msrVoice::setVoiceMeasureNumber (
   fVoiceMeasureNumber = measureNumber;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    inputLineNumber);
 
   // set the last segment measure number
   fVoiceLastSegment->
@@ -17536,7 +17544,8 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    clef->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendClefToSegment (clef);
@@ -17551,7 +17560,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    key->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendKeyToSegment (key);
@@ -17569,7 +17579,8 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   fVoiceTime = time;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    time->getInputLineNumber ());
 
   // append it to the last segment
   fVoiceLastSegment->
@@ -17604,7 +17615,8 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       
     case msrVoice::kHarmonyVoice:
       // create the voice last segment and first measure if needed
-      appendAFirstMeasureToVoiceIfNeeded ();
+      appendAFirstMeasureToVoiceIfNeeded (
+        harmony->getInputLineNumber ());
 
       fVoiceLastSegment->
         appendHarmonyToSegment (harmony);
@@ -17661,7 +17673,8 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       
     case msrVoice::kHarmonyVoice:
       // create the voice last segment and first measure if needed
-      appendAFirstMeasureToVoiceIfNeeded ();
+      appendAFirstMeasureToVoiceIfNeeded (
+        harmony->getInputLineNumber ());
 
       fVoiceLastSegment->
         appendHarmonyToSegmentClone (harmony);
@@ -17716,7 +17729,8 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    transpose->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (transpose);
@@ -17745,7 +17759,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    tempo->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (tempo);
@@ -17762,7 +17777,8 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    octaveShift->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (octaveShift);
@@ -17777,7 +17793,8 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    rehearsal->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (rehearsal);
@@ -17840,7 +17857,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   } // switch
   
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    note->getInputLineNumber ());
 
   // append the note to the last segment
   fVoiceLastSegment->
@@ -17953,7 +17971,8 @@ void msrVoice::appendDoubleTremoloToVoice (
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    doubleTremolo->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendDoubleTremoloToSegment (doubleTremolo);
@@ -17971,7 +17990,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    chord->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendChordToSegment (chord);
@@ -17989,7 +18009,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    tuplet->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendTupletToSegment (tuplet);
@@ -18006,14 +18027,14 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    elem->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (elem);
 }
 
-void msrVoice::appendGracenotesToVoice (
-  S_msrGracenotes gracenotes)
+void msrVoice::appendGracenotesToVoice (S_msrGracenotes gracenotes)
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
@@ -18023,7 +18044,8 @@ void msrVoice::appendGracenotesToVoice (
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    gracenotes->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendGracenotesToSegment (gracenotes);
@@ -18031,8 +18053,7 @@ void msrVoice::appendGracenotesToVoice (
   fMusicHasBeenInsertedInVoice = true;
 }
 
-void msrVoice::prependGracenotesToVoice (
-  S_msrGracenotes gracenotes)
+void msrVoice::prependGracenotesToVoice (S_msrGracenotes gracenotes)
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
@@ -18042,7 +18063,8 @@ void msrVoice::prependGracenotesToVoice (
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    gracenotes->getInputLineNumber ());
 
   fVoiceFirstSegment->
     prependGracenotesToSegment (gracenotes);
@@ -18061,7 +18083,8 @@ void msrVoice::appendAftergracenotesToVoice (
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    aftergracenotes->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendAftergracenotesToSegment (aftergracenotes);
@@ -18080,7 +18103,8 @@ void msrVoice::prependAftergracenotesToVoice (
   }
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    aftergracenotes->getInputLineNumber ());
 
   fVoiceFirstSegment->
     prependAftergracenotesToSegment (aftergracenotes);
@@ -18123,7 +18147,8 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    barCheck->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (barCheck);
@@ -18146,7 +18171,8 @@ void msrVoice::appendBarnumberCheckToVoice (
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    barNumberCheck->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (barNumberCheck);
@@ -18167,7 +18193,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       endl;
 
   // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNeeded ();
+  appendAFirstMeasureToVoiceIfNeeded (
+    break_->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendOtherElementToSegment (break_);

@@ -2779,7 +2779,7 @@ class EXP msrSegment : public msrElement
     // measure number
     void                  setSegmentMeasureNumber (
                             int    inputLineNumber,
-                            string measureNumbe);
+                            string measureNumber);
                       
     const string          getSegmentMeasureNumber () const
                               { return fSegmentMeasureNumber; }
@@ -6733,7 +6733,8 @@ class EXP msrVoice : public msrElement
 
     void                  initializeVoice ();
 
-    void                  appendAFirstMeasureToVoiceIfNeeded ();
+    void                  appendAFirstMeasureToVoiceIfNeeded (
+                             int inputLineNumber);
   
   public:
 
