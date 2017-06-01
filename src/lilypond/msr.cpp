@@ -13099,17 +13099,26 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   msrAssert(
     segmentClone != 0,
     "segmentClone is null");
-    
+
+  // get direct part uplink
+  S_msrPart
+    directPartUplink =
+      segmentClone->getSegmentDirectPartUplink ();
+
+  // create clone
   S_msrMeasure
     clone =
       msrMeasure::create (
         fInputLineNumber,
-        segmentClone->getSegmentDirectPartUplink (),
+        directPartUplink,
         fMeasureNumber,
         segmentClone);
 
+  // set clone time
   clone->
-    setMeasureTime (fMeasureTime);
+    setMeasureTime (
+      directPartUplink->
+        getPartTime ());
 
 //* JMI    
   clone->fMeasureKind =
@@ -14657,21 +14666,26 @@ void msrMeasure::print (ostream& os)
   os <<
     endl <<
     idtr <<
-      "Measure " << fMeasureNumber <<
-        ", " << fMeasureTime->timeAsShortString () <<
-        ", " << getMeasureKindAsString () <<
-        ", line " << fInputLineNumber <<
-        ", len: " << getMeasureLength () << " divs" <<
-        " (" << getMeasureLengthAsString () << ")" <<
-      ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
-      ", pos = " << fMeasurePosition << 
-      ", " <<
-      singularOrPlural (
-        fMeasureElementsList.size (), "element", "elements") <<
+      "Measure " << fMeasureNumber;
+
+  if (fMeasureTime)
+    os <<
+      ", " << fMeasureTime->timeAsShortString ();
+
+  os <<
+    ", " << getMeasureKindAsString () <<
+    ", line " << fInputLineNumber <<
+    ", len: " << getMeasureLength () << " divs" <<
+    " (" << getMeasureLengthAsString () << ")" <<
+    ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
+    ", pos = " << fMeasurePosition << 
+    ", " <<
+    singularOrPlural (
+      fMeasureElementsList.size (), "element", "elements") <<
 // JMI      ", part high tide = " <<
 // JMI      fMeasureDirectPartUplink->
 // JMI        getPartMeasurePositionHighTide () <<
-      endl;
+    endl;
       
   if (fMeasureElementsList.size ()) {
     idtr++;
@@ -20960,6 +20974,12 @@ void msrPart::initializePart ()
   
   setPartMeasurePositionHighTide (
     fInputLineNumber, 1);
+
+  // set default part time to 4/4 time signature
+  fPartTime =
+    msrTime::create (
+      fInputLineNumber,
+      4, 4);
 
   // create the part harmony staff and voice
   createPartHarmonyStaffAndVoice (
