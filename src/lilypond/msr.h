@@ -6733,7 +6733,7 @@ class EXP msrVoice : public msrElement
 
     void                  initializeVoice ();
 
-    void                  appendAFirstMeasureToVoice ();
+    void                  appendAFirstMeasureToVoiceIfNeeded ();
   
   public:
 
