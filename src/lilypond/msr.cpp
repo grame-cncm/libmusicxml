@@ -14870,8 +14870,6 @@ void msrSegment::setSegmentMeasureNumber (
   int    inputLineNumber,
   string measureNumber)
 {
-  msrMeasure::msrMeasureKind measureKind;
-  
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "Setting measure to " << measureNumber <<
@@ -14879,7 +14877,11 @@ void msrSegment::setSegmentMeasureNumber (
       ", line " << inputLineNumber <<
       endl;
 
-  if (fSegmentMeasuresList.size () == 1) {
+  fSegmentMeasureNumber = measureNumber; // JMI
+
+  msrMeasure::msrMeasureKind measureKind;
+  
+  if (fSegmentMeasuresList.size () == 1) { // JMI
     // this is the first measure in the segment
     measureKind =
       msrMeasure::kIncompleteLeftMeasure;
@@ -14900,22 +14902,23 @@ void msrSegment::setSegmentMeasureNumber (
       msrMeasure::measureKindAsString (measureKind) <<
       endl;
 
-  checkForIncompleteSegmentLastMeasure (
-    inputLineNumber,
-    measureKind);
-
-  fSegmentMeasureNumber = measureNumber; // JMI
-
-  // fetch segment last measure
-  S_msrMeasure
-    lastMeasure =
-      fSegmentMeasuresList.back ();
-
-  // finalize last measure
-  lastMeasure->
-    finalizeMeasure (
+  if (fSegmentMeasuresList.size ()) {
+    // check for incomplete segment last measure
+    checkForIncompleteSegmentLastMeasure (
       inputLineNumber,
       measureKind);
+  
+    // fetch segment last measure // JMI
+    S_msrMeasure
+      lastMeasure =
+        fSegmentMeasuresList.back ();
+  
+    // finalize last measure
+    lastMeasure->
+      finalizeMeasure (
+        inputLineNumber,
+        measureKind);
+  }
     
   // create a new measure
   S_msrMeasure
