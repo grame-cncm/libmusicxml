@@ -217,7 +217,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
       endl;
   
   for (
-    vector<S_msrElement>::iterator i = fParallelMusicElements.begin();
+    vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin();
     i != fParallelMusicElements.end();
     i++) {
     // browse the element browser
@@ -2573,7 +2573,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
       endl;
 
   for (
-    list<S_msrElement>::iterator i = fStaffBlockElements.begin();
+    list<S_msrElement>::const_iterator i = fStaffBlockElements.begin();
     i != fStaffBlockElements.end();
     i++) {
     // browse the element
@@ -2686,7 +2686,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
       endl;
 
   for (
-    list<S_msrElement>::iterator i = fPartBlockElements.begin();
+    list<S_msrElement>::const_iterator i = fPartBlockElements.begin();
     i != fPartBlockElements.end();
     i++) {
     // browse the element
@@ -2821,7 +2821,7 @@ void lpsrPartgroupBlock::browseData (basevisitor* v)
       endl;
 
   for (
-    list<S_msrElement>::iterator i = fPartgroupBlockElements.begin();
+    list<S_msrElement>::const_iterator i = fPartgroupBlockElements.begin();
     i != fPartgroupBlockElements.end();
     i++) {
     // browse the element
@@ -3006,7 +3006,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 
 /* JMI
   for (
-    vector<S_msrElement>::iterator i = fScoreBlockElements.begin();
+    vector<S_msrElement>::const_iterator i = fScoreBlockElements.begin();
     i != fScoreBlockElements.end();
     i++) {
     // browse the element
@@ -3496,7 +3496,7 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the voices and stanzas list
     for (
-      list<S_msrElement>::iterator i = fScoreElements.begin();
+      list<S_msrElement>::const_iterator i = fScoreElements.begin();
       i != fScoreElements.end();
       i++) {
       // browse the element

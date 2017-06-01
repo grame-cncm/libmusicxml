@@ -2736,8 +2736,7 @@ class EXP msrSegment : public msrElement
     msrSegment (
       int          inputLineNumber,
       S_msrPart    segmentDirectPartUplink,
-      S_msrVoice   segmentVoicekUplink,
-      S_msrMeasure firstMeasure = 0); // only supplied for measure repeats
+      S_msrVoice   segmentVoicekUplink);
       
     virtual ~msrSegment();
     
@@ -2746,8 +2745,7 @@ class EXP msrSegment : public msrElement
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeSegment (
-                            S_msrMeasure firstMeasure);
+    void                  initializeSegment ();
 
   public:
 

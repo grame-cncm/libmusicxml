@@ -13987,7 +13987,7 @@ void msrMeasure::prependGracenotesToMeasure (
   // after clef, key and time signature if any
 
   for (
-    list<S_msrElement>::iterator i = fMeasureElementsList.begin();
+    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
     i != fMeasureElementsList.end();
     i++ ) {
 
@@ -14030,7 +14030,7 @@ void msrMeasure::prependAftergracenotesToMeasure (
   // after clef, key and time signature if any
 
   for (
-    list<S_msrElement>::iterator i = fMeasureElementsList.begin();
+    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
     i != fMeasureElementsList.end();
     i++ ) {
 
@@ -14551,7 +14551,7 @@ void msrMeasure::browseData (basevisitor* v)
       endl;
 
   for (
-    list<S_msrElement>::iterator i = fMeasureElementsList.begin();
+    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
     i != fMeasureElementsList.end();
     i++) {
     // browse the element
@@ -14714,22 +14714,25 @@ S_msrSegment msrSegment::createWithFirstMeasure (
   S_msrVoice   segmentVoicekUplink,
   S_msrMeasure firstMeasure)
 {
-  msrSegment* o =
-    new msrSegment (
-      inputLineNumber,
-      segmentDirectPartUplink,
-      segmentVoicekUplink,
-      firstMeasure);
-  assert(o!=0);
+  S_msrSegment
+    segment =
+      msrSegment::create (
+        inputLineNumber,
+        segmentDirectPartUplink,
+        segmentVoicekUplink);
+  assert(segment!=0);
 
-  return o;
+  // append firstMeasure to the segment
+  segment->
+    appendMeasureToSegment (firstMeasure);
+  
+  return segment;
 }
 
 msrSegment::msrSegment (
   int          inputLineNumber,
   S_msrPart    segmentDirectPartUplink,
-  S_msrVoice   segmentVoicekUplink,
-  S_msrMeasure firstMeasure)
+  S_msrVoice   segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
   // set segment's direct part uplink
@@ -14749,23 +14752,23 @@ msrSegment::msrSegment (
     segmentVoicekUplink;
 
   // initialize segment
-  initializeSegment (firstMeasure);
+  initializeSegment ();
 }
 
 msrSegment::~msrSegment() {}
 
-void msrSegment::initializeSegment (S_msrMeasure firstMeasure)
+void msrSegment::initializeSegment ()
 {
-  
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   
-  if (false && gGeneralOptions->fTraceSegments) {
+  if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "% --> new segment gets absolute number " <<
       fSegmentAbsoluteNumber <<
       endl;
   }
 
+/* JMI
   if (! firstMeasure) {
     // regular segment creation
     fSegmentTime =
@@ -14804,19 +14807,17 @@ void msrSegment::initializeSegment (S_msrMeasure firstMeasure)
         this);
 
     // set the measure clef, key and time if any
-    /* JMI
+    /*  JMI
     measure->setMeasureClef (
       lastMeasure->getMeasureClef ());
     measure->setMeasureKey (
       lastMeasure->getMeasureKey ());
-      */
+      * /
     firstMeasure->
       setMeasureTime ( // JMI
         fSegmentTime);        
   }
-
-  // append the measure to the segment
-  appendMeasureToSegment (firstMeasure);
+*/
 
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -15241,7 +15242,7 @@ void msrSegment::removeElementFromSegment (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::iterator i = fSegmentMeasuresList.begin();
+    list<S_msrElement>::const_iterator i = fSegmentMeasuresList.begin();
     i != fSegmentMeasuresList.end();
     i++) {
     if ((*i) == elem) {
@@ -15497,7 +15498,7 @@ void msrSegment::browseData (basevisitor* v)
     */
     
   for (
-    list<S_msrMeasure>::iterator i = fSegmentMeasuresList.begin();
+    list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin();
     i != fSegmentMeasuresList.end();
     i++) {
     // browse the element
@@ -15878,7 +15879,7 @@ void msrRepeat::browseData (basevisitor* v)
   
   // browse the alternatives
   for (
-    vector<S_msrRepeatending>::iterator i = fRepeatEndings.begin();
+    vector<S_msrRepeatending>::const_iterator i = fRepeatEndings.begin();
     i != fRepeatEndings.end();
     i++) {
     // browse the alternative
@@ -19150,7 +19151,7 @@ void msrVoice::browseData (basevisitor* v)
   // browse the voice initial repeats and segments
   if (fVoiceInitialRepeatsAndSegments.size ()) {
     for (
-      list<S_msrElement>::iterator i = fVoiceInitialRepeatsAndSegments.begin();
+      list<S_msrElement>::const_iterator i = fVoiceInitialRepeatsAndSegments.begin();
       i != fVoiceInitialRepeatsAndSegments.end();
       i++) {
       // browse the element
@@ -19166,7 +19167,7 @@ void msrVoice::browseData (basevisitor* v)
   // browse the voice stanzas
   if (fVoiceStanzasMap.size ()) {
     for (
-      map<int, S_msrStanza>::iterator i = fVoiceStanzasMap.begin();
+      map<int, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
       i != fVoiceStanzasMap.end();
       i++) {
       // browse the stanza
@@ -19838,7 +19839,7 @@ void msrStaff::setStaffMeasureNumber (
 
   // propagate it to all staves
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
@@ -19970,7 +19971,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsExternalNumber (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i =
+    map<int, S_msrVoice>::const_iterator i =
       fStaffVoiceRelativeNumberToVoiceMap.begin();
     i != fStaffVoiceRelativeNumberToVoiceMap.end();
     i++) {
@@ -20120,10 +20121,11 @@ void msrStaff::createAndAppendRepeatToStaff (int inputLineNumber)
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->createAndAppendRepeatToVoice (inputLineNumber);
+    (*i).second->
+      createAndAppendRepeatToVoice (inputLineNumber);
   } // for
 }
 
@@ -20141,13 +20143,14 @@ void msrStaff::appendRepeatendingToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatendingToVoice (
-      inputLineNumber,
-      repeatendingNumber,
-      repeatendingKind);
+    (*i).second->
+      appendRepeatendingToVoice (
+        inputLineNumber,
+        repeatendingNumber,
+        repeatendingKind);
   } // for
 }
 
@@ -20165,7 +20168,7 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
@@ -20188,7 +20191,7 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
@@ -20213,7 +20216,7 @@ void msrStaff::createMultipleRestInStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
@@ -20235,7 +20238,7 @@ void msrStaff::appendPendingMultipleRestToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
@@ -20258,7 +20261,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
@@ -20280,7 +20283,7 @@ void msrStaff::appendRepeatCloneToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->appendRepeatCloneToVoice (
@@ -20299,10 +20302,11 @@ void msrStaff::appendRepeatendingCloneToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatendingCloneToVoice (repeatendingClone);
+    (*i).second->
+      appendRepeatendingCloneToVoice (repeatendingClone);
   } // for
 }
 
@@ -20317,10 +20321,11 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
       endl;
 
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendBarlineToVoice (barline);
+    (*i).second->
+      appendBarlineToVoice (barline);
   } // for
 }
 
@@ -20344,10 +20349,11 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
 {
   for (
-    map<int, S_msrVoice>::iterator i = fStaffAllVoicesMap.begin();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendClefToVoice (clef);
+    (*i).second->
+      appendClefToVoice (clef);
   } // for
 }
 
