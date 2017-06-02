@@ -2314,6 +2314,7 @@ void lpsrPaper::print (ostream& os) {
       "paper-width" << " = " <<
       setprecision(4) << fPaperWidth << "\\cm" <<
       endl;
+      
     emptyPaper = false;
   }
   
@@ -2323,6 +2324,7 @@ void lpsrPaper::print (ostream& os) {
       "paper-height" << " = " <<
       setprecision(4) << fPaperHeight << "\\cm" <<
       endl;
+      
     emptyPaper = false;
   }
   
@@ -2332,6 +2334,7 @@ void lpsrPaper::print (ostream& os) {
       "top-margin" << " = " <<
       setprecision(4) << fTopMargin << "\\cm" <<
       endl;
+      
     emptyPaper = false;
   }
   
@@ -2341,6 +2344,7 @@ void lpsrPaper::print (ostream& os) {
       "bottom-margin" << " = " <<
       setprecision(4) << fBottomMargin << "\\cm" <<
       endl;
+      
     emptyPaper = false;
   }
   
@@ -2350,6 +2354,7 @@ void lpsrPaper::print (ostream& os) {
       "left-margin" << " = " <<
       setprecision(4) << fLeftMargin << "\\cm" <<
       endl;
+      
     emptyPaper = false;
   }
   
@@ -2359,6 +2364,7 @@ void lpsrPaper::print (ostream& os) {
       "right-margin" << " = " <<
       setprecision(4) << fRightMargin << "\\cm" <<
       endl;
+      
     emptyPaper = false;
   }
 
@@ -2370,6 +2376,8 @@ void lpsrPaper::print (ostream& os) {
     "between-system-space" << " = " <<
     setprecision(4) << fBetweenSystemSpace << "\\cm" <<
     endl;
+      
+    emptyPaper = false;
   }
 
   if (fPageTopSpace > 0) {
@@ -2378,6 +2386,9 @@ void lpsrPaper::print (ostream& os) {
     "page-top-space" << " = " <<
     setprecision(4) << fPageTopSpace << "\\cm" <<
     endl;
+      
+    emptyPaper = false;
+  }
 
   // headers and footers
 
@@ -2387,6 +2398,9 @@ void lpsrPaper::print (ostream& os) {
     "oddHeaderMarkup" << " = " <<
     fOddHeaderMarkup <<
     endl;
+      
+    emptyPaper = false;
+  }
 
   if (fEvenHeaderMarkup.size ()) {
     os << idtr << left <<
@@ -2394,6 +2408,9 @@ void lpsrPaper::print (ostream& os) {
     "evenHeaderMarkup" << " = " <<
     fEvenHeaderMarkup <<
     endl;
+      
+    emptyPaper = false;
+  }
 
   if (fOddFooterMarkup.size ()) {
     os << idtr << left <<
@@ -2401,6 +2418,9 @@ void lpsrPaper::print (ostream& os) {
     "oddFooterMarkup" << " = " <<
     fOddFooterMarkup <<
     endl;
+      
+    emptyPaper = false;
+  }
 
   if (fEvenFooterMarkup.size ()) {
     os << idtr << left <<
@@ -2408,13 +2428,17 @@ void lpsrPaper::print (ostream& os) {
     "evenFooterMarkup" << " = " <<
     fEvenFooterMarkup <<
     endl;
+      
+    emptyPaper = false;
+  }
 
   // otherwise
   
-  if (emptyPaper)
+  if (emptyPaper) {
     os << idtr <<
       " " << "nothing specified" <<
       endl;
+  }
   
   idtr--;
 }
