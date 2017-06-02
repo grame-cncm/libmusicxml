@@ -2102,29 +2102,52 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fDisplayMsr =
     true;
 
-  clone->fDisplayMsrSummary = // JMI
-    true;
+  clone->fDisplayMsrSummary =
+    fDisplayMsrSummary;
 
   // languages
     
+  clone->fMsrQuatertonesPitchesLanguage =
+    fMsrQuatertonesPitchesLanguage;
+
   // parts
+
+  clone->fPartsRenaming =
+    fPartsRenaming;
 
   // voices
   
+  clone->fCreateStaffRelativeVoiceNumbers =
+    fCreateStaffRelativeVoiceNumbers;
+
   clone->fKeepMasterVoices =
-    true;
+    fKeepMasterVoices;
 
   // notes
 
+  clone->fDelayRestsDynamics =
+    fDelayRestsDynamics;
+  clone->fDelayRestsWords =
+    fDelayRestsWords;
+  clone->fDelayRestsSlurs =
+    fDelayRestsSlurs;
+  clone->fDelayRestsLigatures =
+    fDelayRestsLigatures;
+  clone->fDelayRestsWedges =
+    fDelayRestsWedges;
+
   // lyrics
     
+  clone->fDontDisplayMsrStanzas =
+    fDontDisplayMsrStanzas;
+
   clone->fKeepMasterStanzas =
-    true;
+    fKeepMasterStanzas;
 
   // harmonies
 
   clone->fKeepEmptyHarmoniesVoice =
-    true;
+    fKeepEmptyHarmoniesVoice;
 
   return clone;
 }  
