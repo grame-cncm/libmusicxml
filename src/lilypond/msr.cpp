@@ -13088,15 +13088,14 @@ void msrMeasure::initializeMeasure ()
       ", line " << fInputLineNumber <<
       endl;
 
-  // fetch measure time from segment
-  /* JMI
+  fMeasureKind = kUnknownMeasureKind;
+
+  // fetch measure time from segment,
+  // which will set fMeasureDivisionsPerFullMeasure
   setMeasureTime (
     fMeasureSegmentUplink->
       getSegmentTime ());
-      */
-      
-  fMeasureKind = kUnknownMeasureKind;
-
+        
   setMeasurePosition (
     fInputLineNumber, 1); // ready to receive the first note
 
@@ -21113,9 +21112,8 @@ void msrPart::initializePart ()
       fInputLineNumber,
       4, 4);
 
-  // create the part harmony staff and voice
-  createPartHarmonyStaffAndVoice (
-    fInputLineNumber);
+  // the part harmony staff and voice will be created later
+  // in setPartDivisionsPerQuarterNote()
 }
 
 msrPart::~msrPart() {}
@@ -21662,13 +21660,13 @@ void msrPart::updatePartMeasurePositionHighTide (
   int measurePosition)
 {
   if (measurePosition > fPartMeasurePositionHighTide) {
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-        "Updating measure position high tide for part \"" <<
-        getPartCombinedName () <<
-        "\" to " << measurePosition <<
-        ", line " << inputLineNumber <<
-        endl;
+    if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
+        cerr << idtr <<
+          "Updating measure position high tide for part \"" <<
+          getPartCombinedName () <<
+          "\" to " << measurePosition <<
+          ", line " << inputLineNumber <<
+          endl;
 
     fPartMeasurePositionHighTide = measurePosition;
   }
@@ -21742,6 +21740,11 @@ void msrPart::setPartDivisionsPerQuarterNote (
   // initialize fPartDurationsToDivisions
   setupDurationsDivisions (
     fPartDivisionsPerQuarterNote);
+
+  // create the part harmony staff and voice
+  // only now because we need the divisions per quarter notes
+  createPartHarmonyStaffAndVoice (
+    fInputLineNumber);
 }
 
 void msrPart::setPartMeasureNumber (
@@ -22181,12 +22184,6 @@ void msrPart::appendHarmonyToPart (
       setPartHarmoniesSupplierVoice (
         inputLineNumber,
         harmoniesSupplierVoice);
-
-    /* JMI
-      if (! fPartHarmonyVoice)
-        createPartHarmonyStaffAndVoice (
-          inputLineNumber);
-    */
     
       // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
