@@ -1490,26 +1490,22 @@ class EXP lpsrHeader : public lpsrElement
     void                  setLilyPondDedication (
                             string lilyPondDedication)
                               {
-                                fLilyPondDedication =
-                                  lilyPondDedication;
+                                fLilyPondDedication = lilyPondDedication;
                               }
     void                  setLilyPondTitle (
                             string lilyPondTitle)
                               {
-                                fLilyPondTitle =
-                                  lilyPondTitle;
+                                fLilyPondTitle = lilyPondTitle;
                               }
     void                  setLilyPondSubtitle (
                             string lilyPondSubtitle)
                               {
-                                fLilyPondSubtitle =
-                                  lilyPondSubtitle;
+                                fLilyPondSubtitle = lilyPondSubtitle;
                               }
     void                  setLilyPondSubsubtitle (
                             string lilyPondSubsubtitle)
                               {
-                                fLilyPondSubsubtitle =
-                                  lilyPondSubsubtitle;
+                                fLilyPondSubsubtitle = lilyPondSubsubtitle;
                               }
     
     // evenly spread on one line
@@ -1525,20 +1521,17 @@ class EXP lpsrHeader : public lpsrElement
     void                  setLilyPondInstrument (
                             string lilyPondInstrument)
                               {
-                                fLilyPondInstrument =
-                                  lilyPondInstrument;
+                                fLilyPondInstrument = lilyPondInstrument;
                               }
     void                  setLilyPondPoet (
                             string lilyPondPoet)
                               {
-                                fLilyPondPoet =
-                                  lilyPondPoet;
+                                fLilyPondPoet = lilyPondPoet;
                               }
     void                  setLilyPondComposer (
                             string lilyPondComposer)
                               {
-                                fLilyPondComposer =
-                                  lilyPondComposer;
+                                fLilyPondComposer = lilyPondComposer;
                               }
     
     // at opposite ends of the same line
@@ -1550,14 +1543,12 @@ class EXP lpsrHeader : public lpsrElement
     void                  setLilyPondMeter (
                             string lilyPondMeter)
                               {
-                                fLilyPondMeter =
-                                  lilyPondMeter;
+                                fLilyPondMeter = lilyPondMeter;
                               }
     void                  setLilyPondArranger (
                             string lilyPondArranger)
                               {
-                                fLilyPondArranger =
-                                  lilyPondArranger;
+                                fLilyPondArranger = lilyPondArranger;
                               }
     
     // centered at the bottom of the first page
@@ -1566,8 +1557,7 @@ class EXP lpsrHeader : public lpsrElement
     void                  setLilyPondCopyright (
                             string lilyPondCopyright)
                               {
-                                fLilyPondCopyright =
-                                  lilyPondCopyright;
+                                fLilyPondCopyright = lilyPondCopyright;
                               }
     
     // centered at the bottom of the last page
@@ -1576,8 +1566,7 @@ class EXP lpsrHeader : public lpsrElement
     void                  setLilyPondTagline (
                             string lilyPondTagline)
                               {
-                                fLilyPondTagline =
-                                  lilyPondTagline;
+                                fLilyPondTagline = lilyPondTagline;
                               }
 
     // services
@@ -1709,14 +1698,14 @@ class EXP lpsrPaper : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // page width, height and margins
+
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     void    setPaperHeight        (float val) { fPaperHeight = val; }
     void    setTopMargin          (float val) { fTopMargin = val; }
     void    setBottomMargin       (float val) { fBottomMargin = val; }
     void    setLeftMargin         (float val) { fLeftMargin = val; }
     void    setRightMargin        (float val) { fRightMargin = val; }
-    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
-    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
 
 
     float   getPaperWidth         () const    { return fPaperWidth; }
@@ -1725,8 +1714,26 @@ class EXP lpsrPaper : public msrElement
     float   getBottomMargin       () const    { return fBottomMargin; }
     float   getLeftMargin         () const    { return fLeftMargin; }
     float   getRightMargin        () const    { return fRightMargin; }
+
+    // spaces
+
+    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
+    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
+
     float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
+
+    // headers and footers
+
+    void    setOddHeaderMarkup   (string val) { fOddHeaderMarkup = val; }
+    void    setEvenHeaderMarkup  (string val) { fEvenHeaderMarkup = val; }
+    void    setOddFooterMarkup   (string val) { fOddFooterMarkup = val; }
+    void    setEvenFooterMarkup  (string val) { fEvenFooterMarkup = val; }
+
+    string  getOddHeaderMarkup    () const    { return fOddHeaderMarkup; }
+    string  getEvenHeaderMarkup   () const    { return fEvenHeaderMarkup; }
+    string  getOddFooterMarkup    () const    { return fOddFooterMarkup; }
+    string  getEvenFooterMarkup   () const    { return fEvenFooterMarkup; }
 
     // services
     // ------------------------------------------------------
@@ -1747,16 +1754,26 @@ class EXP lpsrPaper : public msrElement
 
   private:
 
-    // page height, margins and the like in centimeters are in centimeters
+    // page width, height and margins (centimeters)
+    
     float             fPaperWidth;
     float             fPaperHeight;
     float             fTopMargin;
     float             fBottomMargin;
     float             fLeftMargin;
     float             fRightMargin;
+
+    // spaces (centimeters)
     
     float             fBetweenSystemSpace;
-    float             fPageTopSpace; 
+    float             fPageTopSpace;
+
+    // headers and footers
+    
+    string            fOddHeaderMarkup;
+    string            fEvenHeaderMarkup;
+    string            fOddFooterMarkup;
+    string            fEvenFooterMarkup;
 };
 typedef SMARTP<lpsrPaper> S_lpsrPaper;
 EXP ostream& operator<< (ostream& os, const S_lpsrPaper& elt);

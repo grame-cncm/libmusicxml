@@ -3196,11 +3196,71 @@ lpsrScore::lpsrScore (
   fHeader =
     lpsrHeader::create (
       inputLineNumber);
-  
+
   // create the paper
   fPaper =
     lpsrPaper::create (
       inputLineNumber);
+
+  if (gLilypondOptions->fGenerateLilyPondCompileDate) {
+    // create the date and time functions
+    addDateAndTimeSchemeFunctionsToScore ();
+  }
+  
+  
+/*
+  oddHeaderMarkup = \markup {
+    \fill-line {
+      \on-the-fly \not-first-page {
+        \fromproperty #'page:page-number-string
+        " "
+        \fromproperty #'header:title
+        " "
+        \fromproperty #'header:subtitle
+      }
+    }
+  }
+  evenHeaderMarkup = \markup {
+    \fill-line {
+      \on-the-fly \not-first-page {
+        \fromproperty #'page:page-number-string
+        " "
+        \fromproperty #'header:title
+        " "
+        \fromproperty #'header:subtitle
+      }
+    }
+  }
+
+  oddFooterMarkup = \markup {
+    \tiny
+    \column {
+      \fill-line {
+        #(string-append
+          "Music edited with Frescobaldi and engraved by LilyPond " (lilypond-version))
+      }
+      \fill-line {
+        "http://www.frescobaldi.org - http://www.lilypond.org"
+      }
+      \fill-line { \italic { \modTimeAsString }}
+    }
+  }
+*/
+ 
+/* JMI
+void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
+{
+  S_lpsrPartgroupBlock
+    partgroupBlock =
+      lpsrPartgroupBlock::create (
+        fInputLineNumber,
+        voice);
+  
+  fScoreBlock->
+    appendVoiceUseToParallelMusic (useVoiceCommand);
+}
+*/
+
 
   // create the score layout
   fScoreLayout =
@@ -3254,17 +3314,17 @@ lpsrScore::lpsrScore (
   if (gLilypondOptions->fGenerateGlobal) {
     // create the 'global' assoc
     fGlobalAssoc =
-    lpsrLilypondVarValAssoc::create (
-      inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "global",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
-      "{ }",
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      "Place whatever you need in the 'global' variable",
-      lpsrLilypondVarValAssoc::kWithEndl);
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        lpsrLilypondVarValAssoc::kUncommented,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        "global",
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        "{ }",
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        "Place whatever you need in the 'global' variable",
+        lpsrLilypondVarValAssoc::kWithEndl);
   }
   
   // create the score command
@@ -3379,20 +3439,6 @@ tongue =
   fScoreSchemeFunctionsMap [schemeFunctionName] =
     tongueSchemeFunction;
 }
-
-/* JMI
-void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
-{
-  S_lpsrPartgroupBlock
-    partgroupBlock =
-      lpsrPartgroupBlock::create (
-        fInputLineNumber,
-        voice);
-  
-  fScoreBlock->
-    appendVoiceUseToParallelMusic (useVoiceCommand);
-}
-*/
 
 void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
 {
