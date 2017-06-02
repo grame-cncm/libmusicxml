@@ -2278,6 +2278,12 @@ class EXP lpsrScore : public lpsrElement
     void                  appendLyricsUseToStoreCommand (
                             S_msrStanza stanza);
 
+    // Scheme functions
+    
+    void                  addDateAndTimeSchemeFunctionsToScore ();
+
+    void                  addTongueSchemeFunctionToScore ();
+
     // visitors
     // ------------------------------------------------------
 

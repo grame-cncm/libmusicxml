@@ -3273,56 +3273,106 @@ lpsrScore::~lpsrScore() {}
 void lpsrScore::setTongueSchemeFunctionNeeded ()
 {
   if (! fTongueSchemeFunctionNeeded) {
-    string
-      schemeFunctionName =
-        "tongue",
-        
-      schemeFunctionDescription =
-  R"(
-  % Creates multiple tongue technicals, argument is a number.
-  % Example: 'c4 -\tongue #3' creates a triple tongue.
-  )",
-  
-      schemeFunctionCode =
-  R"(
-  tongue =
-  #(define-music-function (parser location dots) (integer?)
-     (let ((script (make-music 'ArticulationEvent
-                     'articulation-type "staccato")))
-       (set! (ly:music-property script 'tweaks)
-             (acons 'stencil
-               (lambda (grob)
-                 (let ((stil (ly:script-interface::print grob)))
-                   (let loop ((count (1- dots)) (new-stil stil))
-                     (if (> count 0)
-                         (loop (1- count)
-                           (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
-                         (ly:stencil-aligned-to new-stil X CENTER)))))
-               (ly:music-property script 'tweaks)))
-       script))
-  )";
-
-    if (true || gGeneralOptions->fTraceGeneral) { // JMI
-      cerr << idtr <<
-        "Creating Scheme funcction '" << schemeFunctionName << "'" <<
-        endl;
-    }
-  
-    // create the Scheme function
-    S_lpsrSchemeFunction
-      tongueSchemeFunction =
-        lpsrSchemeFunction::create (
-          1, // inputLineNumber, JMI ???
-          schemeFunctionName,
-          schemeFunctionDescription,
-          schemeFunctionCode);
-  
-    // register it in the Scheme functions map
-    fScoreSchemeFunctionsMap [schemeFunctionName] =
-      tongueSchemeFunction;
-
+    addTongueSchemeFunctionToScore ();
+    
     fTongueSchemeFunctionNeeded = true;    
   }
+}
+
+void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
+{
+  string
+    schemeFunctionName =
+      "date & time",
+      
+    schemeFunctionDescription =
+R"(
+% Aet of functions to obtain a source file's modification time.
+)",
+
+    schemeFunctionCode =
+R"(
+#(define comml           (object->string (command-line)))
+#(define loc             (+ (string-rindex comml #\space ) 2))
+#(define commllen        (- (string-length comml) 2))
+#(define filen           (substring comml loc commllen))
+#(define siz             (object->string (stat:size (stat filen))))
+#(define ver             (object->string (lilypond-version)))
+#(define dat             (strftime "%d/%m/%Y" (localtime (current-time))))
+#(define tim             (strftime "%H:%M:%S" (localtime (current-time))))
+#(define modTime         (stat:mtime (stat filen)))
+#(define modTimeAsString (strftime "%d/%m/%Y - %H:%M:%S" (localtime modTime)))
+)";
+
+  if (true || gGeneralOptions->fTraceGeneral) { // JMI
+    cerr << idtr <<
+      "Creating Scheme functions for '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    dateAndTimeSchemeFunctions =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    dateAndTimeSchemeFunctions;
+}
+
+void lpsrScore::addTongueSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "tongue",
+      
+    schemeFunctionDescription =
+R"(
+% Creates multiple tongue technicals, argument is a number.
+% Example: 'c4 -\tongue #3' creates a triple tongue.
+)",
+
+    schemeFunctionCode =
+R"(
+tongue =
+#(define-music-function (parser location dots) (integer?)
+   (let ((script (make-music 'ArticulationEvent
+                   'articulation-type "staccato")))
+     (set! (ly:music-property script 'tweaks)
+           (acons 'stencil
+             (lambda (grob)
+               (let ((stil (ly:script-interface::print grob)))
+                 (let loop ((count (1- dots)) (new-stil stil))
+                   (if (> count 0)
+                       (loop (1- count)
+                         (ly:stencil-combine-at-edge new-stil X RIGHT stil 0.2))
+                       (ly:stencil-aligned-to new-stil X CENTER)))))
+             (ly:music-property script 'tweaks)))
+     script))
+)";
+
+  if (true || gGeneralOptions->fTraceGeneral) { // JMI
+    cerr << idtr <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    tongueSchemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    tongueSchemeFunction;
 }
 
 /* JMI
