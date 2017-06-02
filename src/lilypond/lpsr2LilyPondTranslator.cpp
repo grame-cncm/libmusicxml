@@ -939,58 +939,183 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
 
   idtr++;
   
-  const int fieldWidth = 13;
+  const int fieldWidth = 20;
 
-  if (elt->getPaperWidth () > 0) {
-    fOstream <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "paper-width" << " = " <<
-        setprecision(4) << elt->getPaperWidth () << "\\cm" <<
-        endl;
-  }
-  if (elt->getPaperHeight () > 0) {
-    fOstream <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "paper-height" << " = " <<
-        setprecision(4) << elt->getPaperHeight () << "\\cm" <<
-        endl;
+  // page width, height and margins
+
+  {
+    float paperWidth =
+      elt->getPaperWidth ();
+      
+    if (paperWidth > 0) {
+      fOstream <<
+        idtr << left <<
+          setw(fieldWidth) <<
+          "paper-width" << " = " <<
+          setprecision(4) << paperWidth << "\\cm" <<
+          endl;
+    }
   }
   
-  if (elt->getTopMargin () > 0) {
-    fOstream <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "top-margin" << " = " <<
-        setprecision(4) << elt->getTopMargin () << "\\cm" <<
-        endl;
+  {
+    float paperHeight =
+      elt->getPaperHeight ();
+      
+    if (paperHeight > 0) {
+      fOstream <<
+        idtr << left <<
+          setw(fieldWidth) <<
+          "paper-height" << " = " <<
+          setprecision(4) << paperHeight << "\\cm" <<
+          endl;
+    }
   }
-  if (elt->getBottomMargin () > 0) {
-    fOstream <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "bottom-margin" << " = " <<
-        setprecision(4) << elt->getBottomMargin () << "\\cm" <<
-        endl;
-  }
-  if (elt->getLeftMargin () > 0) {
-    fOstream <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "left-margin" << " = " <<
-        setprecision(4) << elt->getLeftMargin () << "\\cm" <<
-        endl;
-  }
-  if (elt->getRightMargin () > 0) {
-    fOstream <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "right-margin" << " = " <<
-      setprecision(4) << elt->getRightMargin () << "\\cm" <<
-      endl;
+  
+  {
+    float topMargin =
+      elt->getTopMargin ();
+      
+    if (topMargin > 0) {
+      fOstream <<
+        idtr << left <<
+          setw(fieldWidth) <<
+          "top-margin" << " = " <<
+          setprecision(4) << topMargin << "\\cm" <<
+          endl;
+    }
   }
 
+  {
+    float bottomMargin =
+      elt->getBottomMargin ();
+      
+    if (bottomMargin > 0) {
+      fOstream <<
+        idtr << left <<
+          setw(fieldWidth) <<
+          "bottom-margin" << " = " <<
+          setprecision(4) << bottomMargin << "\\cm" <<
+          endl;
+    }
+  }
+
+  {
+    float leftMargin =
+      elt->getLeftMargin ();
+      
+    if (leftMargin > 0) {
+      fOstream <<
+        idtr << left <<
+          setw(fieldWidth) <<
+          "left-margin" << " = " <<
+          setprecision(4) << leftMargin << "\\cm" <<
+          endl;
+    }
+  }
+
+  {
+    float rightMargin =
+      elt->getRightMargin ();
+      
+    if (rightMargin > 0) {
+      fOstream <<
+        idtr << left <<
+          setw(fieldWidth) <<
+          "right-margin" << " = " <<
+        setprecision(4) << rightMargin << "\\cm" <<
+        endl;
+    }
+  }
+
+  // spaces
+
+  {
+    float betweenSystemSpace =
+      elt->getBetweenSystemSpace ();
+      
+    if (betweenSystemSpace > 0) {
+      fOstream <<
+        idtr << left <<
+        setw(fieldWidth) <<
+        "between-system-space" << " = " <<
+        setprecision(4) << betweenSystemSpace << "\\cm" <<
+        endl;
+    }
+  }
+
+  {
+    float pageTopSpace =
+      elt->getPageTopSpace ();
+      
+    if (pageTopSpace > 0) {
+      fOstream <<
+        idtr << left <<
+        setw(fieldWidth) <<
+        "page-top-space" << " = " <<
+        setprecision(4) << pageTopSpace << "\\cm" <<
+        endl;
+    }
+  }
+
+  // headers and footers
+
+  {
+    string oddHeaderMarkup =
+      elt->getOddHeaderMarkup ();
+      
+    if (oddHeaderMarkup.size ()) {
+      fOstream <<
+        idtr << left <<
+        setw(fieldWidth) <<
+        "oddHeaderMarkup" << " = " <<
+        oddHeaderMarkup <<
+        endl;
+    }
+  }
+
+  {
+    string evenHeaderMarkup =
+      elt->getEvenHeaderMarkup ();
+      
+    if (evenHeaderMarkup.size ()) {
+      fOstream <<
+        idtr << left <<
+        setw(fieldWidth) <<
+        "evenHeaderMarkup" << " = " <<
+        evenHeaderMarkup <<
+        endl;
+    }
+  }
+
+  {
+    string oddFooterMarkup =
+      elt->getOddFooterMarkup ();
+      
+    if (oddFooterMarkup.size ()) {
+      fOstream <<
+        idtr << left <<
+        setw(fieldWidth) <<
+        "oddFooterMarkup" << " = " <<
+        oddFooterMarkup <<
+        endl;
+    }
+  }
+
+  {
+    string evenFooterMarkup =
+      elt->getEvenFooterMarkup ();
+      
+    if (evenFooterMarkup.size ()) {
+      fOstream <<
+        idtr << left <<
+        setw(fieldWidth) <<
+        "evenFooterMarkup" << " = " <<
+        evenFooterMarkup <<
+        endl;
+    }
+  }
+
+  // go ahead
   fOstream << endl;
 
   // generate the default 'indent' setting ready for the user
@@ -1026,19 +1151,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
       "%" "system-count" << " = " <<
     setprecision(4) << 1 <<
     endl;
-
-/*
- * 
-  if (fBetweenSystemSpace > 0) {
-    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" <<
-      endl;
-  }
-
-  if (elt->getPageTopSpace > 0) {
-    os << idtr << "page-top-space = " << setprecision(4) << elt->getPageTopSpace << "\\cm" <<
-      endl;
-  }
-*/
 }
 
 void lpsr2LilyPondTranslator::visitEnd (S_lpsrPaper& elt)

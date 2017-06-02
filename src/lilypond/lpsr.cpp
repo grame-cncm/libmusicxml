@@ -2304,9 +2304,9 @@ void lpsrPaper::print (ostream& os) {
 
   idtr++;
 
-  const int fieldWidth = 13;
+  const int fieldWidth = 20;
   
-    // page width, height and margins
+  // page width, height and margins
 
   if (fPaperWidth > 0) {
     os << idtr << left <<
