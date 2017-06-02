@@ -1094,10 +1094,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       fCurrentMeasureClone);
 }
 
-void msr2LpsrTranslator::finalizeMeasure ( // JMI
+void msr2LpsrTranslator::finalizeCurrentMeasureClone (
   int          inputLineNumber,
-  S_msrMeasure originalMeasure,
-  S_msrMeasure measureClone)
+  S_msrMeasure originalMeasure)
 {
   // take this measure into account
   fMeasuresCounter++;
@@ -1105,22 +1104,25 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
   // fetch the voice
   S_msrVoice
     voice =
-      measureClone->getMeasureSegmentUplink ()->
-        getSegmentVoiceUplink ();
+      fCurrentMeasureClone->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ();
     
   // fetch the part measure position high tide
   int partMeasurePositionHighTide =
-    measureClone->getMeasureDirectPartUplink ()->
-      getPartMeasurePositionHighTide ();
+    fCurrentMeasureClone->
+      getMeasureDirectPartUplink ()->
+        getPartMeasurePositionHighTide ();
 
   string measureNumber =
-    measureClone->getMeasureNumber ();
+    fCurrentMeasureClone->getMeasureNumber ();
     
   int measurePosition =
-    measureClone->getMeasurePosition ();
+    fCurrentMeasureClone->getMeasurePosition ();
 
   int measureDivisionsPerFullMeasure =
-    measureClone->getMeasureDivisionsPerFullMeasure ();
+    fCurrentMeasureClone->
+      getMeasureDivisionsPerFullMeasure ();
     
   if (gGeneralOptions->fTraceMeasures) {
     cerr <<
@@ -1179,7 +1181,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
       endl <<
       "clone measure:" <<
       endl <<
-      measureClone <<
+      fCurrentMeasureClone <<
       endl <<
       "differs from original measure:" <<
       originalMeasure;
@@ -1197,10 +1199,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       "--> End visiting msrMeasure" <<
       endl;
 
-  finalizeMeasure (
+  finalizeCurrentMeasureClone (
     elt->getInputLineNumber (),
-    elt, // original measure
-    fCurrentMeasureClone);
+    elt); // original measure
 
   bool doCreateABarCheck = false;
   
