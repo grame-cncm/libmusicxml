@@ -311,6 +311,26 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     clone =
       msrGeneralOptions::create ();
 
+    // command line
+    // --------------------------------------
+
+  clone->fProgramName =
+    fProgramName;
+      
+  clone->fCommandLineLongOptions =
+    fCommandLineLongOptions;
+  clone->fCommandLineShortOptions =
+    fCommandLineShortOptions;
+  
+    // input
+    // --------------------------------------
+
+  clone->fInputSourceName =
+    fInputSourceName;
+      
+  clone->fTranslationDate =
+    fTranslationDate;
+  
   // output file
   // --------------------------------------
 
@@ -325,6 +345,9 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     
   clone->fTraceDetailed =
     true;
+
+  clone->fTraceDetailedMeasureNumbersSet =
+    fTraceDetailedMeasureNumbersSet;
 
   // CPU usage
   // --------------------------------------
@@ -409,12 +432,13 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
 
   clone->fTraceDynamics =
     true;
-  clone->fTraceWords =
-    true;
+
   clone->fTraceSlurs =
     true;
+
   clone->fTraceLigatures =
     true;
+
   clone->fTraceWedges =
     true;
   
