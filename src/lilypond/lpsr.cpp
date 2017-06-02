@@ -3312,10 +3312,10 @@ R"(\markup {
     \column {
       \fill-line {
         #(string-append
-          "Music edited with Frescobaldi and engraved by LilyPond " (lilypond-version))
+          "Music generated from MusicXML by xml2lilypond and engraved by LilyPond " (lilypond-version))
       }
       \fill-line {
-        "http://www.frescobaldi.org - http://www.lilypond.org"
+        "https://github.com/grame-cncm/libmusicxml/tree/lilypond - http://www.lilypond.org"
       }
       \fill-line { \italic { \modTimeAsString }}
     }
