@@ -13180,6 +13180,22 @@ void msrMeasure::setMeasureTime (S_msrTime time)
     time->getBeatsNumber ()
       /
     time->getBeatsValue ();
+
+  if (gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      " has " <<
+      singularOrPlural (
+        fMeasureDivisionsPerFullMeasure,
+        "divisions per full measure",
+        "division per full measure") <<
+      endl;
+
 }
   
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
@@ -14563,12 +14579,22 @@ void msrMeasure::finalizeUltimateMeasure (
 
     idtr++;
 
-    cerr <<
+    const int fieldWidth = 30;
+    
+    cerr << left <<
       idtr <<
-        "fMeasurePosition = " << fMeasurePosition <<
+        setw(fieldWidth) <<
+        "fMeasurePosition" << " = " <<
+        fMeasurePosition <<
         endl <<
       idtr <<
-        "partMeasurePositionHighTide = " <<
+        setw(fieldWidth) <<
+        "MeasureDivisionsPerFullMeasure" << " = " <<
+        fMeasureDivisionsPerFullMeasure <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "partMeasurePositionHighTide" << " = " <<
         partMeasurePositionHighTide <<
         endl;
         
@@ -14676,6 +14702,21 @@ void msrMeasure::finalizeUltimateMeasure (
 
     setMeasureKind (
       kOverfullMeasureKind);
+  }
+  
+  else if (fMeasurePosition == 1) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **empty**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kEmptyMeasureKind);
   }
 }
 
