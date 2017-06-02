@@ -1599,9 +1599,6 @@ class EXP lpsrHeader : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    // visitors
-    // ------------------------------------------------------
-
     virtual void          acceptIn  (basevisitor* v);
     virtual void          acceptOut (basevisitor* v);
 

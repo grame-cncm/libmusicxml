@@ -3186,6 +3186,11 @@ lpsrScore::lpsrScore (
 
   // initialize Scheme functions informations
   fTongueSchemeFunctionNeeded = false;
+
+  if (gLilypondOptions->fGenerateLilyPondCompileDate) {
+    // create the date and time functions
+    addDateAndTimeSchemeFunctionsToScore ();
+  }
   
   // create the header
   fHeader =
@@ -3258,7 +3263,7 @@ lpsrScore::lpsrScore (
       lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
       "{ }",
       lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      "Place whatever you need in the following variable",
+      "Place whatever you need in the 'global' variable",
       lpsrLilypondVarValAssoc::kWithEndl);
   }
   
@@ -3287,7 +3292,7 @@ void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
       
     schemeFunctionDescription =
 R"(
-% Aet of functions to obtain a source file's modification time.
+% A set of functions to obtain a source file's modification time.
 )",
 
     schemeFunctionCode =
