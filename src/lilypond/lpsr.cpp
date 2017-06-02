@@ -3271,10 +3271,10 @@ lpsrScore::lpsrScore (
 
   if (gLilypondOptions->fGenerateLilyPondCompileDate) {
     // define headers and footers
+    
     fPaper->
       setOddHeaderMarkup (
-R"(
-  oddHeaderMarkup = \markup {
+R"(\markup {
     \fill-line {
       \on-the-fly \not-first-page {
         \fromproperty #'page:page-number-string
@@ -3287,11 +3287,11 @@ R"(
   }
 )"
       );
-  }
-  
-  
-/*
-  evenHeaderMarkup = \markup {
+      
+    
+    fPaper->
+      setEvenHeaderMarkup (
+R"(\markup {
     \fill-line {
       \on-the-fly \not-first-page {
         \fromproperty #'page:page-number-string
@@ -3302,8 +3302,12 @@ R"(
       }
     }
   }
-
-  oddFooterMarkup = \markup {
+)"
+      );
+    
+    fPaper->
+      setOddFooterMarkup (
+R"(\markup {
     \tiny
     \column {
       \fill-line {
@@ -3316,23 +3320,10 @@ R"(
       \fill-line { \italic { \modTimeAsString }}
     }
   }
-*/
- 
-/* JMI
-void lpsrScore::appendPartgroupToStoreCommand (S_msrVoice voice)
-{
-  S_lpsrPartgroupBlock
-    partgroupBlock =
-      lpsrPartgroupBlock::create (
-        fInputLineNumber,
-        voice);
+)"
+      );
+  }
   
-  fScoreBlock->
-    appendVoiceUseToParallelMusic (useVoiceCommand);
-}
-*/
-
-
   // create the score layout
   fScoreLayout =
     lpsrLayout::create (
