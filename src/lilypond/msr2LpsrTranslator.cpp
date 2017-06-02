@@ -866,13 +866,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       fCurrentVoiceClone =
         elt->createVoiceBareClone (
           fCurrentStaffClone);
-    
-    /* JMI
-      // re-number it's first measure to 1 if needed
-      if (! fCurrentVoiceClone->getMeasureZeroHasBeenMetInVoice ())
-        fCurrentVoiceClone->forceVoiceMeasureNumberTo (1);
-      */
-        
+            
       // add it to the staff clone
       fCurrentStaffClone->
         registerVoiceInStaff (

@@ -21150,8 +21150,11 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup partgroupClone)
         fPartStavesLinesNumber,
         partgroupClone);
 
-  clone->fPartDivisionsPerQuarterNote =
-    fPartDivisionsPerQuarterNote;
+  // it is not enough just to set fPartDivisionsPerQuarterNote,
+  // since the part harmony staff and voice should be created
+  clone->
+    setPartDivisionsPerQuarterNote (
+      fPartDivisionsPerQuarterNote);
     
   clone->fPartName =
     fPartName;
