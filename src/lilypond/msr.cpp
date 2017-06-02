@@ -14524,6 +14524,21 @@ void msrMeasure::finalizeMeasure (
       kFullMeasureKind);
   }
   
+  else if (fMeasurePosition == 1) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **empty**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kEmptyMeasureKind);
+  }
+  
   else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
     //  incomplete measure
     if (gGeneralOptions->fTraceMeasures) {
@@ -14552,21 +14567,6 @@ void msrMeasure::finalizeMeasure (
 
     setMeasureKind (
       kOverfullMeasureKind);
-  }
-  
-  else if (fMeasurePosition == 1) {
-    // overfull measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **empty**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kEmptyMeasureKind);
   }
 }
 
@@ -14616,15 +14616,16 @@ void msrMeasure::finalizeUltimateMeasure (
     idtr--;
   }
 
+/* JMI
   if (false && fMeasurePosition < partMeasurePositionHighTide) {
     // appending a skip to this measure to reach measurePosition // JMI ???
     int skipDuration =
       partMeasurePositionHighTide - fMeasurePosition;
-    /* JMI
+    / * JMI
       partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure // + 1 // JMI ???
         ? partMeasurePositionHighTide - fMeasurePosition
         : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
-        */
+        * /
     
     // create the skip
     S_msrNote
@@ -14662,6 +14663,7 @@ void msrMeasure::finalizeUltimateMeasure (
     // if it happens to be the first note of a chord
     appendNoteToMeasure (skip);
   }
+*/
 
   // determine the measure kind
   // positions start at 1
@@ -14680,6 +14682,21 @@ void msrMeasure::finalizeUltimateMeasure (
       kFullMeasureKind);
   }
   
+  else if (fMeasurePosition == 1) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **empty**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kEmptyMeasureKind);
+  }
+
   else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
     //  incomplete measure
     if (gGeneralOptions->fTraceMeasures) {
@@ -14708,21 +14725,6 @@ void msrMeasure::finalizeUltimateMeasure (
 
     setMeasureKind (
       kOverfullMeasureKind);
-  }
-  
-  else if (fMeasurePosition == 1) {
-    // overfull measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **empty**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kEmptyMeasureKind);
   }
 }
 
