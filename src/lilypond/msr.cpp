@@ -13118,7 +13118,7 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   clone->
     setMeasureTime (
       directPartUplink->
-        getPartTime ());
+        getPartCurrentTime ());
 
 //* JMI    
   clone->fMeasureKind =
@@ -19762,7 +19762,8 @@ void msrStaff::initializeStaff ()
   {
     S_msrClef
       clef =
-        fStaffDirectPartUplink->getPartClef ();
+        fStaffDirectPartUplink->
+          getPartCurrentClef ();
   
     if (clef) {
       if (gGeneralOptions->fTraceStaves)
@@ -19797,7 +19798,8 @@ void msrStaff::initializeStaff ()
   {
     S_msrKey
       key =
-        fStaffDirectPartUplink->getPartKey ();
+        fStaffDirectPartUplink->
+          getPartCurrentKey ();
   
     if (key) {
       if (gGeneralOptions->fTraceStaves)
@@ -19831,7 +19833,8 @@ void msrStaff::initializeStaff ()
   {
     S_msrTime
       time =
-        fStaffDirectPartUplink->getPartTime ();
+        fStaffDirectPartUplink->
+          getPartCurrentTime ();
 
     if (time) {
       if (gGeneralOptions->fTraceStaves)
@@ -20975,8 +20978,8 @@ void msrPart::initializePart ()
   setPartMeasurePositionHighTide (
     fInputLineNumber, 1);
 
-  // set default part time to 4/4 time signature
-  fPartTime =
+  // set part current time to the default 4/4 time signature
+  fPartCurrentTime =
     msrTime::create (
       fInputLineNumber,
       4, 4);
@@ -21638,16 +21641,16 @@ void msrPart::setPartMeasureNumber (
   } // for
 }
 
-void msrPart::setPartClef (S_msrClef clef)
+void msrPart::setPartCurrentClef (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Setting part clef \"" << clef->clefAsString () <<
+      "Setting part current clef \"" << clef->clefAsString () <<
       "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part clef
-  fPartClef = clef;
+  fPartCurrentClef = clef;
 
   // propagate it to all staves
   for (
@@ -21659,16 +21662,16 @@ void msrPart::setPartClef (S_msrClef clef)
   } // for
 }
 
-void msrPart::setPartKey  (S_msrKey  key)
+void msrPart::setPartCurrentKey  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Setting part key \"" << key->keyAsString () <<
+      "Setting part current key \"" << key->keyAsString () <<
       "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part key
-  fPartKey = key;
+  fPartCurrentKey = key;
 
   // propagate it to all staves
   for (
@@ -21680,16 +21683,16 @@ void msrPart::setPartKey  (S_msrKey  key)
   } // for
 }
 
-void msrPart::setPartTime (S_msrTime time)
+void msrPart::setPartCurrentTime (S_msrTime time)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Setting part time \"" << time->timeAsString () <<
+      "Setting part current time \"" << time->timeAsString () <<
       "\" in part " << getPartCombinedName () <<
     endl;
 
   // set part time
-  fPartTime = time;
+  fPartCurrentTime = time;
 
   // propagate it to all staves
   for (

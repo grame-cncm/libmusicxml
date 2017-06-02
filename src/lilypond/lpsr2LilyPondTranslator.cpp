@@ -2415,7 +2415,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         }
 
         else {
-          fOstream <<
+          fOstream << idtr <<
             "\\set Score.measureLength = #(ly:make-moment " <<
             to_string (numerator) <<
             "/" <<

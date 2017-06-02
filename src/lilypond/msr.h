@@ -7505,18 +7505,24 @@ class EXP msrPart : public msrElement
                       
     const int             getPartDivisionsPerQuarterNote () const
                               { return fPartDivisionsPerQuarterNote; }
-          
-    void                  setPartClef (S_msrClef clef);
-    void                  setPartKey  (S_msrKey  key);
-    void                  setPartTime (S_msrTime time);
 
-    S_msrClef             getPartClef () const { return fPartClef; };
-    S_msrKey              getPartKey  () const { return fPartKey; };
-    S_msrTime             getPartTime () const { return fPartTime; };
+    // clef, key and time may change durint the part
+    void                  setPartCurrentClef (S_msrClef clef);
+    S_msrClef             getPartCurrentClef () const
+                              { return fPartCurrentClef; };
+
+    void                  setPartCurrentKey  (S_msrKey  key);
+    S_msrKey              getPartCurrentKey  () const
+                              { return fPartCurrentKey; };
+
+    void                  setPartCurrentTime (S_msrTime time);
+    S_msrTime             getPartCurrentTime () const
+                              { return fPartCurrentTime; };
     
     void                  setPartTranspose (S_msrTranspose transpose);
 
-    S_msrTranspose        getPartTranspose () const { return fPartTranspose; };
+    S_msrTranspose        getPartTranspose () const
+                              { return fPartTranspose; };
     
     // measure number
     void                  setPartMeasureNumber (
@@ -7679,9 +7685,9 @@ class EXP msrPart : public msrElement
     string                  fPartMeasureNumber;
     int                     fPartMeasurePositionHighTide;
 
-    S_msrClef               fPartClef;
-    S_msrKey                fPartKey;
-    S_msrTime               fPartTime;
+    S_msrClef               fPartCurrentClef; // JMI
+    S_msrKey                fPartCurrentKey; // JMI
+    S_msrTime               fPartCurrentTime;
 
     S_msrTranspose          fPartTranspose;
 
