@@ -78,6 +78,7 @@ class EXP msrMusicXMLOptions : public smartable
     // --------------------------------------
   
     bool                  fIgnoreMusicXMLErrors;
+    
     bool                  fLoopToMusicXML;
 };
 typedef SMARTP<msrMusicXMLOptions> S_msrMusicXMLOptions;
