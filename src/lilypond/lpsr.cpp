@@ -2246,7 +2246,6 @@ lpsrPaper::lpsrPaper (
   fRightMargin  = -1.0;
     
   fBetweenSystemSpace = -1.0;
-  
   fPageTopSpace = -1.0;
 }
 
@@ -2307,6 +2306,8 @@ void lpsrPaper::print (ostream& os) {
 
   const int fieldWidth = 13;
   
+    // page width, height and margins
+
   if (fPaperWidth > 0) {
     os << idtr << left <<
       setw(fieldWidth) <<
@@ -2315,6 +2316,7 @@ void lpsrPaper::print (ostream& os) {
       endl;
     emptyPaper = false;
   }
+  
   if (fPaperHeight > 0) {
     os << idtr << left <<
       setw(fieldWidth) <<
@@ -2325,31 +2327,34 @@ void lpsrPaper::print (ostream& os) {
   }
   
   if (fTopMargin > 0) {
-    os << idtr <<  left <<
+    os << idtr << left <<
       setw(fieldWidth) <<
       "top-margin" << " = " <<
       setprecision(4) << fTopMargin << "\\cm" <<
       endl;
     emptyPaper = false;
   }
+  
   if (fBottomMargin > 0) {
-    os << idtr <<  left <<
+    os << idtr << left <<
       setw(fieldWidth) <<
       "bottom-margin" << " = " <<
       setprecision(4) << fBottomMargin << "\\cm" <<
       endl;
     emptyPaper = false;
   }
+  
   if (fLeftMargin > 0) {
-    os << idtr <<  left <<
+    os << idtr << left <<
       setw(fieldWidth) <<
       "left-margin" << " = " <<
       setprecision(4) << fLeftMargin << "\\cm" <<
       endl;
     emptyPaper = false;
   }
+  
   if (fRightMargin > 0) {
-    os << idtr <<  left <<
+    os << idtr << left <<
       setw(fieldWidth) <<
       "right-margin" << " = " <<
       setprecision(4) << fRightMargin << "\\cm" <<
@@ -2357,6 +2362,55 @@ void lpsrPaper::print (ostream& os) {
     emptyPaper = false;
   }
 
+  // spaces
+
+  if (fBetweenSystemSpace > 0) {
+    os << idtr << left <<
+    setw(fieldWidth) <<
+    "between-system-space" << " = " <<
+    setprecision(4) << fBetweenSystemSpace << "\\cm" <<
+    endl;
+  }
+
+  if (fPageTopSpace > 0) {
+    os << idtr << left <<
+    setw(fieldWidth) <<
+    "page-top-space" << " = " <<
+    setprecision(4) << fPageTopSpace << "\\cm" <<
+    endl;
+
+  // headers and footers
+
+  if (fOddHeaderMarkup.size ()) {
+    os << idtr << left <<
+    setw(fieldWidth) <<
+    "oddHeaderMarkup" << " = " <<
+    fOddHeaderMarkup <<
+    endl;
+
+  if (fEvenHeaderMarkup.size ()) {
+    os << idtr << left <<
+    setw(fieldWidth) <<
+    "evenHeaderMarkup" << " = " <<
+    fEvenHeaderMarkup <<
+    endl;
+
+  if (fOddFooterMarkup.size ()) {
+    os << idtr << left <<
+    setw(fieldWidth) <<
+    "oddFooterMarkup" << " = " <<
+    fOddFooterMarkup <<
+    endl;
+
+  if (fEvenFooterMarkup.size ()) {
+    os << idtr << left <<
+    setw(fieldWidth) <<
+    "evenFooterMarkup" << " = " <<
+    fEvenFooterMarkup <<
+    endl;
+
+  // otherwise
+  
   if (emptyPaper)
     os << idtr <<
       " " << "nothing specified" <<
@@ -2364,17 +2418,6 @@ void lpsrPaper::print (ostream& os) {
   
   idtr--;
 }
-
-/* JMI
- * 
-  if (fBetweenSystemSpace > 0) {
-    os << idtr << "between-system-space = " << setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
-  }
-
-  if (fPageTopSpace > 0) {
-    os << idtr << "page-top-space = " << setprecision(4) << fPageTopSpace << "\\cm" << endl;
-  }
-*/
 
 //______________________________________________________________________________
 S_lpsrLayout lpsrLayout::create (
@@ -3203,12 +3246,10 @@ lpsrScore::lpsrScore (
       inputLineNumber);
 
   if (gLilypondOptions->fGenerateLilyPondCompileDate) {
-    // create the date and time functions
-    addDateAndTimeSchemeFunctionsToScore ();
-  }
-  
-  
-/*
+    // define headers and footers
+    fPaper->
+      setOddHeaderMarkup (
+R"(
   oddHeaderMarkup = \markup {
     \fill-line {
       \on-the-fly \not-first-page {
@@ -3220,6 +3261,12 @@ lpsrScore::lpsrScore (
       }
     }
   }
+)"
+      );
+  }
+  
+  
+/*
   evenHeaderMarkup = \markup {
     \fill-line {
       \on-the-fly \not-first-page {
