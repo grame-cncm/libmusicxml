@@ -14539,6 +14539,11 @@ void msrMeasure::finalizeMeasure (
   }
 }
 
+void msrMeasure::finalizeUltimateMeasure (
+  int inputLineNumber)
+{
+}
+
 void msrMeasure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -14976,7 +14981,7 @@ void msrSegment::setSegmentMeasureNumber (
   fMeasureNumberHasBeenSetInSegment = true;
 }
 
-void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
+void msrSegment::finalizeUltimateMeasureInSegment (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
@@ -14986,9 +14991,8 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
       endl;
 
   fSegmentMeasuresList.back ()->
-    finalizeMeasure (
-      inputLineNumber,
-      msrMeasure::kIncompleteRightMeasureKind);
+    finalizeUltimateMeasure (
+      inputLineNumber);
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
@@ -15427,83 +15431,6 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
       checkForIncompleteMeasure (
         inputLineNumber,
         measureKind);
-        
-/* JMI
-  // fetch its last measure position and length
-  int
-    lastMeasureNumber =
-      lastMeasure->
-        getMeasureNumber (),
-        
-    lastMeasurePosition =
-      lastMeasure->
-        getMeasurePosition (),
-      
-    lastMeasureLength =
-      lastMeasure->
-        getMeasureLength (),
-      
-    lastMeasureDivisionsPerFullMeasure =
-      lastMeasure->
-        getMeasureDivisionsPerFullMeasure ();
-        
- // JMI if (gGeneralOptions->fDebug) {
-  if (gGeneralOptions->fDebug) {
-    idtr++;
-
-    cerr <<
-      idtr <<
-        setw(38) << "lastMeasureNumber" << " = " <<
-        lastMeasureNumber <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasureDivisionsPerFullMeasure" << " = " <<
-        lastMeasureDivisionsPerFullMeasure <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasurePosition" << " = " <<
-        lastMeasurePosition <<
-        endl <<
-      idtr <<
-        setw(38) << "lastMeasureLength" << " = " <<
-        lastMeasureLength <<
-        endl;
-
-    idtr--;
-  }
-
-  bool lastMeasureIsIncomplete =
-    // is the last measure full? (positions start at 1)
-    lastMeasurePosition <= lastMeasureDivisionsPerFullMeasure;
-
-  if (lastMeasureIsIncomplete) {    
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-          "Measure " << lastMeasureNumber <<
-          " of segment " << segmentAsString () <<
-          " in voice \"" <<
-          getSegmentVoiceUplink ()->getVoiceName () << "\"" <<
-          " is " <<
-          string(
-            lastMeasurePosition == 1
-              ? "incomplete"
-              : "empty") <<
-          ", line " << inputLineNumber <<
-          ": position = " << lastMeasurePosition <<
-          ", divisionsPerWholeMeasure = " <<
-          lastMeasureDivisionsPerFullMeasure <<
-        endl;
-    }
-    
-    // set measure kind
-    lastMeasure->
-      setMeasureKind (
-        measureKind);
-  }
-
-  return lastMeasureIsIncomplete;
-  */
 }
 
 void msrSegment::acceptIn (basevisitor* v) {
@@ -19234,7 +19161,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
       removeLastMeasureFromSegment (inputLineNumber);
 }
 
-void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
+void msrVoice::finalizeUltimateMeasuresInVoice (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -19245,7 +19172,7 @@ void msrVoice::finalizeLastMeasureOfVoice (int inputLineNumber)
   }
   
   fVoiceLastSegment->
-    finalizeLastMeasureOfSegment (inputLineNumber);
+    finalizeUltimateMeasureInSegment (inputLineNumber);
 }
 
 void msrVoice::finalizeVoice (int inputLineNumber)
@@ -20616,7 +20543,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   } // for
 }
 
-void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
+void msrStaff::finalizeUltimateMeasuresInStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
@@ -20630,7 +20557,7 @@ void msrStaff::finalizeLastMeasureOfStaff (int inputLineNumber)
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      finalizeLastMeasureOfVoice (inputLineNumber);
+      finalizeUltimateMeasuresInVoice (inputLineNumber);
   } // for
 }
 
@@ -22169,7 +22096,7 @@ void msrPart:: handleBackup (int divisions)
  // JMI 
 }
 
-void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
+void msrPart::finalizeUltimateMeasuresInPart (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
@@ -22183,7 +22110,7 @@ void msrPart::finalizeLastMeasureOfPart (int inputLineNumber)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      finalizeLastMeasureOfStaff (inputLineNumber);
+      finalizeUltimateMeasuresInStaff (inputLineNumber);
   } // for
 }
 

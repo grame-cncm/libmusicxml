@@ -1199,7 +1199,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       "--> End visiting msrMeasure" <<
       endl;
 
-  finalizeCurrentMeasureClone (
+  finalizeCurrentMeasureClone ( // JMI
     elt->getInputLineNumber (),
     elt); // original measure
 

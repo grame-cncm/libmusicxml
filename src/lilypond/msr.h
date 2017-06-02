@@ -2663,6 +2663,9 @@ class EXP msrMeasure : public msrElement
                             int                        inputLineNumber,
                             msrMeasure::msrMeasureKind measureKind);
 
+    void                  finalizeUltimateMeasure (
+                            int inputLineNumber);
+
     // visitors
     // ------------------------------------------------------
 
@@ -2855,7 +2858,7 @@ class EXP msrSegment : public msrElement
                             int                        inputLineNumber,
                             msrMeasure::msrMeasureKind measureKind);
 
-    void                  finalizeLastMeasureOfSegment (
+    void                  finalizeUltimateMeasureInSegment (
                             int inputLineNumber);
 
     // visitors
@@ -6924,12 +6927,14 @@ class EXP msrVoice : public msrElement
                             int inputLineNumber,
                             int stanzaNumber);
 
-    void                  addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza);
+    void                  addStanzaToVoiceWithoutCatchUp (
+                            S_msrStanza stanza);
 
     void                  catchUpWithVoiceStanzaMaster (
                             S_msrStanza stanza);
                     
-    void                  addStanzaToVoiceWithCatchUp (S_msrStanza stanza);
+    void                  addStanzaToVoiceWithCatchUp (
+                            S_msrStanza stanza);
 
     S_msrStanza           createStanzaInVoiceIfNeeded (
                             int inputLineNumber,
@@ -6938,13 +6943,15 @@ class EXP msrVoice : public msrElement
     bool                  checkForIncompleteVoiceLastMeasure (
                             int inputLineNumber);
 
-    void                  createNewLastSegmentForVoice (int inputLineNumber);
+    void                  createNewLastSegmentForVoice (
+                            int inputLineNumber);
     
     void                  createNewLastSegmentWithFirstMeasureForVoice (
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure);
 
-    void                  finalizeLastMeasureOfVoice (int inputLineNumber);
+    void                  finalizeUltimateMeasuresInVoice (
+                            int inputLineNumber);
 
     void                  finalizeVoice (int inputLineNumber);
     
@@ -7312,7 +7319,8 @@ class EXP msrStaff : public msrElement
 
     void                  appendBarlineToStaff (S_msrBarline barline);
     
-    void                  createAndAppendRepeatToAllStaffVoices (int inputLineNumber);
+    void                  createAndAppendRepeatToAllStaffVoices (
+                            int inputLineNumber);
     
  //   void            appendHarmonyToStaff (S_msrHarmony harmony); // JMI
 
@@ -7323,7 +7331,8 @@ class EXP msrStaff : public msrElement
                             S_msrStafftuning stafftuning)
                               { fStafftuningsList.push_back (stafftuning); }
   
-    void                  finalizeLastMeasureOfStaff (int inputLineNumber);
+    void                  finalizeUltimateMeasuresInStaff (
+                            int inputLineNumber);
     
     void                  finalizeStaff (int inputLineNumber);
 
@@ -7640,7 +7649,7 @@ class EXP msrPart : public msrElement
 
     void                  removePartEmptyVoices ();
 
-    void                  finalizeLastMeasureOfPart (int inputLineNumber);
+    void                  finalizeUltimateMeasuresInPart (int inputLineNumber);
 
     void                  finalizePart (int inputLineNumber);
 
