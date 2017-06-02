@@ -1292,12 +1292,12 @@ void analyzeOptions (
 
     {
       _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_,
-      no_argument, &keepMasterStanzasPresent, 1
+      no_argument, &keepEmptyHarmoniesVoicePresent, 1
     },
     
     {
       _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_,
-      no_argument, &keepMasterStanzasPresent, 1
+      no_argument, &keepEmptyHarmoniesVoicePresent, 1
     },
 
     // LPSR options
