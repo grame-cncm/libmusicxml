@@ -13090,11 +13090,11 @@ void msrMeasure::initializeMeasure ()
 
   fMeasureKind = kUnknownMeasureKind;
 
-  // fetch measure time from segment,
+  // fetch measure time from the part,
   // which will set fMeasureDivisionsPerFullMeasure
   setMeasureTime (
-    fMeasureSegmentUplink->
-      getSegmentTime ());
+    fMeasureDirectPartUplink->
+      getPartCurrentTime ());
         
   setMeasurePosition (
     fInputLineNumber, 1); // ready to receive the first note
@@ -13165,11 +13165,10 @@ void msrMeasure::setMeasurePosition (
 }
 
 void msrMeasure::setMeasureTime (S_msrTime time)
-{ 
-/*
-  The divisions element indicates how many divisions per quarter note are used to indicate a note's duration. For example, if duration = 1 and divisions = 2, this is an eighth note duration.
-*/
-
+{
+  msrAssert(
+    time != 0, "time is null");
+    
   fMeasureTime = time;
   
   fMeasureDivisionsPerFullMeasure =
@@ -13194,7 +13193,6 @@ void msrMeasure::setMeasureTime (S_msrTime time)
         "divisions per full measure",
         "division per full measure") <<
       endl;
-
 }
   
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
@@ -14462,7 +14460,7 @@ void msrMeasure::finalizeMeasure (
     idtr--;
   }
 
-  if (fMeasurePosition < partMeasurePositionHighTide) {
+  if (false && fMeasurePosition < partMeasurePositionHighTide) {
     // appending a skip to this measure to reach measurePosition
     int skipDuration =
       partMeasurePositionHighTide - fMeasurePosition;
@@ -14509,48 +14507,66 @@ void msrMeasure::finalizeMeasure (
     appendNoteToMeasure (skip);
   }
 
-/*
-  if (fMeasurePosition == 1) { // cannot occur ??? JMI
-    // this measure is empty
-    fMeasureKind = kEmptyMeasure;
+  // determine the measure kind
+  // positions start at 1
+  if (fMeasurePosition == fMeasureDivisionsPerFullMeasure + 1) {
+    // full measure
+   if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is full" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kFullMeasureKind);
+  }
+  
+  else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
+    //  incomplete measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **incomplete right**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kIncompleteRightMeasureKind);
   }
 
-  else
-  */
-  {
-    // CAUTION JMI : this is a potential incomplete measure
-    // is this an incomplete measure?
-    bool measureIsIncomplete =
-      checkForIncompleteMeasure (
-        inputLineNumber,
-        measureKind);
-  
-    if (measureIsIncomplete) {
-      if (gGeneralOptions->fTraceMeasures) {
-        cerr << idtr <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" << voice->getVoiceName () <<
-        "\", is incomplete" <<
-        ", line " << inputLineNumber <<
-        endl;
-      }
+  else if (fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **overfull**" <<
+      ", line " << inputLineNumber <<
+      endl;
     }
-        
-    // is this an overfull measure?
-    bool measureIsOverfull =
-      checkForOverfullMeasure (
-        inputLineNumber);
+
+    setMeasureKind (
+      kOverfullMeasureKind);
+  }
   
-    if (measureIsOverfull) {
-      if (gGeneralOptions->fTraceMeasures) {
-        cerr << idtr <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" << voice->getVoiceName () <<
-        "\", is overfull" <<
-        ", line " << inputLineNumber <<
-        endl;
-      }
+  else if (fMeasurePosition == 1) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **empty**" <<
+      ", line " << inputLineNumber <<
+      endl;
     }
+
+    setMeasureKind (
+      kEmptyMeasureKind);
   }
 }
 
@@ -14599,15 +14615,6 @@ void msrMeasure::finalizeUltimateMeasure (
         
     idtr--;
   }
-
-/*
-  if (fMeasurePosition == 1) { // cannot occur ??? JMI
-    // this measure is empty
-    fMeasureKind = kEmptyMeasure;
-  }
-
-  else
-  */
 
   if (false && fMeasurePosition < partMeasurePositionHighTide) {
     // appending a skip to this measure to reach measurePosition // JMI ???
@@ -15099,6 +15106,7 @@ void msrSegment::setSegmentMeasureNumber (
 
   fSegmentMeasureNumber = measureNumber; // JMI
 
+/* JMI
   msrMeasure::msrMeasureKind measureKind;
   
   if (fSegmentMeasuresList.size () == 1) { // JMI
@@ -15139,6 +15147,7 @@ void msrSegment::setSegmentMeasureNumber (
         inputLineNumber,
         measureKind);
   }
+    */
     
   // create a new measure
   S_msrMeasure
