@@ -1145,7 +1145,7 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
 
   if (measurePosition == measureDivisionsPerFullMeasure + 1) { // JMI
     measureKind =
-      msrMeasure::kFullMeasure;
+      msrMeasure::kFullMeasureKind;
   }
       
   else if (measurePosition <= measureDivisionsPerFullMeasure) { // JMI
@@ -1163,12 +1163,12 @@ void msr2LpsrTranslator::finalizeMeasure ( // JMI
     }
     */
     measureKind =
-      msrMeasure::kIncompleteLeftMeasure; // JMI
+      msrMeasure::kIncompleteLeftMeasureKind; // JMI
   }
 
   else if (measurePosition > measureDivisionsPerFullMeasure + 1) {
     measureKind =
-      msrMeasure::kOverfullMeasure;
+      msrMeasure::kOverfullMeasureKind;
   }
 
   if (false) { // JMI ??? measureKind != originalMeasure->getMeasureKind ()) {
@@ -1206,7 +1206,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   
   switch (elt->getMeasureKind ()) {
     
-    case msrMeasure::kFullMeasure:
+    case msrMeasure::kUnknownMeasureKind:
+      break;
+      
+    case msrMeasure::kFullMeasureKind:
       // is the measure full? (positions start at 1)
       if (
         elt->getMeasureLength ()
@@ -1216,18 +1219,18 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kIncompleteLeftMeasure:
+    case msrMeasure::kIncompleteLeftMeasureKind:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kIncompleteRightMeasure:
+    case msrMeasure::kIncompleteRightMeasureKind:
       break;
       
-    case msrMeasure::kOverfullMeasure:
+    case msrMeasure::kOverfullMeasureKind:
       // JMI
       break;
       
-    case msrMeasure::kEmptyMeasure:
+    case msrMeasure::kEmptyMeasureKind:
       // JMI
       break;
   } // switch

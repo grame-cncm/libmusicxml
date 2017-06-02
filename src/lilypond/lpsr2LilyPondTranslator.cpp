@@ -2341,10 +2341,13 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
   fSegmentNotesAndChordsCountersStack.push (0);
 
   switch (elt->getMeasureKind ()) {
-    case msrMeasure::kFullMeasure:
+    case msrMeasure::kUnknownMeasureKind:
       break;
       
-    case msrMeasure::kIncompleteLeftMeasure:
+    case msrMeasure::kFullMeasureKind:
+      break;
+      
+    case msrMeasure::kIncompleteLeftMeasureKind:
       {
         int measureLength =
           elt->getMeasureLength ();
@@ -2368,7 +2371,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kIncompleteRightMeasure:
+    case msrMeasure::kIncompleteRightMeasureKind:
       {
         int
           mesurePosition =
@@ -2431,7 +2434,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       }
       break;
 
-    case msrMeasure::kOverfullMeasure:
+    case msrMeasure::kOverfullMeasureKind:
       {
         fOstream << idtr <<
           "\\cadenzaOn" <<
@@ -2439,7 +2442,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kEmptyMeasure:
+    case msrMeasure::kEmptyMeasureKind:
       {
         int
           measureDivisionsPerFullMeasure =
@@ -2476,16 +2479,19 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       endl;
 
   switch (elt->getMeasureKind ()) {
-    case msrMeasure::kFullMeasure:
+    case msrMeasure::kUnknownMeasureKind:
       break;
       
-    case msrMeasure::kIncompleteLeftMeasure:
+    case msrMeasure::kFullMeasureKind:
       break;
       
-    case msrMeasure::kIncompleteRightMeasure:
+    case msrMeasure::kIncompleteLeftMeasureKind:
+      break;
+      
+    case msrMeasure::kIncompleteRightMeasureKind:
       break;
 
-    case msrMeasure::kOverfullMeasure:
+    case msrMeasure::kOverfullMeasureKind:
       fOstream <<
         endl <<
         idtr <<
@@ -2504,7 +2510,7 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
         */
       break;
 
-    case msrMeasure::kEmptyMeasure:
+    case msrMeasure::kEmptyMeasureKind:
       break;
   } // switch
     

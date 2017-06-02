@@ -2478,11 +2478,12 @@ class EXP msrMeasure : public msrElement
     // ------------------------------------------------------
 
     enum msrMeasureKind {
-        kFullMeasure,
-        kIncompleteLeftMeasure,
-        kIncompleteRightMeasure,
-        kOverfullMeasure,
-        kEmptyMeasure};
+        kUnknownMeasureKind,
+        kFullMeasureKind,
+        kIncompleteLeftMeasureKind,
+        kIncompleteRightMeasureKind,
+        kOverfullMeasureKind,
+        kEmptyMeasureKind}; // for <measure ... />
     
     static string measureKindAsString (
       msrMeasureKind measureKind);

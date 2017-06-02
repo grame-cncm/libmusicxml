@@ -13095,7 +13095,7 @@ void msrMeasure::initializeMeasure ()
       getSegmentTime ());
       */
       
-  fMeasureKind = kFullMeasure; // default, may be changed afterwards
+  fMeasureKind = kUnknownMeasureKind;
 
   setMeasurePosition (
     fInputLineNumber, 1); // ready to receive the first note
@@ -14404,7 +14404,7 @@ bool msrMeasure::checkForOverfullMeasure (
     
     // set measure kind
     setMeasureKind (
-      kOverfullMeasure);
+      kOverfullMeasureKind);
   }
 
   return measureIsOverfull;
@@ -14651,19 +14651,22 @@ string msrMeasure::measureKindAsString (
   string result;
 
   switch (measureKind) {
-    case kFullMeasure:
+    case kUnknownMeasureKind:
+      result = "unkwnown kind";
+      break;
+    case kFullMeasureKind:
       result = "full";
       break;
-    case kIncompleteLeftMeasure:
+    case kIncompleteLeftMeasureKind:
       result = "**incomplete left**";
       break;
-    case kIncompleteRightMeasure:
+    case kIncompleteRightMeasureKind:
       result = "**incomplete right**";
       break;
-    case kOverfullMeasure:
+    case kOverfullMeasureKind:
       result = "**over full**";
       break;
-    case kEmptyMeasure:
+    case kEmptyMeasureKind:
       result = "empty";
       break;
   } // switch
@@ -14921,13 +14924,13 @@ void msrSegment::setSegmentMeasureNumber (
   if (fSegmentMeasuresList.size () == 1) { // JMI
     // this is the first measure in the segment
     measureKind =
-      msrMeasure::kIncompleteLeftMeasure;
+      msrMeasure::kIncompleteLeftMeasureKind;
   }
   
   else {
     // this is the last measure in the segment
     measureKind =
-      msrMeasure::kIncompleteRightMeasure;
+      msrMeasure::kIncompleteRightMeasureKind;
   }
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
@@ -14985,7 +14988,7 @@ void msrSegment::finalizeLastMeasureOfSegment (int inputLineNumber)
   fSegmentMeasuresList.back ()->
     finalizeMeasure (
       inputLineNumber,
-      msrMeasure::kIncompleteRightMeasure);
+      msrMeasure::kIncompleteRightMeasureKind);
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
@@ -17388,7 +17391,7 @@ bool msrVoice::checkForIncompleteVoiceLastMeasure (
     fVoiceLastSegment->
       checkForIncompleteSegmentLastMeasure (
         inputLineNumber,
-        msrMeasure::kIncompleteRightMeasure);
+        msrMeasure::kIncompleteRightMeasureKind);
 }
 
 void msrVoice::createNewLastSegmentForVoice (
