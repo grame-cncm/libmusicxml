@@ -608,7 +608,12 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "where '^' excludes the corresponding numbers interval" <<
       endl <<
     idtr << tab << tab << tab <<
-      "and 0 applies to the '<part-list>' and anacrusis if present." <<endl <<
+      "and 0 applies to the '<part-list>' and anacrusis if present." << endl <<
+    idtr << tab << tab << tab <<
+      "The measure numbers should be those of the produced score, " << endl <<
+    idtr << tab << tab << tab <<
+      "since MusicXML measure numbers are arbitrary strings." <<
+      endl <<
     idtr << tab << tab << tab <<
       "Generate a detailed trace of the activity and print additional" <<
       endl <<
