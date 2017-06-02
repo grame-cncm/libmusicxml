@@ -14542,6 +14542,141 @@ void msrMeasure::finalizeMeasure (
 void msrMeasure::finalizeUltimateMeasure (
   int inputLineNumber)
 {
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+    
+  // fetch the part measure position high tide
+  int partMeasurePositionHighTide =
+    fMeasureDirectPartUplink->
+      getPartMeasurePositionHighTide ();
+    
+  if (gGeneralOptions->fTraceMeasures) {
+    cerr <<
+      idtr <<
+        "Finalizing ultimate measure " << fMeasureNumber <<
+        " in voice \"" << voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+
+    idtr++;
+
+    cerr <<
+      idtr <<
+        "fMeasurePosition = " << fMeasurePosition <<
+        endl <<
+      idtr <<
+        "partMeasurePositionHighTide = " <<
+        partMeasurePositionHighTide <<
+        endl;
+        
+    idtr--;
+  }
+
+/*
+  if (fMeasurePosition == 1) { // cannot occur ??? JMI
+    // this measure is empty
+    fMeasureKind = kEmptyMeasure;
+  }
+
+  else
+  */
+
+  if (false && fMeasurePosition < partMeasurePositionHighTide) {
+    // appending a skip to this measure to reach measurePosition // JMI ???
+    int skipDuration =
+      partMeasurePositionHighTide - fMeasurePosition;
+    /* JMI
+      partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure // + 1 // JMI ???
+        ? partMeasurePositionHighTide - fMeasurePosition
+        : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
+        */
+    
+    // create the skip
+    S_msrNote
+      skip =
+        msrNote::createSkipNote (
+          inputLineNumber,
+          fMeasureDirectPartUplink,
+          skipDuration,
+          0, // JMI ???
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getExternalVoiceNumber ());
+
+    // does the skip occupy a full measure?
+    if (skipDuration == fMeasureDivisionsPerFullMeasure)
+      skip->setNoteOccupiesAFullMeasure ();
+  
+    // register skip's measure position
+    skip->setNotePositionInMeasure (fMeasurePosition);
+           
+    if (gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+       "Appending '" << skip->noteAsString () <<
+       " (" << skipDuration << " divs)'" <<
+       " to finalize \"" << voice->getVoiceName () <<
+       "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
+       " % --> @" << fMeasureNumber <<
+       ":" << partMeasurePositionHighTide <<
+        ", skipDuration = " << skipDuration <<
+       endl;
+
+    // append the skip to the measure elements list
+    // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
+    appendNoteToMeasure (skip);
+  }
+
+  // determine the measure kind
+  // positions start at 1
+  if (fMeasurePosition == fMeasureDivisionsPerFullMeasure + 1) {
+    // full measure
+   if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is full" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kFullMeasureKind);
+  }
+  
+  else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
+    //  incomplete measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **incomplete right**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kIncompleteRightMeasureKind);
+  }
+
+  else if (fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **overfull**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kOverfullMeasureKind);
+  }
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
