@@ -1115,9 +1115,6 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrPaper& elt)
     }
   }
 
-  // go ahead
-  fOstream << endl;
-
   // generate the default 'indent' setting ready for the user
   fOstream <<
     idtr << left <<
@@ -5573,7 +5570,7 @@ void lpsr2LilyPondTranslator::visitStart (S_lpsrSchemeFunction& elt)
 
   fOstream <<
     endl <<
-    "% Scheme function: \"" << elt->getFunctionName () << "\"" <<
+    "% Scheme function(s): \"" << elt->getFunctionName () << "\"" <<
     // endl is in the decription
     elt->getFunctionDescription () <<
     // endl is in the decription
