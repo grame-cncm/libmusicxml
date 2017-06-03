@@ -3304,9 +3304,34 @@ R"(\markup {
   }
 )"
       );
+
+    stringstream s;
+
+    s <<
+R"(\markup {
+    \tiny
+    \column {
+      \fill-line {
+        #(string-append
+)"
+      <<
+      "\"Music generated from MusicXML by xml2lilypond v" <<
+      currentVersionNumber () <<
+      " and engraved by LilyPond \" (lilypond-version))" <<
+R"(
+      }
+      \fill-line {
+        "https://github.com/grame-cncm/libmusicxml/tree/lilypond - http://www.lilypond.org"
+      }
+      \fill-line { \italic { \modTimeAsString }}
+    }
+  }
+)";
     
     fPaper->
       setOddFooterMarkup (
+        s.str()
+      /*
 R"(\markup {
     \tiny
     \column {
@@ -3321,6 +3346,7 @@ R"(\markup {
     }
   }
 )"
+*/
       );
   }
   
