@@ -2495,6 +2495,13 @@ class EXP msrMeasure : public msrElement
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
 
+    enum msrMeasureFirstInSegmentKind {
+        kMeasureFirstInSegmentYes,
+        kMeasureFirstInSegmentNo };
+      
+    static string measureFirstInSegmentKindAsString (
+      msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 

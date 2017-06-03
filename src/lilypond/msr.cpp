@@ -14863,6 +14863,41 @@ string msrMeasure::measureKindAsString (
   return result;
 }
 
+string msrMeasure::measureImplicitKindAsString (
+  msrMeasureImplicitKind measureImplicitKind)
+{
+  string result;
+
+  switch (measureImplicitKind) {
+    case kMeasureImplicitYes:
+      result = "implicit";
+      break;
+    case kMeasureImplicitNo:
+      result = "not implicit";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrMeasure::measureFirstInSegmentKindAsString (
+    msrMeasureFirstInSegmentKind measureFirstInSegmentKind
+)
+{
+  string result;
+
+  switch (measureFirstInSegmentKind) {
+    case kMeasureFirstInSegmentYes:
+      result = "first in segment";
+      break;
+    case kMeasureFirstInSegmentNo:
+      result = "not first in segment";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrMeasure::getMeasureKindAsString () const
 {
   return
