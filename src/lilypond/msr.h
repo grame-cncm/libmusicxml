@@ -2667,8 +2667,9 @@ class EXP msrMeasure : public msrElement
                             int inputLineNumber);
 
     void                  finalizeMeasure (
-                            int                        inputLineNumber,
-                            msrMeasure::msrMeasureKind measureKind);
+                            int     inputLineNumber,
+                            msrMeasure::msrMeasureFirstInSegmentKind
+                                    measureFirstInSegmentKind);
 
     void                  finalizeUltimateMeasure (
                             int inputLineNumber);

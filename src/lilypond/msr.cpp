@@ -14424,8 +14424,9 @@ bool msrMeasure::checkForOverfullMeasure (
 }
 
 void msrMeasure::finalizeMeasure (
-  int                        inputLineNumber,
-  msrMeasure::msrMeasureKind measureKind)
+  int     inputLineNumber,
+  msrMeasure::msrMeasureFirstInSegmentKind
+          measureFirstInSegmentKind)
 {
   // fetch the voice
   S_msrVoice
@@ -14511,7 +14512,7 @@ void msrMeasure::finalizeMeasure (
   // positions start at 1
   if (fMeasurePosition == fMeasureDivisionsPerFullMeasure + 1) {
     // full measure
-   if (gGeneralOptions->fTraceMeasures) {
+    if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
       "Measure '" << fMeasureNumber <<
       "' in voice \"" << voice->getVoiceName () <<
@@ -14541,17 +14542,35 @@ void msrMeasure::finalizeMeasure (
   
   else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
     //  incomplete measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **incomplete right**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kIncompleteRightMeasureKind);
+    switch (measureFirstInSegmentKind) {
+      case msrMeasure::kMeasureFirstInSegmentYes:
+        if (gGeneralOptions->fTraceMeasures) {
+          cerr << idtr <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is **incomplete left**" <<
+          ", line " << inputLineNumber <<
+          endl;
+        }
+    
+        setMeasureKind (
+          kIncompleteLeftMeasureKind);
+        break;
+        
+      case msrMeasure::kMeasureFirstInSegmentNo:
+        if (gGeneralOptions->fTraceMeasures) {
+          cerr << idtr <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is **incomplete right**" <<
+          ", line " << inputLineNumber <<
+          endl;
+        }
+    
+        setMeasureKind (
+          kIncompleteRightMeasureKind);
+        break;
+    } // switch
   }
 
   else if (fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1) {
@@ -14840,22 +14859,22 @@ string msrMeasure::measureKindAsString (
   string result;
 
   switch (measureKind) {
-    case kUnknownMeasureKind:
+    case msrMeasure::kUnknownMeasureKind:
       result = "unkwnown kind";
       break;
-    case kFullMeasureKind:
+    case msrMeasure::kFullMeasureKind:
       result = "full";
       break;
-    case kIncompleteLeftMeasureKind:
+    case msrMeasure::kIncompleteLeftMeasureKind:
       result = "**incomplete left**";
       break;
-    case kIncompleteRightMeasureKind:
+    case msrMeasure::kIncompleteRightMeasureKind:
       result = "**incomplete right**";
       break;
-    case kOverfullMeasureKind:
+    case msrMeasure::kOverfullMeasureKind:
       result = "**over full**";
       break;
-    case kEmptyMeasureKind:
+    case msrMeasure::kEmptyMeasureKind:
       result = "empty";
       break;
   } // switch
@@ -14869,10 +14888,10 @@ string msrMeasure::measureImplicitKindAsString (
   string result;
 
   switch (measureImplicitKind) {
-    case kMeasureImplicitYes:
+    case msrMeasure::kMeasureImplicitYes:
       result = "implicit";
       break;
-    case kMeasureImplicitNo:
+    case msrMeasure::kMeasureImplicitNo:
       result = "not implicit";
       break;
   } // switch
@@ -14887,10 +14906,10 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   string result;
 
   switch (measureFirstInSegmentKind) {
-    case kMeasureFirstInSegmentYes:
+    case msrMeasure::kMeasureFirstInSegmentYes:
       result = "first in segment";
       break;
-    case kMeasureFirstInSegmentNo:
+    case msrMeasure::kMeasureFirstInSegmentNo:
       result = "not first in segment";
       break;
   } // switch
@@ -15143,6 +15162,32 @@ void msrSegment::setSegmentMeasureNumber (
 
   fSegmentMeasureNumber = measureNumber; // JMI
 
+  msrMeasure::msrMeasureFirstInSegmentKind
+    measureFirstInSegmentKind;
+
+  if (fSegmentMeasuresList.size () == 0) { // JMI
+    // this is the first measure in the segment
+    measureFirstInSegmentKind =
+      msrMeasure::kMeasureFirstInSegmentYes;
+  }
+  
+  else {
+    // this is not the first measure in the segment
+    measureFirstInSegmentKind =
+      msrMeasure::kMeasureFirstInSegmentNo;
+  }
+    
+  // fetch segment last measure
+  S_msrMeasure
+    lastMeasure =
+      fSegmentMeasuresList.back ();
+
+  // finalize last measure
+  lastMeasure->
+    finalizeMeasure (
+      inputLineNumber,
+      measureFirstInSegmentKind);
+      
 /* JMI
   msrMeasure::msrMeasureKind measureKind;
   
