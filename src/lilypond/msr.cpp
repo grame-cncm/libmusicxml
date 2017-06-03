@@ -14702,7 +14702,7 @@ void msrMeasure::finalizeUltimateMeasure (
   }
   
   else if (fMeasurePosition == 1) {
-    // overfull measure
+    // empty measure
     if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
       "Measure '" << fMeasureNumber <<
@@ -14718,17 +14718,37 @@ void msrMeasure::finalizeUltimateMeasure (
 
   else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
     //  incomplete measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **incomplete right**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kIncompleteRightMeasureKind);
+    /* JMI
+    switch (measureFirstInSegmentKind) {
+      case msrMeasure::kMeasureFirstInSegmentYes:
+        if (gGeneralOptions->fTraceMeasures) {
+          cerr << idtr <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is **incomplete left**" <<
+          ", line " << inputLineNumber <<
+          endl;
+        }
+    
+        setMeasureKind (
+          kIncompleteLeftMeasureKind);
+        break;
+        
+      case msrMeasure::kMeasureFirstInSegmentNo:
+        if (gGeneralOptions->fTraceMeasures) {
+          cerr << idtr <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is **incomplete right**" <<
+          ", line " << inputLineNumber <<
+          endl;
+        }
+    
+        setMeasureKind (
+          kIncompleteRightMeasureKind);
+        break;
+    } // switch
+    */
   }
 
   else if (fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1) {
@@ -14991,7 +15011,7 @@ S_msrSegment msrSegment::create (
   assert(o!=0);
 
 /* JMI
-  // create the segment initial segment
+  // create the segment initial measure
   o->
     createSegmentInitialMeasure ();
   */
@@ -14999,7 +15019,35 @@ S_msrSegment msrSegment::create (
   return o;
 }
 
-void msrSegment::createSegmentInitialMeasure ()
+msrSegment::msrSegment (
+  int          inputLineNumber,
+  S_msrPart    segmentDirectPartUplink,
+  S_msrVoice   segmentVoicekUplink)
+    : msrElement (inputLineNumber)
+{
+  // set segment's direct part uplink
+  msrAssert(
+    segmentDirectPartUplink != 0,
+    "segmentDirectPartUplink is null");
+    
+  fSegmentDirectPartUplink =
+    segmentDirectPartUplink;
+
+  // set segment's voice uplink
+  msrAssert(
+    segmentVoicekUplink != 0,
+    "segmentVoicekUplink is null");
+    
+  fSegmentVoiceUplink =
+    segmentVoicekUplink;
+
+  // initialize segment
+  initializeSegment ();
+}
+
+msrSegment::~msrSegment() {}
+
+void msrSegment::createSegmentInitialMeasure () // JMI
 {
   string firstMeasureNumber = // JMI
     fSegmentDirectPartUplink->
@@ -15080,34 +15128,6 @@ S_msrSegment msrSegment::createWithFirstMeasure (
   return segment;
 }
 
-msrSegment::msrSegment (
-  int          inputLineNumber,
-  S_msrPart    segmentDirectPartUplink,
-  S_msrVoice   segmentVoicekUplink)
-    : msrElement (inputLineNumber)
-{
-  // set segment's direct part uplink
-  msrAssert(
-    segmentDirectPartUplink != 0,
-    "segmentDirectPartUplink is null");
-    
-  fSegmentDirectPartUplink =
-    segmentDirectPartUplink;
-
-  // set segment's voice uplink
-  msrAssert(
-    segmentVoicekUplink != 0,
-    "segmentVoicekUplink is null");
-    
-  fSegmentVoiceUplink =
-    segmentVoicekUplink;
-
-  // initialize segment
-  initializeSegment ();
-}
-
-msrSegment::~msrSegment() {}
-
 void msrSegment::initializeSegment ()
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
@@ -15162,7 +15182,12 @@ void msrSegment::setSegmentMeasureNumber (
 
   fSegmentMeasureNumber = measureNumber; // JMI
 
-  // determine measure 'first in segment' kink
+  // make sure there's at least one measure in the segment
+  appendMeasureToSegmentIfNeeded (
+    inputLineNumber,
+    measureNumber);
+  
+  // determine measure 'first in segment' kind
   msrMeasure::msrMeasureFirstInSegmentKind
     measureFirstInSegmentKind;
 
@@ -15176,7 +15201,7 @@ void msrSegment::setSegmentMeasureNumber (
     measureFirstInSegmentKind =
       msrMeasure::kMeasureFirstInSegmentNo;
   }
-    
+
   // fetch segment last measure
   S_msrMeasure
     lastMeasure =
