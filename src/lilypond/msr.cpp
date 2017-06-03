@@ -15162,15 +15162,15 @@ void msrSegment::setSegmentMeasureNumber (
 
   fSegmentMeasureNumber = measureNumber; // JMI
 
+  // determine measure 'first in segment' kink
   msrMeasure::msrMeasureFirstInSegmentKind
     measureFirstInSegmentKind;
 
-  if (fSegmentMeasuresList.size () == 0) { // JMI
+  if (fSegmentMeasuresList.size () == 1) { // JMI
     // this is the first measure in the segment
     measureFirstInSegmentKind =
       msrMeasure::kMeasureFirstInSegmentYes;
   }
-  
   else {
     // this is not the first measure in the segment
     measureFirstInSegmentKind =
@@ -15232,6 +15232,16 @@ void msrSegment::setSegmentMeasureNumber (
     */
     
   // create a new measure
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Creating measure " << measureNumber <<
+      " in segment " << segmentAsString () <<
+      ", line " << inputLineNumber <<
+      ", measure is " <<
+      msrMeasure::measureFirstInSegmentKindAsString (
+        measureFirstInSegmentKind) <<
+      endl;
+
   S_msrMeasure
     newMeasure =
       msrMeasure::create (
