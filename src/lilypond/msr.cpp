@@ -13116,6 +13116,12 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
       "Creating a bare clone of measure '" <<
       fMeasureNumber <<
       "'" <<
+      " in segment " << segmentClone->segmentAsString () <<
+      " in voice \"" <<
+        segmentClone->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"" <<
       endl;
   
   msrAssert(
@@ -13125,7 +13131,8 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
   // get direct part uplink
   S_msrPart
     directPartUplink =
-      segmentClone->getSegmentDirectPartUplink ();
+      segmentClone->
+        getSegmentDirectPartUplink ();
 
   // create clone
   S_msrMeasure

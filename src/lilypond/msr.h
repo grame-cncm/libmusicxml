@@ -6821,23 +6821,18 @@ class EXP msrVoice : public msrElement
 
     void                  initializeVoice ();
 
-    void                  appendAFirstMeasureToVoiceIfNeeded (
-                             int inputLineNumber);
-  
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
-    int                   getVoiceAbsoluteNumber () const
-                            { return fVoiceAbsoluteNumber; }
-                            
-    S_msrPart             getVoiceDirectPartUplink () const
-                             { return fVoiceDirectPartUplink; }
 
+    // voice kind
+    
     msrVoiceKind          getVoiceKind () const
                               { return fVoiceKind; }
 
+    // voice numbers
+    
     void                  setExternalVoiceNumber (int externalVoiceNumber)
                               { fExternalVoiceNumber = externalVoiceNumber; }
 
@@ -6846,16 +6841,25 @@ class EXP msrVoice : public msrElement
                 
     int                   getStaffRelativeVoiceNumber () const
                               { return fStaffRelativeVoiceNumber; }
-                
-    S_msrStaff            getVoiceStaffUplink () const
-                              { return fVoiceStaffUplink; }
-                
+
+    int                   getVoiceAbsoluteNumber () const
+                            { return fVoiceAbsoluteNumber; }
+                            
+    // voice name
+    
+    string                getVoiceName () const;
+
+    // stanzas
+    
+    S_msrStanza           getVoiceStanzaMaster () const
+                              { return fVoiceStanzaMaster; }
+               
     const map<int, S_msrStanza>&
                           getVoiceStanzasMap () const
                               { return fVoiceStanzasMap; }
 
-    string                getVoiceName () const;
-
+    // voice last segment
+    
     void                  setVoiceCloneLastSegment (
                             S_msrSegment segment)
                               { fVoiceLastSegment = segment; }
@@ -6863,15 +6867,16 @@ class EXP msrVoice : public msrElement
     S_msrSegment          getVoiceLastSegment () const
                               { return fVoiceLastSegment; }
 
-    S_msrStanza           getVoiceStanzaMaster () const
-                              { return fVoiceStanzaMaster; }
-               
+    // counters
+    
     int                   getVoiceActualNotesCounter () const
                               { return fVoiceActualNotesCounter; }
 
     int                   getVoiceActualHarmoniesCounter () const
                               { return fVoiceActualHarmoniesCounter; }
 
+    // clef, key, time
+    
     S_msrTime             getVoiceTime () const
                               { return fVoiceTime; }
                
@@ -6880,7 +6885,10 @@ class EXP msrVoice : public msrElement
     void                  createAndAppendMeasureToVoice (
                             int    inputLineNumber,
                             string measureNumbe);
-                      
+
+    void                  appendAFirstMeasureToVoiceIfNeeded (
+                             int inputLineNumber);
+                        
     const string          getVoiceMeasureNumber () const
                               { return fVoiceMeasureNumber; }
 
@@ -6892,15 +6900,35 @@ class EXP msrVoice : public msrElement
     bool                  getMusicHasBeenInsertedInVoice () const
                               { return fMusicHasBeenInsertedInVoice; }
 
+    // uplinks
+    
+    S_msrStaff            getVoiceStaffUplink () const
+                              { return fVoiceStaffUplink; }
+
+    S_msrPart             getVoiceDirectPartUplink () const
+                             { return fVoiceDirectPartUplink; }
+
     // services
     // ------------------------------------------------------
 
+    // voice kind
+
     string                voiceKindAsString () const;
-                      
+
+    // divisions
+
+    void                  bringVoiceToMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
+  
+    // clef, key, time
+    
     void                  appendClefToVoice (S_msrClef clef);
     void                  appendKeyToVoice  (S_msrKey  key);
     void                  appendTimeToVoice (S_msrTime time);
     
+    // append elements to voice
+
     void                  appendTransposeToVoice (
                             S_msrTranspose transpose);
 
@@ -6928,10 +6956,6 @@ class EXP msrVoice : public msrElement
     
     void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
-    void                  bringVoiceToMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
-  
     void                  appendGracenotesToVoice (
                             S_msrGracenotes gracenotes);
     void                  prependGracenotesToVoice (
@@ -6955,7 +6979,32 @@ class EXP msrVoice : public msrElement
 
     void                  appendBreakToVoice (S_msrBreak break_);
 
-    void                  createAndAppendRepeatToVoice (int inputLineNumber);
+    void                  prependBarlineToVoice (S_msrBarline barline);
+    void                  appendBarlineToVoice (S_msrBarline barline);
+    
+    void                  appendSegnoToVoice (S_msrSegno segno);
+    void                  appendCodaToVoice (S_msrCoda coda);
+    void                  appendEyeglassesToVoice (
+                            S_msrEyeglasses eyeglasses);
+    void                  appendPedalToVoice (S_msrPedal pedal);
+    
+    void                  appendOtherElementToVoice (S_msrElement elem);
+                            // for other types of elements not known
+                            // in this header file, such as LPSR elements
+
+    // removing elements from voice
+    
+    void                  removeNoteFromVoice (
+                            int       inputLineNumber,
+                            S_msrNote note);
+
+    S_msrMeasure          removeLastMeasureFromVoice (
+                            int inputLineNumber);
+
+    // repeats
+    
+    void                  createAndAppendRepeatToVoice (
+                            int inputLineNumber);
     
     void                  createMeasureRepeatFromItsFirstMeasureInVoice (
                             int inputLineNumber,
@@ -6989,25 +7038,16 @@ class EXP msrVoice : public msrElement
     void                  appendRepeatendingCloneToVoice (
                             S_msrRepeatending repeatendingClone);
 
-    void                  prependBarlineToVoice (S_msrBarline barline);
-    void                  appendBarlineToVoice (S_msrBarline barline);
+    // segments
     
-    void                  appendSegnoToVoice (S_msrSegno segno);
-    void                  appendCodaToVoice (S_msrCoda coda);
-    void                  appendEyeglassesToVoice (
-                            S_msrEyeglasses eyeglasses);
-    void                  appendPedalToVoice (S_msrPedal pedal);
-    
-    void                  appendOtherElementToVoice (S_msrElement elem);
-                            // for other types of elements not known
-                            // in this header file, such as LPSR elements
-
-    void                  removeNoteFromVoice (
-                            int       inputLineNumber,
-                            S_msrNote note);
-
-    S_msrMeasure          removeLastMeasureFromVoice (
+    void                  createNewLastSegmentForVoice (
                             int inputLineNumber);
+    
+    void                  createNewLastSegmentWithFirstMeasureForVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure firstMeasure);
+
+    // stanzas
 
     S_msrStanza           addStanzaToVoiceByItsNumber (
                             int inputLineNumber,
@@ -7030,13 +7070,6 @@ class EXP msrVoice : public msrElement
     bool                  checkForIncompleteVoiceLastMeasure (
                             int inputLineNumber);
 */
-
-    void                  createNewLastSegmentForVoice (
-                            int inputLineNumber);
-    
-    void                  createNewLastSegmentWithFirstMeasureForVoice (
-                            int          inputLineNumber,
-                            S_msrMeasure firstMeasure);
 
     // finalization
 
@@ -7062,33 +7095,43 @@ class EXP msrVoice : public msrElement
 
   private:
 
-    static int                gVoicesCounter;
+    // voice numbers
 
-    int                       fVoiceAbsoluteNumber;
-
-    S_msrPart                 fVoiceDirectPartUplink;
-
-    msrVoiceKind              fVoiceKind;
-
-    string                    fVoiceName;
-    
+    int                   fVoiceAbsoluteNumber;
     // voice numbers in MusicXML may be greater than 4
     // while there can only be 4 in a staff
     // we thus have to cope with that
-    int                       fExternalVoiceNumber;
-    int                       fStaffRelativeVoiceNumber;
+    int                   fExternalVoiceNumber;
+    int                   fStaffRelativeVoiceNumber;
 
-    S_msrStaff                fVoiceStaffUplink;
+    // voice kind
 
-    int                       fVoiceActualNotesCounter;
-    int                       fVoiceActualHarmoniesCounter;
+    msrVoiceKind          fVoiceKind;
 
-    S_msrTime                 fVoiceTime;
+    // voice name
 
-    string                    fVoiceMeasureNumber;
+    string                fVoiceName;
+
+    // clef, key, time
+    
+    S_msrTime             fVoiceTime;
+
+    // counters
+    
+    static int            gVoicesCounter;
+
+    int                   fVoiceActualNotesCounter;
+    int                   fVoiceActualHarmoniesCounter;
+
+    // measures
+    
+    string                fVoiceMeasureNumber;
     
     // checking for musically empty voices
-    bool                      fMusicHasBeenInsertedInVoice;
+    
+    bool                  fMusicHasBeenInsertedInVoice;
+
+    // voice internal handling
     
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialRepeatsAndSegments,
@@ -7096,36 +7139,42 @@ class EXP msrVoice : public msrElement
     // and is created implicitly for every voice.
     // Is is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
-    list<S_msrElement>        fVoiceInitialRepeatsAndSegments;
+    list<S_msrElement>    fVoiceInitialRepeatsAndSegments;
     S_msrSegment              fVoiceLastSegment;
 
     // fVoiceFirstSegment is used to work around LilyPond issue 34
-    S_msrSegment              fVoiceFirstSegment;
+    S_msrSegment          fVoiceFirstSegment;
 
     // fVoiceCurrentRepeat is null or
     // the last msrRepeat in fVoiceInitialRepeatsAndSegments
-    S_msrRepeat               fVoiceCurrentRepeat;
+    S_msrRepeat           fVoiceCurrentRepeat;
 
     // fVoicePendingMeasureRepeat is null
     // or the last msrMeasureRepeat created with its repeated measure,
     // but not yet appended to the voice
-    S_msrMeasureRepeat        fVoicePendingMeasureRepeat;
+    S_msrMeasureRepeat    fVoicePendingMeasureRepeat;
 
     // fVoicePendingMeasureRepeat is null
     // or the last msrMeasureRepeat created with its repeated measure,
     // but not yet appended to the voice
-    S_msrMultipleRest         fVoicePendingMultipleRest;
+    S_msrMultipleRest     fVoicePendingMultipleRest;
 
+    // stanzas
+    
     // the stanza master, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
     // that start at later points
-    S_msrStanza               fVoiceStanzaMaster;
-
-    // the harmony master, collecting harmonies and skips along the way
-    // JMI
+    S_msrStanza           fVoiceStanzaMaster;
     
-    // the stanza map
-    map<int, S_msrStanza>     fVoiceStanzasMap;
+    map<int, S_msrStanza> fVoiceStanzasMap;
+
+    // uplinks
+    
+    S_msrStaff            fVoiceStaffUplink;
+
+    S_msrPart             fVoiceDirectPartUplink;
+
+
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
