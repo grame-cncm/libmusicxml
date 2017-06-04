@@ -2711,12 +2711,12 @@ class EXP msrMeasure : public msrElement
     // finalization
 
     void                  finalizeMeasure (
-                            int     inputLineNumber,
-                            msrMeasure::msrMeasureFirstInSegmentKind
-                                    measureFirstInSegmentKind);
+                            int inputLineNumber);
 
+/* JMI
     void                  finalizeUltimateMeasure (
                             int inputLineNumber);
+*/
 
     // visitors
     // ------------------------------------------------------
@@ -2735,48 +2735,48 @@ class EXP msrMeasure : public msrElement
 
     // divisions
     
-    int                 fMeasureDivisionsPerFullMeasure;
-    int                 fMeasurePosition; // in divisions
+    int                   fMeasureDivisionsPerFullMeasure;
+    int                   fMeasurePosition; // in divisions
 
     // measure number
     
-    string              fMeasureNumber;
+    string                fMeasureNumber;
 
     // implicit kind
     
     msrMeasureImplicitKind
-                        fMeasureImplicitKind; // JMI
+                          fMeasureImplicitKind; // JMI
 
     // measure kind
 
-    msrMeasureKind      fMeasureKind;
+    msrMeasureKind        fMeasureKind;
     
     // measure 'first in segment' kind
 
     msrMeasureFirstInSegmentKind
-                        fMeasureFirstInSegmentKind;
+                          fMeasureFirstInSegmentKind;
                         
     // clef, key, time
     
-    S_msrClef           fMeasureClef;
-    S_msrKey            fMeasureKey;
-    S_msrTime           fMeasureTime;
+    S_msrClef             fMeasureClef;
+    S_msrKey              fMeasureKey;
+    S_msrTime             fMeasureTime;
 
     // /chords handling
     
-    S_msrNote           fMeasureLastHandledNote;
+    S_msrNote             fMeasureLastHandledNote;
     
     // uplinks
     
-    S_msrSegment        fMeasureSegmentUplink;
+    S_msrSegment          fMeasureSegmentUplink;
 
-    S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
+    S_msrVoice            fMeasureVoiceDirectUplink; // to accelerate things
 
-    S_msrPart           fMeasureDirectPartUplink; // to accelerate things
+    S_msrPart             fMeasureDirectPartUplink; // to accelerate things
 
     // elements list
 
-    list<S_msrElement>  fMeasureElementsList;
+    list<S_msrElement>    fMeasureElementsList;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -2937,8 +2937,13 @@ class EXP msrSegment : public msrElement
                             msrMeasure::msrMeasureKind measureKind);
 */
 
-    void                  finalizeUltimateMeasureInSegment (
+    void                  finalizeSegment (
                             int inputLineNumber);
+
+/*                            
+    void                  finalizeUltimateMeasureInSegment ( // JMI
+                            int inputLineNumber);
+*/
 
     // visitors
     // ------------------------------------------------------
@@ -7035,8 +7040,10 @@ class EXP msrVoice : public msrElement
 
     // finalization
 
+/*
     void                  finalizeUltimateMeasuresInVoice (
                             int inputLineNumber);
+*/
 
     void                  finalizeVoice (int inputLineNumber);
     
@@ -7420,8 +7427,10 @@ class EXP msrStaff : public msrElement
   
     // finalization
 
+/*
     void                  finalizeUltimateMeasuresInStaff (
                             int inputLineNumber);
+  */
     
     void                  finalizeStaff (int inputLineNumber);
 
@@ -7677,9 +7686,6 @@ class EXP msrPart : public msrElement
     void                  createAndAppendMeasureToPart (
                             int    inputLineNumber,
                             string measureNumber);
-                      
-    void                  finalizeUltimateMeasuresInPart (
-                            int inputLineNumber); // JMI
 
     // barlines
     
@@ -7759,6 +7765,11 @@ class EXP msrPart : public msrElement
     void                  handleBackup (int divisions);
 
     // finalization
+
+   /*                   
+    void                  finalizeUltimateMeasuresInPart (
+                            int inputLineNumber); // JMI
+*/
 
     void                  finalizePart (int inputLineNumber);
 
