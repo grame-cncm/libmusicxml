@@ -19477,7 +19477,8 @@ void msrVoice::finalizeVoice (int inputLineNumber)
   }
 
   fVoiceLastSegment->
-    finalizeSegment (inputLineNumber);
+    finalizeSegment (
+      inputLineNumber);
 
   if (! gMsrOptions->fKeepMasterStanzas) { // JMI
 // JMI    delete (fVoiceStanzaMaster);
