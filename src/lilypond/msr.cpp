@@ -15177,23 +15177,25 @@ void msrSegment::createAndAppendMeasureToSegment (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "Setting measure to " << measureNumber <<
-      " in segment " << segmentAsString () <<
-      ", line " << inputLineNumber <<
+      "Append a new measure '" << measureNumber <<
+      "', line " << inputLineNumber <<
+      ", to segment " << segmentAsString () <<
       endl;
 
   fSegmentMeasureNumber = measureNumber; // JMI
 
+/* JMI
   // make sure there's at least one measure in the segment
   appendMeasureToSegmentIfNeeded (
     inputLineNumber,
     measureNumber);
-  
-  // determine measure 'first in segment' kind
+*/
+
+  // determine new measure 'first in segment' kind
   msrMeasure::msrMeasureFirstInSegmentKind
     measureFirstInSegmentKind;
 
-  if (fSegmentMeasuresList.size () == 1) { // JMI
+  if (fSegmentMeasuresList.size () == 0) {
     // this is the first measure in the segment
     measureFirstInSegmentKind =
       msrMeasure::kMeasureFirstInSegmentYes;
@@ -15204,6 +15206,7 @@ void msrSegment::createAndAppendMeasureToSegment (
       msrMeasure::kMeasureFirstInSegmentNo;
   }
 
+/* JMI
   // fetch segment last measure
   S_msrMeasure
     lastMeasure =
@@ -15214,51 +15217,9 @@ void msrSegment::createAndAppendMeasureToSegment (
     finalizeMeasure (
       inputLineNumber,
       measureFirstInSegmentKind);
+      */
       
-/* JMI
-  msrMeasure::msrMeasureKind measureKind;
-  
-  if (fSegmentMeasuresList.size () == 1) { // JMI
-    // this is the first measure in the segment
-    measureKind =
-      msrMeasure::kIncompleteLeftMeasureKind;
-  }
-  
-  else {
-    // this is the last measure in the segment
-    measureKind =
-      msrMeasure::kIncompleteRightMeasureKind;
-  }
-
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Setting measure to " << measureNumber <<
-      " in segment " << segmentAsString () <<
-      ", line " << inputLineNumber <<
-      ", the POTENTIAL measure kind is " <<
-      msrMeasure::measureKindAsString (measureKind) <<
-      endl;
-
-  if (fSegmentMeasuresList.size ()) {
-    // check for incomplete segment last measure
-    checkForIncompleteSegmentLastMeasure (
-      inputLineNumber,
-      measureKind);
-  
-    // fetch segment last measure // JMI
-    S_msrMeasure
-      lastMeasure =
-        fSegmentMeasuresList.back ();
-  
-    // finalize last measure
-    lastMeasure->
-      finalizeMeasure (
-        inputLineNumber,
-        measureKind);
-  }
-    */
-    
-  // create a new measure
+  // create a measure
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "Creating measure " << measureNumber <<
@@ -17465,7 +17426,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
         fVoiceDirectPartUplink,
         this);
 
-    // set the new last segment's measure number
+    // create and append a new measure to last segment
     fVoiceLastSegment->
       createAndAppendMeasureToSegment (
         inputLineNumber,
@@ -23936,3 +23897,46 @@ void msrMidi::print (ostream& os)
 
 }
 
+/* JMI
+  msrMeasure::msrMeasureKind measureKind;
+  
+  if (fSegmentMeasuresList.size () == 1) { // JMI
+    // this is the first measure in the segment
+    measureKind =
+      msrMeasure::kIncompleteLeftMeasureKind;
+  }
+  
+  else {
+    // this is the last measure in the segment
+    measureKind =
+      msrMeasure::kIncompleteRightMeasureKind;
+  }
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Setting measure to " << measureNumber <<
+      " in segment " << segmentAsString () <<
+      ", line " << inputLineNumber <<
+      ", the POTENTIAL measure kind is " <<
+      msrMeasure::measureKindAsString (measureKind) <<
+      endl;
+
+  if (fSegmentMeasuresList.size ()) {
+    // check for incomplete segment last measure
+    checkForIncompleteSegmentLastMeasure (
+      inputLineNumber,
+      measureKind);
+  
+    // fetch segment last measure // JMI
+    S_msrMeasure
+      lastMeasure =
+        fSegmentMeasuresList.back ();
+  
+    // finalize last measure
+    lastMeasure->
+      finalizeMeasure (
+        inputLineNumber,
+        measureKind);
+  }
+    */
+    

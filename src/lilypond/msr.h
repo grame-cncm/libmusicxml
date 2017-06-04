@@ -2538,15 +2538,48 @@ class EXP msrMeasure : public msrElement
 
     // set and get
     // ------------------------------------------------------
-                              
-    S_msrPart             getMeasureDirectPartUplink () const
-                             { return fMeasureDirectPartUplink; }
 
+    // measure number
+    
     void                  setMeasureNumber (string measureNumber)
                               { fMeasureNumber = measureNumber; }
 
     string                getMeasureNumber () const
                               { return fMeasureNumber; }
+
+    // divisions
+    
+    int                   getMeasureDivisionsPerFullMeasure () const
+                              { return fMeasureDivisionsPerFullMeasure; }
+
+    void                  setMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
+
+    int                   getMeasurePosition () const
+                              { return fMeasurePosition; }
+
+    // measure kind
+    
+    void                  setMeasureKind (msrMeasureKind measureKind)
+                              { fMeasureKind = measureKind; }
+
+    msrMeasureKind        getMeasureKind () const
+                              { return fMeasureKind; }
+
+    // measure 'first in segment' kind
+    
+    void                  setMeasureFirstInSegmentKind (
+                            msrMeasureFirstInSegmentKind
+                              measureFirstInSegmentKind)
+                              {
+                                fMeasureFirstInSegmentKind =
+                                  measureFirstInSegmentKind;
+                              }
+
+    msrMeasureFirstInSegmentKind
+                          getMeasureFirstInSegmentKind () const
+                              { return fMeasureFirstInSegmentKind; }
 
     // clef, key, time
     
@@ -2567,33 +2600,24 @@ class EXP msrMeasure : public msrElement
     S_msrTime             getMeasureTime () const
                               { return fMeasureTime; }
 
-    // divisions
+    // chords handling
     
-    int                   getMeasureDivisionsPerFullMeasure () const
-                              { return fMeasureDivisionsPerFullMeasure; }
-
-    void                  setMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
-
-    int                   getMeasurePosition () const
-                              { return fMeasurePosition; }
-                      
     S_msrNote              getMeasureLastHandledNote () const
                               { return fMeasureLastHandledNote; }
 
-    void                  setMeasureKind (msrMeasureKind measureKind)
-                              { fMeasureKind = measureKind; }
-
-    msrMeasureKind        getMeasureKind () const
-                              { return fMeasureKind; }
-
+    // uplinks
+    
     S_msrSegment          getMeasureSegmentUplink () const
                               { return fMeasureSegmentUplink; }
                       
     S_msrVoice            getMeasureVoiceDirectUplink () const
                               { return fMeasureVoiceDirectUplink; }
 
+    S_msrPart             getMeasureDirectPartUplink () const
+                             { return fMeasureDirectPartUplink; }
+
+    // elements list
+    
     const list<S_msrElement>&
                           getMeasureElementsList () const
                               { return fMeasureElementsList; }
@@ -2698,28 +2722,50 @@ class EXP msrMeasure : public msrElement
 
   private:
 
-    S_msrPart           fMeasureDirectPartUplink; // to accelerate things
-
-    string              fMeasureNumber;
-    msrMeasureImplicitKind
-                        fMeasureImplicitKind;
+    // divisions
     
     int                 fMeasureDivisionsPerFullMeasure;
+    int                 fMeasurePosition; // in divisions
 
+    // measure number
+    
+    string              fMeasureNumber;
+
+    // implicit kind
+    
+    msrMeasureImplicitKind
+                        fMeasureImplicitKind; // JMI
+
+    // measure kind
+
+    msrMeasureKind      fMeasureKind;
+    
+    // measure 'first in segment' kind
+
+    msrMeasureFirstInSegmentKind
+                        fMeasureFirstInSegmentKind;
+                        
+    // clef, key, time
+    
     S_msrClef           fMeasureClef;
     S_msrKey            fMeasureKey;
     S_msrTime           fMeasureTime;
 
-    int                 fMeasurePosition; // in divisions
-    S_msrNote           fMeasureLastHandledNote; // for chords handling
+    // /chords handling
     
-    S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
-
-    msrMeasureKind      fMeasureKind;
-
-    list<S_msrElement>  fMeasureElementsList;
+    S_msrNote           fMeasureLastHandledNote;
+    
+    // uplinks
     
     S_msrSegment        fMeasureSegmentUplink;
+
+    S_msrVoice          fMeasureVoiceDirectUplink; // to accelerate things
+
+    S_msrPart           fMeasureDirectPartUplink; // to accelerate things
+
+    // elements list
+
+    list<S_msrElement>  fMeasureElementsList;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
