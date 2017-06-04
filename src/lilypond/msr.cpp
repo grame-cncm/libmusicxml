@@ -14280,6 +14280,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 }
 */
 
+/*
 bool msrMeasure::checkForIncompleteMeasure (
   int                        inputLineNumber,
   msrMeasure::msrMeasureKind measureKind)
@@ -14422,6 +14423,7 @@ bool msrMeasure::checkForOverfullMeasure (
 
   return measureIsOverfull;
 }
+*/
 
 void msrMeasure::finalizeMeasure (
   int     inputLineNumber,
@@ -15707,6 +15709,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   return result;
 }
 
+/*
 bool msrSegment::checkForIncompleteSegmentLastMeasure (
   int                        inputLineNumber,
   msrMeasure::msrMeasureKind measureKind)
@@ -15733,6 +15736,7 @@ bool msrSegment::checkForIncompleteSegmentLastMeasure (
         inputLineNumber,
         measureKind);
 }
+*/
 
 void msrSegment::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -17605,6 +17609,7 @@ void msrVoice::createAndAppendMeasureToVoice (
       measureNumber);
 }
 
+/* JMI
 bool msrVoice::checkForIncompleteVoiceLastMeasure (
   int inputLineNumber)
 {
@@ -17621,15 +17626,18 @@ bool msrVoice::checkForIncompleteVoiceLastMeasure (
         inputLineNumber,
         msrMeasure::kIncompleteRightMeasureKind);
 }
+*/
 
 void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
 {
+  /* JMI
   // check for incomplete last measure
   // before creating the new last measure
   bool lastMeasureIsIncomplete =
     checkForIncompleteVoiceLastMeasure (
       inputLineNumber);
+    */
     
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
