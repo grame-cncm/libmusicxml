@@ -15169,7 +15169,7 @@ S_msrSegment msrSegment::createSegmentBareClone (
   return clone;
 }
 
-void msrSegment::setSegmentMeasureNumber (
+void msrSegment::createAndAppendMeasureToSegment (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -17463,7 +17463,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
 
     // set the new last segment's measure number
     fVoiceLastSegment->
-      setSegmentMeasureNumber (
+      createAndAppendMeasureToSegment (
         inputLineNumber,
         fVoiceMeasureNumber);
       
@@ -17588,7 +17588,7 @@ string msrVoice::getVoiceName () const
     */
 }
 
-void msrVoice::setVoiceMeasureNumber (
+void msrVoice::createAndAppendMeasureToVoice (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -17600,7 +17600,7 @@ void msrVoice::setVoiceMeasureNumber (
 
   // set the last segment measure number
   fVoiceLastSegment->
-    setSegmentMeasureNumber (
+    createAndAppendMeasureToSegment (
       inputLineNumber,
       measureNumber);
 }
@@ -20235,7 +20235,7 @@ void msrStaff::createAndAppendMeasureToStaff (
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      setVoiceMeasureNumber (
+      createAndAppendMeasureToVoice (
         inputLineNumber, measureNumber);
   } // for
 }

@@ -2795,8 +2795,9 @@ class EXP msrSegment : public msrElement
     S_msrTime             getSegmentTime () const
                               { return fSegmentTime; }
 
-    // measure number
-    void                  setSegmentMeasureNumber (
+    // measures
+    
+    void                  createAndAppendMeasureToSegment (
                             int    inputLineNumber,
                             string measureNumber);
                       
@@ -6810,7 +6811,7 @@ class EXP msrVoice : public msrElement
                
      // measures
      
-    void                  setVoiceMeasureNumber (
+    void                  createAndAppendMeasureToVoice (
                             int    inputLineNumber,
                             string measureNumbe);
                       
