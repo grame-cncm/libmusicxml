@@ -2937,7 +2937,7 @@ class EXP msrSegment : public msrElement
                             msrMeasure::msrMeasureKind measureKind);
 */
 
-    void                  finalizeSegment (
+    void                  finalizeCurrentMeasureInSegment (
                             int inputLineNumber);
 
 /*                            
@@ -7078,7 +7078,8 @@ class EXP msrVoice : public msrElement
                             int inputLineNumber);
 */
 
-    void                  finalizeVoice (int inputLineNumber);
+    void                  finalizeCurrentMeasureInVoice (
+                            int inputLineNumber);
     
     // visitors
     // ------------------------------------------------------
@@ -7481,7 +7482,8 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber);
   */
     
-    void                  finalizeStaff (int inputLineNumber);
+    void                  finalizeCurrentMeasureInStaff (
+                            int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -7820,7 +7822,8 @@ class EXP msrPart : public msrElement
                             int inputLineNumber); // JMI
 */
 
-    void                  finalizePart (int inputLineNumber);
+    void                  finalizeCurrentMeasureInPart (
+                            int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------

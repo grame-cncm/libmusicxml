@@ -15266,7 +15266,8 @@ void msrSegment::createAndAppendMeasureToSegment (
   fMeasureNumberHasBeenSetInSegment = true;
 }
 
-void msrSegment::finalizeSegment (int inputLineNumber)
+void msrSegment::finalizeCurrentMeasureInSegment (
+  int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
@@ -15284,7 +15285,8 @@ void msrSegment::finalizeSegment (int inputLineNumber)
     stringstream s;
 
     s <<
-      "cannot finalize segment " << segmentAsString () <<
+      "cannot finalize current measure in segment " <<
+      segmentAsString () <<
       " since it doesn't contain any measure";
 
     msrInternalError (
@@ -19480,7 +19482,7 @@ void msrVoice::finalizeUltimateMeasuresInVoice (int inputLineNumber)
 }
 */
 
-void msrVoice::finalizeVoice (int inputLineNumber)
+void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -19491,7 +19493,7 @@ void msrVoice::finalizeVoice (int inputLineNumber)
   }
 
   fVoiceLastSegment->
-    finalizeSegment (
+    finalizeCurrentMeasureInSegment (
       inputLineNumber);
 
   if (! gMsrOptions->fKeepMasterStanzas) { // JMI
@@ -20802,7 +20804,7 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
   } // for
 }
 
-void msrStaff::finalizeStaff (int inputLineNumber)
+void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
 {  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
@@ -20813,6 +20815,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
 
     switch (voice->getVoiceKind ()) {
       case msrVoice::kRegularVoice:
+      case msrVoice::kHarmonyVoice:
         if (! voice->getMusicHasBeenInsertedInVoice ()) {
           if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
             cerr << idtr <<
@@ -20827,14 +20830,10 @@ void msrStaff::finalizeStaff (int inputLineNumber)
         }
         else {
           voice->
-            finalizeVoice (inputLineNumber);
+            finalizeCurrentMeasureInVoice (inputLineNumber);
         }
         break;
-        
-      case msrVoice::kHarmonyVoice:
-        // it's needed if it has been created, so keep it JMI
-        break;
-        
+                
       case msrVoice::kMasterVoice:
         if (! gMsrOptions->fKeepMasterVoices) {
           if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
@@ -22429,14 +22428,14 @@ void msrPart::finalizeUltimateMeasuresInPart (int inputLineNumber)
 }
 */
 
-void msrPart::finalizePart (int inputLineNumber)
+void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
 {
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      finalizeStaff (inputLineNumber);
+      finalizeCurrentMeasureInStaff (inputLineNumber);
   } // for
 }
 

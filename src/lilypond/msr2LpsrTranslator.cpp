@@ -1214,7 +1214,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
         s <<
           "measure '" << measureNumber <<
-          "' is of unknown kind";
+          "' in voice \"" <<
+          elt->
+            getMeasureVoiceDirectUplink ()->
+              getVoiceName () <<
+          "\" is of unknown kind";
 
         msrInternalError (
           inputLineNumber, s.str ());
