@@ -20214,15 +20214,15 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
   return result;
 }
 
-void msrStaff::setStaffMeasureNumber (
+void msrStaff::createAndAppendMeasureToStaff (
   int    inputLineNumber,
   string measureNumber)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "### % --> setStaffMeasureNumber(), " <<
-      ", line " << inputLineNumber <<
+      "Append a new measure, " <<
       ", measureNumber = " << measureNumber <<
+      ", line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
       endl;
 
@@ -21876,7 +21876,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
     fInputLineNumber);
 }
 
-void msrPart::setPartMeasureNumber (
+void msrPart::createAndAppendMeasureToPart (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -21897,7 +21897,7 @@ void msrPart::setPartMeasureNumber (
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      setStaffMeasureNumber (
+      createAndAppendMeasureToStaff (
         inputLineNumber, measureNumber);
   } // for
 }

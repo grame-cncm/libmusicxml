@@ -2548,6 +2548,8 @@ class EXP msrMeasure : public msrElement
     string                getMeasureNumber () const
                               { return fMeasureNumber; }
 
+    // clef, key, time
+    
     void                  setMeasureClef (S_msrClef clef)
                               { fMeasureClef = clef; }
 
@@ -2565,6 +2567,8 @@ class EXP msrMeasure : public msrElement
     S_msrTime             getMeasureTime () const
                               { return fMeasureTime; }
 
+    // divisions
+    
     int                   getMeasureDivisionsPerFullMeasure () const
                               { return fMeasureDivisionsPerFullMeasure; }
 
@@ -2597,6 +2601,7 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
+    // measure length
     int                   getMeasureLength () const
                             // divisions, positions start at 1
                               { return fMeasurePosition - 1; }
@@ -2665,6 +2670,8 @@ class EXP msrMeasure : public msrElement
 
     bool                  checkForOverfullMeasure (
                             int inputLineNumber);
+
+    // finalization
 
     void                  finalizeMeasure (
                             int     inputLineNumber,
@@ -2861,6 +2868,8 @@ class EXP msrSegment : public msrElement
 
     S_msrMeasure          removeLastMeasureFromSegment (
                             int inputLineNumber);
+
+    // finalization
 
     bool                  checkForIncompleteSegmentLastMeasure (
                             int                        inputLineNumber,
@@ -6799,7 +6808,8 @@ class EXP msrVoice : public msrElement
     S_msrTime             getVoiceTime () const
                               { return fVoiceTime; }
                
-     // measure number
+     // measures
+     
     void                  setVoiceMeasureNumber (
                             int    inputLineNumber,
                             string measureNumbe);
@@ -6808,6 +6818,7 @@ class EXP msrVoice : public msrElement
                               { return fVoiceMeasureNumber; }
 
     // has music been inserted in the voice?
+    
     void                  setMusicHasBeenInsertedInVoice ()
                               { fMusicHasBeenInsertedInVoice = true; }
 
@@ -6957,6 +6968,8 @@ class EXP msrVoice : public msrElement
     void                  createNewLastSegmentWithFirstMeasureForVoice (
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure);
+
+    // finalization
 
     void                  finalizeUltimateMeasuresInVoice (
                             int inputLineNumber);
@@ -7242,8 +7255,9 @@ class EXP msrStaff : public msrElement
                           getStafftuningsList ()
                               { return fStafftuningsList; }
 
-    // measure number
-    void                  setStaffMeasureNumber (
+    // measures
+    
+    void                  createAndAppendMeasureToStaff (
                             int    inputLineNumber,
                             string measureNumber);
                       
@@ -7251,6 +7265,7 @@ class EXP msrStaff : public msrElement
                               { return fStaffMeasureNumber; }
 
     // voice master
+    
     const S_msrVoice      getStaffMasterVoice () const
                               { return fStaffMasterVoice; }
 
@@ -7339,6 +7354,8 @@ class EXP msrStaff : public msrElement
                             S_msrStafftuning stafftuning)
                               { fStafftuningsList.push_back (stafftuning); }
   
+    // finalization
+
     void                  finalizeUltimateMeasuresInStaff (
                             int inputLineNumber);
     
@@ -7542,11 +7559,6 @@ class EXP msrPart : public msrElement
     S_msrTranspose        getPartTranspose () const
                               { return fPartTranspose; };
     
-    // measure number
-    void                  setPartMeasureNumber (
-                            int    inputLineNumber,
-                            string measureNumber);
-                      
     const string          getPartMeasureNumber () const
                               { return fPartMeasureNumber; }
 
@@ -7563,6 +7575,8 @@ class EXP msrPart : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    // divisions
 
     void                  setupDurationsDivisions (
                             int divisionPerQuarterNote);
@@ -7594,7 +7608,23 @@ class EXP msrPart : public msrElement
     void                  createPartHarmonyStaffAndVoice (
                             int inputLineNumber);
         
-    void                  createAndAppendRepeatToPart (int inputLineNumber);
+    // measures
+    
+    void                  createAndAppendMeasureToPart (
+                            int    inputLineNumber,
+                            string measureNumber);
+                      
+    void                  finalizeUltimateMeasuresInPart (
+                            int inputLineNumber); // JMI
+
+    // barlines
+    
+    void                  appendBarlineToPart (S_msrBarline barline);
+              
+    // repeats
+    
+    void                  createAndAppendRepeatToPart (
+                            int inputLineNumber);
     
     void                  appendRepeatCloneToPart (
                             int         inputLineNumber,
@@ -7633,18 +7663,25 @@ class EXP msrPart : public msrElement
     void                  appendMultipleRestCloneToPart (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
-  
-    void                  appendBarlineToPart (S_msrBarline barline);
-              
+
+    // staves
+    
     S_msrStaff            addStaffToPartByItsNumber (
                             int                    inputLineNumber,
                             msrStaff::msrStaffKind staffKind,
                             int                    staffNumber);
-    
-    void                  addStaffToPartCloneByItsNumber (S_msrStaff staff);
+
+    void                  addStaffToPartCloneByItsNumber (
+                            S_msrStaff staff);
 
     S_msrStaff            fetchStaffFromPart (int staffNumber);
 
+    // voices
+
+    void                  removePartEmptyVoices ();
+    
+    // harmonies
+    
     void                  appendHarmonyToPart (
                             S_msrVoice   harmoniesSupplierVoice,
                             S_msrHarmony harmony);
@@ -7653,11 +7690,11 @@ class EXP msrPart : public msrElement
                             S_msrVoice   harmoniesSupplierVoice,
                             S_msrHarmony harmony);
 
+    // backup
+    
     void                  handleBackup (int divisions);
 
-    void                  removePartEmptyVoices ();
-
-    void                  finalizeUltimateMeasuresInPart (int inputLineNumber);
+    // finalization
 
     void                  finalizePart (int inputLineNumber);
 
