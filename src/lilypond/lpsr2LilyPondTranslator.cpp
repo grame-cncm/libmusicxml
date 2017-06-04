@@ -2602,6 +2602,9 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kUnderfullMeasureKind:
+      fOstream << idtr <<
+        "\\unset Score.measureLength" <<
+        endl;
       break;
 
     case msrMeasure::kOverfullMeasureKind:

@@ -1220,7 +1220,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
               getVoiceName () <<
           "\" is of unknown kind";
 
-        msrInternalError (
+     // JMI   msrInternalError (
+        msrMusicXMLWarning (
           inputLineNumber, s.str ());
       }
       break;
