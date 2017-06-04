@@ -13142,11 +13142,14 @@ S_msrMeasure msrMeasure::createMeasureBareClone (
       directPartUplink->
         getPartCurrentTime ());
 
-//* JMI    
+  // set clone measure kind
   clone->fMeasureKind =
     fMeasureKind;
-    //*/
-    
+
+  // set clone 'first in segment' kind
+  clone->fMeasureFirstInSegmentKind =
+    fMeasureFirstInSegmentKind;
+
   return clone;
 }
 
@@ -14962,6 +14965,9 @@ void msrMeasure::print (ostream& os)
   if (fMeasureTime)
     os <<
       ", " << fMeasureTime->timeAsShortString ();
+  else
+    os <<
+      ", time unknown";
 
   os <<
     ", " << getMeasureKindAsString () <<
@@ -14969,10 +14975,11 @@ void msrMeasure::print (ostream& os)
     ", " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
-    ", len: " << getMeasureLength () << " divs" <<
+    ", length: " << getMeasureLength () << " divs" <<
     " (" << getMeasureLengthAsString () << ")" <<
     ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
  // JMI   ", pos = " << fMeasurePosition << ", " <<
+    ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
 // JMI      ", part high tide = " <<
