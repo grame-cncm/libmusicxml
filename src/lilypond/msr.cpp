@@ -10283,11 +10283,20 @@ string msrClef::clefAsString () const
     case msrClef::kTrebleClef:
       s << "treble";
       break;
+    case msrClef::kSopranoClef:
+      s << "soprano";
+      break;
+    case msrClef::kMezzoSopranoClef:
+      s << "mezzo soprano";
+      break;
     case msrClef::kAltoClef:
       s << "alto";
       break;
     case msrClef::kTenorClef:
       s << "tenor";
+      break;
+    case msrClef::kBaritoneClef:
+      s << "baritone";
       break;
     case msrClef::kBassClef:
       s << "bass";
@@ -18491,6 +18500,7 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
@@ -18543,10 +18553,7 @@ void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
           inputLineNumber);
       }
       break;
-      
-    case msrVoice::kHarmonyVoice:
-      break;
-      
+            
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -18559,6 +18566,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         // create a measure repeat
         if (gGeneralOptions->fTraceRepeats) {
@@ -18667,10 +18675,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // keep the measure repeat pending
       }
       break;
-      
-    case msrVoice::kHarmonyVoice:
-      break;
-      
+            
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -18681,6 +18686,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         /* JMI
         // print current voice contents
@@ -18845,10 +18851,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         fVoicePendingMeasureRepeat = 0;
       }
       break;
-      
-    case msrVoice::kHarmonyVoice:
-      break;
-      
+            
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -18860,6 +18863,7 @@ void msrVoice::createMultipleRestInVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         // create a multiple rest
         if (gGeneralOptions->fTraceRepeats) {
@@ -18942,9 +18946,6 @@ void msrVoice::createMultipleRestInVoice (
       }
       break;
       
-    case msrVoice::kHarmonyVoice:
-      break;
-      
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -18955,6 +18956,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
@@ -19118,9 +19120,6 @@ void msrVoice::appendPendingMultipleRestToVoice (
       }
       break;
       
-    case msrVoice::kHarmonyVoice:
-      break;
-      
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -19132,6 +19131,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
@@ -19175,9 +19175,6 @@ void msrVoice::appendMultipleRestCloneToVoice (
       }
       break;
       
-    case msrVoice::kHarmonyVoice:
-      break;
-      
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -19189,6 +19186,7 @@ void msrVoice::appendRepeatCloneToVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -19239,9 +19237,6 @@ void msrVoice::appendRepeatCloneToVoice (
         }
       break;
       
-    case msrVoice::kHarmonyVoice:
-      break;
-      
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -19255,6 +19250,7 @@ void msrVoice::appendRepeatendingToVoice (
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -19296,9 +19292,6 @@ void msrVoice::appendRepeatendingToVoice (
       }
       break;
       
-    case msrVoice::kHarmonyVoice:
-      break;
-      
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -19309,6 +19302,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       {
         // add the repeat ending it to the voice current repeat
         if (gGeneralOptions->fTraceRepeats)
@@ -19337,10 +19331,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
           repeatendingClone->getInputLineNumber ());
       }
       break;
-      
-    case msrVoice::kHarmonyVoice:
-      break;
-      
+            
     case msrVoice::kMasterVoice:
       break;
   } // switch
@@ -20212,7 +20203,7 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
             result++;
           break;
           
-        case msrVoice::kHarmonyVoice:
+        case msrVoice::kHarmonyVoice: // JMI
           break;
           
         case msrVoice::kMasterVoice:

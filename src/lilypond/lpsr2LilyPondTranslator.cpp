@@ -2900,11 +2900,20 @@ void lpsr2LilyPondTranslator::visitStart (S_msrClef& elt)
       case msrClef::kTrebleClef:
         fOstream << "treble";
         break;
+      case msrClef::kSopranoClef:
+        fOstream << "soprano";
+        break;
+      case msrClef::kMezzoSopranoClef:
+        fOstream << "mezzosoprano";
+        break;
       case msrClef::kAltoClef:
         fOstream << "alto";
         break;
       case msrClef::kTenorClef:
         fOstream << "tenor";
+        break;
+      case msrClef::kBaritoneClef:
+        fOstream << "baritone";
         break;
       case msrClef::kBassClef:
         fOstream << "bass";

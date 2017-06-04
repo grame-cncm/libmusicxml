@@ -2245,7 +2245,9 @@ class EXP msrClef : public msrElement
 
     enum msrClefKind {
       k_NoClef,
-      kTrebleClef, kAltoClef, kTenorClef, kBassClef,
+      kTrebleClef,
+      kSopranoClef, kMezzoSopranoClef, kAltoClef, kTenorClef, kBaritoneClef,
+      kBassClef,
       kTrebleLine1Clef,
       kTrebleMinus15Clef, kTrebleMinus8Clef,
       kTreblePlus8Clef, kTreblePlus15Clef, 
