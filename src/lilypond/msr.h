@@ -2625,15 +2625,26 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
+    // measure kind
+    
+    string                getMeasureKindAsString () const;
+
+    // divisions
+
+    void                  bringMeasureToMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
+
     // measure length
+    
     int                   getMeasureLength () const
                             // divisions, positions start at 1
                               { return fMeasurePosition - 1; }
                       
     string                getMeasureLengthAsString () const;
-    
-    string                getMeasureKindAsString () const;
 
+    // appending elements to measure
+    
     void                  appendBarlineToMeasure (S_msrBarline barline);
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
     
@@ -2656,10 +2667,6 @@ class EXP msrMeasure : public msrElement
     
     void                  appendHarmonyToMeasureClone (S_msrHarmony harmony);
 
-    void                  bringMeasureToMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
-
     void                  appendGracenotesToMeasure (
                             S_msrGracenotes gracenotes);
     void                  prependGracenotesToMeasure (
@@ -2674,6 +2681,8 @@ class EXP msrMeasure : public msrElement
                       
     void                  appendOtherElementToMeasure  (S_msrElement elem);
 
+    // last element of measure
+    
     S_msrElement          getLastElementOfMeasure () const
                               { return fMeasureElementsList.back (); }
 
@@ -2681,6 +2690,8 @@ class EXP msrMeasure : public msrElement
     S_msrElement          removeLastElementFromMeasure (
                             int inputLineNumber);
 */
+
+    // removing elements from measure
 
     void                  removeNoteFromMeasure (
                             int       inputLineNumber,
