@@ -14966,15 +14966,13 @@ void msrMeasure::print (ostream& os)
   os <<
     ", " << getMeasureKindAsString () <<
     ", line " << fInputLineNumber <<
+    ", " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
-    ", " <<
     ", len: " << getMeasureLength () << " divs" <<
     " (" << getMeasureLengthAsString () << ")" <<
     ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
-    ", pos = " << fMeasurePosition << 
-    ", " <<
-    ", " <<
+ // JMI   ", pos = " << fMeasurePosition << ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
 // JMI      ", part high tide = " <<
@@ -19633,7 +19631,7 @@ void msrVoice::print (ostream& os)
       endl;
   else
     os << idtr <<
-      "(fVoiceTime == 0 !)" << // JMI
+      "(fVoiceTime is null !!!)" << // JMI
       endl;
 
   os << endl;
