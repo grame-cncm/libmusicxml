@@ -1159,7 +1159,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
     }
     */
     measureKind =
-      msrMeasure::kIncompleteLeftMeasureKind; // JMI
+      msrMeasure::kUpbeatMeasureKind; // JMI
   }
 
   else if (measurePosition > measureDivisionsPerFullMeasure + 1) {
@@ -1193,36 +1193,48 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       "--> End visiting msrMeasure" <<
       endl;
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    measureNumber =
+      elt->getMeasureNumber ();
+
   finalizeCurrentMeasureClone ( // JMI
-    elt->getInputLineNumber (),
+    inputLineNumber,
     elt); // original measure
 
-  bool doCreateABarCheck = false;
-  
+  bool doCreateABarCheck = false; // JMI
+
   switch (elt->getMeasureKind ()) {
     
     case msrMeasure::kUnknownMeasureKind:
-      break;
-      
-    case msrMeasure::kFullMeasureKind:
-      // is the measure full? (positions start at 1)
-      if (
-        elt->getMeasureLength ()
-          >=
-        elt->getMeasureDivisionsPerFullMeasure ()) {
-        doCreateABarCheck = true;
+      {
+        stringstream s;
+
+        s <<
+          "measure '" << measureNumber <<
+          "' is of unknown kind";
+
+        msrInternalError (
+          inputLineNumber, s.str ());
       }
       break;
       
-    case msrMeasure::kIncompleteLeftMeasureKind:
+    case msrMeasure::kFullMeasureKind:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kIncompleteRightMeasureKind:
+    case msrMeasure::kUpbeatMeasureKind:
+      doCreateABarCheck = true;
+      break;
+      
+    case msrMeasure::kUnderfullMeasureKind:
+      doCreateABarCheck = true;
       break;
       
     case msrMeasure::kOverfullMeasureKind:
-      // JMI
+      doCreateABarCheck = true;
       break;
       
     case msrMeasure::kEmptyMeasureKind:
@@ -1235,7 +1247,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     S_msrBarCheck
       barCheck =
         msrBarCheck::create (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           fMeasuresCounter + 1);
               
     // append it to the current voice clone

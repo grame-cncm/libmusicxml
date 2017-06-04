@@ -2480,8 +2480,8 @@ class EXP msrMeasure : public msrElement
     enum msrMeasureKind {
         kUnknownMeasureKind,
         kFullMeasureKind,
-        kIncompleteLeftMeasureKind,
-        kIncompleteRightMeasureKind,
+        kUpbeatMeasureKind,
+        kUnderfullMeasureKind,
         kOverfullMeasureKind,
         kEmptyMeasureKind}; // for <measure ... />
     

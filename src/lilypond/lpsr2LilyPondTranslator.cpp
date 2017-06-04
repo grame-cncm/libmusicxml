@@ -2451,12 +2451,22 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
 
   switch (elt->getMeasureKind ()) {
     case msrMeasure::kUnknownMeasureKind:
+      {
+        stringstream s;
+
+        s <<
+          "measure '" << measureNumber <<
+          "' is of unknown kind";
+
+        msrInternalError (
+          inputLineNumber, s.str ());
+      }
       break;
       
     case msrMeasure::kFullMeasureKind:
       break;
       
-    case msrMeasure::kIncompleteLeftMeasureKind:
+    case msrMeasure::kUpbeatMeasureKind:
       {
         int measureLength =
           elt->getMeasureLength ();
@@ -2474,7 +2484,7 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kIncompleteRightMeasureKind:
+    case msrMeasure::kUnderfullMeasureKind:
       {
         int
           mesurePosition =
@@ -2588,10 +2598,10 @@ void lpsr2LilyPondTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kFullMeasureKind:
       break;
       
-    case msrMeasure::kIncompleteLeftMeasureKind:
+    case msrMeasure::kUpbeatMeasureKind:
       break;
       
-    case msrMeasure::kIncompleteRightMeasureKind:
+    case msrMeasure::kUnderfullMeasureKind:
       break;
 
     case msrMeasure::kOverfullMeasureKind:

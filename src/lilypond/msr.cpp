@@ -14557,7 +14557,7 @@ void msrMeasure::finalizeMeasure (
         }
     
         setMeasureKind (
-          kIncompleteLeftMeasureKind);
+          kUpbeatMeasureKind);
         break;
         
       case msrMeasure::kMeasureFirstInSegmentNo:
@@ -14565,13 +14565,13 @@ void msrMeasure::finalizeMeasure (
           cerr << idtr <<
           "Measure '" << fMeasureNumber <<
           "' in voice \"" << voice->getVoiceName () <<
-          "\", is **incomplete right**" <<
+          "\", is **underfull**" <<
           ", line " << inputLineNumber <<
           endl;
         }
     
         setMeasureKind (
-          kIncompleteRightMeasureKind);
+          kUnderfullMeasureKind);
         break;
     } // switch
   }
@@ -14735,7 +14735,7 @@ void msrMeasure::finalizeUltimateMeasure (
         }
     
         setMeasureKind (
-          kIncompleteLeftMeasureKind);
+          kUpbeatMeasureKind);
         break;
         
       case msrMeasure::kMeasureFirstInSegmentNo:
@@ -14749,7 +14749,7 @@ void msrMeasure::finalizeUltimateMeasure (
         }
     
         setMeasureKind (
-          kIncompleteRightMeasureKind);
+          kUnderfullMeasureKind);
         break;
     } // switch
     * /
@@ -14885,16 +14885,16 @@ string msrMeasure::measureKindAsString (
 
   switch (measureKind) {
     case msrMeasure::kUnknownMeasureKind:
-      result = "unkwnown kind";
+      result = "**unkwnown kind**";
       break;
     case msrMeasure::kFullMeasureKind:
       result = "full";
       break;
-    case msrMeasure::kIncompleteLeftMeasureKind:
-      result = "**incomplete left**";
+    case msrMeasure::kUpbeatMeasureKind:
+      result = "**upbeat**";
       break;
-    case msrMeasure::kIncompleteRightMeasureKind:
-      result = "**incomplete right**";
+    case msrMeasure::kUnderfullMeasureKind:
+      result = "**under full**";
       break;
     case msrMeasure::kOverfullMeasureKind:
       result = "**over full**";
@@ -17611,7 +17611,7 @@ bool msrVoice::checkForIncompleteVoiceLastMeasure (
     fVoiceLastSegment->
       checkForIncompleteSegmentLastMeasure (
         inputLineNumber,
-        msrMeasure::kIncompleteRightMeasureKind);
+        msrMeasure::kUnderfullMeasureKind);
 }
 */
 
