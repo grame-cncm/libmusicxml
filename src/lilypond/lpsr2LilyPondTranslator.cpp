@@ -2461,22 +2461,16 @@ void lpsr2LilyPondTranslator::visitStart (S_msrMeasure& elt)
         int measureLength =
           elt->getMeasureLength ();
 
-        if (measureLength <= 0) { // TEMP JMI ???
-          // IGNORE
-        }
+        string
+          partialDuration =
+            divisionsAsLilyPondString (
+              inputLineNumber,
+              elt->getMeasureDirectPartUplink (),
+              measureLength);
 
-        else {
-          string
-            partialDuration =
-              divisionsAsLilyPondString (
-                inputLineNumber,
-                elt->getMeasureDirectPartUplink (),
-                measureLength);
-  
-          fOstream << idtr <<
-            "\\partial" " " << partialDuration <<
-            endl;
-        }
+        fOstream << idtr <<
+          "\\partial" " " << partialDuration <<
+          endl;
       }
       break;
       

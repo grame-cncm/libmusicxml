@@ -14971,10 +14971,10 @@ void msrMeasure::print (ostream& os)
 
   os <<
     ", " << getMeasureKindAsString () <<
-    ", line " << fInputLineNumber <<
     ", " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
+    ", line " << fInputLineNumber <<
     ", length: " << getMeasureLength () << " divs" <<
     " (" << getMeasureLengthAsString () << ")" <<
     ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
