@@ -2408,7 +2408,8 @@ class EXP msrTime : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrTimeSymbolKind { kTimeSymbolCut, kTimeSymbolCommon };
+    enum msrTimeSymbolKind {
+        kTimeSymbolCut, kTimeSymbolCommon, kTimeSymbolSingleNumber }; // JMI more?
 
     static string timeSymbolAsString (
       msrTimeSymbolKind timeSymbolKind);
