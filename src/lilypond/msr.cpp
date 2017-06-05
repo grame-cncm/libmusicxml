@@ -10449,6 +10449,27 @@ string msrKey::keyModeKindAsString (
     case kMinorMode:
       result = "minor";
       break;
+    case kIonianMode:
+      result = "ionian";
+      break;
+    case kDorianMode:
+      result = "dorian";
+      break;
+    case kPhrygianMode:
+      result = "phrygian";
+      break;
+    case kLydianMode:
+      result = "lydian";
+      break;
+    case kMixolydianMode:
+      result = "mixolydian";
+      break;
+    case kAeolianMode:
+      result = "aeolian";
+      break;
+    case kLocrianMode:
+      result = "locrian";
+      break;
   } // switch
 
   return result;
