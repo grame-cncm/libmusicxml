@@ -2405,6 +2405,14 @@ class EXP msrTime : public msrElement
 {
   public:
     
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTimeSymbolKind { kTimeSymbolCut, kTimeSymbolCommon };
+
+    static string timeSymbolAsString (
+      msrTimeSymbolKind timeSymbolKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
