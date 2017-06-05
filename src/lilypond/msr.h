@@ -2327,7 +2327,10 @@ class EXP msrKey : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrKeyModeKind { kMajorMode, kMinorMode };
+    enum msrKeyModeKind {
+        kMajorMode, kMinorMode,
+        kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
+        kMixolydianMode, kAeolianMode, kLocrianMode };
 
     static string keyModeKindAsString (
       msrKeyModeKind keyModeKind);
