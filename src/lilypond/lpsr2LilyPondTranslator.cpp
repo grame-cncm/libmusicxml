@@ -397,8 +397,8 @@ string lpsr2LilyPondTranslator::noteSoundingDivisionsAsLpsrString (
   if (! isdigit (lilyPondDivisionsAsString [0])) {
     if      (lilyPondDivisionsAsString == "Breve")
       lilyPondDivisionsAsString = "\\breve";
-    else if (lilyPondDivisionsAsString == "Long")
-      lilyPondDivisionsAsString = "\\long";
+    else if (lilyPondDivisionsAsString == "Long") // OK??? JMI
+      lilyPondDivisionsAsString = "\\longa";
     else if (lilyPondDivisionsAsString == "Maxima")
       lilyPondDivisionsAsString = "\\maxima";
   }
