@@ -17440,12 +17440,12 @@ void msrVoice::initializeVoice ()
       break;
       
     case msrVoice::kMasterVoice:
-      if (fExternalVoiceNumber != 0) {
+      if (fExternalVoiceNumber != -99) {
         stringstream s;
     
         s <<
           "master voice number " << fExternalVoiceNumber <<
-          " is not in the 0..4 range";
+          " is not equal to " << -99;
           
         msrInternalError (
           fInputLineNumber, s.str());

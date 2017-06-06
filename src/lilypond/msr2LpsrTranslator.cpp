@@ -936,7 +936,16 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       break;
       
     case msrVoice::kMasterVoice:
-      // JMI
+      // create a voice clone
+      fCurrentVoiceClone =
+        elt->createVoiceBareClone (
+          fCurrentStaffClone);
+            
+      // add it to the staff clone
+      fCurrentStaffClone->
+        registerVoiceInStaff (
+          inputLineNumber, fCurrentVoiceClone);
+    
       break;
   } // switch
 
