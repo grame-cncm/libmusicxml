@@ -95,7 +95,7 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrScore" <<
       endl;
 
@@ -183,7 +183,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrIdentification" <<
       endl;
 
@@ -208,7 +208,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrPageGeometry" <<
       endl;
 
@@ -301,7 +301,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 void msr2LpsrTranslator::visitStart (S_msrCredit& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrCredit" <<
       endl;
 
@@ -326,7 +326,7 @@ void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)
 void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrCreditWords" <<
       endl;
 
@@ -350,7 +350,7 @@ void msr2LpsrTranslator::visitEnd (S_msrCreditWords& elt)
 void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrPartgroup" <<
       endl;
 
@@ -511,7 +511,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
 void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrPart" <<
       endl;
 
@@ -571,7 +571,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrStaff" <<
       endl;
 
@@ -820,7 +820,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrStafftuning" <<
       endl;
   
@@ -850,7 +850,7 @@ void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
 void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrVoice" <<
       endl;
 
@@ -983,7 +983,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
@@ -1028,7 +1028,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrHarmony '" <<
       elt->harmonyAsString () <<
       "'" <<
@@ -1072,7 +1072,7 @@ void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMeasure" <<
       endl;
 
@@ -1318,7 +1318,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrSyllable" <<
       endl;
 
@@ -1389,7 +1389,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
 void msr2LpsrTranslator::visitStart (S_msrClef& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrClef" <<
       endl;
 
@@ -1409,7 +1409,7 @@ void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
 void msr2LpsrTranslator::visitStart (S_msrKey& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrKey" <<
       endl;
 
@@ -1429,7 +1429,7 @@ void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
 void msr2LpsrTranslator::visitStart (S_msrTime& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTime" <<
       endl;
 
@@ -1449,7 +1449,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
 void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTempo" <<
       endl;
 
@@ -1469,7 +1469,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
 void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrArticulation" <<
       endl;
 
@@ -1497,7 +1497,7 @@ void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTechnical" <<
       endl;
 
@@ -1563,7 +1563,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
 void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTechnicalWithInteger" <<
       endl;
 
@@ -1591,7 +1591,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTechnicalWithString" <<
       endl;
 
@@ -1619,7 +1619,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
 void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrOrnament" <<
       endl;
 
@@ -1647,7 +1647,7 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrSingleTremolo" <<
       endl;
 
@@ -1675,7 +1675,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSingleTremolo& elt)
 void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrDoubleTremolo" <<
       endl;
 
@@ -1709,7 +1709,7 @@ void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
 void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrDynamics" <<
       endl;
 
@@ -1737,7 +1737,7 @@ void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
 void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrOtherDynamics" <<
       endl;
 
@@ -1765,7 +1765,7 @@ void msr2LpsrTranslator::visitEnd (S_msrOtherDynamics& elt)
 void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrWords" <<
       endl;
 
@@ -1793,7 +1793,7 @@ void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
 void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrSlur" <<
       endl;
 
@@ -1821,7 +1821,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
 void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrLigature" <<
       endl;
 
@@ -1849,7 +1849,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
 void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrWedge" <<
       endl;
 
@@ -1877,7 +1877,7 @@ void msr2LpsrTranslator::visitEnd (S_msrWedge& elt)
 void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrGracenotes" <<
       endl;
 
@@ -2030,7 +2030,7 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
 void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrNote " <<
       elt->noteAsString () <<
       endl;
@@ -2290,7 +2290,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrOctaveShift" <<
       endl;
 
@@ -2310,7 +2310,7 @@ void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 void msr2LpsrTranslator::visitStart (S_msrStem& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrStem" <<
       endl;
 }
@@ -2327,7 +2327,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
 void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrBeam" <<
       endl;
 }
@@ -2344,7 +2344,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
 void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrChord" <<
       endl;
 
@@ -2411,7 +2411,7 @@ void msr2LpsrTranslator::visitEnd (S_msrChord& elt)
 void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTuplet" <<
       endl;
 
@@ -2483,7 +2483,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 void msr2LpsrTranslator::visitStart (S_msrTie& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrTie" <<
       endl;
 
@@ -2505,7 +2505,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
 void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrSegno" <<
       endl;
 
@@ -2516,7 +2516,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrCoda" <<
       endl;
 
@@ -2528,7 +2528,7 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 void msr2LpsrTranslator::visitStart (S_msrEyeglasses& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting eyeglasses" <<
       endl;
 
@@ -2539,7 +2539,7 @@ void msr2LpsrTranslator::visitStart (S_msrEyeglasses& elt)
 void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting pedal" <<
       endl;
 
@@ -2551,7 +2551,7 @@ void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
 void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrBarCheck" <<
       endl;
 
@@ -2571,7 +2571,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
 void msr2LpsrTranslator::visitStart (S_msrBarnumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrBarnumberCheck" <<
       endl;
 
@@ -2591,7 +2591,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarnumberCheck& elt)
 void msr2LpsrTranslator::visitStart (S_msrBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrBreak" <<
       endl;
 
@@ -2611,7 +2611,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBreak& elt)
 void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrRepeat" <<
       endl;
 
@@ -2648,7 +2648,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrRepeatending" <<
       endl;
 }
@@ -2668,7 +2668,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
 void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMeasureRepeat" <<
       endl;
 
@@ -2770,7 +2770,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMeasureRepeatPattern" <<
       endl;
 
@@ -2799,7 +2799,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
 void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMeasureRepeatReplicas" <<
       endl;
 
@@ -2828,7 +2828,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
 void msr2LpsrTranslator::visitStart (S_msrMultipleRest& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMultipleRest" <<
       endl;
 }
@@ -2882,7 +2882,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
 void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMultipleRestContents" <<
       endl;
 
@@ -2941,7 +2941,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrBarline" <<
       endl;
   
@@ -3112,7 +3112,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
 /*void msr2LpsrTranslator::visitStart (S_msrComment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrComment" <<
       endl;
 }
@@ -3129,7 +3129,7 @@ void msr2LpsrTranslator::visitEnd (S_msrComment& elt)
 void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrVarValAssoc" <<
       endl;
 
@@ -3251,7 +3251,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrLayout" <<
       endl;
 
@@ -3272,7 +3272,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrMidi" <<
       endl;
 }
@@ -3289,7 +3289,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
 void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    cerr << idtr <<
       "--> Start visiting msrRehearsal" <<
       endl;
 
