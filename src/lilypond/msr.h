@@ -5272,6 +5272,18 @@ class EXP msrTuplet : public msrElement
     static string tupletKindAsString (
       msrTupletKind tupletKind);
       
+    enum msrTupletShowNumberKind {
+      kTupletShowNumberYes, kTupletShowNumberNo };
+
+    static string tupletShowNumberKindAsString (
+      msrTupletShowNumberKind tupletShowNumberKind);
+      
+    enum msrTupletShowTypeKind {
+      kTupletShowTypeYes, kTupletShowTypeNo };
+
+    static string tupletShowNumberKindAsString (
+      msrTupletShowTypeKind tupletShowTypeKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -6865,8 +6877,8 @@ class EXP msrVoice : public msrElement
 
     // stanzas
     
-    S_msrStanza           getVoiceStanzaMaster () const
-                              { return fVoiceStanzaMaster; }
+    S_msrStanza           getVoiceMasterStanza () const
+                              { return fVoiceMasterStanza; }
                
     const map<int, S_msrStanza>&
                           getVoiceStanzasMap () const
@@ -7070,7 +7082,7 @@ class EXP msrVoice : public msrElement
     void                  addStanzaToVoiceWithoutCatchUp (
                             S_msrStanza stanza);
 
-    void                  catchUpWithVoiceStanzaMaster (
+    void                  catchUpWithVoiceMasterStanza (
                             S_msrStanza stanza);
                     
     void                  addStanzaToVoiceWithCatchUp (
@@ -7176,10 +7188,10 @@ class EXP msrVoice : public msrElement
 
     // stanzas
     
-    // the stanza master, collecting skips along the way,
+    // the master stanza, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
     // that start at later points
-    S_msrStanza           fVoiceStanzaMaster;
+    S_msrStanza           fVoiceMasterStanza;
     
     map<int, S_msrStanza> fVoiceStanzasMap;
 
@@ -7344,19 +7356,13 @@ class EXP msrStaff : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart             getStaffDirectPartUplink () const
-                              { return fStaffDirectPartUplink; }
-
+    // staff kind
+    
     msrStaffKind          getStaffKind () const
                               { return fStaffKind; }
-                
-    void                  setStaffLinesNumber (
-                            int staffLinesNumber)
-                              { fStaffLinesNumber = staffLinesNumber; }
 
-    int                   getStaffLinesNumber () const
-                              { return fStaffLinesNumber; }
-                
+    // staff number and anme
+    
     int                   getStaffNumber () const
                               { return fStaffNumber; }
                 
@@ -7365,19 +7371,34 @@ class EXP msrStaff : public msrElement
 // JMI    string          getStaffInstrumentName () const
       //                  { return fStaffInstrumentName; }
 
-    S_msrClef             getStaffClef () const { return fStaffClef; };
-    S_msrKey              getStaffKey  () const { return fStaffKey; };
-    S_msrTime             getStaffTime () const { return fStaffTime; };
+    // staff lines number
     
-    S_msrTranspose        getStaffTranspose () const
-                              { return fStaffTranspose; };
+    void                  setStaffLinesNumber (
+                            int staffLinesNumber)
+                              { fStaffLinesNumber = staffLinesNumber; }
+
+    int                   getStaffLinesNumber () const
+                              { return fStaffLinesNumber; }
+
+    // clef, key, time
     
     void                  setStaffClef (S_msrClef clef);
     void                  setStaffKey  (S_msrKey  key);
     void                  setStaffTime (S_msrTime time);
 
+    S_msrClef             getStaffClef () const { return fStaffClef; };
+    S_msrKey              getStaffKey  () const { return fStaffKey; };
+    S_msrTime             getStaffTime () const { return fStaffTime; };
+
+    // transpose
+    
+    S_msrTranspose        getStaffTranspose () const
+                              { return fStaffTranspose; };
+    
     void                  setStaffTranspose (S_msrTranspose transpose);
 
+    // staff voices
+    
     const map<int, S_msrVoice>&
                           getStaffVoiceRelativeNumberToVoiceMap () const
                               { return fStaffVoiceRelativeNumberToVoiceMap; }
@@ -7386,6 +7407,13 @@ class EXP msrStaff : public msrElement
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
 
+    // staff master voice
+    
+    const S_msrVoice      getStaffMasterVoice () const
+                              { return fStaffMasterVoice; }
+
+    // staff tuning
+     
     const list<S_msrStafftuning>&
                           getStafftuningsList ()
                               { return fStafftuningsList; }
@@ -7399,10 +7427,10 @@ class EXP msrStaff : public msrElement
     const string          getStaffMeasureNumber () const
                               { return fStaffMeasureNumber; }
 
-    // voice master
-    
-    const S_msrVoice      getStaffMasterVoice () const
-                              { return fStaffMasterVoice; }
+    // uplinks
+
+    S_msrPart             getStaffDirectPartUplink () const
+                              { return fStaffDirectPartUplink; }
 
     // services
     // ------------------------------------------------------
@@ -7412,8 +7440,8 @@ class EXP msrStaff : public msrElement
                       int inputLineNumber);
   */
   
-    const int             getStaffNumberOfMusicVoices () const;
-
+    // staff voices
+    
     S_msrVoice            addVoiceToStaffByItsRelativeNumber (
                             int                    inputLineNumber,
                             msrVoice::msrVoiceKind voiceKind,
@@ -7436,10 +7464,19 @@ class EXP msrStaff : public msrElement
     S_msrVoice            fetchVoiceFromStaffByItsExternalNumber (
                             int inputLineNumber,
                             int externalVoiceNumber);
-                              
+
+    void                  createStaffMasterVoice (
+                            int inputLineNumber);
+  
+    const int             getStaffNumberOfMusicVoices () const;
+
+    // clef, key, time
+    
     void                  appendClefToAllStaffVoices (S_msrClef clef);
     void                  appendKeyToAllStaffVoices  (S_msrKey   key);
     void                  appendTimeToAllStaffVoices (S_msrTime time);
+
+    // repeats
     
     void                  createAndAppendRepeatToStaff (int inputLineNumber);
     
@@ -7475,16 +7512,22 @@ class EXP msrStaff : public msrElement
     void                  appendRepeatendingCloneToStaff (
                             S_msrRepeatending repeatendingClone);
 
-    void                  appendBarlineToStaff (S_msrBarline barline);
-    
     void                  createAndAppendRepeatToAllStaffVoices (
                             int inputLineNumber);
     
+    // barlines
+    
+    void                  appendBarlineToStaff (S_msrBarline barline);
+    
  //   void            appendHarmonyToStaff (S_msrHarmony harmony); // JMI
 
+    // transpose
+    
     void                  appendTransposeToAllStaffVoices (
                             S_msrTranspose transpose);
 
+    // staff tuning
+    
     void                  addStafftuningToStaff (
                             S_msrStafftuning stafftuning)
                               { fStafftuningsList.push_back (stafftuning); }
@@ -7516,40 +7559,66 @@ class EXP msrStaff : public msrElement
 
   private:
 
-    // divisions handling is done at the part level
-    S_msrPart               fStaffDirectPartUplink;
+    // staff kind
 
-    string                  fStaffName;
+    string                fStaffName;
     
-    msrStaffKind            fStaffKind;
+    // staff kind
 
-    int                     fStaffLinesNumber;
+    msrStaffKind          fStaffKind;
+
+    // staff number and anme
+
+    int                   fStaffNumber;
+
+    // staff lines number
     
-    static int              gMaxStaffVoices;
+    int                   fStaffLinesNumber;
+    
+    // staff voices
+    
+    static int            gMaxStaffVoices;
 
-    int                     fStaffNumber;
-
-    map<int, S_msrVoice>    fStaffVoiceRelativeNumberToVoiceMap;
-                              //numbered 1 to gMaxStaffVoices
+    map<int, S_msrVoice>  fStaffVoiceRelativeNumberToVoiceMap;
+                            //numbered 1 to gMaxStaffVoices
                               
-    map<int, S_msrVoice>    fStaffAllVoicesMap;
-                              // [0] is used for the staff voice master
+    map<int, S_msrVoice>  fStaffAllVoicesMap;
+                            // [-99] is used for the staff master voice
 
- // JMI   string                  fStaffInstrumentName;
+    // voice that start after the beginning of the staff
+    // are initialized as deep clones of the staff master voice
+    S_msrVoice            fStaffMasterVoice;
 
-    string                  fStaffMeasureNumber;
+ // JMI   string                fStaffInstrumentName;
+
+    // measures
+
+    string                fStaffMeasureNumber;
+
+    // clef, key, time
     
-    S_msrVoice              fStaffMasterVoice;
+    S_msrClef             fStaffClef;
+    S_msrKey              fStaffKey;
+    S_msrTime             fStaffTime;
 
-    S_msrClef               fStaffClef;
-    S_msrKey                fStaffKey;
-    S_msrTime               fStaffTime;
+    // transpose
+    
+    S_msrTranspose        fStaffTranspose;
 
-    S_msrTranspose          fStaffTranspose;
 
-    int                     fRegisteredVoicesCounter;
+    // counters
+    
+    int                   fRegisteredVoicesCounter;
 
-    list<S_msrStafftuning>  fStafftuningsList;
+    // staff tunings
+    
+    list<S_msrStafftuning>
+                          fStafftuningsList;
+
+    // uplinks
+
+    // divisions handling is done at the part level
+    S_msrPart             fStaffDirectPartUplink;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);

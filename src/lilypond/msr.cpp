@@ -17413,7 +17413,7 @@ void msrVoice::initializeVoice ()
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       // the external voice number should not be negative
-      // (0 is used for the part voice master)
+      // (-99 is used for the staves master voices)
       if (fExternalVoiceNumber < 0) {
         stringstream s;
     
@@ -17462,10 +17462,10 @@ void msrVoice::initializeVoice ()
   fVoiceActualNotesCounter     = 0;
   fVoiceActualHarmoniesCounter = 0;
 
-  // add the stanza master for this voice, to
-  // collect skips along the way that are used as a 'prelude'
+  // add the master stanza for this voice,
+  // to collect skips along the way that are used as a 'prelude'
   // by actual stanza that start at later points
-  fVoiceStanzaMaster =
+  fVoiceMasterStanza =
     msrStanza::create (
       fInputLineNumber,
       fVoiceDirectPartUplink,
@@ -17771,11 +17771,12 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
   fVoiceStanzasMap [stanzaNumber] = stanza;
 }
 
-void msrVoice::catchUpWithVoiceStanzaMaster (S_msrStanza stanza)
+void msrVoice::catchUpWithVoiceMasterStanza (S_msrStanza stanza)
 {
   vector<S_msrSyllable>
     masterSyllables =
-      fVoiceStanzaMaster->getSyllables ();
+      fVoiceMasterStanza->
+        getSyllables ();
 
   if (masterSyllables.size()) {
     if (gGeneralOptions->fTraceLyrics)
@@ -17812,9 +17813,9 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
 
   fVoiceStanzasMap [stanzaNumber] = stanza;
 
-  // catch up with fVoiceStanzaMaster
+  // catch up with fVoiceMasterStanza
   // in case the stanza does not start upon the first voice note
-  catchUpWithVoiceStanzaMaster (stanza);
+  catchUpWithVoiceMasterStanza (stanza);
 }
 
 S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
@@ -18175,18 +18176,18 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegment (note);
   
-  // add a skip syllable of the same duration to the stanza master
+  // add a skip syllable of the same duration to the master stanza
   int
     noteSoundingDivisions =
       note->getNoteSoundingDivisions ();
 
   if (note->getNoteIsARest ())
-    fVoiceStanzaMaster->
+    fVoiceMasterStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
   else
-    fVoiceStanzaMaster->
+    fVoiceMasterStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
@@ -18252,18 +18253,18 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
   
-  // add a skip syllable of the same duration to the stanza master
+  // add a skip syllable of the same duration to the master stanza
   int
     noteSoundingDivisions =
       note->getNoteSoundingDivisions ();
 
   if (note->getNoteIsARest ())
-    fVoiceStanzaMaster->
+    fVoiceMasterStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
   else
-    fVoiceStanzaMaster->
+    fVoiceMasterStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
@@ -18464,8 +18465,8 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
   fVoiceLastSegment->
     appendOtherElementToSegment (barCheck);
 
-  // add bar check syllable to the voice stanza master
-  fVoiceStanzaMaster->
+  // add bar check syllable to the voice master stanza
+  fVoiceMasterStanza->
     appendBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
       barCheck->getNextBarNumber ());
@@ -18488,8 +18489,8 @@ void msrVoice::appendBarnumberCheckToVoice (
   fVoiceLastSegment->
     appendOtherElementToSegment (barNumberCheck);
 
-  // add barnumber check syllable to the voice stanza master
-  fVoiceStanzaMaster->
+  // add barnumber check syllable to the voice master stanza
+  fVoiceMasterStanza->
     appendBarnumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
       barNumberCheck->getNextBarNumber ());
@@ -18510,8 +18511,8 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
   fVoiceLastSegment->
     appendOtherElementToSegment (break_);
 
-  // add break syllable to the voice stanza master
-  fVoiceStanzaMaster->
+  // add break syllable to the voice master stanza
+  fVoiceMasterStanza->
     appendBreakSyllableToStanza (
       break_->getInputLineNumber (),
       break_->getNextBarNumber ());
@@ -19509,8 +19510,8 @@ void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
       inputLineNumber);
 
   if (! gMsrOptions->fKeepMasterStanzas) { // JMI
-// JMI    delete (fVoiceStanzaMaster);
- // JMI   fVoiceStanzaMaster = 0;
+// JMI    delete (fVoiceMasterStanza);
+ // JMI   fVoiceMasterStanza = 0;
   }
 }
 
@@ -19712,16 +19713,16 @@ void msrVoice::print (ostream& os)
   idtr--;
   
   if (gGeneralOptions->fTraceLyrics) {
-    // print the stanza master
+    // print the master stanza
     os << idtr <<
-      fVoiceStanzaMaster <<
+      fVoiceMasterStanza <<
       endl;    
   }
   
   if (! gMsrOptions->fDontDisplayMsrStanzas) {
-    // print the voice stanza master
+    // print the voice master stanza
     os << idtr <<
-      fVoiceStanzaMaster;
+      fVoiceMasterStanza;
     
     // print the stanza
     if (fVoiceStanzasMap.size()) {
@@ -19979,7 +19980,7 @@ void msrStaff::initializeStaff ()
   switch (fStaffKind) {
     case msrStaff::kRegularStaff:
       // the staff number should not be negative
-      // (0 is used for hidden staff containing the part voice master) JMI
+      // (-99 is used for hidden staff containing the staves master voices)
       if (fStaffNumber < 0) {
         stringstream s;
     
@@ -20013,14 +20014,10 @@ void msrStaff::initializeStaff ()
       break;
   } // switch
 
-/* JMI
-  // create the staff voice master with relative number 0
-  fStaffMasterVoice =
-    addVoiceToStaffByItsRelativeNumber (
-      fInputLineNumber,
-      msrVoice::kMasterVoice,
-      0);
-*/
+
+  // create the staff master voice with relative number -99
+  createStaffMasterVoice (
+    fInputLineNumber);
 
 /* JMI BOF
   // create all 'gMaxStaffVoices' voices for this staff
@@ -20155,6 +20152,43 @@ void msrStaff::initializeStaff ()
 
 msrStaff::~msrStaff()
 {}
+
+void msrStaff::createStaffMasterVoice (
+  int inputLineNumber)
+{
+  // create the part harmony voice
+  const int staffMasterVoiceNumber = -99; // JMI static?
+  
+  if (gGeneralOptions->fTraceHarmonies)
+    cerr << idtr <<
+      "Creating the master voice for staff \"" <<
+      getStaffName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+
+  fStaffMasterVoice =
+    msrVoice::create (
+      inputLineNumber,
+      fStaffDirectPartUplink,
+      msrVoice::kMasterVoice,
+      staffMasterVoiceNumber,
+      this);
+
+/*
+  registerVoiceInStaff (
+    inputLineNumber,
+    fStaffMasterVoice );
+    */
+  // register is by its relative number
+  fStaffAllVoicesMap [fRegisteredVoicesCounter] =
+    fStaffMasterVoice;
+
+/* JMI
+  // register it by its external number
+  fStaffVoiceRelativeNumberToVoiceMap [voice->getExternalVoiceNumber ()] =
+    fStaffMasterVoice;
+    */ 
+}
 
 S_msrStaff msrStaff::createStaffBareClone (S_msrPart partClone)
 {
