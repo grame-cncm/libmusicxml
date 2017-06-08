@@ -19750,7 +19750,7 @@ void msrVoice::print (ostream& os)
     os << idtr <<
       fVoiceMasterStanza;
     
-    // print the stanza
+    // print the stanzas
     if (fVoiceStanzasMap.size()) {
       map<int, S_msrStanza>::const_iterator
         iBegin = fVoiceStanzasMap.begin(),

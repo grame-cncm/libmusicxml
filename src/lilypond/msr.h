@@ -418,8 +418,8 @@ string msrDurationAsString (msrDuration duration);
 
 // lyrics
 
-#define _SHOW_MSR_STANZAS_LONG_NAME_  "displayMsrStanzas"
-#define _SHOW_MSR_STANZAS_SHORT_NAME_ "dms"
+#define _SHOW_MSR_STANZAS_LONG_NAME_  "showMsrStanzas"
+#define _SHOW_MSR_STANZAS_SHORT_NAME_ "sms"
 
 #define _KEEP_MASTER_STANZAS_LONG_NAME_  "keepMasterStanzas"
 #define _KEEP_MASTER_STANZAS_SHORT_NAME_ "kms"
