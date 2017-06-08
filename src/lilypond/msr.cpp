@@ -24115,16 +24115,16 @@ void msrMidi::print (ostream& os)
 
   idtr++;
 
-  const int fieldWidth = 19;
+  const int fieldWidth = 18;
 
   os <<
     idtr <<
       setw(fieldWidth) <<
-      "fMidiTempoDuration" << " = " << fMidiTempoDuration <<
+      "MidiTempoDuration" << " = " << fMidiTempoDuration <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fMidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
+      "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
       endl <<
     endl;
       
