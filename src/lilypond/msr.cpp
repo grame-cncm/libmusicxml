@@ -19671,26 +19671,27 @@ void msrVoice::print (ostream& os)
 
   idtr++;
 
-  const int fieldWidth = 33;
+  const int fieldWidth = 28;
 
   os <<
     idtr <<
-      setw(fieldWidth) << "(MusicHasBeenInsertedInVoice" << " = " <<
+      setw(fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
-      ")" <<
       endl;
 
   // print the voice time // JMI
+  os <<
+    idtr <<
+      setw(fieldWidth) << "Time" << " : ";
   if (fVoiceTime)
-    os << idtr <<
-      fVoiceTime->timeAsString () <<
-      endl;
+    os <<
+      fVoiceTime->timeAsString ();
   else
-    os << idtr <<
-      "(fVoiceTime is null !!!)" << // JMI
-      endl;
-
-  os << endl;
+    os <<
+      "NULL !!!"; // JMI
+  os <<
+    endl <<
+    endl;
     
   // print the voice initial repeats and segments
   int initialRepeatsAndSegmentsNumber =
@@ -19733,7 +19734,6 @@ void msrVoice::print (ostream& os)
   
   os <<
     fVoiceLastSegment <<
-    endl <<
     endl;
   
   idtr--;
@@ -21504,7 +21504,27 @@ void msrPart::printDurationsDivisions (ostream& os)
 
   idtr++;
   
-  if (fPartDurationsToDivisions.size ())
+  if (fPartDurationsToDivisions.size ()) {
+    list<pair<msrDuration, int> >::const_iterator
+      iBegin = fPartDurationsToDivisions.begin(),
+      iEnd   = fPartDurationsToDivisions.end(),
+      i      = iBegin;
+          
+    for ( ; ; ) {
+      os << idtr <<
+        setw(6) << left <<
+        msrDurationAsString (msrDuration((*i).first)) <<
+        ": " <<
+        setw(4) << right <<
+        (*i).second;
+
+      if (++i == iEnd) break;
+      
+      os << endl;
+    } // for
+
+/* JMI
+
     for (
       list<pair<msrDuration, int> >::const_iterator i =
         fPartDurationsToDivisions.begin();
@@ -21518,6 +21538,9 @@ void msrPart::printDurationsDivisions (ostream& os)
         (*i).second <<
         endl;
     } // for
+*/
+  }
+  
   else
     os << idtr <<
       "an empty list";
@@ -22760,7 +22783,6 @@ void msrPart::printStructure (ostream& os)
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
-    ", measures " <<
     ", position high tide " << fPartMeasurePositionHighTide <<
     ")" <<
     endl;
@@ -22824,7 +22846,7 @@ void msrPart::printStructure (ostream& os)
         idtr;
       (*i).second->printStructure (os);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
   }
 
@@ -23261,9 +23283,8 @@ void msrPartgroup::print (ostream& os)
       fPartgroupSymbolDefaultX <<
         endl <<
     idtr <<
-      setw(fieldWidth) << "PartgroupSymbolKind" << " : \"" <<
+      setw(fieldWidth) << "PartgroupSymbolKind" << " : " <<
       partgroupSymbolKindAsString (fPartgroupSymbolKind) <<
-      "\"" <<
       endl;
     
   os <<
@@ -23939,29 +23960,36 @@ void msrScore::print (ostream& os)
 
   idtr++;
   
+  // print the identification if any
   if (fIdentification) {
     os <<
       idtr <<
       fIdentification;
   }
   
+  // print the geometry if any
   if (fPageGeometry) {
     os <<
       idtr <<
       fPageGeometry;
   }
-  
+
+  // print the credit if any
   if (fCredit) {
     os <<
       idtr <<
       fCredit;
   }
-  
-  for (
-    list<S_msrPartgroup>::const_iterator i = fPartgroupsList.begin();
-    i != fPartgroupsList.end();
-    i++) {
+
+  // print the part groups
+  list<S_msrPartgroup>::const_iterator
+    iBegin = fPartgroupsList.begin(),
+    iEnd   = fPartgroupsList.end(),
+    i      = iBegin;
+  for ( ; ; ) {
     os << idtr << (*i);
+    if (++i == iEnd) break;
+    os << endl;
   } // for
   
   idtr--;
