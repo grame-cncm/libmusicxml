@@ -2076,9 +2076,8 @@ void msrOptions::initializeMsrOptions (
 
   // lyrics
 
-  fDontDisplayMsrStanzas = boolOptionsInitialValue;
-
-  fKeepMasterStanzas     = boolOptionsInitialValue;
+  fShowMsrStanzas    = boolOptionsInitialValue;
+  fKeepMasterStanzas = boolOptionsInitialValue;
 
   // harmonies
 
@@ -2142,8 +2141,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // lyrics
     
-  clone->fDontDisplayMsrStanzas =
-    fDontDisplayMsrStanzas;
+  clone->fShowMsrStanzas =
+    fShowMsrStanzas;
 
   clone->fKeepMasterStanzas =
     fKeepMasterStanzas;
@@ -2393,10 +2392,10 @@ void msrOptions::printMsrOptionsHelp ()
 
   cerr <<
     idtr <<
-      "--" _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ ", --" _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_ <<
+      "--" _SHOW_MSR_STANZAS_SHORT_NAME_ ", --" _SHOW_MSR_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Don't display MSR stanzas while displaying MSR data." <<
+      "Show MSR stanzas even though they're empty'." <<
       endl <<
     endl <<
 
@@ -2599,8 +2598,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "dontDisplayMsrStanzas" << " : " <<
-      booleanAsString (fDontDisplayMsrStanzas) <<
+    idtr << setw(fieldWidth) << "showMsrStanzas" << " : " <<
+      booleanAsString (fShowMsrStanzas) <<
       endl <<
 
     idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
@@ -17416,7 +17415,7 @@ void msrVoice::initializeVoice ()
     case msrVoice::kMasterVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_MASTERVOICE";
+        "_MasterVoice";
       break;
   } // switch
   
@@ -19629,13 +19628,13 @@ string msrVoice::voiceKindAsString (
   
   switch (voiceKind) {
     case msrVoice::kRegularVoice:
-      result = "RegularVoice";
+      result = "regular";
       break;
     case msrVoice::kHarmonyVoice:
-      result = "HarmonyVoice";
+      result = "harmony";
       break;
     case msrVoice::kMasterVoice:
-      result = "MasterVoice";
+      result = "marster";
       break;
   } // switch
 
@@ -19656,10 +19655,9 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 void msrVoice::print (ostream& os)
 {
   os <<
+    "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
-    " voice \"" << getVoiceName () <<
-    "\" " <<
-    "(" <<
+    " (" <<
     singularOrPlural (
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
      ", " <<
@@ -19677,7 +19675,7 @@ void msrVoice::print (ostream& os)
 
   os <<
     idtr <<
-      setw(fieldWidth) << "(fMusicHasBeenInsertedInVoice" << " = " <<
+      setw(fieldWidth) << "(MusicHasBeenInsertedInVoice" << " = " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
       ")" <<
       endl;
@@ -19747,7 +19745,7 @@ void msrVoice::print (ostream& os)
       endl;    
   }
   
-  if (! gMsrOptions->fDontDisplayMsrStanzas) {
+  if (gMsrOptions->fShowMsrStanzas) {
     // print the voice master stanza
     os << idtr <<
       fVoiceMasterStanza;
@@ -22700,20 +22698,24 @@ void msrPart::print (ostream& os)
 
       switch (staffKind) {
         case msrStaff::kRegularStaff:
-          os << staff;
+          os << idtr <<
+            staff;
           break;
           
         case msrStaff::kTablatureStaff:
-          os << staff;
+          os << idtr <<
+            staff;
           break;
           
         case msrStaff::kPercussionStaff:
-          os << staff;
+          os << idtr <<
+            staff;
           break;
           
         case msrStaff::kHarmonyStaff:
           if (gMsrOptions->fShowHarmonyVoices)
-            os << staff;
+          os << idtr <<
+            staff;
           break;
       } // switch
 
@@ -22888,7 +22890,7 @@ msrPartgroup::msrPartgroup (
   
   fPartgroupAbbreviation = partgroupAbbreviation;
 
-  fPartgroupSymbolKind = partgroupSymbolKind;
+  fPartgroupSymbolKind     = partgroupSymbolKind;
   fPartgroupSymbolDefaultX = partgroupSymbolDefaultX;
 
   fPartgroupBarline = partgroupBarline;
@@ -23231,7 +23233,7 @@ void msrPartgroup::print (ostream& os)
     
   idtr++;
 
-  const int fieldWidth = 24;
+  const int fieldWidth = 23;
   
   os << left <<
     idtr <<
@@ -23255,17 +23257,18 @@ void msrPartgroup::print (ostream& os)
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "fPartgroupSymbolDefaultX" << " : " <<
+      setw(fieldWidth) << "PartgroupSymbolDefaultX" << " : " <<
       fPartgroupSymbolDefaultX <<
         endl <<
     idtr <<
-      setw(fieldWidth) << "fPartgroupSymbolKind" << " : \"" <<
+      setw(fieldWidth) << "PartgroupSymbolKind" << " : \"" <<
       partgroupSymbolKindAsString (fPartgroupSymbolKind) <<
       "\"" <<
       endl;
     
   os <<
-    idtr << "PartgroupBarline         : ";
+    idtr <<
+    setw(fieldWidth) << "PartgroupBarline" << " : ";
   if (fPartgroupBarline)
     os << "true";
   else
@@ -23279,13 +23282,11 @@ void msrPartgroup::print (ostream& os)
       iEnd   = fPartgroupElements.end(),
       i      = iBegin;
       
-    idtr++;
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
-    idtr--;
   }
   
   idtr--;

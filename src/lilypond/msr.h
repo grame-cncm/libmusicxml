@@ -418,8 +418,8 @@ string msrDurationAsString (msrDuration duration);
 
 // lyrics
 
-#define _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_  "dontDisplayMsrStanzas"
-#define _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ "ddms"
+#define _SHOW_MSR_STANZAS_LONG_NAME_  "displayMsrStanzas"
+#define _SHOW_MSR_STANZAS_SHORT_NAME_ "dms"
 
 #define _KEEP_MASTER_STANZAS_LONG_NAME_  "keepMasterStanzas"
 #define _KEEP_MASTER_STANZAS_SHORT_NAME_ "kms"
@@ -512,8 +512,7 @@ class EXP msrOptions : public smartable
     // lyrics
     // --------------------------------------
     
-    bool                  fDontDisplayMsrStanzas;
-    
+    bool                  fShowMsrStanzas;
     bool                  fKeepMasterStanzas;
     
     // harmonies

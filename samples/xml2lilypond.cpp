@@ -523,9 +523,9 @@ void analyzeOptions (
   // --------------------------------------
 
   checkOptionUniqueness (
-    _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_, _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_);
+    _SHOW_MSR_STANZAS_LONG_NAME_, _SHOW_MSR_STANZAS_SHORT_NAME_);
     
-  int dontDisplayMsrStanzasPresent = 0;
+  int showMsrStanzasPresent = 0;
 
   
   checkOptionUniqueness (
@@ -1287,13 +1287,13 @@ void analyzeOptions (
     // --------------------------------------
 
     {
-      _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_,
-      no_argument, &dontDisplayMsrStanzasPresent, 1
+      _SHOW_MSR_STANZAS_LONG_NAME_,
+      no_argument, &showMsrStanzasPresent, 1
     },
 
     {
-      _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_,
-      no_argument, &dontDisplayMsrStanzasPresent, 1
+      _SHOW_MSR_STANZAS_SHORT_NAME_,
+      no_argument, &showMsrStanzasPresent, 1
     },
 
 
@@ -2404,15 +2404,15 @@ R"(
         
         // lyrics
         
-        if (dontDisplayMsrStanzasPresent) {
-          gMsrOptions->fDontDisplayMsrStanzas = true;
+        if (showMsrStanzasPresent) {
+          gMsrOptions->fShowMsrStanzas = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _DONT_DISPLAY_MSR_STANZAS_LONG_NAME_ " ";
+            "--" _SHOW_MSR_STANZAS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _DONT_DISPLAY_MSR_STANZAS_SHORT_NAME_ " ";
+            "--" _SHOW_MSR_STANZAS_SHORT_NAME_ " ";
             
-          dontDisplayMsrStanzasPresent = false;
+          showMsrStanzasPresent = false;
         }
         
         if (keepMasterStanzasPresent) {
