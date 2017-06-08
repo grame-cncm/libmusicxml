@@ -702,9 +702,9 @@ void analyzeOptions (
 
 
   checkOptionUniqueness (
-    _GENERATE_GLOBAL_LONG_NAME_, _GENERATE_GLOBAL_SHORT_NAME_);
+    _GLOBAL_LONG_NAME_, _GLOBAL_SHORT_NAME_);
     
-  int generateGlobalPresent = 0;
+  int globalPresent = 0;
 
 
   checkOptionUniqueness (
@@ -743,9 +743,9 @@ void analyzeOptions (
 
 
   checkOptionUniqueness (
-    _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_, _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_);
+    _LILYPOND_COMPILE_DATE_LONG_NAME_, _LILYPOND_COMPILE_DATE_SHORT_NAME_);
     
-  int generateLilypondCompileDatePresent = 0;
+  int lilypondCompileDatePresent = 0;
 
 
   // long_options data structure
@@ -1570,11 +1570,7 @@ void analyzeOptions (
       _NO_MIDI_LONG_NAME_,
       no_argument, &noMidiCommandPresent, 1
     },
-
-    {
-      _NO_MIDI_SHORT_NAME_,
-      no_argument, &noMidiCommandPresent, 1
-    },
+    // _NO_MIDI_SHORT_NAME_ is empty
     
     // LilyPond code generation
     // --------------------------------------
@@ -1591,14 +1587,10 @@ void analyzeOptions (
 
     
     {
-      _GENERATE_GLOBAL_LONG_NAME_,
-      no_argument, &generateGlobalPresent, 1
+      _GLOBAL_LONG_NAME_,
+      no_argument, &globalPresent, 1
     },
-
-    {
-      _GENERATE_GLOBAL_SHORT_NAME_,
-      no_argument, &generateGlobalPresent, 1
-    },
+    // _GLOBAL_SHORT_NAME_ is empty
 
     
     {
@@ -1667,13 +1659,13 @@ void analyzeOptions (
 
 
     {
-      _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_,
-      no_argument, &generateLilypondCompileDatePresent, 1
+      _LILYPOND_COMPILE_DATE_LONG_NAME_,
+      no_argument, &lilypondCompileDatePresent, 1
     },
 
     {
-      _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_,
-      no_argument, &generateLilypondCompileDatePresent, 1
+      _LILYPOND_COMPILE_DATE_SHORT_NAME_,
+      no_argument, &lilypondCompileDatePresent, 1
     },
 
 
@@ -2913,15 +2905,15 @@ R"(
           commentsPresent = false;
         }
 
-        if (generateGlobalPresent) {
+        if (globalPresent) {
           gLilypondOptions->fGlobal = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _GENERATE_GLOBAL_LONG_NAME_ " ";
+            "--" _GLOBAL_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _GENERATE_GLOBAL_SHORT_NAME_ " ";
+            "--" _GLOBAL_LONG_NAME_ " "; // _GLOBAL_SHORT_NAME_ is empty
             
-          generateGlobalPresent = false;
+          globalPresent = false;
         }
 
         if (tupletsOnALinePresent) {
@@ -3061,15 +3053,15 @@ R"(
           noLilypondLyricsPresent = false;
         }
         
-        if (generateLilypondCompileDatePresent) {
+        if (lilypondCompileDatePresent) {
           gLilypondOptions->fLilypondCompileDate = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
+            "--" _LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ " ";
+            "--" _LILYPOND_COMPILE_DATE_SHORT_NAME_ " ";
             
-          generateLilypondCompileDatePresent = false;
+          lilypondCompileDatePresent = false;
         }
         
         }
