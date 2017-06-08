@@ -2404,7 +2404,8 @@ void msrOptions::printMsrOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master stanzas used intertally. By default, there are removed after usage." <<
-      endl;
+      endl <<
+    endl;
 
   idtr--;
 

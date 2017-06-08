@@ -1924,7 +1924,7 @@ void lpsrHeader::changeCreatorVariableName (
 }
 */
 
-int lpsrHeader::maxLilyPondVariablesNamesLength ()
+int lpsrHeader::maxLilypondVariablesNamesLength ()
 {
   int result = 0;
 
@@ -3145,7 +3145,7 @@ lpsrScore::lpsrScore (
   fMsrScore = mScore;
 
   // create the LilyPond version assoc
-  fLilyPondVersion =
+  fLilypondVersion =
     lpsrLilypondVarValAssoc::create (
       inputLineNumber,
       lpsrLilypondVarValAssoc::kUncommented,
@@ -3254,7 +3254,7 @@ lpsrScore::lpsrScore (
   // initialize Scheme functions informations
   fTongueSchemeFunctionNeeded = false;
 
-  if (gLilypondOptions->fGenerateLilyPondCompileDate) {
+  if (gLilypondOptions->fLilypondCompileDate) {
     // create the date and time functions
     addDateAndTimeSchemeFunctionsToScore ();
   }
@@ -3269,7 +3269,7 @@ lpsrScore::lpsrScore (
     lpsrPaper::create (
       inputLineNumber);
 
-  if (gLilypondOptions->fGenerateLilyPondCompileDate) {
+  if (gLilypondOptions->fLilypondCompileDate) {
     // define headers and footers
     
     fPaper->
@@ -3399,7 +3399,7 @@ R"(\markup {
       lpsrLilypondVarValAssoc::kWithEndl);
   }
 
-  if (gLilypondOptions->fGenerateGlobal) {
+  if (gLilypondOptions->fGlobal) {
     // create the 'global' assoc
     fGlobalAssoc =
       lpsrLilypondVarValAssoc::create (
@@ -3601,7 +3601,7 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score LilyPond version
     msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-    browser.browse (*fLilyPondVersion);
+    browser.browse (*fLilypondVersion);
   }
 
   {
@@ -3738,7 +3738,7 @@ void lpsrScore::print (ostream& os)
 
   // print LPSR basic information
   os <<
-    idtr << fLilyPondVersion <<
+    idtr << fLilypondVersion <<
     endl;
   os <<
     idtr << fGlobalStaffSizeAssoc <<

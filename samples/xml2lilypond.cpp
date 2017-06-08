@@ -31,7 +31,7 @@
 
 #include "msr2LpsrInterface.h"
 
-#include "lpsr2LilyPondInterface.h"
+#include "lpsr2LilypondInterface.h"
 
 
 using namespace std;
@@ -690,7 +690,7 @@ void analyzeOptions (
   checkOptionUniqueness (
     _NO_MIDI_LONG_NAME_, _NO_MIDI_SHORT_NAME_);
     
-  int dontGenerateMidiCommandPresent = 0;
+  int noMidiCommandPresent = 0;
 
   // LilyPond code generation
   // --------------------------------------
@@ -731,21 +731,21 @@ void analyzeOptions (
 
 
   checkOptionUniqueness (
-    _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_, _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_);
+    _NO_LILYPOND_CODE_LONG_NAME_, _NO_LILYPOND_CODE_SHORT_NAME_);
     
-  int dontGenerateLilyPondCodePresent = 0;
+  int noLilypondCodePresent = 0;
 
 
   checkOptionUniqueness (
-    _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_, _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_);
+    _NO_LILYPOND_LYRICS_LONG_NAME_, _NO_LILYPOND_LYRICS_SHORT_NAME_);
     
-  int dontGenerateLilyPondLyricsPresent = 0;
+  int noLilypondLyricsPresent = 0;
 
 
   checkOptionUniqueness (
     _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_, _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_);
     
-  int generateLilyPondCompileDatePresent = 0;
+  int generateLilypondCompileDatePresent = 0;
 
 
   // long_options data structure
@@ -1568,12 +1568,12 @@ void analyzeOptions (
     
     {
       _NO_MIDI_LONG_NAME_,
-      no_argument, &dontGenerateMidiCommandPresent, 1
+      no_argument, &noMidiCommandPresent, 1
     },
 
     {
       _NO_MIDI_SHORT_NAME_,
-      no_argument, &dontGenerateMidiCommandPresent, 1
+      no_argument, &noMidiCommandPresent, 1
     },
     
     // LilyPond code generation
@@ -1645,35 +1645,35 @@ void analyzeOptions (
 
     
     {
-      _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_,
-      no_argument, &dontGenerateLilyPondCodePresent, 1
+      _NO_LILYPOND_CODE_LONG_NAME_,
+      no_argument, &noLilypondCodePresent, 1
     },
 
     {
-      _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_,
-      no_argument, &dontGenerateLilyPondCodePresent, 1
+      _NO_LILYPOND_CODE_SHORT_NAME_,
+      no_argument, &noLilypondCodePresent, 1
     },
 
 
     {
-      _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_,
-      no_argument, &dontGenerateLilyPondLyricsPresent, 1
+      _NO_LILYPOND_LYRICS_LONG_NAME_,
+      no_argument, &noLilypondLyricsPresent, 1
     },
 
     {
-      _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_,
-      no_argument, &dontGenerateLilyPondLyricsPresent, 1
+      _NO_LILYPOND_LYRICS_SHORT_NAME_,
+      no_argument, &noLilypondLyricsPresent, 1
     },
 
 
     {
       _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_,
-      no_argument, &generateLilyPondCompileDatePresent, 1
+      no_argument, &generateLilypondCompileDatePresent, 1
     },
 
     {
       _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_,
-      no_argument, &generateLilyPondCompileDatePresent, 1
+      no_argument, &generateLilypondCompileDatePresent, 1
     },
 
 
@@ -2188,7 +2188,7 @@ R"(
 
         if (displayMsrSummaryPresent) {
           gMsrOptions->fDisplayMsrSummary = true;
-          gLilypondOptions->fDontGenerateLilyPondCode = true;
+          gLilypondOptions->fNoLilypondCode = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _DISPLAY_MSR_SUMMARY_LONG_NAME_ " ";
@@ -2587,7 +2587,7 @@ R"(
         // --------------------------------------
 
         if (numericaltimePresent) {
-          gLilypondOptions->fGenerateNumericalTime = true;
+          gLilypondOptions->fNumericalTime = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NUMERICAL_TIME_LONG_NAME_ " ";
@@ -2601,7 +2601,7 @@ R"(
         // --------------------------------------
         
         if (absolutePresent) {
-          gLilypondOptions->fGenerateAbsoluteOctaves = true;
+          gLilypondOptions->fAbsoluteOctaves = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _ABSOLUTE_LONG_NAME_ " ";
@@ -2612,7 +2612,7 @@ R"(
         }
 
         if (stemsPresent) {
-          gLilypondOptions->fGenerateStems = true;
+          gLilypondOptions->fStems = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _STEMS_LONG_NAME_ " ";
@@ -2693,7 +2693,7 @@ R"(
         }
 
         if (noteInputLineNumbersPresent) {
-          gLilypondOptions->fGenerateInputLineNumbers = true;
+          gLilypondOptions->fInputLineNumbers = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ " ";
@@ -2888,22 +2888,22 @@ R"(
           midiTempoPresent = false;
         }
 
-        if (dontGenerateMidiCommandPresent) {
-          gLilypondOptions->fDontGenerateMidiCommand = true;
+        if (noMidiCommandPresent) {
+          gLilypondOptions->fNoMidiCommand = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _NO_MIDI_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _NO_MIDI_LONG_NAME_ " "; // _NO_MIDI_SHORT_NAME_ is empty
             
-          dontGenerateMidiCommandPresent = false;
+          noMidiCommandPresent = false;
         }
 
         // LilyPond code generation
         // --------------------------------------
         
         if (commentsPresent) {
-          gLilypondOptions->fGenerateComments = true;
+          gLilypondOptions->fComments = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _COMMENTS_LONG_NAME_ " ";
@@ -2914,7 +2914,7 @@ R"(
         }
 
         if (generateGlobalPresent) {
-          gLilypondOptions->fGenerateGlobal = true;
+          gLilypondOptions->fGlobal = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _GENERATE_GLOBAL_LONG_NAME_ " ";
@@ -3039,37 +3039,37 @@ R"(
           displayMusicPresent = false;
         }
 
-        if (dontGenerateLilyPondCodePresent) {
-          gLilypondOptions->fDontGenerateLilyPondCode = true;
+        if (noLilypondCodePresent) {
+          gLilypondOptions->fNoLilypondCode = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _DONT_GENERATE_LILYPOND_CODE_LONG_NAME_ " ";
+            "--" _NO_LILYPOND_CODE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _DONT_GENERATE_LILYPOND_CODE_SHORT_NAME_ " ";
+            "--" _NO_LILYPOND_CODE_SHORT_NAME_ " ";
             
-          dontGenerateLilyPondCodePresent = false;
+          noLilypondCodePresent = false;
         }
 
-        if (dontGenerateLilyPondLyricsPresent) {
-          gLilypondOptions->fDontGenerateLilyPondLyrics = true;
+        if (noLilypondLyricsPresent) {
+          gLilypondOptions->fNoLilypondLyrics = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _DONT_GENERATE_LILYPOND_LYRICS_LONG_NAME_ " ";
+            "--" _NO_LILYPOND_LYRICS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _DONT_GENERATE_LILYPOND_LYRICS_SHORT_NAME_ " ";
+            "--" _NO_LILYPOND_LYRICS_SHORT_NAME_ " ";
             
-          dontGenerateLilyPondLyricsPresent = false;
+          noLilypondLyricsPresent = false;
         }
         
-        if (generateLilyPondCompileDatePresent) {
-          gLilypondOptions->fGenerateLilyPondCompileDate = true;
+        if (generateLilypondCompileDatePresent) {
+          gLilypondOptions->fLilypondCompileDate = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _GENERATE_LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _GENERATE_LILYPOND_COMPILE_DATE_SHORT_NAME_ " ";
             
-          generateLilyPondCompileDatePresent = false;
+          generateLilypondCompileDatePresent = false;
         }
         
         }
@@ -3439,7 +3439,7 @@ int main (int argc, char *argv[])
 
   S_lpsrScore lpScore;
         
-  if (! gLilypondOptions->fDontGenerateLilyPondCode) {
+  if (! gLilypondOptions->fNoLilypondCode) {
     if (outputFileName.size()) // ??? JMI
       lpScore =
         msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
@@ -3459,12 +3459,12 @@ int main (int argc, char *argv[])
   // generate LilyPond code from LPSR
   // ------------------------------------------------------
 
-  if (! gLilypondOptions->fDontGenerateLilyPondCode) {
+  if (! gLilypondOptions->fNoLilypondCode) {
     if (outputFileName.size ())
-      lpsr2LilyPond (
+      lpsr2Lilypond (
         lpScore, gMsrOptions, gLpsrOptions, outStream);
     else
-      lpsr2LilyPond (
+      lpsr2Lilypond (
         lpScore, gMsrOptions, gLpsrOptions, cout);
     
     if (outputFileName.size ()) {

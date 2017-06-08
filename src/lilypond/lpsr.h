@@ -36,7 +36,7 @@ namespace MusicXML2
 /*
   The classes in this file implement the
   
-              LPSR (LilyPond Semantic Representation)
+              LPSR (LilyPond Score Representation)
 */
 
 //______________________________________________________________________________
@@ -1478,95 +1478,95 @@ class EXP lpsrHeader : public lpsrElement
 
     // centered
     
-    string                getLilyPondDedication () const
-                              { return fLilyPondDedication; }
-    string                getLilyPondTitle () const
-                              { return fLilyPondTitle; }
-    string                getLilyPondSubtitle () const
-                              { return fLilyPondSubtitle; }
-    string                getLilyPondSubsubtitle () const
-                              { return fLilyPondSubsubtitle; }
+    string                getLilypondDedication () const
+                              { return fLilypondDedication; }
+    string                getLilypondTitle () const
+                              { return fLilypondTitle; }
+    string                getLilypondSubtitle () const
+                              { return fLilypondSubtitle; }
+    string                getLilypondSubsubtitle () const
+                              { return fLilypondSubsubtitle; }
                               
-    void                  setLilyPondDedication (
-                            string lilyPondDedication)
+    void                  setLilypondDedication (
+                            string lilypondDedication)
                               {
-                                fLilyPondDedication = lilyPondDedication;
+                                fLilypondDedication = lilypondDedication;
                               }
-    void                  setLilyPondTitle (
-                            string lilyPondTitle)
+    void                  setLilypondTitle (
+                            string lilypondTitle)
                               {
-                                fLilyPondTitle = lilyPondTitle;
+                                fLilypondTitle = lilypondTitle;
                               }
-    void                  setLilyPondSubtitle (
-                            string lilyPondSubtitle)
+    void                  setLilypondSubtitle (
+                            string lilypondSubtitle)
                               {
-                                fLilyPondSubtitle = lilyPondSubtitle;
+                                fLilypondSubtitle = lilypondSubtitle;
                               }
-    void                  setLilyPondSubsubtitle (
-                            string lilyPondSubsubtitle)
+    void                  setLilypondSubsubtitle (
+                            string lilypondSubsubtitle)
                               {
-                                fLilyPondSubsubtitle = lilyPondSubsubtitle;
+                                fLilypondSubsubtitle = lilypondSubsubtitle;
                               }
     
     // evenly spread on one line
     // "instrument" also appears on following pages
     
-    string                getLilyPondInstrument () const
-                              { return fLilyPondInstrument; }
-    string                getLilyPondPoet () const
-                              { return fLilyPondPoet; }
-    string                getLilyPondComposer () const
-                              { return fLilyPondComposer; }
+    string                getLilypondInstrument () const
+                              { return fLilypondInstrument; }
+    string                getLilypondPoet () const
+                              { return fLilypondPoet; }
+    string                getLilypondComposer () const
+                              { return fLilypondComposer; }
                               
-    void                  setLilyPondInstrument (
-                            string lilyPondInstrument)
+    void                  setLilypondInstrument (
+                            string lilypondInstrument)
                               {
-                                fLilyPondInstrument = lilyPondInstrument;
+                                fLilypondInstrument = lilypondInstrument;
                               }
-    void                  setLilyPondPoet (
-                            string lilyPondPoet)
+    void                  setLilypondPoet (
+                            string lilypondPoet)
                               {
-                                fLilyPondPoet = lilyPondPoet;
+                                fLilypondPoet = lilypondPoet;
                               }
-    void                  setLilyPondComposer (
-                            string lilyPondComposer)
+    void                  setLilypondComposer (
+                            string lilypondComposer)
                               {
-                                fLilyPondComposer = lilyPondComposer;
+                                fLilypondComposer = lilypondComposer;
                               }
     
     // at opposite ends of the same line
-    string                getLilyPondMeter () const
-                              { return fLilyPondMeter; }
-    string                getLilyPondArranger () const
-                              { return fLilyPondArranger; }
+    string                getLilypondMeter () const
+                              { return fLilypondMeter; }
+    string                getLilypondArranger () const
+                              { return fLilypondArranger; }
 
-    void                  setLilyPondMeter (
-                            string lilyPondMeter)
+    void                  setLilypondMeter (
+                            string lilypondMeter)
                               {
-                                fLilyPondMeter = lilyPondMeter;
+                                fLilypondMeter = lilypondMeter;
                               }
-    void                  setLilyPondArranger (
-                            string lilyPondArranger)
+    void                  setLilypondArranger (
+                            string lilypondArranger)
                               {
-                                fLilyPondArranger = lilyPondArranger;
+                                fLilypondArranger = lilypondArranger;
                               }
     
     // centered at the bottom of the first page
-    string                getLilyPondCopyright () const
-                              { return fLilyPondCopyright; }
-    void                  setLilyPondCopyright (
-                            string lilyPondCopyright)
+    string                getLilypondCopyright () const
+                              { return fLilypondCopyright; }
+    void                  setLilypondCopyright (
+                            string lilypondCopyright)
                               {
-                                fLilyPondCopyright = lilyPondCopyright;
+                                fLilypondCopyright = lilypondCopyright;
                               }
     
     // centered at the bottom of the last page
-    string                getLilyPondTagline () const
-                              { return fLilyPondTagline; }
-    void                  setLilyPondTagline (
-                            string lilyPondTagline)
+    string                getLilypondTagline () const
+                              { return fLilypondTagline; }
+    void                  setLilypondTagline (
+                            string lilypondTagline)
                               {
-                                fLilyPondTagline = lilyPondTagline;
+                                fLilypondTagline = lilypondTagline;
                               }
 
     // services
@@ -1583,7 +1583,7 @@ class EXP lpsrHeader : public lpsrElement
 //    void                  changeCreatorVariableName ( // JMI
  //                           string typeName, string newName);
 
-    int                   maxLilyPondVariablesNamesLength ();
+    int                   maxLilypondVariablesNamesLength ();
 
     // visitors
     // ------------------------------------------------------
@@ -1618,29 +1618,29 @@ class EXP lpsrHeader : public lpsrElement
     
     S_lpsrLilypondVarValAssoc         fScoreInstrument;
 
-    // LilyPond informations
+    // Lilypond informations
 
     // centered
-    string                fLilyPondDedication;
-    string                fLilyPondTitle;
-    string                fLilyPondSubtitle;
-    string                fLilyPondSubsubtitle;
+    string                fLilypondDedication;
+    string                fLilypondTitle;
+    string                fLilypondSubtitle;
+    string                fLilypondSubsubtitle;
     
     // evenly spread on one line
     // "instrument" also appears on following pages
-    string                fLilyPondInstrument;
-    string                fLilyPondPoet;
-    string                fLilyPondComposer;
+    string                fLilypondInstrument;
+    string                fLilypondPoet;
+    string                fLilypondComposer;
     
     // at opposite ends of the same line
-    string                fLilyPondMeter;
-    string                fLilyPondArranger;
+    string                fLilypondMeter;
+    string                fLilypondArranger;
     
     // centered at the bottom of the first page
-    string                fLilyPondCopyright;
+    string                fLilypondCopyright;
     
     // centered at the bottom of the last page
-    string                fLilyPondTagline;
+    string                fLilypondTagline;
     
     /*
 \header {
@@ -2226,8 +2226,8 @@ class EXP lpsrScore : public lpsrElement
                               { return fMsrScore; }
 
     S_lpsrLilypondVarValAssoc
-                          getLilyPondVersion () const
-                              { return fLilyPondVersion; }
+                          getLilypondVersion () const
+                              { return fLilypondVersion; }
 
     S_lpsrSchemeVarValAssoc
                           getGlobalStaffSizeAssoc () const
@@ -2317,7 +2317,7 @@ class EXP lpsrScore : public lpsrElement
     S_msrScore                fMsrScore;
 
     // general information
-    S_lpsrLilypondVarValAssoc fLilyPondVersion;
+    S_lpsrLilypondVarValAssoc fLilypondVersion;
     
     S_lpsrComment             fInputSourceNameComment;
     S_lpsrComment             fTranslationDateComment;
