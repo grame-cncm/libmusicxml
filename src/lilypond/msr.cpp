@@ -21109,9 +21109,48 @@ void msrStaff::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << idtr << (*i).second;
+      S_msrVoice voice = (*i).second;
+
+      switch (voice->getVoiceKind ()) {
+        case msrVoice::kRegularVoice:
+          os << idtr << ;
+          break;
+
+        case msrVoice::kHarmonyVoice:
+          if (
+            gMsrOptions->fShowHarmonyVoices
+              ||
+            voice->getMusicHasBeenInsertedInVoice ())
+            os << idtr << ;
+          break;
+          
+        case msrVoice::kMasterVoice:
+          if (gMsrOptions->fShowMasterVoices)
+            os << idtr << ;
+          break;
+      } // switch
+
       if (++i == iEnd) break;
-      os << endl;
+
+      switch (voice->getVoiceKind ()) {
+        case msrVoice::kRegularVoice:
+          os << endl;
+          break;
+
+        case msrVoice::kHarmonyVoice:
+          if (
+            gMsrOptions->fShowHarmonyVoices
+              ||
+            voice->getMusicHasBeenInsertedInVoice ())
+            os << endl;
+          break;
+          
+        case msrVoice::kMasterVoice:
+          if (gMsrOptions->fShowMasterVoices)
+            os << endl;
+          break;
+      } // switch
+
     } // for
   }
 

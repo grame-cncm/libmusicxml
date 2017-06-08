@@ -6807,7 +6807,9 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     enum msrVoiceKind {
-        kRegularVoice, kHarmonyVoice, kMasterVoice};
+        kRegularVoice,
+        kHarmonyVoice, // for MusicXML <harmony/>, LilyPond ChordNames
+        kMasterVoice}; // for voices that don't start at the beginning
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -7167,7 +7169,7 @@ class EXP msrVoice : public msrElement
     // Is is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
     list<S_msrElement>    fVoiceInitialRepeatsAndSegments;
-    S_msrSegment              fVoiceLastSegment;
+    S_msrSegment          fVoiceLastSegment;
 
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;
