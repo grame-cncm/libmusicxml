@@ -22690,9 +22690,60 @@ void msrPart::print (ostream& os)
       map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
       i++) {
-      os <<
-        idtr << (*i).second <<
-        endl;
+      S_msrStaff
+        staff =
+          (*i).second;
+          
+      msrStaff::msrStaffKind
+        staffKind =
+          staff->getStaffKind ();
+
+      switch (staffKind) {
+        case msrStaff::kRegularStaff:
+          os << staff;
+          break;
+          
+        case msrStaff::kTablatureStaff:
+          os << staff;
+          break;
+          
+        case msrStaff::kPercussionStaff:
+          os << staff;
+          break;
+          
+        case msrStaff::kHarmonyStaff:
+          if (gMsrOptions->fShowHarmonyVoices)
+            os << staff;
+          break;
+      } // switch
+
+      if (i != fPartStavesMap.end())
+        switch (staffKind) {
+          case msrStaff::kRegularStaff:
+            os <<
+              idtr <<
+              endl;
+            break;
+            
+          case msrStaff::kTablatureStaff:
+            os <<
+              idtr <<
+              endl;
+            break;
+            
+          case msrStaff::kPercussionStaff:
+            os <<
+              idtr <<
+              endl;
+            break;
+            
+          case msrStaff::kHarmonyStaff:
+            if (gMsrOptions->fShowHarmonyVoices)
+              os <<
+                idtr <<
+                endl;
+            break;
+        } // switch
     } // for
   }
 

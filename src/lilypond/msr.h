@@ -7314,7 +7314,8 @@ class EXP msrStaff : public msrElement
 
     enum msrStaffKind {
       kRegularStaff,
-      kTablatureStaff, kPercussionStaff,
+      kTablatureStaff,
+      kPercussionStaff,
       kHarmonyStaff};
 
     static string staffKindAsString (
