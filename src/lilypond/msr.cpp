@@ -2321,6 +2321,14 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
+      "--" _SHOW_MASTER_VOICES_SHORT_NAME_ ", --" _SHOW_MASTER_VOICES_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Show the staves master voices used intertally event though the're empty" <<
+      endl <<
+    endl <<
+    
+    idtr <<
       "--" _KEEP_MASTER_VOICES_SHORT_NAME_ ", --" _KEEP_MASTER_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
@@ -2411,6 +2419,14 @@ void msrOptions::printMsrOptionsHelp ()
   idtr++;
 
   cerr <<
+    idtr <<
+      "--" _SHOW_HARMONY_VOICES_SHORT_NAME_ ", --" _SHOW_HARMONY_VOICES_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Show the parts harmony voices in the MSR data even though is does not contain music." <<
+      endl <<
+    endl <<
+    
     idtr <<
       "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ ", --" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ <<
       endl <<
