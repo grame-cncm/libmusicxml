@@ -393,6 +393,9 @@ string msrDurationAsString (msrDuration duration);
 #define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "staffRelativeVoiceNumbers"
 #define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "srvn"
 
+#define _SHOW_MASTER_VOICES_LONG_NAME_  "showMasterVoices"
+#define _SHOW_MASTER_VOICES_SHORT_NAME_ "smv"
+
 #define _KEEP_MASTER_VOICES_LONG_NAME_  "keepMasterVoices"
 #define _KEEP_MASTER_VOICES_SHORT_NAME_ "kmv"
 

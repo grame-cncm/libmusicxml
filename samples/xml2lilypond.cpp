@@ -478,6 +478,11 @@ void analyzeOptions (
 
 
   checkOptionUniqueness (
+    _SHOW_MASTER_VOICES_LONG_NAME_, _SHOW_MASTER_VOICES_SHORT_NAME_);
+    
+  int showMasterVoicesPresent = 0;
+
+  checkOptionUniqueness (
     _KEEP_MASTER_VOICES_LONG_NAME_, _KEEP_MASTER_VOICES_SHORT_NAME_);
     
   int keepMasterVoicesPresent = 0;
@@ -530,6 +535,11 @@ void analyzeOptions (
 
   // harmonies
   // --------------------------------------
+
+  checkOptionUniqueness (
+    _SHOW_HARMONY_VOICES_LONG_NAME_, _SHOW_HARMONY_VOICES_SHORT_NAME_);
+    
+  int showHarmonyVoicesPresent = 0;
 
   checkOptionUniqueness (
     _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_, _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_);
@@ -1201,6 +1211,16 @@ void analyzeOptions (
 
     
     {
+      _SHOW_MASTER_VOICES_LONG_NAME_,
+      no_argument, &showMasterVoicesPresent, 1
+    },
+    
+    {
+      _SHOW_MASTER_VOICES_SHORT_NAME_,
+      no_argument, &showMasterVoicesPresent, 1
+    },
+
+    {
       _KEEP_MASTER_VOICES_LONG_NAME_,
       no_argument, &keepMasterVoicesPresent, 1
     },
@@ -1289,6 +1309,16 @@ void analyzeOptions (
 
     // harmonies
     // --------------------------------------
+
+    {
+      _SHOW_HARMONY_VOICES_LONG_NAME_,
+      no_argument, &showHarmonyVoicesPresent, 1
+    },
+    
+    {
+      _SHOW_HARMONY_VOICES_SHORT_NAME_,
+      no_argument, &showHarmonyVoicesPresent, 1
+    },
 
     {
       _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_,
@@ -2292,6 +2322,17 @@ R"(
           staffRelativeVoiceNumbersPresent = false;
         }
         
+        if (showMasterVoicesPresent) {
+          gMsrOptions->fShowMasterVoices = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _SHOW_MASTER_VOICES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _SHOW_MASTER_VOICES_SHORT_NAME_ " ";
+            
+          showMasterVoicesPresent = false;
+        }
+
         if (keepMasterVoicesPresent) {
           gMsrOptions->fKeepMasterVoices = true;
 
@@ -2387,6 +2428,17 @@ R"(
 
         // harmonies
 
+        if (showHarmonyVoicesPresent) {
+          gMsrOptions->fShowHarmonyVoices = true;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _SHOW_HARMONY_VOICES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _SHOW_HARMONY_VOICES_SHORT_NAME_ " ";
+            
+          showHarmonyVoicesPresent = false;
+        }
+      
         if (keepEmptyHarmoniesVoicePresent) {
           gMsrOptions->fKeepEmptyHarmoniesVoice = true;
 
