@@ -3722,13 +3722,16 @@ void lpsrScore::print (ostream& os)
 
   // print the MSR structure (without the voices)
   os << idtr;
-  fMsrScore->printStructure (os);
+  fMsrScore->
+    printStructure (os);
   os << endl;
 
   // are some Scheme functions needed?
+  const int fieldWidth = 26;
+  
   os <<
-    idtr <<
-      "TongueSchemeFunctionNeeded: " <<
+    idtr << left <<
+      setw(fieldWidth) << "TongueSchemeFunctionNeeded" << " : " <<
       booleanAsString (fTongueSchemeFunctionNeeded) <<
       endl <<
       endl;
@@ -3763,13 +3766,12 @@ void lpsrScore::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    os << endl;
   }
 
   // print the score block
   os <<
-    idtr << fScoreBlock <<
-    endl;
+    idtr <<
+    fScoreBlock;
 
   idtr--;
 }
