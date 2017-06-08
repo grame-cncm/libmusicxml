@@ -829,7 +829,7 @@ namespace MusicXML2
         Sguidoelement tag = guidotag::create("meter");
         tag->add (guidoparam::create(timesign));
         if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
-        if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"page\"", false));
+        if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"system\"", false));
         //add(tag);
     }
     
@@ -1020,7 +1020,7 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("meter");
             tag->add (guidoparam::create(timesign));
             if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
-            if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"page\"", false));
+            if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"system\"", false));
             if (iter->getAttributeValue("print-object")!="no")
                 add(tag);
         }
