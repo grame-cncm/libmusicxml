@@ -2063,7 +2063,8 @@ void msrOptions::initializeMsrOptions (
 
   fCreateStaffRelativeVoiceNumbers = boolOptionsInitialValue;
   
-  fKeepMasterVoices                = boolOptionsInitialValue;
+  fShowMasterVoices = boolOptionsInitialValue;
+  fKeepMasterVoices = boolOptionsInitialValue;
 
   // notes
 
@@ -2081,6 +2082,7 @@ void msrOptions::initializeMsrOptions (
 
   // harmonies
 
+  fShowHarmonyVoices       = boolOptionsInitialValue;  
   fKeepEmptyHarmoniesVoice = boolOptionsInitialValue;  
 }
 
@@ -2120,6 +2122,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fCreateStaffRelativeVoiceNumbers =
     fCreateStaffRelativeVoiceNumbers;
 
+  clone->fShowMasterVoices =
+    fShowMasterVoices;
   clone->fKeepMasterVoices =
     fKeepMasterVoices;
 
@@ -2146,6 +2150,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // harmonies
 
+  clone->fShowHarmonyVoices =
+    fShowHarmonyVoices;
   clone->fKeepEmptyHarmoniesVoice =
     fKeepEmptyHarmoniesVoice;
 
@@ -2526,6 +2532,9 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (fCreateStaffRelativeVoiceNumbers) <<
       endl <<
     
+    idtr << setw(fieldWidth) << "showMasterVoices" << " : " <<
+      booleanAsString (fShowMasterVoices) <<
+      endl <<
     idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
       booleanAsString (fKeepMasterVoices) <<
       endl;
@@ -2594,6 +2603,9 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;    
 
   cerr <<
+    idtr << setw(fieldWidth) << "showHarmonyVoices" << " : " <<
+      booleanAsString (fShowHarmonyVoices) <<
+      endl <<
     idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
       booleanAsString (fKeepEmptyHarmoniesVoice) <<
       endl;
@@ -21113,7 +21125,7 @@ void msrStaff::print (ostream& os)
 
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
-          os << idtr << ;
+          os << idtr << voice;
           break;
 
         case msrVoice::kHarmonyVoice:
@@ -21121,12 +21133,12 @@ void msrStaff::print (ostream& os)
             gMsrOptions->fShowHarmonyVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
-            os << idtr << ;
+            os << idtr << voice;
           break;
           
         case msrVoice::kMasterVoice:
           if (gMsrOptions->fShowMasterVoices)
-            os << idtr << ;
+            os << idtr << voice;
           break;
       } // switch
 

@@ -423,6 +423,9 @@ string msrDurationAsString (msrDuration duration);
 
 // harmonies
 
+#define _SHOW_HARMONY_VOICES_LONG_NAME_  "showHarmonyVoices"
+#define _SHOW_HARMONY_VOICES_SHORT_NAME_ "shv"
+
 #define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "keepEmptyHarmoniesVoice"
 #define _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ "kehv"
 
