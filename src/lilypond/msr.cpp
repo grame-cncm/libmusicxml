@@ -19610,9 +19610,13 @@ void msrVoice::browseData (basevisitor* v)
       map<int, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
       i != fVoiceStanzasMap.end();
       i++) {
-      // browse the stanza
-      msrBrowser<msrStanza> browser (v);
-      browser.browse (*((*i).second));
+      S_msrStanza stanza = (*i).second;
+
+      if (stanza->getStanzaTextPresent ()) {
+        // browse the stanza
+        msrBrowser<msrStanza> browser (v);
+        browser.browse (*(stanza));
+      }
     } // for
   }
 
