@@ -10356,6 +10356,9 @@ string msrClef::clefAsString () const
     case msrClef::kBassPlus15Clef:
       s << "bass +15";
       break;
+    case msrClef::kVarbaritoneClef:
+      s << "varbaritone";
+      break;
     case msrClef::kTablature4Clef:
       s << "tablature 4 lines";
       break;

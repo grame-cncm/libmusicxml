@@ -2919,7 +2919,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
         fOstream << "bass";
         break;
       case msrClef::kTrebleLine1Clef:
-        fOstream << "treble line 1";
+        fOstream << "french";
         break;
       case msrClef::kTrebleMinus15Clef:
         fOstream << "treble_15";
@@ -2944,6 +2944,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
         break;
       case msrClef::kBassPlus15Clef:
         fOstream << "bass^15";
+        break;
+      case msrClef::kVarbaritoneClef:
+        fOstream << "varbaritone";
         break;
       case msrClef::kTablature4Clef:
         if (gLilypondOptions->fModernTab)
