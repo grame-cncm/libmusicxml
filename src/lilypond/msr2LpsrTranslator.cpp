@@ -568,6 +568,53 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrStaffLinesnumber& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrStaffLinesnumber" <<
+      endl;
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrStafftuning" <<
+      endl;
+  
+  // create a staff tuning clone
+  fCurrentStafftuningClone =
+    elt->
+      createStafftuningBareClone ();
+
+  // add it to the staff clone
+  fCurrentStaffClone->
+    addStafftuningToStaff (
+      fCurrentStafftuningClone);
+
+  // create a staff tuning block
+  S_lpsrNewStafftuningBlock
+    newStafftuningBlock =
+      lpsrNewStafftuningBlock::create (
+        fCurrentStafftuningClone->getInputLineNumber (),
+        fCurrentStafftuningClone);
+
+  // append it to the current staff block
+  fCurrentStaffBlock->
+    appendElementToStaffBlock (newStafftuningBlock);
+}
+
+void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrStaffDetails" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -814,36 +861,6 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
       // JMI
       break;
   } // switch
-}
-
-//________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "--> Start visiting msrStafftuning" <<
-      endl;
-  
-  // create a staff tuning clone
-  fCurrentStafftuningClone =
-    elt->
-      createStafftuningBareClone ();
-
-  // add it to the staff clone
-  fCurrentStaffClone->
-    addStafftuningToStaff (
-      fCurrentStafftuningClone);
-
-  // create a staff tuning block
-  S_lpsrNewStafftuningBlock
-    newStafftuningBlock =
-      lpsrNewStafftuningBlock::create (
-        fCurrentStafftuningClone->getInputLineNumber (),
-        fCurrentStafftuningClone);
-
-  // append it to the current staff block
-  fCurrentStaffBlock->
-    appendElementToStaffBlock (newStafftuningBlock);
 }
 
 //________________________________________________________________________

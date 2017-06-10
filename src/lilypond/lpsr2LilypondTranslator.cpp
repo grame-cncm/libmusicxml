@@ -2154,6 +2154,31 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesnumber& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrStaffLinesnumber" <<
+      endl;
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrStafftuning& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrStafftuning" <<
+      endl;
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrStaffDetails" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

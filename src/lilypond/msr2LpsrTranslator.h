@@ -41,9 +41,12 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrPart>,
   
-  public visitor<S_msrStaff>,
+  public visitor<S_msrStaffLinesnumber>,
   public visitor<S_msrStafftuning>,
+  public visitor<S_msrStaffDetails>,
   
+  public visitor<S_msrStaff>,
+
   public visitor<S_msrVoice>,
 
   public visitor<S_msrStanza>,
@@ -164,8 +167,11 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
 
-    virtual void visitStart (S_msrStaff& elt);
+    virtual void visitStart (S_msrStaffLinesnumber& elt);
     virtual void visitStart (S_msrStafftuning& elt);
+    virtual void visitStart (S_msrStaffDetails& elt);
+  
+    virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
 
     virtual void visitStart (S_msrVoice& elt);
