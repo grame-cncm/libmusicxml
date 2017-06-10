@@ -7373,6 +7373,14 @@ class EXP msrStaffDetails : public msrElement
     // data types
     // ------------------------------------------------------
 
+    enum msrStaffTypeKind {
+      kRegularStaffType,
+      kOssiaStaffType, kCueStaffType, kEditorialStaffType,
+      kAlternateStaffType};
+
+    static string staffTypeKindAsString (
+      msrStaffTypeKind staffTypeKind);
+      
     enum msrShowfretsKind {
       kShowfretsYes, kShowfretsNo};
 
@@ -7488,15 +7496,6 @@ class EXP msrStaff : public msrElement
 
     static string staffKindAsString (
       msrStaffKind staffKind);
-      
-    enum msrStaffTypeKind {
-      kOssiaStaffType, kCueStaffType, kEditorialStaffType,
-      kRegularStaffType, kAlternateStaffType};
-
-     /*
-    static string staffTypeKindAsString (
-      msrStaffTypeKind staffTypeKind);
-      */
       
     // creation from MusicXML
     // ------------------------------------------------------

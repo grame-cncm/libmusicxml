@@ -20091,6 +20091,83 @@ void msrStaffDetails::browseData (basevisitor* v)
   }
 }
 
+string msrStaffDetails::staffTypeKindAsString (
+  msrStaffTypeKind staffTypeKind)
+{
+  string result;
+  
+  switch (staffTypeKind) {
+    case msrStaffDetails::kRegularStaffType:
+      result = "regular";
+      break;
+    case msrStaffDetails::kOssiaStaffType:
+      result = "ossia";
+      break;
+    case msrStaffDetails::kCueStaffType:
+      result = "cue";
+      break;
+    case msrStaffDetails::kEditorialStaffType:
+      result = "editorial";
+      break;
+    case msrStaffDetails::kAlternateStaffType:
+      result = "alternate";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrStaffDetails::showfretsKindAsString (
+  msrShowfretsKind showfretsKind)
+{
+  string result;
+  
+  switch (showfretsKind) {
+    case msrStaffDetails::kShowfretsYes:
+      result = "showfrets yes";
+      break;
+    case msrStaffDetails::kShowfretsNo:
+      result = "showfrets no";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrStaffDetails::printobjectKindKindAsString (
+  msrPrintobjectKind printobjectKind)
+{
+  string result;
+  
+  switch (printobjectKind) {
+    case msrStaffDetails::kPrintobjectYes:
+      result = "print object yes";
+      break;
+    case msrStaffDetails::kPrintobjectNo:
+      result = "print object no";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrStaffDetails::printspacingKindKindAsString (
+  msrPrintspacingKind printspacingKind)
+{
+  string result;
+  
+  switch (printspacingKind) {
+    case msrStaffDetails::kPrintspacingYes:
+      result = "print spacing yes";
+      break;
+    case msrStaffDetails::kPrintspacingNo:
+      result = "print spacing no";
+      break;
+  } // switch
+
+  return result;
+}
+      
 ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
 {
   elt->print (os);
