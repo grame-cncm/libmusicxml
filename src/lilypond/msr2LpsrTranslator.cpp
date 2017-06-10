@@ -617,11 +617,11 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
   // create a staff details clone
   S_msrStaffDetails
     staffDetailsClone =
-      msrStaffDetails::createStaffDetailsBareClone (
+      elt->createStaffDetailsBareClone (
         fCurrentStaffLinesnumberClone,
         fCurrentStafftuningClone);
 
-  // append it to the current staff
+  // append it to the current staff clone
   fCurrentStaffClone->
     appendStaffDetailsToStaff (staffDetailsClone);
 

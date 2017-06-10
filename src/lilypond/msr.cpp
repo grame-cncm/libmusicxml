@@ -19795,6 +19795,7 @@ msrStaffLinesnumber::msrStaffLinesnumber (
 {
   fLinesnumber = linesnumber;
 }
+
 msrStaffLinesnumber::~msrStaffLinesnumber() {}
 
 S_msrStaffLinesnumber msrStaffLinesnumber::createStaffLinesnumberBareClone ()
