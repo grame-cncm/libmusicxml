@@ -7221,9 +7221,70 @@ EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
   A staff is represented by a its string contents
 */
 
-/*
+/* JMI
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
+
+/*!
+\brief A msr comment representation.
+
+  A comment is represented by its contents
+*/
+//______________________________________________________________________________
+
+class EXP msrStaffLinesnumber : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStaffLinesnumber> create (
+      int inputLineNumber,
+      int linesnumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrStaffLinesnumber (
+      int inputLineNumber,
+      int linesnumber);
+      
+    virtual ~msrStaffLinesnumber();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getNewLinesnumber () const
+                              { return fNewLinesnumber; }
+                        
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    int                   fNewLinesnumber;
+};
+typedef SMARTP<msrStaffLinesnumber> S_msrStaffLinesnumber;
+EXP ostream& operator<< (ostream& os, const S_msrStaffLinesnumber& elt);
+
 //______________________________________________________________________________
 class EXP msrStafftuning : public msrElement
 {
@@ -7297,6 +7358,113 @@ class EXP msrStafftuning : public msrElement
 };
 typedef SMARTP<msrStafftuning> S_msrStafftuning;
 EXP ostream& operator<< (ostream& os, const S_msrStafftuning& elt);
+
+/*!
+\brief A msr comment representation.
+
+  A comment is represented by its contents
+*/
+//______________________________________________________________________________
+
+class EXP msrStaffDetails : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrShowfretsKind {
+      kShowfretsYes, kShowfretsNo};
+
+    static string showfretsKindAsString (
+      msrShowfretsKind showfretsKind);
+      
+    enum msrPrintobjectKind {
+      kPrintobjectYes, kPrintobjectNo};
+
+    static string printobjectKindKindAsString (
+      msrPrintobjectKind printobjectKind);
+      
+    enum msrPrintspacingKind {
+      kPrintspacingYes, kPrintspacingNo};
+
+    static string printspacingKindKindAsString (
+      msrPrintspacingKind printspacingKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStaffDetails> create (
+      int                   inputLineNumber,
+      S_msrStaffLinesnumber staffLinesnumber,
+      S_msrStafftuning      stafftuning,
+      msrShowfretsKind      showfretsKind,
+      msrPrintobjectKind    printobjectKind,
+      msrPrintspacingKind   printspacingKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrStaffDetails (
+      int                   inputLineNumber,
+      S_msrStaffLinesnumber staffLinesnumber,
+      S_msrStafftuning      stafftuning,
+      msrShowfretsKind      showfretsKind,
+      msrPrintobjectKind    printobjectKind,
+      msrPrintspacingKind   printspacingKind);
+      
+    virtual ~msrStaffDetails();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrStaffLinesnumber getStaffLinesnumber () const
+                              { return fStaffLinesnumber; }
+                        
+    S_msrStafftuning      getStafftuning () const
+                              { return fStafftuning; }
+                        
+    msrShowfretsKind      getShowfretsKind () const
+                              { return fShowfretsKind; }
+                        
+    msrPrintobjectKind    getPrintobjectKind () const
+                              { return fPrintobjectKind; }
+                        
+    msrPrintspacingKind   getPrintspacingKind () const
+                              { return fPrintspacingKind; }
+                        
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    S_msrStaffLinesnumber fStaffLinesnumber;
+    S_msrStafftuning      fStafftuning;
+
+    msrShowfretsKind      fShowfretsKind;
+    
+    msrPrintobjectKind    fPrintobjectKind;
+    msrPrintspacingKind   fPrintspacingKind;
+};
+typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
+EXP ostream& operator<< (ostream& os, const S_msrStaffDetails& elt);
 
 /*!
 \brief A msr staff representation.

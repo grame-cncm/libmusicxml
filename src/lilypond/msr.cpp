@@ -19777,6 +19777,81 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrStaffLinesnumber msrStaffLinesnumber::create (
+  int inputLineNumber,
+  int linesnumber)
+{
+  msrStaffLinesnumber* o =
+    new msrStaffLinesnumber (
+      inputLineNumber, linesnumber);
+  assert(o!=0);
+  return o;
+}
+
+msrStaffLinesnumber::msrStaffLinesnumber (
+  int inputLineNumber,
+  int linesnumber)
+    : msrElement (inputLineNumber)
+{
+  fNewLinesnumber = linesnumber;
+}
+msrStaffLinesnumber::~msrStaffLinesnumber() {}
+
+void msrStaffLinesnumber::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrStaffLinesnumber::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrStaffLinesnumber>*
+    p =
+      dynamic_cast<visitor<S_msrStaffLinesnumber>*> (v)) {
+        S_msrStaffLinesnumber elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrStaffLinesnumber::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrStaffLinesnumber::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrStaffLinesnumber::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrStaffLinesnumber>*
+    p =
+      dynamic_cast<visitor<S_msrStaffLinesnumber>*> (v)) {
+        S_msrStaffLinesnumber elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrStaffLinesnumber::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrStaffLinesnumber::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrStaffLinesnumber& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrStaffLinesnumber::print (ostream& os)
+{
+  os <<
+    "StaffLinesnumber, " << fLinesnumber <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrStafftuning msrStafftuning::create (
   int                  inputLineNumber,
   int                  stafftuningLineNumber,
@@ -19923,6 +19998,99 @@ void msrStafftuning::print (ostream& os)
       endl;
 
   idtr--;
+}
+
+//______________________________________________________________________________
+S_msrStaffDetails msrStaffDetails::create (
+  int                   inputLineNumber,
+  S_msrStaffLinesnumber staffLinesnumber,
+  S_msrStafftuning      stafftuning,
+  msrShowfretsKind      showfretsKind,
+  msrPrintobjectKind    printobjectKind,
+  msrPrintspacingKind   printspacingKind)
+{
+  msrStaffDetails* o =
+    new msrStaffDetails (
+      inputLineNumber,
+      staffLinesnumber,
+      stafftuning,
+      showfretsKind,
+      printobjectKind,
+      printspacingKind);
+  assert(o!=0);
+  return o;
+}
+
+msrStaffDetails::msrStaffDetails (
+  int                   inputLineNumber,
+  S_msrStaffLinesnumber staffLinesnumber,
+  S_msrStafftuning      stafftuning,
+  msrShowfretsKind      showfretsKind,
+  msrPrintobjectKind    printobjectKind,
+  msrPrintspacingKind   printspacingKind)
+    : msrElement (inputLineNumber)
+{
+  fStaffLinesnumber = staffLinesnumber;
+  fStafftuning      = stafftuning;
+  fShowfretsKind    = showfretsKind;
+  fPrintobjectKind  = printobjectKind;
+  fPrintspacingKind = printspacingKind;
+}
+msrStaffDetails::~msrStaffDetails() {}
+
+void msrStaffDetails::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrStaffDetails::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrStaffDetails>*
+    p =
+      dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
+        S_msrStaffDetails elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrStaffDetails::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrStaffDetails::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrStaffDetails::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrStaffDetails>*
+    p =
+      dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
+        S_msrStaffDetails elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrStaffDetails::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrStaffDetails::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrStaffDetails::print (ostream& os)
+{
+  os <<
+    "StaffDetails" <<
+    ", newLinesnumber = " << fLinesnumber <<
+    endl;
 }
 
 //______________________________________________________________________________
