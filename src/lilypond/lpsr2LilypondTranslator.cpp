@@ -1645,18 +1645,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       staff->getStaffDirectPartUplink ();
 */
 
-  // fetch staff lines number
-  int
-    staffLinesNumber =
-      staff->getStaffLinesNumber ();
-
-  if (staffLinesNumber != 5) // default value
-    fOstream << idtr <<
-      "\\override Staff.StaffSymbol.line-count = " <<
-      staffLinesNumber <<
-    endl;
-    
-
   string
     staffBlockInstrumentName =
       elt->getStaffBlockInstrumentName (),
@@ -1676,39 +1664,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       staffShortInstrumentName <<
       "\"" <<
       endl;
-
-  list<S_msrStafftuning>
-    stafftuningsList =
-      staff->getStafftuningsList ();
-      
-  if (stafftuningsList.size ()) {
-    // \set TabStaff.stringTunings = \stringTuning <c' g' d'' a''>
-
-    fOstream << idtr <<
-      "\\set TabStaff.stringTunings = \\stringTuning <";
-
-    list<S_msrStafftuning>::const_iterator
-      iBegin = stafftuningsList.begin(),
-      iEnd   = stafftuningsList.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      fOstream <<
-        msrQuartertonesPitchAsString (
-          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
- // JMI            elt->getInputLineNumber (),
-          ((*i)->getStafftuningQuartertonesPitch ())) <<        
- // JMI       char (tolower ((*i)->getStafftuningStep ())) <<
-        absoluteOctaveAsLilypondString (
-          (*i)->getStafftuningOctave ());
-      if (++i == iEnd) break;
-      fOstream << " ";
-    } // for
-
-    fOstream <<
-      ">" <<
-      endl;
-  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
@@ -2160,6 +2115,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesnumber& elt)
     cerr << idtr <<
       "--> Start visiting msrStaffLinesnumber" <<
       endl;
+
+  // fetch staff lines number
+  int
+    linesNumber =
+      elt->getLinesnumber ();
+
+  if (linesNumber != 5) // default value
+    fOstream << idtr <<
+      "\\stopStaff " <<
+      "\\override Staff.StaffSymbol.line-count = " <<
+      linesNumber <<
+      "\\startStaff" <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrStafftuning& elt)
@@ -2168,6 +2136,41 @@ void lpsr2LilypondTranslator::visitStart (S_msrStafftuning& elt)
     cerr << idtr <<
       "--> Start visiting msrStafftuning" <<
       endl;
+
+/* JMI
+  list<S_msrStafftuning>
+    stafftuningsList =
+      staff->getStafftuningsList ();
+      
+  if (stafftuningsList.size ()) {
+    // \set TabStaff.stringTunings = \stringTuning <c' g' d'' a''>
+
+    fOstream << idtr <<
+      "\\set TabStaff.stringTunings = \\stringTuning <";
+
+    list<S_msrStafftuning>::const_iterator
+      iBegin = stafftuningsList.begin(),
+      iEnd   = stafftuningsList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      fOstream <<
+        msrQuartertonesPitchAsString (
+          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
+ // JMI            elt->getInputLineNumber (),
+          ((*i)->getStafftuningQuartertonesPitch ())) <<        
+ // JMI       char (tolower ((*i)->getStafftuningStep ())) <<
+        absoluteOctaveAsLilypondString (
+          (*i)->getStafftuningOctave ());
+      if (++i == iEnd) break;
+      fOstream << " ";
+    } // for
+
+    fOstream <<
+      ">" <<
+      endl;
+  }
+ */
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)

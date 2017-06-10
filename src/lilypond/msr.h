@@ -7243,6 +7243,8 @@ class EXP msrStaffLinesnumber : public msrElement
       int inputLineNumber,
       int linesnumber);
 
+    SMARTP<msrStaffLinesnumber> createStaffLinesnumberBareClone ();
+
   protected:
 
     // constructors/destructor
@@ -7265,6 +7267,8 @@ class EXP msrStaffLinesnumber : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                staffLinesnumberAsString () const;
+         
     // visitors
     // ------------------------------------------------------
 
@@ -7586,6 +7590,12 @@ class EXP msrStaff : public msrElement
     
     void                  setStaffTranspose (S_msrTranspose transpose);
 
+
+    // staff details
+
+    void                  appendStaffDetailsToStaff (
+                            S_msrStaffDetails staffDetails);
+
     // staff voices
     
     const map<int, S_msrVoice>&
@@ -7600,12 +7610,6 @@ class EXP msrStaff : public msrElement
     
     const S_msrVoice      getStaffMasterVoice () const
                               { return fStaffMasterVoice; }
-
-    // staff tuning
-     
-    const list<S_msrStafftuning>&
-                          getStafftuningsList ()
-                              { return fStafftuningsList; }
 
     // measures
     
@@ -7717,9 +7721,8 @@ class EXP msrStaff : public msrElement
 
     // staff tuning
     
-    void                  addStafftuningToStaff (
-                            S_msrStafftuning stafftuning)
-                              { fStafftuningsList.push_back (stafftuning); }
+    void                  appendStafftuningToStaff (
+                            S_msrStafftuning stafftuning);
   
     // finalization
 
@@ -7828,7 +7831,6 @@ class EXP msrPart : public msrElement
     static SMARTP<msrPart> create (
       int            inputLineNumber,
       string         partID,
-      int            partStavesLinesNumber,
       S_msrPartgroup partPartgroupUplink);
                 
     SMARTP<msrPart> createPartBareClone (
@@ -7842,7 +7844,6 @@ class EXP msrPart : public msrElement
     msrPart (
       int            inputLineNumber,
       string         partID,
-      int            partStavesLinesNumber,
       S_msrPartgroup partPartgroupUplink);
       
     virtual ~msrPart();
@@ -7865,16 +7866,6 @@ class EXP msrPart : public msrElement
     string                getPartID () const
                               { return fPartID; }
 
-    void                  setPartStavesLinesNumber (
-                            int partStavesLinesNumber)
-                              {
-                                fPartStavesLinesNumber =
-                                  partStavesLinesNumber;
-                              }
-
-    const int             getPartStavesLinesNumber () const
-                              { return fPartStavesLinesNumber; }
-          
     void                  setPartMsrName (string partMsrName);
     
     string                getPartMsrName () const
@@ -7991,16 +7982,25 @@ class EXP msrPart : public msrElement
     string                divisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions);
-                  
+
+    void                  testDivisionsAndDurations (); // JMI
+    void                  testTupletSoundingDivisionsAndDurations ();
+  
+    // staff details
+
+    void                  appendStaffDetailsToPart (
+                            S_msrStaffDetails staffDetails);
+
+    // tuplets
+    
     string                tupletDivisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions,
                             int actualNotes,
                             int normalNotes);
-  
-    void                  testDivisionsAndDurations ();
-    void                  testTupletSoundingDivisionsAndDurations ();
-  
+
+    // harmony staff and voice
+    
     void                  createPartHarmonyStaffAndVoice (
                             int inputLineNumber);
         
@@ -8115,7 +8115,6 @@ class EXP msrPart : public msrElement
   private:
     
     string                  fPartID; // native
-    int                     fPartStavesLinesNumber;
     
     string                  fPartMsrName;
                               // may be different than fPartID

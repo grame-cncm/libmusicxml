@@ -170,6 +170,7 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrStaffLinesnumber& elt);
     virtual void visitStart (S_msrStafftuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
+    virtual void visitEnd   (S_msrStaffDetails& elt);
   
     virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
@@ -369,6 +370,11 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrPart                 fCurrentPartClone;
     S_lpsrPartBlock           fCurrentPartBlock;
+
+    // staff details
+
+    S_msrStaffLinesnumber     fCurrentStaffLinesnumberClone;
+    S_msrStafftuning          fCurrentStafftuningClone;
     
     // staves
     // ------------------------------------------------------
@@ -376,7 +382,6 @@ class msr2LpsrTranslator :
     S_lpsrStaffBlock          fCurrentStaffBlock;
     // prevent clef, key and time from being handled twice
     bool                      fOnGoingStaff;
-    S_msrStafftuning          fCurrentStafftuningClone;
 
     // voices
     // ------------------------------------------------------    

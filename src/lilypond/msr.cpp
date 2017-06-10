@@ -19797,6 +19797,25 @@ msrStaffLinesnumber::msrStaffLinesnumber (
 }
 msrStaffLinesnumber::~msrStaffLinesnumber() {}
 
+S_msrStaffLinesnumber msrStaffLinesnumber::createStaffLinesnumberBareClone ()
+{
+ if (gGeneralOptions->fTraceStafftuning) {
+    cerr << idtr <<
+      "Creating a bare clone of staff lines number '" <<
+      stafftuningAsString () <<
+      "'" <<
+      endl;
+  }
+
+ S_msrStaffLinesnumber
+    clone =
+      msrStaffLinesnumber::create (
+        fInputLineNumber,
+        fLinesnumber);
+  
+  return clone;
+}
+
 void msrStaffLinesnumber::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -19838,6 +19857,21 @@ void msrStaffLinesnumber::acceptOut (basevisitor* v) {
 void msrStaffLinesnumber::browseData (basevisitor* v)
 {}
 
+string msrStaffLinesnumber::staffLinesnumberAsString () const
+{
+  stringstream s;
+
+  s <<
+    "StaffLinesnumber" <<
+    ", line " << fInputLineNumber <<
+    ", " <<
+    "StaffLinesnumber: " << fLinesnumber;
+    
+  return s.str();
+}
+
+void msrStafftuning::print (ostream& os)
+
 ostream& operator<< (ostream& os, const S_msrStaffLinesnumber& elt)
 {
   elt->print (os);
@@ -19847,7 +19881,7 @@ ostream& operator<< (ostream& os, const S_msrStaffLinesnumber& elt)
 void msrStaffLinesnumber::print (ostream& os)
 {
   os <<
-    "StaffLinesnumber, " << fLinesnumber <<
+    staffLinesnumberAsString () <<
     endl;
 }
 
@@ -19958,7 +19992,8 @@ string msrStafftuning::stafftuningAsString () const
   stringstream s;
 
   s <<
-    "line " << fStafftuningLineNumber <<
+    "Stafftuning" <<
+    ", line " << fStafftuningLineNumber <<
     ", " <<
     msrQuartertonesPitchAsString (
       gMsrOptions->fMsrQuatertonesPitchesLanguage,
@@ -19972,6 +20007,8 @@ void msrStafftuning::print (ostream& os)
 {
   os <<
     "Stafftuning" <<
+    ", line " << fStafftuningLineNumber <<
+    ", " <<
     endl;
 
   idtr++;
@@ -20279,10 +20316,6 @@ msrStaff::msrStaff (
 
 void msrStaff::initializeStaff ()
 {
-  fStaffLinesNumber =
-    fStaffDirectPartUplink->
-      getPartStavesLinesNumber ();
-  
   fRegisteredVoicesCounter = 0;
 
   // set staff name
@@ -21607,13 +21640,12 @@ void msrStaff::printStructure (ostream& os)
 S_msrPart msrPart::create (
   int            inputLineNumber,
   string         partID,
-  int            partStavesLinesNumber,
   S_msrPartgroup partPartgroupUplink)
 {
   msrPart* o =
     new msrPart (
       inputLineNumber,
-      partID, partStavesLinesNumber,
+      partID,
       partPartgroupUplink);
   assert(o!=0);
   return o;
@@ -21622,7 +21654,6 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   int            inputLineNumber,
   string         partID,
-  int            partStavesLinesNumber,
   S_msrPartgroup partPartgroupUplink)
     : msrElement (inputLineNumber)
 {
@@ -21631,9 +21662,6 @@ msrPart::msrPart (
     partID.begin(),
     partID.end(),
     stringSpaceReplacer (fPartID, '_'));
-
-  // register part staves lines number
-  fPartStavesLinesNumber = partStavesLinesNumber;
 
   // set part's part group uplink
   msrAssert(
@@ -21701,7 +21729,6 @@ S_msrPart msrPart::createPartBareClone (S_msrPartgroup partgroupClone)
       msrPart::create (
         fInputLineNumber,
         fPartID,
-        fPartStavesLinesNumber,
         partgroupClone);
 
   // it is not enough just to set fPartDivisionsPerQuarterNote,
@@ -22662,11 +22689,6 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   // register staff in this part
   fPartStavesMap [staffNumber] = staff;
 
-  // set staff's lines number
-  staff->
-    setStaffLinesNumber (
-      fPartStavesLinesNumber);
-
   // return staff
   return staff;
 }
@@ -22967,7 +22989,6 @@ void msrPart::print (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
-    ", " << fPartStavesLinesNumber << " lines per stave" <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
@@ -23097,7 +23118,6 @@ void msrPart::printStructure (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
-    ", " << fPartStavesLinesNumber << " lines per stave" <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
