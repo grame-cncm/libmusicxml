@@ -7411,6 +7411,10 @@ class EXP msrStaffDetails : public msrElement
       msrPrintobjectKind    printobjectKind,
       msrPrintspacingKind   printspacingKind);
 
+    SMARTP<msrStaffDetails> createStaffDetailsBareClone (
+      S_msrStaffLinesnumber staffLinesnumberClone,
+      S_msrStafftuning      stafftuningClone);
+
   protected:
 
     // constructors/destructor

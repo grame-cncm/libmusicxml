@@ -20042,6 +20042,32 @@ msrStaffDetails::msrStaffDetails (
 }
 msrStaffDetails::~msrStaffDetails() {}
 
+S_msrStaffDetails msrStaffDetails::createStaffDetailsBareClone (
+  S_msrStaffLinesnumber staffLinesnumberClone,
+  S_msrStafftuning      stafftuningClone)
+{
+  if (gGeneralOptions->fTraceStaves) {
+    cerr << idtr <<
+      "Creating a bare clone of staff details \"" <<
+   // JMI   fStaffName <<
+      "\"" <<
+      endl;
+  }
+      
+  S_msrStaffDetails
+    clone =
+      msrStaffDetails::create (
+        fInputLineNumber,
+        fStaffTypeKind,
+        staffLinesnumberClone,
+        stafftuningClone,
+        fShowfretsKind,
+        fPrintobjectKind,
+        fPrintspacingKind);
+
+  return clone;
+}
+
 void msrStaffDetails::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
