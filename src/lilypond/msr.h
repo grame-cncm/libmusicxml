@@ -7259,8 +7259,8 @@ class EXP msrStaffLinesnumber : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getNewLinesnumber () const
-                              { return fNewLinesnumber; }
+    int                   getLinesnumber () const
+                              { return fLinesnumber; }
                         
     // services
     // ------------------------------------------------------
@@ -7280,7 +7280,7 @@ class EXP msrStaffLinesnumber : public msrElement
 
   private:
 
-    int                   fNewLinesnumber;
+    int                   fLinesnumber;
 };
 typedef SMARTP<msrStaffLinesnumber> S_msrStaffLinesnumber;
 EXP ostream& operator<< (ostream& os, const S_msrStaffLinesnumber& elt);

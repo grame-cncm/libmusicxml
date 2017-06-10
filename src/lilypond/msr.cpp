@@ -19793,7 +19793,7 @@ msrStaffLinesnumber::msrStaffLinesnumber (
   int linesnumber)
     : msrElement (inputLineNumber)
 {
-  fNewLinesnumber = linesnumber;
+  fLinesnumber = linesnumber;
 }
 msrStaffLinesnumber::~msrStaffLinesnumber() {}
 
@@ -20077,7 +20077,19 @@ void msrStaffDetails::acceptOut (basevisitor* v) {
 }
 
 void msrStaffDetails::browseData (basevisitor* v)
-{}
+{
+  if (fStaffLinesnumber) {
+    // browse the staff lines number
+    msrBrowser<msrStaffLinesnumber> browser (v);
+    browser.browse (*fStaffLinesnumber);
+  }
+
+  if (fStaffLinesnumber) {
+    // browse the staff tuning
+    msrBrowser<msrStafftuning> browser (v);
+    browser.browse (*fStafftuning);
+  }
+}
 
 ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
 {
@@ -20087,10 +20099,33 @@ ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
 
 void msrStaffDetails::print (ostream& os)
 {
-  os <<
+  os << idtr <<
     "StaffDetails" <<
-    ", newLinesnumber = " << fLinesnumber <<
     endl;
+
+  idtr++;
+
+  // print the staff lines number if any
+  if (fStaffLinesnumber)
+    os <<
+      idtr <<
+        fStaffLinesnumber;
+  else
+    os <<
+      "StaffLinesnumber: none" <<
+      endl;
+
+  // print the staff tuning if any
+  if (fStafftuning)
+    os <<
+      idtr <<
+        fStafftuning;
+  else
+    os <<
+      "Stafftuning: none" <<
+      endl;
+
+  idtr--;
 }
 
 //______________________________________________________________________________
