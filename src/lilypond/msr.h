@@ -7404,6 +7404,7 @@ class EXP msrStaffDetails : public msrElement
 
     static SMARTP<msrStaffDetails> create (
       int                   inputLineNumber,
+      msrStaffTypeKind      staffTypeKind,
       S_msrStaffLinesnumber staffLinesnumber,
       S_msrStafftuning      stafftuning,
       msrShowfretsKind      showfretsKind,
@@ -7417,6 +7418,7 @@ class EXP msrStaffDetails : public msrElement
 
     msrStaffDetails (
       int                   inputLineNumber,
+      msrStaffTypeKind      staffTypeKind,
       S_msrStaffLinesnumber staffLinesnumber,
       S_msrStafftuning      stafftuning,
       msrShowfretsKind      showfretsKind,
@@ -7430,6 +7432,9 @@ class EXP msrStaffDetails : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    msrStaffTypeKind      getStaffTypeKind () const
+                              { return fStaffTypeKind; }
+                        
     S_msrStaffLinesnumber getStaffLinesnumber () const
                               { return fStaffLinesnumber; }
                         
@@ -7462,6 +7467,8 @@ class EXP msrStaffDetails : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    msrStaffTypeKind      fStaffTypeKind;
 
     S_msrStaffLinesnumber fStaffLinesnumber;
     S_msrStafftuning      fStafftuning;

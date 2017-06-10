@@ -20003,6 +20003,7 @@ void msrStafftuning::print (ostream& os)
 //______________________________________________________________________________
 S_msrStaffDetails msrStaffDetails::create (
   int                   inputLineNumber,
+  msrStaffTypeKind      staffTypeKind,
   S_msrStaffLinesnumber staffLinesnumber,
   S_msrStafftuning      stafftuning,
   msrShowfretsKind      showfretsKind,
@@ -20012,6 +20013,7 @@ S_msrStaffDetails msrStaffDetails::create (
   msrStaffDetails* o =
     new msrStaffDetails (
       inputLineNumber,
+      staffTypeKind,
       staffLinesnumber,
       stafftuning,
       showfretsKind,
@@ -20023,6 +20025,7 @@ S_msrStaffDetails msrStaffDetails::create (
 
 msrStaffDetails::msrStaffDetails (
   int                   inputLineNumber,
+  msrStaffTypeKind      staffTypeKind,
   S_msrStaffLinesnumber staffLinesnumber,
   S_msrStafftuning      stafftuning,
   msrShowfretsKind      showfretsKind,
@@ -20030,6 +20033,7 @@ msrStaffDetails::msrStaffDetails (
   msrPrintspacingKind   printspacingKind)
     : msrElement (inputLineNumber)
 {
+  fStaffTypeKind    = staffTypeKind;
   fStaffLinesnumber = staffLinesnumber;
   fStafftuning      = stafftuning;
   fShowfretsKind    = showfretsKind;
