@@ -104,7 +104,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // and optimisations of the LPSR data
   fCurrentMsrScoreClone =
     fVisitedMsrScore->
-      createScoreBareClone ();
+      createScoreFlatClone ();
 
   // create the LPSR score
   fLpsrScore =
@@ -360,7 +360,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
 
   S_msrPartgroup
     partgroupClone =
-      elt->createPartgroupBareClone (
+      elt->createPartgroupFlatClone (
         fPartgroupsStack.size ()
           ? fPartgroupsStack.top ()
           : 0,
@@ -519,7 +519,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
   // create a part clone
   fCurrentPartClone =
-    elt->createPartBareClone (
+    elt->createPartFlatClone (
       fPartgroupsStack.top ());
 
   // setup it durations to divisions data
@@ -578,7 +578,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
   // create a staff lines number clone
   fCurrentStaffLinesNumberClone =
     elt->
-      createStaffLinesNumberBareClone ();
+      createStaffLinesNumberFlatClone ();
 }
 
 //________________________________________________________________________
@@ -592,7 +592,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
   // create a staff tuning clone
   fCurrentStaffTuningClone =
     elt->
-      createStaffTuningBareClone ();
+      createStaffTuningFlatClone ();
 }
 
 //________________________________________________________________________
@@ -617,7 +617,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
   // create a staff details clone
   S_msrStaffDetails
     staffDetailsClone =
-      elt->createStaffDetailsBareClone (
+      elt->createStaffDetailsFlatClone (
         fCurrentStaffLinesNumberClone,
         fCurrentStaffTuningClone);
 
@@ -660,7 +660,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (
+          elt->createStaffFlatClone (
             fCurrentPartClone);
           
         // add it to the part clone
@@ -710,7 +710,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (
+          elt->createStaffFlatClone (
             fCurrentPartClone);
           
         // add it to the part clone
@@ -760,7 +760,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (
+          elt->createStaffFlatClone (
             fCurrentPartClone);
           
         // add it to the part clone
@@ -816,7 +816,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         /* JMI
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffBareClone (fCurrentPartClone);
+          elt->createStaffFlatClone (fCurrentPartClone);
           
         // add it to the part clone
         fCurrentPartClone->
@@ -912,7 +912,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kRegularVoice:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceBareClone (
+        elt->createVoiceFlatClone (
           fCurrentStaffClone);
             
       // add it to the staff clone
@@ -986,7 +986,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kMasterVoice:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceBareClone (
+        elt->createVoiceFlatClone (
           fCurrentStaffClone);
             
       // add it to the staff clone
@@ -1047,7 +1047,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
   // create a clone of the segment
   S_msrSegment
     segmentClone =
-      elt->createSegmentBareClone (
+      elt->createSegmentFlatClone (
         fCurrentVoiceClone);
 
   // push it onto the segment clones stack
@@ -1136,7 +1136,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->
-      createMeasureBareClone (
+      createMeasureFlatClone (
         fCurrentSegmentClonesStack.top ());
       
   // append it to the current segment clone
@@ -1332,7 +1332,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
-      elt->createStanzaBareClone (
+      elt->createStanzaFlatClone (
         fCurrentVoiceClone);
     
     // append the stanza clone to the LPSR score elements list
@@ -1372,7 +1372,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
   // create the syllable clone
   fCurrentSyllableClone =
-    elt->createSyllableBareClone (
+    elt->createSyllableFlatClone (
       fCurrentPartClone);
 
   // add it to the current stanza clone or current note clone
@@ -1729,7 +1729,7 @@ void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
 
   // create a double tremolo clone
   fCurrentDoubleTremoloClone =
-    elt->createDoubleTremoloBareClone (
+    elt->createDoubleTremoloFlatClone (
       fCurrentVoiceClone);
   
   fOnGoingDoubleTremolo = true;
@@ -1963,7 +1963,7 @@ void msr2LpsrTranslator::visitStart (S_msrGracenotes& elt)
     // create a clone of this gracenotes
     fCurrentGracenotesClone =
       elt->
-        createGracenotesBareClone (
+        createGracenotesFlatClone (
           fCurrentVoiceClone);
   
     // append it to the current voice clone
@@ -2089,7 +2089,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     
   // create the clone
   fCurrentNoteClone =
-    elt->createNoteBareClone (
+    elt->createNoteFlatClone (
       fCurrentPartClone);
 
   // register clone in this tranlastors' voice notes map
@@ -2397,7 +2397,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
       endl;
 
   fCurrentChordClone =
-    elt->createChordBareClone (
+    elt->createChordFlatClone (
       fCurrentPartClone);
 
   if (fTupletClonesStack.size ()) {
@@ -2466,7 +2466,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
   // create the tuplet clone
   S_msrTuplet
     tupletClone =
-      elt->createTupletBareClone ();
+      elt->createTupletFlatClone ();
 
   // register it in this visitor
   if (gGeneralOptions->fTraceTuplets)
@@ -2737,7 +2737,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
   // create the measure repeat clone
   S_msrMeasureRepeat
     measureRepeatClone =
-      elt->createMeasureRepeatBareClone (
+      elt->createMeasureRepeatFlatClone (
         fCurrentVoiceClone);
 
 //         fCurrentSegmentClonesStack.top (),
@@ -2826,7 +2826,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 
   // create a measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone =
-    elt->createMeasureRepeatPatternBareClone (
+    elt->createMeasureRepeatPatternFlatClone (
       fCurrentVoiceClone);
 }
 
@@ -2855,7 +2855,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 
   // create a measure repeat replicas clone
   fCurrentMeasureRepeatReplicasClone =
-    elt->createMeasureRepeatReplicasBareClone (
+    elt->createMeasureRepeatReplicasFlatClone (
       fCurrentVoiceClone);
 }
 
@@ -2891,7 +2891,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // create the multiple rest clone
   S_msrMultipleRest
     multipleRestClone =
-      elt->createMultipleRestBareClone (
+      elt->createMultipleRestFlatClone (
         fCurrentVoiceClone);
 
   // set the multiple rest clone's contents
@@ -2959,7 +2959,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
   // create a multiple rest contents clone
   fCurrentMultipleRestContentsClone =
-    elt->createMultipleRestContentsBareClone (
+    elt->createMultipleRestContentsFlatClone (
       fCurrentVoiceClone);
 
   // set last segment as the multiple rest contents segment
@@ -3359,7 +3359,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
 
 /* JMI
  *   fCurrentVoiceClone =
-    elt->createVoiceBareClone (fCurrentStaffClone);
+    elt->createVoiceFlatClone (fCurrentStaffClone);
     
   fCurrentStaffClone->
     registerVoiceInStaff (fCurrentVoiceClone);
