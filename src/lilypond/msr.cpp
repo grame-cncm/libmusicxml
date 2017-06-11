@@ -20281,22 +20281,22 @@ string msrStaffDetails::staffDetailsAsShortString ()
     "StaffDetails";
 
   // print the staff lines number if any
-  s << ", ";
+  s << ", StaffLinesNumber: ";
   if (fStaffLinesNumber)
     s <<
-      "StaffLinesNumber: " << fStaffLinesNumber;
+      fStaffLinesNumber;
   else
     s <<
-      "StaffLinesNumber: none";
+      "none";
 
   // print the staff tuning if any
-  s << ", ";
+  s << ", StaffTuning: ";
   if (fStaffTuning)
     s <<
-      "StaffTuning: present";
+      "present";
   else
     s <<
-      "StaffTuning: none";
+      "none";
 
   return s.str ();
 }
@@ -20490,8 +20490,9 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff clef '" << clef->clefAsString () <<
-          "' in staff " << fStaffNumber <<
-          " in part " <<
+          "' in staff \"" <<
+          getStaffName () <<
+          "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
@@ -20502,8 +20503,9 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting default treble clef " <<
-          " in staff " << fStaffNumber <<
-          " in part " <<
+          " in staff \"" <<
+          getStaffName () <<
+          "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
@@ -20526,8 +20528,9 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff key '" << key->keyAsString () <<
-          "' in staff " << fStaffNumber <<
-          " in part " <<
+          "' in staff \"" <<
+          getStaffName () <<
+          "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
@@ -20537,8 +20540,9 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting default C major key " <<
-          " in staff " << fStaffNumber <<
-          " in part " <<
+          " in staff \"" <<
+          getStaffName () <<
+          "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
           
@@ -20561,8 +20565,9 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting staff time '" << time->timeAsString () <<
-          "' in staff " << fStaffNumber <<
-          " in part " <<
+          "' in staff \"" <<
+          getStaffName () <<
+          "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
@@ -20572,8 +20577,9 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Setting default 4/4 time " <<
-          " in staff " << fStaffNumber <<
-          " in part " <<
+          " in staff \"" <<
+          getStaffName () <<
+          "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
           
@@ -20939,8 +20945,9 @@ void msrStaff::setStaffClef (S_msrClef clef)
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting staff clef '" << clef->clefAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " <<
+      "' in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -20975,8 +20982,9 @@ void msrStaff::setStaffKey  (S_msrKey  key)
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " <<
+      "' in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -20992,8 +21000,9 @@ void msrStaff::setStaffTime (S_msrTime time)
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting time '" << time->timeAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " <<
+      "' in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21008,8 +21017,9 @@ void msrStaff::createAndAppendRepeatToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat to staff " << fStaffNumber <<
-      " in part " <<
+      "Appending repeat to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21030,8 +21040,9 @@ void msrStaff::appendRepeatendingToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat ending to staff " << fStaffNumber <<
-      " in part " <<
+      "Appending repeat ending to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21054,9 +21065,9 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a measure repeat from it's first measure in staff " <<
-      fStaffNumber <<
-      " in part " <<
+      "Creating a measure repeat from it's first measure in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21077,9 +21088,9 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending the pending measure repeat to staff " <<
-      fStaffNumber <<
-      " in part " <<
+      "Appending the pending measure repeat to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21099,9 +21110,9 @@ void msrStaff::createMultipleRestInStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a multiple rest in staff " <<
-      fStaffNumber <<
-      " in part " <<
+      "Creating a multiple rest in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       ", " <<
       singularOrPlural (
@@ -21124,9 +21135,9 @@ void msrStaff::appendPendingMultipleRestToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending the pending multiple rest to staff " <<
-      fStaffNumber <<
-      " in part " <<
+      "Appending the pending multiple rest to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21170,8 +21181,9 @@ void msrStaff::appendRepeatCloneToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat clone to staff " << fStaffNumber <<
-      " in part " <<
+      "Appending repeat clone to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21189,8 +21201,9 @@ void msrStaff::appendRepeatendingCloneToStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat ending clone to staff " << fStaffNumber <<
-      " in part " <<
+      "Appending repeat ending clone to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21208,8 +21221,9 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending barline '" << barline->barlineAsString () <<
-      "' to staff " << fStaffNumber <<
-      " in part " <<
+      "' to staff " <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21228,8 +21242,9 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
     cerr << idtr <<
       "Setting transpose '" <<
       transpose->transposeAsString () <<
-      "' in staff " << fStaffNumber <<
-      " in part " <<
+      "' in staff " <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -21245,10 +21260,11 @@ void msrStaff::appendStaffDetailsToStaff (
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Appending staff details  '" <<
+      "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
-      "' to staff " << fStaffNumber <<
-      " in part " <<
+      "' to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
