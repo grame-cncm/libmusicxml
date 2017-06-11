@@ -19718,6 +19718,8 @@ void msrVoice::print (ostream& os)
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
       endl;
 
+  os << endl;
+  
   // print the voice initial repeats and segments
   int initialRepeatsAndSegmentsNumber =
     fVoiceInitialRepeatsAndSegments.size ();
