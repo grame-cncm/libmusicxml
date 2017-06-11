@@ -13269,20 +13269,44 @@ void msrMeasure::setMeasureTime (S_msrTime time)
 void msrMeasure::appendTransposeToMeasure (
   S_msrTranspose transpose)
 {
-  // append the transpose to the measure elements list
+  // append it to the measure elements list
   fMeasureElementsList.push_back (transpose);
 }
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
-  // append the bar check to the measure elements list
+  // append it to the measure elements list
   fMeasureElementsList.push_back (barline);
+}
+
+void msrMeasure::appendSegnoToMeasure (S_msrSegno segno)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (segno);
+}
+
+void msrMeasure::appendCodaToMeasure (S_msrCoda coda)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (coda);
+}
+
+void msrMeasure::appendEyeGlassesToMeasure (
+  S_msrEyeGlasses eyeGlasses)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (eyeGlasses);
+}
+
+void msrMeasure::appendPedalToMeasure (S_msrPedal pedal)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (pedal);
 }
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
 {
-  // regular insertion in current measure
-  // append the bar check to the measure elements list
+  // append it to the measure elements list
   fMeasureElementsList.push_back (barCheck);
 }
 
@@ -14183,7 +14207,25 @@ void msrMeasure::prependAfterGraceNotesToMeasure (
     }
   } // for
 }
-  
+
+void msrMeasure::appendTempoToMeasure (
+  S_msrTempo tempo)
+{
+  fMeasureElementsList.push_back (tempo);
+}
+
+void msrMeasure::appendRehearsalToMeasure (
+  S_msrRehearsal rehearsal)
+{
+  fMeasureElementsList.push_back (rehearsal);
+}
+
+void msrMeasure::appendOctaveShiftToMeasure (
+  S_msrOctaveShift octaveShift)
+{
+  fMeasureElementsList.push_back (octaveShift);
+}
+
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 {
   fMeasureElementsList.push_front (elem); // JMI
@@ -15458,6 +15500,24 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
     appendHarmonyToMeasureClone (harmony);
 }
 
+void msrSegment::appendSegnoToSegment (S_msrSegno segno)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending segno " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendSegnoToMeasure (segno);
+}
+
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
@@ -15474,6 +15534,43 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendCodaToMeasure (coda);
+}
+
+void msrSegment::appendEyeGlassesToSegment (
+  S_msrEyeGlasses eyeGlasses)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending eyeglasses " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendEyeGlassesToMeasure (eyeGlasses);
+}
+
+void msrSegment::appendPedalToSegment (S_msrPedal pedal)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending pedal " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendPedalToMeasure (pedal);
 }
 
 void msrSegment::appendTransposeToSegment (
@@ -15493,6 +15590,119 @@ void msrSegment::appendTransposeToSegment (
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTransposeToMeasure (transpose);
+}
+
+void msrSegment::appendStaffDetailsToSegment (
+  S_msrStaffDetails staffDetails)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending staff details " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendStaffDetailsToMeasure (staffDetails);
+}
+
+void msrSegment::appendBreakToSegment (S_msrBreak break_)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending break " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendBreakToMeasure (break_);
+}
+
+void msrSegment::appendBarNumberCheckToSegment (
+  S_msrBarNumberCheck barNumberCheck)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending bar number check " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendBarNumberCheckToMeasure (barNumberCheck);
+}
+
+void msrSegment::appendTempoToSegment (
+  S_msrTempo tempo)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending tempo " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendTempoToMeasure (tempo);
+}
+
+void msrSegment::appendRehearsalToSegment (
+  S_msrRehearsal rehearsal)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending rehearsal " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendRehearsalToMeasure (rehearsal);
+}
+
+void msrSegment::appendOctaveShiftToSegment (
+  S_msrOctaveShift octaveShift)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending octave shift " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendOctaveShiftToMeasure (octaveShift);
 }
 
 void msrSegment::bringSegmentToMeasurePosition (

@@ -2697,6 +2697,21 @@ class EXP msrMeasure : public msrElement
     void                  appendTransposeToMeasure (
                             S_msrTranspose transpose);
 
+    // tempo
+    
+    void                  appendTempoToMeasure (
+                            S_msrTempo tempo);
+
+    // rehearsals
+    
+    void                  appendRehearsalToMeasure (
+                            S_msrRehearsal rehearsal);
+
+    // octave shifts
+    
+    void                  appendOctaveShiftToMeasure (
+                            S_msrOctaveShift octaveShift);
+
     // bar lines
     
     void                  appendBarlineToMeasure (S_msrBarline barline);
@@ -2751,10 +2766,22 @@ class EXP msrMeasure : public msrElement
     void                  prependAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
                             
+    // segno
+    
+    void                  appendSegnoToMeasure (S_msrSegno segno);
+
     // coda
     
     void                  appendCodaToMeasure (S_msrCoda coda);
 
+    // eyeglasses
+    
+    void                  appendEyeGlassesToMeasure (
+                            S_msrEyeGlasses eyeGlasses);
+
+    // pedal
+    
+    void                  appendPedalToMeasure (S_msrPedal pedal);
 
     // other elements
     
@@ -7211,7 +7238,6 @@ class EXP msrVoice : public msrElement
     // pedal
     
     void                  appendPedalToVoice (S_msrPedal pedal);
-
 
     // other elements
     
