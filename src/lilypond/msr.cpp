@@ -13265,7 +13265,14 @@ void msrMeasure::setMeasureTime (S_msrTime time)
         "division per full measure") <<
       endl;
 }
-  
+
+void msrMeasure::appendTransposeToMeasure (
+  S_msrTranspose transpose)
+{
+  // append the transpose to the measure elements list
+  fMeasureElementsList.push_back (transpose);
+}
+
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
   // append the bar check to the measure elements list
@@ -15467,6 +15474,25 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendCodaToMeasure (coda);
+}
+
+void msrSegment::appendTransposeToSegment (
+  S_msrTranspose transpose)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending transpose " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendTransposeToMeasure (transpose);
 }
 
 void msrSegment::bringSegmentToMeasurePosition (

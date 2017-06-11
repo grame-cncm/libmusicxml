@@ -2692,9 +2692,17 @@ class EXP msrMeasure : public msrElement
                       
     string                getMeasureLengthAsString () const;
 
+    // transpose
+
+    void                  appendTransposeToMeasure (
+                            S_msrTranspose transpose);
+
     // bar lines
     
     void                  appendBarlineToMeasure (S_msrBarline barline);
+
+    // bar checks
+    
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
 
     // notes
