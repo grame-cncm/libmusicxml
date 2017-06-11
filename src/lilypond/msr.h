@@ -7598,11 +7598,10 @@ class EXP msrStaff : public msrElement
     
     void                  setStaffTranspose (S_msrTranspose transpose);
 
-
     // staff details
 
-    void                  appendStaffDetailsToStaff (
-                            S_msrStaffDetails staffDetails);
+    S_msrStaffDetails     getCurrentStaffStaffDetails () const
+                            { return fCurrentStaffStaffDetails; }
 
     // staff voices
     
@@ -7636,11 +7635,11 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
-/*
-    S_msrVoice      addVoiceMasterToStaff ( JMI
-                      int inputLineNumber);
-  */
-  
+    // staff details
+    
+    void                  appendStaffDetailsToStaff (
+                            S_msrStaffDetails staffDetails);
+                            
     // staff voices
     
     S_msrVoice            addVoiceToStaffByItsRelativeNumber (
@@ -7726,11 +7725,6 @@ class EXP msrStaff : public msrElement
     
     void                  appendTransposeToAllStaffVoices (
                             S_msrTranspose transpose);
-
-    // staff tuning
-    
-    void                  appendStaffTuningToStaff (
-                            S_msrStaffTuning staffTuning);
   
     // finalization
 
@@ -7871,6 +7865,9 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
+
+    // ID and name
+    
     void                  setPartID (string partID)
                               { fPartID = partID; }
     
@@ -7893,7 +7890,32 @@ class EXP msrPart : public msrElement
                 
     string                getPartAbbreviation () const
                               { return fPartAbbreviation; }
-                
+
+    // divisions
+    
+    void                  setPartMeasurePositionHighTide (
+                            int inputLineNumber,
+                            int measurePosition);
+                      
+    void                  updatePartMeasurePositionHighTide (
+                            int inputLineNumber,
+                            int measurePosition);
+                    
+    const int             getPartMeasurePositionHighTide () const
+                              { return fPartMeasurePositionHighTide; }
+
+    // measures
+
+    const string          getPartMeasureNumber () const
+                              { return fPartMeasureNumber; }
+
+    // staff details
+
+    S_msrStaffDetails     getCurrentPartStaffDetails () const
+                            { return fCurrentPartStaffDetails; }
+
+    // instrument anme
+
     void                  setPartInstrumentName (string partInstrumentName)
                               { fPartInstrumentName = partInstrumentName; }
                               
@@ -7909,10 +7931,9 @@ class EXP msrPart : public msrElement
                               
     string                getPartInstrumentAbbreviation() const
                               { return fPartInstrumentAbbreviation; }
-                
-    S_msrPartgroup        getPartPartgroupUplink () const
-                              { return fPartPartgroupUplink; }
-              
+
+    // harmony staff and voice
+    
     S_msrStaff            getPartHarmonyStaff () const
                               { return fPartHarmonyStaff; }
                   
@@ -7957,20 +7978,11 @@ class EXP msrPart : public msrElement
     S_msrTranspose        getPartTranspose () const
                               { return fPartTranspose; };
     
-    const string          getPartMeasureNumber () const
-                              { return fPartMeasureNumber; }
-
-    void                  setPartMeasurePositionHighTide (
-                            int inputLineNumber,
-                            int measurePosition);
-                      
-    void                  updatePartMeasurePositionHighTide (
-                            int inputLineNumber,
-                            int measurePosition);
-                    
-    const int             getPartMeasurePositionHighTide () const
-                              { return fPartMeasurePositionHighTide; }
-
+    // uplinks
+    
+    S_msrPartgroup        getPartPartgroupUplink () const
+                              { return fPartPartgroupUplink; }
+              
     // services
     // ------------------------------------------------------
 
@@ -8127,55 +8139,55 @@ class EXP msrPart : public msrElement
 
     // divisions
 
-    int                     fPartDivisionsPerQuarterNote;
+    int                   fPartDivisionsPerQuarterNote;
     list<pair<msrDuration, int> >
-                            fPartDurationsToDivisions;
+                        fPartDurationsToDivisions;
 
     // measures
 
-    int                     fPartMeasurePositionHighTide;
-    string                  fPartMeasureNumber;
+    int                   fPartMeasurePositionHighTide;
+    string                fPartMeasureNumber;
 
     // part ID and name
     
-    string                  fPartID; // native
+    string                fPartID; // native
     
-    string                  fPartMsrName;
-                              // may be different than fPartID
-                              // if renamed,
-                              // coined in constructor
+    string                fPartMsrName;
+                            // may be different than fPartID
+                            // if renamed,
+                            // coined in constructor
 
-    string                  fPartName; // from '<part-name/>'
-    string                  fPartAbbreviation;
+    string                fPartName; // from '<part-name/>'
+    string                fPartAbbreviation;
 
     // instrument name
     
-    string                  fPartInstrumentName;
-    string                  fPartInstrumentAbbreviation;
+    string                fPartInstrumentName;
+    string                fPartInstrumentAbbreviation;
 
     // clef, key, time
     
-    S_msrClef               fPartCurrentClef; // JMI
-    S_msrKey                fPartCurrentKey; // JMI
-    S_msrTime               fPartCurrentTime;
+    S_msrClef             fPartCurrentClef; // JMI
+    S_msrKey              fPartCurrentKey; // JMI
+    S_msrTime             fPartCurrentTime;
 
-    S_msrTranspose          fPartTranspose;
+    S_msrTranspose        fPartTranspose;
 
     // staff details
 
-    S_msrStaffDetails       fCurrentPartStaffDetails;
+    S_msrStaffDetails     fCurrentPartStaffDetails;
     
     // harmonies
 
-    S_msrStaff              fPartHarmonyStaff;
-    S_msrVoice              fPartHarmonyVoice;
-    S_msrVoice              fPartHarmoniesSupplierVoice;
+    S_msrStaff            fPartHarmonyStaff;
+    S_msrVoice            fPartHarmonyVoice;
+    S_msrVoice            fPartHarmoniesSupplierVoice;
 
     // uplinks
     
-    S_msrPartgroup          fPartPartgroupUplink;
+    S_msrPartgroup        fPartPartgroupUplink;
 
-    map<int, S_msrStaff>    fPartStavesMap;
+    map<int, S_msrStaff>  fPartStavesMap;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

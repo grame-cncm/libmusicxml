@@ -17484,15 +17484,28 @@ void msrVoice::initializeVoice ()
       break;
   } // switch
 
-  fVoiceMeasureNumber = //"??";
+  // set voice number
+  fVoiceMeasureNumber = // JMI "??";
     fVoiceDirectPartUplink->
       getPartMeasureNumber ();
 
-  fMusicHasBeenInsertedInVoice    = false;
-  
+  // music has not been inserted in voice yet
+  fMusicHasBeenInsertedInVoice = false;
+
+  // counters
   fVoiceActualNotesCounter     = 0;
   fVoiceActualHarmoniesCounter = 0;
 
+  // get the initial staff details from the staff if any
+  S_msrStaffDetails
+    staffStaffDetails =
+      fVoiceStaffUplink->
+        getCurrentStaffStaffDetails ();
+
+  if (staffStaffDetails)
+    // append it to the voice
+    appendStaffDetailsToVoice (staffStaffDetails);
+    
   // add the master stanza for this voice,
   // to collect skips along the way that are used as a 'prelude'
   // by actual stanza that start at later points
@@ -20456,6 +20469,17 @@ void msrStaff::initializeStaff ()
   } // for
 */
 
+  // get the initial staff details from the part if any
+  S_msrStaffDetails
+    partStaffDetails =
+      fStaffDirectPartUplink->
+        getCurrentPartStaffDetails ();
+
+  if (partStaffDetails)
+    // append it to the staff
+    appendStaffDetailsToStaff (partStaffDetails);
+    
+
   // get the initial clef from the part if any
   {
     S_msrClef
@@ -21232,8 +21256,8 @@ void msrStaff::appendStaffDetailsToStaff (
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
-  // register staff detaila in staff
-  fCurrentPartStaffDetails = staffDetails;
+  // register staff details in staff
+  fCurrentStaffStaffDetails = staffDetails;
   
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
@@ -22476,7 +22500,7 @@ void msrPart::appendStaffDetailsToPart (
       "\" to part " << getPartCombinedName () <<
     endl;
 
-  // register staff detaila in part
+  // register staff details in part
   fCurrentPartStaffDetails = staffDetails;
   
   // propagate it to all staves
