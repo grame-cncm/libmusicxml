@@ -15168,7 +15168,7 @@ void msrSegment::createSegmentInitialMeasure () // JMI
   // set the measure time JMI
   fSegmentTime =
     fSegmentVoiceUplink->
-      getVoiceTime ();
+      getCurrentVoiceTime ();
 
   if (! fSegmentTime) {
     // use the implicit initial 4/4 time signature
@@ -17627,13 +17627,12 @@ S_msrVoice msrVoice::createVoiceFlatClone (S_msrStaff staffClone)
   // populate the voice clone
   clone->fVoiceName =
     fVoiceName;
-    
+
+  // set external voice number
   clone->fExternalVoiceNumber =
     fExternalVoiceNumber;
 
-  clone->fVoiceTime =
-    fVoiceTime;
-
+  // has music been inserted in voice?
   clone->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
   
@@ -17932,7 +17931,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
       endl;
 
   // register time in voice
-  fVoiceTime = time;
+  fCurrentVoiceTime = time;
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
@@ -19719,20 +19718,6 @@ void msrVoice::print (ostream& os)
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
       endl;
 
-  // print the voice time // JMI
-  os <<
-    idtr <<
-      setw(fieldWidth) << "Time" << " : ";
-  if (fVoiceTime)
-    os <<
-      fVoiceTime->timeAsString ();
-  else
-    os <<
-      "none"; // JMI
-  os <<
-    endl <<
-    endl;
-    
   // print the voice initial repeats and segments
   int initialRepeatsAndSegmentsNumber =
     fVoiceInitialRepeatsAndSegments.size ();

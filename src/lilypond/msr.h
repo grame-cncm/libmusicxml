@@ -6916,8 +6916,8 @@ class EXP msrVoice : public msrElement
 
     // clef, key, time
     
-    S_msrTime             getVoiceTime () const
-                              { return fVoiceTime; }
+    S_msrTime             getCurrentVoiceTime () const // JMI ???
+                              { return fCurrentVoiceTime; }
                
      // measures
      
@@ -7157,7 +7157,7 @@ class EXP msrVoice : public msrElement
 
     // clef, key, time
     
-    S_msrTime             fVoiceTime;
+    S_msrTime             fCurrentVoiceTime;
 
     // counters
     
