@@ -15436,9 +15436,6 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
     setMeasureClef (clef);
-    
-  // append it to this segment
-  appendClefToSegment (clef);
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -15456,9 +15453,6 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
     setMeasureKey (key);
-    
-  // append it to this segment
-  appendKeyToSegment (key);
 }
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
@@ -15476,9 +15470,6 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
   // register time in segments's current measure
   fSegmentMeasuresList.back ()->
     setMeasureTime (time);
-    
-  // append it to this segment
-  appendTimeToSegment (time);
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
