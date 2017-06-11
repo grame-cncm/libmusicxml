@@ -13204,15 +13204,15 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
         fMeasureNumber,
         segmentClone);
 
+  // set clone measure kind
+  clone->fMeasureKind =
+    fMeasureKind;
+
   // set clone time
   clone->
     setMeasureTime (
       directPartUplink->
         getPartCurrentTime ());
-
-  // set clone measure kind
-  clone->fMeasureKind =
-    fMeasureKind;
 
   // set clone 'first in segment' kind
   clone->fMeasureFirstInSegmentKind =
@@ -20029,16 +20029,18 @@ void msrVoice::print (ostream& os)
   os << endl;
   
   // print the last segment
+  msrAssert (
+    fVoiceLastSegment != 0,
+    "fVoiceLastSegment is null");
+    
   os << idtr <<
     "Last segment:" <<
     endl;
     
   idtr++;
-  
   os <<
     fVoiceLastSegment <<
     endl;
-  
   idtr--;
   
   if (gGeneralOptions->fTraceLyrics) {
@@ -20741,7 +20743,6 @@ void msrStaff::initializeStaff ()
     appendStaffDetailsToStaff (partStaffDetails);
   }
     
-
   // get the initial clef from the part if any
   {
     S_msrClef
@@ -21538,19 +21539,6 @@ void msrStaff::appendStaffDetailsToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-
-    cerr <<
-      endl <<
-      endl <<
-      "++++++++++++++++++++++" <<
-      endl <<
-      (*i).second <<
-      "++++++++++++++++++++++" <<
-      endl <<
-      endl;
-
-
-
     (*i).second->
       appendStaffDetailsToVoice (staffDetails);
   } // for
