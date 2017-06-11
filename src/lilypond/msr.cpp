@@ -17869,6 +17869,14 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
       }
     }
   }
+
+  else {
+    if (! fVoiceFirstSegment) {
+      // register voice first segment for LilyPond issue 34
+      fVoiceFirstSegment =
+        fVoiceLastSegment;
+    }
+  }
 }
   
 S_msrVoice msrVoice::createVoiceShallowClone (S_msrStaff staffClone)
