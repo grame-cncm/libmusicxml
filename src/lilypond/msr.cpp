@@ -18099,7 +18099,7 @@ void msrVoice::appendStaffDetailsToVoice (
   if (gGeneralOptions->fTraceVoices || gMsrOptions->fTraceMsr)
     cerr << idtr <<
       "Appending staff details '" <<
-      staffDetails->staffDetailsAsString () <<
+      staffDetails->staffDetailsAsShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
@@ -20118,7 +20118,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsFlatClone (
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Creating a flat clone of staff details \"" <<
-      staffDetailsAsString () <<
+      staffDetailsAsShortString () <<
       "\"" <<
       endl;
   }
@@ -20273,31 +20273,30 @@ ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
   return os;
 }
 
-string msrStaffDetails::staffDetailsAsString ()
+string msrStaffDetails::staffDetailsAsShortString ()
 {
   stringstream s;
 
   s <<
-    "StaffDetails" <<
-    endl;
+    "StaffDetails";
 
   // print the staff lines number if any
+  s << ", ";
   if (fStaffLinesNumber)
     s <<
-        fStaffLinesNumber;
+      "StaffLinesNumber: " << fStaffLinesNumber;
   else
     s <<
-      "StaffLinesNumber: none" <<
-      endl;
+      "StaffLinesNumber: none";
 
   // print the staff tuning if any
+  s << ", ";
   if (fStaffTuning)
     s <<
-        fStaffTuning;
+      "StaffTuning: present";
   else
     s <<
-      "StaffTuning: none" <<
-      endl;
+      "StaffTuning: none";
 
   return s.str ();
 }
@@ -21250,7 +21249,7 @@ void msrStaff::appendStaffDetailsToStaff (
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Appending staff details  '" <<
-      staffDetails->staffDetailsAsString () <<
+      staffDetails->staffDetailsAsShortString () <<
       "' to staff " << fStaffNumber <<
       " in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21438,11 +21437,18 @@ void msrStaff::browseData (basevisitor* v)
       endl;
 
   /*
-    fStaffClef, fStaffKey and fStaffTime are used to populate
-    newly created voices, not to create music proper:
+    fPartCurrentClef, fPartCurrentKey and fPartCurrentTime are used
+    to populate newly created voices, not to create music proper:
     they're thus not browsed
   */
 
+  /*
+    fCurrentPartStaffDetails is used
+    to populate newly created voices, not to create music proper:
+    it is thus not browsed
+  */
+
+/*
   if (fStaffTuningsList.size ()) {
     for (
       list<S_msrStaffTuning>::const_iterator i = fStaffTuningsList.begin();
@@ -21454,6 +21460,7 @@ void msrStaff::browseData (basevisitor* v)
     } // for
     idtr--;
   }
+*/
 
   if (fStaffAllVoicesMap.size ()) {
     for (
@@ -21552,6 +21559,16 @@ void msrStaff::print (ostream& os)
     fStaffInstrumentName << "\"" << endl;
 */
 
+  // print the staff datails if any
+  os << "Staff details:";
+  if (fCurrentStaffStaffDetails) {
+    os << fCurrentStaffStaffDetails;
+  }
+  else
+    os << "none";
+  os << endl;
+
+  /* JMI
   if (fStaffTuningsList.size ()) {
     os <<
       idtr << "Staff tunings:" <<
@@ -21574,6 +21591,7 @@ void msrStaff::print (ostream& os)
   }
 
   os << endl;
+*/
 
   // print the voices
   if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
@@ -21668,6 +21686,7 @@ void msrStaff::printStructure (ostream& os)
     fStaffInstrumentName << "\"" << endl;
 */
 
+/* JMI
   if (fStaffTuningsList.size ()) {
     os <<
       idtr << "Staff tunings:" <<
@@ -21687,6 +21706,7 @@ void msrStaff::printStructure (ostream& os)
     os << endl;
     idtr--;
   }
+*/
 
   // print the registered voices names
   if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
@@ -22496,7 +22516,7 @@ void msrPart::appendStaffDetailsToPart (
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Appending staff details\"" <<
-      staffDetails->staffDetailsAsString () <<
+      staffDetails->staffDetailsAsShortString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
 

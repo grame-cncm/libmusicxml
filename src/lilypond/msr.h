@@ -7467,7 +7467,7 @@ class EXP msrStaffDetails : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                staffDetailsAsString ();
+    string                staffDetailsAsShortString ();
     
     // visitors
     // ------------------------------------------------------
@@ -7807,10 +7807,12 @@ class EXP msrStaff : public msrElement
     
     int                   fRegisteredVoicesCounter;
 
+/* JMI
     // staff tunings
     
     list<S_msrStaffTuning>
                           fStaffTuningsList;
+*/
 
     // uplinks
 
