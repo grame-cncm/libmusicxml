@@ -20272,7 +20272,7 @@ string msrStaffDetails::staffDetailsAsShortString ()
   s << ", StaffLinesNumber: ";
   if (fStaffLinesNumber)
     s <<
-      fStaffLinesNumber;
+      fStaffLinesNumber->getLinesNumber ();
   else
     s <<
       "none";
