@@ -20170,7 +20170,7 @@ void msrStaffDetails::browseData (basevisitor* v)
     browser.browse (*fStaffLinesNumber);
   }
 
-  if (fStaffLinesNumber) {
+  if (fStaffTuning) {
     // browse the staff tuning
     msrBrowser<msrStaffTuning> browser (v);
     browser.browse (*fStaffTuning);
@@ -21206,7 +21206,8 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Setting transpose '" << transpose->transposeAsString () <<
+      "Setting transpose '" <<
+      transpose->transposeAsString () <<
       "' in staff " << fStaffNumber <<
       " in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21222,6 +21223,15 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
 void msrStaff::appendStaffDetailsToStaff (
   S_msrStaffDetails staffDetails)
 {
+  if (gGeneralOptions->fTraceStaves)
+    cerr << idtr <<
+      "Appending staff details  '" <<
+      staffDetails->staffDetailsAsString () <<
+      "' to staff " << fStaffNumber <<
+      " in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
@@ -21949,6 +21959,8 @@ void msrPart::printDurationsDivisions (ostream& os)
   else
     os << idtr <<
       "an empty list";
+
+  os << endl;
 
   idtr--;
 }
