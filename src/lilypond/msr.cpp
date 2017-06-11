@@ -13279,6 +13279,12 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
   fMeasureElementsList.push_back (barline);
 }
 
+void msrMeasure::prependBarlineToMeasure (S_msrBarline barline)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_front (barline);
+}
+
 void msrMeasure::appendSegnoToMeasure (S_msrSegno segno)
 {
   // append it to the measure elements list
@@ -15779,7 +15785,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
       endl;
 
   fSegmentMeasuresList.front ()->
-    prependOtherElementToMeasure (barline);
+    prependBarlineToMeasure (barline);
 }
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)

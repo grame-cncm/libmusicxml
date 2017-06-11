@@ -2728,6 +2728,7 @@ class EXP msrMeasure : public msrElement
     // bar lines
     
     void                  appendBarlineToMeasure (S_msrBarline barline);
+    void                  prependBarlineToMeasure (S_msrBarline barline);
 
     // bar checks
     
