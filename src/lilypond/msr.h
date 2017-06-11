@@ -1577,7 +1577,7 @@ class EXP msrDoubleTremolo : public msrElement
       S_msrVoice           voiceUplink);
 
 
-    SMARTP<msrDoubleTremolo> createDoubleTremoloFlatClone (
+    SMARTP<msrDoubleTremolo> createDoubleTremoloShallowClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -2536,7 +2536,7 @@ class EXP msrMeasure : public msrElement
       string        measureNumber,
       S_msrSegment  measureSegmentUplink);
     
-    SMARTP<msrMeasure> createMeasureFlatClone (
+    SMARTP<msrMeasure> createMeasureShallowClone (
       S_msrSegment segmentClone);
 
   protected:
@@ -2828,7 +2828,7 @@ class EXP msrSegment : public msrElement
       S_msrVoice   segmentVoicekUplink,
       S_msrMeasure firstMeasure);
 
-    SMARTP<msrSegment> createSegmentFlatClone (
+    SMARTP<msrSegment> createSegmentShallowClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -3026,7 +3026,7 @@ class EXP msrGracenotes : public msrElement
       bool       slashed,
       S_msrVoice gracenotesVoiceUplink);
     
-    SMARTP<msrGracenotes> createGracenotesFlatClone (
+    SMARTP<msrGracenotes> createGracenotesShallowClone (
       S_msrVoice voiceClone);
 
     SMARTP<msrGracenotes> createSkipGracenotesClone (
@@ -3114,7 +3114,7 @@ class EXP msrAftergracenotes : public msrElement
       bool       aftergracenoteIsSlashed,
       S_msrVoice aftergracenotesVoiceUplink);
     
-    SMARTP<msrAftergracenotes> createAftergracenotesFlatClone (
+    SMARTP<msrAftergracenotes> createAftergracenotesShallowClone (
       S_msrNote  noteClone,
       S_msrVoice voiceClone);
 
@@ -3357,7 +3357,7 @@ class EXP msrSyllable : public msrElement
       int                   divisions,
       S_msrStanza           syllableStanzaUplink);
 
-    SMARTP<msrSyllable> createSyllableFlatClone (S_msrPart partClone);
+    SMARTP<msrSyllable> createSyllableShallowClone (S_msrPart partClone);
 
   protected:
 
@@ -3483,7 +3483,7 @@ class EXP msrHarmony : public msrElement
       msrQuartertonesPitch harmonyBassQuartertonesPitch,
       int                  harmonySoundingDivisions);
     
-    SMARTP<msrHarmony> createHarmonyFlatClone (
+    SMARTP<msrHarmony> createHarmonyShallowClone (
       S_msrPart partClone);
 
   protected:
@@ -3612,7 +3612,7 @@ class EXP msrNote : public msrElement
     
       bool                 noteIsAGraceNote);
     
-    SMARTP<msrNote> createNoteFlatClone (S_msrPart partClone);
+    SMARTP<msrNote> createNoteShallowClone (S_msrPart partClone);
     
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -4166,7 +4166,7 @@ class EXP msrChord : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    SMARTP<msrChord>      createChordFlatClone (
+    SMARTP<msrChord>      createChordShallowClone (
                             S_msrPart partClone);
 
   protected:
@@ -5305,7 +5305,7 @@ class EXP msrTuplet : public msrElement
       int normalNotes,
       int notePositionInMeasure);
 
-    SMARTP<msrTuplet> createTupletFlatClone ();
+    SMARTP<msrTuplet> createTupletShallowClone ();
 
   protected:
 
@@ -5589,7 +5589,7 @@ class EXP msrStanza : public msrElement
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
     
-    SMARTP<msrStanza> createStanzaFlatClone (
+    SMARTP<msrStanza> createStanzaShallowClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -6215,7 +6215,7 @@ class EXP msrRepeatending : public msrElement
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
     
-    SMARTP<msrRepeatending> createRepeatendingFlatClone (
+    SMARTP<msrRepeatending> createRepeatendingShallowClone (
       S_msrRepeat repeatClone);
 
   protected:
@@ -6315,7 +6315,7 @@ class EXP msrRepeat : public msrElement
       int          inputLineNumber,
       S_msrVoice   voiceUplink);
     
-    SMARTP<msrRepeat> createRepeatFlatClone (
+    SMARTP<msrRepeat> createRepeatShallowClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -6396,7 +6396,7 @@ class EXP msrMeasureRepeatPattern : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternFlatClone (
+    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternShallowClone (
         S_msrVoice voiceClone);
 
   protected:
@@ -6465,7 +6465,7 @@ class EXP msrMeasureRepeatReplicas : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasFlatClone (
+    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasShallowClone (
         S_msrVoice voiceClone);
 
   protected:
@@ -6548,7 +6548,7 @@ class EXP msrMeasureRepeat : public msrElement
       int          measureRepeatSlashesNumber,
       S_msrVoice   voiceUplink);
     
-    SMARTP<msrMeasureRepeat> createMeasureRepeatFlatClone (
+    SMARTP<msrMeasureRepeat> createMeasureRepeatShallowClone (
       S_msrVoice   voiceClone);
 
   protected:
@@ -6655,7 +6655,7 @@ class EXP msrMultipleRestContents : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMultipleRestContents> createMultipleRestContentsFlatClone (
+    SMARTP<msrMultipleRestContents> createMultipleRestContentsShallowClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -6735,7 +6735,7 @@ class EXP msrMultipleRest : public msrElement
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMultipleRest> createMultipleRestFlatClone (
+    SMARTP<msrMultipleRest> createMultipleRestShallowClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -6835,7 +6835,7 @@ class EXP msrVoice : public msrElement
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
     
-    SMARTP<msrVoice> createVoiceFlatClone (
+    SMARTP<msrVoice> createVoiceShallowClone (
       S_msrStaff staffClone);
 
   protected:
@@ -7249,7 +7249,7 @@ class EXP msrStaffLinesNumber : public msrElement
       int inputLineNumber,
       int linesNumber);
 
-    SMARTP<msrStaffLinesNumber> createStaffLinesNumberFlatClone ();
+    SMARTP<msrStaffLinesNumber> createStaffLinesNumberShallowClone ();
 
   protected:
 
@@ -7309,7 +7309,7 @@ class EXP msrStaffTuning : public msrElement
       msrQuartertonesPitch quartertonesPitch,
       int                  staffTuningOctave);
     
-    SMARTP<msrStaffTuning> createStaffTuningFlatClone ();
+    SMARTP<msrStaffTuning> createStaffTuningShallowClone ();
 
   protected:
 
@@ -7421,7 +7421,7 @@ class EXP msrStaffDetails : public msrElement
       msrPrintObjectKind    printObjectKind,
       msrPrintSpacingKind   printSpacingKind);
 
-    SMARTP<msrStaffDetails> createStaffDetailsFlatClone (
+    SMARTP<msrStaffDetails> createStaffDetailsShallowClone (
       S_msrStaffLinesNumber staffLinesNumberClone,
       S_msrStaffTuning      staffTuningClone);
 
@@ -7529,7 +7529,7 @@ class EXP msrStaff : public msrElement
       msrStaffKind staffKind,
       int          staffNumber);
     
-    SMARTP<msrStaff> createStaffFlatClone (
+    SMARTP<msrStaff> createStaffShallowClone (
       S_msrPart partClone);
 
   protected:
@@ -7830,7 +7830,7 @@ class EXP msrPart : public msrElement
       string         partID,
       S_msrPartgroup partPartgroupUplink);
                 
-    SMARTP<msrPart> createPartFlatClone (
+    SMARTP<msrPart> createPartShallowClone (
       S_msrPartgroup partgroupClone);
 
   protected:
@@ -8244,7 +8244,7 @@ class EXP msrPartgroup : public msrElement
       S_msrPartgroup         partgroupPartgroupUplink,
       S_msrScore             partgroupScoreUplink);
 
-    SMARTP<msrPartgroup> createPartgroupFlatClone (
+    SMARTP<msrPartgroup> createPartgroupShallowClone (
       S_msrPartgroup partgroupClone, // the uplink for embeddeed part groups
       S_msrScore     scoreClone);
 
@@ -8424,7 +8424,7 @@ class EXP msrScore : public msrElement
     static SMARTP<msrScore> create (
       int inputLineNumber);
 
-    SMARTP<msrScore> createScoreFlatClone ();
+    SMARTP<msrScore> createScoreShallowClone ();
 
   protected:
 

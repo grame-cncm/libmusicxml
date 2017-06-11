@@ -4019,12 +4019,12 @@ msrDoubleTremolo::msrDoubleTremolo (
   fDoubleTremoloSoundingDivisions = -1; // will be set later
 }
 
-S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloFlatClone (
+S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
-      "Creating a flat clone of a double tremolo" <<
+      "Creating a shallow clone of a double tremolo" <<
       endl;
   
   msrAssert(
@@ -5307,12 +5307,12 @@ msrGracenotes::msrGracenotes (
 
 msrGracenotes::~msrGracenotes() {}
 
-S_msrGracenotes msrGracenotes::createGracenotesFlatClone (
+S_msrGracenotes msrGracenotes::createGracenotesShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "Creating a flat clone of grace notes" <<
+      "Creating a shallow clone of grace notes" <<
       gracenotesAsShortString () <<
       endl;
   }
@@ -5540,13 +5540,13 @@ msrAftergracenotes::msrAftergracenotes (
 
 msrAftergracenotes::~msrAftergracenotes() {}
 
-S_msrAftergracenotes msrAftergracenotes::createAftergracenotesFlatClone (
+S_msrAftergracenotes msrAftergracenotes::createAftergracenotesShallowClone (
   S_msrNote  noteClone,
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceGracenotes) {
     cerr << idtr <<
-      "Creating a flat clone of after grace notes" <<
+      "Creating a shallow clone of after grace notes" <<
       endl;
   }
 
@@ -6010,12 +6010,12 @@ void msrNote::initializeNote ()
 msrNote::~msrNote()
 {}
 
-S_msrNote msrNote::createNoteFlatClone (
+S_msrNote msrNote::createNoteShallowClone (
   S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a flat clone of note " <<
+      "Creating a shallow clone of note " <<
       noteAsString () <<
       endl;
   }
@@ -7704,12 +7704,12 @@ msrChord::msrChord (
 
 msrChord::~msrChord() {}
 
-S_msrChord msrChord::createChordFlatClone (
+S_msrChord msrChord::createChordShallowClone (
   S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "Creating a flat clone of chord '" <<
+      "Creating a shallow clone of chord '" <<
       chordAsString () <<
       "'" <<
       endl;
@@ -8836,11 +8836,11 @@ msrTuplet::msrTuplet (
 
 msrTuplet::~msrTuplet() {}
 
-S_msrTuplet msrTuplet::createTupletFlatClone ()
+S_msrTuplet msrTuplet::createTupletShallowClone ()
 {
   if (gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
-      "Creating a flat clone of tuplet '" <<
+      "Creating a shallow clone of tuplet '" <<
       tupletAsShortString () <<
       "'" <<
       endl;
@@ -11106,12 +11106,12 @@ msrSyllable::msrSyllable (
 msrSyllable::~msrSyllable()
 {}
 
-S_msrSyllable msrSyllable::createSyllableFlatClone (
+S_msrSyllable msrSyllable::createSyllableShallowClone (
   S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "Creating a flat clone of syllable '" <<
+      "Creating a shallow clone of syllable '" <<
       syllableAsString () <<
       "'" <<
       endl;
@@ -11590,12 +11590,12 @@ string msrStanza::getStanzaName () const
 
 msrStanza::~msrStanza() {}
 
-S_msrStanza msrStanza::createStanzaFlatClone (
+S_msrStanza msrStanza::createStanzaShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "Creating a flat clone of stanza \"" <<
+      "Creating a shallow clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
       voiceClone->getVoiceName () <<
@@ -12149,11 +12149,11 @@ msrHarmony::msrHarmony (
 
 msrHarmony::~msrHarmony() {}
 
-S_msrHarmony msrHarmony::createHarmonyFlatClone (S_msrPart partClone)
+S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating a flat clone or harmony '" <<
+      "Creating a shallow clone or harmony '" <<
       harmonyKindAsShortString () <<
       "'" <<
       endl;
@@ -13169,12 +13169,12 @@ void msrMeasure::initializeMeasure ()
 msrMeasure::~msrMeasure()
 {}
 
-S_msrMeasure msrMeasure::createMeasureFlatClone (
+S_msrMeasure msrMeasure::createMeasureShallowClone (
   S_msrSegment segmentClone)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Creating a flat clone of measure '" <<
+      "Creating a shallow clone of measure '" <<
       fMeasureNumber <<
       "'" <<
       " in segment " << segmentClone->segmentAsString () <<
@@ -15221,12 +15221,12 @@ void msrSegment::initializeSegment ()
   fMeasureNumberHasBeenSetInSegment = false;
 }
 
-S_msrSegment msrSegment::createSegmentFlatClone (
+S_msrSegment msrSegment::createSegmentShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "Creating a flat clone of segment " <<
+      "Creating a shallow clone of segment " <<
       segmentAsString () <<
       endl;
   }
@@ -15973,12 +15973,12 @@ msrRepeatending::msrRepeatending (
 
 msrRepeatending::~msrRepeatending() {}
 
-S_msrRepeatending msrRepeatending::createRepeatendingFlatClone (
+S_msrRepeatending msrRepeatending::createRepeatendingShallowClone (
   S_msrRepeat repeatClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of a " <<
+      "Creating a shallow clone of a " <<
       repeatendingAsString () <<
       endl;
   
@@ -16129,11 +16129,11 @@ msrRepeat::msrRepeat (
 
 msrRepeat::~msrRepeat() {}
 
-S_msrRepeat msrRepeat::createRepeatFlatClone (S_msrVoice voiceClone)
+S_msrRepeat msrRepeat::createRepeatShallowClone (S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of a repeat" <<
+      "Creating a shallow clone of a repeat" <<
       endl;
   
   msrAssert(
@@ -16331,12 +16331,12 @@ msrMeasureRepeatPattern::msrMeasureRepeatPattern (
 
 msrMeasureRepeatPattern::~msrMeasureRepeatPattern() {}
 
-S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternFlatClone (
+S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of a measure repeat pattern" <<
+      "Creating a shallow clone of a measure repeat pattern" <<
       endl;
   
   msrAssert(
@@ -16521,12 +16521,12 @@ msrMeasureRepeatReplicas::msrMeasureRepeatReplicas (
 
 msrMeasureRepeatReplicas::~msrMeasureRepeatReplicas() {}
 
-S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasFlatClone (
+S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of a measure repeat replicas" <<
+      "Creating a shallow clone of a measure repeat replicas" <<
       endl;
   
   msrAssert(
@@ -16718,12 +16718,12 @@ msrMeasureRepeat::msrMeasureRepeat (
 
 msrMeasureRepeat::~msrMeasureRepeat() {}
 
-S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatFlatClone (
+S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatShallowClone (
   S_msrVoice   voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of a measure repeat" <<
+      "Creating a shallow clone of a measure repeat" <<
       endl;
   
   msrAssert(
@@ -16975,12 +16975,12 @@ msrMultipleRestContents::msrMultipleRestContents (
 
 msrMultipleRestContents::~msrMultipleRestContents() {}
 
-S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsFlatClone (
+S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of a multiple rest contents" <<
+      "Creating a shallow clone of a multiple rest contents" <<
       endl;
   
   msrAssert(
@@ -17170,12 +17170,12 @@ msrMultipleRest::msrMultipleRest (
 
 msrMultipleRest::~msrMultipleRest() {}
 
-S_msrMultipleRest msrMultipleRest::createMultipleRestFlatClone (
+S_msrMultipleRest msrMultipleRest::createMultipleRestShallowClone (
   S_msrVoice voiceClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a flat clone of multiple rest " <<
+      "Creating a shallow clone of multiple rest " <<
       multipleRestAsString () <<
       endl;
   
@@ -17601,11 +17601,11 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
   }
 }
   
-S_msrVoice msrVoice::createVoiceFlatClone (S_msrStaff staffClone)
+S_msrVoice msrVoice::createVoiceShallowClone (S_msrStaff staffClone)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Creating a flat clone of voice \"" <<
+      "Creating a shallow clone of voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -19818,11 +19818,11 @@ msrStaffLinesNumber::msrStaffLinesNumber (
 
 msrStaffLinesNumber::~msrStaffLinesNumber() {}
 
-S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberFlatClone ()
+S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberShallowClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
     cerr << idtr <<
-      "Creating a flat clone of staff lines number '" <<
+      "Creating a shallow clone of staff lines number '" <<
       staffLinesNumberAsString () <<
       "'" <<
       endl;
@@ -19936,11 +19936,11 @@ msrStaffTuning::msrStaffTuning (
 msrStaffTuning::~ msrStaffTuning ()
 {}
 
-S_msrStaffTuning msrStaffTuning::createStaffTuningFlatClone ()
+S_msrStaffTuning msrStaffTuning::createStaffTuningShallowClone ()
 {
   if (gGeneralOptions->fTraceStaffTuning) {
     cerr << idtr <<
-      "Creating a flat clone of staff tuning '" <<
+      "Creating a shallow clone of staff tuning '" <<
       staffTuningAsString () <<
       "'" <<
       endl;
@@ -20099,13 +20099,13 @@ msrStaffDetails::msrStaffDetails (
 
 msrStaffDetails::~msrStaffDetails() {}
 
-S_msrStaffDetails msrStaffDetails::createStaffDetailsFlatClone (
+S_msrStaffDetails msrStaffDetails::createStaffDetailsShallowClone (
   S_msrStaffLinesNumber staffLinesNumberClone,
   S_msrStaffTuning      staffTuningClone)
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "Creating a flat clone of staff details \"" <<
+      "Creating a shallow clone of staff details \"" <<
       staffDetailsAsShortString () <<
       "\"" <<
       endl;
@@ -20633,11 +20633,11 @@ void msrStaff::createStaffMasterVoice (
     */ 
 }
 
-S_msrStaff msrStaff::createStaffFlatClone (S_msrPart partClone)
+S_msrStaff msrStaff::createStaffShallowClone (S_msrPart partClone)
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "Creating a flat clone of staff \"" <<
+      "Creating a shallow clone of staff \"" <<
       fStaffName <<
       "\"" <<
       endl;
@@ -21792,11 +21792,11 @@ void msrPart::initializePart ()
 
 msrPart::~msrPart() {}
 
-S_msrPart msrPart::createPartFlatClone (S_msrPartgroup partgroupClone)
+S_msrPart msrPart::createPartShallowClone (S_msrPartgroup partgroupClone)
 {
   if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "Creating a flat clone of part " <<
+      "Creating a shallow clone of part " <<
       getPartCombinedName () <<
       endl;
   }
@@ -22468,7 +22468,10 @@ void msrPart::createAndAppendMeasureToPart (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->
+    S_msrStaff
+      staff = (*i).second;
+      
+    staff->
       createAndAppendMeasureToStaff (
         inputLineNumber, measureNumber);
   } // for
@@ -22492,7 +22495,10 @@ void msrPart::appendStaffDetailsToPart (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
       appendStaffDetailsToStaff (staffDetails);
   } // for
 }
@@ -22536,7 +22542,10 @@ void msrPart::setPartCurrentKey  (S_msrKey  key)
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
       setCurrentStaffKey (key);
   } // for
 }
@@ -22558,7 +22567,10 @@ void msrPart::setPartCurrentTime (S_msrTime time)
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
       setCurrentStaffTime (time);
   } // for
 }
@@ -22580,7 +22592,10 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    (*i).second->
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
       setStaffTranspose (transpose);
   } // for
 }
@@ -23382,7 +23397,7 @@ msrPartgroup::msrPartgroup (
 msrPartgroup::~msrPartgroup()
 {}
 
-S_msrPartgroup msrPartgroup::createPartgroupFlatClone (
+S_msrPartgroup msrPartgroup::createPartgroupShallowClone (
   S_msrPartgroup partgroupClone,
   S_msrScore     scoreClone)
 {
@@ -23392,7 +23407,7 @@ S_msrPartgroup msrPartgroup::createPartgroupFlatClone (
       "--------------------------------------------" <<
       endl <<
       idtr <<
-      "Creating a flat clone part group " <<
+      "Creating a shallow clone part group " <<
       getPartgroupCombinedName () <<
       endl;
 
@@ -24256,11 +24271,11 @@ msrScore::msrScore (
 
 msrScore::~msrScore() {}
 
-S_msrScore msrScore::createScoreFlatClone ()
+S_msrScore msrScore::createScoreShallowClone ()
 {
   if (gGeneralOptions->fTraceScore) {
     cerr << idtr <<
-      "Creating a flat clone of a score" <<
+      "Creating a shallow clone of a score" <<
       endl;
   }
 
