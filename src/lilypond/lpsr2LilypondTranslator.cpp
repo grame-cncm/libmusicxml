@@ -1334,69 +1334,69 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
+void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting lpsrPartgroupBlock" <<
+      "% --> Start visiting lpsrPartGroupBlock" <<
       endl;
 
   // fetch part group
-  S_msrPartgroup
-    partgroup =
-      elt->getPartgroup ();
+  S_msrPartGroup
+    partGroup =
+      elt->getPartGroup ();
       
-  msrPartgroup::msrPartgroupSymbolKind
-    partgroupSymbolKind =
-      partgroup->getPartgroupSymbolKind ();
+  msrPartGroup::msrPartGroupSymbolKind
+    partGroupSymbolKind =
+      partGroup->getPartGroupSymbolKind ();
 
   bool
-    partgroupBarline =
-      partgroup->getPartgroupBarline ();
+    partGroupBarline =
+      partGroup->getPartGroupBarline ();
       
   string
-    partgroupInstrumentName =
-      partgroup->getPartgroupInstrumentName ();
+    partGroupInstrumentName =
+      partGroup->getPartGroupInstrumentName ();
       
   string partGroupContextName;
 
   // LPNR, page 567
 
   // don't generate code for a 1-element part group block
-  if (elt->getPartgroupBlockElements ().size () > 1) {
-    switch (partgroupSymbolKind) {
-      case msrPartgroup::k_NoPartgroupSymbol:
+  if (elt->getPartGroupBlockElements ().size () > 1) {
+    switch (partGroupSymbolKind) {
+      case msrPartGroup::k_NoPartGroupSymbol:
         partGroupContextName = "";
         break;
         
-      case msrPartgroup::kBracePartgroupSymbol: // JMI
+      case msrPartGroup::kBracePartGroupSymbol: // JMI
       /*
        *
        * check whether individual part have instrument names
        * 
-        if (partgroupInstrumentName.size ())
+        if (partGroupInstrumentName.size ())
           partGroupContextName = "\\new PianoStaff";
         else
           partGroupContextName = "\\new GrandStaff";
           */
         partGroupContextName =
-          partgroupBarline // only partgroup has an instrument name
+          partGroupBarline // only partGroup has an instrument name
             ? "\\new PianoStaff"
             : "\\new GrandStaff";
         break;
         
-      case msrPartgroup::kBracketPartgroupSymbol:
+      case msrPartGroup::kBracketPartGroupSymbol:
         partGroupContextName =
-          partgroupBarline
+          partGroupBarline
             ? "\\new StaffGroup"
             : "\\new ChoirStaff";
         break;
         
-      case msrPartgroup::kLinePartgroupSymbol:
+      case msrPartGroup::kLinePartGroupSymbol:
         partGroupContextName = "\\new StaffGroup";
         break;
         
-      case msrPartgroup::kSquarePartgroupSymbol:
+      case msrPartGroup::kSquarePartGroupSymbol:
         partGroupContextName = "\\new StaffGroup";
         break;
     } // switch
@@ -1408,16 +1408,16 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
     if (gLilypondOptions->fComments)
       fOstream <<
         "% part group " <<
-        partgroup->getPartgroupCombinedName ();
+        partGroup->getPartGroupCombinedName ();
         
     fOstream <<
       endl;
   }
 
-  if (partgroupInstrumentName.size ())
+  if (partGroupInstrumentName.size ())
     fOstream << idtr <<
       "\\set PianoStaff.instrumentName = \"" <<
-      partgroupInstrumentName <<
+      partGroupInstrumentName <<
       "\"" <<
       endl;
 
@@ -1428,7 +1428,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
         "\\set PianoStaff.connectArpeggios = ##t" <<
         endl;
   
-    if (partgroupSymbolKind == msrPartgroup::kSquarePartgroupSymbol) {
+    if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) {
       idtr++;
       fOstream << idtr <<
         "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
@@ -1439,27 +1439,27 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartgroupBlock& elt)
   fOstream <<
     endl;
 
-  if (elt->getPartgroupBlockElements ().size () > 1)
+  if (elt->getPartGroupBlockElements ().size () > 1)
     idtr++;
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
+void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting lpsrPartgroupBlock" <<
+      "% --> End visiting lpsrPartGroupBlock" <<
       endl;
 
   // fetch part group
-  S_msrPartgroup
-    partgroup =
-      elt->getPartgroup ();
+  S_msrPartGroup
+    partGroup =
+      elt->getPartGroup ();
       
-  if (elt->getPartgroupBlockElements ().size () > 1)
+  if (elt->getPartGroupBlockElements ().size () > 1)
     idtr--;
 
   // don't generate code for a 1-element part group block
-  if (elt->getPartgroupBlockElements ().size () > 1) {
+  if (elt->getPartGroupBlockElements ().size () > 1) {
     fOstream <<
       idtr <<
       setw(commentFieldWidth) << ">>";
@@ -1467,7 +1467,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartgroupBlock& elt)
     if (gLilypondOptions->fComments)
       fOstream <<
          "% part group " <<
-        partgroup->getPartgroupCombinedName ();
+        partGroup->getPartGroupCombinedName ();
         
     fOstream <<
       endl <<
@@ -2042,21 +2042,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCreditWords& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrPartgroup& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrPartGroup& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrPartgroup" <<
-      elt->getPartgroupCombinedName () <<
+      "% --> Start visiting msrPartGroup" <<
+      elt->getPartGroupCombinedName () <<
       endl;
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrPartgroup& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrPartgroup" <<
-      elt->getPartgroupCombinedName () <<
+      "% --> End visiting msrPartGroup" <<
+      elt->getPartGroupCombinedName () <<
       endl;
 }
 

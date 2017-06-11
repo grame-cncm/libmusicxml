@@ -285,7 +285,7 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceDivisions;
 
     // part groups
-    bool                  fTracePartgroups;
+    bool                  fTracePartGroups;
     // parts
     bool                  fTraceParts;
     // staves

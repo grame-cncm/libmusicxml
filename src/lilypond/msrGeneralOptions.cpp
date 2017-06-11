@@ -250,7 +250,7 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceDivisions = boolOptionsInitialValue;
 
   // part groups
-  fTracePartgroups = boolOptionsInitialValue;
+  fTracePartGroups = boolOptionsInitialValue;
   // parts
   fTraceParts = boolOptionsInitialValue;
   // staves
@@ -369,7 +369,7 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     true;
 
   // part groups
-  clone->fTracePartgroups =
+  clone->fTracePartGroups =
     true;
   // parts
   clone->fTraceParts =
@@ -959,8 +959,8 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
         
     // part groups
     idtr <<
-      setw(fieldWidth) << "tracePartgroups" << " : " <<
-      booleanAsString (fTracePartgroups) <<
+      setw(fieldWidth) << "tracePartGroups" << " : " <<
+      booleanAsString (fTracePartGroups) <<
       endl <<
       
     // parts

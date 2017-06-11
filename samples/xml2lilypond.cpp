@@ -305,7 +305,7 @@ void analyzeOptions (
   checkOptionUniqueness (
     _TRACE_PARTGROUPS_LONG_NAME_, _TRACE_PARTGROUPS_SHORT_NAME_);
     
-  int tracePartgroupsPresent = 0;
+  int tracePartGroupsPresent = 0;
 
   // parts
   checkOptionUniqueness (
@@ -908,12 +908,12 @@ void analyzeOptions (
     // part groups
     {
       _TRACE_PARTGROUPS_LONG_NAME_,
-      no_argument, &tracePartgroupsPresent, 1
+      no_argument, &tracePartGroupsPresent, 1
     },
 
     {
       _TRACE_PARTGROUPS_SHORT_NAME_,
-      no_argument, &tracePartgroupsPresent, 1
+      no_argument, &tracePartGroupsPresent, 1
     },
     
     // parts
@@ -1889,7 +1889,7 @@ R"(
         }
         
         // part groupss
-        if (tracePartgroupsPresent) {
+        if (tracePartGroupsPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           
@@ -1898,7 +1898,7 @@ R"(
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _TRACE_PARTGROUPS_SHORT_NAME_ " ";
             
-          tracePartgroupsPresent = false;
+          tracePartGroupsPresent = false;
         }
         
         // parts

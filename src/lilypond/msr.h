@@ -99,8 +99,8 @@ typedef SMARTP<msrStaff> S_msrStaff;
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-class msrPartgroup;
-typedef SMARTP<msrPartgroup> S_msrPartgroup;
+class msrPartGroup;
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
 
 class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
@@ -7828,10 +7828,10 @@ class EXP msrPart : public msrElement
     static SMARTP<msrPart> create (
       int            inputLineNumber,
       string         partID,
-      S_msrPartgroup partPartgroupUplink);
+      S_msrPartGroup partPartGroupUplink);
                 
     SMARTP<msrPart> createPartShallowClone (
-      S_msrPartgroup partgroupClone);
+      S_msrPartGroup partGroupClone);
 
   protected:
 
@@ -7841,7 +7841,7 @@ class EXP msrPart : public msrElement
     msrPart (
       int            inputLineNumber,
       string         partID,
-      S_msrPartgroup partPartgroupUplink);
+      S_msrPartGroup partPartGroupUplink);
       
     virtual ~msrPart();
   
@@ -7970,8 +7970,8 @@ class EXP msrPart : public msrElement
     
     // uplinks
     
-    S_msrPartgroup        getPartPartgroupUplink () const
-                              { return fPartPartgroupUplink; }
+    S_msrPartGroup        getPartPartGroupUplink () const
+                              { return fPartPartGroupUplink; }
               
     const map<int, S_msrStaff>&
                           getPartStavesMap ()
@@ -8179,7 +8179,7 @@ class EXP msrPart : public msrElement
 
     // uplinks
     
-    S_msrPartgroup        fPartPartgroupUplink;
+    S_msrPartGroup        fPartPartGroupUplink;
 
     map<int, S_msrStaff>  fPartStavesMap;
 };
@@ -8192,7 +8192,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
   A part group is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPartgroup : public msrElement
+class EXP msrPartGroup : public msrElement
 {
   public:
 
@@ -8213,39 +8213,39 @@ class EXP msrPartgroup : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrPartgroupTypeKind {
-        k_NoPartgroupType,
-        kStartPartgroupType, kStopPartgroupType};
+    enum msrPartGroupTypeKind {
+        k_NoPartGroupType,
+        kStartPartGroupType, kStopPartGroupType};
           
-    static string partgroupTypeKindAsString (
-      msrPartgroupTypeKind partgroupTypeKind);
+    static string partGroupTypeKindAsString (
+      msrPartGroupTypeKind partGroupTypeKind);
       
-    enum msrPartgroupSymbolKind {
-        k_NoPartgroupSymbol,
-        kBracePartgroupSymbol, kBracketPartgroupSymbol,
-        kLinePartgroupSymbol, kSquarePartgroupSymbol};
+    enum msrPartGroupSymbolKind {
+        k_NoPartGroupSymbol,
+        kBracePartGroupSymbol, kBracketPartGroupSymbol,
+        kLinePartGroupSymbol, kSquarePartGroupSymbol};
           
-    static string partgroupSymbolKindAsString (
-      msrPartgroupSymbolKind partgroupSymbolKind);
+    static string partGroupSymbolKindAsString (
+      msrPartGroupSymbolKind partGroupSymbolKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrPartgroup> create (
+    static SMARTP<msrPartGroup> create (
       int                    inputLineNumber,
-      int                    partgroupNumber,
-      string                 partgroupName,
-      string                 partgroupDisplayText,
-      string                 partgroupAccidentalText,
-      string                 partgroupAbbreviation,
-      msrPartgroupSymbolKind partgroupSymbolKind,
-      int                    partgroupSymbolDefaultX,
-      bool                   partgroupBarline,
-      S_msrPartgroup         partgroupPartgroupUplink,
-      S_msrScore             partgroupScoreUplink);
+      int                    partGroupNumber,
+      string                 partGroupName,
+      string                 partGroupDisplayText,
+      string                 partGroupAccidentalText,
+      string                 partGroupAbbreviation,
+      msrPartGroupSymbolKind partGroupSymbolKind,
+      int                    partGroupSymbolDefaultX,
+      bool                   partGroupBarline,
+      S_msrPartGroup         partGroupPartGroupUplink,
+      S_msrScore             partGroupScoreUplink);
 
-    SMARTP<msrPartgroup> createPartgroupShallowClone (
-      S_msrPartgroup partgroupClone, // the uplink for embeddeed part groups
+    SMARTP<msrPartGroup> createPartGroupShallowClone (
+      S_msrPartGroup partGroupClone, // the uplink for embeddeed part groups
       S_msrScore     scoreClone);
 
   protected:
@@ -8253,95 +8253,95 @@ class EXP msrPartgroup : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPartgroup (
+    msrPartGroup (
       int                    inputLineNumber,
-      int                    partgroupNumber,
-      string                 partgroupName,
-      string                 partgroupDisplayText,
-      string                 partgroupAccidentalText,
-      string                 partgroupAbbreviation,
-      msrPartgroupSymbolKind partgroupSymbolKind,
-      int                    partgroupSymbolDefaultX,
-      bool                   partgroupBarline,
-      S_msrPartgroup         partgroupPartgroupUplink,
-      S_msrScore             partgroupScoreUplink);
+      int                    partGroupNumber,
+      string                 partGroupName,
+      string                 partGroupDisplayText,
+      string                 partGroupAccidentalText,
+      string                 partGroupAbbreviation,
+      msrPartGroupSymbolKind partGroupSymbolKind,
+      int                    partGroupSymbolDefaultX,
+      bool                   partGroupBarline,
+      S_msrPartGroup         partGroupPartGroupUplink,
+      S_msrScore             partGroupScoreUplink);
             
-    virtual ~msrPartgroup();
+    virtual ~msrPartGroup();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getPartgroupAbsoluteNumber () const
-                              { return fPartgroupAbsoluteNumber; }
+    int                   getPartGroupAbsoluteNumber () const
+                              { return fPartGroupAbsoluteNumber; }
     
-    int                   getPartgroupNumber () const
-                              { return fPartgroupNumber; }
+    int                   getPartGroupNumber () const
+                              { return fPartGroupNumber; }
     
-    string                getPartgroupDisplayText () const
-                              { return fPartgroupDisplayText; }
+    string                getPartGroupDisplayText () const
+                              { return fPartGroupDisplayText; }
 
-    string                getPartgroupAccidentalText () const
-                              { return fPartgroupAccidentalText; }
+    string                getPartGroupAccidentalText () const
+                              { return fPartGroupAccidentalText; }
 
-    string                getPartgroupName () const
-                              { return fPartgroupName; }
+    string                getPartGroupName () const
+                              { return fPartGroupName; }
 
-    string                getPartgroupAbbreviation () const
-                              { return fPartgroupAbbreviation; }
+    string                getPartGroupAbbreviation () const
+                              { return fPartGroupAbbreviation; }
 
-    msrPartgroupSymbolKind
-                          getPartgroupSymbolKind () const
-                              { return fPartgroupSymbolKind; }
+    msrPartGroupSymbolKind
+                          getPartGroupSymbolKind () const
+                              { return fPartGroupSymbolKind; }
 
-    string                partgroupSymbolKindAsString () const
+    string                partGroupSymbolKindAsString () const
                               {
                                 return
-                                  partgroupSymbolKindAsString (
-                                    fPartgroupSymbolKind);
+                                  partGroupSymbolKindAsString (
+                                    fPartGroupSymbolKind);
                               }
 
-    int                   getPartgroupSymbolDefaultX () const
-                              { return fPartgroupSymbolDefaultX; }
+    int                   getPartGroupSymbolDefaultX () const
+                              { return fPartGroupSymbolDefaultX; }
 
-    bool                  getPartgroupBarline () const
-                              { return fPartgroupBarline; }
+    bool                  getPartGroupBarline () const
+                              { return fPartGroupBarline; }
     
-    string                getPartgroupCombinedName () const;
+    string                getPartGroupCombinedName () const;
 
-    void                  setPartgroupInstrumentName (string name)
-                              { fPartgroupInstrumentName = name; }
+    void                  setPartGroupInstrumentName (string name)
+                              { fPartGroupInstrumentName = name; }
                 
-    string                getPartgroupInstrumentName () const
-                              { return fPartgroupInstrumentName; }
+    string                getPartGroupInstrumentName () const
+                              { return fPartGroupInstrumentName; }
                 
     const list<S_msrElement>&
-                          getPartgroupElements () const
-                              { return fPartgroupElements; }
+                          getPartGroupElements () const
+                              { return fPartGroupElements; }
 
-    S_msrPartgroup        getPartgroupPartgroupUplink () const
-                              { return fPartgroupPartgroupUplink; }
+    S_msrPartGroup        getPartGroupPartGroupUplink () const
+                              { return fPartGroupPartGroupUplink; }
 
-    S_msrScore            getPartgroupScoreUplink () const
-                              { return fPartgroupScoreUplink; }
+    S_msrScore            getPartGroupScoreUplink () const
+                              { return fPartGroupScoreUplink; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrPart             addPartToPartgroupByItsID (
+    S_msrPart             addPartToPartGroupByItsID (
                             int    inputLineNumber,
                             string partID);
     
-    void                  addPartToPartgroup (S_msrPart part);
+    void                  addPartToPartGroup (S_msrPart part);
                 
-    void                  prependSubPartgroupToPartgroup (
-                            S_msrPartgroup partgroup);
+    void                  prependSubPartGroupToPartGroup (
+                            S_msrPartGroup partGroup);
 
-    void                  appendSubPartgroupToPartgroup (
-                            S_msrPartgroup partgroup);
+    void                  appendSubPartGroupToPartGroup (
+                            S_msrPartGroup partGroup);
 
-    S_msrPart             fetchPartFromPartgroup (string partID);
+    S_msrPart             fetchPartFromPartGroup (string partID);
 
     // visitors
     // ------------------------------------------------------
@@ -8362,51 +8362,51 @@ class EXP msrPartgroup : public msrElement
 
     // counters
     
-    static int              gPartgroupsCounter;
+    static int              gPartGroupsCounter;
 
     // numbers
     
-    int                     fPartgroupAbsoluteNumber;
+    int                     fPartGroupAbsoluteNumber;
     
-    int                     fPartgroupNumber;
+    int                     fPartGroupNumber;
 
     // name
     
-    string                  fPartgroupName;
+    string                  fPartGroupName;
 
-    string                  fPartgroupDisplayText;
-    string                  fPartgroupAccidentalText;
+    string                  fPartGroupDisplayText;
+    string                  fPartGroupAccidentalText;
     
-    string                  fPartgroupAbbreviation;
+    string                  fPartGroupAbbreviation;
 
     // symbol kind
     
-    msrPartgroupSymbolKind  fPartgroupSymbolKind;
+    msrPartGroupSymbolKind  fPartGroupSymbolKind;
 
     // default X
     
-    int                     fPartgroupSymbolDefaultX;
+    int                     fPartGroupSymbolDefaultX;
 
     // bar line
     
-    bool                    fPartgroupBarline;
+    bool                    fPartGroupBarline;
 
     // instrument name
 
-    string                  fPartgroupInstrumentName;
+    string                  fPartGroupInstrumentName;
 
     // accessing parts by name
-    map<string, S_msrPart>  fPartgroupPartsMap;
+    map<string, S_msrPart>  fPartGroupPartsMap;
 
     // allowing for both parts and (sub-)part groups as elements
-    list<S_msrElement>      fPartgroupElements;
+    list<S_msrElement>      fPartGroupElements;
     
-    S_msrPartgroup          fPartgroupPartgroupUplink;
+    S_msrPartGroup          fPartGroupPartGroupUplink;
 
-    S_msrScore              fPartgroupScoreUplink;
+    S_msrScore              fPartGroupScoreUplink;
 };
-typedef SMARTP<msrPartgroup> S_msrPartgroup;
-EXP ostream& operator<< (ostream& os, const S_msrPartgroup& elt);
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
+EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
 
 /*!
 \brief A msr score representation.
@@ -8452,9 +8452,9 @@ class EXP msrScore : public msrElement
     S_msrCredit           getCredit () const
                               { return fCredit; }
         
-    const list<S_msrPartgroup>&
-                          getPartgroupsList () const
-                              { return fPartgroupsList; }
+    const list<S_msrPartGroup>&
+                          getPartGroupsList () const
+                              { return fPartGroupsList; }
 
     void                  setInhibitMeasureRepeatReplicasBrowsing ()
                               {
@@ -8485,8 +8485,8 @@ class EXP msrScore : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  addPartgroupToScore (
-                            S_msrPartgroup partgroup);
+    void                  addPartGroupToScore (
+                            S_msrPartGroup partGroup);
 
     // visitors
     // ------------------------------------------------------
@@ -8511,7 +8511,7 @@ class EXP msrScore : public msrElement
     
     S_msrCredit          fCredit;
     
-    list<S_msrPartgroup> fPartgroupsList;
+    list<S_msrPartGroup> fPartGroupsList;
 
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure

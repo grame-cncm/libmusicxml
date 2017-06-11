@@ -2824,72 +2824,72 @@ void lpsrPartBlock::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrPartgroupBlock lpsrPartgroupBlock::create (
-  S_msrPartgroup partgroup)
+S_lpsrPartGroupBlock lpsrPartGroupBlock::create (
+  S_msrPartGroup partGroup)
 {
-  lpsrPartgroupBlock* o = new lpsrPartgroupBlock (
-    partgroup);
+  lpsrPartGroupBlock* o = new lpsrPartGroupBlock (
+    partGroup);
   assert(o!=0);
   return o;
 }
 
-lpsrPartgroupBlock::lpsrPartgroupBlock (
-  S_msrPartgroup partgroup)
+lpsrPartGroupBlock::lpsrPartGroupBlock (
+  S_msrPartGroup partGroup)
     : lpsrElement (0) // JMI
 {
-  fPartgroup = partgroup;
+  fPartGroup = partGroup;
 }
 
-lpsrPartgroupBlock::~lpsrPartgroupBlock() {}
+lpsrPartGroupBlock::~lpsrPartGroupBlock() {}
 
-void lpsrPartgroupBlock::acceptIn (basevisitor* v) {
+void lpsrPartGroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrPartgroupBlock::acceptIn()" <<
+      "% ==> lpsrPartGroupBlock::acceptIn()" <<
       endl;
       
-  if (visitor<S_lpsrPartgroupBlock>*
+  if (visitor<S_lpsrPartGroupBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrPartgroupBlock>*> (v)) {
-        S_lpsrPartgroupBlock elem = this;
+      dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
+        S_lpsrPartGroupBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
           cerr << idtr <<
-            "% ==> Launching lpsrPartgroupBlock::visitStart()" <<
+            "% ==> Launching lpsrPartGroupBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrPartgroupBlock::acceptOut (basevisitor* v) {
+void lpsrPartGroupBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrPartgroupBlock::acceptOut()" <<
+      "% ==> lpsrPartGroupBlock::acceptOut()" <<
       endl;
 
-  if (visitor<S_lpsrPartgroupBlock>*
+  if (visitor<S_lpsrPartGroupBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrPartgroupBlock>*> (v)) {
-        S_lpsrPartgroupBlock elem = this;
+      dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
+        S_lpsrPartGroupBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
           cerr << idtr <<
-            "% ==> Launching lpsrPartgroupBlock::visitEnd()" <<
+            "% ==> Launching lpsrPartGroupBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrPartgroupBlock::browseData (basevisitor* v)
+void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrPartgroupBlock::browseData()" <<
+      "% ==> lpsrPartGroupBlock::browseData()" <<
       endl;
 
   for (
-    list<S_msrElement>::const_iterator i = fPartgroupBlockElements.begin();
-    i != fPartgroupBlockElements.end();
+    list<S_msrElement>::const_iterator i = fPartGroupBlockElements.begin();
+    i != fPartGroupBlockElements.end();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2898,36 +2898,36 @@ void lpsrPartgroupBlock::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% <== lpsrPartgroupBlock::browseData()" <<
+      "% <== lpsrPartGroupBlock::browseData()" <<
       endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPartgroupBlock& scr)
+ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)
 {
   scr->print (os);
   return os;
 }
 
-void lpsrPartgroupBlock::print (ostream& os)
+void lpsrPartGroupBlock::print (ostream& os)
 {
   os <<
     endl <<
     idtr <<
-    "PartgroupBlock" << " " <<
-    "for partgroup \"" <<
-    fPartgroup->getPartgroupCombinedName () <<
-    "\", " << fPartgroup->partgroupSymbolKindAsString () <<
+    "PartGroupBlock" << " " <<
+    "for partGroup \"" <<
+    fPartGroup->getPartGroupCombinedName () <<
+    "\", " << fPartGroup->partGroupSymbolKindAsString () <<
     ", " <<
     singularOrPlural (
-      fPartgroupBlockElements.size(), "element", "elements") <<
+      fPartGroupBlockElements.size(), "element", "elements") <<
     endl << endl;
 
   idtr++;
 
-  if (fPartgroupBlockElements.size()) {  
+  if (fPartGroupBlockElements.size()) {  
     list<S_msrElement>::const_iterator
-      iBegin = fPartgroupBlockElements.begin(),
-      iEnd   = fPartgroupBlockElements.end(),
+      iBegin = fPartGroupBlockElements.begin(),
+      iEnd   = fPartGroupBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
       os << idtr << (*i);
@@ -2974,20 +2974,20 @@ lpsrScoreBlock::lpsrScoreBlock (
 
 lpsrScoreBlock::~lpsrScoreBlock() {}
 
-void lpsrScoreBlock::appendPartgroupBlockToParallelMusic (
-  S_lpsrPartgroupBlock partgroupBlock)
+void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
+  S_lpsrPartGroupBlock partGroupBlock)
 {
-  if (gGeneralOptions->fTracePartgroups)
+  if (gGeneralOptions->fTracePartGroups)
     cerr << idtr <<
       "Appending part group block " <<
-       partgroupBlock-> getPartgroup ()-> getPartgroupCombinedName() <<
+       partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName() <<
        " to LPSR score" <<
        endl;
 
   fScoreBlockParallelMusic->
-    addElementToParallelMusic (partgroupBlock);
+    addElementToParallelMusic (partGroupBlock);
     
-//               fScoreBlockElements.push_back(partgroupBlock);
+//               fScoreBlockElements.push_back(partGroupBlock);
 }
 
 void lpsrScoreBlock::appendVoiceUseToParallelMusic (

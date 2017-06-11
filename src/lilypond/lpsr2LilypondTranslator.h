@@ -45,7 +45,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrParallelMusic>,
 
   public visitor<S_lpsrScoreBlock>,
-  public visitor<S_lpsrPartgroupBlock>,
+  public visitor<S_lpsrPartGroupBlock>,
   public visitor<S_lpsrPartBlock>,
   public visitor<S_lpsrStaffBlock>,
 //  public visitor<S_lpsrNewStaffBlock>,
@@ -71,7 +71,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
   
-  public visitor<S_msrPartgroup>,
+  public visitor<S_msrPartGroup>,
   
   public visitor<S_msrPart>,
   
@@ -208,8 +208,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrParallelMusic& elt);
     virtual void visitEnd   (S_lpsrParallelMusic& elt);
 
-    virtual void visitStart (S_lpsrPartgroupBlock& elt);
-    virtual void visitEnd   (S_lpsrPartgroupBlock& elt);
+    virtual void visitStart (S_lpsrPartGroupBlock& elt);
+    virtual void visitEnd   (S_lpsrPartGroupBlock& elt);
 
     virtual void visitStart (S_lpsrPartBlock& elt);
     virtual void visitEnd   (S_lpsrPartBlock& elt);
@@ -257,8 +257,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
-    virtual void visitStart (S_msrPartgroup& elt);
-    virtual void visitEnd   (S_msrPartgroup& elt);
+    virtual void visitStart (S_msrPartGroup& elt);
+    virtual void visitEnd   (S_msrPartGroup& elt);
 
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
@@ -481,7 +481,7 @@ class lpsr2LilypondTranslator :
 
     // part groups
     // ------------------------------------------------------
- // JMI   S_msrPartgroup        fCurrentMsrPartgroupClone;
+ // JMI   S_msrPartGroup        fCurrentMsrPartGroupClone;
     
     // parts
     // ------------------------------------------------------

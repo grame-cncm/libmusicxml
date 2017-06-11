@@ -2045,44 +2045,44 @@ EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrPartgroupBlock : public lpsrElement
+class EXP lpsrPartGroupBlock : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrPartgroupBlock> create (
-      S_msrPartgroup partgroup);
+    static SMARTP<lpsrPartGroupBlock> create (
+      S_msrPartGroup partGroup);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrPartgroupBlock (
-      S_msrPartgroup partgroup);
+    lpsrPartGroupBlock (
+      S_msrPartGroup partGroup);
       
-    virtual ~lpsrPartgroupBlock();
+    virtual ~lpsrPartGroupBlock();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    S_msrPartgroup        getPartgroup () const
-                              { return fPartgroup; }
+    S_msrPartGroup        getPartGroup () const
+                              { return fPartGroup; }
 
     const list<S_msrElement>&
-                          getPartgroupBlockElements () const
-                              { return fPartgroupBlockElements; }
+                          getPartGroupBlockElements () const
+                              { return fPartGroupBlockElements; }
 
     // services
     // ------------------------------------------------------
 
-    void                  appendElementToPartgroupBlock (
+    void                  appendElementToPartGroupBlock (
                             S_msrElement elem)
-                              { fPartgroupBlockElements.push_back (elem); }
+                              { fPartGroupBlockElements.push_back (elem); }
 
     // visitors
     // ------------------------------------------------------
@@ -2099,12 +2099,12 @@ class EXP lpsrPartgroupBlock : public lpsrElement
 
   private:
 
-    S_msrPartgroup     fPartgroup;
+    S_msrPartGroup     fPartGroup;
     
-    list<S_msrElement> fPartgroupBlockElements;
+    list<S_msrElement> fPartGroupBlockElements;
 };
-typedef SMARTP<lpsrPartgroupBlock> S_lpsrPartgroupBlock;
-EXP ostream& operator<< (ostream& os, const S_lpsrPartgroupBlock& elt);
+typedef SMARTP<lpsrPartGroupBlock> S_lpsrPartGroupBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& elt);
 
 /*!
 \brief A lpsr score block representation.
@@ -2154,8 +2154,8 @@ class EXP lpsrScoreBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendPartgroupBlockToParallelMusic (
-                            S_lpsrPartgroupBlock partgroupBlock);
+    void                  appendPartGroupBlockToParallelMusic (
+                            S_lpsrPartGroupBlock partGroupBlock);
 
     void                  appendVoiceUseToParallelMusic (
                             S_lpsrUseVoiceCommand voiceUse);

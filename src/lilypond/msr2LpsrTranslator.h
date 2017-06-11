@@ -37,7 +37,7 @@ class msr2LpsrTranslator :
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
   
-  public visitor<S_msrPartgroup>,
+  public visitor<S_msrPartGroup>,
   
   public visitor<S_msrPart>,
   
@@ -161,8 +161,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
-    virtual void visitStart (S_msrPartgroup& elt);
-    virtual void visitEnd   (S_msrPartgroup& elt);
+    virtual void visitStart (S_msrPartGroup& elt);
+    virtual void visitEnd   (S_msrPartGroup& elt);
 
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
@@ -361,10 +361,10 @@ class msr2LpsrTranslator :
     
     // part groups
     // ------------------------------------------------------
-  //  S_msrPartgroup            fCurrentPartgroupClone; JMI
+  //  S_msrPartGroup            fCurrentPartGroupClone; JMI
 
-    // the current partgroup is the top of the stack
-    stack<S_msrPartgroup>     fPartgroupsStack;
+    // the current partGroup is the top of the stack
+    stack<S_msrPartGroup>     fPartGroupsStack;
     
     // parts
     // ------------------------------------------------------
@@ -479,9 +479,9 @@ class msr2LpsrTranslator :
     bool                      fOnGoingSyllableExtend;
 
     // part groups block
-    // the current partgroup command is the top of the stack
-    stack<S_lpsrPartgroupBlock>
-                              fPartgroupBlocksStack;
+    // the current partGroup command is the top of the stack
+    stack<S_lpsrPartGroupBlock>
+                              fPartGroupBlocksStack;
 };
 
 

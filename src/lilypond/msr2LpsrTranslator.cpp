@@ -118,9 +118,9 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 
 /* JMI
   // push it onto this visitors's stack,
-  // making it the current partgroup block
-  fPartgroupBlocksStack.push (
-    partgroupBlock);
+  // making it the current partGroup block
+  fPartGroupBlocksStack.push (
+    partGroupBlock);
     */
 }
 
@@ -164,18 +164,18 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   
 /* JMI
   // get top level pargroup block from the stack
-  S_lpsrPartgroupBlock
-    partgroupBlock =
-      fPartgroupBlocksStack.top ();
+  S_lpsrPartGroupBlock
+    partGroupBlock =
+      fPartGroupBlocksStack.top ();
 
   // pop it from the stack
-  fPartgroupBlocksStack.top ();
+  fPartGroupBlocksStack.top ();
 
   // the stack should now be empty
-  if (fPartgroupBlocksStack.size())
+  if (fPartGroupBlocksStack.size())
     msrInternalError (
       1,
-      "the partgroup block stack is not exmpty at the end of the visit");
+      "the partGroup block stack is not exmpty at the end of the visit");
    */ 
 }
 
@@ -347,53 +347,53 @@ void msr2LpsrTranslator::visitEnd (S_msrCreditWords& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
+void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrPartgroup" <<
+      "--> Start visiting msrPartGroup" <<
       endl;
 
-  // create a partgroup clone
-  // current partgroup clone, i.e. the top of the stack,
+  // create a partGroup clone
+  // current partGroup clone, i.e. the top of the stack,
   // is the uplink of the new one if it exists
 
-  S_msrPartgroup
-    partgroupClone =
-      elt->createPartgroupShallowClone (
-        fPartgroupsStack.size ()
-          ? fPartgroupsStack.top ()
+  S_msrPartGroup
+    partGroupClone =
+      elt->createPartGroupShallowClone (
+        fPartGroupsStack.size ()
+          ? fPartGroupsStack.top ()
           : 0,
         fLpsrScore->getMsrScore ());
 
   // push it onto this visitors's stack,
-  // making it the current partgroup block
-  if (gGeneralOptions->fTracePartgroups)
+  // making it the current partGroup block
+  if (gGeneralOptions->fTracePartGroups)
     cerr << idtr <<
       "--> pushing part group clone " <<
-      partgroupClone->getPartgroupCombinedName () <<
+      partGroupClone->getPartGroupCombinedName () <<
       " onto stack" <<
       endl;
 
-  fPartgroupsStack.push (
-    partgroupClone);
+  fPartGroupsStack.push (
+    partGroupClone);
   
 /*
   // add it to the MSR score clone
   fCurrentMsrScoreClone->
-    addPartgroupToScore (fCurrentPartgroupClone);
+    addPartGroupToScore (fCurrentPartGroupClone);
 */
 
-  // create a partgroup block refering to the part group clone
-  S_lpsrPartgroupBlock
-    partgroupBlock =
-      lpsrPartgroupBlock::create (
-        partgroupClone);
+  // create a partGroup block refering to the part group clone
+  S_lpsrPartGroupBlock
+    partGroupBlock =
+      lpsrPartGroupBlock::create (
+        partGroupClone);
 
   // push it onto this visitors's stack,
-  // making it the current partgroup block
-  fPartgroupBlocksStack.push (
-    partgroupBlock);
+  // making it the current partGroup block
+  fPartGroupBlocksStack.push (
+    partGroupBlock);
   
   // get the LPSR store block
   S_lpsrScoreBlock
@@ -404,51 +404,51 @@ void msr2LpsrTranslator::visitStart (S_msrPartgroup& elt)
   // this will be done when it gets popped from the stack
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
+void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrPartgroup" <<
+      "--> End visiting msrPartGroup" <<
       endl;
 
-  S_msrPartgroup
-    currentPartgroup =
-      fPartgroupsStack.top ();
+  S_msrPartGroup
+    currentPartGroup =
+      fPartGroupsStack.top ();
       
-  if (fPartgroupsStack.size () == 1) {
+  if (fPartGroupsStack.size () == 1) {
     // add the current pargroup clone to the MSR score clone
     // if it is the top-level one, i.e it's alone in the stack
     
-    if (gGeneralOptions->fTracePartgroups)
+    if (gGeneralOptions->fTracePartGroups)
       cerr << idtr <<
         "--> adding part group clone " <<
-        currentPartgroup->getPartgroupCombinedName () <<
+        currentPartGroup->getPartGroupCombinedName () <<
         " to MSR score" <<
         endl;
 
     fCurrentMsrScoreClone->
-      addPartgroupToScore (currentPartgroup);
+      addPartGroupToScore (currentPartGroup);
 
-    fPartgroupsStack.pop ();
+    fPartGroupsStack.pop ();
   }
 
   else {
 
-    // pop current partgroup from this visitors's stack
-    if (gGeneralOptions->fTracePartgroups)
+    // pop current partGroup from this visitors's stack
+    if (gGeneralOptions->fTracePartGroups)
       fOstream << idtr <<
         "--> popping part group clone " <<
-        fPartgroupsStack.top ()->getPartgroupCombinedName () <<
+        fPartGroupsStack.top ()->getPartGroupCombinedName () <<
         " from stack" <<
         endl;
 
-    fPartgroupsStack.pop ();
+    fPartGroupsStack.pop ();
 
     // append the current part group to the one one level higher,
     // i.e. the new current part group
-    fPartgroupsStack.top ()->
-      appendSubPartgroupToPartgroup (
-        currentPartgroup);
+    fPartGroupsStack.top ()->
+      appendSubPartGroupToPartGroup (
+        currentPartGroup);
   }
 
   // get the LPSR store block
@@ -456,53 +456,53 @@ void msr2LpsrTranslator::visitEnd (S_msrPartgroup& elt)
     scoreBlock =
       fLpsrScore->getScoreBlock ();
       
-  S_lpsrPartgroupBlock
-    currentPartgroupBlock =
-      fPartgroupBlocksStack.top ();
+  S_lpsrPartGroupBlock
+    currentPartGroupBlock =
+      fPartGroupBlocksStack.top ();
       
-  if (fPartgroupBlocksStack.size () == 1) {
+  if (fPartGroupBlocksStack.size () == 1) {
     // add the current pargroup clone to the LPSR score's parallel music
     // if it is the top-level one, i.e it's alone in the stack
     
-    if (gGeneralOptions->fTracePartgroups)
+    if (gGeneralOptions->fTracePartGroups)
       cerr << idtr <<
         "--> adding part group block clone for part group " <<
-        currentPartgroupBlock->
-          getPartgroup ()->
-            getPartgroupCombinedName () <<
+        currentPartGroupBlock->
+          getPartGroup ()->
+            getPartGroupCombinedName () <<
         " to LPSR score" <<
         endl;
 
     // append the current pargroup block to the score block
     // if it is the top-level one, i.e it's alone in the stack
-   // JMI BOF if (fPartgroupBlocksStack.size () == 1)
+   // JMI BOF if (fPartGroupBlocksStack.size () == 1)
       scoreBlock->
-        appendPartgroupBlockToParallelMusic (
-          fPartgroupBlocksStack.top ());
+        appendPartGroupBlockToParallelMusic (
+          fPartGroupBlocksStack.top ());
           
-    // pop current partgroup block from this visitors's stack,
+    // pop current partGroup block from this visitors's stack,
     // only now to restore the appearence order
-    fPartgroupBlocksStack.pop ();
+    fPartGroupBlocksStack.pop ();
   }
 
   else {
-    // pop current partgroup block from this visitors's stack
-    if (gGeneralOptions->fTracePartgroups)
+    // pop current partGroup block from this visitors's stack
+    if (gGeneralOptions->fTracePartGroups)
       fOstream << idtr <<
         "--> popping part group block clone for part group " <<
-        currentPartgroupBlock->
-          getPartgroup ()->
-            getPartgroupCombinedName () <<
+        currentPartGroupBlock->
+          getPartGroup ()->
+            getPartGroupCombinedName () <<
         " from stack" <<
         endl;
 
-    fPartgroupBlocksStack.pop ();
+    fPartGroupBlocksStack.pop ();
 
     // append the current part group block to the one one level higher,
     // i.e. the new current part group block
-    fPartgroupBlocksStack.top ()->
-      appendElementToPartgroupBlock (
-        currentPartgroupBlock);
+    fPartGroupBlocksStack.top ()->
+      appendElementToPartGroupBlock (
+        currentPartGroupBlock);
   }
 
 }
@@ -520,41 +520,41 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   // create a part clone
   fCurrentPartClone =
     elt->createPartShallowClone (
-      fPartgroupsStack.top ());
+      fPartGroupsStack.top ());
 
   // setup it durations to divisions data
   fCurrentPartClone->
     setupDurationsDivisions (
       elt->getPartDivisionsPerQuarterNote ());
     
-  // add it to the partgroup clone
+  // add it to the partGroup clone
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Adding part clone " <<
       fCurrentPartClone->getPartCombinedName () <<
       " to part group clone \"" <<
-      fPartgroupsStack.top ()->getPartgroupCombinedName () <<
+      fPartGroupsStack.top ()->getPartGroupCombinedName () <<
       "\"" <<
       endl;
 
-  fPartgroupsStack.top ()->
-    addPartToPartgroup (fCurrentPartClone);
+  fPartGroupsStack.top ()->
+    addPartToPartGroup (fCurrentPartClone);
 
   // create a part block
   fCurrentPartBlock =
     lpsrPartBlock::create (
       fCurrentPartClone);
 
-  // append it to the current partgroup block
+  // append it to the current partGroup block
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Appending part block " <<
-      fPartgroupsStack.top ()->getPartgroupCombinedName () <<
+      fPartGroupsStack.top ()->getPartGroupCombinedName () <<
       " to stack" <<
       endl;
 
-  fPartgroupBlocksStack.top ()->
-    appendElementToPartgroupBlock (fCurrentPartBlock);
+  fPartGroupBlocksStack.top ()->
+    appendElementToPartGroupBlock (fCurrentPartBlock);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrPart& elt)

@@ -27,7 +27,7 @@ class msr2SummaryVisitor :
 
   public visitor<S_msrScore>,
   
-  public visitor<S_msrPartgroup>,
+  public visitor<S_msrPartGroup>,
   
   public visitor<S_msrPart>,
   
@@ -95,8 +95,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
-    virtual void visitStart (S_msrPartgroup& elt);
-    virtual void visitEnd   (S_msrPartgroup& elt);
+    virtual void visitStart (S_msrPartGroup& elt);
+    virtual void visitEnd   (S_msrPartGroup& elt);
 
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);

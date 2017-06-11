@@ -74,12 +74,12 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
       "--> Start visiting msrScore" <<
       endl;
 
-  int partgroupsListSize = elt->getPartgroupsList ().size();
+  int partGroupsListSize = elt->getPartGroupsList ().size();
   
   fOstream << idtr <<
     "Score contains " <<
     singularOrPlural (
-      partgroupsListSize, "part group", "part groups") <<
+      partGroupsListSize, "part group", "part groups") <<
     endl <<
     endl;
 
@@ -131,20 +131,20 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
+void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrPartgroup" <<
+      "--> Start visiting msrPartGroup" <<
       endl;
 
-  int partgroupElementsSize = elt->getPartgroupElements ().size();
+  int partGroupElementsSize = elt->getPartGroupElements ().size();
   
   fOstream << idtr <<
-    "Partgroup" << " " << elt->getPartgroupCombinedName () <<
+    "PartGroup" << " " << elt->getPartGroupCombinedName () <<
     " contains " <<
     singularOrPlural (
-      partgroupElementsSize,
+      partGroupElementsSize,
       " part or sub part group",
       " parts or sub part groups") <<
     endl;
@@ -156,62 +156,62 @@ void msr2SummaryVisitor::visitStart (S_msrPartgroup& elt)
   fOstream << left <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupAbsoluteNumber" << " : \"" <<
-      elt->getPartgroupAbsoluteNumber  () << "\"" <<
+      "PartGroupAbsoluteNumber" << " : \"" <<
+      elt->getPartGroupAbsoluteNumber  () << "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupName" << " : \"" <<
-      elt->getPartgroupName  () << "\"" <<
+      "PartGroupName" << " : \"" <<
+      elt->getPartGroupName  () << "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupDisplayText" << " : \"" <<
-      elt->getPartgroupDisplayText  () << "\"" <<
+      "PartGroupDisplayText" << " : \"" <<
+      elt->getPartGroupDisplayText  () << "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupAccidentalText" << " : \"" <<
-      elt->getPartgroupAccidentalText  () << "\"" <<
+      "PartGroupAccidentalText" << " : \"" <<
+      elt->getPartGroupAccidentalText  () << "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupAbbrevation" << " : \"" <<
-      elt->getPartgroupAbbreviation  () << "\"" <<
+      "PartGroupAbbrevation" << " : \"" <<
+      elt->getPartGroupAbbreviation  () << "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupSymbolKind" << " : " <<
-      msrPartgroup::partgroupSymbolKindAsString (
-        elt->getPartgroupSymbolKind  ()) <<
+      "PartGroupSymbolKind" << " : " <<
+      msrPartGroup::partGroupSymbolKindAsString (
+        elt->getPartGroupSymbolKind  ()) <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupSymbolDefaultX" << " : " <<
-      elt->getPartgroupSymbolDefaultX  () <<
+      "PartGroupSymbolDefaultX" << " : " <<
+      elt->getPartGroupSymbolDefaultX  () <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fPartgroupBarline" << " : \"" <<
+      "fPartGroupBarline" << " : \"" <<
       booleanAsString (
-        elt->getPartgroupBarline ()) <<
+        elt->getPartGroupBarline ()) <<
       "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartgroupInstrumentName" << " : \"" <<
-        elt->getPartgroupInstrumentName () << "\"" <<
+      "PartGroupInstrumentName" << " : \"" <<
+        elt->getPartGroupInstrumentName () << "\"" <<
       endl <<
     endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrPartgroup& elt)
+void msr2SummaryVisitor::visitEnd (S_msrPartGroup& elt)
 {
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrPartgroup" <<
+      "--> End visiting msrPartGroup" <<
       endl;
 }
 
