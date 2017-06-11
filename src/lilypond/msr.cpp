@@ -14226,6 +14226,23 @@ void msrMeasure::appendOctaveShiftToMeasure (
   fMeasureElementsList.push_back (octaveShift);
 }
 
+void msrMeasure::appendBreakToMeasure (S_msrBreak break_)
+{
+  fMeasureElementsList.push_back (break_);
+}
+
+void msrMeasure::appendStaffDetailsToMeasure (
+  S_msrStaffDetails staffDetails)
+{
+  fMeasureElementsList.push_back (staffDetails);
+}
+
+void msrMeasure::appendBarNumberCheckToMeasure (
+  S_msrBarNumberCheck barNumberCheck)
+{
+  fMeasureElementsList.push_back (barNumberCheck);
+}
+
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 {
   fMeasureElementsList.push_front (elem); // JMI

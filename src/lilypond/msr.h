@@ -2697,10 +2697,23 @@ class EXP msrMeasure : public msrElement
     void                  appendTransposeToMeasure (
                             S_msrTranspose transpose);
 
+    // staff details
+
+    void                  appendStaffDetailsToMeasure (
+                            S_msrStaffDetails staffDetails);
+
+    // bar number checks
+    
+    void                  appendBarNumberCheckToMeasure (
+                            S_msrBarNumberCheck barNumberCheck);
+
+    // breaks
+
+    void                  appendBreakToMeasure (S_msrBreak break_);
+
     // tempo
     
-    void                  appendTempoToMeasure (
-                            S_msrTempo tempo);
+    void                  appendTempoToMeasure (S_msrTempo tempo);
 
     // rehearsals
     
@@ -3008,8 +3021,7 @@ class EXP msrSegment : public msrElement
 
     // tempo
     
-    void                  appendTempoToSegment (
-                            S_msrTempo tempo);
+    void                  appendTempoToSegment (S_msrTempo tempo);
 
     // rehearsals
     
@@ -7145,8 +7157,7 @@ class EXP msrVoice : public msrElement
 
     // tempo
     
-    void                  appendTempoToVoice (
-                            S_msrTempo tempo);
+    void                  appendTempoToVoice (S_msrTempo tempo);
 
     // rehearsals
     
