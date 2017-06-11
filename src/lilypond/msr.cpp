@@ -17502,9 +17502,10 @@ void msrVoice::initializeVoice ()
       fVoiceStaffUplink->
         getCurrentStaffStaffDetails ();
 
-  if (staffStaffDetails)
+  if (staffStaffDetails) {
     // append it to the voice
     appendStaffDetailsToVoice (staffStaffDetails);
+  }
     
   // add the master stanza for this voice,
   // to collect skips along the way that are used as a 'prelude'
@@ -18095,7 +18096,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 void msrVoice::appendStaffDetailsToVoice (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceVoices || gMsrOptions->fTraceMsr)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
@@ -20461,9 +20462,10 @@ void msrStaff::initializeStaff ()
       fStaffDirectPartUplink->
         getCurrentPartStaffDetails ();
 
-  if (partStaffDetails)
+  if (partStaffDetails) {
     // append it to the staff
     appendStaffDetailsToStaff (partStaffDetails);
+  }
     
 
   // get the initial clef from the part if any
@@ -22475,7 +22477,7 @@ void msrPart::createAndAppendMeasureToPart (
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Appending staff details\"" <<
       staffDetails->staffDetailsAsShortString () <<
