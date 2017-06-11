@@ -3452,11 +3452,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrGracenotes& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrGracenotes" <<
+      "% --> Start visiting msrGraceNotes" <<
       endl;
 
   if (elt->getGracenotesIsSlashed ())
@@ -3468,11 +3468,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrGracenotes& elt)
   fOstream << " { ";
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrGracenotes& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrGracenotes" <<
+      "% --> End visiting msrGraceNotes" <<
       endl;
 
   fOstream <<
@@ -3480,11 +3480,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrGracenotes& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrAftergracenotes& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrAftergracenotes" <<
+      "% --> Start visiting msrAfterGraceNotes" <<
       endl;
 
  // JMI exists? if (elt->getGracenotesIsSlashed ())
@@ -3493,18 +3493,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrAftergracenotes& elt)
 
 /* JMI
   printNoteAsLilypondString (
-    elt->getAftergracenotesNote ());
+    elt->getAfterGraceNotesNote ());
 
   fOstream <<
     " { ";
     */
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrAftergracenotes& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrAftergracenotes" <<
+      "% --> End visiting msrAfterGraceNotes" <<
       endl;
 
   fOstream <<

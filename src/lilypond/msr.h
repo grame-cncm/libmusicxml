@@ -63,11 +63,11 @@ typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
 class msrMultipleRest;
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 
-class msrGracenotes;
-typedef SMARTP<msrGracenotes> S_msrGracenotes;
+class msrGraceNotes;
+typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 
-class msrAftergracenotes;
-typedef SMARTP<msrAftergracenotes> S_msrAftergracenotes;
+class msrAfterGraceNotes;
+typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
@@ -2693,14 +2693,14 @@ class EXP msrMeasure : public msrElement
     void                  appendHarmonyToMeasureClone (S_msrHarmony harmony);
 
     void                  appendGracenotesToMeasure (
-                            S_msrGracenotes gracenotes);
+                            S_msrGraceNotes gracenotes);
     void                  prependGracenotesToMeasure (
-                            S_msrGracenotes gracenotes);
+                            S_msrGraceNotes gracenotes);
     
-    void                  appendAftergracenotesToMeasure (
-                            S_msrAftergracenotes aftergracenotes);
-    void                  prependAftergracenotesToMeasure (
-                            S_msrAftergracenotes aftergracenotes);
+    void                  appendAfterGraceNotesToMeasure (
+                            S_msrAfterGraceNotes afterGraceNotes);
+    void                  prependAfterGraceNotesToMeasure (
+                            S_msrAfterGraceNotes afterGraceNotes);
     
     void                  prependOtherElementToMeasure (S_msrElement elem);
                       
@@ -2932,14 +2932,14 @@ class EXP msrSegment : public msrElement
                             S_msrBarCheck barCheck);
     
     void                  appendGracenotesToSegment (
-                            S_msrGracenotes gracenotes);
+                            S_msrGraceNotes gracenotes);
     void                  prependGracenotesToSegment (
-                            S_msrGracenotes gracenotes);
+                            S_msrGraceNotes gracenotes);
     
-    void                  appendAftergracenotesToSegment (
-                            S_msrAftergracenotes aftergracenotes);
-    void                  prependAftergracenotesToSegment (
-                            S_msrAftergracenotes aftergracenotes);
+    void                  appendAfterGraceNotesToSegment (
+                            S_msrAfterGraceNotes afterGraceNotes);
+    void                  prependAfterGraceNotesToSegment (
+                            S_msrAfterGraceNotes afterGraceNotes);
     
     void                  appendOtherElementToSegment (
                             S_msrElement elem);
@@ -3013,23 +3013,23 @@ EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrGracenotes : public msrElement
+class EXP msrGraceNotes : public msrElement
 {
   public:
         
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrGracenotes> create (
+    static SMARTP<msrGraceNotes> create (
       int        inputLineNumber,
       S_msrPart  gracenotesDirectPartUplink,
       bool       slashed,
       S_msrVoice gracenotesVoiceUplink);
     
-    SMARTP<msrGracenotes> createGracenotesShallowClone (
+    SMARTP<msrGraceNotes> createGracenotesShallowClone (
       S_msrVoice voiceClone);
 
-    SMARTP<msrGracenotes> createSkipGracenotesClone (
+    SMARTP<msrGraceNotes> createSkipGracenotesClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -3037,13 +3037,13 @@ class EXP msrGracenotes : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGracenotes (
+    msrGraceNotes (
       int        inputLineNumber,
       S_msrPart  gracenotesDirectPartUplink,
       bool       gracenoteIsSlashed,
       S_msrVoice gracenotesVoiceUplink);
       
-    virtual ~msrGracenotes();
+    virtual ~msrGraceNotes();
   
   public:
 
@@ -3089,8 +3089,8 @@ class EXP msrGracenotes : public msrElement
 
     S_msrVoice            fGracenotesVoiceUplink;
 };
-typedef SMARTP<msrGracenotes> S_msrGracenotes;
-EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
+typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
+EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
 
 /*!
 \brief A msr repeat representation.
@@ -3100,21 +3100,21 @@ EXP ostream& operator<< (ostream& os, const S_msrGracenotes& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrAftergracenotes : public msrElement
+class EXP msrAfterGraceNotes : public msrElement
 {
   public:
         
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrAftergracenotes> create (
+    static SMARTP<msrAfterGraceNotes> create (
       int        inputLineNumber,
-      S_msrPart  aftergracenotesDirectPartUplink,
-      S_msrNote  aftergracenotesNote,
+      S_msrPart  afterGraceNotesDirectPartUplink,
+      S_msrNote  afterGraceNotesNote,
       bool       aftergracenoteIsSlashed,
-      S_msrVoice aftergracenotesVoiceUplink);
+      S_msrVoice afterGraceNotesVoiceUplink);
     
-    SMARTP<msrAftergracenotes> createAftergracenotesShallowClone (
+    SMARTP<msrAfterGraceNotes> createAfterGraceNotesShallowClone (
       S_msrNote  noteClone,
       S_msrVoice voiceClone);
 
@@ -3123,41 +3123,41 @@ class EXP msrAftergracenotes : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrAftergracenotes (
+    msrAfterGraceNotes (
       int        inputLineNumber,
-      S_msrPart  aftergracenotesDirectPartUplink,
-      S_msrNote  aftergracenotesNote,
+      S_msrPart  afterGraceNotesDirectPartUplink,
+      S_msrNote  afterGraceNotesNote,
       bool       aftergracenoteIsSlashed,
-      S_msrVoice aftergracenotesVoiceUplink);
+      S_msrVoice afterGraceNotesVoiceUplink);
       
-    virtual ~msrAftergracenotes();
+    virtual ~msrAfterGraceNotes();
   
   public:
 
     // set and get
     // ------------------------------------------------------
                               
-    S_msrPart             getAftergracenotesDirectPartUplink () const
-                              { return fAftergracenotesDirectPartUplink; }
+    S_msrPart             getAfterGraceNotesDirectPartUplink () const
+                              { return fAfterGraceNotesDirectPartUplink; }
 
-    S_msrNote             getAftergracenotesNote ()
-                              { return fAftergracenotesNote; }
+    S_msrNote             getAfterGraceNotesNote ()
+                              { return fAfterGraceNotesNote; }
 
-    list<S_msrNote>&      getAftergracenotesNotesList ()
-                              { return fAftergracenotesNotesList; }
+    list<S_msrNote>&      getAfterGraceNotesNotesList ()
+                              { return fAfterGraceNotesNotesList; }
 
-    void                  setAftergracenotesIsSlashed ()
-                              { fAftergracenotesIsSlashed = true; }
+    void                  setAfterGraceNotesIsSlashed ()
+                              { fAfterGraceNotesIsSlashed = true; }
                               
-    bool                  getAftergracenotesIsSlashed () const
-                              { return fAftergracenotesIsSlashed; }
+    bool                  getAfterGraceNotesIsSlashed () const
+                              { return fAfterGraceNotesIsSlashed; }
 
     // services
     // ------------------------------------------------------
 
-    void                  appendNoteToAftergracenotes (S_msrNote note);
+    void                  appendNoteToAfterGraceNotes (S_msrNote note);
 
-    string                aftergracenotesAsShortString () const;
+    string                afterGraceNotesAsShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -3174,18 +3174,18 @@ class EXP msrAftergracenotes : public msrElement
 
   private:
 
-    S_msrPart             fAftergracenotesDirectPartUplink;
+    S_msrPart             fAfterGraceNotesDirectPartUplink;
 
-    S_msrNote             fAftergracenotesNote;
+    S_msrNote             fAfterGraceNotesNote;
 
-    list<S_msrNote>       fAftergracenotesNotesList;
+    list<S_msrNote>       fAfterGraceNotesNotesList;
 
-    bool                  fAftergracenotesIsSlashed;
+    bool                  fAfterGraceNotesIsSlashed;
     
-    S_msrVoice            fAftergracenotesVoiceUplink;
+    S_msrVoice            fAfterGraceNotesVoiceUplink;
 };
-typedef SMARTP<msrAftergracenotes> S_msrAftergracenotes;
-EXP ostream& operator<< (ostream& os, const S_msrAftergracenotes& elt);
+typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
+EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);
 
 /*!
 \brief A words representation.
@@ -6999,14 +6999,14 @@ class EXP msrVoice : public msrElement
     void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
     void                  appendGracenotesToVoice (
-                            S_msrGracenotes gracenotes);
+                            S_msrGraceNotes gracenotes);
     void                  prependGracenotesToVoice (
-                            S_msrGracenotes gracenotes);
+                            S_msrGraceNotes gracenotes);
 
-    void                  appendAftergracenotesToVoice (
-                            S_msrAftergracenotes aftergracenotes);
-    void                  prependAftergracenotesToVoice (
-                            S_msrAftergracenotes aftergracenotes);
+    void                  appendAfterGraceNotesToVoice (
+                            S_msrAfterGraceNotes afterGraceNotes);
+    void                  prependAfterGraceNotesToVoice (
+                            S_msrAfterGraceNotes afterGraceNotes);
 
     void                  appendSyllableToVoice (
                             int           inputLineNumber,

@@ -86,7 +86,7 @@ class msr2LpsrTranslator :
   public visitor<S_msrLigature>,
   public visitor<S_msrWedge>,
   
-  public visitor<S_msrGracenotes>,
+  public visitor<S_msrGraceNotes>,
   
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
@@ -238,8 +238,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
-    virtual void visitStart (S_msrGracenotes& elt);
-    virtual void visitEnd   (S_msrGracenotes& elt);
+    virtual void visitStart (S_msrGraceNotes& elt);
+    virtual void visitEnd   (S_msrGraceNotes& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
@@ -433,7 +433,7 @@ class msr2LpsrTranslator :
     S_msrNote                 fCurrentNoteClone;
     S_msrNote                 fFirstNoteCloneInVoice;
                                 // to help workaround LilyPond issue 34
-    S_msrNote                 fCurrentAftergracenotesNote;
+    S_msrNote                 fCurrentAfterGraceNotesNote;
                                 // to help optimise after grace notes
 
     // double tremolos
@@ -447,15 +447,15 @@ class msr2LpsrTranslator :
     
     // grace notes
     // ------------------------------------------------------
-    S_msrGracenotes           fCurrentGracenotesClone;
+    S_msrGraceNotes           fCurrentGracenotesClone;
 
-    // aftergracenotes optimisation
-    S_msrAftergracenotes      fPendingAftergracenotes;
+    // afterGraceNotes optimisation
+    S_msrAfterGraceNotes      fPendingAfterGraceNotes;
     
     void                      prependSkipGracenotesToPartOtherVoices (
                                 S_msrPart       fCurrentPartClone,
                                 S_msrVoice      fCurrentVoiceClone,
-                                S_msrGracenotes skipGracenotes);
+                                S_msrGraceNotes skipGracenotes);
     
     // chords
     // ------------------------------------------------------
