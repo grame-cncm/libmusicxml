@@ -106,17 +106,17 @@ class indenter
     virtual ~indenter();
 
     // increase the indentation
-    indenter&       operator++ (const int value);
+    indenter&             operator++ (const int value);
     
     // decrease the indentation
-    indenter&       operator-- (const int value);
+    indenter&             operator-- (const int value);
 
     // output as much space as specified
-    void            print (ostream& os) const;
+    void                  print (ostream& os) const;
 
     // get a spacer for adhoc uses, without increasing the indentation
-    string          getSpacer () const
-                        { return fSpacer; }
+    string                getSpacer () const
+                              { return fSpacer; }
 
     // global variable for general use
     static indenter gIndenter; 
@@ -140,30 +140,40 @@ class outputLineElementsCounter
     outputLineElementsCounter (int maxElementsPerLine = 10);
     virtual ~outputLineElementsCounter();
 
+    // get the counter
+
+    int                   getElementsCounter () const
+                              { return fElementsCounter; }
+                         
     // increase the counter
-    outputLineElementsCounter& operator++ (int value);
+    outputLineElementsCounter&
+                          operator++ (int value);
+
+    // set value
+    void                  setElementsCounter (int value);
     
     // set the maximum number of elements per line
-    void setMaxElementsPerLine (int maxElementsPerLine);
+    void                  setMaxElementsPerLine (int maxElementsPerLine);
     
     // reset the counter
-    void resetToZero (int value = 0);
+    void                  resetToZero (int value = 0);
     
     // compare the counter with a value
-    bool operator<  (int value);
-    bool operator<= (int value);
-    bool operator== (int value);
-    bool operator!= (int value);
-    bool operator>= (int value);
-    bool operator>  (int value);
+    bool                  operator<  (int value);
+    bool                  operator<= (int value);
+    bool                  operator== (int value);
+    bool                  operator!= (int value);
+    bool                  operator>= (int value);
+    bool                  operator>  (int value);
     
     // global variable for general use
-    static outputLineElementsCounter gOutputLineElementsCounter; 
+    static outputLineElementsCounter
+                          gOutputLineElementsCounter; 
 
   private:
 
-    int    fElementsCounter;
-    int    fMaxElementsPerLine;
+    int                   fElementsCounter;
+    int                   fMaxElementsPerLine;
 };
 
 /*!

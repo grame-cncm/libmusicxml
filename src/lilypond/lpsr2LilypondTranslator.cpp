@@ -2122,20 +2122,28 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
       elt->getLinesNumber ();
 
   if (linesNumber != 5) { // default value
-    if (fMusicOlec > 0)
-      fOstream <<
-        endl <<
-        idtr;
-    else
-      fOstream <<
-        endl;
-      
+    int saveMusicOlecEleentsCounter =
+      fMusicOlec.getElementsCounter ();
+    
     fOstream <<
+      endl <<
+      idtr <<
       "\\stopStaff " <<
       "\\override Staff.StaffSymbol.line-count = " <<
       linesNumber <<
       " \\startStaff" <<
       endl;
+
+    if (saveMusicOlecEleentsCounter > 0) {
+      fMusicOlec.resetToZero ();
+      
+      for (int i = 0; i < saveMusicOlecEleentsCounter; i++) {
+        fOstream <<
+          idtr;
+          
+        fMusicOlec++;
+      }
+    }
   }
 }
 

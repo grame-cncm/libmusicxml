@@ -261,6 +261,16 @@ void outputLineElementsCounter::resetToZero (int value)
   fElementsCounter = value;
 }
 
+void outputLineElementsCounter::setElementsCounter (int value)
+{
+  /* JMI
+  if (value > 0)
+    for (int i = 0; i < saveMusicOlecEleentsCounter; i++)
+      fOstream <<
+        idtr;
+        */
+}
+
 outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
 {
   fElementsCounter++;
