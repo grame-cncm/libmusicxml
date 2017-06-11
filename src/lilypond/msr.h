@@ -7574,13 +7574,16 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
     
-    void                  setStaffClef (S_msrClef clef);
-    void                  setStaffKey  (S_msrKey  key);
-    void                  setStaffTime (S_msrTime time);
+    void                  setCurrentStaffClef (S_msrClef clef);
+    void                  setCurrentStaffKey  (S_msrKey  key);
+    void                  setCurrentStaffTime (S_msrTime time);
 
-    S_msrClef             getStaffClef () const { return fStaffClef; };
-    S_msrKey              getStaffKey  () const { return fStaffKey; };
-    S_msrTime             getStaffTime () const { return fStaffTime; };
+    S_msrClef             getCurrentStaffClef () const
+                              { return fCurrentStaffClef; };
+    S_msrKey              getCurrentStaffKey  () const
+                              { return fCurrentStaffKey; };
+    S_msrTime             getCurrentStaffTime () const
+                              { return fCurrentStaffTime; };
 
     // transpose
     
@@ -7778,9 +7781,9 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
     
-    S_msrClef             fStaffClef;
-    S_msrKey              fStaffKey;
-    S_msrTime             fStaffTime;
+    S_msrClef             fCurrentStaffClef;
+    S_msrKey              fCurrentStaffKey;
+    S_msrTime             fCurrentStaffTime;
 
     // transpose
     
@@ -7880,6 +7883,8 @@ class EXP msrPart : public msrElement
     string                getPartAbbreviation () const
                               { return fPartAbbreviation; }
 
+    string                getPartCombinedName () const;
+
     // divisions
     
     void                  setPartMeasurePositionHighTide (
@@ -7936,20 +7941,16 @@ class EXP msrPart : public msrElement
     S_msrVoice            getPartHarmoniesSupplierVoice () const
                               { return fPartHarmoniesSupplierVoice; }
                   
-    const map<int, S_msrStaff>&
-                          getPartStavesMap ()
-                              { return fPartStavesMap; }
-
-    string                getPartCombinedName () const;
-
     // divisions per quarter note
+    
     void                  setPartDivisionsPerQuarterNote (
                             int divisionsPerQuarterNote);
                       
     const int             getPartDivisionsPerQuarterNote () const
                               { return fPartDivisionsPerQuarterNote; }
 
-    // clef, key and time may change durint the part
+    // clef, key, time
+    
     void                  setPartCurrentClef (S_msrClef clef);
     S_msrClef             getPartCurrentClef () const
                               { return fPartCurrentClef; };
@@ -7972,6 +7973,10 @@ class EXP msrPart : public msrElement
     S_msrPartgroup        getPartPartgroupUplink () const
                               { return fPartPartgroupUplink; }
               
+    const map<int, S_msrStaff>&
+                          getPartStavesMap ()
+                              { return fPartStavesMap; }
+
     // services
     // ------------------------------------------------------
 

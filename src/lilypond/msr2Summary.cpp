@@ -317,37 +317,6 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
       elt->getStaffNumber () <<
       endl;
 
-  // clef, key, time JMI ???
-  if (elt->getStaffClef ())
-    fOstream <<
-      idtr <<
-        elt->getStaffClef ();
-  else
-    fOstream <<
-      idtr <<
-        "NO_CLEF" <<
-        endl;
-
-  if (elt->getStaffKey ())
-    fOstream <<
-      idtr <<
-        elt->getStaffKey ();
-  else
-    fOstream <<
-      idtr <<
-        "NO_KEY" <<
-        endl;
-
-  if (elt->getStaffTime ())
-    fOstream <<
-      idtr <<
-        elt->getStaffTime ();
-  else
-    fOstream <<
-      idtr <<
-        "NO_TIME" <<
-        endl;
-
 /* JMI
   fOstream <<
     idtr << "StaffInstrumentName: \"" <<
