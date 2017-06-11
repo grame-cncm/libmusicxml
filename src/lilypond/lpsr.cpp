@@ -1144,82 +1144,82 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrNewStafftuningBlock lpsrNewStafftuningBlock::create (
+S_lpsrNewStaffTuningBlock lpsrNewStaffTuningBlock::create (
   int              inputLineNumber,
-  S_msrStafftuning stafftuning)
+  S_msrStaffTuning staffTuning)
 {
-  lpsrNewStafftuningBlock* o =
-    new lpsrNewStafftuningBlock (
-      inputLineNumber, stafftuning);
+  lpsrNewStaffTuningBlock* o =
+    new lpsrNewStaffTuningBlock (
+      inputLineNumber, staffTuning);
   assert(o!=0);
   return o;
 }
 
-lpsrNewStafftuningBlock::lpsrNewStafftuningBlock (
+lpsrNewStaffTuningBlock::lpsrNewStaffTuningBlock (
   int              inputLineNumber,
-  S_msrStafftuning stafftuning)
+  S_msrStaffTuning staffTuning)
     : lpsrElement (inputLineNumber)
 {
-  fStafftuning = stafftuning;
+  fStaffTuning = staffTuning;
 }
 
-lpsrNewStafftuningBlock::~lpsrNewStafftuningBlock() {}
+lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock() {}
 
-void lpsrNewStafftuningBlock::acceptIn (basevisitor* v) {
+void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrNewStafftuningBlock::acceptIn()" <<
+      "% ==> lpsrNewStaffTuningBlock::acceptIn()" <<
       endl;
       
-  if (visitor<S_lpsrNewStafftuningBlock>*
+  if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewStafftuningBlock>*> (v)) {
-        S_lpsrNewStafftuningBlock elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
+        S_lpsrNewStaffTuningBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
           cerr << idtr <<
-            "% ==> Launching lpsrNewStafftuningBlock::visitStart()" <<
+            "% ==> Launching lpsrNewStaffTuningBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void lpsrNewStafftuningBlock::acceptOut (basevisitor* v) {
+void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "% ==> lpsrNewStafftuningBlock::acceptOut()" <<
+      "% ==> lpsrNewStaffTuningBlock::acceptOut()" <<
       endl;
 
-  if (visitor<S_lpsrNewStafftuningBlock>*
+  if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
-      dynamic_cast<visitor<S_lpsrNewStafftuningBlock>*> (v)) {
-        S_lpsrNewStafftuningBlock elem = this;
+      dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
+        S_lpsrNewStaffTuningBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
           cerr << idtr <<
-            "% ==> Launching lpsrNewStafftuningBlock::visitEnd()" <<
+            "% ==> Launching lpsrNewStaffTuningBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void lpsrNewStafftuningBlock::browseData (basevisitor* v)
+void lpsrNewStaffTuningBlock::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrNewStafftuningBlock& nstf)
+ostream& operator<< (ostream& os, const S_lpsrNewStaffTuningBlock& nstf)
 {
   nstf->print (os);
   return os;
 }
 
-void lpsrNewStafftuningBlock::print (ostream& os)
+void lpsrNewStaffTuningBlock::print (ostream& os)
 {
-  os << "NewStafftuningBlock" << endl;
+  os << "NewStaffTuningBlock" << endl;
 
   idtr++;
   
   os <<
-    idtr << fStafftuning;
+    idtr << fStaffTuning;
   
   idtr--;
 }

@@ -2109,17 +2109,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesnumber& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStaffLinesnumber" <<
+      "--> Start visiting msrStaffLinesNumber" <<
       endl;
 
   // fetch staff lines number
   int
     linesNumber =
-      elt->getLinesnumber ();
+      elt->getLinesNumber ();
 
   if (linesNumber != 5) // default value
     fOstream << idtr <<
@@ -2130,27 +2130,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesnumber& elt)
     endl;
 }
 
-void lpsr2LilypondTranslator::visitStart (S_msrStafftuning& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStafftuning" <<
+      "--> Start visiting msrStaffTuning" <<
       endl;
 
 /* JMI
-  list<S_msrStafftuning>
-    stafftuningsList =
-      staff->getStafftuningsList ();
+  list<S_msrStaffTuning>
+    staffTuningsList =
+      staff->getStaffTuningsList ();
       
-  if (stafftuningsList.size ()) {
+  if (staffTuningsList.size ()) {
     // \set TabStaff.stringTunings = \stringTuning <c' g' d'' a''>
 
     fOstream << idtr <<
       "\\set TabStaff.stringTunings = \\stringTuning <";
 
-    list<S_msrStafftuning>::const_iterator
-      iBegin = stafftuningsList.begin(),
-      iEnd   = stafftuningsList.end(),
+    list<S_msrStaffTuning>::const_iterator
+      iBegin = staffTuningsList.begin(),
+      iEnd   = staffTuningsList.end(),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -2158,10 +2158,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrStafftuning& elt)
         msrQuartertonesPitchAsString (
           gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
  // JMI            elt->getInputLineNumber (),
-          ((*i)->getStafftuningQuartertonesPitch ())) <<        
- // JMI       char (tolower ((*i)->getStafftuningStep ())) <<
+          ((*i)->getStaffTuningQuartertonesPitch ())) <<        
+ // JMI       char (tolower ((*i)->getStaffTuningStep ())) <<
         absoluteOctaveAsLilypondString (
-          (*i)->getStafftuningOctave ());
+          (*i)->getStaffTuningOctave ());
       if (++i == iEnd) break;
       fOstream << " ";
     } // for

@@ -41,8 +41,8 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrPart>,
   
-  public visitor<S_msrStaffLinesnumber>,
-  public visitor<S_msrStafftuning>,
+  public visitor<S_msrStaffLinesNumber>,
+  public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
   
   public visitor<S_msrStaff>,
@@ -167,8 +167,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
 
-    virtual void visitStart (S_msrStaffLinesnumber& elt);
-    virtual void visitStart (S_msrStafftuning& elt);
+    virtual void visitStart (S_msrStaffLinesNumber& elt);
+    virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
     virtual void visitEnd   (S_msrStaffDetails& elt);
   
@@ -373,8 +373,8 @@ class msr2LpsrTranslator :
 
     // staff details
 
-    S_msrStaffLinesnumber     fCurrentStaffLinesnumberClone;
-    S_msrStafftuning          fCurrentStafftuningClone;
+    S_msrStaffLinesNumber     fCurrentStaffLinesNumberClone;
+    S_msrStaffTuning          fCurrentStaffTuningClone;
     
     // staves
     // ------------------------------------------------------

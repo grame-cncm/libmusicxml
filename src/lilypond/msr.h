@@ -90,6 +90,9 @@ typedef SMARTP<msrSegment> S_msrSegment;
 class msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
 
+class msrStaffDetails;
+typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
+
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
@@ -6968,6 +6971,9 @@ class EXP msrVoice : public msrElement
     void                  appendTransposeToVoice (
                             S_msrTranspose transpose);
 
+    void                  appendStaffDetailsToVoice (
+                            S_msrStaffDetails staffDetails);
+
 // JMI    void          appendWordsToVoice  (S_msrWords words);
     
     void                  appendTempoToVoice (
@@ -7232,42 +7238,42 @@ Staff assignment is only needed for music notated on multiple staves. Used by bo
 */
 //______________________________________________________________________________
 
-class EXP msrStaffLinesnumber : public msrElement
+class EXP msrStaffLinesNumber : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStaffLinesnumber> create (
+    static SMARTP<msrStaffLinesNumber> create (
       int inputLineNumber,
-      int linesnumber);
+      int linesNumber);
 
-    SMARTP<msrStaffLinesnumber> createStaffLinesnumberBareClone ();
+    SMARTP<msrStaffLinesNumber> createStaffLinesNumberBareClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffLinesnumber (
+    msrStaffLinesNumber (
       int inputLineNumber,
-      int linesnumber);
+      int linesNumber);
       
-    virtual ~msrStaffLinesnumber();
+    virtual ~msrStaffLinesNumber();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getLinesnumber () const
-                              { return fLinesnumber; }
+    int                   getLinesNumber () const
+                              { return fLinesNumber; }
                         
     // services
     // ------------------------------------------------------
 
-    string                staffLinesnumberAsString () const;
+    string                staffLinesNumberAsString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -7284,58 +7290,58 @@ class EXP msrStaffLinesnumber : public msrElement
 
   private:
 
-    int                   fLinesnumber;
+    int                   fLinesNumber;
 };
-typedef SMARTP<msrStaffLinesnumber> S_msrStaffLinesnumber;
-EXP ostream& operator<< (ostream& os, const S_msrStaffLinesnumber& elt);
+typedef SMARTP<msrStaffLinesNumber> S_msrStaffLinesNumber;
+EXP ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt);
 
 //______________________________________________________________________________
-class EXP msrStafftuning : public msrElement
+class EXP msrStaffTuning : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStafftuning> create (
+    static SMARTP<msrStaffTuning> create (
       int                  inputLineNumber,
-      int                  stafftuningLineNumber,
+      int                  staffTuningLineNumber,
       msrQuartertonesPitch quartertonesPitch,
-      int                  stafftuningOctave);
+      int                  staffTuningOctave);
     
-    SMARTP<msrStafftuning> createStafftuningBareClone ();
+    SMARTP<msrStaffTuning> createStaffTuningBareClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStafftuning (
+    msrStaffTuning (
       int                  inputLineNumber,
-      int                  stafftuningLineNumber,
+      int                  staffTuningLineNumber,
       msrQuartertonesPitch quartertonesPitch,
-      int                  stafftuningOctave);
+      int                  staffTuningOctave);
          
-    ~ msrStafftuning ();
+    ~ msrStaffTuning ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getStafftuningLineNumber () const
-                              { return fStafftuningLineNumber; }
+    int                   getStaffTuningLineNumber () const
+                              { return fStaffTuningLineNumber; }
 
-    msrQuartertonesPitch  getStafftuningQuartertonesPitch () const
-                              { return fStafftuningQuartertonesPitch; }
+    msrQuartertonesPitch  getStaffTuningQuartertonesPitch () const
+                              { return fStaffTuningQuartertonesPitch; }
 
-    int                   getStafftuningOctave () const
-                              { return fStafftuningOctave; }
+    int                   getStaffTuningOctave () const
+                              { return fStaffTuningOctave; }
 
     // services
     // ------------------------------------------------------
 
-    string                stafftuningAsString () const;
+    string                staffTuningAsString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -7355,13 +7361,13 @@ class EXP msrStafftuning : public msrElement
     // data
     // ------------------------------------------------------
     
-    int                   fStafftuningLineNumber;
+    int                   fStaffTuningLineNumber;
     
-    msrQuartertonesPitch  fStafftuningQuartertonesPitch;
-    int                   fStafftuningOctave;
+    msrQuartertonesPitch  fStaffTuningQuartertonesPitch;
+    int                   fStaffTuningOctave;
 };
-typedef SMARTP<msrStafftuning> S_msrStafftuning;
-EXP ostream& operator<< (ostream& os, const S_msrStafftuning& elt);
+typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
+EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
 
 /*!
 \brief A msr comment representation.
@@ -7385,23 +7391,23 @@ class EXP msrStaffDetails : public msrElement
     static string staffTypeKindAsString (
       msrStaffTypeKind staffTypeKind);
       
-    enum msrShowfretsKind {
-      kShowfretsYes, kShowfretsNo};
+    enum msrShowFretsKind {
+      kShowFretsNumbers, kShowFretsLetters};
 
-    static string showfretsKindAsString (
-      msrShowfretsKind showfretsKind);
+    static string showFretsKindAsString (
+      msrShowFretsKind showFretsKind);
       
-    enum msrPrintobjectKind {
-      kPrintobjectYes, kPrintobjectNo};
+    enum msrPrintObjectKind {
+      kPrintObjectYes, kPrintObjectNo};
 
-    static string printobjectKindKindAsString (
-      msrPrintobjectKind printobjectKind);
+    static string printObjectKindKindAsString (
+      msrPrintObjectKind printObjectKind);
       
-    enum msrPrintspacingKind {
-      kPrintspacingYes, kPrintspacingNo};
+    enum msrPrintSpacingKind {
+      kPrintSpacingYes, kPrintSpacingNo};
 
-    static string printspacingKindKindAsString (
-      msrPrintspacingKind printspacingKind);
+    static string printSpacingKindKindAsString (
+      msrPrintSpacingKind printSpacingKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -7409,15 +7415,15 @@ class EXP msrStaffDetails : public msrElement
     static SMARTP<msrStaffDetails> create (
       int                   inputLineNumber,
       msrStaffTypeKind      staffTypeKind,
-      S_msrStaffLinesnumber staffLinesnumber,
-      S_msrStafftuning      stafftuning,
-      msrShowfretsKind      showfretsKind,
-      msrPrintobjectKind    printobjectKind,
-      msrPrintspacingKind   printspacingKind);
+      S_msrStaffLinesNumber staffLinesNumber,
+      S_msrStaffTuning      staffTuning,
+      msrShowFretsKind      showFretsKind,
+      msrPrintObjectKind    printObjectKind,
+      msrPrintSpacingKind   printSpacingKind);
 
     SMARTP<msrStaffDetails> createStaffDetailsBareClone (
-      S_msrStaffLinesnumber staffLinesnumberClone,
-      S_msrStafftuning      stafftuningClone);
+      S_msrStaffLinesNumber staffLinesNumberClone,
+      S_msrStaffTuning      staffTuningClone);
 
   protected:
 
@@ -7427,11 +7433,11 @@ class EXP msrStaffDetails : public msrElement
     msrStaffDetails (
       int                   inputLineNumber,
       msrStaffTypeKind      staffTypeKind,
-      S_msrStaffLinesnumber staffLinesnumber,
-      S_msrStafftuning      stafftuning,
-      msrShowfretsKind      showfretsKind,
-      msrPrintobjectKind    printobjectKind,
-      msrPrintspacingKind   printspacingKind);
+      S_msrStaffLinesNumber staffLinesNumber,
+      S_msrStaffTuning      staffTuning,
+      msrShowFretsKind      showFretsKind,
+      msrPrintObjectKind    printObjectKind,
+      msrPrintSpacingKind   printSpacingKind);
       
     virtual ~msrStaffDetails();
   
@@ -7443,24 +7449,26 @@ class EXP msrStaffDetails : public msrElement
     msrStaffTypeKind      getStaffTypeKind () const
                               { return fStaffTypeKind; }
                         
-    S_msrStaffLinesnumber getStaffLinesnumber () const
-                              { return fStaffLinesnumber; }
+    S_msrStaffLinesNumber getStaffLinesNumber () const
+                              { return fStaffLinesNumber; }
                         
-    S_msrStafftuning      getStafftuning () const
-                              { return fStafftuning; }
+    S_msrStaffTuning      getStaffTuning () const
+                              { return fStaffTuning; }
                         
-    msrShowfretsKind      getShowfretsKind () const
-                              { return fShowfretsKind; }
+    msrShowFretsKind      getShowFretsKind () const
+                              { return fShowFretsKind; }
                         
-    msrPrintobjectKind    getPrintobjectKind () const
-                              { return fPrintobjectKind; }
+    msrPrintObjectKind    getPrintObjectKind () const
+                              { return fPrintObjectKind; }
                         
-    msrPrintspacingKind   getPrintspacingKind () const
-                              { return fPrintspacingKind; }
+    msrPrintSpacingKind   getPrintSpacingKind () const
+                              { return fPrintSpacingKind; }
                         
     // services
     // ------------------------------------------------------
 
+    string                staffDetailsAsString ();
+    
     // visitors
     // ------------------------------------------------------
 
@@ -7478,13 +7486,13 @@ class EXP msrStaffDetails : public msrElement
 
     msrStaffTypeKind      fStaffTypeKind;
 
-    S_msrStaffLinesnumber fStaffLinesnumber;
-    S_msrStafftuning      fStafftuning;
+    S_msrStaffLinesNumber fStaffLinesNumber;
+    S_msrStaffTuning      fStaffTuning;
 
-    msrShowfretsKind      fShowfretsKind;
+    msrShowFretsKind      fShowFretsKind;
     
-    msrPrintobjectKind    fPrintobjectKind;
-    msrPrintspacingKind   fPrintspacingKind;
+    msrPrintObjectKind    fPrintObjectKind;
+    msrPrintSpacingKind   fPrintSpacingKind;
 };
 typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
 EXP ostream& operator<< (ostream& os, const S_msrStaffDetails& elt);
@@ -7721,8 +7729,8 @@ class EXP msrStaff : public msrElement
 
     // staff tuning
     
-    void                  appendStafftuningToStaff (
-                            S_msrStafftuning stafftuning);
+    void                  appendStaffTuningToStaff (
+                            S_msrStaffTuning staffTuning);
   
     // finalization
 
@@ -7804,8 +7812,8 @@ class EXP msrStaff : public msrElement
 
     // staff tunings
     
-    list<S_msrStafftuning>
-                          fStafftuningsList;
+    list<S_msrStaffTuning>
+                          fStaffTuningsList;
 
     // uplinks
 
@@ -7983,22 +7991,15 @@ class EXP msrPart : public msrElement
                             int  inputLineNumber,
                             int  divisions);
 
-    void                  testDivisionsAndDurations (); // JMI
-    void                  testTupletSoundingDivisionsAndDurations ();
-  
-    // staff details
-
-    void                  appendStaffDetailsToPart (
-                            S_msrStaffDetails staffDetails);
-
-    // tuplets
-    
     string                tupletDivisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions,
                             int actualNotes,
                             int normalNotes);
 
+    void                  testDivisionsAndDurations (); // JMI
+    void                  testTupletSoundingDivisionsAndDurations ();
+  
     // harmony staff and voice
     
     void                  createPartHarmonyStaffAndVoice (
@@ -8010,6 +8011,13 @@ class EXP msrPart : public msrElement
                             int    inputLineNumber,
                             string measureNumber);
 
+    // staff details
+
+    void                  appendStaffDetailsToPart (
+                            S_msrStaffDetails staffDetails);
+
+    // tuplets JMI ???
+    
     // barlines
     
     void                  appendBarlineToPart (S_msrBarline barline);
@@ -8296,8 +8304,7 @@ class EXP msrPartgroup : public msrElement
 
     S_msrPart             addPartToPartgroupByItsID (
                             int    inputLineNumber,
-                            string partID,
-                            int    stavesLinesNumber);
+                            string partID);
     
     void                  addPartToPartgroup (S_msrPart part);
                 

@@ -568,31 +568,31 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrStaffLinesnumber& elt)
+void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStaffLinesnumber" <<
+      "--> Start visiting msrStaffLinesNumber" <<
       endl;
 
   // create a staff lines number clone
-  fCurrentStaffLinesnumberClone =
+  fCurrentStaffLinesNumberClone =
     elt->
-      createStaffLinesnumberBareClone ();
+      createStaffLinesNumberBareClone ();
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrStafftuning& elt)
+void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStafftuning" <<
+      "--> Start visiting msrStaffTuning" <<
       endl;
   
   // create a staff tuning clone
-  fCurrentStafftuningClone =
+  fCurrentStaffTuningClone =
     elt->
-      createStafftuningBareClone ();
+      createStaffTuningBareClone ();
 }
 
 //________________________________________________________________________
@@ -603,8 +603,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
       "--> Start visiting msrStaffDetails" <<
       endl;
 
-  fCurrentStaffLinesnumberClone = 0;
-  fCurrentStafftuningClone      = 0;
+  fCurrentStaffLinesNumberClone = 0;
+  fCurrentStaffTuningClone      = 0;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
@@ -618,8 +618,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
   S_msrStaffDetails
     staffDetailsClone =
       elt->createStaffDetailsBareClone (
-        fCurrentStaffLinesnumberClone,
-        fCurrentStafftuningClone);
+        fCurrentStaffLinesNumberClone,
+        fCurrentStaffTuningClone);
 
   // append it to the current staff clone
   fCurrentStaffClone->
@@ -629,19 +629,19 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
 /* JMI
   // add it to the staff clone
   fCurrentStaffClone->
-    addStafftuningToStaff (
-      fCurrentStafftuningClone);
+    addStaffTuningToStaff (
+      fCurrentStaffTuningClone);
 
   // create a staff tuning block
-  S_lpsrNewStafftuningBlock
-    newStafftuningBlock =
-      lpsrNewStafftuningBlock::create (
-        fCurrentStafftuningClone->getInputLineNumber (),
-        fCurrentStafftuningClone);
+  S_lpsrNewStaffTuningBlock
+    newStaffTuningBlock =
+      lpsrNewStaffTuningBlock::create (
+        fCurrentStaffTuningClone->getInputLineNumber (),
+        fCurrentStaffTuningClone);
 
   // append it to the current staff block
   fCurrentStaffBlock->
-    appendElementToStaffBlock (newStafftuningBlock);
+    appendElementToStaffBlock (newStaffTuningBlock);
     */
 }
 

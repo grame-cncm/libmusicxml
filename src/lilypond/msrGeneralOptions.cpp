@@ -306,7 +306,7 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceLigatures = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
   
-  fTraceStafftuning = boolOptionsInitialValue;
+  fTraceStaffTuning = boolOptionsInitialValue;
   
   fTraceMidi = boolOptionsInitialValue;
 }
@@ -448,7 +448,7 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   clone->fTraceWedges =
     true;
   
-  clone->fTraceStafftuning =
+  clone->fTraceStaffTuning =
     true;
   
   clone->fTraceMidi =
