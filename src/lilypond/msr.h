@@ -7805,7 +7805,10 @@ class EXP msrStaff : public msrElement
     
     S_msrTranspose        fStaffTranspose;
 
+    // staff details
 
+    S_msrStaffDetails     fCurrentStaffStaffDetails;
+    
     // counters
     
     int                   fRegisteredVoicesCounter;
@@ -8121,6 +8124,19 @@ class EXP msrPart : public msrElement
     virtual void          printStructure (ostream& os);
 
   private:
+
+    // divisions
+
+    int                     fPartDivisionsPerQuarterNote;
+    list<pair<msrDuration, int> >
+                            fPartDurationsToDivisions;
+
+    // measures
+
+    int                     fPartMeasurePositionHighTide;
+    string                  fPartMeasureNumber;
+
+    // part ID and name
     
     string                  fPartID; // native
     
@@ -8131,30 +8147,35 @@ class EXP msrPart : public msrElement
 
     string                  fPartName; // from '<part-name/>'
     string                  fPartAbbreviation;
+
+    // instrument name
     
     string                  fPartInstrumentName;
     string                  fPartInstrumentAbbreviation;
 
-    S_msrPartgroup          fPartPartgroupUplink;
-
-    map<int, S_msrStaff>    fPartStavesMap;
-
-    int                     fPartDivisionsPerQuarterNote;
-    list<pair<msrDuration, int> >
-                            fPartDurationsToDivisions;
-
-    string                  fPartMeasureNumber;
-    int                     fPartMeasurePositionHighTide;
-
+    // clef, key, time
+    
     S_msrClef               fPartCurrentClef; // JMI
     S_msrKey                fPartCurrentKey; // JMI
     S_msrTime               fPartCurrentTime;
 
     S_msrTranspose          fPartTranspose;
 
+    // staff details
+
+    S_msrStaffDetails       fCurrentPartStaffDetails;
+    
+    // harmonies
+
     S_msrStaff              fPartHarmonyStaff;
     S_msrVoice              fPartHarmonyVoice;
     S_msrVoice              fPartHarmoniesSupplierVoice;
+
+    // uplinks
+    
+    S_msrPartgroup          fPartPartgroupUplink;
+
+    map<int, S_msrStaff>    fPartStavesMap;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
@@ -8333,12 +8354,18 @@ class EXP msrPartgroup : public msrElement
 
   private:
 
+    // counters
+    
     static int              gPartgroupsCounter;
+
+    // numbers
     
     int                     fPartgroupAbsoluteNumber;
     
     int                     fPartgroupNumber;
-        
+
+    // name
+    
     string                  fPartgroupName;
 
     string                  fPartgroupDisplayText;
@@ -8346,10 +8373,19 @@ class EXP msrPartgroup : public msrElement
     
     string                  fPartgroupAbbreviation;
 
+    // symbol kind
+    
     msrPartgroupSymbolKind  fPartgroupSymbolKind;
+
+    // default X
+    
     int                     fPartgroupSymbolDefaultX;
 
+    // bar line
+    
     bool                    fPartgroupBarline;
+
+    // instrument name
 
     string                  fPartgroupInstrumentName;
 

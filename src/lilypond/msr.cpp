@@ -21232,6 +21232,9 @@ void msrStaff::appendStaffDetailsToStaff (
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
+  // register staff detaila in staff
+  fCurrentPartStaffDetails = staffDetails;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
@@ -22473,6 +22476,9 @@ void msrPart::appendStaffDetailsToPart (
       "\" to part " << getPartCombinedName () <<
     endl;
 
+  // register staff detaila in part
+  fCurrentPartStaffDetails = staffDetails;
+  
   // propagate it to all staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
