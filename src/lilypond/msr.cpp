@@ -20541,7 +20541,8 @@ string msrStaffDetails::staffDetailsAsShortString ()
   stringstream s;
 
   s <<
-    "StaffDetails";
+    "StaffDetails" <<
+    ", line " << fInputLineNumber;
 
   // print the staff lines number if any
   s << ", StaffLinesNumber: ";
@@ -20566,17 +20567,16 @@ string msrStaffDetails::staffDetailsAsShortString ()
 
 void msrStaffDetails::print (ostream& os)
 {
-  os << idtr <<
-    "StaffDetails" <<
+  os <<
+    "StaffDetails:" <<
     endl;
 
   idtr++;
 
   // print the staff lines number if any
   if (fStaffLinesNumber)
-    os <<
-      idtr <<
-        fStaffLinesNumber;
+    os << idtr <<
+      fStaffLinesNumber;
   else
     os <<
       "StaffLinesNumber: none" <<
@@ -20584,11 +20584,10 @@ void msrStaffDetails::print (ostream& os)
 
   // print the staff tuning if any
   if (fStaffTuning)
-    os <<
-      idtr <<
-        fStaffTuning;
+    os << idtr <<
+      fStaffTuning;
   else
-    os <<
+    os << idtr <<
       "StaffTuning: none" <<
       endl;
 
@@ -21539,6 +21538,19 @@ void msrStaff::appendStaffDetailsToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
+
+    cerr <<
+      endl <<
+      endl <<
+      "++++++++++++++++++++++" <<
+      endl <<
+      (*i).second <<
+      "++++++++++++++++++++++" <<
+      endl <<
+      endl;
+
+
+
     (*i).second->
       appendStaffDetailsToVoice (staffDetails);
   } // for
