@@ -19728,7 +19728,7 @@ void msrVoice::print (ostream& os)
       fVoiceTime->timeAsString ();
   else
     os <<
-      "NULL !!!"; // JMI
+      "none"; // JMI
   os <<
     endl <<
     endl;
@@ -21569,13 +21569,16 @@ void msrStaff::print (ostream& os)
     fStaffInstrumentName << "\"" << endl;
 */
 
-  // print the staff datails if any
-  os << "Staff details: ";
+  // print the staff staff datails if any
+  os << idtr <<
+    "Staff details: ";
   if (fCurrentStaffStaffDetails) {
     os << fCurrentStaffStaffDetails;
   }
   else
     os << "none";
+  os << endl;
+
   os << endl;
 
   /* JMI
@@ -21600,7 +21603,6 @@ void msrStaff::print (ostream& os)
     idtr--;
   }
 
-  os << endl;
 */
 
   // print the voices
