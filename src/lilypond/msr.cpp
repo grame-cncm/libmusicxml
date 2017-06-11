@@ -20660,9 +20660,6 @@ S_msrStaff msrStaff::createStaffFlatClone (S_msrPart partClone)
         fStaffKind,
         fStaffNumber);
 
-  clone->fStaffLinesNumber =
-    fStaffLinesNumber;
-    
   clone->fStaffName =
     fStaffName;
     
@@ -21521,10 +21518,7 @@ void msrStaff::print (ostream& os)
   os <<
     "Staff" " " << getStaffName () <<
     ", " << staffKindAsString () <<
-    ", " <<
-    singularOrPlural (
-      fStaffLinesNumber, "line", "lines") <<
-    " (" <<
+    ", (" <<
     singularOrPlural (
       fStaffVoiceRelativeNumberToVoiceMap.size(), "voice", "voices") <<
     ")" <<
@@ -21560,7 +21554,7 @@ void msrStaff::print (ostream& os)
 */
 
   // print the staff datails if any
-  os << "Staff details:";
+  os << "Staff details: ";
   if (fCurrentStaffStaffDetails) {
     os << fCurrentStaffStaffDetails;
   }

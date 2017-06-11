@@ -7572,15 +7572,6 @@ class EXP msrStaff : public msrElement
 // JMI    string          getStaffInstrumentName () const
       //                  { return fStaffInstrumentName; }
 
-    // staff lines number
-    
-    void                  setStaffLinesNumber (
-                            int staffLinesNumber)
-                              { fStaffLinesNumber = staffLinesNumber; }
-
-    int                   getStaffLinesNumber () const
-                              { return fStaffLinesNumber; }
-
     // clef, key, time
     
     void                  setStaffClef (S_msrClef clef);
@@ -7765,10 +7756,6 @@ class EXP msrStaff : public msrElement
 
     int                   fStaffNumber;
 
-    // staff lines number
-    
-    int                   fStaffLinesNumber;
-    
     // staff voices
     
     static int            gMaxStaffVoices;

@@ -308,19 +308,16 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 
   
   const int fieldWidth = 17;
-  
+
+  // print the staff number
   fOstream << left <<
-    idtr <<
-      setw(fieldWidth) <<
-      "StaffLinesNumber" << " : " <<
-      elt->getStaffLinesNumber () <<
-      endl <<
     idtr <<
       setw(fieldWidth) <<
       "StaffNumber" << " : " <<
       elt->getStaffNumber () <<
       endl;
-  
+
+  // clef, key, time JMI ???
   if (elt->getStaffClef ())
     fOstream <<
       idtr <<
