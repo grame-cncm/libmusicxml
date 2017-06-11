@@ -8716,87 +8716,87 @@ void msrBarCheck::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrBarnumberCheck msrBarnumberCheck::create (
+S_msrBarNumberCheck msrBarNumberCheck::create (
   int    inputLineNumber,
   string nextBarNumber)
 {
-  msrBarnumberCheck* o =
-    new msrBarnumberCheck (
+  msrBarNumberCheck* o =
+    new msrBarNumberCheck (
       inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
-msrBarnumberCheck::msrBarnumberCheck (
+msrBarNumberCheck::msrBarNumberCheck (
   int    inputLineNumber,
   string nextBarNumber)
     : msrElement (inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
-msrBarnumberCheck::~msrBarnumberCheck() {}
+msrBarNumberCheck::~msrBarNumberCheck() {}
 
-string msrBarnumberCheck::barnumberCheckAsString () const
+string msrBarNumberCheck::barNumberCheckAsString () const
 {
   stringstream s;
 
   s <<
-    "BarnumberCheck" << ", next bar number = " << fNextBarNumber;
+    "BarNumberCheck" << ", next bar number = " << fNextBarNumber;
 
   return s.str();
 }
 
-void msrBarnumberCheck::acceptIn (basevisitor* v) {
+void msrBarNumberCheck::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrBarnumberCheck::acceptIn()" <<
+      "% ==> msrBarNumberCheck::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrBarnumberCheck>*
+  if (visitor<S_msrBarNumberCheck>*
     p =
-      dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
-        S_msrBarnumberCheck elem = this;
+      dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
+        S_msrBarNumberCheck elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrBarnumberCheck::visitStart()" <<
+            "% ==> Launching msrBarNumberCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrBarnumberCheck::acceptOut (basevisitor* v) {
+void msrBarNumberCheck::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrBarnumberCheck::acceptOut()" <<
+      "% ==> msrBarNumberCheck::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrBarnumberCheck>*
+  if (visitor<S_msrBarNumberCheck>*
     p =
-      dynamic_cast<visitor<S_msrBarnumberCheck>*> (v)) {
-        S_msrBarnumberCheck elem = this;
+      dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
+        S_msrBarNumberCheck elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrBarnumberCheck::visitEnd()" <<
+            "% ==> Launching msrBarNumberCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrBarnumberCheck::browseData (basevisitor* v)
+void msrBarNumberCheck::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt)
+ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrBarnumberCheck::print (ostream& os)
+void msrBarNumberCheck::print (ostream& os)
 {
   os <<
-    barnumberCheckAsString ();
+    barNumberCheckAsString ();
 }
 
 //______________________________________________________________________________
@@ -11279,7 +11279,7 @@ string msrSyllable::syllableKindAsString (
       result = "bar check";
       break;
       
-    case msrSyllable::kBarnumberCheckSyllable:
+    case msrSyllable::kBarNumberCheckSyllable:
       result = "barnumber check";
       break;
       
@@ -11475,7 +11475,7 @@ string msrSyllable::syllableAsString () const
         " measure " << fSyllableText;
       break;
       
-    case kBarnumberCheckSyllable:
+    case kBarNumberCheckSyllable:
       // fSyllableText contains the measure number
       s << 
         "bar number check" <<
@@ -11660,7 +11660,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kLigatureBeyondEndSyllable:
     case msrSyllable::kTiedSyllable:
     case msrSyllable::kBarcheckSyllable:
-    case msrSyllable::kBarnumberCheckSyllable:
+    case msrSyllable::kBarNumberCheckSyllable:
     case msrSyllable::kBreakSyllable:
       break;
       
@@ -11903,7 +11903,7 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::appendBarnumberCheckSyllableToStanza (
+S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
@@ -11923,7 +11923,7 @@ S_msrSyllable msrStanza::appendBarnumberCheckSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kBarnumberCheckSyllable,
+        msrSyllable::kBarNumberCheckSyllable,
         s.str(),
         msrSyllable::k_NoSyllableExtend,
         0,
@@ -12533,74 +12533,74 @@ void msrCoda::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrEyeglasses msrEyeglasses::create (
+S_msrEyeGlasses msrEyeGlasses::create (
   int                       inputLineNumber)
 {
-  msrEyeglasses* o =
-    new msrEyeglasses (
+  msrEyeGlasses* o =
+    new msrEyeGlasses (
       inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-msrEyeglasses::msrEyeglasses (
+msrEyeGlasses::msrEyeGlasses (
   int                       inputLineNumber)
     : msrElement (inputLineNumber)
 {}
 
-msrEyeglasses::~msrEyeglasses() {}
+msrEyeGlasses::~msrEyeGlasses() {}
 
-void msrEyeglasses::acceptIn (basevisitor* v) {
+void msrEyeGlasses::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrEyeglasses::acceptIn()" <<
+      "% ==> msrEyeGlasses::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrEyeglasses>*
+  if (visitor<S_msrEyeGlasses>*
     p =
-      dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
-        S_msrEyeglasses elem = this;
+      dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
+        S_msrEyeGlasses elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrEyeglasses::visitStart()" <<
+            "% ==> Launching msrEyeGlasses::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrEyeglasses::acceptOut (basevisitor* v) {
+void msrEyeGlasses::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrEyeglasses::acceptOut()" <<
+      "% ==> msrEyeGlasses::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrEyeglasses>*
+  if (visitor<S_msrEyeGlasses>*
     p =
-      dynamic_cast<visitor<S_msrEyeglasses>*> (v)) {
-        S_msrEyeglasses elem = this;
+      dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
+        S_msrEyeGlasses elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrEyeglasses::visitEnd()" <<
+            "% ==> Launching msrEyeGlasses::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrEyeglasses::browseData (basevisitor* v)
+void msrEyeGlasses::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrEyeglasses& elt)
+ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrEyeglasses::print (ostream& os)
+void msrEyeGlasses::print (ostream& os)
 {
   os <<
-    "Eyeglasses" <<
+    "EyeGlasses" <<
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -15372,7 +15372,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     setMeasureClef (clef);
     
   // append it to this segment
-  appendOtherElementToSegment (clef);
+  appendClefToSegment (clef);
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -15392,7 +15392,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
     setMeasureKey (key);
     
   // append it to this segment
-  appendOtherElementToSegment (key);
+  appendKeyToSegment (key);
 }
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
@@ -15412,7 +15412,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     setMeasureTime (time);
     
   // append it to this segment
-  appendOtherElementToSegment (time);
+  appendTimeToSegment (time);
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -15429,7 +15429,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
         endl;
       
   // append it to this segment
-  fSegmentMeasuresList.back ()->
+  fSegmentMeasuresList.back ()-> // JMI ???
     appendHarmonyToMeasure (harmony);
 }
 
@@ -15449,6 +15449,24 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
+}
+
+void msrSegment::appendCodaToSegment (S_msrCoda coda)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending coda " <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->
+          getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendCodaToMeasure (coda);
 }
 
 void msrSegment::bringSegmentToMeasurePosition (
@@ -15933,139 +15951,141 @@ void msrSegment::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrRepeatending msrRepeatending::create (
+S_msrRepeatEnding msrRepeatEnding::create (
   int                 inputLineNumber,
-  string              repeatendingNumber, // may be "1, 2"
-  msrRepeatendingKind repeatendingKind,
+  string              repeatEndingNumber, // may be "1, 2"
+  msrRepeatEndingKind repeatEndingKind,
   S_msrSegment        segment,
   S_msrRepeat         repeatUplink)
 {
-  msrRepeatending* o =
-    new msrRepeatending (
+  msrRepeatEnding* o =
+    new msrRepeatEnding (
       inputLineNumber,
-      repeatendingNumber,
-      repeatendingKind,
+      repeatEndingNumber,
+      repeatEndingKind,
       segment,
       repeatUplink);
   assert(o!=0);
   return o;
 }
 
-msrRepeatending::msrRepeatending (
+msrRepeatEnding::msrRepeatEnding (
   int                 inputLineNumber,
-  string              repeatendingNumber, // may be "1, 2"
-  msrRepeatendingKind repeatendingKind,
+  string              repeatEndingNumber, // may be "1, 2"
+  msrRepeatEndingKind repeatEndingKind,
   S_msrSegment        segment,
   S_msrRepeat         repeatUplink)
     : msrElement (inputLineNumber)
 {
-  fRepeatendingNumber = repeatendingNumber;
+  fRepeatEndingNumber = repeatEndingNumber;
   
-  fRepeatendingInternalNumber = 0;
-    // will be set by msrRepeat::addRepeatending ()
+  fRepeatEndingInternalNumber = 0;
+    // will be set by msrRepeat::addRepeatEnding ()
   
-  fRepeatendingKind = repeatendingKind;
+  fRepeatEndingKind = repeatEndingKind;
   
-  fRepeatendingSegment = segment;
+  fRepeatEndingSegment = segment;
   
-  fRepeatendingRepeatUplink = repeatUplink;
+  fRepeatEndingRepeatUplink = repeatUplink;
 }
 
-msrRepeatending::~msrRepeatending() {}
+msrRepeatEnding::~msrRepeatEnding() {}
 
-S_msrRepeatending msrRepeatending::createRepeatendingShallowClone (
+S_msrRepeatEnding msrRepeatEnding::createRepeatEndingShallowClone (
   S_msrRepeat repeatClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Creating a shallow clone of a " <<
-      repeatendingAsString () <<
+      repeatEndingAsString () <<
       endl;
   
   msrAssert(
     repeatClone != 0,
     "repeatClone is null");
     
-  S_msrRepeatending
+  S_msrRepeatEnding
     clone =
-      msrRepeatending::create (
+      msrRepeatEnding::create (
         fInputLineNumber,
-        fRepeatendingNumber,
-        fRepeatendingKind,
+        fRepeatEndingNumber,
+        fRepeatEndingKind,
         repeatClone->getRepeatCommonSegment (), // JMI
         repeatClone);
   
   return clone;
 }
 
-void msrRepeatending::appendElementToRepeatending (
+/* JMI
+void msrRepeatEnding::appendElementToRepeatEnding (
   S_msrElement elem) // JMI ???
 {
-  fRepeatendingSegment->
+  fRepeatEndingSegment->
     appendOtherElementToSegment (elem);
 }
+*/
 
-void msrRepeatending::acceptIn (basevisitor* v) {
+void msrRepeatEnding::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrRepeatending::acceptIn()" <<
+      "% ==> msrRepeatEnding::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrRepeatending>*
+  if (visitor<S_msrRepeatEnding>*
     p =
-      dynamic_cast<visitor<S_msrRepeatending>*> (v)) {
-        S_msrRepeatending elem = this;
+      dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
+        S_msrRepeatEnding elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrRepeatending::visitStart()" <<
+            "% ==> Launching msrRepeatEnding::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrRepeatending::acceptOut (basevisitor* v) {
+void msrRepeatEnding::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrRepeatending::acceptOut()" <<
+      "% ==> msrRepeatEnding::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrRepeatending>*
+  if (visitor<S_msrRepeatEnding>*
     p =
-      dynamic_cast<visitor<S_msrRepeatending>*> (v)) {
-        S_msrRepeatending elem = this;
+      dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
+        S_msrRepeatEnding elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrRepeatending::visitEnd()" <<
+            "% ==> Launching msrRepeatEnding::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrRepeatending::browseData (basevisitor* v)
+void msrRepeatEnding::browseData (basevisitor* v)
 {
   // browse the segment
   msrBrowser<msrSegment> browser (v);
-  browser.browse (*fRepeatendingSegment);
+  browser.browse (*fRepeatEndingSegment);
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatending& elt)
+ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrRepeatending::repeatendingKindAsString (
-  msrRepeatendingKind repeatendingKind)
+string msrRepeatEnding::repeatEndingKindAsString (
+  msrRepeatEndingKind repeatEndingKind)
 {
   string result;
   
-  switch (repeatendingKind) {
-    case msrRepeatending::kHookedEnding:
+  switch (repeatEndingKind) {
+    case msrRepeatEnding::kHookedEnding:
       result = "hooked";
       break;
-    case msrRepeatending::kHooklessEnding:
+    case msrRepeatEnding::kHooklessEnding:
       result = "hookless";
       break;
   } // switch
@@ -16073,34 +16093,34 @@ string msrRepeatending::repeatendingKindAsString (
   return result;
 }
 
-string msrRepeatending::repeatendingAsString () const
+string msrRepeatEnding::repeatEndingAsString () const
 {
   stringstream s;
 
   s <<
-    "Repeatending, " <<
-    repeatendingKindAsString (
-      fRepeatendingKind) <<
+    "RepeatEnding, " <<
+    repeatEndingKindAsString (
+      fRepeatEndingKind) <<
     ", line " << fInputLineNumber <<
-    ", number " << fRepeatendingNumber <<
-    ", internal number " << fRepeatendingInternalNumber <<
+    ", number " << fRepeatEndingNumber <<
+    ", internal number " << fRepeatEndingInternalNumber <<
     endl;
 
   return s.str();
 }
 
-void msrRepeatending::print (ostream& os)
+void msrRepeatEnding::print (ostream& os)
 {
   os <<
     endl <<
     idtr <<
-    repeatendingAsString () <<
+    repeatEndingAsString () <<
     endl;
  
   idtr++;
 
   os <<
-    fRepeatendingSegment;
+    fRepeatEndingSegment;
 
   idtr--;
 }
@@ -16164,20 +16184,20 @@ void msrRepeat::setRepeatCommonSegment (
   fRepeatCommonSegment = repeatCommonSegment;
 }
 
-void msrRepeat::addRepeatending (S_msrRepeatending repeatending)
+void msrRepeat::addRepeatEnding (S_msrRepeatEnding repeatEnding)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Adding ending '" <<
-      repeatending->repeatendingAsString () <<
+      repeatEnding->repeatEndingAsString () <<
       "' to repeat" <<
       endl;
       
-  fRepeatEndings.push_back (repeatending);
+  fRepeatEndings.push_back (repeatEnding);
 
   // set repeat ending internal number
-  repeatending->
-    setRepeatendingInternalNumber (
+  repeatEnding->
+    setRepeatEndingInternalNumber (
       ++ fRepeatEndingsInternalCounter);
 }
 
@@ -16229,11 +16249,11 @@ void msrRepeat::browseData (basevisitor* v)
   
   // browse the alternatives
   for (
-    vector<S_msrRepeatending>::const_iterator i = fRepeatEndings.begin();
+    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin();
     i != fRepeatEndings.end();
     i++) {
     // browse the alternative
-    msrBrowser<msrRepeatending> browser (v);
+    msrBrowser<msrRepeatEnding> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -16288,7 +16308,7 @@ void msrRepeat::print (ostream& os)
   if (endingsNumber) {
     idtr++;
     
-    vector<S_msrRepeatending>::const_iterator
+    vector<S_msrRepeatEnding>::const_iterator
       iBegin = fRepeatEndings.begin(),
       iEnd   = fRepeatEndings.end(),
       i      = iBegin;
@@ -17595,7 +17615,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
         // append it to the last segment
         S_msrElement t = transpose;
         fVoiceLastSegment->
-          appendOtherElementToSegment (transpose); //JMI
+          appendTransposeToSegment (transpose); //JMI
       }
     }
   }
@@ -18090,7 +18110,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
     transpose->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (transpose);
+    appendTransposeToSegment (transpose);
 }
 
 void msrVoice::appendStaffDetailsToVoice (
@@ -18103,12 +18123,17 @@ void msrVoice::appendStaffDetailsToVoice (
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
-  // create the voice last segment and first measure if needed
+/* JMI
+  // register staff details in voice
+  fCurrentVoicefStaffDetails = staffDetails;
+  */
+  
+ // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
     staffDetails->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (staffDetails);
+    appendStaffDetailsToSegment (staffDetails);
 }
 
 /* JMI
@@ -18121,7 +18146,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 
   S_msrElement w = words;
   fVoiceLastSegment->
-    appendOtherElementToSegment (w);
+    appendWordsToSegment (w);
 }
 */
 
@@ -18138,7 +18163,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
     tempo->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (tempo);
+    appendTempoToSegment (tempo);
 }
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
@@ -18156,7 +18181,7 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
     octaveShift->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (octaveShift);
+    appendOctaveShiftToSegment (octaveShift);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -18172,7 +18197,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
     rehearsal->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (rehearsal);
+    appendRehearsalToSegment (rehearsal);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -18526,7 +18551,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
     barCheck->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (barCheck);
+    appendBarCheckToSegment (barCheck);
 
   // add bar check syllable to the voice master stanza
   fVoiceMasterStanza->
@@ -18535,13 +18560,13 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
       barCheck->getNextBarNumber ());
 }
 
-void msrVoice::appendBarnumberCheckToVoice (
-  S_msrBarnumberCheck barNumberCheck)
+void msrVoice::appendBarNumberCheckToVoice (
+  S_msrBarNumberCheck barNumberCheck)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Appending barnumber check '" <<
-      barNumberCheck->barnumberCheckAsString () <<
+      barNumberCheck->barNumberCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
 
@@ -18550,11 +18575,11 @@ void msrVoice::appendBarnumberCheckToVoice (
     barNumberCheck->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (barNumberCheck);
+    appendBarNumberCheckToSegment (barNumberCheck);
 
   // add barnumber check syllable to the voice master stanza
   fVoiceMasterStanza->
-    appendBarnumberCheckSyllableToStanza (
+    appendBarNumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
       barNumberCheck->getNextBarNumber ());
 }
@@ -18572,7 +18597,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     break_->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (break_);
+    appendBreakToSegment (break_);
 
   // add break syllable to the voice master stanza
   fVoiceMasterStanza->
@@ -19327,11 +19352,11 @@ void msrVoice::appendRepeatCloneToVoice (
   } // switch
 }
     
-void msrVoice::appendRepeatendingToVoice (
+void msrVoice::appendRepeatEndingToVoice (
   int       inputLineNumber,
-  string    repeatendingNumber, // may be "1, 2"
-  msrRepeatending::msrRepeatendingKind
-            repeatendingKind)
+  string    repeatEndingNumber, // may be "1, 2"
+  msrRepeatEnding::msrRepeatEndingKind
+            repeatEndingKind)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -19344,12 +19369,12 @@ void msrVoice::appendRepeatendingToVoice (
             ", line " << inputLineNumber <<
             endl;
       
-        S_msrRepeatending
+        S_msrRepeatEnding
           repeatEnding =
-            msrRepeatending::create (
+            msrRepeatEnding::create (
               inputLineNumber,
-              repeatendingNumber,
-              repeatendingKind,
+              repeatEndingNumber,
+              repeatEndingKind,
               fVoiceLastSegment,
               fVoiceCurrentRepeat);
       
@@ -19362,7 +19387,7 @@ void msrVoice::appendRepeatendingToVoice (
             endl;
             
         fVoiceCurrentRepeat->
-          addRepeatending (repeatEnding);
+          addRepeatEnding (repeatEnding);
       
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -19382,8 +19407,8 @@ void msrVoice::appendRepeatendingToVoice (
   } // switch
 }
 
-void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
-  S_msrRepeatending repeatendingClone)
+void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
+  S_msrRepeatEnding repeatEndingClone)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -19402,7 +19427,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
           "fVoiceCurrentRepeat is null");
           
         fVoiceCurrentRepeat->
-          addRepeatending (repeatendingClone);
+          addRepeatEnding (repeatEndingClone);
       
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -19413,7 +19438,7 @@ void msrVoice:: appendRepeatendingCloneToVoice ( // JMI
             endl;
             
         createNewLastSegmentForVoice (
-          repeatendingClone->getInputLineNumber ());
+          repeatEndingClone->getInputLineNumber ());
       }
       break;
             
@@ -19456,7 +19481,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
       endl;
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (segno);
+    appendSegnoToSegment (segno);
 }
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda)
@@ -19467,18 +19492,18 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
       ":" << endl;
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (coda);
+    appendCodaToSegment (coda);
 }
 
-void msrVoice::appendEyeglassesToVoice (S_msrEyeglasses eyeglasses)
+void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 {
   if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Appending a eyeglasses to voice \"" << getVoiceName () << "\"" <<
+      "Appending a eyeGlasses to voice \"" << getVoiceName () << "\"" <<
       endl;
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (eyeglasses);
+    appendEyeGlassesToSegment (eyeGlasses);
 }
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal)
@@ -19489,7 +19514,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
       endl;
 
   fVoiceLastSegment->
-    appendOtherElementToSegment (pedal);
+    appendPedalToSegment (pedal);
 }
 
 /*
@@ -21021,11 +21046,11 @@ void msrStaff::createAndAppendRepeatToStaff (int inputLineNumber)
   } // for
 }
 
-void msrStaff::appendRepeatendingToStaff (
+void msrStaff::appendRepeatEndingToStaff (
   int       inputLineNumber,
-  string    repeatendingNumber, // may be "1, 2"
-  msrRepeatending::msrRepeatendingKind
-            repeatendingKind)
+  string    repeatEndingNumber, // may be "1, 2"
+  msrRepeatEnding::msrRepeatEndingKind
+            repeatEndingKind)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -21040,10 +21065,10 @@ void msrStaff::appendRepeatendingToStaff (
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      appendRepeatendingToVoice (
+      appendRepeatEndingToVoice (
         inputLineNumber,
-        repeatendingNumber,
-        repeatendingKind);
+        repeatEndingNumber,
+        repeatEndingKind);
   } // for
 }
 
@@ -21185,8 +21210,8 @@ void msrStaff::appendRepeatCloneToStaff (
   } // for
 }
 
-void msrStaff::appendRepeatendingCloneToStaff (
-  S_msrRepeatending repeatendingClone)
+void msrStaff::appendRepeatEndingCloneToStaff (
+  S_msrRepeatEnding repeatEndingClone)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -21201,7 +21226,7 @@ void msrStaff::appendRepeatendingCloneToStaff (
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      appendRepeatendingCloneToVoice (repeatendingClone);
+      appendRepeatEndingCloneToVoice (repeatEndingClone);
   } // for
 }
 
@@ -22612,21 +22637,21 @@ void msrPart::createAndAppendRepeatToPart (int inputLineNumber)
   } // for
 }
 
-void msrPart::appendRepeatendingToPart (
+void msrPart::appendRepeatEndingToPart (
   int       inputLineNumber,
-  string    repeatendingNumber, // may be "1, 2"
-  msrRepeatending::msrRepeatendingKind
-            repeatendingKind)
+  string    repeatEndingNumber, // may be "1, 2"
+  msrRepeatEnding::msrRepeatEndingKind
+            repeatEndingKind)
 {
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      appendRepeatendingToStaff (
+      appendRepeatEndingToStaff (
         inputLineNumber,
-        repeatendingNumber,
-        repeatendingKind);
+        repeatEndingNumber,
+        repeatEndingKind);
   } // for
 }
 
@@ -22660,15 +22685,15 @@ void msrPart::appendRepeatCloneToPart (
   } // for
 }
 
-void msrPart::appendRepeatendingCloneToPart (
-  S_msrRepeatending repeatendingCLone)
+void msrPart::appendRepeatEndingCloneToPart (
+  S_msrRepeatEnding repeatEndingCLone)
 {
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      appendRepeatendingCloneToStaff (repeatendingCLone);
+      appendRepeatEndingCloneToStaff (repeatEndingCLone);
   } // for
 }
 

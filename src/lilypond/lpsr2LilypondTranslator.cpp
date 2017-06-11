@@ -2848,7 +2848,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fStanzaOlec.resetToZero ();
           break;
     
-        case msrSyllable::kBarnumberCheckSyllable:
+        case msrSyllable::kBarNumberCheckSyllable:
           fOstream <<
      // JMI       "%{ | % " << elt->getSyllableText () << " %}" <<
             "%{ " << elt->getSyllableText () << " %}" <<
@@ -5126,11 +5126,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrEyeglasses& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting eyeglasses" <<
+      "% --> Start visiting eyeGlasses" <<
       endl;
 
   fOstream <<
@@ -5297,11 +5297,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrBarnumberCheck& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrBarnumberCheck" <<
+      "% --> Start visiting msrBarNumberCheck" <<
       endl;
 
   fOstream << idtr <<
@@ -5311,11 +5311,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarnumberCheck& elt)
   fMusicOlec.resetToZero ();
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrBarnumberCheck& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrBarnumberCheck" <<
+      "% --> End visiting msrBarNumberCheck" <<
       endl;
 }
 
@@ -5419,14 +5419,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrRepeatending& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrRepeatending" <<
+      "% --> Start visiting msrRepeatEnding" <<
       endl;
 
-  if (elt->getRepeatendingInternalNumber () == 1) {
+  if (elt->getRepeatEndingInternalNumber () == 1) {
     
     idtr--;
     
@@ -5470,8 +5470,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatending& elt)
   }
 
   // output the start of the ending
-  switch (elt->getRepeatendingKind ()) {
-    case msrRepeatending::kHookedEnding:
+  switch (elt->getRepeatEndingKind ()) {
+    case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {  
         fOstream <<
           idtr <<
@@ -5488,7 +5488,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatending& elt)
       }
       break;
       
-    case msrRepeatending::kHooklessEnding:
+    case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)    
         fOstream <<
           idtr <<
@@ -5509,16 +5509,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatending& elt)
   fMusicOlec.resetToZero ();
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrRepeatending& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrRepeatending" <<
+      "% --> End visiting msrRepeatEnding" <<
       endl;
 
   // output the end of the ending
-  switch (elt->getRepeatendingKind ()) {
-    case msrRepeatending::kHookedEnding:
+  switch (elt->getRepeatEndingKind ()) {
+    case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {
         fOstream <<
           idtr <<
@@ -5535,7 +5535,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatending& elt)
       }
       break;
       
-    case msrRepeatending::kHooklessEnding:
+    case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)   { 
         fOstream <<
           idtr <<
@@ -5554,7 +5554,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatending& elt)
   } // switch
 
   if (
-    elt->getRepeatendingInternalNumber ()
+    elt->getRepeatEndingInternalNumber ()
       ==
     fCurrentRepeatEndingsNumber) {
       

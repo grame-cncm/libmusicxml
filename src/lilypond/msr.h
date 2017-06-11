@@ -54,6 +54,12 @@ typedef SMARTP<msrBarline> S_msrBarline;
 class msrBarCheck;
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
 
+class msrBarNumberCheck;
+typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
+
+class msrBreak;
+typedef SMARTP<msrBreak> S_msrBreak;
+
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
@@ -90,8 +96,26 @@ typedef SMARTP<msrSegment> S_msrSegment;
 class msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
 
+class msrTranspose;
+typedef SMARTP<msrTranspose> S_msrTranspose;
+
 class msrStaffDetails;
 typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
+
+class msrTempo;
+typedef SMARTP<msrTempo> S_msrTempo;
+
+class msrSegno;
+typedef SMARTP<msrSegno> S_msrSegno;
+
+class msrCoda;
+typedef SMARTP<msrCoda> S_msrCoda;
+
+class msrEyeGlasses;
+typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
+
+class msrPedal;
+typedef SMARTP<msrPedal> S_msrPedal;
 
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -2668,43 +2692,67 @@ class EXP msrMeasure : public msrElement
                       
     string                getMeasureLengthAsString () const;
 
-    // appending elements to measure
+    // bar lines
     
     void                  appendBarlineToMeasure (S_msrBarline barline);
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
+
+    // notes
     
     void                  appendNoteToMeasure      (S_msrNote note);
     void                  appendNoteToMeasureClone (S_msrNote note);
+
+    // tremolos
     
     void                  appendDoubleTremoloToMeasure (
                             S_msrDoubleTremolo doubleTremolo);
 
+    // repeats
+    
     void                  appendMeasureRepeatToMeasure (
                             S_msrMeasureRepeat measureRepeat);
 
     void                  appendMultipleRestToMeasure (
                             S_msrMultipleRest multipleRest);
 
+    // chords
+    
     void                  appendChordToMeasure (S_msrChord chord);
+
+    // tuplets
+    
     void                  appendTupletToMeasure (S_msrTuplet tuplet);
+
+    // harmonies
     
     void                  appendHarmonyToMeasure (S_msrHarmony harmony);
     
     void                  appendHarmonyToMeasureClone (S_msrHarmony harmony);
 
+    // grace notes
+    
     void                  appendGraceNotesToMeasure (
                             S_msrGraceNotes graceNotes);
+
     void                  prependGraceNotesToMeasure (
                             S_msrGraceNotes graceNotes);
     
     void                  appendAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
+
     void                  prependAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
+                            
+    // coda
+    
+    void                  appendCodaToMeasure (S_msrCoda coda);
+
+
+    // other elements
     
     void                  prependOtherElementToMeasure (S_msrElement elem);
                       
-    void                  appendOtherElementToMeasure  (S_msrElement elem);
+    void                  appendOtherElementToMeasure (S_msrElement elem);
 
     // last element of measure
     
@@ -2893,26 +2941,63 @@ class EXP msrSegment : public msrElement
 
     string                segmentAsString ();
 
+    // divisions
+    
+    void                  bringSegmentToMeasurePosition (
+                            int inputLineNumber,
+                            int measurePosition);
+  
+    // measures
+
     void                  appendMeasureToSegment (S_msrMeasure measure);
 
     void                  appendMeasureToSegmentIfNeeded (  // JMI
                             int    inputLineNumber,
                             string measureNumber);
-  
+
+    // clef, key, time
+    
     void                  appendClefToSegment (S_msrClef clef);
     void                  appendKeyToSegment (S_msrKey key);
     void                  appendTimeToSegment (S_msrTime time);
 
+    // transpose
+
+    void                  appendTransposeToSegment (
+                            S_msrTranspose transpose);
+
+    // staff details
+
+    void                  appendStaffDetailsToSegment (
+                            S_msrStaffDetails staffDetails);
+
+    // tempo
+    
+    void                  appendTempoToSegment (
+                            S_msrTempo tempo);
+
+    // rehearsals
+    
+    void                  appendRehearsalToSegment (
+                            S_msrRehearsal rehearsal);
+
+    // octave shifts
+    
+    void                  appendOctaveShiftToSegment (
+                            S_msrOctaveShift octaveShift);
+
+    // harmonies
+    
     void                  appendHarmonyToSegment (S_msrHarmony harmony);
     
     void                  appendHarmonyToSegmentClone (S_msrHarmony harmony);
 
-    void                  bringSegmentToMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
-  
+    // notes
+    
     void                  appendNoteToSegment      (S_msrNote note);
     void                  appendNoteToSegmentClone (S_msrNote note);
+
+    // tremolos
     
     void                  appendDoubleTremoloToSegment (
                             S_msrDoubleTremolo doubleTremolo);
@@ -2920,33 +3005,78 @@ class EXP msrSegment : public msrElement
     void                  appendMeasureRepeatToSegment (
                             S_msrMeasureRepeat measureRepeat);
 
+    // repeats
+    
     void                  appendMultipleRestToSegment (
                             S_msrMultipleRest multipleRest);
 
+    // chords
+    
     void                  appendChordToSegment (S_msrChord chord);
+
+    // tuplets
+    
     void                  appendTupletToSegment (S_msrTuplet tuplet);
+
+    // bar lines
     
     void                  appendBarlineToSegment (
                             S_msrBarline barline);
+
+    void                  prependBarlineToSegment (
+                            S_msrBarline barline);
+
+    // bar checks
+    
     void                  appendBarCheckToSegment (
                             S_msrBarCheck barCheck);
+
+    // bar number checks
+    
+    void                  appendBarNumberCheckToSegment (
+                            S_msrBarNumberCheck barNumberCheck);
+
+    // breaks
+
+    void                  appendBreakToSegment (S_msrBreak break_);
+
+    // segno
+    
+    void                  appendSegnoToSegment (S_msrSegno segno);
+
+    // coda
+    
+    void                  appendCodaToSegment (S_msrCoda coda);
+
+    // eyeglasses
+    
+    void                  appendEyeGlassesToSegment (
+                            S_msrEyeGlasses eyeGlasses);
+
+    // pedal
+    
+    void                  appendPedalToSegment (S_msrPedal pedal);
+
+    // grace notes
     
     void                  appendGraceNotesToSegment (
                             S_msrGraceNotes graceNotes);
+
     void                  prependGraceNotesToSegment (
                             S_msrGraceNotes graceNotes);
     
     void                  appendAfterGraceNotesToSegment (
                             S_msrAfterGraceNotes afterGraceNotes);
+
     void                  prependAfterGraceNotesToSegment (
                             S_msrAfterGraceNotes afterGraceNotes);
-    
-    void                  appendOtherElementToSegment (
-                            S_msrElement elem);
-        
-    void                  prependBarlineToSegment (
-                            S_msrBarline barline);
 
+    // other elements
+    
+    void                  appendOtherElementToSegment (S_msrElement elem);
+
+    // removing elements
+    
     void                  removeNoteFromSegment (
                             int       inputLineNumber,
                             S_msrNote note);
@@ -3330,7 +3460,7 @@ class EXP msrSyllable : public msrElement
       kTiedSyllable,
       kSlurSyllable, kSlurBeyondEndSyllable,
       kLigatureSyllable, kLigatureBeyondEndSyllable,
-      kBarcheckSyllable, kBarnumberCheckSyllable,
+      kBarcheckSyllable, kBarNumberCheckSyllable,
       kBreakSyllable};
 
     static string syllableKindAsString (
@@ -5140,9 +5270,9 @@ typedef SMARTP<msrBreak> S_msrBreak;
 EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
 
 /*!
-\brief A msr barnumbercheck representation.
+\brief A msr barNumberCheck representation.
 
-  A barnumbercheck is represented by the number of the next bar
+  A barNumberCheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
 class EXP msrBarCheck : public msrElement
@@ -5201,19 +5331,19 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
 
 /*!
-\brief A msr barnumbercheck representation.
+\brief A msr barNumberCheck representation.
 
-  A barnumbercheck is represented by the number of the next bar
+  A barNumberCheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarnumberCheck : public msrElement
+class EXP msrBarNumberCheck : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrBarnumberCheck> create (
+    static SMARTP<msrBarNumberCheck> create (
       int    inputLineNumber,
       string nextBarNumber);
 
@@ -5222,11 +5352,11 @@ class EXP msrBarnumberCheck : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBarnumberCheck (
+    msrBarNumberCheck (
       int    inputLineNumber,
       string nextBarNumber);
       
-    virtual ~msrBarnumberCheck();
+    virtual ~msrBarNumberCheck();
   
   public:
 
@@ -5239,7 +5369,7 @@ class EXP msrBarnumberCheck : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                barnumberCheckAsString () const;
+    string                barNumberCheckAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -5258,8 +5388,8 @@ class EXP msrBarnumberCheck : public msrElement
 
     string                fNextBarNumber;
 };
-typedef SMARTP<msrBarnumberCheck> S_msrBarnumberCheck;
-EXP ostream& operator<< (ostream& os, const S_msrBarnumberCheck& elt);
+typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
+EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
 
 /*!
 \brief A msr tuplet representation.
@@ -5679,7 +5809,7 @@ class EXP msrStanza : public msrElement
                             int inputLineNumber,
                             int divisions);
 
-    S_msrSyllable         appendBarnumberCheckSyllableToStanza (
+    S_msrSyllable         appendBarNumberCheckSyllableToStanza (
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
@@ -5833,14 +5963,14 @@ EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrEyeglasses : public msrElement
+class EXP msrEyeGlasses : public msrElement
 {
   public:
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrEyeglasses> create (
+    static SMARTP<msrEyeGlasses> create (
       int                       inputLineNumber);
 
   protected:
@@ -5848,10 +5978,10 @@ class EXP msrEyeglasses : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrEyeglasses (
+    msrEyeGlasses (
       int                       inputLineNumber);
       
-    virtual ~msrEyeglasses();
+    virtual ~msrEyeGlasses();
   
   public:
 
@@ -5876,8 +6006,8 @@ class EXP msrEyeglasses : public msrElement
 
   private:
 };
-typedef SMARTP<msrEyeglasses> S_msrEyeglasses;
-EXP ostream& operator<< (ostream& os, const S_msrEyeglasses& elt);
+typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
+EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
 
 /*!
 \brief A msr barline representation.
@@ -6191,31 +6321,31 @@ EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeatending : public msrElement
+class EXP msrRepeatEnding : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrRepeatendingKind {
+    enum msrRepeatEndingKind {
       kHookedEnding,
       kHooklessEnding};
 
-    static string repeatendingKindAsString (
-      msrRepeatendingKind repeatendingKind);
+    static string repeatEndingKindAsString (
+      msrRepeatEndingKind repeatEndingKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrRepeatending> create (
+    static SMARTP<msrRepeatEnding> create (
       int                 inputLineNumber,
-      string              repeatendingNumber, // may be "1, 2"
-      msrRepeatendingKind repeatendingKind,
+      string              repeatEndingNumber, // may be "1, 2"
+      msrRepeatEndingKind repeatEndingKind,
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
     
-    SMARTP<msrRepeatending> createRepeatendingShallowClone (
+    SMARTP<msrRepeatEnding> createRepeatEndingShallowClone (
       S_msrRepeat repeatClone);
 
   protected:
@@ -6223,51 +6353,51 @@ class EXP msrRepeatending : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRepeatending (
+    msrRepeatEnding (
       int                 inputLineNumber,
-      string              repeatendingNumber, // may be "1, 2"
-      msrRepeatendingKind repeatendingKind,
+      string              repeatEndingNumber, // may be "1, 2"
+      msrRepeatEndingKind repeatEndingKind,
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
       
-    virtual ~msrRepeatending();
+    virtual ~msrRepeatEnding();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    string                getRepeatendingNumber () const
-                              { return fRepeatendingNumber; }
+    string                getRepeatEndingNumber () const
+                              { return fRepeatEndingNumber; }
                 
-    void                  setRepeatendingNumber (int repeatendingNumber)
-                              { fRepeatendingNumber = repeatendingNumber; }
+    void                  setRepeatEndingNumber (int repeatEndingNumber)
+                              { fRepeatEndingNumber = repeatEndingNumber; }
 
-    void                  setRepeatendingInternalNumber (
-                            int repeatendingInternalNumber)
+    void                  setRepeatEndingInternalNumber (
+                            int repeatEndingInternalNumber)
                               {
-                                fRepeatendingInternalNumber =
-                                  repeatendingInternalNumber;
+                                fRepeatEndingInternalNumber =
+                                  repeatEndingInternalNumber;
                               }
                       
-    int                   getRepeatendingInternalNumber () const
-                              { return fRepeatendingInternalNumber; }
+    int                   getRepeatEndingInternalNumber () const
+                              { return fRepeatEndingInternalNumber; }
                 
-    msrRepeatendingKind   getRepeatendingKind () const
-                              { return fRepeatendingKind; }
+    msrRepeatEndingKind   getRepeatEndingKind () const
+                              { return fRepeatEndingKind; }
                 
-    S_msrSegment          getRepeatendingSegment () const
-                              { return fRepeatendingSegment; }
+    S_msrSegment          getRepeatEndingSegment () const
+                              { return fRepeatEndingSegment; }
                 
-    S_msrRepeat           getRepeatendingRepeatUplink () const
-                              { return fRepeatendingRepeatUplink; }
+    S_msrRepeat           getRepeatEndingRepeatUplink () const
+                              { return fRepeatEndingRepeatUplink; }
 
     // services
     // ------------------------------------------------------
   
-    string                repeatendingAsString () const;
+    string                repeatEndingAsString () const;
 
-    void                  appendElementToRepeatending (S_msrElement elem);
+ //  JMI void                  appendElementToRepeatEnding (S_msrElement elem);
                     
     // visitors
     // ------------------------------------------------------
@@ -6284,17 +6414,17 @@ class EXP msrRepeatending : public msrElement
 
   private:
   
-    string              fRepeatendingNumber; // may be "1, 2"
-    int                 fRepeatendingInternalNumber; // internally assigned
+    string              fRepeatEndingNumber; // may be "1, 2"
+    int                 fRepeatEndingInternalNumber; // internally assigned
     
-    msrRepeatendingKind fRepeatendingKind;
+    msrRepeatEndingKind fRepeatEndingKind;
     
-    S_msrSegment        fRepeatendingSegment;
+    S_msrSegment        fRepeatEndingSegment;
 
-    S_msrRepeat         fRepeatendingRepeatUplink;
+    S_msrRepeat         fRepeatEndingRepeatUplink;
 };
-typedef SMARTP<msrRepeatending> S_msrRepeatending;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatending& elt);
+typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
 
 /*!
 \brief A msr repeat representation.
@@ -6340,7 +6470,7 @@ class EXP msrRepeat : public msrElement
     S_msrSegment          getRepeatCommonSegment () const
                               { return fRepeatCommonSegment; }
 
-    const vector<S_msrRepeatending>&
+    const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
                             { return fRepeatEndings; }
 
@@ -6350,7 +6480,7 @@ class EXP msrRepeat : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  addRepeatending (S_msrRepeatending repeatending);
+    void                  addRepeatEnding (S_msrRepeatEnding repeatEnding);
 
     // visitors
     // ------------------------------------------------------
@@ -6369,7 +6499,7 @@ class EXP msrRepeat : public msrElement
 
     S_msrSegment              fRepeatCommonSegment;
     
-    vector<S_msrRepeatending> fRepeatEndings;
+    vector<S_msrRepeatEnding> fRepeatEndings;
     int                       fRepeatEndingsInternalCounter;
     
     S_msrVoice                fRepeatVoiceUplink;
@@ -6966,69 +7096,116 @@ class EXP msrVoice : public msrElement
     void                  appendKeyToVoice  (S_msrKey  key);
     void                  appendTimeToVoice (S_msrTime time);
     
-    // append elements to voice
+    // transpose
 
     void                  appendTransposeToVoice (
                             S_msrTranspose transpose);
+
+    // staff details
 
     void                  appendStaffDetailsToVoice (
                             S_msrStaffDetails staffDetails);
 
 // JMI    void          appendWordsToVoice  (S_msrWords words);
+
+    // tempo
     
     void                  appendTempoToVoice (
                             S_msrTempo tempo);
+
+    // rehearsals
     
     void                  appendRehearsalToVoice (
                             S_msrRehearsal rehearsal);
+
+    // octave shifts
     
     void                  appendOctaveShiftToVoice (
                             S_msrOctaveShift octaveShift);
+
+    // notes
     
     void                  appendNoteToVoice      (S_msrNote note);
     void                  appendNoteToVoiceClone (S_msrNote note);
 
+    // tremolos
+    
     void                  appendDoubleTremoloToVoice (
                             S_msrDoubleTremolo doubleTremolo);
 
+    // chords
+    
     void                  appendChordToVoice  (S_msrChord chord);
+
+    // tuplets
+    
     void                  appendTupletToVoice (S_msrTuplet tuplet);
+
+    // harmonies
 
     void                  appendHarmonyToVoice (S_msrHarmony harmony);
     
     void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
+    // grace notes
+    
     void                  appendGraceNotesToVoice (
                             S_msrGraceNotes graceNotes);
+
     void                  prependGraceNotesToVoice (
                             S_msrGraceNotes graceNotes);
 
     void                  appendAfterGraceNotesToVoice (
                             S_msrAfterGraceNotes afterGraceNotes);
+
     void                  prependAfterGraceNotesToVoice (
                             S_msrAfterGraceNotes afterGraceNotes);
 
+    // lyrics
+    
     void                  appendSyllableToVoice (
                             int           inputLineNumber,
                             int           stanzaNumber,
                             S_msrSyllable syllable);
-                              
+
+    // bar checks
+    
     void                  appendBarCheckToVoice (
                             S_msrBarCheck barCheck);
-                    
-    void                  appendBarnumberCheckToVoice (
-                            S_msrBarnumberCheck barNumberCheck);
 
+    // bar number checks
+    
+    void                  appendBarNumberCheckToVoice (
+                            S_msrBarNumberCheck barNumberCheck);
+
+    // breaks
+    
     void                  appendBreakToVoice (S_msrBreak break_);
 
+    // bar lines
+    
     void                  prependBarlineToVoice (S_msrBarline barline);
     void                  appendBarlineToVoice (S_msrBarline barline);
+
+    // segno
     
     void                  appendSegnoToVoice (S_msrSegno segno);
+
+    // coda
+    
     void                  appendCodaToVoice (S_msrCoda coda);
-    void                  appendEyeglassesToVoice (
-                            S_msrEyeglasses eyeglasses);
+
+    // eyeglasses
+    
+    void                  appendEyeGlassesToVoice (
+                            S_msrEyeGlasses eyeGlasses);
+
+    // pedal
+    
     void                  appendPedalToVoice (S_msrPedal pedal);
+
+
+    // other elements
     
     void                  appendOtherElementToVoice (S_msrElement elem);
                             // for other types of elements not known
@@ -7071,14 +7248,14 @@ class EXP msrVoice : public msrElement
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
     
-    void                  appendRepeatendingToVoice (
+    void                  appendRepeatEndingToVoice (
                             int       inputLineNumber,
-                            string    repeatendingNumber, // may be "1, 2"
-                            msrRepeatending::msrRepeatendingKind
-                                      repeatendingKind);
+                            string    repeatEndingNumber, // may be "1, 2"
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind);
 
-    void                  appendRepeatendingCloneToVoice (
-                            S_msrRepeatending repeatendingClone);
+    void                  appendRepeatEndingCloneToVoice (
+                            S_msrRepeatEnding repeatEndingClone);
 
     // segments
     
@@ -7697,14 +7874,14 @@ class EXP msrStaff : public msrElement
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
 
-    void                  appendRepeatendingToStaff (
+    void                  appendRepeatEndingToStaff (
                             int       inputLineNumber,
-                            string    repeatendingNumber, // may be "1, 2"
-                            msrRepeatending::msrRepeatendingKind
-                                      repeatendingKind);
+                            string    repeatEndingNumber, // may be "1, 2"
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind);
 
-    void                  appendRepeatendingCloneToStaff (
-                            S_msrRepeatending repeatendingClone);
+    void                  appendRepeatEndingCloneToStaff (
+                            S_msrRepeatEnding repeatEndingClone);
 
     void                  createAndAppendRepeatToAllStaffVoices (
                             int inputLineNumber);
@@ -8040,16 +8217,16 @@ class EXP msrPart : public msrElement
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
     
-    void                  appendRepeatendingToPart (
+    void                  appendRepeatEndingToPart (
                             int       inputLineNumber,
-                            string    repeatendingNumber, // may be "1, 2"
-                            msrRepeatending::msrRepeatendingKind
-                                      repeatendingKind);
+                            string    repeatEndingNumber, // may be "1, 2"
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind);
     
-    void                  appendRepeatendingCloneToPart (
-                            S_msrRepeatending repeatendingCLone);
+    void                  appendRepeatEndingCloneToPart (
+                            S_msrRepeatEnding repeatEndingCLone);
 
-//    void            appendRepeatendingToPart (int inputLineNumber);
+//    void            appendRepeatEndingToPart (int inputLineNumber);
 
     void                  createMeasureRepeatFromItsFirstMeasureInPart (
                             int inputLineNumber,

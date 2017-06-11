@@ -805,19 +805,19 @@ void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrBarnumberCheck& elt)
+void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrBarnumberCheck" <<
+      "--> Start visiting msrBarNumberCheck" <<
       endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrBarnumberCheck& elt)
+void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrBarnumberCheck" <<
+      "--> End visiting msrBarNumberCheck" <<
       endl;
 }
 

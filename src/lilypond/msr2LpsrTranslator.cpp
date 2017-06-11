@@ -2573,15 +2573,15 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrEyeglasses& elt)
+void msr2LpsrTranslator::visitStart (S_msrEyeGlasses& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting eyeglasses" <<
+      "--> Start visiting eyeGlasses" <<
       endl;
 
   fCurrentVoiceClone->
-    appendEyeglassesToVoice (elt);
+    appendEyeGlassesToVoice (elt);
 }
 
 void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
@@ -2616,22 +2616,22 @@ void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrBarnumberCheck& elt)
+void msr2LpsrTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrBarnumberCheck" <<
+      "--> Start visiting msrBarNumberCheck" <<
       endl;
 
   fCurrentVoiceClone->
-    appendBarnumberCheckToVoice (elt);
+    appendBarNumberCheckToVoice (elt);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrBarnumberCheck& elt)
+void msr2LpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrBarnumberCheck" <<
+      "--> End visiting msrBarNumberCheck" <<
       endl;
 }
 
@@ -2693,23 +2693,23 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrRepeatending& elt)
+void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrRepeatending" <<
+      "--> Start visiting msrRepeatEnding" <<
       endl;
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrRepeatending& elt)
+void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrRepeatending" <<
+      "--> End visiting msrRepeatEnding" <<
       endl;
 
   // forget current repeat ending clone
-  fCurrentRepeatendingClone = 0;
+  fCurrentRepeatEndingClone = 0;
 }
 
 //________________________________________________________________________
@@ -3099,10 +3099,10 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
 
         fCurrentPartClone->
-          appendRepeatendingToPart (
+          appendRepeatEndingToPart (
             inputLineNumber,
             elt->getEndingNumber (),
-            msrRepeatending::kHookedEnding);
+            msrRepeatEnding::kHookedEnding);
       }
       break;
       
@@ -3139,10 +3139,10 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
 
         fCurrentPartClone->
-          appendRepeatendingToPart (
+          appendRepeatEndingToPart (
             inputLineNumber,
             elt->getEndingNumber (),
-            msrRepeatending::kHookedEnding);
+            msrRepeatEnding::kHookedEnding);
       }
       break;
   } // switch

@@ -105,16 +105,16 @@ class msr2LpsrTranslator :
   public visitor<S_msrSegno>,
   public visitor<S_msrCoda>,
   
-  public visitor<S_msrEyeglasses>,
+  public visitor<S_msrEyeGlasses>,
   public visitor<S_msrPedal>,
 
   public visitor<S_msrBarCheck>,
-  public visitor<S_msrBarnumberCheck>,
+  public visitor<S_msrBarNumberCheck>,
   
   public visitor<S_msrBreak>,
   
   public visitor<S_msrRepeat>,
-  public visitor<S_msrRepeatending>,
+  public visitor<S_msrRepeatEnding>,
   
   public visitor<S_msrMeasureRepeat>,
   public visitor<S_msrMeasureRepeatPattern>,
@@ -274,21 +274,21 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrSegno& elt);
     virtual void visitStart (S_msrCoda& elt);
 
-    virtual void visitStart (S_msrEyeglasses& elt);
+    virtual void visitStart (S_msrEyeGlasses& elt);
     virtual void visitStart (S_msrPedal& elt);
 
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);
-    virtual void visitStart (S_msrBarnumberCheck& elt);
-    virtual void visitEnd   (S_msrBarnumberCheck& elt);
+    virtual void visitStart (S_msrBarNumberCheck& elt);
+    virtual void visitEnd   (S_msrBarNumberCheck& elt);
 
     virtual void visitStart (S_msrBreak& elt);
     virtual void visitEnd   (S_msrBreak& elt);
 
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
-    virtual void visitStart (S_msrRepeatending& elt);
-    virtual void visitEnd   (S_msrRepeatending& elt);
+    virtual void visitStart (S_msrRepeatEnding& elt);
+    virtual void visitEnd   (S_msrRepeatEnding& elt);
 
     virtual void visitStart (S_msrMeasureRepeat& elt);
     virtual void visitEnd   (S_msrMeasureRepeat& elt);
@@ -394,7 +394,7 @@ class msr2LpsrTranslator :
     S_msrRepeat               fCurrentRepeatClone;
     bool                      fRepeatHasBeenCreatedForCurrentPartClone;
     bool                      fOnGoingRepeat;
-    S_msrRepeatending         fCurrentRepeatendingClone;
+    S_msrRepeatEnding         fCurrentRepeatEndingClone;
     int                       fCurrentRepeatEndingsNumber;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
 
