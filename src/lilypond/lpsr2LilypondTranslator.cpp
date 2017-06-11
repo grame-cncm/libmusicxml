@@ -2121,13 +2121,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
     linesNumber =
       elt->getLinesNumber ();
 
-  if (linesNumber != 5) // default value
-    fOstream << idtr <<
+  if (linesNumber != 5) { // default value
+    if (fMusicOlec > 0)
+      fOstream <<
+        endl <<
+        idtr;
+    else
+      fOstream <<
+        endl;
+      
+    fOstream <<
       "\\stopStaff " <<
       "\\override Staff.StaffSymbol.line-count = " <<
       linesNumber <<
-      "\\startStaff" <<
-    endl;
+      " \\startStaff" <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
