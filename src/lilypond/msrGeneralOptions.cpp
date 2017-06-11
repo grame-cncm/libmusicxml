@@ -286,7 +286,7 @@ void msrGeneralOptions::initializeGeneralOptions (
   fTraceTuplets = boolOptionsInitialValue;
   
   // grace notes
-  fTraceGracenotes = boolOptionsInitialValue;
+  fTraceGraceNotes = boolOptionsInitialValue;
 
   // lyrics
   fTraceLyrics = boolOptionsInitialValue;
@@ -418,7 +418,7 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     true;
   
   // grace notes
-  clone->fTraceGracenotes =
+  clone->fTraceGraceNotes =
     true;
 
   // lyrics
@@ -1037,8 +1037,8 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 
     // grace notes
     idtr <<
-      setw(fieldWidth) << "traceGracenotes" << " : " <<
-      booleanAsString (fTraceGracenotes) <<
+      setw(fieldWidth) << "traceGraceNotes" << " : " <<
+      booleanAsString (fTraceGraceNotes) <<
       endl <<
 
     // lyrics

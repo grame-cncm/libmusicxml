@@ -3459,7 +3459,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
       "% --> Start visiting msrGraceNotes" <<
       endl;
 
-  if (elt->getGracenotesIsSlashed ())
+  if (elt->getGraceNotesIsSlashed ())
     fOstream <<
       "\\slashedGrace"; // JMI "\\grace";
   else
@@ -3487,7 +3487,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
       "% --> Start visiting msrAfterGraceNotes" <<
       endl;
 
- // JMI exists? if (elt->getGracenotesIsSlashed ())
+ // JMI exists? if (elt->getGraceNotesIsSlashed ())
   fOstream <<
     "\\afterGrace" " ";
 
@@ -4443,7 +4443,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  if (elt->getNoteIsFollowedByGracenotes ())
+  if (elt->getNoteIsFollowedByGraceNotes ())
     fOstream << " { ";
 
   fOnGoingNote = false;

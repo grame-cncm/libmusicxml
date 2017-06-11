@@ -2692,10 +2692,10 @@ class EXP msrMeasure : public msrElement
     
     void                  appendHarmonyToMeasureClone (S_msrHarmony harmony);
 
-    void                  appendGracenotesToMeasure (
-                            S_msrGraceNotes gracenotes);
-    void                  prependGracenotesToMeasure (
-                            S_msrGraceNotes gracenotes);
+    void                  appendGraceNotesToMeasure (
+                            S_msrGraceNotes graceNotes);
+    void                  prependGraceNotesToMeasure (
+                            S_msrGraceNotes graceNotes);
     
     void                  appendAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
@@ -2931,10 +2931,10 @@ class EXP msrSegment : public msrElement
     void                  appendBarCheckToSegment (
                             S_msrBarCheck barCheck);
     
-    void                  appendGracenotesToSegment (
-                            S_msrGraceNotes gracenotes);
-    void                  prependGracenotesToSegment (
-                            S_msrGraceNotes gracenotes);
+    void                  appendGraceNotesToSegment (
+                            S_msrGraceNotes graceNotes);
+    void                  prependGraceNotesToSegment (
+                            S_msrGraceNotes graceNotes);
     
     void                  appendAfterGraceNotesToSegment (
                             S_msrAfterGraceNotes afterGraceNotes);
@@ -3022,14 +3022,14 @@ class EXP msrGraceNotes : public msrElement
 
     static SMARTP<msrGraceNotes> create (
       int        inputLineNumber,
-      S_msrPart  gracenotesDirectPartUplink,
+      S_msrPart  graceNotesDirectPartUplink,
       bool       slashed,
-      S_msrVoice gracenotesVoiceUplink);
+      S_msrVoice graceNotesVoiceUplink);
     
-    SMARTP<msrGraceNotes> createGracenotesShallowClone (
+    SMARTP<msrGraceNotes> createGraceNotesShallowClone (
       S_msrVoice voiceClone);
 
-    SMARTP<msrGraceNotes> createSkipGracenotesClone (
+    SMARTP<msrGraceNotes> createSkipGraceNotesClone (
       S_msrVoice voiceClone);
 
   protected:
@@ -3039,9 +3039,9 @@ class EXP msrGraceNotes : public msrElement
 
     msrGraceNotes (
       int        inputLineNumber,
-      S_msrPart  gracenotesDirectPartUplink,
+      S_msrPart  graceNotesDirectPartUplink,
       bool       gracenoteIsSlashed,
-      S_msrVoice gracenotesVoiceUplink);
+      S_msrVoice graceNotesVoiceUplink);
       
     virtual ~msrGraceNotes();
   
@@ -3050,21 +3050,21 @@ class EXP msrGraceNotes : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrPart             getGracenotesDirectPartUplink () const
-                              { return fGracenotesDirectPartUplink; }
+    S_msrPart             getGraceNotesDirectPartUplink () const
+                              { return fGraceNotesDirectPartUplink; }
 
-    list<S_msrNote>&      getGracenotesNotesList ()
-                              { return fGracenotesNotesList; }
+    list<S_msrNote>&      getGraceNotesNotesList ()
+                              { return fGraceNotesNotesList; }
 
-    bool                  getGracenotesIsSlashed () const
-                              { return fGracenotesIsSlashed; }
+    bool                  getGraceNotesIsSlashed () const
+                              { return fGraceNotesIsSlashed; }
 
     // services
     // ------------------------------------------------------
 
-    void                  appendNoteToGracenotes (S_msrNote note);
+    void                  appendNoteToGraceNotes (S_msrNote note);
 
-    string                gracenotesAsShortString () const;
+    string                graceNotesAsShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -3081,13 +3081,13 @@ class EXP msrGraceNotes : public msrElement
 
   private:
 
-    S_msrPart             fGracenotesDirectPartUplink;
+    S_msrPart             fGraceNotesDirectPartUplink;
 
-    list<S_msrNote>       fGracenotesNotesList;
+    list<S_msrNote>       fGraceNotesNotesList;
 
-    bool                  fGracenotesIsSlashed;
+    bool                  fGraceNotesIsSlashed;
 
-    S_msrVoice            fGracenotesVoiceUplink;
+    S_msrVoice            fGraceNotesVoiceUplink;
 };
 typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
@@ -3893,11 +3893,11 @@ class EXP msrNote : public msrElement
     bool                  getNoteHasATrill () const
                               { return fNoteHasATrill; }
                   
-    void                  setNoteIsFollowedByGracenotes ()
-                              { fNoteIsFollowedByGracenotes = true; }
+    void                  setNoteIsFollowedByGraceNotes ()
+                              { fNoteIsFollowedByGraceNotes = true; }
 
-    bool                  getNoteIsFollowedByGracenotes () const
-                              { return fNoteIsFollowedByGracenotes; }
+    bool                  getNoteIsFollowedByGraceNotes () const
+                              { return fNoteIsFollowedByGraceNotes; }
                   
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
@@ -4140,7 +4140,7 @@ class EXP msrNote : public msrElement
 
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                      fNoteHasATrill;
-    bool                      fNoteIsFollowedByGracenotes;
+    bool                      fNoteIsFollowedByGraceNotes;
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                      fNoteHasADelayedOrnament;
@@ -6998,10 +6998,10 @@ class EXP msrVoice : public msrElement
     
     void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
-    void                  appendGracenotesToVoice (
-                            S_msrGraceNotes gracenotes);
-    void                  prependGracenotesToVoice (
-                            S_msrGraceNotes gracenotes);
+    void                  appendGraceNotesToVoice (
+                            S_msrGraceNotes graceNotes);
+    void                  prependGraceNotesToVoice (
+                            S_msrGraceNotes graceNotes);
 
     void                  appendAfterGraceNotesToVoice (
                             S_msrAfterGraceNotes afterGraceNotes);

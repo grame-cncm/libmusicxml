@@ -202,7 +202,7 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _TRACE_TUPLETS_SHORT_NAME_ "ttups"
 
 // grace notes
-#define _TRACE_GRACENOTES_LONG_NAME_  "traceGracenotes"
+#define _TRACE_GRACENOTES_LONG_NAME_  "traceGraceNotes"
 #define _TRACE_GRACENOTES_SHORT_NAME_ "tgraces"
 
 // lyrics
@@ -321,7 +321,7 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceTuplets;
     
     // grace notes
-    bool                  fTraceGracenotes;
+    bool                  fTraceGraceNotes;
     
     // lyrics
     bool                  fTraceLyrics;

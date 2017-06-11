@@ -1931,7 +1931,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
 
   bool doCreateAGraceNoteClone = true;
   
-// JMI  bool createSkipGracenotesInOtherVoices = false;
+// JMI  bool createSkipGraceNotesInOtherVoices = false;
   
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
@@ -1939,14 +1939,14 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
     if (
       fCurrentNoteClone->getNoteHasATrill ()
         &&
-      fCurrentNoteClone->getNoteIsFollowedByGracenotes ()) {
+      fCurrentNoteClone->getNoteIsFollowedByGraceNotes ()) {
       // fPendingAfterGraceNotes already contains
       // the afterGraceNotes to use
       
-      if (gGeneralOptions->fTraceGracenotes)
+      if (gGeneralOptions->fTraceGraceNotes)
         cerr << idtr <<
           "Optimising grace notes " << 
-          elt->gracenotesAsShortString () <<
+          elt->graceNotesAsShortString () <<
           "into after grace notes" <<
           endl;
 
@@ -1960,16 +1960,16 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
   }
 
   if (doCreateAGraceNoteClone) {
-    // create a clone of this gracenotes
-    fCurrentGracenotesClone =
+    // create a clone of this graceNotes
+    fCurrentGraceNotesClone =
       elt->
-        createGracenotesShallowClone (
+        createGraceNotesShallowClone (
           fCurrentVoiceClone);
   
     // append it to the current voice clone
     fCurrentVoiceClone->
-      appendGracenotesToVoice (
-        fCurrentGracenotesClone);
+      appendGraceNotesToVoice (
+        fCurrentGraceNotesClone);
   
    // JMI XXL find good criterion for this
 
@@ -1979,25 +1979,25 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
     // bug 34 in LilyPond should be worked aroud by creating
     // skip grance notes in the other voices of the part
 
-    // create skip gracenotes clone
-    if (gGeneralOptions->fTraceGracenotes)
+    // create skip graceNotes clone
+    if (gGeneralOptions->fTraceGraceNotes)
       cerr << idtr <<
         "--> creating a skip clone of grace notes " <<
-        elt->gracenotesAsShortString () <<
+        elt->graceNotesAsShortString () <<
         " to work around LilyPond issue 34" <<
         endl;
   
     S_msrGraceNotes
-      skipGracenotes =
+      skipGraceNotes =
         elt->
-          createSkipGracenotesClone (
+          createSkipGraceNotesClone (
             fCurrentVoiceClone);
 
     // prepend it to the other voices in the part
-    prependSkipGracenotesToPartOtherVoices (
+    prependSkipGraceNotesToPartOtherVoices (
       fCurrentPartClone,
       fCurrentVoiceClone,
-      skipGracenotes);
+      skipGraceNotes);
   }
 }
 
@@ -2009,7 +2009,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
       endl;
 
   // forget about these grace notes if any
-  fCurrentGracenotesClone = 0;
+  fCurrentGraceNotesClone = 0;
 
   if (fPendingAfterGraceNotes) {
     // remove the current afterGraceNotes note clone
@@ -2026,15 +2026,15 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
   }
 }
 
-void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
+void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
   S_msrPart       partClone,
   S_msrVoice      voiceClone,
-  S_msrGraceNotes skipGracenotes)
+  S_msrGraceNotes skipGraceNotes)
 {
-    if (gGeneralOptions->fTraceGracenotes)
+    if (gGeneralOptions->fTraceGraceNotes)
       cerr << idtr <<
-        "--> prepending a skip gracenotes clone " <<
-        skipGracenotes->gracenotesAsShortString () <<
+        "--> prepending a skip graceNotes clone " <<
+        skipGraceNotes->graceNotesAsShortString () <<
         " to voices other than \"" <<
         voiceClone->getVoiceName () << "\"" <<
         " in part " <<
@@ -2066,8 +2066,8 @@ void msr2LpsrTranslator::prependSkipGracenotesToPartOtherVoices (
       if (voice != voiceClone) {
         // prepend skip grace notes to voice
         voice->
-          prependGracenotesToVoice (
-            skipGracenotes);
+          prependGraceNotesToVoice (
+            skipGraceNotes);
       }
     } // for
 
@@ -2099,11 +2099,11 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     fFirstNoteCloneInVoice =
       fCurrentNoteClone;
 
-  // can we optiomize gracenotes into afterGraceNotes?
+  // can we optiomize graceNotes into afterGraceNotes?
   if (
     elt->getNoteHasATrill ()
       &&
-    elt->getNoteIsFollowedByGracenotes ()) {
+    elt->getNoteIsFollowedByGraceNotes ()) {
       
     // yes, create the after grace notes
     fPendingAfterGraceNotes =
@@ -2215,8 +2215,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kGraceNote:
-      if (fCurrentGracenotesClone) {
-        if (gGeneralOptions->fTraceGracenotes || gGeneralOptions->fTraceNotes) {
+      if (fCurrentGraceNotesClone) {
+        if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
           cerr <<  idtr <<
             "Appending note " <<
             fCurrentNoteClone->notePitchAsString () <<
@@ -2226,13 +2226,13 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             endl;
         }
   
-        fCurrentGracenotesClone->
-          appendNoteToGracenotes (
+        fCurrentGraceNotesClone->
+          appendNoteToGraceNotes (
             fCurrentNoteClone);
       }
 
       else if (fPendingAfterGraceNotes) {
-        if (gGeneralOptions->fTraceGracenotes || gGeneralOptions->fTraceNotes) {
+        if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
           cerr <<  idtr <<
             "Appending note " <<
             fCurrentNoteClone->notePitchAsString () <<
@@ -2251,7 +2251,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
 
         s <<
-          "both fCurrentGracenotesClone and fPendingAfterGraceNotes are null," <<
+          "both fCurrentGraceNotesClone and fPendingAfterGraceNotes are null," <<
           endl <<
           "cannot handle grace note'" <<
           elt->noteAsString () <<

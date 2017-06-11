@@ -5269,16 +5269,16 @@ void msrLigature::print (ostream& os)
 //______________________________________________________________________________
 S_msrGraceNotes msrGraceNotes::create (
   int        inputLineNumber,
-  S_msrPart  gracenotesDirectPartUplink,
+  S_msrPart  graceNotesDirectPartUplink,
   bool       gracenoteIsSlashed,
-  S_msrVoice gracenotesVoiceUplink)
+  S_msrVoice graceNotesVoiceUplink)
 {
   msrGraceNotes* o =
     new msrGraceNotes (
       inputLineNumber,
-      gracenotesDirectPartUplink,
+      graceNotesDirectPartUplink,
       gracenoteIsSlashed,
-      gracenotesVoiceUplink);
+      graceNotesVoiceUplink);
   assert(o!=0);
 
   return o;
@@ -5286,34 +5286,34 @@ S_msrGraceNotes msrGraceNotes::create (
 
 msrGraceNotes::msrGraceNotes (
   int        inputLineNumber,
-  S_msrPart  gracenotesDirectPartUplink,
+  S_msrPart  graceNotesDirectPartUplink,
   bool       gracenoteIsSlashed,
-  S_msrVoice gracenotesVoiceUplink)
+  S_msrVoice graceNotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
   // set gracenote's direct part uplink
   msrAssert(
-    gracenotesDirectPartUplink != 0,
-    "gracenotesDirectPartUplink is null");
+    graceNotesDirectPartUplink != 0,
+    "graceNotesDirectPartUplink is null");
     
-  fGracenotesDirectPartUplink =
-    gracenotesDirectPartUplink;
+  fGraceNotesDirectPartUplink =
+    graceNotesDirectPartUplink;
     
-  fGracenotesIsSlashed = gracenoteIsSlashed;
+  fGraceNotesIsSlashed = gracenoteIsSlashed;
 
-  fGracenotesVoiceUplink =
-    gracenotesVoiceUplink;
+  fGraceNotesVoiceUplink =
+    graceNotesVoiceUplink;
 }
 
 msrGraceNotes::~msrGraceNotes() {}
 
-S_msrGraceNotes msrGraceNotes::createGracenotesShallowClone (
+S_msrGraceNotes msrGraceNotes::createGraceNotesShallowClone (
   S_msrVoice voiceClone)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
       "Creating a shallow clone of grace notes" <<
-      gracenotesAsShortString () <<
+      graceNotesAsShortString () <<
       endl;
   }
   
@@ -5326,22 +5326,22 @@ S_msrGraceNotes msrGraceNotes::createGracenotesShallowClone (
       msrGraceNotes::create (
         fInputLineNumber,
         voiceClone->getVoiceDirectPartUplink (),
-        fGracenotesIsSlashed,
+        fGraceNotesIsSlashed,
         voiceClone);
 
-  clone->fGracenotesIsSlashed =
-    fGracenotesIsSlashed;
+  clone->fGraceNotesIsSlashed =
+    fGraceNotesIsSlashed;
     
   return clone;
 }
 
-S_msrGraceNotes msrGraceNotes::createSkipGracenotesClone (
+S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
   S_msrVoice voiceClone)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
       "Creating a skip clone of grace notes" <<
-      gracenotesAsShortString () <<
+      graceNotesAsShortString () <<
       endl;
   }
   
@@ -5350,16 +5350,16 @@ S_msrGraceNotes msrGraceNotes::createSkipGracenotesClone (
       msrGraceNotes::create (
         fInputLineNumber,
         voiceClone->getVoiceDirectPartUplink (),
-        fGracenotesIsSlashed,
+        fGraceNotesIsSlashed,
         voiceClone);
 
-  clone->fGracenotesIsSlashed =
-    fGracenotesIsSlashed;
+  clone->fGraceNotesIsSlashed =
+    fGraceNotesIsSlashed;
 
   // populating the clone with skips
   for (
-    list<S_msrNote>::const_iterator i=fGracenotesNotesList.begin();
-    i!=fGracenotesNotesList.end();
+    list<S_msrNote>::const_iterator i=fGraceNotesNotesList.begin();
+    i!=fGraceNotesNotesList.end();
     i++) {
     S_msrNote note = (*i);
     
@@ -5375,15 +5375,15 @@ S_msrGraceNotes msrGraceNotes::createSkipGracenotesClone (
           voiceClone->getExternalVoiceNumber ());
 
      clone->
-      appendNoteToGracenotes (skip);
+      appendNoteToGraceNotes (skip);
   } // for
     
   return clone;
 }
 
-void msrGraceNotes::appendNoteToGracenotes (S_msrNote note)
+void msrGraceNotes::appendNoteToGraceNotes (S_msrNote note)
 {
-  fGracenotesNotesList.push_back (note);
+  fGraceNotesNotesList.push_back (note);
 }
 
 void msrGraceNotes::acceptIn (basevisitor* v) {
@@ -5429,8 +5429,8 @@ void msrGraceNotes::browseData (basevisitor* v)
   list<S_msrNote>::const_iterator i;
 
   for (
-    i=fGracenotesNotesList.begin();
-    i!=fGracenotesNotesList.end();
+    i=fGraceNotesNotesList.begin();
+    i!=fGraceNotesNotesList.end();
     i++) {
     // browse the note
     msrBrowser<msrNote> browser (v);
@@ -5444,16 +5444,16 @@ ostream& operator<< (ostream& os, const S_msrGraceNotes& elt)
   return os;
 }
 
-string msrGraceNotes::gracenotesAsShortString () const
+string msrGraceNotes::graceNotesAsShortString () const
 {
   stringstream s;
 
   s <<
-    "Gracenotes" " ";
+    "GraceNotes" " ";
 
   list<S_msrNote>::const_iterator
-    iBegin = fGracenotesNotesList.begin(),
-    iEnd   = fGracenotesNotesList.end(),
+    iBegin = fGraceNotesNotesList.begin(),
+    iEnd   = fGraceNotesNotesList.end(),
     i      = iBegin;
   for ( ; ; ) {
     s << (*i)->noteAsShortString ();
@@ -5467,20 +5467,20 @@ string msrGraceNotes::gracenotesAsShortString () const
 void msrGraceNotes::print (ostream& os)
 {
   os <<
-    "Gracenotes" <<
+    "GraceNotes" <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
-      fGracenotesNotesList.size (), "note", "notes") <<
+      fGraceNotesNotesList.size (), "note", "notes") <<
     ", slashed: " <<
-    booleanAsString (fGracenotesIsSlashed) <<
+    booleanAsString (fGraceNotesIsSlashed) <<
     endl;
   
   idtr++;
             
   list<S_msrNote>::const_iterator
-    iBegin = fGracenotesNotesList.begin(),
-    iEnd   = fGracenotesNotesList.end(),
+    iBegin = fGraceNotesNotesList.begin(),
+    iEnd   = fGraceNotesNotesList.end(),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -5544,7 +5544,7 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesShallowClone (
   S_msrNote  noteClone,
   S_msrVoice voiceClone)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
       "Creating a shallow clone of after grace notes" <<
       endl;
@@ -6002,7 +6002,7 @@ void msrNote::initializeNote ()
   fNoteIsStemless = false;
   
   fNoteHasATrill = false;
-  fNoteIsFollowedByGracenotes = false;
+  fNoteIsFollowedByGraceNotes = false;
   
   fNoteHasADelayedOrnament = false;
 }
@@ -6150,8 +6150,8 @@ S_msrNote msrNote::createNoteShallowClone (
 
   clone->fNoteHasATrill =
     fNoteHasATrill;
-  clone->fNoteIsFollowedByGracenotes =
-    fNoteIsFollowedByGracenotes;
+  clone->fNoteIsFollowedByGraceNotes =
+    fNoteIsFollowedByGraceNotes;
 
   clone->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
@@ -7179,7 +7179,7 @@ string msrNote::noteAsString () const
     s <<
       ", has a trill";
   
-  if (fNoteIsFollowedByGracenotes)
+  if (fNoteIsFollowedByGraceNotes)
     s <<
       ", followed by grace notes";
   
@@ -7320,9 +7320,9 @@ void msrNote::print (ostream& os)
   if (fNoteHasATrill)
     os <<
       ", has a trill";
-  if (fNoteIsFollowedByGracenotes)
+  if (fNoteIsFollowedByGraceNotes)
     os <<
-      ", is followed by gracenotes";
+      ", is followed by graceNotes";
 
   if (fNoteHasADelayedOrnament)
     os <<
@@ -14091,14 +14091,14 @@ void msrMeasure::bringMeasureToMeasurePosition (
   }
 }
 
-void msrMeasure::appendGracenotesToMeasure (
-  S_msrGraceNotes gracenotes)
+void msrMeasure::appendGraceNotesToMeasure (
+  S_msrGraceNotes graceNotes)
 {
-  fMeasureElementsList.push_back (gracenotes);
+  fMeasureElementsList.push_back (graceNotes);
 }
   
-void msrMeasure::prependGracenotesToMeasure (
-  S_msrGraceNotes gracenotes)
+void msrMeasure::prependGraceNotesToMeasure (
+  S_msrGraceNotes graceNotes)
 {
   // in order to work around LilyPond issue 34,
   // we need to insert the skip grace notes
@@ -14125,9 +14125,9 @@ void msrMeasure::prependGracenotesToMeasure (
     }
     
     else {
-       // insert gracenotes before (*i) in the list
+       // insert graceNotes before (*i) in the list
       fMeasureElementsList.insert (
-        i, gracenotes);
+        i, graceNotes);
 
       break;
     }
@@ -15622,19 +15622,19 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
     appendTupletToMeasure (tuplet);
 }
 
-void msrSegment::appendGracenotesToSegment (
-  S_msrGraceNotes gracenotes)
+void msrSegment::appendGraceNotesToSegment (
+  S_msrGraceNotes graceNotes)
 {
   fSegmentMeasuresList.back ()->
-    appendGracenotesToMeasure (gracenotes);
+    appendGraceNotesToMeasure (graceNotes);
 }
 
-void msrSegment::prependGracenotesToSegment (
-  S_msrGraceNotes gracenotes)
+void msrSegment::prependGraceNotesToSegment (
+  S_msrGraceNotes graceNotes)
 
 {
   fSegmentMeasuresList.front ()->
-    prependGracenotesToMeasure (gracenotes); // JMI
+    prependGraceNotesToMeasure (graceNotes); // JMI
 }
 
 void msrSegment::appendAfterGraceNotesToSegment (
@@ -18409,40 +18409,40 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
     appendOtherElementToSegment (elem);
 }
 
-void msrVoice::appendGracenotesToVoice (S_msrGraceNotes gracenotes)
+void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
-      "Appending grace notes " << // JMI gracenotes <<
+      "Appending grace notes " << // JMI graceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
-    gracenotes->getInputLineNumber ());
+    graceNotes->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendGracenotesToSegment (gracenotes);
+    appendGraceNotesToSegment (graceNotes);
 
   fMusicHasBeenInsertedInVoice = true;
 }
 
-void msrVoice::prependGracenotesToVoice (S_msrGraceNotes gracenotes)
+void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
-      "Prepending grace notes " << // JMI gracenotes <<
+      "Prepending grace notes " << // JMI graceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
-    gracenotes->getInputLineNumber ());
+    graceNotes->getInputLineNumber ());
 
   fVoiceFirstSegment->
-    prependGracenotesToSegment (gracenotes);
+    prependGraceNotesToSegment (graceNotes);
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -18450,7 +18450,7 @@ void msrVoice::prependGracenotesToVoice (S_msrGraceNotes gracenotes)
 void msrVoice::appendAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
       "Appending after grace notes " << // JMI AfterGraceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -18470,7 +18470,7 @@ void msrVoice::appendAfterGraceNotesToVoice (
 void msrVoice::prependAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
-  if (gGeneralOptions->fTraceGracenotes) {
+  if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
       "Prepending after grace notes " << // JMI AfterGraceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<

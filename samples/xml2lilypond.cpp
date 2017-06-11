@@ -2060,7 +2060,7 @@ R"(
         // grace notes
         if (traceGracenotesPresent) {
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceGracenotes = true;
+          gGeneralOptions->fTraceGraceNotes = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _TRACE_GRACENOTES_LONG_NAME_ " ";
