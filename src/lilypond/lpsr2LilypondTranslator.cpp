@@ -752,7 +752,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
 
   // initial empty line in LilyPond code
   // to help copy/paste it
-  fOstream << endl;
+// JMI  fOstream << endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)
