@@ -2632,22 +2632,22 @@ class EXP msrMeasure : public msrElement
 
     // clef, key, time
     
-    void                  setMeasureClef (S_msrClef clef)
-                              { fMeasureClef = clef; }
+    void                  setMeasureCurrentClef (S_msrClef clef)
+                              { fMeasureCurrentClef = clef; }
 
-    S_msrClef             getMeasureClef () const
-                              { return fMeasureClef; }
+    S_msrClef             getMeasureCurrentClef () const
+                              { return fMeasureCurrentClef; }
 
-    void                  setMeasureKey (S_msrKey key)
-                              { fMeasureKey = key; }
+    void                  setMeasureCurrentKey (S_msrKey key)
+                              { fMeasureCurrentKey = key; }
 
-    S_msrKey              getMeasureKey () const
-                              { return fMeasureKey; }
+    S_msrKey              getMeasureCurrentKey () const
+                              { return fMeasureCurrentKey; }
 
-    void                  setMeasureTime (S_msrTime time);
+    void                  setMeasureCurrentTime (S_msrTime time);
 
-    S_msrTime             getMeasureTime () const
-                              { return fMeasureTime; }
+    S_msrTime             getMeasureCurrentTime () const
+                              { return fMeasureCurrentTime; }
 
     // chords handling
     
@@ -2880,9 +2880,9 @@ class EXP msrMeasure : public msrElement
                         
     // clef, key, time
     
-    S_msrClef             fMeasureClef;
-    S_msrKey              fMeasureKey;
-    S_msrTime             fMeasureTime;
+    S_msrClef             fMeasureCurrentClef;
+    S_msrKey              fMeasureCurrentKey;
+    S_msrTime             fMeasureCurrentTime;
 
     // /chords handling
     
@@ -2970,11 +2970,11 @@ class EXP msrSegment : public msrElement
     list<S_msrMeasure>&   getSegmentMeasuresListToModify ()
                               { return fSegmentMeasuresList; }
                                             
-    void                  setSegmentTime (S_msrTime time)
-                              { fSegmentTime = time; }
+    void                  setSegmentCurrentTime (S_msrTime time)
+                              { fSegmentCurrentTime = time; }
 
-    S_msrTime             getSegmentTime () const
-                              { return fSegmentTime; }
+    S_msrTime             getSegmentCurrentTime () const
+                              { return fSegmentCurrentTime; }
 
     // measures
     
@@ -3169,7 +3169,7 @@ class EXP msrSegment : public msrElement
 
     int                   fSegmentAbsoluteNumber;
     
-    S_msrTime             fSegmentTime;
+    S_msrTime             fSegmentCurrentTime;
     
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
@@ -7094,8 +7094,8 @@ class EXP msrVoice : public msrElement
 
     // clef, key, time
     
-    S_msrTime             getCurrentVoiceTime () const // JMI ???
-                              { return fCurrentVoiceTime; }
+    S_msrTime             getVoiceCurrentTime () const // JMI ???
+                              { return fVoiceCurrentTime; }
                
      // measures
      
@@ -7380,7 +7380,7 @@ class EXP msrVoice : public msrElement
 
     // clef, key, time
     
-    S_msrTime             fCurrentVoiceTime;
+    S_msrTime             fVoiceCurrentTime;
 
     // counters
     
@@ -7797,16 +7797,16 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
     
-    void                  setCurrentStaffClef (S_msrClef clef);
-    void                  setCurrentStaffKey  (S_msrKey  key);
-    void                  setCurrentStaffTime (S_msrTime time);
+    void                  setStaffCurrentClef (S_msrClef clef);
+    void                  setStaffCurrentKey  (S_msrKey  key);
+    void                  setStaffCurrentTime (S_msrTime time);
 
-    S_msrClef             getCurrentStaffClef () const
-                              { return fCurrentStaffClef; };
-    S_msrKey              getCurrentStaffKey  () const
-                              { return fCurrentStaffKey; };
-    S_msrTime             getCurrentStaffTime () const
-                              { return fCurrentStaffTime; };
+    S_msrClef             getStaffCurrentClef () const
+                              { return fStaffCurrentClef; };
+    S_msrKey              getStaffCurrentKey  () const
+                              { return fStaffCurrentKey; };
+    S_msrTime             getStaffCurrentTime () const
+                              { return fStaffCurrentTime; };
 
     // transpose
     
@@ -8004,9 +8004,9 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
     
-    S_msrClef             fCurrentStaffClef;
-    S_msrKey              fCurrentStaffKey;
-    S_msrTime             fCurrentStaffTime;
+    S_msrClef             fStaffCurrentClef;
+    S_msrKey              fStaffCurrentKey;
+    S_msrTime             fStaffCurrentTime;
 
     // transpose
     

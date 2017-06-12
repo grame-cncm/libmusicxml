@@ -13153,7 +13153,7 @@ void msrMeasure::initializeMeasure ()
 
   // fetch measure time from the part,
   // which will set fMeasureDivisionsPerFullMeasure
-  setMeasureTime (
+  setMeasureCurrentTime (
     fMeasureDirectPartUplink->
       getPartCurrentTime ());
         
@@ -13210,7 +13210,7 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
 
   // set clone time
   clone->
-    setMeasureTime (
+    setMeasureCurrentTime (
       directPartUplink->
         getPartCurrentTime ());
 
@@ -13235,12 +13235,12 @@ void msrMeasure::setMeasurePosition (
   fMeasurePosition = measurePosition;
 }
 
-void msrMeasure::setMeasureTime (S_msrTime time)
+void msrMeasure::setMeasureCurrentTime (S_msrTime time)
 {
   msrAssert(
     time != 0, "time is null");
     
-  fMeasureTime = time;
+  fMeasureCurrentTime = time;
   
   fMeasureDivisionsPerFullMeasure =
     fMeasureDirectPartUplink->
@@ -15102,9 +15102,9 @@ void msrMeasure::print (ostream& os)
     idtr <<
       "Measure " << fMeasureNumber;
 
-  if (fMeasureTime)
+  if (fMeasureCurrentTime)
     os <<
-      ", " << fMeasureTime->timeAsShortString ();
+      ", " << fMeasureCurrentTime->timeAsShortString ();
   else
     os <<
       ", time unknown";
@@ -15228,31 +15228,31 @@ void msrSegment::createSegmentInitialMeasure () // JMI
 /* jmi
   // set the measure clef JMI
   firstMeasure->
-    setMeasureClef (
+    setMeasureCurrentClef (
       fSegmentVoiceUplink->getVoiceClef ());
 
   // set the measure key JMI
   firstMeasure->
-    setMeasureKey (
+    setMeasureCurrentKey (
       fSegmentVoiceUplink->getVoiceKey ());
 */
 
   // set the measure time JMI
-  fSegmentTime =
+  fSegmentCurrentTime =
     fSegmentVoiceUplink->
-      getCurrentVoiceTime ();
+      getVoiceCurrentTime ();
 
-  if (! fSegmentTime) {
+  if (! fSegmentCurrentTime) {
     // use the implicit initial 4/4 time signature
-    fSegmentTime =
+    fSegmentCurrentTime =
       msrTime::create (
         fInputLineNumber,
         4, 4);
   }
 
   firstMeasure->
-    setMeasureTime (
-      fSegmentTime);        
+    setMeasureCurrentTime (
+      fSegmentCurrentTime);        
 
   // append firstMeasure to the segment
   appendMeasureToSegment (firstMeasure);
@@ -15314,8 +15314,8 @@ S_msrSegment msrSegment::createSegmentShallowClone (
         voiceClone->getVoiceDirectPartUplink (),
         voiceClone);
 
-  clone->fSegmentTime =
-    fSegmentTime;
+  clone->fSegmentCurrentTime =
+    fSegmentCurrentTime;
   
   return clone;
 }
@@ -15441,7 +15441,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
-    setMeasureClef (clef);
+    setMeasureCurrentClef (clef);
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -15458,7 +15458,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
-    setMeasureKey (key);
+    setMeasureCurrentKey (key);
 }
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
@@ -15471,11 +15471,11 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
         endl;
       
   // register time in segment
-  fSegmentTime = time;
+  fSegmentCurrentTime = time;
 
   // register time in segments's current measure
   fSegmentMeasuresList.back ()->
-    setMeasureTime (time);
+    setMeasureCurrentTime (time);
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -16164,17 +16164,17 @@ void msrSegment::print (ostream& os)
     singularOrPlural (
       fSegmentMeasuresList.size(), "measure", "measures");
 
-  if (! fSegmentTime) {
+  if (! fSegmentCurrentTime) {
     // use the implicit initial 4/4 time signature
-    fSegmentTime =
+    fSegmentCurrentTime =
       msrTime::create (
         fInputLineNumber,
         4, 4);
   }
 
   os <<
-    ", segmentTime" << " = " <<
-    fSegmentTime->timeAsShortString () <<
+    ", SegmentCurrentTime" << " = " <<
+    fSegmentCurrentTime->timeAsShortString () <<
     endl;
   
   if (! fSegmentMeasuresList.size ()) {
@@ -17820,7 +17820,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrClef
         clef =
-          fVoiceStaffUplink->getCurrentStaffClef ();
+          fVoiceStaffUplink->getStaffCurrentClef ();
     
       if (clef) {
         // append it to the last segment
@@ -17833,7 +17833,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrKey
         key =
-          fVoiceStaffUplink->getCurrentStaffKey ();
+          fVoiceStaffUplink->getStaffCurrentKey ();
   
       if (key) {
         // append it to the last segment
@@ -17846,7 +17846,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrTime
         time =
-          fVoiceStaffUplink->getCurrentStaffTime ();
+          fVoiceStaffUplink->getStaffCurrentTime ();
   
       if (time) {
         // append it to the last segment
@@ -18210,7 +18210,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
       endl;
 
   // register time in voice
-  fCurrentVoiceTime = time;
+  fVoiceCurrentTime = time;
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
@@ -20768,7 +20768,7 @@ void msrStaff::initializeStaff ()
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
-      setCurrentStaffClef (clef);
+      setStaffCurrentClef (clef);
     }
     
     else {
@@ -20782,7 +20782,7 @@ void msrStaff::initializeStaff ()
           endl;
 
       // create the implicit initial G line 2 clef
-      setCurrentStaffClef (
+      setStaffCurrentClef (
         msrClef::create (
           fInputLineNumber,
           msrClef::kTrebleClef));
@@ -20806,7 +20806,7 @@ void msrStaff::initializeStaff ()
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
-      setCurrentStaffKey (key);
+      setStaffCurrentKey (key);
       }
     else {
       if (gGeneralOptions->fTraceStaves)
@@ -20819,7 +20819,7 @@ void msrStaff::initializeStaff ()
           endl;
           
       // create the implicit initial C major key
-      setCurrentStaffKey (
+      setStaffCurrentKey (
         msrKey::create (
           fInputLineNumber,
           k_cNatural, msrKey::kMajorMode, 0));
@@ -20843,7 +20843,7 @@ void msrStaff::initializeStaff ()
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
-      setCurrentStaffTime (time);
+      setStaffCurrentTime (time);
     }
     else {
       if (gGeneralOptions->fTraceStaves)
@@ -20856,7 +20856,7 @@ void msrStaff::initializeStaff ()
           endl;
           
       // create the implicit initial 4/4 time signature
-      setCurrentStaffTime (
+      setStaffCurrentTime (
         msrTime::create (
           fInputLineNumber,
           4, 4));
@@ -21212,7 +21212,7 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
-void msrStaff::setCurrentStaffClef (S_msrClef clef)
+void msrStaff::setStaffCurrentClef (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -21224,7 +21224,7 @@ void msrStaff::setCurrentStaffClef (S_msrClef clef)
       endl;
 
   // set staff clef
-  fCurrentStaffClef = clef;
+  fStaffCurrentClef = clef;
 
   // is this a tablature or percussion staff?
   switch (fStaffKind) {
@@ -21249,7 +21249,7 @@ void msrStaff::setCurrentStaffClef (S_msrClef clef)
   appendClefToAllStaffVoices (clef);
 }
 
-void msrStaff::setCurrentStaffKey  (S_msrKey  key)
+void msrStaff::setStaffCurrentKey  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -21261,13 +21261,13 @@ void msrStaff::setCurrentStaffKey  (S_msrKey  key)
       endl;
 
   // set staff key
-  fCurrentStaffKey = key;
+  fStaffCurrentKey = key;
 
   // propagate it to all voices
   appendKeyToAllStaffVoices (key);
 }
 
-void msrStaff::setCurrentStaffTime (S_msrTime time)
+void msrStaff::setStaffCurrentTime (S_msrTime time)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -21279,7 +21279,7 @@ void msrStaff::setCurrentStaffTime (S_msrTime time)
       endl;
 
   // set staff time
-  fCurrentStaffTime = time;
+  fStaffCurrentTime = time;
 
   // propagate it to all voices
   appendTimeToAllStaffVoices (time);
@@ -22804,7 +22804,7 @@ void msrPart::setPartCurrentClef (S_msrClef clef)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      setCurrentStaffClef (clef);
+      setStaffCurrentClef (clef);
   } // for
 }
 
@@ -22829,7 +22829,7 @@ void msrPart::setPartCurrentKey  (S_msrKey  key)
       staff = (*i).second;
 
     staff->
-      setCurrentStaffKey (key);
+      setStaffCurrentKey (key);
   } // for
 }
 
@@ -22854,7 +22854,7 @@ void msrPart::setPartCurrentTime (S_msrTime time)
       staff = (*i).second;
 
     staff->
-      setCurrentStaffTime (time);
+      setStaffCurrentTime (time);
   } // for
 }
 
