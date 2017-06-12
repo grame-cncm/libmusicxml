@@ -2384,17 +2384,23 @@ class EXP msrKey : public msrElement
       msrQuartertonesPitch keyTonicPitch,
       msrKeyModeKind       keyModeKind,
       int                  keyCancel);
+      
+    static SMARTP<msrKey> createHumdrumScot (
+      int                  inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrKey (
+    msrKey ( // for traditional keys
       int                  inputLineNumber,
       msrQuartertonesPitch keyTonicPitch,
       msrKeyModeKind       keyModeKind,
       int                  keyCancel);
+      
+    msrKey ( // for Humdrum/Scot keys
+      int                  inputLineNumber);
       
     virtual ~msrKey();
 
@@ -2403,6 +2409,11 @@ class EXP msrKey : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    msrKeyKind            getKeyKind () const
+                              { return fKeyKind; }
+
+    // traditional keys
+    
     msrQuartertonesPitch  getKeyTonicQuartertonesPitch () const
                               { return fKeyTonicQuartertonesPitch; }
                               
@@ -2412,6 +2423,9 @@ class EXP msrKey : public msrElement
     int                   getKeyCancel () const
                               { return fKeyCancel; }
 
+    // Humdrum/Scot keys
+
+    
     // services
     // ------------------------------------------------------
 
@@ -2434,9 +2448,14 @@ class EXP msrKey : public msrElement
 
     msrKeyKind            fKeyKind;
     
+    // traditional keys
+
     msrQuartertonesPitch  fKeyTonicQuartertonesPitch;
     msrKeyModeKind        fKeyModeKind;
     int                   fKeyCancel;
+
+    // Humdrum/Scot keys
+
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);

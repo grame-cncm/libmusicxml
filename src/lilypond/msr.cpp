@@ -10406,7 +10406,18 @@ S_msrKey msrKey::createTraditional (
   return o;
 }
 
-msrKey::msrKey (
+S_msrKey msrKey::createHumdrumScot (
+  int                  inputLineNumber)
+{
+  msrKey* o =
+    new msrKey (
+      inputLineNumber);
+  assert (o!=0);
+
+  return o;
+}
+
+msrKey::msrKey ( // for traditional keys
   int                  inputLineNumber,
   msrQuartertonesPitch keyTonicQuartertonesPitch,
   msrKeyModeKind       keyModeKind,
@@ -10420,6 +10431,14 @@ msrKey::msrKey (
   fKeyModeKind               = keyModeKind;
   
   fKeyCancel     = keyCancel;
+}
+
+msrKey::msrKey ( // for Humdrum/Scot keys
+  int                  inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  // this is a Humdrum/Scot key
+  fKeyKind = kHumdrumScotKind;
 }
 
 msrKey::~msrKey() {}
@@ -10482,7 +10501,7 @@ string msrKey::keyKindAsString (
       result = "traditional";
       break;
     case msrKey::kHumdrumScotKind:
-      result = "Humdrum-Scot";
+      result = "Humdrum/Scot";
       break;
   } // switch
 

@@ -3049,15 +3049,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
       "'" <<
       endl;
 
-  fOstream << idtr <<
-    "\\key " <<
-    msrQuartertonesPitchAsString (
-      gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-      elt->getKeyTonicQuartertonesPitch ()) <<
-    " \\" <<
-    msrKey::keyModeKindAsString (
-      elt->getKeyModeKind ()) <<
-    endl;
+  switch (elt->getKeyKind ()) {
+    case msrKey::kTraditionalKind:
+      fOstream << idtr <<
+        "\\key " <<
+        msrQuartertonesPitchAsString (
+          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
+          elt->getKeyTonicQuartertonesPitch ()) <<
+        " \\" <<
+        msrKey::keyModeKindAsString (
+          elt->getKeyModeKind ()) <<
+        endl;
+      break;
+      
+    case msrKey::kHumdrumScotKind:
+      break;
+  } // switch
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrKey& elt)
