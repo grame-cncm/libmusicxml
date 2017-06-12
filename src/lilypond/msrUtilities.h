@@ -59,10 +59,10 @@ class timingItem : public smartable
       clock_t                    startClock,
       clock_t                    endClock);
 
-    string          fActivity;
-    timingItemKind  fKind;
-    clock_t         fStartClock;
-    clock_t         fEndClock;
+    string                fActivity;
+    timingItemKind        fKind;
+    clock_t               fStartClock;
+    clock_t               fEndClock;
 };
 
 typedef SMARTP<timingItem> S_timingItem;
@@ -78,18 +78,18 @@ class timing {
     static timing gTiming; 
 
     // add an item
-    void appendTimingItem (
-      string                     activity,
-      timingItem::timingItemKind kind,
-      clock_t                    startClock,
-      clock_t                    endClock);
+    void                  appendTimingItem (
+                            string                     activity,
+                            timingItem::timingItemKind kind,
+                            clock_t                    startClock,
+                            clock_t                    endClock);
       
     // print
-    void print (ostream& os) const;
+    void                  print (ostream& os) const;
 
   private:
 
-    list<S_timingItem>  fTimingItemsList;
+    list<S_timingItem>    fTimingItemsList;
 };
 ostream& operator<< (ostream& os, const timing& tim);
 
@@ -105,11 +105,19 @@ class indenter
     indenter (string spacer = "  ");
     virtual ~indenter();
 
+    // get the indent
+    int                   getIndent () const
+                              { return fIndent; }
+                         
     // increase the indentation
     indenter&             operator++ (const int value);
     
     // decrease the indentation
     indenter&             operator-- (const int value);
+
+    // reset the indentation
+    void                  resetToZero ()
+                              { fIndent = 0; }
 
     // output as much space as specified
     void                  print (ostream& os) const;
@@ -123,8 +131,8 @@ class indenter
 
   private:
 
-    int    fIndent;
-    string fSpacer;
+    int                   fIndent;
+    string                fSpacer;
 };
 ostream& operator<< (ostream& os, const indenter& idtr);
 
@@ -141,30 +149,37 @@ class outputLineElementsCounter
     virtual ~outputLineElementsCounter();
 
     // get the counter
-
     int                   getElementsCounter () const
                               { return fElementsCounter; }
                          
     // increase the counter
     outputLineElementsCounter&
                           operator++ (int value);
-
-    // set value
-    void                  setElementsCounter (int value);
     
     // set the maximum number of elements per line
-    void                  setMaxElementsPerLine (int maxElementsPerLine);
+    void                  setMaxElementsPerLine (int maxElementsPerLine)
+                              {
+                                fMaxElementsPerLine = maxElementsPerLine;
+                              }
+
     
     // reset the counter
-    void                  resetToZero (int value = 0);
+    void                  resetToZero ()
+                              { fElementsCounter = 0; }
     
     // compare the counter with a value
-    bool                  operator<  (int value);
-    bool                  operator<= (int value);
-    bool                  operator== (int value);
-    bool                  operator!= (int value);
-    bool                  operator>= (int value);
-    bool                  operator>  (int value);
+    bool                  operator<  (int value)
+                              { return fElementsCounter < value; }
+    bool                  operator<= (int value)
+                              { return fElementsCounter <= value; }
+    bool                  operator== (int value)
+                              { return fElementsCounter == value; }
+    bool                  operator!= (int value)
+                              { return fElementsCounter != value; }
+    bool                  operator>= (int value)
+                              { return fElementsCounter >= value; }
+    bool                  operator>  (int value)
+                              { return fElementsCounter > value; }
     
     // global variable for general use
     static outputLineElementsCounter
@@ -187,18 +202,19 @@ struct stringQuoteEscaper
       for_each( source.begin(), source.end(), stringQuoteEscaper (dest));
   */
 
-  string&  target;
-  explicit stringQuoteEscaper (string& t) : target (t) {}
+  string&                 target;
+  
+  explicit                stringQuoteEscaper (string& t) : target (t) {}
 
-  void operator() (char ch) const
-  {
-     if( ch == '"') {
-       // or switch on any character that 
-       // needs escaping like '\' itself
-        target.push_back ('\\');
-     }
-     target.push_back (ch);
-  }
+  void                    operator() (char ch) const
+                              {
+                                 if( ch == '"') {
+                                   // or switch on any character that 
+                                   // needs escaping like '\' itself
+                                    target.push_back ('\\');
+                                 }
+                                 target.push_back (ch);
+                              }
 };
 
 /*!
@@ -215,18 +231,18 @@ struct stringSpaceRemover
         stringSpaceRemover (dest));
   */
 
-  string&  target;
+  string&                 target;
   
-  explicit stringSpaceRemover (string& t)
-    : target (t)
-    {}
+  explicit                stringSpaceRemover (string& t)
+                            : target (t)
+                            {}
 
-  void operator() (char ch) const
-    {
-      if (ch != ' ') {
-        target.push_back (ch);
-      }
-    }
+  void                    operator() (char ch) const
+                              {
+                                if (ch != ' ') {
+                                  target.push_back (ch);
+                                }
+                              }
 };
 
 /*!
@@ -243,20 +259,20 @@ struct stringSpaceReplacer
         stringSpaceReplacer (dest, ersatz));
   */
 
-  string&  target;
-  char     ersatz;
+  string&                 target;
+  char                    ersatz;
   
-  explicit stringSpaceReplacer (string& t, char ch)
-    : target (t), ersatz (ch)
-    {}
+  explicit                stringSpaceReplacer (string& t, char ch)
+                            : target (t), ersatz (ch)
+                            {}
 
-  void operator() (char ch) const
-    {
-      if (ch == ' ')
-        target.push_back (ersatz);
-      else
-        target.push_back (ch);
-    }
+  void                    operator() (char ch) const
+                              {
+                                if (ch == ' ')
+                                  target.push_back (ersatz);
+                                else
+                                  target.push_back (ch);
+                              }
 };
 
 /*!

@@ -250,27 +250,6 @@ outputLineElementsCounter::outputLineElementsCounter (int maxElementsPerLine)
 
 outputLineElementsCounter::~outputLineElementsCounter () {}
 
-void outputLineElementsCounter::setMaxElementsPerLine (
-  int maxElementsPerLine)
-{
-  fMaxElementsPerLine = maxElementsPerLine;
-}
-
-void outputLineElementsCounter::resetToZero (int value)
-{
-  fElementsCounter = value;
-}
-
-void outputLineElementsCounter::setElementsCounter (int value)
-{
-  /* JMI
-  if (value > 0)
-    for (int i = 0; i < saveMusicOlecEleentsCounter; i++)
-      fOstream <<
-        idtr;
-        */
-}
-
 outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
 {
   fElementsCounter++;
@@ -287,36 +266,6 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   }
     
   return *this;
-}
-
-bool outputLineElementsCounter::operator< (int value)
-{
-  return fElementsCounter < value;
-}
-
-bool outputLineElementsCounter::operator<= (int value)
-{
-  return fElementsCounter <= value;
-}
-
-bool outputLineElementsCounter::operator== (int value)
-{
-  return fElementsCounter == value;
-}
-
-bool outputLineElementsCounter::operator!= (int value)
-{
-  return fElementsCounter != value;
-}
-
-bool outputLineElementsCounter::operator>= (int value)
-{
-  return fElementsCounter >= value;
-}
-
-bool outputLineElementsCounter::operator> (int value)
-{
-  return fElementsCounter > value;
 }
 
 outputLineElementsCounter
