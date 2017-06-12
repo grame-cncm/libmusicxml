@@ -2362,6 +2362,12 @@ class EXP msrKey : public msrElement
     // data types
     // ------------------------------------------------------
 
+    enum msrKeyKind {
+        kTraditionalKind, kHumdrumScotKind };
+        
+    static string keyKindAsString (
+      msrKeyKind keyKind);
+
     enum msrKeyModeKind {
         kMajorMode, kMinorMode,
         kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
@@ -2373,7 +2379,7 @@ class EXP msrKey : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrKey> create (
+    static SMARTP<msrKey> createTraditional (
       int                  inputLineNumber,
       msrQuartertonesPitch keyTonicPitch,
       msrKeyModeKind       keyModeKind,
@@ -2426,6 +2432,8 @@ class EXP msrKey : public msrElement
   
   private:
 
+    msrKeyKind            fKeyKind;
+    
     msrQuartertonesPitch  fKeyTonicQuartertonesPitch;
     msrKeyModeKind        fKeyModeKind;
     int                   fKeyCancel;

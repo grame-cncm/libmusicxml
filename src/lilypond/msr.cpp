@@ -10390,7 +10390,7 @@ void msrClef::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrKey msrKey::create (
+S_msrKey msrKey::createTraditional (
   int                  inputLineNumber,
   msrQuartertonesPitch keyTonicQuartertonesPitch,
   msrKeyModeKind       keyModeKind,
@@ -10402,6 +10402,7 @@ S_msrKey msrKey::create (
       keyTonicQuartertonesPitch, keyModeKind,
       keyCancel);
   assert (o!=0);
+
   return o;
 }
 
@@ -10412,6 +10413,9 @@ msrKey::msrKey (
   int                  keyCancel)
     : msrElement (inputLineNumber)
 {
+  // this is a traditional key
+  fKeyKind = kTraditionalKind;
+  
   fKeyTonicQuartertonesPitch = keyTonicQuartertonesPitch;
   fKeyModeKind               = keyModeKind;
   
@@ -10468,37 +10472,54 @@ ostream& operator<< (ostream& os, const S_msrKey& elt)
   return os;
 }
 
+string msrKey::keyKindAsString (
+  msrKeyKind keyKind)
+{
+  string result;
+  
+  switch (keyKind) {
+    case msrKey::kTraditionalKind:
+      result = "traditional";
+      break;
+    case msrKey::kHumdrumScotKind:
+      result = "Humdrum-Scot";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrKey::keyModeKindAsString (
   msrKeyModeKind keyModeKind)
 {
   string result;
   
   switch (keyModeKind) {
-    case kMajorMode:
+    case msrKey::kMajorMode:
       result = "major";
       break;
-    case kMinorMode:
+    case msrKey::kMinorMode:
       result = "minor";
       break;
-    case kIonianMode:
+    case msrKey::kIonianMode:
       result = "ionian";
       break;
-    case kDorianMode:
+    case msrKey::kDorianMode:
       result = "dorian";
       break;
-    case kPhrygianMode:
+    case msrKey::kPhrygianMode:
       result = "phrygian";
       break;
-    case kLydianMode:
+    case msrKey::kLydianMode:
       result = "lydian";
       break;
-    case kMixolydianMode:
+    case msrKey::kMixolydianMode:
       result = "mixolydian";
       break;
-    case kAeolianMode:
+    case msrKey::kAeolianMode:
       result = "aeolian";
       break;
-    case kLocrianMode:
+    case msrKey::kLocrianMode:
       result = "locrian";
       break;
   } // switch
@@ -10511,13 +10532,25 @@ string msrKey::keyAsString () const
   stringstream s;
 
   s <<
-    "Key \"" <<
-    msrQuartertonesPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      fKeyTonicQuartertonesPitch) <<
-    "\" " <<
-    keyModeKindAsString (fKeyModeKind) <<
-    "\", line " << fInputLineNumber;
+    "Key " <<
+    ", " << keyKindAsString (fKeyKind) <<
+    ", line " << fInputLineNumber;
+
+  switch (fKeyKind) {
+    case msrKey::kTraditionalKind:
+      s <<
+        "'" <<
+        msrQuartertonesPitchAsString (
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
+          fKeyTonicQuartertonesPitch) <<
+        "\" " <<
+        keyModeKindAsString (fKeyModeKind) <<
+        "'";
+      break;
+      
+    case msrKey::kHumdrumScotKind:
+      break;
+  } // switch
 
   return s.str();
 }
@@ -20820,7 +20853,7 @@ void msrStaff::initializeStaff ()
           
       // create the implicit initial C major key
       setStaffCurrentKey (
-        msrKey::create (
+        msrKey::createTraditional (
           fInputLineNumber,
           k_cNatural, msrKey::kMajorMode, 0));
     }
