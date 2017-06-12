@@ -714,7 +714,34 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "voices" <<
       endl <<
     endl <<
-      
+
+     // clefs
+    idtr <<
+      "--" _TRACE_CLEFS_SHORT_NAME_ ", --" _TRACE_CLEFS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "voices" <<
+      endl <<
+    endl <<
+
+    // keys
+    idtr <<
+      "--" _TRACE_KEYS_SHORT_NAME_ ", --" _TRACE_KEYS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "voices" <<
+      endl <<
+    endl <<
+
+    // times
+    idtr <<
+      "--" _TRACE_TIMES_SHORT_NAME_ ", --" _TRACE_TIMES_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "voices" <<
+      endl <<
+    endl <<
+     
      // segments
    idtr <<
       "--" _TRACE_SEGMENTS_SHORT_NAME_ ", --" _TRACE_SEGMENTS_LONG_NAME_ <<
