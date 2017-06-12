@@ -15510,7 +15510,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
-    setMeasureCurrentClef (clef);
+    appendClefToMeasure (clef);
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -15532,7 +15532,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "Appending time " << time->timeAsString () <<
@@ -15544,7 +15544,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 
   // register time in segments's current measure
   fSegmentMeasuresList.back ()->
-    setMeasureCurrentTime (time);
+    appendTimeToMeasure (time);
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -18250,6 +18250,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   appendAFirstMeasureToVoiceIfNeeded (
     clef->getInputLineNumber ());
 
+  // append clef to last segment
   fVoiceLastSegment->
     appendClefToSegment (clef);
 }
@@ -18266,13 +18267,14 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   appendAFirstMeasureToVoiceIfNeeded (
     key->getInputLineNumber ());
 
+  // append key to last segment
   fVoiceLastSegment->
     appendKeyToSegment (key);
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
-  if (gMsrOptions->fTraceMsr)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -18285,7 +18287,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   appendAFirstMeasureToVoiceIfNeeded (
     time->getInputLineNumber ());
 
-  // append it to the last segment
+  // append time to the last segment
   fVoiceLastSegment->
     appendTimeToSegment (time);
 }
@@ -20903,7 +20905,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentTime ();
 
     if (time) {
-      if (gGeneralOptions->fTraceStaves)
+      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
           "Setting staff time '" << time->timeAsString () <<
           "' in staff \"" <<
@@ -20915,7 +20917,7 @@ void msrStaff::initializeStaff ()
       setStaffCurrentTime (time);
     }
     else {
-      if (gGeneralOptions->fTraceStaves)
+      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
           "Setting default 4/4 time " <<
           " in staff \"" <<
@@ -21338,9 +21340,9 @@ void msrStaff::setStaffCurrentKey  (S_msrKey  key)
 
 void msrStaff::setStaffCurrentTime (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
-      "Setting time '" << time->timeAsString () <<
+      "Setting time to '" << time->timeAsString () <<
       "' in staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -22904,9 +22906,9 @@ void msrPart::setPartCurrentKey  (S_msrKey  key)
 
 void msrPart::setPartCurrentTime (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
-      "Setting part current time \"" <<
+      "Setting part current time to \"" <<
       time->timeAsString () <<
       "\" in part " << getPartCombinedName () <<
     endl;

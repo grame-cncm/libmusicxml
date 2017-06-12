@@ -2671,7 +2671,7 @@ class EXP msrMeasure : public msrElement
     S_msrKey              getMeasureCurrentKey () const
                               { return fMeasureCurrentKey; }
 
-    void                  setMeasureCurrentTime (S_msrTime time);
+    void                  setMeasureCurrentTime (S_msrTime time); // JMI
 
     S_msrTime             getMeasureCurrentTime () const
                               { return fMeasureCurrentTime; }
