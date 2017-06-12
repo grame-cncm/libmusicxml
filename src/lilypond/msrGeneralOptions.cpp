@@ -720,25 +720,21 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_CLEFS_SHORT_NAME_ ", --" _TRACE_CLEFS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "voices" <<
+      "clefs" <<
       endl <<
-    endl <<
-
     // keys
     idtr <<
       "--" _TRACE_KEYS_SHORT_NAME_ ", --" _TRACE_KEYS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "voices" <<
+      "keys" <<
       endl <<
-    endl <<
-
     // times
     idtr <<
       "--" _TRACE_TIMES_SHORT_NAME_ ", --" _TRACE_TIMES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "voices" <<
+      "times" <<
       endl <<
     endl <<
      

@@ -2719,6 +2719,18 @@ class EXP msrMeasure : public msrElement
                       
     string                getMeasureLengthAsString () const;
 
+    // clefs
+    
+    void                  appendClefToMeasure (S_msrClef clef);
+
+    // keys
+    
+    void                  appendKeyToMeasure (S_msrKey key);
+
+    // times
+
+    void                  appendTimeToMeasure (S_msrTime time);
+
     // transpose
 
     void                  appendTransposeToMeasure (

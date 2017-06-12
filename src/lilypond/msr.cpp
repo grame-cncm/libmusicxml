@@ -10559,13 +10559,11 @@ string msrKey::keyAsString () const
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:
       s <<
-        "'" <<
         msrQuartertonesPitchAsString (
           gMsrOptions->fMsrQuatertonesPitchesLanguage,
           fKeyTonicQuartertonesPitch) <<
-        "\" " <<
-        keyModeKindAsString (fKeyModeKind) <<
-        "'";
+        " " <<
+        keyModeKindAsString (fKeyModeKind);
       break;
       
     case msrKey::kHumdrumScotKind:
@@ -13319,6 +13317,24 @@ void msrMeasure::setMeasureCurrentTime (S_msrTime time)
       endl;
 }
 
+void msrMeasure::appendClefToMeasure (S_msrClef clef)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (clef);
+}
+
+void msrMeasure::appendKeyToMeasure (S_msrKey key)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (key);
+}
+
+void msrMeasure::appendTimeToMeasure (S_msrTime time)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (time);
+}
+
 void msrMeasure::appendTransposeToMeasure (
   S_msrTranspose transpose)
 {
@@ -15511,7 +15527,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
-    setMeasureCurrentKey (key);
+    appendKeyToMeasure (key);
 }
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
