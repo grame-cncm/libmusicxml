@@ -2934,7 +2934,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
       "'" <<
       endl;
 
-  msrClef::msrClefKind clefKind = elt->getClefKind ();
+  msrClef::msrClefKind
+    clefKind =
+      elt->getClefKind ();
 
   if (clefKind != msrClef::k_NoClef) {
     fOstream << idtr <<

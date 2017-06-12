@@ -10552,7 +10552,6 @@ string msrKey::keyAsString () const
 
   s <<
     "Key" <<
-    ", line " << fInputLineNumber <<
     ", " << keyKindAsString (fKeyKind) <<
     ", ";
 
@@ -10569,6 +10568,9 @@ string msrKey::keyAsString () const
     case msrKey::kHumdrumScotKind:
       break;
   } // switch
+
+  s <<
+    ", line " << fInputLineNumber;
 
   return s.str();
 }
