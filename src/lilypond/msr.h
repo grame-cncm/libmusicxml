@@ -2375,6 +2375,101 @@ EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
   A key is represented by the tonic and the mode
 */
 //______________________________________________________________________________
+class EXP msrHumdrumScotKeyItem : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrHumdrumScotKeyItemKind {
+        kTraditionalKind, kHumdrumScotKind };
+        
+    static string HumdrumScotKeyItemKindAsString (
+      msrHumdrumScotKeyItemKind HumdrumScotKeyItemKind);
+
+    enum msrHumdrumScotKeyItemModeKind {
+        kMajorMode, kMinorMode,
+        kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
+        kMixolydianMode, kAeolianMode, kLocrianMode };
+
+    static string HumdrumScotKeyItemModeKindAsString (
+      msrHumdrumScotKeyItemModeKind HumdrumScotKeyItemModeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHumdrumScotKeyItem> create (
+      int                  inputLineNumber,
+      msrDiatonicPitch     fKeyDiatonicPitch,
+      msrAlteration        fKeyAlteration,
+      int                  fKeyOctave);
+      
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHumdrumScotKeyItem (
+      int                  inputLineNumber,
+      msrDiatonicPitch     fKeyDiatonicPitch,
+      msrAlteration        fKeyAlteration,
+      int                  fKeyOctave);
+            
+    virtual ~msrHumdrumScotKeyItem();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrQuartertonesPitch  getKeyTonicQuartertonesPitch () const
+                              { return fKeyTonicQuartertonesPitch; }
+                              
+    msrDiatonicPitch      getKeyDiatonicPitch () const
+                              { return fKeyDiatonicPitch; }
+
+    msrAlteration         getKeyAlteration () const
+                              { return fKeyAlteration; }
+
+    int                   getKeyOctave () const
+                              { return fKeyOctave; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                keyAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+  
+  private:
+
+    msrQuartertonesPitch  fKeyTonicQuartertonesPitch;
+  
+    msrDiatonicPitch      fKeyDiatonicPitch;
+    msrAlteration         fKeyAlteration;
+    int                   fKeyOctave;
+};
+typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
+EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
+
+/*!
+\brief A msr key representation.
+
+  A key is represented by the tonic and the mode
+*/
+//______________________________________________________________________________
 class EXP msrKey : public msrElement
 {
   public:
