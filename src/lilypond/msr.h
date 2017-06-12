@@ -224,6 +224,26 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   assert(false); \
 }
 
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR
+*/
+//______________________________________________________________________________
+#define msrInternalWarning( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "[[[ MSR INTERNAL WARNING ]]], " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+}
+
 // notes names and chords languages
 // ------------------------------------------------------
 

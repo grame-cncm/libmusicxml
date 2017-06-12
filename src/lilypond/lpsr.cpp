@@ -3171,25 +3171,27 @@ lpsrScore::lpsrScore (
   else
     s << "\"" << gGeneralOptions->fInputSourceName << "\"";
 
-  fInputSourceNameComment =
-    lpsrComment::create (
-      inputLineNumber,
-      s.str(),
-      lpsrComment::kNoGapAfterwards);
+    fInputSourceNameComment =
+      lpsrComment::create (
+        inputLineNumber,
+        s.str(),
+        lpsrComment::kNoGapAfterwards);
   }
 
   // create the translation date comment
   {
-  string
-    comment =
-      "on " + gGeneralOptions->fTranslationDate +
-      ", through:";
-      
-  fTranslationDateComment =
-    lpsrComment::create (
-      inputLineNumber,
-      comment,
-      lpsrComment::kNoGapAfterwards);
+    stringstream s;
+    
+    s <<
+      "on " << gGeneralOptions->fTranslationDate <<
+      endl <<
+      "translation command was:";
+        
+    fTranslationDateComment =
+      lpsrComment::create (
+        inputLineNumber,
+        s.str(),
+        lpsrComment::kNoGapAfterwards);
   }
 
   // do the command line long and short options differ?
@@ -3202,26 +3204,26 @@ lpsrScore::lpsrScore (
     
   // create the command line long options comment
   {
-  stringstream s;
-  
-  s <<
-    "  " <<
-    gGeneralOptions->fProgramName << " " <<
-    gGeneralOptions->fCommandLineLongOptions <<
-    gGeneralOptions->fInputSourceName;
-
-  if (longAndShortOptionsDiffer)
+    stringstream s;
+    
     s <<
-      endl <<
-      "% or:";
+      "  " <<
+      gGeneralOptions->fProgramName << " " <<
+      gGeneralOptions->fCommandLineLongOptions <<
+      gGeneralOptions->fInputSourceName;
   
-  fCommandLineLongOptionsComment =
-    lpsrComment::create (
-      inputLineNumber,
-      s.str (),
-      longAndShortOptionsDiffer
-        ? lpsrComment::kNoGapAfterwards
-        : lpsrComment::kGapAfterwards);
+    if (longAndShortOptionsDiffer)
+      s <<
+        endl <<
+        "% or:";
+    
+    fCommandLineLongOptionsComment =
+      lpsrComment::create (
+        inputLineNumber,
+        s.str (),
+        longAndShortOptionsDiffer
+          ? lpsrComment::kNoGapAfterwards
+          : lpsrComment::kGapAfterwards);
   }
 
   if (longAndShortOptionsDiffer) {
@@ -3357,46 +3359,46 @@ R"(\markup {
 
   // create the 'myBreakIsBreak' assoc
   {
-  lpsrLilypondVarValAssoc::lpsrCommentedKind
-    commentedKind =
-      gLilypondOptions->fDontKeepLineBreaks
-        ? lpsrLilypondVarValAssoc::kCommented
-        : lpsrLilypondVarValAssoc::kUncommented;
-
-  fMyBreakIsBreakAssoc =
-    lpsrLilypondVarValAssoc::create (
-      inputLineNumber,
-      commentedKind,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "myBreak",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
-      "{ \\break }",
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      "Pick your choice from the next two lines as needed",
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+    lpsrLilypondVarValAssoc::lpsrCommentedKind
+      commentedKind =
+        gLilypondOptions->fDontKeepLineBreaks
+          ? lpsrLilypondVarValAssoc::kCommented
+          : lpsrLilypondVarValAssoc::kUncommented;
+  
+    fMyBreakIsBreakAssoc =
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        commentedKind,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        "myBreak",
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        "{ \\break }",
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        "Pick your choice from the next two lines as needed",
+        lpsrLilypondVarValAssoc::kWithoutEndl);
   }
   
   // create the 'myBreakIsEmpty' assoc
   {
-  lpsrLilypondVarValAssoc::lpsrCommentedKind
-    commentedKind =
-      gLilypondOptions->fDontKeepLineBreaks
-        ? lpsrLilypondVarValAssoc::kUncommented
-        : lpsrLilypondVarValAssoc::kCommented;
-
-  fMyBreakIsEmptyAssoc =
-    lpsrLilypondVarValAssoc::create (
-      inputLineNumber,
-      commentedKind,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "myBreak",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
-      "{ }",
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithEndl);
+    lpsrLilypondVarValAssoc::lpsrCommentedKind
+      commentedKind =
+        gLilypondOptions->fDontKeepLineBreaks
+          ? lpsrLilypondVarValAssoc::kUncommented
+          : lpsrLilypondVarValAssoc::kCommented;
+  
+    fMyBreakIsEmptyAssoc =
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        commentedKind,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        "myBreak",
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        "{ }",
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+        lpsrLilypondVarValAssoc::kWithEndl);
   }
 
   if (gLilypondOptions->fGlobal) {

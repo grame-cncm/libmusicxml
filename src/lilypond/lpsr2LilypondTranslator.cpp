@@ -2113,7 +2113,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStaffLinesNumber" <<
+      "%--> Start visiting msrStaffLinesNumber" <<
       endl;
 
   // fetch staff lines number
@@ -2151,7 +2151,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStaffTuning" <<
+      "%--> Start visiting msrStaffTuning" <<
       endl;
 
 /* JMI
@@ -2194,7 +2194,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStaffDetails" <<
+      "%--> Start visiting msrStaffDetails" <<
       endl;
 }
 
@@ -2419,7 +2419,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrSegment '" <<
+      "%--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
 
@@ -2439,7 +2439,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrSegment '" <<
+      "%--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
 
@@ -2503,8 +2503,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' is of unknown kind";
 
-   // JMI     msrInternalError (
-        msrMusicXMLWarning (
+        msrInternalWarning (
           inputLineNumber, s.str ());
       }
       break;
@@ -3024,11 +3023,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
         fOstream << "percussion";
         break;
     } // switch
-  }
   
   fOstream <<
     "\"" <<
     endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
@@ -5803,7 +5802,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMeasureRepeatPattern" <<
+      "%--> Start visiting msrMeasureRepeatPattern" <<
       endl;
 
   idtr++;
@@ -5815,7 +5814,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMeasureRepeatPattern" <<
+      "%--> End visiting msrMeasureRepeatPattern" <<
       endl;
 
   idtr--;
@@ -5825,7 +5824,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMeasureRepeatReplicas" <<
+      "%--> Start visiting msrMeasureRepeatReplicas" <<
       endl;
 
   idtr++;
@@ -5837,7 +5836,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMeasureRepeatReplicas" <<
+      "%--> End visiting msrMeasureRepeatReplicas" <<
       endl;
 
   idtr--;
@@ -5942,7 +5941,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrMultipleRestContents" <<
+      "%--> Start visiting msrMultipleRestContents" <<
       endl;
 
   idtr++;
@@ -5954,7 +5953,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrMultipleRestContents" <<
+      "%--> End visiting msrMultipleRestContents" <<
       endl;
 
   idtr--;
