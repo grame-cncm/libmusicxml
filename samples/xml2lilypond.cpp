@@ -325,6 +325,24 @@ void analyzeOptions (
     
   int traceVoicesPresent = 0;
 
+  // clefs
+  checkOptionUniqueness (
+    _TRACE_CLEFS_LONG_NAME_, _TRACE_CLEFS_SHORT_NAME_);
+    
+  int traceClefsPresent = 0;
+
+  // keys
+  checkOptionUniqueness (
+    _TRACE_KEYS_LONG_NAME_, _TRACE_KEYS_SHORT_NAME_);
+    
+  int traceKeysPresent = 0;
+
+  // times
+  checkOptionUniqueness (
+    _TRACE_TIMES_LONG_NAME_, _TRACE_TIMES_SHORT_NAME_);
+    
+  int traceTimesPresent = 0;
+
   // segments
   checkOptionUniqueness (
     _TRACE_SEGMENTS_LONG_NAME_, _TRACE_SEGMENTS_SHORT_NAME_);
@@ -947,6 +965,39 @@ void analyzeOptions (
     {
       _TRACE_VOICES_SHORT_NAME_,
       no_argument, &traceVoicesPresent, 1
+    },
+    
+    // clefs
+    {
+      _TRACE_CLEFS_LONG_NAME_,
+      no_argument, &traceClefsPresent, 1
+    },
+
+    {
+      _TRACE_CLEFS_SHORT_NAME_,
+      no_argument, &traceClefsPresent, 1
+    },
+    
+    // keys
+    {
+      _TRACE_KEYS_LONG_NAME_,
+      no_argument, &traceKeysPresent, 1
+    },
+
+    {
+      _TRACE_KEYS_SHORT_NAME_,
+      no_argument, &traceKeysPresent, 1
+    },
+    
+    // times
+    {
+      _TRACE_TIMES_LONG_NAME_,
+      no_argument, &traceTimesPresent, 1
+    },
+
+    {
+      _TRACE_TIMES_SHORT_NAME_,
+      no_argument, &traceTimesPresent, 1
     },
     
     // segments
@@ -1915,14 +1966,14 @@ R"(
         }
         
         // staves
-        if (traceVoicesPresent) {
+        if (traceStavesPresent) {
           gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceStaves = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _TRACE_VOICES_LONG_NAME_ " ";
+            "--" _TRACE_STAVES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _TRACE_VOICES_SHORT_NAME_ " ";
+            "--" _TRACE_STAVES_SHORT_NAME_ " ";
 
           traceStavesPresent = false;
         }
@@ -1938,6 +1989,45 @@ R"(
             "--" _TRACE_VOICES_SHORT_NAME_ " ";
 
           traceVoicesPresent = false;
+        }
+
+        // clefs
+        if (traceClefsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceClefs = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_CLEFS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_CLEFS_SHORT_NAME_ " ";
+
+          traceClefsPresent = false;
+        }
+
+        // keys
+        if (traceKeysPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceKeys = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_KEYS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_KEYS_SHORT_NAME_ " ";
+
+          traceKeysPresent = false;
+        }
+
+        // times
+        if (traceTimesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceTimes = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_TIMES_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_TIMES_SHORT_NAME_ " ";
+
+          traceTimesPresent = false;
         }
 
         // segments
