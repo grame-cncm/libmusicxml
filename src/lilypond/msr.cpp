@@ -10390,6 +10390,103 @@ void msrClef::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrHumdrumScotKeyItem msrHumdrumScotKeyItem::create (
+  int              inputLineNumber,
+  msrDiatonicPitch keyDiatonicPitch,
+  msrAlteration    keyAlteration,
+  int              keyOctave)
+{
+  msrHumdrumScotKeyItem* o =
+    new msrHumdrumScotKeyItem (
+      inputLineNumber,
+      keyDiatonicPitch, keyAlteration, keyOctave);
+  assert (o!=0);
+
+  return o;
+}
+
+msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
+  int              inputLineNumber,
+  msrDiatonicPitch keyDiatonicPitch,
+  msrAlteration    keyAlteration,
+  int              keyOctave)
+    : msrElement (inputLineNumber)
+{
+  fKeyDiatonicPitch = keyDiatonicPitch;
+  fKeyAlteration    = keyAlteration;
+  fKeyOctave        = keyOctave;
+}
+
+msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem() {}
+
+void msrHumdrumScotKeyItem::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrHumdrumScotKeyItem::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrHumdrumScotKeyItem>*
+    p =
+      dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
+        S_msrHumdrumScotKeyItem elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrHumdrumScotKeyItem::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrHumdrumScotKeyItem::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrHumdrumScotKeyItem::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrHumdrumScotKeyItem>*
+    p =
+      dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
+        S_msrHumdrumScotKeyItem elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrHumdrumScotKeyItem::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrHumdrumScotKeyItem::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrHumdrumScotKeyItem::humdrumScotKeyItemAsString () const
+{
+  stringstream s;
+
+  s <<
+    "HumdrumScotKeyItem" <<
+    ", KeyDiatonicPitch" << ": " << fKeyDiatonicPitch <<
+    ", KeyAlteration" << ": " << fKeyAlteration <<
+    ", KeyOctave" << ": " << fKeyOctave;
+     
+  return s.str();
+}
+
+void msrHumdrumScotKeyItem::print (ostream& os)
+{
+  os <<
+    humdrumScotKeyItemAsString () <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrKey msrKey::createTraditional (
   int                  inputLineNumber,
   msrQuartertonesPitch keyTonicQuartertonesPitch,
@@ -10441,7 +10538,8 @@ msrKey::msrKey ( // for Humdrum/Scot keys
   fKeyKind = kHumdrumScotKind;
 }
 
-msrKey::~msrKey() {}
+msrKey::~msrKey()
+{}
 
 void msrKey::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -10480,7 +10578,6 @@ void msrKey::acceptOut (basevisitor* v) {
         p->visitEnd (elem);
   }
 }
-
 
 void msrKey::browseData (basevisitor* v)
 {}
@@ -10546,6 +10643,22 @@ string msrKey::keyModeKindAsString (
   return result;
 }
 
+void msrKey::appendHumdrumScotKeyItem (
+  S_msrHumdrumScotKeyItem item)
+{
+  if (gGeneralOptions->fTraceKeys) {
+    cerr << idtr <<
+      "Append item '" <<
+      item->humdrumScotKeyItemAsString () <<
+      "' to key '" <<
+      "'" <<
+      endl;
+    }
+
+  fHumdrumScotKeyItemsVector.insert (
+    fHumdrumScotKeyItemsVector.end(), item);
+}
+
 string msrKey::keyAsString () const
 {
   stringstream s;
@@ -10578,8 +10691,44 @@ string msrKey::keyAsString () const
 void msrKey::print (ostream& os)
 {
   os <<
-    keyAsString () <<
-    endl;
+    "Key" <<
+    ", " << keyKindAsString (fKeyKind) <<
+    ":";
+
+  switch (fKeyKind) {
+    case msrKey::kTraditionalKind:
+      os <<
+        " " <<
+        msrQuartertonesPitchAsString (
+          gMsrOptions->fMsrQuatertonesPitchesLanguage,
+          fKeyTonicQuartertonesPitch) <<
+        " " <<
+        keyModeKindAsString (fKeyModeKind) <<
+        endl;
+      break;
+      
+    case msrKey::kHumdrumScotKind:
+      {
+        os <<
+          endl;
+          
+        idtr++;
+        
+        vector<S_msrHumdrumScotKeyItem>::const_iterator
+          iBegin = fHumdrumScotKeyItemsVector.begin(),
+          iEnd   = fHumdrumScotKeyItemsVector.end(),
+          i      = iBegin;
+          
+        for ( ; ; ) {
+          os << idtr << (*i);
+          if (++i == iEnd) break;
+          os << idtr;
+        } // for
+        
+        idtr--;
+      }
+      break;
+  } // switch
 }
 
 //______________________________________________________________________________

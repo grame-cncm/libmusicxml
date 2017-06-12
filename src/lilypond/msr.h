@@ -2400,10 +2400,10 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrHumdrumScotKeyItem> create (
-      int                  inputLineNumber,
-      msrDiatonicPitch     fKeyDiatonicPitch,
-      msrAlteration        fKeyAlteration,
-      int                  fKeyOctave);
+      int              inputLineNumber,
+      msrDiatonicPitch keyDiatonicPitch,
+      msrAlteration    keyAlteration,
+      int              keyOctave);
       
   protected:
 
@@ -2411,10 +2411,10 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // ------------------------------------------------------
 
     msrHumdrumScotKeyItem (
-      int                  inputLineNumber,
-      msrDiatonicPitch     fKeyDiatonicPitch,
-      msrAlteration        fKeyAlteration,
-      int                  fKeyOctave);
+      int              inputLineNumber,
+      msrDiatonicPitch keyDiatonicPitch,
+      msrAlteration    keyAlteration,
+      int              keyOctave);
             
     virtual ~msrHumdrumScotKeyItem();
 
@@ -2423,9 +2423,6 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrQuartertonesPitch  getKeyTonicQuartertonesPitch () const
-                              { return fKeyTonicQuartertonesPitch; }
-                              
     msrDiatonicPitch      getKeyDiatonicPitch () const
                               { return fKeyDiatonicPitch; }
 
@@ -2438,7 +2435,7 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                keyAsString () const;
+    string                humdrumScotKeyItemAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2454,8 +2451,6 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     virtual void          print (ostream& os);
   
   private:
-
-    msrQuartertonesPitch  fKeyTonicQuartertonesPitch;
   
     msrDiatonicPitch      fKeyDiatonicPitch;
     msrAlteration         fKeyAlteration;
@@ -2540,11 +2535,18 @@ class EXP msrKey : public msrElement
 
     // Humdrum/Scot keys
 
+    const vector<S_msrHumdrumScotKeyItem>&
+                          getHumdrumScotKeyItemsVector ()
+                              { return fHumdrumScotKeyItemsVector; }
+
     
     // services
     // ------------------------------------------------------
 
     string                keyAsString () const;
+
+    void                  appendHumdrumScotKeyItem (
+                            S_msrHumdrumScotKeyItem item);                                
 
     // visitors
     // ------------------------------------------------------
@@ -2570,6 +2572,8 @@ class EXP msrKey : public msrElement
     int                   fKeyCancel;
 
     // Humdrum/Scot keys
+    vector<S_msrHumdrumScotKeyItem>
+                          fHumdrumScotKeyItemsVector;
 
 };
 typedef SMARTP<msrKey> S_msrKey;
