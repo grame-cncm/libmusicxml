@@ -10391,30 +10391,23 @@ void msrClef::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrHumdrumScotKeyItem msrHumdrumScotKeyItem::create (
-  int              inputLineNumber,
-  msrDiatonicPitch keyDiatonicPitch,
-  msrAlteration    keyAlteration,
-  int              keyOctave)
+  int inputLineNumber)
 {
   msrHumdrumScotKeyItem* o =
     new msrHumdrumScotKeyItem (
-      inputLineNumber,
-      keyDiatonicPitch, keyAlteration, keyOctave);
+      inputLineNumber);
   assert (o!=0);
 
   return o;
 }
 
 msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
-  int              inputLineNumber,
-  msrDiatonicPitch keyDiatonicPitch,
-  msrAlteration    keyAlteration,
-  int              keyOctave)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fKeyDiatonicPitch = keyDiatonicPitch;
-  fKeyAlteration    = keyAlteration;
-  fKeyOctave        = keyOctave;
+  fKeyDiatonicPitch = k_NoDiatonicPitch;
+  fKeyAlteration    = k_NoAlteration;
+  fKeyOctave        = -18;
 }
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem() {}

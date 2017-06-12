@@ -2400,10 +2400,7 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrHumdrumScotKeyItem> create (
-      int              inputLineNumber,
-      msrDiatonicPitch keyDiatonicPitch,
-      msrAlteration    keyAlteration,
-      int              keyOctave);
+      int inputLineNumber);
       
   protected:
 
@@ -2411,10 +2408,7 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // ------------------------------------------------------
 
     msrHumdrumScotKeyItem (
-      int              inputLineNumber,
-      msrDiatonicPitch keyDiatonicPitch,
-      msrAlteration    keyAlteration,
-      int              keyOctave);
+      int inputLineNumber);
             
     virtual ~msrHumdrumScotKeyItem();
 
@@ -2423,12 +2417,24 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setKeyDiatonicPitch (
+                            msrDiatonicPitch diatonicPitch)
+                              { fKeyDiatonicPitch = diatonicPitch; }
+                              
     msrDiatonicPitch      getKeyDiatonicPitch () const
                               { return fKeyDiatonicPitch; }
 
+    void                  setKeyAlteration (
+                            msrAlteration alteration)
+                              { fKeyAlteration = alteration; }
+                              
     msrAlteration         getKeyAlteration () const
                               { return fKeyAlteration; }
 
+    void                  setKeyOctave (
+                            int keyOctave)
+                              { fKeyOctave = keyOctave; }
+                              
     int                   getKeyOctave () const
                               { return fKeyOctave; }
 
