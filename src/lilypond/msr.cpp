@@ -10693,7 +10693,7 @@ void msrKey::print (ostream& os)
   os <<
     "Key" <<
     ", " << keyKindAsString (fKeyKind) <<
-    ":";
+    ",";
 
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:

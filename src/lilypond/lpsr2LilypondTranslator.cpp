@@ -3052,7 +3052,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
 
   switch (elt->getKeyKind ()) {
     case msrKey::kTraditionalKind:
-      fOstream << idtr <<
+      fOstream <<
+        idtr <<
         "\\key " <<
         msrQuartertonesPitchAsString (
           gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
@@ -3064,6 +3065,52 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
       break;
       
     case msrKey::kHumdrumScotKind:
+      {
+        const vector<S_msrHumdrumScotKeyItem>&
+          humdrumScotKeyItemsVector =
+            elt->getHumdrumScotKeyItemsVector ();
+        
+        if (humdrumScotKeyItemsVector.size ()) {
+          fOstream <<
+            endl <<
+            "\\set Staff.keyAlterations = #`(";
+      //      "((octave . step) . alter) ((octave . step) . alter) ...)";
+                                  
+          vector<S_msrHumdrumScotKeyItem>::const_iterator
+            iBegin = humdrumScotKeyItemsVector.begin(),
+            iEnd   = humdrumScotKeyItemsVector.end(),
+            i      = iBegin;
+            
+          for ( ; ; ) {
+            S_msrHumdrumScotKeyItem item = (*i);
+              
+            fOstream <<
+              "(" <<
+                "(" <<
+                item->getKeyOctave () <<
+                " . " <<
+                item->getKeyDiatonicPitch () <<
+                ")" <<
+              " . " <<
+              item->getKeyAlteration () <<                
+              ")";
+              
+            if (++i == iEnd) break;
+            
+            fOstream << " ";
+          } // for
+
+          fOstream <<
+            ")\"";
+        }
+        
+        else
+          {
+            msrInternalError (
+              elt->getInputLineNumber (),
+              "Humdrum/Scot key items vector is empty");
+          }  
+      }
       break;
   } // switch
 }
