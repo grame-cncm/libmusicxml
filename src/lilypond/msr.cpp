@@ -10708,7 +10708,10 @@ void msrKey::print (ostream& os)
       break;
       
     case msrKey::kHumdrumScotKind:
-      {
+      os <<
+        " elements:";
+
+      if (fHumdrumScotKeyItemsVector.size ()) {
         os <<
           endl;
           
@@ -10727,6 +10730,14 @@ void msrKey::print (ostream& os)
         
         idtr--;
       }
+      
+      else
+        {
+          os <<
+            " none";
+        }
+
+      os << endl;
       break;
   } // switch
 }
