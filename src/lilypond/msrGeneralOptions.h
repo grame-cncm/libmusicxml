@@ -165,6 +165,18 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _TRACE_VOICES_LONG_NAME_  "traceVoices"
 #define _TRACE_VOICES_SHORT_NAME_ "tvoices"
 
+// clefs
+#define _TRACE_CLEFS_LONG_NAME_  "traceClefs"
+#define _TRACE_CLEFS_SHORT_NAME_ "tclefs"
+
+// keys
+#define _TRACE_KEYS_LONG_NAME_  "traceKeys"
+#define _TRACE_KEYS_SHORT_NAME_ "tkeys"
+
+// times
+#define _TRACE_TIMES_LONG_NAME_  "traceTimes"
+#define _TRACE_TIMES_SHORT_NAME_ "ttimes"
+
 // segments
 #define _TRACE_SEGMENTS_LONG_NAME_  "traceSegments"
 #define _TRACE_SEGMENTS_SHORT_NAME_ "tsegs"
@@ -293,6 +305,13 @@ class EXP msrGeneralOptions : public smartable
     // voices
     bool                  fTraceVoices;
 
+    // clefs
+    bool                  fTraceClefs;
+    // keys
+    bool                  fTraceKeys;
+    // times
+    bool                  fTraceTimes;
+    
     // segments
     bool                  fTraceSegments;
 

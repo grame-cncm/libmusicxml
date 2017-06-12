@@ -258,6 +258,13 @@ void msrGeneralOptions::initializeGeneralOptions (
   // voices
   fTraceVoices = boolOptionsInitialValue;
 
+  // clefs
+  fTraceClefs = boolOptionsInitialValue;
+  // keys
+  fTraceKeys  = boolOptionsInitialValue;
+  // times
+  fTraceTimes = boolOptionsInitialValue;
+
   // segments
   fTraceSegments = boolOptionsInitialValue;
   
@@ -379,6 +386,16 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
     true;
   // voices
   clone->fTraceVoices =
+    true;
+
+  // clefs
+  clone->fTraceClefs =
+    true;
+  // keys
+  clone->fTraceKeys =
+    true;
+  // times
+  clone->fTraceTimes =
     true;
 
   // segments
@@ -980,7 +997,23 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (fTraceVoices) <<
       endl <<
-      
+
+    // clefs
+    idtr <<
+      setw(fieldWidth) << "traceClefs" << " : " <<
+      booleanAsString (fTraceClefs) <<
+      endl <<
+    // keys
+    idtr <<
+      setw(fieldWidth) << "traceKeys" << " : " <<
+      booleanAsString (fTraceKeys) <<
+      endl <<
+    // times
+    idtr <<
+      setw(fieldWidth) << "traceTimes" << " : " <<
+      booleanAsString (fTraceTimes) <<
+      endl <<
+
     // segments
     idtr <<
       setw(fieldWidth) << "traceSegments" << " : " <<

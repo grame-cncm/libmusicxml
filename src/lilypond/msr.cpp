@@ -10551,9 +10551,10 @@ string msrKey::keyAsString () const
   stringstream s;
 
   s <<
-    "Key " <<
+    "Key" <<
+    ", line " << fInputLineNumber <<
     ", " << keyKindAsString (fKeyKind) <<
-    ", line " << fInputLineNumber;
+    ", ";
 
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:
@@ -18239,7 +18240,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
-  if (gMsrOptions->fTraceMsr)
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending key '" << key->keyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -21303,7 +21304,7 @@ void msrStaff::setStaffCurrentClef (S_msrClef clef)
 
 void msrStaff::setStaffCurrentKey  (S_msrKey  key)
 {
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Setting key '" << key->keyAsString () <<
       "' in staff \"" <<
@@ -22862,9 +22863,9 @@ void msrPart::setPartCurrentClef (S_msrClef clef)
 
 void msrPart::setPartCurrentKey  (S_msrKey  key)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceKeys)
     cerr << idtr <<
-      "Setting part current key \"" <<
+      "Setting part current key to \"" <<
       key->keyAsString () <<
       "\" in part " << getPartCombinedName () <<
     endl;
