@@ -2416,21 +2416,21 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setKeyDiatonicPitch (
+    void                  setKeyItemDiatonicPitch (
                             msrDiatonicPitch diatonicPitch);
                               
-    msrDiatonicPitch      getKeyDiatonicPitch () const
+    msrDiatonicPitch      getKeyItemDiatonicPitch () const
                               { return fKeyDiatonicPitch; }
 
-    void                  setKeyAlteration (
+    void                  setKeyItemAlteration (
                             msrAlteration alteration);
                               
-    msrAlteration         getKeyAlteration () const
+    msrAlteration         getKeyItemAlteration () const
                               { return fKeyAlteration; }
 
-    void                  setKeyOctave (int keyOctave);
+    void                  setKeyItemOctave (int keyOctave);
                               
-    int                   getKeyOctave () const
+    int                   getKeyItemOctave () const
                               { return fKeyOctave; }
 
     // services
@@ -2536,6 +2536,12 @@ class EXP msrKey : public msrElement
 
     // Humdrum/Scot keys
 
+    void                  setKeyItemsOctavesAreSpecified ()
+                            { fKeyItemsOctavesAreSpecified = true; }
+                              
+    bool                  getKeyItemsOctavesAreSpecified () const
+                              { return fKeyItemsOctavesAreSpecified; }
+
     const vector<S_msrHumdrumScotKeyItem>&
                           getHumdrumScotKeyItemsVector ()
                               { return fHumdrumScotKeyItemsVector; }
@@ -2576,6 +2582,7 @@ class EXP msrKey : public msrElement
     vector<S_msrHumdrumScotKeyItem>
                           fHumdrumScotKeyItemsVector;
 
+    bool                  fKeyItemsOctavesAreSpecified;
 };
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);

@@ -10441,12 +10441,12 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 {
   fKeyDiatonicPitch = k_NoDiatonicPitch;
   fKeyAlteration    = k_NoAlteration;
-  fKeyOctave        = 3; // JMI BOF
+  fKeyOctave        = -1; // actual MusicXML octaves are non-negative
 }
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem() {}
 
-void msrHumdrumScotKeyItem::setKeyDiatonicPitch (
+void msrHumdrumScotKeyItem::setKeyItemDiatonicPitch (
   msrDiatonicPitch diatonicPitch)
 {
   if (gGeneralOptions->fTraceKeys) {
@@ -10460,7 +10460,7 @@ void msrHumdrumScotKeyItem::setKeyDiatonicPitch (
   fKeyDiatonicPitch = diatonicPitch;
 }
 
-void msrHumdrumScotKeyItem::setKeyAlteration (
+void msrHumdrumScotKeyItem::setKeyItemAlteration (
   msrAlteration alteration)
 {
   if (gGeneralOptions->fTraceKeys) {
@@ -10474,7 +10474,7 @@ void msrHumdrumScotKeyItem::setKeyAlteration (
   fKeyAlteration = alteration;
 }
 
-void msrHumdrumScotKeyItem::setKeyOctave (int keyOctave)
+void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
   if (gGeneralOptions->fTraceKeys) {
     cerr << idtr <<
@@ -10599,6 +10599,9 @@ msrKey::msrKey ( // for traditional keys
   fKeyModeKind               = keyModeKind;
   
   fKeyCancel     = keyCancel;
+
+  // initialization in all cases
+  fKeyItemsOctavesAreSpecified = false;
 }
 
 msrKey::msrKey ( // for Humdrum/Scot keys
@@ -10607,6 +10610,9 @@ msrKey::msrKey ( // for Humdrum/Scot keys
 {
   // this is a Humdrum/Scot key
   fKeyKind = kHumdrumScotKind;
+
+  // initialization in all cases
+  fKeyItemsOctavesAreSpecified = false;
 }
 
 msrKey::~msrKey()
@@ -10626,6 +10632,9 @@ void msrKey::appendHumdrumScotKeyItem (
 
   fHumdrumScotKeyItemsVector.insert (
     fHumdrumScotKeyItemsVector.end(), item);
+
+  if (item->getKeyItemOctave () >= 0)
+    fKeyItemsOctavesAreSpecified = true;
 }
 
 void msrKey::acceptIn (basevisitor* v) {
