@@ -2550,10 +2550,10 @@ class EXP msrKey : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                keyAsString () const;
-
     void                  appendHumdrumScotKeyItem (
                             S_msrHumdrumScotKeyItem item);                                
+
+    string                keyAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2707,6 +2707,9 @@ class EXP msrTime : public msrElement
     // services
     // ------------------------------------------------------
                   
+    void                  appendTimeItem (
+                            S_msrTimeItem item);                                
+
     string                timeAsShortString () const;
     
     string                timeAsString () const;

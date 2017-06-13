@@ -11011,6 +11011,22 @@ ostream& operator<< (ostream& os, const S_msrTime& elt)
   return os;
 }
 
+void msrKey::appendTimeItem (
+  S_msrTimeItem item)
+{
+  if (gGeneralOptions->fTraceTimes) {
+    cerr << idtr <<
+      "Append item '" <<
+      item->TimeItemAsString () <<
+      "' to key '" <<
+      "'" <<
+      endl;
+    }
+
+  fTimeItemsVector.insert (
+    fTimeItemsVector.end(), item);
+}
+
 string msrTime::timeAsShortString () const
 {
   stringstream s;
