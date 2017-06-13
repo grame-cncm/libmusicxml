@@ -2602,7 +2602,7 @@ class EXP msrTimeItem : public msrElement
     static SMARTP<msrTimeItem> create (
       int inputLineNumber,
       int timeBeatsNumber,
-      int timeBeatsValue);
+      int timeBeatValue);
       
   protected:
 
@@ -2612,7 +2612,7 @@ class EXP msrTimeItem : public msrElement
     msrTimeItem (
       int inputLineNumber,
       int beatsNumber,
-      int beatsValue);
+      int beatValue);
             
     virtual ~msrTimeItem();
 
@@ -2625,8 +2625,8 @@ class EXP msrTimeItem : public msrElement
     int                   getTimeBeatsNumber () const
                               { return fTimeBeatsNumber; }
                               
-    int                   getTimeBeatsValue () const
-                              { return fTimeBeatsValue; }
+    int                   getTimeBeatValue () const
+                              { return fTimeBeatValue; }
 
     // services
     // ------------------------------------------------------
@@ -2649,7 +2649,7 @@ class EXP msrTimeItem : public msrElement
   private:
   
     int                   fTimeBeatsNumber;
-    int                   fTimeBeatsValue;
+    int                   fTimeBeatValue;
 };
 typedef SMARTP<msrTimeItem> S_msrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
@@ -2736,7 +2736,7 @@ class EXP msrTime : public msrElement
 
     vector<S_msrTimeItem> fTimeItemsVector;
 
-    int                   fFirstItemBeatsValue;
+    int                   fFirstItemBeatValue;
     bool                  fTimeItemsBeatTypesAreDifferent;
 };
 typedef SMARTP<msrTime> S_msrTime;

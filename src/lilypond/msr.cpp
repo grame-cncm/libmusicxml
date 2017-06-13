@@ -10843,12 +10843,12 @@ void msrKey::print (ostream& os)
 S_msrTimeItem msrTimeItem::create (
   int inputLineNumber,
   int timeBeatsNumber,
-  int timeBeatsValue)
+  int timeBeatValue)
 {
   msrTimeItem* o =
     new msrTimeItem (
       inputLineNumber,
-      timeBeatsNumber, timeBeatsValue);
+      timeBeatsNumber, timeBeatValue);
   assert (o!=0);
 
   return o;
@@ -10857,17 +10857,17 @@ S_msrTimeItem msrTimeItem::create (
 msrTimeItem::msrTimeItem (
   int inputLineNumber,
   int timeBeatsNumber,
-  int timeBeatsValue)
+  int timeBeatValue)
     : msrElement (inputLineNumber)
 {
   fTimeBeatsNumber = timeBeatsNumber;
-  fTimeBeatsValue  = timeBeatsValue;
+  fTimeBeatValue   = timeBeatValue;
   
   if (gGeneralOptions->fTraceTimes) {
     cerr << idtr <<
       "Creating time item containing '" <<
       "timeBeatsNumber = " << fTimeBeatsNumber <<
-      " and timeBeatsValue = " << fTimeBeatsValue <<
+      " and timeBeatValue = " << fTimeBeatValue <<
       ", line = " << inputLineNumber <<
       endl;
   }
@@ -10929,7 +10929,7 @@ string msrTimeItem::timeItemAsString () const
   s <<
     "TimeItem" <<
     ", timeBeatsNumber: " << fTimeBeatsNumber <<
-    ", timeBeatsValue: " << fTimeBeatsValue <<
+    ", timeBeatValue: " << fTimeBeatValue <<
     ", line " << fInputLineNumber;
      
   return s.str();
@@ -10957,7 +10957,7 @@ msrTime::msrTime (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fFirstItemBeatsValue = -1;
+  fFirstItemBeatValue = -1;
   fTimeItemsBeatTypesAreDifferent = false;
 }
 
@@ -10999,15 +10999,15 @@ void msrTime::appendTimeItem (
 
   if (fTimeItemsVector.size ()) {
     // this is the first item inserted
-    fFirstItemBeatsValue =
-      item->getTimeBeatsValue ();
+    fFirstItemBeatValue =
+      item->getTimeBeatValue ();
   }
   else {
     // are there differents beat types?
     if (
-      item->getTimeBeatsValue ()
+      item->getTimeBeatValue ()
         !=
-      fFirstItemBeatsValue)
+      fFirstItemBeatValue)
     fTimeItemsBeatTypesAreDifferent = true;
   }
 
@@ -11028,7 +11028,7 @@ rational msrTime::wholeNotesPerMeasure () const
       rational (
         fTimeItemsVector [0]->getTimeBeatsNumber ()
           /
-        fTimeItemsVector [0]->getTimeBeatsValue ());
+        fTimeItemsVector [0]->getTimeBeatValue ());
 
     // iterate over the others
     for (int i = 1; i < vectorSize; i++) {
@@ -11036,7 +11036,7 @@ rational msrTime::wholeNotesPerMeasure () const
         rational (
           fTimeItemsVector [i]->getTimeBeatsNumber ()
             /
-          fTimeItemsVector [i]->getTimeBeatsValue ());
+          fTimeItemsVector [i]->getTimeBeatValue ());
       } // for
   }
 

@@ -3214,7 +3214,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       "\\time" " " <<
       singleItem->getTimeBeatsNumber () <<
       "/" <<
-      singleItem->getTimeBeatsValue () <<
+      singleItem->getTimeBeatValue () <<
       endl;        
   }
 
@@ -3225,26 +3225,29 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       idtr <<
       "\\compoundMeter #`(";
 
-    if (! elt->getTimeItemsBeatTypesAreDifferent ()) {
-      //  \compoundMeter #'(3 2 8) for 3+2/8
-
+    if (true || /* JMI */ elt->getTimeItemsBeatTypesAreDifferent ()) {
+      // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+      
       // place all beats numbers in the list first
-      for (int i = 1; i < timesItemsNumber; i++) {
+      for (int i = 0; i < timesItemsNumber; i++) {
         fOstream <<
+          "(" <<
           timeItemsVector [i]->getTimeBeatsNumber () <<
-          " ";
-      } // for
+          " " <<
+          timeItemsVector [i]->getTimeBeatValue () <<
+          ")";
 
-      // then place the beat type last
-        fOstream <<
-          timeItemsVector [0]->getTimeBeatsNumber ();
+        if (i != timesItemsNumber - 1)
+          fOstream <<
+            " ";
+      } // for
     }
 
     else {
       //  \compoundMeter #'(3 2 8) for 3+2/8
 
       // place all beats numbers in the list first
-      for (int i = 1; i < timesItemsNumber; i++) {
+      for (int i = 0; i < timesItemsNumber; i++) {
         fOstream <<
           timeItemsVector [i]->getTimeBeatsNumber () <<
           " ";
@@ -3252,7 +3255,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
       // then place the beat type last
         fOstream <<
-          timeItemsVector [0]->getTimeBeatsNumber ();
+          timeItemsVector [0]->getTimeBeatValue ();
     }
         
     fOstream <<
