@@ -11018,18 +11018,33 @@ void msrTime::appendTimeItem (
 
 rational msrTime::wholeNotesPerMeasure () const
 {
-  rational result (0, 1);
+  rational result;
 
-  for (
-    vector<S_msrTimeItem>::const_iterator i = fTimeItemsVector.begin();
-    i != fTimeItemsVector.end();
-    i++) {
-    result +=
+  int vectorSize = fTimeItemsVector.size ();
+  
+  if (vectorSize) {
+    // start with first item
+    result =
       rational (
-        (*i)->getTimeBeatsNumber ()
+        fTimeItemsVector [0]->getTimeBeatsNumber ()
           /
-        (*i)->getTimeBeatsValue ());
-    } // for
+        fTimeItemsVector [0]->getTimeBeatsValue ());
+
+    // iterate over the others
+    for (int i = 1; i < vectorSize; i++) {
+      result +=
+        rational (
+          fTimeItemsVector [i]->getTimeBeatsNumber ()
+            /
+          fTimeItemsVector [i]->getTimeBeatsValue ());
+      } // for
+  }
+
+  else {
+    msrInternalError (
+      fInputLineNumber,
+      "time items vector is empty");
+  }
 
   return result;
 }
@@ -11113,7 +11128,7 @@ void msrTime::print (ostream& os)
 {
   os <<
     "Time" <<
-    ", timeItemsBeatTypessAreDifferent: " <<
+    ", timeItemsBeatTypesAreDifferent: " <<
     booleanAsString (
       fTimeItemsBeatTypesAreDifferent) <<
     ", " <<
