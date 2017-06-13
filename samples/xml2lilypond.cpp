@@ -2935,7 +2935,7 @@ R"(
             s << sm [2];
             s >> gLilypondOptions->fMidiTempoPerSecond;
           }
-          /*
+          /* JMI
           cerr <<
             "gLilypondOptions->fMidiTempoDuration = " <<
             gLilypondOptions->fMidiTempoDuration <<
