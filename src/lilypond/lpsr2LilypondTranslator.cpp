@@ -152,6 +152,48 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   } // switch
 }
 
+//________________________________________________________________________
+string lpsr2LilypondTranslator::alterationAsLilypondString (
+  msrAlteration alteration)
+{
+  string result;
+  
+  switch (alteration) {
+    case kDoubleFlat:
+      result = "DOUBLE-FLAT";
+      break;
+    case kSesquiFlat:
+      result = "THREE-Q-FLAT";
+      break;
+    case kFlat:
+      result = "FLAT";
+      break;
+    case kSemiFlat:
+      result = "SEMI-FLAT";
+      break;
+    case kNatural:
+      result = "NATURAL";
+      break;
+    case kSemiSharp:
+      result = "SEMI-SHARP";
+      break;
+    case kSharp:
+      result = "SHARP";
+      break;
+    case kSesquiSharp:
+      result = "THREE-Q-SHARP";
+      break;
+    case kDoubleSharp:
+      result = "DOUBLE-SHARP";
+      break;
+    case k_NoAlteration:
+      result = "alteration???";
+      break;
+  } // switch
+
+  return result;
+}
+
 //______________________________________________________________________________
 string lpsr2LilypondTranslator::lilypondizeDurationString (
   string msrDurationString)
@@ -3075,6 +3117,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             endl <<
             "\\set Staff.keyAlterations = #`(";
       //      "((octave . step) . alter) ((octave . step) . alter) ...)";
+
+//\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
+
                                   
           vector<S_msrHumdrumScotKeyItem>::const_iterator
             iBegin = humdrumScotKeyItemsVector.begin(),
@@ -3087,12 +3132,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             fOstream <<
               "(" <<
                 "(" <<
-                item->getKeyOctave () <<
+                item->getKeyOctave () - 3 << // 3 is middle C in MusicXML
                 " . " <<
                 item->getKeyDiatonicPitch () <<
                 ")" <<
-              " . " <<
-              item->getKeyAlteration () <<                
+              " . ," <<
+              alterationAsLilypondString (
+                item->getKeyAlteration ()) <<                
               ")";
               
             if (++i == iEnd) break;
@@ -3101,7 +3147,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
           } // for
 
           fOstream <<
-            ")\"";
+            ")";
         }
         
         else

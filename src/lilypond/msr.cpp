@@ -10441,7 +10441,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 {
   fKeyDiatonicPitch = k_NoDiatonicPitch;
   fKeyAlteration    = k_NoAlteration;
-  fKeyOctave        = -18;
+  fKeyOctave        = 3; // JMI BOF
 }
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem() {}
@@ -10450,7 +10450,7 @@ void msrHumdrumScotKeyItem::setKeyDiatonicPitch (
   msrDiatonicPitch diatonicPitch)
 {
   if (gGeneralOptions->fTraceKeys) {
-    cerr <<
+    cerr << idtr <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchAsString (diatonicPitch) <<
       "'" <<
@@ -10464,7 +10464,7 @@ void msrHumdrumScotKeyItem::setKeyAlteration (
   msrAlteration alteration)
 {
   if (gGeneralOptions->fTraceKeys) {
-    cerr <<
+    cerr << idtr <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationAsString (alteration) <<
       "'" <<
@@ -10477,7 +10477,7 @@ void msrHumdrumScotKeyItem::setKeyAlteration (
 void msrHumdrumScotKeyItem::setKeyOctave (int keyOctave)
 {
   if (gGeneralOptions->fTraceKeys) {
-    cerr <<
+    cerr << idtr <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
       "'" <<
@@ -10780,7 +10780,7 @@ void msrKey::print (ostream& os)
       
     case msrKey::kHumdrumScotKind:
       os <<
-        " elements:";
+        " items:";
 
       if (fHumdrumScotKeyItemsVector.size ()) {
         os <<
@@ -10796,7 +10796,7 @@ void msrKey::print (ostream& os)
         for ( ; ; ) {
           os << idtr << (*i);
           if (++i == iEnd) break;
-          os << idtr;
+    // JMI     os << endl;
         } // for
         
         idtr--;
@@ -10807,8 +10807,6 @@ void msrKey::print (ostream& os)
           os <<
             " none";
         }
-
-      os << endl;
       break;
   } // switch
 }
