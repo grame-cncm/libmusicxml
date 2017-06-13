@@ -282,6 +282,9 @@ enum msrDiatonicPitch {
 msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName);
   
+string msrDiatonicPitchAsString (
+  msrDiatonicPitch diatonicPitch);
+
 // alterations
 //______________________________________________________________________________
 enum msrAlteration {
@@ -355,11 +358,7 @@ enum msrQuatertonesPitchesLanguage {
 string msrQuatertonesPitchesLanguageAsString (
   msrQuatertonesPitchesLanguage language);
 
-string msrDiatonicPitchAsString (
-  msrQuatertonesPitchesLanguage language,
-  msrDiatonicPitch              diatonicPitch);
-
-string msrDiatonicPitchAsString (
+string msrDiatonicPitchAsString ( // JMI
   msrQuatertonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch);
 
@@ -2418,22 +2417,18 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // ------------------------------------------------------
 
     void                  setKeyDiatonicPitch (
-                            msrDiatonicPitch diatonicPitch)
-                              { fKeyDiatonicPitch = diatonicPitch; }
+                            msrDiatonicPitch diatonicPitch);
                               
     msrDiatonicPitch      getKeyDiatonicPitch () const
                               { return fKeyDiatonicPitch; }
 
     void                  setKeyAlteration (
-                            msrAlteration alteration)
-                              { fKeyAlteration = alteration; }
+                            msrAlteration alteration);
                               
     msrAlteration         getKeyAlteration () const
                               { return fKeyAlteration; }
 
-    void                  setKeyOctave (
-                            int keyOctave)
-                              { fKeyOctave = keyOctave; }
+    void                  setKeyOctave (int keyOctave);
                               
     int                   getKeyOctave () const
                               { return fKeyOctave; }

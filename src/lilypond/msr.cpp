@@ -910,6 +910,40 @@ void initializePitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
+string msrDiatonicPitchAsString (
+  msrDiatonicPitch diatonicPitch)
+{
+  string result;
+
+  switch (diatonicPitch) {
+    case kA:
+      result = "A";
+      break;
+    case kB:
+      result = "B";
+      break;
+    case kC:
+      result = "C";
+      break;
+    case kD:
+      result = "D";
+      break;
+    case kE:
+      result = "E";
+      break;
+    case kF:
+      result = "F";
+      break;
+    case kG:
+      result = "G";
+      break;
+    case k_NoDiatonicPitch:
+      result = "k_NoDiatonicPitch";
+      break;
+  } // switch
+  return result;
+}
+
 msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName)
 {
@@ -10412,6 +10446,47 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem() {}
 
+void msrHumdrumScotKeyItem::setKeyDiatonicPitch (
+  msrDiatonicPitch diatonicPitch)
+{
+  if (gGeneralOptions->fTraceKeys) {
+    cerr <<
+      "Setting Humdrum/Scot key item diatonic pitch to '" <<
+      msrDiatonicPitchAsString (diatonicPitch) <<
+      "'" <<
+      endl;
+  }
+  
+  fKeyDiatonicPitch = diatonicPitch;
+}
+
+void msrHumdrumScotKeyItem::setKeyAlteration (
+  msrAlteration alteration)
+{
+  if (gGeneralOptions->fTraceKeys) {
+    cerr <<
+      "Setting Humdrum/Scot key item alteration to '" <<
+      msrAlterationAsString (alteration) <<
+      "'" <<
+      endl;
+  }
+  
+  fKeyAlteration = alteration;
+}
+
+void msrHumdrumScotKeyItem::setKeyOctave (int keyOctave)
+{
+  if (gGeneralOptions->fTraceKeys) {
+    cerr <<
+      "Setting Humdrum/Scot key item octave to '" <<
+      keyOctave <<
+      "'" <<
+      endl;
+  }
+  
+  fKeyOctave = keyOctave;
+}
+
 void msrHumdrumScotKeyItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -10465,9 +10540,12 @@ string msrHumdrumScotKeyItem::humdrumScotKeyItemAsString () const
 
   s <<
     "HumdrumScotKeyItem" <<
-    ", KeyDiatonicPitch" << ": " << fKeyDiatonicPitch <<
-    ", KeyAlteration" << ": " << fKeyAlteration <<
-    ", KeyOctave" << ": " << fKeyOctave;
+    ", KeyDiatonicPitch" << ": " <<
+    msrDiatonicPitchAsString (fKeyDiatonicPitch) <<
+    ", KeyAlteration" << ": " <<
+    msrAlterationAsString (fKeyAlteration) <<
+    ", KeyOctave" << ": " << fKeyOctave <<
+    ", line " << fInputLineNumber;
      
   return s.str();
 }
@@ -10533,6 +10611,22 @@ msrKey::msrKey ( // for Humdrum/Scot keys
 
 msrKey::~msrKey()
 {}
+
+void msrKey::appendHumdrumScotKeyItem (
+  S_msrHumdrumScotKeyItem item)
+{
+  if (gGeneralOptions->fTraceKeys) {
+    cerr << idtr <<
+      "Append item '" <<
+      item->humdrumScotKeyItemAsString () <<
+      "' to key '" <<
+      "'" <<
+      endl;
+    }
+
+  fHumdrumScotKeyItemsVector.insert (
+    fHumdrumScotKeyItemsVector.end(), item);
+}
 
 void msrKey::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -10634,22 +10728,6 @@ string msrKey::keyModeKindAsString (
   } // switch
 
   return result;
-}
-
-void msrKey::appendHumdrumScotKeyItem (
-  S_msrHumdrumScotKeyItem item)
-{
-  if (gGeneralOptions->fTraceKeys) {
-    cerr << idtr <<
-      "Append item '" <<
-      item->humdrumScotKeyItemAsString () <<
-      "' to key '" <<
-      "'" <<
-      endl;
-    }
-
-  fHumdrumScotKeyItemsVector.insert (
-    fHumdrumScotKeyItemsVector.end(), item);
 }
 
 string msrKey::keyAsString () const
