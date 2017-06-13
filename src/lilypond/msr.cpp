@@ -10759,6 +10759,11 @@ string msrKey::keyAsString () const
       break;
       
     case msrKey::kHumdrumScotKind:
+      s <<
+        fHumdrumScotKeyItemsVector.size () << "items" <<
+        ", KeyItemsOctavesAreSpecified: " <<
+        booleanAsString (
+          fKeyItemsOctavesAreSpecified);
       break;
   } // switch
 
@@ -10789,6 +10794,10 @@ void msrKey::print (ostream& os)
       
     case msrKey::kHumdrumScotKind:
       os <<
+        ", fKeyItemsOctavesAreSpecified: " <<
+        booleanAsString (
+          fKeyItemsOctavesAreSpecified) <<
+        fHumdrumScotKeyItemsVector.size () <<
         " items:";
 
       if (fHumdrumScotKeyItemsVector.size ()) {

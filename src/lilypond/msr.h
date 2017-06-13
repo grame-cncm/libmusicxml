@@ -2581,7 +2581,6 @@ class EXP msrKey : public msrElement
     // Humdrum/Scot keys
     vector<S_msrHumdrumScotKeyItem>
                           fHumdrumScotKeyItemsVector;
-
     bool                  fKeyItemsOctavesAreSpecified;
 };
 typedef SMARTP<msrKey> S_msrKey;
