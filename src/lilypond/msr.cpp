@@ -10439,6 +10439,13 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
+  if (gGeneralOptions->fTraceKeys) {
+    cerr << idtr <<
+      "Creating Humdrum/Scot key item" <<
+      ", line = " << inputLineNumber <<
+      endl;
+  }
+
   fKeyDiatonicPitch = k_NoDiatonicPitch;
   fKeyAlteration    = k_NoAlteration;
   fKeyOctave        = -1; // actual MusicXML octaves are non-negative
@@ -10632,9 +10639,6 @@ void msrKey::appendHumdrumScotKeyItem (
 
   fHumdrumScotKeyItemsVector.insert (
     fHumdrumScotKeyItemsVector.end(), item);
-
-  if (item->getKeyItemOctave () >= 0)
-    fKeyItemsOctavesAreSpecified = true;
 }
 
 void msrKey::acceptIn (basevisitor* v) {
@@ -10797,6 +10801,7 @@ void msrKey::print (ostream& os)
         ", fKeyItemsOctavesAreSpecified: " <<
         booleanAsString (
           fKeyItemsOctavesAreSpecified) <<
+        ", " <<
         fHumdrumScotKeyItemsVector.size () <<
         " items:";
 
@@ -10830,23 +10835,128 @@ void msrKey::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTimeItem msrTimeItem::create (
+  int inputLineNumber,
+  int timeBeatsNumber,
+  int timeBeatsValue)
+{
+  msrTimeItem* o =
+    new msrTimeItem (
+      inputLineNumber,
+      timeBeatsNumber, timeBeatsValue);
+  assert (o!=0);
+
+  return o;
+}
+
+msrTimeItem::msrTimeItem (
+  int inputLineNumber,
+  int timeBeatsNumber,
+  int timeBeatsValue)
+    : msrElement (inputLineNumber)
+{
+  fTimeBeatsNumber = timeBeatsNumber;
+  fTimeBeatsValue  = timeBeatsValue;
+  
+  if (gGeneralOptions->fTraceTimes) {
+    cerr << idtr <<
+      "Creating time item containing '" <<
+      "timeBeatsNumber = " << fTimeBeatsNumber <<
+      " and timeBeatsValue = " << fTimeBeatsValue <<
+      ", line = " << inputLineNumber <<
+      endl;
+  }
+}
+
+msrTimeItem::~msrTimeItem() {}
+
+void msrTimeItem::setKeyItemDiatonicPitch (
+  msrDiatonicPitch diatonicPitch)
+{
+  
+  fKeyDiatonicPitch = diatonicPitch;
+}
+
+void msrTimeItem::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTimeItem::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrTimeItem>*
+    p =
+      dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
+        S_msrTimeItem elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTimeItem::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrTimeItem::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrTimeItem::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrTimeItem>*
+    p =
+      dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
+        S_msrTimeItem elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrTimeItem::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrTimeItem::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTimeItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTimeItem::TimeItemAsString () const
+{
+  stringstream s;
+
+  s <<
+    "TimeItem" <<
+    ", timeBeatsNumber: " << fTimeBeatsNumber <<
+    ", timeBeatsValue: " << fTimeBeatsValue <<
+    ", line " << fInputLineNumber;
+     
+  return s.str();
+}
+
+void msrTimeItem::print (ostream& os)
+{
+  os <<
+    TimeItemAsString () <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrTime msrTime::create (
-  int           inputLineNumber,
-  int           beatsNumber,
-  int           beatsValue)
+  int inputLineNumber)
 {
   msrTime* o =
     new msrTime (
-      inputLineNumber,
-      beatsNumber, beatsValue);
+      inputLineNumber);
   assert (o!=0);
   return o;
 }
 
 msrTime::msrTime (
-  int           inputLineNumber,
-  int           beatsNumber,
-  int           beatsValue)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {
   fBeatsNumber = beatsNumber;

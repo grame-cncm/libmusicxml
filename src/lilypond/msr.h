@@ -2587,6 +2587,74 @@ typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
 
 /*!
+\brief A msr key representation.
+
+  A key is represented by the tonic and the mode
+*/
+//______________________________________________________________________________
+class EXP msrTimeItem : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTimeItem> create (
+      int inputLineNumber,
+      int timeBeatsNumber,
+      int timeBeatsValue);
+      
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTimeItem (
+      int inputLineNumber,
+      int beatsNumber,
+      int beatsValue);
+            
+    virtual ~msrTimeItem();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+                              
+    int                   getTimeBeatsNumber () const
+                              { return fTimeBeatsNumber; }
+                              
+    int                   getTimeBeatsValue () const
+                              { return fTimeBeatsValue; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                timeItemAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+  
+  private:
+  
+    int                   fTimeBeatsNumber;
+    int                   fTimeBeatsValue;
+};
+typedef SMARTP<msrTimeItem> S_msrTimeItem;
+EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
+
+/*!
 \brief A msr time representation.
 
   A time is represented by the numerator and denominator
@@ -2609,9 +2677,7 @@ class EXP msrTime : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTime> create (
-      int           inputLineNumber,
-      int           beatsNumber,
-      int           beatsValue);
+      int inputLineNumber);
 
   protected:
 
@@ -2619,9 +2685,7 @@ class EXP msrTime : public msrElement
     // ------------------------------------------------------
 
     msrTime (
-      int           inputLineNumber,
-      int           beatsNumber,
-      int           beatsValue);
+      int inputLineNumber);
       
     virtual ~msrTime();
   
@@ -2630,18 +2694,16 @@ class EXP msrTime : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getBeatsNumber () const
-                              { return fBeatsNumber; }
+    int                   getBeatsNumber () const;
                   
-    int                   getBeatsValue () const
-                              { return fBeatsValue; }
+    int                   getBeatsValue () const;
                   
     // services
     // ------------------------------------------------------
                   
-    string    timeAsShortString () const;
+    string                timeAsShortString () const;
     
-    string    timeAsString () const;
+    string                timeAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2658,8 +2720,8 @@ class EXP msrTime : public msrElement
 
   private:
 
-    int      fBeatsNumber;
-    int      fBeatsValue;
+    vector<S_msrTimeItem> fTimeItemsVector;
+    bool                  fTimeItemsBeatTypessAreSpecified;
 };
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);

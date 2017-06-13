@@ -3113,81 +3113,63 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             elt->getHumdrumScotKeyItemsVector ();
         
         if (humdrumScotKeyItemsVector.size ()) {
-          if (elt->getKeyItemsOctavesAreSpecified ()) {
-            fOstream <<
-              endl <<
-              "\\set Staff.keyAlterations = #`(";
-        //      "((octave . step) . alter) ((octave . step) . alter) ...)";
-  
-  //\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
-  
-                                    
-            vector<S_msrHumdrumScotKeyItem>::const_iterator
-              iBegin = humdrumScotKeyItemsVector.begin(),
-              iEnd   = humdrumScotKeyItemsVector.end(),
-              i      = iBegin;
-              
-            for ( ; ; ) {
-              S_msrHumdrumScotKeyItem item = (*i);
-                
-              fOstream <<
-                "(" <<
-                  "(" <<
-                  item->getKeyItemOctave () - 3 << // 3 is middle C in MusicXML
-                  " . " <<
-                  item->getKeyItemDiatonicPitch () <<
-                  ")" <<
-                " . ," <<
-                alterationAsLilypondString (
-                  item->getKeyItemAlteration ()) <<                
-                ")";
-                
-              if (++i == iEnd) break;
-              
-              fOstream << " ";
-            } // for
-  
-            fOstream <<
-              ")";
-          }
+          fOstream <<
+            endl <<
+            idtr <<
+            "\\set Staff.keyAlterations = #`(";
 
-          else {
-            fOstream <<
-              endl <<
-              "\\set Staff.keyAlterations = #`(";
-// Alternatively, for each item in the list, using the more concise format (step . alter) specifies that the same alteration should hold in all octaves.
-                                    
-            vector<S_msrHumdrumScotKeyItem>::const_iterator
-              iBegin = humdrumScotKeyItemsVector.begin(),
-              iEnd   = humdrumScotKeyItemsVector.end(),
-              i      = iBegin;
+          vector<S_msrHumdrumScotKeyItem>::const_iterator
+            iBegin = humdrumScotKeyItemsVector.begin(),
+            iEnd   = humdrumScotKeyItemsVector.end(),
+            i      = iBegin;
+            
+          for ( ; ; ) {
+            S_msrHumdrumScotKeyItem item = (*i);
               
-            for ( ; ; ) {
-              S_msrHumdrumScotKeyItem item = (*i);
-                
-              fOstream <<
-                "(" <<
-                item->getKeyItemDiatonicPitch () <<
-                " . ," <<
-                alterationAsLilypondString (
-                  item->getKeyItemAlteration ()) <<                
-                ")";
-                
-              if (++i == iEnd) break;
-              
-              fOstream << " ";
-            } // for
+            if (elt->getKeyItemsOctavesAreSpecified ()) {
+              //      "((octave . step) . alter) ((octave . step) . alter) ...)";
+              //\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
+    
+                                      
+                fOstream <<
+                  "(" <<
+                    "(" <<
+                    item->getKeyItemOctave () - 3 << // 3 is middle C in MusicXML
+                    " . " <<
+                    item->getKeyItemDiatonicPitch () <<
+                    ")" <<
+                  " . ," <<
+                  alterationAsLilypondString (
+                    item->getKeyItemAlteration ()) <<                
+                  ")";
+            }
   
-            fOstream <<
-              ")";
-          }
+            else {
+              // Alternatively, for each item in the list, using the more concise format (step . alter) specifies that the same alteration should hold in all octaves.
+                                      
+                fOstream <<
+                  "(" <<
+                  item->getKeyItemDiatonicPitch () <<
+                  " . ," <<
+                  alterationAsLilypondString (
+                    item->getKeyItemAlteration ()) <<                
+                  ")";
+            }
+                
+            if (++i == iEnd) break;
+            
+            fOstream << " ";
+          } // for
+  
+          fOstream <<
+            ")";
         }
         
         else {
             msrInternalError (
               elt->getInputLineNumber (),
               "Humdrum/Scot key items vector is empty");
-        }  
+        }
       }
       break;
   } // switch
