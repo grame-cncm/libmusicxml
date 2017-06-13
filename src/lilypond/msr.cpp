@@ -11149,7 +11149,7 @@ void msrTime::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
     
     idtr--;
