@@ -3227,6 +3227,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
     if (true || /* JMI */ elt->getTimeItemsBeatTypesAreDifferent ()) {
       // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+
+      // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
       
       // place all beats numbers in the list first
       for (int i = 0; i < timesItemsNumber; i++) {
