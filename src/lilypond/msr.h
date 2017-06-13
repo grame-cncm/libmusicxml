@@ -2711,7 +2711,9 @@ class EXP msrTime : public msrElement
     // ------------------------------------------------------
                   
     void                  appendTimeItem (
-                            S_msrTimeItem item);                                
+                            S_msrTimeItem item);
+
+    rational              wholeNotesPerMeasure () const;
 
     string                timeAsShortString () const;
     

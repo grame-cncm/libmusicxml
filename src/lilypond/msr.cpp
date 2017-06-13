@@ -11016,6 +11016,24 @@ void msrTime::appendTimeItem (
     fTimeItemsVector.end(), item);
 }
 
+rational msrTime::wholeNotesPerMeasure () const
+{
+  rational result (0, 1);
+
+  for (
+    vector<S_msrTimeItem>::const_iterator i = fTimeItemsVector.begin();
+    i != fTimeItemsVector.end();
+    i++) {
+    result +=
+      rational (
+        (*i)->getTimeBeatsNumber ()
+          /
+        (*i)->getTimeBeatsValue ());
+    } // for
+
+  return result;
+}
+
 void msrTime::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -13750,14 +13768,15 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
 {
   msrAssert(
     time != 0, "time is null");
+
+  int partDivisionsPerQuarterNote =
+    fMeasureDirectPartUplink->
+      getPartDivisionsPerQuarterNote ();
       
   fMeasureDivisionsPerFullMeasure =
-    fMeasureDirectPartUplink->
-      getPartDivisionsPerQuarterNote () * 4 // hence a whole note
+    time->wholeNotesPerMeasure ()
       *
-    time->getBeatsNumber ()
-      /
-    time->getBeatsValue ();
+    partDivisionsPerQuarterNote * 4; // hence a whole note
 
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
