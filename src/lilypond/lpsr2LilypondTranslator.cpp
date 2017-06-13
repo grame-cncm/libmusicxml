@@ -3223,55 +3223,38 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     fOstream <<
       endl <<
       idtr <<
-      "\\set Staff.keyAlterations = #`(";
+      "\\compoundMeter #`(";
 
-    vector<S_msrTimeItem>::const_iterator
-      iBegin = timeItemsVector.begin(),
-      iEnd   = timeItemsVector.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      S_msrTimeItem item = (*i);
+    if (! elt->getTimeItemsBeatTypesAreDifferent ()) {
+      //  \compoundMeter #'(3 2 8) for 3+2/8
+
+      // place all beats numbers in the list first
+      for (int i = 1; i < timesItemsNumber; i++) {
+        fOstream <<
+          timeItemsVector [i]->getTimeBeatsNumber () <<
+          " ";
+      } // for
+
+      // then place the beat type last
+        fOstream <<
+          timeItemsVector [0]->getTimeBeatsNumber ();
+    }
+
+    else {
+      //  \compoundMeter #'(3 2 8) for 3+2/8
+
+      // place all beats numbers in the list first
+      for (int i = 1; i < timesItemsNumber; i++) {
+        fOstream <<
+          timeItemsVector [i]->getTimeBeatsNumber () <<
+          " ";
+      } // for
+
+      // then place the beat type last
+        fOstream <<
+          timeItemsVector [0]->getTimeBeatsNumber ();
+    }
         
-      if (elt->getTimeItemsBeatTypesAreDifferent ()) {
-        //      "((octave . step) . alter) ((octave . step) . alter) ...)";
-        //\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
-
-/*
-                                
-          fOstream <<
-            "(" <<
-              "(" <<
-              item->getKeyItemOctave () - 3 << // 3 is middle C in MusicXML
-              " . " <<
-              item->getKeyItemDiatonicPitch () <<
-              ")" <<
-            " . ," <<
-            alterationAsLilypondString (
-              item->getKeyItemAlteration ()) <<                
-            ")";
-            */
-      }
-
-      else {
-        // Alternatively, for each item in the list, using the more concise format (step . alter) specifies that the same alteration should hold in all octaves.
-
-               /*                 
-          fOstream <<
-            "(" <<
-            item->getKeyItemDiatonicPitch () <<
-            " . ," <<
-            alterationAsLilypondString (
-              item->getKeyItemAlteration ()) <<                
-            ")";
-            */
-      }
-          
-      if (++i == iEnd) break;
-      
-      fOstream << " ";
-    } // for
-
     fOstream <<
       ")";
   }

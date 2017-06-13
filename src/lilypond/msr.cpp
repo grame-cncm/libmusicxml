@@ -15990,8 +15990,8 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "Appending time " << time->timeAsString () <<
-        " to segment " << segmentAsString () <<
+        "Appending time '" << time->timeAsString () <<
+        "' to segment " << segmentAsString () <<
         endl;
       
   // register time in segment
