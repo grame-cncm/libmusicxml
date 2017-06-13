@@ -11095,7 +11095,21 @@ string msrTime::timeAsShortString () const
   stringstream s;
 
   s <<
-    "Time," <<
+    "Time, " <<
+    booleanAsString (
+      fTimeItemsBeatTypesAreDifferent) <<
+    ", " << fTimeItemsVector.size () << "items" <<
+    ", line " << fInputLineNumber;
+
+  return s.str();
+}
+
+string msrTime::timeAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Time, " << 
     booleanAsString (
       fTimeItemsBeatTypesAreDifferent) <<
     ", " << fTimeItemsVector.size () << "items" <<
@@ -11108,20 +11122,6 @@ ostream& operator<< (ostream& os, const S_msrTime& elt)
 {
   elt->print (os);
   return os;
-}
-
-string msrTime::timeAsString () const
-{
-  stringstream s;
-
-  s <<
-    "Time \"" << 
-    booleanAsString (
-      fTimeItemsBeatTypesAreDifferent) <<
-    ", " << fTimeItemsVector.size () << "items" <<
-    ", line " << fInputLineNumber;
-
-  return s.str();
 }
 
 void msrTime::print (ostream& os)
