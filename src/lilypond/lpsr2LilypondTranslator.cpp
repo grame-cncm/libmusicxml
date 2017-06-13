@@ -3195,15 +3195,92 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       "'"  <<
       endl;
 
-  if (gLilypondOptions->fNumericalTime)
-    fOstream << "\\numericTimeSignature ";
+  const vector<S_msrTimeItem>&
+    timeItemsVector =
+      elt->getTimeItemsVector ();
+
+  int timesItemsNumber =
+    timeItemsVector.size ();
     
-  fOstream << idtr <<
-    "\\time" " " <<
-    elt->getBeatsNumber () <<
-    "/" <<
-    elt->getBeatsValue () <<
-    endl;
+  if (timesItemsNumber == 1) {
+    S_msrTimeItem
+      singleItem =
+        timeItemsVector [0];
+
+    if (gLilypondOptions->fNumericalTime)
+      fOstream << "\\numericTimeSignature ";
+      
+    fOstream << idtr <<
+      "\\time" " " <<
+      singleItem->getTimeBeatsNumber () <<
+      "/" <<
+      singleItem->getTimeBeatsValue () <<
+      endl;        
+  }
+
+  else if (timesItemsNumber > 1) {
+
+    fOstream <<
+      endl <<
+      idtr <<
+      "\\set Staff.keyAlterations = #`(";
+
+    vector<S_msrTimeItem>::const_iterator
+      iBegin = timeItemsVector.begin(),
+      iEnd   = timeItemsVector.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      S_msrTimeItem item = (*i);
+        
+      if (elt->getTimeItemsBeatTypesAreDifferent ()) {
+        //      "((octave . step) . alter) ((octave . step) . alter) ...)";
+        //\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
+
+/*
+                                
+          fOstream <<
+            "(" <<
+              "(" <<
+              item->getKeyItemOctave () - 3 << // 3 is middle C in MusicXML
+              " . " <<
+              item->getKeyItemDiatonicPitch () <<
+              ")" <<
+            " . ," <<
+            alterationAsLilypondString (
+              item->getKeyItemAlteration ()) <<                
+            ")";
+            */
+      }
+
+      else {
+        // Alternatively, for each item in the list, using the more concise format (step . alter) specifies that the same alteration should hold in all octaves.
+
+               /*                 
+          fOstream <<
+            "(" <<
+            item->getKeyItemDiatonicPitch () <<
+            " . ," <<
+            alterationAsLilypondString (
+              item->getKeyItemAlteration ()) <<                
+            ")";
+            */
+      }
+          
+      if (++i == iEnd) break;
+      
+      fOstream << " ";
+    } // for
+
+    fOstream <<
+      ")";
+  }
+  
+  else {
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "time items vector is empty");
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)

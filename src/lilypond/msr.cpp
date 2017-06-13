@@ -10765,7 +10765,7 @@ string msrKey::keyAsString () const
     case msrKey::kHumdrumScotKind:
       s <<
         fHumdrumScotKeyItemsVector.size () << "items" <<
-        ", KeyItemsOctavesAreSpecified: " <<
+        ", keyItemsOctavesAreSpecified: " <<
         booleanAsString (
           fKeyItemsOctavesAreSpecified);
       break;
@@ -10798,7 +10798,7 @@ void msrKey::print (ostream& os)
       
     case msrKey::kHumdrumScotKind:
       os <<
-        ", fKeyItemsOctavesAreSpecified: " <<
+        ", keyItemsOctavesAreSpecified: " <<
         booleanAsString (
           fKeyItemsOctavesAreSpecified) <<
         ", " <<
@@ -10959,8 +10959,7 @@ msrTime::msrTime (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fBeatsNumber = beatsNumber;
-  fBeatsValue  = beatsValue;
+  fTimeItemsBeatTypessAreDifferent = false;
 }
 
 msrTime::~msrTime() {}
@@ -11033,8 +11032,10 @@ string msrTime::timeAsString () const
 
   s <<
     "Time \"" << 
-    fBeatsNumber << "/" << fBeatsValue <<
-    "\", line " << fInputLineNumber;
+    fTimeItemsBeatTypessAreDifferent << <<
+    booleanAsString (
+      fTimeItemsBeatTypessAreDifferent) <<
+    ", line " << fInputLineNumber;
 
   return s.str();
 }
@@ -11042,8 +11043,39 @@ string msrTime::timeAsString () const
 void msrTime::print (ostream& os)
 {
   os <<
-    timeAsString () <<
-    endl;
+    "Time" <<
+    ", timeItemsBeatTypessAreDifferent: " <<
+    booleanAsString (
+      fTimeItemsBeatTypessAreDifferent) <<
+    ", " <<
+    fTimeItemsVector.size () <<
+    " items:";
+
+  if (fTimeItemsVector.size ()) {
+    os <<
+      endl;
+      
+    idtr++;
+    
+    vector<S_msrTimeItem>::const_iterator
+      iBegin = fTimeItemsVector.begin(),
+      iEnd   = fTimeItemsVector.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+// JMI     os << endl;
+    } // for
+    
+    idtr--;
+  }
+  
+  else
+    {
+      os <<
+        " none";
+    }
 }
 
 //______________________________________________________________________________

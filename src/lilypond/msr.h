@@ -2694,10 +2694,16 @@ class EXP msrTime : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getBeatsNumber () const;
+    void                  setTimeItemsBeatTypesAreDifferent ()
+                            { fTimeItemsBeatTypesAreDifferent = true; }
+                              
+    bool                  getTimeItemsBeatTypesAreDifferent () const
+                              { return fTimeItemsBeatTypesAreDifferent; }
                   
-    int                   getBeatsValue () const;
-                  
+    const vector<S_msrTimeItem>&
+                          getTimeItemsVector ()
+                              { return fTimeItemsVector; }
+
     // services
     // ------------------------------------------------------
                   
@@ -2721,7 +2727,7 @@ class EXP msrTime : public msrElement
   private:
 
     vector<S_msrTimeItem> fTimeItemsVector;
-    bool                  fTimeItemsBeatTypessAreSpecified;
+    bool                  fTimeItemsBeatTypesAreDifferent;
 };
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
