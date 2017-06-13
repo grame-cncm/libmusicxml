@@ -2536,8 +2536,8 @@ class EXP msrKey : public msrElement
 
     // Humdrum/Scot keys
 
-    void                  setKeyItemsOctavesAreSpecified ()
-                            { fKeyItemsOctavesAreSpecified = true; }
+ //   void                  setKeyItemsOctavesAreSpecified ()
+ //                           { fKeyItemsOctavesAreSpecified = true; }
                               
     bool                  getKeyItemsOctavesAreSpecified () const
                               { return fKeyItemsOctavesAreSpecified; }
@@ -2679,6 +2679,9 @@ class EXP msrTime : public msrElement
     static SMARTP<msrTime> create (
       int inputLineNumber);
 
+    static SMARTP<msrTime> createFourQuartersTime (
+      int inputLineNumber);
+
   protected:
 
     // constructors/destructor
@@ -2694,8 +2697,8 @@ class EXP msrTime : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setTimeItemsBeatTypesAreDifferent ()
-                            { fTimeItemsBeatTypesAreDifferent = true; }
+ //   void                  setTimeItemsBeatTypesAreDifferent ()
+  //                          { fTimeItemsBeatTypesAreDifferent = true; }
                               
     bool                  getTimeItemsBeatTypesAreDifferent () const
                               { return fTimeItemsBeatTypesAreDifferent; }
@@ -2730,6 +2733,8 @@ class EXP msrTime : public msrElement
   private:
 
     vector<S_msrTimeItem> fTimeItemsVector;
+
+    int                   fFirstItemBeatsValue;
     bool                  fTimeItemsBeatTypesAreDifferent;
 };
 typedef SMARTP<msrTime> S_msrTime;
@@ -2853,25 +2858,6 @@ class EXP msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
-
-    // clef, key, time
-    
-    void                  setMeasureCurrentClef (S_msrClef clef)
-                              { fMeasureCurrentClef = clef; }
-
-    S_msrClef             getMeasureCurrentClef () const
-                              { return fMeasureCurrentClef; }
-
-    void                  setMeasureCurrentKey (S_msrKey key)
-                              { fMeasureCurrentKey = key; }
-
-    S_msrKey              getMeasureCurrentKey () const
-                              { return fMeasureCurrentKey; }
-
-    void                  setMeasureCurrentTime (S_msrTime time); // JMI
-
-    S_msrTime             getMeasureCurrentTime () const
-                              { return fMeasureCurrentTime; }
 
     // chords handling
     
@@ -3114,13 +3100,7 @@ class EXP msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
                         
-    // clef, key, time
-    
-    S_msrClef             fMeasureCurrentClef;
-    S_msrKey              fMeasureCurrentKey;
-    S_msrTime             fMeasureCurrentTime;
-
-    // /chords handling
+    // chords handling
     
     S_msrNote             fMeasureLastHandledNote;
     

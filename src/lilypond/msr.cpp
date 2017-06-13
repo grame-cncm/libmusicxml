@@ -10637,6 +10637,11 @@ void msrKey::appendHumdrumScotKeyItem (
       endl;
     }
 
+  // have key items octaves been specified?
+  if (item->getKeyItemOctave () >= 0)
+    fKeyItemsOctavesAreSpecified = true;;
+
+  // append the item to the vector
   fHumdrumScotKeyItemsVector.insert (
     fHumdrumScotKeyItemsVector.end(), item);
 }
@@ -10870,13 +10875,6 @@ msrTimeItem::msrTimeItem (
 
 msrTimeItem::~msrTimeItem() {}
 
-void msrTimeItem::setKeyItemDiatonicPitch (
-  msrDiatonicPitch diatonicPitch)
-{
-  
-  fKeyDiatonicPitch = diatonicPitch;
-}
-
 void msrTimeItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -10924,7 +10922,7 @@ ostream& operator<< (ostream& os, const S_msrTimeItem& elt)
   return os;
 }
 
-string msrTimeItem::TimeItemAsString () const
+string msrTimeItem::timeItemAsString () const
 {
   stringstream s;
 
@@ -10940,7 +10938,7 @@ string msrTimeItem::TimeItemAsString () const
 void msrTimeItem::print (ostream& os)
 {
   os <<
-    TimeItemAsString () <<
+    timeItemAsString () <<
     endl;
 }
 
@@ -10959,10 +10957,64 @@ msrTime::msrTime (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fTimeItemsBeatTypessAreDifferent = false;
+  fFirstItemBeatsValue = -1;
+  fTimeItemsBeatTypesAreDifferent = false;
+}
+
+S_msrTime msrTime::createFourQuartersTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (inputLineNumber);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    item =
+      msrTimeItem::create (
+        inputLineNumber, 4, 4);
+
+  // append it to the time
+  time->
+    appendTimeItem (item);
+
+  // return the time
+  return time;
 }
 
 msrTime::~msrTime() {}
+
+void msrTime::appendTimeItem (
+  S_msrTimeItem item)
+{
+  if (gGeneralOptions->fTraceTimes) {
+    cerr << idtr <<
+      "Append item '" <<
+      item->timeItemAsString () <<
+      "' to time '" <<
+      "'" <<
+      endl;
+    }
+
+  if (fTimeItemsVector.size ()) {
+    // this is the first item inserted
+    fFirstItemBeatsValue =
+      item->getTimeBeatsValue ();
+  }
+  else {
+    // are there differents beat types?
+    if (
+      item->getTimeBeatsValue ()
+        !=
+      fFirstItemBeatsValue)
+    fTimeItemsBeatTypesAreDifferent = true;
+  }
+
+  // append the item to the vector
+  fTimeItemsVector.insert (
+    fTimeItemsVector.end(), item);
+}
 
 void msrTime::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -11005,41 +11057,24 @@ void msrTime::acceptOut (basevisitor* v) {
 void msrTime::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTime& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrKey::appendTimeItem (
-  S_msrTimeItem item)
-{
-  if (gGeneralOptions->fTraceTimes) {
-    cerr << idtr <<
-      "Append item '" <<
-      item->TimeItemAsString () <<
-      "' to key '" <<
-      "'" <<
-      endl;
-    }
-
-  fTimeItemsVector.insert (
-    fTimeItemsVector.end(), item);
-}
-
 string msrTime::timeAsShortString () const
 {
   stringstream s;
 
   s <<
-    fBeatsNumber << "/" << fBeatsValue;
-  /* JMI
-    "Time \"" << 
-    fBeatsNumber << "/" << fBeatsValue <<
-    "\"";
-    */
+    "Time," <<
+    booleanAsString (
+      fTimeItemsBeatTypesAreDifferent) <<
+    ", " << fTimeItemsVector.size () << "items" <<
+    ", line " << fInputLineNumber;
 
   return s.str();
+}
+
+ostream& operator<< (ostream& os, const S_msrTime& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 string msrTime::timeAsString () const
@@ -11048,9 +11083,9 @@ string msrTime::timeAsString () const
 
   s <<
     "Time \"" << 
-    fTimeItemsBeatTypessAreDifferent << <<
     booleanAsString (
-      fTimeItemsBeatTypessAreDifferent) <<
+      fTimeItemsBeatTypesAreDifferent) <<
+    ", " << fTimeItemsVector.size () << "items" <<
     ", line " << fInputLineNumber;
 
   return s.str();
@@ -11062,7 +11097,7 @@ void msrTime::print (ostream& os)
     "Time" <<
     ", timeItemsBeatTypessAreDifferent: " <<
     booleanAsString (
-      fTimeItemsBeatTypessAreDifferent) <<
+      fTimeItemsBeatTypesAreDifferent) <<
     ", " <<
     fTimeItemsVector.size () <<
     " items:";
@@ -11081,7 +11116,7 @@ void msrTime::print (ostream& os)
     for ( ; ; ) {
       os << idtr << (*i);
       if (++i == iEnd) break;
-// JMI     os << endl;
+      os << endl;
     } // for
     
     idtr--;
@@ -13609,9 +13644,9 @@ void msrMeasure::initializeMeasure ()
 
   fMeasureKind = kUnknownMeasureKind;
 
-  // fetch measure time from the part,
-  // which will set fMeasureDivisionsPerFullMeasure
-  setMeasureCurrentTime (
+  // fetch measure time from the part and append it to the measure,
+  // which will set fMeasureDivisionsPerFullMeasure // JMI
+  appendTimeToMeasure (
     fMeasureDirectPartUplink->
       getPartCurrentTime ());
         
@@ -13668,7 +13703,7 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
 
   // set clone time
   clone->
-    setMeasureCurrentTime (
+    appendTimeToMeasure (
       directPartUplink->
         getPartCurrentTime ());
 
@@ -13693,13 +13728,29 @@ void msrMeasure::setMeasurePosition (
   fMeasurePosition = measurePosition;
 }
 
+/*
 void msrMeasure::setMeasureCurrentTime (S_msrTime time)
+{
+}
+*/
+
+void msrMeasure::appendClefToMeasure (S_msrClef clef)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (clef);
+}
+
+void msrMeasure::appendKeyToMeasure (S_msrKey key)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (key);
+}
+
+void msrMeasure::appendTimeToMeasure (S_msrTime time)
 {
   msrAssert(
     time != 0, "time is null");
-    
-  fMeasureCurrentTime = time;
-  
+      
   fMeasureDivisionsPerFullMeasure =
     fMeasureDirectPartUplink->
       getPartDivisionsPerQuarterNote () * 4 // hence a whole note
@@ -13722,23 +13773,8 @@ void msrMeasure::setMeasureCurrentTime (S_msrTime time)
         "divisions per full measure",
         "division per full measure") <<
       endl;
-}
 
-void msrMeasure::appendClefToMeasure (S_msrClef clef)
-{
-  // append it to the measure elements list
-  fMeasureElementsList.push_back (clef);
-}
-
-void msrMeasure::appendKeyToMeasure (S_msrKey key)
-{
-  // append it to the measure elements list
-  fMeasureElementsList.push_back (key);
-}
-
-void msrMeasure::appendTimeToMeasure (S_msrTime time)
-{
-  // append it to the measure elements list
+  // append time to the measure elements list
   fMeasureElementsList.push_back (time);
 }
 
@@ -15576,32 +15612,23 @@ void msrMeasure::print (ostream& os)
   os <<
     endl <<
     idtr <<
-      "Measure " << fMeasureNumber;
-
-  if (fMeasureCurrentTime)
-    os <<
-      ", " << fMeasureCurrentTime->timeAsShortString ();
-  else
-    os <<
-      ", time unknown";
-
-  os <<
-    ", " << getMeasureKindAsString () <<
-    ", " <<
-    msrMeasure::measureFirstInSegmentKindAsString (
-      fMeasureFirstInSegmentKind) << 
-    ", line " << fInputLineNumber <<
-    ", length: " << getMeasureLength () << " divs" <<
-    " (" << getMeasureLengthAsString () << ")" <<
-    ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
- // JMI   ", pos = " << fMeasurePosition << ", " <<
-    ", " <<
-    singularOrPlural (
-      fMeasureElementsList.size (), "element", "elements") <<
-// JMI      ", part high tide = " <<
-// JMI      fMeasureDirectPartUplink->
-// JMI        getPartMeasurePositionHighTide () <<
-    endl;
+      "Measure " << fMeasureNumber <<
+      ", " << getMeasureKindAsString () <<
+      ", " <<
+      msrMeasure::measureFirstInSegmentKindAsString (
+        fMeasureFirstInSegmentKind) << 
+      ", line " << fInputLineNumber <<
+      ", length: " << getMeasureLength () << " divs" <<
+      " (" << getMeasureLengthAsString () << ")" <<
+      ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
+   // JMI   ", pos = " << fMeasurePosition << ", " <<
+      ", " <<
+      singularOrPlural (
+        fMeasureElementsList.size (), "element", "elements") <<
+  // JMI      ", part high tide = " <<
+  // JMI      fMeasureDirectPartUplink->
+  // JMI        getPartMeasurePositionHighTide () <<
+      endl;
       
   if (fMeasureElementsList.size ()) {
     idtr++;
@@ -15701,18 +15728,6 @@ void msrSegment::createSegmentInitialMeasure () // JMI
         firstMeasureNumber,
         this);
 
-/* jmi
-  // set the measure clef JMI
-  firstMeasure->
-    setMeasureCurrentClef (
-      fSegmentVoiceUplink->getVoiceClef ());
-
-  // set the measure key JMI
-  firstMeasure->
-    setMeasureCurrentKey (
-      fSegmentVoiceUplink->getVoiceKey ());
-*/
-
   // set the measure time JMI
   fSegmentCurrentTime =
     fSegmentVoiceUplink->
@@ -15721,13 +15736,12 @@ void msrSegment::createSegmentInitialMeasure () // JMI
   if (! fSegmentCurrentTime) {
     // use the implicit initial 4/4 time signature
     fSegmentCurrentTime =
-      msrTime::create (
-        fInputLineNumber,
-        4, 4);
+      msrTime::createFourQuartersTime (
+        fInputLineNumber);
   }
 
   firstMeasure->
-    setMeasureCurrentTime (
+    appendTimeToMeasure (
       fSegmentCurrentTime);        
 
   // append firstMeasure to the segment
@@ -16643,9 +16657,8 @@ void msrSegment::print (ostream& os)
   if (! fSegmentCurrentTime) {
     // use the implicit initial 4/4 time signature
     fSegmentCurrentTime =
-      msrTime::create (
-        fInputLineNumber,
-        4, 4);
+      msrTime::createFourQuartersTime (
+        fInputLineNumber);
   }
 
   os <<
@@ -21335,9 +21348,8 @@ void msrStaff::initializeStaff ()
           
       // create the implicit initial 4/4 time signature
       setStaffCurrentTime (
-        msrTime::create (
-          fInputLineNumber,
-          4, 4));
+        msrTime::createFourQuartersTime (
+          fInputLineNumber));
     }
   }
   
@@ -22543,9 +22555,8 @@ void msrPart::initializePart ()
 
   // set part current time to the default 4/4 time signature
   fPartCurrentTime =
-    msrTime::create (
-      fInputLineNumber,
-      4, 4);
+    msrTime::createFourQuartersTime (
+      fInputLineNumber);
 
   // the part harmony staff and voice will be created later
   // in setPartDivisionsPerQuarterNote()
