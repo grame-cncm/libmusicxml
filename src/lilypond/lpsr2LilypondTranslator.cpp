@@ -3225,7 +3225,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         
         // should the time be numeric?
         if (
-          elt->getTimeSymbolKind ()
+          elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
             ||
           gLilypondOptions->fNumericalTime) {
           fOstream << "\\numericTimeSignature ";
