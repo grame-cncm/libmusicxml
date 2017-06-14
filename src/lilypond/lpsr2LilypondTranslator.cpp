@@ -3127,7 +3127,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             S_msrHumdrumScotKeyItem item = (*i);
               
             if (elt->getKeyItemsOctavesAreSpecified ()) {
-              //      "((octave . step) . alter) ((octave . step) . alter) ...)";
+              //   JMI   "((octave . step) . alter) ((octave . step) . alter) ...)";
               //\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
     
                                       
@@ -3201,74 +3201,100 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
   int timesItemsNumber =
     timeItemsVector.size ();
-    
-  if (timesItemsNumber == 1) {
+
+  // handle all the time items in the vector
+  for (int i = 0; i < timesItemsNumber; i++) {
     S_msrTimeItem
-      singleItem =
-        timeItemsVector [0];
+      timeItem =
+        timeItemsVector [i];
 
-    if (gLilypondOptions->fNumericalTime)
-      fOstream << "\\numericTimeSignature ";
-      
-    fOstream << idtr <<
-      "\\time" " " <<
-      singleItem->getTimeBeatsNumber () <<
-      "/" <<
-      singleItem->getTimeBeatValue () <<
-      endl;        
-  }
+    // fetch the time item beat numbers vector
+    const vector<int>&
+      beatsNumbersVector =
+        timeItem->
+          getTimeBeatsNumbersVector ();
 
-  else if (timesItemsNumber > 1) {
+    int vectorSize =
+      beatsNumbersVector.size ();
 
-    fOstream <<
-      endl <<
-      idtr <<
-      "\\compoundMeter #`(";
-
-    if (true || /* JMI */ elt->getTimeItemsBeatTypesAreDifferent ()) {
-      // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
-
-      // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
-      
-      // place all beats numbers in the list first
-      for (int i = 0; i < timesItemsNumber; i++) {
-        fOstream <<
-          "(" <<
-          timeItemsVector [i]->getTimeBeatsNumber () <<
-          " " <<
-          timeItemsVector [i]->getTimeBeatValue () <<
-          ")";
-
-        if (i != timesItemsNumber - 1)
-          fOstream <<
-            " ";
-      } // for
-    }
-
-    else {
-      //  \compoundMeter #'(3 2 8) for 3+2/8
-
-      // place all beats numbers in the list first
-      for (int i = 0; i < timesItemsNumber; i++) {
-        fOstream <<
-          timeItemsVector [i]->getTimeBeatsNumber () <<
-          " ";
-      } // for
-
-      // then place the beat type last
-        fOstream <<
-          timeItemsVector [0]->getTimeBeatValue ();
-    }
-        
-    fOstream <<
-      ")";
-  }
+    if (vectorSize == 1) {
+      S_msrTimeItem
+        singleItem =
+          timeItemsVector [0];
   
-  else {
-      msrInternalError (
-        elt->getInputLineNumber (),
-        "time items vector is empty");
-  }
+      if (
+        true // JMI
+          ||
+        gLilypondOptions->fNumericalTime) {
+        fOstream << "\\numericTimeSignature ";
+      }
+        
+      fOstream << idtr <<
+        "\\time" " " <<
+        singleItem->getTimeBeatsNumber () <<
+        "/" <<
+        singleItem->getTimeBeatValue () <<
+        endl;        
+    }
+      
+    else if (timesItemsNumber > 1) {
+  
+      fOstream <<
+        endl <<
+        idtr <<
+        "\\compoundMeter #`(";
+  
+        //  \compoundMeter #'(3 2 8) for 3+2/8
+
+        // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+  
+        // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+
+      if (true || /* JMI */ elt->getTimeItemsBeatTypesAreDifferent ()) {
+        
+        // place all beats numbers in the list first
+        for (int i = 0; i < timesItemsNumber; i++) {
+          fOstream <<
+            "(" <<
+            timeItemsVector [i]->getTimeBeatsNumber () <<
+            " " <<
+            timeItemsVector [i]->getTimeBeatValue () <<
+            ")";
+  
+          if (i != timesItemsNumber - 1)
+            fOstream <<
+              " ";
+        } // for
+      }
+  
+      else {
+  
+        // place all beats numbers in the list first
+        for (int i = 0; i < timesItemsNumber; i++) {
+          fOstream <<
+            timeItemsVector [i]->getTimeBeatsNumber () <<
+            " ";
+        } // for
+  
+        // then place the beat type last
+          fOstream <<
+            timeItemsVector [0]->getTimeBeatValue ();
+      }
+          
+      fOstream <<
+        ")";
+    }
+    
+    else {
+        msrInternalError (
+          elt->getInputLineNumber (),
+          "time items vector is empty");
+    }
+
+    if (i != timesItemsNumber - 1)
+      fOstream <<
+        " ";
+  } // for
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)

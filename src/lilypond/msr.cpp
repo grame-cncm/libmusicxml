@@ -11144,9 +11144,12 @@ string msrTime::timeAsShortString () const
 
   s <<
     "Time, " <<
+    ", timeItemsBeatTypesAreDifferent: " <<
     booleanAsString (
       fTimeItemsBeatTypesAreDifferent) <<
-    ", " << fTimeItemsVector.size () << "items" <<
+    ", " <<
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items") <<
     ", line " << fInputLineNumber;
 
   return s.str();
@@ -11158,9 +11161,12 @@ string msrTime::timeAsString () const
 
   s <<
     "Time, " << 
+    ", timeItemsBeatTypesAreDifferent: " <<
     booleanAsString (
       fTimeItemsBeatTypesAreDifferent) <<
-    ", " << fTimeItemsVector.size () << "items" <<
+    ", " <<
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items") <<
     ", line " << fInputLineNumber;
 
   return s.str();
@@ -11180,8 +11186,8 @@ void msrTime::print (ostream& os)
     booleanAsString (
       fTimeItemsBeatTypesAreDifferent) <<
     ", " <<
-    fTimeItemsVector.size () <<
-    " items:";
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items");
 
   if (fTimeItemsVector.size ()) {
     os <<
@@ -15810,6 +15816,7 @@ void msrSegment::createSegmentInitialMeasure () // JMI
         firstMeasureNumber,
         this);
 
+/* JMI
   // set the measure time JMI
   fSegmentCurrentTime =
     fSegmentVoiceUplink->
@@ -15821,6 +15828,7 @@ void msrSegment::createSegmentInitialMeasure () // JMI
       msrTime::createFourQuartersTime (
         fInputLineNumber);
   }
+*/
 
   firstMeasure->
     appendTimeToMeasure (
@@ -16736,12 +16744,14 @@ void msrSegment::print (ostream& os)
     singularOrPlural (
       fSegmentMeasuresList.size(), "measure", "measures");
 
+/* JMI
   if (! fSegmentCurrentTime) {
     // use the implicit initial 4/4 time signature
     fSegmentCurrentTime =
       msrTime::createFourQuartersTime (
         fInputLineNumber);
   }
+*/
 
   os <<
     ", SegmentCurrentTime" << " = " <<
@@ -21419,6 +21429,7 @@ void msrStaff::initializeStaff ()
       setStaffCurrentTime (time);
     }
     else {
+      /* JMI
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
           "Setting default 4/4 time " <<
@@ -21432,6 +21443,7 @@ void msrStaff::initializeStaff ()
       setStaffCurrentTime (
         msrTime::createFourQuartersTime (
           fInputLineNumber));
+          */
     }
   }
   
