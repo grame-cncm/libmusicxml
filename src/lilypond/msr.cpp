@@ -11103,15 +11103,6 @@ rational msrTime::wholeNotesPerMeasure () const
       "time items vector is empty");
   }
 
-  if (gGeneralOptions->fTraceTimes) {
-    cerr << idtr <<
-      "Time " << timeAsString () <<
-      " has " <<
-      result.getNumerator () << "/" << result.getDenominator () <<
-      " whole note(s) per measure" <<
-      ", line " << fInputLineNumber;
-  }
-  
   return result;
 }
 
@@ -13894,11 +13885,29 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   int partDivisionsPerQuarterNote =
     fMeasureDirectPartUplink->
       getPartDivisionsPerQuarterNote ();
+
+  rational
+    whoseNotesPerMeasure =
+      time->wholeNotesPerMeasure ();
       
+  if (gGeneralOptions->fTraceTimes) {
+    cerr << idtr <<
+      "Time " << time->timeAsString () <<
+      " has " <<
+      whoseNotesPerMeasure.getNumerator () <<
+      "/" <<
+      whoseNotesPerMeasure.getDenominator () <<
+      " whole note(s) per measure" <<
+      ", line " << fInputLineNumber;
+  }
+  
   fMeasureDivisionsPerFullMeasure =
-    time->wholeNotesPerMeasure ()
+    whoseNotesPerMeasure.getNumerator ()
       *
-    partDivisionsPerQuarterNote * 4; // hence a whole note
+    partDivisionsPerQuarterNote * 4 // hence a whole note
+      /
+    whoseNotesPerMeasure.getDenominator ();
+  
 
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
