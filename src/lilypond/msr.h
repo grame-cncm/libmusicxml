@@ -2777,6 +2777,7 @@ class EXP msrMeasure : public msrElement
         kUpbeatMeasureKind,
         kUnderfullMeasureKind,
         kOverfullMeasureKind,
+        // kSenzaMisuraMeasureKind, // JMI
         kEmptyMeasureKind}; // for <measure ... />
     
     static string measureKindAsString (

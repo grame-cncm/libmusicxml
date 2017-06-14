@@ -3209,7 +3209,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
         fOstream <<
           idtr <<
-            "\\hide Staff.TimeSignature" <<
+            "\\omit Staff.TimeSignature" <<
           endl;
       }
 
