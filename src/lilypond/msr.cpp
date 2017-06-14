@@ -10959,7 +10959,7 @@ string msrTimeItem::timeItemAsString () const
       s <<
         fTimeBeatsNumbersVector [i];
 
-      if (i == vectorSize - 1)
+      if (i != vectorSize - 1)
         s <<
           " ";
       } // for
@@ -11103,6 +11103,15 @@ rational msrTime::wholeNotesPerMeasure () const
       "time items vector is empty");
   }
 
+  if (gGeneralOptions->fTraceTimes) {
+    cerr << idtr <<
+      "Time " << timeAsString () <<
+      " has " <<
+      result.getNumerator () << "/" << result.getDenominator () <<
+      " whole note per measure" <<
+      ", line " << fInputLineNumber;
+  }
+  
   return result;
 }
 

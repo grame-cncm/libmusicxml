@@ -3279,10 +3279,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
             fOstream <<
               " ";
         } // for
-    
+    /* JMI
         // then place the beat type last
           fOstream <<
             timeItem->getTimeBeatValue ();
+            */
+
+        if (i != timesItemsNumber - 1)
+          fOstream <<
+            " ";
       } // for
             
     fOstream <<
