@@ -3248,7 +3248,32 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
             idtr;
         }
   
-        
+        /* dotted-note: JMI
+\relative {
+  \override Staff.TimeSignature.stencil = #(lambda (grob)
+                                             (grob-interpret-markup grob #{
+                                               \markup\override #'(baseline-skip . 0.5) {
+                                                 \column { \number 2 \tiny\note #"4." #-1 }
+                                                 \vcenter "="
+                                                 \column { \number 6 \tiny\note #"8" #-1 }
+                                                 \vcenter "="
+                                                 \column\number { 6 8 }
+                                               }
+                                               #}))
+                                               *
+     * ou plus simle
+     * #(define-public (format-time-sig-note grob)
+(let* ((frac (ly:grob-property grob 'fraction))
+(num (if (pair? frac) (car frac) 4))
+(den (if (pair? frac) (cdr frac) 4))
+(m (markup #:override '(baseline-skip . 0.5)
+#:center-column (#:number (number->string num)
+#'" "
+#:override '(style . default)
+#:note (number->string den) DOWN))))
+(grob-interpret-markup grob m)))
+
+         */
         fOstream <<
           "\\time" " " <<
           beatsNumbersVector [0] << // the only element
