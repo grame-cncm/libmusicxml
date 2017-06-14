@@ -11013,7 +11013,9 @@ S_msrTime msrTime::createFourQuartersTime (
   // create the time
   S_msrTime
     time =
-      msrTime::create (inputLineNumber);
+      msrTime::create (
+        inputLineNumber,
+        msrTime::k_NoTimeSymbol);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -11044,6 +11046,7 @@ void msrTime::appendTimeItem (
       "Append item '" <<
       timeItem->timeItemAsString () <<
       "' to time '" <<
+      "JMI" <<
       "'" <<
       endl;
     }
@@ -11144,7 +11147,7 @@ void msrTime::acceptOut (basevisitor* v) {
 void msrTime::browseData (basevisitor* v)
 {}
 
-string timeSymbolKindAsString (
+string msrTime::timeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind)
 {
   string result;

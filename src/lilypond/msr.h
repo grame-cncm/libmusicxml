@@ -2696,7 +2696,8 @@ class EXP msrTime : public msrElement
     // ------------------------------------------------------
 
     msrTime (
-      int inputLineNumber);
+      int               inputLineNumber,
+      msrTimeSymbolKind timeSymbolKind);
       
     virtual ~msrTime();
   
