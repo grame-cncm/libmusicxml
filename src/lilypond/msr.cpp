@@ -11195,6 +11195,9 @@ string msrTime::timeSymbolKindAsString (
     case msrTime::kTimeSymbolSingleNumber:
       result = "single number";
       break;
+    case msrTime::kTimeSymbolSenzaMisura:
+      result = "senza misura";
+      break;
     case msrTime::k_NoTimeSymbol:
       result = "none";
       break;
@@ -13948,52 +13951,78 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     idtr--;
   }
 
-  int partDivisionsPerQuarterNote =
-    fMeasureDirectPartUplink->
-      getPartDivisionsPerQuarterNote ();
+  S_msrTime
+    segmentTime =
+      fMeasureSegmentUplink->
+        getSegmentCurrentTime ();
 
-  rational
-    wholeNotesPerMeasure =
-      time->wholeNotesPerMeasure ();
-      
-  if (gGeneralOptions->fTraceTimes) {
-    cerr <<
-      idtr <<
-        time;
+  if (segmentTime->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
+    // measure is senza misura
+    fMeasureDivisionsPerFullMeasure = 0;
+      // so the measure will be overfull, hence a cadenza
 
-    cerr <<
-      idtr <<
-        "has " <<
-        wholeNotesPerMeasure.getNumerator () <<
-        "/" <<
-        wholeNotesPerMeasure.getDenominator () <<
-        " whole note(s) per measure" <<
-        ", line " << fInputLineNumber <<
+    if (gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        " is senza misura" <<
         endl;
+// JMI      
   }
   
-  fMeasureDivisionsPerFullMeasure =
-    wholeNotesPerMeasure.getNumerator ()
-      *
-    partDivisionsPerQuarterNote * 4 // hence a whole note
-      /
-    wholeNotesPerMeasure.getDenominator ();
+  else {
+    // timed measure
+    int partDivisionsPerQuarterNote =
+      fMeasureDirectPartUplink->
+        getPartDivisionsPerQuarterNote ();
   
-
-  if (gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      " has " <<
-      singularOrPlural (
-        fMeasureDivisionsPerFullMeasure,
-        "divisions per full measure",
-        "division per full measure") <<
-      endl;
+    rational
+      wholeNotesPerMeasure =
+        time->wholeNotesPerMeasure ();
+        
+    if (gGeneralOptions->fTraceTimes) {
+      cerr <<
+        idtr <<
+          time;
+  
+      cerr <<
+        idtr <<
+          "has " <<
+          wholeNotesPerMeasure.getNumerator () <<
+          "/" <<
+          wholeNotesPerMeasure.getDenominator () <<
+          " whole note(s) per measure" <<
+          ", line " << fInputLineNumber <<
+          endl;
+    }
+    
+    fMeasureDivisionsPerFullMeasure =
+      wholeNotesPerMeasure.getNumerator ()
+        *
+      partDivisionsPerQuarterNote * 4 // hence a whole note
+        /
+      wholeNotesPerMeasure.getDenominator ();
+    
+  
+    if (gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        " has " <<
+        singularOrPlural (
+          fMeasureDivisionsPerFullMeasure,
+          "divisions per full measure",
+          "division per full measure") <<
+        endl;
+  }
 
   // append time to the measure elements list
   fMeasureElementsList.push_back (time);

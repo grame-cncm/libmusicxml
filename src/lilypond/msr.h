@@ -2675,7 +2675,8 @@ class EXP msrTime : public msrElement
         kTimeSymbolCut,
         kTimeSymbolNote,
         kTimeSymbolDottedNote,
-        kTimeSymbolSingleNumber };
+        kTimeSymbolSingleNumber,
+        kTimeSymbolSenzaMisura };
 
     static string timeSymbolKindAsString (
       msrTimeSymbolKind timeSymbolKind);

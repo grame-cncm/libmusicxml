@@ -3206,50 +3206,60 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
     if (! elt->getTimeIsCompound ()) {
 
-      // simple time
-      // \time "3/4" for 3/4
-      
-      fOstream <<
-        idtr;
-
-      S_msrTimeItem
-        timeItem =
-          timeItemsVector [0]; // the only element;
-  
-      // fetch the time item beat numbers vector
-      const vector<int>&
-        beatsNumbersVector =
-          timeItem->
-            getTimeBeatsNumbersVector ();
-  
-      // should the time be numeric?
-      if (
-        elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
-          ||
-        gLilypondOptions->fNumericalTime) {
+      if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
         fOstream <<
-          "\\numericTimeSignature ";
+          idtr <<
+            "\\hide Staff.TimeSignature" <<
+          endl;
       }
 
-      // should there be a single number?
-      if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSingleNumber) {
+      else {
+        // simple time
+        // \time "3/4" for 3/4
+        // or senza misura
+        
         fOstream <<
-          "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
-          endl <<
           idtr;
-      }
-
-      
-      fOstream <<
-        "\\time" " " <<
-        beatsNumbersVector [0] << // the only element
-        "/" <<
-        timeItem->getTimeBeatValue () <<
-        endl;        
+  
+        S_msrTimeItem
+          timeItem =
+            timeItemsVector [0]; // the only element;
+    
+        // fetch the time item beat numbers vector
+        const vector<int>&
+          beatsNumbersVector =
+            timeItem->
+              getTimeBeatsNumbersVector ();
+    
+        // should the time be numeric?
+        if (
+          elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
+            ||
+          gLilypondOptions->fNumericalTime) {
+          fOstream <<
+            "\\numericTimeSignature ";
+        }
+  
+        // should there be a single number?
+        if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSingleNumber) {
+          fOstream <<
+            "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
+            endl <<
+            idtr;
+        }
+  
+        
+        fOstream <<
+          "\\time" " " <<
+          beatsNumbersVector [0] << // the only element
+          "/" <<
+          timeItem->getTimeBeatValue () <<
+          endl;
+      }  
     }
       
     else {
-  
+
       // compound time
       // \compoundMeter #'(3 2 8) for 3+2/8
       // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
