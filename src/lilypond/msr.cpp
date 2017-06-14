@@ -10987,21 +10987,24 @@ void msrTimeItem::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTime msrTime::create (
-  int inputLineNumber)
+  int               inputLineNumber,
+  msrTimeSymbolKind timeSymbolKind)
 {
   msrTime* o =
     new msrTime (
-      inputLineNumber);
+      inputLineNumber, timeSymbolKind);
   assert (o!=0);
   return o;
 }
 
 msrTime::msrTime (
-  int inputLineNumber)
+  int               inputLineNumber,
+  msrTimeSymbolKind timeSymbolKind)
     : msrElement (inputLineNumber)
 {
-  fFirstItemBeatValue = -1;
-  fTimeItemsBeatTypesAreDifferent = false;
+  fTimeSymbolKind = timeSymbolKind;
+    
+  fTimeIsCompound = false;
 }
 
 S_msrTime msrTime::createFourQuartersTime (
@@ -11034,12 +11037,12 @@ S_msrTime msrTime::createFourQuartersTime (
 msrTime::~msrTime() {}
 
 void msrTime::appendTimeItem (
-  S_msrTimeItem item)
+  S_msrTimeItem timeItem)
 {
   if (gGeneralOptions->fTraceTimes) {
     cerr << idtr <<
       "Append item '" <<
-      item->timeItemAsString () <<
+      timeItem->timeItemAsString () <<
       "' to time '" <<
       "'" <<
       endl;
@@ -11047,21 +11050,24 @@ void msrTime::appendTimeItem (
 
   if (fTimeItemsVector.size ()) {
     // this is the first item inserted
-    fFirstItemBeatValue =
-      item->getTimeBeatValue ();
-  }
-  else {
-    // are there differents beat types?
     if (
-      item->getTimeBeatValue ()
-        !=
-      fFirstItemBeatValue)
-    fTimeItemsBeatTypesAreDifferent = true;
+      timeItem->
+        getTimeBeatsNumbersVector (). size ()
+        >
+      1) {
+      // this time is compound
+      fTimeIsCompound = true;
+    }
+  }
+  
+  else {
+    // there are several time items, this time is compound
+    fTimeIsCompound = true;
   }
 
-  // append the item to the vector
+  // append the time item to the vector
   fTimeItemsVector.insert (
-    fTimeItemsVector.end(), item);
+    fTimeItemsVector.end(), timeItem);
 }
 
 rational msrTime::wholeNotesPerMeasure () const
@@ -11138,15 +11144,46 @@ void msrTime::acceptOut (basevisitor* v) {
 void msrTime::browseData (basevisitor* v)
 {}
 
+string timeSymbolKindAsString (
+  msrTimeSymbolKind timeSymbolKind)
+{
+  string result;
+ 
+  switch (timeSymbolKind) {
+    case msrTime::kTimeSymbolCommon:
+      result = "common";
+      break;
+    case msrTime::kTimeSymbolCut:
+      result = "cut";
+      break;
+    case msrTime::kTimeSymbolNote:
+      result = "note";
+      break;
+    case msrTime::kTimeSymbolDottedNote:
+      result = "dotted note";
+      break;
+    case msrTime::kTimeSymbolSingleNumber:
+      result = "single number";
+      break;
+    case msrTime::k_NoTimeSymbol:
+      result = "none";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrTime::timeAsShortString () const
 {
   stringstream s;
 
   s <<
     "Time, " <<
-    ", timeItemsBeatTypesAreDifferent: " <<
+    ", timeSymbolKind: " <<
+    timeSymbolKindAsString (fTimeSymbolKind) <<
+    ", timeIsCompound: " <<
     booleanAsString (
-      fTimeItemsBeatTypesAreDifferent) <<
+      fTimeIsCompound) <<
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
@@ -11161,9 +11198,11 @@ string msrTime::timeAsString () const
 
   s <<
     "Time, " << 
-    ", timeItemsBeatTypesAreDifferent: " <<
+    ", timeSymbolKind: " <<
+    timeSymbolKindAsString (fTimeSymbolKind) <<
+    ", timeIsCompound: " <<
     booleanAsString (
-      fTimeItemsBeatTypesAreDifferent) <<
+      fTimeIsCompound) <<
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
@@ -11182,9 +11221,11 @@ void msrTime::print (ostream& os)
 {
   os <<
     "Time" <<
-    ", timeItemsBeatTypesAreDifferent: " <<
+    ", timeSymbolKind: " <<
+    timeSymbolKindAsString (fTimeSymbolKind) <<
+    ", timeIsCompound: " <<
     booleanAsString (
-      fTimeItemsBeatTypesAreDifferent) <<
+      fTimeIsCompound) <<
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items");

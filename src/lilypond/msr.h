@@ -2670,16 +2670,22 @@ class EXP msrTime : public msrElement
     // ------------------------------------------------------
 
     enum msrTimeSymbolKind {
-        kTimeSymbolCut, kTimeSymbolCommon, kTimeSymbolSingleNumber }; // JMI more?
+        k_NoTimeSymbol,
+        kTimeSymbolCommon,
+        kTimeSymbolCut,
+        kTimeSymbolNote,
+        kTimeSymbolDottedNote,
+        kTimeSymbolSingleNumber };
 
-    static string timeSymbolAsString (
+    static string timeSymbolKindAsString (
       msrTimeSymbolKind timeSymbolKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrTime> create (
-      int inputLineNumber);
+      int               inputLineNumber,
+      msrTimeSymbolKind timeSymbolKind);
 
     static SMARTP<msrTime> createFourQuartersTime (
       int inputLineNumber);
@@ -2699,11 +2705,8 @@ class EXP msrTime : public msrElement
     // set and get
     // ------------------------------------------------------
 
- //   void                  setTimeItemsBeatTypesAreDifferent ()
-  //                          { fTimeItemsBeatTypesAreDifferent = true; }
-                              
-    bool                  getTimeItemsBeatTypesAreDifferent () const
-                              { return fTimeItemsBeatTypesAreDifferent; }
+    msrTimeSymbolKind     getTimeSymbolKind () const
+                              { return fTimeSymbolKind; }
                   
     bool                  getTimeIsCompound () const
                               { return fTimeIsCompound; }
@@ -2716,7 +2719,7 @@ class EXP msrTime : public msrElement
     // ------------------------------------------------------
                   
     void                  appendTimeItem (
-                            S_msrTimeItem item);
+                            S_msrTimeItem timeItem);
 
     rational              wholeNotesPerMeasure () const;
 
@@ -2739,10 +2742,9 @@ class EXP msrTime : public msrElement
 
   private:
 
-    vector<S_msrTimeItem> fTimeItemsVector;
+    msrTimeSymbolKind     fTimeSymbolKind;
 
-    int                   fFirstItemBeatValue;
-    bool                  fTimeItemsBeatTypesAreDifferent;
+    vector<S_msrTimeItem> fTimeItemsVector;
 
     // a time is compound if it contains several items
     // or if the only one has several beats numbers
