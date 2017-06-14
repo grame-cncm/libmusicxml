@@ -11108,7 +11108,7 @@ rational msrTime::wholeNotesPerMeasure () const
       "Time " << timeAsString () <<
       " has " <<
       result.getNumerator () << "/" << result.getDenominator () <<
-      " whole note per measure" <<
+      " whole note(s) per measure" <<
       ", line " << fInputLineNumber;
   }
   
