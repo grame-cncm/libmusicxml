@@ -11051,7 +11051,7 @@ void msrTime::appendTimeItem (
       endl;
     }
 
-  if (fTimeItemsVector.size ()) {
+  if (! fTimeItemsVector.size ()) {
     // this is the first item inserted
     if (
       timeItem->
