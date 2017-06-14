@@ -3263,18 +3263,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
             "(" <<
             beatsNumbersVector [j] <<
             " " <<
-            timeItemsVector [j]->getTimeBeatValue () <<
+            timeItem->getTimeBeatValue () <<
             ")";
   
           if (j != beatsNumbersNumber - 1)
             fOstream <<
               " ";
         } // for
-  
+
+  /* JMI
         // then place the beat type last
           fOstream <<
             timeItem->getTimeBeatValue ();
-            
+    */        
         fOstream <<
           ")";
       }
