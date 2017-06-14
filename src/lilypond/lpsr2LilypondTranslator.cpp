@@ -3223,15 +3223,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         // simple time
         // \time "3/4" for 3/4
         
+        fOstream <<
+          idtr;
+
         // should the time be numeric?
         if (
           elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
             ||
           gLilypondOptions->fNumericalTime) {
-          fOstream << "\\numericTimeSignature ";
+          fOstream <<
+            "\\numericTimeSignature ";
+        }
+        else {
         }
           
-        fOstream << idtr <<
+        fOstream <<
           "\\time" " " <<
           beatsNumbersVector [0] << // the only element
           "/" <<
