@@ -10841,39 +10841,60 @@ void msrKey::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTimeItem msrTimeItem::create (
-  int inputLineNumber,
-  int timeBeatsNumber,
-  int timeBeatValue)
+  int inputLineNumber)
 {
   msrTimeItem* o =
     new msrTimeItem (
-      inputLineNumber,
-      timeBeatsNumber, timeBeatValue);
+      inputLineNumber);
   assert (o!=0);
 
   return o;
 }
 
 msrTimeItem::msrTimeItem (
-  int inputLineNumber,
-  int timeBeatsNumber,
-  int timeBeatValue)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fTimeBeatsNumber = timeBeatsNumber;
-  fTimeBeatValue   = timeBeatValue;
+  fTimeBeatValue = -1;
   
   if (gGeneralOptions->fTraceTimes) {
     cerr << idtr <<
-      "Creating time item containing '" <<
-      "timeBeatsNumber = " << fTimeBeatsNumber <<
-      " and timeBeatValue = " << fTimeBeatValue <<
+      "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
 }
 
-msrTimeItem::~msrTimeItem() {}
+msrTimeItem::~msrTimeItem()
+{}
+
+void msrTimeItem::appendBeatsNumber (int beatsNumber)
+{
+  if (gGeneralOptions->fTraceTimes) {
+    cerr << idtr <<
+      "Append beat number '" <<
+      beatsNumber <<
+      "' to time '" << // JMI
+      "'" <<
+      endl;
+    }
+
+  fTimeBeatsNumbersVector.insert (
+    fTimeBeatsNumbersVector.end(),
+    beatsNumber);
+}
+
+int msrTimeItem::getTimeBeatsNumber () const
+{
+  int result = 0;
+  
+  for (int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+    result +=
+      fTimeBeatsNumbersVector [i];
+    } // for
+
+  return result;
+}
 
 void msrTimeItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -10928,7 +10949,29 @@ string msrTimeItem::timeItemAsString () const
 
   s <<
     "TimeItem" <<
-    ", timeBeatsNumber: " << fTimeBeatsNumber <<
+    " beats numbers: ";
+
+  int vectorSize =
+    fTimeBeatsNumbersVector.size ();
+
+  if (vectorSize) {
+    for (int i = 0; i < vectorSize; i++) {
+      s <<
+        fTimeBeatsNumbersVector [i];
+
+      if (i == vectorSize - 1)
+        s <<
+          " ";
+      } // for
+  }
+  
+  else {
+    msrInternalError (
+      fInputLineNumber,
+      "time item beats numbers vector is empty");
+  }
+
+  s <<
     ", timeBeatValue: " << fTimeBeatValue <<
     ", line " << fInputLineNumber;
      
@@ -10971,13 +11014,18 @@ S_msrTime msrTime::createFourQuartersTime (
 
   // create a four quarters time item
   S_msrTimeItem
-    item =
+    timeItem =
       msrTimeItem::create (
-        inputLineNumber, 4, 4);
+        inputLineNumber);
 
-  // append it to the time
+  timeItem->
+    appendBeatsNumber (4);
+  timeItem->
+    setTimeBeatValue (4);
+        
+  // append the time item to the time
   time->
-    appendTimeItem (item);
+    appendTimeItem (timeItem);
 
   // return the time
   return time;
