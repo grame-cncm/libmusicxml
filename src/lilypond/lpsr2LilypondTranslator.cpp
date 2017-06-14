@@ -3230,7 +3230,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         fOstream <<
           "\\numericTimeSignature ";
       }
-        
+
+      // should there be a single number?
+      if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSingleNumber) {
+        fOstream <<
+          "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
+          endl <<
+          idtr;
+      }
+
+      
       fOstream <<
         "\\time" " " <<
         beatsNumbersVector [0] << // the only element
