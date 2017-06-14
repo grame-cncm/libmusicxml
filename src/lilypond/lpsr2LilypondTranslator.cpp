@@ -3203,11 +3203,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     timeItemsVector.size ();
 
   if (timesItemsNumber) {
-    // handle all the time items in the vector
-    for (int i = 0; i < timesItemsNumber; i++) {
+
+    if (! elt->getTimeIsCompound ()) {
+
+      // simple time
+      // \time "3/4" for 3/4
+      
+      fOstream <<
+        idtr;
+
       S_msrTimeItem
         timeItem =
-          timeItemsVector [i];
+          timeItemsVector [0]; // the only element;
   
       // fetch the time item beat numbers vector
       const vector<int>&
@@ -3215,48 +3222,50 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           timeItem->
             getTimeBeatsNumbersVector ();
   
-      int beatsNumbersNumber =
-        beatsNumbersVector.size ();
-  
-      if (! elt->getTimeIsCompound ()) {
-  
-        // simple time
-        // \time "3/4" for 3/4
-        
+      // should the time be numeric?
+      if (
+        elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
+          ||
+        gLilypondOptions->fNumericalTime) {
         fOstream <<
-          idtr;
-
-        // should the time be numeric?
-        if (
-          elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
-            ||
-          gLilypondOptions->fNumericalTime) {
-          fOstream <<
-            "\\numericTimeSignature ";
-        }
-        else {
-        }
-          
-        fOstream <<
-          "\\time" " " <<
-          beatsNumbersVector [0] << // the only element
-          "/" <<
-          timeItem->getTimeBeatValue () <<
-          endl;        
+          "\\numericTimeSignature ";
       }
         
-      else {
+      fOstream <<
+        "\\time" " " <<
+        beatsNumbersVector [0] << // the only element
+        "/" <<
+        timeItem->getTimeBeatValue () <<
+        endl;        
+    }
+      
+    else {
   
-        // compound time
-        // \compoundMeter #'(3 2 8) for 3+2/8
-        // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
-        // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
-        
-        fOstream <<
-          endl <<
-          idtr <<
-          "\\compoundMeter #`(";
+      // compound time
+      // \compoundMeter #'(3 2 8) for 3+2/8
+      // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
+      // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+  
+      fOstream <<
+        endl <<
+        idtr <<
+        "\\compoundMeter #`(";
+      
+      // handle all the time items in the vector
+      for (int i = 0; i < timesItemsNumber; i++) {
+        S_msrTimeItem
+          timeItem =
+            timeItemsVector [i];
     
+        // fetch the time item beat numbers vector
+        const vector<int>&
+          beatsNumbersVector =
+            timeItem->
+              getTimeBeatsNumbersVector ();
+    
+        int beatsNumbersNumber =
+          beatsNumbersVector.size ();
+          
         // place all beats numbers in the list first
         for (int j = 0; j < beatsNumbersNumber; j++) {
           fOstream <<
@@ -3265,21 +3274,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
             " " <<
             timeItem->getTimeBeatValue () <<
             ")";
-  
+    
           if (j != beatsNumbersNumber - 1)
             fOstream <<
               " ";
         } // for
-
-  /* JMI
+    
         // then place the beat type last
           fOstream <<
             timeItem->getTimeBeatValue ();
-    */        
-        fOstream <<
-          ")";
-      }
-    } // for
+      } // for
+            
+    fOstream <<
+      ")";
+    }
   }
     
   else {
