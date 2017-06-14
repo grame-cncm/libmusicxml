@@ -11087,6 +11087,16 @@ rational msrTime::wholeNotesPerMeasure () const
           /
         fTimeItemsVector [0]->getTimeBeatValue ());
 
+    cerr <<
+      endl <<
+      endl <<
+      "result1 = " <<
+      result.getNumerator () <<
+      "/" <<
+      result.getDenominator () <<
+      endl <<
+      endl;
+
     // iterate over the others
     for (int i = 1; i < vectorSize; i++) {
       result +=
@@ -11094,6 +11104,16 @@ rational msrTime::wholeNotesPerMeasure () const
           fTimeItemsVector [i]->getTimeBeatsNumber ()
             /
           fTimeItemsVector [i]->getTimeBeatValue ());
+
+      cerr <<
+        endl <<
+        endl <<
+        "result2 = " <<
+        result.getNumerator () <<
+        "/" <<
+        result.getDenominator () <<
+        endl <<
+        endl;
       } // for
   }
 
@@ -11178,6 +11198,7 @@ string msrTime::timeSymbolKindAsString (
 
 string msrTime::timeAsShortString () const
 {
+  /* JMI
   stringstream s;
 
   s <<
@@ -11193,6 +11214,9 @@ string msrTime::timeAsShortString () const
     ", line " << fInputLineNumber;
 
   return s.str();
+  */
+
+  return timeAsString ();
 }
 
 string msrTime::timeAsString () const
@@ -11210,6 +11234,18 @@ string msrTime::timeAsString () const
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
     ", line " << fInputLineNumber;
+
+  vector<S_msrTimeItem>::const_iterator
+    iBegin = fTimeItemsVector.begin(),
+    iEnd   = fTimeItemsVector.end(),
+    i      = iBegin;
+    
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << ", ";
+  } // for
+  
 
   return s.str();
 }
@@ -11231,7 +11267,8 @@ void msrTime::print (ostream& os)
       fTimeIsCompound) <<
     ", " <<
     singularOrPlural (
-      fTimeItemsVector.size (), "item", "items");
+      fTimeItemsVector.size (), "item", "items") <<
+    ":";
 
   if (fTimeItemsVector.size ()) {
     os <<
@@ -13882,31 +13919,58 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   msrAssert(
     time != 0, "time is null");
 
+  if (gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Appending time:";
+
+    idtr++;
+
+    cerr <<
+      idtr <<
+        time <<
+        endl <<
+      idtr <<
+        "' to measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+
+    idtr--;
+  }
+
   int partDivisionsPerQuarterNote =
     fMeasureDirectPartUplink->
       getPartDivisionsPerQuarterNote ();
 
   rational
-    whoseNotesPerMeasure =
+    wholeNotesPerMeasure =
       time->wholeNotesPerMeasure ();
       
   if (gGeneralOptions->fTraceTimes) {
-    cerr << idtr <<
-      "Time " << time->timeAsString () <<
-      " has " <<
-      whoseNotesPerMeasure.getNumerator () <<
-      "/" <<
-      whoseNotesPerMeasure.getDenominator () <<
-      " whole note(s) per measure" <<
-      ", line " << fInputLineNumber;
+    cerr <<
+      idtr <<
+        time;
+
+    cerr <<
+      idtr <<
+        "has " <<
+        wholeNotesPerMeasure.getNumerator () <<
+        "/" <<
+        wholeNotesPerMeasure.getDenominator () <<
+        " whole note(s) per measure" <<
+        ", line " << fInputLineNumber <<
+        endl;
   }
   
   fMeasureDivisionsPerFullMeasure =
-    whoseNotesPerMeasure.getNumerator ()
+    wholeNotesPerMeasure.getNumerator ()
       *
     partDivisionsPerQuarterNote * 4 // hence a whole note
       /
-    whoseNotesPerMeasure.getDenominator ();
+    wholeNotesPerMeasure.getDenominator ();
   
 
   if (gGeneralOptions->fTraceMeasures)
