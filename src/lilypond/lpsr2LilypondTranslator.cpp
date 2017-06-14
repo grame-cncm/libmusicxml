@@ -3247,7 +3247,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
   
       fOstream <<
-        endl <<
         idtr <<
         "\\compoundMeter #`(";
       
@@ -3266,24 +3265,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         int beatsNumbersNumber =
           beatsNumbersVector.size ();
           
-        // place all beats numbers in the list first
+        // first generate the opening parenthesis
+        fOstream <<
+          "(";
+
+        // then generate all beats numbers in the vector
         for (int j = 0; j < beatsNumbersNumber; j++) {
           fOstream <<
-            "(" <<
             beatsNumbersVector [j] <<
-            " " <<
-            timeItem->getTimeBeatValue () <<
-            ")";
-    
-          if (j != beatsNumbersNumber - 1)
-            fOstream <<
-              " ";
+            " ";
         } // for
-    /* JMI
-        // then place the beat type last
-          fOstream <<
-            timeItem->getTimeBeatValue ();
-            */
+    
+        // then generate the beat type
+        fOstream <<
+          timeItem->getTimeBeatValue ();
+
+        // and finally generate the closing parenthesis
+        fOstream <<
+          ")";
 
         if (i != timesItemsNumber - 1)
           fOstream <<
@@ -3291,7 +3290,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       } // for
             
     fOstream <<
-      ")";
+      ")" <<
+      endl;
     }
   }
     

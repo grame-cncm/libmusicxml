@@ -11083,10 +11083,10 @@ rational msrTime::wholeNotesPerMeasure () const
     // start with first item
     result =
       rational (
-        fTimeItemsVector [0]->getTimeBeatsNumber ()
-          /
+        fTimeItemsVector [0]->getTimeBeatsNumber (),
         fTimeItemsVector [0]->getTimeBeatValue ());
 
+/* JMI
     cerr <<
       endl <<
       endl <<
@@ -11096,15 +11096,16 @@ rational msrTime::wholeNotesPerMeasure () const
       result.getDenominator () <<
       endl <<
       endl;
+*/
 
     // iterate over the others
     for (int i = 1; i < vectorSize; i++) {
       result +=
         rational (
-          fTimeItemsVector [i]->getTimeBeatsNumber ()
-            /
+          fTimeItemsVector [i]->getTimeBeatsNumber (),
           fTimeItemsVector [i]->getTimeBeatValue ());
 
+/* JMI
       cerr <<
         endl <<
         endl <<
@@ -11114,7 +11115,9 @@ rational msrTime::wholeNotesPerMeasure () const
         result.getDenominator () <<
         endl <<
         endl;
-      } // for
+        */
+        
+    } // for
   }
 
   else {
@@ -11123,6 +11126,10 @@ rational msrTime::wholeNotesPerMeasure () const
       "time items vector is empty");
   }
 
+  // rationalize result
+  result.rationalise ();
+
+  // return it
   return result;
 }
 
