@@ -2705,6 +2705,9 @@ class EXP msrTime : public msrElement
     bool                  getTimeItemsBeatTypesAreDifferent () const
                               { return fTimeItemsBeatTypesAreDifferent; }
                   
+    bool                  getTimeIsCompound () const
+                              { return fTimeIsCompound; }
+                  
     const vector<S_msrTimeItem>&
                           getTimeItemsVector ()
                               { return fTimeItemsVector; }
@@ -2740,6 +2743,11 @@ class EXP msrTime : public msrElement
 
     int                   fFirstItemBeatValue;
     bool                  fTimeItemsBeatTypesAreDifferent;
+
+    // a time is compound if it contains several items
+    // or if the only one has several beats numbers
+    // i.e. 3/4 is not, (3+4)/8 is, and 2/4+3/4 is too
+    bool                  fTimeIsCompound;
 };
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
