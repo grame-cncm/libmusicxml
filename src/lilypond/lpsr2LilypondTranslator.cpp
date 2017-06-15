@@ -5639,15 +5639,31 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
 
+/*
   if (fMusicOlec == 0)
     fOstream <<
       idtr;
+  */
       
-  fOstream <<
+  int saveIndent =
+    idtr.getIndent ();
+    
+  fOstream << idtr <<
     "| % " << nextBarNumber << " % bar check" <<
     endl;
 
-  fMusicOlec.resetToZero ();
+  if (saveIndent > 0) {
+    idtr.resetToZero ();
+    
+    for (int i = 0; i < saveIndent; i++) {
+      fOstream <<
+        idtr;
+        
+      saveIndent++;
+    }
+  }
+
+// JMI  fMusicOlec.resetToZero ();
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)

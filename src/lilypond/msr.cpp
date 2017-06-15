@@ -13963,13 +13963,10 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   }
 
   if (time->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
-    // this measure is senza misura
-    setMeasureKind (
-      kSenzaMisuraMeasureKind);
     
-    fMeasureDivisionsPerFullMeasure = INT_MAX; // JMI
-
-    if (gGeneralOptions->fTraceMeasures)
+    // this measure is senza misura
+    
+    if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -13979,11 +13976,18 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         "\"" <<
         " is senza misura" <<
         endl;
-// JMI      
+    }
+
+    setMeasureKind (
+      kSenzaMisuraMeasureKind);
+    
+    fMeasureDivisionsPerFullMeasure = INT_MAX; // JMI
   }
   
   else {
-    // timed measure
+    
+    // this measure is con misura
+    
     int partDivisionsPerQuarterNote =
       fMeasureDirectPartUplink->
         getPartDivisionsPerQuarterNote ();
