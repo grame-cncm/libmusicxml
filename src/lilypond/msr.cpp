@@ -3209,16 +3209,17 @@ S_msrFermata msrFermata::create (
 {
   msrFermata* o =
     new msrFermata (
-      inputLineNumber, articulationKind);
+      inputLineNumber);
   assert (o!=0);
   return o;
 }
 
 msrFermata::msrFermata (
   int inputLineNumber)
-    : msrArticulation (inputLineNumber)
+    : msrArticulation (
+      inputLineNumber,
+      msrArticulation::kFermata)
 {
-  fFermataKind = FermataKind;
 }
 
 msrFermata::~msrFermata() {}

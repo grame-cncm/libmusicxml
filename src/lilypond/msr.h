@@ -985,14 +985,16 @@ class EXP msrFermata : public msrArticulation
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrFermata> create ();
+    static SMARTP<msrFermata> create (
+      int inputLineNumber);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFermata ();
+    msrFermata (
+      int inputLineNumber);
       
     virtual ~msrFermata();
   
