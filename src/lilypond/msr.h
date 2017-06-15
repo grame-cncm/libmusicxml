@@ -943,14 +943,71 @@ class EXP msrArticulation : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrArticulationKind
-            getArticulationKind () const
-                { return fArticulationKind; }
+    msrArticulationKind   getArticulationKind () const
+                              { return fArticulationKind; }
         
     // services
     // ------------------------------------------------------
 
-    string  articulationKindAsString () const;
+    string                articulationKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+//  private:
+  protected:
+
+    msrArticulationKind fArticulationKind;
+};
+typedef SMARTP<msrArticulation> S_msrArticulation;
+EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
+
+/*!
+\brief A msr articulation representation.
+
+  An articulation is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrFermata : public msrArticulation
+{
+  public:
+          
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFermata> create ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFermata ();
+      
+    virtual ~msrFermata();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrArticulationKind   getArticulationKind () const
+                              { return fArticulationKind; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                fermataKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -967,7 +1024,6 @@ class EXP msrArticulation : public msrElement
 
   private:
 
-    msrArticulationKind fArticulationKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);

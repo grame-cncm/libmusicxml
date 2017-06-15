@@ -3204,6 +3204,82 @@ void msrArticulation::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrFermata msrFermata::create (
+  int inputLineNumber)
+{
+  msrFermata* o =
+    new msrFermata (
+      inputLineNumber, articulationKind);
+  assert (o!=0);
+  return o;
+}
+
+msrFermata::msrFermata (
+  int inputLineNumber)
+    : msrArticulation (inputLineNumber)
+{
+  fFermataKind = FermataKind;
+}
+
+msrFermata::~msrFermata() {}
+
+void msrFermata::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFermata::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrFermata>*
+    p =
+      dynamic_cast<visitor<S_msrFermata>*> (v)) {
+        S_msrFermata elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFermata::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrFermata::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFermata::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrFermata>*
+    p =
+      dynamic_cast<visitor<S_msrFermata>*> (v)) {
+        S_msrFermata elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFermata::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrFermata::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrFermata& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrFermata::print (ostream& os)
+{
+  os <<
+    "Fermata" " " <<
+    articulationKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrTechnical msrTechnical::create (
   int                       inputLineNumber,
   msrTechnicalKind          technicalKind,
