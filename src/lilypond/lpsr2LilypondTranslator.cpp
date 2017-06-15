@@ -3214,6 +3214,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       "'"  <<
       endl;
 
+  msrTime::msrTimeSymbolKind
+    timeSymbolKind =
+      elt->getTimeSymbolKind ();
+      
   const vector<S_msrTimeItem>&
     timeItemsVector =
       elt->getTimeItemsVector ();
@@ -3225,7 +3229,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
     if (! elt->getTimeIsCompound ()) {
 
-      if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
+      if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
         fOstream <<
           idtr <<
             "\\omit Staff.TimeSignature" <<
@@ -3252,7 +3256,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     
         // should the time be numeric?
         if (
-          elt->getTimeSymbolKind () == msrTime::k_NoTimeSymbol
+          timeSymbolKind == msrTime::k_NoTimeSymbol
             ||
           gLilypondOptions->fNumericalTime) {
           fOstream <<
@@ -3260,7 +3264,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         }
   
         // should there be a single number?
-        if (elt->getTimeSymbolKind () == msrTime::kTimeSymbolSingleNumber) {
+        if (timeSymbolKind == msrTime::kTimeSymbolSingleNumber) {
           fOstream <<
             "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
             endl <<
@@ -3359,9 +3363,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
   }
     
   else {
+    if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
         elt->getInputLineNumber (),
         "time items vector is empty");
+    }
   }
 }
 

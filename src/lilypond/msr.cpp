@@ -11243,20 +11243,30 @@ string msrTime::timeAsString () const
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
-    ", line " << fInputLineNumber <<
-    ", ";
+    ", line " << fInputLineNumber;
 
-  vector<S_msrTimeItem>::const_iterator
-    iBegin = fTimeItemsVector.begin(),
-    iEnd   = fTimeItemsVector.end(),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    s << (*i);
-    if (++i == iEnd) break;
-    s << ", ";
-  } // for
+  if (fTimeItemsVector.size ()) {
+    s <<
+      ", ";
+
+    vector<S_msrTimeItem>::const_iterator
+      iBegin = fTimeItemsVector.begin(),
+      iEnd   = fTimeItemsVector.end(),
+      i      = iBegin;
   
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+  }
+  else {
+    if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+      msrInternalError (
+        fInputLineNumber,
+        "time  items vector is empty");
+    }
+  }
 
   return s.str();
 }
