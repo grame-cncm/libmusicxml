@@ -8158,8 +8158,10 @@ class EXP msrStaff : public msrElement
     void                  appendRepeatEndingCloneToStaff (
                             S_msrRepeatEnding repeatEndingClone);
 
+/* JMI
     void                  createAndAppendRepeatToAllStaffVoices (
                             int inputLineNumber);
+    */
     
     // barlines
     
@@ -8169,7 +8171,7 @@ class EXP msrStaff : public msrElement
 
     // transpose
     
-    void                  appendTransposeToAllStaffVoices (
+    void                  appendTransposeToAllStaffVoices ( // JMI
                             S_msrTranspose transpose);
   
     // finalization
@@ -8403,11 +8405,9 @@ class EXP msrPart : public msrElement
 
     // clef, key, time
     
-    void                  setPartCurrentClef (S_msrClef clef);
     S_msrClef             getPartCurrentClef () const
                               { return fPartCurrentClef; };
 
-    void                  setPartCurrentKey  (S_msrKey  key);
     S_msrKey              getPartCurrentKey  () const
                               { return fPartCurrentKey; };
 
@@ -8462,6 +8462,8 @@ class EXP msrPart : public msrElement
 
     // clef, key, time
     
+    void                  setPartCurrentClef (S_msrClef clef);
+    void                  setPartCurrentKey  (S_msrKey  key);
     void                  appendTimeToPart (S_msrTime time);
 
     // harmony staff and voice
