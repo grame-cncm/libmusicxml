@@ -4983,6 +4983,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       "% --> End visiting msrChord" <<
       endl;
 
+  int chordInputLineNumber =
+    elt->getInputLineNumber ();
+    
   fOstream <<
     ">";
 
@@ -4999,7 +5002,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     // print the chord duration
     fOstream <<
       divisionsAsLilypondString (
-        elt->getInputLineNumber (),
+        chordInputLineNumber,
         elt->getChordDirectPartUplink (),
         elt->getChordDisplayedDivisions ());
   }
@@ -5012,7 +5015,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordSingleTremolo) {
     // generate code for the single tremolo
     int
-      inputLineNumber =
+      tremoloInputLineNumber =
         chordSingleTremolo->getInputLineNumber ();
       
     int
@@ -5027,11 +5030,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 
     msrDuration
       singleTremoloNoteDuration =
-        singleTremoloNote->getNoteGraphicDuration ();
+        singleTremoloNote->
+          getNoteGraphicDuration ();
 
     fOstream <<
       singleTremoloDurationAsLilypondString (
-        inputLineNumber,
+        tremoloInputLineNumber,
         singleTremoloNoteDuration,
         singleTremoloMarksNumber);
   }
@@ -5096,9 +5100,33 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         case msrArticulation::kTenuto:
           fOstream << "--";
           break;
+          
         case msrArticulation::kFermata:
-          fOstream << "\\fermata";
+          if (
+            S_msrFermata fermata = dynamic_cast<msrFermata*>(&(*this))
+            ) {
+            msrFermata::msrFermataKind
+              fermataKind =
+                fermata->getFermataKind ();
+                
+            switch (fermataKind) {
+              case msrFermata::kUprightFermata:
+                // no prefix needed
+                break;
+              case msrFermata::kInvertedFermata:
+                fOstream << "_";
+                break;
+            } // switch
+
+            fOstream << "\\fermata";
+          }
+          else {
+            msrInternalError (
+              chordInputLineNumber,
+              "chords double tremolo first element should be a chord");
+          }
           break;
+          
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
           break;

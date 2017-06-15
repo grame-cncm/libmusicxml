@@ -68,6 +68,8 @@ class msr2LpsrTranslator :
     
   public visitor<S_msrArticulation>,
   
+  public visitor<S_msrFermata>,
+  
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithString>,
@@ -211,6 +213,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
+    virtual void visitStart (S_msrFermata& elt);
+    
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 

@@ -3306,9 +3306,7 @@ string msrFermata::fermataAsString () const
 void msrFermata::print (ostream& os)
 {
   os <<
-    "Fermata" " " <<
     fermataAsString () <<
-    ", line " << fInputLineNumber <<
     endl;
 }
 

@@ -1546,6 +1546,28 @@ void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrFermata" <<
+      endl;
+
+  // a fermata is an articulation
+  
+  if (fOnGoingNote) {
+    // don't add articulations to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addArticulationToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addArticulationToChord (elt);
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
