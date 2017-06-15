@@ -10972,7 +10972,7 @@ string msrTimeItem::timeItemAsString () const
   }
 
   s <<
-    ", timeBeatValue: " << fTimeBeatValue <<
+    ", beat balue: " << fTimeBeatValue <<
     ", line " << fInputLineNumber;
      
   return s.str();
@@ -11243,7 +11243,8 @@ string msrTime::timeAsString () const
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    ", ";
 
   vector<S_msrTimeItem>::const_iterator
     iBegin = fTimeItemsVector.begin(),
