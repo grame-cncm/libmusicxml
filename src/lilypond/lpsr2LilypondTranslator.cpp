@@ -60,6 +60,9 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // header handling
   fOnGoingHeader = false;
+
+  // time
+  fVoiceIsCurrentlySenzaMisura = false;
   
   // staves
   fOnGoingStaff = false;
@@ -2341,6 +2344,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   fMusicOlec.resetToZero ();
 
+  fVoiceIsCurrentlySenzaMisura = false;
+  
   fOnGoingVoice = true;
 
   switch (elt->getVoiceKind ()) {
@@ -2644,9 +2649,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kSenzaMisuraMeasureKind:
       {
-        fOstream << idtr <<
-          "\\cadenzaOn" <<
-          endl;
+        if (! fVoiceIsCurrentlySenzaMisura) {
+          fOstream << idtr <<
+            "\\cadenzaOn" <<
+            endl;
+
+          fVoiceIsCurrentlySenzaMisura = true;
+        }
       }
       break;
       
@@ -2722,8 +2731,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kSenzaMisuraMeasureKind:
+      if (! fVoiceIsCurrentlySenzaMisura) {
+        fOstream <<
+          idtr <<
+            "\\omit Staff.TimeSignature" <<
+            endl;
+  
+        fVoiceIsCurrentlySenzaMisura = true;
+      }
+      
       fOstream <<
-        endl <<
         idtr <<
           "\\cadenzaOff" <<
           endl <<
@@ -3234,6 +3251,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           idtr <<
             "\\omit Staff.TimeSignature" <<
           endl;
+
+        fVoiceIsCurrentlySenzaMisura = true;
       }
 
       else {

@@ -489,7 +489,10 @@ class lpsr2LilypondTranslator :
     // parts
     // ------------------------------------------------------
     S_msrPart             fCurrentPart; // JMI jamais visitee
-    
+
+    // time
+    // ------------------------------------------------------
+    bool                  fVoiceIsCurrentlySenzaMisura;
     // staves
     // ------------------------------------------------------
     // prevent clef, key and time from being handled twice

@@ -13967,7 +13967,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureDivisionsPerFullMeasure = 0; // JMI
+    fMeasureDivisionsPerFullMeasure = INT_MAX; // JMI
 
     if (gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
@@ -21594,8 +21594,8 @@ void msrStaff::initializeStaff ()
     if (time) {
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
-          "Setting staff time '" << time->timeAsString () <<
-          "' in staff \"" <<
+          "Appending time '" << time->timeAsString () <<
+          "' to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
