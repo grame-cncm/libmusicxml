@@ -16068,7 +16068,7 @@ S_msrSegment msrSegment::createSegmentShallowClone (
   return clone;
 }
 
-void msrSegment::createAndAppendMeasureToSegment (
+void msrSegment::createMeasureAndAppendItToSegment (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -18557,7 +18557,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
 
     // create and append a new measure to last segment
     fVoiceLastSegment->
-      createAndAppendMeasureToSegment (
+      createMeasureAndAppendItToSegment (
         inputLineNumber,
         fVoiceMeasureNumber);
       
@@ -18689,7 +18689,7 @@ string msrVoice::getVoiceName () const
     */
 }
 
-void msrVoice::createAndAppendMeasureToVoice (
+void msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -18701,7 +18701,7 @@ void msrVoice::createAndAppendMeasureToVoice (
 
   // set the last segment measure number
   fVoiceLastSegment->
-    createAndAppendMeasureToSegment (
+    createMeasureAndAppendItToSegment (
       inputLineNumber,
       measureNumber);
 }
@@ -21766,7 +21766,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      createAndAppendMeasureToVoice (
+      createMeasureAndAppendItToVoice (
         inputLineNumber, measureNumber);
   } // for
 }
@@ -23627,7 +23627,7 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 }
 
 
-void msrPart::createAndAppendRepeatToPart (int inputLineNumber)
+void msrPart::createRepeatAndAppendItToPart (int inputLineNumber)
 {
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();

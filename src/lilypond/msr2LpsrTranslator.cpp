@@ -3050,7 +3050,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             endl;
   
         fCurrentPartClone-> // no test needed JMI
-          createAndAppendRepeatToPart (
+          createRepeatAndAppendItToPart (
             inputLineNumber);
         }
       break;
@@ -3072,7 +3072,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
               endl;
     
           fCurrentPartClone-> // no null test needed JMI
-            createAndAppendRepeatToPart (
+            createRepeatAndAppendItToPart (
               inputLineNumber);
   
           fRepeatHasBeenCreatedForCurrentPartClone = true;

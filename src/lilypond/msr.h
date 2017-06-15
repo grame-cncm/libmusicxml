@@ -3211,7 +3211,7 @@ class EXP msrSegment : public msrElement
 
     // measures
     
-    void                  createAndAppendMeasureToSegment (
+    void                  createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber);
                       
@@ -7332,7 +7332,7 @@ class EXP msrVoice : public msrElement
                
      // measures
      
-    void                  createAndAppendMeasureToVoice (
+    void                  createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumbe);
 
@@ -8497,7 +8497,7 @@ class EXP msrPart : public msrElement
               
     // repeats
     
-    void                  createAndAppendRepeatToPart (
+    void                  createRepeatAndAppendItToPart (
                             int inputLineNumber);
     
     void                  appendRepeatCloneToPart (
