@@ -949,7 +949,7 @@ class EXP msrArticulation : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                articulationKindAsString () const;
+    virtual string                articulationKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1025,8 +1025,8 @@ class EXP msrFermata : public msrArticulation
   private:
 
 };
-typedef SMARTP<msrArticulation> S_msrArticulation;
-EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
+typedef SMARTP<msrFermata> S_msrFermata;
+EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
 
 /*!
 \brief A msr technical representation.
