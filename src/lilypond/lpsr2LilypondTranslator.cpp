@@ -429,7 +429,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::noteSoundingDivisionsAsLpsrString (
+string lpsr2LilypondTranslator::noteSoundingDivisionsAsLilypondString (
   S_msrNote note)
 {
   string
@@ -4380,7 +4380,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteArticulations.begin();
       i!=noteArticulations.end();
       i++) {
+      fOstream <<
+        articulationAsLilyponString ((*i));
         
+        /*
       switch ((*i)->getArticulationKind ()) {
         case msrArticulation::kAccent:
           fOstream << "->";
@@ -4424,10 +4427,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
         case msrArticulation::kArpeggiato:
           fOstream << "\\arpeggio";
-          /* JMI
+          / * JMI
            in one of the voices add:
             \once \set StaffGroup.connectArpeggios = ##t
-          */
+          * /
           break;
         case msrArticulation::kDoit:
           fOstream << "\\bendAfter #+4";
@@ -4442,6 +4445,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           fOstream << "%{\\scoop???%}";
           break;
       } // switch
+      */
       
       fOstream << " ";
       fMusicOlec++;
@@ -4976,6 +4980,108 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   fMusicOlec++;
 }
 
+string lpsr2LilypondTranslator::articulationAsLilyponString (
+  S_msrArticulation articulation)
+{
+  stringstream s;
+  
+  switch (articulation->getArticulationKind ()) {
+
+    case msrArticulation::kAccent:
+      s << "->";
+      break;
+    case msrArticulation::kBreathMark:
+      s << "\\breathe";
+      break;
+    case msrArticulation::kCaesura:
+    /* JMI
+          fOstream <<
+            endl <<
+            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
+            endl <<
+            idtr;
+     */
+      s <<
+        endl <<
+        idtr <<
+          "\\override BreathingSign.text = \\markup {"
+          "\\musicglyph #\"scripts.caesura.curved\"}" <<
+        endl <<
+      idtr <<
+        "\\breathe" <<
+        endl;
+      break;
+    case msrArticulation::kSpiccato:
+      s << "spiccato";
+      break;
+    case msrArticulation::kStaccato:
+      s << "\\staccato"; // JMI "-.";
+      break;
+    case msrArticulation::kStaccatissimo:
+      s << "-!";
+      break;
+    case msrArticulation::kStress:
+      s << "stress";
+      break;
+    case msrArticulation::kUnstress:
+      s << "unstress";
+      break;
+    case msrArticulation::kDetachedLegato:
+      s << "-_"; // portato
+      break;
+    case msrArticulation::kStrongAccent:
+      s << "-^"; // marcato
+      break;
+    case msrArticulation::kTenuto:
+      s << "--";
+      break;
+      
+    case msrArticulation::kFermata:
+      if (
+        S_msrFermata fermata = dynamic_cast<msrFermata*>(&(*this))
+        ) {
+        msrFermata::msrFermataKind
+          fermataKind =
+            fermata->getFermataKind ();
+            
+        switch (fermataKind) {
+          case msrFermata::kUprightFermata:
+            // no prefix needed
+            break;
+          case msrFermata::kInvertedFermata:
+            s << "_";
+            break;
+        } // switch
+
+        s << "\\fermata";
+      }
+      else {
+        msrInternalError (
+          articulation->getInputLineNumber (),
+          "msrArticulation::kFermata is present outdside of a msrFermata");
+      }
+      break;
+      
+    case msrArticulation::kArpeggiato:
+      s << "\\arpeggio";
+      break;
+    case msrArticulation::kDoit:
+      s << "\\bendAfter #+4";
+      break;
+    case msrArticulation::kFalloff:
+      s << "\\bendAfter #-4";
+      break;
+    case msrArticulation::kPlop:
+      s << "plop";
+      break;
+    case msrArticulation::kScoop:
+      s << "scoop";
+      break;
+  } // switch
+
+  return s.str();
+}
+
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -5056,94 +5162,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordArticulations.begin();
       i!=chordArticulations.end();
       i++) {
-        
-      switch ((*i)->getArticulationKind ()) {
-
-        case msrArticulation::kAccent:
-          fOstream << "->";
-          break;
-        case msrArticulation::kBreathMark:
-          fOstream << "\\breathe";
-          break;
-        case msrArticulation::kCaesura:
-          fOstream <<
-            endl <<
-            idtr <<
-              "\\override BreathingSign.text = \\markup {"
-              "\\musicglyph #\"scripts.caesura.curved\"}" <<
-            endl <<
-          idtr <<
-            "\\breathe" <<
-            endl;
-          break;
-        case msrArticulation::kSpiccato:
-          fOstream << "spiccato";
-          break;
-        case msrArticulation::kStaccato:
-          fOstream << "\\staccato"; // JMI "-.";
-          break;
-        case msrArticulation::kStaccatissimo:
-          fOstream << "-!";
-          break;
-        case msrArticulation::kStress:
-          fOstream << "stress";
-          break;
-        case msrArticulation::kUnstress:
-          fOstream << "unstress";
-          break;
-        case msrArticulation::kDetachedLegato:
-          fOstream << "-_"; // portato
-          break;
-        case msrArticulation::kStrongAccent:
-          fOstream << "-^"; // marcato
-          break;
-        case msrArticulation::kTenuto:
-          fOstream << "--";
-          break;
+      fOstream <<
+        articulationAsLilyponString ((*i));
           
-        case msrArticulation::kFermata:
-          if (
-            S_msrFermata fermata = dynamic_cast<msrFermata*>(&(*this))
-            ) {
-            msrFermata::msrFermataKind
-              fermataKind =
-                fermata->getFermataKind ();
-                
-            switch (fermataKind) {
-              case msrFermata::kUprightFermata:
-                // no prefix needed
-                break;
-              case msrFermata::kInvertedFermata:
-                fOstream << "_";
-                break;
-            } // switch
-
-            fOstream << "\\fermata";
-          }
-          else {
-            msrInternalError (
-              chordInputLineNumber,
-              "chords double tremolo first element should be a chord");
-          }
-          break;
-          
-        case msrArticulation::kArpeggiato:
-          fOstream << "\\arpeggio";
-          break;
-        case msrArticulation::kDoit:
-          fOstream << "\\bendAfter #+4";
-          break;
-        case msrArticulation::kFalloff:
-          fOstream << "\\bendAfter #-4";
-          break;
-        case msrArticulation::kPlop:
-          fOstream << "plop";
-          break;
-        case msrArticulation::kScoop:
-          fOstream << "scoop";
-          break;
-      } // switch
-      
       fOstream << " ";
       fMusicOlec++;
     } // for

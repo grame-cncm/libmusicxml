@@ -101,6 +101,8 @@ class lpsr2LilypondTranslator :
       
   public visitor<S_msrArticulation>,
   
+  public visitor<S_msrFermata>,
+  
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithString>,
@@ -305,6 +307,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
+ // JMI   virtual void visitStart (S_msrFermata& elt);
+    
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 
@@ -406,20 +410,14 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
-    // utilities
-    
-    string                absoluteOctaveAsLilypondString (
-                            int absoluteOctave);
-
-    string                alterationAsLilypondString (
-                            msrAlteration alteration);
-  
-    string                lilypondizeDurationString (string msrDurationString);
+    // divisions
     
     string                divisionsAsLilypondString (
                             int       inputLineNumber,
                             S_msrPart part,
                             int       divisions);
+
+    string                noteDivisionsAsLpsrString (S_msrNote note); // JMI
 
     string                tupletDivisionsAsLilypondString (
                             int       inputLineNumber,
@@ -428,15 +426,36 @@ class lpsr2LilypondTranslator :
                             int       actualNotes,
                             int       normalNotes);
   
-    string                noteDivisionsAsLpsrString (S_msrNote note); // JMI
+    // octaves
+    
+    string                absoluteOctaveAsLilypondString (
+                            int absoluteOctave);
 
+    // alterations
+    
+    string                alterationAsLilypondString (
+                            msrAlteration alteration);
+
+    // durations
+    
+    string                lilypondizeDurationString (string msrDurationString);
+
+    // notes
+    
     string                noteAsLilypondString (S_msrNote note);
 
     void                  printNoteAsLilypondString (S_msrNote note);
 
-    string                noteSoundingDivisionsAsLpsrString (
+    string                noteSoundingDivisionsAsLilypondString (
                             S_msrNote note);
 
+    // articulations
+    
+    string                articulationAsLilyponString (
+                            S_msrArticulation articulation);
+
+    // technicals
+    
     string                technicalKindAsLilypondString (
                             S_msrTechnical technical);
 
@@ -446,16 +465,22 @@ class lpsr2LilypondTranslator :
     string                technicalWithStringKindAsLilypondString (
                             S_msrTechnicalWithString technicalWithString);
 
+    // ornaments
+    
     string                ornamentKindAsLilypondString (
                             int                          inputLineNumber,
                             msrOrnament::msrOrnamentKind ornamentKind,
                             string                       noteUplinkDuration);
 
+    // tremolos
+    
     string                singleTremoloDurationAsLilypondString (
                             int         inputLineNumber,
                             msrDuration singleTremoloNoteDuration,
                             int         singleTremoloMarksNumber);
 
+    // harmonies
+    
     string                harmonyAsLilypondString (
                             S_msrHarmony harmony);
 
