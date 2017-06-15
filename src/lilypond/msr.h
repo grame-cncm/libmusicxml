@@ -8042,8 +8042,6 @@ class EXP msrStaff : public msrElement
     S_msrTranspose        getStaffTranspose () const
                               { return fStaffTranspose; };
     
-    void                  setStaffTranspose (S_msrTranspose transpose);
-
     // staff details
 
     S_msrStaffDetails     getCurrentStaffStaffDetails () const
@@ -8092,6 +8090,10 @@ class EXP msrStaff : public msrElement
     void                  appendKeyToStaff (S_msrKey  key);
     void                  appendTimeToStaff (S_msrTime time);
     
+    // transpose
+
+    void                  appendTransposeToStaff (S_msrTranspose transpose);
+
     // staff voices
     
     S_msrVoice            addVoiceToStaffByItsRelativeNumber (
@@ -8413,8 +8415,8 @@ class EXP msrPart : public msrElement
 
     S_msrTime             getPartCurrentTime () const
                               { return fPartCurrentTime; };
-    
-    void                  setPartTranspose (S_msrTranspose transpose);
+
+    // transpose
 
     S_msrTranspose        getPartTranspose () const
                               { return fPartTranspose; };
@@ -8462,9 +8464,13 @@ class EXP msrPart : public msrElement
 
     // clef, key, time
     
-    void                  setPartCurrentClef (S_msrClef clef);
-    void                  setPartCurrentKey  (S_msrKey  key);
+    void                  appendClefToPart (S_msrClef clef);
+    void                  appendKeyToPart (S_msrKey  key);
     void                  appendTimeToPart (S_msrTime time);
+
+    // transpose
+
+    void                  appendTransposeToPart (S_msrTranspose transpose);
 
     // harmony staff and voice
     

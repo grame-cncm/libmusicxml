@@ -22285,7 +22285,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
   } // for
 }
 
-void msrStaff::setStaffTranspose (S_msrTranspose transpose)
+void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -22298,7 +22298,7 @@ void msrStaff::setStaffTranspose (S_msrTranspose transpose)
       endl;
 
   // set staff transpose
-  fStaffTranspose = transpose;
+// JMI  fStaffTranspose = transpose;
 
   // propagate it to all voices
   appendTransposeToAllStaffVoices (transpose);
@@ -23529,17 +23529,17 @@ void msrPart::appendStaffDetailsToPart (
   } // for
 }
 
-void msrPart::setPartCurrentClef (S_msrClef clef)
+void msrPart::appendClefToPart (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Setting part current clef \"" <<
+      "Appending clef \"" <<
       clef->clefAsString () <<
-      "\" in part " << getPartCombinedName () <<
+      "\" to part " << getPartCombinedName () <<
     endl;
 
   // set part clef
-  fPartCurrentClef = clef; // JMI
+  fPartCurrentClef = clef;
 
   // propagate it to all staves
   for (
@@ -23551,13 +23551,13 @@ void msrPart::setPartCurrentClef (S_msrClef clef)
   } // for
 }
 
-void msrPart::setPartCurrentKey  (S_msrKey  key)
+void msrPart::appendKeyToPart  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceKeys)
     cerr << idtr <<
-      "Setting part current key to \"" <<
+      "Appending key \"" <<
       key->keyAsString () <<
-      "\" in part " << getPartCombinedName () <<
+      "\" to part " << getPartCombinedName () <<
     endl;
 
   // set part key
@@ -23580,9 +23580,9 @@ void msrPart::appendTimeToPart (S_msrTime time)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
-      "Setting part current time to \"" <<
+      "Appending time \"" <<
       time->timeAsString () <<
-      "\" in part " << getPartCombinedName () <<
+      "\" to part " << getPartCombinedName () <<
     endl;
 
   // set part time
@@ -23601,13 +23601,13 @@ void msrPart::appendTimeToPart (S_msrTime time)
   } // for
 }
 
-void msrPart::setPartTranspose (S_msrTranspose transpose)
+void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Setting part transpose \"" <<
+      "Appending transpose \"" <<
       transpose->transposeAsString () <<
-      "\" in part " << getPartCombinedName () <<
+      "\" to part " << getPartCombinedName () <<
     endl;
 
   // set part transpose
@@ -23622,7 +23622,7 @@ void msrPart::setPartTranspose (S_msrTranspose transpose)
       staff = (*i).second;
 
     staff->
-      setStaffTranspose (transpose);
+      appendTransposeToStaff (transpose);
   } // for
 }
 
