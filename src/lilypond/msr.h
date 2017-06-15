@@ -3402,7 +3402,7 @@ class EXP msrSegment : public msrElement
 
     int                   fSegmentAbsoluteNumber;
     
-    S_msrTime             fSegmentCurrentTime;
+    S_msrTime             fSegmentCurrentTime; // JMI
     
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;

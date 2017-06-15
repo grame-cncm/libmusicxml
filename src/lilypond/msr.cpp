@@ -13951,18 +13951,12 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     idtr--;
   }
 
-  S_msrTime
-    segmentTime =
-      fMeasureSegmentUplink->
-        getSegmentCurrentTime ();
-
-  if (segmentTime->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
+  if (time->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
     // this measure is senza misura
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureDivisionsPerFullMeasure = 0;
-      // so the measure will be overfull, hence a cadenza
+    fMeasureDivisionsPerFullMeasure = 0; // JMI
 
     if (gGeneralOptions->fTraceMeasures)
       cerr << idtr <<
@@ -16062,8 +16056,10 @@ S_msrSegment msrSegment::createSegmentShallowClone (
         voiceClone->getVoiceDirectPartUplink (),
         voiceClone);
 
+/* JMI
   clone->fSegmentCurrentTime =
     fSegmentCurrentTime;
+  */
   
   return clone;
 }
