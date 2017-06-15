@@ -3206,23 +3206,26 @@ void msrArticulation::print (ostream& os)
 //______________________________________________________________________________
 S_msrFermata msrFermata::create (
   int            inputLineNumber,
-  msrFermataKind fermataKind)
+  msrFermataKind fermataKind,
+  msrFermataType fermataType)
 {
   msrFermata* o =
     new msrFermata (
-      inputLineNumber, fermataKind);
+      inputLineNumber, fermataKind, fermataType);
   assert (o!=0);
   return o;
 }
 
 msrFermata::msrFermata (
   int            inputLineNumber,
-  msrFermataKind fermataKind)
+  msrFermataKind fermataKind,
+  msrFermataType fermataType)
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata)
 {
   fFermataKind = fermataKind;
+  fFermataType = fermataType;
 }
 
 msrFermata::~msrFermata() {}
@@ -3274,10 +3277,30 @@ string msrFermata::fermataKindAsString (
   string result;
   
   switch (fermataKind) {
-    case msrFermata::kUprightFermata:
+    case msrFermata::kNormalFermataKind:
+      result = "normal";
+      break;
+    case msrFermata::kAngledFermataKind:
+      result = "angled";
+      break;
+    case msrFermata::kSquareFermataKind:
+      result = "square";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrFermata::fermataTypeAsString (
+  msrFermataType fermataType)
+{
+  string result;
+  
+  switch (fermataType) {
+    case msrFermata::kUprightFermataType:
       result = "upright";
       break;
-    case msrFermata::kInvertedFermata:
+    case msrFermata::kInvertedFermataType:
       result = "inverted";
       break;
   } // switch
@@ -3298,6 +3321,7 @@ string msrFermata::fermataAsString () const
   s <<
     "Fermata" <<
     ", " <<fermataKindAsString (fFermataKind) <<
+    ", " <<fermataTypeAsString (fFermataType) <<
     ", line " << fInputLineNumber;
 
   return s.str();

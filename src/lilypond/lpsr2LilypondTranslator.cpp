@@ -3529,15 +3529,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
 
   // don't generate the fermata here,
   // the note or chord will do it in its visitEnd() method
-  msrFermata::msrFermataKind
-    fermataKind =
-      elt->getFermataKind ();
+  msrFermata::msrFermataType
+    fermataType =
+      elt->getFermataType ();
       
-  switch (fermataKind) {
-    case msrFermata::kUprightFermata:
+  switch (fermataType) {
+    case msrFermata::kUprightFermataType:
       // no prefix needed
       break;
-    case msrFermata::kInvertedFermata:
+    case msrFermata::kInvertedFermataType:
       fOstream << "_";
       break;
   } // switch
@@ -5071,15 +5071,15 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       if (
         S_msrFermata fermata = dynamic_cast<msrFermata*>(&(*this))
         ) {
-        msrFermata::msrFermataKind
-          fermataKind =
-            fermata->getFermataKind ();
+        msrFermata::msrFermataType
+          fermataType =
+            fermata->getFermataType ();
             
-        switch (fermataKind) {
-          case msrFermata::kUprightFermata:
+        switch (fermataType) {
+          case msrFermata::kUprightFermataType:
             // no prefix needed
             break;
-          case msrFermata::kInvertedFermata:
+          case msrFermata::kInvertedFermataType:
             s << "_";
             break;
         } // switch
