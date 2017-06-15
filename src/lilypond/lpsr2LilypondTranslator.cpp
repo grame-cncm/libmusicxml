@@ -63,6 +63,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // time
   fVoiceIsCurrentlySenzaMisura = false;
+  fOnGoingVoiceCadenza = false;
   
   // staves
   fOnGoingStaff = false;
@@ -2522,10 +2523,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   // take this measure into account
   fMeasuresCounter++;
   
+  // get measure kind
+  msrMeasure::msrMeasureKind
+    measureKind =
+      elt->getMeasureKind ();
+      
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> Start visiting msrMeasure " <<
       measureNumber <<
+      ", measureKind:" <<
+      msrMeasure::measureKindAsString (measureKind) <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -2537,6 +2545,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       endl;
 
     idtr++;
+  }
+
+  // is this the end of a cadenza?
+  if (
+    fOnGoingVoiceCadenza
+      &&
+    measureKind != msrMeasure::kOverfullMeasureKind) {
+    fOstream <<
+      endl <<
+      idtr <<
+        "\\cadenzaOff" <<
+        endl;
+
+    fOnGoingVoiceCadenza = false;
   }
 
   fSegmentNotesAndChordsCountersStack.push (0);
@@ -2640,18 +2662,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kOverfullMeasureKind:
-      {
+      if (! fOnGoingVoiceCadenza) {
         fOstream << idtr <<
           "\\cadenzaOn" <<
           endl;
+          
+        fOnGoingVoiceCadenza = true;
       }
       break;
       
     case msrMeasure::kSenzaMisuraMeasureKind:
-      {        
+      if (! fOnGoingVoiceCadenza) {
         fOstream << idtr <<
           "\\cadenzaOn" <<
           endl;
+          
+        fOnGoingVoiceCadenza = true;
       }
       break;
       
@@ -2684,14 +2710,22 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
     
+  // get measure kind
+  msrMeasure::msrMeasureKind
+    measureKind =
+      elt->getMeasureKind ();
+      
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> End visiting msrMeasure " <<
       measureNumber <<
+      ", measureKind:" <<
+      msrMeasure::measureKindAsString (measureKind) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
 
-  switch (elt->getMeasureKind ()) {
+  // handle the measure
+  switch (measureKind) {
     case msrMeasure::kUnknownMeasureKind:
       break;
       
@@ -2708,14 +2742,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kOverfullMeasureKind:
+    /* JMI
       fOstream <<
         endl <<
         idtr <<
           "\\cadenzaOff" <<
-          endl <<
-        idtr<<
-          "\\bar \"|\"" <<
           endl;
+
+      fOnGoingVoiceCadenza = true;
+      */
+      
 /* JMI
       idtr--;
       fOstream <<
@@ -2726,7 +2762,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         */
       break;
 
-    case msrMeasure::kSenzaMisuraMeasureKind:      
+    case msrMeasure::kSenzaMisuraMeasureKind:
+    /* JMI   
       fOstream <<
         idtr <<
           "\\cadenzaOff" <<
@@ -2734,6 +2771,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         idtr<<
           "\\bar \"|\"" <<
           endl;
+          */
       break;
 
     case msrMeasure::kEmptyMeasureKind:
