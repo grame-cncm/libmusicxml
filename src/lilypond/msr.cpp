@@ -13957,7 +13957,10 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         getSegmentCurrentTime ();
 
   if (segmentTime->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
-    // measure is senza misura
+    // this measure is senza misura
+    setMeasureKind (
+      kSenzaMisuraMeasureKind);
+    
     fMeasureDivisionsPerFullMeasure = 0;
       // so the measure will be overfull, hence a cadenza
 
@@ -15800,6 +15803,9 @@ string msrMeasure::measureKindAsString (
       break;
     case msrMeasure::kOverfullMeasureKind:
       result = "**over full**";
+      break;
+    case msrMeasure::kSenzaMisuraMeasureKind:
+      result = "**senza misura**";
       break;
     case msrMeasure::kEmptyMeasureKind:
       result = "empty";
@@ -21992,7 +21998,13 @@ void msrStaff::setStaffCurrentClef (S_msrClef clef)
   } // switch
   
   // propagate clef to all voices
-  appendClefToAllStaffVoices (clef);
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendClefToVoice (clef);
+  } // for
 }
 
 void msrStaff::setStaffCurrentKey  (S_msrKey  key)
@@ -22010,7 +22022,13 @@ void msrStaff::setStaffCurrentKey  (S_msrKey  key)
   fStaffCurrentKey = key;
 
   // propagate it to all voices
-  appendKeyToAllStaffVoices (key);
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendKeyToVoice (key);
+  } // for
 }
 
 void msrStaff::setStaffCurrentTime (S_msrTime time)
@@ -22028,7 +22046,20 @@ void msrStaff::setStaffCurrentTime (S_msrTime time)
   fStaffCurrentTime = time;
 
   // propagate it to all voices
-  appendTimeToAllStaffVoices (time);
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendTimeToVoice (time);
+  } // for
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendTimeToVoice (time);
+  } // for
 }    
 
 void msrStaff::createAndAppendRepeatToStaff (int inputLineNumber)
@@ -22295,39 +22326,6 @@ void msrStaff::appendStaffDetailsToStaff (
     i++) {
     (*i).second->
       appendStaffDetailsToVoice (staffDetails);
-  } // for
-}
-
-void msrStaff::appendClefToAllStaffVoices (S_msrClef clef)
-{
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      appendClefToVoice (clef);
-  } // for
-}
-
-void msrStaff::appendKeyToAllStaffVoices (S_msrKey  key)
-{
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      appendKeyToVoice (key);
-  } // for
-}
-
-void msrStaff::appendTimeToAllStaffVoices (S_msrTime time)
-{
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      appendTimeToVoice (time);
   } // for
 }
 

@@ -2642,6 +2642,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       }
       break;
       
+    case msrMeasure::kSenzaMisuraMeasureKind:
+      {
+        fOstream << idtr <<
+          "\\cadenzaOn" <<
+          endl;
+      }
+      break;
+      
     case msrMeasure::kEmptyMeasureKind:
       {
         int
@@ -2711,6 +2719,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         "\\bar \"|\"" <<
         endl;
         */
+      break;
+
+    case msrMeasure::kSenzaMisuraMeasureKind:
+      fOstream <<
+        endl <<
+        idtr <<
+          "\\cadenzaOff" <<
+          endl <<
+        idtr<<
+          "\\bar \"|\"" <<
+          endl;
       break;
 
     case msrMeasure::kEmptyMeasureKind:

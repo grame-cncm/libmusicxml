@@ -2777,8 +2777,8 @@ class EXP msrMeasure : public msrElement
         kUpbeatMeasureKind,
         kUnderfullMeasureKind,
         kOverfullMeasureKind,
-        // kSenzaMisuraMeasureKind, // JMI
-        kEmptyMeasureKind}; // for <measure ... />
+        kSenzaMisuraMeasureKind,
+        kEmptyMeasureKind}; // for <measure ... /> without nested contents
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
@@ -8123,8 +8123,6 @@ class EXP msrStaff : public msrElement
     // clef, key, time
     
     void                  appendClefToAllStaffVoices (S_msrClef clef);
-    void                  appendKeyToAllStaffVoices  (S_msrKey   key);
-    void                  appendTimeToAllStaffVoices (S_msrTime time);
 
     // repeats
     

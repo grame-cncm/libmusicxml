@@ -1299,6 +1299,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       doCreateABarCheck = true;
       break;
       
+    case msrMeasure::kSenzaMisuraMeasureKind:
+      doCreateABarCheck = true;
+      break;
+      
     case msrMeasure::kEmptyMeasureKind:
       // JMI
       break;
