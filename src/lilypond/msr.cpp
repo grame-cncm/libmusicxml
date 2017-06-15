@@ -19615,7 +19615,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
       break_->getNextBarNumber ());
 }
 
-void msrVoice::createAndAppendRepeatToVoice (int inputLineNumber)
+void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -22077,7 +22077,7 @@ void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      createAndAppendRepeatToVoice (inputLineNumber);
+      createRepeatAndAppendItToVoice (inputLineNumber);
   } // for
 }
 

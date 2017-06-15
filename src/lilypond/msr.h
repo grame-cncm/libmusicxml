@@ -7501,7 +7501,7 @@ class EXP msrVoice : public msrElement
 
     // repeats
     
-    void                  createAndAppendRepeatToVoice (
+    void                  createRepeatAndAppendItToVoice (
                             int inputLineNumber);
     
     void                  createMeasureRepeatFromItsFirstMeasureInVoice (
@@ -8162,7 +8162,7 @@ class EXP msrStaff : public msrElement
                             S_msrRepeatEnding repeatEndingClone);
 
 /* JMI
-    void                  createAndAppendRepeatToAllStaffVoices (
+    void                  createRepeatAndAppendItToAllStaffVoices (
                             int inputLineNumber);
     */
     
