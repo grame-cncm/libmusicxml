@@ -307,7 +307,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
- // JMI   virtual void visitStart (S_msrFermata& elt);
+    virtual void visitStart (S_msrFermata& elt);
+    virtual void visitEnd   (S_msrFermata& elt);
     
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
@@ -456,21 +457,19 @@ class lpsr2LilypondTranslator :
 
     // technicals
     
-    string                technicalKindAsLilypondString (
+    string                technicalAsLilypondString (
                             S_msrTechnical technical);
 
-    string                technicalWithIntegerKindAsLilypondString (
+    string                technicalWithIntegerAsLilypondString (
                             S_msrTechnicalWithInteger technicalWithInteger);
 
-    string                technicalWithStringKindAsLilypondString (
+    string                technicalWithStringAsLilypondString (
                             S_msrTechnicalWithString technicalWithString);
 
     // ornaments
     
-    string                ornamentKindAsLilypondString (
-                            int                          inputLineNumber,
-                            msrOrnament::msrOrnamentKind ornamentKind,
-                            string                       noteUplinkDuration);
+    string                ornamentAsLilypondString (
+                            S_msrOrnament ornament);
 
     // tremolos
     

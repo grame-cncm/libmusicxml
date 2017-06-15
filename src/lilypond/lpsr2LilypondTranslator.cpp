@@ -453,7 +453,7 @@ string lpsr2LilypondTranslator::noteSoundingDivisionsAsLilypondString (
 }
         
 //________________________________________________________________________
-string lpsr2LilypondTranslator::technicalKindAsLilypondString (
+string lpsr2LilypondTranslator::technicalAsLilypondString (
   S_msrTechnical technical)
 {
   string result;
@@ -517,7 +517,7 @@ string lpsr2LilypondTranslator::technicalKindAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::technicalWithIntegerKindAsLilypondString (
+string lpsr2LilypondTranslator::technicalWithIntegerAsLilypondString (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
   stringstream s;
@@ -550,7 +550,7 @@ string lpsr2LilypondTranslator::technicalWithIntegerKindAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::technicalWithStringKindAsLilypondString (
+string lpsr2LilypondTranslator::technicalWithStringAsLilypondString (
   S_msrTechnicalWithString technicalWithString)
 {
   string result;
@@ -583,14 +583,17 @@ string lpsr2LilypondTranslator::technicalWithStringKindAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::ornamentKindAsLilypondString (
-  int                          inputLineNumber,
-  msrOrnament::msrOrnamentKind ornamentKind,
-  string                       noteUplinkDuration)
+string lpsr2LilypondTranslator::ornamentAsLilypondString (
+  S_msrOrnament ornament)
 {
   string result;
   
-  switch (ornamentKind) {
+  string
+    noteUplinkDuration =
+      ornament->getOrnamentNoteUplink ()->
+        noteSoundingDivisionsAsMsrString ();
+
+  switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
       result = "\\trill";
       break;
@@ -3517,6 +3520,26 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrFermata" <<
+      endl;
+
+  // don't generate the Fermata here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrFermata" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrTechnical& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -4465,7 +4488,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i++) {
         
       fOstream <<
-        technicalKindAsLilypondString ((*i));
+        technicalAsLilypondString ((*i));
       fMusicOlec++;
 
       switch ((*i)->getTechnicalPlacementKind ()) {
@@ -4499,7 +4522,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i++) {
         
       fOstream <<
-        technicalWithIntegerKindAsLilypondString ((*i));
+        technicalWithIntegerAsLilypondString ((*i));
       fMusicOlec++;
 
       switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
@@ -4533,7 +4556,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i++) {
         
       fOstream <<
-        technicalWithStringKindAsLilypondString ((*i));
+        technicalWithStringAsLilypondString ((*i));
       fMusicOlec++;
 
       switch ((*i)->getTechnicalWithStringPlacementKind ()) {
@@ -4564,17 +4587,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteOrnaments.begin();
       i!=noteOrnaments.end();
-      i++) {
-      string
-        noteDuration =
-          (*i)->getOrnamentNoteUplink ()->
-            noteSoundingDivisionsAsMsrString ();
-        
+      i++) {        
       fOstream <<
-        ornamentKindAsLilypondString (
-          (*i)->getInputLineNumber (), // some ornaments are not yet supported
-          (*i)->getOrnamentKind (),
-          noteDuration);
+        ornamentAsLilypondString ((*i)); // some ornaments are not yet supported
           // <<
         // JMI " ";
       fMusicOlec++;
@@ -5182,7 +5197,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordTechnicals.end();
       i++) {
       fOstream <<
-        technicalKindAsLilypondString ((*i)) <<
+        technicalAsLilypondString ((*i)) <<
         " "; // JMI
       fMusicOlec++;
     } // for
@@ -5200,7 +5215,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordTechnicalWithIntegers.end();
       i++) {
       fOstream <<
-        technicalWithIntegerKindAsLilypondString ((*i)) <<
+        technicalWithIntegerAsLilypondString ((*i)) <<
         " "; // JMI
       fMusicOlec++;
     } // for
@@ -5218,7 +5233,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordTechnicalWithStrings.end();
       i++) {
       fOstream <<
-        technicalWithStringKindAsLilypondString ((*i)) <<
+        technicalWithStringAsLilypondString ((*i)) <<
         " "; // JMI
       fMusicOlec++;
     } // for
@@ -5236,10 +5251,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordOrnaments.end();
       i++) {
       fOstream <<
-        ornamentKindAsLilypondString (
-          (*i)->getInputLineNumber (), // some ornaments are not yet supported
-          (*i)->getOrnamentKind (),
-          "") << // JMI
+        ornamentAsLilypondString ((*i)) << // some ornaments are not yet supported
         " ";
       fMusicOlec++;
     } // for
