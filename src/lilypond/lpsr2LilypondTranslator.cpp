@@ -3526,14 +3526,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
     fOstream << idtr <<
       "% --> Start visiting msrFermata" <<
       endl;
-
-  // don't generate the fermata here,
-  // the note or chord will do it in its visitEnd() method
-  msrFermata::msrFermataType
-    fermataType =
-      elt->getFermataType ();
       
-  switch (fermataType) {
+  switch (elt->getFermataType ()) {
     case msrFermata::kUprightFermataType:
       // no prefix needed
       break;
@@ -3542,7 +3536,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       break;
   } // switch
 
-  fOstream << "\\fermata";
+  switch (elt->getFermataKind ()) {
+    case msrFermata::kNormalFermataKind:
+      fOstream << "\\fermata";
+      break;
+    case msrFermata::kAngledFermataKind:
+      fOstream << "\\shortfermata";
+      break;
+    case msrFermata::kSquareFermataKind:
+      fOstream << "\\longfermata";
+      break;
+  } // switch
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
