@@ -21745,7 +21745,7 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
   return result;
 }
 
-void msrStaff::createAndAppendMeasureToStaff (
+void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -22062,11 +22062,11 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
   } // for
 }    
 
-void msrStaff::createAndAppendRepeatToStaff (int inputLineNumber)
+void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat to staff \"" <<
+      "Appending repeat and appending it to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -22298,7 +22298,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
       endl;
 
   // set staff transpose
-// JMI  fStaffTranspose = transpose;
+  fStaffTranspose = transpose;
 
   // propagate it to all voices
   appendTransposeToAllStaffVoices (transpose);
@@ -23474,7 +23474,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
     fInputLineNumber);
 }
 
-void msrPart::createAndAppendMeasureToPart (
+void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
   string measureNumber)
 {
@@ -23498,7 +23498,7 @@ void msrPart::createAndAppendMeasureToPart (
       staff = (*i).second;
       
     staff->
-      createAndAppendMeasureToStaff (
+      createMeasureAndAppendItToStaff (
         inputLineNumber, measureNumber);
   } // for
 }
@@ -23634,7 +23634,7 @@ void msrPart::createAndAppendRepeatToPart (int inputLineNumber)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      createAndAppendRepeatToStaff (inputLineNumber);
+      createRepeatAndAppendItToStaff (inputLineNumber);
   } // for
 }
 

@@ -8064,7 +8064,7 @@ class EXP msrStaff : public msrElement
 
     // measures
     
-    void                  createAndAppendMeasureToStaff (
+    void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber);
                       
@@ -8126,7 +8126,8 @@ class EXP msrStaff : public msrElement
 
     // repeats
     
-    void                  createAndAppendRepeatToStaff (int inputLineNumber);
+    void                  createRepeatAndAppendItToStaff (
+                            int inputLineNumber);
     
     void                  createMeasureRepeatFromItsFirstMeasureInStaff (
                             int inputLineNumber,
@@ -8479,7 +8480,7 @@ class EXP msrPart : public msrElement
         
     // measures
     
-    void                  createAndAppendMeasureToPart (
+    void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
                             string measureNumber);
 
