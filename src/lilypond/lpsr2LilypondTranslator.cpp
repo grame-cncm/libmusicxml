@@ -2552,11 +2552,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fOnGoingVoiceCadenza
       &&
     measureKind != msrMeasure::kOverfullMeasureKind) {
-    fOstream <<
-      endl <<
-      idtr <<
-        "\\cadenzaOff" <<
-        endl;
+    fOstream << idtr <<
+      "\\cadenzaOff";
+    }
+
+    if (gLilypondOptions->fComments) {
+      fOstream << " % kOverfullMeasureKind Start";
+
+    fOstream<<
+      endl;
 
     fOnGoingVoiceCadenza = false;
   }
@@ -2664,7 +2668,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kOverfullMeasureKind:
       if (! fOnGoingVoiceCadenza) {
         fOstream << idtr <<
-          "\\cadenzaOn" <<
+          "\\cadenzaOn";
+
+        if (gLilypondOptions->fComments) {
+          fOstream << " % kOverfullMeasureKind Start";
+        }
+
+        fOstream <<
           endl;
           
         fOnGoingVoiceCadenza = true;
@@ -2674,7 +2684,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kSenzaMisuraMeasureKind:
       if (! fOnGoingVoiceCadenza) {
         fOstream << idtr <<
-          "\\cadenzaOn" <<
+          "\\cadenzaOn";
+
+        if (gLilypondOptions->fComments) {
+          fOstream << " % kSenzaMisuraMeasureKind Start";
+        }
+
+        fOstream <<
           endl;
           
         fOnGoingVoiceCadenza = true;
@@ -5638,32 +5654,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1
  // JMI if (nextBarNumber > 1)
-
-/*
-  if (fMusicOlec == 0)
-    fOstream <<
-      idtr;
-  */
       
   int saveIndent =
     idtr.getIndent ();
     
   fOstream << idtr <<
     "| % " << nextBarNumber << " % bar check" <<
+    ", saveIndent = " << saveIndent <<
     endl;
 
-  if (saveIndent > 0) {
-    idtr.resetToZero ();
-    
-    for (int i = 0; i < saveIndent; i++) {
-      fOstream <<
-        idtr;
-        
-      saveIndent++;
-    }
-  }
-
-// JMI  fMusicOlec.resetToZero ();
+  fMusicOlec.resetToZero ();
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
