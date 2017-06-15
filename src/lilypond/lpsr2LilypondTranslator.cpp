@@ -3527,8 +3527,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       "% --> Start visiting msrFermata" <<
       endl;
 
-  // don't generate the Fermata here,
+  // don't generate the fermata here,
   // the note or chord will do it in its visitEnd() method
+  msrFermata::msrFermataKind
+    fermataKind =
+      elt->getFermataKind ();
+      
+  switch (fermataKind) {
+    case msrFermata::kUprightFermata:
+      // no prefix needed
+      break;
+    case msrFermata::kInvertedFermata:
+      fOstream << "_";
+      break;
+  } // switch
+
+  fOstream << "\\fermata";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
@@ -5052,6 +5066,8 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       break;
       
     case msrArticulation::kFermata:
+      // this is handled in visitStart (S_msrFermata&)
+      /* JMI
       if (
         S_msrFermata fermata = dynamic_cast<msrFermata*>(&(*this))
         ) {
@@ -5073,8 +5089,9 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       else {
         msrInternalError (
           articulation->getInputLineNumber (),
-          "msrArticulation::kFermata is present outdside of a msrFermata");
+          "msrArticulation::kFermata is handled outdside of a msrFermata");
       }
+      */
       break;
       
     case msrArticulation::kArpeggiato:
