@@ -21519,7 +21519,7 @@ void msrStaff::initializeStaff ()
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
-      setStaffCurrentClef (clef);
+      appendClefToStaff (clef);
     }
     
     else {
@@ -21533,7 +21533,7 @@ void msrStaff::initializeStaff ()
           endl;
 
       // create the implicit initial G line 2 clef
-      setStaffCurrentClef (
+      appendClefToStaff (
         msrClef::create (
           fInputLineNumber,
           msrClef::kTrebleClef));
@@ -21557,7 +21557,7 @@ void msrStaff::initializeStaff ()
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
-      setStaffCurrentKey (key);
+      appendKeyToStaff (key);
       }
     else {
       if (gGeneralOptions->fTraceStaves)
@@ -21570,7 +21570,7 @@ void msrStaff::initializeStaff ()
           endl;
           
       // create the implicit initial C major key
-      setStaffCurrentKey (
+      appendKeyToStaff (
         msrKey::createTraditional (
           fInputLineNumber,
           k_cNatural, msrKey::kMajorMode, 0));
@@ -21594,7 +21594,7 @@ void msrStaff::initializeStaff ()
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
 
-      setStaffCurrentTime (time);
+      appendTimeToStaff (time);
     }
     else {
       /* JMI
@@ -21608,7 +21608,7 @@ void msrStaff::initializeStaff ()
           endl;
           
       // create the implicit initial 4/4 time signature
-      setStaffCurrentTime (
+      appendTimeToStaff (
         msrTime::createFourQuartersTime (
           fInputLineNumber));
           */
@@ -21964,12 +21964,12 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
-void msrStaff::setStaffCurrentClef (S_msrClef clef)
+void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Setting staff clef '" << clef->clefAsString () <<
-      "' in staff \"" <<
+      "Appending staff clef '" << clef->clefAsString () <<
+      "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -22007,12 +22007,12 @@ void msrStaff::setStaffCurrentClef (S_msrClef clef)
   } // for
 }
 
-void msrStaff::setStaffCurrentKey  (S_msrKey  key)
+void msrStaff::appendKeyToStaff  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Setting key '" << key->keyAsString () <<
-      "' in staff \"" <<
+      "Appending key '" << key->keyAsString () <<
+      "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -22031,12 +22031,12 @@ void msrStaff::setStaffCurrentKey  (S_msrKey  key)
   } // for
 }
 
-void msrStaff::setStaffCurrentTime (S_msrTime time)
+void msrStaff::appendTimeToStaff (S_msrTime time)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
-      "Setting time to '" << time->timeAsString () <<
-      "' in staff \"" <<
+      "Appending time to '" << time->timeAsString () <<
+      "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -23547,7 +23547,7 @@ void msrPart::setPartCurrentClef (S_msrClef clef)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      setStaffCurrentClef (clef);
+      appendClefToStaff (clef);
   } // for
 }
 
@@ -23572,11 +23572,11 @@ void msrPart::setPartCurrentKey  (S_msrKey  key)
       staff = (*i).second;
 
     staff->
-      setStaffCurrentKey (key);
+      appendKeyToStaff (key);
   } // for
 }
 
-void msrPart::setPartCurrentTime (S_msrTime time)
+void msrPart::appendTimeToPart (S_msrTime time)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
@@ -23597,7 +23597,7 @@ void msrPart::setPartCurrentTime (S_msrTime time)
       staff = (*i).second;
 
     staff->
-      setStaffCurrentTime (time);
+      appendTimeToStaff (time);
   } // for
 }
 

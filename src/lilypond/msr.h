@@ -8030,10 +8030,6 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
     
-    void                  setStaffCurrentClef (S_msrClef clef);
-    void                  setStaffCurrentKey  (S_msrKey  key);
-    void                  setStaffCurrentTime (S_msrTime time);
-
     S_msrClef             getStaffCurrentClef () const
                               { return fStaffCurrentClef; };
     S_msrKey              getStaffCurrentKey  () const
@@ -8089,7 +8085,13 @@ class EXP msrStaff : public msrElement
     
     void                  appendStaffDetailsToStaff (
                             S_msrStaffDetails staffDetails);
-                            
+
+    // clef, key, time
+
+    void                  appendClefToStaff (S_msrClef clef);
+    void                  appendKeyToStaff (S_msrKey  key);
+    void                  appendTimeToStaff (S_msrTime time);
+    
     // staff voices
     
     S_msrVoice            addVoiceToStaffByItsRelativeNumber (
@@ -8119,10 +8121,6 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber);
   
     const int             getStaffNumberOfMusicVoices () const;
-
-    // clef, key, time
-    
-    void                  appendClefToAllStaffVoices (S_msrClef clef);
 
     // repeats
     
@@ -8413,7 +8411,6 @@ class EXP msrPart : public msrElement
     S_msrKey              getPartCurrentKey  () const
                               { return fPartCurrentKey; };
 
-    void                  setPartCurrentTime (S_msrTime time);
     S_msrTime             getPartCurrentTime () const
                               { return fPartCurrentTime; };
     
@@ -8462,7 +8459,11 @@ class EXP msrPart : public msrElement
 
     void                  testDivisionsAndDurations (); // JMI
     void                  testTupletSoundingDivisionsAndDurations ();
-  
+
+    // clef, key, time
+    
+    void                  appendTimeToPart (S_msrTime time);
+
     // harmony staff and voice
     
     void                  createPartHarmonyStaffAndVoice (
