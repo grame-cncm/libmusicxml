@@ -3205,21 +3205,24 @@ void msrArticulation::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrFermata msrFermata::create (
-  int inputLineNumber)
+  int            inputLineNumber,
+  msrFermataKind fermataKind)
 {
   msrFermata* o =
     new msrFermata (
-      inputLineNumber);
+      inputLineNumber, fermataKind);
   assert (o!=0);
   return o;
 }
 
 msrFermata::msrFermata (
-  int inputLineNumber)
+  int            inputLineNumber,
+  msrFermataKind fermataKind)
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata)
 {
+  fFermataKind = fermataKind;
 }
 
 msrFermata::~msrFermata() {}
@@ -3265,17 +3268,46 @@ void msrFermata::acceptOut (basevisitor* v) {
 void msrFermata::browseData (basevisitor* v)
 {}
 
+string msrFermata::fermataKindAsString (
+  msrFermataKind fermataKind)
+{
+  string result;
+  
+  switch (fermataKind) {
+    case msrFermata::kUpright:
+      result = "upright";
+      break;
+    case msrFermata::kInverted:
+      result = "inverted";
+      break;
+  } // switch
+
+  return result;
+}
+      
 ostream& operator<< (ostream& os, const S_msrFermata& elt)
 {
   elt->print (os);
   return os;
 }
 
+string msrFermata::fermataAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Fermata" <<
+    ", " <<fermataKindAsString (fFermataKind) <<
+    ", line " << fInputLineNumber;
+
+  return s.str();
+}
+
 void msrFermata::print (ostream& os)
 {
   os <<
     "Fermata" " " <<
-    articulationKindAsString () <<
+    fermataAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }

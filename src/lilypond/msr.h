@@ -982,11 +982,21 @@ class EXP msrFermata : public msrArticulation
 {
   public:
           
+    // data types
+    // ------------------------------------------------------
+
+    enum msrFermataKind {
+        kUpright, kInverted};
+
+    static string fermataKindAsString (
+      msrFermataKind fermataKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrFermata> create (
-      int inputLineNumber);
+      int            inputLineNumber,
+      msrFermataKind fermataKind);
 
   protected:
 
@@ -994,7 +1004,8 @@ class EXP msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     msrFermata (
-      int inputLineNumber);
+      int            inputLineNumber,
+      msrFermataKind fermataKind);
       
     virtual ~msrFermata();
   
@@ -1003,13 +1014,13 @@ class EXP msrFermata : public msrArticulation
     // set and get
     // ------------------------------------------------------
 
-    msrArticulationKind   getArticulationKind () const
-                              { return fArticulationKind; }
+    msrFermataKind        getFermataKind () const
+                              { return fFermataKind; }
         
     // services
     // ------------------------------------------------------
 
-    string                fermataKindAsString () const;
+    string                fermataAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1026,6 +1037,7 @@ class EXP msrFermata : public msrArticulation
 
   private:
 
+    msrFermataKind        fFermataKind;
 };
 typedef SMARTP<msrFermata> S_msrFermata;
 EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
