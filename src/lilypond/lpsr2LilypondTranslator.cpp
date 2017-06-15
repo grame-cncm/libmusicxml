@@ -2648,14 +2648,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kSenzaMisuraMeasureKind:
-      {
-        if (! fVoiceIsCurrentlySenzaMisura) {
-          fOstream << idtr <<
-            "\\cadenzaOn" <<
-            endl;
-
-          fVoiceIsCurrentlySenzaMisura = true;
-        }
+      {        
+        fOstream << idtr <<
+          "\\cadenzaOn" <<
+          endl;
       }
       break;
       
@@ -2730,16 +2726,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         */
       break;
 
-    case msrMeasure::kSenzaMisuraMeasureKind:
-      if (! fVoiceIsCurrentlySenzaMisura) {
-        fOstream <<
-          idtr <<
-            "\\omit Staff.TimeSignature" <<
-            endl;
-  
-        fVoiceIsCurrentlySenzaMisura = true;
-      }
-      
+    case msrMeasure::kSenzaMisuraMeasureKind:      
       fOstream <<
         idtr <<
           "\\cadenzaOff" <<
@@ -3239,23 +3226,43 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     timeItemsVector =
       elt->getTimeItemsVector ();
 
-  int timesItemsNumber =
-    timeItemsVector.size ();
+  // is this the end of a senza misura fragment?
+  if (
+    fVoiceIsCurrentlySenzaMisura
+      &&
+    timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+    fOstream <<
+      idtr <<
+        "\\undo\\omit Staff.TimeSignature" <<
+      endl;
 
-  if (timesItemsNumber) {
+    fVoiceIsCurrentlySenzaMisura = false;
+  }
 
-    if (! elt->getTimeIsCompound ()) {
+  // handle the time
+  if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
 
-      if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
-        fOstream <<
-          idtr <<
-            "\\omit Staff.TimeSignature" <<
-          endl;
+    // senza misura time
+    
+    fOstream <<
+      idtr <<
+        "\\omit Staff.TimeSignature" <<
+      endl;
 
-        fVoiceIsCurrentlySenzaMisura = true;
-      }
+    fVoiceIsCurrentlySenzaMisura = true;
+  }
 
-      else {
+  else {
+
+    // con misura time
+    
+    int timesItemsNumber =
+      timeItemsVector.size ();
+  
+    if (timesItemsNumber) {
+  
+      if (! elt->getTimeIsCompound ()) {
+  
         // simple time
         // \time "3/4" for 3/4
         // or senza misura
@@ -3291,7 +3298,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         }
   
         /* dotted-note: JMI
-\relative {
+  \relative {
   \override Staff.TimeSignature.stencil = #(lambda (grob)
                                              (grob-interpret-markup grob #{
                                                \markup\override #'(baseline-skip . 0.5) {
@@ -3305,16 +3312,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
                                                *
      * ou plus simle
      * #(define-public (format-time-sig-note grob)
-(let* ((frac (ly:grob-property grob 'fraction))
-(num (if (pair? frac) (car frac) 4))
-(den (if (pair? frac) (cdr frac) 4))
-(m (markup #:override '(baseline-skip . 0.5)
-#:center-column (#:number (number->string num)
-#'" "
-#:override '(style . default)
-#:note (number->string den) DOWN))))
-(grob-interpret-markup grob m)))
-
+  (let* ((frac (ly:grob-property grob 'fraction))
+  (num (if (pair? frac) (car frac) 4))
+  (den (if (pair? frac) (cdr frac) 4))
+  (m (markup #:override '(baseline-skip . 0.5)
+  #:center-column (#:number (number->string num)
+  #'" "
+  #:override '(style . default)
+  #:note (number->string den) DOWN))))
+  (grob-interpret-markup grob m)))
+  
          */
         fOstream <<
           "\\time" " " <<
@@ -3322,70 +3329,70 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           "/" <<
           timeItem->getTimeBeatValue () <<
           endl;
-      }  
-    }
-      
-    else {
-
-      // compound time
-      // \compoundMeter #'(3 2 8) for 3+2/8
-      // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
-      // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+      }
+        
+      else {
   
-      fOstream <<
-        idtr <<
-        "\\compoundMeter #`(";
+        // compound time
+        // \compoundMeter #'(3 2 8) for 3+2/8
+        // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
+        // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+    
+        fOstream <<
+          idtr <<
+          "\\compoundMeter #`(";
+        
+        // handle all the time items in the vector
+        for (int i = 0; i < timesItemsNumber; i++) {
+          S_msrTimeItem
+            timeItem =
+              timeItemsVector [i];
       
-      // handle all the time items in the vector
-      for (int i = 0; i < timesItemsNumber; i++) {
-        S_msrTimeItem
-          timeItem =
-            timeItemsVector [i];
-    
-        // fetch the time item beat numbers vector
-        const vector<int>&
-          beatsNumbersVector =
-            timeItem->
-              getTimeBeatsNumbersVector ();
-    
-        int beatsNumbersNumber =
-          beatsNumbersVector.size ();
-          
-        // first generate the opening parenthesis
-        fOstream <<
-          "(";
-
-        // then generate all beats numbers in the vector
-        for (int j = 0; j < beatsNumbersNumber; j++) {
-          fOstream <<
-            beatsNumbersVector [j] <<
-            " ";
-        } // for
-    
-        // then generate the beat type
-        fOstream <<
-          timeItem->getTimeBeatValue ();
-
-        // and finally generate the closing parenthesis
-        fOstream <<
-          ")";
-
-        if (i != timesItemsNumber - 1)
-          fOstream <<
-            " ";
-      } // for
+          // fetch the time item beat numbers vector
+          const vector<int>&
+            beatsNumbersVector =
+              timeItem->
+                getTimeBeatsNumbersVector ();
+      
+          int beatsNumbersNumber =
+            beatsNumbersVector.size ();
             
-    fOstream <<
-      ")" <<
-      endl;
+          // first generate the opening parenthesis
+          fOstream <<
+            "(";
+  
+          // then generate all beats numbers in the vector
+          for (int j = 0; j < beatsNumbersNumber; j++) {
+            fOstream <<
+              beatsNumbersVector [j] <<
+              " ";
+          } // for
+      
+          // then generate the beat type
+          fOstream <<
+            timeItem->getTimeBeatValue ();
+  
+          // and finally generate the closing parenthesis
+          fOstream <<
+            ")";
+  
+          if (i != timesItemsNumber - 1)
+            fOstream <<
+              " ";
+        } // for
+              
+      fOstream <<
+        ")" <<
+        endl;
+      }
     }
-  }
     
-  else {
-    if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
-      msrInternalError (
-        elt->getInputLineNumber (),
-        "time items vector is empty");
+    else {
+      if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+        msrInternalError (
+          elt->getInputLineNumber (),
+          "time items vector is empty");
+      }
     }
   }
 }
