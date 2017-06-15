@@ -986,7 +986,7 @@ class EXP msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     enum msrFermataKind {
-        kUpright, kInverted};
+        kUprightFermata, kInvertedFermata};
 
     static string fermataKindAsString (
       msrFermataKind fermataKind);

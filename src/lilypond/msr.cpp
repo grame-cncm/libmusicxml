@@ -3274,10 +3274,10 @@ string msrFermata::fermataKindAsString (
   string result;
   
   switch (fermataKind) {
-    case msrFermata::kUpright:
+    case msrFermata::kUprightFermata:
       result = "upright";
       break;
-    case msrFermata::kInverted:
+    case msrFermata::kInvertedFermata:
       result = "inverted";
       break;
   } // switch
