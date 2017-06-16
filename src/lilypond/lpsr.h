@@ -42,14 +42,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
-// JMI
-
-/*!
-\internal
-\brief A macro to simplify output line elements counting
-*/
-//______________________________________________________________________________
-#define olec ioutputLineElementsCounter::gOutputLineElementsCounter
 
 /*!
 \internal

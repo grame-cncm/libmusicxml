@@ -14025,14 +14025,6 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   clone->fMeasureKind =
     fMeasureKind;
 
-/* JMI
-  // set clone time
-  clone->
-    appendTimeToMeasure (
-      directPartUplink->
-        getPartCurrentTime ());
-*/
-
   // set clone 'first in segment' kind
   clone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
@@ -14053,12 +14045,6 @@ void msrMeasure::setMeasurePosition (
   
   fMeasurePosition = measurePosition;
 }
-
-/*
-void msrMeasure::setMeasureCurrentTime (S_msrTime time)
-{
-}
-*/
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
@@ -21718,18 +21704,6 @@ void msrStaff::initializeStaff ()
   // create the staff master voice with relative number -99
   createStaffMasterVoice (
     fInputLineNumber);
-
-/* JMI BOF
-  // create all 'gMaxStaffVoices' voices for this staff
-  // those that remain without music will be removed later
-  // in removeStaffEmptyVoices()
-  for (int i = 1; i <= gMaxStaffVoices; i++) {
-    addVoiceToStaffByItsRelativeNumber (
-      fInputLineNumber,
-      msrVoice::kRegularVoice,
-      i);
-  } // for
-*/
 
   // get the initial staff details from the part if any
   S_msrStaffDetails

@@ -38,7 +38,9 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_lpsrOptions& lpsrOpts,
   ostream&       os,
   S_lpsrScore    lpScore)
-    : fOstream (os)
+    : fOstream (os),
+      fMusicOlec (os),
+      fStanzaOlec (os)
 {
   fMsrOptions       = msrOpts;
   fLpsrOptions      = lpsrOpts;
@@ -4386,6 +4388,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fOstream <<
         singleTremoloDurationAsLilypondString (
           noteSingleTremolo);
+
+      fMusicOlec++;
     }
   }
 
@@ -5157,6 +5161,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     fOstream <<
       singleTremoloDurationAsLilypondString (
         chordSingleTremolo);
+
+    fMusicOlec++;
   }
 
   fOstream <<

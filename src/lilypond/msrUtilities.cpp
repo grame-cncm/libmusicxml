@@ -240,10 +240,13 @@ void indenter::print (ostream& os) const
 indenter indenter::gIndenter;
 
 //______________________________________________________________________________
-//#define DEBUG_OLEC
+#define DEBUG_OLEC
 
-outputLineElementsCounter::outputLineElementsCounter (int maxElementsPerLine)
-{
+outputLineElementsCounter::outputLineElementsCounter (
+  ostream& ostream,
+  int      maxElementsPerLine)
+    : fOstream (ostream)
+{  
   fElementsCounter    = 0;
   fMaxElementsPerLine = maxElementsPerLine;
 }
@@ -256,7 +259,7 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   
   if (fElementsCounter >= fMaxElementsPerLine) {
 #ifdef DEBUG_OLEC
-    cout <<
+    fOstream <<
       "%{ ~" << fMaxElementsPerLine << " elems %}" <<
       endl <<
       indenter::gIndenter;
@@ -269,7 +272,7 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
 }
 
 outputLineElementsCounter
-outputLineElementsCounter::gOutputLineElementsCounter;
+outputLineElementsCounter::gOutputLineElementsCounter (cout);
 
 //______________________________________________________________________________
 string int2EnglishWord (int n)

@@ -145,7 +145,10 @@ class outputLineElementsCounter
 {
   public:
 
-    outputLineElementsCounter (int maxElementsPerLine = 10);
+    outputLineElementsCounter (
+      ostream& ostream,
+      int      maxElementsPerLine = 10);
+      
     virtual ~outputLineElementsCounter();
 
     // get the counter
@@ -186,6 +189,9 @@ class outputLineElementsCounter
                           gOutputLineElementsCounter; 
 
   private:
+
+    ostream&              fOstream;
+
 
     int                   fElementsCounter;
     int                   fMaxElementsPerLine;

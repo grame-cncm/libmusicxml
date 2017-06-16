@@ -8309,7 +8309,9 @@ class EXP msrStaff : public msrElement
     // clef, key, time
     
     S_msrClef             fStaffCurrentClef;
+    
     S_msrKey              fStaffCurrentKey;
+    
     S_msrTime             fStaffCurrentTime;
 
     // transpose
@@ -8695,8 +8697,10 @@ class EXP msrPart : public msrElement
 
     // clef, key, time
     
-    S_msrClef             fPartCurrentClef; // JMI
-    S_msrKey              fPartCurrentKey; // JMI
+    S_msrClef             fPartCurrentClef;
+    
+    S_msrKey              fPartCurrentKey;
+    
     S_msrTime             fPartCurrentTime;
 
     S_msrTranspose        fPartTranspose;
