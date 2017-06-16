@@ -4459,12 +4459,17 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
             note->skipOrRestDivisionsAsMsrString ());
   
         // is the rest pitched?
-        if (noteIsAPitchedRest)
+        if (noteIsAPitchedRest) {
           fOstream <<
-            "\\rest ";
-            
-        // a rest is no relative octave reference,
-        // the preceding one is kept
+            " " "\\rest";
+
+          // this note is the new relative octave reference
+          fRelativeOctaveReference = note;
+        }
+        else {
+          // an unpitched rest is no relative octave reference,
+          // the preceding one is kept
+        }
       }
       break;
       
