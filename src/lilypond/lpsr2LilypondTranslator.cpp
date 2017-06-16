@@ -697,10 +697,28 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 
 //________________________________________________________________________
 string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
-  int         inputLineNumber,
-  msrDuration singleTremoloDuration,
-  int         singleTremoloMarksNumber)
+  S_msrSingleTremolo singleTremolo)
 {  
+  int
+    inputLineNumber =
+      singleTremolo->
+        getInputLineNumber ();
+    
+  int
+    singleTremoloMarksNumber =
+      singleTremolo->
+        getSingleTremoloMarksNumber ();
+
+  S_msrNote
+    singleTremoloNoteUplink =
+      singleTremolo->
+        getSingleTremoloNoteUplink ();
+
+  msrDuration
+    singleTremoloNoteDuration =
+      singleTremoloNoteUplink->
+        getNoteGraphicDuration ();
+  
   /*
   The same output can be obtained by adding :N after the note,
   where N indicates the duration of the subdivision (it must be at least 8).
@@ -710,9 +728,9 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   int durationToUse =
     singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingDivisions;
         
-  if (singleTremoloDuration >= kEighth)
+  if (singleTremoloNoteDuration >= kEighth)
     durationToUse +=
-      1 + (singleTremoloDuration - kEighth);
+      1 + (singleTremoloNoteDuration - kEighth);
   
   stringstream s;
 
@@ -4365,29 +4383,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     // if note doesn't belong to a chord,
     // otherwise it will be generated for the chord itself
     if (! elt->getNoteBelongsToAChord ()) {
-      int
-        inputLineNumber =
-          noteSingleTremolo->getInputLineNumber ();
-        
-      int
-        singleTremoloMarksNumber =
-          noteSingleTremolo->
-            getSingleTremoloMarksNumber ();
-  
-      S_msrNote
-        singleTremoloNote =
-          noteSingleTremolo->
-            getSingleTremoloNoteUplink ();
-    
-      msrDuration
-        singleTremoloNoteDuration =
-          singleTremoloNote->getNoteGraphicDuration ();
-  
       fOstream <<
         singleTremoloDurationAsLilypondString (
-          inputLineNumber,
-          singleTremoloNoteDuration,
-          singleTremoloMarksNumber);
+          noteSingleTremolo);
     }
   }
 
@@ -5155,31 +5153,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       elt->getChordSingleTremolo ();
 
   if (chordSingleTremolo) {
-    // generate code for the single tremolo
-    int
-      tremoloInputLineNumber =
-        chordSingleTremolo->getInputLineNumber ();
-      
-    int
-      singleTremoloMarksNumber =
-        chordSingleTremolo->
-          getSingleTremoloMarksNumber ();
-
-    S_msrNote
-      singleTremoloNote =
-        chordSingleTremolo->
-          getSingleTremoloNoteUplink ();
-
-    msrDuration
-      singleTremoloNoteDuration =
-        singleTremoloNote->
-          getNoteGraphicDuration ();
-
+    // generate code for the chord single tremolo
     fOstream <<
       singleTremoloDurationAsLilypondString (
-        tremoloInputLineNumber,
-        singleTremoloNoteDuration,
-        singleTremoloMarksNumber);
+        chordSingleTremolo);
   }
 
   fOstream <<

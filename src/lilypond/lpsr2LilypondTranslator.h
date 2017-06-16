@@ -474,9 +474,7 @@ class lpsr2LilypondTranslator :
     // tremolos
     
     string                singleTremoloDurationAsLilypondString (
-                            int         inputLineNumber,
-                            msrDuration singleTremoloNoteDuration,
-                            int         singleTremoloMarksNumber);
+                            S_msrSingleTremolo singleTremolo);
 
     // harmonies
     
