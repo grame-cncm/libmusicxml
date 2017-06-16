@@ -240,7 +240,7 @@ void indenter::print (ostream& os) const
 indenter indenter::gIndenter;
 
 //______________________________________________________________________________
-#define DEBUG_OLEC
+//#define DEBUG_OLEC
 
 outputLineElementsCounter::outputLineElementsCounter (
   ostream& ostream,
@@ -260,10 +260,12 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   if (fElementsCounter >= fMaxElementsPerLine) {
 #ifdef DEBUG_OLEC
     fOstream <<
-      "%{ ~" << fMaxElementsPerLine << " elems %}" <<
+      "%{ ~" << fMaxElementsPerLine << " elems %}";
+#endif
+
+    fOstream <<
       endl <<
       indenter::gIndenter;
-#endif
 
     fElementsCounter = 0;
   }
