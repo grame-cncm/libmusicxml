@@ -5986,8 +5986,6 @@ msrNote::msrNote (
     noteDirectPartUplink;
   
   // basic note description
-  // ------------------------------------------------------
-
   fNoteKind = noteKind;
 
   fNoteQuatertonesPitch   = noteQuatertonesPitch;
@@ -6003,6 +6001,7 @@ msrNote::msrNote (
   
   fNoteIsAGraceNote = noteIsAGraceNote;
 
+  // do other initializations
   initializeNote ();
 }
 
@@ -11103,7 +11102,7 @@ string msrTimeItem::timeItemAsString () const
   }
 
   s <<
-    ", beat balue: " << fTimeBeatValue <<
+    ", beat value: " << fTimeBeatValue <<
     ", line " << fInputLineNumber;
      
   return s.str();
@@ -12356,7 +12355,8 @@ msrStanza::msrStanza (
 
   fStanzaDirectPartUplink =
     stanzaDirectPartUplink;
-    
+
+  // set stanza number and kind
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
 
@@ -12368,6 +12368,7 @@ msrStanza::msrStanza (
   fStanzaVoiceUplink =
     stanzaVoiceUplink;
   
+  // do other initializations
   initializeStanza ();
 }
 
@@ -13930,7 +13931,8 @@ msrMeasure::msrMeasure (
 
   fMeasureDirectPartUplink =
     measureDirectPartUplink;
-    
+
+  // set measure number
   fMeasureNumber = measureNumber;
   
   // set measure's segment uplink
@@ -13941,6 +13943,7 @@ msrMeasure::msrMeasure (
   fMeasureSegmentUplink =
     measureSegmentUplink;
 
+  // do other initializations
   initializeMeasure ();
 }
 
@@ -13964,12 +13967,13 @@ void msrMeasure::initializeMeasure ()
 
   fMeasureKind = kUnknownMeasureKind;
 
-  // fetch measure time from the part and append it to the measure,
-  // which will set fMeasureDivisionsPerFullMeasure // JMI
-  appendTimeToMeasure (
+  // fetch measure time from the part
+  // to set fMeasureDivisionsPerFullMeasure
+  setMeasureDivisionsPerFullMeasureFromTime (
     fMeasureDirectPartUplink->
       getPartCurrentTime ());
-        
+
+  // initialize measure position
   setMeasurePosition (
     fInputLineNumber, 1); // ready to receive the first note
 
@@ -14021,11 +14025,13 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   clone->fMeasureKind =
     fMeasureKind;
 
+/* JMI
   // set clone time
   clone->
     appendTimeToMeasure (
       directPartUplink->
         getPartCurrentTime ());
+*/
 
   // set clone 'first in segment' kind
   clone->fMeasureFirstInSegmentKind =
@@ -14071,7 +14077,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   msrAssert(
     time != 0, "time is null");
 
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "Appending time:";
 
@@ -14083,6 +14089,118 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         endl <<
       idtr <<
         "' to measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+
+    idtr--;
+  }
+
+  // append time to the measure elements list
+  fMeasureElementsList.push_back (time);
+
+  // set the measure divisions per full measure
+  setMeasureDivisionsPerFullMeasureFromTime (
+    time);
+    
+/* JMI
+  if (time->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
+    
+    // this measure is senza misura
+    
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+        "Measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        " is senza misura" <<
+        endl;
+    }
+
+    setMeasureKind (
+      kSenzaMisuraMeasureKind);
+    
+    fMeasureDivisionsPerFullMeasure = INT_MAX; // JMI
+  }
+  
+  else {
+    
+    // this measure is con misura
+    
+    int partDivisionsPerQuarterNote =
+      fMeasureDirectPartUplink->
+        getPartDivisionsPerQuarterNote ();
+  
+    rational
+      wholeNotesPerMeasure =
+        time->wholeNotesPerMeasure ();
+        
+    if (gGeneralOptions->fTraceTimes) {
+      cerr <<
+        idtr <<
+          time;
+  
+      cerr <<
+        idtr <<
+          "has " <<
+          wholeNotesPerMeasure.getNumerator () <<
+          "/" <<
+          wholeNotesPerMeasure.getDenominator () <<
+          " whole note(s) per measure" <<
+          ", line " << fInputLineNumber <<
+          endl;
+    }
+    
+    fMeasureDivisionsPerFullMeasure =
+      wholeNotesPerMeasure.getNumerator ()
+        *
+      partDivisionsPerQuarterNote * 4 // hence a whole note
+        /
+      wholeNotesPerMeasure.getDenominator ();
+    
+  
+    if (gGeneralOptions->fTraceMeasures)
+      cerr << idtr <<
+        "Measure '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        " has " <<
+        singularOrPlural (
+          fMeasureDivisionsPerFullMeasure,
+          "divisions per full measure",
+          "division per full measure") <<
+        endl;
+  }
+  */
+}
+
+void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
+  S_msrTime time)
+{
+  msrAssert(
+    time != 0, "time is null");
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Setting measure divisions per full measure from time:";
+
+    idtr++;
+
+    cerr <<
+      idtr <<
+        time <<
+        endl <<
+      idtr <<
+        "' for measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
           getSegmentVoiceUplink ()->
@@ -14166,9 +14284,6 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
           "division per full measure") <<
         endl;
   }
-
-  // append time to the measure elements list
-  fMeasureElementsList.push_back (time);
 }
 
 void msrMeasure::appendTransposeToMeasure (
@@ -16098,7 +16213,7 @@ msrSegment::msrSegment (
   fSegmentVoiceUplink =
     segmentVoicekUplink;
 
-  // initialize segment
+  // do other initializations
   initializeSegment ();
 }
 
@@ -16143,13 +16258,20 @@ void msrSegment::createSegmentInitialMeasure () // JMI
       msrTime::createFourQuartersTime (
         fInputLineNumber);
   }
-*/
 
+
+  // append the current segment time to the measure
   firstMeasure->
     appendTimeToMeasure (
       fSegmentCurrentTime);        
+*/
 
-  // append firstMeasure to the segment
+  // set the measure divisions per full measure
+  firstMeasure->
+    setMeasureDivisionsPerFullMeasureFromTime (
+      fSegmentCurrentTime);
+
+  // append first measure to the segment
   appendMeasureToSegment (firstMeasure);
 }
 
@@ -16368,7 +16490,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
         endl;
       
   // register time in segment
-  fSegmentCurrentTime = time;
+// JMI  fSegmentCurrentTime = time;
 
   // register time in segments's current measure
   fSegmentMeasuresList.back ()->
@@ -17070,11 +17192,6 @@ void msrSegment::print (ostream& os)
   }
 */
 
-  os <<
-    ", SegmentCurrentTime" << " = " <<
-    fSegmentCurrentTime->timeAsShortString () <<
-    endl;
-  
   if (! fSegmentMeasuresList.size ()) {
     os << idtr <<
       "Measures: none";
@@ -18548,11 +18665,13 @@ msrVoice::msrVoice (
 
   fVoiceStaffUplink = voiceStaffUplink;
 
+  // set voice kind
   fVoiceKind = voiceKind;
-  
+
+  // set voice external number
   fExternalVoiceNumber = externalVoiceNumber;
   
-  // initialize the voice
+  // do other initializations
   initializeVoice ();
 }
 
@@ -18718,7 +18837,8 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrClef
         clef =
-          fVoiceStaffUplink->getStaffCurrentClef ();
+          fVoiceStaffUplink->
+            getStaffCurrentClef ();
     
       if (clef) {
         // append it to the last segment
@@ -18731,7 +18851,8 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrKey
         key =
-          fVoiceStaffUplink->getStaffCurrentKey ();
+          fVoiceStaffUplink->
+            getStaffCurrentKey ();
   
       if (key) {
         // append it to the last segment
@@ -18744,7 +18865,8 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrTime
         time =
-          fVoiceStaffUplink->getStaffCurrentTime ();
+          fVoiceStaffUplink->
+            getStaffCurrentTime ();
   
       if (time) {
         // append it to the last segment
@@ -18757,7 +18879,8 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
     {
       S_msrTranspose
         transpose =
-          fVoiceStaffUplink->getStaffTranspose ();
+          fVoiceStaffUplink->
+            getStaffTranspose ();
           
       if (transpose) {
         // append it to the last segment
@@ -19110,7 +19233,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
       endl;
 
   // register time in voice
-  fVoiceCurrentTime = time;
+ // JMI fVoiceCurrentTime = time;
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
@@ -21538,11 +21661,12 @@ msrStaff::msrStaff (
 
   fStaffDirectPartUplink =
     staffDirectPartUplink;
-    
-  fStaffKind = staffKind;
 
+  // set staff kind and number
+  fStaffKind = staffKind;
   fStaffNumber = staffNumber;
 
+  // do other initializations
   initializeStaff ();
 }
 
@@ -21661,8 +21785,8 @@ void msrStaff::initializeStaff ()
     if (clef) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
-          "Setting staff clef '" << clef->clefAsString () <<
-          "' in staff \"" <<
+          "Appending clef '" << clef->clefAsString () <<
+          "' to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21674,8 +21798,8 @@ void msrStaff::initializeStaff ()
     else {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
-          "Setting default treble clef " <<
-          " in staff \"" <<
+          "Appending default treble clef " <<
+          " to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21699,8 +21823,8 @@ void msrStaff::initializeStaff ()
     if (key) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
-          "Setting staff key '" << key->keyAsString () <<
-          "' in staff \"" <<
+          "Appending key '" << key->keyAsString () <<
+          "' to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21711,8 +21835,8 @@ void msrStaff::initializeStaff ()
     else {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
-          "Setting default C major key " <<
-          " in staff \"" <<
+          "Appending default C major key " <<
+          " to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -21722,7 +21846,9 @@ void msrStaff::initializeStaff ()
       appendKeyToStaff (
         msrKey::createTraditional (
           fInputLineNumber,
-          k_cNatural, msrKey::kMajorMode, 0));
+          k_cNatural,
+          msrKey::kMajorMode,
+          0)); // keyCancel
     }
   }
   
@@ -21746,21 +21872,19 @@ void msrStaff::initializeStaff ()
       appendTimeToStaff (time);
     }
     else {
-      /* JMI
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
-          "Setting default 4/4 time " <<
-          " in staff \"" <<
+          "Appending default 4/4 time " <<
+          " to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
           endl;
           
-      // create the implicit initial 4/4 time signature
+      // append the implicit initial 4/4 time signature
       appendTimeToStaff (
         msrTime::createFourQuartersTime (
           fInputLineNumber));
-          */
     }
   }
   
@@ -21768,10 +21892,12 @@ void msrStaff::initializeStaff ()
   {
     S_msrTranspose
       transpose =
-        fStaffDirectPartUplink->getPartTranspose ();
+        fStaffDirectPartUplink->
+          getPartTranspose ();
         
     if (transpose) {
       fStaffTranspose = transpose;
+      
       appendTransposeToAllStaffVoices (transpose);
     }
   }
@@ -22927,6 +23053,7 @@ msrPart::msrPart (
     
   fPartPartGroupUplink = partPartGroupUplink;
 
+  // do other initializations
   initializePart ();
 }
 

@@ -3013,6 +3013,9 @@ class EXP msrMeasure : public msrElement
 
     void                  appendTimeToMeasure (S_msrTime time);
 
+    void                  setMeasureDivisionsPerFullMeasureFromTime (
+                            S_msrTime time);
+  
     // transpose
 
     void                  appendTransposeToMeasure (
