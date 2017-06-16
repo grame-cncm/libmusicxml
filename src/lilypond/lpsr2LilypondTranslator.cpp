@@ -6324,7 +6324,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   fOstream <<    
     "*" <<
     restMeasuresNumber <<
-    " | ";
+    " | " <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)

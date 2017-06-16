@@ -20290,10 +20290,12 @@ void msrVoice::createMultipleRestInVoice (
           inputLineNumber,
           firstRestMeasure);
 
+/* JMI
         // append the first rest measure to the new last segment
         fVoiceLastSegment->
           appendMeasureToSegment (
             firstRestMeasure);
+*/
 
         // force multiple measure rests compression JMI ???
         this->setVoiceContainsMultipleRests (
@@ -20458,7 +20460,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the next measure for voice \"" <<
+            "Creating a new last segment with the measure after the multiple rests for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -20466,12 +20468,13 @@ void msrVoice::appendPendingMultipleRestToVoice (
           inputLineNumber,
           nextMeasureAfterMultipleRest);
 
+/* JMI
         // append the next measure after the multiple rest
         // to the new last segment
         fVoiceLastSegment->
           appendMeasureToSegment (
             nextMeasureAfterMultipleRest);
-
+*/
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
