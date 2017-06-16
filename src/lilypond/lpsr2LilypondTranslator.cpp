@@ -431,6 +431,183 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::restAsLilypondString (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+  stringstream s;
+
+  // is the note unpitched?
+  if (note->getNoteIsUnpitched ())
+    s <<
+      "\\once \\override NoteHead #'style = #'cross ";
+
+  // generate the pitch in all cases
+  s <<
+    msrQuartertonesPitchAsString (
+      gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
+      note->getQuatertonesPitch ());
+  
+  msrQuartertonesPitch
+    noteQuartertonesPitch =
+      note->getQuatertonesPitch ();
+              
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+
+  // should an absolute octave be generated?
+  bool genAbsoluteOctave =
+    gLilypondOptions->fAbsoluteOctaves
+      ||
+    ! fRelativeOctaveReference;
+
+  if (gGeneralOptions->fTraceNotes) {
+    const int fieldWidth = 28;
+
+    cerr << left <<
+      endl <<
+      idtr <<
+          setw(fieldWidth) <<
+          "% line" <<
+          " = " <<
+          note->getInputLineNumber () <<
+          endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% msrQuartertonesPitch" <<
+        " = - " <<
+        msrQuartertonesPitchAsString (
+          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
+          noteQuartertonesPitch) <<
+        " -" <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% noteAbsoluteOctave" <<
+        " = - " <<
+        noteAbsoluteOctave <<
+        " -" <<
+        endl <<
+      endl;
+  }
+
+  if (genAbsoluteOctave) {
+    
+    // generate LilyPond absolute octave
+    s <<
+      absoluteOctaveAsLilypondString (
+        noteAbsoluteOctave);
+
+  }
+
+  else {
+    
+    // generate LilyPond octave relative to fRelativeOctaveReference
+
+    msrDiatonicPitch
+      noteDiatonicPitch =
+        note->
+          noteDiatonicPitch (
+            inputLineNumber);
+
+    msrDiatonicPitch
+      referenceDiatonicPitch =
+        fRelativeOctaveReference->
+          noteDiatonicPitch (
+            inputLineNumber);
+
+    string
+      referenceDiatonicPitchAsString =
+        fRelativeOctaveReference->
+          noteDiatonicPitchAsString (
+            inputLineNumber);
+        
+    int
+      referenceAbsoluteOctave =
+        fRelativeOctaveReference->getNoteOctave ();
+
+    /*
+      If no octave changing mark is used on a pitch, its octave is calculated
+      so that the interval with the previous note is less than a fifth.
+      This interval is determined without considering accidentals.
+    */
+      
+    int
+      noteAboluteDiatonicOrdinal =
+        noteAbsoluteOctave * 7
+          +
+        noteDiatonicPitch - kC,
+        
+      referenceAboluteDiatonicOrdinal =
+        referenceAbsoluteOctave * 7
+          +
+        referenceDiatonicPitch - kC;
+
+    if (gGeneralOptions->fTraceNotes) {
+      const int fieldWidth = 28;
+
+      cerr << left <<
+/*
+        idtr <<
+          setw(fieldWidth) <<
+          "% referenceDiatonicPitch" <<
+          " = " <<
+          referenceDiatonicPitch <<
+          endl <<
+*/
+        idtr <<
+          setw(fieldWidth) <<
+          "% referenceDiatonicPitchAsString" <<
+          " = " <<
+          referenceDiatonicPitchAsString <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) <<
+          "% referenceAbsoluteOctave" <<
+           " = " <<
+           referenceAbsoluteOctave <<
+           endl <<
+        endl <<
+        idtr <<
+          setw(fieldWidth) <<
+          "% referenceAboluteDiatonicOrdinal" <<
+          " = " <<
+          referenceAboluteDiatonicOrdinal <<
+          endl <<
+        idtr <<
+          setw(fieldWidth) <<
+          "% noteAboluteDiatonicOrdinal" <<
+          " = " <<
+          noteAboluteDiatonicOrdinal <<
+          endl <<
+        endl;
+    }
+
+    // generate the octaves as needed
+    if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+      noteAboluteDiatonicOrdinal -= 4;
+      while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+        s << "'";
+        noteAboluteDiatonicOrdinal -= 7;
+      } // while
+    }
+    
+    else {
+      noteAboluteDiatonicOrdinal += 4;
+      while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
+        s << ",";
+        noteAboluteDiatonicOrdinal += 7;
+      } // while
+    }
+  }
+
+  return s.str();
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::noteSoundingDivisionsAsLilypondString (
   S_msrNote note)
 {
@@ -4256,21 +4433,39 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fRelativeOctaveReference = note;
       break;
       
-    case msrNote::kRestNote:      
-      // print the rest name
-      fOstream <<
-        string (
-          note->getNoteOccupiesAFullMeasure ()
-            ? "R"
-            : "r");
-      
-      // print the rest duration
-      fOstream <<
-        lilypondizeDurationString (
-          note->skipOrRestDivisionsAsMsrString ());
-
-      // a rest is no relative octave reference,
-      // the preceding one is kept
+    case msrNote::kRestNote:
+      {
+        // get pitched rest status
+        bool noteIsAPitchedRest =
+          note->getNoteIsAPitchedRest ();
+  
+        if (noteIsAPitchedRest) {
+          fOstream <<
+            restAsLilypondString (note);
+        }
+  
+        else {
+          // print the rest name
+          fOstream <<
+            string (
+              note->getNoteOccupiesAFullMeasure ()
+                ? "R"
+                : "r");
+        }
+          
+        // print the rest duration
+        fOstream <<
+          lilypondizeDurationString (
+            note->skipOrRestDivisionsAsMsrString ());
+  
+        // is the rest pitched?
+        if (noteIsAPitchedRest)
+          fOstream <<
+            "\\rest ";
+            
+        // a rest is no relative octave reference,
+        // the preceding one is kept
+      }
       break;
       
     case msrNote::kSkipNote:      
@@ -4313,9 +4508,10 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
               ? "R"
               : "r");
       }
-      else
+      else {
         fOstream <<
           noteAsLilypondString (note);
+      }
       
       // print the note duration
       S_msrTuplet

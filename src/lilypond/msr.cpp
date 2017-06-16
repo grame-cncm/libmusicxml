@@ -5998,6 +5998,9 @@ msrNote::msrNote (
 
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
+
+  fNoteIsAPitchedRest =
+    fNoteIsARest && !fNoteIsUnpitched;
   
   fNoteIsAGraceNote = noteIsAGraceNote;
 
@@ -7118,9 +7121,13 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kRestNote:
       s <<
         "R" <<
+        "[" << fNoteOctave << "]" <<
         ":" <<
+        ", divs:" <<
         fNoteSoundingDivisions <<
-        " sounddivs";
+        " sound, " <<
+        fNoteDisplayedDivisions <<
+        " disp";
       break;
       
     case msrNote::kSkipNote:
@@ -7291,7 +7298,21 @@ string msrNote::noteAsString () const
       
     case msrNote::kRestNote:
       s <<
-        "Rest" <<
+        "Rest, ";
+
+      if (fNoteOctave < 0)
+        s <<
+          "unpitched";
+      else
+        s <<
+          "octave" " "<< fNoteOctave;
+
+      s <<
+        ", divs:" <<
+        fNoteSoundingDivisions <<
+        " sound, " <<
+        fNoteDisplayedDivisions <<
+        " disp" <<
         ":" <<
         skipOrRestDivisionsAsMsrString ();
       break;

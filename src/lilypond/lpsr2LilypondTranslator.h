@@ -444,6 +444,7 @@ class lpsr2LilypondTranslator :
     // notes
     
     string                noteAsLilypondString (S_msrNote note);
+    string                restAsLilypondString (S_msrNote note);
 
     void                  printNoteAsLilypondString (S_msrNote note);
 

@@ -4185,6 +4185,9 @@ class EXP msrNote : public msrElement
                             // useful for rest tuplet members
                             { return fNoteIsARest; }
                       
+    bool                  getNoteIsAPitchedRest () const
+                            { return fNoteIsAPitchedRest; }
+    
     bool                  getNoteIsUnpitched () const
                               { return fNoteIsUnpitched; }
                       
@@ -4505,6 +4508,7 @@ class EXP msrNote : public msrElement
     int                       fNoteOctave;
     
     bool                      fNoteIsARest;
+    bool                      fNoteIsAPitchedRest;
     bool                      fNoteIsUnpitched;
   
     bool                      fNoteIsAGraceNote;
