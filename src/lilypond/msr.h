@@ -7422,6 +7422,14 @@ class EXP msrVoice : public msrElement
     bool                  getMusicHasBeenInsertedInVoice () const
                               { return fMusicHasBeenInsertedInVoice; }
 
+    // multiple rests
+    
+    void                  setVoiceContainsMultipleRests (
+                            int inputLineNumber);
+
+    bool                  getVoiceContainsMultipleRests () const
+                              { return fVoiceContainsMultipleRests; }
+
     // uplinks
     
     S_msrStaff            getVoiceStaffUplink () const
@@ -7725,6 +7733,7 @@ class EXP msrVoice : public msrElement
     // or the last msrMeasureRepeat created with its repeated measure,
     // but not yet appended to the voice
     S_msrMultipleRest     fVoicePendingMultipleRest;
+    bool                  fVoiceContainsMultipleRests;
 
     // stanzas
     

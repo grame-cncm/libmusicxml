@@ -18892,6 +18892,10 @@ S_msrVoice msrVoice::createVoiceShallowClone (S_msrStaff staffClone)
   clone->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
   
+  // does the voice contain multple rests?
+  clone->fVoiceContainsMultipleRests =
+    fVoiceContainsMultipleRests;
+  
   return clone;
 }
 
@@ -20201,6 +20205,22 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
   } // switch
 }
 
+void msrVoice::setVoiceContainsMultipleRests (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    cerr << idtr <<
+      "Voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      ", contains multiple rests" <<
+      endl;
+  }
+
+  fVoiceContainsMultipleRests = true;
+}
+
 void msrVoice::createMultipleRestInVoice (
   int inputLineNumber,
   int multipleRestMeasuresNumber)
@@ -20274,6 +20294,10 @@ void msrVoice::createMultipleRestInVoice (
         fVoiceLastSegment->
           appendMeasureToSegment (
             firstRestMeasure);
+
+        // force multiple measure rests compression JMI ???
+        this->setVoiceContainsMultipleRests (
+          inputLineNumber);
             
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -20953,7 +20977,7 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 
 void msrVoice::print (ostream& os)
 {
-  os << idtr <<
+  os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
     " (" <<

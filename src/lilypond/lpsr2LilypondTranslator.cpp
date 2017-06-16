@@ -2350,7 +2350,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 // JMI   \set Score.alternativeNumberingStyle = #'numbers-with-letters
 
 
-  if (gLilypondOptions->fCompressMultiMeasureRests)
+  if (
+    elt->getVoiceContainsMultipleRests ()
+      ||
+    gLilypondOptions->fCompressMultiMeasureRests)
     fOstream <<
       idtr <<
         "\\compressMMRests" <<
