@@ -2942,11 +2942,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     appendMultipleRestCloneToPart (
       elt->getInputLineNumber (), // JMI ???
       multipleRestClone);
-
-  cerr <<
-      "+++++++++++++" <<
-      fCurrentVoiceClone <<
-      endl;
       
   // forget about the current multiple rest contents clone
   fCurrentMultipleRestContentsClone = 0;
@@ -2994,21 +2989,12 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
-      endl <<
-      "+++++++++++++" <<
-      fCurrentVoiceClone->
-        getVoiceLastSegment () <<
       endl;
 
   fCurrentMultipleRestContentsClone->
     setMultipleRestContentsSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
-
-  cerr <<
-      "+++++++++++++" <<
-      fCurrentMultipleRestContentsClone <<
-      endl;
 }
 
 //________________________________________________________________________

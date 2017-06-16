@@ -6267,6 +6267,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       "% --> Start visiting msrMultipleRest" <<
       endl;
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   int restMeasuresNumber =
     elt->getMultipleRestMeasuresNumber ();
 
@@ -6275,7 +6278,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
     cerr << idtr <<
-      "% multiple rest, line " << elt->getInputLineNumber () << ":" <<
+      "% multiple rest, line " << inputLineNumber << ":" <<
       endl;
 
     const int fieldWidth = 24;
@@ -6300,7 +6303,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
         elt->getMultipleRestMeasuresNumber (),
         "measure",
         "measures") <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -6308,7 +6311,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     endl <<
     endl <<
     idtr <<
-    "R1" << // JMI
+    "R1";
+
+  if (gLilypondOptions->fInputLineNumbers)
+    // print the multiple rest line number as a comment
+    fOstream <<
+      " %{ " << inputLineNumber << " %} ";  
+
+  fOstream <<    
     "*" <<
     restMeasuresNumber <<
     " | ";
