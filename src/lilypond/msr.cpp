@@ -16246,30 +16246,17 @@ void msrSegment::createSegmentInitialMeasure () // JMI
         firstMeasureNumber,
         this);
 
-/* JMI
-  // set the measure time JMI
-  fSegmentCurrentTime =
-    fSegmentVoiceUplink->
-      getVoiceCurrentTime ();
-
-  if (! fSegmentCurrentTime) {
-    // use the implicit initial 4/4 time signature
-    fSegmentCurrentTime =
-      msrTime::createFourQuartersTime (
-        fInputLineNumber);
-  }
-
-
-  // append the current segment time to the measure
-  firstMeasure->
-    appendTimeToMeasure (
-      fSegmentCurrentTime);        
-*/
-
+  // fetch staff current time
+  S_msrTime
+    staffCurrentTime =
+      fSegmentVoiceUplink->
+        getVoiceStaffUplink ()->
+          getStaffCurrentTime ();
+        
   // set the measure divisions per full measure
   firstMeasure->
     setMeasureDivisionsPerFullMeasureFromTime (
-      fSegmentCurrentTime);
+      staffCurrentTime);
 
   // append first measure to the segment
   appendMeasureToSegment (firstMeasure);
@@ -16330,11 +16317,6 @@ S_msrSegment msrSegment::createSegmentShallowClone (
         fInputLineNumber,
         voiceClone->getVoiceDirectPartUplink (),
         voiceClone);
-
-/* JMI
-  clone->fSegmentCurrentTime =
-    fSegmentCurrentTime;
-  */
   
   return clone;
 }
@@ -16489,10 +16471,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
         "' to segment " << segmentAsString () <<
         endl;
       
-  // register time in segment
-// JMI  fSegmentCurrentTime = time;
-
-  // register time in segments's current measure
+  // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasure (time);
 }
@@ -17182,15 +17161,6 @@ void msrSegment::print (ostream& os)
     ", " <<
     singularOrPlural (
       fSegmentMeasuresList.size(), "measure", "measures");
-
-/* JMI
-  if (! fSegmentCurrentTime) {
-    // use the implicit initial 4/4 time signature
-    fSegmentCurrentTime =
-      msrTime::createFourQuartersTime (
-        fInputLineNumber);
-  }
-*/
 
   if (! fSegmentMeasuresList.size ()) {
     os << idtr <<
@@ -19231,9 +19201,6 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
-
-  // register time in voice
- // JMI fVoiceCurrentTime = time;
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (

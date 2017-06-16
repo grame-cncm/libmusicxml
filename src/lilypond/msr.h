@@ -3288,12 +3288,6 @@ class EXP msrSegment : public msrElement
     list<S_msrMeasure>&   getSegmentMeasuresListToModify ()
                               { return fSegmentMeasuresList; }
                                             
-    void                  setSegmentCurrentTime (S_msrTime time)
-                              { fSegmentCurrentTime = time; }
-
-    S_msrTime             getSegmentCurrentTime () const
-                              { return fSegmentCurrentTime; }
-
     // measures
     
     void                  createMeasureAndAppendItToSegment (
@@ -3486,9 +3480,7 @@ class EXP msrSegment : public msrElement
     static int            gSegmentsCounter;
 
     int                   fSegmentAbsoluteNumber;
-    
-    S_msrTime             fSegmentCurrentTime; // JMI
-    
+        
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
 
@@ -7410,11 +7402,6 @@ class EXP msrVoice : public msrElement
     int                   getVoiceActualHarmoniesCounter () const
                               { return fVoiceActualHarmoniesCounter; }
 
-    // clef, key, time
-    
-    S_msrTime             getVoiceCurrentTime () const // JMI ???
-                              { return fVoiceCurrentTime; }
-               
      // measures
      
     void                  createMeasureAndAppendItToVoice (
@@ -7695,10 +7682,6 @@ class EXP msrVoice : public msrElement
     // voice name
 
     string                fVoiceName;
-
-    // clef, key, time
-    
-    S_msrTime             fVoiceCurrentTime;
 
     // counters
     
@@ -8117,8 +8100,10 @@ class EXP msrStaff : public msrElement
     
     S_msrClef             getStaffCurrentClef () const
                               { return fStaffCurrentClef; };
+                              
     S_msrKey              getStaffCurrentKey  () const
                               { return fStaffCurrentKey; };
+                              
     S_msrTime             getStaffCurrentTime () const
                               { return fStaffCurrentTime; };
 
