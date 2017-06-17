@@ -7342,9 +7342,11 @@ string msrNote::noteAsString () const
           "unpitched";
       else
         s <<
+          "(" <<
           notePitchAsString () <<
           noteSoundingDivisionsAsMsrString () <<
-          ", octave" " "<< noteDisplayOctaveAsString ();
+          ", octave" " "<< noteDisplayOctaveAsString () <<
+          ")";
 
       s <<
         ", divs:" <<

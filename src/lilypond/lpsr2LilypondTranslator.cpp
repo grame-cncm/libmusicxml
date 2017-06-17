@@ -608,6 +608,12 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
     noteQuarterTonesDisplayPitch =
       note->getNoteQuarterTonesDisplayPitch ();
 
+  fOstream <<
+    endl <<
+    "% noteQuarterTonesDisplayPitch = " << noteQuarterTonesDisplayPitch <<
+    endl <<
+    endl;
+    
   // fetch the quarter tones display pitch as string
   string
     quarterTonesDisplayPitchAsString =
@@ -617,7 +623,8 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       
   // generate the display pitch
   s <<
-    quarterTonesDisplayPitchAsString;
+    note->notePitchAsString ();
+//    quarterTonesDisplayPitchAsString;
     
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteDisplayOctave =
@@ -643,16 +650,14 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       idtr <<
         setw(fieldWidth) <<
         "% quarterTonesDisplayPitch" <<
-        " = - " <<
+        " = " <<
         quarterTonesDisplayPitchAsString <<
-        " -" <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
         "% noteAbsoluteDisplayOctave" <<
-        " = - " <<
+        " = " <<
         noteAbsoluteDisplayOctave <<
-        " -" <<
         endl <<
       endl;
   }
