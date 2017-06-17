@@ -2292,7 +2292,7 @@ R"(
             optargAsString = s.str();
           }
           
-          if (! gMsrOptions->setMsrQuartertonesPitchesLanguage (
+          if (! gMsrOptions->setMsrQuarterTonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
         
@@ -2301,14 +2301,14 @@ R"(
               " is unknown" <<
               endl <<
               "The " <<
-              gQuatertonesPitchesLanguagesMap.size () <<
+              gQuarterTonesPitchesLanguagesMap.size () <<
               " known MSR pitches languages are:" <<
               endl;
         
             idtr++;
           
             s <<
-              existingQuartertonesPitchesLanguages ();
+              existingQuarterTonesPitchesLanguages ();
         
             idtr--;
         
@@ -2585,7 +2585,7 @@ R"(
             optargAsString = s.str();
           }
           
-          if (! gLpsrOptions->setLpsrQuartertonesPitchesLanguage (
+          if (! gLpsrOptions->setLpsrQuarterTonesPitchesLanguage (
             optargAsString)) {
             stringstream s;
 
@@ -2594,14 +2594,14 @@ R"(
               "' is unknown" <<
               endl <<
               "The " <<
-              gQuatertonesPitchesLanguagesMap.size () <<
+              gQuarterTonesPitchesLanguagesMap.size () <<
               " known LPSR pitches languages are:" <<
               endl;
         
             idtr++;
           
             s <<
-              existingQuartertonesPitchesLanguages ();
+              existingQuarterTonesPitchesLanguages ();
         
             idtr--;
         
@@ -2638,7 +2638,7 @@ R"(
               "' is unknown" <<
               endl <<
               "The " <<
-              gQuatertonesPitchesLanguagesMap.size () <<
+              gQuarterTonesPitchesLanguagesMap.size () <<
               " known LPSR chords languages are:" <<
               endl;
         

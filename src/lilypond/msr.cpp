@@ -26,36 +26,36 @@ namespace MusicXML2
 // notes names languages
 // ------------------------------------------------------
 
-map<string, msrQuatertonesPitchesLanguage>
-  gQuatertonesPitchesLanguagesMap;
+map<string, msrQuarterTonesPitchesLanguage>
+  gQuarterTonesPitchesLanguagesMap;
 
-map<msrQuartertonesPitch, string> gNederlandsPitchName;
-map<msrQuartertonesPitch, string> gCatalanPitchName;
-map<msrQuartertonesPitch, string> gDeutschPitchName;
-map<msrQuartertonesPitch, string> gEnglishPitchName;
-map<msrQuartertonesPitch, string> gEspanolPitchName;
-map<msrQuartertonesPitch, string> gFrancaisPitchName;
-map<msrQuartertonesPitch, string> gItalianoPitchName;
-map<msrQuartertonesPitch, string> gNorskPitchName;
-map<msrQuartertonesPitch, string> gPortuguesPitchName;
-map<msrQuartertonesPitch, string> gSuomiPitchName;
-map<msrQuartertonesPitch, string> gSvenskaPitchName;
-map<msrQuartertonesPitch, string> gVlaamsPitchName;
+map<msrQuarterTonesPitch, string> gNederlandsPitchName;
+map<msrQuarterTonesPitch, string> gCatalanPitchName;
+map<msrQuarterTonesPitch, string> gDeutschPitchName;
+map<msrQuarterTonesPitch, string> gEnglishPitchName;
+map<msrQuarterTonesPitch, string> gEspanolPitchName;
+map<msrQuarterTonesPitch, string> gFrancaisPitchName;
+map<msrQuarterTonesPitch, string> gItalianoPitchName;
+map<msrQuarterTonesPitch, string> gNorskPitchName;
+map<msrQuarterTonesPitch, string> gPortuguesPitchName;
+map<msrQuarterTonesPitch, string> gSuomiPitchName;
+map<msrQuarterTonesPitch, string> gSvenskaPitchName;
+map<msrQuarterTonesPitch, string> gVlaamsPitchName;
 
 void initializePitchesLanguages ()
 {
-  gQuatertonesPitchesLanguagesMap ["nederlands"] = kNederlands;
-  gQuatertonesPitchesLanguagesMap ["catalan"]    = kCatalan;
-  gQuatertonesPitchesLanguagesMap ["deutsch"]    = kDeutsch;
-  gQuatertonesPitchesLanguagesMap ["english"]    = kEnglish;
-  gQuatertonesPitchesLanguagesMap ["espanol"]    = kEspanol;
-  gQuatertonesPitchesLanguagesMap ["italiano"]   = kItaliano;
-  gQuatertonesPitchesLanguagesMap ["francais"]   = kFrancais;
-  gQuatertonesPitchesLanguagesMap ["norsk"]      = kNorsk;
-  gQuatertonesPitchesLanguagesMap ["portugues"]  = kPortugues;
-  gQuatertonesPitchesLanguagesMap ["suomi"]      = kSuomi;
-  gQuatertonesPitchesLanguagesMap ["svenska"]    = kSvenska;
-  gQuatertonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
+  gQuarterTonesPitchesLanguagesMap ["nederlands"] = kNederlands;
+  gQuarterTonesPitchesLanguagesMap ["catalan"]    = kCatalan;
+  gQuarterTonesPitchesLanguagesMap ["deutsch"]    = kDeutsch;
+  gQuarterTonesPitchesLanguagesMap ["english"]    = kEnglish;
+  gQuarterTonesPitchesLanguagesMap ["espanol"]    = kEspanol;
+  gQuarterTonesPitchesLanguagesMap ["italiano"]   = kItaliano;
+  gQuarterTonesPitchesLanguagesMap ["francais"]   = kFrancais;
+  gQuarterTonesPitchesLanguagesMap ["norsk"]      = kNorsk;
+  gQuarterTonesPitchesLanguagesMap ["portugues"]  = kPortugues;
+  gQuarterTonesPitchesLanguagesMap ["suomi"]      = kSuomi;
+  gQuarterTonesPitchesLanguagesMap ["svenska"]    = kSvenska;
+  gQuarterTonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
 
   // nederlands
   gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
@@ -985,7 +985,7 @@ msrDiatonicPitch msrDiatonicPitchFromString (
 }
 
 string msrDiatonicPitchAsString (
-  msrQuatertonesPitchesLanguage language,
+  msrQuarterTonesPitchesLanguage language,
   msrDiatonicPitch              diatonicPitch)
 {
   string result;
@@ -1020,8 +1020,8 @@ string msrDiatonicPitchAsString (
   return result;
 }
 
-string msrQuatertonesPitchesLanguageAsString (
-  msrQuatertonesPitchesLanguage language)
+string msrQuarterTonesPitchesLanguageAsString (
+  msrQuarterTonesPitchesLanguage language)
 {
   string result;
   
@@ -1167,11 +1167,11 @@ string msrAlterationAsString (
 }
 
 void setDiatonicPitchAndAlteration (
-  msrQuartertonesPitch quartertonesPitch,
+  msrQuarterTonesPitch quarterTonesPitch,
   msrDiatonicPitch&    diatonicPitch,
   msrAlteration&       alteration)
 {
-  switch (quartertonesPitch) {
+  switch (quarterTonesPitch) {
     case k_aDoubleFlat:
       diatonicPitch = kA;
       alteration    = kDoubleFlat;
@@ -1435,19 +1435,19 @@ void setDiatonicPitchAndAlteration (
       alteration    = k_NoAlteration;
       
       break;
-    case k_NoQuaterTonesPitch:
+    case k_NoQuarterTonesPitch:
       diatonicPitch = kA; // any value would fit
       alteration    = k_NoAlteration;
       break;
   } // switch
 }
 
-msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
+msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
   int              inputLineNumber,
   msrDiatonicPitch diatonicPitch,
   msrAlteration    alteration)
 {
-  msrQuartertonesPitch result;
+  msrQuarterTonesPitch result;
   
   switch (diatonicPitch) {
     case kA:
@@ -1769,7 +1769,7 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
 
     case k_NoDiatonicPitch:
       {
-        result = k_NoQuaterTonesPitch;
+        result = k_NoQuarterTonesPitch;
         /* JMI
         stringstream s;
 
@@ -1788,13 +1788,13 @@ msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
   return result;
 }
 
-msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
+msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
   int                  inputLineNumber,
-  msrQuartertonesPitch quartertonesPitch)
+  msrQuarterTonesPitch quarterTonesPitch)
 {
   msrDiatonicPitch result;
   
-  switch (quartertonesPitch) {
+  switch (quarterTonesPitch) {
     case k_aDoubleFlat:
     case k_aSesquiFlat:
     case k_aFlat:
@@ -1892,7 +1892,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
           s.str());
       }
       
-    case k_NoQuaterTonesPitch:
+    case k_NoQuarterTonesPitch:
       {
         result = k_NoDiatonicPitch;
         
@@ -1900,7 +1900,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
         stringstream s;
 
         s <<
-          "cannot get the diatonic pitch of a k_NoQuaterTonesPitch"
+          "cannot get the diatonic pitch of a k_NoQuarterTonesPitch"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -1913,61 +1913,61 @@ msrDiatonicPitch msrDiatonicPitchFromQuatertonesPitch (
   return result;
 }
 
-string msrQuartertonesPitchAsString (
-  msrQuatertonesPitchesLanguage language,
-  msrQuartertonesPitch          quartertonesPitch)
+string msrQuarterTonesPitchAsString (
+  msrQuarterTonesPitchesLanguage language,
+  msrQuarterTonesPitch          quarterTonesPitch)
 {
    string result;
   
   switch (language) {
     case kNederlands:
-      result = gNederlandsPitchName [quartertonesPitch];
+      result = gNederlandsPitchName [quarterTonesPitch];
       break;
     case kCatalan:
-      result = gCatalanPitchName [quartertonesPitch];
+      result = gCatalanPitchName [quarterTonesPitch];
       break;
     case kDeutsch:
-      result = gDeutschPitchName [quartertonesPitch];
+      result = gDeutschPitchName [quarterTonesPitch];
       break;
     case kEnglish:
-      result = gEnglishPitchName [quartertonesPitch];
+      result = gEnglishPitchName [quarterTonesPitch];
       break;
     case kEspanol:
-      result = gEspanolPitchName [quartertonesPitch];
+      result = gEspanolPitchName [quarterTonesPitch];
       break;
     case kFrancais:
-      result = gFrancaisPitchName [quartertonesPitch];
+      result = gFrancaisPitchName [quarterTonesPitch];
       break;
     case kItaliano:
-      result = gItalianoPitchName [quartertonesPitch];
+      result = gItalianoPitchName [quarterTonesPitch];
       break;
     case kNorsk:
-      result = gNorskPitchName [quartertonesPitch];
+      result = gNorskPitchName [quarterTonesPitch];
       break;
     case kPortugues:
-      result = gPortuguesPitchName [quartertonesPitch];
+      result = gPortuguesPitchName [quarterTonesPitch];
       break;
     case kSuomi:
-      result = gSuomiPitchName [quartertonesPitch];
+      result = gSuomiPitchName [quarterTonesPitch];
       break;
     case kSvenska:
-      result = gSvenskaPitchName [quartertonesPitch];
+      result = gSvenskaPitchName [quarterTonesPitch];
       break;
     case kVlaams:
-      result = gVlaamsPitchName [quartertonesPitch];
+      result = gVlaamsPitchName [quarterTonesPitch];
       break;
   } // switch
 
   return result;
 }
 
-string existingQuartertonesPitchesLanguages ()
+string existingQuarterTonesPitchesLanguages ()
 {
   stringstream s;
   
-  map<string, msrQuatertonesPitchesLanguage>::const_iterator
-    iBegin = gQuatertonesPitchesLanguagesMap.begin(),
-    iEnd   = gQuatertonesPitchesLanguagesMap.end(),
+  map<string, msrQuarterTonesPitchesLanguage>::const_iterator
+    iBegin = gQuarterTonesPitchesLanguagesMap.begin(),
+    iEnd   = gQuarterTonesPitchesLanguagesMap.end(),
     i      = iBegin;
   for ( ; ; ) {
     s << (*i).first;
@@ -2069,7 +2069,7 @@ void msrOptions::initializeMsrOptions (
 
   // languages
   
-  if (! setMsrQuartertonesPitchesLanguage ("nederlands")) {
+  if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
 
     s <<
@@ -2077,14 +2077,14 @@ void msrOptions::initializeMsrOptions (
       "MSR pitches language 'nederlands' is unknown" <<
       endl <<
       "The " <<
-      gQuatertonesPitchesLanguagesMap.size () <<
+      gQuarterTonesPitchesLanguagesMap.size () <<
       " known MSR pitches languages are:" <<
       endl;
 
     idtr++;
   
     s <<
-      existingQuartertonesPitchesLanguages ();
+      existingQuarterTonesPitchesLanguages ();
 
     idtr--;
 
@@ -2142,8 +2142,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // languages
     
-  clone->fMsrQuatertonesPitchesLanguage =
-    fMsrQuatertonesPitchesLanguage;
+  clone->fMsrQuarterTonesPitchesLanguage =
+    fMsrQuarterTonesPitchesLanguage;
 
   // parts
 
@@ -2191,19 +2191,19 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   return clone;
 }  
 
-bool msrOptions::setMsrQuartertonesPitchesLanguage (string language)
+bool msrOptions::setMsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the pitches languages map?
-  map<string, msrQuatertonesPitchesLanguage>::const_iterator
+  map<string, msrQuarterTonesPitchesLanguage>::const_iterator
     it =
-      gQuatertonesPitchesLanguagesMap.find (language);
+      gQuarterTonesPitchesLanguagesMap.find (language);
         
-  if (it == gQuatertonesPitchesLanguagesMap.end ()) {
+  if (it == gQuarterTonesPitchesLanguagesMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
 
-  fMsrQuatertonesPitchesLanguage = (*it).second;
+  fMsrQuarterTonesPitchesLanguage = (*it).second;
   
   return true;
 }
@@ -2528,8 +2528,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
-      msrQuatertonesPitchesLanguageAsString (
-        fMsrQuatertonesPitchesLanguage) <<
+      msrQuarterTonesPitchesLanguageAsString (
+        fMsrQuarterTonesPitchesLanguage) <<
         "\"" <<
       endl;
 
@@ -5888,14 +5888,14 @@ S_msrNote msrNote::create (
 
   msrNoteKind          noteKind,
 
-  msrQuartertonesPitch noteQuatertonesPitch,
+  msrQuarterTonesPitch noteQuarterTonesPitch,
   int                  noteSoundingDivisions,
   int                  noteDisplayedDivisions,
   int                  noteDotsNumber,
   msrDuration          noteGraphicDuration,
   int                  noteOctave,
 
-  msrQuartertonesPitch noteQuatertonesDisplayPitch,
+  msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
   int                  noteDisplayOctave,
   
   bool                 noteIsARest,
@@ -5910,14 +5910,14 @@ S_msrNote msrNote::create (
       
       noteKind,
       
-      noteQuatertonesPitch,
+      noteQuarterTonesPitch,
       noteSoundingDivisions,
       noteDisplayedDivisions,
       noteDotsNumber,
       noteGraphicDuration,
       noteOctave,
 
-      noteQuatertonesDisplayPitch,
+      noteQuarterTonesDisplayPitch,
       noteDisplayOctave,
       
       noteIsARest,
@@ -5944,14 +5944,14 @@ S_msrNote msrNote::createSkipNote (
       
       kSkipNote, // noteKind
       
-      k_NoQuaterTonesPitch, // noteQuatertonesPitch
+      k_NoQuarterTonesPitch, // noteQuarterTonesPitch
       divisions, // noteSoundingDivisions
       divisions, // noteDisplayedDivisions
       dotsNumber,
       k_NoDuration, // noteGraphicDuration
       K_NO_OCTAVE, // noteOctave,
       
-      k_NoQuaterTonesPitch, // noteDisplayQuatertonesPitch
+      k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
       
       false, // noteIsARest
@@ -5969,14 +5969,14 @@ msrNote::msrNote (
 
   msrNoteKind          noteKind,
 
-  msrQuartertonesPitch noteQuatertonesPitch,
+  msrQuarterTonesPitch noteQuarterTonesPitch,
   int                  noteSoundingDivisions,
   int                  noteDisplayedDivisions,
   int                  noteDotsNumber,
   msrDuration          noteGraphicDuration,
   int                  noteOctave,
 
-  msrQuartertonesPitch noteQuatertonesDisplayPitch,
+  msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
   int                  noteDisplayOctave,
   
   bool                 noteIsARest,
@@ -5996,14 +5996,14 @@ msrNote::msrNote (
   // basic note description
   fNoteKind = noteKind;
 
-  fNoteQuatertonesPitch   = noteQuatertonesPitch;
+  fNoteQuarterTonesPitch   = noteQuarterTonesPitch;
   fNoteSoundingDivisions  = noteSoundingDivisions;
   fNoteDisplayedDivisions = noteDisplayedDivisions;
   fNoteDotsNumber         = noteDotsNumber;
   fNoteGraphicDuration    = noteGraphicDuration;
   fNoteOctave             = noteOctave;
 
-  fNoteQuatertonesDisplayPitch = noteQuatertonesDisplayPitch;
+  fNoteQuarterTonesDisplayPitch = noteQuarterTonesDisplayPitch;
   fNoteDisplayOctave           = noteDisplayOctave;
 
   fNoteIsARest     = noteIsARest;
@@ -6052,10 +6052,10 @@ void msrNote::initializeNote ()
     cerr <<
       idtr << left <<
         setw(fieldWidth) <<
-        "fNoteQuatertonesPitch" << " = " <<
-        msrQuartertonesPitchAsString (
-          gMsrOptions->fMsrQuatertonesPitchesLanguage,
-          fNoteQuatertonesPitch) <<
+        "fNoteQuarterTonesPitch" << " = " <<
+        msrQuarterTonesPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          fNoteQuarterTonesPitch) <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
@@ -6212,14 +6212,14 @@ S_msrNote msrNote::createNoteShallowClone (
         
         fNoteKind,
         
-        fNoteQuatertonesPitch,
+        fNoteQuarterTonesPitch,
         fNoteSoundingDivisions,
         fNoteDisplayedDivisions,
         fNoteDotsNumber,
         fNoteGraphicDuration,
         fNoteOctave,
         
-        fNoteQuatertonesDisplayPitch,
+        fNoteQuarterTonesDisplayPitch,
         fNoteDisplayOctave,
         
         fNoteIsARest,
@@ -6235,8 +6235,8 @@ S_msrNote msrNote::createNoteShallowClone (
     fNoteKind;
 
   clone->
-    fNoteQuatertonesPitch =
-      fNoteQuatertonesPitch;
+    fNoteQuarterTonesPitch =
+      fNoteQuarterTonesPitch;
   clone->
     fNoteSoundingDivisions =
       fNoteSoundingDivisions;
@@ -6386,9 +6386,9 @@ msrDiatonicPitch msrNote::noteDiatonicPitch (
   int inputLineNumber) const
 {
   return
-    msrDiatonicPitchFromQuatertonesPitch (
+    msrDiatonicPitchFromQuarterTonesPitch (
       inputLineNumber,
-      fNoteQuatertonesPitch);
+      fNoteQuarterTonesPitch);
 }
 
 string msrNote::noteDisplayOctaveAsString () const
@@ -6943,7 +6943,7 @@ string msrNote::notePitchAsString () const
   /*
   cerr << "msrNote::notePitchAsString (), isRest = " <<
     fNoteIsARest <<
-    ", fQuartertonesPitch = " << fQuartertonesPitch << endl;
+    ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
   */
 
   /*
@@ -6964,9 +6964,9 @@ string msrNote::notePitchAsString () const
   else {
 
     s <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fNoteQuatertonesPitch);  
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fNoteQuarterTonesPitch);  
 
   }
   
@@ -6980,7 +6980,7 @@ string msrNote::noteDisplayPitchAsString () const
   /*
   cerr << "msrNote::notePitchAsString (), isRest = " <<
     fNoteIsARest <<
-    ", fQuartertonesPitch = " << fQuartertonesPitch << endl;
+    ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
   */
   
   if (fNoteIsARest) {
@@ -6997,9 +6997,9 @@ string msrNote::noteDisplayPitchAsString () const
   else {
 
     s <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fNoteQuatertonesPitch);  
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fNoteQuarterTonesPitch);  
 
   }
   
@@ -7133,7 +7133,7 @@ string msrNote::noteDiatonicPitchAsString (
 {
   return
     msrDiatonicPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       noteDiatonicPitch (
         fInputLineNumber));
 }
@@ -7477,6 +7477,19 @@ void msrNote::print (ostream& os)
     ", ";
     
   switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+    case msrNote::kRestNote:
+    case msrNote::kSkipNote:
+    case msrNote::kStandaloneNote:
+    case msrNote::kDoubleTremoloMemberNote:
+    case msrNote::kChordMemberNote:
+      os <<
+        "divs: " <<
+        fNoteSoundingDivisions <<
+        " sound, " <<
+        fNoteDisplayedDivisions<<
+        " disp";
+
     case msrNote::kGraceNote:
       os <<
         fNoteDisplayedDivisions <<
@@ -7501,20 +7514,7 @@ void msrNote::print (ostream& os)
       }
       */
       break;
-      
-    case msrNote::k_NoNoteKind:
-    case msrNote::kRestNote:
-    case msrNote::kSkipNote:
-    case msrNote::kStandaloneNote:
-    case msrNote::kDoubleTremoloMemberNote:
-    case msrNote::kChordMemberNote:
-      os <<
-        "divs: " <<
-        fNoteSoundingDivisions <<
-        " sound, " <<
-        fNoteDisplayedDivisions<<
-        " disp";
-  } // switch
+    } // switch
 
   if (divisionsPerFullMeasure > 0)
     os <<
@@ -8818,7 +8818,8 @@ string msrBreak::breakAsString () const
   stringstream s;
 
   s <<
-    "Break" << ", next bar number = " << fNextBarNumber;
+    "Break" <<
+    ", next bar number = \"" << fNextBarNumber << "\"";
 
   return s.str();
 }
@@ -8908,7 +8909,8 @@ string msrBarCheck::barCheckAsString () const
   stringstream s;
 
   s <<
-    "BarCheck" << ", next bar number = " << fNextBarNumber;
+    "BarCheck" <<
+    ", next bar number = \"" << fNextBarNumber << "\"";
 
   return s.str();
 }
@@ -8993,7 +8995,8 @@ string msrBarNumberCheck::barNumberCheckAsString () const
   stringstream s;
 
   s <<
-    "BarNumberCheck" << ", next bar number = " << fNextBarNumber;
+    "BarNumberCheck" <<
+    ", next bar number = \"" << fNextBarNumber << "\"";
 
   return s.str();
 }
@@ -10785,14 +10788,14 @@ void msrHumdrumScotKeyItem::print (ostream& os)
 //______________________________________________________________________________
 S_msrKey msrKey::createTraditional (
   int                  inputLineNumber,
-  msrQuartertonesPitch keyTonicQuartertonesPitch,
+  msrQuarterTonesPitch keyTonicQuarterTonesPitch,
   msrKeyModeKind       keyModeKind,
   int                  keyCancel)
 {
   msrKey* o =
     new msrKey (
       inputLineNumber,
-      keyTonicQuartertonesPitch, keyModeKind,
+      keyTonicQuarterTonesPitch, keyModeKind,
       keyCancel);
   assert (o!=0);
 
@@ -10812,7 +10815,7 @@ S_msrKey msrKey::createHumdrumScot (
 
 msrKey::msrKey ( // for traditional keys
   int                  inputLineNumber,
-  msrQuartertonesPitch keyTonicQuartertonesPitch,
+  msrQuarterTonesPitch keyTonicQuarterTonesPitch,
   msrKeyModeKind       keyModeKind,
   int                  keyCancel)
     : msrElement (inputLineNumber)
@@ -10820,7 +10823,7 @@ msrKey::msrKey ( // for traditional keys
   // this is a traditional key
   fKeyKind = kTraditionalKind;
   
-  fKeyTonicQuartertonesPitch = keyTonicQuartertonesPitch;
+  fKeyTonicQuarterTonesPitch = keyTonicQuarterTonesPitch;
   fKeyModeKind               = keyModeKind;
   
   fKeyCancel     = keyCancel;
@@ -10978,9 +10981,9 @@ string msrKey::keyAsString () const
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:
       s <<
-        msrQuartertonesPitchAsString (
-          gMsrOptions->fMsrQuatertonesPitchesLanguage,
-          fKeyTonicQuartertonesPitch) <<
+        msrQuarterTonesPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          fKeyTonicQuarterTonesPitch) <<
         " " <<
         keyModeKindAsString (fKeyModeKind);
       break;
@@ -11011,9 +11014,9 @@ void msrKey::print (ostream& os)
     case msrKey::kTraditionalKind:
       os <<
         " " <<
-        msrQuartertonesPitchAsString (
-          gMsrOptions->fMsrQuatertonesPitchesLanguage,
-          fKeyTonicQuartertonesPitch) <<
+        msrQuarterTonesPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          fKeyTonicQuarterTonesPitch) <<
         " " <<
         keyModeKindAsString (fKeyModeKind) <<
         endl;
@@ -12994,19 +12997,19 @@ void msrStanza::print (ostream& os)
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
   S_msrPart            harmonyDirectPartUplink,
-  msrQuartertonesPitch harmonyRootQuartertonesPitch,
+  msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
-  msrQuartertonesPitch harmonyBassQuartertonesPitch,
+  msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
   int                  harmonySoundingDivisions)
 {
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
       harmonyDirectPartUplink,
-      harmonyRootQuartertonesPitch,
+      harmonyRootQuarterTonesPitch,
       harmonyKind, harmonyKindText,
-      harmonyBassQuartertonesPitch,
+      harmonyBassQuarterTonesPitch,
       harmonySoundingDivisions);
   assert(o!=0);
 
@@ -13016,10 +13019,10 @@ S_msrHarmony msrHarmony::create (
 msrHarmony::msrHarmony (
   int                  inputLineNumber,
   S_msrPart            harmonyDirectPartUplink,
-  msrQuartertonesPitch harmonyRootQuartertonesPitch,
+  msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
-  msrQuartertonesPitch harmonyBassQuartertonesPitch,
+  msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
   int                  harmonySoundingDivisions)
     : msrElement (inputLineNumber)
 {
@@ -13031,12 +13034,12 @@ msrHarmony::msrHarmony (
   fHarmonyDirectPartUplink =
     harmonyDirectPartUplink;
     
-  fHarmonyRootQuartertonesPitch = harmonyRootQuartertonesPitch;
+  fHarmonyRootQuarterTonesPitch = harmonyRootQuarterTonesPitch;
  
   fHarmonyKind     = harmonyKind;
   fHarmonyKindText = harmonyKindText;
  
-  fHarmonyBassQuartertonesPitch = harmonyBassQuartertonesPitch;
+  fHarmonyBassQuarterTonesPitch = harmonyBassQuarterTonesPitch;
  
   fHarmonySoundingDivisions = harmonySoundingDivisions;
   
@@ -13070,9 +13073,9 @@ S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
       msrHarmony::create (
         fInputLineNumber,
         partClone,
-        fHarmonyRootQuartertonesPitch,
+        fHarmonyRootQuarterTonesPitch,
         fHarmonyKind, fHarmonyKindText,
-        fHarmonyBassQuartertonesPitch,
+        fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingDivisions);
   
   return clone;
@@ -13169,9 +13172,9 @@ string msrHarmony::harmonyAsString () const
   stringstream s;
 
   s <<
-    msrQuartertonesPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      fHarmonyRootQuartertonesPitch) <<          
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fHarmonyRootQuarterTonesPitch) <<          
     harmonyKindAsShortString ();
 
   if (fHarmonyDirectPartUplink) // JMI ???
@@ -13185,12 +13188,12 @@ string msrHarmony::harmonyAsString () const
     s <<
       " (" <<fHarmonyKindText << ") ";
 
-  if (fHarmonyBassQuartertonesPitch != k_NoQuaterTonesPitch)
+  if (fHarmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
     s <<
       "/" <<
-    msrQuartertonesPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      fHarmonyBassQuartertonesPitch);    
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fHarmonyBassQuarterTonesPitch);    
 
   return s.str();
 }
@@ -13263,9 +13266,9 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(fieldWidth) <<
       "HarmonyRoot" << " = " <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fHarmonyRootQuartertonesPitch) <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fHarmonyRootQuarterTonesPitch) <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -13280,9 +13283,9 @@ void msrHarmony::print (ostream& os)
     idtr <<
       setw(fieldWidth) <<
       "HarmonyBass" << " = " <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fHarmonyBassQuartertonesPitch) <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fHarmonyBassQuarterTonesPitch) <<
       endl;
 
   idtr--;
@@ -21284,14 +21287,14 @@ void msrStaffLinesNumber::print (ostream& os)
 S_msrStaffTuning msrStaffTuning::create (
   int                  inputLineNumber,
   int                  staffTuningLineNumber,
-  msrQuartertonesPitch quartertonesPitch,
+  msrQuarterTonesPitch quarterTonesPitch,
   int                  staffTuningOctave)
 {
   msrStaffTuning* o =
     new msrStaffTuning (
       inputLineNumber,
       staffTuningLineNumber,
-      quartertonesPitch,
+      quarterTonesPitch,
       staffTuningOctave);
   assert(o!=0);
   return o;
@@ -21300,12 +21303,12 @@ S_msrStaffTuning msrStaffTuning::create (
 msrStaffTuning::msrStaffTuning (
   int                  inputLineNumber,
   int                  staffTuningLineNumber,
-  msrQuartertonesPitch quartertonesPitch,
+  msrQuarterTonesPitch quarterTonesPitch,
   int                  staffTuningOctave)
     : msrElement (inputLineNumber)
 {
   fStaffTuningLineNumber        = staffTuningLineNumber;
-  fStaffTuningQuartertonesPitch = quartertonesPitch;
+  fStaffTuningQuarterTonesPitch = quarterTonesPitch;
   fStaffTuningOctave            = staffTuningOctave;
 }
 
@@ -21327,7 +21330,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningShallowClone ()
       msrStaffTuning::create (
         fInputLineNumber,
         fStaffTuningLineNumber,
-        fStaffTuningQuartertonesPitch,
+        fStaffTuningQuarterTonesPitch,
         fStaffTuningOctave);
   
   return clone;
@@ -21390,9 +21393,9 @@ string msrStaffTuning::staffTuningAsString () const
     "StaffTuning" <<
     ", line " << fStaffTuningLineNumber <<
     ", " <<
-    msrQuartertonesPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      fStaffTuningQuartertonesPitch) <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fStaffTuningQuarterTonesPitch) <<
     ", octave " << fStaffTuningOctave;
     
   return s.str();
@@ -21418,10 +21421,10 @@ void msrStaffTuning::print (ostream& os)
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fStaffTuningQuartertonesPitch" << " = " <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        fStaffTuningQuartertonesPitch) <<
+      "fStaffTuningQuarterTonesPitch" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fStaffTuningQuarterTonesPitch) <<
       endl <<
     idtr <<
       setw(fieldWidth) <<

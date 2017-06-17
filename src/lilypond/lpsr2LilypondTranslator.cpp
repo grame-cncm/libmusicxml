@@ -127,7 +127,7 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   string result;
 
   if (gGeneralOptions->fTraceNotes) {
-    cerr <<
+    fOstream <<
       endl <<
       idtr <<
       "%{ absoluteOctave = " << absoluteOctave << " %}" <<
@@ -328,7 +328,7 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
-    cerr << left <<
+    fOstream << left <<
 /*
       idtr <<
         setw(fieldWidth) <<
@@ -401,23 +401,43 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
     s <<
       "\\once \\override NoteHead #'style = #'cross ";
 
-  // get the note quater tones pitch
-  msrQuartertonesPitch
-    noteQuartertonesPitch =
-      note->getNoteQuatertonesPitch ();
-                
-  // generate the pitch in all cases
+  // get the note quarter tones pitch
+  msrQuarterTonesPitch
+    noteQuarterTonesPitch =
+      note->getNoteQuarterTonesPitch ();
+
+  // fetch the quarter tones pitch as string
+  string
+    quarterTonesPitchAsString =
+      msrQuarterTonesPitchAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+        noteQuarterTonesPitch);
+
+  // get the note quarter tones display pitch
+  msrQuarterTonesPitch
+    noteQuarterTonesDisplayPitch =
+      note->getNoteQuarterTonesDisplayPitch ();
+
+  // fetch the quarter tones display pitch as string
+  string
+    quarterTonesDisplayPitchAsString =
+      msrQuarterTonesPitchAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+        noteQuarterTonesDisplayPitch);
+      
+  // generate the pitch
   s <<
-    msrQuartertonesPitchAsString (
-      gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-      noteQuartertonesPitch);
-                
+    quarterTonesPitchAsString;
+    
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
     note->getNoteOctave ();
+    
+  int noteAbsoluteDisplayOctave =
+    note->getNoteDisplayOctave ();
 
   // should an absolute octave be generated?
-  bool genAbsoluteOctave =
+  bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
@@ -425,7 +445,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
-    cerr << left <<
+    fOstream << left <<
       endl <<
       idtr <<
           setw(fieldWidth) <<
@@ -435,24 +455,29 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
           endl <<
       idtr <<
         setw(fieldWidth) <<
-        "% msrQuartertonesPitch" <<
-        " = - " <<
-        msrQuartertonesPitchAsString (
-          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-          noteQuartertonesPitch) <<
+        "% msrQuarterTonesPitch" <<
+        " = " <<
+        quarterTonesPitchAsString <<
+        " -" <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% quarterTonesDisplayPitch" <<
+        " = " <<
+        quarterTonesDisplayPitchAsString <<
         " -" <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
         "% noteAbsoluteOctave" <<
-        " = - " <<
+        " = " <<
         noteAbsoluteOctave <<
         " -" <<
         endl <<
       endl;
   }
 
-  if (genAbsoluteOctave) {
+  if (generateAbsoluteOctave) {
     
     // generate LilyPond absolute octave
     s <<
@@ -510,7 +535,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
       if (gGeneralOptions->fTraceNotes) {
         const int fieldWidth = 28;
   
-        cerr << left <<
+        fOstream << left <<
   /*
           idtr <<
             setw(fieldWidth) <<
@@ -578,23 +603,28 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
     
   stringstream s;
 
-  // get the note quater tones pitch
-  msrQuartertonesPitch
-    noteQuartertonesPitch =
-      note->getNoteQuatertonesDisplayPitch ();
-                
-  // generate the pitch
+  // get the note quarter tones display pitch
+  msrQuarterTonesPitch
+    noteQuarterTonesDisplayPitch =
+      note->getNoteQuarterTonesDisplayPitch ();
+
+  // fetch the quarter tones display pitch as string
+  string
+    quarterTonesDisplayPitchAsString =
+      msrQuarterTonesPitchAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+        noteQuarterTonesDisplayPitch);
+      
+  // generate the display pitch
   s <<
-    msrQuartertonesPitchAsString (
-      gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-      noteQuartertonesPitch);
-  
+    quarterTonesDisplayPitchAsString;
+    
   // in MusicXML, octave number is 4 for the octave starting with middle C
-  int noteAbsoluteOctave =
-    note->getNoteOctave ();
+  int noteAbsoluteDisplayOctave =
+    note->getNoteDisplayOctave ();
 
   // should an absolute octave be generated?
-  bool genAbsoluteOctave =
+  bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
@@ -602,7 +632,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
-    cerr << left <<
+    fOstream << left <<
       endl <<
       idtr <<
           setw(fieldWidth) <<
@@ -612,28 +642,26 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
           endl <<
       idtr <<
         setw(fieldWidth) <<
-        "% msrQuartertonesPitch" <<
+        "% quarterTonesDisplayPitch" <<
         " = - " <<
-        msrQuartertonesPitchAsString (
-          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-          noteQuartertonesPitch) <<
+        quarterTonesDisplayPitchAsString <<
         " -" <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
-        "% noteAbsoluteOctave" <<
+        "% noteAbsoluteDisplayOctave" <<
         " = - " <<
-        noteAbsoluteOctave <<
+        noteAbsoluteDisplayOctave <<
         " -" <<
         endl <<
       endl;
   }
 
-  if (genAbsoluteOctave) {
+  if (generateAbsoluteOctave) {
     // generate LilyPond absolute octave
     s <<
       absoluteOctaveAsLilypondString (
-        noteAbsoluteOctave);
+        noteAbsoluteDisplayOctave);
   }
 
   else {
@@ -969,9 +997,9 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
   stringstream s;
 
   s <<
-    msrQuartertonesPitchAsString (
-      gMsrOptions->fMsrQuatertonesPitchesLanguage,
-      harmony->getHarmonyRootQuartertonesPitch ()) <<                     
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      harmony->getHarmonyRootQuarterTonesPitch ()) <<                     
     harmony->getHarmonyDirectPartUplink ()->
       divisionsAsMsrString (
         inputLineNumber,
@@ -1012,16 +1040,16 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       break;
   } // switch
 
-  msrQuartertonesPitch
-    harmonyBassQuartertonesPitch =
-      harmony->getHarmonyBassQuartertonesPitch ();
+  msrQuarterTonesPitch
+    harmonyBassQuarterTonesPitch =
+      harmony->getHarmonyBassQuarterTonesPitch ();
       
-  if (harmonyBassQuartertonesPitch != k_NoQuaterTonesPitch)
+  if (harmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
     s <<
       "/" <<
-      msrQuartertonesPitchAsString (
-        gMsrOptions->fMsrQuatertonesPitchesLanguage,
-        harmonyBassQuartertonesPitch);
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        harmonyBassQuarterTonesPitch);
 
   return s.str();
 }
@@ -2396,7 +2424,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    fOstream << idtr <<
       "%--> Start visiting msrStaffLinesNumber" <<
       endl;
 
@@ -2434,7 +2462,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    fOstream << idtr <<
       "%--> Start visiting msrStaffTuning" <<
       endl;
 
@@ -2456,10 +2484,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
       
     for ( ; ; ) {
       fOstream <<
-        msrQuartertonesPitchAsString (
-          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
+        msrQuarterTonesPitchAsString (
+          gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
  // JMI            elt->getInputLineNumber (),
-          ((*i)->getStaffTuningQuartertonesPitch ())) <<        
+          ((*i)->getStaffTuningQuarterTonesPitch ())) <<        
  // JMI       char (tolower ((*i)->getStaffTuningStep ())) <<
         absoluteOctaveAsLilypondString (
           (*i)->getStaffTuningOctave ());
@@ -2477,7 +2505,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    fOstream << idtr <<
       "%--> Start visiting msrStaffDetails" <<
       endl;
 }
@@ -2545,8 +2573,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   fOstream <<
     idtr <<
       "\\language \"" <<
-      msrQuatertonesPitchesLanguageAsString (
-        gLpsrOptions->fLpsrQuatertonesPitchesLanguage) <<
+      msrQuarterTonesPitchesLanguageAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage) <<
       "\"" <<
       endl;
 
@@ -2865,7 +2893,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         r.rationalise ();
   
         if (gGeneralOptions->fTraceMeasures) {
-          cerr <<
+          fOstream <<
             idtr <<
               "% Setting the measure length for measure " <<
               measureNumber <<
@@ -3422,9 +3450,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
       fOstream <<
         idtr <<
         "\\key " <<
-        msrQuartertonesPitchAsString (
-          gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-          elt->getKeyTonicQuartertonesPitch ()) <<
+        msrQuarterTonesPitchAsString (
+          gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+          elt->getKeyTonicQuarterTonesPitch ()) <<
         " \\" <<
         msrKey::keyModeKindAsString (
           elt->getKeyModeKind ()) <<
@@ -3972,7 +4000,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
 
 //  if (false && gGeneralOptions->fTraceTremolos) { // JMI
   if (gGeneralOptions->fTraceTremolos) { // JMI
-    cerr <<
+    fOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
       tab << "% partDivisionsPerQuarterNote = " <<
@@ -6373,13 +6401,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
     elt->measureRepeatReplicasNumber ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
-    cerr << idtr <<
+    fOstream << idtr <<
       "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
 
     const int fieldWidth = 24;
 
-    cerr << left <<
+    fOstream << left <<
       idtr <<
         setw(fieldWidth) <<
         "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
@@ -6529,13 +6557,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     elt->multipleRestContentsMeasuresNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
-    cerr << idtr <<
+    fOstream << idtr <<
       "% multiple rest, line " << inputLineNumber << ":" <<
       endl;
 
     const int fieldWidth = 24;
 
-    cerr << left <<
+    fOstream << left <<
       idtr <<
         setw(fieldWidth) <<
         "% restMeasuresNumber" << " = " << restMeasuresNumber <<
