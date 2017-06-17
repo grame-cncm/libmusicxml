@@ -513,7 +513,8 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
           
       int
         referenceAbsoluteOctave =
-          fRelativeOctaveReference->getNoteOctave ();
+          fRelativeOctaveReference->
+            getNoteOctave ();
   
       /*
         If no octave changing mark is used on a pitch, its octave is calculated
@@ -623,7 +624,8 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       
   // generate the display pitch
   s <<
-    note->notePitchAsString ();
+    note->noteDisplayPitchAsString ();
+//    note->notePitchAsString (); JMI
 //    quarterTonesDisplayPitchAsString;
     
   // in MusicXML, octave number is 4 for the octave starting with middle C

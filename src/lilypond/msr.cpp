@@ -6981,7 +6981,7 @@ string msrNote::noteDisplayPitchAsString () const
   cerr << "msrNote::notePitchAsString (), isRest = " <<
     fNoteIsARest <<
     ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
-  */
+
   
   if (fNoteIsARest) {
     if (fNoteOccupiesAFullMeasure) // JMI
@@ -6995,13 +6995,13 @@ string msrNote::noteDisplayPitchAsString () const
     s << "unpitched ";
 
   else {
-
+  */
     s <<
       msrQuarterTonesPitchAsString (
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fNoteQuarterTonesPitch);  
+        fNoteQuarterTonesDisplayPitch);  
 
-  }
+ // JMI }
   
   return s.str();
 }
@@ -7343,7 +7343,7 @@ string msrNote::noteAsString () const
       else
         s <<
           "(" <<
-          notePitchAsString () <<
+          noteDisplayPitchAsString () <<
           noteSoundingDivisionsAsMsrString () <<
           ", octave" " "<< noteDisplayOctaveAsString () <<
           ")";
