@@ -6939,6 +6939,43 @@ string msrNote::notePitchAsString () const
     fNoteIsARest <<
     ", fQuartertonesPitch = " << fQuartertonesPitch << endl;
   */
+
+  /*
+  if (fNoteIsARest) {
+    if (fNoteOccupiesAFullMeasure) // JMI
+      s << "R";
+    else
+      s << "r";
+  }
+  
+  else
+  */
+  
+  if (fNoteIsUnpitched)
+
+    s << "unpitched ";
+
+  else {
+
+    s <<
+      msrQuartertonesPitchAsString (
+        gMsrOptions->fMsrQuatertonesPitchesLanguage,
+        fNoteQuatertonesPitch);  
+
+  }
+  
+  return s.str();
+}
+
+string msrNote::noteDisplayPitchAsString () const
+{
+  stringstream s;
+  
+  /*
+  cerr << "msrNote::notePitchAsString (), isRest = " <<
+    fNoteIsARest <<
+    ", fQuartertonesPitch = " << fQuartertonesPitch << endl;
+  */
   
   if (fNoteIsARest) {
     if (fNoteOccupiesAFullMeasure) // JMI
@@ -7299,7 +7336,8 @@ string msrNote::noteAsString () const
           "unpitched";
       else
         s <<
-          noteDiatonicPitchAsString (fInputLineNumber) <<
+          notePitchAsString () <<
+          noteSoundingDivisionsAsMsrString () <<
           ", octave" " "<< noteDisplayOctaveAsString ();
 
       s <<

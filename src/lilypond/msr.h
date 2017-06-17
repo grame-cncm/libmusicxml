@@ -4098,8 +4098,9 @@ class EXP msrNote : public msrElement
       int                  noteDisplayedDivisions,
       int                  noteDotsNumber,
       msrDuration          noteGraphicDuration,
-      
       int                  noteOctave,
+      
+      msrQuartertonesPitch noteQuatertonesDisplayPitch,
       int                  noteDisplayOctave,
       
       bool                 noteIsARest,
@@ -4136,8 +4137,9 @@ class EXP msrNote : public msrElement
       int                  noteDisplayedDivisions,
       int                  noteDotsNumber,
       msrDuration          noteGraphicDuration,
-      
       int                  noteOctave,
+
+      msrQuartertonesPitch noteQuatertonesDisplayPitch,
       int                  noteDisplayOctave,
       
       bool                 noteIsARest,
@@ -4162,11 +4164,15 @@ class EXP msrNote : public msrElement
     // basic note description
     // -------------------------------
 
+    // note kind
+    
     void                  setNoteKind (msrNoteKind noteKind)
                               { fNoteKind = noteKind; }
 
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
+
+    // note pitch
 
     msrQuartertonesPitch  getQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
@@ -4174,12 +4180,19 @@ class EXP msrNote : public msrElement
     int                   getNoteSoundingDivisions () const
                               { return fNoteSoundingDivisions; }
 
+    // note display
+    
+    msrQuartertonesPitch  getNoteQuatertonesDisplayPitch () const
+                              { return fNoteQuatertonesDisplayPitch; }
+                              
     void                  setNoteDisplayedDivisions (int divisions)
                               { fNoteDisplayedDivisions = divisions; }
 
     int                   getNoteDisplayedDivisions () const
                               { return fNoteDisplayedDivisions; }
 
+    // dots
+    
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
 
@@ -4409,12 +4422,13 @@ class EXP msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                notePitchAsString () const;
+    string                noteDisplayPitchAsString () const;
+
     string                noteDisplayOctaveAsString () const;
     
     bool                  noteIsAPitchedRest () const;
     
-    string                notePitchAsString () const;
-
     string                noteAsShortStringWithRawDivisions () const;
     string                noteAsShortString () const;
     string                noteAsString () const;
@@ -4516,6 +4530,7 @@ class EXP msrNote : public msrElement
     
     int                   fNoteOctave;
     
+    msrQuartertonesPitch  fNoteQuatertonesDisplayPitch,
     int                   fNoteDisplayOctave;
                                 // for unpitched notes
                                 // and pitched rests
