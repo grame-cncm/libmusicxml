@@ -4530,7 +4530,7 @@ class EXP msrNote : public msrElement
     
     int                   fNoteOctave;
     
-    msrQuartertonesPitch  fNoteQuatertonesDisplayPitch,
+    msrQuartertonesPitch  fNoteQuatertonesDisplayPitch;
     int                   fNoteDisplayOctave;
                                 // for unpitched notes
                                 // and pitched rests

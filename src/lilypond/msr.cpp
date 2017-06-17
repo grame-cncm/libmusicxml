@@ -5893,8 +5893,9 @@ S_msrNote msrNote::create (
   int                  noteDisplayedDivisions,
   int                  noteDotsNumber,
   msrDuration          noteGraphicDuration,
-  
   int                  noteOctave,
+
+  msrQuartertonesPitch noteQuatertonesDisplayPitch,
   int                  noteDisplayOctave,
   
   bool                 noteIsARest,
@@ -5914,8 +5915,9 @@ S_msrNote msrNote::create (
       noteDisplayedDivisions,
       noteDotsNumber,
       noteGraphicDuration,
-      
       noteOctave,
+
+      noteQuatertonesDisplayPitch,
       noteDisplayOctave,
       
       noteIsARest,
@@ -5947,9 +5949,10 @@ S_msrNote msrNote::createSkipNote (
       divisions, // noteDisplayedDivisions
       dotsNumber,
       k_NoDuration, // noteGraphicDuration
+      K_NO_OCTAVE, // noteOctave,
       
-      -1, // noteOctave,
-      -1, // noteDisplayOctave,
+      k_NoQuaterTonesPitch, // noteDisplayQuatertonesPitch
+      K_NO_OCTAVE, // noteDisplayOctave,
       
       false, // noteIsARest
       false, // noteIsUnpitched
@@ -5971,8 +5974,9 @@ msrNote::msrNote (
   int                  noteDisplayedDivisions,
   int                  noteDotsNumber,
   msrDuration          noteGraphicDuration,
-  
   int                  noteOctave,
+
+  msrQuartertonesPitch noteQuatertonesDisplayPitch,
   int                  noteDisplayOctave,
   
   bool                 noteIsARest,
@@ -5997,9 +6001,10 @@ msrNote::msrNote (
   fNoteDisplayedDivisions = noteDisplayedDivisions;
   fNoteDotsNumber         = noteDotsNumber;
   fNoteGraphicDuration    = noteGraphicDuration;
+  fNoteOctave             = noteOctave;
 
-  fNoteOctave        = noteOctave;
-  fNoteDisplayOctave = noteDisplayOctave;
+  fNoteQuatertonesDisplayPitch = noteQuatertonesDisplayPitch;
+  fNoteDisplayOctave           = noteDisplayOctave;
 
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
@@ -6212,8 +6217,9 @@ S_msrNote msrNote::createNoteShallowClone (
         fNoteDisplayedDivisions,
         fNoteDotsNumber,
         fNoteGraphicDuration,
-        
         fNoteOctave,
+        
+        fNoteQuatertonesDisplayPitch,
         fNoteDisplayOctave,
         
         fNoteIsARest,
