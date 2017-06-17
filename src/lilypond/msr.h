@@ -4094,6 +4094,7 @@ class EXP msrNote : public msrElement
       msrDuration          noteGraphicDuration,
       
       int                  noteOctave,
+      int                  noteDisplayOctave,
       
       bool                 noteIsARest,
       bool                 noteIsUnpitched,
@@ -4131,6 +4132,7 @@ class EXP msrNote : public msrElement
       msrDuration          noteGraphicDuration,
       
       int                  noteOctave,
+      int                  noteDisplayOctave,
       
       bool                 noteIsARest,
       bool                 noteIsUnpitched,
@@ -4496,145 +4498,151 @@ class EXP msrNote : public msrElement
     // basic note description
     // ------------------------------------------------------
 
-    msrNoteKind               fNoteKind;
+    msrNoteKind           fNoteKind;
 
-    msrQuartertonesPitch      fNoteQuatertonesPitch;
-    int                       fNoteSoundingDivisions;
-    int                       fNoteDisplayedDivisions;
-    int                       fNoteDotsNumber;
-    msrDuration               fNoteGraphicDuration;
+    msrQuartertonesPitch  fNoteQuatertonesPitch;
+    int                   fNoteSoundingDivisions;
+    int                   fNoteDisplayedDivisions;
+    int                   fNoteDotsNumber;
+    msrDuration           fNoteGraphicDuration;
     
-    int                       fNoteOctave;
+    int                   fNoteOctave;
     
-    bool                      fNoteIsARest;
-    bool                      fNoteIsAPitchedRest;
-    bool                      fNoteIsUnpitched;
+    int                   fNoteDisplayOctave;
+                                // for unpitched notes
+                                // and pitched rests
+    
+    bool                  fNoteIsARest;
+    bool                  fNoteIsAPitchedRest;
+    bool                  fNoteIsUnpitched;
   
-    bool                      fNoteIsAGraceNote;
+    bool                  fNoteIsAGraceNote;
     
-    S_msrOctaveShift          fNoteOctaveShift; // JMI ???
+    S_msrOctaveShift      fNoteOctaveShift; // JMI ???
 
     // staff and voice context
     // ------------------------------------------------------
 
-    int                       fNoteStaffNumber;
-    int                       fNoteVoiceNumber;
+    int                   fNoteStaffNumber;
+    int                   fNoteVoiceNumber;
 
     // chord member?
     // ------------------------------------------------------
 
-    bool                      fNoteBelongsToAChord;
+    bool                  fNoteBelongsToAChord;
     
     // tuplet member?
     // ------------------------------------------------------
 
-    bool                      fNoteBelongsToATuplet;
-    S_msrTuplet               fNoteTupletUplink;
+    bool                  fNoteBelongsToATuplet;
+    S_msrTuplet           fNoteTupletUplink;
 
     // multiple rest member?
     // ------------------------------------------------------
 
-    bool                      fNoteBelongsToAMultipleRest; // JMI
-    int                       fNoteMultipleRestSequenceNumber; // JMI
+    bool                  fNoteBelongsToAMultipleRest; // JMI
+    int                   fNoteMultipleRestSequenceNumber; // JMI
 
     // lyrics
     // ------------------------------------------------------
 
-   list<S_msrSyllable>        fNoteSyllables;
+   list<S_msrSyllable>    fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
-                              fNoteSyllableExtendKind; // MEGA JMI
+                      fNoteSyllableExtendKind; // MEGA JMI
     
     // stem
     // ------------------------------------------------------
 
-    S_msrStem                 fNoteStem;
+    S_msrStem             fNoteStem;
 
     // beams
     // ------------------------------------------------------
 
-    list<S_msrBeam>           fNoteBeams;
+    list<S_msrBeam>       fNoteBeams;
                                       
     // articulations
     // ------------------------------------------------------
 
-    list<S_msrArticulation>   fNoteArticulations;
+    list<S_msrArticulation>
+                          fNoteArticulations;
 
     // technicals
     // ------------------------------------------------------
 
-    list<S_msrTechnical>      fNoteTechnicals;
+    list<S_msrTechnical>  fNoteTechnicals;
     list<S_msrTechnicalWithInteger>
-                              fNoteTechnicalWithIntegers;
+                      fNoteTechnicalWithIntegers;
     list<S_msrTechnicalWithString>
-                              fNoteTechnicalWithStrings;
+                      fNoteTechnicalWithStrings;
 
     // ornaments
     // ------------------------------------------------------
 
-    list<S_msrOrnament>       fNoteOrnaments;
+    list<S_msrOrnament>   fNoteOrnaments;
     
     // single tremolo
     // ------------------------------------------------------
 
-    S_msrSingleTremolo        fNoteSingleTremolo;
+    S_msrSingleTremolo    fNoteSingleTremolo;
 
     // tie
     // ------------------------------------------------------
 
-    S_msrTie                  fNoteTie;
+    S_msrTie              fNoteTie;
     
     // dynamics
     // ------------------------------------------------------
 
-    list<S_msrDynamics>       fNoteDynamics;
-    list<S_msrOtherDynamics>  fNoteOtherDynamics;
-    list<S_msrWedge>          fNoteWedges;
+    list<S_msrDynamics>   fNoteDynamics;
+    list<S_msrOtherDynamics>
+                          fNoteOtherDynamics;
+    list<S_msrWedge>      fNoteWedges;
 
     // words
     // ------------------------------------------------------
 
-    list<S_msrWords>          fNoteWords;
+    list<S_msrWords>      fNoteWords;
 
     // slurs
     // ------------------------------------------------------
 
-    list<S_msrSlur>           fNoteSlurs;
+    list<S_msrSlur>       fNoteSlurs;
 
     // ligatures
     // ------------------------------------------------------
 
-    list<S_msrLigature>       fNoteLigatures;
+    list<S_msrLigature>   fNoteLigatures;
 
     // harmony
     // ------------------------------------------------------
 
-    S_msrHarmony              fNoteHarmony;
+    S_msrHarmony          fNoteHarmony;
 
     // note measure information
     // ------------------------------------------------------
 
-    string                    fNoteMeasureNumber;
-    int                       fNotePositionInMeasure;
-    bool                      fNoteOccupiesAFullMeasure;
-    S_msrMeasure              fNoteMeasureUplink;
+    string                fNoteMeasureNumber;
+    int                   fNotePositionInMeasure;
+    bool                  fNoteOccupiesAFullMeasure;
+    S_msrMeasure          fNoteMeasureUplink;
 
     // note redundant information (for speed)
     // ------------------------------------------------------
 
     // this is needed to handle stemless notes,
     // because the <stem> is visited after 'visitorStart ( S_msrNote )' 
-    bool                      fNoteIsStemless;
+    bool                  fNoteIsStemless;
 
     // this is needed to handle double tremolos
-    bool                      fNoteIsFirstNoteInADoubleTremolo;
-    bool                      fNoteIsSecondNoteInADoubleTremolo;
+    bool                  fNoteIsFirstNoteInADoubleTremolo;
+    bool                  fNoteIsSecondNoteInADoubleTremolo;
 
     // this is useful to produce a nice \aftergrace in LilyPond 
-    bool                      fNoteHasATrill;
-    bool                      fNoteIsFollowedByGraceNotes;
+    bool                  fNoteHasATrill;
+    bool                  fNoteIsFollowedByGraceNotes;
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
-    bool                      fNoteHasADelayedOrnament;
+    bool                  fNoteHasADelayedOrnament;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

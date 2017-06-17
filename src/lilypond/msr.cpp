@@ -5895,6 +5895,7 @@ S_msrNote msrNote::create (
   msrDuration          noteGraphicDuration,
   
   int                  noteOctave,
+  int                  noteDisplayOctave,
   
   bool                 noteIsARest,
   bool                 noteIsUnpitched,
@@ -5915,6 +5916,7 @@ S_msrNote msrNote::create (
       noteGraphicDuration,
       
       noteOctave,
+      noteDisplayOctave,
       
       noteIsARest,
       noteIsUnpitched,
@@ -5947,6 +5949,7 @@ S_msrNote msrNote::createSkipNote (
       k_NoDuration, // noteGraphicDuration
       
       -1, // noteOctave,
+      -1, // noteDisplayOctave,
       
       false, // noteIsARest
       false, // noteIsUnpitched
@@ -5970,6 +5973,7 @@ msrNote::msrNote (
   msrDuration          noteGraphicDuration,
   
   int                  noteOctave,
+  int                  noteDisplayOctave,
   
   bool                 noteIsARest,
   bool                 noteIsUnpitched,
@@ -5994,7 +5998,8 @@ msrNote::msrNote (
   fNoteDotsNumber         = noteDotsNumber;
   fNoteGraphicDuration    = noteGraphicDuration;
 
-  fNoteOctave = noteOctave;
+  fNoteOctave        = noteOctave;
+  fNoteDisplayOctave = noteDisplayOctave;
 
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
@@ -6091,6 +6096,12 @@ void msrNote::initializeNote ()
         setw(fieldWidth) <<
         "fNoteOctave" << " = " <<
         fNoteOctave <<
+        endl <<
+
+      idtr << left <<
+        setw(fieldWidth) <<
+        "fNoteDisplayOctave" << " = " <<
+        fNoteDisplayOctave <<
         endl <<
 
       idtr << left <<
@@ -6203,6 +6214,7 @@ S_msrNote msrNote::createNoteShallowClone (
         fNoteGraphicDuration,
         
         fNoteOctave,
+        fNoteDisplayOctave,
         
         fNoteIsARest,
         fNoteIsUnpitched,
@@ -6377,7 +6389,7 @@ msrDiatonicPitch msrNote::noteDiatonicPitch (
 bool msrNote::getNoteIsAPitchedRest () const
 {
   return
-    fNoteIsARest && fNoteOctave >= 0;
+    fNoteIsARest && fNoteDisplayOctave >= 0;
 }
 
 void msrNote::setNoteStem (S_msrStem stem)
@@ -7089,7 +7101,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]" <<
         ":" <<
         ", divs:" <<
         fNoteSoundingDivisions <<
@@ -7101,7 +7113,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]" <<
         ":" <<
         " divs:" <<
         fNoteSoundingDivisions <<
@@ -7114,7 +7126,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -7124,7 +7136,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kRestNote:
       s <<
         "R" <<
-        "[" << fNoteOctave << "]" <<
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]" <<
         ":" <<
         ", divs:" <<
         fNoteSoundingDivisions <<
@@ -7147,7 +7159,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << "]" <<
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]" <<
         ", divs:" <<
         fNoteSoundingDivisions <<
         " sound, " <<
@@ -7161,7 +7173,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
 
       if (! fNoteIsARest)
         s <<
-          "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]" <<
 
       s <<
         ", divs:" <<
@@ -7189,21 +7201,21 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString () <<
         noteSoundingDivisionsAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
         noteSoundingDivisionsAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
       
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -7229,7 +7241,7 @@ string msrNote::noteAsShortString () const
         notePitchAsString () <<
         ", " <<
         noteSoundingDivisionsAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -7251,7 +7263,7 @@ string msrNote::noteAsShortString () const
 
       if (! fNoteIsARest)
         s <<
-          "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
   } // switch
 
@@ -7276,7 +7288,7 @@ string msrNote::noteAsString () const
         "Standalone note" " "<<
         notePitchAsString () <<
         noteSoundingDivisionsAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -7284,7 +7296,7 @@ string msrNote::noteAsString () const
         "Double tremolo note" " "<<
         notePitchAsString () <<
         noteSoundingDivisionsAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
       
     case msrNote::kGraceNote:
@@ -7292,7 +7304,7 @@ string msrNote::noteAsString () const
         "Grace note" " "<<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -7303,13 +7315,13 @@ string msrNote::noteAsString () const
       s <<
         "Rest, ";
 
-      if (fNoteOctave < 0)
+      if (fNoteDisplayOctave < 0)
         s <<
           "unpitched";
       else
         s <<
           noteDiatonicPitchAsString (fInputLineNumber) <<
-          ", octave" " "<< fNoteOctave;
+          ", octave" " "<< fNoteDisplayOctave;
 
       s <<
         ", divs:" <<
@@ -7333,7 +7345,7 @@ string msrNote::noteAsString () const
         "Chord member note" " "<<
         notePitchAsString () <<
  // JMI       ", " << fNoteSoundingDivisions << " sounddivs, " <<
-        "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -7356,7 +7368,7 @@ string msrNote::noteAsString () const
 
       if (! fNoteIsARest)
         s <<
-          "[" << fNoteOctave << "]";
+        "[" << fNoteOctave << ", " << fNoteDisplayOctave << "]";
       break;
   } // switch
 
