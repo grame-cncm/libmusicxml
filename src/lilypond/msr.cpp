@@ -6022,8 +6022,9 @@ void msrNote::initializeNote ()
 
   if (fNoteIsARest && fNoteDisplayOctave != K_NO_OCTAVE) {
     // this note is a pitched rest:
-    // copy the display octave to the the note octave,
+    // copy the display octave to the the note octave, // JMI
     // to be used in octave relative code generation
+    fNoteQuarterTonesPitch = fNoteQuarterTonesDisplayPitch;
     fNoteOctave = fNoteDisplayOctave;
   }
 

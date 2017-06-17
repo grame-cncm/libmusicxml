@@ -481,118 +481,16 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
   }
 
   if (generateAbsoluteOctave) {
-    
     // generate LilyPond absolute octave
     s <<
       absoluteOctaveAsLilypondString (
         noteAbsoluteOctave);
-
   }
 
   else {
-    
     // generate LilyPond octave relative to fRelativeOctaveReference
- //   s <<
- //     lilypondRelativeOctave (note);
-
-    if (true) {
-      msrDiatonicPitch
-        noteDiatonicPitch =
-          note->
-            noteDiatonicPitch (
-              inputLineNumber);
-  
-      msrDiatonicPitch
-        referenceDiatonicPitch =
-          fRelativeOctaveReference->
-            noteDiatonicPitch (
-              inputLineNumber);
-  
-      string
-        referenceDiatonicPitchAsString =
-          fRelativeOctaveReference->
-            noteDiatonicPitchAsString (
-              inputLineNumber);
-          
-      int
-        referenceAbsoluteOctave =
-          fRelativeOctaveReference->
-            getNoteOctave ();
-  
-      /*
-        If no octave changing mark is used on a pitch, its octave is calculated
-        so that the interval with the previous note is less than a fifth.
-        This interval is determined without considering accidentals.
-      */
-        
-      int
-        noteAboluteDiatonicOrdinal =
-          noteAbsoluteOctave * 7
-            +
-          noteDiatonicPitch - kC,
-          
-        referenceAboluteDiatonicOrdinal =
-          referenceAbsoluteOctave * 7
-            +
-          referenceDiatonicPitch - kC;
-  
-      if (gGeneralOptions->fTraceNotes) {
-        const int fieldWidth = 28;
-  
-        fOstream << left <<
-  /*
-          idtr <<
-            setw(fieldWidth) <<
-            "% referenceDiatonicPitch" <<
-            " = " <<
-            referenceDiatonicPitch <<
-            endl <<
-  */
-          idtr <<
-            setw(fieldWidth) <<
-            "% referenceDiatonicPitchAsString" <<
-            " = " <<
-          referenceDiatonicPitchAsString <<
-          endl <<
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceAbsoluteOctave" <<
-           " = " <<
-           referenceAbsoluteOctave <<
-           endl <<
-        endl <<
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceAboluteDiatonicOrdinal" <<
-          " = " <<
-          referenceAboluteDiatonicOrdinal <<
-          endl <<
-        idtr <<
-          setw(fieldWidth) <<
-          "% noteAboluteDiatonicOrdinal" <<
-          " = " <<
-          noteAboluteDiatonicOrdinal <<
-          endl <<
-        endl;
-    }
-
-    // generate the octaves as needed
-    if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
-      noteAboluteDiatonicOrdinal -= 4;
-      while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
-        s << "'";
-        noteAboluteDiatonicOrdinal -= 7;
-      } // while
-    }
-    
-    else {
-      noteAboluteDiatonicOrdinal += 4;
-      while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
-        s << ",";
-        noteAboluteDiatonicOrdinal += 7;
-      } // while
-    }
-  }
+    s <<
+      lilypondRelativeOctave (note);
   }
 
   return s.str();
@@ -4474,7 +4372,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
             " " "\\rest";
 
           // this note is the new relative octave reference
-          // (the display octave has been copied to the note octave
+          // (the display quarter tone pitch and octave
+          // have been copied to the note octave
           // in the msrNote::msrNote() constructor,
           // since the note octave is used in relative code generation)
           fRelativeOctaveReference = note;
