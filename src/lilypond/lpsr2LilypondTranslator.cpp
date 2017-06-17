@@ -124,38 +124,57 @@ void lpsr2LilypondTranslator::generateLilypondCodeFromLpsrScore ()
 string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   int absoluteOctave)
 {
+  string result;
+
+  if (gGeneralOptions->fTraceNotes) {
+    cerr <<
+      endl <<
+      idtr <<
+      "%{ absoluteOctave = " << absoluteOctave << " %}" <<
+      endl;
+  }
+
   // generate LilyPond absolute octave
   switch (absoluteOctave) {
     case 0:
-      return ",,,";
+      result = ",,,";
       break;
     case 1:
-      return ",,";
+      result = ",,";
       break;
     case 2:
-      return ",";
+      result = ",";
       break;
     case 3:
-      return "";
+      result = "";
       break;
     case 4:
-      return "'";
+      result = "'";
       break;
     case 5:
-      return "''";
+      result = "''";
       break;
     case 6:
-      return "'''";
+      result = "'''";
       break;
     case 7:
-      return "''''";
+      result = "''''";
       break;
     case 8:
-      return "'''''";
+      result = "'''''";
       break;
     default:
-      return "###";
+      {
+        stringstream s;
+
+        s <<
+          "%{" << absoluteOctave << "???%}";
+
+        result = s.str();
+      }
   } // switch
+
+  return result;
 }
 
 //________________________________________________________________________
@@ -254,6 +273,120 @@ string lpsr2LilypondTranslator::tupletDivisionsAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::lilypondRelativeOctave (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  // generate LilyPond octave relative to fRelativeOctaveReference
+
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+
+  msrDiatonicPitch
+    noteDiatonicPitch =
+      note->
+        noteDiatonicPitch (
+          inputLineNumber);
+
+  msrDiatonicPitch
+    referenceDiatonicPitch =
+      fRelativeOctaveReference->
+        noteDiatonicPitch (
+          inputLineNumber);
+
+  string
+    referenceDiatonicPitchAsString =
+      fRelativeOctaveReference->
+        noteDiatonicPitchAsString (
+          inputLineNumber);
+      
+  int
+    referenceAbsoluteOctave =
+      fRelativeOctaveReference->getNoteOctave ();
+
+  /*
+    If no octave changing mark is used on a pitch, its octave is calculated
+    so that the interval with the previous note is less than a fifth.
+    This interval is determined without considering accidentals.
+  */
+    
+  int
+    noteAboluteDiatonicOrdinal =
+      noteAbsoluteOctave * 7
+        +
+      noteDiatonicPitch - kC,
+      
+    referenceAboluteDiatonicOrdinal =
+      referenceAbsoluteOctave * 7
+        +
+      referenceDiatonicPitch - kC;
+
+  if (gGeneralOptions->fTraceNotes) {
+    const int fieldWidth = 28;
+
+    cerr << left <<
+/*
+      idtr <<
+        setw(fieldWidth) <<
+        "% referenceDiatonicPitch" <<
+        " = " <<
+        referenceDiatonicPitch <<
+        endl <<
+*/
+      idtr <<
+        setw(fieldWidth) <<
+        "% referenceDiatonicPitchAsString" <<
+        " = " <<
+        referenceDiatonicPitchAsString <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% referenceAbsoluteOctave" <<
+         " = " <<
+         referenceAbsoluteOctave <<
+         endl <<
+      endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% referenceAboluteDiatonicOrdinal" <<
+        " = " <<
+        referenceAboluteDiatonicOrdinal <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% noteAboluteDiatonicOrdinal" <<
+        " = " <<
+        noteAboluteDiatonicOrdinal <<
+        endl <<
+      endl;
+  }
+
+  stringstream s;
+  
+  // generate the octaves as needed
+  if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+    noteAboluteDiatonicOrdinal -= 4;
+    while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+      s << "'";
+      noteAboluteDiatonicOrdinal -= 7;
+    } // while
+  }
+  
+  else {
+    noteAboluteDiatonicOrdinal += 4;
+    while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
+      s << ",";
+      noteAboluteDiatonicOrdinal += 7;
+    } // while
+  }
+
+  return s.str();
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::noteAsLilypondString (
   S_msrNote note)
 {
@@ -329,62 +462,65 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
   else {
     
     // generate LilyPond octave relative to fRelativeOctaveReference
+ //   s <<
+ //     lilypondRelativeOctave (note);
 
-    msrDiatonicPitch
-      noteDiatonicPitch =
-        note->
-          noteDiatonicPitch (
-            inputLineNumber);
-
-    msrDiatonicPitch
-      referenceDiatonicPitch =
-        fRelativeOctaveReference->
-          noteDiatonicPitch (
-            inputLineNumber);
-
-    string
-      referenceDiatonicPitchAsString =
-        fRelativeOctaveReference->
-          noteDiatonicPitchAsString (
-            inputLineNumber);
+    if (true) {
+      msrDiatonicPitch
+        noteDiatonicPitch =
+          note->
+            noteDiatonicPitch (
+              inputLineNumber);
+  
+      msrDiatonicPitch
+        referenceDiatonicPitch =
+          fRelativeOctaveReference->
+            noteDiatonicPitch (
+              inputLineNumber);
+  
+      string
+        referenceDiatonicPitchAsString =
+          fRelativeOctaveReference->
+            noteDiatonicPitchAsString (
+              inputLineNumber);
+          
+      int
+        referenceAbsoluteOctave =
+          fRelativeOctaveReference->getNoteOctave ();
+  
+      /*
+        If no octave changing mark is used on a pitch, its octave is calculated
+        so that the interval with the previous note is less than a fifth.
+        This interval is determined without considering accidentals.
+      */
         
-    int
-      referenceAbsoluteOctave =
-        fRelativeOctaveReference->getNoteOctave ();
-
-    /*
-      If no octave changing mark is used on a pitch, its octave is calculated
-      so that the interval with the previous note is less than a fifth.
-      This interval is determined without considering accidentals.
-    */
-      
-    int
-      noteAboluteDiatonicOrdinal =
-        noteAbsoluteOctave * 7
-          +
-        noteDiatonicPitch - kC,
-        
-      referenceAboluteDiatonicOrdinal =
-        referenceAbsoluteOctave * 7
-          +
-        referenceDiatonicPitch - kC;
-
-    if (gGeneralOptions->fTraceNotes) {
-      const int fieldWidth = 28;
-
-      cerr << left <<
-/*
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceDiatonicPitch" <<
-          " = " <<
-          referenceDiatonicPitch <<
-          endl <<
-*/
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceDiatonicPitchAsString" <<
-          " = " <<
+      int
+        noteAboluteDiatonicOrdinal =
+          noteAbsoluteOctave * 7
+            +
+          noteDiatonicPitch - kC,
+          
+        referenceAboluteDiatonicOrdinal =
+          referenceAbsoluteOctave * 7
+            +
+          referenceDiatonicPitch - kC;
+  
+      if (gGeneralOptions->fTraceNotes) {
+        const int fieldWidth = 28;
+  
+        cerr << left <<
+  /*
+          idtr <<
+            setw(fieldWidth) <<
+            "% referenceDiatonicPitch" <<
+            " = " <<
+            referenceDiatonicPitch <<
+            endl <<
+  */
+          idtr <<
+            setw(fieldWidth) <<
+            "% referenceDiatonicPitchAsString" <<
+            " = " <<
           referenceDiatonicPitchAsString <<
           endl <<
         idtr <<
@@ -425,6 +561,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
         noteAboluteDiatonicOrdinal += 7;
       } // while
     }
+  }
   }
 
   return s.str();
@@ -495,113 +632,16 @@ string lpsr2LilypondTranslator::restAsLilypondString (
   }
 
   if (genAbsoluteOctave) {
-    
     // generate LilyPond absolute octave
     s <<
       absoluteOctaveAsLilypondString (
         noteAbsoluteOctave);
-
   }
 
   else {
-    
     // generate LilyPond octave relative to fRelativeOctaveReference
-
-    msrDiatonicPitch
-      noteDiatonicPitch =
-        note->
-          noteDiatonicPitch (
-            inputLineNumber);
-
-    msrDiatonicPitch
-      referenceDiatonicPitch =
-        fRelativeOctaveReference->
-          noteDiatonicPitch (
-            inputLineNumber);
-
-    string
-      referenceDiatonicPitchAsString =
-        fRelativeOctaveReference->
-          noteDiatonicPitchAsString (
-            inputLineNumber);
-        
-    int
-      referenceAbsoluteOctave =
-        fRelativeOctaveReference->getNoteOctave ();
-
-    /*
-      If no octave changing mark is used on a pitch, its octave is calculated
-      so that the interval with the previous note is less than a fifth.
-      This interval is determined without considering accidentals.
-    */
-      
-    int
-      noteAboluteDiatonicOrdinal =
-        noteAbsoluteOctave * 7
-          +
-        noteDiatonicPitch - kC,
-        
-      referenceAboluteDiatonicOrdinal =
-        referenceAbsoluteOctave * 7
-          +
-        referenceDiatonicPitch - kC;
-
-    if (gGeneralOptions->fTraceNotes) {
-      const int fieldWidth = 28;
-
-      cerr << left <<
-/*
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceDiatonicPitch" <<
-          " = " <<
-          referenceDiatonicPitch <<
-          endl <<
-*/
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceDiatonicPitchAsString" <<
-          " = " <<
-          referenceDiatonicPitchAsString <<
-          endl <<
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceAbsoluteOctave" <<
-           " = " <<
-           referenceAbsoluteOctave <<
-           endl <<
-        endl <<
-        idtr <<
-          setw(fieldWidth) <<
-          "% referenceAboluteDiatonicOrdinal" <<
-          " = " <<
-          referenceAboluteDiatonicOrdinal <<
-          endl <<
-        idtr <<
-          setw(fieldWidth) <<
-          "% noteAboluteDiatonicOrdinal" <<
-          " = " <<
-          noteAboluteDiatonicOrdinal <<
-          endl <<
-        endl;
-    }
-
-    // generate the octaves as needed
-    if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
-      noteAboluteDiatonicOrdinal -= 4;
-      while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
-        s << "'";
-        noteAboluteDiatonicOrdinal -= 7;
-      } // while
-    }
-    
-    else {
-      noteAboluteDiatonicOrdinal += 4;
-      while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
-        s << ",";
-        noteAboluteDiatonicOrdinal += 7;
-      } // while
-    }
+    s <<
+      lilypondRelativeOctave (note);
   }
 
   return s.str();
@@ -2461,20 +2501,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   // generate the beginning of the voice definition
   switch (elt->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      if (! gLilypondOptions->fAbsoluteOctaves)
+      if (gLilypondOptions->fAbsoluteOctaves)
         fOstream <<
-          "\\relative " << "{" <<
+          "{" <<
+          endl;
+      else
+        fOstream <<
+          "\\relative" " " "{" <<
           endl;
       break;
       
     case msrVoice::kHarmonyVoice:
       fOstream <<
-        "\\chordmode " << "{" <<
+        "\\chordmode" " " "{" <<
         endl;
       break;
       
     case msrVoice::kMasterVoice:
       // ?? JMI
+      fOstream <<
+        "{" <<
+        endl;
       break;
   } // switch
 
@@ -3414,7 +3461,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
                 fOstream <<
                   "(" <<
                     "(" <<
-                    item->getKeyItemOctave () - 3 << // 3 is middle C in MusicXML
+                    item->getKeyItemOctave () - 3 <<
+                      // in MusicXML, octave number is 4 for the octave
+                      // starting with middle C,
+                      // and the latter is c' in LilyPond
                     " . " <<
                     item->getKeyItemDiatonicPitch () <<
                     ")" <<

@@ -439,10 +439,14 @@ class lpsr2LilypondTranslator :
 
     // durations
     
-    string                lilypondizeDurationString (string msrDurationString);
+    string                lilypondizeDurationString (
+                            string msrDurationString);
 
     // notes
     
+    string                lilypondRelativeOctave (
+                            S_msrNote note);
+
     string                noteAsLilypondString (S_msrNote note);
     string                restAsLilypondString (S_msrNote note);
 
