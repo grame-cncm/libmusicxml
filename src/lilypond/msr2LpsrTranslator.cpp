@@ -2162,6 +2162,16 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::k_NoNoteKind:
       break;
       
+    case msrNote::kRestNote:
+      fCurrentVoiceClone->
+        appendNoteToVoiceClone (fCurrentNoteClone);
+      break;
+      
+    case msrNote::kSkipNote: // JMI
+      fCurrentVoiceClone->
+        appendNoteToVoiceClone (fCurrentNoteClone);
+      break;
+      
     case msrNote::kStandaloneNote:
       if (gGeneralOptions->fTraceNotes) {
         cerr << idtr <<
@@ -2287,16 +2297,6 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           elt->getInputLineNumber (),
           s.str());
       }
-      break;
-      
-    case msrNote::kRestNote:
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (fCurrentNoteClone);
-      break;
-      
-    case msrNote::kSkipNote: // JMI
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (fCurrentNoteClone);
       break;
       
     case msrNote::kChordMemberNote:

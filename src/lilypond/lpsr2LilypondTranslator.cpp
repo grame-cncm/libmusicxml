@@ -582,7 +582,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
     noteQuartertonesPitch =
       note->getQuatertonesPitch ();
                 
-  // generate the pitch in all cases
+  // generate the pitch
   s <<
     msrQuartertonesPitchAsString (
       gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
@@ -4189,6 +4189,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       case msrNote::k_NoNoteKind:
         break;
         
+      case msrNote::kRestNote:        
+        fOstream << "rest";
+        break;
+        
+      case msrNote::kSkipNote:        
+        fOstream << "skip";
+        break;
+        
       case msrNote::kStandaloneNote:
         fOstream << "standalone";
         break;
@@ -4199,14 +4207,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         
       case msrNote::kGraceNote:
         fOstream << "grace";
-        break;
-        
-      case msrNote::kRestNote:        
-        fOstream << "rest";
-        break;
-        
-      case msrNote::kSkipNote:        
-        fOstream << "skip";
         break;
         
       case msrNote::kChordMemberNote:
@@ -4276,6 +4276,12 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
     case msrNote::k_NoNoteKind:
       break;
         
+    case msrNote::kRestNote:      
+      break;
+      
+    case msrNote::kSkipNote:      
+      break;
+      
     case msrNote::kStandaloneNote:
       {
         // should the stem be omitted?
@@ -4363,12 +4369,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
     case msrNote::kGraceNote:
       break;
       
-    case msrNote::kRestNote:      
-      break;
-      
-    case msrNote::kSkipNote:      
-      break;
-      
     case msrNote::kChordMemberNote:
      // don't omit stems for chord member note JMI
      break;
@@ -4383,6 +4383,59 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
     case msrNote::k_NoNoteKind:
       break;
         
+    case msrNote::kRestNote:
+      {
+        // get pitched rest status
+        bool noteIsAPitchedRest =
+          note->noteIsAPitchedRest ();
+  
+        if (noteIsAPitchedRest) {
+          fOstream <<
+            pitchedRestAsLilypondString (note);
+        }
+  
+        else {
+          // print the rest name
+          fOstream <<
+            string (
+              note->getNoteOccupiesAFullMeasure ()
+                ? "R"
+                : "r");
+        }
+          
+        // print the rest duration
+        fOstream <<
+          lilypondizeDurationString (
+            note->skipOrRestDivisionsAsMsrString ());
+  
+        // is the rest pitched?
+        if (noteIsAPitchedRest) {
+          fOstream <<
+            " " "\\rest";
+
+          // this note is the new relative octave reference
+          fRelativeOctaveReference = note;
+        }
+        else {
+          // an unpitched rest is no relative octave reference,
+          // the preceding one is kept
+        }
+      }
+      break;
+      
+    case msrNote::kSkipNote:      
+      // print the skip name
+      fOstream << "s";
+      
+      // print the skip duration
+      fOstream <<
+        lilypondizeDurationString (
+          note->skipOrRestDivisionsAsMsrString ());
+
+      // a rest is no relative octave reference,
+      // the preceding one is kept
+      break;
+      
     case msrNote::kStandaloneNote:
       // print the note name
       fOstream <<
@@ -4478,59 +4531,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
 
       // this note is the new relative octave reference
       fRelativeOctaveReference = note;
-      break;
-      
-    case msrNote::kRestNote:
-      {
-        // get pitched rest status
-        bool noteIsAPitchedRest =
-          note->getNoteIsAPitchedRest ();
-  
-        if (noteIsAPitchedRest) {
-          fOstream <<
-            pitchedRestAsLilypondString (note);
-        }
-  
-        else {
-          // print the rest name
-          fOstream <<
-            string (
-              note->getNoteOccupiesAFullMeasure ()
-                ? "R"
-                : "r");
-        }
-          
-        // print the rest duration
-        fOstream <<
-          lilypondizeDurationString (
-            note->skipOrRestDivisionsAsMsrString ());
-  
-        // is the rest pitched?
-        if (noteIsAPitchedRest) {
-          fOstream <<
-            " " "\\rest";
-
-          // this note is the new relative octave reference
-          fRelativeOctaveReference = note;
-        }
-        else {
-          // an unpitched rest is no relative octave reference,
-          // the preceding one is kept
-        }
-      }
-      break;
-      
-    case msrNote::kSkipNote:      
-      // print the skip name
-      fOstream << "s";
-      
-      // print the skip duration
-      fOstream <<
-        lilypondizeDurationString (
-          note->skipOrRestDivisionsAsMsrString ());
-
-      // a rest is no relative octave reference,
-      // the preceding one is kept
       break;
       
     case msrNote::kChordMemberNote:

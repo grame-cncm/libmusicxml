@@ -647,17 +647,17 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
     case msrNote::k_NoNoteKind:
       break;
-    case msrNote::kStandaloneNote:
-      fScoreStandaloneNotesCounter++;
-      break;
-    case msrNote::kDoubleTremoloMemberNote:
-      fScoreStandaloneNotesCounter++;
-      break;
     case msrNote::kRestNote:
       fScoreRestNotesCounter++;
       break;
     case msrNote::kSkipNote:
       fScoreSkipNotesCounter++;
+      break;
+    case msrNote::kStandaloneNote:
+      fScoreStandaloneNotesCounter++;
+      break;
+    case msrNote::kDoubleTremoloMemberNote:
+      fScoreStandaloneNotesCounter++;
       break;
     case msrNote::kGraceNote:
       fScoreGraceNotesCounter++;
@@ -685,13 +685,13 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
   switch (elt->getNoteKind ()) { // JMI
     case msrNote::k_NoNoteKind:
       break;
-    case msrNote::kStandaloneNote:
-      break;
-    case msrNote::kDoubleTremoloMemberNote:
-      break;
     case msrNote::kRestNote:
       break;
     case msrNote::kSkipNote:
+      break;
+    case msrNote::kStandaloneNote:
+      break;
+    case msrNote::kDoubleTremoloMemberNote:
       break;
     case msrNote::kGraceNote:
       break;

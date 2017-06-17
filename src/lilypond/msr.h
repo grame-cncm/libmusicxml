@@ -4064,6 +4064,11 @@ class EXP msrNote : public msrElement
 {
   public:
 
+    // constants
+    // ------------------------------------------------------
+
+    #define K_NO_OCTAVE -1
+
     // data types
     // ------------------------------------------------------
 
@@ -4073,7 +4078,8 @@ class EXP msrNote : public msrElement
       kStandaloneNote,
       kDoubleTremoloMemberNote,
       kGraceNote,
-      kChordMemberNote, kTupletMemberNote};
+      kChordMemberNote,
+      kTupletMemberNote};
       
     static string noteKindAsString (
       msrNoteKind noteKind);
@@ -4187,8 +4193,6 @@ class EXP msrNote : public msrElement
                             // useful for rest tuplet members
                             { return fNoteIsARest; }
                       
-    bool                  getNoteIsAPitchedRest () const;
-    
     bool                  getNoteIsUnpitched () const
                               { return fNoteIsUnpitched; }
                       
@@ -4405,6 +4409,10 @@ class EXP msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                noteDisplayOctaveAsString () const;
+    
+    bool                  noteIsAPitchedRest () const;
+    
     string                notePitchAsString () const;
 
     string                noteAsShortStringWithRawDivisions () const;
@@ -4513,7 +4521,6 @@ class EXP msrNote : public msrElement
                                 // and pitched rests
     
     bool                  fNoteIsARest;
-    bool                  fNoteIsAPitchedRest;
     bool                  fNoteIsUnpitched;
   
     bool                  fNoteIsAGraceNote;
