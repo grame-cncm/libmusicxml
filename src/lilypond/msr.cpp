@@ -1168,8 +1168,8 @@ string msrAlterationAsString (
 
 void setDiatonicPitchAndAlteration (
   msrQuartertonesPitch quartertonesPitch,
-  msrDiatonicPitch& diatonicPitch,
-  msrAlteration& alteration)
+  msrDiatonicPitch&    diatonicPitch,
+  msrAlteration&       alteration)
 {
   switch (quartertonesPitch) {
     case k_aDoubleFlat:
@@ -5999,9 +5999,6 @@ msrNote::msrNote (
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
 
-  fNoteIsAPitchedRest =
-    fNoteIsARest && !fNoteIsUnpitched;
-  
   fNoteIsAGraceNote = noteIsAGraceNote;
 
   // do other initializations
@@ -6375,6 +6372,12 @@ msrDiatonicPitch msrNote::noteDiatonicPitch (
     msrDiatonicPitchFromQuatertonesPitch (
       inputLineNumber,
       fNoteQuatertonesPitch);
+}
+
+bool msrNote::getNoteIsAPitchedRest () const
+{
+  return
+    fNoteIsARest && fNoteOctave >= 0;
 }
 
 void msrNote::setNoteStem (S_msrStem stem)
@@ -7305,7 +7308,8 @@ string msrNote::noteAsString () const
           "unpitched";
       else
         s <<
-          "octave" " "<< fNoteOctave;
+          noteDiatonicPitchAsString (fInputLineNumber) <<
+          ", octave" " "<< fNoteOctave;
 
       s <<
         ", divs:" <<

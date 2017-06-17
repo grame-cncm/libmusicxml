@@ -400,16 +400,17 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
     s <<
       "\\once \\override NoteHead #'style = #'cross ";
 
+  // get the note quater tones pitch
+  msrQuartertonesPitch
+    noteQuartertonesPitch =
+      note->getQuatertonesPitch ();
+                
   // generate the pitch in all cases
   s <<
     msrQuartertonesPitchAsString (
       gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-      note->getQuatertonesPitch ());
-  
-  msrQuartertonesPitch
-    noteQuartertonesPitch =
-      note->getQuatertonesPitch ();
-              
+      noteQuartertonesPitch);
+                
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
     note->getNoteOctave ();
@@ -568,7 +569,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::restAsLilypondString (
+string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   S_msrNote note)
 {
   int inputLineNumber =
@@ -576,21 +577,17 @@ string lpsr2LilypondTranslator::restAsLilypondString (
     
   stringstream s;
 
-  // is the note unpitched?
-  if (note->getNoteIsUnpitched ())
-    s <<
-      "\\once \\override NoteHead #'style = #'cross ";
-
+  // get the note quater tones pitch
+  msrQuartertonesPitch
+    noteQuartertonesPitch =
+      note->getQuatertonesPitch ();
+                
   // generate the pitch in all cases
   s <<
     msrQuartertonesPitchAsString (
       gLpsrOptions->fLpsrQuatertonesPitchesLanguage,
-      note->getQuatertonesPitch ());
+      noteQuartertonesPitch);
   
-  msrQuartertonesPitch
-    noteQuartertonesPitch =
-      note->getQuatertonesPitch ();
-              
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
     note->getNoteOctave ();
@@ -4491,7 +4488,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
   
         if (noteIsAPitchedRest) {
           fOstream <<
-            restAsLilypondString (note);
+            pitchedRestAsLilypondString (note);
         }
   
         else {

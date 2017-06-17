@@ -337,8 +337,8 @@ enum msrQuartertonesPitch {
 
 void setDiatonicPitchAndAlteration (
   msrQuartertonesPitch quartertonesPitch,
-  msrDiatonicPitch& diatonicPitch,
-  msrAlteration& alteration);
+  msrDiatonicPitch&    diatonicPitch,
+  msrAlteration&       alteration);
 
 msrQuartertonesPitch quatertonesPitchFromDiatonicPitchAndAlteration (
   int              inputLineNumber,
@@ -4185,8 +4185,7 @@ class EXP msrNote : public msrElement
                             // useful for rest tuplet members
                             { return fNoteIsARest; }
                       
-    bool                  getNoteIsAPitchedRest () const
-                            { return fNoteIsAPitchedRest; }
+    bool                  getNoteIsAPitchedRest () const;
     
     bool                  getNoteIsUnpitched () const
                               { return fNoteIsUnpitched; }
