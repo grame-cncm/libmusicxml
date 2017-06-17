@@ -6017,6 +6017,16 @@ msrNote::msrNote (
 
 void msrNote::initializeNote ()
 {
+  // rests handling
+  // ------------------------------------------------------
+
+  if (fNoteIsARest && fNoteDisplayOctave != K_NO_OCTAVE) {
+    // this note is a pitched rest:
+    // copy the display octave to the the note octave,
+    // to be used in octave relative code generation
+    fNoteOctave = fNoteDisplayOctave;
+  }
+
   // note context
   // ------------------------------------------------------
 

@@ -4474,6 +4474,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
             " " "\\rest";
 
           // this note is the new relative octave reference
+          // (the display octave has been copied to the note octave
+          // in the msrNote::msrNote() constructor,
+          // since the note octave is used in relative code generation)
           fRelativeOctaveReference = note;
         }
         else {
