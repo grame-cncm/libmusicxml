@@ -4174,7 +4174,7 @@ class EXP msrNote : public msrElement
 
     // note pitch
 
-    msrQuartertonesPitch  getQuatertonesPitch () const
+    msrQuartertonesPitch  getNoteQuatertonesPitch () const
                               { return fNoteQuatertonesPitch; }
                               
     int                   getNoteSoundingDivisions () const

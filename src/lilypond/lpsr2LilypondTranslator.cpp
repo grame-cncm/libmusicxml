@@ -305,7 +305,8 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
       
   int
     referenceAbsoluteOctave =
-      fRelativeOctaveReference->getNoteOctave ();
+      fRelativeOctaveReference->
+        getNoteOctave ();
 
   /*
     If no octave changing mark is used on a pitch, its octave is calculated
@@ -403,7 +404,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
   // get the note quater tones pitch
   msrQuartertonesPitch
     noteQuartertonesPitch =
-      note->getQuatertonesPitch ();
+      note->getNoteQuatertonesPitch ();
                 
   // generate the pitch in all cases
   s <<
@@ -580,7 +581,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   // get the note quater tones pitch
   msrQuartertonesPitch
     noteQuartertonesPitch =
-      note->getQuatertonesPitch ();
+      note->getNoteQuatertonesDisplayPitch ();
                 
   // generate the pitch
   s <<
