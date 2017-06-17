@@ -458,21 +458,24 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
         "% msrQuarterTonesPitch" <<
         " = " <<
         quarterTonesPitchAsString <<
-        " -" <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
         "% quarterTonesDisplayPitch" <<
         " = " <<
         quarterTonesDisplayPitchAsString <<
-        " -" <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
         "% noteAbsoluteOctave" <<
         " = " <<
         noteAbsoluteOctave <<
-        " -" <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% noteAbsoluteDisplayOctave" <<
+        " = " <<
+        noteAbsoluteDisplayOctave <<
         endl <<
       endl;
   }
@@ -604,17 +607,23 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
     
   stringstream s;
 
+  // get the note quarter tones pitch
+  msrQuarterTonesPitch
+    noteQuarterTonesPitch =
+      note->getNoteQuarterTonesPitch ();
+
+  // fetch the quarter tones pitch as string
+  string
+    quarterTonesPitchAsString =
+      msrQuarterTonesPitchAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+        noteQuarterTonesPitch);
+
   // get the note quarter tones display pitch
   msrQuarterTonesPitch
     noteQuarterTonesDisplayPitch =
       note->getNoteQuarterTonesDisplayPitch ();
 
-  fOstream <<
-    endl <<
-    "% noteQuarterTonesDisplayPitch = " << noteQuarterTonesDisplayPitch <<
-    endl <<
-    endl;
-    
   // fetch the quarter tones display pitch as string
   string
     quarterTonesDisplayPitchAsString =
@@ -629,6 +638,9 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 //    quarterTonesDisplayPitchAsString;
     
   // in MusicXML, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+    
   int noteAbsoluteDisplayOctave =
     note->getNoteDisplayOctave ();
 
@@ -651,9 +663,21 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
           endl <<
       idtr <<
         setw(fieldWidth) <<
+        "% msrQuarterTonesPitch" <<
+        " = " <<
+        quarterTonesPitchAsString <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
         "% quarterTonesDisplayPitch" <<
         " = " <<
         quarterTonesDisplayPitchAsString <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "% noteAbsoluteOctave" <<
+        " = " <<
+        noteAbsoluteOctave <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
