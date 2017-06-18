@@ -21719,7 +21719,7 @@ void msrStaff::initializeStaff ()
     if (clef) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
-          "Appending clef '" << clef->clefAsString () <<
+          "Appending part clef '" << clef->clefAsString () <<
           "' to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -21757,7 +21757,7 @@ void msrStaff::initializeStaff ()
     if (key) {
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
-          "Appending key '" << key->keyAsString () <<
+          "Appending part key '" << key->keyAsString () <<
           "' to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -21796,7 +21796,7 @@ void msrStaff::initializeStaff ()
     if (time) {
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
-          "Appending time '" << time->timeAsString () <<
+          "Appending part time '" << time->timeAsString () <<
           "' to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -22175,7 +22175,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Appending staff clef '" << clef->clefAsString () <<
+      "Appending clef '" << clef->clefAsString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
