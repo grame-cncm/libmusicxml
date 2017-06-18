@@ -21694,7 +21694,7 @@ void msrStaff::initializeStaff ()
   } // switch
 
 
-  // create the staff master voice with relative number -99
+  // create the staff silent voice
   createStaffSilentVoice (
     fInputLineNumber);
 

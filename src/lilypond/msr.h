@@ -7767,10 +7767,11 @@ class EXP msrVoice : public msrElement
 
     // stanzas
     
-    // the master stanza, collecting skips along the way,
+    // the mute stanza, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
     // that start at later points
     S_msrStanza           fVoiceMuteStanza;
+                            // K_MUTE_STANZA_NUMBER
     
     map<int, S_msrStanza> fVoiceStanzasMap;
 
@@ -8166,7 +8167,7 @@ class EXP msrStaff : public msrElement
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
 
-    // staff master voice
+    // staff silent voice
     
     const S_msrVoice      getStaffSilentVoice () const
                               { return fStaffSilentVoice; }
@@ -8331,8 +8332,8 @@ class EXP msrStaff : public msrElement
                             //numbered 1 to gMaxStaffVoices
                               
     map<int, S_msrVoice>  fStaffAllVoicesMap;
-                            // [K_MUTE_STANZA_NUMBER] is used
-                            // for the staff master voice
+                            // [K_SILENT_VOICE_NUMBER] is used
+                            // for the staff silent voice
 
     // voice that to not start at the very beginning of the staff
     // are initialized as deep clones of the staff silent voice,
