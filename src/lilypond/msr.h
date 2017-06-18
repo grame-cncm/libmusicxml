@@ -3436,7 +3436,8 @@ class EXP msrSegment : public msrElement
     // finalization
 
     void                  finalizeCurrentMeasureInSegment (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -7683,7 +7684,8 @@ class EXP msrVoice : public msrElement
     // finalization
     
     void                  finalizeCurrentMeasureInVoice (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
 
     msrVoiceFinalizationStatus
                           finalizeVoice (
@@ -8289,7 +8291,8 @@ class EXP msrStaff : public msrElement
     // finalization
 
     void                  finalizeCurrentMeasureInStaff (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
 
     void                  finalizeStaff (
                             int inputLineNumber);
@@ -8683,7 +8686,8 @@ class EXP msrPart : public msrElement
     // finalization
 
     void                  finalizeCurrentMeasureInPart (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string measureNumber);
 
     void                  finalizePart (
                             int inputLineNumber);

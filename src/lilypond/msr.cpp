@@ -16301,7 +16301,8 @@ void msrSegment::createMeasureAndAppendItToSegment (
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
@@ -20742,7 +20743,8 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 }
 
 void msrVoice::finalizeCurrentMeasureInVoice (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
@@ -20754,7 +20756,8 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   // finalize last segment' current measure
   fVoiceLastSegment->
     finalizeCurrentMeasureInSegment (
-      inputLineNumber);
+      inputLineNumber,
+      measureNumber);
 }
 
 msrVoice::msrVoiceFinalizationStatus
@@ -22610,7 +22613,8 @@ void msrStaff::appendTransposeToAllStaffVoices (
 }
 
 void msrStaff::finalizeCurrentMeasureInStaff (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string measureNumber)
 {  
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
@@ -22625,7 +22629,9 @@ void msrStaff::finalizeCurrentMeasureInStaff (
     i != fStaffAllVoicesMap.end();
     i++) {
     (*i).second->
-      finalizeCurrentMeasureInVoice (inputLineNumber);
+      finalizeCurrentMeasureInVoice (
+        inputLineNumber,
+        measureNumber);
   } // for
 }
 
@@ -24292,7 +24298,9 @@ void msrPart:: handleBackup (int divisions)
  // JMI 
 }
 
-void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
+void msrPart::finalizeCurrentMeasureInPart (
+  int    inputLineNumber,
+  string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
@@ -24307,7 +24315,9 @@ void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      finalizeCurrentMeasureInStaff (inputLineNumber);
+      finalizeCurrentMeasureInStaff (
+        inputLineNumber,
+        measureNumber);
   } // for
 }
 
