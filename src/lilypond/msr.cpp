@@ -20749,11 +20749,6 @@ msrVoice::finalizeVoice (
       endl;
   }
 
-  // finalize current measure in the voice's last segment
-  fVoiceLastSegment->
-    finalizeCurrentMeasureInSegment (
-      inputLineNumber);
-
   // should the voice be erased?
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -24258,13 +24253,6 @@ void msrPart::finalizePart (int inputLineNumber)
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
-
-/* JMI
-  // finalize the current measure in the part
-  fCurrentPart->
-    finalizeCurrentMeasureInPart (
-      elt->getInputLineNumber ());
-*/
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
