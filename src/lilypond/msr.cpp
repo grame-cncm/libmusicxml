@@ -15727,7 +15727,7 @@ void msrMeasure::finalizeMeasure (
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
     
-    if (false && fMeasurePosition < partMeasurePositionHighTide) {
+    if (fMeasurePosition < partMeasurePositionHighTide) {
       // appending a skip to this measure to reach measurePosition
       int skipDuration =
         partMeasurePositionHighTide - fMeasurePosition;
