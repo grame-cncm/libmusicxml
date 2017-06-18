@@ -20932,7 +20932,9 @@ void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
   }
 }
 
-void msrVoice::finalizeVoice (int inputLineNumber)
+msrVoice::msrVoiceFinalizationStatus
+msrVoice::finalizeVoice (
+  int inputLineNumber)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -20942,6 +20944,10 @@ void msrVoice::finalizeVoice (int inputLineNumber)
       endl;
   }
 
+  msrVoice::msrVoiceFinalizationStatus
+    result =
+      msrVoice::kKeepVoice;
+  
   fVoiceLastSegment->
     finalizeCurrentMeasureInSegment (
       inputLineNumber);
@@ -20958,8 +20964,8 @@ void msrVoice::finalizeVoice (int inputLineNumber)
             ", line " << inputLineNumber <<
             endl;
         }
-            
-  // JMI      fStaffAllVoicesMap.erase (i);
+
+        result = msrVoice::kEraseVoice;
       }
       else {
         finalizeCurrentMeasureInVoice (inputLineNumber);
@@ -20978,7 +20984,7 @@ void msrVoice::finalizeVoice (int inputLineNumber)
             endl;
         }
             
-   // JMI     fStaffAllVoicesMap.erase (i);
+        result = msrVoice::kEraseVoice;
       }
       else {
         finalizeCurrentMeasureInVoice (inputLineNumber);
@@ -20997,7 +21003,7 @@ void msrVoice::finalizeVoice (int inputLineNumber)
             endl;
         }
 
-     // JMI   fStaffAllVoicesMap.erase (i);
+        result = msrVoice::kEraseVoice;
       }
       else {
         finalizeCurrentMeasureInVoice (inputLineNumber);
@@ -21113,6 +21119,23 @@ string msrVoice::voiceKindAsString (
 
   return result;
 }
+          
+string msrVoice::voiceFinalizationStatusAsString (
+  msrVoiceFinalizationStatus voiceFinalizationStatus)
+{
+  string result;
+  
+  switch (voiceFinalizationStatus) {
+    case msrVoice::kKeepVoice:
+      result = "keep";
+      break;
+    case msrVoice::kEraseVoice:
+      result = "erase";
+      break;
+  } // switch
+
+  return result;
+}  
 
 string msrVoice::voiceKindAsString () const
 {
@@ -22773,8 +22796,22 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
-      finalizeVoice (inputLineNumber);
+    S_msrVoice
+      voice = (*i).second;
+
+    msrVoice::msrVoiceFinalizationStatus
+      voiceFinalizationStatus =
+        voice->
+          finalizeVoice (inputLineNumber);
+
+    switch (voiceFinalizationStatus) {
+      case msrVoice::kKeepVoice:
+        break;
+        
+      case msrVoice::kEraseVoice:
+        fStaffAllVoicesMap.erase (i);
+        break;
+    } // switch
   } // for
 }
 

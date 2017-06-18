@@ -7353,6 +7353,13 @@ class EXP msrVoice : public msrElement
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
       
+    enum msrVoiceFinalizationStatus {
+        kKeepVoice,
+        kEraseVoice };
+          
+    static string voiceFinalizationStatusAsString (
+      msrVoiceFinalizationStatus voiceFinalizationStatus);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -7699,7 +7706,8 @@ class EXP msrVoice : public msrElement
     void                  finalizeCurrentMeasureInVoice (
                             int inputLineNumber);
     
-    void                  finalizeVoice (
+    msrVoiceFinalizationStatus
+                          finalizeVoice (
                             int inputLineNumber);
     
     // visitors
