@@ -7682,6 +7682,9 @@ class EXP msrVoice : public msrElement
 
     // finalization
     
+    void                  finalizeCurrentMeasureInVoice (
+                            int inputLineNumber);
+
     msrVoiceFinalizationStatus
                           finalizeVoice (
                             int inputLineNumber);
@@ -8285,6 +8288,9 @@ class EXP msrStaff : public msrElement
   
     // finalization
 
+    void                  finalizeCurrentMeasureInStaff (
+                            int inputLineNumber);
+
     void                  finalizeStaff (
                             int inputLineNumber);
 
@@ -8576,7 +8582,8 @@ class EXP msrPart : public msrElement
 
     // transpose
 
-    void                  appendTransposeToPart (S_msrTranspose transpose);
+    void                  appendTransposeToPart (
+                            S_msrTranspose transpose);
 
     // harmony staff and voice
     
@@ -8674,6 +8681,9 @@ class EXP msrPart : public msrElement
     void                  handleBackup (int divisions);
 
     // finalization
+
+    void                  finalizeCurrentMeasureInPart (
+                            int inputLineNumber);
 
     void                  finalizePart (
                             int inputLineNumber);

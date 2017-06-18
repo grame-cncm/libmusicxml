@@ -20713,7 +20713,24 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
   // remove (new) last measure and return it
   return
     fVoiceLastSegment->
-      removeLastMeasureFromSegment (inputLineNumber);
+      removeLastMeasureFromSegment (
+        inputLineNumber);
+}
+
+void msrVoice::finalizeCurrentMeasureInVoice (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Finalizing last measure in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+
+  // finalize last segment' current measure
+  fVoiceLastSegment->
+    finalizeCurrentMeasureInSegment (
+      inputLineNumber);
 }
 
 msrVoice::msrVoiceFinalizationStatus
@@ -22529,7 +22546,8 @@ void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
 }
 */
 
-void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
+void msrStaff::appendTransposeToAllStaffVoices (
+  S_msrTranspose transpose)
 {
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
@@ -22540,8 +22558,8 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
   } // for
 }
 
-/* JMI
-void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
+void msrStaff::finalizeCurrentMeasureInStaff (
+  int inputLineNumber)
 {  
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
@@ -22559,7 +22577,6 @@ void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
       finalizeCurrentMeasureInVoice (inputLineNumber);
   } // for
 }
-*/
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
