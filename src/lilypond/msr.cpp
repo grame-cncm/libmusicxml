@@ -12489,8 +12489,7 @@ void msrStanza::initializeStanza ()
     case kMuteStanza:
       fStanzaName =
         fStanzaVoiceUplink->getVoiceName() +
-        "_Stanza_" +
-        "MUTE";
+        "_MUTE_Stanza_";
       break;
   } // switch
  
@@ -16352,26 +16351,6 @@ void msrSegment::createSegmentInitialMeasure () // JMI
   appendMeasureToSegment (firstMeasure);
 }
 
-S_msrSegment msrSegment::createWithFirstMeasure (
-  int          inputLineNumber,
-  S_msrPart    segmentDirectPartUplink,
-  S_msrVoice   segmentVoicekUplink,
-  S_msrMeasure firstMeasure)
-{
-  S_msrSegment
-    segment =
-      msrSegment::create (
-        inputLineNumber,
-        segmentDirectPartUplink,
-        segmentVoicekUplink);
-
-  // append firstMeasure to the segment
-  segment->
-    appendMeasureToSegment (firstMeasure);
-  
-  return segment;
-}
-
 void msrSegment::initializeSegment ()
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
@@ -16494,7 +16473,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "Finalizing segment " <<
+      "Finalizing current measure in segment " <<
       segmentAsString () <<
       ", line " << inputLineNumber <<
       endl;
@@ -18759,13 +18738,13 @@ void msrVoice::initializeVoice ()
     case msrVoice::kHarmonyVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_HarmonyVoice";
+        "_HARMONY_Voice";
       break;
       
     case msrVoice::kSilentVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_SilentVoice";
+        "_SILENT_Voice";
       break;
   } // switch
   
@@ -19112,12 +19091,16 @@ void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
       endl;
   }
 
+  // create the last segment
   fVoiceLastSegment =
-    msrSegment::createWithFirstMeasure (
+    msrSegment::create (
       inputLineNumber,
       fVoiceDirectPartUplink,
-      this,
-      firstMeasure);
+      this);
+
+  // append firstMeasure to it
+  fVoiceLastSegment->
+    appendMeasureToSegment (firstMeasure);
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
@@ -19952,6 +19935,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
@@ -20004,9 +19988,6 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
           inputLineNumber);
       }
       break;
-            
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20018,6 +19999,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         // create a measure repeat
         if (gGeneralOptions->fTraceRepeats) {
@@ -20126,9 +20108,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // keep the measure repeat pending
       }
       break;
-            
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20138,6 +20117,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         /* JMI
         // print current voice contents
@@ -20302,9 +20282,6 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         fVoicePendingMeasureRepeat = 0;
       }
       break;
-            
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20331,6 +20308,7 @@ void msrVoice::createMultipleRestInVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         // create a multiple rest
         if (gGeneralOptions->fTraceRepeats) {
@@ -20418,9 +20396,6 @@ void msrVoice::createMultipleRestInVoice (
         // keep the multiple rest pending
       }
       break;
-      
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20430,6 +20405,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
@@ -20593,9 +20569,6 @@ void msrVoice::appendPendingMultipleRestToVoice (
         fVoicePendingMultipleRest = 0;
       }
       break;
-      
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20606,6 +20579,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
@@ -20648,9 +20622,6 @@ void msrVoice::appendMultipleRestCloneToVoice (
         idtr--;
       }
       break;
-      
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20661,6 +20632,7 @@ void msrVoice::appendRepeatCloneToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -20710,9 +20682,6 @@ void msrVoice::appendRepeatCloneToVoice (
           inputLineNumber);
         }
       break;
-      
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
     
@@ -20725,6 +20694,7 @@ void msrVoice::appendRepeatEndingToVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -20765,9 +20735,6 @@ void msrVoice::appendRepeatEndingToVoice (
           inputLineNumber);
       }
       break;
-      
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 }
 
@@ -20777,6 +20744,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
       {
         // add the repeat ending it to the voice current repeat
         if (gGeneralOptions->fTraceRepeats)
@@ -20804,9 +20772,6 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
         createNewLastSegmentForVoice (
           repeatEndingClone->getInputLineNumber ());
       }
-      break;
-            
-    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20951,6 +20916,26 @@ void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
+      "Finalizing current measure in voice \"" <<
+      getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+
+  fVoiceLastSegment->
+    finalizeCurrentMeasureInSegment (
+      inputLineNumber);
+
+  if (! gMsrOptions->fKeepMuteStanzas) { // JMI
+// JMI    delete (fVoiceMuteStanza);
+ // JMI   fVoiceMuteStanza = 0;
+  }
+}
+
+void msrVoice::finalizeVoice (int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
       "Finalizing voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -20960,6 +20945,65 @@ void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
   fVoiceLastSegment->
     finalizeCurrentMeasureInSegment (
       inputLineNumber);
+
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+      if (! getMusicHasBeenInsertedInVoice ()) {
+        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+          cerr << idtr <<
+            "Erasing empty regular voice \"" <<
+            getVoiceName () <<
+            "\" in staff " <<
+            fVoiceStaffUplink->getStaffName () <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+            
+  // JMI      fStaffAllVoicesMap.erase (i);
+      }
+      else {
+        finalizeCurrentMeasureInVoice (inputLineNumber);
+      }
+      break;
+
+   case msrVoice::kHarmonyVoice:
+      if (! getMusicHasBeenInsertedInVoice ()) {
+        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+          cerr << idtr <<
+            "Erasing empty harmony voice \"" <<
+            getVoiceName () <<
+            "\" in staff " <<
+            fVoiceStaffUplink->getStaffName () <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+            
+   // JMI     fStaffAllVoicesMap.erase (i);
+      }
+      else {
+        finalizeCurrentMeasureInVoice (inputLineNumber);
+      }
+      break;
+              
+    case msrVoice::kSilentVoice:
+      if (! gMsrOptions->fKeepSilentVoices) {
+        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+          cerr << idtr <<
+            "Erasing silent voice \"" <<
+            getVoiceName () <<
+            "\" in staff " <<
+            fVoiceStaffUplink->getStaffName () <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+     // JMI   fStaffAllVoicesMap.erase (i);
+      }
+      else {
+        finalizeCurrentMeasureInVoice (inputLineNumber);
+      }
+      break;
+  } // switch
 
   if (! gMsrOptions->fKeepMuteStanzas) { // JMI
 // JMI    delete (fVoiceMuteStanza);
@@ -22698,49 +22742,39 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
 
 void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
 {  
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+    cerr << idtr <<
+      "Finalizing current measure in staff \"" <<
+      getStaffName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
- // JMI   if (! (*i).second->getVoiceActualNotesCounter ()) {
-    S_msrVoice voice = (*i).second;
+    (*i).second->
+      finalizeCurrentMeasureInVoice (inputLineNumber);
+  } // for
+}
 
-    switch (voice->getVoiceKind ()) {
-      case msrVoice::kRegularVoice:
-      case msrVoice::kHarmonyVoice:
-        if (! voice->getMusicHasBeenInsertedInVoice ()) {
-          if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
-            cerr << idtr <<
-              "Erasing regular master voice \"" <<
-              voice->getVoiceName () <<
-              "\" in staff " <<
-              getStaffName () <<
-              ", line " << inputLineNumber <<
-              endl;
-              
-     // JMI BOF     fStaffAllVoicesMap.erase (i);
-        }
-        else {
-          voice->
-            finalizeCurrentMeasureInVoice (inputLineNumber);
-        }
-        break;
-                
-      case msrVoice::kSilentVoice:
-        if (! gMsrOptions->fKeepSilentVoices) {
-          if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
-            cerr << idtr <<
-              "Erasing staff silent voice \"" <<
-              voice->getVoiceName () <<
-              "\" in staff " <<
-              getStaffName () <<
-              ", line " << inputLineNumber <<
-              endl;
+void msrStaff::finalizeStaff (int inputLineNumber)
+{  
+ if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+    cerr << idtr <<
+      "Finalizing staff \"" <<
+      getStaffName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
 
-    // JMI BOF      fStaffAllVoicesMap.erase (i);
-        }
-        break;
-    } // switch
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      finalizeVoice (inputLineNumber);
   } // for
 }
 
@@ -22840,11 +22874,8 @@ void msrStaff::browseData (basevisitor* v)
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
       i != fStaffAllVoicesMap.end();
       i++) {
- // JMI     if ((*i).second->getStaffRelativeVoiceNumber () != 0) {
-        // browse the voice, but not if it is the master voice JMI
         msrBrowser<msrVoice> browser (v);
         browser.browse (*((*i).second));
-  //    }
     } // for
   }
 
@@ -24406,6 +24437,17 @@ void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
     i++) {
     (*i).second->
       finalizeCurrentMeasureInStaff (inputLineNumber);
+  } // for
+}
+
+void msrPart::finalizePart (int inputLineNumber)
+{
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      finalizeStaff (inputLineNumber);
   } // for
 }
 

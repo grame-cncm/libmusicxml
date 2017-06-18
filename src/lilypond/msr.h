@@ -3237,12 +3237,6 @@ class EXP msrSegment : public msrElement
       S_msrPart  segmentDirectPartUplink,
       S_msrVoice segmentVoicekUplink);
 
-    static SMARTP<msrSegment> createWithFirstMeasure (
-      int          inputLineNumber,
-      S_msrPart    segmentDirectPartUplink,
-      S_msrVoice   segmentVoicekUplink,
-      S_msrMeasure firstMeasure);
-
     SMARTP<msrSegment> createSegmentShallowClone (
       S_msrVoice voiceClone);
 
@@ -7705,6 +7699,9 @@ class EXP msrVoice : public msrElement
     void                  finalizeCurrentMeasureInVoice (
                             int inputLineNumber);
     
+    void                  finalizeVoice (
+                            int inputLineNumber);
+    
     // visitors
     // ------------------------------------------------------
 
@@ -8312,6 +8309,9 @@ class EXP msrStaff : public msrElement
     void                  finalizeCurrentMeasureInStaff (
                             int inputLineNumber);
 
+    void                  finalizeStaff (
+                            int inputLineNumber);
+
     // visitors
     // ------------------------------------------------------
 
@@ -8705,6 +8705,9 @@ class EXP msrPart : public msrElement
 */
 
     void                  finalizeCurrentMeasureInPart (
+                            int inputLineNumber);
+
+    void                  finalizePart (
                             int inputLineNumber);
 
     // visitors

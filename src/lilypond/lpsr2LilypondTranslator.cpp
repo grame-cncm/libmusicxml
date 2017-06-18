@@ -2473,7 +2473,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       break;
       
     case msrVoice::kSilentVoice:
-      // ?? JMI
       fOstream <<
         "{" <<
         endl;
@@ -2604,7 +2603,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       break;
       
     case msrVoice::kSilentVoice:
-      // ?? JMI
+      fOstream << idtr <<
+        "}" <<
+        endl <<
+        endl;
       break;
   } // switch
 
