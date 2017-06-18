@@ -16304,19 +16304,38 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   int    inputLineNumber,
   string measureNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "Finalizing current measure in segment " <<
       segmentAsString () <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
-  if (fSegmentMeasuresList.size ())
-    fSegmentMeasuresList.back ()->
-      finalizeMeasure (
-        inputLineNumber);
+  // should a measure be appended to the segment
+  // to match measureNumber?  
+  if (! fSegmentMeasuresList.size ()) {
+    createMeasureAndAppendItToSegment (
+      inputLineNumber,
+      measureNumber);
+  }
+  else if (
+    fSegmentMeasuresList.back ()->getMeasureNumber ()
+        !=
+      measureNumber) {
+    createMeasureAndAppendItToSegment (
+      inputLineNumber,
+      measureNumber);
+  }
+
+  // finalize segment's last measure
+  fSegmentMeasuresList.back ()->
+    finalizeMeasure (
+      inputLineNumber);
         
+    /* JMI
   else {
+      
     stringstream s;
 
     s <<
@@ -16327,6 +16346,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     msrInternalError (
       inputLineNumber, s.str ());
   }
+      */
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
