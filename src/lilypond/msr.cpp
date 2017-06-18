@@ -14337,15 +14337,24 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
     if (gGeneralOptions->fTraceTimes) {
       cerr <<
         idtr <<
-          time;
-  
-      cerr <<
-        idtr <<
-          "has " <<
+          "There are " <<
           wholeNotesPerMeasure.getNumerator () <<
           "/" <<
           wholeNotesPerMeasure.getDenominator () <<
-          " whole note(s) per measure" <<
+          " whole note(s) per measure in time:" <<
+          endl;
+
+      idtr++;
+      
+      cerr <<
+        idtr <<
+          time;
+                  
+      idtr--;
+
+      cerr <<
+        idtr <<
+          "in measure '" << fMeasureNumber << "'" <<
           ", line " << fInputLineNumber <<
           endl;
     }
@@ -22242,7 +22251,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
-      "Appending time to '" << time->timeAsString () <<
+      "Appending time '" << time->timeAsString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -22253,13 +22262,6 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
   fStaffCurrentTime = time;
 
   // propagate it to all voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      appendTimeToVoice (time);
-  } // for
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
@@ -23015,10 +23017,12 @@ void msrPart::initializePart ()
   setPartMeasurePositionHighTide (
     fInputLineNumber, 1);
 
+/* JMI
   // set part current time to the default 4/4 time signature
   fPartCurrentTime =
     msrTime::createFourQuartersTime (
       fInputLineNumber);
+*/
 
   // the part harmony staff and voice will be created later
   // in setPartDivisionsPerQuarterNote()

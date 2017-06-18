@@ -6513,7 +6513,7 @@ class EXP msrBarline : public msrElement
 
     enum msrBarlineLocation {
       k_NoLocation,
-      kLeftLocation, kMiddleLocation, kRightLocation}; // kRightLocation by default
+      kLeftLocation, kMiddleLocation, kRightLocation }; // kRightLocation by default
         
     static string barlineLocationAsString (
       msrBarlineLocation barlineLocation);
