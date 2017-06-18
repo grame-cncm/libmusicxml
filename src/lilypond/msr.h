@@ -7353,8 +7353,8 @@ class EXP msrVoice : public msrElement
 
     enum msrVoiceKind {
         kRegularVoice,
-        kHarmonyVoice, // for MusicXML <harmony/>, LilyPond ChordNames
-        kSilentVoice}; // for voices that don't start at the beginning
+        kHarmonyVoice,  // for MusicXML <harmony/>, LilyPond ChordNames
+        kSilentVoice }; // for voices that don't start at the very beginning
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -8352,8 +8352,9 @@ class EXP msrStaff : public msrElement
                             // [K_MUTE_STANZA_NUMBER] is used
                             // for the staff master voice
 
-    // voice that start after the beginning of the staff
-    // are initialized as deep clones of the staff silent voice
+    // voice that to not start at the very beginning of the staff
+    // are initialized as deep clones of the staff silent voice,
+    // in order to 'fill the gap'
     S_msrVoice            fStaffSilentVoice;
 
  // JMI   string                fStaffInstrumentName;

@@ -16364,7 +16364,6 @@ S_msrSegment msrSegment::createWithFirstMeasure (
         inputLineNumber,
         segmentDirectPartUplink,
         segmentVoicekUplink);
-  assert(segment!=0);
 
   // append firstMeasure to the segment
   segment->
@@ -19409,7 +19408,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
         s <<
           "cannot append a harmony to " <<
           voiceKindAsString () <<
-          " voice \"" <<
+          " voice clone \"" <<
           getVoiceName () <<
           "\"";
 
