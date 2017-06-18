@@ -15848,186 +15848,6 @@ void msrMeasure::finalizeMeasure (
   }
 }
 
-/*
-void msrMeasure::finalizeUltimateMeasure (
-  int inputLineNumber)
-{
-  // fetch the voice
-  S_msrVoice
-    voice =
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ();
-    
-  // fetch the part measure position high tide
-  int partMeasurePositionHighTide =
-    fMeasureDirectPartUplink->
-      getPartMeasurePositionHighTide ();
-    
-  if (gGeneralOptions->fTraceMeasures) {
-    cerr <<
-      idtr <<
-        "Finalizing ultimate measure " << fMeasureNumber <<
-        " in voice \"" << voice->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        endl;
-
-    idtr++;
-
-    const int fieldWidth = 30;
-    
-    cerr << left <<
-      idtr <<
-        setw(fieldWidth) <<
-        "fMeasurePosition" << " = " <<
-        fMeasurePosition <<
-        endl <<
-      idtr <<
-        setw(fieldWidth) <<
-        "MeasureDivisionsPerFullMeasure" << " = " <<
-        fMeasureDivisionsPerFullMeasure <<
-        endl <<
-      idtr <<
-        setw(fieldWidth) <<
-        "partMeasurePositionHighTide" << " = " <<
-        partMeasurePositionHighTide <<
-        endl;
-        
-    idtr--;
-  }
-
-/ * JMI
-  if (false && fMeasurePosition < partMeasurePositionHighTide) {
-    // appending a skip to this measure to reach measurePosition // JMI ???
-    int skipDuration =
-      partMeasurePositionHighTide - fMeasurePosition;
-    / * JMI
-      partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure // + 1 // JMI ???
-        ? partMeasurePositionHighTide - fMeasurePosition
-        : fMeasureDivisionsPerFullMeasure - fMeasurePosition;
-        * /
-    
-    // create the skip
-    S_msrNote
-      skip =
-        msrNote::createSkipNote (
-          inputLineNumber,
-          fMeasureDirectPartUplink,
-          skipDuration,
-          0, // JMI ???
-          voice->
-            getVoiceStaffUplink ()->getStaffNumber (),
-          voice->
-            getExternalVoiceNumber ());
-
-    // does the skip occupy a full measure?
-    if (skipDuration == fMeasureDivisionsPerFullMeasure)
-      skip->setNoteOccupiesAFullMeasure ();
-  
-    // register skip's measure position
-    skip->setNotePositionInMeasure (fMeasurePosition);
-           
-    if (gGeneralOptions->fTraceMeasures)
-      cerr << idtr <<
-       "Appending '" << skip->noteAsString () <<
-       " (" << skipDuration << " divs)'" <<
-       " to finalize \"" << voice->getVoiceName () <<
-       "\" measure: @" << fMeasureNumber << ":" << fMeasurePosition <<
-       " % --> @" << fMeasureNumber <<
-       ":" << partMeasurePositionHighTide <<
-        ", skipDuration = " << skipDuration <<
-       endl;
-
-    // append the skip to the measure elements list
-    // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    appendNoteToMeasure (skip);
-  }
-* /
-
-  // determine the measure kind
-  // positions start at 1
-  if (fMeasurePosition == fMeasureDivisionsPerFullMeasure + 1) {
-    // full measure
-   if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is full" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kFullMeasureKind);
-  }
-  
-  else if (fMeasurePosition == 1) {
-    // empty measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **empty**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kEmptyMeasureKind);
-  }
-
-  else if (fMeasurePosition <= fMeasureDivisionsPerFullMeasure) {
-    //  incomplete measure
-    / * JMI
-    switch (measureFirstInSegmentKind) {
-      case msrMeasure::kMeasureFirstInSegmentYes:
-        if (gGeneralOptions->fTraceMeasures) {
-          cerr << idtr <<
-          "Measure '" << fMeasureNumber <<
-          "' in voice \"" << voice->getVoiceName () <<
-          "\", is **incomplete left**" <<
-          ", line " << inputLineNumber <<
-          endl;
-        }
-    
-        setMeasureKind (
-          kUpbeatMeasureKind);
-        break;
-        
-      case msrMeasure::kMeasureFirstInSegmentNo:
-        if (gGeneralOptions->fTraceMeasures) {
-          cerr << idtr <<
-          "Measure '" << fMeasureNumber <<
-          "' in voice \"" << voice->getVoiceName () <<
-          "\", is **incomplete right**" <<
-          ", line " << inputLineNumber <<
-          endl;
-        }
-    
-        setMeasureKind (
-          kUnderfullMeasureKind);
-        break;
-    } // switch
-    * /
-  }
-
-  else if (fMeasurePosition > fMeasureDivisionsPerFullMeasure + 1) {
-    // overfull measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **overfull**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    setMeasureKind (
-      kOverfullMeasureKind);
-  }
-}
-*/
-
 void msrMeasure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -20896,46 +20716,14 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
       removeLastMeasureFromSegment (inputLineNumber);
 }
 
-/*
-void msrVoice::finalizeUltimateMeasuresInVoice (int inputLineNumber)
-{
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
-    cerr << idtr <<
-      "Finalizing last measure in voice \"" <<
-      getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-  
-  fVoiceLastSegment->
-    finalizeUltimateMeasureInSegment (inputLineNumber);
-}
-*/
-
-void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
-{
-  if (gGeneralOptions->fTraceVoices) {
-    cerr << idtr <<
-      "Finalizing current measure in voice \"" <<
-      getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-
-  fVoiceLastSegment->
-    finalizeCurrentMeasureInSegment (
-      inputLineNumber);
-
-  if (! gMsrOptions->fKeepMuteStanzas) { // JMI
-// JMI    delete (fVoiceMuteStanza);
- // JMI   fVoiceMuteStanza = 0;
-  }
-}
-
 msrVoice::msrVoiceFinalizationStatus
 msrVoice::finalizeVoice (
   int inputLineNumber)
 {
+  msrVoice::msrVoiceFinalizationStatus
+    result =
+      msrVoice::kKeepVoice;
+  
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Finalizing voice \"" <<
@@ -20944,21 +20732,15 @@ msrVoice::finalizeVoice (
       endl;
   }
 
-  msrVoice::msrVoiceFinalizationStatus
-    result =
-      msrVoice::kKeepVoice;
-  
+  // finalize current measure in the voice's last segment
   fVoiceLastSegment->
     finalizeCurrentMeasureInSegment (
       inputLineNumber);
 
+  // should the voice be erased?
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
-        // finalize current measure in the voice
-        finalizeCurrentMeasureInVoice (inputLineNumber);
-
-        // should the voice be erased?
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing empty regular voice \"" <<
@@ -20975,10 +20757,6 @@ msrVoice::finalizeVoice (
 
    case msrVoice::kHarmonyVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
-        // finalize current measure in the voice
-        finalizeCurrentMeasureInVoice (inputLineNumber);
-
-        // should the voice be erased?
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing empty harmony voice \"" <<
@@ -20995,10 +20773,6 @@ msrVoice::finalizeVoice (
               
     case msrVoice::kSilentVoice:
       if (! gMsrOptions->fKeepSilentVoices) {
-        // finalize current measure in the voice
-        finalizeCurrentMeasureInVoice (inputLineNumber);
-
-        // should the voice be erased?
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing silent voice \"" <<
@@ -22766,6 +22540,7 @@ void msrStaff::appendTransposeToAllStaffVoices (S_msrTranspose transpose)
   } // for
 }
 
+/* JMI
 void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
 {  
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
@@ -22784,6 +22559,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
       finalizeCurrentMeasureInVoice (inputLineNumber);
   } // for
 }
+*/
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
@@ -22834,26 +22610,6 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     } // switch
   } // for
 }
-
-/*
-void msrStaff::finalizeUltimateMeasuresInStaff (int inputLineNumber)
-{
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Finalizing last measure in staff " <<
-      getStaffName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      finalizeUltimateMeasuresInVoice (inputLineNumber);
-  } // for
-}
-*/
 
 void msrStaff::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -24465,26 +24221,6 @@ void msrPart:: handleBackup (int divisions)
 {
  // JMI 
 }
-
-/*
-void msrPart::finalizeUltimateMeasuresInPart (int inputLineNumber)
-{
-  if (gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Finalizing last measure in part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->
-      finalizeUltimateMeasuresInStaff (inputLineNumber);
-  } // for
-}
-*/
 
 void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
 {

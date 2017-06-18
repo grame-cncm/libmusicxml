@@ -3159,11 +3159,6 @@ class EXP msrMeasure : public msrElement
     void                  finalizeMeasure (
                             int inputLineNumber);
 
-/* JMI
-    void                  finalizeUltimateMeasure (
-                            int inputLineNumber);
-*/
-
     // visitors
     // ------------------------------------------------------
 
@@ -3440,19 +3435,8 @@ class EXP msrSegment : public msrElement
 
     // finalization
 
-/* JMI
-    bool                  checkForIncompleteSegmentLastMeasure (
-                            int                        inputLineNumber,
-                            msrMeasure::msrMeasureKind measureKind);
-*/
-
     void                  finalizeCurrentMeasureInSegment (
                             int inputLineNumber);
-
-/*                            
-    void                  finalizeUltimateMeasureInSegment ( // JMI
-                            int inputLineNumber);
-*/
 
     // visitors
     // ------------------------------------------------------
@@ -7697,14 +7681,6 @@ class EXP msrVoice : public msrElement
 */
 
     // finalization
-
-/*
-    void                  finalizeUltimateMeasuresInVoice (
-                            int inputLineNumber);
-*/
-
-    void                  finalizeCurrentMeasureInVoice (
-                            int inputLineNumber);
     
     msrVoiceFinalizationStatus
                           finalizeVoice (
@@ -8309,14 +8285,6 @@ class EXP msrStaff : public msrElement
   
     // finalization
 
-/*
-    void                  finalizeUltimateMeasuresInStaff (
-                            int inputLineNumber);
-  */
-    
-    void                  finalizeCurrentMeasureInStaff (
-                            int inputLineNumber);
-
     void                  finalizeStaff (
                             int inputLineNumber);
 
@@ -8706,14 +8674,6 @@ class EXP msrPart : public msrElement
     void                  handleBackup (int divisions);
 
     // finalization
-
-   /*                   
-    void                  finalizeUltimateMeasuresInPart (
-                            int inputLineNumber); // JMI
-*/
-
-    void                  finalizeCurrentMeasureInPart (
-                            int inputLineNumber);
 
     void                  finalizePart (
                             int inputLineNumber);
