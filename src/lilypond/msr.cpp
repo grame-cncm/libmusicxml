@@ -20955,6 +20955,10 @@ msrVoice::finalizeVoice (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
+        // finalize current measure in the voice
+        finalizeCurrentMeasureInVoice (inputLineNumber);
+
+        // should the voice be erased?
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing empty regular voice \"" <<
@@ -20967,13 +20971,14 @@ msrVoice::finalizeVoice (
 
         result = msrVoice::kEraseVoice;
       }
-      else {
-        finalizeCurrentMeasureInVoice (inputLineNumber);
-      }
       break;
 
    case msrVoice::kHarmonyVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
+        // finalize current measure in the voice
+        finalizeCurrentMeasureInVoice (inputLineNumber);
+
+        // should the voice be erased?
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing empty harmony voice \"" <<
@@ -20986,13 +20991,14 @@ msrVoice::finalizeVoice (
             
         result = msrVoice::kEraseVoice;
       }
-      else {
-        finalizeCurrentMeasureInVoice (inputLineNumber);
-      }
       break;
               
     case msrVoice::kSilentVoice:
       if (! gMsrOptions->fKeepSilentVoices) {
+        // finalize current measure in the voice
+        finalizeCurrentMeasureInVoice (inputLineNumber);
+
+        // should the voice be erased?
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing silent voice \"" <<
@@ -21004,9 +21010,6 @@ msrVoice::finalizeVoice (
         }
 
         result = msrVoice::kEraseVoice;
-      }
-      else {
-        finalizeCurrentMeasureInVoice (inputLineNumber);
       }
       break;
   } // switch
@@ -22784,7 +22787,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Finalizing staff \"" <<
       getStaffName () << "\"" <<
@@ -22806,6 +22809,14 @@ void msrStaff::finalizeStaff (int inputLineNumber)
 
     switch (voiceFinalizationStatus) {
       case msrVoice::kKeepVoice:
+        if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+          cerr << idtr <<
+            "Keeping voice \"" <<
+            voice->getVoiceName () << "\"" <<
+            " if staff \"" <<getStaffName () << "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
         break;
         
       case msrVoice::kEraseVoice:
@@ -24488,6 +24499,20 @@ void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
 
 void msrPart::finalizePart (int inputLineNumber)
 {
+  if (gGeneralOptions->fTraceParts)
+    cerr << idtr <<
+      "Finalizing part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+
+/* JMI
+  // finalize the current measure in the part
+  fCurrentPart->
+    finalizeCurrentMeasureInPart (
+      elt->getInputLineNumber ());
+*/
+
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
