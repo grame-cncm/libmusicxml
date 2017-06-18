@@ -1446,7 +1446,9 @@ void msr2LpsrTranslator::visitStart (S_msrClef& elt)
       endl;
 
   fCurrentVoiceClone->
-    appendClefToVoice (elt);
+    appendClefToVoice (
+      elt,
+      fCurrentMeasureClone->getMeasureNumber ());
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
@@ -1466,7 +1468,9 @@ void msr2LpsrTranslator::visitStart (S_msrKey& elt)
       endl;
 
   fCurrentVoiceClone->
-    appendKeyToVoice (elt);
+    appendKeyToVoice (
+      elt,
+      fCurrentMeasureClone->getMeasureNumber ());
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
@@ -1486,7 +1490,9 @@ void msr2LpsrTranslator::visitStart (S_msrTime& elt)
       endl;
 
   fCurrentVoiceClone->
-    appendTimeToVoice (elt);
+    appendTimeToVoice (
+      elt,
+      fCurrentMeasureClone->getMeasureNumber ());
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTime& elt)

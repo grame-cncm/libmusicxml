@@ -400,7 +400,7 @@ class msr2LpsrTranslator :
     bool                      fOnGoingRepeat;
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
     int                       fCurrentRepeatEndingsNumber;
- //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative;
+ //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative; // JMI
 
     // measure repeats
     // ------------------------------------------------------
