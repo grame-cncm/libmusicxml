@@ -2115,8 +2115,8 @@ void msrOptions::initializeMsrOptions (
 
   // harmonies
 
-  fShowHarmonyVoices       = boolOptionsInitialValue;  
-  fKeepEmptyHarmoniesVoice = boolOptionsInitialValue;  
+  fShowHarmonyVoices      = boolOptionsInitialValue;  
+  fKeepEmptyHarmonyVoices = boolOptionsInitialValue;  
 }
 
 S_msrOptions msrOptions::createCloneWithDetailedTrace ()
@@ -2185,8 +2185,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   clone->fShowHarmonyVoices =
     fShowHarmonyVoices;
-  clone->fKeepEmptyHarmoniesVoice =
-    fKeepEmptyHarmoniesVoice;
+  clone->fKeepEmptyHarmonyVoices =
+    fKeepEmptyHarmonyVoices;
 
   return clone;
 }  
@@ -2656,8 +2656,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     idtr << setw(fieldWidth) << "showHarmonyVoices" << " : " <<
       booleanAsString (fShowHarmonyVoices) <<
       endl <<
-    idtr << setw(fieldWidth) << "keepEmptyHarmoniesVoice" << " : " <<
-      booleanAsString (fKeepEmptyHarmoniesVoice) <<
+    idtr << setw(fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
+      booleanAsString (fKeepEmptyHarmonyVoices) <<
       endl;
   
   idtr--;
@@ -20768,7 +20768,14 @@ msrVoice::finalizeVoice (
       break;
 
    case msrVoice::kHarmonyVoice:
-      if (! getMusicHasBeenInsertedInVoice ()) {
+      if (
+        !
+          (
+          getMusicHasBeenInsertedInVoice ()
+             ||
+          gMsrOptions->fKeepEmptyHarmonyVoices
+          )
+        ) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing empty harmony voice \"" <<

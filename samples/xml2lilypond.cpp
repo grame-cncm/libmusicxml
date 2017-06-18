@@ -562,7 +562,7 @@ void analyzeOptions (
   checkOptionUniqueness (
     _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_, _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_);
     
-  int keepEmptyHarmoniesVoicePresent = 0;
+  int keepEmptyHarmonyVoicesPresent = 0;
 
   
   // LPSR options
@@ -1373,12 +1373,12 @@ void analyzeOptions (
 
     {
       _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_,
-      no_argument, &keepEmptyHarmoniesVoicePresent, 1
+      no_argument, &keepEmptyHarmonyVoicesPresent, 1
     },
     
     {
       _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_,
-      no_argument, &keepEmptyHarmoniesVoicePresent, 1
+      no_argument, &keepEmptyHarmonyVoicesPresent, 1
     },
 
     // LPSR options
@@ -2521,15 +2521,15 @@ R"(
           showHarmonyVoicesPresent = false;
         }
       
-        if (keepEmptyHarmoniesVoicePresent) {
-          gMsrOptions->fKeepEmptyHarmoniesVoice = true;
+        if (keepEmptyHarmonyVoicesPresent) {
+          gMsrOptions->fKeepEmptyHarmonyVoices = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
             "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ " ";
             
-          keepEmptyHarmoniesVoicePresent = false;
+          keepEmptyHarmonyVoicesPresent = false;
         }
       
       

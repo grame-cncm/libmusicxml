@@ -565,7 +565,7 @@ class EXP msrOptions : public smartable
     // --------------------------------------
     
     bool                  fShowHarmonyVoices;
-    bool                  fKeepEmptyHarmoniesVoice;
+    bool                  fKeepEmptyHarmonyVoices;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 

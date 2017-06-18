@@ -939,7 +939,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         if (
           elt->getMusicHasBeenInsertedInVoice ()
             ||
-          gMsrOptions->fKeepEmptyHarmoniesVoice
+          gMsrOptions->fKeepEmptyHarmonyVoices
           ) {          
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
