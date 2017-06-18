@@ -20722,7 +20722,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
-      "Finalizing last measure in voice \"" <<
+      "Finalizing current measure in voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -24243,6 +24243,14 @@ void msrPart:: handleBackup (int divisions)
 
 void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
 {
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceParts) {
+    cerr << idtr <<
+      "Finalizing current measure in part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -24254,12 +24262,13 @@ void msrPart::finalizeCurrentMeasureInPart (int inputLineNumber)
 
 void msrPart::finalizePart (int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Finalizing part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
