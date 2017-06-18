@@ -22784,11 +22784,11 @@ void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
- if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Finalizing staff \"" <<
-      getStaffName () <<
-      "\", line " << inputLineNumber <<
+      getStaffName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -22809,6 +22809,15 @@ void msrStaff::finalizeStaff (int inputLineNumber)
         break;
         
       case msrVoice::kEraseVoice:
+        if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+          cerr << idtr <<
+            "Erasing voice \"" <<
+            voice->getVoiceName () << "\"" <<
+            " if staff \"" <<getStaffName () << "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
         fStaffAllVoicesMap.erase (i);
         break;
     } // switch
