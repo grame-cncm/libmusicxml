@@ -8144,8 +8144,7 @@ class EXP msrStaff : public msrElement
     S_msrKey              getStaffCurrentKey  () const
                               { return fStaffCurrentKey; };
                               
-    S_msrTime             getStaffCurrentTime () const
-                              { return fStaffCurrentTime; };
+    S_msrTime             getStaffCurrentTime () const;
 
     // transpose
     
