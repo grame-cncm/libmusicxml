@@ -2472,7 +2472,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
         endl;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       // ?? JMI
       fOstream <<
         "{" <<
@@ -2562,7 +2562,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       fOnGoingHarmonyVoice = true;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -2603,7 +2603,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
         endl;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       // ?? JMI
       break;
   } // switch
@@ -2618,7 +2618,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       fOnGoingHarmonyVoice = false;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }

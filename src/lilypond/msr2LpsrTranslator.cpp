@@ -983,7 +983,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       }
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       // create a voice clone
       fCurrentVoiceClone =
         elt->createVoiceShallowClone (
@@ -1021,7 +1021,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
       fOnGoingHarmonyVoice = false;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       // JMI
       break;
   } // switch

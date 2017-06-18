@@ -2097,8 +2097,8 @@ void msrOptions::initializeMsrOptions (
 
   fCreateStaffRelativeVoiceNumbers = boolOptionsInitialValue;
   
-  fShowMasterVoices = boolOptionsInitialValue;
-  fKeepMasterVoices = boolOptionsInitialValue;
+  fShowSilentVoices = boolOptionsInitialValue;
+  fKeepSilentVoices = boolOptionsInitialValue;
 
   // notes
 
@@ -2110,8 +2110,8 @@ void msrOptions::initializeMsrOptions (
 
   // lyrics
 
-  fShowMsrStanzas    = boolOptionsInitialValue;
-  fKeepMasterStanzas = boolOptionsInitialValue;
+  fShowMsrStanzas  = boolOptionsInitialValue;
+  fKeepMuteStanzas = boolOptionsInitialValue;
 
   // harmonies
 
@@ -2155,10 +2155,10 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fCreateStaffRelativeVoiceNumbers =
     fCreateStaffRelativeVoiceNumbers;
 
-  clone->fShowMasterVoices =
-    fShowMasterVoices;
-  clone->fKeepMasterVoices =
-    fKeepMasterVoices;
+  clone->fShowSilentVoices =
+    fShowSilentVoices;
+  clone->fKeepSilentVoices =
+    fKeepSilentVoices;
 
   // notes
 
@@ -2178,8 +2178,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fShowMsrStanzas =
     fShowMsrStanzas;
 
-  clone->fKeepMasterStanzas =
-    fKeepMasterStanzas;
+  clone->fKeepMuteStanzas =
+    fKeepMuteStanzas;
 
   // harmonies
 
@@ -2354,7 +2354,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--" _SHOW_MASTER_VOICES_SHORT_NAME_ ", --" _SHOW_MASTER_VOICES_LONG_NAME_ <<
+      "--" _SHOW_SILENT_VOICES_SHORT_NAME_ ", --" _SHOW_SILENT_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Show the staves master voices used intertally event though the're empty" <<
@@ -2362,7 +2362,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
     
     idtr <<
-      "--" _KEEP_MASTER_VOICES_SHORT_NAME_ ", --" _KEEP_MASTER_VOICES_LONG_NAME_ <<
+      "--" _KEEP_SILENT_VOICES_SHORT_NAME_ ", --" _KEEP_SILENT_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master voices used intertally. By default, there are removed after usage." <<
@@ -2434,7 +2434,7 @@ void msrOptions::printMsrOptionsHelp ()
     endl <<
 
     idtr <<
-      "--" _KEEP_MASTER_STANZAS_SHORT_NAME_ ", --" _KEEP_MASTER_STANZAS_LONG_NAME_ <<
+      "--" _KEEP_MUTE_STANZAS_SHORT_NAME_ ", --" _KEEP_MUTE_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Keep the master stanzas used intertally. By default, there are removed after usage." <<
@@ -2582,11 +2582,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (fCreateStaffRelativeVoiceNumbers) <<
       endl <<
     
-    idtr << setw(fieldWidth) << "showMasterVoices" << " : " <<
-      booleanAsString (fShowMasterVoices) <<
+    idtr << setw(fieldWidth) << "showSilentVoices" << " : " <<
+      booleanAsString (fShowSilentVoices) <<
       endl <<
-    idtr << setw(fieldWidth) << "keepMasterVoices" << " : " <<
-      booleanAsString (fKeepMasterVoices) <<
+    idtr << setw(fieldWidth) << "keepSilentVoices" << " : " <<
+      booleanAsString (fKeepSilentVoices) <<
       endl;
 
   idtr--;
@@ -2637,8 +2637,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (fShowMsrStanzas) <<
       endl <<
 
-    idtr << setw(fieldWidth) << "keepMasterStanzas" << " : " <<
-      booleanAsString (fKeepMasterStanzas) <<
+    idtr << setw(fieldWidth) << "keepMuteStanzas" << " : " <<
+      booleanAsString (fKeepMuteStanzas) <<
       endl;
 
   idtr--;
@@ -12486,11 +12486,11 @@ void msrStanza::initializeStanza ()
         int2EnglishWord (fStanzaNumber);
       break;
       
-    case kMasterStanza:
+    case kMuteStanza:
       fStanzaName =
         fStanzaVoiceUplink->getVoiceName() +
         "_Stanza_" +
-        "MASTER";
+        "MUTE";
       break;
   } // switch
  
@@ -12968,8 +12968,8 @@ string msrStanza::stanzaKindAsString (
       result = "regular";
       break;
       
-    case msrStanza::kMasterStanza:
-      result = "master";
+    case msrStanza::kMuteStanza:
+      result = "mute";
       break;
   } // switch
 
@@ -18763,10 +18763,10 @@ void msrVoice::initializeVoice ()
         "_HarmonyVoice";
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_MasterVoice";
+        "_SilentVoice";
       break;
   } // switch
   
@@ -18817,13 +18817,13 @@ void msrVoice::initializeVoice ()
       }
       break;
       
-    case msrVoice::kMasterVoice:
-      if (fExternalVoiceNumber != -99) {
+    case msrVoice::kSilentVoice:
+      if (fExternalVoiceNumber != K_SILENT_VOICE_NUMBER) {
         stringstream s;
     
         s <<
-          "master voice number " << fExternalVoiceNumber <<
-          " is not equal to " << -99;
+          "silent voice number " << fExternalVoiceNumber <<
+          " is not equal to " << K_SILENT_VOICE_NUMBER;
           
         msrInternalError (
           fInputLineNumber, s.str());
@@ -18857,12 +18857,12 @@ void msrVoice::initializeVoice ()
   // add the master stanza for this voice,
   // to collect skips along the way that are used as a 'prelude'
   // by actual stanza that start at later points
-  fVoiceMasterStanza =
+  fVoiceMuteStanza =
     msrStanza::create (
       fInputLineNumber,
       fVoiceDirectPartUplink,
-      0,    // this stanza number is unused anyway
-      msrStanza::kMasterStanza,
+      K_MUTE_STANZA_NUMBER,    // this stanza number is unused anyway
+      msrStanza::kMuteStanza,
       this);
 }
 
@@ -19015,7 +19015,7 @@ string msrVoice::getVoiceName () const
 
   string suffix =
     fStaffRelativeVoiceNumber == 0
-      ? "MASTER"
+      ? "SILENT"
       : int2EnglishWord (voiceNumber);
       
   return
@@ -19178,11 +19178,11 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
   fVoiceStanzasMap [stanzaNumber] = stanza;
 }
 
-void msrVoice::catchUpWithVoiceMasterStanza (S_msrStanza stanza)
+void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
 {
   vector<S_msrSyllable>
     masterSyllables =
-      fVoiceMasterStanza->
+      fVoiceMuteStanza->
         getSyllables ();
 
   if (masterSyllables.size()) {
@@ -19220,9 +19220,9 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
 
   fVoiceStanzasMap [stanzaNumber] = stanza;
 
-  // catch up with fVoiceMasterStanza
+  // catch up with fVoiceMuteStanza
   // in case the stanza does not start upon the first voice note
-  catchUpWithVoiceMasterStanza (stanza);
+  catchUpWithVoiceMuteStanza (stanza);
 }
 
 S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
@@ -19344,7 +19344,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       fMusicHasBeenInsertedInVoice = true;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       {
         stringstream s;
 
@@ -19402,7 +19402,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       fMusicHasBeenInsertedInVoice = true;
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       {
         stringstream s;
 
@@ -19612,12 +19612,12 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       note->getNoteSoundingDivisions ();
 
   if (note->getNoteIsARest ())
-    fVoiceMasterStanza->
+    fVoiceMuteStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
   else
-    fVoiceMasterStanza->
+    fVoiceMuteStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
@@ -19689,12 +19689,12 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       note->getNoteSoundingDivisions ();
 
   if (note->getNoteIsARest ())
-    fVoiceMasterStanza->
+    fVoiceMuteStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
   else
-    fVoiceMasterStanza->
+    fVoiceMuteStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingDivisions);
@@ -19896,7 +19896,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
     appendBarCheckToSegment (barCheck);
 
   // add bar check syllable to the voice master stanza
-  fVoiceMasterStanza->
+  fVoiceMuteStanza->
     appendBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
       barCheck->getNextBarNumber ());
@@ -19920,7 +19920,7 @@ void msrVoice::appendBarNumberCheckToVoice (
     appendBarNumberCheckToSegment (barNumberCheck);
 
   // add barnumber check syllable to the voice master stanza
-  fVoiceMasterStanza->
+  fVoiceMuteStanza->
     appendBarNumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
       barNumberCheck->getNextBarNumber ());
@@ -19942,7 +19942,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
     appendBreakToSegment (break_);
 
   // add break syllable to the voice master stanza
-  fVoiceMasterStanza->
+  fVoiceMuteStanza->
     appendBreakSyllableToStanza (
       break_->getInputLineNumber (),
       break_->getNextBarNumber ());
@@ -20006,7 +20006,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
       }
       break;
             
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20128,7 +20128,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
       }
       break;
             
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20304,7 +20304,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
       }
       break;
             
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20420,7 +20420,7 @@ void msrVoice::createMultipleRestInVoice (
       }
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20595,7 +20595,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
       }
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20650,7 +20650,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
       }
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20712,7 +20712,7 @@ void msrVoice::appendRepeatCloneToVoice (
         }
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20767,7 +20767,7 @@ void msrVoice::appendRepeatEndingToVoice (
       }
       break;
       
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20807,7 +20807,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
       }
       break;
             
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       break;
   } // switch
 }
@@ -20962,9 +20962,9 @@ void msrVoice::finalizeCurrentMeasureInVoice (int inputLineNumber)
     finalizeCurrentMeasureInSegment (
       inputLineNumber);
 
-  if (! gMsrOptions->fKeepMasterStanzas) { // JMI
-// JMI    delete (fVoiceMasterStanza);
- // JMI   fVoiceMasterStanza = 0;
+  if (! gMsrOptions->fKeepMuteStanzas) { // JMI
+// JMI    delete (fVoiceMuteStanza);
+ // JMI   fVoiceMuteStanza = 0;
   }
 }
 
@@ -21063,8 +21063,8 @@ string msrVoice::voiceKindAsString (
     case msrVoice::kHarmonyVoice:
       result = "harmony";
       break;
-    case msrVoice::kMasterVoice:
-      result = "marster";
+    case msrVoice::kSilentVoice:
+      result = "silent";
       break;
   } // switch
 
@@ -21161,14 +21161,14 @@ void msrVoice::print (ostream& os)
   if (gGeneralOptions->fTraceLyrics) {
     // print the master stanza
     os << idtr <<
-      fVoiceMasterStanza <<
+      fVoiceMuteStanza <<
       endl;    
   }
   
   if (gMsrOptions->fShowMsrStanzas) {
     // print the voice master stanza
     os << idtr <<
-      fVoiceMasterStanza;
+      fVoiceMuteStanza;
     
     // print the stanzas
     if (fVoiceStanzasMap.size()) {
@@ -21833,7 +21833,7 @@ void msrStaff::initializeStaff ()
 
 
   // create the staff master voice with relative number -99
-  createStaffMasterVoice (
+  createStaffSilentVoice (
     fInputLineNumber);
 
   // get the initial staff details from the part if any
@@ -21978,12 +21978,10 @@ void msrStaff::initializeStaff ()
 msrStaff::~msrStaff()
 {}
 
-void msrStaff::createStaffMasterVoice (
+void msrStaff::createStaffSilentVoice (
   int inputLineNumber)
 {
-  // create the part harmony voice
-  const int staffMasterVoiceNumber = -99; // JMI static?
-  
+  // create the part harmony voice  
   if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "Creating the master voice for staff \"" <<
@@ -21991,27 +21989,27 @@ void msrStaff::createStaffMasterVoice (
       "\", line " << inputLineNumber <<
       endl;
 
-  fStaffMasterVoice =
+  fStaffSilentVoice =
     msrVoice::create (
       inputLineNumber,
       fStaffDirectPartUplink,
-      msrVoice::kMasterVoice,
-      staffMasterVoiceNumber,
+      msrVoice::kSilentVoice,
+      K_SILENT_VOICE_NUMBER,
       this);
 
 /*
   registerVoiceInStaff (
     inputLineNumber,
-    fStaffMasterVoice );
+    fStaffSilentVoice );
     */
   // register is by its relative number
   fStaffAllVoicesMap [fRegisteredVoicesCounter] =
-    fStaffMasterVoice;
+    fStaffSilentVoice;
 
 /* JMI
   // register it by its external number
   fStaffVoiceRelativeNumberToVoiceMap [voice->getExternalVoiceNumber ()] =
-    fStaffMasterVoice;
+    fStaffSilentVoice;
     */ 
 }
 
@@ -22053,7 +22051,7 @@ string msrStaff::getStaffName () const
       ?
         fStaffDirectPartUplink->getPartMsrName () +
         "_S_" +
-        "(MASTER)"
+        "(SILENT)"
       :
         fStaffDirectPartUplink->getPartMsrName () +
         "_S_" +
@@ -22083,7 +22081,7 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
         case msrVoice::kHarmonyVoice: // JMI
           break;
           
-        case msrVoice::kMasterVoice:
+        case msrVoice::kSilentVoice:
           break;
       } // switch
       
@@ -22125,7 +22123,7 @@ S_msrVoice msrStaff::addVoiceMasterToStaff (
   // create the voice
   S_msrVoice
     voice =
-      msrVoice::createMasterVoice (
+      msrVoice::createSilentVoice (
         inputLineNumber,
         this);
 
@@ -22729,11 +22727,11 @@ void msrStaff::finalizeCurrentMeasureInStaff (int inputLineNumber)
         }
         break;
                 
-      case msrVoice::kMasterVoice:
-        if (! gMsrOptions->fKeepMasterVoices) {
+      case msrVoice::kSilentVoice:
+        if (! gMsrOptions->fKeepSilentVoices) {
           if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
             cerr << idtr <<
-              "Erasing staff master voice \"" <<
+              "Erasing staff silent voice \"" <<
               voice->getVoiceName () <<
               "\" in staff " <<
               getStaffName () <<
@@ -22972,8 +22970,8 @@ void msrStaff::print (ostream& os)
             os << idtr << voice;
           break;
           
-        case msrVoice::kMasterVoice:
-          if (gMsrOptions->fShowMasterVoices)
+        case msrVoice::kSilentVoice:
+          if (gMsrOptions->fShowSilentVoices)
             os << idtr << voice;
           break;
       } // switch
@@ -22993,8 +22991,8 @@ void msrStaff::print (ostream& os)
             os << endl;
           break;
           
-        case msrVoice::kMasterVoice:
-          if (gMsrOptions->fShowMasterVoices)
+        case msrVoice::kSilentVoice:
+          if (gMsrOptions->fShowSilentVoices)
             os << endl;
           break;
       } // switch
@@ -24263,7 +24261,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
       break;
       
     case msrVoice::kHarmonyVoice:
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       {
         stringstream s;
     
@@ -24312,7 +24310,7 @@ void msrPart::appendHarmonyToPart (
       break;
       
     case msrVoice::kHarmonyVoice:
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       {
         stringstream s;
     
@@ -24356,7 +24354,7 @@ void msrPart::appendHarmonyToPartClone (
       break;
       
     case msrVoice::kRegularVoice:
-    case msrVoice::kMasterVoice:
+    case msrVoice::kSilentVoice:
       {
         stringstream s;
     

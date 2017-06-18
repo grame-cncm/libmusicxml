@@ -439,11 +439,11 @@ string msrDurationAsString (msrDuration duration);
 #define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "staffRelativeVoiceNumbers"
 #define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "srvn"
 
-#define _SHOW_MASTER_VOICES_LONG_NAME_  "showMasterVoices"
-#define _SHOW_MASTER_VOICES_SHORT_NAME_ "smv"
+#define _SHOW_SILENT_VOICES_LONG_NAME_  "showSilentVoices"
+#define _SHOW_SILENT_VOICES_SHORT_NAME_ "ssv"
 
-#define _KEEP_MASTER_VOICES_LONG_NAME_  "keepMasterVoices"
-#define _KEEP_MASTER_VOICES_SHORT_NAME_ "kmv"
+#define _KEEP_SILENT_VOICES_LONG_NAME_  "keepSilentVoices"
+#define _KEEP_SILENT_VOICES_SHORT_NAME_ "ksv"
 
 // notes
 
@@ -467,8 +467,8 @@ string msrDurationAsString (msrDuration duration);
 #define _SHOW_MSR_STANZAS_LONG_NAME_  "showMsrStanzas"
 #define _SHOW_MSR_STANZAS_SHORT_NAME_ "sms"
 
-#define _KEEP_MASTER_STANZAS_LONG_NAME_  "keepMasterStanzas"
-#define _KEEP_MASTER_STANZAS_SHORT_NAME_ "kms"
+#define _KEEP_MUTE_STANZAS_LONG_NAME_  "keepMuteStanzas"
+#define _KEEP_MUTE_STANZAS_SHORT_NAME_ "kms"
 
 // harmonies
 
@@ -543,8 +543,8 @@ class EXP msrOptions : public smartable
     
     bool                  fCreateStaffRelativeVoiceNumbers;
     
-    bool                  fShowMasterVoices;
-    bool                  fKeepMasterVoices;
+    bool                  fShowSilentVoices;
+    bool                  fKeepSilentVoices;
 
     // notes
     // --------------------------------------
@@ -559,7 +559,7 @@ class EXP msrOptions : public smartable
     // --------------------------------------
     
     bool                  fShowMsrStanzas;
-    bool                  fKeepMasterStanzas;
+    bool                  fKeepMuteStanzas;
     
     // harmonies
     // --------------------------------------
@@ -6094,11 +6094,16 @@ class EXP msrStanza : public msrElement
 {
   public:
 
+    // constants
+    // ------------------------------------------------------
+
+    #define K_MUTE_STANZA_NUMBER -99
+    
     // data types
     // ------------------------------------------------------
 
     enum msrStanzaKind {
-       kMasterStanza, kRegularStanza };
+       kRegularStanza, kMuteStanza };
 
     static string stanzaKindAsString (
       msrStanzaKind stanzaKind);
@@ -7338,13 +7343,18 @@ class EXP msrVoice : public msrElement
 {
   public:
 
+    // constants
+    // ------------------------------------------------------
+
+    #define K_SILENT_VOICE_NUMBER -111
+    
     // data types
     // ------------------------------------------------------
 
     enum msrVoiceKind {
         kRegularVoice,
         kHarmonyVoice, // for MusicXML <harmony/>, LilyPond ChordNames
-        kMasterVoice}; // for voices that don't start at the beginning
+        kSilentVoice}; // for voices that don't start at the beginning
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -7414,8 +7424,8 @@ class EXP msrVoice : public msrElement
 
     // stanzas
     
-    S_msrStanza           getVoiceMasterStanza () const
-                              { return fVoiceMasterStanza; }
+    S_msrStanza           getVoiceMuteStanza () const
+                              { return fVoiceMuteStanza; }
                
     const map<int, S_msrStanza>&
                           getVoiceStanzasMap () const
@@ -7670,7 +7680,7 @@ class EXP msrVoice : public msrElement
     void                  addStanzaToVoiceWithoutCatchUp (
                             S_msrStanza stanza);
 
-    void                  catchUpWithVoiceMasterStanza (
+    void                  catchUpWithVoiceMuteStanza (
                             S_msrStanza stanza);
                     
     void                  addStanzaToVoiceWithCatchUp (
@@ -7776,7 +7786,7 @@ class EXP msrVoice : public msrElement
     // the master stanza, collecting skips along the way,
     // to be used as a 'prelude' by actual stanzas
     // that start at later points
-    S_msrStanza           fVoiceMasterStanza;
+    S_msrStanza           fVoiceMuteStanza;
     
     map<int, S_msrStanza> fVoiceStanzasMap;
 
@@ -8174,8 +8184,8 @@ class EXP msrStaff : public msrElement
 
     // staff master voice
     
-    const S_msrVoice      getStaffMasterVoice () const
-                              { return fStaffMasterVoice; }
+    const S_msrVoice      getStaffSilentVoice () const
+                              { return fStaffSilentVoice; }
 
     // measures
     
@@ -8234,7 +8244,7 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber,
                             int externalVoiceNumber);
 
-    void                  createStaffMasterVoice (
+    void                  createStaffSilentVoice (
                             int inputLineNumber);
   
     const int             getStaffNumberOfMusicVoices () const;
@@ -8339,11 +8349,12 @@ class EXP msrStaff : public msrElement
                             //numbered 1 to gMaxStaffVoices
                               
     map<int, S_msrVoice>  fStaffAllVoicesMap;
-                            // [-99] is used for the staff master voice
+                            // [K_MUTE_STANZA_NUMBER] is used
+                            // for the staff master voice
 
     // voice that start after the beginning of the staff
-    // are initialized as deep clones of the staff master voice
-    S_msrVoice            fStaffMasterVoice;
+    // are initialized as deep clones of the staff silent voice
+    S_msrVoice            fStaffSilentVoice;
 
  // JMI   string                fStaffInstrumentName;
 

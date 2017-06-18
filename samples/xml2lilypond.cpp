@@ -496,14 +496,14 @@ void analyzeOptions (
 
 
   checkOptionUniqueness (
-    _SHOW_MASTER_VOICES_LONG_NAME_, _SHOW_MASTER_VOICES_SHORT_NAME_);
+    _SHOW_SILENT_VOICES_LONG_NAME_, _SHOW_SILENT_VOICES_SHORT_NAME_);
     
-  int showMasterVoicesPresent = 0;
+  int showSilentVoicesPresent = 0;
 
   checkOptionUniqueness (
-    _KEEP_MASTER_VOICES_LONG_NAME_, _KEEP_MASTER_VOICES_SHORT_NAME_);
+    _KEEP_SILENT_VOICES_LONG_NAME_, _KEEP_SILENT_VOICES_SHORT_NAME_);
     
-  int keepMasterVoicesPresent = 0;
+  int keepSilentVoicesPresent = 0;
 
   // notes
   // --------------------------------------
@@ -547,9 +547,9 @@ void analyzeOptions (
 
   
   checkOptionUniqueness (
-    _KEEP_MASTER_STANZAS_LONG_NAME_, _KEEP_MASTER_STANZAS_SHORT_NAME_);
+    _KEEP_MUTE_STANZAS_LONG_NAME_, _KEEP_MUTE_STANZAS_SHORT_NAME_);
     
-  int keepMasterStanzasPresent = 0;
+  int keepMuteStanzasPresent = 0;
 
   // harmonies
   // --------------------------------------
@@ -1262,23 +1262,23 @@ void analyzeOptions (
 
     
     {
-      _SHOW_MASTER_VOICES_LONG_NAME_,
-      no_argument, &showMasterVoicesPresent, 1
+      _SHOW_SILENT_VOICES_LONG_NAME_,
+      no_argument, &showSilentVoicesPresent, 1
     },
     
     {
-      _SHOW_MASTER_VOICES_SHORT_NAME_,
-      no_argument, &showMasterVoicesPresent, 1
+      _SHOW_SILENT_VOICES_SHORT_NAME_,
+      no_argument, &showSilentVoicesPresent, 1
     },
 
     {
-      _KEEP_MASTER_VOICES_LONG_NAME_,
-      no_argument, &keepMasterVoicesPresent, 1
+      _KEEP_SILENT_VOICES_LONG_NAME_,
+      no_argument, &keepSilentVoicesPresent, 1
     },
     
     {
-      _KEEP_MASTER_VOICES_SHORT_NAME_,
-      no_argument, &keepMasterVoicesPresent, 1
+      _KEEP_SILENT_VOICES_SHORT_NAME_,
+      no_argument, &keepSilentVoicesPresent, 1
     },
 
     // notes
@@ -1349,13 +1349,13 @@ void analyzeOptions (
 
 
     {
-      _KEEP_MASTER_STANZAS_LONG_NAME_,
-      no_argument, &keepMasterStanzasPresent, 1
+      _KEEP_MUTE_STANZAS_LONG_NAME_,
+      no_argument, &keepMuteStanzasPresent, 1
     },
 
     {
-      _KEEP_MASTER_STANZAS_SHORT_NAME_,
-      no_argument, &keepMasterStanzasPresent, 1
+      _KEEP_MUTE_STANZAS_SHORT_NAME_,
+      no_argument, &keepMuteStanzasPresent, 1
     },
 
     // harmonies
@@ -2404,26 +2404,26 @@ R"(
           staffRelativeVoiceNumbersPresent = false;
         }
         
-        if (showMasterVoicesPresent) {
-          gMsrOptions->fShowMasterVoices = true;
+        if (showSilentVoicesPresent) {
+          gMsrOptions->fShowSilentVoices = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _SHOW_MASTER_VOICES_LONG_NAME_ " ";
+            "--" _SHOW_SILENT_VOICES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _SHOW_MASTER_VOICES_SHORT_NAME_ " ";
+            "--" _SHOW_SILENT_VOICES_SHORT_NAME_ " ";
             
-          showMasterVoicesPresent = false;
+          showSilentVoicesPresent = false;
         }
 
-        if (keepMasterVoicesPresent) {
-          gMsrOptions->fKeepMasterVoices = true;
+        if (keepSilentVoicesPresent) {
+          gMsrOptions->fKeepSilentVoices = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _KEEP_MASTER_VOICES_LONG_NAME_ " ";
+            "--" _KEEP_SILENT_VOICES_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _KEEP_MASTER_VOICES_SHORT_NAME_ " ";
+            "--" _KEEP_SILENT_VOICES_SHORT_NAME_ " ";
             
-          keepMasterVoicesPresent = false;
+          keepSilentVoicesPresent = false;
         }
 
         // notes
@@ -2497,15 +2497,15 @@ R"(
           showMsrStanzasPresent = false;
         }
         
-        if (keepMasterStanzasPresent) {
-          gMsrOptions->fKeepMasterStanzas = true;
+        if (keepMuteStanzasPresent) {
+          gMsrOptions->fKeepMuteStanzas = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
-            "--" _KEEP_MASTER_STANZAS_LONG_NAME_ " ";
+            "--" _KEEP_MUTE_STANZAS_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _KEEP_MASTER_STANZAS_SHORT_NAME_ " ";
+            "--" _KEEP_MUTE_STANZAS_SHORT_NAME_ " ";
             
-          keepMasterStanzasPresent = false;
+          keepMuteStanzasPresent = false;
         }
 
         // harmonies

@@ -397,7 +397,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
   fOstream <<
     endl;
 
-  // don't show fVoiceMasterStanza in the summary
+  // don't show fVoiceMuteStanza in the summary
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
