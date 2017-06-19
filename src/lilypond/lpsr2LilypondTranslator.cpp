@@ -5938,7 +5938,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
   int saveIndent =
     idtr.getIndent ();
     
-  fOstream << idtr <<
+  fOstream <<
     "| % " << nextBarNumber << " % bar check" <<
     ", saveIndent = " << saveIndent <<
     endl;

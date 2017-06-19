@@ -8742,7 +8742,7 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
   if (gGeneralOptions->fTraceDivisions) {
-  cerr <<
+  cerr << idtr <<
     "Creating divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
     ", line " << fInputLineNumber <<
@@ -23721,7 +23721,7 @@ void msrMeasure::appendDivisionsToMeasure (
 void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
 {
   if (gGeneralOptions->fTraceDivisions) {
-    cerr <<
+    cerr << idtr <<
       "Setting durations divisions for part \"" <<
       "\"" << fPartName <<
       ", divisionPerQuarterNote = " << divisionPerQuarterNote <<
