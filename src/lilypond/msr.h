@@ -8160,7 +8160,10 @@ class EXP msrStaff : public msrElement
     
     const map<int, S_msrVoice>&
                           getStaffVoiceRelativeNumberToVoiceMap () const
-                              { return fStaffVoiceRelativeNumberToVoiceMap; }
+                              {
+                                return
+                                  fStaffVoiceRelativeNumberToVoiceMap;
+                              }
 
     const map<int, S_msrVoice>&
                           getStaffAllVoicesMap () const
@@ -8201,7 +8204,8 @@ class EXP msrStaff : public msrElement
     
     // transpose
 
-    void                  appendTransposeToStaff (S_msrTranspose transpose);
+    void                  appendTransposeToStaff (
+                            S_msrTranspose transpose);
 
     // staff voices
     
@@ -8536,6 +8540,9 @@ class EXP msrPart : public msrElement
 
     S_msrKey              getPartCurrentKey  () const
                               { return fPartCurrentKey; };
+
+    void                  setPartCurrentTime (S_msrTime time)
+                              { fPartCurrentTime = time; };
 
     S_msrTime             getPartCurrentTime () const
                               { return fPartCurrentTime; };

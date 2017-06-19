@@ -22120,11 +22120,15 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
     time =
       msrTime::createFourQuartersTime (
         inputLineNumber);
+
+    // register it in the part for future use
+    fStaffDirectPartUplink->
+      setPartCurrentTime (time);
   }
       
   // append the time to this staff
   appendTimeToStaff (time);
-  
+
   // set fMeasureDivisionsPerFullMeasure accordingly
  // setMeasureDivisionsPerFullMeasureFromTime (
  //   partCurrentTime);
