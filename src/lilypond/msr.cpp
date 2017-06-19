@@ -22759,7 +22759,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
   } // for
 }
 
-void msrStaff::appendKeyToStaff  (S_msrKey  key)
+void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -23624,6 +23624,104 @@ void msrPart::setCurrentPartDivisions (
   }
   
   fCurrentPartDivisions = divisions;
+}
+
+void msrPart::appendDivisionsToPart (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceParts) {
+    cerr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      "' to part \"" <<
+      "\"" << fPartName <<
+      endl;
+  }
+
+  // register divisions in the part
+  fCurrentPartDivisions = divisions;
+
+  // print durations divisions if need be
+  if (gGeneralOptions->fTraceDivisions) {
+    printDurationsDivisions (cerr);
+  }
+
+  // propagate to all staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    S_msrStaff
+      staff = (*i).second;
+      
+    staff->
+      appendDivisionsToStaff (divisions);
+  } // for
+}
+
+void msrStaff::appendDivisionsToStaff (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      "' to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  // propagate it to all voices
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendDivisionsToVoice (divisions);
+  } // for
+}
+
+void msrVoice::appendDivisionsToVoice (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNeeded (
+    divisions->getInputLineNumber ());
+
+  // append divisions to last segment
+  fVoiceLastSegment->
+    appendDivisionsToSegment (divisions);
+}
+
+void msrSegment::appendDivisionsToSegment (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      " to segment " << segmentAsString () <<
+      endl;
+      
+  // register divisions in segments's current measure
+  fSegmentMeasuresList.back ()->
+    appendDivisionsToMeasure (divisions);
+}
+    
+void msrMeasure::appendDivisionsToMeasure (
+  S_msrDivisions divisions)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (divisions);
 }
 
 void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)

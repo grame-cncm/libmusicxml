@@ -48,6 +48,9 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
+class msrDivisions;
+typedef SMARTP<msrDivisions> S_msrDivisions;
+
 class msrBarline;
 typedef SMARTP<msrBarline> S_msrBarline;
 
@@ -2983,15 +2986,18 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
-    // measure kind
-    
-    string                getMeasureKindAsString () const;
-
     // divisions
+
+    void                  appendDivisionsToMeasure (
+                            S_msrDivisions divisions);
 
     void                  bringMeasureToMeasurePosition (
                             int inputLineNumber,
                             int measurePosition);
+
+    // measure kind
+    
+    string                getMeasureKindAsString () const;
 
     // measure length
     
@@ -3289,6 +3295,13 @@ class EXP msrSegment : public msrElement
     // services
     // ------------------------------------------------------
 
+    // divisions
+
+    void                  appendDivisionsToSegment (
+                            S_msrDivisions divisions);
+
+    // strings
+  
     string                segmentAsString ();
 
     // divisions
@@ -7497,6 +7510,11 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
+    // divisions
+
+    void                  appendDivisionsToVoice (
+                            S_msrDivisions divisions);
+
     // voice kind
 
     string                voiceKindAsString () const;
@@ -8216,6 +8234,11 @@ class EXP msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
+    // divisions
+
+    void                  appendDivisionsToStaff (
+                            S_msrDivisions divisions);
+  
     // staff details
     
     void                  appendStaffDetailsToStaff (
@@ -8595,6 +8618,11 @@ class EXP msrPart : public msrElement
     // ------------------------------------------------------
 
     // divisions
+
+    void                  appendDivisionsToPart (
+                            S_msrDivisions divisions);
+
+// BOU
 
     void                  setupDurationsDivisions (
                             int divisionPerQuarterNote);
