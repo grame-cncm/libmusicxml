@@ -14143,25 +14143,19 @@ void msrMeasure::setMeasurePosition (
   fMeasurePosition = measurePosition;
 }
 
-void msrMeasure::appendClefToMeasure (
-  S_msrClef clef,
-  string    measureNumber)
+void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
   // append it to the measure elements list
   fMeasureElementsList.push_back (clef);
 }
 
-void msrMeasure::appendKeyToMeasure (
-  S_msrKey key,
-  string   measureNumber)
+void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
   // append it to the measure elements list
   fMeasureElementsList.push_back (key);
 }
 
-void msrMeasure::appendTimeToMeasure (
-  S_msrTime time,
-  string    measureNumber)
+void msrMeasure::appendTimeToMeasure (S_msrTime time)
 {
   msrAssert(
     time != 0, "time is null");
@@ -16150,7 +16144,7 @@ void msrSegment::createSegmentInitialMeasure () // JMI
 {
   string firstMeasureNumber = // JMI
     fSegmentDirectPartUplink->
-      getPartMeasureNumber (); // JMI "?";
+      getPartCurrentMeasureNumber (); // JMI "?";
   
   if (gGeneralOptions->fTraceSegments) {
     cerr <<
@@ -16307,8 +16301,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
-  int    inputLineNumber,
-  string measureNumber)
+  int    inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
@@ -16319,21 +16312,29 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   }
 
   // should a measure be appended to the segment
-  // to match measureNumber?  
+  // to match measureNumber?
+  string
+    currentMeasureNumber =
+      fSegmentDirectPartUplink->
+        getPartCurrentMeasureNumber ();
+      
+  bool doCreateAndAppendAMeasure = false;
+  
   if (! fSegmentMeasuresList.size ()) {
-    createMeasureAndAppendItToSegment (
-      inputLineNumber,
-      measureNumber);
+    doCreateAndAppendAMeasure = true;
   }
   else if (
     fSegmentMeasuresList.back ()->getMeasureNumber ()
         !=
-      measureNumber) {
+     currentMeasureNumber) {
+    doCreateAndAppendAMeasure = true;
+  }
+  
+  if (doCreateAndAppendAMeasure)
     createMeasureAndAppendItToSegment (
       inputLineNumber,
-      measureNumber);
-  }
-
+      currentMeasureNumber);
+  
   // finalize segment's last measure
   fSegmentMeasuresList.back ()->
     finalizeMeasure (
@@ -16355,9 +16356,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       */
 }
 
-void msrSegment::appendClefToSegment (
-  S_msrClef clef,
-  string    measureNumber)
+void msrSegment::appendClefToSegment (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceSegments)
     cerr <<
@@ -16371,14 +16370,10 @@ void msrSegment::appendClefToSegment (
 
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
-    appendClefToMeasure (
-      clef,
-      measureNumber);
+    appendClefToMeasure (clef);
 }
 
-void msrSegment::appendKeyToSegment (
-  S_msrKey key,
-  string   measureNumber)
+void msrSegment::appendKeyToSegment (S_msrKey key)
 {
   if (gGeneralOptions->fTraceSegments)
     cerr <<
@@ -16392,14 +16387,10 @@ void msrSegment::appendKeyToSegment (
 
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
-    appendKeyToMeasure (
-      key,
-      measureNumber);
+    appendKeyToMeasure (key);
 }
     
-void msrSegment::appendTimeToSegment (
-  S_msrTime time,
-  string    measureNumber)
+void msrSegment::appendTimeToSegment (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
     cerr <<
@@ -16422,9 +16413,7 @@ void msrSegment::appendTimeToSegment (
       
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
-    appendTimeToMeasure (
-      time,
-      measureNumber);
+    appendTimeToMeasure (time);
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -18695,7 +18684,7 @@ void msrVoice::initializeVoice ()
   // set voice number
   fVoiceMeasureNumber = // JMI "??";
     fVoiceDirectPartUplink->
-      getPartMeasureNumber ();
+      getPartCurrentMeasureNumber ();
 
   // music has not been inserted in voice yet
   fMusicHasBeenInsertedInVoice = false;
@@ -18764,9 +18753,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
       if (clef) {
         // append it to the last segment
         fVoiceLastSegment->
-          appendClefToSegment (
-            clef,
-            measureNumber);
+          appendClefToSegment (clef);
         }
     }
       
@@ -18780,9 +18767,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
       if (key) {
         // append it to the last segment
         fVoiceLastSegment->
-          appendKeyToSegment
-            key,
-            measureNumber);
+          appendKeyToSegment (key);
       }
     }
     
@@ -18796,9 +18781,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
       if (time) {
         // append it to the last segment
         fVoiceLastSegment->
-          appendTimeToSegment (
-            time,
-            measureNumber);
+          appendTimeToSegment (time);
       }
     }
     
@@ -19125,9 +19108,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
   return stanza;
 }
 
-void msrVoice::appendClefToVoice (
-  S_msrClef clef,
-  string    measureNumber)
+void msrVoice::appendClefToVoice (S_msrClef clef)
 {
   if (gMsrOptions->fTraceMsr)
     cerr << idtr <<
@@ -19144,9 +19125,7 @@ void msrVoice::appendClefToVoice (
     appendClefToSegment (clef);
 }
 
-void msrVoice::appendKeyToVoice (
-  S_msrKey key,
-  string   measureNumber)
+void msrVoice::appendKeyToVoice (S_msrKey key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
@@ -19163,9 +19142,7 @@ void msrVoice::appendKeyToVoice (
     appendKeyToSegment (key);
 }
 
-void msrVoice::appendTimeToVoice (
-  S_msrTime time,
-  string    measureNumber)
+void msrVoice::appendTimeToVoice (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
@@ -20793,8 +20770,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 }
 
 void msrVoice::finalizeCurrentMeasureInVoice (
-  int    inputLineNumber,
-  string measureNumber)
+  int    inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -20811,8 +20787,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   // finalize last segment' current measure
   fVoiceLastSegment->
     finalizeCurrentMeasureInSegment (
-      inputLineNumber,
-      measureNumber);
+      inputLineNumber);
 }
 
 msrVoice::msrVoiceFinalizationStatus
@@ -22285,9 +22260,7 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
-void msrStaff::appendClefToStaff (
-  S_msrClef clef,
-  string    measureNumber)
+void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -22330,9 +22303,7 @@ void msrStaff::appendClefToStaff (
   } // for
 }
 
-void msrStaff::appendKeyToStaff (
-  S_msrKey key,
-  string   measureNumber)
+void msrStaff::appendKeyToStaff  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
@@ -22356,9 +22327,7 @@ void msrStaff::appendKeyToStaff (
   } // for
 }
 
-void msrStaff::appendTimeToStaff (
-  S_msrTime time,
-  string    measureNumber)
+void msrStaff::appendTimeToStaff (S_msrTime time)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
@@ -22674,8 +22643,7 @@ void msrStaff::appendTransposeToAllStaffVoices (
 }
 
 void msrStaff::finalizeCurrentMeasureInStaff (
-  int    inputLineNumber,
-  string measureNumber)
+  int    inputLineNumber)
 {  
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
@@ -22691,8 +22659,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
     i++) {
     (*i).second->
       finalizeCurrentMeasureInVoice (
-        inputLineNumber,
-        measureNumber);
+        inputLineNumber);
   } // for
 }
 
@@ -23812,10 +23779,10 @@ void msrPart::createMeasureAndAppendItToPart (
         ", in part " << getPartCombinedName () <<
         endl;
 
-  // set part measure location
-  fPartMeasureNumber = measureNumber;
+  // set part current measure number
+  fPartCurrentMeasureNumber = measureNumber;
 
-  // propagate it to all staves
+  // propagate to all staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -23855,9 +23822,7 @@ void msrPart::appendStaffDetailsToPart (
   } // for
 }
 
-void msrPart::appendClefToPart (
-  S_msrClef clef,
-  string    measureNumber)
+void msrPart::appendClefToPart (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
@@ -23879,9 +23844,7 @@ void msrPart::appendClefToPart (
   } // for
 }
 
-void msrPart::appendKeyToPart (
-  S_msrKey key,
-  string   measureNumber)
+void msrPart::appendKeyToPart  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceKeys)
     cerr << idtr <<
@@ -23906,9 +23869,7 @@ void msrPart::appendKeyToPart (
   } // for
 }
 
-void msrPart::appendTimeToPart (
-  S_msrTime time,
-  string    measureNumber)
+void msrPart::appendTimeToPart (S_msrTime time)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
     cerr << idtr <<
@@ -24366,8 +24327,7 @@ void msrPart:: handleBackup (int divisions)
 }
 
 void msrPart::finalizeCurrentMeasureInPart (
-  int    inputLineNumber,
-  string measureNumber)
+  int    inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
@@ -24383,8 +24343,7 @@ void msrPart::finalizeCurrentMeasureInPart (
     i++) {
     (*i).second->
       finalizeCurrentMeasureInStaff (
-        inputLineNumber,
-        measureNumber);
+        inputLineNumber);
   } // for
 }
 

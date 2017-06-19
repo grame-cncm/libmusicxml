@@ -3003,21 +3003,15 @@ class EXP msrMeasure : public msrElement
 
     // clefs
     
-    void                  appendClefToMeasure (
-                            S_msrClef clef,
-                            string   measureNumber);
+    void                  appendClefToMeasure (S_msrClef clef);
 
     // keys
     
-    void                  appendKeyToMeasure (
-                            S_msrKey key,
-                            string   measureNumber);
+    void                  appendKeyToMeasure (S_msrKey key);
 
     // times
 
-    void                  appendTimeToMeasure (
-                            S_msrTime time,
-                            string    measureNumber);
+    void                  appendTimeToMeasure (S_msrTime time);
 
     void                  setMeasureDivisionsPerFullMeasureFromTime (
                             S_msrTime time);
@@ -3313,17 +3307,9 @@ class EXP msrSegment : public msrElement
 
     // clef, key, time
     
-    void                  appendClefToSegment (
-                            S_msrClef clef,
-                            string    measureNumber);
-                            
-    void                  appendKeyToSegment (
-                            S_msrKey key,
-                            string   measureNumber);
-    
-    void                  appendTimeToSegment (
-                            S_msrTime time,
-                            string    measureNumber);
+    void                  appendClefToSegment (S_msrClef clef);
+    void                  appendKeyToSegment (S_msrKey key);
+    void                  appendTimeToSegment (S_msrTime time);
 
     // transpose
 
@@ -3450,8 +3436,7 @@ class EXP msrSegment : public msrElement
     // finalization
 
     void                  finalizeCurrentMeasureInSegment (
-                            int    inputLineNumber,
-                            string measureNumber);
+                            int inputLineNumber);
 
     // visitors
     // ------------------------------------------------------
@@ -7499,18 +7484,9 @@ class EXP msrVoice : public msrElement
   
     // clef, key, time
     
-    void                  appendClefToVoice (
-                            S_msrClef clef,
-                            string    measureNumber);
-    
-    void                  appendKeyToVoice (
-                            S_msrKey key,
-                            string   measureNumber);
-    
-    void                  appendTimeToVoice (
-                            S_msrTime time,
-                            string    measureNumber);
-    
+    void                  appendClefToVoice (S_msrClef clef);
+    void                  appendKeyToVoice  (S_msrKey  key);
+    void                  appendTimeToVoice (S_msrTime time);
     
     // transpose
 
@@ -7707,8 +7683,7 @@ class EXP msrVoice : public msrElement
     // finalization
     
     void                  finalizeCurrentMeasureInVoice (
-                            int    inputLineNumber,
-                            string measureNumber);
+                            int inputLineNumber);
 
     msrVoiceFinalizationStatus
                           finalizeVoice (
@@ -8220,18 +8195,9 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
 
-    void                  appendClefToStaff (
-                            S_msrClef clef,
-                            string    measureNumber);
-    
-    void                  appendKeyToStaff (
-                            S_msrKey  key,
-                            string    measureNumber);
-    
-    void                  appendTimeToStaff (
-                            S_msrTime time,
-                            string    measureNumber);
-  
+    void                  appendClefToStaff (S_msrClef clef);
+    void                  appendKeyToStaff (S_msrKey  key);
+    void                  appendTimeToStaff (S_msrTime time);
     
     // transpose
 
@@ -8323,8 +8289,7 @@ class EXP msrStaff : public msrElement
     // finalization
 
     void                  finalizeCurrentMeasureInStaff (
-                            int    inputLineNumber,
-                            string measureNumber);
+                            int inputLineNumber);
 
     void                  finalizeStaff (
                             int inputLineNumber);
@@ -8503,8 +8468,15 @@ class EXP msrPart : public msrElement
 
     // measures
 
-    const string          getPartMeasureNumber () const
-                              { return fPartMeasureNumber; }
+    void                  setPartCurrentMeasureNumber (
+                            string measureNumber)
+                              {
+                                fPartCurrentMeasureNumber =
+                                  measureNumber;
+                              }
+
+    const string          getPartCurrentMeasureNumber () const
+                              { return fPartCurrentMeasureNumber; }
 
     // staff details
 
@@ -8611,18 +8583,9 @@ class EXP msrPart : public msrElement
 
     // clef, key, time
     
-    void                  appendClefToPart (
-                            S_msrClef clef,
-                            string    measureNumber);
-    
-    void                  appendKeyToPart (
-                            S_msrKey key,
-                            string   measureNumber);
-    
-    void                  appendTimeToPart (
-                            S_msrTime time,
-                            string    measureNumber);
-    
+    void                  appendClefToPart (S_msrClef clef);
+    void                  appendKeyToPart (S_msrKey  key);
+    void                  appendTimeToPart (S_msrTime time);
 
     // transpose
 
@@ -8727,8 +8690,7 @@ class EXP msrPart : public msrElement
     // finalization
 
     void                  finalizeCurrentMeasureInPart (
-                            int    inputLineNumber,
-                            string measureNumber);
+                            int inputLineNumber);
 
     void                  finalizePart (
                             int inputLineNumber);
@@ -8754,12 +8716,12 @@ class EXP msrPart : public msrElement
 
     int                   fPartDivisionsPerQuarterNote;
     list<pair<msrDuration, int> >
-                        fPartDurationsToDivisions;
+                          fPartDurationsToDivisions;
 
     // measures
 
     int                   fPartMeasurePositionHighTide;
-    string                fPartMeasureNumber;
+    string                fPartCurrentMeasureNumber;
 
     // part ID and name
     
@@ -8786,6 +8748,8 @@ class EXP msrPart : public msrElement
     
     S_msrTime             fPartCurrentTime;
 
+    // transpose
+    
     S_msrTranspose        fPartTranspose;
 
     // staff details

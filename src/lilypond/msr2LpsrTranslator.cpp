@@ -1124,13 +1124,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       "--> Start visiting msrMeasure" <<
       endl;
 
-/* JMI
-  fCurrentPartClone->
-    setPartMeasureNumber (
-      elt->getInputLineNumber (),
-      elt->getMeasureNumber ());
-    */
-
   // measure 1 is created by default initially
   
   // create a clone of the measure
@@ -1143,6 +1136,11 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   fCurrentSegmentClonesStack.top ()->
     appendMeasureToSegment (
       fCurrentMeasureClone);
+
+// JMI utile???
+  fCurrentPartClone->
+    setPartCurrentMeasureNumber (
+      fCurrentMeasureClone->getMeasureNumber ());
 }
 
 void msr2LpsrTranslator::finalizeCurrentMeasureClone (
@@ -1446,9 +1444,7 @@ void msr2LpsrTranslator::visitStart (S_msrClef& elt)
       endl;
 
   fCurrentVoiceClone->
-    appendClefToVoice (
-      elt,
-      fCurrentMeasureClone->getMeasureNumber ());
+    appendClefToVoice (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
@@ -1468,9 +1464,7 @@ void msr2LpsrTranslator::visitStart (S_msrKey& elt)
       endl;
 
   fCurrentVoiceClone->
-    appendKeyToVoice (
-      elt,
-      fCurrentMeasureClone->getMeasureNumber ());
+    appendKeyToVoice (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
@@ -1490,9 +1484,7 @@ void msr2LpsrTranslator::visitStart (S_msrTime& elt)
       endl;
 
   fCurrentVoiceClone->
-    appendTimeToVoice (
-      elt,
-      fCurrentMeasureClone->getMeasureNumber ());
+    appendTimeToVoice (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
