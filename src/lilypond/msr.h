@@ -5512,52 +5512,69 @@ EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrComment : public msrElement
+class EXP msrDivisions : public msrElement
 {
   public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrCommentGapKind {
-      kGapAfterwards, kNoGapAfterwards};
-
-    static string commentGapKindAsString (
-      msrCommentGapKind commentGapKind);
-      
+    // BOU
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrComment> create (
-      int               inputLineNumber,
-      string            contents,
-      msrCommentGapKind commentGapKind = kNoGapAfterwards);
+    static SMARTP<msrDivisions> create (
+      int inputLineNumber,
+      int divisionsPerQuarterNote);
 
+  private:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeDivisions ();
+    
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrComment (
-      int               inputLineNumber,
-      string            contents,
-      msrCommentGapKind commentGapKind = kNoGapAfterwards);
+    msrDivisions (
+      int inputLineNumber,
+      int divisionsPerQuarterNote);
       
-    virtual ~msrComment();
+    virtual ~msrDivisions();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    string                getContents () const
-                              { return fContents; }
-                    
-    msrCommentGapKind     getCommentGapKind  () const
-                              { return fCommentGapKind; }
-    
+    int                   getDivisionsPerQuarterNote () const
+                              { return fDivisionsPerQuarterNote; }
+                        
     // services
     // ------------------------------------------------------
+
+    int                   durationAsDivisions (
+                            int         inputLineNumber,
+                            msrDuration duration);
+
+    void                  printDurationsDivisions (ostream& os);
+    
+    string                divisionsAsMsrString (
+                            int  inputLineNumber,
+                            int  divisions,
+                            int& numberOfDotsNeeded);
+
+    string                divisionsAsMsrString (
+                            int  inputLineNumber,
+                            int  divisions);
+
+    string                tupletDivisionsAsMsrString (
+                            int  inputLineNumber,
+                            int  divisions,
+                            int actualNotes,
+                            int normalNotes);
+
+    void                  testDivisionsAndDurations (); // JMI
+    void                  testTupletSoundingDivisionsAndDurations ();
 
     // visitors
     // ------------------------------------------------------
@@ -5574,11 +5591,12 @@ class EXP msrComment : public msrElement
 
   private:
 
-    string            fContents;
-    msrCommentGapKind fCommentGapKind;
+    int                   fDivisionsPerQuarterNote;
+    list<pair<msrDuration, int> >
+                          fDurationsToDivisions;
 };
-typedef SMARTP<msrComment> S_msrComment;
-EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
+typedef SMARTP<msrDivisions> S_msrDivisions;
+EXP ostream& operator<< (ostream& os, const S_msrDivisions& elt);
 
 /*!
 \brief A msr break representation.

@@ -568,6 +568,17 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrDivisions& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrDivisions" <<
+      endl;
+
+// BOU
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -3166,23 +3177,6 @@ void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
       endl;
 }
 
-//________________________________________________________________________
-/*void msr2LpsrTranslator::visitStart (S_msrComment& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "--> Start visiting msrComment" <<
-      endl;
-}
-
-void msr2LpsrTranslator::visitEnd (S_msrComment& elt)
-{
-  if (gGeneralOptions->fDebug)
-    fOstream << idtrfTraceVisitors
-      "--> End visiting msrComment" <<
-      endl;
-}
-*/
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 {

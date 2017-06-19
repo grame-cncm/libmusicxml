@@ -41,6 +41,8 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrPart>,
   
+  public visitor<S_msrDivisions>,
+
   public visitor<S_msrStaffLinesNumber>,
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
@@ -125,8 +127,7 @@ class msr2LpsrTranslator :
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
   
-//  public visitor<S_msrComment>, // JMI
-  
+ 
   public visitor<S_msrVarValAssoc>,
   
   public visitor<S_msrPageGeometry>,
@@ -168,6 +169,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
+
+    virtual void visitStart (S_msrDivisions& elt);
 
     virtual void visitStart (S_msrStaffLinesNumber& elt);
     virtual void visitStart (S_msrStaffTuning& elt);
@@ -305,9 +308,6 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrMultipleRest& elt);
     virtual void visitStart (S_msrMultipleRestContents& elt);
     virtual void visitEnd   (S_msrMultipleRestContents& elt);
-
-//    virtual void visitStart (S_msrComment& elt);
-//    virtual void visitEnd   (S_msrComment& elt);
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);

@@ -8712,79 +8712,556 @@ void msrChord::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrComment msrComment::create (
-  int               inputLineNumber,
-  string            contents,
-  msrCommentGapKind commentGapKind)
+S_msrDivisions msrDivisions::create (
+  int inputLineNumber,
+  int divisionsPerQuarterNote)
 {
-  msrComment* o =
-    new msrComment (
-      inputLineNumber, contents, commentGapKind);
+  msrDivisions* o =
+    new msrDivisions (
+      inputLineNumber, divisionsPerQuarterNote);
   assert(o!=0);
   return o;
 }
 
-msrComment::msrComment (
-  int               inputLineNumber,
-  string            contents,
-  msrCommentGapKind commentGapKind)
+msrDivisions::msrDivisions (
+  int inputLineNumber,
+  int divisionsPerQuarterNote)
     : msrElement (inputLineNumber)
 {
-  fContents       = contents;
-  fCommentGapKind = commentGapKind;
-}
-msrComment::~msrComment() {}
+  fdivisionsPerQuarterNote = divisionsPerQuarterNote;
 
-void msrComment::acceptIn (basevisitor* v) {
+  initializeDivisions ();
+}
+
+
+// BOU
+
+
+void msrDivisions::initializeDivisions (int divisionPerQuarterNote)
+{
+  if (gGeneralOptions->fTraceDivisions) {
+  cerr <<
+    "Setting durations divisions for part \"" <<
+    "\"" << fPartName <<
+    ", divisionPerQuarterNote = " << divisionPerQuarterNote <<
+    endl;
+  }
+  
+  // erase fDurationsToDivisions's contents
+  fDurationsToDivisions.clear ();
+  
+  // positive powers of 2 of a quarter note
+  int bigDivisions = divisionPerQuarterNote;
+  for (int i = kQuarter; i >= kMaxima; i--) {
+    /*
+    cerr <<
+      msrDurationAsString (msrDuration (i)) <<
+      " -> " <<
+      bigDivisions <<
+      endl;
+    */
+    
+    fDurationsToDivisions.push_front (
+      make_pair (msrDuration (i), bigDivisions));
+      
+    bigDivisions *= 2;
+  } // for
+
+  if (divisionPerQuarterNote > 1) {
+    // negative powers of 2 of a quarter note
+    int
+      smallDivisions =
+        divisionPerQuarterNote / 2;
+    msrDuration
+      currentDuration =
+        kEighth;
+    
+    while (smallDivisions >= 1) {
+      /*
+      cerr <<
+        msrDurationAsString (currentDuration) <<
+        " % --> " <<
+        smallDivisions <<
+        endl;
+      */
+
+      fDurationsToDivisions.push_back (
+        make_pair (currentDuration, smallDivisions));
+        
+      currentDuration = msrDuration (currentDuration + 1);
+      smallDivisions /= 2;
+    } // while
+  }
+
+  if (gGeneralOptions->fTraceDivisions) {
+    printDurationsDivisions (cerr);
+  }
+}
+
+int msrDivisions::durationAsDivisions (
+  int         inputLineNumber,
+  msrDuration duration)
+{
+  for (
+    list<pair<msrDuration, int> >::const_iterator i =
+      fDurationsToDivisions.begin();
+    i != fDurationsToDivisions.end ();
+    i++) {
+    if ((*i).first == duration)
+      return (*i).second;
+  } // for
+
+  stringstream s;
+
+  s <<
+    "duration " << duration <<
+    " cannot be converted to divisions with " <<
+    fDivisionsPerQuarterNote << " dpqn" <<
+    endl;
+
+  printDurationsDivisions (s);
+  
+  msrInternalError (
+    inputLineNumber,
+    s.str ())
+}
+
+void msrDivisions::printDurationsDivisions (ostream& os)
+{
+  os << idtr <<
+    "The mapping of durations to divisions with " <<
+    fDivisionsPerQuarterNote << " divisions per quarter note" <<
+    " is:" <<
+    endl;
+
+  idtr++;
+  
+  if (fDurationsToDivisions.size ()) {
+    list<pair<msrDuration, int> >::const_iterator
+      iBegin = fDurationsToDivisions.begin(),
+      iEnd   = fDurationsToDivisions.end(),
+      i      = iBegin;
+          
+    for ( ; ; ) {
+      os << idtr <<
+        setw(6) << left <<
+        msrDurationAsString (msrDuration((*i).first)) <<
+        ": " <<
+        setw(4) << right <<
+        (*i).second;
+
+      if (++i == iEnd) break;
+      
+      os << endl;
+    } // for
+
+/* JMI
+
+    for (
+      list<pair<msrDuration, int> >::const_iterator i =
+        fDurationsToDivisions.begin();
+      i != fDurationsToDivisions.end ();
+      i++) {
+      os << idtr <<
+        setw(6) << left <<
+        msrDurationAsString (msrDuration((*i).first)) <<
+        ": " <<
+        setw(4) << right <<
+        (*i).second <<
+        endl;
+    } // for
+*/
+  }
+  
+  else
+    os << idtr <<
+      "an empty list";
+
+  os << endl;
+
+  idtr--;
+}
+
+string msrDivisions::divisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions,
+  int& numberOfDotsNeeded)
+{  
+  string result;
+
+  // the result is a base duration, followed by a suffix made of
+  // either a sequence of dots or a multiplication factor
+  
+  if (gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      endl <<
+      "--> divisionsAsMsrString ():" <<
+      endl <<
+      "inputLineNumber        = " << inputLineNumber <<
+      endl <<
+      "divisions              = " << divisions <<
+      endl << endl;
+
+      printDurationsDivisions (cerr);
+  }
+    
+  msrDuration baseDuration          = k1024th;
+  int         baseDurationDivisions = -1;
+  
+  // search fDurationsToDivisions in longer to shortest order
+  list<pair<msrDuration, int> >::const_iterator
+    iBegin = fDurationsToDivisions.begin(),
+    iEnd   = fDurationsToDivisions.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    if (i == iEnd) {
+      stringstream s;
+
+      s <<
+        "divisions " << divisions <<
+        " could not be handled by divisionsAsMsrString () with:" <<
+        endl;
+
+      printDurationsDivisions (cerr);
+
+      msrInternalError (
+        inputLineNumber, s.str());
+      break;
+    }
+
+    if ((*i).second <= divisions) {
+      // found base duration in list
+      baseDuration          = (*i).first;
+      baseDurationDivisions = (*i).second;
+
+      result =
+        msrDurationAsString (baseDuration);
+      
+      if (false && gGeneralOptions->fTraceDivisions) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDuration           = " << msrDurationAsString (baseDuration) <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "result                 = " << result <<
+          endl << endl;
+      }
+
+      break;
+    }
+        
+    // next please!
+    i++;
+  } // for
+
+  int         dotsNumber = 0;
+
+  if (divisions > baseDurationDivisions) {
+    // divisions is not a power of 2 of a quarter note
+    
+    // the next element in the list is half as long as (*i)
+    int remainingDivisions =
+      divisions - baseDurationDivisions;
+    int nextDivisionsInList =
+      baseDurationDivisions / 2;
+
+    if (false && gGeneralOptions->fTraceDivisions) {
+      cerr <<
+        "divisions              = " << divisions <<
+        endl <<
+        "baseDurationDivisions  = " << baseDurationDivisions <<
+        endl <<
+        "nextDivisionsInList    = " << nextDivisionsInList <<
+        endl <<
+        "remainingDivisions     = " << remainingDivisions <<
+        endl << endl;
+    }
+
+    if (remainingDivisions < nextDivisionsInList) {
+      // the suffix is a multiplication factor
+      rational r (
+        divisions,
+        baseDurationDivisions);
+      r.rationalise ();
+
+      if (false && gGeneralOptions->fTraceDivisions) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "r.getNumerator ()      = " << r.getNumerator () <<
+          endl <<
+          "r.getDenominator ()    = " << r.getDenominator () <<
+          endl << endl;
+      }
+      
+      result +=
+        "*" +
+        to_string (r.getNumerator ()) +
+        "/" +
+        to_string (r.getDenominator ());
+    }
+
+    else {
+      dotsNumber = 1; // account for next element in the list
+      
+      while (remainingDivisions > nextDivisionsInList) {
+        dotsNumber++;
+        remainingDivisions -= nextDivisionsInList;
+        nextDivisionsInList /= 2;
+  
+        if (false && gGeneralOptions->fTraceDivisions) {
+          cerr <<
+            "divisions              = " << divisions <<
+            endl <<
+            "baseDurationDivisions  = " << baseDurationDivisions <<
+            endl <<
+            "nextDivisionsInList    = " << nextDivisionsInList <<
+            endl <<
+            "remainingDivisions     = " << remainingDivisions <<
+            endl <<
+            "dotsNumber             = " << dotsNumber <<
+            endl << endl;
+        }
+          
+        if (dotsNumber > 5 )
+          break; // JMI
+      } // while
+  
+      if (false && gGeneralOptions->fTraceDivisions) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "nextDivisionsInList    = " << nextDivisionsInList <<
+          endl <<
+          "remainingDivisions     = " << remainingDivisions <<
+          endl <<
+          "dotsNumber             = " << dotsNumber <<
+          endl << endl;
+      }
+          
+      if (remainingDivisions - nextDivisionsInList == 0) {
+        // the suffix is composed of dots
+      for (int k = 0; k < dotsNumber; k++)
+        result += ".";
+      }
+    }
+  }
+
+  numberOfDotsNeeded = dotsNumber;
+
+  if (false && gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      endl <<
+      "<-- divisionsAsMsrString (): returns " << result <<
+      endl;
+  }
+  
+  return result;
+}
+
+string msrDivisions::divisionsAsMsrString (
+  int  inputLineNumber,
+  int  divisions)
+{
+  int numberOfDots; // to be ignored
+
+  return
+    divisionsAsMsrString (
+      inputLineNumber,
+      divisions,
+      numberOfDots);
+}
+
+string msrDivisions::tupletDivisionsAsMsrString (
+  int inputLineNumber,
+  int divisions,
+  int actualNotes,
+  int normalNotes)
+{
+  return
+    divisionsAsMsrString (
+      inputLineNumber,
+      divisions * actualNotes / normalNotes);
+}
+
+void msrDivisions::testDivisionsAndDurations ()
+{
+  int divisionsPerQuarterNote = 8;
+  cerr <<
+    "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+    endl <<
+    endl;
+    
+  setupDurationsDivisions (divisionsPerQuarterNote);
+
+  int k;
+
+  k = 32;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 16;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 24;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 28;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 20;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  k = 40;
+  cerr <<
+    "divisionsAsMsrString (" << k << ") = " <<
+    divisionsAsMsrString (
+      133, k) <<
+    endl <<
+    endl;
+    
+  exit (0);
+}
+
+void msrDivisions::testTupletSoundingDivisionsAndDurations ()
+{
+  int divisionsPerQuarterNote = 30;
+  cerr <<
+    "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
+    endl <<
+    endl;
+    
+  setupDurationsDivisions (divisionsPerQuarterNote);
+
+  int k, actual, normal;
+
+  k = 12;
+  actual = 5;
+  normal = 4;
+
+  cerr <<
+    "tupletDivisionsAsMsrString (" << k << // JMI
+    ", " << actual <<
+    ", " << normal <<
+    ") = " <<
+    tupletDivisionsAsMsrString (
+      133,
+      k,
+      actual,
+      normal) <<
+    endl <<
+    endl;
+
+  k = 20;
+  actual = 3;
+  normal = 2;
+
+  cerr <<
+    "tupletDivisionsAsMsrString (" << k <<
+    ", " << actual <<
+    ", " << normal <<
+    ") = " <<
+    tupletDivisionsAsMsrString (
+      133,
+      k,
+      actual,
+      normal) <<
+    endl <<
+    endl;
+
+  exit (0);
+}
+
+
+
+
+
+msrDivisions::~msrDivisions() {}
+
+void msrDivisions::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrComment::acceptIn()" <<
+      "% ==> msrDivisions::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrComment>*
+  if (visitor<S_msrDivisions>*
     p =
-      dynamic_cast<visitor<S_msrComment>*> (v)) {
-        S_msrComment elem = this;
+      dynamic_cast<visitor<S_msrDivisions>*> (v)) {
+        S_msrDivisions elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrComment::visitStart()" <<
+            "% ==> Launching msrDivisions::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrComment::acceptOut (basevisitor* v) {
+void msrDivisions::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrComment::acceptOut()" <<
+      "% ==> msrDivisions::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrComment>*
+  if (visitor<S_msrDivisions>*
     p =
-      dynamic_cast<visitor<S_msrComment>*> (v)) {
-        S_msrComment elem = this;
+      dynamic_cast<visitor<S_msrDivisions>*> (v)) {
+        S_msrDivisions elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrComment::visitEnd()" <<
+            "% ==> Launching msrDivisions::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrComment::browseData (basevisitor* v)
+void msrDivisions::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrComment& elt)
+ostream& operator<< (ostream& os, const S_msrDivisions& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrComment::print (ostream& os)
+void msrDivisions::print (ostream& os)
 {
-  os << "Comment" << endl;
+  os <<
+    "Divisions" <<
+    ", " << fdivisionsPerQuarterNote <<
+    " per quarter note" <<
+    endl;
   
   idtr++;
   
@@ -8792,7 +9269,7 @@ void msrComment::print (ostream& os)
     "% " << fContents <<
     endl;
     
-  if (fCommentGapKind == kGapAfterwards)
+  if (fDivisionsGapKind == kGapAfterwards)
     os <<
       endl;
       
