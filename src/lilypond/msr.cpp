@@ -23776,7 +23776,7 @@ void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
 
  // JMI if (gGeneralOptions->fTraceDivisions) {
   //  printDurationsDivisions (cerr);
-  }
+ // }
 }
 
 int msrPart::durationAsDivisions (
