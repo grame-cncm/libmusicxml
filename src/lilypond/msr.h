@@ -5552,12 +5552,16 @@ class EXP msrDivisions : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                divisionsAsString () const;
+
+    // durations
     int                   durationAsDivisions (
                             int         inputLineNumber,
                             msrDuration duration);
 
     void                  printDurationsDivisions (ostream& os);
-    
+
+    // MSR strings
     string                divisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions,
@@ -5573,8 +5577,10 @@ class EXP msrDivisions : public msrElement
                             int actualNotes,
                             int normalNotes);
 
+/* JMI
     void                  testDivisionsAndDurations (); // JMI
     void                  testTupletSoundingDivisionsAndDurations ();
+*/
 
     // visitors
     // ------------------------------------------------------
@@ -5592,6 +5598,7 @@ class EXP msrDivisions : public msrElement
   private:
 
     int                   fDivisionsPerQuarterNote;
+    
     list<pair<msrDuration, int> >
                           fDurationsToDivisions;
 };
@@ -8447,6 +8454,33 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // divisions per quarter note
+    
+    void                  setCurrentPartDivisions (
+                            S_msrDivisions divisions);
+                      
+    S_msrDivisions        getCurrentPartDivisions () const
+                              { return fCurrentPartDivisions; }
+
+    void                  setPartDivisionsPerQuarterNote (
+                            int divisionsPerQuarterNote);
+                      
+    const int             getPartDivisionsPerQuarterNote () const
+                              { return fPartDivisionsPerQuarterNote; }
+
+    // clef, key, time
+    
+    S_msrClef             getPartCurrentClef () const
+                              { return fPartCurrentClef; };
+
+    S_msrKey              getPartCurrentKey  () const
+                              { return fPartCurrentKey; };
+
+    void                  setPartCurrentTime (S_msrTime time)
+                              { fPartCurrentTime = time; };
+
+    S_msrTime             getPartCurrentTime () const
+                              { return fPartCurrentTime; };
 
     // ID and name
     
@@ -8543,28 +8577,6 @@ class EXP msrPart : public msrElement
     S_msrVoice            getPartHarmoniesSupplierVoice () const
                               { return fPartHarmoniesSupplierVoice; }
                   
-    // divisions per quarter note
-    
-    void                  setPartDivisionsPerQuarterNote (
-                            int divisionsPerQuarterNote);
-                      
-    const int             getPartDivisionsPerQuarterNote () const
-                              { return fPartDivisionsPerQuarterNote; }
-
-    // clef, key, time
-    
-    S_msrClef             getPartCurrentClef () const
-                              { return fPartCurrentClef; };
-
-    S_msrKey              getPartCurrentKey  () const
-                              { return fPartCurrentKey; };
-
-    void                  setPartCurrentTime (S_msrTime time)
-                              { fPartCurrentTime = time; };
-
-    S_msrTime             getPartCurrentTime () const
-                              { return fPartCurrentTime; };
-
     // transpose
 
     S_msrTranspose        getPartTranspose () const
@@ -8744,7 +8756,9 @@ class EXP msrPart : public msrElement
 
     // divisions
 
-    int                   fPartDivisionsPerQuarterNote;
+    S_msrDivisions        fCurrentPartDivisions;
+    
+    int                   fPartDivisionsPerQuarterNote; // BOU
     list<pair<msrDuration, int> >
                           fPartDurationsToDivisions;
 

@@ -8728,8 +8728,10 @@ msrDivisions::msrDivisions (
   int divisionsPerQuarterNote)
     : msrElement (inputLineNumber)
 {
-  fdivisionsPerQuarterNote = divisionsPerQuarterNote;
+  // set divisions per quarter note
+  fDivisionsPerQuarterNote = divisionsPerQuarterNote;
 
+  // initialize the divisions
   initializeDivisions ();
 }
 
@@ -8737,13 +8739,12 @@ msrDivisions::msrDivisions (
 // BOU
 
 
-void msrDivisions::initializeDivisions (int divisionPerQuarterNote)
+void msrDivisions::initializeDivisions ()
 {
   if (gGeneralOptions->fTraceDivisions) {
   cerr <<
-    "Setting durations divisions for part \"" <<
-    "\"" << fPartName <<
-    ", divisionPerQuarterNote = " << divisionPerQuarterNote <<
+    "Creating divisions" <<
+    ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
     endl;
   }
   
@@ -8751,7 +8752,8 @@ void msrDivisions::initializeDivisions (int divisionPerQuarterNote)
   fDurationsToDivisions.clear ();
   
   // positive powers of 2 of a quarter note
-  int bigDivisions = divisionPerQuarterNote;
+  int bigDivisions = fDivisionsPerQuarterNote;
+  
   for (int i = kQuarter; i >= kMaxima; i--) {
     /*
     cerr <<
@@ -8767,11 +8769,11 @@ void msrDivisions::initializeDivisions (int divisionPerQuarterNote)
     bigDivisions *= 2;
   } // for
 
-  if (divisionPerQuarterNote > 1) {
+  if (fDivisionsPerQuarterNote > 1) {
     // negative powers of 2 of a quarter note
     int
       smallDivisions =
-        divisionPerQuarterNote / 2;
+        fDivisionsPerQuarterNote / 2;
     msrDuration
       currentDuration =
         kEighth;
@@ -8793,6 +8795,7 @@ void msrDivisions::initializeDivisions (int divisionPerQuarterNote)
     } // while
   }
 
+  // print durations divisions if need be
   if (gGeneralOptions->fTraceDivisions) {
     printDurationsDivisions (cerr);
   }
@@ -9090,6 +9093,7 @@ string msrDivisions::tupletDivisionsAsMsrString (
       divisions * actualNotes / normalNotes);
 }
 
+/*
 void msrDivisions::testDivisionsAndDurations ()
 {
   int divisionsPerQuarterNote = 8;
@@ -9201,7 +9205,7 @@ void msrDivisions::testTupletSoundingDivisionsAndDurations ()
 
   exit (0);
 }
-
+*/
 
 
 
@@ -9255,25 +9259,23 @@ ostream& operator<< (ostream& os, const S_msrDivisions& elt)
   return os;
 }
 
+string msrDivisions::divisionsAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Divisions" <<
+    ", " << fDivisionsPerQuarterNote <<
+    " per quarter note";
+
+  return s.str();
+}
+
 void msrDivisions::print (ostream& os)
 {
   os <<
-    "Divisions" <<
-    ", " << fdivisionsPerQuarterNote <<
-    " per quarter note" <<
+    divisionsAsString () <<
     endl;
-  
-  idtr++;
-  
-  os << idtr <<
-    "% " << fContents <<
-    endl;
-    
-  if (fDivisionsGapKind == kGapAfterwards)
-    os <<
-      endl;
-      
-  idtr--;
 }
 
 //______________________________________________________________________________
@@ -23609,14 +23611,29 @@ S_msrPart msrPart::createPartShallowClone (S_msrPartGroup partGroupClone)
   return clone;
 }
 
+void msrPart::setCurrentPartDivisions (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      "Setting divisions for part \"" <<
+      "\"" << fPartName <<
+      ", divisions = " <<
+      divisions->divisionsAsString () <<
+      endl;
+  }
+  
+  fCurrentPartDivisions = divisions;
+}
+
 void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
 {
   if (gGeneralOptions->fTraceDivisions) {
-  cerr <<
-    "Setting durations divisions for part \"" <<
-    "\"" << fPartName <<
-    ", divisionPerQuarterNote = " << divisionPerQuarterNote <<
-    endl;
+    cerr <<
+      "Setting durations divisions for part \"" <<
+      "\"" << fPartName <<
+      ", divisionPerQuarterNote = " << divisionPerQuarterNote <<
+      endl;
   }
   
   // erase fPartDurationsToDivisions's contents
