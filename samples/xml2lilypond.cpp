@@ -3444,7 +3444,7 @@ int main (int argc, char *argv[])
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    cerr <<  idtr <<
+    cerr << idtr <<
       "Launching conversion of ";
 
     if (gGeneralOptions->fInputSourceName == "-")
@@ -3455,6 +3455,10 @@ int main (int argc, char *argv[])
     cerr <<
       " to LilyPond" <<
       endl;
+
+    cerr << idtr <<
+      "Time is " << gGeneralOptions->fTranslationDate <<
+      endl;      
 
     cerr << idtr <<
       "LilyPond code will be written to ";
