@@ -2761,10 +2761,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     measureKind != msrMeasure::kOverfullMeasureKind) {
     fOstream << idtr <<
       "\\cadenzaOff";
-    }
 
-    if (gLilypondOptions->fComments) {
-      fOstream << " % kOverfullMeasureKind Start";
+    if (gLilypondOptions->fComments)
+      fOstream <<
+        " % kOverfullMeasureKind End";
 
     fOstream<<
       endl;
