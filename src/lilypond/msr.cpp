@@ -8745,6 +8745,7 @@ void msrDivisions::initializeDivisions ()
   cerr <<
     "Creating divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
+    ", line " << fInputLineNumber <<
     endl;
   }
   
@@ -8793,11 +8794,6 @@ void msrDivisions::initializeDivisions ()
       currentDuration = msrDuration (currentDuration + 1);
       smallDivisions /= 2;
     } // while
-  }
-
-  // print durations divisions if need be
-  if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (cerr);
   }
 }
 
@@ -8904,8 +8900,6 @@ string msrDivisions::divisionsAsMsrString (
       endl <<
       "divisions              = " << divisions <<
       endl << endl;
-
-      printDurationsDivisions (cerr);
   }
     
   msrDuration baseDuration          = k1024th;
@@ -8916,6 +8910,7 @@ string msrDivisions::divisionsAsMsrString (
     iBegin = fDurationsToDivisions.begin(),
     iEnd   = fDurationsToDivisions.end(),
     i      = iBegin;
+    
   for ( ; ; ) {
     if (i == iEnd) {
       stringstream s;
@@ -23630,7 +23625,7 @@ void msrPart::appendDivisionsToPart (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceParts) {
-    cerr <<
+    cerr << idtr <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       "' to part \"" <<
@@ -23705,8 +23700,7 @@ void msrSegment::appendDivisionsToSegment (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceSegments)
-    cerr <<
-      idtr <<
+    cerr << idtr <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       " to segment " << segmentAsString () <<
@@ -23780,8 +23774,8 @@ void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
     } // while
   }
 
-  if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (cerr);
+ // JMI if (gGeneralOptions->fTraceDivisions) {
+  //  printDurationsDivisions (cerr);
   }
 }
 
