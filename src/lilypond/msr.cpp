@@ -21983,15 +21983,6 @@ S_msrTime msrStaff::getStaffCurrentTime () const
   return fStaffCurrentTime;
 };
 
-/* JMI TROP TOT
-  // fetch measure time from the part
-  // to set fMeasureDivisionsPerFullMeasure
-  setMeasureDivisionsPerFullMeasureFromTime (
-    fMeasureDirectPartUplink->
-      getPartCurrentTime ());
-*/
-
-
 string msrStaff::getStaffName () const
   {
     return fStaffName;
@@ -22067,48 +22058,6 @@ void msrStaff::createMeasureAndAppendItToStaff (
   } // for
 }
 
-/* JMI
-S_msrVoice msrStaff::addVoiceMasterToStaff (
-  int inputLineNumber)
-{
-  // create the voice
-  S_msrVoice
-    voice =
-      msrVoice::createSilentVoice (
-        inputLineNumber,
-        this);
-
-  // add it to this staff as element '0'
-  fStaffAllVoicesMap [0] = voice;
-  
-  // return the voice
-  return voice;
-}
-*/
-
-/* JMI BOF
-S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
-  int inputLineNumber,
-  int externalVoiceNumber)
-{
-  // create the voice
-  S_msrVoice
-    voice =
-      msrVoice::create (
-        inputLineNumber,
-        fStaffDirectPartUplink,
-        msrVoice::kRegularVoice,
-        externalVoiceNumber,
-        this);
-
-  // register the voice by its relative number
-  fStaffAllVoicesMap [externalVoiceNumber] = voice;
-  
-  // return the voice
-  return voice;
-}
-*/
-
 S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
   int inputLineNumber,
   int externalVoiceNumber)
@@ -22155,6 +22104,26 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
         msrVoice::kRegularVoice,
         externalVoiceNumber,
         this);
+
+  // get the part current time
+  S_msrTime
+    time =
+      fStaffDirectPartUplink->
+        getPartCurrentTime ();
+
+  if (! time) {
+    // create default 4/4 time
+    time =
+      msrTime::createFourQuartersTime (
+        inputLineNumber);
+  }
+      
+  // append the time to this staff
+  appendTimeToStaff (time);
+  
+  // set fMeasureDivisionsPerFullMeasure accordingly
+ // setMeasureDivisionsPerFullMeasureFromTime (
+ //   partCurrentTime);
           
   // register the voice by its relative number
   if (gGeneralOptions->fTraceVoices)
