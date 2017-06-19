@@ -21026,6 +21026,10 @@ void msrVoice::print (ostream& os)
     idtr <<
       setw(fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
+      booleanAsString (fVoiceContainsMultipleRests) <<
       endl;
 
   os << endl;
@@ -22873,7 +22877,8 @@ void msrStaff::print (ostream& os)
 
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
-          os << idtr << voice;
+          os << idtr <<
+            voice;
           break;
 
         case msrVoice::kHarmonyVoice:
@@ -22881,12 +22886,14 @@ void msrStaff::print (ostream& os)
             gMsrOptions->fShowHarmonyVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
-            os << idtr << voice;
+            os << idtr <<
+              voice;
           break;
           
         case msrVoice::kSilentVoice:
           if (gMsrOptions->fShowSilentVoices)
-            os << idtr << voice;
+            os << idtr <<
+              voice;
           break;
       } // switch
 
@@ -22902,12 +22909,14 @@ void msrStaff::print (ostream& os)
             gMsrOptions->fShowHarmonyVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
-            os << endl;
+            os <<
+              endl;
           break;
           
         case msrVoice::kSilentVoice:
           if (gMsrOptions->fShowSilentVoices)
-            os << endl;
+            os <<
+              endl;
           break;
       } // switch
 
