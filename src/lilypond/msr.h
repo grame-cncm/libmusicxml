@@ -8445,7 +8445,8 @@ class EXP msrPart : public msrElement
     string                getPartName () const
                               { return fPartName; }
 
-    void                  setPartAbbreviation (string partAbbreviation)
+    void                  setPartAbbreviation (
+                            string partAbbreviation)
                               { fPartAbbreviation = partAbbreviation; }
                 
     string                getPartAbbreviation () const
@@ -8464,7 +8465,10 @@ class EXP msrPart : public msrElement
                             int measurePosition);
                     
     const int             getPartMeasurePositionHighTide () const
-                              { return fPartMeasurePositionHighTide; }
+                              {
+                                return
+                                  fPartMeasurePositionHighTide;
+                              }
 
     // measures
 
@@ -8485,7 +8489,8 @@ class EXP msrPart : public msrElement
 
     // instrument anme
 
-    void                  setPartInstrumentName (string partInstrumentName)
+    void                  setPartInstrumentName (
+                            string partInstrumentName)
                               { fPartInstrumentName = partInstrumentName; }
                               
     string                getPartInstrumentName () const
