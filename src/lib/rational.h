@@ -24,75 +24,122 @@ using namespace std;
 
 class EXP rational {
 
-  private:    
-   
-    long int fNumerator;
-    long int fDenominator;        
-    
-    // Uued by rationalise()
-    long int gcd(long int a, long int b); 
- 
   public:    
   
-    rational(long int num = 0, long int denom = 1);
-    rational(const rational& d);
-    rational(const string &str);
+    // constructors/destructor
+    // ------------------------------------------------------
+      
+    rational (long int num = 0, long int denom = 1);
+    rational (const rational& d);
+    rational (const string &str);
 
-    long int getNumerator() const     { return fNumerator; }
-    long int getDenominator() const   { return fDenominator; }
-    void setNumerator(long int d)     { fNumerator = d; }
-    void setDenominator(long int d)   { fDenominator = d; }
-    void set(long int n, long int d)  { fNumerator = n; fDenominator = d; }
+    // set and get
+    // ------------------------------------------------------
+                            
+    long int              getNumerator () const
+                              { return fNumerator; }
+                              
+    long int              getDenominator () const
+                              { return fDenominator; }
+                              
+    void                  setNumerator (long int d)
+                              { fNumerator = d; }
+                              
+    void                  setDenominator (long int d)
+                              { fDenominator = d; }
+                              
+    void                  set (long int n, long int d)
+                              { fNumerator = n; fDenominator = d; }
 
-    rational operator +(const rational &dur) const;
-    rational operator -(const rational &dur) const;
-    //! Useful for notes with dots.
-    rational operator *(const rational &dur) const; 
-    rational operator /(const rational &dur) const;
-    // (i.e. dur * 3/2 or dur * 7/4)
+    // arithmetic operators
+    // ------------------------------------------------------
+                            
+    rational              operator + (const rational &rat) const;
+    rational              operator - (const rational &rat) const;
+                            //! Useful for notes with dots.
+    rational              operator * (const rational &rat) const; 
+    rational              operator / (const rational &rat) const;
+                            // (i.e. rat * 3/2 or rat * 7/4)
 
-    rational operator *(int num) const; 
-    rational operator /(int num) const;
+    rational              operator * (int num) const; 
+    rational              operator / (int num) const;
 
-    rational& operator +=(const rational &dur);
-    rational& operator -=(const rational &dur);
-    //! Useful for notes with dots.
-    rational& operator *=(const rational &dur); 
-    rational& operator /=(const rational &dur);
-    // (i.e. dur * 3/2 or dur * 7/4)
+    rational&             operator *= (long int num)
+                              { fNumerator *= num; return *this; }
+    rational&             operator /= (long int num)
+                              { fDenominator *= num; return *this; }
 
-    rational& operator *=(long int num) { fNumerator *= num; return *this; }
-    rational& operator /=(long int num) { fDenominator *= num; return *this; }
+    rational&             operator += (const rational &rat);
+    rational&             operator -= (const rational &rat);
+                            //! Useful for notes with dots.
+    rational&             operator *= (const rational &rat); 
+    rational&             operator /= (const rational &rat);
+                            // (i.e. rat * 3/2 or rat * 7/4)
 
-    rational& operator =(const rational& dur);
+    // copy operator
+    // ------------------------------------------------------
+                            
+    rational&             operator =  (const rational& rat);
 
-    bool operator > (const rational &dur) const;
-    bool operator >=(const rational &dur) const   {return !(*this < dur);}
-    bool operator <(const rational &dur) const;
-    bool operator <=(const rational &dur) const   {return !(*this > dur);}
+    // logical operators
+    // ------------------------------------------------------
+                            
+    bool                  operator >  (const rational &rat) const;
+    bool                  operator >= (const rational &rat) const
+                              { return !(*this < rat); }
+    bool                  operator <  (const rational &rat) const;
+    bool                  operator <= (const rational &rat) const
+                              { return !(*this > rat); }
         
-    bool operator ==(const rational &dur) const;
-    bool operator !=(const rational &dur) const {return !(*this == dur);}
+    bool                  operator == (const rational &rat) const;
+    bool                  operator != (const rational &rat) const
+                              { return !(*this == rat); }
   
-    bool operator > (double num) const;
-    bool operator >=(double num) const;
-    bool operator < (double num) const;
-    bool operator <=(double num) const;    
-    bool operator ==(double) const;
+    bool                  operator >  (double num) const;
+    bool                  operator >= (double num) const;
+    bool                  operator <  (double num) const;
+    bool                  operator <= (double num) const;    
+    bool                  operator == (double) const;
 
-    // used to "rationalise" rational
-    void rationalise();
-   
-    operator string () const;
-    operator double () const;
-    operator float ()  const;
-    operator int ()    const; 
+    // type conversions
+    // ------------------------------------------------------
+
+    operator              string () const;
+    operator              double () const;
+    operator              float ()  const;
+    operator              int ()    const; 
 
     // virtual string toString() const;  Why ?? SL
-    string toString() const;
-    double toDouble() const;
-    float  toFloat()  const;
-    int    toInt()    const;
+    string                toString () const;
+    double                toDouble () const;
+    float                 toFloat ()  const;
+    int                   toInt ()    const;
+
+    // rationalize
+    // ------------------------------------------------------
+
+    void                  rationalise();
+   
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os);
+
+  private:    
+
+    // gcd
+    // ------------------------------------------------------
+    
+    // Used by rationalise ()
+    long int              gcd (long int a, long int b); 
+
+  private:    
+   
+    long int              fNumerator;
+    long int              fDenominator;        
+
 };
+
+EXP ostream& operator<< (ostream& os, rational& rat);
 
 #endif
