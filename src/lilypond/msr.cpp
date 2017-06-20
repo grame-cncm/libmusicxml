@@ -7580,7 +7580,7 @@ void msrNote::print (ostream& os)
         ? 
           fNoteMeasureUplink->
             getMeasureDivisionsPerFullMeasure ()
-        : 0; // JMI
+        : rational (0, 1); // JMI
   
   // print the note itself and its position
   os <<
@@ -7669,7 +7669,7 @@ void msrNote::print (ostream& os)
       fNotePositionInMeasure.getNumerator ()) {
       // print rationalized rational view
       os <<
-        " (" << notePositionBis << ")";
+        " ( = " << notePositionBis << ")";
     }
   }
 
@@ -8204,7 +8204,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 }
 
 void msrChord::setChordFirstNotePositionInMeasure (
-  int position)
+  rational position)
 {
   if (fChordNotes.size ()) {
     fChordNotes.front ()->
@@ -8684,12 +8684,12 @@ void msrChord::print (ostream& os)
     fChordPositionInMeasure.rationalise ();
     
     if (
-      fChordPositionInMeasure.getNumerator ()
+      chordPositionBis.getNumerator ()
         !=
-      fNotePositionInMeasure.getNumerator ()) {
+      fChordPositionInMeasure.getNumerator ()) {
       // print rationalized rational view
       os <<
-        " (" << chordPositionBis << ")";
+        " ( = " << chordPositionBis << ")";
 
   if (fChordIsFirstChordInADoubleTremolo)
     os <<
