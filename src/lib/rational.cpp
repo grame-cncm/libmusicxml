@@ -286,7 +286,7 @@ rational::operator int () const
 }
 
 //______________________________________________________________________________
-ostream& operator<< (ostream& os, rational& rat)
+ostream& operator<< (ostream& os, const rational& rat)
 {
   rat.print (os);
   return os;

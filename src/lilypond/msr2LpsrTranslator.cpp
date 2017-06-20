@@ -522,10 +522,12 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
     elt->createPartShallowClone (
       fPartGroupsStack.top ());
 
+/* JMI
   // setup it durations to divisions data
   fCurrentPartClone->
     setupDurationsDivisions (
       elt->getPartDivisionsPerQuarterNote ());
+  */
     
   // add it to the partGroup clone
   if (gGeneralOptions->fTraceParts)

@@ -3884,23 +3884,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
         2,
         elt->getDoubleTremoloMarksNumber () + 2));
 
-//  if (false && gGeneralOptions->fTraceTremolos) { // JMI
-  if (gGeneralOptions->fTraceTremolos) { // JMI
+  if (gGeneralOptions->fTraceTremolos) {
     fOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
-      tab << "% partDivisionsPerQuarterNote = " <<
-      partDivisionsPerQuarterNote <<
-      endl <<
       tab << "% doubleTremoloSoundingDivisions = " <<
-      elt->getDoubleTremoloNumberOfRepeats () <<
-      endl <<
+        elt->getDoubleTremoloNumberOfRepeats () <<
+        endl <<
       tab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
-      fCurrentDoubleTremoloElementsLpsrDuration <<
-      endl <<
-      tab << "% divisionsPerDoubleTremoloElement = " <<
-      divisionsPerDoubleTremoloElement <<
-      endl <<
+        fCurrentDoubleTremoloElementsLpsrDuration <<
+        endl <<
       tab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;
   }

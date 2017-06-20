@@ -140,6 +140,6 @@ class EXP rational {
 
 };
 
-EXP ostream& operator<< (ostream& os, rational& rat);
+EXP ostream& operator<< (ostream& os, const rational& rat);
 
 #endif

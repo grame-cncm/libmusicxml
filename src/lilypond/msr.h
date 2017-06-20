@@ -1728,13 +1728,17 @@ class EXP msrDoubleTremolo : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // double tremolo kind
+    
     void                  setDoubleTremoloKind (
                             msrDoubleTremoloKind doubleTremoloKind)
                               { fDoubleTremoloKind = doubleTremoloKind; }
 
     msrDoubleTremoloKind  getDoubleTremoloKind () const
                               { return fDoubleTremoloKind; }
-        
+
+    // double tremolo placement
+    
     void                  setDoubleTremoloPlacementKind (
                             msrDoubleTremoloPlacementKind
                               DoubleTremoloPlacementKind)
@@ -1743,31 +1747,51 @@ class EXP msrDoubleTremolo : public msrElement
                                   DoubleTremoloPlacementKind;
                               }
         
-    int                   getDoubleTremoloMarksNumber () const
-                              { return fDoubleTremoloMarksNumber; }
-                
-    int                   getDoubleTremoloNumberOfRepeats () const;
-                
     msrDoubleTremoloPlacementKind
                           getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
         
+    // double tremolo marks number
+
+    int                   getDoubleTremoloMarksNumber () const
+                              { return fDoubleTremoloMarksNumber; }
+                
+    // double tremolo number of repeats
+
+    void                  setDoubleTremoloNumberOfRepeats (
+                            int doubleTremoloNumberOfRepeats)
+                              {
+                                fDoubleTremoloNumberOfRepeats =
+                                  doubleTremoloNumberOfRepeats;
+                              }
+                              
+    int                   getDoubleTremoloNumberOfRepeats () const
+                              {
+                                return
+                                  fDoubleTremoloNumberOfRepeats;
+                              }
+                
+
+    // double tremolo placement
+
     void                  setDoubleTremoloNoteFirstElement (S_msrNote note);
     void                  setDoubleTremoloChordFirstElement (S_msrChord chord);
+
+    // double tremolo first element
 
     S_msrElement          getDoubleTremoloFirstElement () const
                               { return fDoubleTremoloFirstElement; }
         
+    // double tremolo second element
+
     void                  setDoubleTremoloNoteSecondElement (S_msrNote note);
     void                  setDoubleTremoloChordSecondElement (S_msrChord chord);
 
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
         
-    S_msrVoice            getDoubleTremoloVoiceUplink () const
-                            { return fDoubleTremoloVoiceUplink; }
-
     // harmony
+    
     void                  setDoubleTremoloHarmony (S_msrHarmony harmony)
                               { fDoubleTremoloHarmony = harmony; }
                       
@@ -1775,21 +1799,15 @@ class EXP msrDoubleTremolo : public msrElement
                               { return fDoubleTremoloHarmony; };
                       
      // divisions
+     
     void                  setDoubleTremoloSoundingDivisions (int divisions)
                               { fDoubleTremoloSoundingDivisions = divisions; }
             
     int                   getDoubleTremoloSoundingDivisions () const
                               { return fDoubleTremoloSoundingDivisions; }
             
-    // measure uplink
-    void                  setDoubleTremoloMeasureUplink (
-                            const S_msrMeasure& measure)
-                              { fDoubleTremoloMeasureUplink = measure; }
-                      
-    S_msrMeasure          getDoubleTremoloMeasureUplink () const
-                            { return fDoubleTremoloMeasureUplink; }
-
     // measure number
+    
     void                  setDoubleTremoloMeasureNumber (
                             string measureNumber)
                               { fDoubleTremoloMeasureNumber = measureNumber; }
@@ -1798,6 +1816,7 @@ class EXP msrDoubleTremolo : public msrElement
                               { return fDoubleTremoloMeasureNumber; }
  
     // position in measure
+    
     void                  setDoubleTremoloPositionInMeasure (
                             rational position)
                               {
@@ -1808,6 +1827,18 @@ class EXP msrDoubleTremolo : public msrElement
     rational              getDoubleTremoloPositionInMeasure () const
                               { return fDoubleTremoloPositionInMeasure; }
 
+    // uplinks
+
+    void                  setDoubleTremoloMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fDoubleTremoloMeasureUplink = measure; }
+                      
+    S_msrMeasure          getDoubleTremoloMeasureUplink () const
+                            { return fDoubleTremoloMeasureUplink; }
+
+    S_msrVoice            getDoubleTremoloVoiceUplink () const
+                            { return fDoubleTremoloVoiceUplink; }
+
     // services
     // ------------------------------------------------------
 
@@ -1817,6 +1848,8 @@ class EXP msrDoubleTremolo : public msrElement
     
     string                doubleTremoloAsString () const;
 
+    // tremolo first note
+    
     void                  setDoubleTremoloFirstNotePositionInMeasure (
                             rational position);
                     
@@ -1845,6 +1878,7 @@ class EXP msrDoubleTremolo : public msrElement
     msrDoubleTremoloKind  fDoubleTremoloKind; // JMI ???
     
     int                   fDoubleTremoloMarksNumber;
+    
     int                   fDoubleTremoloNumberOfRepeats;
 
     msrDoubleTremoloPlacementKind
@@ -4194,7 +4228,7 @@ class EXP msrNote : public msrElement
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
                               
-    rational              getNoteSoundingDivisions () const
+    rational&              getNoteSoundingDivisions () //constJMI
                               { return fNoteSoundingDivisions; }
 
     // note display
@@ -6731,7 +6765,7 @@ class EXP msrBarline : public msrElement
                                   positionInMeasure;
                               }
                       
-    rational              getBarlinePositionInMeasure () const
+    const rational&       getBarlinePositionInMeasure ()
                               { return fBarlinePositionInMeasure; }
 
     // services
@@ -6754,23 +6788,25 @@ class EXP msrBarline : public msrElement
 
   private:
 
-    bool                        fBarlineHasSegno;
-    bool                        fBarlineHasCoda;
+    bool                  fBarlineHasSegno;
+    bool                  fBarlineHasCoda;
 
-    msrBarlineLocation          fLocation;
-    msrBarlineStyle             fStyle;
-    msrBarlineEndingType        fEndingType;
-    string                      fEndingNumber; // may be "1, 2"
-    msrBarlineRepeatDirection   fRepeatDirection;
-    msrBarlineRepeatWinged      fRepeatWinged;
+    msrBarlineLocation    fLocation;
+    msrBarlineStyle       fStyle;
+    msrBarlineEndingType  fEndingType;
+    string                fEndingNumber; // may be "1, 2"
+    msrBarlineRepeatDirection
+                          fRepeatDirection;
+    msrBarlineRepeatWinged
+                          fRepeatWinged;
 
-    msrBarlineCategory          fBarlineCategory;
+    msrBarlineCategory    fBarlineCategory;
 
-    int                         fBarlineMeasureNumber;
-    rational                    fBarlinePositionInMeasure;
+    int                   fBarlineMeasureNumber;
+    rational              fBarlinePositionInMeasure;
 
     // the numbers extracted from fEndingNumber
-    list<int>                   fEndingNumbersList;
+    list<int>             fEndingNumbersList;
 };
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);

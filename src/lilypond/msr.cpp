@@ -4185,19 +4185,19 @@ msrDoubleTremolo::msrDoubleTremolo (
   fDoubleTremoloSoundingDivisions =
     rational (-1, 1); // will be set later
 
-  fDoubleTremoloNumberOfRepeats =
-    7; // JMI  // will be set later
+  fDoubleTremoloNumberOfRepeats = -1; // will be set later
 }
 
+/* JMI
 int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
-  { return fDoubleTremoloNumberOfRepeats; }
-
+{
+  // fDoubleTremoloNumberOfRepeats ??? JMI
+  
   // fetch the current part's number of divisions per quarter element
   int partDivisionsPerQuarterNote =
-    elt->
-      getDoubleTremoloVoiceUplink ()->
-        getVoiceDirectPartUplink ()->
-          getPartDivisionsPerQuarterNote ();
+    fDoubleTremoloVoiceUplink->
+      getVoiceDirectPartUplink ()->
+        getPartDivisionsPerQuarterNote ();
 
   // fetch the number of divisions per double tremolo element
   rational
@@ -4239,6 +4239,7 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
 
   return numberOfRepeats;
 }
+* */
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
   S_msrVoice voiceClone)

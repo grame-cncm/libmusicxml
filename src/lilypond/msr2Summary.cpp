@@ -259,11 +259,6 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "PartDivisionsPerQuarterNote" << " : " <<
-      elt->getPartDivisionsPerQuarterNote () <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
       "PartInstrumentName" << " : \"" <<
       elt->getPartInstrumentName () << "\"" <<
       endl <<
