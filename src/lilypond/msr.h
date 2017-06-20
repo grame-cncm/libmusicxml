@@ -4085,10 +4085,14 @@ class EXP msrNote : public msrElement
       msrNoteKind          noteKind,
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
-      int                  noteSoundingDivisions,
-      int                  noteDisplayedDivisions,
+      
+      rational             noteSoundingDivisions,
+      rational             noteDisplayedDivisions,
+      
       int                  noteDotsNumber,
+      
       msrDuration          noteGraphicDuration,
+      
       int                  noteOctave,
       
       msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
@@ -4107,7 +4111,7 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
-      int       divisions,
+      rational  divisions,
       int       dotsNumber,
       int       staffNumber,
       int       externalVoiceNumber);
@@ -4124,10 +4128,14 @@ class EXP msrNote : public msrElement
       msrNoteKind          noteKind,
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
-      int                  noteSoundingDivisions,
-      int                  noteDisplayedDivisions,
+      
+      rational             noteSoundingDivisions,
+      rational             noteDisplayedDivisions,
+      
       int                  noteDotsNumber,
+      
       msrDuration          noteGraphicDuration,
+      
       int                  noteOctave,
 
       msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
@@ -4168,7 +4176,7 @@ class EXP msrNote : public msrElement
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
                               
-    int                   getNoteSoundingDivisions () const
+    rational              getNoteSoundingDivisions () const
                               { return fNoteSoundingDivisions; }
 
     // note display
@@ -4176,10 +4184,11 @@ class EXP msrNote : public msrElement
     msrQuarterTonesPitch  getNoteQuarterTonesDisplayPitch () const
                               { return fNoteQuarterTonesDisplayPitch; }
                               
-    void                  setNoteDisplayedDivisions (int divisions)
+    void                  setNoteDisplayedDivisions (
+                            rational divisions)
                               { fNoteDisplayedDivisions = divisions; }
 
-    int                   getNoteDisplayedDivisions () const
+    rational              getNoteDisplayedDivisions () const
                               { return fNoteDisplayedDivisions; }
 
     // dots
@@ -4508,8 +4517,8 @@ class EXP msrNote : public msrElement
 
   private:
 
-    // divisions handling is done at the part level
-    S_msrPart                 fNoteDirectPartUplink;
+    // divisions handling is done at the part level // JMI
+    S_msrPart             fNoteDirectPartUplink;
     
     // basic note description
     // ------------------------------------------------------
@@ -4517,9 +4526,12 @@ class EXP msrNote : public msrElement
     msrNoteKind           fNoteKind;
 
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
-    int                   fNoteSoundingDivisions;
-    int                   fNoteDisplayedDivisions;
+    
+    rational              fNoteSoundingDivisions;
+    rational              fNoteDisplayedDivisions;
+    
     int                   fNoteDotsNumber;
+    
     msrDuration           fNoteGraphicDuration;
     
     int                   fNoteOctave;
@@ -4674,8 +4686,8 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
-      int         chordSoundingDivisions,
-      int         chordDisplayedDivisions,
+      rational    chordSoundingDivisions,
+      rational    chordDisplayedDivisions,
       msrDuration chordGraphicDuration);
 
     // creation from MusicXML
@@ -4692,8 +4704,8 @@ class EXP msrChord : public msrElement
     msrChord (
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
-      int         chordSoundingDivisions,
-      int         chordDisplayedDivisions,
+      rational    chordSoundingDivisions,
+      rational    chordDisplayedDivisions,
       msrDuration chordGraphicDuration);
       
     virtual ~msrChord();
@@ -4704,14 +4716,16 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
                               
      // divisions
-    void                  setChordSoundingDivisions (int divisions);
+    void                  setChordSoundingDivisions (
+                            rational divisions);
             
-    int                   getChordSoundingDivisions () const
+    rational              getChordSoundingDivisions () const
                               { return fChordSoundingDivisions; }
                         
-    void                  setChordDisplayedDivisions (int divisions);
+    void                  setChordDisplayedDivisions (
+                            rational divisions);
             
-    int                   getChordDisplayedDivisions () const
+    rational              getChordDisplayedDivisions () const
                               { return fChordDisplayedDivisions; }
                         
     string                chordSoundingDivisionsAsMsrString () const;
@@ -4917,70 +4931,72 @@ class EXP msrChord : public msrElement
   private:
 
     // divisions handling is done at the part level
-    S_msrPart                 fChordDirectPartUplink;
+    S_msrPart             fChordDirectPartUplink;
 
     // sounding divisions
-    int                       fChordSoundingDivisions;
+    rational              fChordSoundingDivisions;
     // displayed divisions
-    int                       fChordDisplayedDivisions;
+    rational              fChordDisplayedDivisions;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
-    msrDuration               fChordGraphicDuration;
+    msrDuration           fChordGraphicDuration;
     
-    vector<S_msrNote>         fChordNotes;
+    vector<S_msrNote>     fChordNotes;
 
     // position in measure
-    S_msrMeasure              fChordMeasureUplink;
+    S_msrMeasure          fChordMeasureUplink;
 
-    string                    fChordMeasureNumber;
-    int                       fChordPositionInMeasure;
+    string                fChordMeasureNumber;
+    int                   fChordPositionInMeasure;
 
     // articulations
-    list<S_msrArticulation>   fChordArticulations;
+    list<S_msrArticulation>
+                          fChordArticulations;
 
     // single tremolo
-    S_msrSingleTremolo        fChordSingleTremolo;
+    S_msrSingleTremolo    fChordSingleTremolo;
     
     // double tremolo
-    bool                      fChordIsFirstChordInADoubleTremolo;
+    bool                  fChordIsFirstChordInADoubleTremolo;
     bool                      fChordIsSecondChordInADoubleTremolo;
 
     // technicals
-    list<S_msrTechnical>      fChordTechnicals;
+    list<S_msrTechnical>  fChordTechnicals;
     
     list<S_msrTechnicalWithInteger>
-                              fChordTechnicalWithIntegers;
+                          fChordTechnicalWithIntegers;
     
     list<S_msrTechnicalWithString>
-                              fChordTechnicalWithStrings;
+                          fChordTechnicalWithStrings;
     
     // ornaments
-    list<S_msrOrnament>       fChordOrnaments;
+    list<S_msrOrnament>   fChordOrnaments;
 
     // single tremolo
-    S_msrSingleTremolo        fNoteSingleTremolo;
+    S_msrSingleTremolo    fNoteSingleTremolo;
     
     // ties
-    S_msrTie                  fChordTie;
+    S_msrTie              fChordTie;
     
     // dynamics
-    list<S_msrDynamics>       fChordDynamics;
-    list<S_msrOtherDynamics>  fChordOtherDynamics;
+    list<S_msrDynamics>   fChordDynamics;
+    list<S_msrOtherDynamics>
+                          fChordOtherDynamics;
 
-    list<S_msrWedge>          fChordWedges;
+    list<S_msrWedge>      fChordWedges;
     
     // words
-    list<S_msrWords>          fChordWords;
+    list<S_msrWords>      fChordWords;
     
     // slurs
-    list<S_msrSlur>           fChordSlurs;
+    list<S_msrSlur>       fChordSlurs;
 
     // ligatures
-    list<S_msrLigature>       fChordLigatures;
+    list<S_msrLigature>   fChordLigatures;
 
     // harmony
-    S_msrHarmony              fChordHarmony;
+    S_msrHarmony          fChordHarmony;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
@@ -8485,11 +8501,13 @@ class EXP msrPart : public msrElement
     S_msrDivisions        getCurrentPartDivisions () const
                               { return fCurrentPartDivisions; }
 
+/* JMI
     void                  setPartDivisionsPerQuarterNote (
                             int divisionsPerQuarterNote);
                       
     const int             getPartDivisionsPerQuarterNote () const
                               { return fPartDivisionsPerQuarterNote; }
+*/
 
     // clef, key, time
     

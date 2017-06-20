@@ -4134,7 +4134,8 @@ string msrSingleTremolo::singleTremoloAsString () const
   if (fSingleTremoloNoteUplink) // it may not yet be set
     s <<
       ", note uplink" << " = " <<
-      fSingleTremoloNoteUplink->noteAsShortStringWithRawDivisions ();
+      fSingleTremoloNoteUplink->
+        noteAsShortStringWithRawDivisions ();
 
   return s.str();
 }
@@ -4181,7 +4182,8 @@ msrDoubleTremolo::msrDoubleTremolo (
   
   fDoubleTremoloVoiceUplink = voiceUplink;
 
-  fDoubleTremoloSoundingDivisions = -1; // will be set later
+  fDoubleTremoloSoundingDivisions =
+    rational (-1, 1); // will be set later
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
@@ -4231,8 +4233,10 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
     setNoteIsFirstNoteInADoubleTremolo ();
 
   // fetch note displayed divisions
-  int noteDisplayedDivisions =
-    note->getNoteDisplayedDivisions ();
+  rational
+    noteDisplayedDivisions =
+      note->
+        getNoteDisplayedDivisions ();
 
   // set double tremolo displayed divisions to the note's displayed divisions
   if (fDoubleTremoloSoundingDivisions > 0) {
@@ -4262,7 +4266,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   }
   
   else {
-    fDoubleTremoloSoundingDivisions = noteDisplayedDivisions;
+    fDoubleTremoloSoundingDivisions =
+      noteDisplayedDivisions;
   }
 }
 
@@ -4284,8 +4289,10 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
     setChordIsFirstChordInADoubleTremolo ();
 
   // fetch chord displayed divisions
-  int chordDisplayedDivisions =
-    chord->getChordDisplayedDivisions ();
+  rational
+    chordDisplayedDivisions =
+      chord->
+        getChordDisplayedDivisions ();
     
   // set double tremolo divisions to the chords's displayed divisions
   if (fDoubleTremoloSoundingDivisions > 0) {
@@ -4315,7 +4322,8 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
   }
   
   else {
-    fDoubleTremoloSoundingDivisions = chordDisplayedDivisions;
+    fDoubleTremoloSoundingDivisions =
+      chordDisplayedDivisions;
   }
 }
 
@@ -4337,8 +4345,10 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
     setNoteIsSecondNoteInADoubleTremolo ();
 
   // fetch note displayed divisions
-  int noteDisplayedDivisions =
-    note->getNoteDisplayedDivisions ();
+  rational
+    noteDisplayedDivisions =
+      note->
+        getNoteDisplayedDivisions ();
 
   // set double tremolo divisions to the note's displayed divisions
   if (fDoubleTremoloSoundingDivisions > 0) {
@@ -4368,7 +4378,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
   }
   
   else {
-    fDoubleTremoloSoundingDivisions = noteDisplayedDivisions;
+    fDoubleTremoloSoundingDivisions =
+      noteDisplayedDivisions;
   }
 }
 
@@ -4390,8 +4401,10 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     setChordIsSecondChordInADoubleTremolo ();
 
   // fetch chord displayed divisions
-  int chordDisplayedDivisions =
-    chord->getChordDisplayedDivisions ();
+  rational
+    chordDisplayedDivisions =
+      chord->
+        getChordDisplayedDivisions ();
     
   // set double tremolo divisions to the chords's displayed divisions
   if (fDoubleTremoloSoundingDivisions > 0) {
@@ -4421,7 +4434,8 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
   }
   
   else {
-    fDoubleTremoloSoundingDivisions = chordDisplayedDivisions;
+    fDoubleTremoloSoundingDivisions =
+      chordDisplayedDivisions;
   }
 }
 
@@ -4563,7 +4577,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     switch (fDoubleTremoloKind) {
       case msrDoubleTremolo::kNotesDoubleTremolo:
         if (
-          S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
+          S_msrNote
+            note =
+              dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
           ) {    
           note->noteAsShortString ();
         }
@@ -4576,7 +4592,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         
       case msrDoubleTremolo::kChordsDoubleTremolo:
         if (
-          S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
+          S_msrChord
+            chord =
+              dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
           ) {
           chord->chordAsString ();
         }
@@ -4595,7 +4613,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     switch (fDoubleTremoloKind) {
       case msrDoubleTremolo::kNotesDoubleTremolo:
         if (
-          S_msrNote note = dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
+          S_msrNote
+            note =
+              dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
           ) {    
           note->noteAsShortString ();
         }
@@ -4608,7 +4628,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         
       case msrDoubleTremolo::kChordsDoubleTremolo:
         if (
-          S_msrChord chord = dynamic_cast<msrChord*>(&(*fDoubleTremoloSecondElement))
+          S_msrChord
+            chord =
+              dynamic_cast<msrChord*>(&(*fDoubleTremoloSecondElement))
           ) {
           chord->chordAsString ();
         }
@@ -5532,12 +5554,12 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
     S_msrNote
       skip =
         msrNote::createSkipNote (
-          note->getInputLineNumber (),
-          voiceClone->getVoiceDirectPartUplink (),
-          note->getNoteSoundingDivisions (),
-          note->getNoteDotsNumber (),
-          voiceClone->getStaffRelativeVoiceNumber (), // JMI
-          voiceClone->getExternalVoiceNumber ());
+          note->       getInputLineNumber (),
+          voiceClone-> getVoiceDirectPartUplink (),
+          note->       getNoteSoundingDivisions (),
+          note->       getNoteDotsNumber (),
+          voiceClone-> getStaffRelativeVoiceNumber (), // JMI
+          voiceClone-> getExternalVoiceNumber ());
 
      clone->
       appendNoteToGraceNotes (skip);
@@ -5889,10 +5911,14 @@ S_msrNote msrNote::create (
   msrNoteKind          noteKind,
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
-  int                  noteSoundingDivisions,
-  int                  noteDisplayedDivisions,
+  
+  rational             noteSoundingDivisions,
+  rational             noteDisplayedDivisions,
+  
   int                  noteDotsNumber,
+  
   msrDuration          noteGraphicDuration,
+  
   int                  noteOctave,
 
   msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
@@ -5911,10 +5937,14 @@ S_msrNote msrNote::create (
       noteKind,
       
       noteQuarterTonesPitch,
+      
       noteSoundingDivisions,
       noteDisplayedDivisions,
+      
       noteDotsNumber,
+      
       noteGraphicDuration,
+      
       noteOctave,
 
       noteQuarterTonesDisplayPitch,
@@ -5932,7 +5962,7 @@ S_msrNote msrNote::create (
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   S_msrPart noteDirectPartUplink,
-  int       divisions,
+  rational  divisions,
   int       dotsNumber,
   int       staffNumber,
   int       externalVoiceNumber)
@@ -5945,10 +5975,14 @@ S_msrNote msrNote::createSkipNote (
       kSkipNote, // noteKind
       
       k_NoQuarterTonesPitch, // noteQuarterTonesPitch
+      
       divisions, // noteSoundingDivisions
       divisions, // noteDisplayedDivisions
+      
       dotsNumber,
+      
       k_NoDuration, // noteGraphicDuration
+      
       K_NO_OCTAVE, // noteOctave,
       
       k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
@@ -5970,10 +6004,14 @@ msrNote::msrNote (
   msrNoteKind          noteKind,
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
-  int                  noteSoundingDivisions,
-  int                  noteDisplayedDivisions,
+  
+  rational             noteSoundingDivisions,
+  rational             noteDisplayedDivisions,
+  
   int                  noteDotsNumber,
+  
   msrDuration          noteGraphicDuration,
+  
   int                  noteOctave,
 
   msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
@@ -5996,15 +6034,19 @@ msrNote::msrNote (
   // basic note description
   fNoteKind = noteKind;
 
-  fNoteQuarterTonesPitch   = noteQuarterTonesPitch;
+  fNoteQuarterTonesPitch  = noteQuarterTonesPitch;
+  
   fNoteSoundingDivisions  = noteSoundingDivisions;
   fNoteDisplayedDivisions = noteDisplayedDivisions;
+  
   fNoteDotsNumber         = noteDotsNumber;
+  
   fNoteGraphicDuration    = noteGraphicDuration;
+  
   fNoteOctave             = noteOctave;
 
   fNoteQuarterTonesDisplayPitch = noteQuarterTonesDisplayPitch;
-  fNoteDisplayOctave           = noteDisplayOctave;
+  fNoteDisplayOctave            = noteDisplayOctave;
 
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
@@ -6224,10 +6266,14 @@ S_msrNote msrNote::createNoteShallowClone (
         fNoteKind,
         
         fNoteQuarterTonesPitch,
+        
         fNoteSoundingDivisions,
         fNoteDisplayedDivisions,
+        
         fNoteDotsNumber,
+        
         fNoteGraphicDuration,
+        
         fNoteOctave,
         
         fNoteQuarterTonesDisplayPitch,
@@ -6430,7 +6476,8 @@ void msrNote::setNoteBelongsToAChord ()
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "Setting note '" << noteAsShortStringWithRawDivisions () <<
+      "Setting note '" <<
+      noteAsShortStringWithRawDivisions () <<
       "' to belong to a chord"
       ", line " << fInputLineNumber <<
       endl;
@@ -6446,7 +6493,8 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
     cerr << idtr <<
       "Applying tuplet display factor '" <<
       actualNotes << "/" << normalNotes <<
-      "' to note '" << noteAsShortStringWithRawDivisions () <<
+      "' to note '" <<
+      noteAsShortStringWithRawDivisions () <<
       "', line " << fInputLineNumber <<
       endl;
 
@@ -7471,12 +7519,13 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 
 void msrNote::print (ostream& os)
 {
-  int divisionsPerFullMeasure =
-    fNoteMeasureUplink
-      ? 
-        fNoteMeasureUplink->
-          getMeasureDivisionsPerFullMeasure ()
-      : 0; // JMI
+  rational
+    divisionsPerFullMeasure =
+      fNoteMeasureUplink
+        ? 
+          fNoteMeasureUplink->
+            getMeasureDivisionsPerFullMeasure ()
+        : 0; // JMI
   
   // print the note itself and its position
   os <<
@@ -7916,8 +7965,8 @@ void msrNote::print (ostream& os)
 S_msrChord msrChord::create (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
-  int         chordSoundingDivisions,
-  int         chordDisplayedDivisions,
+  rational    chordSoundingDivisions,
+  rational    chordDisplayedDivisions,
   msrDuration chordGraphicDuration)
 {
   if (gGeneralOptions->fTraceChords) {
@@ -7945,8 +7994,8 @@ S_msrChord msrChord::create (
 msrChord::msrChord (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
-  int         chordSoundingDivisions,
-  int         chordDisplayedDivisions,
+  rational    chordSoundingDivisions,
+  rational    chordDisplayedDivisions,
   msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
@@ -8011,7 +8060,8 @@ S_msrChord msrChord::createChordShallowClone (
   return clone;
 }
 
-void msrChord::setChordSoundingDivisions (int divisions)
+void msrChord::setChordSoundingDivisions (
+  rational divisions)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
@@ -8025,7 +8075,8 @@ void msrChord::setChordSoundingDivisions (int divisions)
   fChordSoundingDivisions = divisions;
 }
 
-void msrChord::setChordDisplayedDivisions (int divisions)
+void msrChord::setChordDisplayedDivisions (
+  rational divisions)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
@@ -8545,12 +8596,13 @@ string msrChord::chordAsString () const
 
 void msrChord::print (ostream& os)
 {
-  int divisionsPerFullMeasure =
-    fChordMeasureUplink
-      ? 
-        fChordMeasureUplink->
-          getMeasureDivisionsPerFullMeasure ()
-      : 0; // JMI
+  rational
+    divisionsPerFullMeasure =
+      fChordMeasureUplink
+        ? 
+          fChordMeasureUplink->
+            getMeasureDivisionsPerFullMeasure ()
+        : rational (0, 1); // JMI
     
   os <<
     "Chord:" <<
@@ -9202,9 +9254,6 @@ void msrDivisions::testTupletSoundingDivisionsAndDurations ()
 }
 */
 
-
-
-
 msrDivisions::~msrDivisions() {}
 
 void msrDivisions::acceptIn (basevisitor* v) {
@@ -9570,8 +9619,8 @@ msrTuplet::msrTuplet (
   fTupletActualNotes = actualNotes;
   fTupletNormalNotes = normalNotes;
   
-  fTupletSoundingDivisions  = 0;
-  fTupletDisplayedDivisions = 0;
+  fTupletSoundingDivisions  = rational (0, 1);
+  fTupletDisplayedDivisions = rational (0, 1);
 
   fTupletPositionInMeasure = notePositionInMeasure;
 }
@@ -12448,7 +12497,7 @@ S_msrSyllable msrSyllable::create (
   msrSyllableKind       syllableKind,
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
-  int                   divisions,
+  rational              syllableDivisions,
   S_msrStanza           syllableStanzaUplink)
 {
   msrSyllable* o =
@@ -12469,7 +12518,7 @@ msrSyllable::msrSyllable (
   msrSyllableKind       syllableKind,
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
-  int                   divisions,
+  rational              syllableDivisions,
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
@@ -12483,7 +12532,7 @@ msrSyllable::msrSyllable (
     
   fSyllableKind = syllableKind;
   fSyllableText = syllableText;
-  fSyllableDivisions  = divisions;
+  fSyllableDivisions  = syllableDivisions;
 
   fSyllableExtendKind = syllableExtendKind;
   
@@ -13064,8 +13113,8 @@ void msrStanza::appendSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendRestSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13094,8 +13143,8 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendSkipSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13125,8 +13174,8 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendTiedSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13154,8 +13203,8 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendSlurSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13182,8 +13231,8 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13210,8 +13259,8 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13238,8 +13287,8 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
-  int inputLineNumber,
-  int divisions)
+  int      inputLineNumber,
+  rational divisions)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13487,7 +13536,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-  int                  harmonySoundingDivisions)
+  rational             harmonySoundingDivisions)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -13509,7 +13558,7 @@ msrHarmony::msrHarmony (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-  int                  harmonySoundingDivisions)
+  rational             harmonySoundingDivisions)
     : msrElement (inputLineNumber)
 {
   // set harmony's direct part uplink
@@ -14796,7 +14845,8 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureDivisionsPerFullMeasure = INT_MAX; // JMI
+    fMeasureDivisionsPerFullMeasure =
+      rational (INT_MAX, 1); // JMI
   }
   
   else {
@@ -14939,7 +14989,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   note->setNotePositionInMeasure (noteMeasurePosition);
   
   // fetch note sounding divisions
-  int noteSoundingDivisions =
+  rational noteSoundingDivisions =
     note->getNoteSoundingDivisions ();
 
   // account for note duration in measure position
@@ -15080,7 +15130,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     note->setNotePositionInMeasure (noteMeasurePosition);
     
     // fetch note divisions
-    int noteSoundingDivisions =
+    rational noteSoundingDivisions =
       note->getNoteSoundingDivisions ();
 
     // account for note duration in measure position
@@ -15212,7 +15262,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
       fMeasurePosition);
 
   // fetch doubleTremolo divisions
-  int doubleTremoloSoundingDivisions =
+  rational doubleTremoloSoundingDivisions =
     doubleTremolo->getDoubleTremoloSoundingDivisions ();
     
   // account for doubleTremolo duration in measure position
@@ -15429,7 +15479,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
       fMeasurePosition);
 
   // fetch chord divisions
-  int chordSoundingDivisions =
+  rational chordSoundingDivisions =
     chord->getChordSoundingDivisions ();
     
   // account for chord duration in measure position
@@ -15495,8 +15545,8 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     setTupletFirstNotePositionInMeasure (fMeasurePosition);
  */
   
-  // fetch tuplet divisions
-  int tupletSoundingDivisions =
+  // fetch tuplet sousnding divisions
+  rational tupletSoundingDivisions =
     tuplet->getTupletSoundingDivisions ();
     
   // account for tuplet duration in measure position
@@ -15576,8 +15626,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       */
 
       
-  // fetch harmony divisions
-  int harmonySoundingDivisions =
+  // fetch harmony sounding divisions
+  rational harmonySoundingDivisions =
     harmony->getHarmonySoundingDivisions ();
     
 //* JMI FOO
@@ -15633,7 +15683,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       endl;
       
   // fetch harmony divisions
-  int harmonySoundingDivisions =
+  rational harmonySoundingDivisions =
     harmony->getHarmonySoundingDivisions ();
     
   // account for harmony duration in measure position
@@ -19935,7 +19985,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     appendNoteToSegment (note);
   
   // add a skip syllable of the same duration to the master stanza
-  int
+  rational
     noteSoundingDivisions =
       note->getNoteSoundingDivisions ();
 
@@ -20012,7 +20062,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     appendNoteToSegmentClone (note);
   
   // add a skip syllable of the same duration to the master stanza
-  int
+  rational
     noteSoundingDivisions =
       note->getNoteSoundingDivisions ();
 
@@ -23549,7 +23599,7 @@ void msrPart::initializePart ()
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
 
-  fPartDivisionsPerQuarterNote = -417; // JMI
+  fPartDivisionsPerQuarterNote = rational (-417, 1); // JMI
   
   setPartMeasurePositionHighTide (
     fInputLineNumber, 1);
