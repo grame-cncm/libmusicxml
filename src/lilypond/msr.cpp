@@ -4184,6 +4184,12 @@ msrDoubleTremolo::msrDoubleTremolo (
 
   fDoubleTremoloSoundingDivisions =
     rational (-1, 1); // will be set later
+
+  fDoubleTremoloNumberOfRepeats =
+    7; // JMI
+
+    /*
+     */
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (

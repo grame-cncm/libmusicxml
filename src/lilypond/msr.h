@@ -1746,6 +1746,9 @@ class EXP msrDoubleTremolo : public msrElement
     int                   getDoubleTremoloMarksNumber () const
                               { return fDoubleTremoloMarksNumber; }
                 
+    int                   getDoubleTremoloNumberOfRepeats () const
+                              { return fDoubleTremoloNumberOfRepeats; }
+                
     msrDoubleTremoloPlacementKind
                           getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
@@ -1836,32 +1839,36 @@ class EXP msrDoubleTremolo : public msrElement
 
   private:
 
-    // divisions handling is done at the part level
-    S_msrPart                     fDoubleTremoloDirectPartUplink;
-
     // sounding divisions
     // the same as the displayed divisions of both members
-    int                           fDoubleTremoloSoundingDivisions;
+    rational              fDoubleTremoloSoundingDivisions;
 
-    msrDoubleTremoloKind          fDoubleTremoloKind; // JMI ???
+    msrDoubleTremoloKind  fDoubleTremoloKind; // JMI ???
     
-    int                           fDoubleTremoloMarksNumber;
+    int                   fDoubleTremoloMarksNumber;
+    int                   fDoubleTremoloNumberOfRepeats;
 
-    msrDoubleTremoloPlacementKind fDoubleTremoloPlacementKind;
+    msrDoubleTremoloPlacementKind
+                          fDoubleTremoloPlacementKind;
 
     // the two elements of a double tremole are notes or chords
-    S_msrElement                  fDoubleTremoloFirstElement;
-    S_msrElement                  fDoubleTremoloSecondElement;
+    S_msrElement          fDoubleTremoloFirstElement;
+    S_msrElement          fDoubleTremoloSecondElement;
 
-    S_msrMeasure                  fDoubleTremoloMeasureUplink;
 
-    string                        fDoubleTremoloMeasureNumber;
-    rational                      fDoubleTremoloPositionInMeasure;
+    string                fDoubleTremoloMeasureNumber;
+    rational              fDoubleTremoloPositionInMeasure;
     
-    S_msrHarmony                  fDoubleTremoloHarmony;
+    S_msrHarmony          fDoubleTremoloHarmony;
 
-    S_msrVoice                    fDoubleTremoloVoiceUplink;
+    // uplinks
+    
+    S_msrVoice            fDoubleTremoloVoiceUplink;
 
+    S_msrMeasure          fDoubleTremoloMeasureUplink;
+
+    // divisions handling is done at the part level
+    S_msrPart             fDoubleTremoloDirectPartUplink;
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);

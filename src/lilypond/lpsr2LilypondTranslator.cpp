@@ -3872,7 +3872,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       "% --> Start visiting msrDoubleTremolo" <<
       endl;
 
-  // fetch double tremolo divisions
+  // fetch double tremolo sounding divisions
   int doubleTremoloSoundingDivisions =
     elt->
       getDoubleTremoloSoundingDivisions ();
@@ -3893,12 +3893,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
           getPartDivisionsPerQuarterNote ();
 
   // fetch the number of divisions per double tremolo element
-  int divisionsPerDoubleTremoloElement =
-    partDivisionsPerQuarterNote
-      *
-    4 // quarter note
-      /
-    fCurrentDoubleTremoloElementsLpsrDuration;
+  rational
+    divisionsPerDoubleTremoloElement =
+      partDivisionsPerQuarterNote
+        *
+      4 // quarter note
+        /
+      fCurrentDoubleTremoloElementsLpsrDuration;
 
   if (divisionsPerDoubleTremoloElement <= 0) {
     stringstream s;
