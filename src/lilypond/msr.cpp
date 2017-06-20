@@ -8690,6 +8690,7 @@ void msrChord::print (ostream& os)
       // print rationalized rational view
       os <<
         " ( = " << chordPositionBis << ")";
+    }
 
   if (fChordIsFirstChordInADoubleTremolo)
     os <<
@@ -9099,7 +9100,7 @@ string msrDivisions::divisionsAsMsrString (
       }
       
       result +=
-        "*" + r.asString ();
+        "*" + r.toString ();
     }
 
     else {
@@ -9639,11 +9640,11 @@ void msrBarNumberCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  int inputLineNumber,
-  int number,
-  int actualNotes,
-  int normalNotes,
-  int notePositionInMeasure)
+  int      inputLineNumber,
+  int      number,
+  int      actualNotes,
+  int      normalNotes,
+  rational notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
@@ -9654,11 +9655,11 @@ S_msrTuplet msrTuplet::create (
 }
 
 msrTuplet::msrTuplet (
-  int inputLineNumber,
-  int number,
-  int actualNotes,
-  int normalNotes,
-  int notePositionInMeasure)
+  int      inputLineNumber,
+  int      number,
+  int      actualNotes,
+  int      normalNotes,
+  rational notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
   fTupletNumber = number;

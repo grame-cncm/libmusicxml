@@ -5913,10 +5913,10 @@ class EXP msrTuplet : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTuplet> create (
-      int inputLineNumber,
-      int number,
-      int actualNotes,
-      int normalNotes,
+      int      inputLineNumber,
+      int      number,
+      int      actualNotes,
+      int      normalNotes,
       rational notePositionInMeasure); // JMI
 
     SMARTP<msrTuplet> createTupletShallowClone ();
@@ -5927,10 +5927,10 @@ class EXP msrTuplet : public msrElement
     // ------------------------------------------------------
 
     msrTuplet (
-      int inputLineNumber,
-      int number,
-      int actualNotes,
-      int normalNotes,
+      int      inputLineNumber,
+      int      number,
+      int      actualNotes,
+      int      normalNotes,
       rational notePositionInMeasure);
       
     virtual ~msrTuplet();
@@ -5952,9 +5952,9 @@ class EXP msrTuplet : public msrElement
                           getTupletElements () const
                               { return fTupletElements; }
 
-    int                   getTupletSoundingDivisions () const
+    rational              getTupletSoundingDivisions () const
                               { return fTupletSoundingDivisions; }
-    int                   getTupletDisplayedDivisions () const
+    rational              getTupletDisplayedDivisions () const
                               { return fTupletDisplayedDivisions; }
             
     // measure uplink
