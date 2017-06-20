@@ -4186,10 +4186,58 @@ msrDoubleTremolo::msrDoubleTremolo (
     rational (-1, 1); // will be set later
 
   fDoubleTremoloNumberOfRepeats =
-    7; // JMI
+    7; // JMI  // will be set later
+}
 
-    /*
-     */
+int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
+  { return fDoubleTremoloNumberOfRepeats; }
+
+  // fetch the current part's number of divisions per quarter element
+  int partDivisionsPerQuarterNote =
+    elt->
+      getDoubleTremoloVoiceUplink ()->
+        getVoiceDirectPartUplink ()->
+          getPartDivisionsPerQuarterNote ();
+
+  // fetch the number of divisions per double tremolo element
+  rational
+    divisionsPerDoubleTremoloElement =
+      partDivisionsPerQuarterNote
+        *
+      4 // quarter note
+        /
+      fCurrentDoubleTremoloElementsLpsrDuration;
+
+  if (divisionsPerDoubleTremoloElement <= 0) {
+    stringstream s;
+
+    s <<
+      "divisionsPerDoubleTremoloElement = " <<
+      divisionsPerDoubleTremoloElement <<
+      " while it should be positive" <<
+      endl <<
+      tab << "partDivisionsPerQuarterNote = " << 
+      partDivisionsPerQuarterNote <<
+      endl <<
+      tab << "doubleTremoloSoundingDivisions = " <<
+      fDoubleTremoloSoundingDivisions <<
+      endl <<
+      tab << "fCurrentDoubleTremoloElementsLpsrDuration = " <<
+      fCurrentDoubleTremoloElementsLpsrDuration;
+    
+    msrInternalError (
+      elt->getInputLineNumber (),
+      s.str());
+  }
+    
+  // the number of repeats is the quotient of the number of sounding divisions
+  // by the duration of the elements
+  int numberOfRepeats =
+    fDoubleTremoloSoundingDivisions
+      /
+    (2 * divisionsPerDoubleTremoloElement); // to account for both elements
+
+  return numberOfRepeats;
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (

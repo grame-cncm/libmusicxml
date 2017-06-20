@@ -1746,8 +1746,7 @@ class EXP msrDoubleTremolo : public msrElement
     int                   getDoubleTremoloMarksNumber () const
                               { return fDoubleTremoloMarksNumber; }
                 
-    int                   getDoubleTremoloNumberOfRepeats () const
-                              { return fDoubleTremoloNumberOfRepeats; }
+    int                   getDoubleTremoloNumberOfRepeats () const;
                 
     msrDoubleTremoloPlacementKind
                           getDoubleTremoloPlacementKind () const

@@ -3872,11 +3872,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       "% --> Start visiting msrDoubleTremolo" <<
       endl;
 
-  // fetch double tremolo sounding divisions
-  int doubleTremoloSoundingDivisions =
-    elt->
-      getDoubleTremoloSoundingDivisions ();
-
+  // get double tremolo number of repeats
+  int numberOfRepeats =
+    elt->getDoubleTremoloNumberOfRepeats ();
+    
   // the marks number determines the duration of the two elements:
   // '8' for 1, '16' for 2, etc
   fCurrentDoubleTremoloElementsLpsrDuration =
@@ -3884,51 +3883,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       pow (
         2,
         elt->getDoubleTremoloMarksNumber () + 2));
-
-  // fetch the current part's number of divisions per quarter element
-  int partDivisionsPerQuarterNote =
-    elt->
-      getDoubleTremoloVoiceUplink ()->
-        getVoiceDirectPartUplink ()->
-          getPartDivisionsPerQuarterNote ();
-
-  // fetch the number of divisions per double tremolo element
-  rational
-    divisionsPerDoubleTremoloElement =
-      partDivisionsPerQuarterNote
-        *
-      4 // quarter note
-        /
-      fCurrentDoubleTremoloElementsLpsrDuration;
-
-  if (divisionsPerDoubleTremoloElement <= 0) {
-    stringstream s;
-
-    s <<
-      "divisionsPerDoubleTremoloElement = " <<
-      divisionsPerDoubleTremoloElement <<
-      " while it should be positive" <<
-      endl <<
-      tab << "partDivisionsPerQuarterNote = " << 
-      partDivisionsPerQuarterNote <<
-      endl <<
-      tab << "doubleTremoloSoundingDivisions = " <<
-      doubleTremoloSoundingDivisions <<
-      endl <<
-      tab << "fCurrentDoubleTremoloElementsLpsrDuration = " <<
-      fCurrentDoubleTremoloElementsLpsrDuration;
-    
-    msrInternalError (
-      elt->getInputLineNumber (),
-      s.str());
-  }
-    
-  // the number of repeats is the quotient of the number of sounding divisions
-  // by the duration of the elements
-  int numberOfRepeats =
-    doubleTremoloSoundingDivisions
-      /
-    (2 * divisionsPerDoubleTremoloElement); // to account for both elements
 
 //  if (false && gGeneralOptions->fTraceTremolos) { // JMI
   if (gGeneralOptions->fTraceTremolos) { // JMI
@@ -3939,7 +3893,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       partDivisionsPerQuarterNote <<
       endl <<
       tab << "% doubleTremoloSoundingDivisions = " <<
-      doubleTremoloSoundingDivisions <<
+      elt->getDoubleTremoloNumberOfRepeats () <<
       endl <<
       tab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
       fCurrentDoubleTremoloElementsLpsrDuration <<
