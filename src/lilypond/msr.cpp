@@ -7600,23 +7600,22 @@ void msrNote::print (ostream& os)
       "/" <<
       divisionsPerFullMeasure;
 
-  // print simplified position in measure if relevant
+  // print rationalized position in measure if relevant
   if (fNoteMeasureUplink) {
     // the note measure uplink may not have been set yet
     rational
-      notePosition (
-        fNotePositionInMeasure,
-        divisionsPerFullMeasure); // JMI
-    notePosition.rationalise ();
+      notePositionBis =
+        fNotePositionInMeasure;
+    notePositionBis.rationalise ();
     
-    if (notePosition.getNumerator () != fNotePositionInMeasure)
-      // print simplified rational view
+    if (
+      notePositionBis.getNumerator ()
+        !=
+      fNotePositionInMeasure.getNumerator ()) {
+      // print rationalized rational view
       os <<
-        " (" <<
-        notePosition.getNumerator () <<
-        "/" <<
-        notePosition.getDenominator() <<
-        ")";
+        " (" << notePositionBis << ")";
+    }
   }
 
   // note redundant information (for speed)
@@ -8625,20 +8624,17 @@ void msrChord::print (ostream& os)
 // JMI  if (fChordMeasureUplink) {
     // the chord measure uplink may not have been set yet
     rational
-      chordPosition (
-        fChordPositionInMeasure,
-        divisionsPerFullMeasure); // JMI
-    chordPosition.rationalise ();
+      chordPositionBis =
+        fChordPositionInMeasure;
+    fChordPositionInMeasure.rationalise ();
     
-    if (chordPosition.getNumerator () != fChordPositionInMeasure)
-      // print simplified rational view
+    if (
+      fChordPositionInMeasure.getNumerator ()
+        !=
+      fNotePositionInMeasure.getNumerator ()) {
+      // print rationalized rational view
       os <<
-        " (" <<
-        chordPosition.getNumerator () <<
-        "/" <<
-        chordPosition.getDenominator() <<
-        ")";
- // JMI }
+        " (" << chordPositionBis << ")";
 
   if (fChordIsFirstChordInADoubleTremolo)
     os <<
@@ -9036,23 +9032,19 @@ string msrDivisions::divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (false && gGeneralOptions->fTraceDivisions) {
+      if (false && gGeneralOptions->fTraceDivisions) { // JMI
         cerr <<
           "divisions              = " << divisions <<
           endl <<
           "baseDurationDivisions  = " << baseDurationDivisions <<
           endl <<
-          "r.getNumerator ()      = " << r.getNumerator () <<
+          "r      = " << r <<
           endl <<
-          "r.getDenominator ()    = " << r.getDenominator () <<
           endl << endl;
       }
       
       result +=
-        "*" +
-        to_string (r.getNumerator ()) +
-        "/" +
-        to_string (r.getDenominator ());
+        "*" + r.asString ();
     }
 
     else {
@@ -9900,12 +9892,13 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
   } // for
 }
 
-int msrTuplet::setTupletPositionInMeasure (int position)
+rational msrTuplet::setTupletPositionInMeasure (
+  rational position)
   // returns the position after the tuplet
 {
   fTupletPositionInMeasure = position;
 
-  int currentPosition = position;
+  rational currentPosition = position;
   
   // compute position in measure for the tuplets elements
   for (
@@ -14846,7 +14839,7 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
       kSenzaMisuraMeasureKind);
     
     fMeasureDivisionsPerFullMeasure =
-      rational (INT_MAX, 1); // JMI
+      rational (INT_MAX, 1);
   }
   
   else {
@@ -14865,9 +14858,7 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
       cerr <<
         idtr <<
           "There are " <<
-          wholeNotesPerMeasure.getNumerator () <<
-          "/" <<
-          wholeNotesPerMeasure.getDenominator () <<
+          wholeNotesPerMeasure <<
           " whole note(s) per measure in time:" <<
           endl;
 
@@ -14887,11 +14878,9 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
     }
     
     fMeasureDivisionsPerFullMeasure =
-      wholeNotesPerMeasure.getNumerator ()
+      wholeNotesPerMeasure
         *
-      partDivisionsPerQuarterNote * 4 // hence a whole note
-        /
-      wholeNotesPerMeasure.getDenominator ();
+      partDivisionsPerQuarterNote * 4; // hence a whole note JMI
     
   
     if (gGeneralOptions->fTraceMeasures)
@@ -14903,10 +14892,8 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
             getVoiceName () <<
         "\"" <<
         " has " <<
-        singularOrPlural (
-          fMeasureDivisionsPerFullMeasure,
-          "divisions per full measure",
-          "division per full measure") <<
+        fMeasureDivisionsPerFullMeasure <<
+          "division per full measure" <<
         endl;
   }
 }
@@ -16214,7 +16201,7 @@ bool msrMeasure::checkForOverfullMeasure (
 */
 
 void msrMeasure::finalizeMeasure (
-  int     inputLineNumber)
+  int inputLineNumber)
 {
   // fetch the voice
   S_msrVoice
@@ -16455,7 +16442,7 @@ string msrMeasure::getMeasureLengthAsString () const
   string result;
   string errorMessage;
 
-  int
+  rational
     measureLength =
       this->getMeasureLength (); 
   
@@ -23656,6 +23643,7 @@ S_msrPart msrPart::createPartShallowClone (S_msrPartGroup partGroupClone)
   return clone;
 }
 
+/*
 void msrPart::setCurrentPartDivisions (
   S_msrDivisions divisions)
 {
@@ -23767,6 +23755,7 @@ void msrMeasure::appendDivisionsToMeasure (
   // append it to the measure elements list
   fMeasureElementsList.push_back (divisions);
 }
+*/
 
 void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
 {
@@ -24023,17 +24012,12 @@ string msrPart::divisionsAsMsrString (
           endl <<
           "baseDurationDivisions  = " << baseDurationDivisions <<
           endl <<
-          "r.getNumerator ()      = " << r.getNumerator () <<
-          endl <<
-          "r.getDenominator ()    = " << r.getDenominator () <<
+          "r      = " << r <<
           endl << endl;
       }
       
       result +=
-        "*" +
-        to_string (r.getNumerator ()) +
-        "/" +
-        to_string (r.getDenominator ());
+        "*" + r.asString ();
     }
 
     else {

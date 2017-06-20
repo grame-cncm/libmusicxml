@@ -1796,10 +1796,14 @@ class EXP msrDoubleTremolo : public msrElement
                               { return fDoubleTremoloMeasureNumber; }
  
     // position in measure
-    void                  setDoubleTremoloPositionInMeasure (int position)
-                              { fDoubleTremoloPositionInMeasure = position; }
+    void                  setDoubleTremoloPositionInMeasure (
+                            rational position)
+                              {
+                                fDoubleTremoloPositionInMeasure =
+                                  position;
+                              }
 
-    const int             getDoubleTremoloPositionInMeasure () const
+    rational              getDoubleTremoloPositionInMeasure () const
                               { return fDoubleTremoloPositionInMeasure; }
 
     // services
@@ -1812,7 +1816,7 @@ class EXP msrDoubleTremolo : public msrElement
     string                doubleTremoloAsString () const;
 
     void                  setDoubleTremoloFirstNotePositionInMeasure (
-                            int position);
+                            rational position);
                     
     void                  setDoubleTremoloFirstNoteMeasureNumber (
                             string measureNumber);
@@ -1852,7 +1856,7 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrMeasure                  fDoubleTremoloMeasureUplink;
 
     string                        fDoubleTremoloMeasureNumber;
-    int                           fDoubleTremoloPositionInMeasure;
+    rational                      fDoubleTremoloPositionInMeasure;
     
     S_msrHarmony                  fDoubleTremoloHarmony;
 
@@ -2929,12 +2933,15 @@ class EXP msrMeasure : public msrElement
 
     // divisions
     
-    int                   getMeasureDivisionsPerFullMeasure () const
-                              { return fMeasureDivisionsPerFullMeasure; }
+    rational              getMeasureDivisionsPerFullMeasure () const
+                              {
+                                return
+                                  fMeasureDivisionsPerFullMeasure;
+                              }
 
     void                  setMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
+                            int      inputLineNumber,
+                            rational measurePosition);
 
     int                   getMeasurePosition () const
                               { return fMeasurePosition; }
@@ -3001,9 +3008,14 @@ class EXP msrMeasure : public msrElement
 
     // measure length
     
-    int                   getMeasureLength () const
+    rational              getMeasureLength () const
                             // divisions, positions start at 1
-                              { return fMeasurePosition - 1; }
+                              {
+                                return
+                                  fMeasurePosition
+                                    -
+                                  rational (1, 1);
+                              }
                       
     string                getMeasureLengthAsString () const;
 
@@ -3182,8 +3194,8 @@ class EXP msrMeasure : public msrElement
 
     // divisions
     
-    int                   fMeasureDivisionsPerFullMeasure;
-    int                   fMeasurePosition; // in divisions
+    rational              fMeasureDivisionsPerFullMeasure;
+    rational              fMeasurePosition;
 
     // measure number
     
@@ -3833,7 +3845,7 @@ class EXP msrSyllable : public msrElement
       msrSyllableKind       syllableKind,
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
-      int                   divisions,
+      rational              syllableDivisions,
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableShallowClone (S_msrPart partClone);
@@ -3849,7 +3861,7 @@ class EXP msrSyllable : public msrElement
       msrSyllableKind       syllableKind,
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
-      int                   divisions,
+      rational              syllableDivisions,
       S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable();
@@ -3911,7 +3923,7 @@ class EXP msrSyllable : public msrElement
     string                fSyllableText;
     msrSyllableExtendKind fSyllableExtendKind;
     
-    int                   fSyllableDivisions;
+    rational              fSyllableDivisions;
     
     S_msrStanza           fSyllableStanzaUplink;
 
@@ -4371,13 +4383,13 @@ class EXP msrNote : public msrElement
  
     // position in measure
     void                  setNotePositionInMeasure (
-                            int positionInMeasure)
+                            rational positionInMeasure)
                               {
                                 fNotePositionInMeasure =
                                   positionInMeasure;
                               }
                       
-    int                   getNotePositionInMeasure () const
+    rational              getNotePositionInMeasure () const
                               { return fNotePositionInMeasure; }
 
     void                  setNoteOccupiesAFullMeasure ()
@@ -4650,8 +4662,10 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     string                fNoteMeasureNumber;
-    int                   fNotePositionInMeasure;
+    rational              fNotePositionInMeasure;
+    
     bool                  fNoteOccupiesAFullMeasure;
+    
     S_msrMeasure          fNoteMeasureUplink;
 
     // note redundant information (for speed)
@@ -4843,10 +4857,14 @@ class EXP msrChord : public msrElement
                               { return fChordMeasureNumber; }
  
     // position in measure
-    void                  setChordPositionInMeasure (int position)
-                              { fChordPositionInMeasure = position; }
+    void                  setChordPositionInMeasure (
+                            rational position)
+                              {
+                                fChordPositionInMeasure =
+                                  position;
+                              }
 
-    const int             getChordPositionInMeasure () const
+    rational              getChordPositionInMeasure () const
                               { return fChordPositionInMeasure; }
                          
     // services
@@ -4906,7 +4924,7 @@ class EXP msrChord : public msrElement
 
     // position in measure
     void                  setChordFirstNotePositionInMeasure (
-                            int position);
+                            rational position);
                     
     void                  setChordFirstNoteMeasureNumber (
                             string measureNumber);
@@ -4948,7 +4966,7 @@ class EXP msrChord : public msrElement
     S_msrMeasure          fChordMeasureUplink;
 
     string                fChordMeasureNumber;
-    int                   fChordPositionInMeasure;
+    rational              fChordPositionInMeasure;
 
     // articulations
     list<S_msrArticulation>
@@ -5859,7 +5877,7 @@ class EXP msrTuplet : public msrElement
       int number,
       int actualNotes,
       int normalNotes,
-      int notePositionInMeasure);
+      rational notePositionInMeasure); // JMI
 
     SMARTP<msrTuplet> createTupletShallowClone ();
 
@@ -5873,7 +5891,7 @@ class EXP msrTuplet : public msrElement
       int number,
       int actualNotes,
       int normalNotes,
-      int notePositionInMeasure);
+      rational notePositionInMeasure);
       
     virtual ~msrTuplet();
   
@@ -5914,10 +5932,11 @@ class EXP msrTuplet : public msrElement
                               { return fTupletMeasureNumber; }
  
     // position in measure
-    int                   setTupletPositionInMeasure (int position);
+    rational              setTupletPositionInMeasure (
+                            rational position);
                             // returns the position after the tuplet
 
-    const int             getTupletPositionInMeasure () const
+    rational              getTupletPositionInMeasure () const
                               { return fTupletPositionInMeasure; }
                       
     // services
@@ -5968,7 +5987,7 @@ class EXP msrTuplet : public msrElement
     S_msrMeasure          fTupletMeasureUplink;
 
     string                fTupletMeasureNumber;
-    int                   fTupletPositionInMeasure;
+    rational              fTupletPositionInMeasure;
     
     list<S_msrElement>    fTupletElements;
 };
@@ -6213,40 +6232,40 @@ class EXP msrStanza : public msrElement
                             S_msrSyllable syllable);
       
     S_msrSyllable         appendRestSyllableToStanza (
-                            int inputLineNumber,
-                            int divisions);
+                            int      inputLineNumber,
+                            rational divisions);
 
     S_msrSyllable         appendSkipSyllableToStanza (
-                            int inputLineNumber,
-                            int divisions);
+                            int      inputLineNumber,
+                            rational divisions);
 
-    S_msrSyllable         appendTiedSyllableToStanza ( // JMI
-                            int inputLineNumber,
-                            int divisions);
+    S_msrSyllable         appendTiedSyllableToStanza (
+                            int      inputLineNumber,
+                            rational divisions);
 
-    S_msrSyllable         appendSlurSyllableToStanza ( // JMI
-                            int inputLineNumber,
-                            int divisions);
+    S_msrSyllable         appendSlurSyllableToStanza (
+                            int      inputLineNumber,
+                            rational divisions);
 
-    S_msrSyllable         appendSlurBeyondEndSyllableToStanza ( // JMI
-                            int inputLineNumber,
-                            int divisions);
+    S_msrSyllable         appendSlurBeyondEndSyllableToStanza (
+                            int      inputLineNumber,
+                            rational divisions);
 
-    S_msrSyllable         appendLigatureSyllableToStanza ( // JMI
-                            int inputLineNumber,
-                            int divisions);
+    S_msrSyllable         appendLigatureSyllableToStanza (
+                            int      inputLineNumber,
+                            rational divisions);
 
-    S_msrSyllable         appendLigatureBeyondEndSyllableToStanza ( // JMI
-                            int inputLineNumber,
-                            int divisions);
+    S_msrSyllable         appendLigatureBeyondEndSyllableToStanza (
+                            int      inputLineNumber,
+                            rational divisions);
 
     S_msrSyllable         appendBarNumberCheckSyllableToStanza (
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
     S_msrSyllable         appendBarcheckSyllableToStanza (
-                            int inputLineNumber,
-                            int divisions);
+                            int      inputLineNumber,
+                            rational divisions);
 
     S_msrSyllable         appendBreakSyllableToStanza (
                             int    inputLineNumber,
@@ -6689,18 +6708,24 @@ class EXP msrBarline : public msrElement
     
     // measure number
     void                  setBarlineMeasureNumber (
-                            int positionInMeasure) // JMI virer???
-                              { fBarlineMeasureNumber= positionInMeasure; }
+                            rational positionInMeasure) // JMI virer???
+                              {
+                                fBarlineMeasureNumber =
+                                  positionInMeasure;
+                              }
                       
     int                   getBarlineMeasureNumber() const
                               { return fBarlineMeasureNumber; }
 
     // position in measure
     void                  setBarlinePositionInMeasure (
-                            int positionInMeasure)
-                              { fBarlinePositionInMeasure = positionInMeasure; }
+                            rational positionInMeasure)
+                              {
+                                fBarlinePositionInMeasure =
+                                  positionInMeasure;
+                              }
                       
-    int                   getBarlinePositionInMeasure () const
+    rational              getBarlinePositionInMeasure () const
                               { return fBarlinePositionInMeasure; }
 
     // services
@@ -6736,7 +6761,7 @@ class EXP msrBarline : public msrElement
     msrBarlineCategory          fBarlineCategory;
 
     int                         fBarlineMeasureNumber;
-    int                         fBarlinePositionInMeasure;
+    rational                    fBarlinePositionInMeasure;
 
     // the numbers extracted from fEndingNumber
     list<int>                   fEndingNumbersList;
@@ -8493,6 +8518,7 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
+/* JMI
     // divisions per quarter note
     
     void                  setCurrentPartDivisions (
@@ -8501,7 +8527,6 @@ class EXP msrPart : public msrElement
     S_msrDivisions        getCurrentPartDivisions () const
                               { return fCurrentPartDivisions; }
 
-/* JMI
     void                  setPartDivisionsPerQuarterNote (
                             int divisionsPerQuarterNote);
                       
@@ -8554,14 +8579,14 @@ class EXP msrPart : public msrElement
     // divisions
     
     void                  setPartMeasurePositionHighTide (
-                            int inputLineNumber,
-                            int measurePosition);
+                            int      inputLineNumber,
+                            rational measurePosition);
                       
     void                  updatePartMeasurePositionHighTide (
-                            int inputLineNumber,
-                            int measurePosition);
+                            int      inputLineNumber,
+                            rational measurePosition);
                     
-    const int             getPartMeasurePositionHighTide () const
+    rational              getPartMeasurePositionHighTide () const
                               {
                                 return
                                   fPartMeasurePositionHighTide;
@@ -8800,18 +8825,21 @@ class EXP msrPart : public msrElement
 
   private:
 
+/* JMI
     // divisions
 
-    S_msrDivisions        fCurrentPartDivisions;
+ // JMI   S_msrDivisions        fCurrentPartDivisions;
     
     int                   fPartDivisionsPerQuarterNote; // BOU
     list<pair<msrDuration, int> >
                           fPartDurationsToDivisions;
+*/
 
     // measures
 
-    int                   fPartMeasurePositionHighTide;
     string                fPartCurrentMeasureNumber;
+
+    rational              fPartMeasurePositionHighTide;
 
     // part ID and name
     
