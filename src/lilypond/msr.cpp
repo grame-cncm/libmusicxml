@@ -15116,9 +15116,10 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     
     note->setNotePositionInMeasure (noteMeasurePosition);
     
-    // fetch note divisions
-    rational noteSoundingDivisions =
-      note->getNoteSoundingDivisions ();
+    // fetch note sounding divisions
+    rational
+      noteSoundingDivisions =
+        note->getNoteSoundingDivisions ();
 
     // account for note duration in measure position
     setMeasurePosition (
@@ -15248,9 +15249,10 @@ void msrMeasure::appendDoubleTremoloToMeasure (
     setDoubleTremoloPositionInMeasure (
       fMeasurePosition);
 
-  // fetch doubleTremolo divisions
-  rational doubleTremoloSoundingDivisions =
-    doubleTremolo->getDoubleTremoloSoundingDivisions ();
+  // fetch doubleTremolo sounding divisions
+  rational
+    doubleTremoloSoundingDivisions =
+      doubleTremolo->getDoubleTremoloSoundingDivisions ();
     
   // account for doubleTremolo duration in measure position
   setMeasurePosition (
@@ -15320,7 +15322,7 @@ void msrMeasure::appendMeasureRepeatToMeasure (
     setmeasureRepeatPositionInMeasure (
       fMeasurePosition);
 
-  // fetch measureRepeat divisions
+  // fetch measureRepeat sounding divisions
   int measureRepeatSoundingDivisions =
     measureRepeat->getmeasureRepeatSoundingDivisions ();
     
@@ -15395,7 +15397,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     setMultipleRestPositionInMeasure (
       fMeasurePosition);
 
-  // fetch multipleRest divisions
+  // fetch multipleRest sounding divisions
   int multipleRestSoundingDivisions =
     multipleRest->getmultipleRestSoundingDivisions ();
     
@@ -15465,7 +15467,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     setChordFirstNotePositionInMeasure (
       fMeasurePosition);
 
-  // fetch chord divisions
+  // fetch chord sounding divisions
   rational chordSoundingDivisions =
     chord->getChordSoundingDivisions ();
     
@@ -15669,7 +15671,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       ", fMeasurePosition = " << fMeasurePosition <<
       endl;
       
-  // fetch harmony divisions
+  // fetch harmony sounding divisions
   rational harmonySoundingDivisions =
     harmony->getHarmonySoundingDivisions ();
     
