@@ -603,16 +603,16 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::noteSoundingDivisionsAsLilypondString (
+string lpsr2LilypondTranslator::noteSoundingQuarterNotesAsLilypondString (
   S_msrNote note)
 {
   string
-    noteSoundingDivisionsAsMsrString =
-      note->noteSoundingDivisionsAsMsrString ();
+    noteSoundingQuarterNotesAsMsrString =
+      note->noteSoundingQuarterNotesAsMsrString ();
 
   string
     lilypondDivisionsAsString =
-      noteSoundingDivisionsAsMsrString;
+      noteSoundingQuarterNotesAsMsrString;
 
   if (! isdigit (lilypondDivisionsAsString [0])) {
     if      (lilypondDivisionsAsString == "Breve")
@@ -636,7 +636,7 @@ string lpsr2LilypondTranslator::technicalAsLilypondString (
   string
     noteDuration =
       (*i)->getTechnicalNoteUplink ()->
-        noteSoundingDivisionsAsMsrString ();
+        noteSoundingQuarterNotesAsMsrString ();
   */
 
   switch (technical->getTechnicalKind ()) {
@@ -765,7 +765,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
   string
     noteUplinkDuration =
       ornament->getOrnamentNoteUplink ()->
-        noteSoundingDivisionsAsMsrString ();
+        noteSoundingQuarterNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
@@ -900,7 +900,7 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   */
   
   int durationToUse =
-    singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingDivisions;
+    singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingQuarterNotes;
         
   if (singleTremoloNoteDuration >= kEighth)
     durationToUse +=
@@ -932,7 +932,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     harmony->getHarmonyDirectPartUplink ()->
       divisionsAsMsrString (
         inputLineNumber,
-        harmony->getHarmonySoundingDivisions ());
+        harmony->getHarmonySoundingQuarterNotes ());
     
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::kMajor:
@@ -3888,7 +3888,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     fOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
-      tab << "% doubleTremoloSoundingDivisions = " <<
+      tab << "% doubleTremoloSoundingQuarterNotes = " <<
         elt->getDoubleTremoloNumberOfRepeats () <<
         endl <<
       tab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
@@ -4356,7 +4356,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       // print the note duration
       fOstream <<
         lilypondizeDurationString (
-          note->noteSoundingDivisionsAsMsrString ());
+          note->noteSoundingQuarterNotesAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -4486,7 +4486,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         tupletDivisionsAsLilypondString (
           note->getInputLineNumber (),
           note->getNoteDirectPartUplink (),
-          note->getNoteSoundingDivisions (), // JMI
+          note->getNoteSoundingQuarterNotes (), // JMI
           tuplet->getTupletActualNotes (),
           tuplet->getTupletNormalNotes ());
 
@@ -5311,7 +5311,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       divisionsAsLilypondString (
         chordInputLineNumber,
         elt->getChordDirectPartUplink (),
-        elt->getChordDisplayedDivisions ());
+        elt->getChordDisplayQuarterNotes ());
   }
    
   // fetch the chord single tremolo

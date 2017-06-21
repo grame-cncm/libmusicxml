@@ -1800,11 +1800,11 @@ class EXP msrDoubleTremolo : public msrElement
                       
      // divisions
      
-    void                  setDoubleTremoloSoundingDivisions (int divisions)
-                              { fDoubleTremoloSoundingDivisions = divisions; }
+    void                  setDoubleTremoloSoundingQuarterNotes (int divisions)
+                              { fDoubleTremoloSoundingQuarterNotes = divisions; }
             
-    int                   getDoubleTremoloSoundingDivisions () const
-                              { return fDoubleTremoloSoundingDivisions; }
+    int                   getDoubleTremoloSoundingQuarterNotes () const
+                              { return fDoubleTremoloSoundingQuarterNotes; }
             
     // measure number
     
@@ -1873,7 +1873,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     // sounding divisions
     // the same as the displayed divisions of both members
-    rational              fDoubleTremoloSoundingDivisions;
+    rational              fDoubleTremoloSoundingQuarterNotes;
 
     msrDoubleTremoloKind  fDoubleTremoloKind; // JMI ???
     
@@ -4012,7 +4012,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-      int                  harmonySoundingDivisions);
+      rational             harmonySoundingQuarterNotes);
     
     SMARTP<msrHarmony> createHarmonyShallowClone (
       S_msrPart partClone);
@@ -4029,7 +4029,7 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-      int                  harmonySoundingDivisions);
+      rational             harmonySoundingQuarterNotes);
 
     virtual ~msrHarmony();
   
@@ -4041,11 +4041,11 @@ class EXP msrHarmony : public msrElement
     S_msrPart             getHarmonyDirectPartUplink () const
                              { return fHarmonyDirectPartUplink; }
 
- // JMI   void                  setHarmonySoundingDivisions (int divisions)
-       //                       { fHarmonySoundingDivisions = divisions; }
+ // JMI   void                  setHarmonySoundingQuarterNotes (int divisions)
+       //                       { fHarmonySoundingQuarterNotes = divisions; }
 
-    int                   getHarmonySoundingDivisions () const
-                              { return fHarmonySoundingDivisions; }
+    rational              getHarmonySoundingQuarterNotes () const
+                              { return fHarmonySoundingQuarterNotes; }
 
     msrQuarterTonesPitch  getHarmonyRootQuarterTonesPitch () const
                               { return fHarmonyRootQuarterTonesPitch; }
@@ -4084,7 +4084,7 @@ class EXP msrHarmony : public msrElement
 
     S_msrPart             fHarmonyDirectPartUplink;
 
-    int                   fHarmonySoundingDivisions;
+    rational              fHarmonySoundingQuarterNotes;
     
     msrQuarterTonesPitch  fHarmonyRootQuarterTonesPitch;
 
@@ -4138,8 +4138,8 @@ class EXP msrNote : public msrElement
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
       
-      rational             noteSoundingDivisions,
-      rational             noteDisplayedDivisions,
+      rational             noteSoundingQuarterNotes,
+      rational             noteDisplayQuarterNotes,
       
       int                  noteDotsNumber,
       
@@ -4181,8 +4181,8 @@ class EXP msrNote : public msrElement
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
       
-      rational             noteSoundingDivisions,
-      rational             noteDisplayedDivisions,
+      rational             noteSoundingQuarterNotes,
+      rational             noteDisplayQuarterNotes,
       
       int                  noteDotsNumber,
       
@@ -4228,20 +4228,20 @@ class EXP msrNote : public msrElement
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
                               
-    rational&              getNoteSoundingDivisions () //constJMI
-                              { return fNoteSoundingDivisions; }
+    const rational&       getNoteSoundingQuarterNotes ()
+                              { return fNoteSoundingQuarterNotes; }
 
     // note display
     
     msrQuarterTonesPitch  getNoteQuarterTonesDisplayPitch () const
                               { return fNoteQuarterTonesDisplayPitch; }
                               
-    void                  setNoteDisplayedDivisions (
+    void                  setNoteDisplayQuarterNotes (
                             rational divisions)
-                              { fNoteDisplayedDivisions = divisions; }
+                              { fNoteDisplayQuarterNotes = divisions; }
 
-    rational              getNoteDisplayedDivisions () const
-                              { return fNoteDisplayedDivisions; }
+    const rational&       getNoteDisplayQuarterNotes ()
+                              { return fNoteDisplayQuarterNotes; }
 
     // dots
     
@@ -4496,8 +4496,8 @@ class EXP msrNote : public msrElement
                             int inputLineNumber) const;
 
     // divisions
-    string                noteSoundingDivisionsAsMsrString () const;
-    string                noteDisplayedDivisionsAsMsrString () const;
+    string                noteSoundingQuarterNotesAsMsrString () const;
+    string                noteDisplayQuarterNotesAsMsrString () const;
     
     string                skipOrRestDivisionsAsMsrString () const;
     
@@ -4579,8 +4579,8 @@ class EXP msrNote : public msrElement
 
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
     
-    rational              fNoteSoundingDivisions;
-    rational              fNoteDisplayedDivisions;
+    rational              fNoteSoundingQuarterNotes;
+    rational              fNoteDisplayQuarterNotes;
     
     int                   fNoteDotsNumber;
     
@@ -4740,8 +4740,8 @@ class EXP msrChord : public msrElement
     static SMARTP<msrChord> create (
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
-      rational    chordSoundingDivisions,
-      rational    chordDisplayedDivisions,
+      rational    chordSoundingQuarterNotes,
+      rational    chordDisplayQuarterNotes,
       msrDuration chordGraphicDuration);
 
     // creation from MusicXML
@@ -4758,8 +4758,8 @@ class EXP msrChord : public msrElement
     msrChord (
       int         inputLineNumber,
       S_msrPart   chordDirectPartUplink,
-      rational    chordSoundingDivisions,
-      rational    chordDisplayedDivisions,
+      rational    chordSoundingQuarterNotes,
+      rational    chordDisplayQuarterNotes,
       msrDuration chordGraphicDuration);
       
     virtual ~msrChord();
@@ -4770,20 +4770,20 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
                               
      // divisions
-    void                  setChordSoundingDivisions (
+    void                  setChordSoundingQuarterNotes (
                             rational divisions);
             
-    rational              getChordSoundingDivisions () const
-                              { return fChordSoundingDivisions; }
+    rational              getChordSoundingQuarterNotes () const
+                              { return fChordSoundingQuarterNotes; }
                         
-    void                  setChordDisplayedDivisions (
+    void                  setChordDisplayQuarterNotes (
                             rational divisions);
             
-    rational              getChordDisplayedDivisions () const
-                              { return fChordDisplayedDivisions; }
+    rational              getChordDisplayQuarterNotes () const
+                              { return fChordDisplayQuarterNotes; }
                         
-    string                chordSoundingDivisionsAsMsrString () const;
-    string                chordDisplayedDivisionsAsMsrString () const;
+    string                chordSoundingQuarterNotesAsMsrString () const;
+    string                chordDisplayQuarterNotesAsMsrString () const;
 
     // direct part uplink
     S_msrPart             getChordDirectPartUplink () const
@@ -4992,9 +4992,9 @@ class EXP msrChord : public msrElement
     S_msrPart             fChordDirectPartUplink;
 
     // sounding divisions
-    rational              fChordSoundingDivisions;
+    rational              fChordSoundingQuarterNotes;
     // displayed divisions
-    rational              fChordDisplayedDivisions;
+    rational              fChordDisplayQuarterNotes;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
@@ -5666,7 +5666,7 @@ class EXP msrDivisions : public msrElement
 
 /* JMI
     void                  testDivisionsAndDurations (); // JMI
-    void                  testTupletSoundingDivisionsAndDurations ();
+    void                  testTupletSoundingQuarterNotesAndDurations ();
 */
 
     // visitors
@@ -5952,10 +5952,10 @@ class EXP msrTuplet : public msrElement
                           getTupletElements () const
                               { return fTupletElements; }
 
-    rational              getTupletSoundingDivisions () const
-                              { return fTupletSoundingDivisions; }
-    rational              getTupletDisplayedDivisions () const
-                              { return fTupletDisplayedDivisions; }
+    rational              getTupletSoundingQuarterNotes () const
+                              { return fTupletSoundingQuarterNotes; }
+    rational              getTupletDisplayQuarterNotes () const
+                              { return fTupletDisplayQuarterNotes; }
             
     // measure uplink
     void                  setTupletMeasureUplink (
@@ -6021,8 +6021,8 @@ class EXP msrTuplet : public msrElement
     int                   fTupletActualNotes;
     int                   fTupletNormalNotes;
 
-    int                   fTupletSoundingDivisions;
-    int                   fTupletDisplayedDivisions;
+    int                   fTupletSoundingQuarterNotes;
+    int                   fTupletDisplayQuarterNotes;
 
     S_msrMeasure          fTupletMeasureUplink;
 
@@ -6304,8 +6304,8 @@ class EXP msrStanza : public msrElement
                             string nextMeasureNumber);
 
     S_msrSyllable         appendBarcheckSyllableToStanza (
-                            int      inputLineNumber,
-                            rational divisions);
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
 
     S_msrSyllable         appendBreakSyllableToStanza (
                             int    inputLineNumber,
@@ -8734,7 +8734,7 @@ class EXP msrPart : public msrElement
                             int normalNotes);
 
     void                  testDivisionsAndDurations (); // JMI
-    void                  testTupletSoundingDivisionsAndDurations ();
+    void                  testTupletSoundingQuarterNotesAndDurations ();
 
     // clef, key, time
     
