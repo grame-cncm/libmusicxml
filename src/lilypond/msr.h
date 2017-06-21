@@ -3002,7 +3002,7 @@ class EXP msrMeasure : public msrElement
                                   fMeasureFullMeasureLength;
                               }
 
-    void                  setMeasureCurrentPosition (
+    void                  setMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
 
@@ -5990,7 +5990,7 @@ class EXP msrTuplet : public msrElement
     // position in measure
     rational              setTupletPositionInMeasure (
                             rational position);
-                            // returns the position after the tuplet
+                              // returns the position after the tuplet
 
     rational              getTupletPositionInMeasure () const
                               { return fTupletPositionInMeasure; }

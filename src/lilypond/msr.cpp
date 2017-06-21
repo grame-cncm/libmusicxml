@@ -10007,7 +10007,8 @@ rational msrTuplet::setTupletPositionInMeasure (
         setNotePositionInMeasure (currentPosition);
         
       currentPosition +=
-        note->getNoteSoundingQuarterNotes ();
+        note->
+          getNoteSoundingQuarterNotes ();
     }
   
     else if (
@@ -10017,7 +10018,8 @@ rational msrTuplet::setTupletPositionInMeasure (
         setChordPositionInMeasure (currentPosition);
         
       currentPosition +=
-        chord->getChordSoundingQuarterNotes ();
+        chord->
+          getChordSoundingQuarterNotes ();
     }
     
     else if (
@@ -14701,7 +14703,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureKind = kUnknownMeasureKind;
 
   // initialize measure position
-  setMeasureCurrentPosition (
+  setMeasureLength (
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
 
@@ -14760,7 +14762,7 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   return clone;
 }
 
-void msrMeasure::setMeasureCurrentPosition (
+void msrMeasure::setMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
@@ -15100,7 +15102,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     note->getNoteSoundingQuarterNotes ();
 
   // account for note duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + noteSoundingQuarterNotes);
 
@@ -15247,7 +15249,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         note->getNoteSoundingQuarterNotes ();
 
     // account for note duration in measure length
-    setMeasureCurrentPosition (
+    setMeasureLength (
       inputLineNumber,
       fMeasureLength + noteSoundingQuarterNotes);
   
@@ -15382,7 +15384,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
       doubleTremolo->getDoubleTremoloSoundingQuarterNotes ();
     
   // account for doubleTremolo duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + doubleTremoloSoundingQuarterNotes);
 
@@ -15454,7 +15456,7 @@ void msrMeasure::appendMeasureRepeatToMeasure (
     measureRepeat->getmeasureRepeatSoundingQuarterNotes ();
     
   // account for measureRepeat duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + measureRepeatSoundingQuarterNotes);
 
@@ -15529,7 +15531,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     multipleRest->getmultipleRestSoundingQuarterNotes ();
     
   // account for multipleRest duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + multipleRestSoundingQuarterNotes);
 
@@ -15599,7 +15601,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     chord->getChordSoundingQuarterNotes ();
     
   // account for chord duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + chordSoundingQuarterNotes);
 
@@ -15669,7 +15671,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     tuplet->getTupletSoundingQuarterNotes ();
     
   // account for tuplet duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + tupletSoundingQuarterNotes);
 
@@ -15769,7 +15771,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   */
 
     // account for harmony duration in measure length
-    setMeasureCurrentPosition (
+    setMeasureLength (
       inputLineNumber,
       fMeasureLength + harmonySoundingQuarterNotes);
   
@@ -15806,7 +15808,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     harmony->getHarmonySoundingQuarterNotes ();
     
   // account for harmony duration in measure length
-  setMeasureCurrentPosition (
+  setMeasureLength (
     inputLineNumber,
     fMeasureLength + harmonySoundingQuarterNotes);
 
@@ -15887,7 +15889,7 @@ void msrMeasure::bringMeasureToMeasureLength (
 
 /*
     // account for skip duration in measure length
-    setMeasureCurrentPosition (
+    setMeasureLength (
       inputLineNumber, fMeasureLength + skipDuration);
 */
   }
@@ -16070,7 +16072,7 @@ void msrMeasure::removeNoteFromMeasure (
       fMeasureElementsList.erase (i);
       
       // update measure length
-      setMeasureCurrentPosition (
+      setMeasureLength (
         inputLineNumber,
         fMeasureLength
           -

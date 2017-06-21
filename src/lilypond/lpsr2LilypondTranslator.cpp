@@ -246,7 +246,7 @@ string lpsr2LilypondTranslator::divisionsAsLilypondString (
     "part == 0"); // JMI
   
   result =
-    part->
+    fCurrentDivisions->
       divisionsAsMsrString (
         inputLineNumber,
         divisions);
@@ -268,7 +268,7 @@ string lpsr2LilypondTranslator::tupletDivisionsAsLilypondString (
     "part == 0"); // JMI
   
   result =
-    part->
+    fCurrentDivisions->
       tupletDivisionsAsMsrString (
         inputLineNumber,
         divisions,
@@ -935,7 +935,8 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     msrQuarterTonesPitchAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       harmony->getHarmonyRootQuarterTonesPitch ()) <<                     
-    harmony->getHarmonyDirectPartUplink ()->
+ // JMI   harmony->getHarmonyDirectPartUplink ()->
+    fCurrentDivisions ->
       divisionsAsMsrString (
         inputLineNumber,
         harmony->getHarmonySoundingQuarterNotes ());
