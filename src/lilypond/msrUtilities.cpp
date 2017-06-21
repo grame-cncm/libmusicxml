@@ -185,7 +185,8 @@ indenter::indenter (string spacer)
   fSpacer = spacer;
 }
 
-indenter::~indenter () {}
+indenter::~indenter ()
+{}
 
 indenter& indenter::operator++ (const int value)
 {
@@ -251,7 +252,8 @@ outputLineElementsCounter::outputLineElementsCounter (
   fMaxElementsPerLine = maxElementsPerLine;
 }
 
-outputLineElementsCounter::~outputLineElementsCounter () {}
+outputLineElementsCounter::~outputLineElementsCounter ()
+{}
 
 outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
 {

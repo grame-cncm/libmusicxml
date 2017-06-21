@@ -1289,7 +1289,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           "\" is of unknown kind";
 
      // JMI   msrInternalError (
-        msrMusicXMLWarning (
+        msrInternalWarning ( // JMI
           inputLineNumber, s.str ());
       }
       break;
@@ -1325,7 +1325,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       barCheck =
         msrBarCheck::create (
           inputLineNumber,
-          fMeasuresCounter + 1);
+          fMeasuresCounter + "1"); // JMI update that afterwards?
               
     // append it to the current voice clone
     fCurrentVoiceClone->

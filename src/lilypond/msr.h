@@ -2983,7 +2983,7 @@ class EXP msrMeasure : public msrElement
                             int      inputLineNumber,
                             rational measurePosition);
 
-    int                   getMeasurePosition () const
+    rational              getMeasurePosition () const
                               { return fMeasurePosition; }
 
     // measure kind
@@ -5767,8 +5767,8 @@ class EXP msrBarCheck : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarCheck> create (
-      int           inputLineNumber,
-      int           nextBarNumber);
+      int    inputLineNumber,
+      string nextBarNumber);
 
   protected:
 
@@ -5776,8 +5776,8 @@ class EXP msrBarCheck : public msrElement
     // ------------------------------------------------------
 
     msrBarCheck (
-      int           inputLineNumber,
-      int           nextBarNumber);
+      int    inputLineNumber,
+      string nextBarNumber);
       
     virtual ~msrBarCheck();
   
@@ -5786,13 +5786,13 @@ class EXP msrBarCheck : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int         getNextBarNumber () const
-                    { return fNextBarNumber; }
+    string                getNextBarNumber () const
+                              { return fNextBarNumber; }
 
     // services
     // ------------------------------------------------------
 
-    string      barCheckAsString () const;
+    string                barCheckAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -5809,7 +5809,7 @@ class EXP msrBarCheck : public msrElement
 
   private:
 
-    int fNextBarNumber;
+    string                fNextBarNumber;
 };
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
@@ -7605,8 +7605,8 @@ class EXP msrVoice : public msrElement
     // divisions
 
     void                  bringVoiceToMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
+                            int      inputLineNumber,
+                            rational measurePosition);
   
     // clef, key, time
     

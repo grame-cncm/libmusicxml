@@ -2052,7 +2052,8 @@ msrOptions::msrOptions ()
   initializeMsrOptions (false);
 }
 
-msrOptions::~msrOptions () {}
+msrOptions::~msrOptions ()
+{}
 
 void msrOptions::initializeMsrOptions (
   bool boolOptionsInitialValue)
@@ -2672,7 +2673,8 @@ msrElement::msrElement (
   fInputLineNumber = inputLineNumber;  
 }
 
-msrElement::~msrElement() {}
+msrElement::~msrElement()
+{}
 
 void msrElement::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2764,7 +2766,8 @@ msrOctaveShift::msrOctaveShift (
   fOctaveShiftSize = octaveShiftSize;
 }
 
-msrOctaveShift::~msrOctaveShift() {}
+msrOctaveShift::~msrOctaveShift()
+{}
 
 void msrOctaveShift::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2865,7 +2868,8 @@ msrStem::msrStem (
   fStemKind   = stemKind; 
 }
 
-msrStem::~msrStem() {}
+msrStem::~msrStem()
+{}
 
 void msrStem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -2976,7 +2980,8 @@ msrBeam::msrBeam (
   fBeamKind   = beamKind; 
 }
 
-msrBeam::~msrBeam() {}
+msrBeam::~msrBeam()
+{}
 
 void msrBeam::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -3084,7 +3089,8 @@ msrArticulation::msrArticulation (
   fArticulationKind = articulationKind;
 }
 
-msrArticulation::~msrArticulation() {}
+msrArticulation::~msrArticulation()
+{}
 
 string msrArticulation::articulationKindAsString () const
 {
@@ -3228,7 +3234,8 @@ msrFermata::msrFermata (
   fFermataType = fermataType;
 }
 
-msrFermata::~msrFermata() {}
+msrFermata::~msrFermata()
+{}
 
 void msrFermata::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -3360,7 +3367,8 @@ msrTechnical::msrTechnical (
   fTechnicalPlacementKind = technicalPlacementKind;
 }
 
-msrTechnical::~msrTechnical() {}
+msrTechnical::~msrTechnical()
+{}
 
 string msrTechnical::technicalKindAsString () const
 {
@@ -3568,7 +3576,8 @@ msrTechnicalWithInteger::msrTechnicalWithInteger (
   fTechnicalWithIntegerPlacementKind = technicalWithIntegerPlacementKind;
 }
 
-msrTechnicalWithInteger::~msrTechnicalWithInteger() {}
+msrTechnicalWithInteger::~msrTechnicalWithInteger()
+{}
 
 string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
 {
@@ -3716,7 +3725,8 @@ msrTechnicalWithString::msrTechnicalWithString (
   fTechnicalWithStringPlacementKind = technicalWithStringPlacementKind;
 }
 
-msrTechnicalWithString::~msrTechnicalWithString() {}
+msrTechnicalWithString::~msrTechnicalWithString()
+{}
 
 string msrTechnicalWithString::technicalWithStringKindAsString () const
 {
@@ -3861,7 +3871,8 @@ msrOrnament::msrOrnament (
   fOrnamentAccidentalMarkKind = kNatural;
 }
 
-msrOrnament::~msrOrnament() {}
+msrOrnament::~msrOrnament()
+{}
 
 string msrOrnament::ornamentKindAsString () const
 {
@@ -4045,7 +4056,8 @@ msrSingleTremolo::msrSingleTremolo (
   fSingleTremoloPlacementKind = singleTremoloPlacementKind;
 }
 
-msrSingleTremolo::~msrSingleTremolo() {}
+msrSingleTremolo::~msrSingleTremolo()
+{}
 
 string msrSingleTremolo::singleTremoloPlacementKindAsString (
   msrSingleTremoloPlacementKind singleTremoloPlacementKind)
@@ -4268,7 +4280,8 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
   return clone;
 }
 
-msrDoubleTremolo::~msrDoubleTremolo() {}
+msrDoubleTremolo::~msrDoubleTremolo()
+{}
 
 void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
@@ -4778,7 +4791,8 @@ msrRehearsal::msrRehearsal (
   fRehearsalText = rehearsalText;
 }
 
-msrRehearsal::~msrRehearsal() {}
+msrRehearsal::~msrRehearsal()
+{}
 
 void msrRehearsal::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -4887,7 +4901,8 @@ msrDynamics::msrDynamics (
 {
   fDynamicsKind = dynamicsKind; 
 }
-msrDynamics::~msrDynamics() {}
+msrDynamics::~msrDynamics()
+{}
 
 string msrDynamics::dynamicsKindAsString ()
 {
@@ -5035,7 +5050,9 @@ msrOtherDynamics::msrOtherDynamics (
 {
   fOtherDynamicsString = otherDynamicsString; 
 }
-msrOtherDynamics::~msrOtherDynamics() {}
+
+msrOtherDynamics::~msrOtherDynamics()
+{}
 
 void msrOtherDynamics::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -5122,7 +5139,9 @@ msrWedge::msrWedge (
 {
   fWedgeKind = wedgeKind; 
 }
-msrWedge::~msrWedge() {}
+
+msrWedge::~msrWedge()
+{}
 
 string msrWedge::wedgeKindAsString ()
 {
@@ -5217,7 +5236,9 @@ msrTie::msrTie (
 {
   fTieKind = tieKind; 
 }
-msrTie::~msrTie() {}
+
+msrTie::~msrTie()
+{}
 
 string msrTie::tieKindAsString (msrTieKind tieKind)
 {
@@ -5316,7 +5337,9 @@ msrSlur::msrSlur (
   fSlurNumber = slurNumber;
   fSlurKind   = slurKind; 
 }
-msrSlur::~msrSlur() {}
+
+msrSlur::~msrSlur()
+{}
 
 string msrSlur::slurKindAsString (
   msrSlurKind slurKind)
@@ -5423,7 +5446,9 @@ msrLigature::msrLigature (
   fLigatureNumber = ligatureNumber;
   fLigatureKind   = ligatureKind; 
 }
-msrLigature::~msrLigature() {}
+
+msrLigature::~msrLigature()
+{}
 
 string msrLigature::ligatureKindAsString (
   msrLigatureKind ligatureKind)
@@ -5547,7 +5572,8 @@ msrGraceNotes::msrGraceNotes (
     graceNotesVoiceUplink;
 }
 
-msrGraceNotes::~msrGraceNotes() {}
+msrGraceNotes::~msrGraceNotes()
+{}
 
 S_msrGraceNotes msrGraceNotes::createGraceNotesShallowClone (
   S_msrVoice voiceClone)
@@ -5780,7 +5806,8 @@ msrAfterGraceNotes::msrAfterGraceNotes (
     afterGraceNotesVoiceUplink;
 }
 
-msrAfterGraceNotes::~msrAfterGraceNotes() {}
+msrAfterGraceNotes::~msrAfterGraceNotes()
+{}
 
 S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesShallowClone (
   S_msrNote  noteClone,
@@ -8070,7 +8097,8 @@ msrChord::msrChord (
   fChordIsSecondChordInADoubleTremolo = false;
 }
 
-msrChord::~msrChord() {}
+msrChord::~msrChord()
+{}
 
 S_msrChord msrChord::createChordShallowClone (
   S_msrPart partClone)
@@ -9302,7 +9330,8 @@ void msrDivisions::testTupletSoundingQuarterNotesAndDurations ()
 }
 */
 
-msrDivisions::~msrDivisions() {}
+msrDivisions::~msrDivisions()
+{}
 
 void msrDivisions::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -9395,7 +9424,8 @@ msrBreak::msrBreak (
       endl;
 }
 
-msrBreak::~msrBreak() {}
+msrBreak::~msrBreak()
+{}
 
 string msrBreak::breakAsString () const
 {
@@ -9464,8 +9494,8 @@ void msrBreak::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarCheck msrBarCheck::create (
-  int           inputLineNumber,
-  int           nextBarNumber)
+  int    inputLineNumber,
+  string nextBarNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
@@ -9475,8 +9505,8 @@ S_msrBarCheck msrBarCheck::create (
 }
 
 msrBarCheck::msrBarCheck (
-  int           inputLineNumber,
-  int           nextBarNumber)
+  int    inputLineNumber,
+  string nextBarNumber)
     : msrElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
@@ -9486,7 +9516,9 @@ msrBarCheck::msrBarCheck (
       "Creating a bar check before measure " << fNextBarNumber <<
       endl;
 }
-msrBarCheck::~msrBarCheck() {}
+
+msrBarCheck::~msrBarCheck()
+{}
 
 string msrBarCheck::barCheckAsString () const
 {
@@ -9572,7 +9604,9 @@ msrBarNumberCheck::msrBarNumberCheck (
 {
   fNextBarNumber=nextBarNumber; 
 }
-msrBarNumberCheck::~msrBarNumberCheck() {}
+
+msrBarNumberCheck::~msrBarNumberCheck()
+{}
 
 string msrBarNumberCheck::barNumberCheckAsString () const
 {
@@ -9673,7 +9707,8 @@ msrTuplet::msrTuplet (
   fTupletPositionInMeasure = notePositionInMeasure;
 }
 
-msrTuplet::~msrTuplet() {}
+msrTuplet::~msrTuplet()
+{}
 
 S_msrTuplet msrTuplet::createTupletShallowClone ()
 {
@@ -10356,7 +10391,8 @@ msrPageGeometry::msrPageGeometry (
   fTenths      = -1;
 }
 
-msrPageGeometry::~msrPageGeometry() {}
+msrPageGeometry::~msrPageGeometry()
+{}
 
 float msrPageGeometry::globalStaffSize () const
 {
@@ -10617,7 +10653,8 @@ msrCreditWords::msrCreditWords (
   fCreditWordsFontXMLLanguage = creditWordsFontXMLLanguage;
 }
 
-msrCreditWords::~msrCreditWords() {}
+msrCreditWords::~msrCreditWords()
+{}
 
 void msrCreditWords::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -10750,7 +10787,8 @@ msrCredit::msrCredit (
   fCreditPageNumber = creditPageNumber;
 }
 
-msrCredit::~msrCredit() {}
+msrCredit::~msrCredit()
+{}
 
 void msrCredit::appendCreditWordsToCredit (
   S_msrCreditWords creditWords)
@@ -10866,7 +10904,8 @@ msrVarValAssoc::msrVarValAssoc (
   fVariableValue   = value;
 }
 
-msrVarValAssoc::~msrVarValAssoc() {}
+msrVarValAssoc::~msrVarValAssoc()
+{}
 
 void msrVarValAssoc::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -10964,7 +11003,9 @@ msrLayout::msrLayout (
   int           inputLineNumber)
     : msrElement (inputLineNumber)
 {}
-msrLayout::~msrLayout() {}
+
+msrLayout::~msrLayout()
+{}
 
 void msrLayout::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -11063,7 +11104,8 @@ msrClef::msrClef (
   fClefKind = clefKind;
 }
 
-msrClef::~msrClef() {}
+msrClef::~msrClef()
+{}
 
 bool msrClef::clefIsATablatureClef () const
 {
@@ -11257,7 +11299,8 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
   fKeyOctave        = -1; // actual MusicXML octaves are non-negative
 }
 
-msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem() {}
+msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem()
+{}
 
 void msrHumdrumScotKeyItem::setKeyItemDiatonicPitch (
   msrDiatonicPitch diatonicPitch)
@@ -11842,7 +11885,8 @@ S_msrTime msrTime::createFourQuartersTime (
   return time;
 }
 
-msrTime::~msrTime() {}
+msrTime::~msrTime()
+{}
 
 void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
@@ -12148,7 +12192,8 @@ msrTranspose::msrTranspose (
   fTransposeChromatic = transposeChromatic;
 }
 
-msrTranspose::~msrTranspose() {}
+msrTranspose::~msrTranspose()
+{}
 
 void msrTranspose::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -12257,7 +12302,9 @@ msrWords::msrWords (
   
   fWordsXMLLangKind    = wordsXMLLangKind;
 }
-msrWords::~msrWords() {}
+
+msrWords::~msrWords()
+{}
 
 void msrWords::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -12460,7 +12507,9 @@ msrTempo::msrTempo (
   fTempoUnit = tempoUnit;
   fPerMinute = perMinute;
 }
-msrTempo::~msrTempo() {}
+
+msrTempo::~msrTempo()
+{}
 
 void msrTempo::setTempoIndication (string indication)
 {
@@ -13077,7 +13126,8 @@ string msrStanza::getStanzaName () const
   return fStanzaName;
 }
 
-msrStanza::~msrStanza() {}
+msrStanza::~msrStanza()
+{}
 
 S_msrStanza msrStanza::createStanzaShallowClone (
   S_msrVoice voiceClone)
@@ -13636,7 +13686,8 @@ msrHarmony::msrHarmony (
   }
 }
 
-msrHarmony::~msrHarmony() {}
+msrHarmony::~msrHarmony()
+{}
 
 S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
 {
@@ -13891,7 +13942,8 @@ msrSegno::msrSegno (
     : msrElement (inputLineNumber)
 {}
 
-msrSegno::~msrSegno() {}
+msrSegno::~msrSegno()
+{}
 
 void msrSegno::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -13964,7 +14016,8 @@ msrCoda::msrCoda (
     : msrElement (inputLineNumber)
 {}
 
-msrCoda::~msrCoda() {}
+msrCoda::~msrCoda()
+{}
 
 void msrCoda::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -14037,7 +14090,8 @@ msrEyeGlasses::msrEyeGlasses (
     : msrElement (inputLineNumber)
 {}
 
-msrEyeGlasses::~msrEyeGlasses() {}
+msrEyeGlasses::~msrEyeGlasses()
+{}
 
 void msrEyeGlasses::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -14118,7 +14172,8 @@ msrPedal::msrPedal (
   fPedalLine = pedalLine;
 }
 
-msrPedal::~msrPedal() {}
+msrPedal::~msrPedal()
+{}
 
 string msrPedal::pedalTypeAsString ()
 {
@@ -14269,7 +14324,8 @@ msrBarline::msrBarline (
       fEndingNumber, false); // 'true' to debug it
 }
 
-msrBarline::~msrBarline() {}
+msrBarline::~msrBarline()
+{}
 
 void msrBarline::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -15028,7 +15084,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   note->setNoteMeasureNumber (fMeasureNumber);
   
   // register note measure position
-  int noteMeasurePosition = fMeasurePosition; // for harmony voice
+  rational
+    noteMeasurePosition =
+      fMeasurePosition; // for harmony voice
   
   note->setNotePositionInMeasure (noteMeasurePosition);
   
@@ -15044,7 +15102,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // update part measure position high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasurePosition);
+      inputLineNumber,
+      fMeasurePosition);
 
   // determine if the note occupies a full measure
   if (noteSoundingQuarterNotes == fMeasureDivisionsPerFullMeasure)
@@ -15169,7 +15228,9 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     note->setNoteMeasureNumber (fMeasureNumber);
     
     // register note measure position
-    int noteMeasurePosition = fMeasurePosition; // for harmony voice
+    rational
+      noteMeasurePosition =
+        fMeasurePosition; // for harmony voice
     
     note->setNotePositionInMeasure (noteMeasurePosition);
     
@@ -15180,7 +15241,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
 
     // account for note duration in measure position
     setMeasurePosition (
-      inputLineNumber, fMeasurePosition + noteSoundingQuarterNotes);
+      inputLineNumber,
+      fMeasurePosition + noteSoundingQuarterNotes);
   
     // update part measure position high tide if need be
     fMeasureDirectPartUplink->
@@ -15577,9 +15639,10 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     setTupletMeasureNumber (fMeasureNumber);
   
   // register tuplet measure position
-  int dummy = // JMI
-    tuplet->
-      setTupletPositionInMeasure (fMeasurePosition);
+  rational
+    dummy = // JMI
+      tuplet->
+        setTupletPositionInMeasure (fMeasurePosition);
 
 /* JMI
   // copy measure number to first note, that was created beforehand
@@ -16711,7 +16774,8 @@ msrSegment::msrSegment (
   initializeSegment ();
 }
 
-msrSegment::~msrSegment() {}
+msrSegment::~msrSegment()
+{}
 
 void msrSegment::createSegmentInitialMeasure () // JMI
 {
@@ -17737,7 +17801,8 @@ msrRepeatEnding::msrRepeatEnding (
   fRepeatEndingRepeatUplink = repeatUplink;
 }
 
-msrRepeatEnding::~msrRepeatEnding() {}
+msrRepeatEnding::~msrRepeatEnding()
+{}
 
 S_msrRepeatEnding msrRepeatEnding::createRepeatEndingShallowClone (
   S_msrRepeat repeatClone)
@@ -17895,7 +17960,8 @@ msrRepeat::msrRepeat (
   fRepeatVoiceUplink = voiceUplink;
 }
 
-msrRepeat::~msrRepeat() {}
+msrRepeat::~msrRepeat()
+{}
 
 S_msrRepeat msrRepeat::createRepeatShallowClone (S_msrVoice voiceClone)
 {
@@ -18097,7 +18163,8 @@ msrMeasureRepeatPattern::msrMeasureRepeatPattern (
   fMeasureRepeatPatternVoiceUplink = voiceUplink;
 }
 
-msrMeasureRepeatPattern::~msrMeasureRepeatPattern() {}
+msrMeasureRepeatPattern::~msrMeasureRepeatPattern()
+{}
 
 S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternShallowClone (
   S_msrVoice voiceClone)
@@ -18287,7 +18354,8 @@ msrMeasureRepeatReplicas::msrMeasureRepeatReplicas (
   fMeasureRepeatReplicasVoiceUplink = voiceUplink;
 }
 
-msrMeasureRepeatReplicas::~msrMeasureRepeatReplicas() {}
+msrMeasureRepeatReplicas::~msrMeasureRepeatReplicas()
+{}
 
 S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasShallowClone (
   S_msrVoice voiceClone)
@@ -18484,7 +18552,8 @@ msrMeasureRepeat::msrMeasureRepeat (
   fMeasureRepeatVoiceUplink = voiceUplink;
 }
 
-msrMeasureRepeat::~msrMeasureRepeat() {}
+msrMeasureRepeat::~msrMeasureRepeat()
+{}
 
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatShallowClone (
   S_msrVoice   voiceClone)
@@ -18741,7 +18810,8 @@ msrMultipleRestContents::msrMultipleRestContents (
   fMultipleRestContentsVoiceUplink = voiceUplink;
 }
 
-msrMultipleRestContents::~msrMultipleRestContents() {}
+msrMultipleRestContents::~msrMultipleRestContents()
+{}
 
 S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsShallowClone (
   S_msrVoice voiceClone)
@@ -18936,7 +19006,8 @@ msrMultipleRest::msrMultipleRest (
   fMultipleRestVoiceUplink = voiceUplink;
 }
 
-msrMultipleRest::~msrMultipleRest() {}
+msrMultipleRest::~msrMultipleRest()
+{}
 
 S_msrMultipleRest msrMultipleRest::createMultipleRestShallowClone (
   S_msrVoice voiceClone)
@@ -19158,7 +19229,8 @@ msrVoice::msrVoice (
   initializeVoice ();
 }
 
-msrVoice::~msrVoice() {}
+msrVoice::~msrVoice()
+{}
 
 void msrVoice::initializeVoice ()
 {
@@ -19849,8 +19921,8 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 }
 
 void msrVoice::bringVoiceToMeasurePosition (
-  int inputLineNumber,
-  int measurePosition)
+  int      inputLineNumber,
+  rational measurePosition)
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
@@ -21704,7 +21776,8 @@ msrStaffLinesNumber::msrStaffLinesNumber (
   fLinesNumber = linesNumber;
 }
 
-msrStaffLinesNumber::~msrStaffLinesNumber() {}
+msrStaffLinesNumber::~msrStaffLinesNumber()
+{}
 
 S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberShallowClone ()
 {
@@ -21985,7 +22058,8 @@ msrStaffDetails::msrStaffDetails (
   fPrintSpacingKind = printSpacingKind;
 }
 
-msrStaffDetails::~msrStaffDetails() {}
+msrStaffDetails::~msrStaffDetails()
+{}
 
 S_msrStaffDetails msrStaffDetails::createStaffDetailsShallowClone (
   S_msrStaffLinesNumber staffLinesNumberClone,
@@ -23664,7 +23738,8 @@ void msrPart::initializePart ()
   // in setPartDivisionsPerQuarterNote()
 }
 
-msrPart::~msrPart() {}
+msrPart::~msrPart()
+{}
 
 S_msrPart msrPart::createPartShallowClone (S_msrPartGroup partGroupClone)
 {
@@ -24332,8 +24407,8 @@ void msrPart::createPartHarmonyStaffAndVoice (
 }
 
 void msrPart::setPartMeasurePositionHighTide (
-  int inputLineNumber,
-  int measurePosition)
+  int      inputLineNumber,
+  rational measurePosition)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
@@ -24347,8 +24422,8 @@ void msrPart::setPartMeasurePositionHighTide (
 }
 
 void msrPart::updatePartMeasurePositionHighTide (
-  int inputLineNumber,
-  int measurePosition)
+  int      inputLineNumber,
+  rational measurePosition)
 {
   if (measurePosition > fPartMeasurePositionHighTide) {
     if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
@@ -24410,6 +24485,7 @@ string msrPart::getPartCombinedName () const
   return s.str();
 }
 
+/* JMI
 void msrPart::setPartDivisionsPerQuarterNote (
   int divisionsPerQuarterNote)
 {
@@ -24437,6 +24513,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
   createPartHarmonyStaffAndVoice (
     fInputLineNumber);
 }
+*/
 
 void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
@@ -25128,11 +25205,6 @@ void msrPart::print (ostream& os)
   os << left <<
     idtr <<
       setw(fieldWidth) <<
-      "PartDivisionsPerQuarterNote" << ": " <<
-      fPartDivisionsPerQuarterNote << " ***" <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
       "PartMsrName" << ": \"" <<
       fPartMsrName << "\"" <<
       endl <<
@@ -25254,11 +25326,6 @@ void msrPart::printStructure (ostream& os)
   const int fieldWidth = 27;
 
   os << left <<
-    idtr <<
-      setw(fieldWidth) <<
-      "PartDivisionsPerQuarterNote" << ": " <<
-      fPartDivisionsPerQuarterNote <<
-      endl <<
     idtr <<
       setw(fieldWidth) <<
       "PartMsrName" << ": \"" <<
@@ -25852,7 +25919,8 @@ msrIdentification::msrIdentification (
     : msrElement (inputLineNumber)
 {}
 
-msrIdentification::~msrIdentification() {}
+msrIdentification::~msrIdentification()
+{}
 
 void msrIdentification::setWorkNumber (
   int    inputLineNumber,
@@ -26268,7 +26336,8 @@ msrScore::msrScore (
   fInhibitMultipleRestMeasuresBrowsing = false;
 }
 
-msrScore::~msrScore() {}
+msrScore::~msrScore()
+{}
 
 S_msrScore msrScore::createScoreShallowClone ()
 {
@@ -26519,7 +26588,8 @@ msrMidi::msrMidi (
   fMidiTempoPerSecond = midiTempoPerSecond;
 }
 
-msrMidi::~msrMidi() {}
+msrMidi::~msrMidi()
+{}
 
 void msrMidi::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)

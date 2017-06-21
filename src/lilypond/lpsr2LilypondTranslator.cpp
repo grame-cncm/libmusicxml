@@ -108,7 +108,8 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
       : 10);
 };
   
-lpsr2LilypondTranslator::~lpsr2LilypondTranslator () {}
+lpsr2LilypondTranslator::~lpsr2LilypondTranslator ()
+{}
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::generateLilypondCodeFromLpsrScore ()
@@ -5877,7 +5878,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
       "% --> Start visiting msrBarCheck" <<
       endl;
       
-  int nextBarNumber =
+  string nextBarNumber =
     elt->getNextBarNumber ();
 
   // don't generate a bar check before the end of measure 1

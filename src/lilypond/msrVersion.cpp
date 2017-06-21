@@ -35,7 +35,8 @@ versionInfo::versionInfo (
   fVersionDescription = versionDescription;
 }
 
-versionInfo::~versionInfo () {}
+versionInfo::~versionInfo ()
+{}
 
 void versionInfo::print (ostream& os) const
 {

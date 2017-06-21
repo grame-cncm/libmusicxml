@@ -106,7 +106,8 @@ lpsrElement::lpsrElement (
     : msrElement (inputLineNumber)
 {}
 
-lpsrElement::~lpsrElement() {}
+lpsrElement::~lpsrElement()
+{}
 
 void lpsrElement::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -169,7 +170,8 @@ lpsrParallelMusic::lpsrParallelMusic (
   fElementsSeparator=elementsSeparator;
 }
 
-lpsrParallelMusic::~lpsrParallelMusic() {}
+lpsrParallelMusic::~lpsrParallelMusic()
+{}
 
 void lpsrParallelMusic::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -287,7 +289,8 @@ lpsrComment::lpsrComment (
   fCommentGapKind = commentGapKind;
 }
 
-lpsrComment::~lpsrComment() {}
+lpsrComment::~lpsrComment()
+{}
 
 void lpsrComment::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -374,7 +377,9 @@ lpsrBarNumberCheck::lpsrBarNumberCheck (
 {
   fNextBarNumber=nextBarNumber; 
 }
-lpsrBarNumberCheck::~lpsrBarNumberCheck() {}
+
+lpsrBarNumberCheck::~lpsrBarNumberCheck()
+{}
 
 void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -451,7 +456,8 @@ lpsrUseVoiceCommand::lpsrUseVoiceCommand (
   fVoice  = voice;
 }
 
-lpsrUseVoiceCommand::~lpsrUseVoiceCommand() {}
+lpsrUseVoiceCommand::~lpsrUseVoiceCommand()
+{}
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -535,7 +541,8 @@ lpsrNewLyricsBlock::lpsrNewLyricsBlock (
   fVoice  = voice;
 }
 
-lpsrNewLyricsBlock::~lpsrNewLyricsBlock() {}
+lpsrNewLyricsBlock::~lpsrNewLyricsBlock()
+{}
 
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -646,7 +653,8 @@ lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
   fEndlKind        = endlKind;
 }
 
-lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc() {}
+lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc()
+{}
 
 string const lpsrLilypondVarValAssoc::g_VarValAssocNoUnit    = "";
 string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
@@ -845,7 +853,8 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
   fEndlKind      = endlKind;
 }
 
-lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc() {}
+lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc()
+{}
 
 string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoUnit    = "";
 string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
@@ -991,7 +1000,8 @@ lpsrSchemeFunction::lpsrSchemeFunction (
   fFunctionCode        = functionCode;
   }
 
-lpsrSchemeFunction::~lpsrSchemeFunction() {}
+lpsrSchemeFunction::~lpsrSchemeFunction()
+{}
 
 void lpsrSchemeFunction::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1079,7 +1089,8 @@ lpsrNewStaffgroupBlock::lpsrNewStaffgroupBlock (
     : lpsrElement (inputLineNumber)
 {}
 
-lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock() {}
+lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock()
+{}
 
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1163,7 +1174,8 @@ lpsrNewStaffTuningBlock::lpsrNewStaffTuningBlock (
   fStaffTuning = staffTuning;
 }
 
-lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock() {}
+lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock()
+{}
 
 void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1240,7 +1252,8 @@ lpsrNewStaffBlock::lpsrNewStaffBlock (
     : lpsrElement (inputLineNumber)
 {}
 
-lpsrNewStaffBlock::~lpsrNewStaffBlock() {}
+lpsrNewStaffBlock::~lpsrNewStaffBlock()
+{}
 
 void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1324,7 +1337,8 @@ lpsrVariableUseCommand::lpsrVariableUseCommand (
   fVariableName = variableName;
 }
 
-lpsrVariableUseCommand::~lpsrVariableUseCommand() {}
+lpsrVariableUseCommand::~lpsrVariableUseCommand()
+{}
 
 void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1407,7 +1421,9 @@ lpsrContext::lpsrContext (
   fContextType = contextType;
   fContextName = contextName; 
 }
-lpsrContext::~lpsrContext() {}
+
+lpsrContext::~lpsrContext()
+{}
 
 void lpsrContext::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1496,7 +1512,8 @@ lpsrBarCommand::lpsrBarCommand (
     : lpsrElement (inputLineNumber)
 {}
 
-lpsrBarCommand::~lpsrBarCommand() {}
+lpsrBarCommand::~lpsrBarCommand()
+{}
 
 void lpsrBarCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1578,7 +1595,8 @@ lpsrMelismaCommand::lpsrMelismaCommand (
   fMelismaKind = melismaKind;
 }
 
-lpsrMelismaCommand::~lpsrMelismaCommand() {}
+lpsrMelismaCommand::~lpsrMelismaCommand()
+{}
 
 void lpsrMelismaCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -1668,7 +1686,8 @@ lpsrHeader::lpsrHeader (
     : lpsrElement (inputLineNumber)
 {}
 
-lpsrHeader::~lpsrHeader() {}
+lpsrHeader::~lpsrHeader()
+{}
 
 void lpsrHeader::setWorkNumber (
   int    inputLineNumber,
@@ -2249,7 +2268,8 @@ lpsrPaper::lpsrPaper (
   fPageTopSpace = -1.0;
 }
 
-lpsrPaper::~lpsrPaper() {}
+lpsrPaper::~lpsrPaper()
+{}
 
 void lpsrPaper::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -2461,7 +2481,8 @@ lpsrLayout::lpsrLayout (
   fStaffSize = 20; // LilyPond default // JMI
 }
 
-lpsrLayout::~lpsrLayout() {}
+lpsrLayout::~lpsrLayout()
+{}
 
 void lpsrLayout::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -2569,7 +2590,8 @@ lpsrStaffBlock::lpsrStaffBlock (
   fStaff = staff;
 }
 
-lpsrStaffBlock::~lpsrStaffBlock() {}
+lpsrStaffBlock::~lpsrStaffBlock()
+{}
 
 void lpsrStaffBlock::appendVoiceUseToStaffBlock (S_msrVoice voice)
 {
@@ -2705,7 +2727,8 @@ lpsrPartBlock::lpsrPartBlock (
   fPart = part;
 }
 
-lpsrPartBlock::~lpsrPartBlock() {}
+lpsrPartBlock::~lpsrPartBlock()
+{}
 
 void lpsrPartBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -2840,7 +2863,8 @@ lpsrPartGroupBlock::lpsrPartGroupBlock (
   fPartGroup = partGroup;
 }
 
-lpsrPartGroupBlock::~lpsrPartGroupBlock() {}
+lpsrPartGroupBlock::~lpsrPartGroupBlock()
+{}
 
 void lpsrPartGroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -2972,7 +2996,8 @@ lpsrScoreBlock::lpsrScoreBlock (
       gLilypondOptions->fMidiTempoPerSecond);
 }
 
-lpsrScoreBlock::~lpsrScoreBlock() {}
+lpsrScoreBlock::~lpsrScoreBlock()
+{}
 
 void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
   S_lpsrPartGroupBlock partGroupBlock)
@@ -3424,7 +3449,8 @@ R"(\markup {
       inputLineNumber);
 }
 
-lpsrScore::~lpsrScore() {}
+lpsrScore::~lpsrScore()
+{}
 
 void lpsrScore::setTongueSchemeFunctionNeeded ()
 {

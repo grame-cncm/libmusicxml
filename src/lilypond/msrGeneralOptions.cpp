@@ -41,7 +41,8 @@ msrMusicXMLOptions::msrMusicXMLOptions ()
   initializeMusicXMLOptions (false);
 }
 
-msrMusicXMLOptions::~msrMusicXMLOptions () {}
+msrMusicXMLOptions::~msrMusicXMLOptions ()
+{}
 
 void msrMusicXMLOptions::initializeMusicXMLOptions (
   bool boolOptionsInitialValue)
@@ -221,7 +222,8 @@ msrGeneralOptions::msrGeneralOptions ()
   initializeGeneralOptions (false);
 }
 
-msrGeneralOptions::~msrGeneralOptions () {}
+msrGeneralOptions::~msrGeneralOptions ()
+{}
 
 void msrGeneralOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
