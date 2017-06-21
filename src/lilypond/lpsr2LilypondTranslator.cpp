@@ -2812,9 +2812,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kUnderfullMeasureKind:
       {
-        int
+        rational
           mesurePosition =
-            elt->getMeasurePosition (),
+            elt->getMeasureCurrentPosition ();
+
+        int
           measureDivisionsPerFullMeasure =
             elt->getMeasureDivisionsPerFullMeasure ();
 

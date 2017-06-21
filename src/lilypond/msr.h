@@ -1774,8 +1774,11 @@ class EXP msrDoubleTremolo : public msrElement
 
     // double tremolo placement
 
-    void                  setDoubleTremoloNoteFirstElement (S_msrNote note);
-    void                  setDoubleTremoloChordFirstElement (S_msrChord chord);
+    void                  setDoubleTremoloNoteFirstElement (
+                            S_msrNote note);
+    
+    void                  setDoubleTremoloChordFirstElement (
+                            S_msrChord chord);
 
     // double tremolo first element
 
@@ -1784,15 +1787,19 @@ class EXP msrDoubleTremolo : public msrElement
         
     // double tremolo second element
 
-    void                  setDoubleTremoloNoteSecondElement (S_msrNote note);
-    void                  setDoubleTremoloChordSecondElement (S_msrChord chord);
+    void                  setDoubleTremoloNoteSecondElement (
+                            S_msrNote note);
+                            
+    void                  setDoubleTremoloChordSecondElement (
+                            S_msrChord chord);
 
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
         
     // harmony
     
-    void                  setDoubleTremoloHarmony (S_msrHarmony harmony)
+    void                  setDoubleTremoloHarmony (
+                            S_msrHarmony harmony)
                               { fDoubleTremoloHarmony = harmony; }
                       
     const S_msrHarmony&   getDoubleTremoloHarmony () const
@@ -1800,17 +1807,27 @@ class EXP msrDoubleTremolo : public msrElement
                       
      // divisions
      
-    void                  setDoubleTremoloSoundingQuarterNotes (int divisions)
-                              { fDoubleTremoloSoundingQuarterNotes = divisions; }
+    void                  setDoubleTremoloSoundingQuarterNotes (
+                            rational quarterNotes)
+                              {
+                                fDoubleTremoloSoundingQuarterNotes =
+                                  quarterNotes;
+                              }
             
-    int                   getDoubleTremoloSoundingQuarterNotes () const
-                              { return fDoubleTremoloSoundingQuarterNotes; }
+    rational              getDoubleTremoloSoundingQuarterNotes () const
+                              {
+                                return
+                                  fDoubleTremoloSoundingQuarterNotes;
+                              }
             
     // measure number
     
     void                  setDoubleTremoloMeasureNumber (
                             string measureNumber)
-                              { fDoubleTremoloMeasureNumber = measureNumber; }
+                              {
+                                fDoubleTremoloMeasureNumber =
+                                  measureNumber;
+                              }
     
     string                getDoubleTremoloMeasureNumber () const
                               { return fDoubleTremoloMeasureNumber; }
@@ -1825,13 +1842,19 @@ class EXP msrDoubleTremolo : public msrElement
                               }
 
     rational              getDoubleTremoloPositionInMeasure () const
-                              { return fDoubleTremoloPositionInMeasure; }
+                              {
+                                return
+                                  fDoubleTremoloPositionInMeasure;
+                              }
 
     // uplinks
 
     void                  setDoubleTremoloMeasureUplink (
                             const S_msrMeasure& measure)
-                              { fDoubleTremoloMeasureUplink = measure; }
+                              {
+                                fDoubleTremoloMeasureUplink =
+                                  measure;
+                              }
                       
     S_msrMeasure          getDoubleTremoloMeasureUplink () const
                             { return fDoubleTremoloMeasureUplink; }
@@ -2979,13 +3002,16 @@ class EXP msrMeasure : public msrElement
                                   fMeasureDivisionsPerFullMeasure;
                               }
 
-    void                  setMeasurePosition (
+    void                  setMeasureCurrentPosition (
                             int      inputLineNumber,
                             rational measurePosition);
 
-    rational              getMeasurePosition () const
-                              { return fMeasurePosition; }
+    rational              getMeasureCurrentPosition () const
+                              { return fMeasureCurrentPosition; }
 
+    rational              getMeasureLength () const
+                              { return fMeasureLength; }
+                      
     // measure kind
     
     void                  setMeasureKind (msrMeasureKind measureKind)
@@ -3039,8 +3065,8 @@ class EXP msrMeasure : public msrElement
                             S_msrDivisions divisions);
 
     void                  bringMeasureToMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
+                            int      inputLineNumber,
+                            rational measurePosition);
 
     // measure kind
     
@@ -3048,15 +3074,6 @@ class EXP msrMeasure : public msrElement
 
     // measure length
     
-    rational              getMeasureLength () const
-                            // divisions, positions start at 1
-                              {
-                                return
-                                  fMeasurePosition
-                                    -
-                                  rational (1, 1);
-                              }
-                      
     string                getMeasureLengthAsString () const;
 
     // clefs
@@ -3235,7 +3252,9 @@ class EXP msrMeasure : public msrElement
     // divisions
     
     rational              fMeasureDivisionsPerFullMeasure;
-    rational              fMeasurePosition;
+    
+    rational              fMeasureCurrentPosition;
+    rational              fMeasureLength;
 
     // measure number
     
@@ -5954,6 +5973,7 @@ class EXP msrTuplet : public msrElement
 
     rational              getTupletSoundingQuarterNotes () const
                               { return fTupletSoundingQuarterNotes; }
+                              
     rational              getTupletDisplayQuarterNotes () const
                               { return fTupletDisplayQuarterNotes; }
             
@@ -6021,8 +6041,8 @@ class EXP msrTuplet : public msrElement
     int                   fTupletActualNotes;
     int                   fTupletNormalNotes;
 
-    int                   fTupletSoundingQuarterNotes;
-    int                   fTupletDisplayQuarterNotes;
+    rational              fTupletSoundingQuarterNotes;
+    rational              fTupletDisplayQuarterNotes;
 
     S_msrMeasure          fTupletMeasureUplink;
 
