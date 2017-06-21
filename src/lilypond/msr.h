@@ -1835,10 +1835,10 @@ class EXP msrDoubleTremolo : public msrElement
     // position in measure
     
     void                  setDoubleTremoloPositionInMeasure (
-                            rational position)
+                            rational positionInMeasure)
                               {
                                 fDoubleTremoloPositionInMeasure =
-                                  position;
+                                  positionInMeasure;
                               }
 
     rational              getDoubleTremoloPositionInMeasure () const
@@ -1874,7 +1874,7 @@ class EXP msrDoubleTremolo : public msrElement
     // tremolo first note
     
     void                  setDoubleTremoloFirstNotePositionInMeasure (
-                            rational position);
+                            rational positionInMeasure);
                     
     void                  setDoubleTremoloFirstNoteMeasureNumber (
                             string measureNumber);
@@ -2994,20 +2994,17 @@ class EXP msrMeasure : public msrElement
     string                getMeasureNumber () const
                               { return fMeasureNumber; }
 
-    // divisions
+    // lengthes
     
-    rational              getMeasureDivisionsPerFullMeasure () const
+    rational              getMeasureFullMeasureLength () const
                               {
                                 return
-                                  fMeasureDivisionsPerFullMeasure;
+                                  fMeasureFullMeasureLength;
                               }
 
     void                  setMeasureCurrentPosition (
                             int      inputLineNumber,
-                            rational measurePosition);
-
-    rational              getMeasureCurrentPosition () const
-                              { return fMeasureCurrentPosition; }
+                            rational measureLength);
 
     rational              getMeasureLength () const
                               { return fMeasureLength; }
@@ -3064,9 +3061,9 @@ class EXP msrMeasure : public msrElement
     void                  appendDivisionsToMeasure (
                             S_msrDivisions divisions);
 
-    void                  bringMeasureToMeasurePosition (
+    void                  bringMeasureToMeasureLength (
                             int      inputLineNumber,
-                            rational measurePosition);
+                            rational measureLength);
 
     // measure kind
     
@@ -3088,7 +3085,7 @@ class EXP msrMeasure : public msrElement
 
     void                  appendTimeToMeasure (S_msrTime time);
 
-    void                  setMeasureDivisionsPerFullMeasureFromTime (
+    void                  setMeasureFullMeasureLengthFromTime (
                             S_msrTime time);
   
     // transpose
@@ -3249,11 +3246,10 @@ class EXP msrMeasure : public msrElement
 
   private:
 
-    // divisions
+    // lengthes
     
-    rational              fMeasureDivisionsPerFullMeasure;
+    rational              fMeasureFullMeasureLength;
     
-    rational              fMeasureCurrentPosition;
     rational              fMeasureLength;
 
     // measure number
@@ -3377,9 +3373,9 @@ class EXP msrSegment : public msrElement
 
     // divisions
     
-    void                  bringSegmentToMeasurePosition (
-                            int inputLineNumber,
-                            int measurePosition);
+    void                  bringSegmentToMeasureLength (
+                            int      inputLineNumber,
+                            rational measureLength);
   
     // measures
 
@@ -4247,7 +4243,7 @@ class EXP msrNote : public msrElement
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
                               
-    const rational&       getNoteSoundingQuarterNotes ()
+    rational              getNoteSoundingQuarterNotes ()
                               { return fNoteSoundingQuarterNotes; }
 
     // note display
@@ -4259,7 +4255,7 @@ class EXP msrNote : public msrElement
                             rational divisions)
                               { fNoteDisplayQuarterNotes = divisions; }
 
-    const rational&       getNoteDisplayQuarterNotes ()
+    rational              getNoteDisplayQuarterNotes ()
                               { return fNoteDisplayQuarterNotes; }
 
     // dots
@@ -6785,7 +6781,7 @@ class EXP msrBarline : public msrElement
                                   positionInMeasure;
                               }
                       
-    const rational&       getBarlinePositionInMeasure ()
+    rational              getBarlinePositionInMeasure ()
                               { return fBarlinePositionInMeasure; }
 
     // services
@@ -7624,9 +7620,9 @@ class EXP msrVoice : public msrElement
 
     // divisions
 
-    void                  bringVoiceToMeasurePosition (
+    void                  bringVoiceToMeasureLength (
                             int      inputLineNumber,
-                            rational measurePosition);
+                            rational measureLength);
   
     // clef, key, time
     
@@ -8640,18 +8636,18 @@ class EXP msrPart : public msrElement
 
     // divisions
     
-    void                  setPartMeasurePositionHighTide (
+    void                  setPartMeasureLengthHighTide (
                             int      inputLineNumber,
-                            rational measurePosition);
+                            rational measureLength);
                       
-    void                  updatePartMeasurePositionHighTide (
+    void                  updatePartMeasureLengthHighTide (
                             int      inputLineNumber,
-                            rational measurePosition);
+                            rational measureLength);
                     
-    rational              getPartMeasurePositionHighTide () const
+    rational              getPartMeasureLengthHighTide () const
                               {
                                 return
-                                  fPartMeasurePositionHighTide;
+                                  fPartMeasureLengthHighTide;
                               }
 
     // measures
@@ -8728,6 +8724,7 @@ class EXP msrPart : public msrElement
                             S_msrDivisions divisions);
 
 // BOU
+/* JMI
 
     void                  setupDurationsDivisions (
                             int divisionPerQuarterNote);
@@ -8755,6 +8752,7 @@ class EXP msrPart : public msrElement
 
     void                  testDivisionsAndDurations (); // JMI
     void                  testTupletSoundingQuarterNotesAndDurations ();
+*/
 
     // clef, key, time
     
@@ -8901,7 +8899,7 @@ class EXP msrPart : public msrElement
 
     string                fPartCurrentMeasureNumber;
 
-    rational              fPartMeasurePositionHighTide;
+    rational              fPartMeasureLengthHighTide;
 
     // part ID and name
     

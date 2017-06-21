@@ -118,12 +118,12 @@ class EXP rational {
     // rationalize
     // ------------------------------------------------------
 
-    void                  rationalise();
+    void                  rationalise ();
    
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os);
+    void                  print (ostream& os) const;
 
   private:    
 

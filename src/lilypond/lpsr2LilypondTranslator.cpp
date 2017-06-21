@@ -241,7 +241,10 @@ string lpsr2LilypondTranslator::divisionsAsLilypondString (
 {
   string result;
 
-  msrAssert(part != 0, "part == 0"); // JMI
+  msrAssert(
+    part != 0,
+    "part == 0"); // JMI
+  
   result =
     part->
       divisionsAsMsrString (
@@ -260,7 +263,9 @@ string lpsr2LilypondTranslator::tupletDivisionsAsLilypondString (
 {
   string result;
 
-  msrAssert(part != 0, "part == 0"); // JMI
+  msrAssert(
+    part != 0,
+    "part == 0"); // JMI
   
   result =
     part->
@@ -2813,57 +2818,50 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kUnderfullMeasureKind:
       {
         rational
-          mesurePosition =
-            elt->getMeasureCurrentPosition ();
+          measureLength =
+            elt->getMeasureLength ();
 
-        int
-          measureDivisionsPerFullMeasure =
-            elt->getMeasureDivisionsPerFullMeasure ();
+        rational
+          measureFullMeasureLength =
+            elt->getMeasureFullMeasureLength ();
 
         // we should set the score measure length in this case
-        rational r (
-          mesurePosition - 1, // positions start at 1
-          measureDivisionsPerFullMeasure);
-        r.rationalise ();
+        rational
+          ratioToFullLength =
+            measureLength / measureFullMeasureLength;
+        ratioToFullLength.rationalise ();
   
         if (gGeneralOptions->fTraceMeasures) {
+          const int fieldWidth = 27;
+          
           fOstream <<
             idtr <<
               "% Setting the measure length for measure " <<
               measureNumber <<
-              endl <<
-            idtr <<
               ", line = " << inputLineNumber <<
               endl <<
             idtr <<
-              "% mesurePosition              = " << mesurePosition <<
+              "% measureLength" << " = " << measureLength <<
               endl <<
             idtr <<
-              "% measureDivisionsPerFullMeasure  = " << measureDivisionsPerFullMeasure <<
+              "% measureFullMeasureLength" << " = " << measureFullMeasureLength <<
               endl <<
             idtr <<
-              "% r.getNumerator ()      = " << r.getNumerator () <<
-              endl <<
-            idtr <<
-              "% r.getDenominator ()    = " << r.getDenominator () <<
+              "% ratioToFullLength" << " = " << ratioToFullLength <<
               endl <<
             endl;
         }
 
-        int numerator =
-          r.getNumerator ();
-
-        if (numerator <= 0) { // TEMP JMI ???
-          // IGNORE
+        if (ratioToFullLength == rational (1, 1)) {
+          msrInternalError (
+            inputLineNumber,
+            "underfull measure is actuall the full measure length");
         }
 
         else {
           fOstream << idtr <<
             "\\set Score.measureLength = #(ly:make-moment " <<
-            to_string (numerator) <<
-            "/" <<
-            to_string (r.getDenominator ()) <<
-            ")" << // JMI
+            ratioToFullLength.toString () <<
             endl;
     
           // should we generate a break?
@@ -2909,9 +2907,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kEmptyMeasureKind:
       {
-        int
-          measureDivisionsPerFullMeasure =
-            elt->getMeasureDivisionsPerFullMeasure ();
+        rational
+          measureFullMeasureLength =
+            elt->getMeasureFullMeasureLength ();
 
         // generate a rest the duration of the measure
         fOstream <<
@@ -2919,7 +2917,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
             divisionsAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
-              measureDivisionsPerFullMeasure) <<
+              measureFullMeasureLength) <<
           " | ";
       }
       break;

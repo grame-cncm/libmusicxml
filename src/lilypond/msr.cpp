@@ -7602,14 +7602,14 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 void msrNote::print (ostream& os)
 {
   rational
-    divisionsPerFullMeasure =
+    measureFullMeasureLength =
       fNoteMeasureUplink
         ? 
           fNoteMeasureUplink->
-            getMeasureDivisionsPerFullMeasure ()
+            getMeasureFullMeasureLength ()
         : rational (0, 1); // JMI
   
-  // print the note itself and its position
+  // print the note itself and its positionInMeasure
   os <<
     noteAsString ();
 
@@ -7660,10 +7660,10 @@ void msrNote::print (ostream& os)
       break;
     } // switch
 
-  if (divisionsPerFullMeasure > 0)
+  if (measureFullMeasureLength > 0)
     os <<
-      "/" <<
-      divisionsPerFullMeasure <<
+      ", " <<
+      measureFullMeasureLength <<
       " dpfm";
 
   // print measure related information
@@ -7677,10 +7677,10 @@ void msrNote::print (ostream& os)
   else
     os << fNotePositionInMeasure;
     
-  if (divisionsPerFullMeasure > 0)
+  if (measureFullMeasureLength > 0)
     os <<
-      "/" <<
-      divisionsPerFullMeasure;
+      ", " <<
+      measureFullMeasureLength;
 
   // print rationalized position in measure if relevant
   if (fNoteMeasureUplink) {
@@ -8199,12 +8199,14 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   note->setNoteBelongsToAChord ();
   
   // populate note's measure number
-  note->setNoteMeasureNumber (
-    fChordMeasureNumber);
+  note->
+    setNoteMeasureNumber (
+      fChordMeasureNumber);
 
   // populate note's position in measure // JMI
-  note->setNotePositionInMeasure (
-    fChordPositionInMeasure);
+  note->
+    setNotePositionInMeasure (
+      fChordPositionInMeasure);
 }
 
 void msrChord::addAnotherNoteToChord (S_msrNote note)
@@ -8232,11 +8234,11 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 }
 
 void msrChord::setChordFirstNotePositionInMeasure (
-  rational position)
+  rational positionInMeasure)
 {
   if (fChordNotes.size ()) {
     fChordNotes.front ()->
-      setNotePositionInMeasure (position);
+      setNotePositionInMeasure (positionInMeasure);
   }
   else {
     // JMI XXL
@@ -8679,11 +8681,11 @@ string msrChord::chordAsString () const
 void msrChord::print (ostream& os)
 {
   rational
-    divisionsPerFullMeasure =
+    measureFullMeasureLength =
       fChordMeasureUplink
         ? 
           fChordMeasureUplink->
-            getMeasureDivisionsPerFullMeasure ()
+            getMeasureFullMeasureLength ()
         : rational (0, 1); // JMI
     
   os <<
@@ -8701,7 +8703,7 @@ void msrChord::print (ostream& os)
     ":" <<
     fChordPositionInMeasure <<
     "/" <<
-    divisionsPerFullMeasure;
+    measureFullMeasureLength;
 
   // print simplified position in measure if relevant
 // JMI  if (fChordMeasureUplink) {
@@ -9984,12 +9986,12 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
 }
 
 rational msrTuplet::setTupletPositionInMeasure (
-  rational position)
-  // returns the position after the tuplet
+  rational positionInMeasure)
+  // returns the position in measure after the tuplet
 {
-  fTupletPositionInMeasure = position;
+  fTupletPositionInMeasure = positionInMeasure;
 
-  rational currentPosition = position;
+  rational currentPosition = positionInMeasure;
   
   // compute position in measure for the tuplets elements
   for (
@@ -14700,12 +14702,13 @@ void msrMeasure::initializeMeasure ()
 
   // initialize measure position
   setMeasureCurrentPosition (
-    fInputLineNumber, 1); // ready to receive the first note
+    fInputLineNumber,
+    rational (0, 1)); // ready to receive the first note
 
-  // initialize measure position high tide
+  // initialize measure length high tide
   fMeasureDirectPartUplink->
-    setPartMeasurePositionHighTide (
-      fInputLineNumber, 1);
+    setPartMeasureLengthHighTide (
+      fInputLineNumber, rational (0, 1));
 }
 
 msrMeasure::~msrMeasure()
@@ -14759,16 +14762,16 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
 
 void msrMeasure::setMeasureCurrentPosition (
   int      inputLineNumber,
-  rational measurePosition)
+  rational measureLength)
 {
   if (gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Setting measure " << fMeasureNumber <<
-      " measure position to '"  << measurePosition <<
+      " measure length to '"  << measureLength <<
       "', line " << inputLineNumber <<
       endl;
   
-  fMeasureCurrentPosition = measurePosition;
+  fMeasureLength = measureLength;
 }
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
@@ -14816,7 +14819,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   fMeasureElementsList.push_back (time);
 
   // set the measure divisions per full measure
-  setMeasureDivisionsPerFullMeasureFromTime (
+  setMeasureFullMeasureLengthFromTime (
     time);
     
 /* JMI
@@ -14839,7 +14842,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureDivisionsPerFullMeasure = INT_MAX; // JMI
+    fMeasureFullMeasureLength = INT_MAX; // JMI
   }
   
   else {
@@ -14870,7 +14873,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
           endl;
     }
     
-    fMeasureDivisionsPerFullMeasure =
+    fMeasureFullMeasureLength =
       wholeNotesPerMeasure.getNumerator ()
         *
       partDivisionsPerQuarterNote * 4 // hence a whole note
@@ -14888,7 +14891,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         "\"" <<
         " has " <<
         singularOrPlural (
-          fMeasureDivisionsPerFullMeasure,
+          fMeasureFullMeasureLength,
           "divisions per full measure",
           "division per full measure") <<
         endl;
@@ -14896,7 +14899,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   */
 }
 
-void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
+void msrMeasure::setMeasureFullMeasureLengthFromTime (
   S_msrTime time)
 {
   msrAssert(
@@ -14909,7 +14912,7 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
       ||
     gGeneralOptions->fTraceGeneral) { // JMI
     cerr << idtr <<
-      "Setting measure divisions per full measure from time:" <<
+      "Setting measure full measure length from time:" <<
       endl;
 
     idtr++;
@@ -14950,7 +14953,7 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureDivisionsPerFullMeasure =
+    fMeasureFullMeasureLength =
       rational (INT_MAX, 1);
   }
   
@@ -14990,7 +14993,7 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
           endl;
     }
     
-    fMeasureDivisionsPerFullMeasure =
+    fMeasureFullMeasureLength =
       wholeNotesPerMeasure
         *
       partDivisionsPerQuarterNote * 4; // hence a whole note JMI
@@ -15005,8 +15008,8 @@ void msrMeasure::setMeasureDivisionsPerFullMeasureFromTime (
             getVoiceName () <<
         "\"" <<
         " has " <<
-        fMeasureDivisionsPerFullMeasure <<
-          "division per full measure" <<
+        fMeasureFullMeasureLength <<
+          "full measure length" <<
         endl;
   }
 }
@@ -15083,30 +15086,32 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // register note measure number
   note->setNoteMeasureNumber (fMeasureNumber);
   
-  // register note measure position
+  // register note measure position in measure
   rational
     noteMeasurePosition =
-      fMeasureCurrentPosition; // for harmony voice
+      fMeasureLength; // for harmony voice
   
-  note->setNotePositionInMeasure (noteMeasurePosition);
+  note->
+    setNotePositionInMeasure (
+      noteMeasurePosition);
   
   // fetch note sounding divisions
   rational noteSoundingQuarterNotes =
     note->getNoteSoundingQuarterNotes ();
 
-  // account for note duration in measure position
+  // account for note duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + noteSoundingQuarterNotes);
+    fMeasureLength + noteSoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
+    updatePartMeasureLengthHighTide (
       inputLineNumber,
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // determine if the note occupies a full measure
-  if (noteSoundingQuarterNotes == fMeasureDivisionsPerFullMeasure)
+  if (noteSoundingQuarterNotes == fMeasureFullMeasureLength)
     note->setNoteOccupiesAFullMeasure ();
 
   // append the note to the measure elements list
@@ -15147,11 +15152,11 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           endl;
 
 /* JMI
-      // bring harmony voice to the same measure position
+      // bring harmony voice to the same measure length
       partHarmonyVoice->
-        bringVoiceToMeasurePosition (
+        bringVoiceToMeasureLength (
           inputLineNumber,
-          noteMeasurePosition);
+          noteMeasureLength);
 */
 
       // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
@@ -15230,27 +15235,29 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // register note measure position
     rational
       noteMeasurePosition =
-        fMeasureCurrentPosition; // for harmony voice
+        fMeasureLength; // for harmony voice
     
-    note->setNotePositionInMeasure (noteMeasurePosition);
+    note->
+      setNotePositionInMeasure (
+        noteMeasurePosition);
     
     // fetch note sounding divisions
     rational
       noteSoundingQuarterNotes =
         note->getNoteSoundingQuarterNotes ();
 
-    // account for note duration in measure position
+    // account for note duration in measure length
     setMeasureCurrentPosition (
       inputLineNumber,
-      fMeasureCurrentPosition + noteSoundingQuarterNotes);
+      fMeasureLength + noteSoundingQuarterNotes);
   
-    // update part measure position high tide if need be
+    // update part measure length high tide if need be
     fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasureCurrentPosition);
+      updatePartMeasureLengthHighTide (
+        inputLineNumber, fMeasureLength);
   
     // determine if the note occupies a full measure
-    if (noteSoundingQuarterNotes == fMeasureDivisionsPerFullMeasure)
+    if (noteSoundingQuarterNotes == fMeasureFullMeasureLength)
       note->setNoteOccupiesAFullMeasure ();
   
     // append the note to the measure elements list
@@ -15351,12 +15358,13 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
   // register doubleTremolo measure number
   doubleTremolo->
-    setDoubleTremoloMeasureNumber (fMeasureNumber);
+    setDoubleTremoloMeasureNumber (
+      fMeasureNumber);
   
-  // register doubleTremolo measure position
+  // register doubleTremolo measure position in measure
   doubleTremolo->
     setDoubleTremoloPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // copy measure number to first note, that was created beforehand
   doubleTremolo->
@@ -15366,22 +15374,22 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // copy measure position to first note, that was created beforehand
   doubleTremolo->
     setDoubleTremoloPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // fetch doubleTremolo sounding divisions
   rational
     doubleTremoloSoundingQuarterNotes =
       doubleTremolo->getDoubleTremoloSoundingQuarterNotes ();
     
-  // account for doubleTremolo duration in measure position
+  // account for doubleTremolo duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + doubleTremoloSoundingQuarterNotes);
+    fMeasureLength + doubleTremoloSoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasureCurrentPosition);
+    updatePartMeasureLengthHighTide (
+      inputLineNumber, fMeasureLength);
 
   // determine if the doubleTremolo occupies a full measure
 // XXL  JMI  if (doubleTremoloSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
@@ -15390,12 +15398,12 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // append the doubleTremolo to the measure elements list
   fMeasureElementsList.push_back (doubleTremolo);
 
-  // bring harmony voice to the same measure position
+  // bring harmony voice to the same measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
-      bringVoiceToMeasurePosition (
+      bringVoiceToMeasureLength (
         inputLineNumber,
-        fMeasureCurrentPosition);
+        fMeasureLength);
 }
 
 void msrMeasure::appendMeasureRepeatToMeasure (
@@ -15429,7 +15437,7 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   // register measureRepeat measure position
   measureRepeat->
     setmeasureRepeatPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // copy measure number to first note, that was created beforehand
   measureRepeat->
@@ -15439,21 +15447,21 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   // copy measure position to first note, that was created beforehand
   measureRepeat->
     setmeasureRepeatPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // fetch measureRepeat sounding divisions
   int measureRepeatSoundingQuarterNotes =
     measureRepeat->getmeasureRepeatSoundingQuarterNotes ();
     
-  // account for measureRepeat duration in measure position
+  // account for measureRepeat duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + measureRepeatSoundingQuarterNotes);
+    fMeasureLength + measureRepeatSoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasureCurrentPosition);
+    updatePartMeasureLengthHighTide (
+      inputLineNumber, fMeasureLength);
 
   // determine if the measureRepeat occupies a full measure
 // XXL  JMI  if (measureRepeatSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
@@ -15464,12 +15472,12 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   fMeasureElementsList.push_back (measureRepeat);
 
 /* JMI
-  // bring harmony voice to the same measure position
+  // bring harmony voice to the same measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
-      bringVoiceToMeasurePosition (
+      bringVoiceToMeasureLength (
         inputLineNumber,
-        fMeasureCurrentPosition);
+        fMeasureLength);
         */
 }
 
@@ -15501,34 +15509,34 @@ void msrMeasure::appendMultipleRestToMeasure (
   multipleRest->
     setMultipleRestMeasureNumber (fMeasureNumber);
   
-  // register multipleRest measure position
+  // register multipleRest measure position in measure
   multipleRest->
     setMultipleRestPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // copy measure number to first note, that was created beforehand
   multipleRest->
     setMultipleRestMeasureNumber (
       fMeasureNumber);
   
-  // copy measure position to first note, that was created beforehand
+  // copy measure position in measure to first note, that was created beforehand
   multipleRest->
     setMultipleRestPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // fetch multipleRest sounding divisions
   int multipleRestSoundingQuarterNotes =
     multipleRest->getmultipleRestSoundingQuarterNotes ();
     
-  // account for multipleRest duration in measure position
+  // account for multipleRest duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + multipleRestSoundingQuarterNotes);
+    fMeasureLength + multipleRestSoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasureCurrentPosition);
+    updatePartMeasureLengthHighTide (
+      inputLineNumber, fMeasureLength);
 
   // determine if the multipleRest occupies a full measure
 // XXL  JMI  if (multipleRestSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
@@ -15539,12 +15547,12 @@ void msrMeasure::appendMultipleRestToMeasure (
   fMeasureElementsList.push_back (multipleRest);
 
 /* JMI
-  // bring harmony voice to the same measure position
+  // bring harmony voice to the same measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
-      bringVoiceToMeasurePosition (
+      bringVoiceToMeasureLength (
         inputLineNumber,
-        fMeasureCurrentPosition);
+        fMeasureLength);
         */
 }
 
@@ -15571,34 +15579,34 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   chord->
     setChordMeasureNumber (fMeasureNumber);
   
-  // register chord measure position
+  // register chord measure position in measure
   chord->
     setChordPositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // copy measure number to first note, that was created beforehand
   chord->
     setChordFirstNoteMeasureNumber (
       fMeasureNumber);
   
-  // copy measure position to first note, that was created beforehand
+  // copy measure position in measure to first note, that was created beforehand
   chord->
     setChordFirstNotePositionInMeasure (
-      fMeasureCurrentPosition);
+      fMeasureLength);
 
   // fetch chord sounding divisions
   rational chordSoundingQuarterNotes =
     chord->getChordSoundingQuarterNotes ();
     
-  // account for chord duration in measure position
+  // account for chord duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + chordSoundingQuarterNotes);
+    fMeasureLength + chordSoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasureCurrentPosition);
+    updatePartMeasureLengthHighTide (
+      inputLineNumber, fMeasureLength);
 
   // determine if the chord occupies a full measure
 // XXL  JMI  if (chordSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
@@ -15607,12 +15615,12 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // append the chord to the measure elements list
   fMeasureElementsList.push_back (chord);
 
-  // bring harmony voice to the same measure position
+  // bring harmony voice to the same measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
-      bringVoiceToMeasurePosition (
+      bringVoiceToMeasureLength (
         inputLineNumber,
-        fMeasureCurrentPosition);
+        fMeasureLength);
 }
 
 void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
@@ -15638,35 +15646,37 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   tuplet->
     setTupletMeasureNumber (fMeasureNumber);
   
-  // register tuplet measure position
+  // register tuplet measure position in measure
   rational
     dummy = // JMI
       tuplet->
-        setTupletPositionInMeasure (fMeasureCurrentPosition);
+        setTupletPositionInMeasure (
+          fMeasureLength);
 
 /* JMI
   // copy measure number to first note, that was created beforehand
   tuplet->
     setTupletFirstNoteMeasureNumber (fMeasureNumber);
   
-  // copy measure position to first note, that was created beforehand
+  // copy measure position in measure to first note, that was created beforehand
   tuplet->
-    setTupletFirstNotePositionInMeasure (fMeasureCurrentPosition);
+    setTupletFirstNotePositionInMeasure (
+      fMeasureLength);
  */
   
   // fetch tuplet sousnding divisions
   rational tupletSoundingQuarterNotes =
     tuplet->getTupletSoundingQuarterNotes ();
     
-  // account for tuplet duration in measure position
+  // account for tuplet duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + tupletSoundingQuarterNotes);
+    fMeasureLength + tupletSoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasureCurrentPosition);
+    updatePartMeasureLengthHighTide (
+      inputLineNumber, fMeasureLength);
 
 /* JMI
   // set tuplet members' displayed divisions
@@ -15681,12 +15691,12 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // append the tuplet to the measure elements list
   fMeasureElementsList.push_back (tuplet);
 
-    // bring harmony voice to the same measure position
+    // bring harmony voice to the same measure length
     fMeasureDirectPartUplink->
       getPartHarmonyVoice ()->
-        bringVoiceToMeasurePosition (
+        bringVoiceToMeasureLength (
           inputLineNumber,
-          fMeasureCurrentPosition);
+          fMeasureLength);
 }
 
 void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
@@ -15703,7 +15713,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
         getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"" <<
-      ", fMeasureCurrentPosition = " << fMeasureCurrentPosition <<
+      ", measureLength = " << fMeasureLength <<
       endl;
 
   // populate measure uplink
@@ -15713,10 +15723,10 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 //   harmony->
 // JMI     setHarmonyMeasureNumber (fMeasureNumber);
   
-  // register harmony measure position
+  // register harmony measure position in measure
 //  int dummy = // JMI
  //   harmony->
-  //    setHarmonyPositionInMeasure (fMeasureCurrentPosition);
+  //    setHarmonyPositionInMeasure (fMeasureLength);
 
 
 /* JMI
@@ -15758,15 +15768,15 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
         appendNoteToVoice (skip);
   */
 
-    // account for harmony duration in measure position
+    // account for harmony duration in measure length
     setMeasureCurrentPosition (
       inputLineNumber,
-      fMeasureCurrentPosition + harmonySoundingQuarterNotes);
+      fMeasureLength + harmonySoundingQuarterNotes);
   
-    // update part measure position high tide if need be
+    // update part measure length high tide if need be
     fMeasureDirectPartUplink->
-      updatePartMeasurePositionHighTide (
-        inputLineNumber, fMeasureCurrentPosition);
+      updatePartMeasureLengthHighTide (
+        inputLineNumber, fMeasureLength);
     
     // append the harmony to the measure elements list
     fMeasureElementsList.push_back (harmony);
@@ -15788,47 +15798,47 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
         getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"" <<
-      ", fMeasureCurrentPosition = " << fMeasureCurrentPosition <<
+      ", measureLength = " << fMeasureLength <<
       endl;
       
   // fetch harmony sounding divisions
   rational harmonySoundingQuarterNotes =
     harmony->getHarmonySoundingQuarterNotes ();
     
-  // account for harmony duration in measure position
+  // account for harmony duration in measure length
   setMeasureCurrentPosition (
     inputLineNumber,
-    fMeasureCurrentPosition + harmonySoundingQuarterNotes);
+    fMeasureLength + harmonySoundingQuarterNotes);
 
-  // update part measure position high tide if need be
+  // update part measure length high tide if need be
   fMeasureDirectPartUplink->
-    updatePartMeasurePositionHighTide (
-      inputLineNumber, fMeasureCurrentPosition);
+    updatePartMeasureLengthHighTide (
+      inputLineNumber, fMeasureLength);
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (harmony);
 }
 
-void msrMeasure::bringMeasureToMeasurePosition (
+void msrMeasure::bringMeasureToMeasureLength (
   int      inputLineNumber,
-  rational measurePosition)
+  rational measureLength)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "Bringing measure position for measure '" <<
+      "Bringing measure length for measure '" <<
       fMeasureNumber <<
       "' in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
-      " from " << fMeasureCurrentPosition <<
-      " to " << measurePosition <<
+      " from " << fMeasureLength <<
+      " to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
 
-  if (fMeasureCurrentPosition < measurePosition) {
-    // appending a skip to this measure to reach measurePosition
+  if (fMeasureLength < measureLength) {
+    // appending a skip to this measure to reach measureLength
     rational
       skipDuration =
-        measurePosition - fMeasureCurrentPosition;
+        measureLength - fMeasureLength;
     
     // fetch the voice
     S_msrVoice
@@ -15850,14 +15860,14 @@ void msrMeasure::bringMeasureToMeasurePosition (
             getExternalVoiceNumber ());
 
     // does the skip occupy a full measure?
-    if (skipDuration == fMeasureDivisionsPerFullMeasure)
+    if (skipDuration == fMeasureFullMeasureLength)
       skip->
         setNoteOccupiesAFullMeasure ();
   
-    // register skip's measure position
+    // register skip's measure length
     skip->
       setNotePositionInMeasure (
-        fMeasureCurrentPosition);
+        fMeasureLength);
            
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
       cerr << idtr <<
@@ -15865,8 +15875,8 @@ void msrMeasure::bringMeasureToMeasurePosition (
        " (" << skipDuration <<
        " divs) to bring voice \"" << voice->getVoiceName () <<
        "\" measure '" << fMeasureNumber << "'" <<
-       " from position " << fMeasureCurrentPosition <<
-       " to position '" << measurePosition << "'" <<
+       " from length " << fMeasureLength <<
+       " to length '" << measureLength << "'" <<
         ", skipDuration = " << skipDuration <<
        endl;
 
@@ -15876,9 +15886,9 @@ void msrMeasure::bringMeasureToMeasurePosition (
     appendNoteToMeasure (skip);
 
 /*
-    // account for skip duration in measure position
+    // account for skip duration in measure length
     setMeasureCurrentPosition (
-      inputLineNumber, fMeasureCurrentPosition + skipDuration);
+      inputLineNumber, fMeasureLength + skipDuration);
 */
   }
 }
@@ -16059,13 +16069,10 @@ void msrMeasure::removeNoteFromMeasure (
       // found note, erase it
       fMeasureElementsList.erase (i);
       
-      // dont update position in measure: // JMI
-      // the chord will replace its first note
-
-      // update position in measure
+      // update measure length
       setMeasureCurrentPosition (
         inputLineNumber,
-        fMeasureCurrentPosition
+        fMeasureLength
           -
         fMeasureLastHandledNote->getNoteSoundingQuarterNotes ());
 
@@ -16140,14 +16147,14 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
         // remove last element
         fMeasureElementsList.pop_back ();
 
-        // update position in measure
-        fMeasureCurrentPosition -=
+        // update measure length
+        fMeasureLength -=
           fMeasureLastHandledNote->getNoteSoundingQuarterNotes ();
 / *
 // JMI
         // set note's measure position, needed for chord handling
         fMeasureLastHandledNote->
-          setNotePositionInMeasure (fMeasureCurrentPosition);
+          setNotePositionInMeasure (fMeasureLength);
 * /
       }
 
@@ -16202,12 +16209,12 @@ bool msrMeasure::checkForIncompleteMeasure (
     
     cerr << left <<
       idtr <<
-        setw(fieldWidth) << "MeasureDivisionsPerFullMeasure" << " = " <<
-        fMeasureDivisionsPerFullMeasure <<
+        setw(fieldWidth) << "MeasureFullMeasureLength" << " = " <<
+        fMeasureFullMeasureLength <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "MeasurePosition" << " = " <<
-        fMeasureCurrentPosition <<
+        setw(fieldWidth) << "MeasureLength" << " = " <<
+        fMeasureLength <<
         endl <<
       idtr <<
         setw(fieldWidth) << "MeasureLength" << " = " <<
@@ -16219,7 +16226,7 @@ bool msrMeasure::checkForIncompleteMeasure (
 
   bool measureIsIncomplete =
     // positions start at 1
-    fMeasureCurrentPosition <= fMeasureDivisionsPerFullMeasure;
+    fMeasureLength <= fMeasureFullMeasureLength;
 
   if (measureIsIncomplete) {    
     if (gGeneralOptions->fTraceMeasures) {
@@ -16235,13 +16242,13 @@ bool msrMeasure::checkForIncompleteMeasure (
           "\"" <<
           " is " <<
           string(
-            fMeasureCurrentPosition == 1
+            fMeasureLength == 1
               ? "incomplete"
               : "empty") <<
           ", line " << inputLineNumber <<
-          ": position = " << fMeasureCurrentPosition <<
+          ": length = " << fMeasureLength <<
           ", divisionsPerWholeMeasure = " <<
-          fMeasureDivisionsPerFullMeasure <<
+          fMeasureFullMeasureLength <<
         endl;
     }
     
@@ -16275,12 +16282,12 @@ bool msrMeasure::checkForOverfullMeasure (
     
     cerr <<
       idtr <<
-        setw(fieldWidth) << "MeasureDivisionsPerFullMeasure" << " = " <<
-        fMeasureDivisionsPerFullMeasure <<
+        setw(fieldWidth) << "MeasureFullMeasureLength" << " = " <<
+        fMeasureFullMeasureLength <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "MeasurePosition" << " = " <<
-        fMeasureCurrentPosition <<
+        setw(fieldWidth) << "MeasureLength" << " = " <<
+        fMeasureLength <<
         endl <<
       idtr <<
         setw(fieldWidth) << "MeasureLength" << " = " <<
@@ -16292,7 +16299,7 @@ bool msrMeasure::checkForOverfullMeasure (
 
   bool measureIsOverfull =
     // positions start at 1
-    fMeasureCurrentPosition > fMeasureDivisionsPerFullMeasure + 1;
+    fMeasureLength > fMeasureFullMeasureLength + 1;
 
   if (measureIsOverfull) {    
     if (gGeneralOptions->fTraceMeasures) {
@@ -16308,9 +16315,9 @@ bool msrMeasure::checkForOverfullMeasure (
           "\"" <<
           " is overfull" <<
           ", line " << inputLineNumber <<
-          ": position = " << fMeasureCurrentPosition <<
+          ": length = " << fMeasureLength <<
           ", divisionsPerWholeMeasure = " <<
-          fMeasureDivisionsPerFullMeasure <<
+          fMeasureFullMeasureLength <<
         endl;
     }
     
@@ -16332,11 +16339,11 @@ void msrMeasure::finalizeMeasure (
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ();
     
-  // fetch the part measure position high tide
+  // fetch the part measure length high tide
   rational
-    partMeasurePositionHighTide =
+    partMeasureLengthHighTide =
       fMeasureDirectPartUplink->
-        getPartMeasurePositionHighTide ();
+        getPartMeasureLengthHighTide ();
     
   if (gGeneralOptions->fTraceMeasures) {
     cerr <<
@@ -16350,11 +16357,11 @@ void msrMeasure::finalizeMeasure (
 
     cerr <<
       idtr <<
-        "fMeasureCurrentPosition = " << fMeasureCurrentPosition <<
+        "measureLength = " << fMeasureLength <<
         endl <<
       idtr <<
-        "partMeasurePositionHighTide = " <<
-        partMeasurePositionHighTide <<
+        "partMeasureLengthHighTide = " <<
+        partMeasureLengthHighTide <<
         endl;
         
     idtr--;
@@ -16362,15 +16369,15 @@ void msrMeasure::finalizeMeasure (
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
     
-    if (fMeasureCurrentPosition < partMeasurePositionHighTide) {
-      // appending a skip to this measure to reach measurePosition
+    if (fMeasureLength < partMeasureLengthHighTide) {
+      // appending a skip to this measure to reach measureLength
       rational
         skipDuration =
-          partMeasurePositionHighTide - fMeasureCurrentPosition;
+          partMeasureLengthHighTide - fMeasureLength;
       /* JMI
-        partMeasurePositionHighTide > fMeasureDivisionsPerFullMeasure // + 1 // JMI ???
-          ? partMeasurePositionHighTide - fMeasureCurrentPosition
-          : fMeasureDivisionsPerFullMeasure - fMeasureCurrentPosition;
+        partMeasureLengthHighTide > fMeasureFullMeasureLength // + 1 // JMI ???
+          ? partMeasureLengthHighTide - fMeasureLength
+          : fMeasureFullMeasureLength - fMeasureLength;
           */
       
       // create the skip
@@ -16387,21 +16394,21 @@ void msrMeasure::finalizeMeasure (
               getExternalVoiceNumber ());
   
       // does the skip occupy a full measure?
-      if (skipDuration == fMeasureDivisionsPerFullMeasure)
+      if (skipDuration == fMeasureFullMeasureLength)
         skip->setNoteOccupiesAFullMeasure ();
     
-      // register skip's measure position
+      // register skip's position in measure
       skip->
-        setNotePositionInMeasure (fMeasureCurrentPosition);
+        setNotePositionInMeasure (fMeasureLength);
              
       if (gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
          "Appending '" << skip->noteAsString () <<
          " (" << skipDuration << " divs)'" <<
          " to finalize \"" << voice->getVoiceName () <<
-         "\" measure: @" << fMeasureNumber << ":" << fMeasureCurrentPosition <<
-         " % --> @" << fMeasureNumber <<
-         ":" << partMeasurePositionHighTide <<
+         "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
+         " % --> @" << fMeasureNumber << // JMI
+         ":" << partMeasureLengthHighTide <<
           ", skipDuration = " << skipDuration <<
          endl;
   
@@ -16413,7 +16420,7 @@ void msrMeasure::finalizeMeasure (
   
     // determine the measure kind
     // positions start at 1
-    if (fMeasureCurrentPosition == fMeasureDivisionsPerFullMeasure + 1) {
+    if (fMeasureLength == fMeasureFullMeasureLength) {
       // full measure
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr <<
@@ -16428,8 +16435,8 @@ void msrMeasure::finalizeMeasure (
         kFullMeasureKind);
     }
     
-    else if (fMeasureCurrentPosition == 1) {
-      // overfull measure
+    else if (fMeasureLength == rational (0, 1)) {
+      // empty measure
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr <<
         "Measure '" << fMeasureNumber <<
@@ -16443,7 +16450,7 @@ void msrMeasure::finalizeMeasure (
         kEmptyMeasureKind);
     }
     
-    else if (fMeasureCurrentPosition <= fMeasureDivisionsPerFullMeasure) {
+    else if (fMeasureLength < fMeasureFullMeasureLength) {
       //  incomplete measure
       switch (fMeasureFirstInSegmentKind) {
         case msrMeasure::kMeasureFirstInSegmentYes:
@@ -16476,7 +16483,7 @@ void msrMeasure::finalizeMeasure (
       } // switch
     }
   
-    else if (fMeasureCurrentPosition > fMeasureDivisionsPerFullMeasure + 1) {
+    else if (fMeasureLength > fMeasureFullMeasureLength) {
       // overfull measure
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr <<
@@ -16578,8 +16585,8 @@ string msrMeasure::getMeasureLengthAsString () const
       idtr <<
         "% --> measure " << fMeasureNumber <<
         ", measureLength = " << measureLength <<
-        ", fMeasureDivisionsPerFullMeasure = " <<
-        fMeasureDivisionsPerFullMeasure <<
+        ", measureFullMeasureLength = " <<
+        fMeasureFullMeasureLength <<
       endl;
 
   if (measureLength > 0) {
@@ -16679,10 +16686,10 @@ string msrMeasure::getMeasureKindAsString () const
 void msrMeasure::print (ostream& os)
 {
   /* JMI
-  // fetch the part measure position high tide
-  int partMeasurePositionHighTide =
+  // fetch the part measure length high tide
+  int partMeasureLengthHighTide =
     fMeasureDirectPartUplink->
-      getPartMeasurePositionHighTide ();
+      getPartMeasureLengthHighTide ();
    */
 
   os <<
@@ -16696,14 +16703,14 @@ void msrMeasure::print (ostream& os)
       ", line " << fInputLineNumber <<
       ", length: " << getMeasureLength () << " divs" <<
       " (" << getMeasureLengthAsString () << ")" <<
-      ", " << fMeasureDivisionsPerFullMeasure << " dpfm" <<
-   // JMI   ", pos = " << fMeasureCurrentPosition << ", " <<
+      ", " << fMeasureFullMeasureLength << " dpfm" <<
+   // JMI   ", pos = " << fMeasureLength << ", " <<
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
   // JMI      ", part high tide = " <<
   // JMI      fMeasureDirectPartUplink->
-  // JMI        getPartMeasurePositionHighTide () <<
+  // JMI        getPartMeasureLengthHighTide () <<
       endl;
       
   if (fMeasureElementsList.size ()) {
@@ -16814,7 +16821,7 @@ void msrSegment::createSegmentInitialMeasure () // JMI
         
   // set the measure divisions per full measure
   firstMeasure->
-    setMeasureDivisionsPerFullMeasureFromTime (
+    setMeasureFullMeasureLengthFromTime (
       staffCurrentTime);
 
   // append first measure to the segment
@@ -17295,26 +17302,26 @@ void msrSegment::appendOctaveShiftToSegment (
     appendOctaveShiftToMeasure (octaveShift);
 }
 
-void msrSegment::bringSegmentToMeasurePosition (
-  int inputLineNumber,
-  int measurePosition)
+void msrSegment::bringSegmentToMeasureLength (
+  int      inputLineNumber,
+  rational measureLength)
 {
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "Bringing measure position for segment '" <<
+      "Bringing measure length for segment '" <<
       fSegmentAbsoluteNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->
         getVoiceName () <<
       "\"," <<
-      "' to " << measurePosition <<
+      "' to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
 
-  // append last measure to this position
+  // append last measure to this length
   fSegmentMeasuresList.back ()->
-    bringMeasureToMeasurePosition (
-      inputLineNumber, measurePosition);
+    bringMeasureToMeasureLength (
+      inputLineNumber, measureLength);
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -19921,21 +19928,21 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
   } // switch
 }
 
-void msrVoice::bringVoiceToMeasurePosition (
+void msrVoice::bringVoiceToMeasureLength (
   int      inputLineNumber,
-  rational measurePosition)
+  rational measureLength)
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
-      "Bringing measure position for voice \"" <<
+      "Bringing measure length for voice \"" <<
       getVoiceName () <<
-      "\" to " << measurePosition <<
+      "\" to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
 
   fVoiceLastSegment->
-    bringSegmentToMeasurePosition (
-      inputLineNumber, measurePosition);
+    bringSegmentToMeasureLength (
+      inputLineNumber, measureLength);
 }
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
@@ -22777,8 +22784,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
   // append the time to this staff
   appendTimeToStaff (time);
 
-  // set fMeasureDivisionsPerFullMeasure accordingly
- // setMeasureDivisionsPerFullMeasureFromTime (
+  // set fMeasureFullMeasureLength accordingly
+ // setMeasureFullMeasureLengthFromTime (
  //   partCurrentTime);
           
   // register the voice by its relative number
@@ -23725,8 +23732,8 @@ void msrPart::initializePart ()
 
 // JMI  fPartDivisionsPerQuarterNote = rational (-417, 1); // JMI
   
-  setPartMeasurePositionHighTide (
-    fInputLineNumber, 1);
+  setPartMeasureLengthHighTide (
+    fInputLineNumber, rational (0, 1));
 
 /* JMI
   // set part current time to the default 4/4 time signature
@@ -24407,35 +24414,35 @@ void msrPart::createPartHarmonyStaffAndVoice (
       fPartHarmonyVoice );
 }
 
-void msrPart::setPartMeasurePositionHighTide (
+void msrPart::setPartMeasureLengthHighTide (
   int      inputLineNumber,
-  rational measurePosition)
+  rational measureLength)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Setting measure position high tide for part \"" <<
+      "Setting measure length high tide for part \"" <<
       getPartCombinedName () <<
-      "\" to " << measurePosition <<
+      "\" to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
 
-  fPartMeasurePositionHighTide = measurePosition;
+  fPartMeasureLengthHighTide = measureLength;
 }
 
-void msrPart::updatePartMeasurePositionHighTide (
+void msrPart::updatePartMeasureLengthHighTide (
   int      inputLineNumber,
-  rational measurePosition)
+  rational measureLength)
 {
-  if (measurePosition > fPartMeasurePositionHighTide) {
+  if (measureLength > fPartMeasureLengthHighTide) {
     if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
-          "Updating measure position high tide for part \"" <<
+          "Updating measure length high tide for part \"" <<
           getPartCombinedName () <<
-          "\" to " << measurePosition <<
+          "\" to " << measureLength <<
           ", line " << inputLineNumber <<
           endl;
 
-    fPartMeasurePositionHighTide = measurePosition;
+    fPartMeasureLengthHighTide = measureLength;
   }
 }
 
@@ -25195,7 +25202,7 @@ void msrPart::print (ostream& os)
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
     ", measures " <<
-    ", position high tide " << fPartMeasurePositionHighTide <<
+    ", length high tide " << fPartMeasureLengthHighTide <<
     ")" <<
     endl;
     
@@ -25318,7 +25325,7 @@ void msrPart::printStructure (ostream& os)
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
-    ", position high tide " << fPartMeasurePositionHighTide <<
+    ", length high tide " << fPartMeasureLengthHighTide <<
     ")" <<
     endl;
     

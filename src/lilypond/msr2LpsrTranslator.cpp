@@ -1171,20 +1171,29 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
           getSegmentVoiceUplink ();
     
   // fetch the part measure position high tide
-  int partMeasurePositionHighTide =
-    fCurrentMeasureClone->
-      getMeasureDirectPartUplink ()->
-        getPartMeasurePositionHighTide ();
+  rational
+    partMeasureLengthHighTide = // JMI
+      fCurrentMeasureClone->
+        getMeasureDirectPartUplink ()->
+          getPartMeasureLengthHighTide ();
 
-  string measureNumber =
-    fCurrentMeasureClone->getMeasureNumber ();
-    
-  int measurePosition =
-    fCurrentMeasureClone->getMeasurePosition ();
+  // get the measure number
+  string
+    measureNumber =
+      fCurrentMeasureClone->
+        getMeasureNumber ();
 
-  int measureDivisionsPerFullMeasure =
-    fCurrentMeasureClone->
-      getMeasureDivisionsPerFullMeasure ();
+  // get the measure length
+  rational
+    measureLength =
+      fCurrentMeasureClone->
+        getMeasureLength ();
+
+  // get the full measure length
+  rational
+    measureFullMeasureLength =
+      fCurrentMeasureClone->
+        getMeasureFullMeasureLength ();
     
   if (gGeneralOptions->fTraceMeasures) {
     cerr <<
@@ -1194,27 +1203,26 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
         "\", line " << inputLineNumber <<
         endl <<
       idtr <<
-        "measurePosition = " << measurePosition <<
+        "measureLength = " << measureLength <<
         endl <<
       idtr <<
-        "partMeasurePositionHighTide = " <<
-        partMeasurePositionHighTide <<
+        "partMeasureLengthHighTide = " <<
+        partMeasureLengthHighTide <<
         endl;
   }
 
   msrMeasure::msrMeasureKind measureKind; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
     
-  // positions start at 1
-
-  if (measurePosition == measureDivisionsPerFullMeasure + 1) { // JMI
+  if (measureLength == measureFullMeasureLength ) {
+    // this measure is full
     measureKind =
       msrMeasure::kFullMeasureKind;
   }
       
-  else if (measurePosition <= measureDivisionsPerFullMeasure) { // JMI
+  else if (measureLength < measureFullMeasureLength) {
     /*
-    if (fSegmentMeasuresList.size () == 1) {
+    if (fSegmentMeasuresList.size () == 1) { // JMI
       // this is the first measure in the segment
       measureKind =
         msrMeasure::kIncompleteLeftMeasure;
@@ -1226,11 +1234,14 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
         msrMeasure::kIncompleteRightMeasure;
     }
     */
+
+    // this measure is an up beat
     measureKind =
       msrMeasure::kUpbeatMeasureKind; // JMI
   }
 
-  else if (measurePosition > measureDivisionsPerFullMeasure + 1) {
+  else if (measureLength > measureFullMeasureLength) {
+    // this measure is overfull
     measureKind =
       msrMeasure::kOverfullMeasureKind;
   }
@@ -2267,7 +2278,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           cerr <<  idtr <<
             "Appending note " <<
             fCurrentNoteClone->notePitchAsString () <<
-            ":" << fCurrentNoteClone->getNoteSoundingQuarterNotes () <<
+            ":" <<
+            fCurrentNoteClone->getNoteSoundingQuarterNotes () <<
             " to the grace notes in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
@@ -2283,7 +2295,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           cerr <<  idtr <<
             "Appending note " <<
             fCurrentNoteClone->notePitchAsString () <<
-            ":" << fCurrentNoteClone->getNoteSoundingQuarterNotes () <<
+            ":" <<
+            fCurrentNoteClone->getNoteSoundingQuarterNotes () <<
             " to the after grace notes in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;

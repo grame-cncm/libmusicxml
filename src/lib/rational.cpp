@@ -293,7 +293,7 @@ ostream& operator<< (ostream& os, const rational& rat)
 }
 
 //______________________________________________________________________________
-void rational::print (ostream& os)
+void rational::print (ostream& os) const
 {
   os <<
     fNumerator << "/" << fDenominator;

@@ -411,6 +411,11 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
+    // divisions per quarter note
+    // ------------------------------------------------------
+
+    S_msrDivisions        fCurrentDivisions;
+    
     // divisions
     
     string                divisionsAsLilypondString (
