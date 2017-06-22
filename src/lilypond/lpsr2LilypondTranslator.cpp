@@ -4364,7 +4364,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            noteSoundingQuarterNotesAsMsrString ());
+            getNoteSoundingQuarterNotesAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())

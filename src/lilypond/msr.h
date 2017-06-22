@@ -4481,6 +4481,12 @@ class EXP msrNote : public msrElement
                                   fTupletSoundingQuarterNotesAsMsrString;
                               }
                               
+    string                getNoteSoundingQuarterNotesAsMsrString () const
+                              {
+                                return
+                                  fNoteSoundingQuarterNotesAsMsrString;
+                              }
+                              
     // uplinks
     // measure uplink
     void                  setNoteMeasureUplink (
@@ -4735,8 +4741,9 @@ class EXP msrNote : public msrElement
 
     // note as MSR string
     // ------------------------------------------------------
-
     // these fileds are set by msrNote::create()
+    
+    string                fNoteSoundingQuarterNotesAsMsrString;
     string                fTupletSoundingQuarterNotesAsMsrString;
 
     // note redundant information (for speed)

@@ -6182,6 +6182,14 @@ void msrNote::initializeNote ()
       break;
       
     case msrNote::kStandaloneNote:
+      {
+        fNoteSoundingQuarterNotesAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              quarterNotesAsMsrString (
+                fInputLineNumber,
+                fNoteSoundingQuarterNotes);
+      }
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
