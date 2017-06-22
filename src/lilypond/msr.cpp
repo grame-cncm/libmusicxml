@@ -6513,6 +6513,16 @@ S_msrNote msrNote::createNoteShallowClone (
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
 
+
+  // note as MSR string
+  // ------------------------------------------------------
+
+  clone->fNoteSoundingQuarterNotesAsMsrString =
+    fNoteSoundingQuarterNotesAsMsrString;
+    
+  clone->fTupletSoundingQuarterNotesAsMsrString =
+    fTupletSoundingQuarterNotesAsMsrString;
+
   // note redundant information (for speed)
   // ------------------------------------------------------
 

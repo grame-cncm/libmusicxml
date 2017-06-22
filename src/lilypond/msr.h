@@ -4659,7 +4659,7 @@ class EXP msrNote : public msrElement
 
    list<S_msrSyllable>    fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
-                      fNoteSyllableExtendKind; // MEGA JMI
+                          fNoteSyllableExtendKind; // MEGA JMI
     
     // stem
     // ------------------------------------------------------
