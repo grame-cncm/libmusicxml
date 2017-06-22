@@ -25208,7 +25208,7 @@ void msrPart::browseData (basevisitor* v)
   msrBrowser<msrStaff> browser (v);
   browser.browse (*fPartHarmonyStaff);
   */
-  
+
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
