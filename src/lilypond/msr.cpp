@@ -7744,7 +7744,7 @@ void msrNote::print (ostream& os)
       os <<
         "note divisions per quarter note: " <<
         fNoteDivisionsPerQuarterNote <<
-        "quarter notes: " <<
+        ", quarter notes: " <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes<<
