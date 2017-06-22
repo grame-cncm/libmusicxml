@@ -4157,6 +4157,8 @@ class EXP msrNote : public msrElement
       msrNoteKind          noteKind,
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
+
+      int                  noteDivisionsPerQuarterNote,
       
       rational             noteSoundingQuarterNotes,
       rational             noteDisplayQuarterNotes,
@@ -4183,7 +4185,8 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
-      rational  divisions,
+      int       noteDivisionsPerQuarterNote,
+      rational  quarterNotes,
       int       dotsNumber,
       int       staffNumber,
       int       externalVoiceNumber);
@@ -4201,6 +4204,8 @@ class EXP msrNote : public msrElement
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
       
+      int                  noteDivisionsPerQuarterNote,
+
       rational             noteSoundingQuarterNotes,
       rational             noteDisplayQuarterNotes,
       
@@ -4247,7 +4252,13 @@ class EXP msrNote : public msrElement
 
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
-                              
+
+    // note divisions per quarter note
+    int                   getNoteDivisionsPerQuarterNote () const
+                              { return fNoteDivisionsPerQuarterNote; }
+
+    // note quarter notes
+    
     rational              getNoteSoundingQuarterNotes ()
                               { return fNoteSoundingQuarterNotes; }
 
@@ -4474,7 +4485,7 @@ class EXP msrNote : public msrElement
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
 
-    // MSR strings
+    // note MSR strings
     void                  setNoteMSRstrings ();
 
     string                getNoteSoundingQuarterNotesAsMsrString () const
@@ -4622,6 +4633,8 @@ class EXP msrNote : public msrElement
     msrNoteKind           fNoteKind;
 
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
+
+    int                   fNoteDivisionsPerQuarterNote; // JMI
     
     rational              fNoteSoundingQuarterNotes;
     rational              fNoteDisplayQuarterNotes;
@@ -5696,6 +5709,13 @@ class EXP msrDivisions : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setfDivisionsPerQuarterNote (
+                            int divisionsPerQuarterNote)
+                              {
+                                fDivisionsPerQuarterNote =
+                                  divisionsPerQuarterNote;
+                              }
+                              
     int                   getDivisionsPerQuarterNote () const
                               { return fDivisionsPerQuarterNote; }
                         

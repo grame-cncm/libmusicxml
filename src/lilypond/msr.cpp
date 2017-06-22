@@ -5637,6 +5637,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
         msrNote::createSkipNote (
           note->       getInputLineNumber (),
           voiceClone-> getVoiceDirectPartUplink (),
+          note->       getNoteDivisionsPerQuarterNote (),
           note->       getNoteSoundingQuarterNotes (),
           note->       getNoteDotsNumber (),
           voiceClone-> getStaffRelativeVoiceNumber (), // JMI
@@ -5993,6 +5994,8 @@ S_msrNote msrNote::create (
   msrNoteKind          noteKind,
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
+
+  int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingQuarterNotes,
   rational             noteDisplayQuarterNotes,
@@ -6019,6 +6022,8 @@ S_msrNote msrNote::create (
       noteKind,
       
       noteQuarterTonesPitch,
+
+      noteDivisionsPerQuarterNote,
       
       noteSoundingQuarterNotes,
       noteDisplayQuarterNotes,
@@ -6044,6 +6049,7 @@ S_msrNote msrNote::create (
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   S_msrPart noteDirectPartUplink,
+  int       noteDivisionsPerQuarterNote,
   rational  quarterNotes,
   int       dotsNumber,
   int       staffNumber,
@@ -6057,6 +6063,8 @@ S_msrNote msrNote::createSkipNote (
       kSkipNote, // noteKind
       
       k_NoQuarterTonesPitch, // noteQuarterTonesPitch
+
+      noteDivisionsPerQuarterNote,
       
       quarterNotes, // noteSoundingQuarterNotes
       quarterNotes, // noteDisplayQuarterNotes
@@ -6086,6 +6094,8 @@ msrNote::msrNote (
   msrNoteKind          noteKind,
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
+  
+  int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingQuarterNotes,
   rational             noteDisplayQuarterNotes,
@@ -6117,6 +6127,8 @@ msrNote::msrNote (
   fNoteKind = noteKind;
 
   fNoteQuarterTonesPitch  = noteQuarterTonesPitch;
+
+  fNoteDivisionsPerQuarterNote = noteDivisionsPerQuarterNote;
   
   fNoteSoundingQuarterNotes  = noteSoundingQuarterNotes;
   fNoteDisplayQuarterNotes = noteDisplayQuarterNotes;
@@ -6378,12 +6390,19 @@ void msrNote::setNoteMSRstrings ()
       
     case msrNote::kStandaloneNote:
       {
-        fNoteSoundingQuarterNotesAsMsrString =
+        fNoteSoundingQuarterNotesAsMsrString = // pas au point JMI
           fNoteDirectPartUplink->
             getPartCurrentDivisions ()->
               quarterNotesAsMsrString (
                 fInputLineNumber,
                 fNoteSoundingQuarterNotes);
+
+        fNoteSoundingQuarterNotesAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              divisionsAsMsrString (
+                fInputLineNumber,
+                fNoteDivisionsPerQuarterNote);
       }
       break;
       
@@ -6453,6 +6472,8 @@ S_msrNote msrNote::createNoteShallowClone (
         fNoteKind,
         
         fNoteQuarterTonesPitch,
+
+        fNoteDivisionsPerQuarterNote,
         
         fNoteSoundingQuarterNotes,
         fNoteDisplayQuarterNotes,
@@ -15572,6 +15593,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             msrNote::createSkipNote (
               inputLineNumber,
               fMeasureDirectPartUplink,
+              note->getNoteDivisionsPerQuarterNote (),
               noteSoundingQuarterNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
@@ -16254,6 +16276,7 @@ void msrMeasure::bringMeasureToMeasureLength (
         msrNote::createSkipNote (
           inputLineNumber,
           fMeasureDirectPartUplink,
+          37, // JMI
           skipDuration,
           0, // JMI ???
           voice->
@@ -16788,6 +16811,7 @@ void msrMeasure::finalizeMeasure (
           msrNote::createSkipNote (
             inputLineNumber,
             fMeasureDirectPartUplink,
+            49, // JMI
             skipDuration,
             0, // JMI ???
             voice->
