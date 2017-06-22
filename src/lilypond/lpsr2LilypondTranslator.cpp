@@ -616,7 +616,7 @@ string lpsr2LilypondTranslator::noteSoundingQuarterNotesAsLilypondString (
 {
   string
     noteSoundingQuarterNotesAsMsrString =
-      note->noteSoundingQuarterNotesAsMsrString ();
+      note->getNoteSoundingQuarterNotesAsMsrString ();
 
   string
     lilypondDivisionsAsString =
@@ -773,7 +773,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
   string
     noteUplinkDuration =
       ornament->getOrnamentNoteUplink ()->
-        noteSoundingQuarterNotesAsMsrString ();
+        getNoteSoundingQuarterNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
@@ -4320,7 +4320,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         fOstream <<
           lilypondizeDurationString (
             note->
-              skipOrRestDivisionsAsMsrString ());
+              getNoteSkipOrRestDivisionsAsMsrString ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4349,7 +4349,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            skipOrRestDivisionsAsMsrString ());
+            getNoteSkipOrRestDivisionsAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept

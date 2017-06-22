@@ -4475,16 +4475,30 @@ class EXP msrNote : public msrElement
                               { return fNoteHasADelayedOrnament; }
 
     // MSR strings
-    string                getTupletSoundingQuarterNotesAsMsrString () const
-                              {
-                                return
-                                  fTupletSoundingQuarterNotesAsMsrString;
-                              }
-                              
+    void                  setNoteMSRstrings ();
+
     string                getNoteSoundingQuarterNotesAsMsrString () const
                               {
                                 return
                                   fNoteSoundingQuarterNotesAsMsrString;
+                              }
+                              
+    string                getNoteDisplayQuarterNotesAsMsrString () const
+                              {
+                                return
+                                  fNoteDisplayQuarterNotesAsMsrString;
+                              }
+                              
+    string                getNoteSkipOrRestDivisionsAsMsrString () const
+                              {
+                                return
+                                  fNoteSkipOrRestDivisionsAsMsrString;
+                              }
+                              
+    string                getTupletSoundingQuarterNotesAsMsrString () const
+                              {
+                                return
+                                  fTupletSoundingQuarterNotesAsMsrString;
                               }
                               
     // uplinks
@@ -4529,10 +4543,10 @@ class EXP msrNote : public msrElement
                             int inputLineNumber) const;
 
     // divisions
-    string                noteSoundingQuarterNotesAsMsrString () const;
-    string                noteDisplayQuarterNotesAsMsrString () const;
+// JMI    string                noteSoundingQuarterNotesAsMsrString () const;
+//    string                noteDisplayQuarterNotesAsMsrString () const;
     
-    string                skipOrRestDivisionsAsMsrString () const;
+ //   string                skipOrRestDivisionsAsMsrString () const;
     
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
@@ -4744,6 +4758,10 @@ class EXP msrNote : public msrElement
     // these fileds are set by msrNote::create()
     
     string                fNoteSoundingQuarterNotesAsMsrString;
+    string                fNoteDisplayQuarterNotesAsMsrString;
+    
+    string                fNoteSkipOrRestDivisionsAsMsrString;
+    
     string                fTupletSoundingQuarterNotesAsMsrString;
 
     // note redundant information (for speed)

@@ -6170,52 +6170,6 @@ void msrNote::initializeNote ()
       fNoteDirectPartUplink->
         getPartCurrentDivisions ();
 
-  // set MSR string fields
-  switch (fNoteKind) {
-    case msrNote::k_NoNoteKind:
-      break;
-      
-    case msrNote::kRestNote:
-      break;
-      
-    case msrNote::kSkipNote:
-      break;
-      
-    case msrNote::kStandaloneNote:
-      {
-        fNoteSoundingQuarterNotesAsMsrString =
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              quarterNotesAsMsrString (
-                fInputLineNumber,
-                fNoteSoundingQuarterNotes);
-      }
-      break;
-      
-    case msrNote::kDoubleTremoloMemberNote:
-      break;
-      
-    case msrNote::kGraceNote:
-      break;
-      
-    case msrNote::kChordMemberNote:
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      {
-        fTupletSoundingQuarterNotesAsMsrString =
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              tupletQuarterNotesAsMsrString (
-                fInputLineNumber,
-                fNoteSoundingQuarterNotes,
-                fNoteTupletUplink->getTupletActualNotes (),
-                fNoteTupletUplink->getTupletNormalNotes ());
-      }
-      break;
-  } // switch
-  
-
   // note lyrics
   // ------------------------------------------------------
 
@@ -6377,6 +6331,54 @@ void msrNote::initializeNote ()
   fNoteHasADelayedOrnament = false;
 }
 
+void msrNote::setNoteMSRstrings ()
+{
+  // set MSR string fields
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+      
+    case msrNote::kRestNote:
+      break;
+      
+    case msrNote::kSkipNote:
+      break;
+      
+    case msrNote::kStandaloneNote:
+      {
+        fNoteSoundingQuarterNotesAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              quarterNotesAsMsrString (
+                fInputLineNumber,
+                fNoteSoundingQuarterNotes);
+      }
+      break;
+      
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+      
+    case msrNote::kGraceNote:
+      break;
+      
+    case msrNote::kChordMemberNote:
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      {
+        fTupletSoundingQuarterNotesAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              tupletQuarterNotesAsMsrString (
+                fInputLineNumber,
+                fNoteSoundingQuarterNotes,
+                fNoteTupletUplink->getTupletActualNotes (),
+                fNoteTupletUplink->getTupletNormalNotes ());
+      }
+      break;
+  } // switch
+}
+
 msrNote::~msrNote()
 {}
 
@@ -6423,42 +6425,6 @@ S_msrNote msrNote::createNoteShallowClone (
 
   // basic note description
   // ------------------------------------------------------
-
-/* JMI
-  clone->fNoteKind =
-    fNoteKind;
-
-  clone->
-    fNoteQuarterTonesPitch =
-      fNoteQuarterTonesPitch;
-  clone->
-    fNoteSoundingQuarterNotes =
-      fNoteSoundingQuarterNotes;
-  clone->
-    fNoteDisplayQuarterNotes =
-      fNoteDisplayQuarterNotes;
-  clone->
-    fNoteDotsNumber =
-      fNoteDotsNumber;
-  clone->
-    fNoteGraphicDuration =
-      fNoteGraphicDuration;
-
-  clone->
-    fNoteOctave =
-      fNoteOctave;
-
-  clone->
-    fNoteIsARest =
-      fNoteIsARest;
-  clone->
-    fNoteIsUnpitched =
-      fNoteIsUnpitched;
-  
-  clone->
-    fNoteIsAGraceNote =
-      fNoteIsAGraceNote;
-      */
 
   clone->fNoteOctaveShift =
     fNoteOctaveShift;
@@ -6513,12 +6479,17 @@ S_msrNote msrNote::createNoteShallowClone (
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
 
-
   // note as MSR string
   // ------------------------------------------------------
 
   clone->fNoteSoundingQuarterNotesAsMsrString =
     fNoteSoundingQuarterNotesAsMsrString;
+    
+  clone->fNoteDisplayQuarterNotesAsMsrString =
+    fNoteDisplayQuarterNotesAsMsrString;
+    
+  clone->fNoteSkipOrRestDivisionsAsMsrString =
+    fNoteSkipOrRestDivisionsAsMsrString;
     
   clone->fTupletSoundingQuarterNotesAsMsrString =
     fTupletSoundingQuarterNotesAsMsrString;
@@ -7165,16 +7136,12 @@ string msrNote::notePitchAsString () const
   */
   
   if (fNoteIsUnpitched)
-
     s << "unpitched ";
-
   else {
-
     s <<
       msrQuarterTonesPitchAsString (
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fNoteQuarterTonesPitch);  
-
+        fNoteQuarterTonesPitch);
   }
   
   return s.str();
@@ -7213,6 +7180,7 @@ string msrNote::noteDisplayPitchAsString () const
   return s.str();
 }
 
+/* JMI
 string msrNote::noteSoundingQuarterNotesAsMsrString () const
 {
   string result;
@@ -7252,7 +7220,9 @@ string msrNote::noteSoundingQuarterNotesAsMsrString () const
 
   return result;
 }
+*/
 
+/* JMI
 string msrNote::noteDisplayQuarterNotesAsMsrString () const
 {
   string result;
@@ -7305,14 +7275,15 @@ string msrNote::skipOrRestDivisionsAsMsrString () const
         divisionsAsMsrString (
           fInputLineNumber,
           fNoteSoundingQuarterNotes);
-/* JMI
+/ * JMI
   if (errorMessage.size ())
     msrMusicXMLError (
       fInputLineNumber,
       errorMessage);
-*/
+* /
   return result;
 }
+*/
 
 string msrNote::noteGraphicDurationAsMsrString () const
 {
@@ -7464,27 +7435,27 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        skipOrRestDivisionsAsMsrString ();
+        fNoteSkipOrRestDivisionsAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        skipOrRestDivisionsAsMsrString ();
+        fNoteSkipOrRestDivisionsAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        noteSoundingQuarterNotesAsMsrString () <<
+        fNoteSoundingQuarterNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
-        noteSoundingQuarterNotesAsMsrString () <<
+        fNoteSoundingQuarterNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7503,7 +7474,7 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString () <<
         ", " <<
-        noteSoundingQuarterNotesAsMsrString () <<
+        fNoteSoundingQuarterNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7557,7 +7528,7 @@ string msrNote::noteAsString () const
         s <<
           "(" <<
           noteDisplayPitchAsString () <<
-          noteSoundingQuarterNotesAsMsrString () <<
+          fNoteSoundingQuarterNotesAsMsrString <<
           ", octave" " "<< noteDisplayOctaveAsString () <<
           ")";
 
@@ -7568,21 +7539,21 @@ string msrNote::noteAsString () const
         fNoteDisplayQuarterNotes <<
         " disp" <<
         ":" <<
-        skipOrRestDivisionsAsMsrString ();
+        fNoteSkipOrRestDivisionsAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "Skip" <<
         ":" <<
-        skipOrRestDivisionsAsMsrString ();
+        fNoteSkipOrRestDivisionsAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
       s <<
         "Standalone note" " "<<
         notePitchAsString () <<
-        noteSoundingQuarterNotesAsMsrString () <<
+        fNoteSoundingQuarterNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7590,7 +7561,7 @@ string msrNote::noteAsString () const
       s <<
         "Double tremolo note" " "<<
         notePitchAsString () <<
-        noteSoundingQuarterNotesAsMsrString () <<
+        fNoteSoundingQuarterNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -8700,7 +8671,7 @@ string msrChord::chordAsStringwithRawDivisions () const
       s <<
       /* JMI
         note->notePitchAsString () <<
-        note->noteSoundingQuarterNotesAsMsrString () <<
+        note->fNoteSoundingQuarterNotesAsMsrString <<
         "[" << note->getNoteOctave () << "]"
         */
 
