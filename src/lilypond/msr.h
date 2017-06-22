@@ -8581,7 +8581,7 @@ class EXP msrPart : public msrElement
 /* JMI
     // divisions per quarter note
     
-    void                  setCurrentPartDivisions (
+    void                  setPartCurrentDivisions (
                             S_msrDivisions divisions);
                       
     void                  setPartDivisionsPerQuarterNote (
@@ -8593,8 +8593,8 @@ class EXP msrPart : public msrElement
 
     // divisions
     
-    S_msrDivisions        getCurrentPartDivisions () const
-                              { return fCurrentPartDivisions; }
+    S_msrDivisions        getPartCurrentDivisions () const
+                              { return fPartCurrentDivisions; }
 
     // clef, key, time
     
@@ -8890,7 +8890,7 @@ class EXP msrPart : public msrElement
 
     // divisions
 
-    S_msrDivisions        fCurrentPartDivisions;
+    S_msrDivisions        fPartCurrentDivisions;
     
 /* JMI
     int                   fPartDivisionsPerQuarterNote;

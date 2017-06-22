@@ -7154,7 +7154,7 @@ string msrNote::noteSoundingQuarterNotesAsMsrString () const
 
   result =
     fNoteDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fNoteSoundingQuarterNotes,
@@ -7174,7 +7174,7 @@ string msrNote::noteSoundingQuarterNotesAsMsrString () const
       endl;
 
     fNoteDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         printDurationsDivisions (s);
 
     msrMusicXMLWarning (
@@ -7194,7 +7194,7 @@ string msrNote::noteDisplayQuarterNotesAsMsrString () const
 
   result =
     fNoteDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fNoteDisplayQuarterNotes,
@@ -7214,7 +7214,7 @@ string msrNote::noteDisplayQuarterNotesAsMsrString () const
       endl;
 
     fNoteDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         printDurationsDivisions (s);
 
     msrMusicXMLWarning (
@@ -7235,7 +7235,7 @@ string msrNote::skipOrRestDivisionsAsMsrString () const
 
   result =
     fNoteDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fNoteSoundingQuarterNotes);
@@ -7265,7 +7265,7 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
 
   result =
     fNoteDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         tupletDivisionsAsMsrString (
           fInputLineNumber,
           fNoteSoundingQuarterNotes,
@@ -8567,7 +8567,7 @@ string msrChord::chordSoundingQuarterNotesAsMsrString () const
   
   result =
     fChordDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fChordSoundingQuarterNotes);
@@ -8587,7 +8587,7 @@ string msrChord::chordDisplayQuarterNotesAsMsrString () const
   
   result =
     fChordDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fChordDisplayQuarterNotes);
@@ -12894,7 +12894,7 @@ string msrSyllable::syllableDivisionsAsString () const
 {
   return
     fSyllableDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fSyllableDivisions);
@@ -13843,7 +13843,7 @@ string msrHarmony::harmonyAsString () const
   if (fHarmonyDirectPartUplink) // JMI ???
     s <<
       fHarmonyDirectPartUplink->
-        getCurrentPartDivisions ()->
+        getPartCurrentDivisions ()->
           divisionsAsMsrString (
             fInputLineNumber,
             fHarmonySoundingQuarterNotes);
@@ -13915,7 +13915,7 @@ void msrHarmony::print (ostream& os)
     "Harmony" <<
     ", " <<
     fHarmonyDirectPartUplink->
-      getCurrentPartDivisions ()->
+      getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
           fHarmonySoundingQuarterNotes) <<
@@ -14990,13 +14990,9 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     // this measure is con misura
     
     rational
-      partDivisionsPerQuarterNote = rational (19, 23); // JMI
-    //    fMeasureDirectPartUplink->
-     //     getPartDivisionsPerQuarterNote ();
-  
-    rational
       wholeNotesPerMeasure =
-        time->wholeNotesPerMeasure ();
+        time->
+          wholeNotesPerMeasure ();
         
     if (gGeneralOptions->fTraceTimes) {
       cerr <<
@@ -15021,10 +15017,16 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
           endl;
     }
     
+    int
+      currentDivisionsPerQuarterNote =
+        fMeasureDirectPartUplink->
+          getPartCurrentDivisions ()->
+            getDivisionsPerQuarterNote ();
+  
     fMeasureFullMeasureLength =
       wholeNotesPerMeasure
         *
-      partDivisionsPerQuarterNote * 4; // hence a whole note JMI
+      currentDivisionsPerQuarterNote * 4; // hence a whole note
     
   
     if (gGeneralOptions->fTraceMeasures)
@@ -16607,11 +16609,12 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       this->getMeasureLength (); 
   
-  if (false && gGeneralOptions->fTraceMeasures)
+  if (true && gGeneralOptions->fTraceMeasures) // JMI
     cerr <<
       endl <<
       idtr <<
         "% --> measure " << fMeasureNumber <<
+        ", line " << fInputLineNumber <<
         ", measureLength = " << measureLength <<
         ", measureFullMeasureLength = " <<
         fMeasureFullMeasureLength <<
@@ -16620,7 +16623,7 @@ string msrMeasure::getMeasureLengthAsString () const
   if (measureLength > 0) {
     result =
       fMeasureDirectPartUplink->
-        getCurrentPartDivisions ()->
+        getPartCurrentDivisions ()->
           divisionsAsMsrString (
             fInputLineNumber,
             measureLength);
@@ -22813,7 +22816,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
   // append the time to this staff
   appendTimeToStaff (time);
 
-  // set fMeasureFullMeasureLength accordingly
+  // set fMeasureFullMeasureLength accordingly JMI
  // setMeasureFullMeasureLengthFromTime (
  //   partCurrentTime);
           
@@ -23820,7 +23823,7 @@ S_msrPart msrPart::createPartShallowClone (S_msrPartGroup partGroupClone)
 }
 
 /*
-void msrPart::setCurrentPartDivisions (
+void msrPart::setPartCurrentDivisions (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions) {
@@ -23832,7 +23835,7 @@ void msrPart::setCurrentPartDivisions (
       endl;
   }
   
-  fCurrentPartDivisions = divisions;
+  fPartCurrentDivisions = divisions;
 }
 */
 
@@ -23849,11 +23852,11 @@ void msrPart::appendDivisionsToPart (
   }
 
   // register divisions in the part
-  fCurrentPartDivisions = divisions;
+  fPartCurrentDivisions = divisions;
 
   // print durations divisions if need be
   if (gGeneralOptions->fTraceDivisions) {
-    fCurrentPartDivisions->
+    fPartCurrentDivisions->
       printDurationsDivisions (cerr);
   }
 
