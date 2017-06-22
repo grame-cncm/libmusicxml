@@ -9048,15 +9048,17 @@ string msrDivisions::divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
   
-  if (gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
     cerr <<
-      endl <<
-      "--> divisionsAsMsrString ():" <<
-      endl <<
-      "inputLineNumber        = " << inputLineNumber <<
-      endl <<
-      "divisions              = " << divisions <<
-      endl << endl;
+      idtr <<
+        "--> divisionsAsMsrString ():" <<
+        endl <<
+      idtr <<
+        tab << "inputLineNumber        = " << inputLineNumber <<
+        endl <<
+      idtr <<
+        tab << "divisions              = " << divisions <<
+        endl;
   }
     
   msrDuration baseDuration          = k1024th;
@@ -9206,11 +9208,12 @@ string msrDivisions::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
     cerr <<
-      endl <<
-      "<-- divisionsAsMsrString (): returns " << result <<
-      endl;
+      idtr <<
+        "<-- divisionsAsMsrString (): returns " << result <<
+        endl <<
+      idtr;
   }
   
   return result;
@@ -23847,7 +23850,8 @@ void msrPart::appendDivisionsToPart (
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       "' to part \"" <<
-      "\"" << fPartName <<
+      fPartName <<
+      "\"" <<
       endl;
   }
 

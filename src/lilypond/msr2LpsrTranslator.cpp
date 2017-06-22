@@ -577,8 +577,14 @@ void msr2LpsrTranslator::visitStart (S_msrDivisions& elt)
       "--> Start visiting msrDivisions" <<
       endl;
 
+  // create the divisions clone
   fCurrentDivisionsClone =
     elt->createDivisionsShallowClone ();
+
+  // append it to the current part clone
+  fCurrentPartClone->
+    appendDivisionsToPart (
+      fCurrentDivisionsClone);
 }
 
 //________________________________________________________________________
