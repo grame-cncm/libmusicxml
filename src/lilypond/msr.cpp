@@ -7761,11 +7761,11 @@ void msrNote::print (ostream& os)
   os <<
     ", noteSoundingQuarterNotesAsMsrString = \"" <<
     fNoteSoundingQuarterNotesAsMsrString <<
-    "\", fNoteDisplayQuarterNotesAsMsrString = \"" <<
+    "\", noteDisplayQuarterNotesAsMsrString = \"" <<
     fNoteDisplayQuarterNotesAsMsrString <<
-    "\", fNoteSkipOrRestDivisionsAsMsrString = \"" <<
+    "\", noteSkipOrRestDivisionsAsMsrString = \"" <<
     fNoteSkipOrRestDivisionsAsMsrString <<
-    "\", fTupletSoundingQuarterNotesAsMsrString = \"" <<
+    "\", tupletSoundingQuarterNotesAsMsrString = \"" <<
     fTupletSoundingQuarterNotesAsMsrString <<
     "\"";
  
@@ -9289,6 +9289,194 @@ string msrDivisions::quarterNotesAsMsrString (
 {  
   string result;
 
+  // the result is a base duration, followed by a suffix made of
+  // either a sequence of dots or a multiplication factor
+
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      idtr <<
+        "--> divisionsAsMsrString ():" <<
+        endl <<
+      idtr <<
+        tab << "inputLineNumber = " << inputLineNumber <<
+        endl <<
+      idtr <<
+        tab << "quarterNotes    = " << quarterNotes <<
+        endl;
+  }
+        
+  // compute note's number of divisions
+  int divisions =
+    quarterNotes.getNumerator ()
+      *
+    fDivisionsPerQuarterNote
+      /
+    quarterNotes.getDenominator ();      
+  
+  if (true || gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      idtr <<
+        tab << "divisions              = " << divisions <<
+        endl;
+  }
+    
+  msrDuration baseDuration          = k1024th;
+  int         baseDurationDivisions = -1;
+  
+  // search fDurationsToDivisions in longer to shortest order
+  list<pair<msrDuration, int> >::const_iterator
+    iBegin = fDurationsToDivisions.begin(),
+    iEnd   = fDurationsToDivisions.end(),
+    i      = iBegin;
+    
+  for ( ; ; ) {
+    if (i == iEnd) {
+      stringstream s;
+
+      s <<
+        "divisions " << divisions <<
+        " could not be handled by divisionsAsMsrString () with:" <<
+        endl;
+
+      printDurationsDivisions (cerr);
+
+      msrInternalError (
+        inputLineNumber, s.str());
+      break;
+    }
+
+    if ((*i).second <= divisions) {
+      // found base duration in list
+      baseDuration          = (*i).first;
+      baseDurationDivisions = (*i).second;
+
+      result =
+        msrDurationAsString (baseDuration);
+      
+      if (false && gGeneralOptions->fTraceDivisions) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDuration           = " << msrDurationAsString (baseDuration) <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "result                 = " << result <<
+          endl << endl;
+      }
+      break;
+    }
+        
+    // next please!
+    i++;
+  } // for
+
+  int dotsNumber = 0;
+
+  if (divisions > baseDurationDivisions) {
+    // divisions is not a power of 2 of a quarter note
+    
+    // the next element in the list is half as long as (*i)
+    int remainingDivisions =
+      divisions - baseDurationDivisions;
+    int nextDivisionsInList =
+      baseDurationDivisions / 2;
+
+    if (false && gGeneralOptions->fTraceDivisions) {
+      cerr <<
+        "divisions              = " << divisions <<
+        endl <<
+        "baseDurationDivisions  = " << baseDurationDivisions <<
+        endl <<
+        "nextDivisionsInList    = " << nextDivisionsInList <<
+        endl <<
+        "remainingDivisions     = " << remainingDivisions <<
+        endl << endl;
+    }
+
+    if (remainingDivisions < nextDivisionsInList) {
+      // the suffix is a multiplication factor
+      rational r (
+        divisions,
+        baseDurationDivisions);
+      r.rationalise ();
+
+// JMI      if (false && gGeneralOptions->fTraceDivisions) {
+      if (true || gGeneralOptions->fTraceDivisions) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "r      = " << r <<
+          endl <<
+          endl << endl;
+      }
+      
+      result +=
+        "*" + r.toString ();
+    }
+
+    else {
+      dotsNumber = 1; // account for next element in the list
+      
+      while (remainingDivisions > nextDivisionsInList) {
+        dotsNumber++;
+        remainingDivisions -= nextDivisionsInList;
+        nextDivisionsInList /= 2;
+  
+        if (false && gGeneralOptions->fTraceDivisions) {
+          cerr <<
+            "divisions              = " << divisions <<
+            endl <<
+            "baseDurationDivisions  = " << baseDurationDivisions <<
+            endl <<
+            "nextDivisionsInList    = " << nextDivisionsInList <<
+            endl <<
+            "remainingDivisions     = " << remainingDivisions <<
+            endl <<
+            "dotsNumber             = " << dotsNumber <<
+            endl << endl;
+        }
+          
+        if (dotsNumber > 5 )
+          break; // JMI
+      } // while
+  
+      if (false && gGeneralOptions->fTraceDivisions) {
+        cerr <<
+          "divisions              = " << divisions <<
+          endl <<
+          "baseDurationDivisions  = " << baseDurationDivisions <<
+          endl <<
+          "nextDivisionsInList    = " << nextDivisionsInList <<
+          endl <<
+          "remainingDivisions     = " << remainingDivisions <<
+          endl <<
+          "dotsNumber             = " << dotsNumber <<
+          endl << endl;
+      }
+          
+      if (remainingDivisions - nextDivisionsInList == 0) {
+        // the suffix is composed of dots
+        for (int k = 0; k < dotsNumber; k++)
+          result += ".";
+      }
+    }
+  }
+
+  numberOfDotsNeeded = dotsNumber;
+
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
+    cerr <<
+      idtr <<
+        "<-- divisionsAsMsrString (): returns " << result <<
+        endl <<
+      idtr;
+  }
+  
   return result;
 }
 
