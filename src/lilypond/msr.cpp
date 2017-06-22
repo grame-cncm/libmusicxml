@@ -8865,6 +8865,25 @@ S_msrDivisions msrDivisions::create (
   return o;
 }
 
+S_msrDivisions msrDivisions::createDivisionsShallowClone ()
+{
+ if (gGeneralOptions->fTraceDivisions) {
+    cerr << idtr <<
+      "Creating a shallow clone of divisions '" <<
+      divisionsAsString () <<
+      "'" <<
+      endl;
+  }
+
+  S_msrDivisions
+    clone =
+      msrDivisions::create (
+        fInputLineNumber,
+        fDivisionsPerQuarterNote);
+
+  return clone;
+}
+
 msrDivisions::msrDivisions (
   int inputLineNumber,
   int divisionsPerQuarterNote)
@@ -8876,10 +8895,6 @@ msrDivisions::msrDivisions (
   // initialize the divisions
   initializeDivisions ();
 }
-
-
-// BOU
-
 
 void msrDivisions::initializeDivisions ()
 {

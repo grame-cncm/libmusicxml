@@ -5617,13 +5617,15 @@ EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 class EXP msrDivisions : public msrElement
 {
   public:
-    // BOU
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrDivisions> create (
       int inputLineNumber,
       int divisionsPerQuarterNote);
+
+    SMARTP<msrDivisions> createDivisionsShallowClone ();
 
   private:
 
@@ -8725,7 +8727,6 @@ class EXP msrPart : public msrElement
     void                  appendDivisionsToPart (
                             S_msrDivisions divisions);
 
-// BOU
 /* JMI
 
     void                  setupDurationsDivisions (
@@ -8892,7 +8893,7 @@ class EXP msrPart : public msrElement
     S_msrDivisions        fCurrentPartDivisions;
     
 /* JMI
-    int                   fPartDivisionsPerQuarterNote; // BOU
+    int                   fPartDivisionsPerQuarterNote;
     list<pair<msrDuration, int> >
                           fPartDurationsToDivisions;
 */

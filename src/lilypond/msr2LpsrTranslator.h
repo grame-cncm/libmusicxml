@@ -375,6 +375,11 @@ class msr2LpsrTranslator :
     S_msrPart                 fCurrentPartClone;
     S_lpsrPartBlock           fCurrentPartBlock;
 
+    // divisions
+    // ------------------------------------------------------
+
+    S_msrDivisions            fCurrentDivisionsClone;
+
     // staff details
 
     S_msrStaffLinesNumber     fCurrentStaffLinesNumberClone;

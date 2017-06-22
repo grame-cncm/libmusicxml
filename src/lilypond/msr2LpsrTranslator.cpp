@@ -577,7 +577,8 @@ void msr2LpsrTranslator::visitStart (S_msrDivisions& elt)
       "--> Start visiting msrDivisions" <<
       endl;
 
-// BOU
+  fCurrentDivisionsClone =
+    elt->createDivisionsShallowClone ();
 }
 
 //________________________________________________________________________
