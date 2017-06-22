@@ -7742,6 +7742,8 @@ void msrNote::print (ostream& os)
     case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kChordMemberNote:
       os <<
+        "note divisions per quarter note: " <<
+        fNoteDivisionsPerQuarterNote <<
         "quarter notes: " <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
