@@ -6390,12 +6390,14 @@ void msrNote::setNoteMSRstrings ()
       
     case msrNote::kStandaloneNote:
       {
+        /* JMI
         fNoteSoundingQuarterNotesAsMsrString = // pas au point JMI
           fNoteDirectPartUplink->
             getPartCurrentDivisions ()->
               quarterNotesAsMsrString (
                 fInputLineNumber,
                 fNoteSoundingQuarterNotes);
+*/
 
         fNoteSoundingQuarterNotesAsMsrString =
           fNoteDirectPartUplink->
