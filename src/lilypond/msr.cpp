@@ -7757,6 +7757,18 @@ void msrNote::print (ostream& os)
     }
   }
 
+  // note MSR strings
+  os <<
+    ", noteSoundingQuarterNotesAsMsrString = \"" <<
+    fNoteSoundingQuarterNotesAsMsrString <<
+    "\", fNoteDisplayQuarterNotesAsMsrString = \"" <<
+    fNoteDisplayQuarterNotesAsMsrString <<
+    "\", fNoteSkipOrRestDivisionsAsMsrString = \"" <<
+    fNoteSkipOrRestDivisionsAsMsrString <<
+    "\", fTupletSoundingQuarterNotesAsMsrString = \"" <<
+    fTupletSoundingQuarterNotesAsMsrString <<
+    "\"";
+ 
   // note redundant information (for speed)
   if (fNoteIsStemless)
     os <<
