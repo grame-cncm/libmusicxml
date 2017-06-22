@@ -4475,8 +4475,11 @@ class EXP msrNote : public msrElement
                               { return fNoteHasADelayedOrnament; }
 
     // MSR strings
-    string                getTupletDivisionsAsMsrString () const
-                              { return fTupletDivisionsAsMsrString; }
+    string                getTupletSoundingQuarterNotesAsMsrString () const
+                              {
+                                return
+                                  fTupletSoundingQuarterNotesAsMsrString;
+                              }
                               
     // uplinks
     // measure uplink
@@ -4734,7 +4737,7 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     // these fileds are set by msrNote::create()
-    string                fTupletDivisionsAsMsrString;
+    string                fTupletSoundingQuarterNotesAsMsrString;
 
     // note redundant information (for speed)
     // ------------------------------------------------------
@@ -5693,11 +5696,26 @@ class EXP msrDivisions : public msrElement
                             int  inputLineNumber,
                             int  divisions);
 
+    string                quarterNotesAsMsrString (
+                            int      inputLineNumber,
+                            rational quarterNotes,
+                            int&     numberOfDotsNeeded);
+
+    string                quarterNotesAsMsrString (
+                            int      inputLineNumber,
+                            rational quarterNotes);
+
     string                tupletDivisionsAsMsrString (
-                            int  inputLineNumber,
-                            int  divisions,
+                            int inputLineNumber,
+                            int divisions,
                             int actualNotes,
                             int normalNotes);
+                            
+    string                tupletQuarterNotesAsMsrString (
+                            int      inputLineNumber,
+                            rational quarterNotes,
+                            int      actualNotes,
+                            int      normalNotes);
 
 /* JMI
     void                  testDivisionsAndDurations (); // JMI

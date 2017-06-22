@@ -6195,10 +6195,10 @@ void msrNote::initializeNote ()
       
     case msrNote::kTupletMemberNote:
       {
-        fTupletDivisionsAsMsrString =
+        fTupletSoundingQuarterNotesAsMsrString =
           fNoteDirectPartUplink->
             getPartCurrentDivisions ()->
-              tupletDivisionsAsMsrString (
+              tupletQuarterNotesAsMsrString (
                 fInputLineNumber,
                 fNoteSoundingQuarterNotes,
                 fNoteTupletUplink->getTupletActualNotes (),
@@ -7314,7 +7314,7 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
   result =
     fNoteDirectPartUplink->
       getPartCurrentDivisions ()->
-        tupletDivisionsAsMsrString (
+        tupletQuarterNotesAsMsrString (
           fInputLineNumber,
           fNoteSoundingQuarterNotes,
           actualNotes,
@@ -7703,7 +7703,7 @@ void msrNote::print (ostream& os)
         " sound, " <<
         fNoteDisplayQuarterNotes<<
         " disp" <<
-        ", MSR: " << fTupletDivisionsAsMsrString;
+        ", quarter notes: " << fTupletSoundingQuarterNotesAsMsrString;
 /* JMI
       if (
           fNoteSoundingQuarterNotes
@@ -9265,6 +9265,30 @@ string msrDivisions::divisionsAsMsrString (
   return result;
 }
 
+string msrDivisions::quarterNotesAsMsrString (
+  int      inputLineNumber,
+  rational quarterNotes,
+  int&     numberOfDotsNeeded)
+{  
+  string result;
+
+  return result;
+}
+
+string msrDivisions::quarterNotesAsMsrString (
+  int      inputLineNumber,
+  rational quarterNotes)
+{  
+  int numberOfDots; // to be ignored
+
+  return
+    quarterNotesAsMsrString (
+      inputLineNumber,
+      quarterNotes,
+      numberOfDots);
+}
+
+
 string msrDivisions::divisionsAsMsrString (
   int  inputLineNumber,
   int  divisions)
@@ -9288,6 +9312,20 @@ string msrDivisions::tupletDivisionsAsMsrString (
     divisionsAsMsrString (
       inputLineNumber,
       divisions * actualNotes / normalNotes);
+}
+
+string msrDivisions::tupletQuarterNotesAsMsrString (
+  int      inputLineNumber,
+  rational quarterNotes,
+  int      actualNotes,
+  int      normalNotes)
+{
+  return
+    quarterNotesAsMsrString (
+      inputLineNumber,
+      quarterNotes
+        *
+      rational (actualNotes, normalNotes));
 }
 
 /*
@@ -21690,6 +21728,8 @@ msrVoice::finalizeVoice (
 // JMI    delete (fVoiceMuteStanza);
  // JMI   fVoiceMuteStanza = 0;
   }
+
+  return result;
 }
 
 void msrVoice::acceptIn (basevisitor* v) {

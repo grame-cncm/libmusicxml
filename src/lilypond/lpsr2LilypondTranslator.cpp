@@ -254,6 +254,7 @@ string lpsr2LilypondTranslator::divisionsAsLilypondString (
   return lilypondizeDurationString (result);
 }
 
+/* JMI
 string lpsr2LilypondTranslator::tupletDivisionsAsLilypondString (
   int       inputLineNumber,
   S_msrPart part,
@@ -277,6 +278,7 @@ string lpsr2LilypondTranslator::tupletDivisionsAsLilypondString (
 
   return lilypondizeDurationString (result);
 }
+*/
 
 //________________________________________________________________________
 string lpsr2LilypondTranslator::lilypondRelativeOctave (
@@ -4486,8 +4488,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       
       // print the note duration
       fOstream <<
-        note->
-          getTupletDivisionsAsMsrString ();
+        lilypondizeDurationString (
+          note->
+            getTupletSoundingQuarterNotesAsMsrString ());
 
           /* JMI
       S_msrTuplet
