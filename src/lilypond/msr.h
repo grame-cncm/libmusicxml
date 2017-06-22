@@ -8582,15 +8582,17 @@ class EXP msrPart : public msrElement
     void                  setCurrentPartDivisions (
                             S_msrDivisions divisions);
                       
-    S_msrDivisions        getCurrentPartDivisions () const
-                              { return fCurrentPartDivisions; }
-
     void                  setPartDivisionsPerQuarterNote (
                             int divisionsPerQuarterNote);
                       
     const int             getPartDivisionsPerQuarterNote () const
                               { return fPartDivisionsPerQuarterNote; }
 */
+
+    // divisions
+    
+    S_msrDivisions        getCurrentPartDivisions () const
+                              { return fCurrentPartDivisions; }
 
     // clef, key, time
     
@@ -8885,11 +8887,11 @@ class EXP msrPart : public msrElement
 
   private:
 
-/* JMI
     // divisions
 
- // JMI   S_msrDivisions        fCurrentPartDivisions;
+    S_msrDivisions        fCurrentPartDivisions;
     
+/* JMI
     int                   fPartDivisionsPerQuarterNote; // BOU
     list<pair<msrDuration, int> >
                           fPartDurationsToDivisions;

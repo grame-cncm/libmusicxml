@@ -7154,10 +7154,11 @@ string msrNote::noteSoundingQuarterNotesAsMsrString () const
 
   result =
     fNoteDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fNoteSoundingQuarterNotes,
-        computedNumberOfDots);
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fNoteSoundingQuarterNotes,
+          computedNumberOfDots);
 
   if (computedNumberOfDots != fNoteDotsNumber) {
     stringstream s;
@@ -7173,7 +7174,8 @@ string msrNote::noteSoundingQuarterNotesAsMsrString () const
       endl;
 
     fNoteDirectPartUplink->
-      printDurationsDivisions (s);
+      getCurrentPartDivisions ()->
+        printDurationsDivisions (s);
 
     msrMusicXMLWarning (
       fInputLineNumber,
@@ -7192,10 +7194,11 @@ string msrNote::noteDisplayQuarterNotesAsMsrString () const
 
   result =
     fNoteDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fNoteDisplayQuarterNotes,
-        computedNumberOfDots);
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fNoteDisplayQuarterNotes,
+          computedNumberOfDots);
 
   if (computedNumberOfDots != fNoteDotsNumber) {
     stringstream s;
@@ -7211,7 +7214,8 @@ string msrNote::noteDisplayQuarterNotesAsMsrString () const
       endl;
 
     fNoteDirectPartUplink->
-      printDurationsDivisions (s);
+      getCurrentPartDivisions ()->
+        printDurationsDivisions (s);
 
     msrMusicXMLWarning (
       fInputLineNumber,
@@ -7231,9 +7235,10 @@ string msrNote::skipOrRestDivisionsAsMsrString () const
 
   result =
     fNoteDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fNoteSoundingQuarterNotes);
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fNoteSoundingQuarterNotes);
 /* JMI
   if (errorMessage.size ())
     msrMusicXMLError (
@@ -7260,11 +7265,12 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
 
   result =
     fNoteDirectPartUplink->
-      tupletDivisionsAsMsrString (
-        fInputLineNumber,
-        fNoteSoundingQuarterNotes,
-        actualNotes,
-        normalNotes);
+      getCurrentPartDivisions ()->
+        tupletDivisionsAsMsrString (
+          fInputLineNumber,
+          fNoteSoundingQuarterNotes,
+          actualNotes,
+          normalNotes);
 
   return result;
 }
@@ -8561,9 +8567,10 @@ string msrChord::chordSoundingQuarterNotesAsMsrString () const
   
   result =
     fChordDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fChordSoundingQuarterNotes);
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fChordSoundingQuarterNotes);
 
   return result;
 }
@@ -8580,9 +8587,10 @@ string msrChord::chordDisplayQuarterNotesAsMsrString () const
   
   result =
     fChordDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fChordDisplayQuarterNotes);
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fChordDisplayQuarterNotes);
 
   return result;
 }
@@ -12871,9 +12879,10 @@ string msrSyllable::syllableDivisionsAsString () const
 {
   return
     fSyllableDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fSyllableDivisions);
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fSyllableDivisions);
 }
 
 string msrSyllable::syllableNoteUplinkAsString () const
@@ -13819,9 +13828,10 @@ string msrHarmony::harmonyAsString () const
   if (fHarmonyDirectPartUplink) // JMI ???
     s <<
       fHarmonyDirectPartUplink->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fHarmonySoundingQuarterNotes);
+        getCurrentPartDivisions ()->
+          divisionsAsMsrString (
+            fInputLineNumber,
+            fHarmonySoundingQuarterNotes);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -13890,9 +13900,10 @@ void msrHarmony::print (ostream& os)
     "Harmony" <<
     ", " <<
     fHarmonyDirectPartUplink->
-      divisionsAsMsrString (
-        fInputLineNumber,
-        fHarmonySoundingQuarterNotes) <<
+      getCurrentPartDivisions ()->
+        divisionsAsMsrString (
+          fInputLineNumber,
+          fHarmonySoundingQuarterNotes) <<
     " (" << fHarmonySoundingQuarterNotes << " sounddivs)" <<
      ", line " << fInputLineNumber <<
     endl;
@@ -16594,9 +16605,10 @@ string msrMeasure::getMeasureLengthAsString () const
   if (measureLength > 0) {
     result =
       fMeasureDirectPartUplink->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          measureLength);
+        getCurrentPartDivisions ()->
+          divisionsAsMsrString (
+            fInputLineNumber,
+            measureLength);
   }
   
   else
@@ -23807,6 +23819,7 @@ void msrPart::setCurrentPartDivisions (
   
   fCurrentPartDivisions = divisions;
 }
+*/
 
 void msrPart::appendDivisionsToPart (
   S_msrDivisions divisions)
@@ -23825,7 +23838,8 @@ void msrPart::appendDivisionsToPart (
 
   // print durations divisions if need be
   if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (cerr);
+    fCurrentPartDivisions->
+      printDurationsDivisions (cerr);
   }
 
   // propagate to all staves
@@ -23904,8 +23918,6 @@ void msrMeasure::appendDivisionsToMeasure (
   // append it to the measure elements list
   fMeasureElementsList.push_back (divisions);
 }
-*/
-
 
 /* JMI
 void msrPart::setupDurationsDivisions (int divisionPerQuarterNote)
