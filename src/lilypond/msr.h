@@ -3088,6 +3088,8 @@ class EXP msrMeasure : public msrElement
     void                  setMeasureFullMeasureLengthFromTime (
                             S_msrTime time);
   
+    void                  appendTimeToMeasureClone (S_msrTime time);
+
     // transpose
 
     void                  appendTransposeToMeasure (
@@ -3388,8 +3390,11 @@ class EXP msrSegment : public msrElement
     // clef, key, time
     
     void                  appendClefToSegment (S_msrClef clef);
+    
     void                  appendKeyToSegment (S_msrKey key);
+    
     void                  appendTimeToSegment (S_msrTime time);
+    void                  appendTimeToSegmentClone (S_msrTime time);
 
     // transpose
 
@@ -7629,8 +7634,11 @@ class EXP msrVoice : public msrElement
     // clef, key, time
     
     void                  appendClefToVoice (S_msrClef clef);
+    
     void                  appendKeyToVoice  (S_msrKey  key);
+    
     void                  appendTimeToVoice (S_msrTime time);
+    void                  appendTimeToVoiceClone (S_msrTime time);
     
     // transpose
 
@@ -8348,8 +8356,11 @@ class EXP msrStaff : public msrElement
     // clef, key, time
 
     void                  appendClefToStaff (S_msrClef clef);
+    
     void                  appendKeyToStaff (S_msrKey  key);
+    
     void                  appendTimeToStaff (S_msrTime time);
+    void                  appendTimeToStaffClone (S_msrTime time);
     
     // transpose
 
@@ -8760,8 +8771,11 @@ class EXP msrPart : public msrElement
     // clef, key, time
     
     void                  appendClefToPart (S_msrClef clef);
+    
     void                  appendKeyToPart (S_msrKey  key);
+    
     void                  appendTimeToPart (S_msrTime time);
+    void                  appendTimeToPartClone (S_msrTime time);
 
     // transpose
 

@@ -14937,6 +14937,39 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   */
 }
 
+void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
+{
+  msrAssert(
+    time != 0, "time is null");
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Appending time:" <<
+      endl;
+
+    idtr++;
+
+    cerr <<
+      idtr <<
+        time;
+
+    idtr--;
+
+    cerr <<
+      idtr <<
+        "to measure clone '" << fMeasureNumber <<
+        "' in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+  }
+
+  // append time to the measure elements list
+  fMeasureElementsList.push_back (time);
+}
+
 void msrMeasure::setMeasureFullMeasureLengthFromTime (
   S_msrTime time)
 {
@@ -17103,6 +17136,32 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasure (time);
+}
+
+void msrSegment::appendTimeToSegmentClone (S_msrTime time)
+{
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
+    cerr <<
+      idtr <<
+        "Appending time:" <<
+        endl;
+
+    idtr++;
+
+    cerr << idtr <<
+      time;
+
+    idtr--;
+
+    cerr <<
+      idtr <<
+        "to segment clone " << segmentAsString () <<
+        endl;
+  }
+      
+  // append time to segments's current measure
+  fSegmentMeasuresList.back ()->
+    appendTimeToMeasureClone (time);
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -19854,6 +19913,23 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   // append time to the last segment
   fVoiceLastSegment->
     appendTimeToSegment (time);
+}
+
+void msrVoice::appendTimeToVoiceClone (S_msrTime time)
+{
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending time '" << time->timeAsString () <<
+      "' to voice clone \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNeeded (
+    time->getInputLineNumber ());
+
+  // append time to the last segment
+  fVoiceLastSegment->
+    appendTimeToSegmentClone (time);
 }
 
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
@@ -23027,6 +23103,30 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
   } // for
 }    
 
+void msrStaff::appendTimeToStaffClone (S_msrTime time)
+{
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
+    cerr << idtr <<
+      "Appending time '" << time->timeAsString () <<
+      "' to staff clone \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  // set staff time
+  fStaffCurrentTime = time;
+
+  // propagate it to all voices
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendTimeToVoiceClone (time);
+  } // for
+}    
+
 void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
@@ -24699,6 +24799,31 @@ void msrPart::appendTimeToPart (S_msrTime time)
 
     staff->
       appendTimeToStaff (time);
+  } // for
+}
+
+void msrPart::appendTimeToPartClone (S_msrTime time)
+{
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
+    cerr << idtr <<
+      "Appending time \"" <<
+      time->timeAsString () <<
+      "\" to part clone " << getPartCombinedName () <<
+    endl;
+
+  // set part time
+  fPartCurrentTime = time;
+
+  // propagate it to all staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
+      appendTimeToStaffClone (time);
   } // for
 }
 

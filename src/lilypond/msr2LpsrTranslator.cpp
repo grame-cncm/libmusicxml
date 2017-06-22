@@ -1514,8 +1514,9 @@ void msr2LpsrTranslator::visitStart (S_msrTime& elt)
       "--> Start visiting msrTime" <<
       endl;
 
+  // append time to voice clone
   fCurrentVoiceClone->
-    appendTimeToVoice (elt);
+    appendTimeToVoiceClone (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
@@ -2193,12 +2194,14 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kRestNote:
       fCurrentVoiceClone->
-        appendNoteToVoiceClone (fCurrentNoteClone);
+        appendNoteToVoiceClone (
+          fCurrentNoteClone);
       break;
       
     case msrNote::kSkipNote: // JMI
       fCurrentVoiceClone->
-        appendNoteToVoiceClone (fCurrentNoteClone);
+        appendNoteToVoiceClone (
+          fCurrentNoteClone);
       break;
       
     case msrNote::kStandaloneNote:
@@ -2211,7 +2214,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
           
       fCurrentVoiceClone->
-        appendNoteToVoiceClone (fCurrentNoteClone);
+        appendNoteToVoiceClone (
+          fCurrentNoteClone);
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
