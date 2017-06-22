@@ -6335,7 +6335,8 @@ void msrNote::setNoteMSRstrings ()
 {
   if (true || gGeneralOptions->fTraceNotes) { // JMI
     cerr << idtr <<
-      "Setting note MSR strings for note:";
+      "--> before setting note MSR strings for note:" <<
+      endl;
 
     idtr ++;
     
@@ -6408,6 +6409,22 @@ void msrNote::setNoteMSRstrings ()
       }
       break;
   } // switch
+
+ if (true || gGeneralOptions->fTraceNotes) { // JMI
+    cerr << idtr <<
+      "<-- after setting note MSR strings for note:" <<
+      endl;
+
+    idtr ++;
+    
+    cerr <<
+      idtr;
+    this->print (cerr);
+    cerr <<
+      endl;
+
+    idtr--;
+  }
 }
 
 msrNote::~msrNote()
