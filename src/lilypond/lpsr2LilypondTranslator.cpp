@@ -235,9 +235,11 @@ string lpsr2LilypondTranslator::lilypondizeDurationString (
 
   string result = msrDurationString;
 
-  if (! isdigit (result [0])) {
-    result [0] = tolower (result [0]);
-    result = "\\" + result;
+  if (result.size ()) { // JMI
+    if (! isdigit (result [0])) {
+      result [0] = tolower (result [0]);
+      result = "\\" + result;
+    }
   }
 
   return result;

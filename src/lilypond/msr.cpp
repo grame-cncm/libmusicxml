@@ -6333,6 +6333,13 @@ void msrNote::initializeNote ()
 
 void msrNote::setNoteMSRstrings ()
 {
+  if (true || gGeneralOptions->fTraceNotes) { // JMI
+    cerr << idtr <<
+      "Setting note MSR strings for note " <<
+      noteAsString () <<
+      endl;
+  }
+
   // set MSR string fields
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
@@ -9314,6 +9321,7 @@ string msrDivisions::quarterNotesAsMsrString (
       /
     quarterNotes.getDenominator ();      
   
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
   if (true || gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
@@ -9354,7 +9362,8 @@ string msrDivisions::quarterNotesAsMsrString (
       result =
         msrDurationAsString (baseDuration);
       
-      if (false && gGeneralOptions->fTraceDivisions) {
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9383,7 +9392,8 @@ string msrDivisions::quarterNotesAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (false && gGeneralOptions->fTraceDivisions) {
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
       cerr <<
         "divisions              = " << divisions <<
         endl <<
@@ -9426,7 +9436,8 @@ string msrDivisions::quarterNotesAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (false && gGeneralOptions->fTraceDivisions) {
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
           cerr <<
             "divisions              = " << divisions <<
             endl <<
@@ -9444,7 +9455,8 @@ string msrDivisions::quarterNotesAsMsrString (
           break; // JMI
       } // while
   
-      if (false && gGeneralOptions->fTraceDivisions) {
+// JMI  if (false && gGeneralOptions->fTraceDivisions) {
+  if (true || gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9492,7 +9504,6 @@ string msrDivisions::quarterNotesAsMsrString (
       quarterNotes,
       numberOfDots);
 }
-
 
 string msrDivisions::divisionsAsMsrString (
   int  inputLineNumber,
