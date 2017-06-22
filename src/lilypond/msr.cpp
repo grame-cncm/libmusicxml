@@ -7639,11 +7639,13 @@ void msrNote::print (ostream& os)
         " sound, " <<
         fNoteDisplayQuarterNotes<<
         " disp";
+      break;
 
     case msrNote::kGraceNote:
       os <<
+        "quarter notes: " <<
         fNoteDisplayQuarterNotes <<
-        " dispquarter notes";
+        " disp";
       break;
 
     case msrNote::kTupletMemberNote:
@@ -7674,7 +7676,7 @@ void msrNote::print (ostream& os)
 
   // print measure related information
   os <<
-    ", meas " <<
+    ", measure: " <<
     fNoteMeasureNumber <<
     ":";
     
@@ -7683,11 +7685,6 @@ void msrNote::print (ostream& os)
   else
     os << fNotePositionInMeasure;
     
-  if (measureFullMeasureLength > 0)
-    os <<
-      ", " <<
-      measureFullMeasureLength;
-
   // print rationalized position in measure if relevant
   if (fNoteMeasureUplink) {
     // the note measure uplink may not have been set yet
