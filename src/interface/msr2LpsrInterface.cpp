@@ -76,21 +76,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
         endl <<
       idtr <<
         "Pass 3: translating the MSR into a LPSR" <<
-        endl;
-  
-    idtr++;
-  
-    cerr <<
-      idtr <<
-        "(dpqn: divisions per quarter note)" <<
         endl <<
-      idtr <<
-        "(dpfm: divisions per full measure)" <<
-        endl;
-  
-    idtr--;
-  
-    cerr <<
       idtr <<
         separator <<
         endl <<
@@ -134,21 +120,7 @@ void displayLpsrScore (
       endl <<
     idtr <<
       "Optional pass: displaying the LPSR as text" <<
-      endl;
-
-  idtr++;
-
-  cerr <<
-    idtr <<
-      "(dpqn: divisions per quarter note)" <<
       endl <<
-    idtr <<
-      "(dpfm: divisions per full measure)" <<
-      endl;
-
-  idtr--;
-
-  cerr <<
     idtr <<
       separator <<
       endl <<

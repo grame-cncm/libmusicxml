@@ -4636,7 +4636,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingQuarterNotes << " sounddivs";
+    ", " << fDoubleTremoloSoundingQuarterNotes << " sound quarter notes";
 
   if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
@@ -4723,7 +4723,7 @@ void msrDoubleTremolo::print (ostream& os)
     singularOrPlural (
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement: " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingQuarterNotes << " sounddivs" <<
+    ", " << fDoubleTremoloSoundingQuarterNotes << " sound quarter notes" <<
     endl;
 
   idtr++;
@@ -7300,7 +7300,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "R" <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7311,7 +7311,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "S" <<
         ":" <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7323,7 +7323,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7335,7 +7335,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        " divs:" <<
+        " quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7357,7 +7357,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7373,7 +7373,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
 
       s <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7444,7 +7444,7 @@ string msrNote::noteAsShortString () const
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7496,7 +7496,7 @@ string msrNote::noteAsString () const
           ")";
 
       s <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7544,7 +7544,7 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
- // JMI       ", " << fNoteSoundingQuarterNotes << " sounddivs, " <<
+ // JMI       ", " << fNoteSoundingQuarterNotes << " sound quarter notes, " <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7552,7 +7552,7 @@ string msrNote::noteAsString () const
       s <<
         "Tuplet member note"  " "<<
         notePitchAsString () <<
-        ", divs:" <<
+        ", quarter notes:" <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes <<
@@ -7634,7 +7634,7 @@ void msrNote::print (ostream& os)
     case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kChordMemberNote:
       os <<
-        "divs: " <<
+        "quarter notes: " <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes<<
@@ -7643,12 +7643,12 @@ void msrNote::print (ostream& os)
     case msrNote::kGraceNote:
       os <<
         fNoteDisplayQuarterNotes <<
-        " dispdivs";
+        " dispquarter notes";
       break;
 
     case msrNote::kTupletMemberNote:
       os <<
-        "divs: " <<
+        "quarter notes: " <<
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes<<
@@ -7660,7 +7660,7 @@ void msrNote::print (ostream& os)
           fNoteDisplayQuarterNotes) {
         os <<
           fNoteSoundingQuarterNotes <<
-          " divs";
+          " quarter notes";
       }
       */
       break;
@@ -7670,7 +7670,7 @@ void msrNote::print (ostream& os)
     os <<
       ", " <<
       measureFullMeasureLength <<
-      " dpfm";
+      " per full measure";
 
   // print measure related information
   os <<
@@ -8669,7 +8669,7 @@ string msrChord::chordAsString () const
         
       s <<
         note->notePitchAsString () <<
-        ", divs: " <<
+        ", quarter notes: " <<
         note->getNoteSoundingQuarterNotes () <<
         " sound, " <<
         note->getNoteDisplayQuarterNotes () <<
@@ -8702,10 +8702,10 @@ void msrChord::print (ostream& os)
     ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
-    ", divs: " <<
-    fChordSoundingQuarterNotes << " sounddivs" <<
+    ", quarter notes: " <<
+    fChordSoundingQuarterNotes << " sound quarter notes" <<
     ", " <<
-    fChordDisplayQuarterNotes << " dispdivs" <<
+    fChordDisplayQuarterNotes << " disp quarter notes" <<
     ", meas "<<
     getChordMeasureNumber () <<
     ":" <<
@@ -9048,7 +9048,7 @@ string msrDivisions::divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
   
-  if (true || gGeneralOptions->fTraceDivisions) {
+  if (false && gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "--> divisionsAsMsrString ():" <<
@@ -9208,7 +9208,7 @@ string msrDivisions::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-  if (true || gGeneralOptions->fTraceDivisions) {
+  if (false && gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "<-- divisionsAsMsrString (): returns " << result <<
@@ -10229,7 +10229,7 @@ string msrTuplet::tupletAsShortString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingQuarterNotes << " sounddivs" <<
+    " " << fTupletSoundingQuarterNotes << " sound quarter notes" <<
     " @meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -10293,7 +10293,7 @@ string msrTuplet::tupletAsString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingQuarterNotes << " sounddivs" <<
+    " " << fTupletSoundingQuarterNotes << " sound quarter notes" <<
     " @meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -10359,7 +10359,7 @@ void msrTuplet::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
-    ", divs: " <<
+    ", quarter notes: " <<
     fTupletSoundingQuarterNotes << " sound, " <<
     fTupletDisplayQuarterNotes << " disp" <<
     ", meas "<<
@@ -13279,7 +13279,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending 'Skip' syllable, " <<
-      divisions << " divs" <<
+      divisions << " quarter notes" <<
       " to stanza " << getStanzaName () <<
       endl;
   }
@@ -13922,7 +13922,7 @@ void msrHarmony::print (ostream& os)
         divisionsAsMsrString (
           fInputLineNumber,
           fHarmonySoundingQuarterNotes) <<
-    " (" << fHarmonySoundingQuarterNotes << " sounddivs)" <<
+    " (" << fHarmonySoundingQuarterNotes << " sound quarter notes)" <<
      ", line " << fInputLineNumber <<
     endl;
     
@@ -14944,6 +14944,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     gGeneralOptions->fTraceGeneral) { // JMI
     cerr << idtr <<
       "Setting measure full measure length from time:" <<
+      ", line " << fInputLineNumber <<
       endl;
 
     idtr++;
@@ -15906,7 +15907,7 @@ void msrMeasure::bringMeasureToMeasureLength (
       cerr << idtr <<
        "Appending " << skip->noteAsString () <<
        " (" << skipDuration <<
-       " divs) to bring voice \"" << voice->getVoiceName () <<
+       " quarter notes) to bring voice \"" << voice->getVoiceName () <<
        "\" measure '" << fMeasureNumber << "'" <<
        " from length " << fMeasureLength <<
        " to length '" << measureLength << "'" <<
@@ -16437,7 +16438,7 @@ void msrMeasure::finalizeMeasure (
       if (gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
          "Appending '" << skip->noteAsString () <<
-         " (" << skipDuration << " divs)'" <<
+         " (" << skipDuration << " quarter notes)'" <<
          " to finalize \"" << voice->getVoiceName () <<
          "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
          " % --> @" << fMeasureNumber << // JMI
@@ -16612,7 +16613,7 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       this->getMeasureLength (); 
   
-  if (true && gGeneralOptions->fTraceMeasures) // JMI
+  if (false && gGeneralOptions->fTraceMeasures) // JMI
     cerr <<
       endl <<
       idtr <<
@@ -16736,9 +16737,9 @@ void msrMeasure::print (ostream& os)
       msrMeasure::measureFirstInSegmentKindAsString (
         fMeasureFirstInSegmentKind) << 
       ", line " << fInputLineNumber <<
-      ", length: " << getMeasureLength () << " divs" <<
+      ", length: " << getMeasureLength () << " quarter notes" <<
       " (" << getMeasureLengthAsString () << ")" <<
-      ", " << fMeasureFullMeasureLength << " dpfm" <<
+      ", " << fMeasureFullMeasureLength << " per full measure" <<
    // JMI   ", pos = " << fMeasureLength << ", " <<
       ", " <<
       singularOrPlural (
@@ -16822,9 +16823,10 @@ msrSegment::~msrSegment()
 
 void msrSegment::createSegmentInitialMeasure () // JMI
 {
-  string firstMeasureNumber = // JMI
-    fSegmentDirectPartUplink->
-      getPartCurrentMeasureNumber (); // JMI "?";
+  string
+    firstMeasureNumber = // JMI
+      fSegmentDirectPartUplink->
+        getPartCurrentMeasureNumber (); // JMI "?";
   
   if (gGeneralOptions->fTraceSegments) {
     cerr <<
@@ -23880,7 +23882,7 @@ void msrPart::appendDivisionsToPart (
 void msrStaff::appendDivisionsToStaff (
   S_msrDivisions divisions)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
@@ -23903,7 +23905,7 @@ void msrStaff::appendDivisionsToStaff (
 void msrVoice::appendDivisionsToVoice (
   S_msrDivisions divisions)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
@@ -23922,7 +23924,7 @@ void msrVoice::appendDivisionsToVoice (
 void msrSegment::appendDivisionsToSegment (
   S_msrDivisions divisions)
 {
-  if (gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
@@ -23937,6 +23939,13 @@ void msrSegment::appendDivisionsToSegment (
 void msrMeasure::appendDivisionsToMeasure (
   S_msrDivisions divisions)
 {
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      " to measure '" << fMeasureNumber << "'" <<
+      endl;
+      
   // append it to the measure elements list
   fMeasureElementsList.push_back (divisions);
 }

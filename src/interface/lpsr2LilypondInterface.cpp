@@ -68,21 +68,7 @@ void generateLilypondCodeFromLpsrScore (
         endl <<
       idtr <<
         "Pass 4: writing the LPSR as LilyPond code" <<
-        endl;
-  
-    idtr++;
-  
-    cerr <<
-      idtr <<
-        "(dpqn: divisions per quarter note)" <<
         endl <<
-      idtr <<
-        "(dpfm: divisions per full measure)" <<
-        endl;
-  
-    idtr--;
-  
-    cerr <<
       idtr <<
         separator <<
         endl;
