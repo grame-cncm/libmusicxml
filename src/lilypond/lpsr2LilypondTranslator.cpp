@@ -224,6 +224,15 @@ string lpsr2LilypondTranslator::alterationAsLilypondString (
 string lpsr2LilypondTranslator::lilypondizeDurationString (
   string msrDurationString)
 {
+  if (gLpsrOptions->fTraceLpsrVisitors) { // JMI
+    fOstream <<
+      endl <<
+      idtr <<
+      "% lilypondizeDurationString()" <<
+      ", msrDurationString = \"" << msrDurationString << "\"" <<
+      endl;
+  }
+
   string result = msrDurationString;
 
   if (! isdigit (result [0])) {
@@ -4548,7 +4557,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fOstream << idtr <<
-      "% --> Start visiting " <<
+      "% --> End visiting " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
       " msrNote" <<
       endl;
@@ -4605,7 +4614,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fOstream <<
         articulationAsLilyponString ((*i));
         
-        /*
+        /* JMI
       switch ((*i)->getArticulationKind ()) {
         case msrArticulation::kAccent:
           fOstream << "->";

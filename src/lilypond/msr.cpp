@@ -6339,9 +6339,25 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kRestNote:
+      {
+        fNoteSkipOrRestDivisionsAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              quarterNotesAsMsrString (
+                fInputLineNumber,
+                fNoteSoundingQuarterNotes);
+      }
       break;
       
     case msrNote::kSkipNote:
+      {
+        fNoteSkipOrRestDivisionsAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              quarterNotesAsMsrString (
+                fInputLineNumber,
+                fNoteSoundingQuarterNotes);
+      }
       break;
       
     case msrNote::kStandaloneNote:
