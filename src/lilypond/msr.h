@@ -4295,23 +4295,11 @@ class EXP msrNote : public msrElement
     // note context
     // -------------------------------
 
-    // direct part uplink
-    S_msrPart             getNoteDirectPartUplink () const
-                             { return fNoteDirectPartUplink; }
-
     // chord members
     void                  setNoteBelongsToAChord ();
 
     bool                  getNoteBelongsToAChord () const
                               { return fNoteBelongsToAChord; }
-
-    // tuplet uplink
-    void                  setNoteTupletUplink (
-                            const S_msrTuplet& tuplet)
-                              { fNoteTupletUplink = tuplet; }
-                      
-    S_msrTuplet           getNoteTupletUplink () const
-                              { return fNoteTupletUplink; }
 
     // harmony
     void                  setNoteHarmony (S_msrHarmony harmony);
@@ -4485,7 +4473,12 @@ class EXP msrNote : public msrElement
                   
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
-                  
+
+    // MSR strings
+    string                getTupletDivisionsAsMsrString () const
+                              { return fTupletDivisionsAsMsrString; }
+                              
+    // uplinks
     // measure uplink
     void                  setNoteMeasureUplink (
                             const S_msrMeasure& measure)
@@ -4493,6 +4486,17 @@ class EXP msrNote : public msrElement
                       
     S_msrMeasure          getNoteMeasureUplink () const
                               { return fNoteMeasureUplink; }
+    // direct part uplink
+    S_msrPart             getNoteDirectPartUplink () const
+                             { return fNoteDirectPartUplink; }
+
+    // tuplet uplink
+    void                  setNoteTupletUplink (
+                            const S_msrTuplet& tuplet)
+                              { fNoteTupletUplink = tuplet; }
+                      
+    S_msrTuplet           getNoteTupletUplink () const
+                              { return fNoteTupletUplink; }
 
     // services
     // ------------------------------------------------------
@@ -4589,9 +4593,6 @@ class EXP msrNote : public msrElement
 
   private:
 
-    // divisions handling is done at the part level // JMI
-    S_msrPart             fNoteDirectPartUplink;
-    
     // basic note description
     // ------------------------------------------------------
 
@@ -4619,6 +4620,7 @@ class EXP msrNote : public msrElement
     bool                  fNoteIsAGraceNote;
     
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???
+
 
     // staff and voice context
     // ------------------------------------------------------
@@ -4671,9 +4673,9 @@ class EXP msrNote : public msrElement
 
     list<S_msrTechnical>  fNoteTechnicals;
     list<S_msrTechnicalWithInteger>
-                      fNoteTechnicalWithIntegers;
+                          fNoteTechnicalWithIntegers;
     list<S_msrTechnicalWithString>
-                      fNoteTechnicalWithStrings;
+                          fNoteTechnicalWithStrings;
 
     // ornaments
     // ------------------------------------------------------
@@ -4728,6 +4730,12 @@ class EXP msrNote : public msrElement
     
     S_msrMeasure          fNoteMeasureUplink;
 
+    // note as MSR string
+    // ------------------------------------------------------
+
+    // these fileds are set by msrNote::create()
+    string                fTupletDivisionsAsMsrString;
+
     // note redundant information (for speed)
     // ------------------------------------------------------
 
@@ -4745,6 +4753,11 @@ class EXP msrNote : public msrElement
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                  fNoteHasADelayedOrnament;
+
+    // direct part uplink
+    // divisions handling is done at the part level // JMI
+    S_msrPart             fNoteDirectPartUplink;
+    
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

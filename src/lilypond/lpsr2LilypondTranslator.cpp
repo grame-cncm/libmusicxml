@@ -4180,7 +4180,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fCurrentStem
         ? fCurrentStem->getStemKind ()
         : msrStem::k_NoStem;
-      
+
+  // handle note kind before printing note itself
   switch (note->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
@@ -4287,7 +4288,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       break;
   } // switch
 
-  // print the note
+  // print the note itself
   switch (note->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
@@ -4316,7 +4317,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         // print the rest duration
         fOstream <<
           lilypondizeDurationString (
-            note->skipOrRestDivisionsAsMsrString ());
+            note->
+              skipOrRestDivisionsAsMsrString ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4344,7 +4346,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       // print the skip duration
       fOstream <<
         lilypondizeDurationString (
-          note->skipOrRestDivisionsAsMsrString ());
+          note->
+            skipOrRestDivisionsAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -4358,7 +4361,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       // print the note duration
       fOstream <<
         lilypondizeDurationString (
-          note->noteSoundingQuarterNotesAsMsrString ());
+          note->
+            noteSoundingQuarterNotesAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -4425,7 +4429,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       // print the grace note's graphic duration
       fOstream <<
         lilypondizeDurationString (
-          note->noteGraphicDurationAsMsrString ());
+          note->
+            noteGraphicDurationAsMsrString ());
 
       // print the dots if any JMI ???
       for (int i = 0; i < note->getNoteDotsNumber (); i++) {
@@ -4480,17 +4485,23 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       }
       
       // print the note duration
+      fOstream <<
+        note->
+          getTupletDivisionsAsMsrString ();
+
+          /* JMI
       S_msrTuplet
         tuplet =
-          note->getNoteTupletUplink ();
+          note->
+            getNoteTupletUplink ();
           
-      fOstream << // JMI note display divisions are already known..., don't compute here
         tupletDivisionsAsLilypondString (
           note->getInputLineNumber (),
           note->getNoteDirectPartUplink (),
           note->getNoteSoundingQuarterNotes (), // JMI
           tuplet->getTupletActualNotes (),
           tuplet->getTupletNormalNotes ());
+          */
 
       // print the tie if any
       {

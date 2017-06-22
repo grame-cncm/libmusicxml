@@ -6161,6 +6161,53 @@ void msrNote::initializeNote ()
   fNoteBelongsToAChord = false;
   fNoteBelongsToATuplet = false;
 
+  // note as MSR string
+  // ------------------------------------------------------
+
+  // get current divisions
+  S_msrDivisions
+    partCurrentDivisions =
+      fNoteDirectPartUplink->
+        getPartCurrentDivisions ();
+
+  // set MSR string fields
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+      
+    case msrNote::kRestNote:
+      break;
+      
+    case msrNote::kSkipNote:
+      break;
+      
+    case msrNote::kStandaloneNote:
+      break;
+      
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+      
+    case msrNote::kGraceNote:
+      break;
+      
+    case msrNote::kChordMemberNote:
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      {
+        fTupletDivisionsAsMsrString =
+          fNoteDirectPartUplink->
+            getPartCurrentDivisions ()->
+              tupletDivisionsAsMsrString (
+                fInputLineNumber,
+                fNoteSoundingQuarterNotes,
+                fNoteTupletUplink->getTupletActualNotes (),
+                fNoteTupletUplink->getTupletNormalNotes ());
+      }
+      break;
+  } // switch
+  
+
   // note lyrics
   // ------------------------------------------------------
 
@@ -6489,6 +6536,7 @@ string msrNote::noteKindAsString (
     case msrNote::k_NoNoteKind:
       result = "k_NoNoteKind???";
       break;
+      
     case msrNote::kRestNote:
       result = "rest";
       break;
@@ -7654,7 +7702,8 @@ void msrNote::print (ostream& os)
         fNoteSoundingQuarterNotes <<
         " sound, " <<
         fNoteDisplayQuarterNotes<<
-        " disp";
+        " disp" <<
+        ", MSR: " << fTupletDivisionsAsMsrString;
 /* JMI
       if (
           fNoteSoundingQuarterNotes
