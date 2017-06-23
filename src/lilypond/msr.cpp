@@ -6390,21 +6390,21 @@ void msrNote::setNoteMSRstrings ()
       
     case msrNote::kStandaloneNote:
       {
-        /* JMI
         fNoteSoundingQuarterNotesAsMsrString = // pas au point JMI
           fNoteDirectPartUplink->
             getPartCurrentDivisions ()->
               quarterNotesAsMsrString (
                 fInputLineNumber,
                 fNoteSoundingQuarterNotes);
-*/
 
+/* JMI
         fNoteSoundingQuarterNotesAsMsrString =
           fNoteDirectPartUplink->
             getPartCurrentDivisions ()->
               divisionsAsMsrString (
                 fInputLineNumber,
                 fNoteDivisionsPerQuarterNote);
+                */
       }
       break;
       
@@ -6412,6 +6412,10 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kGraceNote:
+      fNoteGraphicDurationAsMsrString =
+        msrDurationAsString (
+          fNoteGraphicDuration);
+
       break;
       
     case msrNote::kChordMemberNote:
@@ -6427,6 +6431,10 @@ void msrNote::setNoteMSRstrings ()
                 fNoteSoundingQuarterNotes,
                 fNoteTupletUplink->getTupletActualNotes (),
                 fNoteTupletUplink->getTupletNormalNotes ());
+
+        fNoteGraphicDurationAsMsrString =
+          msrDurationAsString (
+            fNoteGraphicDuration);
       }
       break;
   } // switch
@@ -6555,15 +6563,19 @@ S_msrNote msrNote::createNoteShallowClone (
 
   clone->fNoteSoundingQuarterNotesAsMsrString =
     fNoteSoundingQuarterNotesAsMsrString;
-    
   clone->fNoteDisplayQuarterNotesAsMsrString =
     fNoteDisplayQuarterNotesAsMsrString;
+    
+  clone->fNoteGraphicDurationAsMsrString =
+    fNoteGraphicDurationAsMsrString;
     
   clone->fNoteSkipOrRestDivisionsAsMsrString =
     fNoteSkipOrRestDivisionsAsMsrString;
     
   clone->fTupletSoundingQuarterNotesAsMsrString =
     fTupletSoundingQuarterNotesAsMsrString;
+  clone->fNoteGraphicDurationAsMsrString =
+    fNoteGraphicDurationAsMsrString;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
@@ -7820,8 +7832,17 @@ void msrNote::print (ostream& os)
     fNoteSoundingQuarterNotesAsMsrString <<
     "\", noteDisplayQuarterNotesAsMsrString = \"" <<
     fNoteDisplayQuarterNotesAsMsrString <<
+    
+    "\", noteGraphicDurationAsMsrString = \"" <<
+    fNoteGraphicDurationAsMsrString <<
+    
     "\", noteSkipOrRestDivisionsAsMsrString = \"" <<
     fNoteSkipOrRestDivisionsAsMsrString <<
+    
+    "\", noteTupletNoteGraphicDurationAsMsrString = \"" <<
+    fNoteTupletNoteGraphicDurationAsMsrString <<
+    "\"" <<
+    
     "\", tupletSoundingQuarterNotesAsMsrString = \"" <<
     fTupletSoundingQuarterNotesAsMsrString <<
     "\"";

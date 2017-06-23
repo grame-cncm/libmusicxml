@@ -4506,11 +4506,27 @@ class EXP msrNote : public msrElement
                                   fNoteSkipOrRestDivisionsAsMsrString;
                               }
                               
-    string                getTupletSoundingQuarterNotesAsMsrString () const
+    string                getNoteGraphicDurationAsMsrString () const
                               {
                                 return
-                                  fTupletSoundingQuarterNotesAsMsrString;
+                                  fNoteGraphicDurationAsMsrString;
                               }
+                              
+    string                getNoteTupletNoteSoundingQuarterNotesAsMsrString () const
+                              {
+                                return
+                                  fNoteTupletNoteSoundingQuarterNotesAsMsrString;
+                              }
+
+/* JMI                              
+    string                getNoteTupletNoteGraphicDurationAsMsrString () const
+    string                 (
+                            int actualNotes, int normalNotes) const;
+                              {
+                                return
+                                  getNoteTupletNoteGraphicDurationAsMsrString;
+                              }
+ */
                               
     // uplinks
     // measure uplink
@@ -4773,9 +4789,13 @@ class EXP msrNote : public msrElement
     string                fNoteSoundingQuarterNotesAsMsrString;
     string                fNoteDisplayQuarterNotesAsMsrString;
     
+    string                fNoteGraphicDurationAsMsrString;
+    
     string                fNoteSkipOrRestDivisionsAsMsrString;
     
-    string                fTupletSoundingQuarterNotesAsMsrString;
+    string                fNoteTupletNoteSoundingQuarterNotesAsMsrString;
+    
+    string                fNoteTupletNoteGraphicDurationAsMsrString;
 
     // note redundant information (for speed)
     // ------------------------------------------------------

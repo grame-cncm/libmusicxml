@@ -3492,9 +3492,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrTime '" <<
+      "% --> Start visiting msrTime " <<
       elt->timeAsString () <<
-      "'"  <<
       endl;
 
   msrTime::msrTimeSymbolKind
@@ -3680,9 +3679,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrTime '" <<
+      "% --> End visiting msrTime " <<
       elt->timeAsString () <<
-      "'"  <<
       endl;
 }
 
@@ -4501,7 +4499,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getTupletSoundingQuarterNotesAsMsrString ());
+            getNoteTupletNoteSoundingQuarterNotesAsMsrString ());
 
           /* JMI
       S_msrTuplet
