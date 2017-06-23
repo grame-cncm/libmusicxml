@@ -6423,7 +6423,7 @@ void msrNote::setNoteMSRstrings ()
       
     case msrNote::kTupletMemberNote:
       {
-        fTupletSoundingQuarterNotesAsMsrString =
+        fNoteTupletNoteSoundingQuarterNotesAsMsrString =
           fNoteDirectPartUplink->
             getPartCurrentDivisions ()->
               tupletQuarterNotesAsMsrString (
@@ -6572,8 +6572,8 @@ S_msrNote msrNote::createNoteShallowClone (
   clone->fNoteSkipOrRestDivisionsAsMsrString =
     fNoteSkipOrRestDivisionsAsMsrString;
     
-  clone->fTupletSoundingQuarterNotesAsMsrString =
-    fTupletSoundingQuarterNotesAsMsrString;
+  clone->fNoteTupletNoteSoundingQuarterNotesAsMsrString =
+    fNoteTupletNoteSoundingQuarterNotesAsMsrString;
   clone->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
 
@@ -7777,7 +7777,8 @@ void msrNote::print (ostream& os)
         " sound, " <<
         fNoteDisplayQuarterNotes<<
         " disp" <<
-        ", quarter notes: " << fTupletSoundingQuarterNotesAsMsrString;
+        ", quarter notes: " <<
+        fNoteTupletNoteSoundingQuarterNotesAsMsrString;
 /* JMI
       if (
           fNoteSoundingQuarterNotes
@@ -7843,8 +7844,8 @@ void msrNote::print (ostream& os)
     fNoteTupletNoteGraphicDurationAsMsrString <<
     "\"" <<
     
-    "\", tupletSoundingQuarterNotesAsMsrString = \"" <<
-    fTupletSoundingQuarterNotesAsMsrString <<
+    "\", noteTupletNoteSoundingQuarterNotesAsMsrString = \"" <<
+    fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
     "\"";
  
   // note redundant information (for speed)
