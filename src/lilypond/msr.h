@@ -1808,10 +1808,10 @@ class EXP msrDoubleTremolo : public msrElement
      // divisions
      
     void                  setDoubleTremoloSoundingWholeNotes (
-                            rational quarterNotes)
+                            rational wholeNotes)
                               {
                                 fDoubleTremoloSoundingWholeNotes =
-                                  quarterNotes;
+                                  wholeNotes;
                               }
             
     rational              getDoubleTremoloSoundingWholeNotes () const
@@ -4192,7 +4192,7 @@ class EXP msrNote : public msrElement
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
       int       noteDivisionsPerQuarterNote,
-      rational  quarterNotes,
+      rational  wholeNotes,
       int       dotsNumber,
       int       staffNumber,
       int       externalVoiceNumber);
@@ -5761,14 +5761,14 @@ class EXP msrDivisions : public msrElement
                             int  inputLineNumber,
                             int  divisions);
 
-    string                quarterNotesAsMsrString (
+    string                wholeNotesAsMsrString (
                             int      inputLineNumber,
-                            rational quarterNotes,
+                            rational wholeNotes,
                             int&     numberOfDotsNeeded);
 
-    string                quarterNotesAsMsrString (
+    string                wholeNotesAsMsrString (
                             int      inputLineNumber,
-                            rational quarterNotes);
+                            rational wholeNotes);
 
     string                tupletDivisionsAsMsrString (
                             int inputLineNumber,
@@ -5778,7 +5778,7 @@ class EXP msrDivisions : public msrElement
                             
     string                tupletWholeNotesAsMsrString (
                             int      inputLineNumber,
-                            rational quarterNotes,
+                            rational wholeNotes,
                             int      actualNotes,
                             int      normalNotes);
 

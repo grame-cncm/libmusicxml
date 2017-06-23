@@ -413,10 +413,10 @@ class lpsr2LilypondTranslator :
 
     // quarter notes
     
-    string                quarterNotesAsLilypondString (
+    string                wholeNotesAsLilypondString (
                             int       inputLineNumber,
                             S_msrPart part,
-                            rational  quarterNotes);
+                            rational  wholeNotes);
                             
     // octaves
     

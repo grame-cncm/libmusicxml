@@ -245,14 +245,14 @@ string lpsr2LilypondTranslator::lilypondizeDurationString (
   return result;
 }
 
-string lpsr2LilypondTranslator::quarterNotesAsLilypondString (
+string lpsr2LilypondTranslator::wholeNotesAsLilypondString (
   int       inputLineNumber,
   S_msrPart part,
-  rational  quarterNotes)
+  rational  wholeNotes)
 {
   string result;
 
-  result = quarterNotes.toString ();
+  result = wholeNotes.toString ();
   
   return lilypondizeDurationString (result);
 }
@@ -2786,7 +2786,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         string
           partialDuration =
-            quarterNotesAsLilypondString (
+            wholeNotesAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
               measureLength);
@@ -2896,7 +2896,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         // generate a rest the duration of the measure
         fOstream <<
           "R" <<
-            quarterNotesAsLilypondString (
+            wholeNotesAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
               measureFullMeasureLength) <<
@@ -5287,7 +5287,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   else {
     // print the chord duration
     fOstream <<
-      quarterNotesAsLilypondString (
+      wholeNotesAsLilypondString (
         chordInputLineNumber,
         elt->getChordDirectPartUplink (),
         elt->getChordDisplayWholeNotes ());

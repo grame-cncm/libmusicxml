@@ -6050,7 +6050,7 @@ S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   S_msrPart noteDirectPartUplink,
   int       noteDivisionsPerQuarterNote,
-  rational  quarterNotes,
+  rational  wholeNotes,
   int       dotsNumber,
   int       staffNumber,
   int       externalVoiceNumber)
@@ -6066,8 +6066,8 @@ S_msrNote msrNote::createSkipNote (
 
       noteDivisionsPerQuarterNote,
       
-      quarterNotes, // noteSoundingWholeNotes
-      quarterNotes, // noteDisplayWholeNotes
+      wholeNotes, // noteSoundingWholeNotes
+      wholeNotes, // noteDisplayWholeNotes
       
       dotsNumber,
       
@@ -6361,7 +6361,7 @@ void msrNote::setNoteMSRstrings ()
       fNoteSkipOrRestSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
-            quarterNotesAsMsrString (
+            wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteSoundingWholeNotes);
       break;
@@ -6370,7 +6370,7 @@ void msrNote::setNoteMSRstrings ()
       fNoteSkipOrRestSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
-            quarterNotesAsMsrString (
+            wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteSoundingWholeNotes);
       break;
@@ -6379,7 +6379,7 @@ void msrNote::setNoteMSRstrings ()
       fNoteSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
-            quarterNotesAsMsrString (
+            wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteSoundingWholeNotes);
       break;
@@ -8284,33 +8284,33 @@ S_msrChord msrChord::createChordShallowClone (
 }
 
 void msrChord::setChordSoundingWholeNotes (
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "Setting chord sounding quarter notes to '" <<
-      quarterNotes <<
+      "Setting chord sounding whole notes to '" <<
+      wholeNotes <<
       "' for chord '" <<
       chordAsString () <<
       "'" <<
       endl;
 
-  fChordSoundingWholeNotes = quarterNotes;
+  fChordSoundingWholeNotes = wholeNotes;
 }
 
 void msrChord::setChordDisplayWholeNotes (
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "Setting chord displayed quarter notes to '" <<
-      quarterNotes <<
+      wholeNotes <<
       "' for chord '" <<
       chordAsString () <<
       "'" <<
       endl;
 
-  fChordDisplayWholeNotes = quarterNotes;
+  fChordDisplayWholeNotes = wholeNotes;
 }
 
 /* JMI
@@ -9356,9 +9356,9 @@ string msrDivisions::divisionsAsMsrString (
   return result;
 }
 
-string msrDivisions::quarterNotesAsMsrString (
+string msrDivisions::wholeNotesAsMsrString (
   int      inputLineNumber,
-  rational quarterNotes,
+  rational wholeNotes,
   int&     numberOfDotsNeeded)
 {  
   string result;
@@ -9376,17 +9376,17 @@ string msrDivisions::quarterNotesAsMsrString (
         tab << "inputLineNumber = " << inputLineNumber <<
         endl <<
       idtr <<
-        tab << "quarterNotes    = " << quarterNotes <<
+        tab << "wholeNotes    = " << wholeNotes <<
         endl;
   }
         
   // compute note's number of divisions
   int divisions =
-    quarterNotes.getNumerator ()
+    wholeNotes.getNumerator ()
       *
     fDivisionsPerQuarterNote
       /
-    quarterNotes.getDenominator ();      
+    wholeNotes.getDenominator ();      
   
 // JMI  if (false && gGeneralOptions->fTraceDivisions) {
   if (true || gGeneralOptions->fTraceDivisions) {
@@ -9559,16 +9559,16 @@ string msrDivisions::quarterNotesAsMsrString (
   return result;
 }
 
-string msrDivisions::quarterNotesAsMsrString (
+string msrDivisions::wholeNotesAsMsrString (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {  
   int numberOfDots; // to be ignored
 
   return
-    quarterNotesAsMsrString (
+    wholeNotesAsMsrString (
       inputLineNumber,
-      quarterNotes,
+      wholeNotes,
       numberOfDots);
 }
 
@@ -9599,14 +9599,14 @@ string msrDivisions::tupletDivisionsAsMsrString (
 
 string msrDivisions::tupletWholeNotesAsMsrString (
   int      inputLineNumber,
-  rational quarterNotes,
+  rational wholeNotes,
   int      actualNotes,
   int      normalNotes)
 {
   return
-    quarterNotesAsMsrString (
+    wholeNotesAsMsrString (
       inputLineNumber,
-      quarterNotes
+      wholeNotes
         *
       rational (actualNotes, normalNotes));
 }
@@ -13613,13 +13613,13 @@ void msrStanza::appendSyllableToStanza (
 
 S_msrSyllable msrStanza::appendRestSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13631,7 +13631,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
         fStanzaDirectPartUplink,
         msrSyllable::kRestSyllable, "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
 
   // append syllable to this stanza
@@ -13643,13 +13643,13 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
 
 S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending 'Skip' syllable, " <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13662,7 +13662,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
         msrSyllable::kSkipSyllable,
         "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
 
   // append syllable to this stanza
@@ -13674,13 +13674,13 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 
 S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending 'Tied' syllable" <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13693,7 +13693,7 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
         msrSyllable::kTiedSyllable,
         "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
         
   // append syllable to this stanza
@@ -13705,13 +13705,13 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
 
 S_msrSyllable msrStanza::appendSlurSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending 'Slur' syllable:" <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13723,7 +13723,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
         fStanzaDirectPartUplink,
         msrSyllable::kSlurSyllable, "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
         
   // append syllable to this stanza
@@ -13735,13 +13735,13 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
 
 S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending a 'SlurBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13753,7 +13753,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
         fStanzaDirectPartUplink,
         msrSyllable::kSlurBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
         
   // append syllable to this stanza
@@ -13765,13 +13765,13 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
 
 S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending 'Ligature' syllable:" <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13783,7 +13783,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
         fStanzaDirectPartUplink,
         msrSyllable::kLigatureSyllable, "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
         
   // append syllable to this stanza
@@ -13795,13 +13795,13 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
 
 S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
   int      inputLineNumber,
-  rational quarterNotes)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "% Appending a 'LigatureBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
-      ", quarter notes = " << quarterNotes <<
+      ", quarter notes = " << wholeNotes <<
       endl;
   }
   
@@ -13813,7 +13813,7 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
         fStanzaDirectPartUplink,
         msrSyllable::kLigatureBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
-        quarterNotes,
+        wholeNotes,
         this);
         
   // append syllable to this stanza
@@ -14091,7 +14091,7 @@ msrHarmony::msrHarmony (
   fHarmonySoundingWholeNotesAsString =
     fHarmonyDirectPartUplink->
       getPartCurrentDivisions ()->
-        quarterNotesAsMsrString (
+        wholeNotesAsMsrString (
           fInputLineNumber,
           fHarmonySoundingWholeNotes);
   
@@ -15321,7 +15321,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         " has " <<
         singularOrPlural (
           fMeasureFullMeasureLength,
-          "quarterNotes per full measure",
+          "wholeNotes per full measure",
           "division per full measure") <<
         endl;
   }
