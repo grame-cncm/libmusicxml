@@ -6336,7 +6336,7 @@ void msrNote::initializeNote ()
 
 void msrNote::setNoteMSRstrings ()
 {
-  if (true || gGeneralOptions->fTraceNotes) { // JMI
+  if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "--> before setting note MSR strings for note:" <<
       endl;
@@ -6413,7 +6413,7 @@ void msrNote::setNoteMSRstrings ()
       break;
   } // switch
 
- if (true || gGeneralOptions->fTraceNotes) { // JMI
+  if (gGeneralOptions->fTraceNotes) { // JMI
     cerr << idtr <<
       "<-- after setting note MSR strings for note:" <<
       endl;
@@ -7712,6 +7712,85 @@ void msrNote::print (ostream& os)
 
     idtr++;
     
+  // set MSR string fields
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+      
+    case msrNote::kRestNote:
+      os << left <<
+        idtr << setw(fieldWidth) <<
+          "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
+          fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+          "\"" <<
+          endl;
+      break;
+      
+    case msrNote::kSkipNote:
+      os << left <<
+        idtr << setw(fieldWidth) <<
+          "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
+          fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+          "\"" <<
+          endl;
+      break;
+      
+    case msrNote::kStandaloneNote:
+      os << left <<
+        idtr << setw(fieldWidth) <<
+          "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
+          fNoteSoundingQuarterNotesAsMsrString <<
+          "\"" <<
+          endl <<
+        idtr << setw(fieldWidth) <<
+          "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
+          fNoteDisplayQuarterNotesAsMsrString <<
+          "\"" <<
+          endl <<
+        idtr << setw(fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " = \"" <<
+          fNoteGraphicDurationAsMsrString <<
+          "\"" <<
+          endl;
+      break;
+      
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+      
+    case msrNote::kGraceNote:
+      os << left <<
+        idtr << setw(fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " = \"" <<
+          fNoteGraphicDurationAsMsrString <<
+          "\"" <<
+          endl;
+      break;
+      
+    case msrNote::kChordMemberNote:
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      os << left <<
+        idtr << setw(fieldWidth) <<
+          "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
+          fNoteTupletNoteGraphicDurationAsMsrString <<
+          "\"" <<
+          endl <<
+        idtr << setw(fieldWidth) <<
+          "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
+          fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
+          "\"" <<
+        endl <<
+  
+        idtr << setw(fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " = \"" <<
+          fNoteGraphicDurationAsMsrString <<
+          "\"" <<
+          endl;
+      break;
+  } // switch
+
+/* JMI
     os << left <<
       idtr << setw(fieldWidth) <<
         "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
@@ -7728,11 +7807,13 @@ void msrNote::print (ostream& os)
         fNoteGraphicDurationAsMsrString <<
         "\"" <<
         endl <<
+    os << left <<
       idtr << setw(fieldWidth) <<
         "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
         fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
         "\"" <<
         endl <<
+    os << left <<
       idtr << setw(fieldWidth) <<
           "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
           fNoteTupletNoteGraphicDurationAsMsrString <<
@@ -7743,6 +7824,7 @@ void msrNote::print (ostream& os)
         fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
         "\"" <<
       endl;
+*/
 
     idtr--;
    }
@@ -9272,8 +9354,8 @@ string msrDivisions::quarterNotesAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
 
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+  if (false && gGeneralOptions->fTraceDivisions) {
+// JMI  if (true || gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "--> divisionsAsMsrString ():" <<
@@ -9335,8 +9417,8 @@ string msrDivisions::quarterNotesAsMsrString (
       result =
         msrDurationAsString (baseDuration);
       
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+      if (false && gGeneralOptions->fTraceDivisions) {
+// JMI      if (true || gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9365,8 +9447,8 @@ string msrDivisions::quarterNotesAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+    if (false && gGeneralOptions->fTraceDivisions) {
+// JMI    if (true || gGeneralOptions->fTraceDivisions) {
       cerr <<
         "divisions              = " << divisions <<
         endl <<
@@ -9385,8 +9467,8 @@ string msrDivisions::quarterNotesAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-// JMI      if (false && gGeneralOptions->fTraceDivisions) {
-      if (true || gGeneralOptions->fTraceDivisions) {
+      if (false && gGeneralOptions->fTraceDivisions) {
+// JMI      if (true || gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9409,8 +9491,8 @@ string msrDivisions::quarterNotesAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+        if (false && gGeneralOptions->fTraceDivisions) {
+// JMI          if (true || gGeneralOptions->fTraceDivisions) {
           cerr <<
             "divisions              = " << divisions <<
             endl <<
@@ -9428,8 +9510,8 @@ string msrDivisions::quarterNotesAsMsrString (
           break; // JMI
       } // while
   
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+      if (false && gGeneralOptions->fTraceDivisions) {
+// JMI        if (true || gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9453,8 +9535,8 @@ string msrDivisions::quarterNotesAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+  if (false && gGeneralOptions->fTraceDivisions) {
+// JMI    if (true || gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "<-- divisionsAsMsrString (): returns " << result <<
