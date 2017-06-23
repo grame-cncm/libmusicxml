@@ -2369,9 +2369,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
       for (int i = 0; i < saveIndent; i++) {
         fOstream <<
           idtr;
-          
-        saveIndent++;
-      }
+      } // for
     }
   }
 }
@@ -2747,6 +2745,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fOnGoingVoiceCadenza
       &&
     measureKind != msrMeasure::kOverfullMeasureKind) {
+    int saveIndent =
+      idtr.getIndent ();
+    
     fOstream << idtr <<
       "\\cadenzaOff";
 
@@ -2756,6 +2757,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     fOstream<<
       endl;
+
+    if (saveIndent > 0) {
+      idtr.resetToZero ();
+      
+      for (int i = 0; i < saveIndent; i++) {
+        fOstream <<
+          idtr;
+      } // for
+    }
 
     fOnGoingVoiceCadenza = false;
   }
@@ -2857,6 +2867,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     case msrMeasure::kOverfullMeasureKind:
       if (! fOnGoingVoiceCadenza) {
+        int saveIndent =
+          idtr.getIndent ();
+        
         fOstream << idtr <<
           "\\cadenzaOn";
 
@@ -2867,12 +2880,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         fOstream <<
           endl;
           
+        if (saveIndent > 0) {
+          idtr.resetToZero ();
+          
+          for (int i = 0; i < saveIndent; i++) {
+            fOstream <<
+              idtr;
+          } // for
+        }
+
         fOnGoingVoiceCadenza = true;
       }
       break;
       
     case msrMeasure::kSenzaMisuraMeasureKind:
       if (! fOnGoingVoiceCadenza) {
+        int saveIndent =
+          idtr.getIndent ();
+        
         fOstream << idtr <<
           "\\cadenzaOn";
 
@@ -2883,6 +2908,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         fOstream <<
           endl;
           
+        if (saveIndent > 0) {
+          idtr.resetToZero ();
+          
+          for (int i = 0; i < saveIndent; i++) {
+            fOstream <<
+              idtr;
+          } // for
+        }
+
         fOnGoingVoiceCadenza = true;
       }
       break;

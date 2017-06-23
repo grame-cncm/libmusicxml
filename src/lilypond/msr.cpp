@@ -9384,7 +9384,7 @@ string msrDivisions::wholeNotesAsMsrString (
   int divisions =
     wholeNotes.getNumerator ()
       *
-    fDivisionsPerQuarterNote
+    fDivisionsPerQuarterNote * 4 // hence a whole note
       /
     wholeNotes.getDenominator ();      
   
@@ -15175,8 +15175,8 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   clone->fMeasureFullMeasureLength =
     fMeasureFullMeasureLength;
 
-  clone->fMeasureLength =
-    fMeasureLength;
+  // don't take fMeasureLength over, it will be computed on the fly
+  // while appending notes to the measure clone
 
   // kind
   clone->fMeasureKind =
@@ -15197,10 +15197,19 @@ void msrMeasure::setMeasureLength (
     cerr << idtr <<
       "Setting measure " << fMeasureNumber <<
       " measure length to '"  << measureLength <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
       "', line " << inputLineNumber <<
       endl;
-  
+
+  // set measure length
   fMeasureLength = measureLength;
+
+  // rationalise it
+  fMeasureLength.rationalise ();
 }
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
