@@ -2272,7 +2272,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             "Appending note " <<
             fCurrentNoteClone->notePitchAsString () <<
             ":" <<
-            fCurrentNoteClone->getNoteSoundingQuarterNotes () <<
+            fCurrentNoteClone->getNoteSoundingWholeNotes () <<
             " to the grace notes in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
@@ -2289,7 +2289,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             "Appending note " <<
             fCurrentNoteClone->notePitchAsString () <<
             ":" <<
-            fCurrentNoteClone->getNoteSoundingQuarterNotes () <<
+            fCurrentNoteClone->getNoteSoundingWholeNotes () <<
             " to the after grace notes in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;

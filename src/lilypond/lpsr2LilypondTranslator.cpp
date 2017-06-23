@@ -588,29 +588,30 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::noteSoundingQuarterNotesAsLilypondString (
+string lpsr2LilypondTranslator::noteSoundingWholeNotesAsLilypondString (
   S_msrNote note)
 {
   string
-    noteSoundingQuarterNotesAsMsrString =
-      note->getNoteSoundingQuarterNotesAsMsrString ();
+    noteSoundingWholeNotesAsMsrString =
+      note->
+        getNoteSoundingWholeNotesAsMsrString ();
 
   string
-    lilypondSoundingQuarterNotesAsString =
-      noteSoundingQuarterNotesAsMsrString;
+    lilypondSoundingWholeNotesAsString =
+      noteSoundingWholeNotesAsMsrString;
 
-  if (! isdigit (lilypondSoundingQuarterNotesAsString [0])) {
-    if      (lilypondSoundingQuarterNotesAsString == "Breve")
-      lilypondSoundingQuarterNotesAsString = "\\breve";
+  if (! isdigit (lilypondSoundingWholeNotesAsString [0])) {
+    if      (lilypondSoundingWholeNotesAsString == "Breve")
+      lilypondSoundingWholeNotesAsString = "\\breve";
       
-    else if (lilypondSoundingQuarterNotesAsString == "Long")
-      lilypondSoundingQuarterNotesAsString = "\\longa";
+    else if (lilypondSoundingWholeNotesAsString == "Long")
+      lilypondSoundingWholeNotesAsString = "\\longa";
       
-    else if (lilypondSoundingQuarterNotesAsString == "Maxima")
-      lilypondSoundingQuarterNotesAsString = "\\maxima";
+    else if (lilypondSoundingWholeNotesAsString == "Maxima")
+      lilypondSoundingWholeNotesAsString = "\\maxima";
   }
 
-  return lilypondSoundingQuarterNotesAsString;
+  return lilypondSoundingWholeNotesAsString;
 }
         
 //________________________________________________________________________
@@ -623,7 +624,7 @@ string lpsr2LilypondTranslator::technicalAsLilypondString (
   string
     noteDuration =
       (*i)->getTechnicalNoteUplink ()->
-        noteSoundingQuarterNotesAsMsrString ();
+        noteSoundingWholeNotesAsMsrString ();
   */
 
   switch (technical->getTechnicalKind ()) {
@@ -751,8 +752,9 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
   
   string
     noteUplinkDuration =
-      ornament->getOrnamentNoteUplink ()->
-        getNoteSoundingQuarterNotesAsMsrString ();
+      ornament->
+        getOrnamentNoteUplink ()->
+          getNoteSoundingWholeNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
@@ -887,7 +889,7 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   */
   
   int durationToUse =
-    singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingQuarterNotes;
+    singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingWholeNotes;
         
   if (singleTremoloNoteDuration >= kEighth)
     durationToUse +=
@@ -914,9 +916,11 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
 
   s <<
     msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      harmony->getHarmonyRootQuarterTonesPitch ()) <<
-    harmony->getHarmonySoundingQuarterNotesAsString ();
+      gMsrOptions->
+        fMsrQuarterTonesPitchesLanguage,
+      harmony->
+        getHarmonyRootQuarterTonesPitch ()) <<
+    harmony->getHarmonySoundingWholeNotesAsString ();
     
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::kMajor:
@@ -3865,7 +3869,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     fOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
-      tab << "% doubleTremoloSoundingQuarterNotes = " <<
+      tab << "% doubleTremoloSoundingWholeNotes = " <<
         elt->getDoubleTremoloNumberOfRepeats () <<
         endl <<
       tab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
@@ -4293,7 +4297,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         fOstream <<
           lilypondizeDurationString (
             note->
-              getNoteSkipOrRestSoundingQuarterNotesAsMsrString ());
+              getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4322,7 +4326,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteSkipOrRestSoundingQuarterNotesAsMsrString ());
+            getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -4337,7 +4341,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteSoundingQuarterNotesAsMsrString ());
+            getNoteSoundingWholeNotesAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -4463,7 +4467,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteTupletNoteSoundingQuarterNotesAsMsrString ());
+            getNoteTupletNoteSoundingWholeNotesAsMsrString ());
 
       // print the tie if any
       {
@@ -5286,7 +5290,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       quarterNotesAsLilypondString (
         chordInputLineNumber,
         elt->getChordDirectPartUplink (),
-        elt->getChordDisplayQuarterNotes ());
+        elt->getChordDisplayWholeNotes ());
   }
    
   // fetch the chord single tremolo

@@ -444,7 +444,7 @@ class lpsr2LilypondTranslator :
 
     void                  printNoteAsLilypondString (S_msrNote note);
 
-    string                noteSoundingQuarterNotesAsLilypondString (
+    string                noteSoundingWholeNotesAsLilypondString (
                             S_msrNote note);
 
     // articulations

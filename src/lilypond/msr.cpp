@@ -15467,12 +15467,17 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
           "\"" <<
           endl;
     }
-    
+
+    fMeasureFullMeasureLength =
+      wholeNotesPerMeasure;
+
+    /* JMI
     int
       currentDivisionsPerQuarterNote = // JMI
         fMeasureDirectPartUplink->
           getPartCurrentDivisions ()->
             getDivisionsPerQuarterNote ();
+
 
     if (wholeNotesPerMeasure.getNumerator () == 4) {
       // whole notes per measure is already expresses in quarter notes
@@ -15485,7 +15490,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
         fMeasureFullMeasureLength =
           wholeNotesPerMeasure * 4;
     }
-/*
+
         *
       currentDivisionsPerQuarterNote * 4; // hence a whole note
     */
@@ -16311,12 +16316,12 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   rational
     harmonySoundingWholeNotes =
       harmony->
-        getHarmonySoundingQuarterNotes ();
+        getHarmonySoundingWholeNotes ();
     
   // account for harmony duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + harmonySoundingQuarterNotes);
+    fMeasureLength + harmonySoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -16584,7 +16589,7 @@ void msrMeasure::removeNoteFromMeasure (
         inputLineNumber,
         fMeasureLength
           -
-        fMeasureLastHandledNote->getNoteSoundingQuarterNotes ());
+        fMeasureLastHandledNote->getNoteSoundingWholeNotes ());
 
       // return from function
       return;
@@ -16659,7 +16664,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 
         // update measure length
         fMeasureLength -=
-          fMeasureLastHandledNote->getNoteSoundingQuarterNotes ();
+          fMeasureLastHandledNote->getNoteSoundingWholeNotes ();
 / *
 // JMI
         // set note's measure position, needed for chord handling
@@ -20673,19 +20678,20 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   
   // add a skip syllable of the same duration to the master stanza
   rational
-    noteSoundingQuarterNotes =
-      note->getNoteSoundingQuarterNotes ();
+    noteSoundingWholeNotes =
+      note->
+        getNoteSoundingWholeNotes ();
 
   if (note->getNoteIsARest ())
     fVoiceMuteStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingQuarterNotes);
+        noteSoundingWholeNotes);
   else
     fVoiceMuteStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingQuarterNotes);
+        noteSoundingWholeNotes);
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
@@ -20750,19 +20756,20 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   
   // add a skip syllable of the same duration to the master stanza
   rational
-    noteSoundingQuarterNotes =
-      note->getNoteSoundingQuarterNotes ();
+    noteSoundingWholeNotes =
+      note->
+        getNoteSoundingWholeNotes ();
 
   if (note->getNoteIsARest ())
     fVoiceMuteStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingQuarterNotes);
+        noteSoundingWholeNotes);
   else
     fVoiceMuteStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingQuarterNotes);
+        noteSoundingWholeNotes);
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
@@ -24916,7 +24923,7 @@ void msrPart::testDivisionsAndDurations ()
   exit (0);
 }
 
-void msrPart::testTupletSoundingQuarterNotesAndDurations ()
+void msrPart::testTupletSoundingWholeNotesAndDurations ()
 {
   int divisionsPerQuarterNote = 30;
   cerr <<
