@@ -6667,3 +6667,14 @@ If used within a tuplet, this 2/1 ratio should be multiplied by the existing tup
 Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
   */
+
+
+  /*
+   * \layout {
+ \context {
+   \Score
+   proportionalNotationDuration = #(ly:make-moment 1/16)
+ }
+}
+*/
+

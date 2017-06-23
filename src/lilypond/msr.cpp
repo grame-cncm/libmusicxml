@@ -7606,108 +7606,135 @@ void msrNote::print (ostream& os)
   
   // print the note itself and its positionInMeasure
   os <<
-    noteAsString ();
+    noteAsString () <<
+    ", line " << fInputLineNumber;
 
-  os <<
-      ", line " << fInputLineNumber;
+  {
+    // print displayed quarter notes
+    os <<
+      endl;
+  
+    idtr++;
+  
+    os <<
+      idtr;
+      
+    switch (fNoteKind) {
+      case msrNote::k_NoNoteKind:
+      case msrNote::kRestNote:
+      case msrNote::kSkipNote:
+      case msrNote::kStandaloneNote:
+      case msrNote::kDoubleTremoloMemberNote:
+      case msrNote::kChordMemberNote:
+        os <<
+          "note divisions per quarter note: " <<
+          fNoteDivisionsPerQuarterNote <<
+          ", quarter notes: " <<
+          fNoteSoundingQuarterNotes <<
+          " sound, " <<
+          fNoteDisplayQuarterNotes<<
+          " disp";
+        break;
+  
+      case msrNote::kGraceNote:
+        os <<
+          "quarter notes: " <<
+          fNoteDisplayQuarterNotes <<
+          " disp";
+        break;
+  
+      case msrNote::kTupletMemberNote:
+        os <<
+          "quarter notes: " <<
+          fNoteSoundingQuarterNotes <<
+          " sound, " <<
+          fNoteDisplayQuarterNotes<<
+          " disp" <<
+          ", quarter notes: " <<
+          fNoteTupletNoteSoundingQuarterNotesAsMsrString;
+  /* JMI
+        if (
+            fNoteSoundingQuarterNotes
+              ==
+            fNoteDisplayQuarterNotes) {
+          os <<
+            fNoteSoundingQuarterNotes <<
+            " quarter notes";
+        }
+        */
+        break;
+      } // switch
+  
+    if (measureFullMeasureLength > 0)
+      os <<
+        ", " <<
+        measureFullMeasureLength <<
+        " per full measure";
+  
+    // print measure related information
+    os <<
+      ", measure: " <<
+      fNoteMeasureNumber <<
+      ":";
+      
+    if (fNotePositionInMeasure < 0)
+      os << "?";
+    else
+      os << fNotePositionInMeasure;
+      
+    // print rationalized position in measure if relevant
+    if (fNoteMeasureUplink) {
+      // the note measure uplink may not have been set yet
+      rational
+        notePositionBis =
+          fNotePositionInMeasure;
+      notePositionBis.rationalise ();
+      
+      if (
+        notePositionBis.getNumerator ()
+          !=
+        fNotePositionInMeasure.getNumerator ()) {
+        // print rationalized rational view
+        os <<
+          " ( = " << notePositionBis << ")";
+      }
+    }
+  
+    os <<
+      endl ;
+      
+    idtr--;
+  }
+  
+  // note redundant information (for speed)
+  if (fNoteIsStemless)
+    os <<
+      ", stemless";
 
-  // print displayed quarter notes
+  if (fNoteIsFirstNoteInADoubleTremolo)
+    os <<
+      ", first note in a double tremolo";
+  if (fNoteIsSecondNoteInADoubleTremolo)
+    os <<
+      ", second note in a double tremolo";
+
+  if (fNoteHasATrill)
+    os <<
+      ", has a trill";
+  if (fNoteIsFollowedByGraceNotes)
+    os <<
+      ", is followed by graceNotes";
+
+  if (fNoteHasADelayedOrnament)
+    os <<
+      ", has a delayed ornament";
+
   os <<
     endl;
 
-  idtr++;
-
-  os <<
-    idtr;
-    
-  switch (fNoteKind) {
-    case msrNote::k_NoNoteKind:
-    case msrNote::kRestNote:
-    case msrNote::kSkipNote:
-    case msrNote::kStandaloneNote:
-    case msrNote::kDoubleTremoloMemberNote:
-    case msrNote::kChordMemberNote:
-      os <<
-        "note divisions per quarter note: " <<
-        fNoteDivisionsPerQuarterNote <<
-        ", quarter notes: " <<
-        fNoteSoundingQuarterNotes <<
-        " sound, " <<
-        fNoteDisplayQuarterNotes<<
-        " disp";
-      break;
-
-    case msrNote::kGraceNote:
-      os <<
-        "quarter notes: " <<
-        fNoteDisplayQuarterNotes <<
-        " disp";
-      break;
-
-    case msrNote::kTupletMemberNote:
-      os <<
-        "quarter notes: " <<
-        fNoteSoundingQuarterNotes <<
-        " sound, " <<
-        fNoteDisplayQuarterNotes<<
-        " disp" <<
-        ", quarter notes: " <<
-        fNoteTupletNoteSoundingQuarterNotesAsMsrString;
-/* JMI
-      if (
-          fNoteSoundingQuarterNotes
-            ==
-          fNoteDisplayQuarterNotes) {
-        os <<
-          fNoteSoundingQuarterNotes <<
-          " quarter notes";
-      }
-      */
-      break;
-    } // switch
-
-  if (measureFullMeasureLength > 0)
-    os <<
-      ", " <<
-      measureFullMeasureLength <<
-      " per full measure";
-
-  // print measure related information
-  os <<
-    ", measure: " <<
-    fNoteMeasureNumber <<
-    ":";
-    
-  if (fNotePositionInMeasure < 0)
-    os << "?";
-  else
-    os << fNotePositionInMeasure;
-    
-  // print rationalized position in measure if relevant
-  if (fNoteMeasureUplink) {
-    // the note measure uplink may not have been set yet
-    rational
-      notePositionBis =
-        fNotePositionInMeasure;
-    notePositionBis.rationalise ();
-    
-    if (
-      notePositionBis.getNumerator ()
-        !=
-      fNotePositionInMeasure.getNumerator ()) {
-      // print rationalized rational view
-      os <<
-        " ( = " << notePositionBis << ")";
-    }
-  }
-
-  os <<
-    endl ;
-    
-  idtr--;
-  
-  // note MSR strings
   {
+    // note MSR strings
+
     const int fieldWidth = 46;
 
     idtr++;
@@ -7788,72 +7815,10 @@ void msrNote::print (ostream& os)
           "\"" <<
           endl;
       break;
-  } // switch
+    } // switch
 
-/* JMI
-    os << left <<
-      idtr << setw(fieldWidth) <<
-        "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
-        fNoteSoundingQuarterNotesAsMsrString <<
-        "\"" <<
-        endl <<
-      idtr << setw(fieldWidth) <<
-        "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
-        fNoteDisplayQuarterNotesAsMsrString <<
-        "\"" <<
-        endl <<
-      idtr << setw(fieldWidth) <<
-        "noteGraphicDurationAsMsrString" << " = \"" <<
-        fNoteGraphicDurationAsMsrString <<
-        "\"" <<
-        endl <<
-    os << left <<
-      idtr << setw(fieldWidth) <<
-        "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
-        fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
-        "\"" <<
-        endl <<
-    os << left <<
-      idtr << setw(fieldWidth) <<
-          "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
-          fNoteTupletNoteGraphicDurationAsMsrString <<
-        "\"" <<
-        endl <<
-      idtr << setw(fieldWidth) <<
-        "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
-        fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
-        "\"" <<
-      endl;
-*/
-
-    idtr--;
-   }
-   
-  // note redundant information (for speed)
-  if (fNoteIsStemless)
-    os <<
-      ", stemless";
-
-  if (fNoteIsFirstNoteInADoubleTremolo)
-    os <<
-      ", first note in a double tremolo";
-  if (fNoteIsSecondNoteInADoubleTremolo)
-    os <<
-      ", second note in a double tremolo";
-
-  if (fNoteHasATrill)
-    os <<
-      ", has a trill";
-  if (fNoteIsFollowedByGraceNotes)
-    os <<
-      ", is followed by graceNotes";
-
-  if (fNoteHasADelayedOrnament)
-    os <<
-      ", has a delayed ornament";
-
-  os <<
-    endl;
+  idtr--;
+  }
 
   // are there syllables associated to this note?
   if (fNoteSyllables.size ()) {
@@ -15172,7 +15137,7 @@ void msrMeasure::setMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
     cerr << idtr <<
       "Setting measure " << fMeasureNumber <<
       " measure length to '"  << measureLength <<
@@ -15440,7 +15405,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     fMeasureFullMeasureLength =
       wholeNotesPerMeasure
         *
-      currentDivisionsPerQuarterNote * 4; // hence a whole note
+      currentDivisionsPerQuarterNote; // hence a whole note
     
   
     if (gGeneralOptions->fTraceMeasures)
@@ -15834,7 +15799,8 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasureLengthHighTide (
-      inputLineNumber, fMeasureLength);
+      inputLineNumber,
+      fMeasureLength);
 
   // determine if the doubleTremolo occupies a full measure
 // XXL  JMI  if (doubleTremoloSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
@@ -16258,7 +16224,8 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasureLengthHighTide (
-      inputLineNumber, fMeasureLength);
+      inputLineNumber,
+      fMeasureLength);
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (harmony);
@@ -17234,6 +17201,7 @@ msrSegment::msrSegment (
 msrSegment::~msrSegment()
 {}
 
+/* JMI
 void msrSegment::createSegmentInitialMeasure () // JMI
 {
   string
@@ -17277,6 +17245,7 @@ void msrSegment::createSegmentInitialMeasure () // JMI
   // append first measure to the segment
   appendMeasureToSegment (firstMeasure);
 }
+*/
 
 void msrSegment::initializeSegment ()
 {

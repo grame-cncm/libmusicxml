@@ -3329,7 +3329,7 @@ class EXP msrSegment : public msrElement
 
     void                  initializeSegment ();
 
-    void                  createSegmentInitialMeasure ();
+// JMI    void                  createSegmentInitialMeasure ();
 
   public:
 
