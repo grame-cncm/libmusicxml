@@ -7705,33 +7705,51 @@ void msrNote::print (ostream& os)
       
     idtr--;
   }
+
+  {
+    stringstream s;
+    
+    // note redundant information (for speed)
+    if (fNoteIsStemless)
+      s << idtr <<
+        "stemless" <<
+        endl;
   
-  // note redundant information (for speed)
-  if (fNoteIsStemless)
-    os <<
-      ", stemless";
+    if (fNoteIsFirstNoteInADoubleTremolo)
+      s << idtr <<
+        "first note in a double tremolo" <<
+        endl;
+    if (fNoteIsSecondNoteInADoubleTremolo)
+      s << idtr <<
+        "second note in a double tremolo" <<
+        endl;
+  
+    if (fNoteHasATrill)
+      s << idtr <<
+        "has a trill" <<
+        endl;
+    if (fNoteIsFollowedByGraceNotes)
+      s << idtr <<
+        "is followed by graceNotes" <<
+        endl;
+  
+    if (fNoteHasADelayedOrnament)
+      s << idtr <<
+        "has a delayed ornament" <<
+        endl;
 
-  if (fNoteIsFirstNoteInADoubleTremolo)
-    os <<
-      ", first note in a double tremolo";
-  if (fNoteIsSecondNoteInADoubleTremolo)
-    os <<
-      ", second note in a double tremolo";
+    string result = s.str();
 
-  if (fNoteHasATrill)
-    os <<
-      ", has a trill";
-  if (fNoteIsFollowedByGraceNotes)
-    os <<
-      ", is followed by graceNotes";
+    if (result.size ()) {
+      idtr++;
 
-  if (fNoteHasADelayedOrnament)
-    os <<
-      ", has a delayed ornament";
-
-  os <<
-    endl;
-
+      os <<
+        result;
+        
+      idtr--;
+    }
+  }
+  
   {
     // note MSR strings
 
