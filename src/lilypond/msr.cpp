@@ -15130,7 +15130,8 @@ void msrMeasure::initializeMeasure ()
   // initialize measure length high tide
   fMeasureDirectPartUplink->
     setPartMeasureLengthHighTide (
-      fInputLineNumber, rational (0, 1));
+      fInputLineNumber,
+       rational (0, 1));
 }
 
 msrMeasure::~msrMeasure()
@@ -15766,7 +15767,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // update part measure length high tide if need be
     fMeasureDirectPartUplink->
       updatePartMeasureLengthHighTide (
-        inputLineNumber, fMeasureLength);
+        inputLineNumber,
+        fMeasureLength);
   
     // determine if the note occupies a full measure
     if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
@@ -15975,7 +15977,8 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasureLengthHighTide (
-      inputLineNumber, fMeasureLength);
+      inputLineNumber,
+      fMeasureLength);
 
   // determine if the measureRepeat occupies a full measure
 // XXL  JMI  if (measureRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
@@ -16050,7 +16053,8 @@ void msrMeasure::appendMultipleRestToMeasure (
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasureLengthHighTide (
-      inputLineNumber, fMeasureLength);
+      inputLineNumber,
+      fMeasureLength);
 
   // determine if the multipleRest occupies a full measure
 // XXL  JMI  if (multipleRestSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
@@ -16122,7 +16126,8 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasureLengthHighTide (
-      inputLineNumber, fMeasureLength);
+      inputLineNumber,
+      fMeasureLength);
 
   // determine if the chord occupies a full measure
 // XXL  JMI  if (chordSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
@@ -16194,7 +16199,8 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
     updatePartMeasureLengthHighTide (
-      inputLineNumber, fMeasureLength);
+      inputLineNumber,
+      fMeasureLength);
 
 /* JMI
   // set tuplet members' displayed whole notes
@@ -16296,7 +16302,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     // update part measure length high tide if need be
     fMeasureDirectPartUplink->
       updatePartMeasureLengthHighTide (
-        inputLineNumber, fMeasureLength);
+        inputLineNumber,
+        fMeasureLength);
     
     // append the harmony to the measure elements list
     fMeasureElementsList.push_back (harmony);
