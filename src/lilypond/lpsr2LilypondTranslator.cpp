@@ -916,14 +916,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     msrQuarterTonesPitchAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       harmony->getHarmonyRootQuarterTonesPitch ()) <<
-      "FOO";
-      /* JMI                
- // JMI   harmony->getHarmonyDirectPartUplink ()->
-    fCurrentDivisions ->
-      divisionsAsMsrString (
-        inputLineNumber,
-        harmony->getHarmonySoundingQuarterNotes ());
-    */
+    harmony->getHarmonySoundingQuarterNotesAsString ();
     
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::kMajor:

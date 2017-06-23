@@ -4061,9 +4061,6 @@ class EXP msrHarmony : public msrElement
     S_msrPart             getHarmonyDirectPartUplink () const
                              { return fHarmonyDirectPartUplink; }
 
- // JMI   void                  setHarmonySoundingQuarterNotes (int divisions)
-       //                       { fHarmonySoundingQuarterNotes = divisions; }
-
     rational              getHarmonySoundingQuarterNotes () const
                               { return fHarmonySoundingQuarterNotes; }
 
@@ -4078,6 +4075,12 @@ class EXP msrHarmony : public msrElement
                 
     msrQuarterTonesPitch  getHarmonyBassQuarterTonesPitch () const
                               { return fHarmonyBassQuarterTonesPitch; }                                              
+    // MSR strings
+    string                getHarmonySoundingQuarterNotesAsString () const
+                              {
+                                return
+                                  fHarmonySoundingQuarterNotesAsString;
+                              }
 
     // services
     // ------------------------------------------------------
@@ -4112,6 +4115,9 @@ class EXP msrHarmony : public msrElement
     string                fHarmonyKindText;
 
     msrQuarterTonesPitch  fHarmonyBassQuarterTonesPitch;
+
+    // MSR strings
+    string                fHarmonySoundingQuarterNotesAsString;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
@@ -4998,7 +5004,7 @@ class EXP msrChord : public msrElement
     // services
     // ------------------------------------------------------
     
-    string                chordGraphicDurationAsMsrString () const;
+ // JMI   string                chordGraphicDurationAsMsrString () const;
 
     void                  addFirstNoteToChord (S_msrNote note);
     void                  addAnotherNoteToChord (S_msrNote note);

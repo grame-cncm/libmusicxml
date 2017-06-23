@@ -13970,6 +13970,14 @@ msrHarmony::msrHarmony (
   fHarmonyBassQuarterTonesPitch = harmonyBassQuarterTonesPitch;
  
   fHarmonySoundingQuarterNotes = harmonySoundingQuarterNotes;
+
+  // MSR strings
+  fHarmonySoundingQuarterNotesAsString =
+    fHarmonyDirectPartUplink->
+      getPartCurrentDivisions ()->
+        quarterNotesAsMsrString (
+          fInputLineNumber,
+          fHarmonySoundingQuarterNotes);
   
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
@@ -14006,7 +14014,11 @@ S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingQuarterNotes);
-  
+
+  // MSR strings
+  clone->fHarmonySoundingQuarterNotesAsString =
+    fHarmonySoundingQuarterNotesAsString;
+    
   return clone;
 }
 

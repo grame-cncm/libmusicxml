@@ -570,24 +570,6 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrDivisions& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "--> Start visiting msrDivisions" <<
-      endl;
-
-  // create the divisions clone
-  fCurrentDivisionsClone =
-    elt->createDivisionsShallowClone ();
-
-  // append it to the current part clone
-  fCurrentPartClone->
-    appendDivisionsToPart (
-      fCurrentDivisionsClone);
-}
-
-//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)

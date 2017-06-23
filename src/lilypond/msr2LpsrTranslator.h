@@ -41,8 +41,6 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrPart>,
   
-  public visitor<S_msrDivisions>,
-
   public visitor<S_msrStaffLinesNumber>,
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
@@ -169,8 +167,6 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
-
-    virtual void visitStart (S_msrDivisions& elt);
 
     virtual void visitStart (S_msrStaffLinesNumber& elt);
     virtual void visitStart (S_msrStaffTuning& elt);
@@ -374,11 +370,6 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrPart                 fCurrentPartClone;
     S_lpsrPartBlock           fCurrentPartBlock;
-
-    // divisions
-    // ------------------------------------------------------
-
-    S_msrDivisions            fCurrentDivisionsClone;
 
     // staff details
 
