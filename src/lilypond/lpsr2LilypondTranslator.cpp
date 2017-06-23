@@ -252,6 +252,7 @@ string lpsr2LilypondTranslator::divisionsAsLilypondString (
 {
   string result;
 
+/* JMI
   msrAssert(
     part != 0,
     "part == 0"); // JMI
@@ -261,6 +262,31 @@ string lpsr2LilypondTranslator::divisionsAsLilypondString (
       divisionsAsMsrString (
         inputLineNumber,
         divisions);
+*/
+
+  return lilypondizeDurationString (result);
+}
+
+string lpsr2LilypondTranslator::quarterNotesAsLilypondString (
+  int       inputLineNumber,
+  S_msrPart part,
+  rational  quarterNotes)
+{
+  string result;
+
+  result = quarterNotes.toString ();
+  
+/* JMI
+  msrAssert(
+    part != 0,
+    "part == 0"); // JMI
+  
+  result =
+    fCurrentDivisions->
+      divisionsAsMsrString (
+        inputLineNumber,
+        divisions);
+*/
 
   return lilypondizeDurationString (result);
 }
@@ -947,12 +973,15 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
   s <<
     msrQuarterTonesPitchAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      harmony->getHarmonyRootQuarterTonesPitch ()) <<                     
+      harmony->getHarmonyRootQuarterTonesPitch ()) <<
+      "FOO";
+      /* JMI                
  // JMI   harmony->getHarmonyDirectPartUplink ()->
     fCurrentDivisions ->
       divisionsAsMsrString (
         inputLineNumber,
         harmony->getHarmonySoundingQuarterNotes ());
+    */
     
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::kMajor:
@@ -2818,7 +2847,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         string
           partialDuration =
-            divisionsAsLilypondString (
+            quarterNotesAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
               measureLength);
@@ -2928,7 +2957,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         // generate a rest the duration of the measure
         fOstream <<
           "R" <<
-            divisionsAsLilypondString (
+            quarterNotesAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
               measureFullMeasureLength) <<
@@ -5333,7 +5362,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   else {
     // print the chord duration
     fOstream <<
-      divisionsAsLilypondString (
+      quarterNotesAsLilypondString (
         chordInputLineNumber,
         elt->getChordDirectPartUplink (),
         elt->getChordDisplayQuarterNotes ());

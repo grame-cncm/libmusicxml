@@ -413,16 +413,19 @@ class lpsr2LilypondTranslator :
 
     // divisions per quarter note
     // ------------------------------------------------------
-
-    S_msrDivisions        fCurrentDivisions;
     
-    // divisions
+    // divisions // JMI
     
-    string                divisionsAsLilypondString (
+    string                divisionsAsLilypondString ( // JMI
                             int       inputLineNumber,
                             S_msrPart part,
                             int       divisions);
 
+    string                quarterNotesAsLilypondString (
+                            int       inputLineNumber,
+                            S_msrPart part,
+                            rational  quarterNotes);
+                            
     string                noteDivisionsAsLpsrString (S_msrNote note); // JMI
 
     string                tupletDivisionsAsLilypondString (

@@ -7637,7 +7637,7 @@ string msrNote::noteAsString () const
         "Standalone note" " "<<
         notePitchAsString () <<
         fNoteSoundingQuarterNotesAsMsrString <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -7645,7 +7645,7 @@ string msrNote::noteAsString () const
         "Double tremolo note" " "<<
         notePitchAsString () <<
         fNoteSoundingQuarterNotesAsMsrString <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kGraceNote:
@@ -7653,7 +7653,7 @@ string msrNote::noteAsString () const
         "Grace note" " "<<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -7665,7 +7665,7 @@ string msrNote::noteAsString () const
         "Chord member note" " "<<
         notePitchAsString () <<
  // JMI       ", " << fNoteSoundingQuarterNotes << " sound quarter notes, " <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -7688,7 +7688,7 @@ string msrNote::noteAsString () const
 
       if (! fNoteIsARest)
         s <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
   } // switch
 
@@ -7744,7 +7744,12 @@ void msrNote::print (ostream& os)
 
   // print displayed quarter notes
   os <<
-    ", ";
+    endl;
+
+  idtr++;
+
+  os <<
+    idtr;
     
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
@@ -7827,9 +7832,12 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // note MSR strings
   os <<
-    ", noteSoundingQuarterNotesAsMsrString = \"" <<
+    endl ;
+    
+  // note MSR strings
+  os << idtr <<
+    "noteSoundingQuarterNotesAsMsrString = \"" <<
     fNoteSoundingQuarterNotesAsMsrString <<
     "\", noteDisplayQuarterNotesAsMsrString = \"" <<
     fNoteDisplayQuarterNotesAsMsrString <<
@@ -7872,8 +7880,10 @@ void msrNote::print (ostream& os)
       ", has a delayed ornament";
 
   os <<
-      endl;
-    
+    endl;
+
+  idtr--;
+
   // are there syllables associated to this note?
   if (fNoteSyllables.size ()) {
     idtr++;
@@ -24353,6 +24363,7 @@ void msrPart::appendDivisionsToPart (
       printDurationsDivisions (cerr);
   }
 
+/* JMI n'existent pas encore
   // propagate to all staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -24364,6 +24375,7 @@ void msrPart::appendDivisionsToPart (
     staff->
       appendDivisionsToStaff (divisions);
   } // for
+  */
 }
 
 void msrStaff::appendDivisionsToStaff (
