@@ -7753,89 +7753,117 @@ void msrNote::print (ostream& os)
   {
     // note MSR strings
 
-    const int fieldWidth = 46;
-
     idtr++;
     
-  // set MSR string fields
-  switch (fNoteKind) {
-    case msrNote::k_NoNoteKind:
-      break;
-      
-    case msrNote::kRestNote:
-      os << left <<
-        idtr << setw(fieldWidth) <<
-          "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
-          fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
-          "\"" <<
-          endl;
-      break;
-      
-    case msrNote::kSkipNote:
-      os << left <<
-        idtr << setw(fieldWidth) <<
-          "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
-          fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
-          "\"" <<
-          endl;
-      break;
-      
-    case msrNote::kStandaloneNote:
-      os << left <<
-        idtr << setw(fieldWidth) <<
-          "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
-          fNoteSoundingQuarterNotesAsMsrString <<
-          "\"" <<
-          endl <<
-        idtr << setw(fieldWidth) <<
-          "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
-          fNoteDisplayQuarterNotesAsMsrString <<
-          "\"" <<
-          endl <<
-        idtr << setw(fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " = \"" <<
-          fNoteGraphicDurationAsMsrString <<
-          "\"" <<
-          endl;
-      break;
-      
-    case msrNote::kDoubleTremoloMemberNote:
-      break;
-      
-    case msrNote::kGraceNote:
-      os << left <<
-        idtr << setw(fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " = \"" <<
-          fNoteGraphicDurationAsMsrString <<
-          "\"" <<
-          endl;
-      break;
-      
-    case msrNote::kChordMemberNote:
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      os << left <<
-        idtr << setw(fieldWidth) <<
-          "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
-          fNoteTupletNoteGraphicDurationAsMsrString <<
-          "\"" <<
-          endl <<
-        idtr << setw(fieldWidth) <<
-          "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
-          fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
-          "\"" <<
-        endl <<
-  
-        idtr << setw(fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " = \"" <<
-          fNoteGraphicDurationAsMsrString <<
-          "\"" <<
-          endl;
-      break;
-    } // switch
+    // set MSR string fields
+    switch (fNoteKind) {
+      case msrNote::k_NoNoteKind:
+        {
+        }
+        break;
+        
+      case msrNote::kRestNote:
+        {
+          const int fieldWidth = 46;
 
-  idtr--;
+          os << left <<
+            idtr << setw(fieldWidth) <<
+              "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
+              fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+              "\"" <<
+            endl;
+        }
+        break;
+        
+      case msrNote::kSkipNote:
+        {
+          const int fieldWidth = 46;
+
+          os << left <<
+            idtr << setw(fieldWidth) <<
+              "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
+              fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+              "\"" <<
+              endl;
+        }
+        break;
+        
+      case msrNote::kStandaloneNote:
+        {
+          const int fieldWidth = 36;
+
+          os << left <<
+            idtr << setw(fieldWidth) <<
+              "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
+              fNoteSoundingQuarterNotesAsMsrString <<
+              "\"" <<
+              endl <<
+            idtr << setw(fieldWidth) <<
+              "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
+              fNoteDisplayQuarterNotesAsMsrString <<
+              "\"" <<
+              endl <<
+            idtr << setw(fieldWidth) <<
+              "noteGraphicDurationAsMsrString" << " = \"" <<
+              fNoteGraphicDurationAsMsrString <<
+              "\"" <<
+              endl;
+        }
+        break;
+        
+      case msrNote::kDoubleTremoloMemberNote:
+        {
+          const int fieldWidth = 31;
+
+        }
+        break;
+        
+      case msrNote::kGraceNote:
+        {
+          const int fieldWidth = 46;
+
+          os << left <<
+            idtr << setw(fieldWidth) <<
+              "noteGraphicDurationAsMsrString" << " = \"" <<
+              fNoteGraphicDurationAsMsrString <<
+              "\"" <<
+              endl;
+        }
+        break;
+        
+      case msrNote::kChordMemberNote:
+        {
+          const int fieldWidth = 46;
+
+        }
+        break;
+        
+      case msrNote::kTupletMemberNote:
+        {
+          const int fieldWidth = 46;
+
+          os << left <<
+            idtr << setw(fieldWidth) <<
+              "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
+              fNoteTupletNoteGraphicDurationAsMsrString <<
+              "\"" <<
+              endl <<
+            idtr << setw(fieldWidth) <<
+              "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
+              fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
+              "\"" <<
+            endl <<
+      
+            idtr << setw(fieldWidth) <<
+              "noteGraphicDurationAsMsrString" << " = \"" <<
+              fNoteGraphicDurationAsMsrString <<
+              "\"" <<
+              endl;
+        }
+        break;
+      } // switch
+  
+    idtr--;
   }
 
   // are there syllables associated to this note?
