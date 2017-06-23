@@ -411,7 +411,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
-    // quarter notes
+    // whole notes
     
     string                wholeNotesAsLilypondString (
                             int       inputLineNumber,

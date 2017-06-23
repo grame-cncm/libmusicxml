@@ -4263,7 +4263,7 @@ class EXP msrNote : public msrElement
     int                   getNoteDivisionsPerQuarterNote () const
                               { return fNoteDivisionsPerQuarterNote; }
 
-    // note quarter notes
+    // note whole notes
     
     rational              getNoteSoundingWholeNotes ()
                               { return fNoteSoundingWholeNotes; }
