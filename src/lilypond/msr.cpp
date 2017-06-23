@@ -24246,6 +24246,11 @@ void msrPart::appendDivisionsToPart (
       printDurationsDivisions (cerr);
   }
 
+  // create the part harmony staff and voice,
+  // only now because we need the current part divisions
+  createPartHarmonyStaffAndVoice (
+    fInputLineNumber);
+
 /* JMI n'existent pas encore
   // propagate to all staves
   for (
@@ -24943,7 +24948,7 @@ void msrPart::setPartDivisionsPerQuarterNote (
   setupDurationsDivisions (
     fPartDivisionsPerQuarterNote);
 
-  // create the part harmony staff and voice
+  // create the part harmony staff and voice,
   // only now because we need the divisions per quarter notes
   createPartHarmonyStaffAndVoice (
     fInputLineNumber);
