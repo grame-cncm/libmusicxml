@@ -245,28 +245,6 @@ string lpsr2LilypondTranslator::lilypondizeDurationString (
   return result;
 }
 
-string lpsr2LilypondTranslator::divisionsAsLilypondString (
-  int       inputLineNumber,
-  S_msrPart part,
-  int       divisions)
-{
-  string result;
-
-/* JMI
-  msrAssert(
-    part != 0,
-    "part == 0"); // JMI
-  
-  result =
-    fCurrentDivisions->
-      divisionsAsMsrString (
-        inputLineNumber,
-        divisions);
-*/
-
-  return lilypondizeDurationString (result);
-}
-
 string lpsr2LilypondTranslator::quarterNotesAsLilypondString (
   int       inputLineNumber,
   S_msrPart part,
@@ -276,46 +254,8 @@ string lpsr2LilypondTranslator::quarterNotesAsLilypondString (
 
   result = quarterNotes.toString ();
   
-/* JMI
-  msrAssert(
-    part != 0,
-    "part == 0"); // JMI
-  
-  result =
-    fCurrentDivisions->
-      divisionsAsMsrString (
-        inputLineNumber,
-        divisions);
-*/
-
   return lilypondizeDurationString (result);
 }
-
-/* JMI
-string lpsr2LilypondTranslator::tupletDivisionsAsLilypondString (
-  int       inputLineNumber,
-  S_msrPart part,
-  int       divisions,
-  int       actualNotes,
-  int       normalNotes)
-{
-  string result;
-
-  msrAssert(
-    part != 0,
-    "part == 0"); // JMI
-  
-  result =
-    fCurrentDivisions->
-      tupletDivisionsAsMsrString (
-        inputLineNumber,
-        divisions,
-        actualNotes,
-        normalNotes);
-
-  return lilypondizeDurationString (result);
-}
-*/
 
 //________________________________________________________________________
 string lpsr2LilypondTranslator::lilypondRelativeOctave (
@@ -656,19 +596,21 @@ string lpsr2LilypondTranslator::noteSoundingQuarterNotesAsLilypondString (
       note->getNoteSoundingQuarterNotesAsMsrString ();
 
   string
-    lilypondDivisionsAsString =
+    lilypondSoundingQuarterNotesAsString =
       noteSoundingQuarterNotesAsMsrString;
 
-  if (! isdigit (lilypondDivisionsAsString [0])) {
-    if      (lilypondDivisionsAsString == "Breve")
-      lilypondDivisionsAsString = "\\breve";
-    else if (lilypondDivisionsAsString == "Long") // OK??? JMI
-      lilypondDivisionsAsString = "\\longa";
-    else if (lilypondDivisionsAsString == "Maxima")
-      lilypondDivisionsAsString = "\\maxima";
+  if (! isdigit (lilypondSoundingQuarterNotesAsString [0])) {
+    if      (lilypondSoundingQuarterNotesAsString == "Breve")
+      lilypondSoundingQuarterNotesAsString = "\\breve";
+      
+    else if (lilypondSoundingQuarterNotesAsString == "Long")
+      lilypondSoundingQuarterNotesAsString = "\\longa";
+      
+    else if (lilypondSoundingQuarterNotesAsString == "Maxima")
+      lilypondSoundingQuarterNotesAsString = "\\maxima";
   }
 
-  return lilypondDivisionsAsString;
+  return lilypondSoundingQuarterNotesAsString;
 }
         
 //________________________________________________________________________
@@ -4358,7 +4300,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         fOstream <<
           lilypondizeDurationString (
             note->
-              getNoteSkipOrRestDivisionsAsMsrString ());
+              getNoteSkipOrRestSoundingQuarterNotesAsMsrString ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4387,7 +4329,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteSkipOrRestDivisionsAsMsrString ());
+            getNoteSkipOrRestSoundingQuarterNotesAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -4529,20 +4471,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         lilypondizeDurationString (
           note->
             getNoteTupletNoteSoundingQuarterNotesAsMsrString ());
-
-          /* JMI
-      S_msrTuplet
-        tuplet =
-          note->
-            getNoteTupletUplink ();
-          
-        tupletDivisionsAsLilypondString (
-          note->getInputLineNumber (),
-          note->getNoteDirectPartUplink (),
-          note->getNoteSoundingQuarterNotes (), // JMI
-          tuplet->getTupletActualNotes (),
-          tuplet->getTupletNormalNotes ());
-          */
 
       // print the tie if any
       {

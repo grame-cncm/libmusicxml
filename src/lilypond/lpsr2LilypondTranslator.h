@@ -411,30 +411,13 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
-    // divisions per quarter note
-    // ------------------------------------------------------
+    // quarter notes
     
-    // divisions // JMI
-    
-    string                divisionsAsLilypondString ( // JMI
-                            int       inputLineNumber,
-                            S_msrPart part,
-                            int       divisions);
-
     string                quarterNotesAsLilypondString (
                             int       inputLineNumber,
                             S_msrPart part,
                             rational  quarterNotes);
                             
-    string                noteDivisionsAsLpsrString (S_msrNote note); // JMI
-
-    string                tupletDivisionsAsLilypondString (
-                            int       inputLineNumber,
-                            S_msrPart part,
-                            int       divisions,
-                            int       actualNotes,
-                            int       normalNotes);
-  
     // octaves
     
     string                absoluteOctaveAsLilypondString (

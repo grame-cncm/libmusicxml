@@ -6173,15 +6173,6 @@ void msrNote::initializeNote ()
   fNoteBelongsToAChord = false;
   fNoteBelongsToATuplet = false;
 
-  // note as MSR string
-  // ------------------------------------------------------
-
-  // get current divisions
-  S_msrDivisions
-    partCurrentDivisions =
-      fNoteDirectPartUplink->
-        getPartCurrentDivisions ();
-
   // note lyrics
   // ------------------------------------------------------
 
@@ -6367,45 +6358,30 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kRestNote:
-      {
-        fNoteSkipOrRestDivisionsAsMsrString =
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              quarterNotesAsMsrString (
-                fInputLineNumber,
-                fNoteSoundingQuarterNotes);
-      }
+      fNoteSkipOrRestSoundingQuarterNotesAsMsrString =
+        fNoteDirectPartUplink->
+          getPartCurrentDivisions ()->
+            quarterNotesAsMsrString (
+              fInputLineNumber,
+              fNoteSoundingQuarterNotes);
       break;
       
     case msrNote::kSkipNote:
-      {
-        fNoteSkipOrRestDivisionsAsMsrString =
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              quarterNotesAsMsrString (
-                fInputLineNumber,
-                fNoteSoundingQuarterNotes);
-      }
+      fNoteSkipOrRestSoundingQuarterNotesAsMsrString =
+        fNoteDirectPartUplink->
+          getPartCurrentDivisions ()->
+            quarterNotesAsMsrString (
+              fInputLineNumber,
+              fNoteSoundingQuarterNotes);
       break;
       
     case msrNote::kStandaloneNote:
-      {
-        fNoteSoundingQuarterNotesAsMsrString = // pas au point JMI
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              quarterNotesAsMsrString (
-                fInputLineNumber,
-                fNoteSoundingQuarterNotes);
-
-/* JMI
-        fNoteSoundingQuarterNotesAsMsrString =
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              divisionsAsMsrString (
-                fInputLineNumber,
-                fNoteDivisionsPerQuarterNote);
-                */
-      }
+      fNoteSoundingQuarterNotesAsMsrString =
+        fNoteDirectPartUplink->
+          getPartCurrentDivisions ()->
+            quarterNotesAsMsrString (
+              fInputLineNumber,
+              fNoteSoundingQuarterNotes);
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -6422,20 +6398,18 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kTupletMemberNote:
-      {
-        fNoteTupletNoteSoundingQuarterNotesAsMsrString =
-          fNoteDirectPartUplink->
-            getPartCurrentDivisions ()->
-              tupletQuarterNotesAsMsrString (
-                fInputLineNumber,
-                fNoteSoundingQuarterNotes,
-                fNoteTupletUplink->getTupletActualNotes (),
-                fNoteTupletUplink->getTupletNormalNotes ());
+      fNoteTupletNoteSoundingQuarterNotesAsMsrString =
+        fNoteDirectPartUplink->
+          getPartCurrentDivisions ()->
+            tupletQuarterNotesAsMsrString (
+              fInputLineNumber,
+              fNoteSoundingQuarterNotes,
+              fNoteTupletUplink->getTupletActualNotes (),
+              fNoteTupletUplink->getTupletNormalNotes ());
 
-        fNoteGraphicDurationAsMsrString =
-          msrDurationAsString (
-            fNoteGraphicDuration);
-      }
+      fNoteGraphicDurationAsMsrString =
+        msrDurationAsString (
+          fNoteGraphicDuration);
       break;
   } // switch
 
@@ -6569,8 +6543,8 @@ S_msrNote msrNote::createNoteShallowClone (
   clone->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
     
-  clone->fNoteSkipOrRestDivisionsAsMsrString =
-    fNoteSkipOrRestDivisionsAsMsrString;
+  clone->fNoteSkipOrRestSoundingQuarterNotesAsMsrString =
+    fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
     
   clone->fNoteTupletNoteSoundingQuarterNotesAsMsrString =
     fNoteTupletNoteSoundingQuarterNotesAsMsrString;
@@ -7234,7 +7208,7 @@ string msrNote::noteDisplayPitchAsString () const
 {
   stringstream s;
   
-  /*
+  /* JMI
   cerr << "msrNote::notePitchAsString (), isRest = " <<
     fNoteIsARest <<
     ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
@@ -7262,111 +7236,6 @@ string msrNote::noteDisplayPitchAsString () const
   
   return s.str();
 }
-
-/* JMI
-string msrNote::noteSoundingQuarterNotesAsMsrString () const
-{
-  string result;
-  int    computedNumberOfDots = 0;
-
-  result =
-    fNoteDirectPartUplink->
-      getPartCurrentDivisions ()->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fNoteSoundingQuarterNotes,
-          computedNumberOfDots);
-
-  if (computedNumberOfDots != fNoteDotsNumber) {
-    stringstream s;
-
-    s <<
-      "note " << noteAsShortStringWithRawDivisions () <<
-      " needs " <<
-      singularOrPlural (
-        computedNumberOfDots, "dot", "dots") <<
-      " for " << fNoteSoundingQuarterNotes << " sounding quarter notes," <<
-      endl <<
-      "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
-      endl;
-
-    fNoteDirectPartUplink->
-      getPartCurrentDivisions ()->
-        printDurationsDivisions (s);
-
-    msrMusicXMLWarning (
-      fInputLineNumber,
-      s.str());
-
-    abort ();
-  }
-
-  return result;
-}
-*/
-
-/* JMI
-string msrNote::noteDisplayQuarterNotesAsMsrString () const
-{
-  string result;
-  int    computedNumberOfDots = 0;
-
-  result =
-    fNoteDirectPartUplink->
-      getPartCurrentDivisions ()->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fNoteDisplayQuarterNotes,
-          computedNumberOfDots);
-
-  if (computedNumberOfDots != fNoteDotsNumber) {
-    stringstream s;
-
-    s <<
-      "note " << noteAsShortStringWithRawDivisions () <<
-      " needs " <<
-      singularOrPlural (
-        computedNumberOfDots, "dot", "dots") <<
-      " for " << fNoteDisplayQuarterNotes << " displayed quarter notes," <<
-      endl <<
-      "but '" << fNoteDotsNumber << "' is found in MusicXML data" <<
-      endl;
-
-    fNoteDirectPartUplink->
-      getPartCurrentDivisions ()->
-        printDurationsDivisions (s);
-
-    msrMusicXMLWarning (
-      fInputLineNumber,
-      s.str());
-
-    abort ();
-  }
-
-  return result;
-}
-
-string msrNote::skipOrRestDivisionsAsMsrString () const
-{
-  string result;
-//  int    computedNumberOfDots;
-//  string errorMessage;
-
-  result =
-    fNoteDirectPartUplink->
-      getPartCurrentDivisions ()->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fNoteSoundingQuarterNotes);
-/ * JMI
-  if (errorMessage.size ())
-    msrMusicXMLError (
-      fInputLineNumber,
-      errorMessage);
-* /
-  return result;
-}
-*/
 
 string msrNote::noteGraphicDurationAsMsrString () const
 {
@@ -7518,14 +7387,14 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        fNoteSkipOrRestDivisionsAsMsrString;
+        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        fNoteSkipOrRestDivisionsAsMsrString;
+        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
@@ -7622,14 +7491,14 @@ string msrNote::noteAsString () const
         fNoteDisplayQuarterNotes <<
         " disp" <<
         ":" <<
-        fNoteSkipOrRestDivisionsAsMsrString;
+        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "Skip" <<
         ":" <<
-        fNoteSkipOrRestDivisionsAsMsrString;
+        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
@@ -7845,8 +7714,8 @@ void msrNote::print (ostream& os)
     "\", noteGraphicDurationAsMsrString = \"" <<
     fNoteGraphicDurationAsMsrString <<
     
-    "\", noteSkipOrRestDivisionsAsMsrString = \"" <<
-    fNoteSkipOrRestDivisionsAsMsrString <<
+    "\", noteSkipOrRestSoundingQuarterNotesAsMsrString = \"" <<
+    fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
     
     "\", noteTupletNoteGraphicDurationAsMsrString = \"" <<
     fNoteTupletNoteGraphicDurationAsMsrString <<
@@ -8330,6 +8199,7 @@ void msrChord::setChordDisplayQuarterNotes (
   fChordDisplayQuarterNotes = quarterNotes;
 }
 
+/* JMI
 string msrChord::chordGraphicDurationAsMsrString () const
 {
   string result;
@@ -8340,6 +8210,7 @@ string msrChord::chordGraphicDurationAsMsrString () const
 
   return result;
 }
+*/
 
 void msrChord::addFirstNoteToChord (S_msrNote note)
 {
@@ -15447,7 +15318,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     }
     
     int
-      currentDivisionsPerQuarterNote =
+      currentDivisionsPerQuarterNote = // JMI
         fMeasureDirectPartUplink->
           getPartCurrentDivisions ()->
             getDivisionsPerQuarterNote ();

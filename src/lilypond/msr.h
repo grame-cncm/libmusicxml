@@ -4500,10 +4500,10 @@ class EXP msrNote : public msrElement
                                   fNoteDisplayQuarterNotesAsMsrString;
                               }
                               
-    string                getNoteSkipOrRestDivisionsAsMsrString () const
+    string                getNoteSkipOrRestSoundingQuarterNotesAsMsrString () const
                               {
                                 return
-                                  fNoteSkipOrRestDivisionsAsMsrString;
+                                  fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
                               }
                               
     string                getNoteGraphicDurationAsMsrString () const
@@ -4568,12 +4568,6 @@ class EXP msrNote : public msrElement
                             
     string                noteDiatonicPitchAsString (
                             int inputLineNumber) const;
-
-    // divisions
-// JMI    string                noteSoundingQuarterNotesAsMsrString () const;
-//    string                noteDisplayQuarterNotesAsMsrString () const;
-    
- //   string                skipOrRestDivisionsAsMsrString () const;
     
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
@@ -4791,7 +4785,7 @@ class EXP msrNote : public msrElement
     
     string                fNoteGraphicDurationAsMsrString;
     
-    string                fNoteSkipOrRestDivisionsAsMsrString;
+    string                fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
     
     string                fNoteTupletNoteSoundingQuarterNotesAsMsrString;
     
