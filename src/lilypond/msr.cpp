@@ -12322,16 +12322,18 @@ void msrTime::appendTimeItem (
 
 rational msrTime::wholeNotesPerMeasure () const
 {
-  rational result;
+  rational result (0, 1); // addition neutral element
 
   int vectorSize = fTimeItemsVector.size ();
   
   if (vectorSize) {
+    /* JMI
     // start with first item
     result =
       rational (
         fTimeItemsVector [0]->getTimeBeatsNumber (),
         fTimeItemsVector [0]->getTimeBeatValue ());
+*/
 
 /* JMI
     cerr <<
@@ -12346,7 +12348,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
     // iterate over the others
-    for (int i = 1; i < vectorSize; i++) {
+    for (int i = 0; i < vectorSize; i++) {
       result +=
         rational (
           fTimeItemsVector [i]->getTimeBeatsNumber (),
@@ -15169,11 +15171,18 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
         fMeasureNumber,
         segmentClone);
 
-  // set clone measure kind
+  // lengthes
+  clone->fMeasureFullMeasureLength =
+    fMeasureFullMeasureLength;
+
+  clone->fMeasureLength =
+    fMeasureLength;
+
+  // kind
   clone->fMeasureKind =
     fMeasureKind;
 
-  // set clone 'first in segment' kind
+  // 'first in segment' kind
   clone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
 
@@ -15356,7 +15365,8 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
   S_msrTime time)
 {
   msrAssert(
-    time != 0, "time is null");
+    time != 0,
+    "time is null");
 
   if (
     gGeneralOptions->fTraceDivisions
@@ -15365,7 +15375,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
       ||
     gGeneralOptions->fTraceGeneral) { // JMI
     cerr << idtr <<
-      "Setting measure full measure length from time:" <<
+      "Setting measure full measure length from time" <<
       ", line " << fInputLineNumber <<
       endl;
 
@@ -15450,6 +15460,11 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
         idtr <<
           "in measure '" << fMeasureNumber << "'" <<
           ", line " << fInputLineNumber <<
+          "' in voice \"" <<
+          fMeasureSegmentUplink->
+            getSegmentVoiceUplink ()->
+              getVoiceName () <<
+          "\"" <<
           endl;
     }
     
@@ -15460,10 +15475,11 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
             getDivisionsPerQuarterNote ();
   
     fMeasureFullMeasureLength =
-      wholeNotesPerMeasure
+      wholeNotesPerMeasure * 4;
+/*
         *
-      currentDivisionsPerQuarterNote; // hence a whole note
-    
+      currentDivisionsPerQuarterNote * 4; // hence a whole note
+    */
   
     if (
       gGeneralOptions->fTraceDivisions
@@ -15478,9 +15494,9 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
           getSegmentVoiceUplink ()->
             getVoiceName () <<
         "\"" <<
-        " has " <<
+        " has full measure length " <<
         fMeasureFullMeasureLength <<
-          "full measure length" <<
+        " quarter notes" <<
         endl;
     }
   }
@@ -16896,7 +16912,6 @@ void msrMeasure::finalizeMeasure (
     }
   
     // determine the measure kind
-    // positions start at 1
     if (fMeasureLength == fMeasureFullMeasureLength) {
       // full measure
       if (gGeneralOptions->fTraceMeasures) {
