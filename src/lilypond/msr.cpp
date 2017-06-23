@@ -4194,7 +4194,7 @@ msrDoubleTremolo::msrDoubleTremolo (
   
   fDoubleTremoloVoiceUplink = voiceUplink;
 
-  fDoubleTremoloSoundingQuarterNotes =
+  fDoubleTremoloSoundingWholeNotes =
     rational (-1, 1); // will be set later
 
   fDoubleTremoloNumberOfRepeats = -1; // will be set later
@@ -4231,8 +4231,8 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
       tab << "partDivisionsPerQuarterNote = " << 
       partDivisionsPerQuarterNote <<
       endl <<
-      tab << "doubleTremoloSoundingQuarterNotes = " <<
-      fDoubleTremoloSoundingQuarterNotes <<
+      tab << "doubleTremoloSoundingWholeNotes = " <<
+      fDoubleTremoloSoundingWholeNotes <<
       endl <<
       tab << "fCurrentDoubleTremoloElementsLpsrDuration = " <<
       fCurrentDoubleTremoloElementsLpsrDuration;
@@ -4245,7 +4245,7 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
   // the number of repeats is the quotient of the number of sounding divisions
   // by the duration of the elements
   int numberOfRepeats =
-    fDoubleTremoloSoundingQuarterNotes
+    fDoubleTremoloSoundingWholeNotes
       /
     (2 * divisionsPerDoubleTremoloElement); // to account for both elements
 
@@ -4274,8 +4274,8 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
         fDoubleTremoloPlacementKind,
         voiceClone);
 
-  clone->fDoubleTremoloSoundingQuarterNotes =
-    fDoubleTremoloSoundingQuarterNotes;
+  clone->fDoubleTremoloSoundingWholeNotes =
+    fDoubleTremoloSoundingWholeNotes;
         
   return clone;
 }
@@ -4302,20 +4302,20 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 
   // fetch note displayed quarter notes
   rational
-    noteDisplayQuarterNotes =
+    noteDisplayWholeNotes =
       note->
-        getNoteDisplayQuarterNotes ();
+        getNoteDisplayWholeNotes ();
 
   // set double tremolo displayed quarter notes to the note's displayed quarter notes
-  if (fDoubleTremoloSoundingQuarterNotes > 0) {
-    if (noteDisplayQuarterNotes != fDoubleTremoloSoundingQuarterNotes) { // JMI
+  if (fDoubleTremoloSoundingWholeNotes > 0) {
+    if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo sounding quarter notes both to " <<
-        fDoubleTremoloSoundingQuarterNotes << " (existing)" <<
+        fDoubleTremoloSoundingWholeNotes << " (existing)" <<
         " and " <<
-        noteDisplayQuarterNotes <<
+        noteDisplayWholeNotes <<
         " on note first element:" << " (note)" <<
         endl;
 
@@ -4334,8 +4334,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   }
   
   else {
-    fDoubleTremoloSoundingQuarterNotes =
-      noteDisplayQuarterNotes;
+    fDoubleTremoloSoundingWholeNotes =
+      noteDisplayWholeNotes;
   }
 }
 
@@ -4358,20 +4358,20 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
 
   // fetch chord displayed quarter notes
   rational
-    chordDisplayQuarterNotes =
+    chordDisplayWholeNotes =
       chord->
-        getChordDisplayQuarterNotes ();
+        getChordDisplayWholeNotes ();
     
   // set double tremolo quarter notes to the chords's displayed quarter notes
-  if (fDoubleTremoloSoundingQuarterNotes > 0) {
-    if (chordDisplayQuarterNotes != fDoubleTremoloSoundingQuarterNotes) { // JMI
+  if (fDoubleTremoloSoundingWholeNotes > 0) {
+    if (chordDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo sounding quarter notes both to " <<
-        fDoubleTremoloSoundingQuarterNotes << " (existing)" <<
+        fDoubleTremoloSoundingWholeNotes << " (existing)" <<
         " and " <<
-        chordDisplayQuarterNotes << " (chord)" <<
+        chordDisplayWholeNotes << " (chord)" <<
         " on chord first element:" <<
         endl;
 
@@ -4390,8 +4390,8 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
   }
   
   else {
-    fDoubleTremoloSoundingQuarterNotes =
-      chordDisplayQuarterNotes;
+    fDoubleTremoloSoundingWholeNotes =
+      chordDisplayWholeNotes;
   }
 }
 
@@ -4414,20 +4414,20 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
 
   // fetch note displayed quarter notes
   rational
-    noteDisplayQuarterNotes =
+    noteDisplayWholeNotes =
       note->
-        getNoteDisplayQuarterNotes ();
+        getNoteDisplayWholeNotes ();
 
   // set double tremolo quarter notes to the note's displayed quarter notes
-  if (fDoubleTremoloSoundingQuarterNotes > 0) {
-    if (noteDisplayQuarterNotes != fDoubleTremoloSoundingQuarterNotes) { // JMI
+  if (fDoubleTremoloSoundingWholeNotes > 0) {
+    if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
       s <<
         "attempt to set double tremolo quarter notes both to " <<
-        fDoubleTremoloSoundingQuarterNotes << " (existing)" <<
+        fDoubleTremoloSoundingWholeNotes << " (existing)" <<
         " and " <<
-        noteDisplayQuarterNotes <<
+        noteDisplayWholeNotes <<
         " on note second element:" << " (note)" <<
         endl;
 
@@ -4446,8 +4446,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
   }
   
   else {
-    fDoubleTremoloSoundingQuarterNotes =
-      noteDisplayQuarterNotes;
+    fDoubleTremoloSoundingWholeNotes =
+      noteDisplayWholeNotes;
   }
 }
 
@@ -4470,20 +4470,20 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 
   // fetch chord displayed quarter notes
   rational
-    chordDisplayQuarterNotes =
+    chordDisplayWholeNotes =
       chord->
-        getChordDisplayQuarterNotes ();
+        getChordDisplayWholeNotes ();
     
   // set double tremolo quarter notes to the chords's displayed quarter notes
-  if (fDoubleTremoloSoundingQuarterNotes > 0) {
-    if (chordDisplayQuarterNotes != fDoubleTremoloSoundingQuarterNotes) { // JMI
+  if (fDoubleTremoloSoundingWholeNotes > 0) {
+    if (chordDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
      s <<
         "attempt to set double tremolo quarter notes both to " <<
-        fDoubleTremoloSoundingQuarterNotes << " (existing)" <<
+        fDoubleTremoloSoundingWholeNotes << " (existing)" <<
         " and " <<
-        chordDisplayQuarterNotes <<
+        chordDisplayWholeNotes <<
         " on chord second element:" << " (chord)" <<
         endl;
 
@@ -4502,8 +4502,8 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
   }
   
   else {
-    fDoubleTremoloSoundingQuarterNotes =
-      chordDisplayQuarterNotes;
+    fDoubleTremoloSoundingWholeNotes =
+      chordDisplayWholeNotes;
   }
 }
 
@@ -4636,7 +4636,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingQuarterNotes << " sound quarter notes";
+    ", " << fDoubleTremoloSoundingWholeNotes << " sound quarter notes";
 
   if (fDoubleTremoloFirstElement) // it may not yet be set
     s <<
@@ -4723,7 +4723,7 @@ void msrDoubleTremolo::print (ostream& os)
     singularOrPlural (
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement: " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingQuarterNotes << " sound quarter notes" <<
+    ", " << fDoubleTremoloSoundingWholeNotes << " sound quarter notes" <<
     endl;
 
   idtr++;
@@ -5638,7 +5638,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
           note->       getInputLineNumber (),
           voiceClone-> getVoiceDirectPartUplink (),
           note->       getNoteDivisionsPerQuarterNote (),
-          note->       getNoteSoundingQuarterNotes (),
+          note->       getNoteSoundingWholeNotes (),
           note->       getNoteDotsNumber (),
           voiceClone-> getStaffRelativeVoiceNumber (), // JMI
           voiceClone-> getExternalVoiceNumber ());
@@ -5997,8 +5997,8 @@ S_msrNote msrNote::create (
 
   int                  noteDivisionsPerQuarterNote,
   
-  rational             noteSoundingQuarterNotes,
-  rational             noteDisplayQuarterNotes,
+  rational             noteSoundingWholeNotes,
+  rational             noteDisplayWholeNotes,
   
   int                  noteDotsNumber,
   
@@ -6025,8 +6025,8 @@ S_msrNote msrNote::create (
 
       noteDivisionsPerQuarterNote,
       
-      noteSoundingQuarterNotes,
-      noteDisplayQuarterNotes,
+      noteSoundingWholeNotes,
+      noteDisplayWholeNotes,
       
       noteDotsNumber,
       
@@ -6066,8 +6066,8 @@ S_msrNote msrNote::createSkipNote (
 
       noteDivisionsPerQuarterNote,
       
-      quarterNotes, // noteSoundingQuarterNotes
-      quarterNotes, // noteDisplayQuarterNotes
+      quarterNotes, // noteSoundingWholeNotes
+      quarterNotes, // noteDisplayWholeNotes
       
       dotsNumber,
       
@@ -6097,8 +6097,8 @@ msrNote::msrNote (
   
   int                  noteDivisionsPerQuarterNote,
   
-  rational             noteSoundingQuarterNotes,
-  rational             noteDisplayQuarterNotes,
+  rational             noteSoundingWholeNotes,
+  rational             noteDisplayWholeNotes,
   
   int                  noteDotsNumber,
   
@@ -6130,8 +6130,8 @@ msrNote::msrNote (
 
   fNoteDivisionsPerQuarterNote = noteDivisionsPerQuarterNote;
   
-  fNoteSoundingQuarterNotes  = noteSoundingQuarterNotes;
-  fNoteDisplayQuarterNotes = noteDisplayQuarterNotes;
+  fNoteSoundingWholeNotes = noteSoundingWholeNotes;
+  fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
   
   fNoteDotsNumber         = noteDotsNumber;
   
@@ -6206,13 +6206,13 @@ void msrNote::initializeNote ()
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
-        "fNoteSoundingQuarterNotes" << " = " <<
-        fNoteSoundingQuarterNotes <<
+        "fNoteSoundingWholeNotes" << " = " <<
+        fNoteSoundingWholeNotes <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
-        "fNoteDisplayQuarterNotes" << " = " <<
-        fNoteDisplayQuarterNotes <<
+        "fNoteDisplayWholeNotes" << " = " <<
+        fNoteDisplayWholeNotes <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
@@ -6358,30 +6358,30 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kRestNote:
-      fNoteSkipOrRestSoundingQuarterNotesAsMsrString =
+      fNoteSkipOrRestSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
             quarterNotesAsMsrString (
               fInputLineNumber,
-              fNoteSoundingQuarterNotes);
+              fNoteSoundingWholeNotes);
       break;
       
     case msrNote::kSkipNote:
-      fNoteSkipOrRestSoundingQuarterNotesAsMsrString =
+      fNoteSkipOrRestSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
             quarterNotesAsMsrString (
               fInputLineNumber,
-              fNoteSoundingQuarterNotes);
+              fNoteSoundingWholeNotes);
       break;
       
     case msrNote::kStandaloneNote:
-      fNoteSoundingQuarterNotesAsMsrString =
+      fNoteSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
             quarterNotesAsMsrString (
               fInputLineNumber,
-              fNoteSoundingQuarterNotes);
+              fNoteSoundingWholeNotes);
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -6398,12 +6398,12 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kTupletMemberNote:
-      fNoteTupletNoteSoundingQuarterNotesAsMsrString =
+      fNoteTupletNoteSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
-            tupletQuarterNotesAsMsrString (
+            tupletWholeNotesAsMsrString (
               fInputLineNumber,
-              fNoteSoundingQuarterNotes,
+              fNoteSoundingWholeNotes,
               fNoteTupletUplink->getTupletActualNotes (),
               fNoteTupletUplink->getTupletNormalNotes ());
 
@@ -6459,8 +6459,8 @@ S_msrNote msrNote::createNoteShallowClone (
 
         fNoteDivisionsPerQuarterNote,
         
-        fNoteSoundingQuarterNotes,
-        fNoteDisplayQuarterNotes,
+        fNoteSoundingWholeNotes,
+        fNoteDisplayWholeNotes,
         
         fNoteDotsNumber,
         
@@ -6535,19 +6535,19 @@ S_msrNote msrNote::createNoteShallowClone (
   // note as MSR string
   // ------------------------------------------------------
 
-  clone->fNoteSoundingQuarterNotesAsMsrString =
-    fNoteSoundingQuarterNotesAsMsrString;
-  clone->fNoteDisplayQuarterNotesAsMsrString =
-    fNoteDisplayQuarterNotesAsMsrString;
+  clone->fNoteSoundingWholeNotesAsMsrString =
+    fNoteSoundingWholeNotesAsMsrString;
+  clone->fNoteDisplayWholeNotesAsMsrString =
+    fNoteDisplayWholeNotesAsMsrString;
     
   clone->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
     
-  clone->fNoteSkipOrRestSoundingQuarterNotesAsMsrString =
-    fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
+  clone->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
+    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
     
-  clone->fNoteTupletNoteSoundingQuarterNotesAsMsrString =
-    fNoteTupletNoteSoundingQuarterNotesAsMsrString;
+  clone->fNoteTupletNoteSoundingWholeNotesAsMsrString =
+    fNoteTupletNoteSoundingWholeNotesAsMsrString;
   clone->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
 
@@ -6674,8 +6674,8 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
       "', line " << fInputLineNumber <<
       endl;
 
-  fNoteDisplayQuarterNotes =
-    fNoteDisplayQuarterNotes
+  fNoteDisplayWholeNotes =
+    fNoteDisplayWholeNotes
       *
     actualNotes
       /
@@ -7255,9 +7255,9 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
   result =
     fNoteDirectPartUplink->
       getPartCurrentDivisions ()->
-        tupletQuarterNotesAsMsrString (
+        tupletWholeNotesAsMsrString (
           fInputLineNumber,
-          fNoteSoundingQuarterNotes,
+          fNoteSoundingWholeNotes,
           actualNotes,
           normalNotes);
 
@@ -7290,9 +7290,9 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
       break;
       
@@ -7301,9 +7301,9 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "S" <<
         ":" <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
       break;
       
@@ -7313,9 +7313,9 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
       break;
       
@@ -7325,9 +7325,9 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
       break;
       
@@ -7347,9 +7347,9 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
       break;
       
@@ -7363,9 +7363,9 @@ string msrNote::noteAsShortStringWithRawDivisions () const
 
       s <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
       break;
   } // switch
@@ -7387,27 +7387,27 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
+        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
+        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        fNoteSoundingQuarterNotesAsMsrString <<
+        fNoteSoundingWholeNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
-        fNoteSoundingQuarterNotesAsMsrString <<
+        fNoteSoundingWholeNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7426,7 +7426,7 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString () <<
         ", " <<
-        fNoteSoundingQuarterNotesAsMsrString <<
+        fNoteSoundingWholeNotesAsMsrString <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7434,15 +7434,15 @@ string msrNote::noteAsShortString () const
       s <<
         notePitchAsString () <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
         /* JMI
         fNoteDirectPartUplink->
-          tupletSoundingQuarterNotesAsMsrString (
+          tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fNoteSoundingQuarterNotes,
+            fNoteSoundingWholeNotes,
             fNoteTupletUplink->getTupletActualNotes (),
             fNoteTupletUplink->getTupletNormalNotes ());
             */
@@ -7480,32 +7480,32 @@ string msrNote::noteAsString () const
         s <<
           "(" <<
           noteDisplayPitchAsString () <<
-          fNoteSoundingQuarterNotesAsMsrString <<
+          fNoteSoundingWholeNotesAsMsrString <<
           ", octave" " "<< noteDisplayOctaveAsString () <<
           ")";
 
       s <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp" <<
         ":" <<
-        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
+        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "Skip" <<
         ":" <<
-        fNoteSkipOrRestSoundingQuarterNotesAsMsrString;
+        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
       s <<
         "Standalone note" " "<<
         notePitchAsString () <<
-        fNoteSoundingQuarterNotesAsMsrString <<
+        fNoteSoundingWholeNotesAsMsrString <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7513,7 +7513,7 @@ string msrNote::noteAsString () const
       s <<
         "Double tremolo note" " "<<
         notePitchAsString () <<
-        fNoteSoundingQuarterNotesAsMsrString <<
+        fNoteSoundingWholeNotesAsMsrString <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7533,7 +7533,7 @@ string msrNote::noteAsString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
- // JMI       ", " << fNoteSoundingQuarterNotes << " sound quarter notes, " <<
+ // JMI       ", " << fNoteSoundingWholeNotes << " sound quarter notes, " <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -7542,15 +7542,15 @@ string msrNote::noteAsString () const
         "Tuplet member note"  " "<<
         notePitchAsString () <<
         ", quarter notes:" <<
-        fNoteSoundingQuarterNotes <<
+        fNoteSoundingWholeNotes <<
         " sound, " <<
-        fNoteDisplayQuarterNotes <<
+        fNoteDisplayWholeNotes <<
         " disp";
 /* JMI
         fNoteDirectPartUplink->
-          tupletSoundingQuarterNotesAsMsrString (
+          tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fNoteSoundingQuarterNotes,
+            fNoteSoundingWholeNotes,
             fNoteTupletUplink->getTupletActualNotes (),
             fNoteTupletUplink->getTupletNormalNotes ())
             */
@@ -7630,35 +7630,35 @@ void msrNote::print (ostream& os)
           "note divisions per quarter note: " <<
           fNoteDivisionsPerQuarterNote <<
           ", quarter notes: " <<
-          fNoteSoundingQuarterNotes <<
+          fNoteSoundingWholeNotes <<
           " sound, " <<
-          fNoteDisplayQuarterNotes<<
+          fNoteDisplayWholeNotes<<
           " disp";
         break;
   
       case msrNote::kGraceNote:
         os <<
           "quarter notes: " <<
-          fNoteDisplayQuarterNotes <<
+          fNoteDisplayWholeNotes <<
           " disp";
         break;
   
       case msrNote::kTupletMemberNote:
         os <<
           "quarter notes: " <<
-          fNoteSoundingQuarterNotes <<
+          fNoteSoundingWholeNotes <<
           " sound, " <<
-          fNoteDisplayQuarterNotes<<
+          fNoteDisplayWholeNotes<<
           " disp" <<
           ", quarter notes: " <<
-          fNoteTupletNoteSoundingQuarterNotesAsMsrString;
+          fNoteTupletNoteSoundingWholeNotesAsMsrString;
   /* JMI
         if (
-            fNoteSoundingQuarterNotes
+            fNoteSoundingWholeNotes
               ==
-            fNoteDisplayQuarterNotes) {
+            fNoteDisplayWholeNotes) {
           os <<
-            fNoteSoundingQuarterNotes <<
+            fNoteSoundingWholeNotes <<
             " quarter notes";
         }
         */
@@ -7769,8 +7769,8 @@ void msrNote::print (ostream& os)
 
           os << left <<
             idtr << setw(fieldWidth) <<
-              "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
-              fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
+              fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
               "\"" <<
             endl;
         }
@@ -7782,8 +7782,8 @@ void msrNote::print (ostream& os)
 
           os << left <<
             idtr << setw(fieldWidth) <<
-              "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
-              fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
+              fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
               "\"" <<
               endl;
         }
@@ -7795,13 +7795,13 @@ void msrNote::print (ostream& os)
 
           os << left <<
             idtr << setw(fieldWidth) <<
-              "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
-              fNoteSoundingQuarterNotesAsMsrString <<
+              "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+              fNoteSoundingWholeNotesAsMsrString <<
               "\"" <<
               endl <<
             idtr << setw(fieldWidth) <<
-              "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
-              fNoteDisplayQuarterNotesAsMsrString <<
+              "noteDisplayWholeNotesAsMsrString" << " = \"" <<
+              fNoteDisplayWholeNotesAsMsrString <<
               "\"" <<
               endl <<
             idtr << setw(fieldWidth) <<
@@ -7850,8 +7850,8 @@ void msrNote::print (ostream& os)
               "\"" <<
               endl <<
             idtr << setw(fieldWidth) <<
-              "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
-              fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
+              "noteTupletNoteSoundingWholeNotesAsMsrString" << " = \"" <<
+              fNoteTupletNoteSoundingWholeNotesAsMsrString <<
               "\"" <<
             endl <<
       
@@ -8187,16 +8187,16 @@ void msrNote::print (ostream& os)
 S_msrChord msrChord::create (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
-  rational    chordSoundingQuarterNotes,
-  rational    chordDisplayQuarterNotes,
+  rational    chordSoundingWholeNotes,
+  rational    chordDisplayWholeNotes,
   msrDuration chordGraphicDuration)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr <<
       idtr <<
       "Creating a chord" <<
-      ", chordSoundingQuarterNotes = " << chordSoundingQuarterNotes <<
-      ", chordDisplayQuarterNotes = " << chordDisplayQuarterNotes <<
+      ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
+      ", chordDisplayWholeNotes = " << chordDisplayWholeNotes <<
       ", chordGraphicDuration = " <<
       msrDurationAsString (chordGraphicDuration) <<
       endl;
@@ -8206,7 +8206,7 @@ S_msrChord msrChord::create (
     new msrChord (
       inputLineNumber,
       chordDirectPartUplink,
-      chordSoundingQuarterNotes, chordDisplayQuarterNotes,
+      chordSoundingWholeNotes, chordDisplayWholeNotes,
       chordGraphicDuration);
   assert(o!=0);
 
@@ -8216,8 +8216,8 @@ S_msrChord msrChord::create (
 msrChord::msrChord (
   int         inputLineNumber,
   S_msrPart   chordDirectPartUplink,
-  rational    chordSoundingQuarterNotes,
-  rational    chordDisplayQuarterNotes,
+  rational    chordSoundingWholeNotes,
+  rational    chordDisplayWholeNotes,
   msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
@@ -8229,8 +8229,8 @@ msrChord::msrChord (
   fChordDirectPartUplink =
     chordDirectPartUplink;
     
-  fChordSoundingQuarterNotes  = chordSoundingQuarterNotes;
-  fChordDisplayQuarterNotes = chordDisplayQuarterNotes;
+  fChordSoundingWholeNotes = chordSoundingWholeNotes;
+  fChordDisplayWholeNotes  = chordDisplayWholeNotes;
   
   fChordGraphicDuration = chordGraphicDuration;
 
@@ -8261,8 +8261,8 @@ S_msrChord msrChord::createChordShallowClone (
       msrChord::create (
         fInputLineNumber,
         partClone,
-        fChordSoundingQuarterNotes,
-        fChordDisplayQuarterNotes,
+        fChordSoundingWholeNotes,
+        fChordDisplayWholeNotes,
         fChordGraphicDuration);
 
   clone->
@@ -8283,7 +8283,7 @@ S_msrChord msrChord::createChordShallowClone (
   return clone;
 }
 
-void msrChord::setChordSoundingQuarterNotes (
+void msrChord::setChordSoundingWholeNotes (
   rational quarterNotes)
 {
   if (gGeneralOptions->fTraceChords)
@@ -8295,10 +8295,10 @@ void msrChord::setChordSoundingQuarterNotes (
       "'" <<
       endl;
 
-  fChordSoundingQuarterNotes = quarterNotes;
+  fChordSoundingWholeNotes = quarterNotes;
 }
 
-void msrChord::setChordDisplayQuarterNotes (
+void msrChord::setChordDisplayWholeNotes (
   rational quarterNotes)
 {
   if (gGeneralOptions->fTraceChords)
@@ -8310,7 +8310,7 @@ void msrChord::setChordDisplayQuarterNotes (
       "'" <<
       endl;
 
-  fChordDisplayQuarterNotes = quarterNotes;
+  fChordDisplayWholeNotes = quarterNotes;
 }
 
 /* JMI
@@ -8692,7 +8692,7 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
   return os;
 }
 
-string msrChord::chordSoundingQuarterNotesAsMsrString () const
+string msrChord::chordSoundingWholeNotesAsMsrString () const
 {
   string result;
 
@@ -8707,12 +8707,12 @@ string msrChord::chordSoundingQuarterNotesAsMsrString () const
       getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
-          fChordSoundingQuarterNotes);
+          fChordSoundingWholeNotes);
 
   return result;
 }
 
-string msrChord::chordDisplayQuarterNotesAsMsrString () const
+string msrChord::chordDisplayWholeNotesAsMsrString () const
 {
   string result;
 
@@ -8727,7 +8727,7 @@ string msrChord::chordDisplayQuarterNotesAsMsrString () const
       getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
-          fChordDisplayQuarterNotes);
+          fChordDisplayWholeNotes);
 
   return result;
 }
@@ -8773,7 +8773,7 @@ string msrChord::chordAsStringwithRawDivisions () const
       s <<
       /* JMI
         note->notePitchAsString () <<
-        note->fNoteSoundingQuarterNotesAsMsrString <<
+        note->fNoteSoundingWholeNotesAsMsrString <<
         "[" << note->getNoteOctave () << "]"
         */
 
@@ -8807,9 +8807,9 @@ string msrChord::chordAsString () const
       s <<
         note->notePitchAsString () <<
         ", quarter notes: " <<
-        note->getNoteSoundingQuarterNotes () <<
+        note->getNoteSoundingWholeNotes () <<
         " sound, " <<
-        note->getNoteDisplayQuarterNotes () <<
+        note->getNoteDisplayWholeNotes () <<
         " disp," <<
         "[" << note->getNoteOctave () << "]";
         
@@ -8835,14 +8835,14 @@ void msrChord::print (ostream& os)
     
   os <<
     "Chord:" <<
-    chordSoundingQuarterNotesAsMsrString () <<
+    chordSoundingWholeNotesAsMsrString () <<
     ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
     ", quarter notes: " <<
-    fChordSoundingQuarterNotes << " sound quarter notes" <<
+    fChordSoundingWholeNotes << " sound quarter notes" <<
     ", " <<
-    fChordDisplayQuarterNotes << " disp quarter notes" <<
+    fChordDisplayWholeNotes << " disp quarter notes" <<
     ", meas "<<
     getChordMeasureNumber () <<
     ":" <<
@@ -9597,7 +9597,7 @@ string msrDivisions::tupletDivisionsAsMsrString (
       divisions * actualNotes / normalNotes);
 }
 
-string msrDivisions::tupletQuarterNotesAsMsrString (
+string msrDivisions::tupletWholeNotesAsMsrString (
   int      inputLineNumber,
   rational quarterNotes,
   int      actualNotes,
@@ -9675,7 +9675,7 @@ void msrDivisions::testDivisionsAndDurations ()
   exit (0);
 }
 
-void msrDivisions::testTupletSoundingQuarterNotesAndDurations ()
+void msrDivisions::testTupletSoundingWholeNotesAndDurations ()
 {
   int divisionsPerQuarterNote = 30;
   cerr <<
@@ -10096,8 +10096,8 @@ msrTuplet::msrTuplet (
   fTupletActualNotes = actualNotes;
   fTupletNormalNotes = normalNotes;
   
-  fTupletSoundingQuarterNotes  = rational (0, 1);
-  fTupletDisplayQuarterNotes = rational (0, 1);
+  fTupletSoundingWholeNotes = rational (0, 1);
+  fTupletDisplayWholeNotes  = rational (0, 1);
 
   fTupletPositionInMeasure = notePositionInMeasure;
 }
@@ -10124,11 +10124,11 @@ S_msrTuplet msrTuplet::createTupletShallowClone ()
         fTupletNormalNotes,
         fTupletPositionInMeasure);
 
-  clone->fTupletSoundingQuarterNotes =
-    fTupletSoundingQuarterNotes;
+  clone->fTupletSoundingWholeNotes =
+    fTupletSoundingWholeNotes;
 
-  clone->fTupletDisplayQuarterNotes =
-    fTupletDisplayQuarterNotes;
+  clone->fTupletDisplayWholeNotes =
+    fTupletDisplayWholeNotes;
 
   clone->fTupletMeasureNumber =
     fTupletMeasureNumber;
@@ -10155,10 +10155,10 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
     setNoteTupletUplink (this);
 
   // account for note duration
-  fTupletSoundingQuarterNotes +=
-    note->getNoteSoundingQuarterNotes ();
-  fTupletDisplayQuarterNotes += // JMI
-    note->getNoteDisplayQuarterNotes ();  
+  fTupletSoundingWholeNotes +=
+    note->getNoteSoundingWholeNotes ();
+  fTupletDisplayWholeNotes += // JMI
+    note->getNoteDisplayWholeNotes ();  
     
   // populate note's measure number
   note->setNoteMeasureNumber (
@@ -10183,10 +10183,10 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   fTupletElements.push_back (chord);
     
   // account for chord duration
-  fTupletSoundingQuarterNotes +=
-    chord->getChordSoundingQuarterNotes ();
-  fTupletDisplayQuarterNotes += // JMI
-    chord->getChordDisplayQuarterNotes ();  
+  fTupletSoundingWholeNotes +=
+    chord->getChordSoundingWholeNotes ();
+  fTupletDisplayWholeNotes += // JMI
+    chord->getChordDisplayWholeNotes ();  
     
   // populate chord's measure number
   chord->setChordMeasureNumber (
@@ -10221,14 +10221,14 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletElements.push_back (tuplet);
     
   // account for tuplet duration
-  fTupletSoundingQuarterNotes +=
-    tuplet->getTupletSoundingQuarterNotes ();
-  fTupletDisplayQuarterNotes += // JMI
-    tuplet->getTupletDisplayQuarterNotes ();
+  fTupletSoundingWholeNotes +=
+    tuplet->getTupletSoundingWholeNotes ();
+  fTupletDisplayWholeNotes += // JMI
+    tuplet->getTupletDisplayWholeNotes ();
     
     /*
-  fTupletDisplayQuarterNotes += // JMI
-    tuplet->getTupletDisplayQuarterNotes ();  
+  fTupletDisplayWholeNotes += // JMI
+    tuplet->getTupletDisplayWholeNotes ();  
     */
 
   // don't populate tuplet's measure number nor position in measure,
@@ -10261,10 +10261,10 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   fTupletElements.push_back (tuplet);
     
   // account for tuplet duration
-  fTupletSoundingQuarterNotes +=
-    tuplet->getTupletSoundingQuarterNotes ();
-  fTupletDisplayQuarterNotes +=
-    tuplet->getTupletDisplayQuarterNotes ();
+  fTupletSoundingWholeNotes +=
+    tuplet->getTupletSoundingWholeNotes ();
+  fTupletDisplayWholeNotes +=
+    tuplet->getTupletDisplayWholeNotes ();
 }
 
 void msrTuplet::removeFirstNoteFromTuplet (
@@ -10294,10 +10294,10 @@ void msrTuplet::removeFirstNoteFromTuplet (
         fTupletElements.erase (i);
         
         // account for note duration
-        fTupletSoundingQuarterNotes -=
-          note->getNoteSoundingQuarterNotes ();
-        fTupletDisplayQuarterNotes -= // JMI
-          note->getNoteDisplayQuarterNotes ();  
+        fTupletSoundingWholeNotes -=
+          note->getNoteSoundingWholeNotes ();
+        fTupletDisplayWholeNotes -= // JMI
+          note->getNoteDisplayWholeNotes ();  
 
         // don't update measure number nor position in measure: // JMI
         // they have not been set yet
@@ -10401,7 +10401,7 @@ rational msrTuplet::setTupletPositionInMeasure (
         
       currentPosition +=
         note->
-          getNoteSoundingQuarterNotes ();
+          getNoteSoundingWholeNotes ();
     }
   
     else if (
@@ -10412,7 +10412,7 @@ rational msrTuplet::setTupletPositionInMeasure (
         
       currentPosition +=
         chord->
-          getChordSoundingQuarterNotes ();
+          getChordSoundingWholeNotes ();
     }
     
     else if (
@@ -10596,7 +10596,7 @@ string msrTuplet::tupletAsShortString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingQuarterNotes << " sound quarter notes" <<
+    " " << fTupletSoundingWholeNotes << " sound quarter notes" <<
     " @meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -10660,7 +10660,7 @@ string msrTuplet::tupletAsString () const
   s <<
     "Tuplet " <<
     fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingQuarterNotes << " sound quarter notes" <<
+    " " << fTupletSoundingWholeNotes << " sound quarter notes" <<
     " @meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -10727,8 +10727,8 @@ void msrTuplet::print (ostream& os)
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
     ", quarter notes: " <<
-    fTupletSoundingQuarterNotes << " sound, " <<
-    fTupletDisplayQuarterNotes << " disp" <<
+    fTupletSoundingWholeNotes << " sound, " <<
+    fTupletDisplayWholeNotes << " disp" <<
     ", meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -14045,7 +14045,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-  rational             harmonySoundingQuarterNotes)
+  rational             harmonySoundingWholeNotes)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -14054,7 +14054,7 @@ S_msrHarmony msrHarmony::create (
       harmonyRootQuarterTonesPitch,
       harmonyKind, harmonyKindText,
       harmonyBassQuarterTonesPitch,
-      harmonySoundingQuarterNotes);
+      harmonySoundingWholeNotes);
   assert(o!=0);
 
   return o;
@@ -14067,7 +14067,7 @@ msrHarmony::msrHarmony (
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
   msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-  rational             harmonySoundingQuarterNotes)
+  rational             harmonySoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
   // set harmony's direct part uplink
@@ -14085,15 +14085,15 @@ msrHarmony::msrHarmony (
  
   fHarmonyBassQuarterTonesPitch = harmonyBassQuarterTonesPitch;
  
-  fHarmonySoundingQuarterNotes = harmonySoundingQuarterNotes;
+  fHarmonySoundingWholeNotes = harmonySoundingWholeNotes;
 
   // MSR strings
-  fHarmonySoundingQuarterNotesAsString =
+  fHarmonySoundingWholeNotesAsString =
     fHarmonyDirectPartUplink->
       getPartCurrentDivisions ()->
         quarterNotesAsMsrString (
           fInputLineNumber,
-          fHarmonySoundingQuarterNotes);
+          fHarmonySoundingWholeNotes);
   
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
@@ -14129,11 +14129,11 @@ S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
         fHarmonyRootQuarterTonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuarterTonesPitch,
-        fHarmonySoundingQuarterNotes);
+        fHarmonySoundingWholeNotes);
 
   // MSR strings
-  clone->fHarmonySoundingQuarterNotesAsString =
-    fHarmonySoundingQuarterNotesAsString;
+  clone->fHarmonySoundingWholeNotesAsString =
+    fHarmonySoundingWholeNotesAsString;
     
   return clone;
 }
@@ -14240,7 +14240,7 @@ string msrHarmony::harmonyAsString () const
         getPartCurrentDivisions ()->
           divisionsAsMsrString (
             fInputLineNumber,
-            fHarmonySoundingQuarterNotes);
+            fHarmonySoundingWholeNotes);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -14312,8 +14312,8 @@ void msrHarmony::print (ostream& os)
       getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
-          fHarmonySoundingQuarterNotes) <<
-    " (" << fHarmonySoundingQuarterNotes << " sound quarter notes)" <<
+          fHarmonySoundingWholeNotes) <<
+    " (" << fHarmonySoundingWholeNotes << " sound quarter notes)" <<
      ", line " << fInputLineNumber <<
     endl;
     
@@ -15473,9 +15473,18 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
         fMeasureDirectPartUplink->
           getPartCurrentDivisions ()->
             getDivisionsPerQuarterNote ();
-  
-    fMeasureFullMeasureLength =
-      wholeNotesPerMeasure * 4;
+
+    if (wholeNotesPerMeasure.getNumerator () == 4) {
+      // whole notes per measure is already expresses in quarter notes
+      fMeasureFullMeasureLength =
+        wholeNotesPerMeasure;
+    }
+    else {
+      // get the denominator to be 4
+      if (wholeNotesPerMeasure.getNumerator () < 4) {
+        fMeasureFullMeasureLength =
+          wholeNotesPerMeasure * 4;
+    }
 /*
         *
       currentDivisionsPerQuarterNote * 4; // hence a whole note
@@ -15584,13 +15593,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       noteMeasurePosition);
   
   // fetch note sounding quarter notes
-  rational noteSoundingQuarterNotes =
-    note->getNoteSoundingQuarterNotes ();
+  rational noteSoundingWholeNotes =
+    note->getNoteSoundingWholeNotes ();
 
   // account for note duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + noteSoundingQuarterNotes);
+    fMeasureLength + noteSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -15599,7 +15608,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       fMeasureLength);
 
   // determine if the note occupies a full measure
-  if (noteSoundingQuarterNotes == fMeasureFullMeasureLength)
+  if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
     note->setNoteOccupiesAFullMeasure ();
 
   // append the note to the measure elements list
@@ -15659,7 +15668,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               inputLineNumber,
               fMeasureDirectPartUplink,
               note->getNoteDivisionsPerQuarterNote (),
-              noteSoundingQuarterNotes,
+              noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
                 getVoiceStaffUplink ()->
@@ -15732,13 +15741,13 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     
     // fetch note sounding quarter notes
     rational
-      noteSoundingQuarterNotes =
-        note->getNoteSoundingQuarterNotes ();
+      noteSoundingWholeNotes =
+        note->getNoteSoundingWholeNotes ();
 
     // account for note duration in measure length
     setMeasureLength (
       inputLineNumber,
-      fMeasureLength + noteSoundingQuarterNotes);
+      fMeasureLength + noteSoundingWholeNotes);
   
     // update part measure length high tide if need be
     fMeasureDirectPartUplink->
@@ -15746,7 +15755,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         inputLineNumber, fMeasureLength);
   
     // determine if the note occupies a full measure
-    if (noteSoundingQuarterNotes == fMeasureFullMeasureLength)
+    if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
       note->setNoteOccupiesAFullMeasure ();
   
     // append the note to the measure elements list
@@ -15795,7 +15804,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
             msrNote::createSkipNote (
               inputLineNumber,
               fMeasureDirectPartUplink,
-              noteSoundingQuarterNotes,
+              noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
                 getVoiceStaffUplink ()->
@@ -15867,13 +15876,14 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
   // fetch doubleTremolo sounding quarter notes
   rational
-    doubleTremoloSoundingQuarterNotes =
-      doubleTremolo->getDoubleTremoloSoundingQuarterNotes ();
+    doubleTremoloSoundingWholeNotes =
+      doubleTremolo->
+        getDoubleTremoloSoundingWholeNotes ();
     
   // account for doubleTremolo duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + doubleTremoloSoundingQuarterNotes);
+    fMeasureLength + doubleTremoloSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -15882,7 +15892,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
       fMeasureLength);
 
   // determine if the doubleTremolo occupies a full measure
-// XXL  JMI  if (doubleTremoloSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (doubleTremoloSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
 
   // append the doubleTremolo to the measure elements list
@@ -15940,13 +15950,13 @@ void msrMeasure::appendMeasureRepeatToMeasure (
       fMeasureLength);
 
   // fetch measureRepeat sounding quarter notes
-  int measureRepeatSoundingQuarterNotes =
-    measureRepeat->getmeasureRepeatSoundingQuarterNotes ();
+  int measureRepeatSoundingWholeNotes =
+    measureRepeat->getmeasureRepeatSoundingWholeNotes ();
     
   // account for measureRepeat duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + measureRepeatSoundingQuarterNotes);
+    fMeasureLength + measureRepeatSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -15954,7 +15964,7 @@ void msrMeasure::appendMeasureRepeatToMeasure (
       inputLineNumber, fMeasureLength);
 
   // determine if the measureRepeat occupies a full measure
-// XXL  JMI  if (measureRepeatSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (measureRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
 */
 
@@ -16015,13 +16025,13 @@ void msrMeasure::appendMultipleRestToMeasure (
       fMeasureLength);
 
   // fetch multipleRest sounding quarter notes
-  int multipleRestSoundingQuarterNotes =
-    multipleRest->getmultipleRestSoundingQuarterNotes ();
+  int multipleRestSoundingWholeNotes =
+    multipleRest->getmultipleRestSoundingWholeNotes ();
     
   // account for multipleRest duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + multipleRestSoundingQuarterNotes);
+    fMeasureLength + multipleRestSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -16029,7 +16039,7 @@ void msrMeasure::appendMultipleRestToMeasure (
       inputLineNumber, fMeasureLength);
 
   // determine if the multipleRest occupies a full measure
-// XXL  JMI  if (multipleRestSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (multipleRestSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // multipleRest->setmultipleRestOccupiesAFullMeasure ();
 */
 
@@ -16085,13 +16095,15 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
       fMeasureLength);
 
   // fetch chord sounding quarter notes
-  rational chordSoundingQuarterNotes =
-    chord->getChordSoundingQuarterNotes ();
+  rational
+    chordSoundingWholeNotes =
+      chord->
+        getChordSoundingWholeNotes ();
     
   // account for chord duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + chordSoundingQuarterNotes);
+    fMeasureLength + chordSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -16099,7 +16111,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
       inputLineNumber, fMeasureLength);
 
   // determine if the chord occupies a full measure
-// XXL  JMI  if (chordSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
+// XXL  JMI  if (chordSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // chord->setChordOccupiesAFullMeasure ();
 
   // append the chord to the measure elements list
@@ -16155,13 +16167,15 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
  */
   
   // fetch tuplet sousnding quarter notes
-  rational tupletSoundingQuarterNotes =
-    tuplet->getTupletSoundingQuarterNotes ();
+  rational
+    tupletSoundingWholeNotes =
+      tuplet->
+        getTupletSoundingWholeNotes ();
     
   // account for tuplet duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + tupletSoundingQuarterNotes);
+    fMeasureLength + tupletSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -16175,7 +16189,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     */
 
   // determine if the tuplet occupies a full measure
-// XXL    if (tupletSoundingQuarterNotes == fMeasureDivisionsPerWholeMeasure)
+// XXL    if (tupletSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // tuplet->setTupletOccupiesAFullMeasure ();
 
   // append the tuplet to the measure elements list
@@ -16236,8 +16250,10 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 
       
   // fetch harmony sounding quarter notes
-  rational harmonySoundingQuarterNotes =
-    harmony->getHarmonySoundingQuarterNotes ();
+  rational
+    harmonySoundingWholeNotes =
+      harmony->
+        getHarmonySoundingWholeNotes ();
     
 //* JMI FOO
 /*
@@ -16247,7 +16263,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
         msrNote::createSkipNote (
             inputLineNumber,
             fMeasureDirectPartUplink,
-            harmonySoundingQuarterNotes,
+            harmonySoundingWholeNotes,
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),
             voice->
@@ -16261,7 +16277,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     // account for harmony duration in measure length
     setMeasureLength (
       inputLineNumber,
-      fMeasureLength + harmonySoundingQuarterNotes);
+      fMeasureLength + harmonySoundingWholeNotes);
   
     // update part measure length high tide if need be
     fMeasureDirectPartUplink->
@@ -16292,8 +16308,10 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       endl;
       
   // fetch harmony sounding quarter notes
-  rational harmonySoundingQuarterNotes =
-    harmony->getHarmonySoundingQuarterNotes ();
+  rational
+    harmonySoundingWholeNotes =
+      harmony->
+        getHarmonySoundingQuarterNotes ();
     
   // account for harmony duration in measure length
   setMeasureLength (
