@@ -7707,9 +7707,12 @@ void msrNote::print (ostream& os)
   }
 
   {
+    // note redundant information (for speed)
+
     stringstream s;
     
-    // note redundant information (for speed)
+    idtr++;
+
     if (fNoteIsStemless)
       s << idtr <<
         "stemless" <<
@@ -7741,13 +7744,11 @@ void msrNote::print (ostream& os)
     string result = s.str();
 
     if (result.size ()) {
-      idtr++;
-
       os <<
         result;
-        
-      idtr--;
     }
+        
+    idtr--;
   }
   
   {
@@ -15391,7 +15392,12 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     
     // this measure is senza misura
     
-    if (gGeneralOptions->fTraceMeasures) {
+    if (
+      gGeneralOptions->fTraceDivisions
+        ||
+      gGeneralOptions->fTraceMeasures
+        ||
+      gGeneralOptions->fTraceGeneral) { // JMI
       cerr << idtr <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -15419,7 +15425,12 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
         time->
           wholeNotesPerMeasure ();
         
-    if (gGeneralOptions->fTraceTimes) {
+    if (
+      gGeneralOptions->fTraceDivisions
+        ||
+      gGeneralOptions->fTraceMeasures
+        ||
+      gGeneralOptions->fTraceGeneral) { // JMI
       cerr <<
         idtr <<
           "There are " <<
@@ -15454,7 +15465,12 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
       currentDivisionsPerQuarterNote; // hence a whole note
     
   
-    if (gGeneralOptions->fTraceMeasures)
+    if (
+      gGeneralOptions->fTraceDivisions
+        ||
+      gGeneralOptions->fTraceMeasures
+        ||
+      gGeneralOptions->fTraceGeneral) { // JMI
       cerr << idtr <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -15466,6 +15482,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
         fMeasureFullMeasureLength <<
           "full measure length" <<
         endl;
+    }
   }
 }
 
