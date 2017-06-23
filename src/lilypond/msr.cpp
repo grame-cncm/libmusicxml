@@ -7704,40 +7704,47 @@ void msrNote::print (ostream& os)
   os <<
     endl ;
     
+  idtr--;
+  
   // note MSR strings
   {
     const int fieldWidth = 46;
+
+    idtr++;
     
     os << left <<
-      idtr <<
+      idtr << setw(fieldWidth) <<
         "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
         fNoteSoundingQuarterNotesAsMsrString <<
         "\"" <<
         endl <<
-      idtr <<
+      idtr << setw(fieldWidth) <<
         "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
         fNoteDisplayQuarterNotesAsMsrString <<
         "\"" <<
         endl <<
-      idtr <<
+      idtr << setw(fieldWidth) <<
         "noteGraphicDurationAsMsrString" << " = \"" <<
         fNoteGraphicDurationAsMsrString <<
         "\"" <<
         endl <<
-      idtr <<
+      idtr << setw(fieldWidth) <<
         "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
         fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
         "\"" <<
         endl <<
-      idtr <<
+      idtr << setw(fieldWidth) <<
           "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
           fNoteTupletNoteGraphicDurationAsMsrString <<
         "\"" <<
         endl <<
-      idtr <<
+      idtr << setw(fieldWidth) <<
         "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
         fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
-        "\"";
+        "\"" <<
+      endl;
+
+    idtr--;
    }
    
   // note redundant information (for speed)
@@ -7765,8 +7772,6 @@ void msrNote::print (ostream& os)
 
   os <<
     endl;
-
-  idtr--;
 
   // are there syllables associated to this note?
   if (fNoteSyllables.size ()) {
