@@ -7705,26 +7705,41 @@ void msrNote::print (ostream& os)
     endl ;
     
   // note MSR strings
-  os << idtr <<
-    "noteSoundingQuarterNotesAsMsrString = \"" <<
-    fNoteSoundingQuarterNotesAsMsrString <<
-    "\", noteDisplayQuarterNotesAsMsrString = \"" <<
-    fNoteDisplayQuarterNotesAsMsrString <<
+  {
+    const int fieldWidth = 46;
     
-    "\", noteGraphicDurationAsMsrString = \"" <<
-    fNoteGraphicDurationAsMsrString <<
-    
-    "\", noteSkipOrRestSoundingQuarterNotesAsMsrString = \"" <<
-    fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
-    
-    "\", noteTupletNoteGraphicDurationAsMsrString = \"" <<
-    fNoteTupletNoteGraphicDurationAsMsrString <<
-    "\"" <<
-    
-    "\", noteTupletNoteSoundingQuarterNotesAsMsrString = \"" <<
-    fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
-    "\"";
- 
+    os << left <<
+      idtr <<
+        "noteSoundingQuarterNotesAsMsrString" << " = \"" <<
+        fNoteSoundingQuarterNotesAsMsrString <<
+        "\"" <<
+        endl <<
+      idtr <<
+        "noteDisplayQuarterNotesAsMsrString" << " = \"" <<
+        fNoteDisplayQuarterNotesAsMsrString <<
+        "\"" <<
+        endl <<
+      idtr <<
+        "noteGraphicDurationAsMsrString" << " = \"" <<
+        fNoteGraphicDurationAsMsrString <<
+        "\"" <<
+        endl <<
+      idtr <<
+        "noteSkipOrRestSoundingQuarterNotesAsMsrString" << " = \"" <<
+        fNoteSkipOrRestSoundingQuarterNotesAsMsrString <<
+        "\"" <<
+        endl <<
+      idtr <<
+          "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
+          fNoteTupletNoteGraphicDurationAsMsrString <<
+        "\"" <<
+        endl <<
+      idtr <<
+        "noteTupletNoteSoundingQuarterNotesAsMsrString" << " = \"" <<
+        fNoteTupletNoteSoundingQuarterNotesAsMsrString <<
+        "\"";
+   }
+   
   // note redundant information (for speed)
   if (fNoteIsStemless)
     os <<
