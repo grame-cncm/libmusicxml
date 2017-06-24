@@ -2805,25 +2805,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           measureLength =
             elt->getMeasureLength ();
 
+/* JMI
         fOstream <<
           "%{ measureLength: " << measureLength << " %}";
+*/
 
         string
           upbeatDuration =
             lilypondizeDurationString (
             elt->getMeasureLengthAsMSRString ());
-
-/* JMI
-            wholeNotesAsLilypondString (
-              inputLineNumber,
-              elt->getMeasureDirectPartUplink (),
-              measureLength);
-        string
-          partialDuration =
-            lilypondizeDurationString (
-              elt->
-                getMeasureFullMeasureLengthAsMSRString ());
-*/
 
         fOstream << idtr <<
           "\\partial" " " << upbeatDuration <<
