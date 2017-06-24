@@ -235,6 +235,9 @@ string lpsr2LilypondTranslator::lilypondizeDurationString (
 
   string result = msrDurationString;
 
+  fOstream <<
+    "%{ lilypondizeDurationString: " << result << " %}";
+
   if (result.size ()) { // JMI
     if (! isdigit (result [0])) {
       result [0] = tolower (result [0]);

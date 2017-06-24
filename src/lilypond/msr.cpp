@@ -9388,8 +9388,8 @@ string msrDivisions::wholeNotesAsMsrString (
       /
     wholeNotes.getDenominator ();      
   
-// JMI  if (false && gGeneralOptions->fTraceDivisions) {
-  if (true || gGeneralOptions->fTraceDivisions) {
+  if (false && gGeneralOptions->fTraceDivisions) {
+// JMI  if (true || gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         tab << "divisions              = " << divisions <<
@@ -17253,9 +17253,8 @@ void msrMeasure::print (ostream& os)
         fMeasureFirstInSegmentKind) << 
       ", line " << fInputLineNumber <<
       ", length: " << getMeasureLength () << " whole notes" <<
-// JMI      " (" << getMeasureLengthAsString () << ")" <<
+      ", measureFullMeasureLengthAsMSRString: " << fMeasureFullMeasureLengthAsMSRString <<
       ", " << fMeasureFullMeasureLength << " per full measure" <<
-   // JMI   ", pos = " << fMeasureLength << ", " <<
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
