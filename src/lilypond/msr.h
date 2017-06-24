@@ -4280,12 +4280,18 @@ class EXP msrNote : public msrElement
     // note whole notes
     
     rational              getNoteSoundingWholeNotes ()
-                              { return fNoteSoundingWholeNotes; }
+                              {
+                                return
+                                  fNoteSoundingWholeNotes;
+                              }
 
     // note display
     
     msrQuarterTonesPitch  getNoteQuarterTonesDisplayPitch () const
-                              { return fNoteQuarterTonesDisplayPitch; }
+                              {
+                                return
+                                  fNoteQuarterTonesDisplayPitch;
+                              }
                               
     void                  setNoteDisplayWholeNotes (
                             rational wholeNotes)
@@ -4855,8 +4861,8 @@ class EXP msrChord : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    SMARTP<msrChord>      createChordShallowClone (
-                            S_msrPart partClone);
+    SMARTP<msrChord> createChordShallowClone (
+      S_msrPart partClone);
 
   protected:
 
@@ -4884,12 +4890,25 @@ class EXP msrChord : public msrElement
     rational              getChordSoundingWholeNotes () const
                               { return fChordSoundingWholeNotes; }
                         
+    string                getChordSoundingWholeNotesAsMsrString () const
+                              {
+                                return
+                                  fChordSoundingWholeNotesAsMsrString;
+                              }
+                        
     void                  setChordDisplayWholeNotes (
                             rational divisions);
             
     rational              getChordDisplayWholeNotes () const
                               { return fChordDisplayWholeNotes; }
                         
+    string                getChordDisplayWholeNotesAsMsrString () const
+                              {
+                                return
+                                  fChordDisplayWholeNotesAsMsrString;
+                              }
+                        
+
     string                chordSoundingWholeNotesAsMsrString () const;
     string                chordDisplayWholeNotesAsMsrString () const;
 
@@ -5077,7 +5096,7 @@ class EXP msrChord : public msrElement
     void                  setChordFirstNoteMeasureNumber (
                             string measureNumber);
                     
-    // harmony
+    // as string
     string                chordAsStringwithRawDivisions () const;
     string                chordAsString () const;
 
@@ -5101,8 +5120,11 @@ class EXP msrChord : public msrElement
 
     // sounding divisions
     rational              fChordSoundingWholeNotes;
-    // displayed divisions
+    string                fChordSoundingWholeNotesAsMsrString;
+    
+    // display divisions
     rational              fChordDisplayWholeNotes;
+    string                fChordDisplayWholeNotesAsMsrString;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
