@@ -489,7 +489,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
   }
 
   // should an editorial accidental be generated?
-  switch (note->getNoteEditorialAccidentalKind) {
+  switch (note->getNoteEditorialAccidentalKind ()) {
     case msrNote::kNoteEditorialAccidentalYes:
       s <<
         "%{ editorial accidental? %}";
@@ -499,7 +499,7 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
   } // switch
   
   // should a cautionary accidental be generated?
-  switch (note->getNoteCautionaryAccidentalKind) {
+  switch (note->getNoteCautionaryAccidentalKind ()) {
     case msrNote::kNoteCautionaryAccidentalYes:
       s <<
         "?";
