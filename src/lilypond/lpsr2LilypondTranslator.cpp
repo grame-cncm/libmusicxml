@@ -253,6 +253,14 @@ string lpsr2LilypondTranslator::wholeNotesAsLilypondString (
   string result;
 
   result = wholeNotes.toString ();
+
+/*
+  if (
+    )
+
+  fOstream <<
+    "%{ wholeNotesAsLilypondString: " << result << " %}";
+  */
   
   return lilypondizeDurationString (result);
 }
@@ -2781,7 +2789,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' is of unknown kind";
 
-        msrInternalWarning (
+        msrInternalError (
           inputLineNumber, s.str ());
       }
       break;
@@ -2793,13 +2801,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       {
         int measureLength =
           elt->getMeasureLength ();
-
+/* JMI
         string
           partialDuration =
             wholeNotesAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
               measureLength);
+*/
+        string
+          partialDuration =
+            lilypondizeDurationString (
+              elt->
+                getMeasureFullMeasureLengthAsMSRString ());
 
         fOstream << idtr <<
           "\\partial" " " << partialDuration <<
@@ -2928,6 +2942,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
             elt->getMeasureFullMeasureLength ();
 
         // generate a rest the duration of the measure
+        // followed by a bar check
         fOstream <<
           "R" <<
             wholeNotesAsLilypondString (

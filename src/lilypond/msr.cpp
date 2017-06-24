@@ -15175,6 +15175,9 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   // lengthes
   clone->fMeasureFullMeasureLength =
     fMeasureFullMeasureLength;
+    
+  clone->fMeasureFullMeasureLengthAsMSRString =
+    fMeasureFullMeasureLengthAsMSRString;
 
   // don't take fMeasureLength over, it will be computed on the fly
   // while appending notes to the measure clone
@@ -15434,6 +15437,8 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     
     fMeasureFullMeasureLength =
       rational (INT_MAX, 1);
+    fMeasureFullMeasureLengthAsMSRString =
+      "rational (INT_MAX, 1)"; // JMI
   }
   
   else {
@@ -15478,8 +15483,18 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
           endl;
     }
 
+    // set full measure length
     fMeasureFullMeasureLength =
       wholeNotesPerMeasure;
+
+    // set full measure length as MSR string
+    fMeasureFullMeasureLengthAsMSRString =
+      fMeasureDirectPartUplink->
+        getPartCurrentDivisions ()->
+          wholeNotesAsMsrString (
+            fInputLineNumber,
+            fMeasureFullMeasureLength);
+      
 
     /* JMI
     int

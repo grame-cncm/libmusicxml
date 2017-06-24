@@ -3002,6 +3002,12 @@ class EXP msrMeasure : public msrElement
                                   fMeasureFullMeasureLength;
                               }
 
+    string                getMeasureFullMeasureLengthAsMSRString () const
+                              {
+                                return
+                                  fMeasureFullMeasureLengthAsMSRString;
+                              }
+
     void                  setMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
@@ -3251,6 +3257,7 @@ class EXP msrMeasure : public msrElement
     // lengthes
     
     rational              fMeasureFullMeasureLength;
+    string                fMeasureFullMeasureLengthAsMSRString;
     
     rational              fMeasureLength;
 
@@ -5729,7 +5736,7 @@ class EXP msrDivisions : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setfDivisionsPerQuarterNote (
+    void                  setDivisionsPerQuarterNote ( // JMI
                             int divisionsPerQuarterNote)
                               {
                                 fDivisionsPerQuarterNote =
