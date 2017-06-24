@@ -9990,6 +9990,16 @@ void msrBreak::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarCheck msrBarCheck::create (
+  int    inputLineNumber)
+{
+  msrBarCheck* o =
+    new msrBarCheck (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+S_msrBarCheck msrBarCheck::createWithNextBarNumber (
   int    inputLineNumber,
   string nextBarNumber)
 {
@@ -10001,20 +10011,46 @@ S_msrBarCheck msrBarCheck::create (
 }
 
 msrBarCheck::msrBarCheck (
+  int    inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  if (gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Creating a bar check without next bar number" <<
+      endl;
+  }
+}
+
+msrBarCheck::msrBarCheck (
   int    inputLineNumber,
   string nextBarNumber)
     : msrElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
 
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
-      "Creating a bar check before measure " << fNextBarNumber <<
+      "Creating a bar check with next bar number '" <<
+      fNextBarNumber <<
+      "'" <<
       endl;
+  }
 }
 
 msrBarCheck::~msrBarCheck()
 {}
+
+void msrBarCheck::setNextBarNumber (string number)
+{
+  if (gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Setting bar check next bar number to '" <<
+      number <<
+      "'" <<
+      endl;
+
+  fNextBarNumber = number;
+}
 
 string msrBarCheck::barCheckAsString () const
 {

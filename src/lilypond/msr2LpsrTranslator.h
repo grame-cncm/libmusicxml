@@ -427,6 +427,10 @@ class msr2LpsrTranslator :
                                 int          inputLineNumber,
                                 S_msrMeasure originalMeasure);
 
+    // bar checks
+    // ------------------------------------------------------
+    S_msrBarCheck             fLastBarCheck;
+
     // notes
     // ------------------------------------------------------
     bool                      fOnGoingNote;

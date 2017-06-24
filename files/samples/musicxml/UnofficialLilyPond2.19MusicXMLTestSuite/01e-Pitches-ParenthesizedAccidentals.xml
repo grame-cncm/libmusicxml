@@ -135,8 +135,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <!-- accidental>double-flat</accidental omitted in DTD???-->
-        <accidental>flat-flat</accidental>
+        <accidental>double-flat</accidental>
       </note>
       <note>
         <pitch>
@@ -147,7 +146,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <accidental editorial="yes">flat-flat</accidental>
+        <accidental editorial="yes">double-flat</accidental>
       </note>
       <note>
         <pitch>
@@ -158,7 +157,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <accidental cautionary="yes">flat-flat</accidental>
+        <accidental cautionary="yes">double-flat</accidental>
       </note>
       <note>
         <pitch>
@@ -169,7 +168,7 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <accidental editorial="yes" cautionary="yes">flat-flat</accidental>
+        <accidental editorial="yes" cautionary="yes">double-flat</accidental>
       </note>
     </measure>
     <!--=======================================================-->

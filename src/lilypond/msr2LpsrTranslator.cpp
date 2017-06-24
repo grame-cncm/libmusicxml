@@ -1139,10 +1139,24 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     appendMeasureToSegment (
       fCurrentMeasureClone);
 
+  string
+    measureNumber =
+      fCurrentMeasureClone->
+        getMeasureNumber ();
+      
 // JMI utile???
   fCurrentPartClone->
     setPartCurrentMeasureNumber (
-      fCurrentMeasureClone->getMeasureNumber ());
+      measureNumber);
+
+  // should the last bar check's measure be set?
+  if (fLastBarCheck) {
+    fLastBarCheck->
+      setNextBarNumber (
+        measureNumber);
+      
+    fLastBarCheck = 0;
+  }
 }
 
 void msr2LpsrTranslator::finalizeCurrentMeasureClone (
@@ -1251,7 +1265,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
     msrInternalError (
       inputLineNumber,
       s.str());
-  }
+  }  
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
@@ -1320,16 +1334,16 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   } // switch
 
   if (doCreateABarCheck) {
-    // create a bar check
-    S_msrBarCheck
-      barCheck =
-        msrBarCheck::create (
-          inputLineNumber,
-          fMeasuresCounter + "1"); // JMI update that afterwards?
+    // create a bar check without next bar number,
+    // it will be set upon visitStart (S_msrMeasure&)
+    // for the next measure
+    fLastBarCheck =
+      msrBarCheck::create (
+        inputLineNumber);
               
     // append it to the current voice clone
     fCurrentVoiceClone->
-      appendBarCheckToVoice (barCheck);
+      appendBarCheckToVoice (fLastBarCheck);
   }
 }
 

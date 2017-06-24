@@ -5964,6 +5964,9 @@ class EXP msrBarCheck : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarCheck> create (
+      int    inputLineNumber);
+
+    static SMARTP<msrBarCheck> createWithNextBarNumber (
       int    inputLineNumber,
       string nextBarNumber);
 
@@ -5972,6 +5975,9 @@ class EXP msrBarCheck : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
+    msrBarCheck (
+      int    inputLineNumber);
+      
     msrBarCheck (
       int    inputLineNumber,
       string nextBarNumber);
@@ -5983,6 +5989,8 @@ class EXP msrBarCheck : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setNextBarNumber ( string number);
+                              
     string                getNextBarNumber () const
                               { return fNextBarNumber; }
 
