@@ -15122,6 +15122,16 @@ void msrMeasure::initializeMeasure ()
 
   fMeasureKind = kUnknownMeasureKind;
 
+  // get part current time
+  S_msrTime
+    partCurrentTime =
+      fMeasureDirectPartUplink->
+        getPartCurrentTime ();
+        
+  // set the measure length in whole notes per full measure
+  setMeasureFullMeasureLengthFromTime (
+    partCurrentTime);
+
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,
@@ -15624,7 +15634,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
   // determine if the note occupies a full measure
   if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
-    note->setNoteOccupiesAFullMeasure ();
+    note->
+      setNoteOccupiesAFullMeasure ();
 
   // append the note to the measure elements list
 // JMI  // only now to make it possible to remove it afterwards
@@ -15772,7 +15783,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   
     // determine if the note occupies a full measure
     if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
-      note->setNoteOccupiesAFullMeasure ();
+      note->
+        setNoteOccupiesAFullMeasure ();
   
     // append the note to the measure elements list
   // JMI  // only now to make it possible to remove it afterwards
@@ -16927,7 +16939,8 @@ void msrMeasure::finalizeMeasure (
   
       // does the skip occupy a full measure?
       if (skipDuration == fMeasureFullMeasureLength)
-        skip->setNoteOccupiesAFullMeasure ();
+        skip->
+          setNoteOccupiesAFullMeasure ();
     
       // register skip's position in measure
       skip->
@@ -17375,6 +17388,7 @@ void msrSegment::initializeSegment ()
       endl;
   }
 
+  // segment's measure number has not been set yet
   fMeasureNumberHasBeenSetInSegment = false;
 }
 
