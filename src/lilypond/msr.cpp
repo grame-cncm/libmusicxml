@@ -17492,11 +17492,16 @@ void msrSegment::createMeasureAndAppendItToSegment (
     partCurrentTime =
       fSegmentDirectPartUplink->
         getPartCurrentTime ();
-        
+
+  // the measure can be created upon appendKeyTo...,
+  // when the part time has not yet been set,
+  // in which case the time will be set later
+  if (partCurrentTime) {
   // set the measure length in whole notes per full measure
-  newMeasure->
-    setMeasureFullMeasureLengthFromTime (
-      partCurrentTime);
+    newMeasure->
+      setMeasureFullMeasureLengthFromTime (
+        partCurrentTime);
+  }
 
   // set 'first in segment' kind
   newMeasure->
