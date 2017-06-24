@@ -15122,16 +15122,6 @@ void msrMeasure::initializeMeasure ()
 
   fMeasureKind = kUnknownMeasureKind;
 
-  // get part current time
-  S_msrTime
-    partCurrentTime =
-      fMeasureDirectPartUplink->
-        getPartCurrentTime ();
-        
-  // set the measure length in whole notes per full measure
-  setMeasureFullMeasureLengthFromTime (
-    partCurrentTime);
-
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,
@@ -17483,7 +17473,18 @@ void msrSegment::createMeasureAndAppendItToSegment (
         measureNumber,
         this);
 
-  // set
+  // get part current time
+  S_msrTime
+    partCurrentTime =
+      fSegmentDirectPartUplink->
+        getPartCurrentTime ();
+        
+  // set the measure length in whole notes per full measure
+  newMeasure->
+    setMeasureFullMeasureLengthFromTime (
+      partCurrentTime);
+
+  // set 'first in segment' kind
   newMeasure->
     setMeasureFirstInSegmentKind (
       measureFirstInSegmentKind);
