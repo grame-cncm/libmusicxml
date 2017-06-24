@@ -6628,6 +6628,40 @@ string msrNote::noteKindAsString (
   return result;
 }
 
+string msrNote::noteEditorialAccidentalKindAsString (
+  msrNoteEditorialAccidentalKind noteEditorialAccidentalKind)
+{
+  string result;
+  
+  switch (noteEditorialAccidentalKind) {
+    case msrNote::kNoteEditorialAccidentalYes:
+      result = "editorial accidental: yes";
+      break;
+    case msrNote::kNoteEditorialAccidentalNo:
+      result = "editorial accidental: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::noteCautionaryAccidentalKindAsString (
+  msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind)
+{
+  string result;
+  
+  switch (noteCautionaryAccidentalKind) {
+    case msrNote::kNoteCautionaryAccidentalYes:
+      result = "cautionary accidental: yes";
+      break;
+    case msrNote::kNoteCautionaryAccidentalNo:
+      result = "cautionary accidental: no";
+      break;
+  } // switch
+
+  return result;
+}
+
 msrDiatonicPitch msrNote::noteDiatonicPitch (
   int inputLineNumber) const
 {
@@ -14654,10 +14688,10 @@ string msrPedal::pedalLineAsString ()
   string result;
   
   switch (fPedalLine) {
-    case kPedalLineYes:
+    case msrPedal::kPedalLineYes:
       result = "pedal line: yes";
       break;
-    case kPedalLineNo:
+    case msrPedal::kPedalLineNo:
       result = "pedal line: no";
       break;
   } // switch

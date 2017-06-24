@@ -4167,6 +4167,18 @@ class EXP msrNote : public msrElement
     static string noteKindAsString (
       msrNoteKind noteKind);
       
+    enum msrNoteEditorialAccidentalKind {
+      kNoteEditorialAccidentalYes, kNoteEditorialAccidentalNo };
+
+    static string noteEditorialAccidentalKindAsString (
+      msrNoteEditorialAccidentalKind noteEditorialAccidentalKind);
+      
+    enum msrNoteCautionaryAccidentalKind {
+      kNoteCautionaryAccidentalYes, kNoteCautionaryAccidentalNo };
+
+    static string noteCautionaryAccidentalKindAsString (
+      msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -4272,6 +4284,32 @@ class EXP msrNote : public msrElement
 
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
+
+    // accidentals
+
+    void                  setNoteEditorialAccidentalKind (
+                            msrNoteEditorialAccidentalKind
+                              noteEditorialAccidentalKind) {
+                              {
+                                fNoteEditorialAccidentalKind =
+                                  noteEditorialAccidentalKind;
+                              }
+                              
+    msrNoteEditorialAccidentalKind
+                          getNoteEditorialAccidentalKind ()
+                              { return fNoteEditorialAccidentalKind; }
+
+    void                  setNoteCautionaryAccidentalKind (
+                            msrNoteCautionaryAccidentalKind
+                              noteCautionaryAccidentalKind) {
+                              {
+                                fNoteCautionaryAccidentalKind =
+                                  noteCautionaryAccidentalKind;
+                              }
+                              
+    msrNoteCautionaryAccidentalKind
+                          getNoteCautionaryAccidentalKind ()
+                              { return fNoteCautionaryAccidentalKind; }
 
     // note divisions per quarter note
     int                   getNoteDivisionsPerQuarterNote () const
@@ -4693,6 +4731,10 @@ class EXP msrNote : public msrElement
     
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???
 
+    msrNoteEditorialAccidentalKind
+                          fNoteEditorialAccidentalKind;     
+    msrNoteCautionaryAccidentalKind
+                          fNoteCautionaryAccidentalKind;
 
     // staff and voice context
     // ------------------------------------------------------
