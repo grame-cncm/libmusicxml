@@ -6514,6 +6514,15 @@ S_msrNote msrNote::createNoteShallowClone (
 
   clone->fNoteOctaveShift =
     fNoteOctaveShift;
+
+  // accidentals
+  // ------------------------------------------------------
+
+  clone->fNoteEditorialAccidentalKind =
+    fNoteEditorialAccidentalKind;
+  
+  clone->fNoteCautionaryAccidentalKind =
+    fNoteCautionaryAccidentalKind;
   
   // note context
   // ------------------------------------------------------
