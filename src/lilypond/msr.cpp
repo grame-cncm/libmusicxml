@@ -15182,6 +15182,9 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   // don't take fMeasureLength over, it will be computed on the fly
   // while appending notes to the measure clone
 
+  clone->fMeasureLengthAsMSRString =
+    fMeasureLengthAsMSRString;
+
   // kind
   clone->fMeasureKind =
     fMeasureKind;
@@ -17051,6 +17054,14 @@ void msrMeasure::finalizeMeasure (
   else {
     // leave measure as it it
   }
+
+  // set measure length as MSR string
+  fMeasureLengthAsMSRString =
+    fMeasureDirectPartUplink->
+      getPartCurrentDivisions ()->
+        wholeNotesAsMsrString (
+          fInputLineNumber,
+          fMeasureLength);
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -17253,7 +17264,10 @@ void msrMeasure::print (ostream& os)
         fMeasureFirstInSegmentKind) << 
       ", line " << fInputLineNumber <<
       ", length: " << getMeasureLength () << " whole notes" <<
-      ", measureFullMeasureLengthAsMSRString: " << fMeasureFullMeasureLengthAsMSRString <<
+      ", measureLengthAsMSRString: " <<
+      fMeasureLengthAsMSRString <<
+      ", measureFullMeasureLengthAsMSRString: " <<
+      fMeasureFullMeasureLengthAsMSRString <<
       ", " << fMeasureFullMeasureLength << " per full measure" <<
       ", " <<
       singularOrPlural (

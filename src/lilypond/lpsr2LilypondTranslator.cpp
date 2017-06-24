@@ -2810,11 +2810,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         string
           upbeatDuration =
+            lilypondizeDurationString (
+            elt->getMeasureLengthAsMSRString ());
+
+/* JMI
             wholeNotesAsLilypondString (
               inputLineNumber,
               elt->getMeasureDirectPartUplink (),
               measureLength);
-/* JMI
         string
           partialDuration =
             lilypondizeDurationString (

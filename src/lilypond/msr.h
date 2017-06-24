@@ -3015,6 +3015,12 @@ class EXP msrMeasure : public msrElement
     rational              getMeasureLength () const
                               { return fMeasureLength; }
                       
+    string                getMeasureLengthAsMSRString () const
+                              {
+                                return
+                                  fMeasureLengthAsMSRString;
+                              }
+
     // measure kind
     
     void                  setMeasureKind (msrMeasureKind measureKind)
@@ -3260,6 +3266,7 @@ class EXP msrMeasure : public msrElement
     string                fMeasureFullMeasureLengthAsMSRString;
     
     rational              fMeasureLength;
+    string                fMeasureLengthAsMSRString;
 
     // measure number
     
