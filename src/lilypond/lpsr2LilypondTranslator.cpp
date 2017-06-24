@@ -488,6 +488,26 @@ string lpsr2LilypondTranslator::noteAsLilypondString (
       lilypondRelativeOctave (note);
   }
 
+  // should an editorial accidental be generated?
+  switch (note->getNoteEditorialAccidentalKind) {
+    case msrNote::kNoteEditorialAccidentalYes:
+      s <<
+        "%{ editorial accidental? %}";
+      break;
+    case msrNote::kNoteEditorialAccidentalNo:
+      break;
+  } // switch
+  
+  // should a cautionary accidental be generated?
+  switch (note->getNoteCautionaryAccidentalKind) {
+    case msrNote::kNoteCautionaryAccidentalYes:
+      s <<
+        "?";
+      break;
+    case msrNote::kNoteCautionaryAccidentalNo:
+      break;
+  } // switch
+
   return s.str();
 }
 

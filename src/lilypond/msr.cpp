@@ -6164,6 +6164,15 @@ void msrNote::initializeNote ()
     fNoteOctave = fNoteDisplayOctave;
   }
 
+  // note accidentals
+  // ------------------------------------------------------
+
+  fNoteEditorialAccidentalKind =
+    msrNote::kNoteEditorialAccidentalNo; // default value
+  
+  fNoteCautionaryAccidentalKind =
+    msrNote::kNoteCautionaryAccidentalNo; // default value
+  
   // note context
   // ------------------------------------------------------
 
@@ -6274,7 +6283,18 @@ void msrNote::initializeNote ()
         endl <<
 
         // fNoteOctaveShift JMI ???
-        
+
+      // accidentals
+      idtr << left <<
+        setw(fieldWidth) <<
+        "fNoteEditorialAccidentalKind" << " = " <<
+        fNoteEditorialAccidentalKind <<
+        endl <<
+      idtr << left <<
+        setw(fieldWidth) <<
+        "fNoteCautionaryAccidentalKind" << " = " <<
+        fNoteCautionaryAccidentalKind <<
+        endl <<
             
       idtr << left <<
         setw(fieldWidth) <<
@@ -7711,7 +7731,17 @@ void msrNote::print (ostream& os)
         */
         break;
       } // switch
-  
+
+    // accidentals
+    os <<
+      ", " <<
+      noteEditorialAccidentalKindAsString (
+        fNoteEditorialAccidentalKind) <<
+      ", " <<
+      noteCautionaryAccidentalKindAsString (
+        fNoteCautionaryAccidentalKind);
+
+    // full measure length
     if (measureFullMeasureLength > 0)
       os <<
         ", " <<

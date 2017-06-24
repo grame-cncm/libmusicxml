@@ -4162,7 +4162,7 @@ class EXP msrNote : public msrElement
       kDoubleTremoloMemberNote,
       kGraceNote,
       kChordMemberNote,
-      kTupletMemberNote};
+      kTupletMemberNote };
       
     static string noteKindAsString (
       msrNoteKind noteKind);
@@ -4209,7 +4209,8 @@ class EXP msrNote : public msrElement
     
       bool                 noteIsAGraceNote);
     
-    SMARTP<msrNote> createNoteShallowClone (S_msrPart partClone);
+    SMARTP<msrNote> createNoteShallowClone (
+      S_msrPart partClone);
     
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -4289,7 +4290,7 @@ class EXP msrNote : public msrElement
 
     void                  setNoteEditorialAccidentalKind (
                             msrNoteEditorialAccidentalKind
-                              noteEditorialAccidentalKind) {
+                              noteEditorialAccidentalKind)
                               {
                                 fNoteEditorialAccidentalKind =
                                   noteEditorialAccidentalKind;
@@ -4301,7 +4302,7 @@ class EXP msrNote : public msrElement
 
     void                  setNoteCautionaryAccidentalKind (
                             msrNoteCautionaryAccidentalKind
-                              noteCautionaryAccidentalKind) {
+                              noteCautionaryAccidentalKind)
                               {
                                 fNoteCautionaryAccidentalKind =
                                   noteCautionaryAccidentalKind;
