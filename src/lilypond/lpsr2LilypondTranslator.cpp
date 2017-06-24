@@ -235,8 +235,10 @@ string lpsr2LilypondTranslator::lilypondizeDurationString (
 
   string result = msrDurationString;
 
-  fOstream <<
-    "%{ lilypondizeDurationString: " << result << " %}";
+/* JMI
+    fOstream <<
+      "%{ lilypondizeDurationString: " << result << " %}";
+*/
 
   if (result.size ()) { // JMI
     if (! isdigit (result [0])) {
@@ -257,13 +259,10 @@ string lpsr2LilypondTranslator::wholeNotesAsLilypondString (
 
   result = wholeNotes.toString ();
 
-/*
-  if (
-    )
-
+/* JMI
   fOstream <<
     "%{ wholeNotesAsLilypondString: " << result << " %}";
-  */
+*/
   
   return lilypondizeDurationString (result);
 }
@@ -2940,19 +2939,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kEmptyMeasureKind:
       {
-        rational
-          measureFullMeasureLength =
-            elt->getMeasureFullMeasureLength ();
-
         // generate a rest the duration of the measure
         // followed by a bar check
-        fOstream <<
+        fOstream << idtr <<
           "R" <<
-            wholeNotesAsLilypondString (
-              inputLineNumber,
-              elt->getMeasureDirectPartUplink (),
-              measureFullMeasureLength) <<
-          " | ";
+          elt->getMeasureFullMeasureLengthAsMSRString () <<
+          " | " <<
+          endl;
       }
       break;
   } // switch
