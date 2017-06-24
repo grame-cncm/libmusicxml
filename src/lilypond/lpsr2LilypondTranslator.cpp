@@ -2888,6 +2888,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           fOstream << idtr <<
             "\\set Score.measureLength = #(ly:make-moment " <<
             ratioToFullLength.toString () <<
+            ")" <<
             endl;
     
           // should we generate a break?
@@ -5929,13 +5930,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     
   fOstream <<
     "| % " << nextBarNumber << " % bar check" <<
- // JMI   ", saveIndent = " << saveIndent <<
+    ", saveIndent = " << saveIndent <<
     endl;
 
   if (saveIndent > 0) {
-    idtr.resetToZero ();
+//    idtr.resetToZero ();
     
-    for (int i = 0; i < saveIndent; i++) {
+    for (int i = 0; i < saveIndent - 1 /* JMI */; i++) {
       fOstream <<
         idtr;
     } // for
