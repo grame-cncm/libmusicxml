@@ -3587,9 +3587,8 @@ editorialAccidental =
   (ly:music?)
   #{
     \once\accidentalStyle forget
-    \set suggestAccidentals = ##t
+    \once\set suggestAccidentals = ##t
     #note
-    \set suggestAccidentals = ##f
   #})
 )";
 
