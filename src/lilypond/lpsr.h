@@ -2250,10 +2250,18 @@ class EXP lpsrScore : public lpsrElement
                               }
 
     // Scheme functions
-    void                  setTongueSchemeFunctionNeeded ();
+    void                  setTongueSchemeFunctionIsNeeded ();
                         
-    bool                  getTongueSchemeFunctionNeeded () const
-                              { return fTongueSchemeFunctionNeeded; }
+    bool                  getTongueSchemeFunctionIsNeeded () const
+                              { return fTongueSchemeFunctionIsNeeded; }
+    
+    void                  setEditorialAccidentalSchemeFunctionIsNeeded ();
+                        
+    bool                  getEditorialAccidentalSchemeFunctionIsNeeded () const
+                              {
+                                return
+                                  fEditorialAccidentalSchemeFunctionIsNeeded;
+                              }
     
     // services
     // ------------------------------------------------------
@@ -2289,6 +2297,8 @@ class EXP lpsrScore : public lpsrElement
     void                  addDateAndTimeSchemeFunctionsToScore ();
 
     void                  addTongueSchemeFunctionToScore ();
+    
+    void                  addEditorialAccidentalSchemeFunctionToScore ();
 
     // visitors
     // ------------------------------------------------------
@@ -2336,7 +2346,8 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrScoreBlock          fScoreBlock;
 
     // Scheme functions
-    bool                      fTongueSchemeFunctionNeeded;
+    bool                      fTongueSchemeFunctionIsNeeded;
+    bool                      fEditorialAccidentalSchemeFunctionIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                               fScoreSchemeFunctionsMap;

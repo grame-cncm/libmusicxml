@@ -1618,7 +1618,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
       break;
     case msrTechnical::kDoubleTongue:
       fLpsrScore->
-        setTongueSchemeFunctionNeeded ();
+        setTongueSchemeFunctionIsNeeded ();
       break;
     case msrTechnical::kDownBow:
       break;
@@ -1644,7 +1644,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
       break;
     case msrTechnical::kTripleTongue:
       fLpsrScore->
-        setTongueSchemeFunctionNeeded ();
+        setTongueSchemeFunctionIsNeeded ();
       break;
     case msrTechnical::kUpBow:
       break;
@@ -2351,6 +2351,24 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kTupletMemberNote:
       fTupletClonesStack.top ()->
         addNoteToTuplet (fCurrentNoteClone);
+      break;
+  } // switch
+
+  // handle editorial accidentals
+  switch (fCurrentNoteClone->getNoteEditorialAccidentalKind ()) {
+    case msrNote::kNoteEditorialAccidentalYes:
+      fLpsrScore->
+        setEditorialAccidentalSchemeFunctionIsNeeded ();
+      break;
+    case msrNote::kNoteEditorialAccidentalNo:
+      break;
+  } // switch
+  
+  // handle cautionary accidentals
+  switch (fCurrentNoteClone->getNoteCautionaryAccidentalKind ()) {
+    case msrNote::kNoteCautionaryAccidentalYes:
+      break;
+    case msrNote::kNoteCautionaryAccidentalNo:
       break;
   } // switch
 

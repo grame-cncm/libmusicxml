@@ -3280,7 +3280,8 @@ lpsrScore::lpsrScore (
       lpsrSchemeVarValAssoc::kWithEndlTwice);
 
   // initialize Scheme functions informations
-  fTongueSchemeFunctionNeeded = false;
+  fTongueSchemeFunctionIsNeeded              = false;
+  fEditorialAccidentalSchemeFunctionIsNeeded = false;
 
   if (gLilypondOptions->fLilypondCompileDate) {
     // create the date and time functions
@@ -3452,12 +3453,21 @@ R"(\markup {
 lpsrScore::~lpsrScore()
 {}
 
-void lpsrScore::setTongueSchemeFunctionNeeded ()
+void lpsrScore::setTongueSchemeFunctionIsNeeded ()
 {
-  if (! fTongueSchemeFunctionNeeded) {
+  if (! fTongueSchemeFunctionIsNeeded) {
     addTongueSchemeFunctionToScore ();
     
-    fTongueSchemeFunctionNeeded = true;    
+    fTongueSchemeFunctionIsNeeded = true;    
+  }
+}
+
+void lpsrScore::setEditorialAccidentalSchemeFunctionIsNeeded ()
+{
+  if (! fTongueSchemeFunctionIsNeeded) {
+    addEditorialAccidentalSchemeFunctionToScore ();
+    
+    fTongueSchemeFunctionIsNeeded = true;    
   }
 }
 
@@ -3535,6 +3545,52 @@ tongue =
                        (ly:stencil-aligned-to new-stil X CENTER)))))
              (ly:music-property script 'tweaks)))
      script))
+)";
+
+  if (true || gGeneralOptions->fTraceGeneral) { // JMI
+    cerr << idtr <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    tongueSchemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    tongueSchemeFunction;
+}
+
+void lpsrScore::addEditorialAccidentalSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "editorialAccidental",
+      
+    schemeFunctionDescription =
+R"(
+% Creates multiple tongue technicals, argument is a number.
+% Example: 'c4 -\tongue #3' creates a triple tongue.
+)",
+
+    schemeFunctionCode =
+R"(
+editorialAccidental =
+#(define-music-function
+  (note)
+  (ly:music?)
+  #{
+    \once\accidentalStyle forget
+    \set suggestAccidentals = ##t
+    #note
+    \set suggestAccidentals = ##f
+  #})
 )";
 
   if (true || gGeneralOptions->fTraceGeneral) { // JMI
@@ -3760,10 +3816,18 @@ void lpsrScore::print (ostream& os)
   
   os <<
     idtr << left <<
-      setw(fieldWidth) << "TongueSchemeFunctionNeeded" << " : " <<
-      booleanAsString (fTongueSchemeFunctionNeeded) <<
+      setw(fieldWidth) <<
+      "TongueSchemeFunctionIsNeeded" << " : " <<
+      booleanAsString (
+        fTongueSchemeFunctionIsNeeded) <<
       endl <<
-      endl;
+    idtr << left <<
+      setw(fieldWidth) <<
+      "editorialAccidentalSchemeFunctionIsNeeded" << " : " <<
+      booleanAsString (
+        fEditorialAccidentalSchemeFunctionIsNeeded) <<
+      endl <<
+    endl;
 
   // print LPSR basic information
   os <<
