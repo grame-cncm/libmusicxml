@@ -3575,8 +3575,8 @@ void lpsrScore::addEditorialAccidentalSchemeFunctionToScore ()
       
     schemeFunctionDescription =
 R"(
-% Creates multiple tongue technicals, argument is a number.
-% Example: 'c4 -\tongue #3' creates a triple tongue.
+% Craetes editorial accidentals as LilyPond musica ficta.
+% Example: '\editorialAccidental cis4'.
 )",
 
     schemeFunctionCode =
