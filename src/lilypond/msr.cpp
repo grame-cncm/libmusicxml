@@ -4254,7 +4254,7 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
 * */
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
@@ -4262,8 +4262,8 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrDoubleTremolo
     clone =
@@ -4272,7 +4272,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloShallowClone (
         fDoubleTremoloKind,
         fDoubleTremoloMarksNumber,
         fDoubleTremoloPlacementKind,
-        voiceClone);
+        containingVoice);
 
   clone->fDoubleTremoloSoundingWholeNotes =
     fDoubleTremoloSoundingWholeNotes;
@@ -5576,7 +5576,7 @@ msrGraceNotes::~msrGraceNotes()
 {}
 
 S_msrGraceNotes msrGraceNotes::createGraceNotesShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
@@ -5586,16 +5586,17 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesShallowClone (
   }
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrGraceNotes
     clone =
       msrGraceNotes::create (
         fInputLineNumber,
-        voiceClone->getVoiceDirectPartUplink (),
+        containingVoice->
+          getVoiceDirectPartUplink (),
         fGraceNotesIsSlashed,
-        voiceClone);
+        containingVoice);
 
   clone->fGraceNotesIsSlashed =
     fGraceNotesIsSlashed;
@@ -5604,7 +5605,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesShallowClone (
 }
 
 S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
@@ -5617,9 +5618,10 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
     clone =
       msrGraceNotes::create (
         fInputLineNumber,
-        voiceClone->getVoiceDirectPartUplink (),
+        containingVoice->
+          getVoiceDirectPartUplink (),
         fGraceNotesIsSlashed,
-        voiceClone);
+        containingVoice);
 
   clone->fGraceNotesIsSlashed =
     fGraceNotesIsSlashed;
@@ -5635,13 +5637,13 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
     S_msrNote
       skip =
         msrNote::createSkipNote (
-          note->       getInputLineNumber (),
-          voiceClone-> getVoiceDirectPartUplink (),
-          note->       getNoteDivisionsPerQuarterNote (),
-          note->       getNoteSoundingWholeNotes (),
-          note->       getNoteDotsNumber (),
-          voiceClone-> getStaffRelativeVoiceNumber (), // JMI
-          voiceClone-> getExternalVoiceNumber ());
+          note->            getInputLineNumber (),
+          containingVoice-> getVoiceDirectPartUplink (),
+          note->            getNoteDivisionsPerQuarterNote (),
+          note->            getNoteSoundingWholeNotes (),
+          note->            getNoteDotsNumber (),
+          containingVoice-> getStaffRelativeVoiceNumber (), // JMI
+          containingVoice-> getExternalVoiceNumber ());
 
      clone->
       appendNoteToGraceNotes (skip);
@@ -5812,7 +5814,7 @@ msrAfterGraceNotes::~msrAfterGraceNotes()
 
 S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesShallowClone (
   S_msrNote  noteClone,
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
@@ -5825,8 +5827,8 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesShallowClone (
     "noteClone is null");
     
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   /* JMI ???
   // set after grace note's direct part uplink
@@ -5838,10 +5840,11 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesShallowClone (
     clone =
       msrAfterGraceNotes::create (
         fInputLineNumber,
-        voiceClone->getVoiceDirectPartUplink (),
+        containingVoice->
+          getVoiceDirectPartUplink (),
         noteClone,
         fAfterGraceNotesIsSlashed,
-        voiceClone);
+        containingVoice);
   
   clone->fAfterGraceNotesIsSlashed =
     fAfterGraceNotesIsSlashed;
@@ -13667,36 +13670,37 @@ msrStanza::~msrStanza()
 {}
 
 S_msrStanza msrStanza::createStanzaShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Creating a shallow clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
-      voiceClone->getVoiceName () <<
+      containingVoice->getVoiceName () <<
       "\"" <<
       endl;
   }
 
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrStanza
     clone =
       msrStanza::create (
         fInputLineNumber,
-        voiceClone->getVoiceDirectPartUplink (),
+        containingVoice->
+          getVoiceDirectPartUplink (),
         fStanzaNumber,
         fStanzaKind,
-        voiceClone);
+        containingVoice);
 
   clone->fStanzaTextPresent =
     fStanzaTextPresent;
 
   // add the stanza clone to the voice clone
-  voiceClone->
+  containingVoice->
     addStanzaToVoiceWithoutCatchUp (clone);
     
   return clone;
@@ -17548,7 +17552,7 @@ void msrSegment::initializeSegment ()
 }
 
 S_msrSegment msrSegment::createSegmentShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
@@ -17558,15 +17562,41 @@ S_msrSegment msrSegment::createSegmentShallowClone (
   }
 
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrSegment
     clone =
       msrSegment::create (
         fInputLineNumber,
-        voiceClone->getVoiceDirectPartUplink (),
-        voiceClone);
+        containingVoice->
+          getVoiceDirectPartUplink (),
+        containingVoice);
+  
+  return clone;
+}
+
+S_msrSegment msrSegment::createSegmentDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceSegments) {
+    cerr << idtr <<
+      "Creating a shallow clone of segment " <<
+      segmentAsString () <<
+      endl;
+  }
+
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+    
+  S_msrSegment
+    clone =
+      msrSegment::create (
+        fInputLineNumber,
+        containingVoice->
+          getVoiceDirectPartUplink (),
+        containingVoice);
   
   return clone;
 }
@@ -18718,7 +18748,8 @@ msrRepeat::msrRepeat (
 msrRepeat::~msrRepeat()
 {}
 
-S_msrRepeat msrRepeat::createRepeatShallowClone (S_msrVoice voiceClone)
+S_msrRepeat msrRepeat::createRepeatShallowClone (
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -18726,14 +18757,35 @@ S_msrRepeat msrRepeat::createRepeatShallowClone (S_msrVoice voiceClone)
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrRepeat
     clone =
       msrRepeat::create (
         fInputLineNumber,
-        voiceClone);
+        containingVoice);
+  
+  return clone;
+}
+
+S_msrRepeat msrRepeat::createRepeatDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a deep copy of a repeat" <<
+      endl;
+  
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+    
+  S_msrRepeat
+    clone =
+      msrRepeat::create (
+        fInputLineNumber,
+        containingVoice);
   
   return clone;
 }
@@ -18922,7 +18974,7 @@ msrMeasureRepeatPattern::~msrMeasureRepeatPattern()
 {}
 
 S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -18930,14 +18982,14 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternSha
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrMeasureRepeatPattern
     clone =
       msrMeasureRepeatPattern::create (
         fInputLineNumber,
-        voiceClone);
+        containingVoice);
 
   return clone;
 }
@@ -19113,7 +19165,7 @@ msrMeasureRepeatReplicas::~msrMeasureRepeatReplicas()
 {}
 
 S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -19121,14 +19173,14 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrMeasureRepeatReplicas
     clone =
       msrMeasureRepeatReplicas::create (
         fInputLineNumber,
-        voiceClone);
+        containingVoice);
 
   return clone;
 }
@@ -19311,7 +19363,7 @@ msrMeasureRepeat::~msrMeasureRepeat()
 {}
 
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatShallowClone (
-  S_msrVoice   voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -19319,8 +19371,8 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatShallowClone (
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrMeasureRepeat
     clone =
@@ -19328,7 +19380,30 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatShallowClone (
         fInputLineNumber,
         fMeasureRepeatMeasuresNumber,
         fMeasureRepeatSlashesNumber,
-        voiceClone);
+        containingVoice);
+
+  return clone;
+}
+
+S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a shallow clone of a measure repeat" <<
+      endl;
+  
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+    
+  S_msrMeasureRepeat
+    clone =
+      msrMeasureRepeat::create (
+        fInputLineNumber,
+        fMeasureRepeatMeasuresNumber,
+        fMeasureRepeatSlashesNumber,
+        containingVoice);
 
   return clone;
 }
@@ -19569,7 +19644,7 @@ msrMultipleRestContents::~msrMultipleRestContents()
 {}
 
 S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -19577,14 +19652,14 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsSha
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrMultipleRestContents
     clone =
       msrMultipleRestContents::create (
         fInputLineNumber,
-        voiceClone);
+        containingVoice);
 
   return clone;
 }
@@ -19765,7 +19840,7 @@ msrMultipleRest::~msrMultipleRest()
 {}
 
 S_msrMultipleRest msrMultipleRest::createMultipleRestShallowClone (
-  S_msrVoice voiceClone)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -19774,15 +19849,15 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestShallowClone (
       endl;
   
   msrAssert(
-    voiceClone != 0,
-    "voiceClone is null");
+    containingVoice != 0,
+    "containingVoice is null");
     
   S_msrMultipleRest
     clone =
       msrMultipleRest::create (
         fInputLineNumber,
         fMultipleRestMeasuresNumber,
-        voiceClone);
+        containingVoice);
 
   return clone;
 }
@@ -20203,7 +20278,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     "containingStaff is null");
     
   S_msrVoice
-    copy =
+    voiceCopy =
       msrVoice::create (
         fInputLineNumber,
         containingStaff->
@@ -20213,85 +20288,86 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         containingStaff);
 
   // voice numbers
-  copy->fVoiceAbsoluteNumber =
+  voiceCopy->fVoiceAbsoluteNumber =
     fVoiceAbsoluteNumber;
 
-  copy->fStaffRelativeVoiceNumber =
+  voiceCopy->fStaffRelativeVoiceNumber =
     fStaffRelativeVoiceNumber;
 
   // voice name
-  copy->fVoiceName =
+  voiceCopy->fVoiceName =
     fVoiceName;
 
   // counters
-  copy->fVoiceActualNotesCounter =
+  voiceCopy->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
 
-  copy->fVoiceActualHarmoniesCounter =
+  voiceCopy->fVoiceActualHarmoniesCounter =
     fVoiceActualHarmoniesCounter;
 
   // measures
-  copy->fVoiceMeasureNumber =
+  voiceCopy->fVoiceMeasureNumber =
     fVoiceMeasureNumber;
 
   // musically empty voices
-  copy->fMusicHasBeenInsertedInVoice =
+  voiceCopy->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
 
   // initial repeats and segments
-    list<S_msrElement>::const_iterator
-      iBegin = copy->fVoiceInitialRepeatsAndSegments.begin(),
-      iEnd   = copy->fVoiceInitialRepeatsAndSegments.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      // create the element deep copy
-      S_msrElement
-        elementDeepCopy;
-        
-      // create the element copy
-      if (
-        S_msrNote repeat = dynamic_cast<msrRepeat*>(&(**i))
-        ) {    
-        elementDeepCopy =
-          repeat->createRepeatDeepClone (
-            );
-      }
+  list<S_msrElement>::const_iterator
+    iBegin = fVoiceInitialRepeatsAndSegments.begin(),
+    iEnd   = fVoiceInitialRepeatsAndSegments.end(),
+    i      = iBegin;
     
-      else if (
-        S_msrChord segment = dynamic_cast<msrSegment*>(&(**i))
-        ) {
-        elementDeepCopy =
-          repeat->createSegmentDeepClone (
-            );
-      }
+  for ( ; ; ) {
+    // create the element deep copy
+    S_msrElement
+      elementDeepCopy;
       
-      else {
-        msrInternalError (
-          fInputLineNumber,
-          "voice initial repeats and segments element should be a repeat or a segment");
-      }
+    // create the element copy
+    if (
+      S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(**i))
+      ) {    
+      elementDeepCopy =
+        repeat->createRepeatDeepCopy (
+          voiceCopy);
+    }
   
-      // append the element deep copy to to this voice
+    else if (
+      S_msrSegment segment = dynamic_cast<msrSegment*>(&(**i))
+      ) {
+      elementDeepCopy =
+        segment->createSegmentDeepCopy (
+          voiceCopy);
+    }
+    
+    else {
+      msrInternalError (
+        fInputLineNumber,
+        "voice initial repeats and segments element should be a repeat or a segment");
+    }
+
+    // append the element deep copy to to this voice
+    voiceCopy->
       fVoiceInitialRepeatsAndSegments.push_back (
         elementDeepCopy);
-        
-      if (++i == iEnd) break;
-    } // for
+      
+    if (++i == iEnd) break;
+  } // for
 
   // first segment
 
   // repeats
   
   // multple rests
-  copy->fVoiceContainsMultipleRests =
+  voiceCopy->fVoiceContainsMultipleRests =
     fVoiceContainsMultipleRests;
 
   // stanzas
 
   // uplinks
   
-  return copy;
+  return voiceCopy;
 }
 
 void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
