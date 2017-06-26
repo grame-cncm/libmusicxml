@@ -9523,16 +9523,15 @@ string msrDivisions::wholeNotesAsMsrString (
   const int fieldWidth = 22;
   
   if (gGeneralOptions->fTraceDivisions) {
-    cerr <<
+    cerr << left <<
       endl <<
       idtr <<
         "--> wholeNotesAsMsrString ():" <<
-        endl <<
+      endl <<
       idtr <<
         tab << setw(fieldWidth) <<
         "inputLineNumber" << " = " << inputLineNumber <<
         endl <<
-      idtr <<
       idtr <<
         tab << setw(fieldWidth) <<
         "wholeNotes" << " = " << wholeNotes <<
@@ -9549,7 +9548,7 @@ string msrDivisions::wholeNotesAsMsrString (
     wholeNotes.getDenominator ();      
   
   if (gGeneralOptions->fTraceDivisions) {
-    cerr <<
+    cerr << left <<
       idtr <<
         tab << "divisions" << " = " << divisions <<
         endl;
@@ -9589,23 +9588,23 @@ string msrDivisions::wholeNotesAsMsrString (
         msrDurationAsString (baseDuration);
       
       if (gGeneralOptions->fTraceDivisions) {
-        cerr <<
+        cerr << left <<
           idtr <<
             tab << setw(fieldWidth) <<
-          "divisions" << " = " << divisions <<
-          endl <<
+            "divisions" << " = " << divisions <<
+            endl <<
           idtr <<
             tab << setw(fieldWidth) <<
-          "baseDuration" << " = " << msrDurationAsString (baseDuration) <<
-          endl <<
+            "baseDuration" << " = " << msrDurationAsString (baseDuration) <<
+            endl <<
           idtr <<
             tab << setw(fieldWidth) <<
-          "baseDurationDivisions" << " = " << baseDurationDivisions <<
-          endl <<
+            "baseDurationDivisions" << " = " << baseDurationDivisions <<
+            endl <<
           idtr <<
             tab << setw(fieldWidth) <<
-          "result" << " = " << result <<
-          endl <<
+            "result" << " = " << result <<
+            endl <<
           endl;
       }
       break;
@@ -9627,93 +9626,7 @@ string msrDivisions::wholeNotesAsMsrString (
       baseDurationDivisions / 2;
 
     if (gGeneralOptions->fTraceDivisions) {
-      cerr <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-        "divisions" << " = " << divisions <<
-        endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-        "baseDurationDivisions" << " = " << baseDurationDivisions <<
-        endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-        "nextDivisionsInList" << " = " << nextDivisionsInList <<
-        endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-        "remainingDivisions" << " = " << remainingDivisions <<
-        endl <<
-        endl;
-    }
-
-    if (remainingDivisions < nextDivisionsInList) {
-      // the suffix is a multiplication factor
-      rational r (
-        divisions,
-        baseDurationDivisions);
-      r.rationalise ();
-
-      if (gGeneralOptions->fTraceDivisions) {
-        cerr <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-          "divisions" << " = " << divisions <<
-          endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-          "baseDurationDivisions" << " = " << baseDurationDivisions <<
-          endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-          "r" << " = " << r <<
-          endl <<
-          endl <<
-          endl;
-      }
-      
-      result +=
-        "*" + r.toString ();
-    }
-
-    else {
-      dotsNumber = 1; // account for next element in the list
-      
-      while (remainingDivisions > nextDivisionsInList) {
-        dotsNumber++;
-        remainingDivisions -= nextDivisionsInList;
-        nextDivisionsInList /= 2;
-  
-        if (gGeneralOptions->fTraceDivisions) {
-          cerr <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-            "divisions" << " = " << divisions <<
-            endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-            "baseDurationDivisions" << " = " << baseDurationDivisions <<
-            endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-            "nextDivisionsInList" << " = " << nextDivisionsInList <<
-            endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-            "remainingDivisions" << " = " << remainingDivisions <<
-            endl <<
-        idtr <<
-          tab << setw(fieldWidth) <<
-            "dotsNumber" << " = " << dotsNumber <<
-            endl << endl;
-        }
-          
-        if (dotsNumber > 5 )
-          break; // JMI
-      } // while
-  
-      if (gGeneralOptions->fTraceDivisions) {
-        cerr <<
+      cerr << left <<
         idtr <<
           tab << setw(fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -9730,10 +9643,96 @@ string msrDivisions::wholeNotesAsMsrString (
           tab << setw(fieldWidth) <<
           "remainingDivisions" << " = " << remainingDivisions <<
           endl <<
+        endl;
+    }
+
+    if (remainingDivisions < nextDivisionsInList) {
+      // the suffix is a multiplication factor
+      rational r (
+        divisions,
+        baseDurationDivisions);
+      r.rationalise ();
+
+      if (gGeneralOptions->fTraceDivisions) {
+        cerr << left <<
         idtr <<
           tab << setw(fieldWidth) <<
-          "dotsNumber" << " = " << dotsNumber <<
+          "divisions" << " = " << divisions <<
           endl <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+          "baseDurationDivisions" << " = " << baseDurationDivisions <<
+          endl <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+          "r" << " = " << r <<
+          endl <<
+        endl;
+      }
+      
+      result +=
+        "*" + r.toString ();
+    }
+
+    else {
+      dotsNumber = 1; // account for next element in the list
+      
+      while (remainingDivisions > nextDivisionsInList) {
+        dotsNumber++;
+        remainingDivisions -= nextDivisionsInList;
+        nextDivisionsInList /= 2;
+  
+        if (gGeneralOptions->fTraceDivisions) {
+          cerr << left <<
+            idtr <<
+              tab << setw(fieldWidth) <<
+              "divisions" << " = " << divisions <<
+              endl <<
+            idtr <<
+              tab << setw(fieldWidth) <<
+              "baseDurationDivisions" << " = " << baseDurationDivisions <<
+              endl <<
+            idtr <<
+              tab << setw(fieldWidth) <<
+              "nextDivisionsInList" << " = " << nextDivisionsInList <<
+              endl <<
+            idtr <<
+              tab << setw(fieldWidth) <<
+              "remainingDivisions" << " = " << remainingDivisions <<
+              endl <<
+            idtr <<
+              tab << setw(fieldWidth) <<
+              "dotsNumber" << " = " << dotsNumber <<
+              endl <<
+            endl;
+        }
+          
+        if (dotsNumber > 5 )
+          break; // JMI
+      } // while
+  
+      if (gGeneralOptions->fTraceDivisions) {
+        cerr << left <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "divisions" << " = " << divisions <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "baseDurationDivisions" << " = " << baseDurationDivisions <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "nextDivisionsInList" << " = " << nextDivisionsInList <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "remainingDivisions" << " = " << remainingDivisions <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "dotsNumber" << " = " << dotsNumber <<
+            endl <<
           endl;
       }
           
