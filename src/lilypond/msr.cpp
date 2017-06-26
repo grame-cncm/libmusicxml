@@ -9524,6 +9524,7 @@ string msrDivisions::wholeNotesAsMsrString (
   
   if (gGeneralOptions->fTraceDivisions) {
     cerr <<
+      endl <<
       idtr <<
         "--> wholeNotesAsMsrString ():" <<
         endl <<
@@ -9535,7 +9536,8 @@ string msrDivisions::wholeNotesAsMsrString (
       idtr <<
         tab << setw(fieldWidth) <<
         "wholeNotes" << " = " << wholeNotes <<
-        endl;
+        endl <<
+      endl;
   }
         
   // compute note's number of divisions
