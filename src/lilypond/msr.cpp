@@ -9538,7 +9538,11 @@ string msrDivisions::wholeNotesAsMsrString (
         endl <<
       endl;
   }
-        
+
+  msrAssert(
+    wholeNotes.getNumerator () != 0,
+    "wholeNotes is equal to 0");
+    
   // compute note's number of divisions
   int divisions =
     wholeNotes.getNumerator ()
@@ -9569,7 +9573,7 @@ string msrDivisions::wholeNotesAsMsrString (
 
       s <<
         "divisions " << divisions <<
-        " could not be handled by divisionsAsMsrString () with:" <<
+        " could not be handled by wholeNotesAsMsrString () with:" <<
         endl;
 
       printDurationsDivisions (cerr);
