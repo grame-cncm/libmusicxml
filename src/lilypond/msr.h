@@ -7155,14 +7155,14 @@ class EXP msrRepeatEnding : public msrElement
 
   private:
   
-    string              fRepeatEndingNumber; // may be "1, 2"
-    int                 fRepeatEndingInternalNumber; // internally assigned
+    string                fRepeatEndingNumber; // may be "1, 2"
+    int                   fRepeatEndingInternalNumber; // internally assigned
     
-    msrRepeatEndingKind fRepeatEndingKind;
+    msrRepeatEndingKind   fRepeatEndingKind;
     
-    S_msrSegment        fRepeatEndingSegment;
+    S_msrSegment          fRepeatEndingSegment;
 
-    S_msrRepeat         fRepeatEndingRepeatUplink;
+    S_msrRepeat           fRepeatEndingRepeatUplink;
 };
 typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
