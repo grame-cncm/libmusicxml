@@ -20239,6 +20239,21 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fMusicHasBeenInsertedInVoice;
 
   // initial repeats and segments
+    list<S_msrElement>::const_iterator
+      iBegin = copy->fVoiceInitialRepeatsAndSegments.begin(),
+      iEnd   = copy->fVoiceInitialRepeatsAndSegments.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // create the element deep copy
+      S_msrElement
+        elementDeepCopy = (*i);
+        
+      // append the element copy to this voice
+      fVoiceInitialRepeatsAndSegments.push_back (
+        elementDeepCopy);
+      if (++i == iEnd) break;
+    } // for
 
   // first segment
 
@@ -20807,21 +20822,6 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure (
       fVoiceStaffUplink->
         getStaffSilentVoice ();
 
-/* JMI
-  // create a copy of silent voice contents
-  // and append them to this voice
-    list<S_msrElement>::const_iterator
-      iBegin = fVoiceInitialRepeatsAndSegments.begin(),
-      iEnd   = fVoiceInitialRepeatsAndSegments.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      // print the element
-      os << idtr << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-*/
 }
 
 void msrVoice::bringVoiceToMeasureLength (
