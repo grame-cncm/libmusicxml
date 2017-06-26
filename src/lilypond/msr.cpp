@@ -20213,29 +20213,29 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         containingStaff);
 
   // voice numbers
-  clone->fVoiceAbsoluteNumber =
+  copy->fVoiceAbsoluteNumber =
     fVoiceAbsoluteNumber;
 
-  clone->fStaffRelativeVoiceNumber =
+  copy->fStaffRelativeVoiceNumber =
     fStaffRelativeVoiceNumber;
 
   // voice name
-  clone->fVoiceName =
+  copy->fVoiceName =
     fVoiceName;
 
   // counters
-  clone->fVoiceActualNotesCounter =
+  copy->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
 
-  clone->fVoiceActualHarmoniesCounter =
+  copy->fVoiceActualHarmoniesCounter =
     fVoiceActualHarmoniesCounter;
 
   // measures
-  clone->fVoiceMeasureNumber =
+  copy->fVoiceMeasureNumber =
     fVoiceMeasureNumber;
 
   // musically empty voices
-  clone->fMusicHasBeenInsertedInVoice =
+  copy->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
 
   // initial repeats and segments
@@ -20245,14 +20245,14 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // repeats
   
   // multple rests
-  clone->fVoiceContainsMultipleRests =
+  copy->fVoiceContainsMultipleRests =
     fVoiceContainsMultipleRests;
 
   // stanzas
 
   // uplinks
   
-  return clone;
+  return copy;
 }
 
 void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
@@ -20807,6 +20807,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure (
       fVoiceStaffUplink->
         getStaffSilentVoice ();
 
+/* JMI
   // create a copy of silent voice contents
   // and append them to this voice
     list<S_msrElement>::const_iterator
@@ -20820,7 +20821,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure (
       if (++i == iEnd) break;
       os << endl;
     } // for
-
+*/
 }
 
 void msrVoice::bringVoiceToMeasureLength (
@@ -25033,6 +25034,7 @@ void msrPart::createMeasureAndAppendItToPart (
   } // for
 }
 
+/* JMI
 void msrPart::complementPartVoicesUpToMeasure (
   int    inputLineNumber,
   string measureNumber)
@@ -25057,9 +25059,8 @@ void msrPart::complementPartVoicesUpToMeasure (
       createMeasureAndAppendItToStaff (
         inputLineNumber, measureNumber);
   } // for
-  */
 }
-
+*/
 
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)

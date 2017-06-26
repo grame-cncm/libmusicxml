@@ -7700,9 +7700,6 @@ class EXP msrVoice : public msrElement
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
 
-    // deep copy
-    msrVoice::msrVoice (const msrVoice& p);
-
     // destructor
     virtual ~msrVoice();
 
