@@ -7676,13 +7676,16 @@ class EXP msrVoice : public msrElement
 
     static SMARTP<msrVoice> create (
       int          inputLineNumber,
-      S_msrPart    voiceDirectPartUplink,
+      S_msrPart    voiceDirectPartUplink, // superfluous JMI ???
       msrVoiceKind voiceKind,
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
     
     SMARTP<msrVoice> createVoiceShallowClone (
       S_msrStaff staffClone);
+
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
 
   protected:
 
@@ -7697,6 +7700,10 @@ class EXP msrVoice : public msrElement
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
 
+    // deep copy
+    msrVoice::msrVoice (const msrVoice& p);
+
+    // destructor
     virtual ~msrVoice();
 
   private:
@@ -7808,8 +7815,12 @@ class EXP msrVoice : public msrElement
 
     string                voiceKindAsString () const;
 
-    // divisions
+    // measures
 
+    void                  fillVoiceWithSkipsUpToMeasure (
+                            int    inputLineNumber,
+                            string measureNumber);
+                            
     void                  bringVoiceToMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
@@ -8039,6 +8050,10 @@ class EXP msrVoice : public msrElement
 
   private:
 
+    // voice kind
+
+    msrVoiceKind          fVoiceKind;
+
     // voice numbers
 
     int                   fVoiceAbsoluteNumber;
@@ -8047,10 +8062,6 @@ class EXP msrVoice : public msrElement
     // we thus have to cope with that
     int                   fExternalVoiceNumber;
     int                   fStaffRelativeVoiceNumber;
-
-    // voice kind
-
-    msrVoiceKind          fVoiceKind;
 
     // voice name
 
@@ -8067,7 +8078,7 @@ class EXP msrVoice : public msrElement
     
     string                fVoiceMeasureNumber;
     
-    // checking for musically empty voices
+    // musically empty voices
     
     bool                  fMusicHasBeenInsertedInVoice;
 
@@ -8564,8 +8575,9 @@ class EXP msrStaff : public msrElement
     string                staffKindAsString () const;
     
     S_msrVoice            createVoiceInStaffByItsExternalNumber (
-                            int inputLineNumber,
-                            int externalVoiceNumber);
+                            int    inputLineNumber,
+                            int    externalVoiceNumber,
+                            string currentMeasureNumber);
 
     void                  registerVoiceInStaff (
                             int inputLineNumber,

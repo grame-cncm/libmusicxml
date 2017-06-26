@@ -19994,9 +19994,10 @@ void msrVoice::initializeVoice ()
 
   // compute voice number
   int voiceNumber =
-    gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
-      ? fStaffRelativeVoiceNumber
-      : fExternalVoiceNumber;
+    gMsrOptions->
+      fCreateStaffRelativeVoiceNumbers // JMI use it
+        ? fStaffRelativeVoiceNumber
+        : fExternalVoiceNumber;
   
   // set voice name
   switch (fVoiceKind) {
@@ -20116,6 +20117,144 @@ void msrVoice::initializeVoice ()
       this);
 }
 
+S_msrVoice msrVoice::createVoiceShallowClone (
+  S_msrStaff staffClone)
+{
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "Creating a shallow clone of voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  msrAssert(
+    staffClone != 0,
+    "staffClone is null");
+    
+  S_msrVoice
+    clone =
+      msrVoice::create (
+        fInputLineNumber,
+        staffClone->
+          getStaffDirectPartUplink (),
+        fVoiceKind,
+        fExternalVoiceNumber,
+        staffClone);
+
+  // voice numbers
+  clone->fVoiceAbsoluteNumber =
+    fVoiceAbsoluteNumber;
+
+  clone->fStaffRelativeVoiceNumber =
+    fStaffRelativeVoiceNumber;
+
+  // voice name
+  clone->fVoiceName =
+    fVoiceName;
+
+  // counters
+  clone->fVoiceActualNotesCounter =
+    fVoiceActualNotesCounter;
+
+  clone->fVoiceActualHarmoniesCounter =
+    fVoiceActualHarmoniesCounter;
+
+  // measures
+  clone->fVoiceMeasureNumber =
+    fVoiceMeasureNumber;
+
+  // musically empty voices
+  clone->fMusicHasBeenInsertedInVoice =
+    fMusicHasBeenInsertedInVoice;
+
+  // initial repeats and segments
+
+  // first segment
+
+  // repeats
+  
+  // multple rests
+  clone->fVoiceContainsMultipleRests =
+    fVoiceContainsMultipleRests;
+
+  // stanzas
+
+  // uplinks
+
+  return clone;
+}
+
+S_msrVoice msrVoice::createVoiceDeepCopy (
+  S_msrStaff containingStaff)
+{
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "Creating a deep copy of voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", to be placed in containing staff \"" <<
+      containingStaff->getStaffName () << "\"" <<
+      endl;
+  }
+
+  msrAssert(
+    containingStaff != 0,
+    "containingStaff is null");
+    
+  S_msrVoice
+    copy =
+      msrVoice::create (
+        fInputLineNumber,
+        containingStaff->
+          getStaffDirectPartUplink (),
+        fVoiceKind,
+        fExternalVoiceNumber,
+        containingStaff);
+
+  // voice numbers
+  clone->fVoiceAbsoluteNumber =
+    fVoiceAbsoluteNumber;
+
+  clone->fStaffRelativeVoiceNumber =
+    fStaffRelativeVoiceNumber;
+
+  // voice name
+  clone->fVoiceName =
+    fVoiceName;
+
+  // counters
+  clone->fVoiceActualNotesCounter =
+    fVoiceActualNotesCounter;
+
+  clone->fVoiceActualHarmoniesCounter =
+    fVoiceActualHarmoniesCounter;
+
+  // measures
+  clone->fVoiceMeasureNumber =
+    fVoiceMeasureNumber;
+
+  // musically empty voices
+  clone->fMusicHasBeenInsertedInVoice =
+    fMusicHasBeenInsertedInVoice;
+
+  // initial repeats and segments
+
+  // first segment
+
+  // repeats
+  
+  // multple rests
+  clone->fVoiceContainsMultipleRests =
+    fVoiceContainsMultipleRests;
+
+  // stanzas
+
+  // uplinks
+  
+  return clone;
+}
+
 void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
   int inputLineNumber)
 {
@@ -20208,49 +20347,6 @@ void msrVoice::appendAFirstMeasureToVoiceIfNeeded (
         fVoiceLastSegment;
     }
   }
-}
-  
-S_msrVoice msrVoice::createVoiceShallowClone (S_msrStaff staffClone)
-{
-  if (gGeneralOptions->fTraceVoices) {
-    cerr << idtr <<
-      "Creating a shallow clone of voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-
-  msrAssert(
-    staffClone != 0,
-    "staffClone is null");
-    
-  S_msrVoice
-    clone =
-      msrVoice::create (
-        fInputLineNumber,
-        staffClone->
-          getStaffDirectPartUplink (),
-        fVoiceKind,
-        fExternalVoiceNumber,
-        staffClone);
-
-  // populate the voice clone
-  clone->fVoiceName =
-    fVoiceName;
-
-  // set external voice number
-  clone->fExternalVoiceNumber =
-    fExternalVoiceNumber;
-
-  // has music been inserted in voice?
-  clone->fMusicHasBeenInsertedInVoice =
-    fMusicHasBeenInsertedInVoice;
-  
-  // does the voice contain multple rests?
-  clone->fVoiceContainsMultipleRests =
-    fVoiceContainsMultipleRests;
-  
-  return clone;
 }
 
 string msrVoice::getVoiceName () const
@@ -20690,6 +20786,41 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       }
       break;
   } // switch
+}
+
+void msrVoice::fillVoiceWithSkipsUpToMeasure (
+  int    inputLineNumber,
+  string measureNumber)
+{
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
+    cerr << idtr <<
+      "Filling voice \"" <<
+      getVoiceName () <<
+      "\" with skips up to measure '" <<
+      measureNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+
+  // get staff silent voice
+  S_msrVoice
+    staffSilentVoice =
+      fVoiceStaffUplink->
+        getStaffSilentVoice ();
+
+  // create a copy of silent voice contents
+  // and append them to this voice
+    list<S_msrElement>::const_iterator
+      iBegin = fVoiceInitialRepeatsAndSegments.begin(),
+      iEnd   = fVoiceInitialRepeatsAndSegments.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the element
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
 }
 
 void msrVoice::bringVoiceToMeasureLength (
@@ -23486,18 +23617,20 @@ void msrStaff::createMeasureAndAppendItToStaff (
 }
 
 S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
-  int inputLineNumber,
-  int externalVoiceNumber)
+  int    inputLineNumber,
+  int    externalVoiceNumber,
+  string currentMeasureNumber)
 {
   // take this new voice into account
   fRegisteredVoicesCounter++;
 
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
-      "Registering voice " << externalVoiceNumber <<
-       " as relative voice " << fRegisteredVoicesCounter <<
-     " of staff \"" << getStaffName () <<
+      "Creating voice '" << externalVoiceNumber <<
+      "' as relative voice '" << fRegisteredVoicesCounter <<
+      "' of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
+      "\", current measure number: " << currentMeasureNumber <<
  // JMI     " in part " << fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
 
@@ -23570,6 +23703,10 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
   // register is by its external number
   fStaffAllVoicesMap [fRegisteredVoicesCounter] =
     voice;
+
+  // add initial measures with skip notes up to currentMeasureNumber
+  // in case this voice does not start at the beginning of the part
+  
 
   return voice;
 }
@@ -24891,9 +25028,38 @@ void msrPart::createMeasureAndAppendItToPart (
       
     staff->
       createMeasureAndAppendItToStaff (
-        inputLineNumber, measureNumber);
+        inputLineNumber,
+        measureNumber);
   } // for
 }
+
+void msrPart::complementPartVoicesUpToMeasure (
+  int    inputLineNumber,
+  string measureNumber)
+{
+  if (gGeneralOptions->fTraceMeasures)
+    cerr <<
+      idtr <<
+        "Complement part voices up to measure number " << measureNumber <<
+        ", line " << inputLineNumber <<
+        ", in part " << getPartCombinedName () <<
+        endl;
+
+  // propagate to all staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    S_msrStaff
+      staff = (*i).second;
+      /* JMI
+    staff->
+      createMeasureAndAppendItToStaff (
+        inputLineNumber, measureNumber);
+  } // for
+  */
+}
+
 
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
