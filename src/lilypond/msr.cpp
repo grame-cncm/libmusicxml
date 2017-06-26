@@ -9288,17 +9288,21 @@ string msrDivisions::divisionsAsMsrString (
 
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
+
+  const int fieldWidth = 22;
   
-  if (false && gGeneralOptions->fTraceDivisions) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
-        "--> divisionsAsMsrString ():" <<
+       "--> divisionsAsMsrString ():" <<
         endl <<
       idtr <<
-        tab << "inputLineNumber        = " << inputLineNumber <<
+        tab << setw(fieldWidth) <<
+        "inputLineNumber" << "        = " << inputLineNumber <<
         endl <<
       idtr <<
-        tab << "divisions              = " << divisions <<
+        tab << setw(fieldWidth) <<
+        "divisions" << "              = " << divisions <<
         endl;
   }
     
@@ -9335,16 +9339,25 @@ string msrDivisions::divisionsAsMsrString (
       result =
         msrDurationAsString (baseDuration);
       
-      if (false && gGeneralOptions->fTraceDivisions) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
-          "divisions              = " << divisions <<
-          endl <<
-          "baseDuration           = " << msrDurationAsString (baseDuration) <<
-          endl <<
-          "baseDurationDivisions  = " << baseDurationDivisions <<
-          endl <<
-          "result                 = " << result <<
-          endl << endl;
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "divisions" << "              = " << divisions <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "baseDuration" << "           = " << msrDurationAsString (baseDuration) <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "baseDurationDivisions" << "  = " << baseDurationDivisions <<
+            endl <<
+          idtr <<
+            tab << setw(fieldWidth) <<
+            "result" << "                 = " << result <<
+            endl <<
+          endl;
       }
 
       break;
@@ -9365,16 +9378,25 @@ string msrDivisions::divisionsAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (false && gGeneralOptions->fTraceDivisions) {
+    if (gGeneralOptions->fTraceDivisions) {
       cerr <<
-        "divisions              = " << divisions <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+          "divisions" << "              = " << divisions <<
         endl <<
-        "baseDurationDivisions  = " << baseDurationDivisions <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+        "baseDurationDivisions" << "  = " << baseDurationDivisions <<
         endl <<
-        "nextDivisionsInList    = " << nextDivisionsInList <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+        "nextDivisionsInList" << "    = " << nextDivisionsInList <<
         endl <<
-        "remainingDivisions     = " << remainingDivisions <<
-        endl << endl;
+        idtr <<
+          tab << setw(fieldWidth) <<
+        "remainingDivisions" << "     = " << remainingDivisions <<
+        endl <<
+        endl;
     }
 
     if (remainingDivisions < nextDivisionsInList) {
@@ -9384,15 +9406,21 @@ string msrDivisions::divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (false && gGeneralOptions->fTraceDivisions) { // JMI
+      if (gGeneralOptions->fTraceDivisions) { // JMI
         cerr <<
-          "divisions              = " << divisions <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+          "divisions" << "              = " << divisions <<
           endl <<
-          "baseDurationDivisions  = " << baseDurationDivisions <<
+        idtr <<
+          tab << setw(fieldWidth) <<
+          "baseDurationDivisions" << "  = " << baseDurationDivisions <<
           endl <<
+        idtr <<
+          tab << setw(fieldWidth) <<
           "r      = " << r <<
           endl <<
-          endl << endl;
+          endl;
       }
       
       result +=
@@ -9407,36 +9435,58 @@ string msrDivisions::divisionsAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (false && gGeneralOptions->fTraceDivisions) {
+        if (gGeneralOptions->fTraceDivisions) {
           cerr <<
-            "divisions              = " << divisions <<
+           idtr <<
+              tab << setw(fieldWidth) <<
+           "divisions" << "              = " << divisions <<
             endl <<
-            "baseDurationDivisions  = " << baseDurationDivisions <<
+           idtr <<
+              tab << setw(fieldWidth) <<
+            "baseDurationDivisions" << "  = " << baseDurationDivisions <<
             endl <<
-            "nextDivisionsInList    = " << nextDivisionsInList <<
+           idtr <<
+              tab << setw(fieldWidth) <<
+            "nextDivisionsInList" << "   = " << nextDivisionsInList <<
             endl <<
-            "remainingDivisions     = " << remainingDivisions <<
+           idtr <<
+              tab << setw(fieldWidth) <<
+            "remainingDivisions" << "     = " << remainingDivisions <<
             endl <<
-            "dotsNumber             = " << dotsNumber <<
-            endl << endl;
+           idtr <<
+              tab << setw(fieldWidth) <<
+            "dotsNumber" << "             = " << dotsNumber <<
+            endl <<
+            endl;
         }
           
         if (dotsNumber > 5 )
           break; // JMI
       } // while
   
-      if (false && gGeneralOptions->fTraceDivisions) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
-          "divisions              = " << divisions <<
+         idtr <<
+            tab << setw(fieldWidth) <<
+          "divisions" << "              = " << divisions <<
           endl <<
-          "baseDurationDivisions  = " << baseDurationDivisions <<
+         idtr <<
+            tab << setw(fieldWidth) <<
+          "baseDurationDivisions" << "  = " << baseDurationDivisions <<
           endl <<
-          "nextDivisionsInList    = " << nextDivisionsInList <<
+         idtr <<
+            tab << setw(fieldWidth) <<
+          "nextDivisionsInList" << "    = " << nextDivisionsInList <<
           endl <<
-          "remainingDivisions     = " << remainingDivisions <<
+         idtr <<
+            tab << setw(fieldWidth) <<
+          "remainingDivisions" << "     = " << remainingDivisions <<
           endl <<
-          "dotsNumber             = " << dotsNumber <<
-          endl << endl;
+         idtr <<
+            tab << setw(fieldWidth) <<
+          "dotsNumber" << "             = " << dotsNumber <<
+          endl <<
+           endl;
       }
           
       if (remainingDivisions - nextDivisionsInList == 0) {
@@ -9449,7 +9499,7 @@ string msrDivisions::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-  if (false && gGeneralOptions->fTraceDivisions) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "<-- divisionsAsMsrString (): returns " << result <<
@@ -9470,8 +9520,7 @@ string msrDivisions::wholeNotesAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
 
-  if (false && gGeneralOptions->fTraceDivisions) {
-// JMI  if (true || gGeneralOptions->fTraceDivisions) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "--> divisionsAsMsrString ():" <<
@@ -9492,8 +9541,7 @@ string msrDivisions::wholeNotesAsMsrString (
       /
     wholeNotes.getDenominator ();      
   
-  if (false && gGeneralOptions->fTraceDivisions) {
-// JMI  if (true || gGeneralOptions->fTraceDivisions) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         tab << "divisions              = " << divisions <<
@@ -9533,8 +9581,7 @@ string msrDivisions::wholeNotesAsMsrString (
       result =
         msrDurationAsString (baseDuration);
       
-      if (false && gGeneralOptions->fTraceDivisions) {
-// JMI      if (true || gGeneralOptions->fTraceDivisions) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9563,8 +9610,7 @@ string msrDivisions::wholeNotesAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (false && gGeneralOptions->fTraceDivisions) {
-// JMI    if (true || gGeneralOptions->fTraceDivisions) {
+    if (gGeneralOptions->fTraceDivisions) {
       cerr <<
         "divisions              = " << divisions <<
         endl <<
@@ -9583,8 +9629,7 @@ string msrDivisions::wholeNotesAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (false && gGeneralOptions->fTraceDivisions) {
-// JMI      if (true || gGeneralOptions->fTraceDivisions) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9607,8 +9652,7 @@ string msrDivisions::wholeNotesAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (false && gGeneralOptions->fTraceDivisions) {
-// JMI          if (true || gGeneralOptions->fTraceDivisions) {
+        if (gGeneralOptions->fTraceDivisions) {
           cerr <<
             "divisions              = " << divisions <<
             endl <<
@@ -9626,8 +9670,7 @@ string msrDivisions::wholeNotesAsMsrString (
           break; // JMI
       } // while
   
-      if (false && gGeneralOptions->fTraceDivisions) {
-// JMI        if (true || gGeneralOptions->fTraceDivisions) {
+      if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           "divisions              = " << divisions <<
           endl <<
@@ -9651,8 +9694,7 @@ string msrDivisions::wholeNotesAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-  if (false && gGeneralOptions->fTraceDivisions) {
-// JMI    if (true || gGeneralOptions->fTraceDivisions) {
+  if (gGeneralOptions->fTraceDivisions) {
     cerr <<
       idtr <<
         "<-- divisionsAsMsrString (): returns " << result <<
@@ -17281,7 +17323,7 @@ string msrMeasure::getMeasureLengthAsString () const
     measureLength =
       this->getMeasureLength (); 
   
-  if (false && gGeneralOptions->fTraceMeasures) // JMI
+  if (gGeneralOptions->fTraceMeasures) // JMI
     cerr <<
       endl <<
       idtr <<
@@ -17304,7 +17346,7 @@ string msrMeasure::getMeasureLengthAsString () const
   else
     result = "0";
 
-  if (false && gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures)
     cerr <<
       endl <<
       idtr <<
