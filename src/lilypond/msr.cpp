@@ -20247,11 +20247,35 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     for ( ; ; ) {
       // create the element deep copy
       S_msrElement
-        elementDeepCopy = (*i);
+        elementDeepCopy;
         
-      // append the element copy to this voice
+      // create the element copy
+      if (
+        S_msrNote repeat = dynamic_cast<msrRepeat*>(&(**i))
+        ) {    
+        elementDeepCopy =
+          repeat->createRepeatDeepClone (
+            );
+      }
+    
+      else if (
+        S_msrChord segment = dynamic_cast<msrSegment*>(&(**i))
+        ) {
+        elementDeepCopy =
+          repeat->createSegmentDeepClone (
+            );
+      }
+      
+      else {
+        msrInternalError (
+          fInputLineNumber,
+          "voice initial repeats and segments element should be a repeat or a segment");
+      }
+  
+      // append the element deep copy to to this voice
       fVoiceInitialRepeatsAndSegments.push_back (
         elementDeepCopy);
+        
       if (++i == iEnd) break;
     } // for
 

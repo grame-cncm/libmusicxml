@@ -3324,6 +3324,9 @@ class EXP msrSegment : public msrElement
     SMARTP<msrSegment> createSegmentShallowClone (
       S_msrVoice voiceClone);
 
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
+
   protected:
 
     // constructors/destructor
@@ -4212,6 +4215,9 @@ class EXP msrNote : public msrElement
     SMARTP<msrNote> createNoteShallowClone (
       S_msrPart partClone);
     
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
+
     // creation from xml2Msr
     // ------------------------------------------------------
 
@@ -7052,6 +7058,9 @@ class EXP msrRepeatEnding : public msrElement
     SMARTP<msrRepeatEnding> createRepeatEndingShallowClone (
       S_msrRepeat repeatClone);
 
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
+
   protected:
 
     // constructors/destructor
@@ -7152,6 +7161,9 @@ class EXP msrRepeat : public msrElement
     SMARTP<msrRepeat> createRepeatShallowClone (
       S_msrVoice voiceClone);
 
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
+
   protected:
 
     // constructors/destructor
@@ -7201,12 +7213,13 @@ class EXP msrRepeat : public msrElement
 
   private:
 
-    S_msrSegment              fRepeatCommonSegment;
+    S_msrSegment          fRepeatCommonSegment;
     
-    vector<S_msrRepeatEnding> fRepeatEndings;
-    int                       fRepeatEndingsInternalCounter;
+    vector<S_msrRepeatEnding>
+                          fRepeatEndings;
+    int                   fRepeatEndingsInternalCounter;
     
-    S_msrVoice                fRepeatVoiceUplink;
+    S_msrVoice            fRepeatVoiceUplink;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -7232,6 +7245,9 @@ class EXP msrMeasureRepeatPattern : public msrElement
     
     SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternShallowClone (
         S_msrVoice voiceClone);
+
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
 
   protected:
 
@@ -7301,6 +7317,9 @@ class EXP msrMeasureRepeatReplicas : public msrElement
     
     SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasShallowClone (
         S_msrVoice voiceClone);
+
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
 
   protected:
 
@@ -7492,6 +7511,9 @@ class EXP msrMultipleRestContents : public msrElement
     SMARTP<msrMultipleRestContents> createMultipleRestContentsShallowClone (
       S_msrVoice voiceClone);
 
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
+
   protected:
 
     // constructors/destructor
@@ -7571,6 +7593,9 @@ class EXP msrMultipleRest : public msrElement
     
     SMARTP<msrMultipleRest> createMultipleRestShallowClone (
       S_msrVoice voiceClone);
+
+    SMARTP<msrVoice> createVoiceDeepCopy (
+      S_msrStaff containingStaff);
 
   protected:
 
