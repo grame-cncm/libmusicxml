@@ -25445,7 +25445,18 @@ void msrPart::appendHarmonyToPartClone (
   } // switch
 }
 
-void msrPart:: handleBackup (int divisions)
+void msrPart:: handleBackup (
+  int inputLineNumber,
+  int divisions)
+{
+ // JMI 
+}
+
+void msrPart:: handleForward (
+  int inputLineNumber,
+  int divisions,
+  int staffNumber,
+  int voiceNumber)
 {
  // JMI 
 }

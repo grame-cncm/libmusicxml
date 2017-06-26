@@ -9058,7 +9058,17 @@ class EXP msrPart : public msrElement
 
     // backup
     
-    void                  handleBackup (int divisions);
+    void                  handleBackup (
+                            int inputLineNumber,
+                            int divisions);
+
+    // forward
+    
+    void                  handleForward (
+                            int inputLineNumber,
+                            int divisions,
+                            int staffNumber,
+                            int voiceNumber);
 
     // finalization
 
