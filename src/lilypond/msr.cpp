@@ -17965,7 +17965,6 @@ void msrMeasure::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        endl << "FAA" << endl <<
         idtr << (*i);
         // JMI << endl;
       if (++i == iEnd) break;
@@ -17974,8 +17973,6 @@ void msrMeasure::print (ostream& os)
     
     idtr--;
   }
-  os <<
-          endl << "FII" << endl;
 } 
 
 //______________________________________________________________________________
@@ -25313,10 +25310,11 @@ void msrStaff::print (ostream& os)
 */
 
   // print the voices
+// JMI ???  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
   if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffAllVoicesMap.begin(),
-      iEnd   = fStaffAllVoicesMap.end(),
+      iBegin = fStaffVoiceRelativeNumberToVoiceMap.begin(),
+      iEnd   = fStaffVoiceRelativeNumberToVoiceMap.end(),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -25332,13 +25330,11 @@ os <<
 
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
-        os << "REGULAR" << endl;
           os << idtr <<
             voice;
           break;
 
         case msrVoice::kHarmonyVoice:
-        os << "HARMONY" << endl;
           if (
             gMsrOptions->fShowHarmonyVoices
               ||
@@ -25348,18 +25344,14 @@ os <<
           break;
           
         case msrVoice::kSilentVoice:
-        os << "SILENT" << endl;
           if (gMsrOptions->fShowSilentVoices)
             os << idtr <<
               voice;
           break;
       } // switch
 
-os << "ZOZO" << endl;
-
       if (++i == iEnd) break;
 
-os << "ZIZI" << endl;
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
           os << endl;
