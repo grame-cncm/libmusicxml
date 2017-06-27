@@ -20590,7 +20590,11 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     }
   }
 
-  // first segment
+  // last segment
+  voiceDeepCopy->fVoiceLastSegment =
+    fVoiceLastSegment->
+      createSegmentDeepCopy (
+        voiceDeepCopy);    
 
   // repeats
   
@@ -20601,6 +20605,12 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // stanzas
 
   // uplinks
+  voiceDeepCopy->fVoiceStaffUplink =
+    containingStaff;
+  
+  voiceDeepCopy->fVoiceDirectPartUplink =
+    containingStaff->
+      getStaffDirectPartUplink ();
   
   return voiceDeepCopy;
 }
