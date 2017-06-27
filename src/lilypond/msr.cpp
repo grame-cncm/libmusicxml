@@ -25292,6 +25292,14 @@ void msrStaff::print (ostream& os)
     for ( ; ; ) {
       S_msrVoice voice = (*i).second;
 
+os <<
+  endl <<
+  "================= voice :" <<
+  endl <<
+  voice <<
+  endl <<
+  endl;
+
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
           os << idtr <<
