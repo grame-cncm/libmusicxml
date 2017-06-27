@@ -15791,7 +15791,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   measureDeepCopy->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
 
-    // uplinks
+  // uplinks
   measureDeepCopy->fMeasureVoiceDirectUplink =
     containingSegment->
       getSegmentVoiceUplink ();
@@ -15811,6 +15811,13 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         "There are " <<
         numberOfMeasureElements <<
         " elements in measure to be deep copied" <<
+        " in segment " <<
+        containingSegment->segmentAsString () <<
+        " in voice \"" <<
+          containingSegment->
+            getSegmentVoiceUplink ()->
+              getVoiceName () <<
+        "\"" <<
         endl;
     }
     
@@ -15818,25 +15825,26 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
       i != fMeasureElementsList.end();
       i++ ) {
-  
-      // create the element deep copy
+
+      // handlle deep copying
       S_msrElement
         elementDeepCopy;
         
       if (
         S_msrNote note = dynamic_cast<msrNote*>(&(**i))
         ) {    
+        // create the note deep copy
         elementDeepCopy =
           note->createNoteDeepCopy (
             directPartUplink);
       }
     
       else {
-        // share the element with the original measur
+        // share the element with the original measure
         elementDeepCopy = (*i);
       }
 
-      // append the element deep copy to the deep copy
+      // append the element deep copy to the measure deep copy
       measureDeepCopy->
         fMeasureElementsList.push_back (
           elementDeepCopy);
@@ -15848,6 +15856,13 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
         "There are no elements in measure to be deep copied" <<
+        " in segment " <<
+        containingSegment->segmentAsString () <<
+        " in voice \"" <<
+          containingSegment->
+            getSegmentVoiceUplink ()->
+              getVoiceName () <<
+        "\"" <<
         endl;
     }
   }
@@ -18164,7 +18179,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   else {
     if (gGeneralOptions->fTraceSegments) {
       cerr << idtr <<
-        "There are no measures in voice to be deep copied" <<
+        "There are no measures in segment to be deep copied" <<
         endl;
     }
   }
@@ -21018,20 +21033,21 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       i      = iBegin;
       
     for ( ; ; ) {
-      // create the element deep copy
+      // handle the deep copy
       S_msrElement
         elementDeepCopy;
         
-      // create the element copy
       if (
         S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(**i))
         ) {    
+        // create the repeat deep copy
         elementDeepCopy =
           repeat->createRepeatDeepCopy (
             voiceDeepCopy);
       }
     
       else if (
+        // create the segment deep copy
         S_msrSegment segment = dynamic_cast<msrSegment*>(&(**i))
         ) {
         elementDeepCopy =
@@ -21045,7 +21061,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           "voice initial repeats and segments element should be a repeat or a segment");
       }
   
-      // append the element deep copy to to this voice
+      // append the element deep copy to the voice deep copy
       voiceDeepCopy->
         fVoiceInitialRepeatsAndSegments.push_back (
           elementDeepCopy);
@@ -21075,6 +21091,12 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fVoiceContainsMultipleRests;
 
   // stanzas
+  /* JMI
+  voiceDeepCopy->fVoiceMuteStanza =
+    fVoiceMuteStanza->
+      createStanzaDeepCopy (
+        voiceDeepCopy);
+*/
 
   // uplinks
   voiceDeepCopy->fVoiceStaffUplink =
@@ -25302,11 +25324,13 @@ os <<
 
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
+        os << "REGULAR" << endl;
           os << idtr <<
             voice;
           break;
 
         case msrVoice::kHarmonyVoice:
+        os << "HARMONY" << endl;
           if (
             gMsrOptions->fShowHarmonyVoices
               ||
@@ -25316,6 +25340,7 @@ os <<
           break;
           
         case msrVoice::kSilentVoice:
+        os << "SILENT" << endl;
           if (gMsrOptions->fShowSilentVoices)
             os << idtr <<
               voice;
