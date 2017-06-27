@@ -17965,6 +17965,7 @@ void msrMeasure::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os <<
+        endl << "FAA" << endl <<
         idtr << (*i);
         // JMI << endl;
       if (++i == iEnd) break;
@@ -17973,6 +17974,8 @@ void msrMeasure::print (ostream& os)
     
     idtr--;
   }
+  os <<
+          endl << "FII" << endl;
 } 
 
 //______________________________________________________________________________
@@ -25352,8 +25355,11 @@ os <<
           break;
       } // switch
 
+os << "ZOZO" << endl;
+
       if (++i == iEnd) break;
 
+os << "ZIZI" << endl;
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
           os << endl;
