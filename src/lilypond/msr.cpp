@@ -17706,12 +17706,12 @@ void msrSegment::createMeasureAndAppendItToSegment (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "Append a new measure '" << measureNumber <<
-      "', line " << inputLineNumber <<
+      "Creating and appending a measure '" << measureNumber <<
       ", to segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
+      "', line " << inputLineNumber <<
       endl;
 
   fSegmentMeasureNumber = measureNumber; // JMI
@@ -21677,7 +21677,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Creating a repeat in voice \"" << getVoiceName () <<  "\"" <<
+            "Creating and appending a repeat in voice \"" << getVoiceName () <<  "\"" <<
             ", line " << inputLineNumber <<
             endl;
       
@@ -23911,7 +23911,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Append a new measure, " <<
+      "Creating and appending a new measure, " <<
       ", measureNumber = " << measureNumber <<
       ", line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
@@ -24231,7 +24231,7 @@ void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending repeat and appending it to staff \"" <<
+      "Creating and appending a repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -25325,9 +25325,10 @@ void msrPart::createMeasureAndAppendItToPart (
   if (gGeneralOptions->fTraceMeasures)
     cerr <<
       idtr <<
-        "Setting part measure number to " << measureNumber <<
-        ", line " << inputLineNumber <<
-        ", in part " << getPartCombinedName () <<
+        "Creating and appending a measure to part " <<
+        getPartCombinedName () <<
+        ", measure '" <<  measureNumber <<
+        "', line " << inputLineNumber <<
         endl;
 
   // set part current measure number
