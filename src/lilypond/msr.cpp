@@ -20528,46 +20528,67 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fMusicHasBeenInsertedInVoice;
 
   // initial repeats and segments
-  list<S_msrElement>::const_iterator
-    iBegin = fVoiceInitialRepeatsAndSegments.begin(),
-    iEnd   = fVoiceInitialRepeatsAndSegments.end(),
-    i      = iBegin;
+  int numberOfInitialRepeatsAndSegments =
+    fVoiceInitialRepeatsAndSegments.size ();
     
-  for ( ; ; ) {
-    // create the element deep copy
-    S_msrElement
-      elementDeepCopy;
-      
-    // create the element copy
-    if (
-      S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(**i))
-      ) {    
-      elementDeepCopy =
-        repeat->createRepeatDeepCopy (
-          voiceDeepCopy);
-    }
-  
-    else if (
-      S_msrSegment segment = dynamic_cast<msrSegment*>(&(**i))
-      ) {
-      elementDeepCopy =
-        segment->createSegmentDeepCopy (
-          voiceDeepCopy);
-    }
-    
-    else {
-      msrInternalError (
-        fInputLineNumber,
-        "voice initial repeats and segments element should be a repeat or a segment");
+  if (numberOfInitialRepeatsAndSegments) {
+     if (gGeneralOptions->fTraceVoices) {
+      cerr << idtr <<
+        "There are " <<
+        numberOfInitialRepeatsAndSegments <<
+        " initial repeats and segments" <<
+        endl;
     }
 
-    // append the element deep copy to to this voice
-    voiceDeepCopy->
-      fVoiceInitialRepeatsAndSegments.push_back (
-        elementDeepCopy);
+   list<S_msrElement>::const_iterator
+      iBegin = fVoiceInitialRepeatsAndSegments.begin(),
+      iEnd   = fVoiceInitialRepeatsAndSegments.end(),
+      i      = iBegin;
       
-    if (++i == iEnd) break;
-  } // for
+    for ( ; ; ) {
+      // create the element deep copy
+      S_msrElement
+        elementDeepCopy;
+        
+      // create the element copy
+      if (
+        S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(**i))
+        ) {    
+        elementDeepCopy =
+          repeat->createRepeatDeepCopy (
+            voiceDeepCopy);
+      }
+    
+      else if (
+        S_msrSegment segment = dynamic_cast<msrSegment*>(&(**i))
+        ) {
+        elementDeepCopy =
+          segment->createSegmentDeepCopy (
+            voiceDeepCopy);
+      }
+      
+      else {
+        msrInternalError (
+          fInputLineNumber,
+          "voice initial repeats and segments element should be a repeat or a segment");
+      }
+  
+      // append the element deep copy to to this voice
+      voiceDeepCopy->
+        fVoiceInitialRepeatsAndSegments.push_back (
+          elementDeepCopy);
+        
+      if (++i == iEnd) break;
+    } // for
+  }
+
+  else {    
+    if (gGeneralOptions->fTraceVoices) {
+      cerr << idtr <<
+        "There are no initial repeats and segments" <<
+        endl;
+    }
+  }
 
   // first segment
 
