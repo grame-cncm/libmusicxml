@@ -9539,9 +9539,9 @@ string msrDivisions::wholeNotesAsMsrString (
       endl;
   }
 
-  msrAssert(
-    wholeNotes.getNumerator () != 0,
-    "wholeNotes is equal to 0");
+  // are there 0 whole notes?
+  if (wholeNotes.getNumerator () == 0)
+    return "ZERO wholeNotes";
     
   // compute note's number of divisions
   int divisions =
@@ -17227,7 +17227,7 @@ void msrMeasure::finalizeMeasure (
         kFullMeasureKind);
     }
     
-    else if (fMeasureLength == rational (0, 1)) {
+    else if (fMeasureLength.getNumerator () == 0) {
       // empty measure
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr <<
