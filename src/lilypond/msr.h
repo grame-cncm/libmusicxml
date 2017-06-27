@@ -3278,11 +3278,6 @@ class EXP msrMeasure : public msrElement
     
     string                fMeasureNumber;
 
-    // implicit kind
-    
-    msrMeasureImplicitKind
-                          fMeasureImplicitKind; // JMI
-
     // measure kind
 
     msrMeasureKind        fMeasureKind;
@@ -3304,7 +3299,7 @@ class EXP msrMeasure : public msrElement
 
     S_msrPart             fMeasureDirectPartUplink; // to accelerate things
 
-    // elements list
+    // elements
 
     list<S_msrElement>    fMeasureElementsList;
 };
@@ -3942,10 +3937,10 @@ class EXP msrSyllable : public msrElement
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableShallowClone (
-      S_msrPart partClone); // JMI
+      S_msrPart containingPart); // JMI
 
     SMARTP<msrSyllable> createSyllableDeepCopy (
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
   protected:
 
@@ -4072,10 +4067,10 @@ class EXP msrHarmony : public msrElement
       rational             harmonySoundingWholeNotes);
     
     SMARTP<msrHarmony> createHarmonyShallowClone (
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
     SMARTP<msrHarmony> createHarmonyDeepCopy ( // JMI ???
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
   protected:
 
@@ -4236,10 +4231,10 @@ class EXP msrNote : public msrElement
       bool                 noteIsAGraceNote);
     
     SMARTP<msrNote> createNoteShallowClone (
-      S_msrPart partClone);
+      S_msrPart containingPart);
     
     SMARTP<msrNote> createNoteDeepCopy (
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -4761,6 +4756,9 @@ class EXP msrNote : public msrElement
     
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???
 
+    // accidentals
+    // ------------------------------------------------------
+
     msrNoteEditorialAccidentalKind
                           fNoteEditorialAccidentalKind;     
     msrNoteCautionaryAccidentalKind
@@ -4789,10 +4787,10 @@ class EXP msrNote : public msrElement
     bool                  fNoteBelongsToAMultipleRest; // JMI
     int                   fNoteMultipleRestSequenceNumber; // JMI
 
-    // lyrics
+    // note lyrics
     // ------------------------------------------------------
 
-   list<S_msrSyllable>    fNoteSyllables;
+    list<S_msrSyllable>   fNoteSyllables;
     msrSyllable::msrSyllableExtendKind
                           fNoteSyllableExtendKind; // MEGA JMI
     
@@ -4934,10 +4932,10 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     SMARTP<msrChord> createChordShallowClone (
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
     SMARTP<msrChord> createChordDeepCopy (
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
   protected:
 
@@ -8504,7 +8502,7 @@ class EXP msrStaff : public msrElement
       int          staffNumber);
     
     SMARTP<msrStaff> createStaffShallowClone (
-      S_msrPart partClone);
+      S_msrPart containingPart);
 
   protected:
 

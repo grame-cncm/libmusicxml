@@ -6470,24 +6470,231 @@ msrNote::~msrNote()
 {}
 
 S_msrNote msrNote::createNoteShallowClone (
-  S_msrPart partClone)
+  S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "Creating a shallow clone of note " <<
       noteAsString () <<
+      " in part " <<
+      containingPart->
+        getPartCombinedName () << 
       endl;
   }
 
   msrAssert(
-    partClone != 0,
-    "partClone is null");
+    containingPart != 0,
+    "containingPart is null");
     
   S_msrNote
     shallowClone =
       msrNote::create (
         fInputLineNumber,
-        partClone,
+        containingPart,
+        
+        fNoteKind,
+        
+        fNoteQuarterTonesPitch,
+
+        fNoteDivisionsPerQuarterNote,
+        
+        fNoteSoundingWholeNotes,
+        fNoteDisplayWholeNotes,
+        
+        fNoteDotsNumber,
+        
+        fNoteGraphicDuration,
+        
+        fNoteOctave,
+        
+        fNoteQuarterTonesDisplayPitch,
+        fNoteDisplayOctave,
+        
+        fNoteIsARest,
+        fNoteIsUnpitched,
+        
+        fNoteIsAGraceNote);
+
+  // basic note description
+  // ------------------------------------------------------
+
+  shallowClone->fNoteOctaveShift =
+    fNoteOctaveShift;
+
+  // accidentals
+  // ------------------------------------------------------
+
+  shallowClone->fNoteEditorialAccidentalKind =
+    fNoteEditorialAccidentalKind;
+  
+  shallowClone->fNoteCautionaryAccidentalKind =
+    fNoteCautionaryAccidentalKind;
+  
+  // staff and voice context
+  // ------------------------------------------------------
+
+  shallowClone->
+    fNoteStaffNumber =
+      fNoteStaffNumber;
+  shallowClone->
+    fNoteVoiceNumber =
+      fNoteVoiceNumber;
+
+  // chord member?
+  // ------------------------------------------------------
+
+  shallowClone->
+    fNoteBelongsToAChord =
+      fNoteBelongsToAChord;
+
+  // tuplet member?
+  // ------------------------------------------------------
+
+  shallowClone->
+    fNoteBelongsToATuplet =
+      fNoteBelongsToATuplet;
+
+    // multiple rest member?
+    // ------------------------------------------------------
+
+  shallowClone->
+    fNoteBelongsToAMultipleRest =
+      fNoteBelongsToAMultipleRest;
+
+  shallowClone->
+    fNoteMultipleRestSequenceNumber =
+      fNoteMultipleRestSequenceNumber;
+
+  // note lyrics
+  // ------------------------------------------------------
+
+  shallowClone->
+    fNoteSyllableExtendKind =
+      fNoteSyllableExtendKind;
+
+  // stem
+  // ------------------------------------------------------
+
+  shallowClone->fNoteStem = // JMI
+    fNoteStem;
+
+  // beams
+  // ------------------------------------------------------
+
+  // articulations
+  // ------------------------------------------------------
+
+  // technicals
+  // ------------------------------------------------------
+
+  // ornaments
+  // ------------------------------------------------------
+
+  // single tremolo
+  // ------------------------------------------------------
+
+  // tie
+  // ------------------------------------------------------
+
+  shallowClone->fNoteTie = // JMI
+    fNoteTie;
+
+  // dynamics
+  // ------------------------------------------------------
+
+  // words
+  // ------------------------------------------------------
+
+  // slurs
+  // ------------------------------------------------------
+
+  // ligatures
+  // ------------------------------------------------------
+
+  // harmony
+  // ------------------------------------------------------
+
+  shallowClone->fNoteHarmony =
+    fNoteHarmony;
+
+  // note measure information
+  // ------------------------------------------------------
+
+  shallowClone->
+    fNoteMeasureNumber =
+      fNoteMeasureNumber;
+  shallowClone->
+    fNotePositionInMeasure =
+      fNotePositionInMeasure;
+  shallowClone->
+    fNoteOccupiesAFullMeasure =
+      fNoteOccupiesAFullMeasure;
+
+  // note as MSR string
+  // ------------------------------------------------------
+
+  shallowClone->fNoteSoundingWholeNotesAsMsrString =
+    fNoteSoundingWholeNotesAsMsrString;
+  shallowClone->fNoteDisplayWholeNotesAsMsrString =
+    fNoteDisplayWholeNotesAsMsrString;
+    
+  shallowClone->fNoteGraphicDurationAsMsrString =
+    fNoteGraphicDurationAsMsrString;
+    
+  shallowClone->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
+    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+    
+  shallowClone->fNoteTupletNoteSoundingWholeNotesAsMsrString =
+    fNoteTupletNoteSoundingWholeNotesAsMsrString;
+  shallowClone->fNoteGraphicDurationAsMsrString =
+    fNoteGraphicDurationAsMsrString;
+
+  // note redundant information (for speed)
+  // ------------------------------------------------------
+
+  shallowClone->fNoteIsStemless =
+    fNoteIsStemless;
+
+  shallowClone->fNoteIsFirstNoteInADoubleTremolo =
+    fNoteIsFirstNoteInADoubleTremolo;
+  shallowClone->fNoteIsSecondNoteInADoubleTremolo =
+    fNoteIsSecondNoteInADoubleTremolo;
+
+  shallowClone->fNoteHasATrill =
+    fNoteHasATrill;
+  shallowClone->fNoteIsFollowedByGraceNotes =
+    fNoteIsFollowedByGraceNotes;
+
+  shallowClone->fNoteHasADelayedOrnament =
+    fNoteHasADelayedOrnament;
+
+  // uplinks
+  
+  return shallowClone;
+}
+
+S_msrNote msrNote::createNoteDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "Creating a deep copy of note " <<
+      noteAsString () <<
+      " in part " <<
+      containingPart->
+        getPartCombinedName () << 
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrNote
+    shallowClone =
+      msrNote::create (
+        fInputLineNumber,
+        containingPart,
         
         fNoteKind,
         
@@ -8346,7 +8553,7 @@ msrChord::~msrChord()
 {}
 
 S_msrChord msrChord::createChordShallowClone (
-  S_msrPart partClone)
+  S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
@@ -8357,14 +8564,14 @@ S_msrChord msrChord::createChordShallowClone (
   }
 
   msrAssert(
-    partClone != 0,
-    "partClone is null");
+    containingPart != 0,
+    "containingPart is null");
     
   S_msrChord
     shallowClone =
       msrChord::create (
         fInputLineNumber,
-        partClone,
+        containingPart,
         fChordSoundingWholeNotes,
         fChordDisplayWholeNotes,
         fChordGraphicDuration);
@@ -13281,7 +13488,7 @@ msrSyllable::~msrSyllable()
 {}
 
 S_msrSyllable msrSyllable::createSyllableShallowClone (
-  S_msrPart partClone)
+  S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -13292,14 +13499,14 @@ S_msrSyllable msrSyllable::createSyllableShallowClone (
   }
 
   msrAssert(
-    partClone != 0,
-    "partClone is null");
+    containingPart != 0,
+    "containingPart is null");
     
   S_msrSyllable
     shallowClone =
       msrSyllable::create (
         fInputLineNumber,
-        partClone,
+        containingPart,
         fSyllableKind,
         fSyllableText,
         fSyllableExtendKind,
@@ -14347,7 +14554,8 @@ msrHarmony::msrHarmony (
 msrHarmony::~msrHarmony()
 {}
 
-S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
+S_msrHarmony msrHarmony::createHarmonyShallowClone (
+  S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
@@ -14358,14 +14566,14 @@ S_msrHarmony msrHarmony::createHarmonyShallowClone (S_msrPart partClone)
   }
 
   msrAssert(
-    partClone != 0,
-    "partClone is null");
+    containingPart != 0,
+    "containingPart is null");
     
   S_msrHarmony
     shallowClone =
       msrHarmony::create (
         fInputLineNumber,
-        partClone,
+        containingPart,
         fHarmonyRootQuarterTonesPitch,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuarterTonesPitch,
@@ -15378,29 +15586,30 @@ msrMeasure::~msrMeasure()
 {}
 
 S_msrMeasure msrMeasure::createMeasureShallowClone (
-  S_msrSegment segmentClone)
+  S_msrSegment containingSegment)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Creating a shallow clone of measure '" <<
       fMeasureNumber <<
       "'" <<
-      " in segment " << segmentClone->segmentAsString () <<
+      " in segment " <<
+      containingSegment->segmentAsString () <<
       " in voice \"" <<
-        segmentClone->
+        containingSegment->
           getSegmentVoiceUplink ()->
             getVoiceName () <<
       "\"" <<
       endl;
   
   msrAssert(
-    segmentClone != 0,
-    "segmentClone is null");
+    containingSegment != 0,
+    "containingSegment is null");
 
   // get direct part uplink
   S_msrPart
     directPartUplink =
-      segmentClone->
+      containingSegment->
         getSegmentDirectPartUplink ();
 
   // create shallow clone
@@ -15410,7 +15619,7 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
         fInputLineNumber,
         directPartUplink,
         fMeasureNumber,
-        segmentClone);
+        containingSegment);
 
   // lengthes
   shallowClone->fMeasureFullMeasureLength =
@@ -15419,21 +15628,158 @@ S_msrMeasure msrMeasure::createMeasureShallowClone (
   shallowClone->fMeasureFullMeasureLengthAsMSRString =
     fMeasureFullMeasureLengthAsMSRString;
 
-  // don't take fMeasureLength over, it will be computed on the fly
+  // don't take fMeasureLength and fMeasureFullMeasureLengthAsMSRString over,
+  // they will be computed on the fly
   // while appending notes to the measure shallow clone
 
   shallowClone->fMeasureLengthAsMSRString =
     fMeasureLengthAsMSRString;
 
-  // kind
+  // measure kind
   shallowClone->fMeasureKind =
     fMeasureKind;
 
-  // 'first in segment' kind
+  // measure 'first in segment' kind
   shallowClone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
 
+    // uplinks
+    
+  shallowClone->fMeasureVoiceDirectUplink =
+    containingSegment->
+      getSegmentVoiceUplink ();
+
+  shallowClone->fMeasureDirectPartUplink =
+    containingSegment->
+      getSegmentDirectPartUplink ();
+
+  // elements
+
   return shallowClone;
+}
+
+S_msrMeasure msrMeasure::createMeasureDeepCopy (
+  S_msrSegment containingSegment)
+{
+  if (gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Creating a deep copy of measure '" <<
+      fMeasureNumber <<
+      "'" <<
+      " in segment " <<
+      containingSegment->segmentAsString () <<
+      " in voice \"" <<
+        containingSegment->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"" <<
+      endl;
+  
+  msrAssert(
+    containingSegment != 0,
+    "containingSegment is null");
+
+  // get direct part uplink
+  S_msrPart
+    directPartUplink =
+      containingSegment->
+        getSegmentDirectPartUplink ();
+
+  // create shallow clone
+  S_msrMeasure
+    measureDeepCopy =
+      msrMeasure::create (
+        fInputLineNumber,
+        directPartUplink,
+        fMeasureNumber,
+        containingSegment);
+
+  // lengthes
+  measureDeepCopy->fMeasureFullMeasureLength =
+    fMeasureFullMeasureLength;
+    
+  measureDeepCopy->fMeasureFullMeasureLengthAsMSRString =
+    fMeasureFullMeasureLengthAsMSRString;
+
+  measureDeepCopy->fMeasureLength =
+    fMeasureLength;
+    
+  measureDeepCopy->fMeasureLengthAsMSRString =
+    fMeasureLengthAsMSRString;
+
+  measureDeepCopy->fMeasureLengthAsMSRString =
+    fMeasureLengthAsMSRString;
+
+  // measure kind
+  measureDeepCopy->fMeasureKind =
+    fMeasureKind;
+
+  // measure 'first in segment' kind
+  measureDeepCopy->fMeasureFirstInSegmentKind =
+    fMeasureFirstInSegmentKind;
+
+    // uplinks
+  measureDeepCopy->fMeasureVoiceDirectUplink =
+    containingSegment->
+      getSegmentVoiceUplink ();
+
+  measureDeepCopy->fMeasureDirectPartUplink =
+    containingSegment->
+      getSegmentDirectPartUplink ();
+
+  // elements
+
+  int numberOfMeasureElements =
+    fMeasureElementsList.size ();
+
+  if (numberOfMeasureElements) {
+     if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+        "There are " <<
+        numberOfMeasureElements <<
+        " elements in measure to be deep copied" <<
+        endl;
+    }
+    
+    for (
+      list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
+      i != fMeasureElementsList.end();
+      i++ ) {
+  
+      // create the element deep copy
+      S_msrElement
+        elementDeepCopy;
+        
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        ) {    
+        elementDeepCopy =
+          note->createNoteDeepCopy (
+            directPartUplink);
+      }
+    
+      else {
+        // share the element with the original measur
+        elementDeepCopy = (*i);
+      }
+
+      // append the element deep copy to the deep copy
+      measureDeepCopy->
+        fMeasureElementsList.push_back (
+          elementDeepCopy);
+        
+    } // for
+  }
+  
+  else {
+    if (gGeneralOptions->fTraceMeasures) {
+      cerr << idtr <<
+        "There are no elements in measure to be deep copied" <<
+        endl;
+    }
+  }
+
+  return measureDeepCopy;
 }
 
 void msrMeasure::setMeasureLength (
@@ -23907,7 +24253,8 @@ void msrStaff::createStaffSilentVoice (
     */ 
 }
 
-S_msrStaff msrStaff::createStaffShallowClone (S_msrPart partClone)
+S_msrStaff msrStaff::createStaffShallowClone (
+  S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
@@ -23918,14 +24265,14 @@ S_msrStaff msrStaff::createStaffShallowClone (S_msrPart partClone)
   }
   
   msrAssert(
-    partClone != 0,
-    "partClone is null");
+    containingPart != 0,
+    "containingPart is null");
     
   S_msrStaff
     shallowClone =
       msrStaff::create (
         fInputLineNumber,
-        partClone,
+        containingPart,
         fStaffKind,
         fStaffNumber);
 
