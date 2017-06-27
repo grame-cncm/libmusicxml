@@ -17561,9 +17561,9 @@ S_msrSegment msrSegment::create (
 }
 
 msrSegment::msrSegment (
-  int          inputLineNumber,
-  S_msrPart    segmentDirectPartUplink,
-  S_msrVoice   segmentVoicekUplink)
+  int        inputLineNumber,
+  S_msrPart  segmentDirectPartUplink,
+  S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
   // set segment's direct part uplink
@@ -17671,7 +17671,17 @@ S_msrSegment msrSegment::createSegmentShallowClone (
         containingVoice->
           getVoiceDirectPartUplink (),
         containingVoice);
-  
+
+  // absolute number
+  shallowClone->fSegmentAbsoluteNumber =
+    fSegmentAbsoluteNumber;
+    
+  // number
+  shallowClone->fSegmentMeasureNumber =
+    fSegmentMeasureNumber;
+  shallowClone->fMeasureNumberHasBeenSetInSegment =
+    fMeasureNumberHasBeenSetInSegment;
+
   return shallowClone;
 }
 
@@ -17697,6 +17707,49 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
           getVoiceDirectPartUplink (),
         containingVoice);
   
+  // absolute number
+  segmentDeepCopy->fSegmentAbsoluteNumber =
+    fSegmentAbsoluteNumber;
+    
+  // number
+  segmentDeepCopy->fSegmentMeasureNumber =
+    fSegmentMeasureNumber;
+  segmentDeepCopy->fMeasureNumberHasBeenSetInSegment =
+    fMeasureNumberHasBeenSetInSegment;
+
+  // the measures in the segment contain the mmusic
+  int numberOfSegmentMeasures =
+   fSegmentMeasuresList.size () ;
+
+  if (numberOfSegmentMeasures) {
+     if (gGeneralOptions->fTraceVoices) {
+      cerr << idtr <<
+        "There are " <<
+        numberOfSegmentMeasures <<
+        " measures in segment to be deep copied" <<
+        endl;
+    }
+    
+    for (
+      list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin();
+      i != fSegmentMeasuresList.end();
+      i++) {
+      segmentDeepCopy->
+        appendMeasureToSegment (
+          (*i)->
+            createMeasureDeepCopy (
+              this));
+    } // for
+  }
+  
+  else {
+    if (gGeneralOptions->fTraceSegments) {
+      cerr << idtr <<
+        "There are no measures in voice to be deep copied" <<
+        endl;
+    }
+  }
+
   return segmentDeepCopy;
 }
 
@@ -20536,7 +20589,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       cerr << idtr <<
         "There are " <<
         numberOfInitialRepeatsAndSegments <<
-        " initial repeats and segments" <<
+        " initial repeats and segments in " <<
         endl;
     }
 
@@ -20585,7 +20638,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   else {    
     if (gGeneralOptions->fTraceVoices) {
       cerr << idtr <<
-        "There are no initial repeats and segments" <<
+        "There are no initial repeats and segments in voice to be deep copied" <<
         endl;
     }
   }

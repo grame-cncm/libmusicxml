@@ -3324,7 +3324,7 @@ class EXP msrSegment : public msrElement
 
     static SMARTP<msrSegment> create (
       int        inputLineNumber,
-      S_msrPart  segmentDirectPartUplink,
+      S_msrPart  segmentDirectPartUplink, // inutile ??? JM
       S_msrVoice segmentVoicekUplink);
 
     SMARTP<msrSegment> createSegmentShallowClone (
@@ -3339,9 +3339,9 @@ class EXP msrSegment : public msrElement
     // ------------------------------------------------------
 
     msrSegment (
-      int          inputLineNumber,
-      S_msrPart    segmentDirectPartUplink,
-      S_msrVoice   segmentVoicekUplink);
+      int        inputLineNumber,
+      S_msrPart  segmentDirectPartUplink,
+      S_msrVoice segmentVoicekUplink);
       
     virtual ~msrSegment();
     
@@ -3404,7 +3404,8 @@ class EXP msrSegment : public msrElement
   
     // measures
 
-    void                  appendMeasureToSegment (S_msrMeasure measure);
+    void                  appendMeasureToSegment (
+                            S_msrMeasure measure);
 
     void                  appendMeasureToSegmentIfNeeded (  // JMI
                             int    inputLineNumber,
@@ -3561,20 +3562,22 @@ class EXP msrSegment : public msrElement
 
   private:
 
-    S_msrPart             fSegmentDirectPartUplink;
-    
+    // counter
     static int            gSegmentsCounter;
 
+    // absolute number
     int                   fSegmentAbsoluteNumber;
         
+    // number
+    string                fSegmentMeasureNumber;
+    bool                  fMeasureNumberHasBeenSetInSegment; // JMI
+
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
 
-    string                fSegmentMeasureNumber;
-
-    bool                  fMeasureNumberHasBeenSetInSegment; // JMI
-
+    // uplinks
     S_msrVoice            fSegmentVoiceUplink;
+    S_msrPart             fSegmentDirectPartUplink;
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
