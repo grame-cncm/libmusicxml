@@ -23970,6 +23970,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
       s.str());
   }
 
+/* JMI
   // create the voice
   S_msrVoice
     voice =
@@ -23979,6 +23980,15 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
         msrVoice::kRegularVoice,
         externalVoiceNumber,
         this);
+*/
+
+  // create the voice as a deep copy of the silent voice
+  S_msrVoice
+    voice =
+      fStaffSilentVoice->
+        createVoiceDeepCopy (
+ // JMI serait utile?         inputLineNumber,
+          this);
 
   // get the part current time
   S_msrTime
