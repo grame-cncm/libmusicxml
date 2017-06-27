@@ -15837,18 +15837,23 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         elementDeepCopy =
           note->createNoteDeepCopy (
             directPartUplink);
+
+        // append the element deep copy to the measure deep copy
+        measureDeepCopy->
+          fMeasureElementsList.push_back (
+            elementDeepCopy);
       }
     
       else {
         // share the element with the original measure
         elementDeepCopy = (*i);
       }
-
+/* JMI
       // append the element deep copy to the measure deep copy
       measureDeepCopy->
         fMeasureElementsList.push_back (
           elementDeepCopy);
-        
+     */   
     } // for
   }
   
