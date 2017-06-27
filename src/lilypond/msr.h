@@ -4779,7 +4779,6 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     bool                  fNoteBelongsToATuplet;
-    S_msrTuplet           fNoteTupletUplink;
 
     // multiple rest member?
     // ------------------------------------------------------
@@ -4870,8 +4869,6 @@ class EXP msrNote : public msrElement
     
     bool                  fNoteOccupiesAFullMeasure;
     
-    S_msrMeasure          fNoteMeasureUplink;
-
     // note as MSR string
     // ------------------------------------------------------
     // these fileds are set by msrNote::create()
@@ -4905,10 +4902,14 @@ class EXP msrNote : public msrElement
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                  fNoteHasADelayedOrnament;
 
-    // direct part uplink
-    // divisions handling is done at the part level // JMI
+    // uplinks
+    // ------------------------------------------------------
+
+    S_msrTuplet           fNoteTupletUplink;
+
+    S_msrMeasure          fNoteMeasureUplink;
+
     S_msrPart             fNoteDirectPartUplink;
-    
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

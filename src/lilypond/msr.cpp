@@ -6669,7 +6669,17 @@ S_msrNote msrNote::createNoteShallowClone (
     fNoteHasADelayedOrnament;
 
   // uplinks
-  
+  // ------------------------------------------------------
+
+  shallowClone->fNoteDirectPartUplink =
+    containingPart;
+
+  /* JMI
+    S_msrTuplet           fNoteTupletUplink;
+
+    S_msrMeasure          fNoteMeasureUplink;
+*/
+
   return shallowClone;
 }
 
@@ -6691,7 +6701,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     "containingPart is null");
     
   S_msrNote
-    shallowClone =
+    noteDeepCopy =
       msrNote::create (
         fInputLineNumber,
         containingPart,
@@ -6722,107 +6732,170 @@ S_msrNote msrNote::createNoteDeepCopy (
   // basic note description
   // ------------------------------------------------------
 
-  shallowClone->fNoteOctaveShift =
+  noteDeepCopy->fNoteOctaveShift = // JMI
     fNoteOctaveShift;
 
   // accidentals
   // ------------------------------------------------------
 
-  shallowClone->fNoteEditorialAccidentalKind =
+  noteDeepCopy->fNoteEditorialAccidentalKind =
     fNoteEditorialAccidentalKind;
   
-  shallowClone->fNoteCautionaryAccidentalKind =
+  noteDeepCopy->fNoteCautionaryAccidentalKind =
     fNoteCautionaryAccidentalKind;
   
-  // note context
+  // staff and voice context
   // ------------------------------------------------------
 
-  shallowClone->
+  noteDeepCopy->
     fNoteStaffNumber =
       fNoteStaffNumber;
-  shallowClone->
+  noteDeepCopy->
     fNoteVoiceNumber =
       fNoteVoiceNumber;
 
-  shallowClone->
+  // chord member?
+  // ------------------------------------------------------
+
+  noteDeepCopy->
     fNoteBelongsToAChord =
       fNoteBelongsToAChord;
 
-  shallowClone->
+  // tuplet member?
+  // ------------------------------------------------------
+
+  noteDeepCopy->
     fNoteBelongsToATuplet =
       fNoteBelongsToATuplet;
+
+    // multiple rest member?
+    // ------------------------------------------------------
+
+  noteDeepCopy->
+    fNoteBelongsToAMultipleRest =
+      fNoteBelongsToAMultipleRest;
+
+  noteDeepCopy->
+    fNoteMultipleRestSequenceNumber =
+      fNoteMultipleRestSequenceNumber;
 
   // note lyrics
   // ------------------------------------------------------
 
-  shallowClone->
+  noteDeepCopy->
     fNoteSyllableExtendKind =
       fNoteSyllableExtendKind;
 
-  // elements attached to the note
+  // stem
   // ------------------------------------------------------
 
-  shallowClone->fNoteStem = // JMI
+  noteDeepCopy->fNoteStem = // JMI
     fNoteStem;
 
-  shallowClone->fNoteTie = // JMI
+  // beams
+  // ------------------------------------------------------
+
+  // articulations
+  // ------------------------------------------------------
+
+  // technicals
+  // ------------------------------------------------------
+
+  // ornaments
+  // ------------------------------------------------------
+
+  // single tremolo
+  // ------------------------------------------------------
+
+  // tie
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteTie = // JMI
     fNoteTie;
 
-  shallowClone->fNoteHarmony =
+  // dynamics
+  // ------------------------------------------------------
+
+  // words
+  // ------------------------------------------------------
+
+  // slurs
+  // ------------------------------------------------------
+
+  // ligatures
+  // ------------------------------------------------------
+
+  // harmony
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteHarmony =
     fNoteHarmony;
 
   // note measure information
   // ------------------------------------------------------
 
-  shallowClone->
+  noteDeepCopy->
     fNoteMeasureNumber =
       fNoteMeasureNumber;
-  shallowClone->
+  noteDeepCopy->
     fNotePositionInMeasure =
       fNotePositionInMeasure;
-  shallowClone->
+  noteDeepCopy->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
 
   // note as MSR string
   // ------------------------------------------------------
 
-  shallowClone->fNoteSoundingWholeNotesAsMsrString =
+  noteDeepCopy->fNoteSoundingWholeNotesAsMsrString =
     fNoteSoundingWholeNotesAsMsrString;
-  shallowClone->fNoteDisplayWholeNotesAsMsrString =
+  noteDeepCopy->fNoteDisplayWholeNotesAsMsrString =
     fNoteDisplayWholeNotesAsMsrString;
     
-  shallowClone->fNoteGraphicDurationAsMsrString =
+  noteDeepCopy->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
     
-  shallowClone->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
+  noteDeepCopy->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
     fNoteSkipOrRestSoundingWholeNotesAsMsrString;
     
-  shallowClone->fNoteTupletNoteSoundingWholeNotesAsMsrString =
+  noteDeepCopy->fNoteTupletNoteSoundingWholeNotesAsMsrString =
     fNoteTupletNoteSoundingWholeNotesAsMsrString;
-  shallowClone->fNoteGraphicDurationAsMsrString =
+  noteDeepCopy->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
 
-  shallowClone->fNoteIsStemless =
+  noteDeepCopy->fNoteIsStemless =
     fNoteIsStemless;
 
-  shallowClone->fNoteIsFirstNoteInADoubleTremolo =
+  noteDeepCopy->fNoteIsFirstNoteInADoubleTremolo =
     fNoteIsFirstNoteInADoubleTremolo;
-  shallowClone->fNoteIsSecondNoteInADoubleTremolo =
+  noteDeepCopy->fNoteIsSecondNoteInADoubleTremolo =
     fNoteIsSecondNoteInADoubleTremolo;
 
-  shallowClone->fNoteHasATrill =
+  noteDeepCopy->fNoteHasATrill =
     fNoteHasATrill;
-  shallowClone->fNoteIsFollowedByGraceNotes =
+  noteDeepCopy->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
 
-  shallowClone->fNoteHasADelayedOrnament =
+  noteDeepCopy->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
 
-  return shallowClone;
+  // uplinks
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteDirectPartUplink =
+    containingPart;
+
+  /* JMI
+  
+    S_msrTuplet           fNoteTupletUplink;
+
+    S_msrMeasure          fNoteMeasureUplink;
+*/
+
+  return noteDeepCopy;
 }
 
 string msrNote::noteKindAsString (
