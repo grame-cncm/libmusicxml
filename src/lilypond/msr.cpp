@@ -23117,7 +23117,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 S_msrElement msrVoice::removeLastElementFromVoice (  // JMI
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceGeneral)
+  if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Removing last note" <<
       " from voice " << getVoiceName () <<

@@ -149,13 +149,13 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _TRACE_DIVISIONS_LONG_NAME_  "traceDivisions"
 #define _TRACE_DIVISIONS_SHORT_NAME_ "tdivs"
 
-// part groups
-#define _TRACE_PARTGROUPS_LONG_NAME_  "tracePartGroups"
-#define _TRACE_PARTGROUPS_SHORT_NAME_ "tpgrps"
-
 // geometry
 #define _TRACE_GEOMETRY_LONG_NAME_  "traceGeometry"
 #define _TRACE_GEOMETRY_SHORT_NAME_ "tgeom"
+
+// part groups
+#define _TRACE_PARTGROUPS_LONG_NAME_  "tracePartGroups"
+#define _TRACE_PARTGROUPS_SHORT_NAME_ "tpgrps"
 
 // parts
 #define _TRACE_PARTS_LONG_NAME_  "traceParts"
@@ -288,6 +288,8 @@ class EXP msrGeneralOptions : public smartable
     // trace and display
     // --------------------------------------
   
+    bool                  fTraceGeneral;
+    
     bool                  fTraceDetailed;
     set<int>              fTraceDetailedMeasureNumbersSet;
 

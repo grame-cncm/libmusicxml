@@ -236,6 +236,8 @@ void msrGeneralOptions::initializeGeneralOptions (
   // trace and display
   // --------------------------------------
 
+  fTraceGeneral = boolOptionsInitialValue;
+
   fTraceDetailed = false;
 
   // CPU usage
@@ -359,6 +361,9 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   // trace and display
   // --------------------------------------
 
+  clone->fTraceGeneral =
+    true;
+    
   clone->fTraceDetailed =
     true;
 
@@ -930,6 +935,11 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr++;
 
   cerr << left <<
+    idtr <<
+      setw(fieldWidth) << "traceGeneral" << " : " <<
+      booleanAsString (fTraceGeneral) <<
+       endl <<
+       
     idtr <<
       setw(fieldWidth) << "traceDetailed" << " : " <<
       booleanAsString (fTraceDetailed) <<
