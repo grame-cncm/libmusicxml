@@ -20271,10 +20271,10 @@ void msrMeasureRepeatReplicas::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrMeasureRepeat msrMeasureRepeat::create (
-  int          inputLineNumber,
-  int          measureRepeatMeasuresNumber,
-  int          measureRepeatSlashesNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  int        measureRepeatMeasuresNumber,
+  int        measureRepeatSlashesNumber,
+  S_msrVoice voiceUplink)
 {
   msrMeasureRepeat* o =
     new msrMeasureRepeat (
@@ -20286,10 +20286,10 @@ S_msrMeasureRepeat msrMeasureRepeat::create (
 }
 
 msrMeasureRepeat::msrMeasureRepeat (
-  int          inputLineNumber,
-  int          measureRepeatMeasuresNumber,
-  int          measureRepeatSlashesNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  int        measureRepeatMeasuresNumber,
+  int        measureRepeatSlashesNumber,
+  S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
   fMeasureRepeatMeasuresNumber = measureRepeatMeasuresNumber;
@@ -20321,6 +20321,14 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
         fMeasureRepeatSlashesNumber,
         containingVoice);
 
+  // numbers
+  
+  // repeat pattern
+
+  // repeat replicas
+
+  // uplinks
+
   return newbornClone;
 }
 
@@ -20344,6 +20352,25 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
         fMeasureRepeatSlashesNumber,
         containingVoice);
 
+  // numbers
+
+  // repeat pattern
+  measureRepeatDeepCopy->fMeasureRepeatPattern =
+    fMeasureRepeatPattern->
+      createMeasureRepeatPatternDeepCopy (
+        containingVoice);
+        
+  // repeat replicas
+
+   measureRepeatDeepCopy->fMeasureRepeatReplicas =
+    fMeasureRepeatReplicas->
+      createMeasureRepeatReplicasDeepCopy (
+        containingVoice);
+        
+  // uplinks
+  measureRepeatDeepCopy->fMeasureRepeatVoiceUplink =
+    containingVoice;
+    
   return measureRepeatDeepCopy;
 }
 
