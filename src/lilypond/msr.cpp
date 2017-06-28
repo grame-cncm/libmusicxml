@@ -14235,14 +14235,82 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
         fStanzaKind,
         containingVoice);
 
+  // number
+
+  // kind
+
+  // name
+  newbornClone->fStanzaName =
+    fStanzaName;
+
+  // contents
   newbornClone->fStanzaTextPresent =
     fStanzaTextPresent;
 
-  // add the stanza newborn clone to the containing voice
-  containingVoice->
-    addStanzaToVoiceWithoutCatchUp (newbornClone);
-    
+  // uplinks
+  newbornClone->fStanzaVoiceUplink =
+    containingVoice;
+
+  // fStanzaDirectPartUplink ??? JMI
+  
   return newbornClone;
+}
+
+S_msrStanza msrStanza::createStanzaDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceLyrics) {
+    cerr << idtr <<
+      "Creating a deep copy of stanza \"" <<
+      getStanzaName () <<
+      "\" in voice \"" <<
+      containingVoice->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+    
+  S_msrStanza
+    stanzaDeepCopy =
+      msrStanza::create (
+        fInputLineNumber,
+        containingVoice->
+          getVoiceDirectPartUplink (),
+        fStanzaNumber,
+        fStanzaKind,
+        containingVoice);
+
+  // number
+
+  // kind
+
+  // name
+  stanzaDeepCopy->fStanzaName =
+    fStanzaName;
+
+  // contents
+  int n = fSyllables.size ();
+  for (int i = 0; i < n; i++) {
+    stanzaDeepCopy->fSyllables.push_back (
+      fSyllables [i]->
+        createSyllableDeepCopy (
+          containingVoice->
+            getVoiceDirectPartUplink ()));
+  } // for
+
+  stanzaDeepCopy->fStanzaTextPresent =
+    fStanzaTextPresent;
+
+  // uplinks
+  stanzaDeepCopy->fStanzaVoiceUplink =
+    containingVoice;
+
+  // fStanzaDirectPartUplink ??? JMI
+  
+  return stanzaDeepCopy;
 }
 
 void msrStanza::appendSyllableToStanza (

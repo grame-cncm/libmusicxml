@@ -6488,20 +6488,18 @@ class EXP msrStanza : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrPart             getStanzaDirectPartUplink () const
-                              { return fStanzaDirectPartUplink; }
-
+    // number
     int                   getStanzaNumber () const
                               { return fStanzaNumber; }
                 
+    // name
     string                getStanzaName () const;
                 
-    S_msrVoice            getStanzaVoiceUplink () const
-                              { return fStanzaVoiceUplink; }
-                
+    // kind
     msrStanzaKind         getStanzaKind () const
                               { return fStanzaKind; }
                 
+    // contents
     const vector<S_msrSyllable>&
                           getSyllables () const
                               { return fSyllables; }
@@ -6511,6 +6509,13 @@ class EXP msrStanza : public msrElement
 
     bool                  getStanzaTextPresent () const
                               { return fStanzaTextPresent; }
+
+    // uplinks
+    S_msrVoice            getStanzaVoiceUplink () const
+                              { return fStanzaVoiceUplink; }
+                
+    S_msrPart             getStanzaDirectPartUplink () const
+                              { return fStanzaDirectPartUplink; }
 
 
     // services
@@ -6574,19 +6579,24 @@ class EXP msrStanza : public msrElement
 
   private:
 
-    S_msrPart             fStanzaDirectPartUplink;
-
+    // number
     int                   fStanzaNumber;
+
+    // kind
     msrStanzaKind         fStanzaKind;
 
+    // name
     string                fStanzaName;
 
+    // contents
     vector<S_msrSyllable> fSyllables;
 
     bool                  fStanzaTextPresent;
 
+    // uplinks
     S_msrVoice            fStanzaVoiceUplink;
 
+    S_msrPart             fStanzaDirectPartUplink;
 };
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
