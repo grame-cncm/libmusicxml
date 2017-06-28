@@ -229,10 +229,6 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _TRACE_HARMONIES_LONG_NAME_  "traceHarmonies"
 #define _TRACE_HARMONIES_SHORT_NAME_ "tharms"
 
-// Scheme functions
-#define _TRACE_SCHEME_FUNCTIONS_LONG_NAME_  "traceSchemeFunctions"
-#define _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ "tscheme"
-
 
 class EXP msrGeneralOptions : public smartable
 {
@@ -358,9 +354,6 @@ class EXP msrGeneralOptions : public smartable
 
     // harmonies
     bool                  fTraceHarmonies;
-
-    // Scheme functions
-    bool                  fTraceSchemeFunctions;
 
     
     /* STUFF not yet handled JMI */

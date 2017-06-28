@@ -2236,7 +2236,7 @@ R"(
         // Scheme functions
         if (traceSchemeFunctionsPresent) {
           gGeneralOptions->fTraceGeneral = true;
-          gGeneralOptions->fTraceSchemeFunctions = true;
+          gLpsrOptions->fTraceSchemeFunctions = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _TRACE_SCHEME_FUNCTIONS_LONG_NAME_ " ";

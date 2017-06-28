@@ -306,9 +306,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   // harmonies
   fTraceHarmonies = boolOptionsInitialValue;
 
-  // Scheme functions
-  fTraceSchemeFunctions = boolOptionsInitialValue;
-
 
   /* STUFF not yet handled JMI */
 
@@ -456,10 +453,6 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   
   // harmonies
   clone->fTraceHarmonies =
-    true;
-  
-  // Scheme functions
-  clone->fTraceSchemeFunctions =
     true;
   
     
@@ -1129,12 +1122,6 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (fTraceHarmonies) <<
-      endl <<
-      
-    // Scheme functions
-    idtr <<
-      setw(fieldWidth) << "traceSchemeFunctions" << " : " <<
-      booleanAsString (fTraceSchemeFunctions) <<
       endl;
 
   idtr--;
