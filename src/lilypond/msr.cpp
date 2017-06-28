@@ -22120,6 +22120,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure (
       fVoiceStaffUplink->
         getStaffSilentVoice ();
 
+// JMI
 }
 
 void msrVoice::bringVoiceToMeasureLength (
@@ -24889,7 +24890,7 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
         case msrVoice::kHarmonyVoice: // JMI
           break;
           
-        case msrVoice::kSilentVoice:
+        case msrVoice::kSilentVoice: // JMI
           break;
       } // switch
       
@@ -26182,7 +26183,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
   int inputLineNumber)
 {
   // create the part harmony staff
-  if (gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Creating the harmony staff" <<
       " with number " << K_PART_HARMONY_STAFF_NUMBER <<
@@ -26198,7 +26199,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
       K_PART_HARMONY_STAFF_NUMBER);
     
   // create the part harmony voice  
-  if (gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Creating the harmony voice " <<
       " with number " << K_PART_HARMONY_VOICE_NUMBER <<
