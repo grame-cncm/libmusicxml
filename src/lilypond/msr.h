@@ -7199,8 +7199,8 @@ class EXP msrRepeat : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRepeat> create (
-      int          inputLineNumber,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
     
     SMARTP<msrRepeat> createRepeatNewbornClone (
       S_msrVoice containingVoice);
@@ -7214,8 +7214,8 @@ class EXP msrRepeat : public msrElement
     // ------------------------------------------------------
 
     msrRepeat (
-      int          inputLineNumber,
-      S_msrVoice   voiceUplink);
+      int        inputLineNumber,
+      S_msrVoice voiceUplink);
       
     virtual ~msrRepeat();
   
@@ -7224,12 +7224,14 @@ class EXP msrRepeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // common segment
     void                  setRepeatCommonSegment (
                             S_msrSegment repeatCommonSegment);
                   
     S_msrSegment          getRepeatCommonSegment () const
                               { return fRepeatCommonSegment; }
 
+    // endings
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
                             { return fRepeatEndings; }
@@ -7257,12 +7259,15 @@ class EXP msrRepeat : public msrElement
 
   private:
 
+    // common segment
     S_msrSegment          fRepeatCommonSegment;
-    
+
+    // repeat endings
     vector<S_msrRepeatEnding>
                           fRepeatEndings;
     int                   fRepeatEndingsInternalCounter;
-    
+
+    // uplinks
     S_msrVoice            fRepeatVoiceUplink;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;

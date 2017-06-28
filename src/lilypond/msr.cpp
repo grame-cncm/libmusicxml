@@ -19634,8 +19634,8 @@ void msrRepeatEnding::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrRepeat msrRepeat::create (
-  int          inputLineNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  S_msrVoice voiceUplink)
 {
   msrRepeat* o =
     new msrRepeat (
@@ -19645,8 +19645,8 @@ S_msrRepeat msrRepeat::create (
 }
 
 msrRepeat::msrRepeat (
-  int          inputLineNumber,
-  S_msrVoice   voiceUplink)
+  int        inputLineNumber,
+  S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
   fRepeatEndingsInternalCounter = 0;
@@ -19675,9 +19675,14 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
         fInputLineNumber,
         containingVoice);
 
+  // common segment
+
+  // repeat endings
   newbornClone->fRepeatEndingsInternalCounter =
     fRepeatEndingsInternalCounter;
     
+  // uplinks
+
   return newbornClone;
 }
 
@@ -19699,12 +19704,13 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
         fInputLineNumber,
         containingVoice);
 
+  // common segment
   repeatDeepCopy->fRepeatCommonSegment =
     fRepeatCommonSegment->
       createSegmentDeepCopy (
         containingVoice);
         
-  // browse the alternatives
+  // repeat endings
   for (
     vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin();
     i != fRepeatEndings.end();
@@ -19717,7 +19723,9 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
 
   repeatDeepCopy->fRepeatEndingsInternalCounter =
     fRepeatEndingsInternalCounter;
-    
+
+  // uplinks
+  
   return repeatDeepCopy;
 }
 
