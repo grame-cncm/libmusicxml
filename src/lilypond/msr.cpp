@@ -21420,19 +21420,35 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       createSegmentDeepCopy (
         voiceDeepCopy);    
 
-  // repeats
+  // first segment
+  //fVoiceFirstSegment ??? JMI
+  
+  // current repeat
+  // fVoiceCurrentRepeat ??? JMI
   
   // multple rests
+  // fVoicePendingMultipleRest ??? JMI
   voiceDeepCopy->fVoiceContainsMultipleRests =
     fVoiceContainsMultipleRests;
 
   // stanzas
-  /* JMI
   voiceDeepCopy->fVoiceMuteStanza =
     fVoiceMuteStanza->
       createStanzaDeepCopy (
         voiceDeepCopy);
-*/
+
+  for (
+    map<int, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
+    i != fVoiceStanzasMap.end();
+    i++) {
+    S_msrStanza stanza = (*i).second;
+
+    voiceDeepCopy->
+      addStanzaToVoiceWithoutCatchUp (
+        stanza->
+          createStanzaDeepCopy (
+            voiceDeepCopy));
+  } // for
 
   // uplinks
   voiceDeepCopy->fVoiceStaffUplink =
