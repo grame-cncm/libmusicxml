@@ -4034,9 +4034,10 @@ void msrOrnament::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSingleTremolo msrSingleTremolo::create (
-  int                     inputLineNumber,
-  int                     singleTremoloMarksNumber,
-  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
+  int inputLineNumber,
+  int singleTremoloMarksNumber,
+  msrSingleTremoloPlacementKind
+      singleTremoloPlacementKind)
 {
   msrSingleTremolo* o =
     new msrSingleTremolo (
@@ -4046,10 +4047,42 @@ S_msrSingleTremolo msrSingleTremolo::create (
   return o;
 }
 
+S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
+  S_msrNote noteUplink)
+{
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "Creating a deep copy of single tremolo " <<
+      singleTremoloAsString () <<
+      " in note '" <<
+      noteUplink->
+        noteAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    noteUplink != 0,
+    "noteUplink is null");
+
+  S_msrSingleTremolo
+    singleTremoloDeepCopy =
+      msrSingleTremolo::create (
+        fInputLineNumber,
+        fSingleTremoloMarksNumber,
+        fSingleTremoloPlacementKind);
+
+  singleTremoloDeepCopy->fSingleTremoloNoteUplink =
+    noteUplink;
+    
+  return singleTremoloDeepCopy;
+}
+
 msrSingleTremolo::msrSingleTremolo (
-  int                     inputLineNumber,
-  int                     singleTremoloMarksNumber,
-  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
+  int inputLineNumber,
+  int singleTremoloMarksNumber,
+  msrSingleTremoloPlacementKind
+      singleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
   fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
@@ -6768,8 +6801,8 @@ S_msrNote msrNote::createNoteDeepCopy (
     fNoteBelongsToATuplet =
       fNoteBelongsToATuplet;
 
-    // multiple rest member?
-    // ------------------------------------------------------
+  // multiple rest member?
+  // ------------------------------------------------------
 
   noteDeepCopy->
     fNoteBelongsToAMultipleRest =
@@ -6782,6 +6815,13 @@ S_msrNote msrNote::createNoteDeepCopy (
   // note lyrics
   // ------------------------------------------------------
 
+  {
+    list<S_msrSyllable>::const_iterator i;
+    for (i=fNoteSyllables.begin(); i!=fNoteSyllables.end(); i++) {
+      noteDeepCopy->fNoteSyllables.push_back ((*i));
+    } // for
+  }
+  
   noteDeepCopy->
     fNoteSyllableExtendKind =
       fNoteSyllableExtendKind;
@@ -6795,17 +6835,74 @@ S_msrNote msrNote::createNoteDeepCopy (
   // beams
   // ------------------------------------------------------
 
+  {
+    list<S_msrBeam>::const_iterator i;
+    for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
+      noteDeepCopy->fNoteBeams.push_back ((*i));
+    } // for
+  }
+  
   // articulations
   // ------------------------------------------------------
+
+  for (
+    list<S_msrArticulation>::const_iterator i=
+      fNoteArticulations.begin();
+      i!=fNoteArticulations.end();
+      i++) {
+    noteDeepCopy->fNoteArticulations.push_back ((*i));
+  } // for
 
   // technicals
   // ------------------------------------------------------
 
+  {
+    list<S_msrTechnical>::const_iterator i;
+    for (
+      i=fNoteTechnicals.begin();
+      i!=fNoteTechnicals.end();
+      i++) {
+      noteDeepCopy->fNoteTechnicals.push_back ((*i));
+    } // for
+  }
+  
+  {
+    list<S_msrTechnicalWithInteger>::const_iterator i;
+    for (
+      i=fNoteTechnicalWithIntegers.begin();
+      i!=fNoteTechnicalWithIntegers.end();
+      i++) {
+      noteDeepCopy->fNoteTechnicalWithIntegers.push_back ((*i));
+    } // for
+  }
+  
+  {
+    list<S_msrTechnicalWithString>::const_iterator i;
+    for (
+      i=fNoteTechnicalWithStrings.begin();
+      i!=fNoteTechnicalWithStrings.end();
+      i++) {
+      noteDeepCopy->fNoteTechnicalWithStrings.push_back ((*i));
+    } // for
+  }
+  
   // ornaments
   // ------------------------------------------------------
 
+  {
+    list<S_msrOrnament>::const_iterator i;
+    for (i=fNoteOrnaments.begin(); i!=fNoteOrnaments.end(); i++) {
+      noteDeepCopy->fNoteOrnaments.push_back ((*i));
+    } // for
+  }
+  
   // single tremolo
   // ------------------------------------------------------
+
+  noteDeepCopy->fNoteSingleTremolo =
+    fNoteSingleTremolo->
+      createSingleTremoloDeepCopy (
+        this);
 
   // tie
   // ------------------------------------------------------
@@ -6816,20 +6913,64 @@ S_msrNote msrNote::createNoteDeepCopy (
   // dynamics
   // ------------------------------------------------------
 
+  {
+    list<S_msrDynamics>::const_iterator i;
+    for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
+      noteDeepCopy->fNoteDynamics.push_back ((*i));
+    } // for
+  }
+
+  {
+    list<S_msrOtherDynamics>::const_iterator i;
+    for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
+      noteDeepCopy->fNoteOtherDynamics.push_back ((*i));
+    } // for
+  }
+  
+  {
+    list<S_msrWedge>::const_iterator i;
+    for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
+      noteDeepCopy->fNoteWedges.push_back ((*i));
+    } // for
+  }
+  
   // words
   // ------------------------------------------------------
 
+  {
+    list<S_msrWords>::const_iterator i;
+    for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
+      noteDeepCopy->fNoteWords.push_back ((*i));
+    } // for
+  }
+  
   // slurs
   // ------------------------------------------------------
 
+  {
+    list<S_msrSlur>::const_iterator i;
+    for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
+      noteDeepCopy->fNoteSlurs.push_back ((*i));
+    } // for
+  }
+  
   // ligatures
   // ------------------------------------------------------
 
+  { 
+    list<S_msrLigature>::const_iterator i;
+    for (i=fNoteLigatures.begin(); i!=fNoteLigatures.end(); i++) {
+      noteDeepCopy->fNoteLigatures.push_back ((*i));
+    } // for
+  }
+  
   // harmony
   // ------------------------------------------------------
 
   noteDeepCopy->fNoteHarmony =
-    fNoteHarmony;
+    fNoteHarmony->
+      createHarmonyDeepCopy (
+        containingPart);
 
   // note measure information
   // ------------------------------------------------------
@@ -6840,6 +6981,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->
     fNotePositionInMeasure =
       fNotePositionInMeasure;
+      
   noteDeepCopy->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
@@ -6860,6 +7002,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     
   noteDeepCopy->fNoteTupletNoteSoundingWholeNotesAsMsrString =
     fNoteTupletNoteSoundingWholeNotesAsMsrString;
+    
   noteDeepCopy->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
 
@@ -14652,11 +14795,49 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingWholeNotes);
 
+  newbornClone->fHarmonySoundingWholeNotes =
+    fHarmonySoundingWholeNotes;
+    
   // MSR strings
   newbornClone->fHarmonySoundingWholeNotesAsString =
     fHarmonySoundingWholeNotesAsString;
     
   return newbornClone;
+}
+
+S_msrHarmony msrHarmony::createHarmonyDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "Creating a deep copy of harmony '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrHarmony
+    harmonyDeepCopy =
+      msrHarmony::create (
+        fInputLineNumber,
+        containingPart,
+        fHarmonyRootQuarterTonesPitch,
+        fHarmonyKind, fHarmonyKindText,
+        fHarmonyBassQuarterTonesPitch,
+        fHarmonySoundingWholeNotes);
+
+  harmonyDeepCopy->fHarmonySoundingWholeNotes =
+    fHarmonySoundingWholeNotes;
+    
+  // MSR strings
+  harmonyDeepCopy->fHarmonySoundingWholeNotesAsString =
+    fHarmonySoundingWholeNotesAsString;
+    
+  return harmonyDeepCopy;
 }
 
 string msrHarmony::harmonyKindAsString (

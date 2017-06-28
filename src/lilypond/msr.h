@@ -1596,10 +1596,13 @@ class EXP msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSingleTremolo> create (
-      int                     inputLineNumber,
-      int                     singleTremoloMarksNumber,
+      int inputLineNumber,
+      int singleTremoloMarksNumber,
       msrSingleTremoloPlacementKind
-                              singleTremoloPlacementKind);
+          singleTremoloPlacementKind);
+
+    SMARTP<msrSingleTremolo> createSingleTremoloDeepCopy (
+      S_msrNote noteUplink);
 
   protected:
 
@@ -1662,11 +1665,12 @@ class EXP msrSingleTremolo : public msrElement
 
   private:
 
-    int                           fSingleTremoloMarksNumber;
+    int                   fSingleTremoloMarksNumber;
 
-    msrSingleTremoloPlacementKind fSingleTremoloPlacementKind;
+    msrSingleTremoloPlacementKind
+                          fSingleTremoloPlacementKind;
     
-    S_msrNote                     fSingleTremoloNoteUplink;
+    S_msrNote             fSingleTremoloNoteUplink;
 };
 typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
@@ -4093,9 +4097,6 @@ class EXP msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart             getHarmonyDirectPartUplink () const
-                             { return fHarmonyDirectPartUplink; }
-
     rational              getHarmonySoundingWholeNotes () const
                               { return fHarmonySoundingWholeNotes; }
 
@@ -4116,6 +4117,10 @@ class EXP msrHarmony : public msrElement
                                 return
                                   fHarmonySoundingWholeNotesAsString;
                               }
+
+    // uplinks
+    S_msrPart             getHarmonyDirectPartUplink () const
+                             { return fHarmonyDirectPartUplink; }
 
     // services
     // ------------------------------------------------------
@@ -4140,8 +4145,6 @@ class EXP msrHarmony : public msrElement
 
   private:
 
-    S_msrPart             fHarmonyDirectPartUplink;
-
     rational              fHarmonySoundingWholeNotes;
     
     msrQuarterTonesPitch  fHarmonyRootQuarterTonesPitch;
@@ -4153,6 +4156,9 @@ class EXP msrHarmony : public msrElement
 
     // MSR strings
     string                fHarmonySoundingWholeNotesAsString;
+
+    // uplinks
+    S_msrPart             fHarmonyDirectPartUplink;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
