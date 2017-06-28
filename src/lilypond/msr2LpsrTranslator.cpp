@@ -351,7 +351,8 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrPartGroup" <<
+      "--> Start visiting msrPartGroup " <<
+      elt->getPartGroupCombinedName () <<
       endl;
 
   // create a partGroup clone
@@ -408,7 +409,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrPartGroup" <<
+      "--> End visiting msrPartGroup " <<
+      elt->getPartGroupCombinedName () <<
       endl;
 
   S_msrPartGroup
@@ -512,7 +514,8 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrPart" <<
+      "--> Start visiting msrPart " <<
+      elt->getPartCombinedName () <<
       endl;
 
   idtr++;
@@ -565,7 +568,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrPart" <<
+      "--> End visiting msrPart " <<
+      elt->getPartCombinedName () <<
       endl;
 }
 
@@ -653,7 +657,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrStaff" <<
+      "--> Start visiting msrStaff \"" <<
+      elt->getStaffName () << "\"" <<
       endl;
 
   idtr++;
@@ -873,7 +878,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting S_msrStaff" <<
+      "--> End visiting S_msrStaff \"" <<
+      elt->getStaffName () << "\"" <<
       endl;
 
   switch (elt->getStaffKind ()) {
@@ -902,7 +908,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrVoice" <<
+      "--> Start visiting msrVoice \"" <<
+      elt->getVoiceName () << "\"" <<
       endl;
 
   int inputLineNumber =
@@ -1012,7 +1019,8 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrVoice" <<
+      "--> End visiting msrVoice \"" <<
+      elt->getVoiceName () << "\"" <<
       endl;
 
   switch (elt->getVoiceKind ()) {
