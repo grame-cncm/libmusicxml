@@ -2358,7 +2358,7 @@ void msrOptions::printMsrOptionsHelp ()
       "--" _SHOW_SILENT_VOICES_SHORT_NAME_ ", --" _SHOW_SILENT_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Show the staves master voices used intertally event though the're empty" <<
+      "Show the staves silent voices used internally event though the're empty" <<
       endl <<
     endl <<
     
@@ -2366,7 +2366,7 @@ void msrOptions::printMsrOptionsHelp ()
       "--" _KEEP_SILENT_VOICES_SHORT_NAME_ ", --" _KEEP_SILENT_VOICES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Keep the master voices used intertally. By default, there are removed after usage." <<
+      "Keep the silent voices used internally. By default, there are removed after usage." <<
       endl <<
     endl;
 
@@ -2438,7 +2438,7 @@ void msrOptions::printMsrOptionsHelp ()
       "--" _KEEP_MUTE_STANZAS_SHORT_NAME_ ", --" _KEEP_MUTE_STANZAS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "Keep the master stanzas used intertally. By default, there are removed after usage." <<
+      "Keep the mute stanzas used intertally. By default, there are removed after usage." <<
       endl <<
     endl;
 
@@ -8147,9 +8147,11 @@ void msrNote::print (ostream& os)
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kChordMemberNote:
         os <<
+        /* JMI
           "note divisions per quarter note: " <<
           fNoteDivisionsPerQuarterNote <<
           ", whole notes: " <<
+          */
           fNoteSoundingWholeNotes <<
           " sound, " <<
           fNoteDisplayWholeNotes<<
@@ -21259,7 +21261,7 @@ void msrVoice::initializeVoice ()
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       // the external voice number should not be negative
-      // (-99 is used for the staves master voices)
+      // (K_SILENT_VOICE_NUMBER is used for the staves silent voices)
       if (fExternalVoiceNumber < 0) {
         stringstream s;
     
@@ -21322,7 +21324,7 @@ void msrVoice::initializeVoice ()
     appendStaffDetailsToVoice (staffStaffDetails);
   }
     
-  // add the master stanza for this voice,
+  // add the mute stanza for this voice,
   // to collect skips along the way that are used as a 'prelude'
   // by actual stanza that start at later points
   fVoiceMuteStanza =
@@ -21842,21 +21844,21 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
 void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
 {
   vector<S_msrSyllable>
-    masterSyllables =
+    muteSyllables =
       fVoiceMuteStanza->
         getSyllables ();
 
-  if (masterSyllables.size()) {
+  if (muteSyllables.size()) {
     if (gGeneralOptions->fTraceLyrics)
       cerr << idtr <<
-        "Copying current contents of voice master stanza to " <<
+        "Copying current contents of voice mute stanza to " <<
         stanza->getStanzaName () <<
         endl;
         
     for (
       vector<S_msrSyllable>::const_iterator i =
-        masterSyllables.begin();
-      i != masterSyllables.end();
+        muteSyllables.begin();
+      i != muteSyllables.end();
       i++) {
       // add syllable to stanza
       stanza->appendSyllableToStanza ((*i));
@@ -22305,7 +22307,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegment (note);
   
-  // add a skip syllable of the same duration to the master stanza
+  // add a skip syllable of the same duration to the mute stanza
   rational
     noteSoundingWholeNotes =
       note->
@@ -22383,7 +22385,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
   
-  // add a skip syllable of the same duration to the master stanza
+  // add a skip syllable of the same duration to the mute stanza
   rational
     noteSoundingWholeNotes =
       note->
@@ -22596,7 +22598,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
   fVoiceLastSegment->
     appendBarCheckToSegment (barCheck);
 
-  // add bar check syllable to the voice master stanza
+  // add bar check syllable to the voice mute stanza
   fVoiceMuteStanza->
     appendBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
@@ -22620,7 +22622,7 @@ void msrVoice::appendBarNumberCheckToVoice (
   fVoiceLastSegment->
     appendBarNumberCheckToSegment (barNumberCheck);
 
-  // add barnumber check syllable to the voice master stanza
+  // add barnumber check syllable to the voice mute stanza
   fVoiceMuteStanza->
     appendBarNumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
@@ -22642,7 +22644,7 @@ void msrVoice::appendBreakToVoice (S_msrBreak break_)
   fVoiceLastSegment->
     appendBreakToSegment (break_);
 
-  // add break syllable to the voice master stanza
+  // add break syllable to the voice mute stanza
   fVoiceMuteStanza->
     appendBreakSyllableToStanza (
       break_->getInputLineNumber (),
@@ -23931,14 +23933,14 @@ void msrVoice::print (ostream& os)
   idtr--;
   
   if (gGeneralOptions->fTraceLyrics) {
-    // print the master stanza
+    // print the mute stanza
     os << idtr <<
       fVoiceMuteStanza <<
       endl;    
   }
   
   if (gMsrOptions->fShowMsrStanzas) {
-    // print the voice master stanza
+    // print the voice mute stanza
     os << idtr <<
       fVoiceMuteStanza;
     
@@ -24571,7 +24573,8 @@ void msrStaff::initializeStaff ()
   switch (fStaffKind) {
     case msrStaff::kRegularStaff:
       // the staff number should not be negative
-      // (-99 is used for hidden staff containing the staves master voices)
+      // (K_SILENT_VOICE_NUMBER is used for hidden staff
+      // containing the staves silent voices)
       if (fStaffNumber < 0) {
         stringstream s;
     
@@ -24776,7 +24779,7 @@ void msrStaff::createStaffSilentVoice (
   // create the part harmony voice  
   if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
-      "Creating the master voice for staff \"" <<
+      "Creating the silent voice for staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
       endl;

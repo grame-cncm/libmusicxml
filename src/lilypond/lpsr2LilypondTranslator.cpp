@@ -2047,7 +2047,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   } // switch
 
  // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
-    // don't include the master voice in the staff by default
+    // don't include the silent voice in the staff by default
     
     fOstream << idtr <<
       "\\context " << voiceContextName << " = " "\"" <<
