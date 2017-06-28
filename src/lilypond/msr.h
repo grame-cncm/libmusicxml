@@ -1705,7 +1705,7 @@ class EXP msrDoubleTremolo : public msrElement
       S_msrVoice           voiceUplink);
 
 
-    SMARTP<msrDoubleTremolo> createDoubleTremoloShallowClone (
+    SMARTP<msrDoubleTremolo> createDoubleTremoloNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrDoubleTremolo> createDoubleTremoloDeepCopy (
@@ -2961,7 +2961,7 @@ class EXP msrMeasure : public msrElement
       string        measureNumber,
       S_msrSegment  measureSegmentUplink);
     
-    SMARTP<msrMeasure> createMeasureShallowClone (
+    SMARTP<msrMeasure> createMeasureNewbornClone (
       S_msrSegment containingSegment);
 
     SMARTP<msrMeasure> createMeasureDeepCopy (
@@ -3322,7 +3322,7 @@ class EXP msrSegment : public msrElement
       S_msrPart  segmentDirectPartUplink, // inutile ??? JM
       S_msrVoice segmentVoicekUplink);
 
-    SMARTP<msrSegment> createSegmentShallowClone (
+    SMARTP<msrSegment> createSegmentNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrSegment> createSegmentDeepCopy (
@@ -3598,7 +3598,7 @@ class EXP msrGraceNotes : public msrElement
       bool       slashed,
       S_msrVoice graceNotesVoiceUplink);
     
-    SMARTP<msrGraceNotes> createGraceNotesShallowClone (
+    SMARTP<msrGraceNotes> createGraceNotesNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrGraceNotes> createSkipGraceNotesClone (
@@ -3689,7 +3689,7 @@ class EXP msrAfterGraceNotes : public msrElement
       bool       aftergracenoteIsSlashed,
       S_msrVoice afterGraceNotesVoiceUplink);
     
-    SMARTP<msrAfterGraceNotes> createAfterGraceNotesShallowClone (
+    SMARTP<msrAfterGraceNotes> createAfterGraceNotesNewbornClone (
       S_msrNote  noteClone,
       S_msrVoice containingVoice);
 
@@ -3936,7 +3936,7 @@ class EXP msrSyllable : public msrElement
       rational              syllableDivisions,
       S_msrStanza           syllableStanzaUplink);
 
-    SMARTP<msrSyllable> createSyllableShallowClone (
+    SMARTP<msrSyllable> createSyllableNewbornClone (
       S_msrPart containingPart); // JMI
 
     SMARTP<msrSyllable> createSyllableDeepCopy (
@@ -4066,7 +4066,7 @@ class EXP msrHarmony : public msrElement
       msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
       rational             harmonySoundingWholeNotes);
     
-    SMARTP<msrHarmony> createHarmonyShallowClone (
+    SMARTP<msrHarmony> createHarmonyNewbornClone (
       S_msrPart containingPart);
 
     SMARTP<msrHarmony> createHarmonyDeepCopy ( // JMI ???
@@ -4230,7 +4230,7 @@ class EXP msrNote : public msrElement
     
       bool                 noteIsAGraceNote);
     
-    SMARTP<msrNote> createNoteShallowClone (
+    SMARTP<msrNote> createNoteNewbornClone (
       S_msrPart containingPart);
     
     SMARTP<msrNote> createNoteDeepCopy (
@@ -4932,7 +4932,7 @@ class EXP msrChord : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    SMARTP<msrChord> createChordShallowClone (
+    SMARTP<msrChord> createChordNewbornClone (
       S_msrPart containingPart);
 
     SMARTP<msrChord> createChordDeepCopy (
@@ -5814,7 +5814,7 @@ class EXP msrDivisions : public msrElement
       int inputLineNumber,
       int divisionsPerQuarterNote);
 
-    SMARTP<msrDivisions> createDivisionsShallowClone (); // JMI
+    SMARTP<msrDivisions> createDivisionsNewbornClone (); // JMI
 
   private:
 
@@ -6155,7 +6155,7 @@ class EXP msrTuplet : public msrElement
       int      normalNotes,
       rational notePositionInMeasure); // JMI
 
-    SMARTP<msrTuplet> createTupletShallowClone ();
+    SMARTP<msrTuplet> createTupletNewbornClone ();
 
     SMARTP<msrTuplet> createTupletDeepCopy ();
 
@@ -6448,7 +6448,7 @@ class EXP msrStanza : public msrElement
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
     
-    SMARTP<msrStanza> createStanzaShallowClone (
+    SMARTP<msrStanza> createStanzaNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrStanza> createStanzaDeepCopy (
@@ -7085,7 +7085,7 @@ class EXP msrRepeatEnding : public msrElement
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
     
-    SMARTP<msrRepeatEnding> createRepeatEndingShallowClone (
+    SMARTP<msrRepeatEnding> createRepeatEndingNewbornClone (
       S_msrRepeat containingRepeat);
 
     SMARTP<msrRepeatEnding> createRepeatEndingDeepCopy (
@@ -7188,7 +7188,7 @@ class EXP msrRepeat : public msrElement
       int          inputLineNumber,
       S_msrVoice   voiceUplink);
     
-    SMARTP<msrRepeat> createRepeatShallowClone (
+    SMARTP<msrRepeat> createRepeatNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrRepeat> createRepeatDeepCopy (
@@ -7273,7 +7273,7 @@ class EXP msrMeasureRepeatPattern : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternShallowClone (
+    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternDeepCopy (
@@ -7345,7 +7345,7 @@ class EXP msrMeasureRepeatReplicas : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasShallowClone (
+    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasDeepCopy (
@@ -7431,7 +7431,7 @@ class EXP msrMeasureRepeat : public msrElement
       int          measureRepeatSlashesNumber,
       S_msrVoice   voiceUplink);
     
-    SMARTP<msrMeasureRepeat> createMeasureRepeatShallowClone (
+    SMARTP<msrMeasureRepeat> createMeasureRepeatNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMeasureRepeat> createMeasureRepeatDeepCopy (
@@ -7541,7 +7541,7 @@ class EXP msrMultipleRestContents : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMultipleRestContents> createMultipleRestContentsShallowClone (
+    SMARTP<msrMultipleRestContents> createMultipleRestContentsNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMultipleRestContents> createMultipleRestContentsDeepCopy (
@@ -7624,7 +7624,7 @@ class EXP msrMultipleRest : public msrElement
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMultipleRest> createMultipleRestShallowClone (
+    SMARTP<msrMultipleRest> createMultipleRestNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMultipleRest> createMultipleRestDeepCopy (
@@ -7739,7 +7739,7 @@ class EXP msrVoice : public msrElement
       int          externalVoiceNumber,
       S_msrStaff   voiceStaffUplink);
     
-    SMARTP<msrVoice> createVoiceShallowClone (
+    SMARTP<msrVoice> createVoiceNewbornClone (
       S_msrStaff containingStaff);
 
     SMARTP<msrVoice> createVoiceDeepCopy (
@@ -8214,7 +8214,7 @@ class EXP msrStaffLinesNumber : public msrElement
       int inputLineNumber,
       int linesNumber);
 
-    SMARTP<msrStaffLinesNumber> createStaffLinesNumberShallowClone ();
+    SMARTP<msrStaffLinesNumber> createStaffLinesNumberNewbornClone ();
 
     SMARTP<msrStaffLinesNumber> createStaffLinesNumberDeepCopy ();
 
@@ -8276,7 +8276,7 @@ class EXP msrStaffTuning : public msrElement
       msrQuarterTonesPitch quarterTonesPitch,
       int                  staffTuningOctave);
     
-    SMARTP<msrStaffTuning> createStaffTuningShallowClone ();
+    SMARTP<msrStaffTuning> createStaffTuningNewbornClone ();
 
     SMARTP<msrStaffTuning> createStaffTuningDeepCopy ();
 
@@ -8390,7 +8390,7 @@ class EXP msrStaffDetails : public msrElement
       msrPrintObjectKind    printObjectKind,
       msrPrintSpacingKind   printSpacingKind);
 
-    SMARTP<msrStaffDetails> createStaffDetailsShallowClone (
+    SMARTP<msrStaffDetails> createStaffDetailsNewbornClone (
       S_msrStaffLinesNumber staffLinesNumberClone,
       S_msrStaffTuning      staffTuningClone);
 
@@ -8502,7 +8502,7 @@ class EXP msrStaff : public msrElement
       msrStaffKind staffKind,
       int          staffNumber);
     
-    SMARTP<msrStaff> createStaffShallowClone (
+    SMARTP<msrStaff> createStaffNewbornClone (
       S_msrPart containingPart);
 
   protected:
@@ -8820,7 +8820,7 @@ class EXP msrPart : public msrElement
       string         partID,
       S_msrPartGroup partPartGroupUplink);
                 
-    SMARTP<msrPart> createPartShallowClone (
+    SMARTP<msrPart> createPartNewbornClone (
       S_msrPartGroup partGroupClone);
 
   protected:
@@ -9292,7 +9292,7 @@ class EXP msrPartGroup : public msrElement
       S_msrPartGroup         partGroupPartGroupUplink,
       S_msrScore             partGroupScoreUplink);
 
-    SMARTP<msrPartGroup> createPartGroupShallowClone (
+    SMARTP<msrPartGroup> createPartGroupNewbornClone (
       S_msrPartGroup partGroupClone, // the uplink for embeddeed part groups
       S_msrScore     scoreClone);
 
@@ -9472,7 +9472,7 @@ class EXP msrScore : public msrElement
     static SMARTP<msrScore> create (
       int inputLineNumber);
 
-    SMARTP<msrScore> createScoreShallowClone ();
+    SMARTP<msrScore> createScoreNewbornClone ();
 
   protected:
 

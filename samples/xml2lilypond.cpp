@@ -274,12 +274,6 @@ void analyzeOptions (
   // --------------------------------------
   
   checkOptionUniqueness (
-    _TRACE_GENERAL_LONG_NAME_, _TRACE_GENERAL_SHORT_NAME_);
-    
-  int traceGeneralPresent = 0;
-
-  
-  checkOptionUniqueness (
     _TRACE_DETAILED_LONG_NAME_, _TRACE_DETAILED_SHORT_NAME_);
     
   int traceDetailedPresent = 0;
@@ -300,6 +294,12 @@ void analyzeOptions (
     _TRACE_DIVISIONS_LONG_NAME_, _TRACE_DIVISIONS_SHORT_NAME_);
     
   int traceDivisionsPresent = 0;
+
+  // geometry
+  checkOptionUniqueness (
+    _TRACE_GEOMETRY_LONG_NAME_, _TRACE_GEOMETRY_SHORT_NAME_);
+    
+  int traceGeometryPresent = 0;
 
   // part groups
   checkOptionUniqueness (
@@ -414,6 +414,12 @@ void analyzeOptions (
     _TRACE_HARMONIES_LONG_NAME_, _TRACE_HARMONIES_SHORT_NAME_);
     
   int traceHarmoniesPresent = 0;
+
+  // Scheme functions
+  checkOptionUniqueness (
+    _TRACE_SCHEME_FUNCTIONS_LONG_NAME_, _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_);
+    
+  int traceSchemeFunctionsPresent = 0;
 
   
   // MusicXML options

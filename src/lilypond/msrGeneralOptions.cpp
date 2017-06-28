@@ -236,8 +236,6 @@ void msrGeneralOptions::initializeGeneralOptions (
   // trace and display
   // --------------------------------------
 
-  fTraceGeneral = boolOptionsInitialValue;
-
   fTraceDetailed = false;
 
   // CPU usage
@@ -250,6 +248,9 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   // divisions
   fTraceDivisions = boolOptionsInitialValue;
+
+  // geometry
+  fTraceGeometry = boolOptionsInitialValue;
 
   // part groups
   fTracePartGroups = boolOptionsInitialValue;
@@ -303,6 +304,9 @@ void msrGeneralOptions::initializeGeneralOptions (
   // harmonies
   fTraceHarmonies = boolOptionsInitialValue;
 
+  // Scheme functions
+  fTraceSchemeFunctions = boolOptionsInitialValue;
+
 
   /* STUFF not yet handled JMI */
 
@@ -355,9 +359,6 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   // trace and display
   // --------------------------------------
 
-  clone->fTraceGeneral =
-    true;
-    
   clone->fTraceDetailed =
     true;
 
@@ -375,6 +376,10 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
 
   // divisions
   clone->fTraceDivisions =
+    true;
+
+  // geometry
+  clone->fTraceGeometry =
     true;
 
   // part groups
@@ -446,6 +451,10 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   
   // harmonies
   clone->fTraceHarmonies =
+    true;
+  
+  // Scheme functions
+  clone->fTraceSchemeFunctions =
     true;
   
     
@@ -922,11 +931,6 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 
   cerr << left <<
     idtr <<
-      setw(fieldWidth) << "traceGeneral" << " : " <<
-      booleanAsString (fTraceGeneral) <<
-       endl <<
-       
-    idtr <<
       setw(fieldWidth) << "traceDetailed" << " : " <<
       booleanAsString (fTraceDetailed) <<
      endl;
@@ -997,6 +1001,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceDivisions" << " : " <<
       booleanAsString (fTraceDivisions) <<
+      endl <<
+        
+    // geometry
+    idtr <<
+      setw(fieldWidth) << "traceGeometry" << " : " <<
+      booleanAsString (fTraceGeometry) <<
       endl <<
         
     // part groups
@@ -1109,6 +1119,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (fTraceHarmonies) <<
+      endl <<
+      
+    // Scheme functions
+    idtr <<
+      setw(fieldWidth) << "traceSchemeFunctions" << " : " <<
+      booleanAsString (fTraceSchemeFunctions) <<
       endl;
 
   idtr--;

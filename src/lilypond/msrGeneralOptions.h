@@ -150,8 +150,12 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _TRACE_DIVISIONS_SHORT_NAME_ "tdivs"
 
 // part groups
-#define _TRACE_PARTGROUPS_LONG_NAME_  "tracePartGroupss"
+#define _TRACE_PARTGROUPS_LONG_NAME_  "tracePartGroups"
 #define _TRACE_PARTGROUPS_SHORT_NAME_ "tpgrps"
+
+// geometry
+#define _TRACE_GEOMETRY_LONG_NAME_  "traceGeometry"
+#define _TRACE_GEOMETRY_SHORT_NAME_ "tgeom"
 
 // parts
 #define _TRACE_PARTS_LONG_NAME_  "traceParts"
@@ -225,6 +229,10 @@ extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 #define _TRACE_HARMONIES_LONG_NAME_  "traceHarmonies"
 #define _TRACE_HARMONIES_SHORT_NAME_ "tharms"
 
+// Scheme functions
+#define _TRACE_SCHEME_FUNCTIONS_LONG_NAME_  "traceSchemeFunctions"
+#define _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ "tscheme"
+
 
 class EXP msrGeneralOptions : public smartable
 {
@@ -280,8 +288,6 @@ class EXP msrGeneralOptions : public smartable
     // trace and display
     // --------------------------------------
   
-    bool                  fTraceGeneral;
-
     bool                  fTraceDetailed;
     set<int>              fTraceDetailedMeasureNumbersSet;
 
@@ -295,6 +301,9 @@ class EXP msrGeneralOptions : public smartable
     
     // divisions
     bool                  fTraceDivisions;
+
+    // geometry
+    bool                  fTraceGeometry;
 
     // part groups
     bool                  fTracePartGroups;
@@ -347,6 +356,9 @@ class EXP msrGeneralOptions : public smartable
 
     // harmonies
     bool                  fTraceHarmonies;
+
+    // Scheme functions
+    bool                  fTraceSchemeFunctions;
 
     
     /* STUFF not yet handled JMI */

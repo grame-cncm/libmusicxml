@@ -104,7 +104,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // and optimisations of the LPSR data
   fCurrentMsrScoreClone =
     fVisitedMsrScore->
-      createScoreShallowClone ();
+      createScoreNewbornClone ();
 
   // create the LPSR score
   fLpsrScore =
@@ -360,7 +360,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 
   S_msrPartGroup
     partGroupClone =
-      elt->createPartGroupShallowClone (
+      elt->createPartGroupNewbornClone (
         fPartGroupsStack.size ()
           ? fPartGroupsStack.top ()
           : 0,
@@ -519,7 +519,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
   // create a part clone
   fCurrentPartClone =
-    elt->createPartShallowClone (
+    elt->createPartNewbornClone (
       fPartGroupsStack.top ());
 
 /* JMI
@@ -580,7 +580,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
   // create a staff lines number clone
   fCurrentStaffLinesNumberClone =
     elt->
-      createStaffLinesNumberShallowClone ();
+      createStaffLinesNumberNewbornClone ();
 }
 
 //________________________________________________________________________
@@ -594,7 +594,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
   // create a staff tuning clone
   fCurrentStaffTuningClone =
     elt->
-      createStaffTuningShallowClone ();
+      createStaffTuningNewbornClone ();
 }
 
 //________________________________________________________________________
@@ -619,13 +619,14 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
   // create a staff details clone
   S_msrStaffDetails
     staffDetailsClone =
-      elt->createStaffDetailsShallowClone (
+      elt->createStaffDetailsNewbornClone (
         fCurrentStaffLinesNumberClone,
         fCurrentStaffTuningClone);
 
   // append it to the current staff clone
   fCurrentStaffClone->
-    appendStaffDetailsToStaff (staffDetailsClone);
+    appendStaffDetailsToStaff (
+      staffDetailsClone);
 
         
 /* JMI
@@ -662,7 +663,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffShallowClone (
+          elt->createStaffNewbornClone (
             fCurrentPartClone);
           
         // add it to the part clone
@@ -712,7 +713,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffShallowClone (
+          elt->createStaffNewbornClone (
             fCurrentPartClone);
           
         // add it to the part clone
@@ -762,7 +763,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       {
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffShallowClone (
+          elt->createStaffNewbornClone (
             fCurrentPartClone);
           
         // add it to the part clone
@@ -818,7 +819,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         /* JMI
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffShallowClone (fCurrentPartClone);
+          elt->createStaffNewbornClone (fCurrentPartClone);
           
         // add it to the part clone
         fCurrentPartClone->
@@ -914,7 +915,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kRegularVoice:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceShallowClone (
+        elt->createVoiceNewbornClone (
           fCurrentStaffClone);
             
       // add it to the staff clone
@@ -988,7 +989,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kSilentVoice:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceShallowClone (
+        elt->createVoiceNewbornClone (
           fCurrentStaffClone);
             
       // add it to the staff clone
@@ -1049,7 +1050,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
   // create a clone of the segment
   S_msrSegment
     segmentClone =
-      elt->createSegmentShallowClone (
+      elt->createSegmentNewbornClone (
         fCurrentVoiceClone);
 
   // push it onto the segment clones stack
@@ -1131,7 +1132,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->
-      createMeasureShallowClone (
+      createMeasureNewbornClone (
         fCurrentSegmentClonesStack.top ());
       
   // append it to the current segment clone
@@ -1361,7 +1362,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
-      elt->createStanzaShallowClone (
+      elt->createStanzaNewbornClone (
         fCurrentVoiceClone);
     
     // append the stanza clone to the LPSR score elements list
@@ -1401,7 +1402,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
   // create the syllable clone
   fCurrentSyllableClone =
-    elt->createSyllableShallowClone (
+    elt->createSyllableNewbornClone (
       fCurrentPartClone);
 
   // add it to the current stanza clone or current note clone
@@ -1781,7 +1782,7 @@ void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
 
   // create a double tremolo clone
   fCurrentDoubleTremoloClone =
-    elt->createDoubleTremoloShallowClone (
+    elt->createDoubleTremoloNewbornClone (
       fCurrentVoiceClone);
   
   fOnGoingDoubleTremolo = true;
@@ -2015,7 +2016,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
     // create a clone of this graceNotes
     fCurrentGraceNotesClone =
       elt->
-        createGraceNotesShallowClone (
+        createGraceNotesNewbornClone (
           fCurrentVoiceClone);
   
     // append it to the current voice clone
@@ -2141,7 +2142,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     
   // create the clone
   fCurrentNoteClone =
-    elt->createNoteShallowClone (
+    elt->createNoteNewbornClone (
       fCurrentPartClone);
 
   // register clone in this tranlastors' voice notes map
@@ -2472,7 +2473,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
       endl;
 
   fCurrentChordClone =
-    elt->createChordShallowClone (
+    elt->createChordNewbornClone (
       fCurrentPartClone);
 
   if (fTupletClonesStack.size ()) {
@@ -2541,7 +2542,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
   // create the tuplet clone
   S_msrTuplet
     tupletClone =
-      elt->createTupletShallowClone ();
+      elt->createTupletNewbornClone ();
 
   // register it in this visitor
   if (gGeneralOptions->fTraceTuplets)
@@ -2742,7 +2743,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a repeat shallow clone" <<
+      "Creating a repeat newborn clone" <<
       ", line " << elt->getInputLineNumber () <<
       ", in voice \"" <<
       elt->
@@ -2812,7 +2813,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
   // create the measure repeat clone
   S_msrMeasureRepeat
     measureRepeatClone =
-      elt->createMeasureRepeatShallowClone (
+      elt->createMeasureRepeatNewbornClone (
         fCurrentVoiceClone);
 
 //         fCurrentSegmentClonesStack.top (),
@@ -2901,7 +2902,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 
   // create a measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone =
-    elt->createMeasureRepeatPatternShallowClone (
+    elt->createMeasureRepeatPatternNewbornClone (
       fCurrentVoiceClone);
 }
 
@@ -2930,7 +2931,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 
   // create a measure repeat replicas clone
   fCurrentMeasureRepeatReplicasClone =
-    elt->createMeasureRepeatReplicasShallowClone (
+    elt->createMeasureRepeatReplicasNewbornClone (
       fCurrentVoiceClone);
 }
 
@@ -2966,7 +2967,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // create the multiple rest clone
   S_msrMultipleRest
     multipleRestClone =
-      elt->createMultipleRestShallowClone (
+      elt->createMultipleRestNewbornClone (
         fCurrentVoiceClone);
 
   // set the multiple rest clone's contents
@@ -3029,7 +3030,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
   // create a multiple rest contents clone
   fCurrentMultipleRestContentsClone =
-    elt->createMultipleRestContentsShallowClone (
+    elt->createMultipleRestContentsNewbornClone (
       fCurrentVoiceClone);
 
   // set last segment as the multiple rest contents segment
@@ -3403,7 +3404,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
 
 /* JMI
  *   fCurrentVoiceClone =
-    elt->createVoiceShallowClone (fCurrentStaffClone);
+    elt->createVoiceNewbornClone (fCurrentStaffClone);
     
   fCurrentStaffClone->
     registerVoiceInStaff (fCurrentVoiceClone);

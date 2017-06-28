@@ -3496,7 +3496,7 @@ R"(
 #(define modTimeAsString (strftime "%d/%m/%Y - %H:%M:%S" (localtime modTime)))
 )";
 
-  if (true || gGeneralOptions->fTraceGeneral) { // JMI
+  if (gGeneralOptions->fTraceSchemeFunctions) {
     cerr << idtr <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
@@ -3547,7 +3547,7 @@ tongue =
      script))
 )";
 
-  if (true || gGeneralOptions->fTraceGeneral) { // JMI
+  if (gGeneralOptions->fTraceSchemeFunctions) {
     cerr << idtr <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
@@ -3592,7 +3592,7 @@ editorialAccidental =
   #})
 )";
 
-  if (true || gGeneralOptions->fTraceGeneral) { // JMI
+  if (gGeneralOptions->fTraceSchemeFunctions) {
     cerr << idtr <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
