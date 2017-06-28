@@ -24586,14 +24586,22 @@ void msrStaff::initializeStaff ()
           
         msrAssert (false, s.str());
       }
+
+      // create the staff silent voice
+      createStaffSilentVoice (
+        fInputLineNumber);
       break;
       
     case msrStaff::kTablatureStaff:
-      // JMI
+      // create the staff silent voice
+      createStaffSilentVoice (
+        fInputLineNumber);
       break;
       
     case msrStaff::kPercussionStaff:
-      // JMI
+      // create the staff silent voice
+      createStaffSilentVoice (
+        fInputLineNumber);
       break;
       
     case msrStaff::kHarmonyStaff:
@@ -24607,13 +24615,10 @@ void msrStaff::initializeStaff ()
         msrInternalError (
           fInputLineNumber, s.str());
       }
+      
+      // dont't create any staff silent voice for a harmony staff
       break;
   } // switch
-
-
-  // create the staff silent voice
-  createStaffSilentVoice (
-    fInputLineNumber);
 
   // get the initial staff details from the part if any
   S_msrStaffDetails
