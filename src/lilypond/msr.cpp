@@ -17226,12 +17226,12 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // append the tuplet to the measure elements list
   fMeasureElementsList.push_back (tuplet);
 
-    // bring harmony voice to the same measure length
-    fMeasureDirectPartUplink->
-      getPartHarmonyVoice ()->
-        bringVoiceToMeasureLength (
-          inputLineNumber,
-          fMeasureLength);
+  // bring harmony voice to the same measure length
+  fMeasureDirectPartUplink->
+    getPartHarmonyVoice ()->
+      bringVoiceToMeasureLength (
+        inputLineNumber,
+        fMeasureLength);
 }
 
 void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
@@ -21275,12 +21275,12 @@ void msrVoice::initializeVoice ()
       break;
       
     case msrVoice::kHarmonyVoice:
-      if (fExternalVoiceNumber != -1) {
+      if (fExternalVoiceNumber != K_PART_HARMONY_VOICE_NUMBER) {
         stringstream s;
     
         s <<
           "harmony voice number " << fExternalVoiceNumber <<
-          " is not equal to -1";
+          " is not equal to " << K_PART_HARMONY_VOICE_NUMBER;
           
         msrInternalError (
           fInputLineNumber, s.str());
@@ -22661,7 +22661,9 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Creating and appending a repeat in voice \"" << getVoiceName () <<  "\"" <<
+            "Creating and appending a repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
             ", line " << inputLineNumber <<
             endl;
       
@@ -24595,12 +24597,12 @@ void msrStaff::initializeStaff ()
       break;
       
     case msrStaff::kHarmonyStaff:
-      if (fStaffNumber != -1) {
+      if (fStaffNumber != K_PART_HARMONY_STAFF_NUMBER) {
         stringstream s;
     
         s <<
           "harmony staff number " << fStaffNumber <<
-          " is not equal to -1";
+          " is not equal to " << K_PART_HARMONY_STAFF_NUMBER;
           
         msrInternalError (
           fInputLineNumber, s.str());
@@ -26175,12 +26177,10 @@ void msrPart::createPartHarmonyStaffAndVoice (
   int inputLineNumber)
 {
   // create the part harmony staff
-  const int partHarmonyStaffNumber = -1;
-
   if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
       "Creating the harmony staff" <<
-      " with number " << partHarmonyStaffNumber <<
+      " with number " << K_PART_HARMONY_STAFF_NUMBER <<
       " for part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -26190,14 +26190,14 @@ void msrPart::createPartHarmonyStaffAndVoice (
     addStaffToPartByItsNumber (
       inputLineNumber,
       msrStaff::kHarmonyStaff,
-      partHarmonyStaffNumber);
+      K_PART_HARMONY_STAFF_NUMBER);
     
-  // create the part harmony voice
-  const int partHarmonyVoiceNumber = -1;
-  
+  // create the part harmony voice  
   if (gGeneralOptions->fTraceHarmonies)
     cerr << idtr <<
-      "Creating the harmony voice for part " <<
+      "Creating the harmony voice " <<
+      " with number " << K_PART_HARMONY_VOICE_NUMBER <<
+      " for part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -26207,7 +26207,7 @@ void msrPart::createPartHarmonyStaffAndVoice (
       inputLineNumber,
       this,
       msrVoice::kHarmonyVoice,
-      partHarmonyVoiceNumber, // JMI
+      K_PART_HARMONY_VOICE_NUMBER,
       fPartHarmonyStaff);
 
   fPartHarmonyStaff->
@@ -27035,11 +27035,9 @@ void msrPart::browseData (basevisitor* v)
       "% ==> msrPart::browseData()" <<
       endl;
 
-/* JMI
   // browse the harmony staff
   msrBrowser<msrStaff> browser (v);
   browser.browse (*fPartHarmonyStaff);
-  */
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -27100,7 +27098,6 @@ void msrPart::print (ostream& os)
       fPartInstrumentName << "\"" <<
       endl;
 
-/*
   // print the harmony staff
   if (fPartHarmonyStaff) {
     os <<
@@ -27113,7 +27110,6 @@ void msrPart::print (ostream& os)
     os << idtr << fPartHarmonyStaff;
     idtr--;
   }
-*/
 
   // print the staves
   if (fPartStavesMap.size()) {
@@ -27224,7 +27220,6 @@ void msrPart::printStructure (ostream& os)
       endl <<
     endl;
 
-/* JMI
   // print the harmony staff
   if (fPartHarmonyStaff) {
     os <<
@@ -27237,7 +27232,6 @@ void msrPart::printStructure (ostream& os)
     os << idtr << fPartHarmonyStaff;
     idtr--;
   }
-*/
 
   // print the staves
   if (fPartStavesMap.size()) {

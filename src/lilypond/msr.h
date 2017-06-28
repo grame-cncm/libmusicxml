@@ -8533,6 +8533,9 @@ class EXP msrStaff : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
     enum msrStaffKind {
       kRegularStaff,
       kTablatureStaff,
@@ -8861,6 +8864,12 @@ class EXP msrPart : public msrElement
 {
   public:
 
+    // constants
+    // ------------------------------------------------------
+
+    #define K_PART_HARMONY_STAFF_NUMBER -11    
+    #define K_PART_HARMONY_VOICE_NUMBER -27
+    
     // creation from MusicXML
     // ------------------------------------------------------
 
