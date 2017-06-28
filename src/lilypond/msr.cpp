@@ -20155,7 +20155,44 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
         fInputLineNumber,
         containingVoice);
 
+  // segment
+
+  // uplinks
+  newbornClone->fMeasureRepeatReplicasVoiceUplink =
+    containingVoice;
+    
   return newbornClone;
+}
+
+S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a deep copy of a measure repeat replicas" <<
+      endl;
+  
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+    
+  S_msrMeasureRepeatReplicas
+    measureRepeatReplicasDeepCopy =
+      msrMeasureRepeatReplicas::create (
+        fInputLineNumber,
+        containingVoice);
+
+  // segment
+  measureRepeatReplicasDeepCopy->fMeasureRepeatReplicasSegment =
+    fMeasureRepeatReplicasSegment->
+      createSegmentDeepCopy (
+        containingVoice);
+
+  // uplinks
+  measureRepeatReplicasDeepCopy->fMeasureRepeatReplicasVoiceUplink =
+    containingVoice;
+    
+  return measureRepeatReplicasDeepCopy;
 }
 
 void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
