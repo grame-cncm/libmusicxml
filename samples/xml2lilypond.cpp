@@ -1908,6 +1908,7 @@ R"(
 
         if (traceDetailedPresent) {
           // optarg contains the measure numbers set specification
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceDetailed = true;
 
           char*        measuresSpec = optarg;
@@ -1944,6 +1945,7 @@ R"(
         // --------------------------------------
 
         if (displayCPUusagePresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fDisplayCPUusage = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -1959,6 +1961,7 @@ R"(
 
         // divisions
         if (traceDivisionsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceDivisions = true;
           
           
@@ -1972,9 +1975,9 @@ R"(
         
         // geometry
         if (traceGeometryPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceGeometry = true;
-          
-          
+                    
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _TRACE_GEOMETRY_LONG_NAME_ " ";
           gGeneralOptions->fCommandLineShortOptions +=
@@ -1985,6 +1988,7 @@ R"(
         
         // part groupss
         if (tracePartGroupsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -1997,6 +2001,7 @@ R"(
         
         // parts
         if (tracePartsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceParts = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2009,6 +2014,7 @@ R"(
         
         // staves
         if (traceStavesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceStaves = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2021,6 +2027,7 @@ R"(
         
         // voices
         if (traceVoicesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceVoices = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2033,6 +2040,7 @@ R"(
 
         // clefs
         if (traceClefsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceClefs = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2045,6 +2053,7 @@ R"(
 
         // keys
         if (traceKeysPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceKeys = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2057,6 +2066,7 @@ R"(
 
         // times
         if (traceTimesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTimes = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2069,6 +2079,7 @@ R"(
 
         // segments
         if (traceSegmentsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceSegments = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2081,6 +2092,7 @@ R"(
 
         // repeats
         if (traceRepeatsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceRepeats = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2093,6 +2105,7 @@ R"(
 
         // measures
         if (traceMeasuresPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceMeasures = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2105,6 +2118,7 @@ R"(
 
         // notes
         if (traceNotesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceNotes = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2117,6 +2131,7 @@ R"(
 
         // technicals
         if (traceTechnicalsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTechnicals = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2129,6 +2144,7 @@ R"(
         
         // words
         if (traceWordsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceWords = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2141,6 +2157,7 @@ R"(
         
         // tremolos
         if (traceTremolosPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTremolos = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2153,6 +2170,7 @@ R"(
 
         // chords
         if (traceChordsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceChords = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2165,6 +2183,7 @@ R"(
 
         // tuplets
         if (traceTupletsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceTuplets = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2177,6 +2196,7 @@ R"(
         
         // grace notes
         if (traceGracenotesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceGraceNotes = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2189,6 +2209,7 @@ R"(
 
         // lyrics
         if (traceLyricsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceLyrics = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2201,6 +2222,7 @@ R"(
         
         // harmonies
         if (traceHarmoniesPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceHarmonies = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
@@ -2213,6 +2235,7 @@ R"(
         
         // Scheme functions
         if (traceSchemeFunctionsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
           gGeneralOptions->fTraceSchemeFunctions = true;
           
           gGeneralOptions->fCommandLineLongOptions +=
