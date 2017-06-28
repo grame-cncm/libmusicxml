@@ -7116,6 +7116,7 @@ class EXP msrRepeatEnding : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // numbers
     string                getRepeatEndingNumber () const
                               { return fRepeatEndingNumber; }
                 
@@ -7132,12 +7133,15 @@ class EXP msrRepeatEnding : public msrElement
     int                   getRepeatEndingInternalNumber () const
                               { return fRepeatEndingInternalNumber; }
                 
+    // kind
     msrRepeatEndingKind   getRepeatEndingKind () const
                               { return fRepeatEndingKind; }
                 
+    // segment
     S_msrSegment          getRepeatEndingSegment () const
                               { return fRepeatEndingSegment; }
                 
+    // uplinks
     S_msrRepeat           getRepeatEndingRepeatUplink () const
                               { return fRepeatEndingRepeatUplink; }
 
@@ -7162,14 +7166,18 @@ class EXP msrRepeatEnding : public msrElement
     virtual void          print (ostream& os);
 
   private:
-  
+
+    // numbers
     string                fRepeatEndingNumber; // may be "1, 2"
     int                   fRepeatEndingInternalNumber; // internally assigned
-    
+
+    // kind
     msrRepeatEndingKind   fRepeatEndingKind;
-    
+
+    // segment
     S_msrSegment          fRepeatEndingSegment;
 
+    // uplinks
     S_msrRepeat           fRepeatEndingRepeatUplink;
 };
 typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;

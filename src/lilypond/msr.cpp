@@ -19460,15 +19460,21 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
           getRepeatCommonSegment (), // JMI
         containingRepeat);
   
+  // numbers
   newbornClone->fRepeatEndingNumber =
     fRepeatEndingNumber;
     
   newbornClone->fRepeatEndingInternalNumber =
     fRepeatEndingInternalNumber;
     
+  // kind
   newbornClone->fRepeatEndingKind =
     fRepeatEndingKind;
     
+  // segment
+
+  // uplinks
+
   return newbornClone;
 }
 
@@ -19494,22 +19500,26 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
         containingRepeat->
           getRepeatCommonSegment (), // JMI
         containingRepeat);
-
-  repeatEndingDeepCopy->fRepeatEndingNumber =
-    fRepeatEndingNumber;
     
+  // numbers
   repeatEndingDeepCopy->fRepeatEndingInternalNumber =
     fRepeatEndingInternalNumber;
     
+  // kind
   repeatEndingDeepCopy->fRepeatEndingKind =
     fRepeatEndingKind;
     
+  // segment
   repeatEndingDeepCopy->fRepeatEndingSegment =
     fRepeatEndingSegment->
       createSegmentDeepCopy (
         fRepeatEndingRepeatUplink->
           getRepeatVoiceUplink ());
     
+  // uplinks
+  repeatEndingDeepCopy->fRepeatEndingRepeatUplink =
+    containingRepeat;
+
   return repeatEndingDeepCopy;
 }
 
