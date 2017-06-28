@@ -6304,18 +6304,18 @@ void msrNote::initializeNote ()
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteIsARest" << " = " <<
-        fNoteIsARest <<
+        booleanAsString (fNoteIsARest) <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteIsUnpitched" << " = " <<
-        fNoteIsUnpitched <<
+         booleanAsString (fNoteIsUnpitched) <<
         endl <<
 
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteIsAGraceNote" << " = " <<
-        fNoteIsAGraceNote <<
+         booleanAsString (fNoteIsAGraceNote) <<
         endl <<
 
         // fNoteOctaveShift JMI ???
@@ -6346,13 +6346,13 @@ void msrNote::initializeNote ()
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteBelongsToAChord" << " = " <<
-        fNoteBelongsToAChord <<
+         booleanAsString (fNoteBelongsToAChord) <<
         endl <<
             
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteBelongsToATuplet" << " = " <<
-        fNoteBelongsToATuplet <<
+         booleanAsString (fNoteBelongsToATuplet) <<
         endl <<
           
       idtr << left <<
@@ -6360,7 +6360,8 @@ void msrNote::initializeNote ()
         "fNoteSyllableExtendKind" << " = " <<
         msrSyllable::syllableExtendKindAsString (
           fNoteSyllableExtendKind) <<
-        endl;
+        endl <<
+      endl;
           
     idtr--;
 
@@ -6484,7 +6485,7 @@ void msrNote::setNoteMSRstrings ()
 
   if (gGeneralOptions->fTraceNotes) { // JMI
     cerr << idtr <<
-      "<-- after setting note MSR strings for note:" <<
+      "After setting note MSR strings for note, we have:" <<
       endl;
 
     idtr ++;
