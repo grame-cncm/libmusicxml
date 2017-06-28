@@ -13672,7 +13672,7 @@ S_msrSyllable msrSyllable::create (
   msrSyllableKind       syllableKind,
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
-  rational              syllableDivisions,
+  rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
 {
   msrSyllable* o =
@@ -13680,7 +13680,7 @@ S_msrSyllable msrSyllable::create (
       inputLineNumber,
       syllableDirectPartUplink,
       syllableKind, syllableText, syllableExtendKind,
-      syllableDivisions,
+      syllableWholeNotes,
       syllableStanzaUplink);
   assert(o!=0);
 
@@ -13693,7 +13693,7 @@ msrSyllable::msrSyllable (
   msrSyllableKind       syllableKind,
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
-  rational              syllableDivisions,
+  rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
@@ -13707,7 +13707,7 @@ msrSyllable::msrSyllable (
     
   fSyllableKind = syllableKind;
   fSyllableText = syllableText;
-  fSyllableDivisions  = syllableDivisions;
+  fSyllableWholeNotes = syllableWholeNotes;
 
   fSyllableExtendKind = syllableExtendKind;
   
@@ -13743,7 +13743,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableKind,
         fSyllableText,
         fSyllableExtendKind,
-        fSyllableDivisions,
+        fSyllableWholeNotes,
         fSyllableStanzaUplink);
     
   // dont't set 'newbornClone->fSyllableStanzaUplink'
@@ -13754,6 +13754,42 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
     fSyllableNoteUplink; // TEMP
   
   return newbornClone;
+}
+
+S_msrSyllable msrSyllable::createSyllableDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceLyrics) {
+    cerr << idtr <<
+      "Creating a newborn clone of syllable '" <<
+      syllableAsString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrSyllable
+    syllableDeepCopy =
+      msrSyllable::create (
+        fInputLineNumber,
+        containingPart,
+        fSyllableKind,
+        fSyllableText,
+        fSyllableExtendKind,
+        fSyllableWholeNotes,
+        fSyllableStanzaUplink);
+    
+  // dont't set 'newbornClone->fSyllableStanzaUplink'
+  // nor 'newbornClone->fSyllableNoteUplink',
+  // this will be done by the caller
+
+  syllableDeepCopy->fSyllableNoteUplink =
+    fSyllableNoteUplink; // TEMP
+  
+  return syllableDeepCopy;
 }
 
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
@@ -13941,14 +13977,14 @@ string msrSyllable::syllableExtendKindAsString (
   return result;
 }
 
-string msrSyllable::syllableDivisionsAsString () const
+string msrSyllable::syllableWholeNotesAsString () const
 {
   return
     fSyllableDirectPartUplink->
       getPartCurrentDivisions ()->
         divisionsAsMsrString (
           fInputLineNumber,
-          fSyllableDivisions);
+          fSyllableWholeNotes);
 }
 
 string msrSyllable::syllableNoteUplinkAsString () const
@@ -13976,8 +14012,8 @@ string msrSyllable::syllableAsString () const
       s <<
         "single" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
@@ -13989,8 +14025,8 @@ string msrSyllable::syllableAsString () const
       s << 
         "begin" <<
         ", " << "\"" << fSyllableText << "\"" <<
-         ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+         ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
@@ -14002,8 +14038,8 @@ string msrSyllable::syllableAsString () const
       s << 
         "middle" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
@@ -14015,8 +14051,8 @@ string msrSyllable::syllableAsString () const
       s << 
         "end" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
@@ -14026,8 +14062,8 @@ string msrSyllable::syllableAsString () const
       
     case kRestSyllable:
        s << 
-        "rest" << ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        "rest" << ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14035,15 +14071,15 @@ string msrSyllable::syllableAsString () const
       
     case kSkipSyllable:
       s << 
-        "skip" << ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        "skip" << ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;
       
     case kSlurSyllable:
       s << 
-        "slur" << ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        "slur" << ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14051,7 +14087,7 @@ string msrSyllable::syllableAsString () const
       
     case kSlurBeyondEndSyllable:
       s << 
-        "slur beyond end" << ":" << syllableDivisionsAsString () <<
+        "slur beyond end" << ":" << syllableWholeNotesAsString () <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14059,8 +14095,8 @@ string msrSyllable::syllableAsString () const
       
     case kLigatureSyllable:
       s << 
-        "ligature" << ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        "ligature" << ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14068,7 +14104,7 @@ string msrSyllable::syllableAsString () const
       
     case kLigatureBeyondEndSyllable:
       s << 
-        "ligature beyond end" << ":" << syllableDivisionsAsString () <<
+        "ligature beyond end" << ":" << syllableWholeNotesAsString () <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14076,8 +14112,8 @@ string msrSyllable::syllableAsString () const
       
     case kTiedSyllable:
       s << 
-        "tied" << ":" << syllableDivisionsAsString () <<
-        " (" << fSyllableDivisions << ")" <<
+        "tied" << ":" << syllableWholeNotesAsString () <<
+        " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<

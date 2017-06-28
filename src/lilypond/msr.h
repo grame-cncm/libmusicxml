@@ -3937,7 +3937,7 @@ class EXP msrSyllable : public msrElement
       msrSyllableKind       syllableKind,
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
-      rational              syllableDivisions,
+      rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableNewbornClone (
@@ -3957,7 +3957,7 @@ class EXP msrSyllable : public msrElement
       msrSyllableKind       syllableKind,
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
-      rational              syllableDivisions,
+      rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable();
@@ -3984,15 +3984,16 @@ class EXP msrSyllable : public msrElement
     msrSyllableExtendKind getSyllableExtendKind () const
                               { return fSyllableExtendKind; }
 
-    int                   getSyllableDivisions () const
-                              { return fSyllableDivisions; }
+    // syllable whole notes
+    rational              getSyllableWholeNotes () const
+                              { return fSyllableWholeNotes; }
 
     // services
     // ------------------------------------------------------
   
     string                syllableKindAsString () const;
 
-    string                syllableDivisionsAsString () const;
+    string                syllableWholeNotesAsString () const;
 
     string                syllableNoteUplinkAsString () const;
 
@@ -4013,17 +4014,19 @@ class EXP msrSyllable : public msrElement
 
   private:
   
-    S_msrPart             fSyllableDirectPartUplink;
-
     msrSyllableKind       fSyllableKind;
     string                fSyllableText;
     msrSyllableExtendKind fSyllableExtendKind;
-    
-    rational              fSyllableDivisions;
-    
+
+    // syllable whole notes
+    rational              fSyllableWholeNotes;
+
+    // uplinks
+    S_msrNote             fSyllableNoteUplink;
+
     S_msrStanza           fSyllableStanzaUplink;
 
-    S_msrNote             fSyllableNoteUplink;
+    S_msrPart             fSyllableDirectPartUplink;
 };
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
