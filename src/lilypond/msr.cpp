@@ -19930,7 +19930,41 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNew
         fInputLineNumber,
         containingVoice);
 
+  // segment
+
+  // uplinks
+  newbornClone->fMeasureRepeatPatternVoiceUplink =
+    containingVoice;
+    
   return newbornClone;
+}
+
+S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating a newborn clone of a measure repeat pattern" <<
+      endl;
+  
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+    
+  S_msrMeasureRepeatPattern
+    measureRepeatPatternDeepCopy =
+      msrMeasureRepeatPattern::create (
+        fInputLineNumber,
+        containingVoice);
+
+  // segment
+  // fMeasureRepeatPatternSegment JMI ???
+  
+  // uplinks
+  measureRepeatPatternDeepCopy->fMeasureRepeatPatternVoiceUplink =
+    containingVoice;
+    
+  return measureRepeatPatternDeepCopy;
 }
 
 void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
