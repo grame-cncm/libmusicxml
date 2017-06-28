@@ -3294,6 +3294,10 @@ class EXP msrMeasure : public msrElement
     // chords handling
     
     S_msrNote             fMeasureLastHandledNote;
+
+    // elements
+
+    list<S_msrElement>    fMeasureElementsList;
     
     // uplinks
     
@@ -3302,10 +3306,6 @@ class EXP msrMeasure : public msrElement
     S_msrVoice            fMeasureVoiceDirectUplink; // to accelerate things
 
     S_msrPart             fMeasureDirectPartUplink; // to accelerate things
-
-    // elements
-
-    list<S_msrElement>    fMeasureElementsList;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);

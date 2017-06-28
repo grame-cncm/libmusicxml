@@ -6587,8 +6587,8 @@ S_msrNote msrNote::createNoteNewbornClone (
     fNoteBelongsToATuplet =
       fNoteBelongsToATuplet;
 
-    // multiple rest member?
-    // ------------------------------------------------------
+  // multiple rest member?
+  // ------------------------------------------------------
 
   newbornClone->
     fNoteBelongsToAMultipleRest =
@@ -6609,6 +6609,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   // ------------------------------------------------------
 
   newbornClone->fNoteStem = // JMI
+    // share this data
     fNoteStem;
 
   // beams
@@ -6630,6 +6631,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   // ------------------------------------------------------
 
   newbornClone->fNoteTie = // JMI
+    // share this data
     fNoteTie;
 
   // dynamics
@@ -6647,7 +6649,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   // harmony
   // ------------------------------------------------------
 
-  newbornClone->fNoteHarmony =
+  newbornClone->fNoteHarmony = // JMI
     fNoteHarmony;
 
   // note measure information
@@ -6818,6 +6820,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrSyllable>::const_iterator i;
     for (i=fNoteSyllables.begin(); i!=fNoteSyllables.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteSyllables.push_back ((*i));
     } // for
   }
@@ -6830,6 +6833,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   noteDeepCopy->fNoteStem = // JMI
+    // share this data
     fNoteStem;
 
   // beams
@@ -6838,6 +6842,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrBeam>::const_iterator i;
     for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteBeams.push_back ((*i));
     } // for
   }
@@ -6850,6 +6855,7 @@ S_msrNote msrNote::createNoteDeepCopy (
       fNoteArticulations.begin();
       i!=fNoteArticulations.end();
       i++) {
+    // share this data
     noteDeepCopy->fNoteArticulations.push_back ((*i));
   } // for
 
@@ -6862,6 +6868,7 @@ S_msrNote msrNote::createNoteDeepCopy (
       i=fNoteTechnicals.begin();
       i!=fNoteTechnicals.end();
       i++) {
+      // share this data
       noteDeepCopy->fNoteTechnicals.push_back ((*i));
     } // for
   }
@@ -6872,6 +6879,7 @@ S_msrNote msrNote::createNoteDeepCopy (
       i=fNoteTechnicalWithIntegers.begin();
       i!=fNoteTechnicalWithIntegers.end();
       i++) {
+      // share this data
       noteDeepCopy->fNoteTechnicalWithIntegers.push_back ((*i));
     } // for
   }
@@ -6882,6 +6890,7 @@ S_msrNote msrNote::createNoteDeepCopy (
       i=fNoteTechnicalWithStrings.begin();
       i!=fNoteTechnicalWithStrings.end();
       i++) {
+      // share this data
       noteDeepCopy->fNoteTechnicalWithStrings.push_back ((*i));
     } // for
   }
@@ -6892,6 +6901,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrOrnament>::const_iterator i;
     for (i=fNoteOrnaments.begin(); i!=fNoteOrnaments.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteOrnaments.push_back ((*i));
     } // for
   }
@@ -6908,6 +6918,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   noteDeepCopy->fNoteTie = // JMI
+    // share this data
     fNoteTie;
 
   // dynamics
@@ -6916,6 +6927,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrDynamics>::const_iterator i;
     for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteDynamics.push_back ((*i));
     } // for
   }
@@ -6923,6 +6935,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteOtherDynamics.push_back ((*i));
     } // for
   }
@@ -6930,6 +6943,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrWedge>::const_iterator i;
     for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteWedges.push_back ((*i));
     } // for
   }
@@ -6940,6 +6954,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrWords>::const_iterator i;
     for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteWords.push_back ((*i));
     } // for
   }
@@ -6950,6 +6965,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrSlur>::const_iterator i;
     for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteSlurs.push_back ((*i));
     } // for
   }
@@ -6960,6 +6976,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   { 
     list<S_msrLigature>::const_iterator i;
     for (i=fNoteLigatures.begin(); i!=fNoteLigatures.end(); i++) {
+      // share this data
       noteDeepCopy->fNoteLigatures.push_back ((*i));
     } // for
   }
@@ -15897,8 +15914,14 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
 
-    // uplinks
-    
+  // chords handling
+
+  // elements
+
+  // uplinks
+
+  // JMI fMeasureSegmentUplink ???
+  
   newbornClone->fMeasureVoiceDirectUplink =
     containingSegment->
       getSegmentVoiceUplink ();
@@ -15906,8 +15929,6 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureDirectPartUplink =
     containingSegment->
       getSegmentDirectPartUplink ();
-
-  // elements
 
   return newbornClone;
 }
@@ -15939,7 +15960,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       containingSegment->
         getSegmentDirectPartUplink ();
 
-  // create newborn clone
+  // create deep copy
   S_msrMeasure
     measureDeepCopy =
       msrMeasure::create (
@@ -15971,15 +15992,6 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // measure 'first in segment' kind
   measureDeepCopy->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
-
-  // uplinks
-  measureDeepCopy->fMeasureVoiceDirectUplink =
-    containingSegment->
-      getSegmentVoiceUplink ();
-
-  measureDeepCopy->fMeasureDirectPartUplink =
-    containingSegment->
-      getSegmentDirectPartUplink ();
 
   // elements
 
@@ -16052,6 +16064,18 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         endl;
     }
   }
+
+  // uplinks
+
+  // fMeasureSegmentUplink JMI ???
+  
+  measureDeepCopy->fMeasureVoiceDirectUplink =
+    containingSegment->
+      getSegmentVoiceUplink ();
+
+  measureDeepCopy->fMeasureDirectPartUplink =
+    containingSegment->
+      getSegmentDirectPartUplink ();
 
   return measureDeepCopy;
 }
@@ -18302,6 +18326,10 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
   newbornClone->fMeasureNumberHasBeenSetInSegment =
     fMeasureNumberHasBeenSetInSegment;
 
+  // the measures in the segment contain the mmusic
+
+  // uplinks
+
   return newbornClone;
 }
 
@@ -18370,6 +18398,12 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
     }
   }
 
+  // uplinks
+  segmentDeepCopy->fSegmentVoiceUplink =
+    containingVoice;
+
+  // fSegmentDirectPartUplink JMI ???
+  
   return segmentDeepCopy;
 }
 
