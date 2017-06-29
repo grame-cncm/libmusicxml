@@ -6205,6 +6205,8 @@ void msrNote::initializeNote ()
 
   fNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
+
+  cerr << endl << "FOUFOU " << to_string (fNoteEditorialAccidentalKind) << endl;
   
   fNoteCautionaryAccidentalKind =
     msrNote::kNoteCautionaryAccidentalNo; // default value
@@ -7113,6 +7115,8 @@ string msrNote::noteEditorialAccidentalKindAsString (
     case msrNote::kNoteEditorialAccidentalNo:
       result = "editorial accidental: no";
       break;
+    default:
+      result = to_string (noteEditorialAccidentalKind);       // JMI FOUFOU
   } // switch
 
   return result;
