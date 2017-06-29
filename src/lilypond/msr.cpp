@@ -6382,8 +6382,9 @@ void msrNote::initializeNote ()
   // note measure information
   // ------------------------------------------------------
 
-  fNoteMeasureNumber = "-10011";
-  fNotePositionInMeasure = -20022;
+  fNoteMeasureNumber     = K_NO_MEASURE_NUMBER;
+  fNotePositionInMeasure = K_NO_POSITION_MEASURE_NUMBER;
+  
   fNoteOccupiesAFullMeasure = false;
 
   // note redundant information (for speed)
@@ -8217,12 +8218,16 @@ void msrNote::print (ostream& os)
   
     // print measure related information
     os <<
-      ", measure location: " <<
-      fNoteMeasureNumber <<
-      ":";
-      
-    if (fNotePositionInMeasure.getNumerator () < 0)
-      os << "?";
+      ", measure: ";
+    if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER)
+      os << "unknown";
+    else
+      fNoteMeasureNumber;
+
+    os <<
+      ", position in measure: ";
+    if (fNotePositionInMeasure == K_NO_POSITION_MEASURE_NUMBER)
+      os << "unknown";
     else
       os << fNotePositionInMeasure;
       

@@ -4182,6 +4182,10 @@ class EXP msrNote : public msrElement
 
     #define K_NO_OCTAVE -1
 
+    #define K_NO_MEASURE_NUMBER "unknown"
+  
+    #define K_NO_POSITION_MEASURE_NUMBER rational(-20022, 1)
+
     // data types
     // ------------------------------------------------------
 
