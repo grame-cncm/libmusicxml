@@ -4340,7 +4340,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
         getNoteDisplayWholeNotes ();
 
   // set double tremolo displayed whole notes to the note's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes > 0) {
+  if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
     if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
@@ -4396,7 +4396,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
         getChordDisplayWholeNotes ();
     
   // set double tremolo whole notes to the chords's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes > 0) {
+  if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
     if (chordDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
@@ -4452,7 +4452,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
         getNoteDisplayWholeNotes ();
 
   // set double tremolo whole notes to the note's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes > 0) {
+  if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
     if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
@@ -4508,7 +4508,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
         getChordDisplayWholeNotes ();
     
   // set double tremolo whole notes to the chords's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes > 0) {
+  if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
     if (chordDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
@@ -8197,24 +8197,25 @@ void msrNote::print (ostream& os)
         fNoteCautionaryAccidentalKind);
 
     // full measure length
-    if (measureFullMeasureLength > 0)
+    if (measureFullMeasureLength.getNumerator () != 0) { // JMI
       os <<
         ", " <<
         measureFullMeasureLength <<
         " per full measure";
+    }
   
     // print measure related information
     os <<
-      ", measure: " <<
+      ", measure location: " <<
       fNoteMeasureNumber <<
       ":";
       
-    if (fNotePositionInMeasure < 0)
+    if (fNotePositionInMeasure.getNumerator () < 0)
       os << "?";
     else
       os << fNotePositionInMeasure;
       
-    // print rationalized position in measure if relevant
+    // print rationalized position in measure if relevant JMI ???
     if (fNoteMeasureUplink) {
       // the note measure uplink may not have been set yet
       rational
@@ -11282,7 +11283,7 @@ string msrTuplet::tupletAsShortString () const
     fTupletMeasureNumber <<
     ":";
 
-  if (fTupletPositionInMeasure < 0)
+  if (fTupletPositionInMeasure.getNumerator () < 0)
     s << "?";
   else
     s << fTupletPositionInMeasure;
@@ -11346,7 +11347,7 @@ string msrTuplet::tupletAsString () const
     fTupletMeasureNumber <<
     ":";
 
-  if (fTupletPositionInMeasure < 0)
+  if (fTupletPositionInMeasure.getNumerator () < 0)
     s << "?";
   else
     s << fTupletPositionInMeasure;
@@ -11414,7 +11415,7 @@ void msrTuplet::print (ostream& os)
     fTupletMeasureNumber <<
     ":";
     
-  if (fTupletPositionInMeasure < 0)
+  if (fTupletPositionInMeasure.getNumerator () < 0)
     os << "?";
   else
     os << fTupletPositionInMeasure;
@@ -12815,7 +12816,7 @@ int msrTimeItem::getTimeBeatsNumber () const
 {
   int result = 0;
   
-  for (int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     result +=
       fTimeBeatsNumbersVector [i];
     } // for
@@ -18141,7 +18142,7 @@ string msrMeasure::getMeasureLengthAsString () const
         fMeasureFullMeasureLength <<
       endl;
 
-  if (measureLength > 0) {
+  if (measureLength.getNumerator () != 0) {
     result =
       fMeasureDirectPartUplink->
         getPartCurrentDivisions ()->
@@ -21209,6 +21210,15 @@ msrVoice::~msrVoice()
 void msrVoice::setVoiceNameFromNumber (
   int voiceNumber)
 {
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "Setting the name of voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", voice number: " << voiceNumber <<
+      endl;
+  }
+
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       fVoiceName =
@@ -21346,6 +21356,15 @@ void msrVoice::initializeVoice ()
 void msrVoice::changeVoiceIdentity ( // after a deep copy
   int externalVoiceNumber)
 {
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "Changing identity of voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", external voice number: " << externalVoiceNumber <<
+      endl;
+  }
+
   // make it a regular voice
   setVoiceKind (
     msrVoice::kRegularVoice);
