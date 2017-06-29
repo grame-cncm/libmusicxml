@@ -26783,11 +26783,15 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   int                    staffNumber)
 {
   if (fPartStavesMap.count (staffNumber)) {
-    cerr << idtr <<
-      "### Internal error: staffNumber " << staffNumber <<
-      " already exists in part " << getPartCombinedName () <<
-      endl;
+    stringstream s;
+    
+    s <<      
+      "staffNumber " << staffNumber <<
+      " already exists in part " << getPartCombinedName ();
 
+    msrInternalError ( // JMI
+      inputLineNumber, s.str());
+      
     return fPartStavesMap [staffNumber];
   }
 
@@ -28301,9 +28305,14 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
   /* JMI
   if (fScorePartGroupsMap.count (partGroupNumber)) {
-    cerr << idtr <<
-      "### Internal error: part group " << partGroupNumber <<
-      " already exists in this score" << endl;
+    stringstream s;
+    
+    s <<      
+      "part group " << partGroupNumber <<
+      " already exists in this score";
+
+    msrInternalError ( // JMI
+      inputLineNumber, s.str());
 
     return fScorePartGroupsMap [partGroupNumber];
   }
