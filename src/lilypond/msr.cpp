@@ -8347,7 +8347,7 @@ void msrNote::print (ostream& os)
         
       case msrNote::kDoubleTremoloMemberNote:
         {
-          const int fieldWidth = 31;
+          const int fieldWidth = 31; // JMI
 
         }
         break;
@@ -8367,7 +8367,7 @@ void msrNote::print (ostream& os)
         
       case msrNote::kChordMemberNote:
         {
-          const int fieldWidth = 46;
+          const int fieldWidth = 46; // JMI
 
         }
         break;
@@ -16956,7 +16956,6 @@ void msrMeasure::appendMeasureRepeatToMeasure (
           getVoiceName () <<
       "\"" <<
       endl;
-
 /* JMI
   // register measureRepeat measure number
   measureRepeat->
@@ -16995,10 +16994,10 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   // determine if the measureRepeat occupies a full measure
 // XXL  JMI  if (measureRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
-*/
 
   // append the measureRepeat to the measure elements list
   fMeasureElementsList.push_back (measureRepeat);
+*/
 
 /* JMI
   // bring harmony voice to the same measure length
@@ -17032,7 +17031,6 @@ void msrMeasure::appendMultipleRestToMeasure (
           getVoiceName () <<
       "\"" <<
       endl;
-
 /* JMI
   // register multipleRest measure number
   multipleRest->
@@ -17071,10 +17069,10 @@ void msrMeasure::appendMultipleRestToMeasure (
   // determine if the multipleRest occupies a full measure
 // XXL  JMI  if (multipleRestSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // multipleRest->setmultipleRestOccupiesAFullMeasure ();
-*/
 
   // append the multipleRest to the measure elements list
   fMeasureElementsList.push_back (multipleRest);
+*/
 
 /* JMI
   // bring harmony voice to the same measure length
