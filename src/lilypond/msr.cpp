@@ -23698,6 +23698,20 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       getVoiceName () <<
       "\"" <<
       endl;
+      
+    idtr++;
+
+    const int fieldWidth = 26;
+    
+    cerr << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "partMeasureLengthHighTide" << " = " <<
+        getVoiceDirectPartUplink ()->
+          getPartMeasureLengthHighTide () <<
+        endl;
+        
+    idtr--;
   }
 
   // make sure the voice's last segment exists
