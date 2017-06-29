@@ -7758,7 +7758,7 @@ class EXP msrVoice : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_SILENT_VOICE_NUMBER -111
+    #define K_SILENT_VOICE_NUMBER -117
     
     // data types
     // ------------------------------------------------------
@@ -8878,7 +8878,7 @@ class EXP msrPart : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_PART_HARMONY_STAFF_NUMBER -11    
+    #define K_PART_HARMONY_STAFF_NUMBER -19  
     #define K_PART_HARMONY_VOICE_NUMBER -27
     
     // creation from MusicXML
