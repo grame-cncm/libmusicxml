@@ -9661,7 +9661,7 @@ int msrDivisions::durationAsDivisions (
   s <<
     "duration " << duration <<
     " cannot be converted to divisions with " <<
-    fDivisionsPerQuarterNote << " dpqn" <<
+    fDivisionsPerQuarterNote << " divisions per quarter note" <<
     endl;
 
   printDurationsDivisions (s);
@@ -17915,7 +17915,7 @@ void msrMeasure::finalizeMeasure (
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
     
     if (fMeasureLength < partMeasureLengthHighTide) {
-      // appending a skip to this measure to reach measureLength
+      // appending a skip to this measure to reach partMeasureLengthHighTide
       rational
         skipDuration =
           partMeasureLengthHighTide - fMeasureLength;
@@ -26148,10 +26148,12 @@ void msrPart::appendDivisionsToPart (
       printDurationsDivisions (cerr);
   }
 
-  // create the part harmony staff and voice,
+  // create the part harmony staff and voice upon first <divisions/>,
   // only now because we need the current part divisions
-  createPartHarmonyStaffAndVoice (
-    fInputLineNumber);
+  if (! fPartHarmonyStaff) {
+    createPartHarmonyStaffAndVoice (
+      fInputLineNumber);
+  }
 
 /* JMI n'existent pas encore
   // propagate to all staves
