@@ -21206,19 +21206,9 @@ msrVoice::msrVoice (
 msrVoice::~msrVoice()
 {}
 
-void msrVoice::initializeVoice ()
+void msrVoice::setVoiceNameFromNumber (
+  int voiceNumber)
 {
-  fStaffRelativeVoiceNumber = fExternalVoiceNumber;
-    // may be changed afterwards JMI ???
-
-  // compute voice number
-  int voiceNumber =
-    gMsrOptions->
-      fCreateStaffRelativeVoiceNumbers // JMI use it
-        ? fStaffRelativeVoiceNumber
-        : fExternalVoiceNumber;
-  
-  // set voice name
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       fVoiceName =
@@ -21240,7 +21230,7 @@ void msrVoice::initializeVoice ()
       break;
   } // switch
   
-  /*
+  /* JMI
     CAUTION:
       the following makes the lilypond not compilable, but may be useful
       to disambiguate the voice and voice clones names
@@ -21248,7 +21238,24 @@ void msrVoice::initializeVoice ()
   fVoiceName += // JMI
     "[" + to_string (fVoiceAbsoluteNumber) + "]";
   */
+}
 
+void msrVoice::initializeVoice ()
+{
+  fStaffRelativeVoiceNumber = fExternalVoiceNumber;
+    // may be changed afterwards JMI ???
+
+  // compute voice number
+  int voiceNumber =
+    gMsrOptions->
+      fCreateStaffRelativeVoiceNumbers // JMI use it
+        ? fStaffRelativeVoiceNumber
+        : fExternalVoiceNumber;
+  
+  // set voice name
+  setVoiceNameFromNumber (
+    voiceNumber);
+    
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Creating voice \"" << fVoiceName <<
@@ -21336,6 +21343,24 @@ void msrVoice::initializeVoice ()
       this);
 }
 
+void msrVoice::changeVoiceIdentity ( // after a deep copy
+  int externalVoiceNumber)
+{
+  // make it a regular voice
+  setVoiceKind (
+    msrVoice::kRegularVoice);
+
+  // set its external voice number
+  setExternalVoiceNumber (
+    externalVoiceNumber);
+
+  // set its name
+  setVoiceNameFromNumber (
+    externalVoiceNumber);
+  
+  // its part direct uplink is fine, leave it as it is
+}
+    
 S_msrVoice msrVoice::createVoiceNewbornClone (
   S_msrStaff staffClone)
 {
@@ -24984,7 +25009,12 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
  // JMI serait utile?         inputLineNumber,
           this);
 
-  // get the part current time
+  // change its identity
+  voice->
+    changeVoiceIdentity (
+      externalVoiceNumber);
+
+  // get the part current time JMI???
   S_msrTime
     time =
       fStaffDirectPartUplink->

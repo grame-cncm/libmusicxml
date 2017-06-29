@@ -7823,7 +7823,10 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     // voice kind
-    
+
+    void                  setVoiceKind (msrVoiceKind voiceKind)
+                            { fVoiceKind = voiceKind; }
+                            
     msrVoiceKind          getVoiceKind () const
                               { return fVoiceKind; }
 
@@ -7843,6 +7846,9 @@ class EXP msrVoice : public msrElement
                             
     // voice name
     
+    void                  setVoiceNameFromNumber (
+                            int voiceNumber);
+
     string                getVoiceName () const;
 
     // stanzas
@@ -7910,6 +7916,11 @@ class EXP msrVoice : public msrElement
     // services
     // ------------------------------------------------------
 
+    // identity
+
+    void                  changeVoiceIdentity ( // after a deep copy
+                            int externalVoiceNumber);
+                            
     // divisions
 
     void                  appendDivisionsToVoice (

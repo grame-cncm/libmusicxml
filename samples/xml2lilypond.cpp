@@ -3613,9 +3613,11 @@ int main (int argc, char *argv[])
     
     if (outputFileName.size ()) {
       if (gGeneralOptions->fTraceGeneral)
-        cerr << idtr <<
-          "Closing file '" << outputFileName << "'" <<
-          endl;
+        cerr <<
+          endl <<
+          idtr <<
+            "Closing file '" << outputFileName << "'" <<
+            endl;
           
       outStream.close ();
     }

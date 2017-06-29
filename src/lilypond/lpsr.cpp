@@ -3811,7 +3811,7 @@ void lpsrScore::print (ostream& os)
   os << endl;
 
   // are some Scheme functions needed?
-  const int fieldWidth = 26;
+  const int fieldWidth = 42;
   
   os <<
     idtr << left <<
@@ -3822,7 +3822,7 @@ void lpsrScore::print (ostream& os)
       endl <<
     idtr << left <<
       setw(fieldWidth) <<
-      "editorialAccidentalSchemeFunctionIsNeeded" << " : " <<
+      "EditorialAccidentalSchemeFunctionIsNeeded" << " : " <<
       booleanAsString (
         fEditorialAccidentalSchemeFunctionIsNeeded) <<
       endl <<
