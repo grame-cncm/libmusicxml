@@ -21564,10 +21564,19 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   }
 
   // last segment
-  voiceDeepCopy->fVoiceLastSegment =
-    fVoiceLastSegment->
-      createSegmentDeepCopy (
-        voiceDeepCopy);    
+  if (fVoiceLastSegment) {
+    voiceDeepCopy->fVoiceLastSegment =
+      fVoiceLastSegment->
+        createSegmentDeepCopy (
+          voiceDeepCopy);
+  }
+  else {    
+    if (gGeneralOptions->fTraceVoices) {
+      cerr << idtr <<
+        "There is no last segment in voice to be deep copied" <<
+        endl;
+    }
+  }
 
   // first segment
   //fVoiceFirstSegment ??? JMI
