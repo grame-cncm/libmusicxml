@@ -5678,7 +5678,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
           containingVoice-> getStaffRelativeVoiceNumber (), // JMI
           containingVoice-> getExternalVoiceNumber ());
 
-     clone->
+    clone->
       appendNoteToGraceNotes (skip);
   } // for
     
@@ -6120,6 +6120,12 @@ S_msrNote msrNote::createSkipNote (
       false); // noteIsAGraceNote
   assert(o!=0);
 
+/* JMI
+  // set the skip's MSR strings
+  o->
+    setNoteMSRstrings ();
+ */
+  
   return o;
 }    
 
@@ -23697,8 +23703,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       inputLineNumber);
 }
 
-msrVoice::msrVoiceFinalizationStatus
-msrVoice::finalizeVoice (
+msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
   int inputLineNumber)
 {
   msrVoice::msrVoiceFinalizationStatus
@@ -23755,7 +23760,14 @@ msrVoice::finalizeVoice (
       break;
               
     case msrVoice::kSilentVoice:
-      if (! gMsrOptions->fKeepSilentVoices) {
+      if (
+        !
+          (
+            gMsrOptions->fKeepSilentVoices
+              ||
+            gMsrOptions->fShowSilentVoices
+          )
+        ) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "Erasing silent voice \"" <<
@@ -25583,7 +25595,7 @@ void msrStaff::appendTransposeToAllStaffVoices (
 }
 
 void msrStaff::finalizeCurrentMeasureInStaff (
-  int    inputLineNumber)
+  int inputLineNumber)
 {  
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
@@ -25593,13 +25605,42 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       endl;
   }
 
+  // first finalize the staff silent voice,
+  // for use by the other voices
+  switch (fStaffKind) {
+    case msrStaff::kRegularStaff:
+    case msrStaff::kTablatureStaff:
+    case msrStaff::kPercussionStaff:
+      fStaffSilentVoice->
+        finalizeCurrentMeasureInVoice (
+          inputLineNumber);
+      break;
+    case msrStaff::kHarmonyStaff:
+      // no silent voice here
+      break;
+  } // switch
+
+  // then finlalize all the other voices
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
-      finalizeCurrentMeasureInVoice (
-        inputLineNumber);
+    S_msrVoice
+      voice =
+        (*i).second;
+
+    switch (voice->getVoiceKind ()) {
+      case msrVoice::kRegularVoice:
+      case msrVoice::kHarmonyVoice:
+        voice->
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+        break;
+        
+      case msrVoice::kSilentVoice:
+        // it has already been finalized
+        break;
+    } // switch
   } // for
 }
 
