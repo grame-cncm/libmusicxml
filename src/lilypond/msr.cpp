@@ -15965,7 +15965,7 @@ void msrMeasure::initializeMeasure ()
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
 
-  // initialize measure length high tide
+  // reset measure direct part uplink's measure length high tide
   fMeasureDirectPartUplink->
     setPartMeasureLengthHighTide (
       fInputLineNumber,
@@ -16614,10 +16614,12 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       endl;
 
   // populate measure uplink
-  note->setNoteMeasureUplink (this);
+  note->
+    setNoteMeasureUplink (this);
 
   // register note measure number
-  note->setNoteMeasureNumber (fMeasureNumber);
+  note->
+    setNoteMeasureNumber (fMeasureNumber);
   
   // register note measure position in measure
   rational
@@ -17157,7 +17159,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // append the chord to the measure elements list
   fMeasureElementsList.push_back (chord);
 
-  // bring harmony voice to the same measure length
+  // bring harmony voice to the new measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
@@ -17236,7 +17238,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // append the tuplet to the measure elements list
   fMeasureElementsList.push_back (tuplet);
 
-  // bring harmony voice to the same measure length
+  // bring harmony voice to the new measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
@@ -17907,12 +17909,16 @@ void msrMeasure::finalizeMeasure (
 
     idtr++;
 
-    cerr <<
+    const int fieldWidth = 26;
+    
+    cerr << left <<
       idtr <<
-        "measureLength = " << fMeasureLength <<
+        setw(fieldWidth) <<
+        "measureLength" << " = " << fMeasureLength <<
         endl <<
       idtr <<
-        "partMeasureLengthHighTide = " <<
+        setw(fieldWidth) <<
+        "partMeasureLengthHighTide" << " = " <<
         partMeasureLengthHighTide <<
         endl;
         
@@ -25598,14 +25604,6 @@ void msrStaff::appendTransposeToAllStaffVoices (
 void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {  
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
-    cerr << idtr <<
-      "Finalizing current measure in staff \"" <<
-      getStaffName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-
   // first bring the staff's silent voice
   // to the part's measure lenth high tide
 
@@ -25615,15 +25613,31 @@ void msrStaff::finalizeCurrentMeasureInStaff (
     case msrStaff::kRegularStaff:
     case msrStaff::kTablatureStaff:
     case msrStaff::kPercussionStaff:
-      fStaffSilentVoice->
-        bringVoiceToMeasureLength (
-          inputLineNumber,
-          fStaffDirectPartUplink->
-            getPartMeasureLengthHighTide ());
+      {
+        rational
+          partMeasureLengthHighTide =
+            fStaffDirectPartUplink->
+              getPartMeasureLengthHighTide ();
+            
+        if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+          cerr << idtr <<
+            "Finalizing current measure in staff \"" <<
+            getStaffName () <<
+            "\", line " << inputLineNumber <<
+            ", partMeasureLengthHighTide = " <<
+            partMeasureLengthHighTide <<
+            endl;
+        }
 
-      fStaffSilentVoice->
-        finalizeCurrentMeasureInVoice (
-          inputLineNumber);
+        fStaffSilentVoice->
+          bringVoiceToMeasureLength (
+            inputLineNumber,
+            partMeasureLengthHighTide);
+      
+        fStaffSilentVoice->
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+      }
       break;
     case msrStaff::kHarmonyStaff:
       // no silent voice here
@@ -27190,8 +27204,6 @@ void msrPart::print (ostream& os)
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
-    ", measures " <<
-    ", length high tide " << fPartMeasureLengthHighTide <<
     ")" <<
     endl;
     
