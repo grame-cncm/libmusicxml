@@ -18191,7 +18191,7 @@ string msrMeasure::measureKindAsString (
       result = "**senza misura**";
       break;
     case msrMeasure::kEmptyMeasureKind:
-      result = "empty";
+      result = "**empty**";
       break;
   } // switch
 
