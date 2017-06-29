@@ -8850,13 +8850,6 @@ class EXP msrStaff : public msrElement
     
     int                   fRegisteredVoicesCounter;
 
-/* JMI
-    // staff tunings
-    
-    list<S_msrStaffTuning>
-                          fStaffTuningsList;
-*/
-
     // uplinks
 
     // divisions handling is done at the part level

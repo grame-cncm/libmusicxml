@@ -6211,8 +6211,6 @@ void msrNote::initializeNote ()
 
   fNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
-
-  cerr << endl << "FOUFOU " << to_string (fNoteEditorialAccidentalKind) << endl;
   
   fNoteCautionaryAccidentalKind =
     msrNote::kNoteCautionaryAccidentalNo; // default value
@@ -6392,6 +6390,9 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNoteIsStemless = false;
+
+  fNoteIsFirstNoteInADoubleTremolo  = false;
+  fNoteIsSecondNoteInADoubleTremolo = false;
   
   fNoteHasATrill = false;
   fNoteIsFollowedByGraceNotes = false;
@@ -7122,7 +7123,7 @@ string msrNote::noteEditorialAccidentalKindAsString (
       result = "editorial accidental: no";
       break;
     default:
-      result = to_string (noteEditorialAccidentalKind);       // JMI FOUFOU
+      result = to_string (noteEditorialAccidentalKind) + " FOUFOU"; // JMI
   } // switch
 
   return result;
@@ -25605,12 +25606,21 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       endl;
   }
 
+  // first bring the staff's silent voice
+  // to the part's measure lenth high tide
+
   // first finalize the staff silent voice,
   // for use by the other voices
   switch (fStaffKind) {
     case msrStaff::kRegularStaff:
     case msrStaff::kTablatureStaff:
     case msrStaff::kPercussionStaff:
+      fStaffSilentVoice->
+        bringVoiceToMeasureLength (
+          inputLineNumber,
+          fStaffDirectPartUplink->
+            getPartMeasureLengthHighTide ());
+
       fStaffSilentVoice->
         finalizeCurrentMeasureInVoice (
           inputLineNumber);
