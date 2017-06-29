@@ -6120,11 +6120,11 @@ S_msrNote msrNote::createSkipNote (
       false); // noteIsAGraceNote
   assert(o!=0);
 
-/* JMI
+//* JMI
   // set the skip's MSR strings
   o->
     setNoteMSRstrings ();
- */
+// */
   
   return o;
 }    
@@ -6330,12 +6330,14 @@ void msrNote::initializeNote ()
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteEditorialAccidentalKind" << " = " <<
-        fNoteEditorialAccidentalKind <<
+        noteEditorialAccidentalKindAsString (
+          fNoteEditorialAccidentalKind) <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteCautionaryAccidentalKind" << " = " <<
-        fNoteCautionaryAccidentalKind <<
+        noteCautionaryAccidentalKindAsString (
+          fNoteCautionaryAccidentalKind) <<
         endl <<
             
       idtr << left <<
@@ -6920,10 +6922,12 @@ S_msrNote msrNote::createNoteDeepCopy (
   // single tremolo
   // ------------------------------------------------------
 
-  noteDeepCopy->fNoteSingleTremolo =
-    fNoteSingleTremolo->
-      createSingleTremoloDeepCopy (
-        this);
+  if (fNoteSingleTremolo) {
+    noteDeepCopy->fNoteSingleTremolo =
+      fNoteSingleTremolo->
+        createSingleTremoloDeepCopy (
+          this);
+  }
 
   // tie
   // ------------------------------------------------------
@@ -6995,10 +6999,12 @@ S_msrNote msrNote::createNoteDeepCopy (
   // harmony
   // ------------------------------------------------------
 
-  noteDeepCopy->fNoteHarmony =
-    fNoteHarmony->
-      createHarmonyDeepCopy (
-        containingPart);
+  if (fNoteHarmony) {
+    noteDeepCopy->fNoteHarmony =
+      fNoteHarmony->
+        createHarmonyDeepCopy (
+          containingPart);
+  }
 
   // note measure information
   // ------------------------------------------------------
@@ -15969,12 +15975,6 @@ void msrMeasure::initializeMeasure ()
   setMeasureLength (
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
-
-  // reset measure direct part uplink's measure length high tide
-  fMeasureDirectPartUplink->
-    setPartMeasureLengthHighTide (
-      fInputLineNumber,
-       rational (0, 1));
 }
 
 msrMeasure::~msrMeasure()
@@ -25028,7 +25028,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
 
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
-      "Creating voice '" << externalVoiceNumber <<
+      "Creating voice with external number '" << externalVoiceNumber <<
       "' as relative voice '" << fRegisteredVoicesCounter <<
       "' of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
@@ -26136,11 +26136,12 @@ void msrPart::initializePart ()
 // JMI  fPartDivisionsPerQuarterNote = rational (-417, 1); // JMI
   
   setPartMeasureLengthHighTide (
-    fInputLineNumber, rational (0, 1));
+    fInputLineNumber,
+    rational (0, 1));
 
 /* JMI
   // set part current time to the default 4/4 time signature
-  fPartCurrentTime =
+  fPartCurrenltTime =
     msrTime::createFourQuartersTime (
       fInputLineNumber);
 */
@@ -27125,6 +27126,11 @@ void msrPart::finalizeCurrentMeasureInPart (
       finalizeCurrentMeasureInStaff (
         inputLineNumber);
   } // for
+
+  // reset measure direct part uplink's measure length high tide
+  setPartMeasureLengthHighTide (
+    fInputLineNumber,
+    rational (0, 1));
 }
 
 void msrPart::finalizePart (int inputLineNumber)
