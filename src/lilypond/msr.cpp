@@ -6245,7 +6245,7 @@ void msrNote::initializeNote ()
 
     idtr++;
     
-    const int fieldWidth = 23;
+    const int fieldWidth = 31;
     
     cerr <<
       idtr << left <<
@@ -6405,7 +6405,7 @@ void msrNote::setNoteMSRstrings ()
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "--> before setting note MSR strings for note:" <<
+      "Before setting note MSR strings for note, we have:" <<
       endl;
 
     idtr ++;
@@ -18542,8 +18542,8 @@ void msrSegment::createMeasureAndAppendItToSegment (
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
       "Creating and appending a measure '" << measureNumber <<
-      ", to segment " << segmentAsString () <<
-      ", in voice \"" <<
+      "', to segment '" << segmentAsString () <<
+      "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       "', line " << inputLineNumber <<
