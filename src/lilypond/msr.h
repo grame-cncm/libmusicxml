@@ -7796,6 +7796,7 @@ class EXP msrVoice : public msrElement
       S_msrStaff containingStaff);
 
     SMARTP<msrVoice> createVoiceDeepCopy (
+      int        voiceNumber,
       S_msrStaff containingStaff);
 
   protected:

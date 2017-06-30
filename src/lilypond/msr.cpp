@@ -21427,7 +21427,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 
   // voice numbers
   newbornClone->fVoiceAbsoluteNumber =
-    fVoiceAbsoluteNumber;
+    ++gVoicesCounter;
 
   newbornClone->fStaffRelativeVoiceNumber =
     fStaffRelativeVoiceNumber;
@@ -21469,6 +21469,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 }
 
 S_msrVoice msrVoice::createVoiceDeepCopy (
+  int        voiceNumber,
   S_msrStaff containingStaff)
 {
   if (gGeneralOptions->fTraceVoices) {
@@ -21493,14 +21494,16 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           getStaffDirectPartUplink (),
         fVoiceKind,
         fExternalVoiceNumber,
+          // temporary tp be consistent with fVoiceKind,
+          // will be set below
         containingStaff);
 
   // voice numbers
   voiceDeepCopy->fVoiceAbsoluteNumber =
-    fVoiceAbsoluteNumber;
+    ++gVoicesCounter;;
 
-  voiceDeepCopy->fStaffRelativeVoiceNumber =
-    fStaffRelativeVoiceNumber;
+  voiceDeepCopy->fStaffRelativeVoiceNumber = // JMI
+    voiceNumber;
 
   // voice name
   voiceDeepCopy->fVoiceName =
@@ -23972,6 +23975,18 @@ void msrVoice::print (ostream& os)
 
   os <<
     idtr <<
+      setw(fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
+      fVoiceAbsoluteNumber <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "ExternalVoiceNumber" << " : " <<
+      fExternalVoiceNumber <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "StaffRelativeVoiceNumber" << " : " <<
+      fStaffRelativeVoiceNumber <<
+      endl <<
+    idtr <<
       setw(fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
       endl <<
@@ -25076,6 +25091,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
       fStaffSilentVoice->
         createVoiceDeepCopy (
  // JMI serait utile?         inputLineNumber,
+          externalVoiceNumber,
           this);
 
   // change its identity
