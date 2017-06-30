@@ -5354,10 +5354,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   else {
     // print the chord duration
     fOstream <<
+      elt->
+        getChordSoundingWholeNotesAsMsrString ();
+    /* JMI
       wholeNotesAsLilypondString (
         chordInputLineNumber,
         elt->getChordDirectPartUplink (),
         elt->getChordDisplayWholeNotes ());
+        */
   }
    
   // fetch the chord single tremolo

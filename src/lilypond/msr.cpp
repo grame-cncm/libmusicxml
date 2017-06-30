@@ -8854,6 +8854,14 @@ S_msrChord msrChord::createChordNewbornClone (
         fChordGraphicDuration);
 
   newbornClone->
+    fChordSoundingWholeNotesAsMsrString =
+      fChordSoundingWholeNotesAsMsrString;
+    
+  newbornClone->
+    fChordDisplayWholeNotesAsMsrString =
+      fChordDisplayWholeNotesAsMsrString;
+    
+  newbornClone->
     fChordPositionInMeasure =
       fChordPositionInMeasure;
     
