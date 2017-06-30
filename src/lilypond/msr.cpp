@@ -16155,22 +16155,23 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
           note->createNoteDeepCopy (
             directPartUplink);
 
+/* JMI
         // append the element deep copy to the measure deep copy
         measureDeepCopy->
           fMeasureElementsList.push_back (
             elementDeepCopy);
+*/
       }
     
       else {
         // share the element with the original measure
         elementDeepCopy = (*i);
       }
-/* JMI
+
       // append the element deep copy to the measure deep copy
       measureDeepCopy->
         fMeasureElementsList.push_back (
           elementDeepCopy);
-     */   
     } // for
   }
   
@@ -16229,6 +16230,17 @@ void msrMeasure::setMeasureLength (
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
+  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
+    cerr <<
+      idtr <<
+        "Appending clef " << clef->clefAsString () <<
+        " to measure " << fMeasureNumber <<
+      ", in voice \"" <<
+      getMeasureVoiceDirectUplink ()->getVoiceName () <<
+      "\"" <<
+        endl;
+  }
+      
   // append it to the measure elements list
   fMeasureElementsList.push_back (clef);
 }
@@ -18697,7 +18709,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
         "Appending clef " << clef->clefAsString () <<
@@ -18706,6 +18718,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
         endl;
+  }
       
   // register clef in segment
 // JMI  fSegmentClef = clef;
@@ -21995,11 +22008,12 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
-  if (gMsrOptions->fTraceMsr)
+  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Appending clef '" << clef->clefAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
@@ -24749,7 +24763,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentClef ();
   
     if (clef) {
-      if (gGeneralOptions->fTraceStaves) {
+      if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
         cerr << idtr <<
           "Appending part clef '" << clef->clefAsString () <<
           "' to staff \"" <<
@@ -24789,7 +24803,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentKey ();
   
     if (key) {
-      if (gGeneralOptions->fTraceStaves) {
+      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceKeys) {
         cerr << idtr <<
           "Appending part key '" << key->keyAsString () <<
           "' to staff \"" <<
@@ -24870,7 +24884,7 @@ void msrStaff::initializeStaff ()
           getPartTranspose ();
         
     if (transpose) {
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes) {
+      if (gGeneralOptions->fTraceStaves /* JMI || gGeneralOptions->fTraceTransposes */) {
         cerr << idtr <<
           "Appending part transpose '" << transpose->transposeAsString () <<
           "' to staff \"" <<
@@ -25257,7 +25271,7 @@ void msrStaff::bringStaffToMeasureLength (
 
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Appending clef '" << clef->clefAsString () <<
       "' to staff \"" <<
@@ -25265,6 +25279,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   // set staff clef
   fStaffCurrentClef = clef;
@@ -26630,12 +26645,13 @@ void msrPart::appendStaffDetailsToPart (
 
 void msrPart::appendClefToPart (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceClefs) {
     cerr << idtr <<
       "Appending clef \"" <<
       clef->clefAsString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
+  }
 
   // set part clef
   fPartCurrentClef = clef;
