@@ -27262,12 +27262,34 @@ void msrPart:: handleBackup (
 }
 
 void msrPart:: handleForward (
-  int inputLineNumber,
-  int divisions,
-  int staffNumber,
-  int voiceNumber)
+  int        inputLineNumber,
+  int        divisions,
+  S_msrVoice voice)
 {
- // JMI 
+  // get the part's number of divisions per quarter note
+  int
+    divisionsPerQuarterNote =
+      fPartCurrentDivisions->
+        getDivisionsPerQuarterNote ();
+
+  // compute the backup step length
+  rational
+    forwardStepLength =
+      rational (
+        divisions,
+        divisionsPerQuarterNote * 4); // hence a whole note    
+  
+  // determine the measure position 'divisions' backward
+  rational
+    measurePosition =
+      forwardStepLength; // + what ??? JMI
+
+  measurePosition.rationalise ();
+
+  // bring the voice forward to that measure position
+  bringPartToMeasureLength (
+    inputLineNumber,
+    measurePosition);
 }
 
 void msrPart::finalizeCurrentMeasureInPart (

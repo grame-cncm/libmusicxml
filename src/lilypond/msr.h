@@ -9227,10 +9227,9 @@ class EXP msrPart : public msrElement
     // forward
     
     void                  handleForward (
-                            int inputLineNumber,
-                            int divisions,
-                            int staffNumber,
-                            int voiceNumber);
+                            int        inputLineNumber,
+                            int        divisions,
+                            S_msrVoice voice);
 
     // finalization
 
