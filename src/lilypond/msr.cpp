@@ -16238,7 +16238,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
       ", in voice \"" <<
       getMeasureVoiceDirectUplink ()->getVoiceName () <<
       "\"" <<
-        endl;
+      endl;
   }
       
   // append it to the measure elements list
@@ -16247,6 +16247,17 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 
 void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
+    cerr <<
+      idtr <<
+        "Appending key " << key->keyAsString () <<
+        " to measure " << fMeasureNumber <<
+      ", in voice \"" <<
+      getMeasureVoiceDirectUplink ()->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+      
   // append it to the measure elements list
   fMeasureElementsList.push_back (key);
 }
@@ -16256,7 +16267,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   msrAssert(
     time != 0, "time is null");
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "Appending time:" <<
       endl;
@@ -16369,7 +16380,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
   msrAssert(
     time != 0, "time is null");
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "Appending time:" <<
       endl;
@@ -18730,7 +18741,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
 {
-  if (gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
         "Appending key " << key->keyAsString () <<
@@ -18739,6 +18750,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
         endl;
+  }
       
   // register key in segment
 // JMI  fSegmentKey = key;
@@ -22026,12 +22038,13 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Appending key '" << key->keyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
-
+  }
+  
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
     key->getInputLineNumber ());
@@ -22043,12 +22056,13 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
-
+  }
+  
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
     time->getInputLineNumber ());
@@ -22060,12 +22074,13 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 
 void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
-
+  }
+  
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNeeded (
     time->getInputLineNumber ());
@@ -25315,7 +25330,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
 void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Appending key '" << key->keyAsString () <<
       "' to staff \"" <<
@@ -25323,7 +25338,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
-
+  }
+  
   // set staff key
   fStaffCurrentKey = key;
 
@@ -25339,7 +25355,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
 void msrStaff::appendTimeToStaff (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to staff \"" <<
@@ -25347,7 +25363,8 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
-
+  }
+  
   // set staff time
   fStaffCurrentTime = time;
 
@@ -25363,7 +25380,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
 void msrStaff::appendTimeToStaffClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Appending time '" << time->timeAsString () <<
       "' to staff clone \"" <<
@@ -25371,7 +25388,8 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
-
+  }
+  
   // set staff time
   fStaffCurrentTime = time;
 
@@ -26668,13 +26686,14 @@ void msrPart::appendClefToPart (S_msrClef clef)
 
 void msrPart::appendKeyToPart  (S_msrKey  key)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceKeys)
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Appending key \"" <<
       key->keyAsString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
-
+  }
+  
   // set part key
   fPartCurrentKey = key;
 
@@ -26693,13 +26712,14 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 
 void msrPart::appendTimeToPart (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Appending time \"" <<
       time->timeAsString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
-
+  }
+  
   // set part time
   fPartCurrentTime = time;
 
@@ -26718,13 +26738,14 @@ void msrPart::appendTimeToPart (S_msrTime time)
 
 void msrPart::appendTimeToPartClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceTimes)
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Appending time \"" <<
       time->timeAsString () <<
       "\" to part clone " << getPartCombinedName () <<
     endl;
-
+  }
+  
   // set part time
   fPartCurrentTime = time;
 
