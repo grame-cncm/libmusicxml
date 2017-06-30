@@ -6120,11 +6120,9 @@ S_msrNote msrNote::createSkipNote (
       false); // noteIsAGraceNote
   assert(o!=0);
 
-//* JMI
   // set the skip's MSR strings
   o->
     setNoteMSRstrings ();
-// */
   
   return o;
 }    
@@ -8783,9 +8781,35 @@ msrChord::msrChord (
     
   fChordDirectPartUplink =
     chordDirectPartUplink;
+  
+  fChordSoundingWholeNotes = chordSoundingWholeNotes;
+  fChordDisplayWholeNotes  = chordDisplayWholeNotes;
+  
+  fChordGraphicDuration = chordGraphicDuration;
+
+  fChordIsFirstChordInADoubleTremolo  = false;
+  fChordIsSecondChordInADoubleTremolo = false;
+}
+
+void msrChord::setChordMSRstrings ()
+{
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "Setting MSR strings for chord:" <<
+      endl;
+
+    idtr ++;
+    
+    cerr <<
+      idtr;
+    this->print (cerr);
+    cerr <<
+      endl;
+
+    idtr--;
+  }
 
   // sounding whole notes
-  fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fChordSoundingWholeNotesAsMsrString =
     fChordDirectPartUplink->
       getPartCurrentDivisions ()->
@@ -8794,18 +8818,12 @@ msrChord::msrChord (
           fChordSoundingWholeNotes);
               
    // display whole notes 
-  fChordDisplayWholeNotes = chordDisplayWholeNotes;
   fChordDisplayWholeNotesAsMsrString =
     fChordDirectPartUplink->
       getPartCurrentDivisions ()->
         wholeNotesAsMsrString (
           fInputLineNumber,
           fChordDisplayWholeNotes);
-  
-  fChordGraphicDuration = chordGraphicDuration;
-
-  fChordIsFirstChordInADoubleTremolo  = false;
-  fChordIsSecondChordInADoubleTremolo = false;
 }
 
 msrChord::~msrChord()
@@ -9264,13 +9282,14 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
 
 string msrChord::chordSoundingWholeNotesAsMsrString () const
 {
-  string result;
+  return fChordSoundingWholeNotesAsMsrString;
+  
+  // string result;
 
 /* JMI
   int inputSourceSuppliedNumberOfDots =
     fChordNotes [0]-> 
       getNoteDotsNumber (); // any chord member note is fine
-  */
   
   result =
     fChordDirectPartUplink->
@@ -9278,19 +9297,21 @@ string msrChord::chordSoundingWholeNotesAsMsrString () const
         divisionsAsMsrString (
           fInputLineNumber,
           fChordSoundingWholeNotes);
-
+  
   return result;
+  */
 }
 
 string msrChord::chordDisplayWholeNotesAsMsrString () const
 {
-  string result;
+  return fChordDisplayWholeNotesAsMsrString;
+
+//  string result;
 
 /* JMI
   int inputSourceSuppliedNumberOfDots =
     fChordNotes [0]-> 
       getNoteDotsNumber (); // any chord member note is fine
-  */
   
   result =
     fChordDirectPartUplink->
@@ -9300,6 +9321,7 @@ string msrChord::chordDisplayWholeNotesAsMsrString () const
           fChordDisplayWholeNotes);
 
   return result;
+  */
 }
 
 /* JMI
@@ -16967,12 +16989,14 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // append the doubleTremolo to the measure elements list
   fMeasureElementsList.push_back (doubleTremolo);
 
+/* JMI
   // bring harmony voice to the same measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
         fMeasureLength);
+        */
 }
 
 void msrMeasure::appendMeasureRepeatToMeasure (
@@ -17187,12 +17211,14 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // append the chord to the measure elements list
   fMeasureElementsList.push_back (chord);
 
+/* JMI
   // bring harmony voice to the new measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
         fMeasureLength);
+        */
 }
 
 void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
@@ -17266,12 +17292,14 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // append the tuplet to the measure elements list
   fMeasureElementsList.push_back (tuplet);
 
+/* JMI
   // bring harmony voice to the new measure length
   fMeasureDirectPartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
         fMeasureLength);
+        */
 }
 
 void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)

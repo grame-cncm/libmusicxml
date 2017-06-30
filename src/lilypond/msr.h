@@ -4991,6 +4991,9 @@ class EXP msrChord : public msrElement
     rational              getChordDisplayWholeNotes () const
                               { return fChordDisplayWholeNotes; }
                         
+    // chord MSR strings
+    void                  setChordMSRstrings ();
+
     string                getChordDisplayWholeNotesAsMsrString () const
                               {
                                 return
