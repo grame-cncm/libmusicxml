@@ -26285,7 +26285,7 @@ void msrPart::setPartCurrentDivisions (
 }
 */
 
-void msrPart::appendDivisionsToPart (
+void msrPart::setPartCurrentDivisions (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceParts) {
@@ -26329,6 +26329,7 @@ void msrPart::appendDivisionsToPart (
   */
 }
 
+/* JMI
 void msrStaff::appendDivisionsToStaff (
   S_msrDivisions divisions)
 {
@@ -26399,6 +26400,7 @@ void msrMeasure::appendDivisionsToMeasure (
   // append it to the measure elements list
   fMeasureElementsList.push_back (divisions);
 }
+*/
 
 void msrPart::createPartHarmonyStaffAndVoice (
   int inputLineNumber)

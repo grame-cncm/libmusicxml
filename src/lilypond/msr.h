@@ -3080,9 +3080,10 @@ class EXP msrMeasure : public msrElement
 
     // divisions
 
+/* JMI
     void                  appendDivisionsToMeasure (
                             S_msrDivisions divisions);
-
+*/
     void                  bringMeasureToMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
@@ -3388,9 +3389,10 @@ class EXP msrSegment : public msrElement
 
     // divisions
 
+/* JMI
     void                  appendDivisionsToSegment (
                             S_msrDivisions divisions);
-
+*/
     // strings
   
     string                segmentAsString ();
@@ -7928,8 +7930,10 @@ class EXP msrVoice : public msrElement
                             
     // divisions
 
+/* JMI
     void                  appendDivisionsToVoice (
                             S_msrDivisions divisions);
+*/
 
     // voice kind
 
@@ -8670,9 +8674,10 @@ class EXP msrStaff : public msrElement
 
     // divisions
 
+/* JMI
     void                  appendDivisionsToStaff (
                             S_msrDivisions divisions);
-  
+*/
     // staff details
     
     void                  appendStaffDetailsToStaff (
@@ -9066,7 +9071,7 @@ class EXP msrPart : public msrElement
 
     // divisions
 
-    void                  appendDivisionsToPart ( // set ??? JMI
+    void                  setPartCurrentDivisions (
                             S_msrDivisions divisions);
 
 /* JMI
