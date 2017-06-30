@@ -27149,17 +27149,22 @@ void msrPart:: handleBackup (
     divisionsPerQuarterNote =
       fPartCurrentDivisions->
         getDivisionsPerQuarterNote ();
-      
+
+  // compute the backup step length
+  rational
+    backupStepLength =
+      rational (
+        divisions,
+        divisionsPerQuarterNote * 4); // hence a whole note    
+  
   // determine the measure position 'divisions' backward
   rational
     measurePosition =
-      rational (
-        divisions,
-        divisionsPerQuarterNote * 4); // hence a whole note
+      fPartMeasureLengthHighTide - backupStepLength;
 
   measurePosition.rationalise ();
 
-  // bring the part back to this measure position
+  // bring the part back to that measure position
   bringPartToMeasureLength (
     inputLineNumber,
     measurePosition);

@@ -128,11 +128,21 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   string result;
 
   if (gGeneralOptions->fTraceNotes) {
+    int saveIndent =
+      idtr.getIndent ();
+    
     fOstream <<
       endl <<
       idtr <<
       "%{ absoluteOctave = " << absoluteOctave << " %}" <<
       endl;
+
+    if (saveIndent > 0) {      
+      for (int i = 0; i < saveIndent; i++) {
+        fOstream <<
+          idtr;
+      } // for
+    }
   }
 
   // generate LilyPond absolute octave
@@ -2393,9 +2403,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
       " \\startStaff" <<
       endl;
 
-    if (saveIndent > 0) {
-      idtr.resetToZero ();
-      
+    if (saveIndent > 0) {      
       for (int i = 0; i < saveIndent; i++) {
         fOstream <<
           idtr;
@@ -2788,9 +2796,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fOstream<<
       endl;
 
-    if (saveIndent > 0) {
-      idtr.resetToZero ();
-      
+    if (saveIndent > 0) {      
       for (int i = 0; i < saveIndent; i++) {
         fOstream <<
           idtr;
@@ -2915,9 +2921,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         fOstream <<
           endl;
           
-        if (saveIndent > 0) {
-          idtr.resetToZero ();
-          
+        if (saveIndent > 0) {          
           for (int i = 0; i < saveIndent; i++) {
             fOstream <<
               idtr;
@@ -2943,9 +2947,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         fOstream <<
           endl;
           
-        if (saveIndent > 0) {
-          idtr.resetToZero ();
-          
+        if (saveIndent > 0) {          
           for (int i = 0; i < saveIndent; i++) {
             fOstream <<
               idtr;
@@ -5933,9 +5935,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     ", saveIndent = " << saveIndent <<
     endl;
 
-  if (saveIndent > 0) {
-//    idtr.resetToZero ();
-    
+  if (saveIndent > 0) {    
     for (int i = 0; i < saveIndent - 1 /* JMI */; i++) {
       fOstream <<
         idtr;
