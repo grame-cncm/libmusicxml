@@ -27144,10 +27144,22 @@ void msrPart:: handleBackup (
   int inputLineNumber,
   int divisions)
 {
+  // get the part's number of divisions per quarter note
+  int
+    divisionsPerQuarterNote =
+      fPartCurrentDivisions->
+        getDivisionsPerQuarterNote ();
+      
   // determine the measure position 'divisions' backward
-  rational measurePosition;
+  rational
+    measurePosition =
+      rational (
+        divisions,
+        divisionsPerQuarterNote * 4); // hence a whole note
 
-  // bring the part back to the measure position
+  measurePosition.rationalise ();
+
+  // bring the part back to this measure position
   bringPartToMeasureLength (
     inputLineNumber,
     measurePosition);
