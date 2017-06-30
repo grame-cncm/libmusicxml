@@ -17381,7 +17381,7 @@ void msrMeasure::bringMeasureToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Bringing measure length for measure '" <<
       fMeasureNumber <<
@@ -19025,7 +19025,7 @@ void msrSegment::bringSegmentToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Bringing measure length for segment '" <<
       fSegmentAbsoluteNumber <<
@@ -22200,13 +22200,14 @@ void msrVoice::bringVoiceToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
       "Bringing measure length for voice \"" <<
       getVoiceName () <<
       "\" to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
   fVoiceLastSegment->
     bringSegmentToMeasureLength (
@@ -25214,6 +25215,30 @@ void msrStaff::registerVoiceInStaff (
     voice;
 }
 
+void msrStaff::bringStaffToMeasureLength (
+  int      inputLineNumber,
+  rational measureLength)
+{
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Bringing measure length for staff \"" <<
+      getStaffName () <<
+      "\" to " << measureLength <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      bringVoiceToMeasureLength (
+        inputLineNumber,
+        measureLength);
+  } // for
+}
+
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceStaves)
@@ -25654,7 +25679,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
             partMeasureLengthHighTide);
       
         fStaffSilentVoice->
-          finalizeCurrentMeasureInVoice (
+          finalizeCurrentMeasureInVoice ( // JMI deja???
             inputLineNumber);
       }
       break;
@@ -26401,6 +26426,30 @@ void msrPart::updatePartMeasureLengthHighTide (
   }
 }
 
+void msrPart::bringPartToMeasureLength (
+  int      inputLineNumber,
+  rational measureLength)
+{
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Bringing measure length for part \"" <<
+      getPartCombinedName () <<
+      "\" to " << measureLength <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      bringStaffToMeasureLength (
+        inputLineNumber,
+        measureLength);
+  } // for
+}
+
 void msrPart::setPartMsrName (string partMsrName)
 {
   // is this part name in the part renaming map?
@@ -27095,7 +27144,13 @@ void msrPart:: handleBackup (
   int inputLineNumber,
   int divisions)
 {
- // JMI 
+  // determine the measure position 'divisions' backward
+  rational measurePosition;
+
+  // bring the part back to the measure position
+  bringPartToMeasureLength (
+    inputLineNumber,
+    measurePosition);
 }
 
 void msrPart:: handleForward (

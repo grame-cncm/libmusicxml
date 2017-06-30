@@ -8677,6 +8677,12 @@ class EXP msrStaff : public msrElement
     void                  appendStaffDetailsToStaff (
                             S_msrStaffDetails staffDetails);
 
+    // measures
+
+    void                  bringStaffToMeasureLength (
+                            int      inputLineNumber,
+                            rational measureLength);
+  
     // clef, key, time
 
     void                  appendClefToStaff (S_msrClef clef);
@@ -9059,7 +9065,7 @@ class EXP msrPart : public msrElement
 
     // divisions
 
-    void                  appendDivisionsToPart (
+    void                  appendDivisionsToPart ( // set ??? JMI
                             S_msrDivisions divisions);
 
 /* JMI
@@ -9092,6 +9098,12 @@ class EXP msrPart : public msrElement
     void                  testTupletSoundingWholeNotesAndDurations ();
 */
 
+    // measures
+
+    void                  bringPartToMeasureLength (
+                            int      inputLineNumber,
+                            rational measureLength);
+  
     // clef, key, time
     
     void                  appendClefToPart (S_msrClef clef);
