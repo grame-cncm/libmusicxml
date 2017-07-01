@@ -3408,7 +3408,7 @@ class EXP msrSegment : public msrElement
     void                  appendMeasureToSegment (
                             S_msrMeasure measure);
 
-    void                  appendMeasureToSegmentIfNeeded (  // JMI
+    void                  appendMeasureToSegmentIfNotYetDone (  // JMI
                             int    inputLineNumber,
                             string measureNumber);
 
@@ -4261,7 +4261,7 @@ class EXP msrNote : public msrElement
       rational  wholeNotes,
       int       dotsNumber,
       int       staffNumber,
-      int       externalVoiceNumber);
+      int       voicePartRelativeID);
     
   protected:
  
@@ -7794,7 +7794,7 @@ class EXP msrVoice : public msrElement
       int          inputLineNumber,
       S_msrPart    voiceDirectPartUplink, // superfluous JMI ???
       msrVoiceKind voiceKind,
-      int          externalVoiceNumber,
+      int          voicePartRelativeID,
       S_msrStaff   voiceStaffUplink);
     
     SMARTP<msrVoice> createVoiceNewbornClone (
@@ -7814,7 +7814,7 @@ class EXP msrVoice : public msrElement
       int          inputLineNumber,
       S_msrPart    voiceDirectPartUplink,
       msrVoiceKind voiceKind,
-      int          externalVoiceNumber,
+      int          voicePartRelativeID,
       S_msrStaff   voiceStaffUplink);
 
     // destructor
@@ -7842,11 +7842,11 @@ class EXP msrVoice : public msrElement
 
     // voice numbers
     
-    void                  setExternalVoiceNumber (int externalVoiceNumber)
-                              { fExternalVoiceNumber = externalVoiceNumber; }
+    void                  setVoicePartRelativeID (int voicePartRelativeID)
+                              { fVoicePartRelativeID = voicePartRelativeID; }
 
-    int                   getExternalVoiceNumber () const
-                              { return fExternalVoiceNumber; }
+    int                   getVoicePartRelativeID () const
+                              { return fVoicePartRelativeID; }
                 
     int                   getStaffRelativeVoiceNumber () const
                               { return fStaffRelativeVoiceNumber; }
@@ -7893,7 +7893,7 @@ class EXP msrVoice : public msrElement
                             int    inputLineNumber,
                             string measureNumbe);
 
-    void                  appendAFirstMeasureToVoiceIfNeeded (
+    void                  appendAFirstMeasureToVoiceIfNotYetDone (
                              int inputLineNumber);
                         
     const string          getVoiceMeasureNumber () const
@@ -7929,7 +7929,7 @@ class EXP msrVoice : public msrElement
     // identity
 
     void                  changeVoiceIdentity ( // after a deep copy
-                            int externalVoiceNumber);
+                            int voicePartRelativeID);
                             
     // divisions
 
@@ -8187,7 +8187,7 @@ class EXP msrVoice : public msrElement
     // voice numbers in MusicXML may be greater than 4
     // while there can only be 4 in a staff
     // we thus have to cope with that
-    int                   fExternalVoiceNumber;
+    int                   fVoicePartRelativeID;
     int                   fStaffRelativeVoiceNumber;
 
     // voice name
@@ -8717,7 +8717,7 @@ class EXP msrStaff : public msrElement
     
     S_msrVoice            createVoiceInStaffByItsPartRelativeID (
                             int    inputLineNumber,
-                            int    externalVoiceNumber,
+                            int    voicePartRelativeID,
                             string currentMeasureNumber);
 
     void                  registerVoiceInStaff (
@@ -8726,7 +8726,7 @@ class EXP msrStaff : public msrElement
 
     S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID (
                             int inputLineNumber,
-                            int externalVoiceNumber);
+                            int voicePartRelativeID);
 
     void                  createStaffSilentVoice (
                             int inputLineNumber);
@@ -8863,7 +8863,7 @@ class EXP msrStaff : public msrElement
     
     // counters
     
-    int                   fRegisteredVoicesCounter;
+    int                   fStaffRegisteredVoicesCounter;
 
     // uplinks
 
