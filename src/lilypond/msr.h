@@ -63,6 +63,9 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 class msrBreak;
 typedef SMARTP<msrBreak> S_msrBreak;
 
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
@@ -3155,6 +3158,11 @@ class EXP msrMeasure : public msrElement
     
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
 
+    // staff change
+    
+    void                  appendVoiceStaffChangeToMeasure (
+                            S_msrVoiceStaffChange voiceStaffChange);
+
     // notes
     
     void                  appendNoteToMeasure      (S_msrNote note);
@@ -3175,17 +3183,21 @@ class EXP msrMeasure : public msrElement
 
     // chords
     
-    void                  appendChordToMeasure (S_msrChord chord);
+    void                  appendChordToMeasure (
+                            S_msrChord chord);
 
     // tuplets
     
-    void                  appendTupletToMeasure (S_msrTuplet tuplet);
+    void                  appendTupletToMeasure (
+                            S_msrTuplet tuplet);
 
     // harmonies
     
-    void                  appendHarmonyToMeasure (S_msrHarmony harmony);
+    void                  appendHarmonyToMeasure (
+                            S_msrHarmony harmony);
     
-    void                  appendHarmonyToMeasureClone (S_msrHarmony harmony);
+    void                  appendHarmonyToMeasureClone (
+                            S_msrHarmony harmony);
 
     // grace notes
     
@@ -3450,6 +3462,11 @@ class EXP msrSegment : public msrElement
     void                  appendHarmonyToSegment (S_msrHarmony harmony);
     
     void                  appendHarmonyToSegmentClone (S_msrHarmony harmony);
+
+    // staff change
+    
+    void                  appendVoiceStaffChangeToSegment (
+                            S_msrVoiceStaffChange voiceStaffChange);
 
     // notes
     
@@ -7987,6 +8004,11 @@ class EXP msrVoice : public msrElement
     void                  appendOctaveShiftToVoice (
                             S_msrOctaveShift octaveShift);
 
+    // staff change
+    
+    void                  appendVoiceStaffChangeToVoice (
+                            S_msrVoiceStaffChange voiceStaffChange);
+
     // notes
     
     void                  appendNoteToVoice      (S_msrNote note);
@@ -8880,42 +8902,42 @@ EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrStaffChange : public msrElement
+class EXP msrVoiceStaffChange : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStaffChange> create (
-      int inputLineNumber,
-      int newStaffNumber);
+    static SMARTP<msrVoiceStaffChange> create (
+      int        inputLineNumber,
+      S_msrStaff newStaff);
 
-    SMARTP<msrStaffChange> createStaffChangeNewbornClone ();
+    SMARTP<msrVoiceStaffChange> createStaffChangeNewbornClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffChange (
-      int inputLineNumber,
-      int newStaffNumber);
+    msrVoiceStaffChange (
+      int        inputLineNumber,
+      S_msrStaff newStaff);
       
-    virtual ~msrStaffChange();
+    virtual ~msrVoiceStaffChange();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getNewStaffNumber () const
-                              { return fNewStaffNumber; }
+    S_msrStaff            getNewStaff () const
+                              { return fNewStaff; }
                         
     // services
     // ------------------------------------------------------
 
-    string                staffChangeAsString () const;
+    string                voiceStaffChangeAsString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -8932,10 +8954,10 @@ class EXP msrStaffChange : public msrElement
 
   private:
 
-    int                   fNewStaffNumber;
+    S_msrStaff            fNewStaff;
 };
-typedef SMARTP<msrStaffChange> S_msrStaffChange;
-EXP ostream& operator<< (ostream& os, const S_msrStaffChange& elt);
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+EXP ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt);
 
 /*!
 \brief A msr part representation.

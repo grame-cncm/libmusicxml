@@ -16658,6 +16658,13 @@ void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
   fMeasureElementsList.push_back (barCheck);
 }
 
+void msrMeasure::appendVoiceStaffChangeToMeasure (
+  S_msrVoiceStaffChange voiceStaffChange)
+{
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (voiceStaffChange);
+}
+
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
 {
   int inputLineNumber =
@@ -19192,6 +19199,28 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
       
   fSegmentMeasuresList.back ()->
     appendBarCheckToMeasure (barCheck);
+}
+
+void msrSegment::appendVoiceStaffChangeToSegment (
+  S_msrVoiceStaffChange voiceStaffChange)
+{
+  if (
+    gGeneralOptions->fTraceVoices
+      ||
+    gGeneralOptions->fTraceStaves
+      ||
+    gGeneralOptions->fTraceSegments) {
+    cerr << idtr <<
+      "Append voice staff change " <<
+      voiceStaffChange->getNewStaff () <<
+      " to segment " <<
+      " \"" << segmentAsString () << "\"" <<
+      endl;
+  }
+  
+  fSegmentMeasuresList.back ()->
+    appendVoiceStaffChangeToMeasure (
+      voiceStaffChange);
 }
 
 void msrSegment::appendNoteToSegment (S_msrNote note)
@@ -22387,6 +22416,25 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 
   fVoiceLastSegment->
     appendRehearsalToSegment (rehearsal);
+}
+
+void msrVoice::appendVoiceStaffChangeToVoice (
+  S_msrVoiceStaffChange voiceStaffChange)
+{
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves)
+    cerr << idtr <<
+      "Append voice staff change " <<
+      voiceStaffChange->voiceStaffChangeAsString () <<
+      " to voice " <<
+      " \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    voiceStaffChange->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendVoiceStaffChangeToSegment (voiceStaffChange);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -26197,89 +26245,89 @@ void msrStaff::printStructure (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrStaffChange msrStaffChange::create (
-  int inputLineNumber,
-  int newStaffNumber)
+S_msrVoiceStaffChange msrVoiceStaffChange::create (
+  int        inputLineNumber,
+  S_msrStaff newStaff)
 {
-  msrStaffChange* o =
-    new msrStaffChange (
-      inputLineNumber, newStaffNumber);
+  msrVoiceStaffChange* o =
+    new msrVoiceStaffChange (
+      inputLineNumber, newStaff);
   assert(o!=0);
   return o;
 }
 
-msrStaffChange::msrStaffChange (
-  int inputLineNumber,
-  int newStaffNumber)
+msrVoiceStaffChange::msrVoiceStaffChange (
+  int        inputLineNumber,
+  S_msrStaff newStaff)
     : msrElement (inputLineNumber)
 {
-  fNewStaffNumber = newStaffNumber;
+  fNewStaff = newStaff;
 }
 
-msrStaffChange::~msrStaffChange()
+msrVoiceStaffChange::~msrVoiceStaffChange()
 {}
 
-S_msrStaffChange msrStaffChange::createStaffChangeNewbornClone ()
+S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
     cerr << idtr <<
       "Creating a newborn clone of staff change '" <<
-      staffChangeAsString () <<
+      voiceStaffChangeAsString () <<
       "'" <<
       endl;
   }
 
- S_msrStaffChange
+ S_msrVoiceStaffChange
     newbornClone =
-      msrStaffChange::create (
+      msrVoiceStaffChange::create (
         fInputLineNumber,
-        fNewStaffNumber);
+        fNewStaff);
   
   return newbornClone;
 }
 
-void msrStaffChange::acceptIn (basevisitor* v) {
+void msrVoiceStaffChange::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrStaffChange::acceptIn()" <<
+      "% ==> msrVoiceStaffChange::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrStaffChange>*
+  if (visitor<S_msrVoiceStaffChange>*
     p =
-      dynamic_cast<visitor<S_msrStaffChange>*> (v)) {
-        S_msrStaffChange elem = this;
+      dynamic_cast<visitor<S_msrVoiceStaffChange>*> (v)) {
+        S_msrVoiceStaffChange elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrStaffChange::visitStart()" <<
+            "% ==> Launching msrVoiceStaffChange::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrStaffChange::acceptOut (basevisitor* v) {
+void msrVoiceStaffChange::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrStaffChange::acceptOut()" <<
+      "% ==> msrVoiceStaffChange::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrStaffChange>*
+  if (visitor<S_msrVoiceStaffChange>*
     p =
-      dynamic_cast<visitor<S_msrStaffChange>*> (v)) {
-        S_msrStaffChange elem = this;
+      dynamic_cast<visitor<S_msrVoiceStaffChange>*> (v)) {
+        S_msrVoiceStaffChange elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrStaffChange::visitEnd()" <<
+            "% ==> Launching msrVoiceStaffChange::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrStaffChange::browseData (basevisitor* v)
+void msrVoiceStaffChange::browseData (basevisitor* v)
 {}
 
-string msrStaffChange::staffChangeAsString () const
+string msrVoiceStaffChange::voiceStaffChangeAsString () const
 {
   stringstream s;
 
@@ -26287,21 +26335,21 @@ string msrStaffChange::staffChangeAsString () const
     "StaffChange" <<
     ", line " << fInputLineNumber <<
     ", " <<
-    "newStaffNumber: " << fNewStaffNumber;
+    "newStaff: " << fNewStaff;
     
   return s.str();
 }
 
-ostream& operator<< (ostream& os, const S_msrStaffChange& elt)
+ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrStaffChange::print (ostream& os)
+void msrVoiceStaffChange::print (ostream& os)
 {
   os <<
-    staffChangeAsString () <<
+    voiceStaffChangeAsString () <<
     endl;
 }
 
