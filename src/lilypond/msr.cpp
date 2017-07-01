@@ -26184,6 +26184,115 @@ void msrStaff::printStructure (ostream& os)
     endl;
 }
 
+//______________________________________________________________________________
+S_msrStaffChange msrStaffChange::create (
+  int inputLineNumber,
+  int newStaffNumber)
+{
+  msrStaffChange* o =
+    new msrStaffChange (
+      inputLineNumber, newStaffNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrStaffChange::msrStaffChange (
+  int inputLineNumber,
+  int newStaffNumber)
+    : msrElement (inputLineNumber)
+{
+  fNewStaffNumber = newStaffNumber;
+}
+
+msrStaffChange::~msrStaffChange()
+{}
+
+S_msrStaffChange msrStaffChange::createStaffChangeNewbornClone ()
+{
+ if (gGeneralOptions->fTraceStaffTuning) {
+    cerr << idtr <<
+      "Creating a newborn clone of staff change '" <<
+      staffChangeAsString () <<
+      "'" <<
+      endl;
+  }
+
+ S_msrStaffChange
+    newbornClone =
+      msrStaffChange::create (
+        fInputLineNumber,
+        fNewStaffNumber);
+  
+  return newbornClone;
+}
+
+void msrStaffChange::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrStaffChange::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrStaffChange>*
+    p =
+      dynamic_cast<visitor<S_msrStaffChange>*> (v)) {
+        S_msrStaffChange elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrStaffChange::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrStaffChange::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrStaffChange::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrStaffChange>*
+    p =
+      dynamic_cast<visitor<S_msrStaffChange>*> (v)) {
+        S_msrStaffChange elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrStaffChange::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrStaffChange::browseData (basevisitor* v)
+{}
+
+string msrStaffChange::staffChangeAsString () const
+{
+  stringstream s;
+
+  s <<
+    "StaffChange" <<
+    ", line " << fInputLineNumber <<
+    ", " <<
+    "newStaffNumber: " << fNewStaffNumber;
+    
+  return s.str();
+}
+
+ostream& operator<< (ostream& os, const S_msrStaffChange& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrStaffChange::print (ostream& os)
+{
+  os <<
+    staffChangeAsString () <<
+    endl;
+}
+
 //______________________________________________________________________________ 
 S_msrPart msrPart::create (
   int            inputLineNumber,

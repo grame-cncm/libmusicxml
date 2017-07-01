@@ -8878,6 +8878,70 @@ typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
 /*!
+\brief A msr comment representation.
+
+  A comment is represented by its contents
+*/
+//______________________________________________________________________________
+
+class EXP msrStaffChange : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStaffChange> create (
+      int inputLineNumber,
+      int newStaffNumber);
+
+    SMARTP<msrStaffChange> createStaffChangeNewbornClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrStaffChange (
+      int inputLineNumber,
+      int newStaffNumber);
+      
+    virtual ~msrStaffChange();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getNewStaffNumber () const
+                              { return fNewStaffNumber; }
+                        
+    // services
+    // ------------------------------------------------------
+
+    string                staffChangeAsString () const;
+         
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    int                   fNewStaffNumber;
+};
+typedef SMARTP<msrStaffChange> S_msrStaffChange;
+EXP ostream& operator<< (ostream& os, const S_msrStaffChange& elt);
+
+/*!
 \brief A msr part representation.
 
   A part is represented by a its string contents
