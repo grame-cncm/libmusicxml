@@ -5675,7 +5675,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
         msrNote::createSkipNote (
           note->            getInputLineNumber (),
           containingVoice-> getVoiceDirectPartUplink (),
-          note->            getNoteDivisionsPerQuarterNote (),
+ // JMI         note->            getNoteDivisionsPerQuarterNote (),
           note->            getNoteSoundingWholeNotes (),
           note->            getNoteDotsNumber (),
           containingVoice-> getVoiceStaffRelativeNumber (), // JMI
@@ -6034,7 +6034,7 @@ S_msrNote msrNote::create (
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
 
-  int                  noteDivisionsPerQuarterNote,
+ // JMI int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingWholeNotes,
   rational             noteDisplayWholeNotes,
@@ -6062,7 +6062,7 @@ S_msrNote msrNote::create (
       
       noteQuarterTonesPitch,
 
-      noteDivisionsPerQuarterNote,
+ // JMI     noteDivisionsPerQuarterNote,
       
       noteSoundingWholeNotes,
       noteDisplayWholeNotes,
@@ -6088,7 +6088,7 @@ S_msrNote msrNote::create (
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   S_msrPart noteDirectPartUplink,
-  int       noteDivisionsPerQuarterNote,
+ // JMI int       noteDivisionsPerQuarterNote,
   rational  wholeNotes,
   int       dotsNumber,
   int       staffNumber,
@@ -6103,7 +6103,7 @@ S_msrNote msrNote::createSkipNote (
       
       k_NoQuarterTonesPitch, // noteQuarterTonesPitch
 
-      noteDivisionsPerQuarterNote,
+ // JMI     noteDivisionsPerQuarterNote,
       
       wholeNotes, // noteSoundingWholeNotes
       wholeNotes, // noteDisplayWholeNotes
@@ -6138,7 +6138,7 @@ msrNote::msrNote (
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
   
-  int                  noteDivisionsPerQuarterNote,
+// JMI  int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingWholeNotes,
   rational             noteDisplayWholeNotes,
@@ -6171,7 +6171,7 @@ msrNote::msrNote (
 
   fNoteQuarterTonesPitch  = noteQuarterTonesPitch;
 
-  fNoteDivisionsPerQuarterNote = noteDivisionsPerQuarterNote;
+ // JMI fNoteDivisionsPerQuarterNote = noteDivisionsPerQuarterNote;
   
   fNoteSoundingWholeNotes = noteSoundingWholeNotes;
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
@@ -6543,7 +6543,7 @@ S_msrNote msrNote::createNoteNewbornClone (
         
         fNoteQuarterTonesPitch,
 
-        fNoteDivisionsPerQuarterNote,
+  // JMI      fNoteDivisionsPerQuarterNote,
         
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
@@ -6759,7 +6759,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         
         fNoteQuarterTonesPitch,
 
-        fNoteDivisionsPerQuarterNote,
+  // JMI      fNoteDivisionsPerQuarterNote,
         
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
@@ -16767,7 +16767,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             msrNote::createSkipNote (
               inputLineNumber,
               fMeasureDirectPartUplink,
-              note->getNoteDivisionsPerQuarterNote (),
+  // JMI            note->getNoteDivisionsPerQuarterNote (),
               noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
@@ -17472,9 +17472,9 @@ void msrMeasure::bringMeasureToMeasureLength (
         msrNote::createSkipNote (
           inputLineNumber,
           fMeasureDirectPartUplink,
-          37, // JMI
+   // JMI       37, // JMI
           skipDuration,
-          0, // JMI ???
+          0, // dots number JMI ???
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
@@ -18011,9 +18011,9 @@ void msrMeasure::finalizeMeasure (
           msrNote::createSkipNote (
             inputLineNumber,
             fMeasureDirectPartUplink,
-            49, // JMI
+   // JMI         49, // JMI
             skipDuration,
-            0, // JMI ???
+            0, // dots number JMI ???
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),
             voice->

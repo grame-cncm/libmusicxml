@@ -4226,7 +4226,7 @@ class EXP msrNote : public msrElement
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
 
-      int                  noteDivisionsPerQuarterNote,
+ // JMI     int                  noteDivisionsPerQuarterNote,
       
       rational             noteSoundingWholeNotes,
       rational             noteDisplayWholeNotes,
@@ -4257,7 +4257,7 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
-      int       noteDivisionsPerQuarterNote,
+ // JMI     int       noteDivisionsPerQuarterNote,
       rational  wholeNotes,
       int       dotsNumber,
       int       staffNumber,
@@ -4276,7 +4276,7 @@ class EXP msrNote : public msrElement
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
       
-      int                  noteDivisionsPerQuarterNote,
+ // JMI     int                  noteDivisionsPerQuarterNote,
 
       rational             noteSoundingWholeNotes,
       rational             noteDisplayWholeNotes,
@@ -4352,8 +4352,8 @@ class EXP msrNote : public msrElement
                               { return fNoteCautionaryAccidentalKind; }
 
     // note divisions per quarter note
-    int                   getNoteDivisionsPerQuarterNote () const
-                              { return fNoteDivisionsPerQuarterNote; }
+// JMI    int                   getNoteDivisionsPerQuarterNote () const
+// JMI                              { return fNoteDivisionsPerQuarterNote; }
 
     // note whole notes
     
@@ -4748,7 +4748,7 @@ class EXP msrNote : public msrElement
 
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
 
-    int                   fNoteDivisionsPerQuarterNote; // JMI
+ // JMI   int                   fNoteDivisionsPerQuarterNote; // JMI
     
     rational              fNoteSoundingWholeNotes;
     rational              fNoteDisplayWholeNotes;
