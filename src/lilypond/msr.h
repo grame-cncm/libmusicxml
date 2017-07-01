@@ -439,8 +439,8 @@ string msrDurationAsString (msrDuration duration);
 
 // voices
 
-#define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "staffRelativeVoiceNumbers"
-#define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "srvn"
+#define _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_  "voicesStaffRelativeNumbers"
+#define _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ "vsrvn"
 
 #define _SHOW_SILENT_VOICES_LONG_NAME_  "showSilentVoices"
 #define _SHOW_SILENT_VOICES_SHORT_NAME_ "ssv"
@@ -544,7 +544,7 @@ class EXP msrOptions : public smartable
     // voices
     // --------------------------------------
     
-    bool                  fCreateStaffRelativeVoiceNumbers;
+    bool                  fCreateVoicesStaffRelativeNumbers;
     
     bool                  fShowSilentVoices;
     bool                  fKeepSilentVoices;
@@ -7848,8 +7848,8 @@ class EXP msrVoice : public msrElement
     int                   getVoicePartRelativeID () const
                               { return fVoicePartRelativeID; }
                 
-    int                   getStaffRelativeVoiceNumber () const
-                              { return fStaffRelativeVoiceNumber; }
+    int                   getVoiceStaffRelativeNumber () const
+                              { return fVoiceStaffRelativeNumber; }
 
     int                   getVoiceAbsoluteNumber () const
                             { return fVoiceAbsoluteNumber; }
@@ -8188,7 +8188,7 @@ class EXP msrVoice : public msrElement
     // while there can only be 4 in a staff
     // we thus have to cope with that
     int                   fVoicePartRelativeID;
-    int                   fStaffRelativeVoiceNumber;
+    int                   fVoiceStaffRelativeNumber;
 
     // voice name
 

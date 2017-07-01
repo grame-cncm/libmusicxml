@@ -2453,7 +2453,7 @@ R"(
         // --------------------------------------
         
         if (staffRelativeVoiceNumbersPresent) {
-          gMsrOptions->fCreateStaffRelativeVoiceNumbers = true;
+          gMsrOptions->fCreateVoicesStaffRelativeNumbers = true;
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ " ";

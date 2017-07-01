@@ -2180,7 +2180,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     if (staffKind == msrStaff::kRegularStaff) {
       if (staff->getStaffNumberOfMusicVoices () > 1) {
         fOstream << idtr;
-        switch (voice->getStaffRelativeVoiceNumber ()) {
+        switch (voice->getVoiceStaffRelativeNumber ()) {
           case 1:
             fOstream << "\\voiceOne ";
             break;
@@ -2197,9 +2197,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
             {}
         } // switch
 
-        fOstream << "% " << staff->getStaffNumberOfMusicVoices () << " music voices" <<
-      endl;
-        fOstream << endl;
+        fOstream <<
+          "% " <<
+          staff->getStaffNumberOfMusicVoices () <<
+          " music voices" <<
+          endl <<
+          endl;
       }
     }
   

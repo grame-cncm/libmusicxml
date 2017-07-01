@@ -369,8 +369,8 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "StaffRelativeVoiceNumber" << " : " <<
-      elt->getStaffRelativeVoiceNumber () <<
+      "VoiceStaffRelativeNumber" << " : " <<
+      elt->getVoiceStaffRelativeNumber () <<
       endl <<
     idtr <<
       setw(fieldWidth) <<

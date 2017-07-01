@@ -2096,7 +2096,7 @@ void msrOptions::initializeMsrOptions (
 
   // voices
 
-  fCreateStaffRelativeVoiceNumbers = boolOptionsInitialValue;
+  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
   
   fShowSilentVoices = boolOptionsInitialValue;
   fKeepSilentVoices = boolOptionsInitialValue;
@@ -2153,8 +2153,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // voices
   
-  clone->fCreateStaffRelativeVoiceNumbers =
-    fCreateStaffRelativeVoiceNumbers;
+  clone->fCreateVoicesStaffRelativeNumbers =
+    fCreateVoicesStaffRelativeNumbers;
 
   clone->fShowSilentVoices =
     fShowSilentVoices;
@@ -2579,14 +2579,17 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "createStaffRelativeVoiceNumbers" << " : " <<
-      booleanAsString (fCreateStaffRelativeVoiceNumbers) <<
+    idtr << setw(fieldWidth) <<
+      "createVoicesStaffRelativeNumbers" << " : " <<
+      booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
       endl <<
     
-    idtr << setw(fieldWidth) << "showSilentVoices" << " : " <<
+    idtr << setw(fieldWidth) <<
+    "showSilentVoices" << " : " <<
       booleanAsString (fShowSilentVoices) <<
       endl <<
-    idtr << setw(fieldWidth) << "keepSilentVoices" << " : " <<
+    idtr << setw(fieldWidth) <<
+      "keepSilentVoices" << " : " <<
       booleanAsString (fKeepSilentVoices) <<
       endl;
 
@@ -5675,7 +5678,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
           note->            getNoteDivisionsPerQuarterNote (),
           note->            getNoteSoundingWholeNotes (),
           note->            getNoteDotsNumber (),
-          containingVoice-> getStaffRelativeVoiceNumber (), // JMI
+          containingVoice-> getVoiceStaffRelativeNumber (), // JMI
           containingVoice-> getVoicePartRelativeID ());
 
     clone->
@@ -21278,7 +21281,7 @@ msrVoice::msrVoice (
   // set voice kind
   fVoiceKind = voiceKind;
 
-  // set voice external number
+  // set voice part-relative ID
   fVoicePartRelativeID = voicePartRelativeID;
   
   // do other initializations
@@ -21333,14 +21336,14 @@ void msrVoice::setVoiceNameFromNumber (
 
 void msrVoice::initializeVoice ()
 {
-  fStaffRelativeVoiceNumber = fVoicePartRelativeID;
+  fVoiceStaffRelativeNumber = fVoicePartRelativeID;
     // may be changed afterwards JMI ???
 
   // compute voice number
   int voiceNumber =
     gMsrOptions->
-      fCreateStaffRelativeVoiceNumbers // JMI use it
-        ? fStaffRelativeVoiceNumber
+      fCreateVoicesStaffRelativeNumbers // JMI use it
+        ? fVoiceStaffRelativeNumber
         : fVoicePartRelativeID;
   
   // set voice name
@@ -21355,10 +21358,10 @@ void msrVoice::initializeVoice ()
       "\"" <<
       endl;
 
-  // check external voice number
+  // check voice part-relative ID
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
-      // the external voice number should not be negative
+      // the voice part-relative ID should not be negative
       // (K_SILENT_VOICE_NUMBER is used for the staves silent voices)
       if (fVoicePartRelativeID < 0) {
         stringstream s;
@@ -21450,7 +21453,7 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
   setVoiceKind (
     msrVoice::kRegularVoice);
 
-  // set its external voice number
+  // set its voice part-relative ID
   setVoicePartRelativeID (
     voicePartRelativeID);
 
@@ -21490,8 +21493,8 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
   newbornClone->fVoiceAbsoluteNumber =
     ++gVoicesCounter;
 
-  newbornClone->fStaffRelativeVoiceNumber =
-    fStaffRelativeVoiceNumber;
+  newbornClone->fVoiceStaffRelativeNumber =
+    fVoiceStaffRelativeNumber;
 
   // voice name
   newbornClone->fVoiceName =
@@ -21563,7 +21566,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   voiceDeepCopy->fVoiceAbsoluteNumber =
     ++gVoicesCounter;;
 
-  voiceDeepCopy->fStaffRelativeVoiceNumber = // JMI
+  voiceDeepCopy->fVoiceStaffRelativeNumber = // JMI
     voiceNumber;
 
   // voice name
@@ -21805,12 +21808,12 @@ string msrVoice::getVoiceName () const
 
   /* 
   int voiceNumber =
-    gMsrOptions-> fCreateStaffRelativeVoiceNumbers // JMI use
-      ? fStaffRelativeVoiceNumber
+    gMsrOptions-> fCreateVoicesStaffRelativeNumbers // JMI use
+      ? fVoiceStaffRelativeNumber
       : fVoicePartRelativeID;
 
   string suffix =
-    fStaffRelativeVoiceNumber == 0
+    fVoiceStaffRelativeNumber == 0
       ? "SILENT"
       : int2EnglishWord (voiceNumber);
       
@@ -24048,8 +24051,8 @@ void msrVoice::print (ostream& os)
       fVoicePartRelativeID <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "StaffRelativeVoiceNumber" << " : " <<
-      fStaffRelativeVoiceNumber <<
+      setw(fieldWidth) << "voiceStaffRelativeNumber" << " : " <<
+      fVoiceStaffRelativeNumber <<
       endl <<
     idtr <<
       setw(fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
@@ -24984,7 +24987,7 @@ void msrStaff::createStaffSilentVoice (
     fStaffSilentVoice;
 
 /* JMI
-  // register it by its external number
+  // register it by its part-relative ID
   fStaffVoiceRelativeNumberToVoiceMap [voice->getVoicePartRelativeID ()] =
     fStaffSilentVoice;
     */ 
@@ -25207,7 +25210,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   fStaffVoiceRelativeNumberToVoiceMap [fStaffRegisteredVoicesCounter] =
     voice;
 
-  // register is by its external number
+  // register is by its part-relative ID
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     voice;
 
@@ -25300,7 +25303,7 @@ void msrStaff::registerVoiceInStaff (
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     voice;
 
-  // register it by its external number
+  // register it by its part-relative ID
   fStaffVoiceRelativeNumberToVoiceMap [voice->getVoicePartRelativeID ()] =
     voice;
 }
