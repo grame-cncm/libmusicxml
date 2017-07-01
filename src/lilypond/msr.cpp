@@ -22025,13 +22025,13 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
   catchUpWithVoiceMuteStanza (stanza);
 }
 
-S_msrStanza msrVoice::createStanzaInVoiceIfNeeded (
+S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   int inputLineNumber,
   int stanzaNumber)
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "### % --> createStanzaInVoiceIfNeeded (" << inputLineNumber <<
+      "### % --> createStanzaInVoiceIfNotYetDone (" << inputLineNumber <<
       ", " << stanzaNumber << ")" <<
       ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
       endl;
@@ -22717,7 +22717,7 @@ void msrVoice::appendSyllableToVoice (
   // fetch stanzaNumber in this voice
   S_msrStanza
     stanza =
-      createStanzaInVoiceIfNeeded (
+      createStanzaInVoiceIfNotYetDone (
         inputLineNumber, stanzaNumber);
 
   // add the syllable to the stanza
@@ -25099,7 +25099,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
   } // for
 }
 
-S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
+S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   int    inputLineNumber,
   int    externalVoiceNumber,
   string currentMeasureNumber)
@@ -25210,7 +25210,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsExternalNumber (
   return voice;
 }
 
-S_msrVoice msrStaff::fetchVoiceFromStaffByItsExternalNumber (
+S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
   int inputLineNumber,
   int externalVoiceNumber)
 {

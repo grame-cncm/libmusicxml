@@ -8144,7 +8144,7 @@ class EXP msrVoice : public msrElement
     void                  addStanzaToVoiceWithCatchUp (
                             S_msrStanza stanza);
 
-    S_msrStanza           createStanzaInVoiceIfNeeded (
+    S_msrStanza           createStanzaInVoiceIfNotYetDone (
                             int inputLineNumber,
                             int stanzaNumber);
     
@@ -8713,13 +8713,9 @@ class EXP msrStaff : public msrElement
                             msrVoice::msrVoiceKind voiceKind,
                             int                    voiceRelativeNumber);
   
-    S_msrVoice            addVoiceToStaffByItsExternalNumber (
-                            int inputLineNumber,
-                            int externalVoiceNumber);
-        
     string                staffKindAsString () const;
     
-    S_msrVoice            createVoiceInStaffByItsExternalNumber (
+    S_msrVoice            createVoiceInStaffByItsPartRelativeID (
                             int    inputLineNumber,
                             int    externalVoiceNumber,
                             string currentMeasureNumber);
@@ -8728,7 +8724,7 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber,
                             S_msrVoice voice);
 
-    S_msrVoice            fetchVoiceFromStaffByItsExternalNumber (
+    S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID (
                             int inputLineNumber,
                             int externalVoiceNumber);
 
