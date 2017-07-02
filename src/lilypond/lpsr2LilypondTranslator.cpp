@@ -2777,6 +2777,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     idtr.getIndent ();
 
   fOstream <<
+    endl <<
+    idtr <<
     "\\change Staff=\"" <<
     elt->getNewStaff ()->getStaffNumber () <<
     "\"" <<
@@ -2785,7 +2787,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
   if (saveIndent > 0) {      
     for (int i = 0; i < saveIndent; i++) {
       fOstream <<
-        idtr;
+        idtr; // ??? JMI
     } // for
   }
 }
