@@ -27405,6 +27405,21 @@ void msrPart:: handleBackup (
   int inputLineNumber,
   int divisions)
 {
+  if (
+    gGeneralOptions->fTraceParts
+      ||
+    gGeneralOptions->fTraceDivisions
+      ||
+    gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Handling backup, divisions = '" <<
+      divisions <<
+      "' in part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   // get the part's number of divisions per quarter note
   int
     divisionsPerQuarterNote =
@@ -27436,6 +27451,22 @@ void msrPart:: handleForward (
   int        divisions,
   S_msrVoice voice)
 {
+  if (
+    gGeneralOptions->fTraceParts
+      ||
+    gGeneralOptions->fTraceDivisions
+      ||
+    gGeneralOptions->fTraceMeasures) {
+    cerr << idtr <<
+      "Handling forward, divisions = '" <<
+      divisions <<
+      " in voice \"" << voice->getVoiceName () << "\"" <<
+      "' in part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   // get the part's number of divisions per quarter note
   int
     divisionsPerQuarterNote =
