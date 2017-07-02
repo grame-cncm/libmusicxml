@@ -1975,33 +1975,39 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   
   switch (staff->getStaffKind ()) {
     case msrStaff::kRegularStaff:
-      staffContextName = "Staff";
+      staffContextName = "\\new Staff";
       break;
       
     case msrStaff::kTablatureStaff:
-      staffContextName = "TabStaff";
+      staffContextName = "\\new TabStaff";
       break;
       
     case msrStaff::kPercussionStaff:
-      staffContextName = "DrumStaff";
+      staffContextName = "\\new DrumStaff";
       break;
       
     case msrStaff::kHarmonyStaff:
-      staffContextName = "kHarmonyStaff???";
+      staffContextName = "\\new kHarmonyStaff???";
       break;
   } // switch
 
-  string newContext;
+  stringstream s;
 
-  newContext =
-    "\\new " + staffContextName + " <<" ;
+  s <<
+    staffContextName <<
+    " = \"" <<
+    staff->getStaffNumber () <<
+    "\"";
+
+  string newContext = s.str();
       
   if (gLilypondOptions->fComments) {
     fOstream << left <<
       idtr <<
       setw(commentFieldWidth) <<
        newContext <<
-      "% staff \"" << staff->getStaffName () << "\"";
+       " <<" <<
+      " % staff \"" << staff->getStaffName () << "\"";
   }
   else {
     fOstream << idtr <<
