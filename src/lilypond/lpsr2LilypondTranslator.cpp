@@ -2766,6 +2766,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
       "% --> Start visiting msrVoiceStaffChange '" <<
       elt->voiceStaffChangeAsString () << "'" <<
       endl;
+
+  int saveIndent =
+    idtr.getIndent ();
+
+  fOstream <<
+    "\\change Staff=\"" <<
+    elt->getNewStaff ()->getStaffNumber () <<
+    "\"" <<
+    endl;
+    
+  if (saveIndent > 0) {      
+    for (int i = 0; i < saveIndent; i++) {
+      fOstream <<
+        idtr;
+    } // for
+  }
 }
 
 //________________________________________________________________________

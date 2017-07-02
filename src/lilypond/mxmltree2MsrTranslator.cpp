@@ -450,14 +450,7 @@ S_msrVoice mxmltree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
       fPartVoiceNumberToVoiceMap.count (
         voiceNumber);
         
-
-  if (voiceNumberHasAlreadyBeenRegistered) {
-    // the voice is the one registered for 'voiceNumber'
-    voice =
-      fPartVoiceNumberToVoiceMap [voiceNumber];
-  }
-  
-  else {
+  if (! voiceNumberHasAlreadyBeenRegistered) {
     // create the voice and append it to the staff
     voice =
       staff->
@@ -475,7 +468,11 @@ S_msrVoice mxmltree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
       staffNumber;
   }
   
-  if (voiceNumberHasAlreadyBeenRegistered) {    
+  else {
+    // the voice is the one registered for 'voiceNumber'
+    voice =
+      fPartVoiceNumberToVoiceMap [voiceNumber];
+
     // fetch registered voice displaying staff number
     int voiceDisplayingStaffNumber =
       fPartVoiceNumberToDisplayingStaffNumberMap [
@@ -489,15 +486,6 @@ S_msrVoice mxmltree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
       // voice 'voiceNumber' changes
       // from staff 'voiceDisplayingStaffNumber'
       // to staff 'staffNumber'
-
-  /*
-      // fetch the voice from the registered staff
-      voice =
-        fPartVoiceNumberToVoiceMap [voiceNumber]->
-          fetchVoiceFromStaffByItsPartRelativeID (
-            inputLineNumber,
-            voiceNumber);
-            */
 
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
         cerr << idtr <<
