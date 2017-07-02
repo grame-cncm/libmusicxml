@@ -26335,7 +26335,7 @@ string msrVoiceStaffChange::voiceStaffChangeAsString () const
     "StaffChange" <<
     ", line " << fInputLineNumber <<
     ", " <<
-    "newStaff: " << fNewStaff;
+    "newStaff: \"" << fNewStaff->getStaffName () << "\"";
     
   return s.str();
 }

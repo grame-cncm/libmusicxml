@@ -8746,7 +8746,7 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber,
                             S_msrVoice voice);
 
-    S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID (
+    S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID ( // JMI
                             int inputLineNumber,
                             int voicePartRelativeID);
 
