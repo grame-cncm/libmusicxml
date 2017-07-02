@@ -10686,10 +10686,16 @@ void mxmltree2MsrTranslator::attachPendingDynamicsToNote (
       else {
         stringstream s;
 
+        int numberOfDynamics = fPendingDynamics.size ();
+
+        if (numberOfDynamics > 1)
+          s <<
+            "there are " << numberOfDynamics << " dynamics";
+        else
+          s <<
+            "there is 1 dynamics";
         s <<
-          singularOrPlural (
-            fPendingDynamics.size (), "there is", "there are") <<
-          " dynamics attached to a rest";
+          "attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10736,10 +10742,16 @@ void mxmltree2MsrTranslator::attachPendingOtherDynamicsToNote (
       else {
         stringstream s;
 
+        int numberOfOtherDynamics = fPendingOtherDynamics.size ();
+
+        if (numberOfOtherDynamics > 1)
+          s <<
+            "there are " << numberOfOtherDynamics << " other dynamics";
+        else
+          s <<
+            "there is 1 other dynamics";
         s <<
-          singularOrPlural (
-            fPendingOtherDynamics.size (), "there is", "there are") <<
-          " other dynamics attached to a rest";
+          "attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10783,22 +10795,18 @@ void mxmltree2MsrTranslator::attachPendingWordsToNote (
         delayAttachment = true;
       }
       else {
-        /* JMI
-        for (
-            list<S_msrWords>::const_iterator i = fPendingWords.begin();
-            i != fPendingWords.end();
-            i++) {
-          msrMusicXMLWarning (
-            (*i)->getInputLineNumber (),
-            "there is words attached to a rest");
-        } // for
-        */
         stringstream s;
 
+        int numberOfWords = fPendingWords.size ();
+
+        if (numberOfWords > 1)
+          s <<
+            "there are " << numberOfWords << " words";
+        else
+          s <<
+            "there is 1 word";
         s <<
-          singularOrPlural (
-            fPendingWords.size (), "there is", "there are") <<
-          " word(s) attached to a rest";
+          "attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10844,10 +10852,16 @@ void mxmltree2MsrTranslator::attachPendingSlursToNote (
       else {
         stringstream s;
 
+        int numberOfSlurs = fPendingSlurs.size ();
+
+        if (numberOfSlurs > 1)
+          s <<
+            "there are " << numberOfSlurs << " slurs";
+        else
+          s <<
+            "there is 1 slur";
         s <<
-          singularOrPlural (
-            fPendingSlurs.size (), "there is", "there are") <<
-          " slur(s) attached to a rest";
+          "attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10893,10 +10907,16 @@ void mxmltree2MsrTranslator::attachPendingLigaturesToNote (
       else {
         stringstream s;
 
+        int numberOfLigatures = fPendingLigatures.size ();
+
+        if (numberOfLigatures > 1)
+          s <<
+            "there are " << numberOfLigatures << " ligatures";
+        else
+          s <<
+            "there is 1 ligature";
         s <<
-          singularOrPlural (
-            fPendingLigatures.size (), "there is", "there are") <<
-          " ligatures(s) attached to a rest";
+          "attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10942,10 +10962,16 @@ void mxmltree2MsrTranslator::attachPendingWedgesToNote (
       else {
         stringstream s;
 
+        int numberOfWedges = fPendingWedges.size ();
+
+        if (numberOfWedges > 1)
+          s <<
+            "there are " << numberOfWedges << " wedges";
+        else
+          s <<
+            "there is 1 wedge";
         s <<
-          singularOrPlural (
-            fPendingWedges.size (), "there is", "there are") <<
-          " wedge(s) attached to a rest";
+          "attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
