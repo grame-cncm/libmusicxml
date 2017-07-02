@@ -10695,7 +10695,7 @@ void mxmltree2MsrTranslator::attachPendingDynamicsToNote (
           s <<
             "there is 1 dynamics";
         s <<
-          "attached to a rest";
+          " attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10751,7 +10751,7 @@ void mxmltree2MsrTranslator::attachPendingOtherDynamicsToNote (
           s <<
             "there is 1 other dynamics";
         s <<
-          "attached to a rest";
+          " attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10806,7 +10806,7 @@ void mxmltree2MsrTranslator::attachPendingWordsToNote (
           s <<
             "there is 1 word";
         s <<
-          "attached to a rest";
+          " attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10861,7 +10861,7 @@ void mxmltree2MsrTranslator::attachPendingSlursToNote (
           s <<
             "there is 1 slur";
         s <<
-          "attached to a rest";
+          " attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10916,7 +10916,7 @@ void mxmltree2MsrTranslator::attachPendingLigaturesToNote (
           s <<
             "there is 1 ligature";
         s <<
-          "attached to a rest";
+          " attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
@@ -10971,7 +10971,7 @@ void mxmltree2MsrTranslator::attachPendingWedgesToNote (
           s <<
             "there is 1 wedge";
         s <<
-          "attached to a rest";
+          " attached to a rest";
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
