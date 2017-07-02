@@ -48,6 +48,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrStaff>,
 
   public visitor<S_msrVoice>,
+  
+  public visitor<S_msrVoiceStaffChange>,
 
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
@@ -178,6 +180,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrVoiceStaffChange& elt);
 
     virtual void visitStart (S_msrStanza& elt);
     virtual void visitEnd   (S_msrStanza& elt);

@@ -1039,6 +1039,27 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrVoiceStaffChange '" <<
+      elt->voiceStaffChangeAsString () << "'" <<
+      endl;
+
+  // create a voice staff change clone
+  S_msrVoiceStaffChange
+    voiceStaffChangeClone =
+      elt->
+        createStaffChangeNewbornClone ();
+
+  // append it to the current voice clone
+  fCurrentVoiceClone->
+    appendVoiceStaffChangeToVoice (
+      voiceStaffChangeClone);
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)

@@ -2759,6 +2759,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    cerr << idtr <<
+      "% --> Start visiting msrVoiceStaffChange '" <<
+      elt->voiceStaffChangeAsString () << "'" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

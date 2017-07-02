@@ -5457,7 +5457,8 @@ void msrSlur::print (ostream& os)
 {
   os <<
     "Slur" " " << slurKindAsString () <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -26332,7 +26333,7 @@ string msrVoiceStaffChange::voiceStaffChangeAsString () const
   stringstream s;
 
   s <<
-    "StaffChange" <<
+    "VoiceStaffChange" <<
     ", line " << fInputLineNumber <<
     ", " <<
     "newStaff: \"" << fNewStaff->getStaffName () << "\"";
