@@ -2005,8 +2005,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     fOstream << left <<
       idtr <<
       setw(commentFieldWidth) <<
-       newContext <<
-       " <<" <<
+      newContext <<
       " % staff \"" << staff->getStaffName () << "\"";
   }
   else {
@@ -2015,6 +2014,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   }
       
   fOstream <<
+    " <<" <<
     endl;
 
   idtr++;
