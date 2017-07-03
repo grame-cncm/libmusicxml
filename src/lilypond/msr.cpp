@@ -13193,6 +13193,32 @@ string msrTime::timeSymbolKindAsString (
   return result;
 }
 
+string msrTime::timeSeparatorKindAsString (
+  msrTimeSeparatorKind timeSeparatorKind)
+{
+  string result;
+ 
+  switch (timeSymbolKind) {
+    case msrTime::k_NoTimeSeparator:
+      result = "none";
+      break;
+    case msrTime::kTimeSeparatorHorizontal:
+      result = "horizontal";
+      break;
+    case msrTime::kTimeSeparatorDiagonal:
+      result = "diagonal";
+      break;
+    case msrTime::kTimeSeparatorVertical:
+      result = "vertical";
+      break;
+    case msrTime::kTimeSeparatorAdjacent:
+      result = "adjacent";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrTime::timeAsShortString () const
 {
   /* JMI
