@@ -143,6 +143,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_beat_type>,
   public visitor<S_senza_misura>,
   
+  public visitor<S_interchangeable>,
   public visitor<S_time_relation>,
   
   public visitor<S_instruments>,
@@ -451,8 +452,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_beat_type& elt );
     virtual void visitStart ( S_senza_misura& elt );
     
+    virtual void visitStart ( S_interchangeable& elt );
     virtual void visitStart ( S_time_relation& elt );
-    virtual void visitEnd   ( S_time_relation& elt );
 
     virtual void visitStart ( S_instruments& elt );
 
@@ -906,7 +907,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentTimeSymbolKind;
 
     int                       fCurrentTimeStaffNumber;
-    string                    fCurrentTimeSymbol;
     string                    fCurrentTimeBeats;
     bool                      fCurrentTimeSenzaMisura;
 
@@ -914,6 +914,15 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentTimeItemsVector;
 
     S_msrTime                 fCurrentTime;
+
+    msrTime::msrTimeSymbolKind
+                              fCurrentInterchangeableSymbolKind;
+    msrTime::msrTimeSeparatorKind
+                              fCurrentInterchangeableSeparatorKind;
+    msrTime::msrTimeRelationKind
+                              fCurrentInterchangeableRelationKind;
+                              
+    bool                      fOnGoingInterchangeable;
 
 
     // lyric handling

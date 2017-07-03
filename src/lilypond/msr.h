@@ -2853,6 +2853,18 @@ class EXP msrTime : public msrElement
     static string timeSeparatorKindAsString (
       msrTimeSeparatorKind timeSeparatorKind);
       
+    enum msrTimeRelationKind {
+        k_NoTimeRelation,
+        kTimeRelationParentheses,
+        kTimeRelationBracket,
+        kTimeRelationEquals,
+        kTimeRelationSlash,
+        kTimeRelationSpace,
+        kTimeRelationHyphen };
+
+    static string timeRelationKindAsString (
+      msrTimeRelationKind timeRelationKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 

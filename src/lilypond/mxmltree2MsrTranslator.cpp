@@ -161,6 +161,8 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   // time handling
   fCurrentTimeSymbolKind =
     msrTime::k_NoTimeSymbol; // default value
+
+  fOnGoingInterchangeable = false;
   
   // transpose handling
   fCurrentTransposeNumber = -213;
@@ -181,7 +183,6 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
 
   // time handling
   fCurrentTimeStaffNumber = -2;
-  fCurrentTimeSymbol = "";
   fCurrentTimeBeats = "";
 
   // measures
@@ -2677,40 +2678,49 @@ Common time, also known as  time, is a meter with four quarter-note beats per me
 
 Cut time, also known as  or alla breve, is a meter with two half-note beats per measure. It’s often symbolized by the cut-time symbol: C barre
   
+        <time>
+          <beats>3</beats>
+          <beat-type>4</beat-type>
+          <interchangeable>
+            <time-relation>parentheses</time-relation>
+            <beats>6</beats>
+            <beat-type>8</beat-type>
+          </interchangeable>
+        </time>
   */
   
   fCurrentTimeStaffNumber =
     elt->getAttributeIntValue ("number", 0);
     
-  fCurrentTimeSymbol =
+  string timeSymbol =
     elt->getAttributeValue ("symbol");
 
   fCurrentTimeSymbolKind =
     msrTime::k_NoTimeSymbol; // default value
   
-  if       (fCurrentTimeSymbol == "common") {
+  if       (timeSymbol == "common") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
   }
-  else  if (fCurrentTimeSymbol == "cut") {
+  else  if (timeSymbol == "cut") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolCut;
   }
-  else  if (fCurrentTimeSymbol == "note") {
+  else  if (timeSymbol == "note") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolNote;
   }
-  else  if (fCurrentTimeSymbol == "dotted-note") {
+  else  if (timeSymbol == "dotted-note") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolDottedNote;
   }
-  else  if (fCurrentTimeSymbol == "single-number") {
+  else  if (timeSymbol == "single-number") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
   }
   // \numericTimeSignature par default si pas de symbol
   
   else {
-    if (fCurrentTimeSymbol.size ()) {
+    if (timeSymbol.size ()) {
       stringstream s;
       
       s <<
-        "time symbol " << fCurrentTimeSymbol << " is unknown";
+        "time symbol " << timeSymbol << " is unknown";
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
@@ -2720,7 +2730,7 @@ Cut time, also known as  or alla breve, is a meter with two half-note beats per 
 
   fCurrentTimeBeats = "";
   
-  fCurrentTimeSymbol = "";
+  fOnGoingInterchangeable = false;
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_beats& elt )
@@ -2796,6 +2806,133 @@ void mxmltree2MsrTranslator::visitStart ( S_senza_misura& elt )
   fCurrentTimeSymbolKind = msrTime::kTimeSymbolSenzaMisura;
 }
 
+void mxmltree2MsrTranslator::visitStart ( S_interchangeable& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_interchangeable" <<
+      endl;
+
+  string interchangeableSymbol =
+    elt->getAttributeValue ("symbol");
+
+  fCurrentInterchangeableSymbolKind =
+    msrTime::k_NoTimeSymbol; // default value
+  
+  if       (interchangeableSymbol == "common") {
+    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolCommon;
+  }
+  else  if (interchangeableSymbol == "cut") {
+    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolCut;
+  }
+  else  if (interchangeableSymbol == "note") {
+    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolNote;
+  }
+  else  if (interchangeableSymbol == "dotted-note") {
+    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolDottedNote;
+  }
+  else  if (interchangeableSymbol == "single-number") {
+    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolSingleNumber;
+  }
+  
+  else {
+    if (interchangeableSymbol.size ()) {
+      stringstream s;
+      
+      s <<
+        "interchangeable symbol " << interchangeableSymbol << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+
+  string interchangeableSeparator =
+    elt->getAttributeValue ("separator");
+
+  fCurrentInterchangeableSeparatorKind =
+    msrTime::k_NoTimeSeparator; // default value
+  
+  if       (interchangeableSymbol == "none") {
+    fCurrentInterchangeableSeparatorKind = msrTime::k_NoTimeSeparator;
+  }
+  else  if (interchangeableSymbol == "horizontal") {
+    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorHorizontal;
+  }
+  else  if (interchangeableSymbol == "diagonal") {
+    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorDiagonal;
+  }
+  else  if (interchangeableSymbol == "vertical") {
+    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorVertical;
+  }
+  else  if (interchangeableSymbol == "adjacent") {
+    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorAdjacent;
+  }
+  
+  else {
+    if (interchangeableSymbol.size ()) {
+      stringstream s;
+      
+      s <<
+        "interchangeable symbol " << interchangeableSymbol << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+
+  fOnGoingInterchangeable = true;
+}
+
+void mxmltree2MsrTranslator::visitStart ( S_time_relation& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_time_relation" <<
+      endl;
+
+ //             <time-relation>parentheses</time-relation>
+
+  string timeRelation = elt->getValue ();
+  
+  fCurrentInterchangeableRelationKind =
+    msrTime::k_NoTimeRelation; // default value
+  
+  if       (timeRelation == "parentheses") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
+  }
+  else  if (timeRelation == "bracket") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
+  }
+  else  if (timeRelation == "equals") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationEquals;
+  }
+  else  if (timeRelation == "slash") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationSlash;
+  }
+  else  if (timeRelation == "space") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationSpace;
+  }
+  else  if (timeRelation == "hyphen") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationHyphen;
+  }
+  
+  else {
+    if (timeRelation.size ()) {
+      stringstream s;
+      
+      s <<
+        "interchangeable symbol " << timeRelation << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+}
+
 void mxmltree2MsrTranslator::visitEnd ( S_time& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -2851,6 +2988,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_time& elt )
   }
 }
 
+//______________________________________________________________________________
 void mxmltree2MsrTranslator::visitStart ( S_instruments& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -2863,28 +3001,6 @@ void mxmltree2MsrTranslator::visitStart ( S_instruments& elt )
 */
 
   int instruments = (int)(*elt); // JMI
-}
-
-//______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_time_relation& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> Start visiting S_time_relation" <<
-      endl;
-
- // JMI
-}
-
-void mxmltree2MsrTranslator::visitEnd ( S_time_relation& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> End visiting S_time_relation" <<
-      endl;
-
-
-   // JMI
 }
 
 //______________________________________________________________________________

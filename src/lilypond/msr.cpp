@@ -13198,7 +13198,7 @@ string msrTime::timeSeparatorKindAsString (
 {
   string result;
  
-  switch (timeSymbolKind) {
+  switch (timeSeparatorKind) {
     case msrTime::k_NoTimeSeparator:
       result = "none";
       break;
@@ -13213,6 +13213,38 @@ string msrTime::timeSeparatorKindAsString (
       break;
     case msrTime::kTimeSeparatorAdjacent:
       result = "adjacent";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTime::timeRelationKindAsString (
+  msrTimeRelationKind timeRelationKind)
+{
+  string result;
+ 
+  switch (timeRelationKind) {
+    case msrTime::k_NoTimeRelation:
+      result = "none";
+      break;
+    case msrTime::kTimeRelationParentheses:
+      result = "parentheses";
+      break;
+    case msrTime::kTimeRelationBracket:
+      result = "bracket";
+      break;
+    case msrTime::kTimeRelationEquals:
+      result = "equals";
+      break;
+    case msrTime::kTimeRelationSlash:
+      result = "slash";
+      break;
+    case msrTime::kTimeRelationSpace:
+      result = "space";
+      break;
+    case msrTime::kTimeRelationHyphen:
+      result = "hyphen";
       break;
   } // switch
 
