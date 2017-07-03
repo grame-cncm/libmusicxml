@@ -3392,6 +3392,144 @@ void mxmltree2MsrTranslator::visitStart (S_words& elt)
   }
 }
 
+
+
+void mxmltree2MsrTranslator::visitStart ( S_accordion_registration& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_accordion_registration" <<
+      endl;
+
+/*
+      <direction>
+        <direction-type>
+          <accordion-registration>
+              <accordion-high/>
+              <accordion-middle>5</accordion-middle>
+              <accordion-low/>
+          </accordion-registration>
+        </direction-type>
+      </direction>
+*/
+}
+
+void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_accordion_high" <<
+      endl;
+
+  string accordionHigh = elt->getValue ();
+
+  fCurrentInterchangeableRelationKind =
+    msrTime::k_NoTimeRelation; // default value
+  
+  if       (accordionHigh == "0") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
+  }
+  else  if (accordionHigh == "1") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
+  }
+  
+  else {
+    if (accordionHigh.size ()) {
+      stringstream s;
+      
+      s <<
+        "accordion high " << accordionHigh << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+}
+
+void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_accordion_middle" <<
+      endl;
+
+  string accordionMiddle = elt->getValue ();
+
+  fCurrentInterchangeableRelationKind =
+    msrTime::k_NoTimeRelation; // default value
+  
+  if       (accordionMiddle == "0") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
+  }
+  else  if (accordionMiddle == "1") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
+  }
+  else  if (accordionMiddle == "2") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationEquals;
+  }
+  else  if (accordionMiddle == "3") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationEquals;
+  }
+  
+  else {
+    if (accordionMiddle.size ()) {
+      stringstream s;
+      
+      s <<
+        "accordion middle " << accordionMiddle << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+
+}
+
+void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_accordion_low" <<
+      endl;
+
+  string accordionLow = elt->getValue ();
+
+  fCurrentInterchangeableRelationKind =
+    msrTime::k_NoTimeRelation; // default value
+  
+  if       (accordionLow == "0") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
+  }
+  else  if (accordionLow == "1") {
+    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
+  }
+  
+  else {
+    if (accordionLow.size ()) {
+      stringstream s;
+      
+      s <<
+        "accordion low " << accordionLow << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+}
+
+void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_accordion_registration" <<
+      endl;
+}
+
+
+
 void mxmltree2MsrTranslator::visitEnd (S_direction_type& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)

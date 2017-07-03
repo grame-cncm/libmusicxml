@@ -157,6 +157,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_offset>,
   public visitor<S_words>,
   public visitor<S_octave_shift>,
+  public visitor<S_accordion_registration>,
+  public visitor<S_accordion_high>,
+  public visitor<S_accordion_middle>,
+  public visitor<S_accordion_low>,
   
   public visitor<S_metronome>,
   public visitor<S_beat_unit>,
@@ -469,7 +473,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_offset& elt );
     virtual void visitStart ( S_words& elt );
     virtual void visitStart ( S_octave_shift& elt );
-    
+    virtual void visitStart ( S_accordion_registration& elt );
+    virtual void visitEnd   ( S_accordion_registration& elt );
+    virtual void visitStart ( S_accordion_high& elt );
+    virtual void visitStart ( S_accordion_middle& elt );
+    virtual void visitStart ( S_accordion_low& elt );
+
     virtual void visitStart ( S_metronome& elt );
     virtual void visitEnd   ( S_metronome& elt );
     virtual void visitStart ( S_beat_unit& elt );

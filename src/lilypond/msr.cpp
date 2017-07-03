@@ -2852,6 +2852,112 @@ void msrOctaveShift::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrAccordionRegistration msrAccordionRegistration::create (
+  int                inputLineNumber,
+  msrAccordionRegistrationKind accordionRegistrationKind,
+  int                accordionRegistrationSize)
+{
+  msrAccordionRegistration* o =
+    new msrAccordionRegistration (
+      inputLineNumber, accordionRegistrationKind, accordionRegistrationSize);
+  assert(o!=0);
+  return o;
+}
+
+msrAccordionRegistration::msrAccordionRegistration (
+  int                inputLineNumber,
+  msrAccordionRegistrationKind accordionRegistrationKind,
+  int                accordionRegistrationSize)
+    : msrElement (inputLineNumber)
+{
+  fAccordionRegistrationKind = accordionRegistrationKind;
+
+  fAccordionRegistrationSize = accordionRegistrationSize;
+}
+
+msrAccordionRegistration::~msrAccordionRegistration()
+{}
+
+void msrAccordionRegistration::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrAccordionRegistration::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrAccordionRegistration>*
+    p =
+      dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
+        S_msrAccordionRegistration elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrAccordionRegistration::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrAccordionRegistration::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrAccordionRegistration::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrAccordionRegistration>*
+    p =
+      dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
+        S_msrAccordionRegistration elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrAccordionRegistration::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrAccordionRegistration::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrAccordionRegistration::accordionRegistrationKindAsString () const
+{
+  string result;
+  
+  switch (fAccordionRegistrationKind) {
+    case kAccordionRegistrationUp:
+      result = "up";
+      break;
+    case kAccordionRegistrationDown:
+      result = "down";
+      break;
+    case kAccordionRegistrationStop:
+      result = "stop";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrAccordionRegistration::print (ostream& os)
+{
+  idtr++;
+  
+  os <<
+    "AccordionRegistration" <<
+    ", kind: " << accordionRegistrationKindAsString () <<
+    ", size: " << fAccordionRegistrationSize <<
+    endl;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrStem msrStem::create (
   int           inputLineNumber,
   msrStemKind   stemKind)

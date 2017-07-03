@@ -694,7 +694,6 @@ class msrBeatData // JMI ???
 */
 
 //______________________________________________________________________________
-
 class EXP msrOctaveShift : public msrElement
 {
   public:
@@ -766,6 +765,85 @@ class EXP msrOctaveShift : public msrElement
 };
 typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
+
+/*!
+\brief A msr stem representation.
+
+  A beam is represented by a msrBeamKind value
+*/
+
+//______________________________________________________________________________
+class EXP msrAccordionRegistration : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrAccordionRegistrationKind {
+      kAccordionRegistrationUp, kAccordionRegistrationDown,
+      kAccordionRegistrationStop };
+
+    static string accordionRegistrationKindAsString (
+      msrAccordionRegistrationKind accordionRegistrationKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrAccordionRegistration> create (
+      int                inputLineNumber,
+      msrAccordionRegistrationKind accordionRegistrationKind,
+      int                accordionRegistrationSize);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrAccordionRegistration (
+      int                inputLineNumber,
+      msrAccordionRegistrationKind accordionRegistrationKind,
+      int                accordionRegistrationSize);
+      
+    virtual ~msrAccordionRegistration();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrAccordionRegistrationKind    getAccordionRegistrationKind () const
+                              { return fAccordionRegistrationKind; }
+
+    int                   getAccordionRegistrationSize () const
+                              { return fAccordionRegistrationSize; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                accordionRegistrationKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    msrAccordionRegistrationKind fAccordionRegistrationKind;
+
+    int                fAccordionRegistrationSize;
+};
+typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
+EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
 
 //______________________________________________________________________________
 
