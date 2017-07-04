@@ -2936,7 +2936,8 @@ string msrAccordionRegistration::accordionRegistrationAsString () const
     "AccordionRegistration" <<
     ", highDotsNumber: " << fHighDotsNumber <<
     ", middleDotsNumber: " << fMiddleDotsNumber <<
-    ", lowDotsNumber: " << fLowDotsNumber;
+    ", lowDotsNumber: " << fLowDotsNumber <<
+    ", line " << fInputLineNumber;
 
   return s.str();
 }

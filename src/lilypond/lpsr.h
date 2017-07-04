@@ -2249,6 +2249,12 @@ class EXP lpsrScore : public lpsrElement
                                   changeAssocValue (s.str());
                               }
 
+    // Scheme modules
+    void                  setScmAndAccregSchemeModulesAreNeeded ();
+                        
+    bool                  getScmAndAccregSchemeModulesAreNeeded () const
+                              { return fScmAndAccregSchemeModulesAreNeeded; }
+
     // Scheme functions
     void                  setTongueSchemeFunctionIsNeeded ();
                         
@@ -2292,6 +2298,10 @@ class EXP lpsrScore : public lpsrElement
     void                  appendLyricsUseToStoreCommand (
                             S_msrStanza stanza);
 
+    // Scheme modules
+
+    void                  addAccordionRegistrationSchemeModulesToScore ();
+
     // Scheme functions
     
     void                  addDateAndTimeSchemeFunctionsToScore ();
@@ -2316,41 +2326,49 @@ class EXP lpsrScore : public lpsrElement
   private:
 
     // MSR data
-    S_msrScore                fMsrScore;
+    S_msrScore            fMsrScore;
 
     // general information
-    S_lpsrLilypondVarValAssoc fLilypondVersion;
+    S_lpsrLilypondVarValAssoc
+                          fLilypondVersion;
     
-    S_lpsrComment             fInputSourceNameComment;
-    S_lpsrComment             fTranslationDateComment;
-    S_lpsrComment             fCommandLineLongOptionsComment;
-    S_lpsrComment             fCommandLineShortOptionsComment;
+    S_lpsrComment         fInputSourceNameComment;
+    S_lpsrComment         fTranslationDateComment;
+    S_lpsrComment         fCommandLineLongOptionsComment;
+    S_lpsrComment         fCommandLineShortOptionsComment;
     
-    S_lpsrSchemeVarValAssoc   fGlobalStaffSizeAssoc;
+    S_lpsrSchemeVarValAssoc
+                          fGlobalStaffSizeAssoc;
     
-    S_lpsrHeader              fHeader;
-    S_lpsrPaper               fPaper;
-    S_lpsrLayout              fScoreLayout;
+    S_lpsrHeader          fHeader;
+    S_lpsrPaper           fPaper;
+    S_lpsrLayout          fScoreLayout;
 
     // to keep the original line breaks
-    S_lpsrLilypondVarValAssoc fMyBreakIsBreakAssoc;
-    S_lpsrLilypondVarValAssoc fMyBreakIsEmptyAssoc;
+    S_lpsrLilypondVarValAssoc
+                          fMyBreakIsBreakAssoc;
+    S_lpsrLilypondVarValAssoc
+                          fMyBreakIsEmptyAssoc;
 
     // to generate 'global' variable
-    S_lpsrLilypondVarValAssoc fGlobalAssoc;
+    S_lpsrLilypondVarValAssoc
+                          fGlobalAssoc;
 
     // variables, voices and stanzas
-    list<S_msrElement>        fScoreElements;
+    list<S_msrElement>    fScoreElements;
 
     // score command
-    S_lpsrScoreBlock          fScoreBlock;
+    S_lpsrScoreBlock      fScoreBlock;
+
+    // Scheme modules
+    bool                  fScmAndAccregSchemeModulesAreNeeded;
 
     // Scheme functions
-    bool                      fTongueSchemeFunctionIsNeeded;
-    bool                      fEditorialAccidentalSchemeFunctionIsNeeded;
+    bool                  fTongueSchemeFunctionIsNeeded;
+    bool                  fEditorialAccidentalSchemeFunctionIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
-                              fScoreSchemeFunctionsMap;
+                          fScoreSchemeFunctionsMap;
 };
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);

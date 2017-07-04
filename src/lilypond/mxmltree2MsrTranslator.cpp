@@ -3410,6 +3410,10 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_registration& elt )
         </direction-type>
       </direction>
 */
+
+  fCurrentAccordionHigh   = 0;
+  fCurrentAccordionMiddle = 0;
+  fCurrentAccordionLow    = 0;
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )

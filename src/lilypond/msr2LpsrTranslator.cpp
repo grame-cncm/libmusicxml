@@ -2467,8 +2467,13 @@ void msr2LpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
       "--> Start visiting msrAccordionRegistration" <<
       endl;
 
+  // append the accordion registration to the voice clone
   fCurrentVoiceClone->
     appendAccordionRegistrationToVoice (elt);
+
+  // the generated code needs modules scm and accreg
+  fLpsrScore->
+    setScmAndAccregSchemeModulesAreNeeded ();
 }
 
 //________________________________________________________________________

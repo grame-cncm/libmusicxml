@@ -3453,19 +3453,55 @@ R"(\markup {
 lpsrScore::~lpsrScore()
 {}
 
+void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
+{
+  if (! fScmAndAccregSchemeModulesAreNeeded) {
+    addAccordionRegistrationSchemeModulesToScore ();
+    
+    fScmAndAccregSchemeModulesAreNeeded = true;    
+  }
+}
+
+void lpsrScore::addAccordionRegistrationSchemeModulesToScore ()
+{
+  string
+    schemeModulesName =
+      "scm & accreg",
+      
+    schemeModulesDescription =
+R"(
+% Two modules are to be used in the right order to use accordion registration.
+)",
+
+    schemeModulesCode =
+R"(
+#(use-modules (scm accreg))
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    cerr << idtr <<
+      "Using Scheme modules '" << schemeModulesName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    scmAndAccregSchemeModules =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeModulesName,
+        schemeModulesDescription,
+        schemeModulesCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeModulesName] =
+    scmAndAccregSchemeModules;
+}
+
 void lpsrScore::setTongueSchemeFunctionIsNeeded ()
 {
   if (! fTongueSchemeFunctionIsNeeded) {
     addTongueSchemeFunctionToScore ();
-    
-    fTongueSchemeFunctionIsNeeded = true;    
-  }
-}
-
-void lpsrScore::setEditorialAccidentalSchemeFunctionIsNeeded ()
-{
-  if (! fTongueSchemeFunctionIsNeeded) {
-    addEditorialAccidentalSchemeFunctionToScore ();
     
     fTongueSchemeFunctionIsNeeded = true;    
   }
@@ -3514,6 +3550,15 @@ R"(
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
     dateAndTimeSchemeFunctions;
+}
+
+void lpsrScore::setEditorialAccidentalSchemeFunctionIsNeeded ()
+{
+  if (! fTongueSchemeFunctionIsNeeded) {
+    addEditorialAccidentalSchemeFunctionToScore ();
+    
+    fTongueSchemeFunctionIsNeeded = true;    
+  }
 }
 
 void lpsrScore::addTongueSchemeFunctionToScore ()
