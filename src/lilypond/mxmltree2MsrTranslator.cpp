@@ -3432,21 +3432,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
       "--> Start visiting S_accordion_high" <<
       endl;
 
-  fCurrentAccordionHigh = (int)(*elt);
-
-  if (fCurrentAccordionHigh < 0 || fCurrentAccordionHigh > 1) {
-    stringstream s;
-    
-    s <<
-      "accordion high " << fCurrentAccordionHigh << " should be 0 or 1" <<
-      ", replaced by 0";
-    
-    msrMusicXMLWarning (
-      elt->getInputLineNumber (),
-      s.str());
-
-    fCurrentAccordionHigh = 0;
-  }
+  fCurrentAccordionHigh = 1;
 
   fCurrentAccordionNumbersCounter++;
 }
@@ -3485,21 +3471,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
       "--> Start visiting S_accordion_low" <<
       endl;
 
-  fCurrentAccordionLow = (int)(*elt);
-
-  if (fCurrentAccordionLow < 0 || fCurrentAccordionLow > 1) {
-    stringstream s;
-    
-    s <<
-      "accordion low " << fCurrentAccordionLow << " should be 0 or 1" <<
-      ", replaced by 0";
-    
-    msrMusicXMLWarning (
-      elt->getInputLineNumber (),
-      s.str());
-
-    fCurrentAccordionLow = 0;
-  }
+  fCurrentAccordionLow = 1;
 
   fCurrentAccordionNumbersCounter++;
 }

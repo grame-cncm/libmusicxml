@@ -5270,9 +5270,37 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
     elt->getMiddleDotsNumber ();
   int lowDotsNumber =
     elt->getLowDotsNumber ();
-    
+
+  string numbersToBeUsed;
+  bool   nonZeroNumberHasBeenIssued = false;
+
+  if (highDotsNumber > 0) {
+    numbersToBeUsed +=
+      to_string (highDotsNumber);
+    nonZeroNumberHasBeenIssued = true;
+  }
+  
+  if (middleDotsNumber > 0) {
+    numbersToBeUsed +=
+      to_string (middleDotsNumber);
+    nonZeroNumberHasBeenIssued = true;
+  }
+  else {
+    if (nonZeroNumberHasBeenIssued)
+      numbersToBeUsed +=
+        to_string (middleDotsNumber);
+  }
+  
+  if (lowDotsNumber > 0) {
+    numbersToBeUsed +=
+      to_string (lowDotsNumber);
+    nonZeroNumberHasBeenIssued = true;
+  }
+  
   // the numbers should be written in reverse order
   // and 0 ahead of the specification is forbidden
+
+  /*
   stack<int> numbersInReverseOrder;
 
   numbersInReverseOrder.push (lowDotsNumber);
@@ -5292,8 +5320,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
   } // while
   
   string numbersToBeUsed = s.str();
+*/
 
-  fOstream << "%{ numbersToBeUsed: " << numbersToBeUsed << " %} ";
+ // fOstream << "%{ numbersToBeUsed: " << numbersToBeUsed << " %} ";
     
   fOstream <<
     "\\discant \"" <<
