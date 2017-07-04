@@ -3425,11 +3425,14 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
     stringstream s;
     
     s <<
-      "accordion high " << fCurrentAccordionHigh << " should be 0 or 1";
+      "accordion high " << fCurrentAccordionHigh << " should be 0 or 1" <<
+      ", replaced by 0";
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
+
+    fCurrentAccordionHigh = 0;
   }
 }
 
@@ -3446,11 +3449,15 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
     stringstream s;
     
     s <<
-      "accordion middle " << fCurrentAccordionMiddle << " should be 0, 1, 2 or 3";
+      "accordion middle " <<
+      fCurrentAccordionMiddle << " should be 0, 1, 2 or 3" <<
+      ", replaced by 0";
     
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       elt->getInputLineNumber (),
       s.str());
+
+    fCurrentAccordionMiddle = 0;
   }
 }
 
@@ -3467,11 +3474,14 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
     stringstream s;
     
     s <<
-      "accordion low " << fCurrentAccordionLow << " should be 0 or 1";
+      "accordion low " << fCurrentAccordionLow << " should be 0 or 1" <<
+      ", replaced by 0";
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
+
+    fCurrentAccordionLow = 0;
   }
 }
 

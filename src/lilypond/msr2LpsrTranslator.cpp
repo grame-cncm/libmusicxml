@@ -2460,6 +2460,18 @@ void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrAccordionRegistration" <<
+      endl;
+
+  fCurrentVoiceClone->
+    appendAccordionRegistrationToVoice (elt);
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStem& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)

@@ -95,6 +95,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
   
+  public visitor<S_msrAccordionRegistration>,
+  
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
     
@@ -253,6 +255,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrOctaveShift& elt);
     virtual void visitEnd   (S_msrOctaveShift& elt);
+
+    virtual void visitStart (S_msrAccordionRegistration& elt);
 
     virtual void visitStart (S_msrStem& elt);
     virtual void visitEnd   (S_msrStem& elt);

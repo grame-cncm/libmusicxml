@@ -5244,6 +5244,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
   } // switch
   
   fOstream << " ";
+  
   fMusicOlec++;
 }
 
@@ -5253,6 +5254,32 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)
     fOstream << idtr <<
       "% --> End visiting msrOctaveShift" <<
       endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrAccordionRegistration" <<
+      endl;
+
+  int highDotsNumber =
+    elt->getHighDotsNumber ();
+  int middleDotsNumber =
+    elt->getMiddleDotsNumber ();
+  int lowDotsNumber =
+    elt->getLowDotsNumber ();
+    
+  fOstream <<
+    "\\discant \"" <<
+    highDotsNumber <<
+    middleDotsNumber <<
+    lowDotsNumber <<
+    "\" ";
+  
+  fMusicOlec++;
+  fMusicOlec++;
 }
 
 //________________________________________________________________________
