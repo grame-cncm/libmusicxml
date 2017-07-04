@@ -3441,7 +3441,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
       "accordion high " << fCurrentAccordionHigh << " should be 0 or 1" <<
       ", replaced by 0";
     
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       elt->getInputLineNumber (),
       s.str());
 
@@ -3494,7 +3494,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
       "accordion low " << fCurrentAccordionLow << " should be 0 or 1" <<
       ", replaced by 0";
     
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       elt->getInputLineNumber (),
       s.str());
 
