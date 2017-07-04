@@ -2483,6 +2483,19 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
     cerr << idtr <<
       "--> Start visiting msrStem" <<
       endl;
+
+  if (fOnGoingNote) {
+ //   // don't add stems to chord member notes JMI ???
+ //   if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        setNoteStem (elt);
+  }
+  /* JMI
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addStemToChord (elt);
+  }
+  */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
@@ -2500,6 +2513,17 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
     cerr << idtr <<
       "--> Start visiting msrBeam" <<
       endl;
+
+  if (fOnGoingNote) {
+  //  // don't add beams to chord member notes JMI ???
+ //   if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addBeamToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addBeamToChord (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)

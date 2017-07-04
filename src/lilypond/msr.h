@@ -833,6 +833,9 @@ class EXP msrAccordionRegistration : public msrElement
 
   private:
 
+    // see https://de.wikipedia.org/wiki/Register_%28Akkordeon%29
+    // for the meaning of the dots numbers
+
     int                   fHighDotsNumber;
     int                   fMiddleDotsNumber;
     int                   fLowDotsNumber;
@@ -5141,6 +5144,11 @@ class EXP msrChord : public msrElement
                           getChordNotes () const
                               { return fChordNotes; }
 
+    // beams
+    const list<S_msrBeam>&
+                          getChordBeams () const
+                              { return fChordBeams; }
+
     // articulations
     const list<S_msrArticulation>&
                           getChordArticulations () const
@@ -5295,6 +5303,10 @@ class EXP msrChord : public msrElement
     void                  addSlurToChord (S_msrSlur slur)
                               { fChordSlurs.push_back (slur); }
                       
+    // beams
+    void                  addBeamToChord (S_msrBeam beam)
+                              { fChordBeams.push_back (beam); }
+
     // ligatures
     void                  addLigatureToChord (S_msrLigature ligature)
                               { fChordLigatures.push_back (ligature); }
@@ -5354,6 +5366,9 @@ class EXP msrChord : public msrElement
     string                fChordMeasureNumber;
     rational              fChordPositionInMeasure;
 
+    // beams
+    list<S_msrBeam>       fChordBeams;
+    
     // articulations
     list<S_msrArticulation>
                           fChordArticulations;

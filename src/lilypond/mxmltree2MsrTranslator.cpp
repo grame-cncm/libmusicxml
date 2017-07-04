@@ -7006,13 +7006,15 @@ void mxmltree2MsrTranslator::visitStart ( S_slash& elt )
   else if (slashUseDots == "no")
     fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
-    stringstream s;
-    
-    s << "slash use dots " << slashUseDots << " is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
+    if (slashUseDots.size ()) {
+      stringstream s;
+      
+      s << "slash use dots " << slashUseDots << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
   }
 
   string slashUseStems = elt->getAttributeValue ("use-stems");
@@ -7022,13 +7024,15 @@ void mxmltree2MsrTranslator::visitStart ( S_slash& elt )
   else if (slashUseStems == "no")
     fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
-    stringstream s;
-    
-    s << "slash use stems " << slashUseStems << " is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str());
+    if (slashUseStems.size ()) {
+      stringstream s;
+      
+      s << "slash use stems " << slashUseStems << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
   }
 }
 
