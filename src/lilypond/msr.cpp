@@ -2853,26 +2853,29 @@ void msrOctaveShift::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrAccordionRegistration msrAccordionRegistration::create (
-  int                inputLineNumber,
-  msrAccordionRegistrationKind accordionRegistrationKind,
-  int                accordionRegistrationSize)
+  int inputLineNumber,
+  int highDotsNumber,
+  int middleDotsNumber,
+  int lowDotsNumber)
 {
   msrAccordionRegistration* o =
     new msrAccordionRegistration (
-      inputLineNumber, accordionRegistrationKind, accordionRegistrationSize);
+      inputLineNumber,
+      highDotsNumber, middleDotsNumber, lowDotsNumber);
   assert(o!=0);
   return o;
 }
 
 msrAccordionRegistration::msrAccordionRegistration (
-  int                inputLineNumber,
-  msrAccordionRegistrationKind accordionRegistrationKind,
-  int                accordionRegistrationSize)
+  int inputLineNumber,
+  int highDotsNumber,
+  int middleDotsNumber,
+  int lowDotsNumber)
     : msrElement (inputLineNumber)
 {
-  fAccordionRegistrationKind = accordionRegistrationKind;
-
-  fAccordionRegistrationSize = accordionRegistrationSize;
+  fHighDotsNumber   = highDotsNumber;
+  fMiddleDotsNumber = middleDotsNumber;
+  fLowDotsNumber    = lowDotsNumber;
 }
 
 msrAccordionRegistration::~msrAccordionRegistration()
@@ -2925,23 +2928,17 @@ ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt)
   return os;
 }
 
-string msrAccordionRegistration::accordionRegistrationKindAsString () const
+string msrAccordionRegistration::accordionRegistrationAsString () const
 {
-  string result;
-  
-  switch (fAccordionRegistrationKind) {
-    case kAccordionRegistrationUp:
-      result = "up";
-      break;
-    case kAccordionRegistrationDown:
-      result = "down";
-      break;
-    case kAccordionRegistrationStop:
-      result = "stop";
-      break;
-  } // switch
+  stringstream s;
 
-  return result;
+  s <<
+    "AccordionRegistration" <<
+    ", highDotsNumber: " << fHighDotsNumber <<
+    ", middleDotsNumber: " << fMiddleDotsNumber <<
+    ", lowDotsNumber: " << fLowDotsNumber;
+
+  return s.str();
 }
 
 void msrAccordionRegistration::print (ostream& os)
@@ -2949,9 +2946,7 @@ void msrAccordionRegistration::print (ostream& os)
   idtr++;
   
   os <<
-    "AccordionRegistration" <<
-    ", kind: " << accordionRegistrationKindAsString () <<
-    ", size: " << fAccordionRegistrationSize <<
+    accordionRegistrationAsString () <<
     endl;
 
   idtr--;

@@ -3421,29 +3421,17 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
       "--> Start visiting S_accordion_high" <<
       endl;
 
-  string accordionHigh = elt->getValue ();
+  fCurrentAccordionHigh = (int)(*elt);
 
-  fCurrentInterchangeableRelationKind =
-    msrTime::k_NoTimeRelation; // default value
-  
-  if       (accordionHigh == "0") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
-  }
-  else  if (accordionHigh == "1") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
-  }
-  
-  else {
-    if (accordionHigh.size ()) {
-      stringstream s;
-      
-      s <<
-        "accordion high " << accordionHigh << " is unknown";
-      
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str());
-    }
+  if (fCurrentAccordionHigh < 0 || fCurrentAccordionHigh > 1) {
+    stringstream s;
+    
+    s <<
+      "accordion high " << fCurrentAccordionHigh << " should be 0 or 1";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
   }
 }
 
@@ -3454,37 +3442,18 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
       "--> Start visiting S_accordion_middle" <<
       endl;
 
-  string accordionMiddle = elt->getValue ();
+  fCurrentAccordionMiddle = (int)(*elt);
 
-  fCurrentInterchangeableRelationKind =
-    msrTime::k_NoTimeRelation; // default value
-  
-  if       (accordionMiddle == "0") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
+  if (fCurrentAccordionMiddle < 0 || fCurrentAccordionMiddle > 3) {
+    stringstream s;
+    
+    s <<
+      "accordion middle " << fCurrentAccordionMiddle << " should be 0, 1, 2 or 3";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
   }
-  else  if (accordionMiddle == "1") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
-  }
-  else  if (accordionMiddle == "2") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationEquals;
-  }
-  else  if (accordionMiddle == "3") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationEquals;
-  }
-  
-  else {
-    if (accordionMiddle.size ()) {
-      stringstream s;
-      
-      s <<
-        "accordion middle " << accordionMiddle << " is unknown";
-      
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str());
-    }
-  }
-
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
@@ -3494,29 +3463,17 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
       "--> Start visiting S_accordion_low" <<
       endl;
 
-  string accordionLow = elt->getValue ();
+  fCurrentAccordionLow = (int)(*elt);
 
-  fCurrentInterchangeableRelationKind =
-    msrTime::k_NoTimeRelation; // default value
-  
-  if       (accordionLow == "0") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
-  }
-  else  if (accordionLow == "1") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
-  }
-  
-  else {
-    if (accordionLow.size ()) {
-      stringstream s;
-      
-      s <<
-        "accordion low " << accordionLow << " is unknown";
-      
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str());
-    }
+  if (fCurrentAccordionLow < 0 || fCurrentAccordionLow > 1) {
+    stringstream s;
+    
+    s <<
+      "accordion low " << fCurrentAccordionLow << " should be 0 or 1";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());
   }
 }
 
@@ -3526,6 +3483,14 @@ void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
     cerr << idtr <<
       "--> End visiting S_accordion_registration" <<
       endl;
+
+  S_msrAccordionRegistration
+    accordionRegistration =
+      msrAccordionRegistration::create (
+        elt->getInputLineNumber (),
+        fCurrentAccordionHigh,
+        fCurrentAccordionMiddle,
+        fCurrentAccordionLow);
 }
 
 

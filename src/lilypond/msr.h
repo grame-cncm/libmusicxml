@@ -759,9 +759,9 @@ class EXP msrOctaveShift : public msrElement
 
   private:
 
-    msrOctaveShiftKind fOctaveShiftKind;
+    msrOctaveShiftKind    fOctaveShiftKind;
 
-    int                fOctaveShiftSize;
+    int                   fOctaveShiftSize;
 };
 typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
@@ -776,24 +776,15 @@ EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
 class EXP msrAccordionRegistration : public msrElement
 {
   public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrAccordionRegistrationKind {
-      kAccordionRegistrationUp, kAccordionRegistrationDown,
-      kAccordionRegistrationStop };
-
-    static string accordionRegistrationKindAsString (
-      msrAccordionRegistrationKind accordionRegistrationKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrAccordionRegistration> create (
-      int                inputLineNumber,
-      msrAccordionRegistrationKind accordionRegistrationKind,
-      int                accordionRegistrationSize);
+      int inputLineNumber,
+      int highDotsNumber,
+      int middleDotsNumber,
+      int lowDotsNumber);
 
   protected:
 
@@ -801,9 +792,10 @@ class EXP msrAccordionRegistration : public msrElement
     // ------------------------------------------------------
 
     msrAccordionRegistration (
-      int                inputLineNumber,
-      msrAccordionRegistrationKind accordionRegistrationKind,
-      int                accordionRegistrationSize);
+      int inputLineNumber,
+      int highDotsNumber,
+      int middleDotsNumber,
+      int lowDotsNumber);
       
     virtual ~msrAccordionRegistration();
   
@@ -812,16 +804,19 @@ class EXP msrAccordionRegistration : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrAccordionRegistrationKind    getAccordionRegistrationKind () const
-                              { return fAccordionRegistrationKind; }
+    int                   getHighDotsNumber () const
+                              { return fHighDotsNumber; }
 
-    int                   getAccordionRegistrationSize () const
-                              { return fAccordionRegistrationSize; }
+    int                   getMiddleDotsNumber () const
+                              { return fMiddleDotsNumber; }
+
+    int                   getLowDotsNumber () const
+                              { return fLowDotsNumber; }
 
     // services
     // ------------------------------------------------------
 
-    string                accordionRegistrationKindAsString () const;
+    string                accordionRegistrationAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -838,9 +833,9 @@ class EXP msrAccordionRegistration : public msrElement
 
   private:
 
-    msrAccordionRegistrationKind fAccordionRegistrationKind;
-
-    int                fAccordionRegistrationSize;
+    int                   fHighDotsNumber;
+    int                   fMiddleDotsNumber;
+    int                   fLowDotsNumber;
 };
 typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
 EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
@@ -3249,6 +3244,12 @@ class EXP msrMeasure : public msrElement
     void                  appendOctaveShiftToMeasure (
                             S_msrOctaveShift octaveShift);
 
+    // accordion registration
+
+    void                  appendAccordionRegistrationToMeasure (
+                            S_msrAccordionRegistration
+                              accordionRegistration);
+
     // bar lines
     
     void                  appendBarlineToMeasure (S_msrBarline barline);
@@ -3556,6 +3557,12 @@ class EXP msrSegment : public msrElement
     
     void                  appendOctaveShiftToSegment (
                             S_msrOctaveShift octaveShift);
+
+    // accordion registration
+
+    void                  appendAccordionRegistrationToSegment (
+                            S_msrAccordionRegistration
+                              accordionRegistration);
 
     // harmonies
     
@@ -8104,6 +8111,12 @@ class EXP msrVoice : public msrElement
     void                  appendOctaveShiftToVoice (
                             S_msrOctaveShift octaveShift);
 
+    // accordion registration
+
+    void                  appendAccordionRegistrationToVoice (
+                            S_msrAccordionRegistration
+                              accordionRegistration);
+
     // staff change
     
     void                  appendVoiceStaffChangeToVoice (
@@ -9399,6 +9412,12 @@ class EXP msrPart : public msrElement
     void                  appendHarmonyToPartClone (
                             S_msrVoice   harmoniesSupplierVoice,
                             S_msrHarmony harmony);
+
+    // accordion registration
+
+    void                  appendAccordionRegistrationToPart (
+                            S_msrAccordionRegistration
+                              accordionRegistration);
 
     // backup
     

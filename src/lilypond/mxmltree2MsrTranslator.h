@@ -898,7 +898,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // ------------------------------------------------------
     
     bool                      fOnGoingDirectionType;
-  
+
+    // accordion-registration handling
+    // ------------------------------------------------------
+
+    int                       fCurrentAccordionHigh;
+    int                       fCurrentAccordionMiddle;
+    int                       fCurrentAccordionLow;
+    
     // metronome handling
     // ------------------------------------------------------
     
