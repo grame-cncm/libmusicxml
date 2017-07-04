@@ -5293,7 +5293,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
   
   string numbersToBeUsed = s.str();
 
-  fOstream << "%{ numbersToBeUsed: " << numbersToBeUsed << "%} ";
+  fOstream << "%{ numbersToBeUsed: " << numbersToBeUsed << " %} ";
     
   fOstream <<
     "\\discant \"" <<
