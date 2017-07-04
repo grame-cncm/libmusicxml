@@ -5279,18 +5279,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
   numbersInReverseOrder.push (middleDotsNumber);
   numbersInReverseOrder.push (highDotsNumber);
 
-  string numbersToBeUsed;
-
+  stringstream s;
+  
   while (numbersInReverseOrder.size ()) {
     int number = numbersInReverseOrder.top ();
     
     if (number > 0)
-      numbersToBeUsed += to_string (number);
+      s <<
+        number;
       
     numbersInReverseOrder.pop ();
   } // while
   
-  fOstream << "{% " << numbersToBeUsed << "%} ";
+  string numbersToBeUsed = s.str();
+
+  fOstream << "%{ numbersToBeUsed: " << numbersToBeUsed << "%} ";
     
   fOstream <<
     "\\discant \"" <<
