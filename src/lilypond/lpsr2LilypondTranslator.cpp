@@ -5272,10 +5272,28 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
     elt->getLowDotsNumber ();
     
   fOstream <<
-    "\\discant \"" <<
-    highDotsNumber <<
-    middleDotsNumber <<
+    "\\discant \"";
+
+  // the numbers should be written in reverse order...
+  stringstream s;
+
+  s <<
     lowDotsNumber <<
+    middleDotsNumber <<
+    highDotsNumber;
+    
+  string numbers = s.str();
+  
+  // ...and 0 ahead of the specification is forbidden
+  string numbersToBeUsed;
+  
+  for (int i = 0; i < 3; i++) {
+    if (numbers [i] != 0)
+      numbersToBeUsed += i;
+  } // for
+  
+  fOstream <<
+    numbersToBeUsed <<
     "\" ";
   
   fMusicOlec++;
