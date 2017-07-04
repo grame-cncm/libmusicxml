@@ -5274,6 +5274,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
   string numbersToBeUsed;
   bool   nonZeroNumberHasBeenIssued = false;
 
+  // the numbers should be written in the order 'high, middle, low'
+  // and 0 ahead of the specification is forbidden
+
   if (highDotsNumber > 0) {
     numbersToBeUsed +=
       to_string (highDotsNumber);
@@ -5291,39 +5294,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
         to_string (middleDotsNumber);
   }
   
-  if (lowDotsNumber > 0) {
-    numbersToBeUsed +=
-      to_string (lowDotsNumber);
-    nonZeroNumberHasBeenIssued = true;
-  }
+  numbersToBeUsed +=
+    to_string (lowDotsNumber);
   
-  // the numbers should be written in reverse order
-  // and 0 ahead of the specification is forbidden
-
-  /*
-  stack<int> numbersInReverseOrder;
-
-  numbersInReverseOrder.push (lowDotsNumber);
-  numbersInReverseOrder.push (middleDotsNumber);
-  numbersInReverseOrder.push (highDotsNumber);
-
-  stringstream s;
-  
-  while (numbersInReverseOrder.size ()) {
-    int number = numbersInReverseOrder.top ();
-    
-    if (number > 0)
-      s <<
-        number;
-      
-    numbersInReverseOrder.pop ();
-  } // while
-  
-  string numbersToBeUsed = s.str();
-*/
-
- // fOstream << "%{ numbersToBeUsed: " << numbersToBeUsed << " %} ";
-    
   fOstream <<
     "\\discant \"" <<
     numbersToBeUsed <<
