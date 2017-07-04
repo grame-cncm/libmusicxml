@@ -177,6 +177,13 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   // direction-type handling
   fOnGoingDirectionType = false;
 
+  // accordion-registration handling
+  fCurrentAccordionHigh   = 0;
+  fCurrentAccordionMiddle = 0;
+  fCurrentAccordionLow    = 0;
+  
+  fCurrentAccordionNumbersCounter = 0;
+
   // metronome handling
   fCurrentMetrenomePerMinute = -1;
   fCurrentMetronomeParentheses = false;
@@ -3414,6 +3421,8 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_registration& elt )
   fCurrentAccordionHigh   = 0;
   fCurrentAccordionMiddle = 0;
   fCurrentAccordionLow    = 0;
+
+  fCurrentAccordionNumbersCounter = 0;
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
@@ -3438,6 +3447,8 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
 
     fCurrentAccordionHigh = 0;
   }
+
+  fCurrentAccordionNumbersCounter++;
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
@@ -3463,6 +3474,8 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
 
     fCurrentAccordionMiddle = 0;
   }
+
+  fCurrentAccordionNumbersCounter++;
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
@@ -3487,6 +3500,8 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
 
     fCurrentAccordionLow = 0;
   }
+
+  fCurrentAccordionNumbersCounter++;
 }
 
 void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
@@ -3496,19 +3511,33 @@ void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
       "--> End visiting S_accordion_registration" <<
       endl;
 
-  // create the accordion registration
-  S_msrAccordionRegistration
-    accordionRegistration =
-      msrAccordionRegistration::create (
-        elt->getInputLineNumber (),
-        fCurrentAccordionHigh,
-        fCurrentAccordionMiddle,
-        fCurrentAccordionLow);
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  // An accordion-registration element needs to have 
+  // at least one of the child elements present
 
-  // append it to the current part
-  fCurrentPart->
-    appendAccordionRegistrationToPart (
-      accordionRegistration);
+  if (fCurrentAccordionNumbersCounter == 0) {
+    msrMusicXMLWarning (
+      inputLineNumber,
+      "accordion-registration has 0 child element, ignoring it");
+  }
+
+  else {
+    // create the accordion registration
+    S_msrAccordionRegistration
+      accordionRegistration =
+        msrAccordionRegistration::create (
+          inputLineNumber,
+          fCurrentAccordionHigh,
+          fCurrentAccordionMiddle,
+          fCurrentAccordionLow);
+  
+    // append it to the current part
+    fCurrentPart->
+      appendAccordionRegistrationToPart (
+        accordionRegistration);
+  }
 }
 
 void mxmltree2MsrTranslator::visitEnd (S_direction_type& elt)

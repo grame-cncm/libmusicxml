@@ -905,6 +905,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentAccordionHigh;
     int                       fCurrentAccordionMiddle;
     int                       fCurrentAccordionLow;
+    int                       fCurrentAccordionNumbersCounter;
     
     // metronome handling
     // ------------------------------------------------------
