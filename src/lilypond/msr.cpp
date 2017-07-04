@@ -17785,6 +17785,13 @@ void msrMeasure::appendOctaveShiftToMeasure (
   fMeasureElementsList.push_back (octaveShift);
 }
 
+void msrMeasure::appendAccordionRegistrationToMeasure (
+  S_msrAccordionRegistration
+    accordionRegistration)
+{
+  fMeasureElementsList.push_back (accordionRegistration);
+}    
+
 void msrMeasure::appendBreakToMeasure (S_msrBreak break_)
 {
   fMeasureElementsList.push_back (break_);
@@ -19240,8 +19247,9 @@ void msrSegment::appendOctaveShiftToSegment (
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "Appending octave shift " <<
-        " to segment " << segmentAsString () <<
+        "Appending octave shift '" <<
+        octaveShift->octaveShiftKindAsString () <<
+        "' to segment " << segmentAsString () <<
         "' in voice \"" <<
         fSegmentVoiceUplink->getVoiceName () <<
         "\"" <<
@@ -19250,6 +19258,27 @@ void msrSegment::appendOctaveShiftToSegment (
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendOctaveShiftToMeasure (octaveShift);
+}
+
+void msrSegment::appendAccordionRegistrationToSegment (
+  S_msrAccordionRegistration
+    accordionRegistration)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending accordion registration '" <<
+        accordionRegistration->accordionRegistrationAsString () <<
+        "' to segment " << segmentAsString () <<
+        "' in voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendAccordionRegistrationToMeasure (
+      accordionRegistration);
 }
 
 void msrSegment::bringSegmentToMeasureLength (
@@ -22560,6 +22589,26 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 
   fVoiceLastSegment->
     appendOctaveShiftToSegment (octaveShift);
+}
+
+void msrVoice::appendAccordionRegistrationToVoice (
+  S_msrAccordionRegistration
+    accordionRegistration)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending accordion registration '" <<
+      accordionRegistration->accordionRegistrationAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    accordionRegistration->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendAccordionRegistrationToSegment (
+      accordionRegistration);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -25950,6 +25999,20 @@ void msrStaff::appendTransposeToAllStaffVoices (
   } // for
 }
 
+void msrStaff::appendAccordionRegistrationToStaff (
+  S_msrAccordionRegistration
+    accordionRegistration)
+{
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendAccordionRegistrationToVoice (
+        accordionRegistration);
+  } // for
+}
+
 void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {  
@@ -27514,6 +27577,28 @@ void msrPart::appendHarmonyToPart (
       }
       break;
   } // switch
+}
+
+void msrPart::appendAccordionRegistrationToPart (
+  S_msrAccordionRegistration
+    accordionRegistration)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
+    cerr << idtr <<
+      "Appending accordion registration '" <<
+      accordionRegistration->accordionRegistrationAsString () <<
+      "' to part " <<
+      getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      appendAccordionRegistrationToStaff (
+        accordionRegistration);
+  } // for
 }
 
 void msrPart::appendHarmonyToPartClone (

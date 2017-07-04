@@ -3392,8 +3392,6 @@ void mxmltree2MsrTranslator::visitStart (S_words& elt)
   }
 }
 
-
-
 void mxmltree2MsrTranslator::visitStart ( S_accordion_registration& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -3484,6 +3482,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
       "--> End visiting S_accordion_registration" <<
       endl;
 
+  // create the accordion registration
   S_msrAccordionRegistration
     accordionRegistration =
       msrAccordionRegistration::create (
@@ -3491,9 +3490,12 @@ void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
         fCurrentAccordionHigh,
         fCurrentAccordionMiddle,
         fCurrentAccordionLow);
+
+  // append it to the current part
+  fCurrentPart->
+    appendAccordionRegistrationToPart (
+      accordionRegistration);
 }
-
-
 
 void mxmltree2MsrTranslator::visitEnd (S_direction_type& elt)
 {

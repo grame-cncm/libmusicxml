@@ -8921,6 +8921,12 @@ class EXP msrStaff : public msrElement
     void                  appendTransposeToAllStaffVoices ( // JMI
                             S_msrTranspose transpose);
   
+    // accordion registration
+
+    void                  appendAccordionRegistrationToStaff (
+                            S_msrAccordionRegistration
+                              accordionRegistration);
+
     // finalization
 
     void                  finalizeCurrentMeasureInStaff (
