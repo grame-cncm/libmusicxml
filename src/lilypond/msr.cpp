@@ -16,12 +16,18 @@
 #include <algorithm>
 #include <iomanip>      // setw, set::precision, ...
 
+#include "msrWarningsAndErrors.h"
+
 #include "msr.h"
 
 using namespace std;
 
 namespace MusicXML2 
 {
+
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
 msrElement::msrElement (
@@ -418,9 +424,9 @@ void msrStem::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBeam msrBeam::create (
-  int           inputLineNumber,
-  int           number,
-  msrBeamKind   beamKind)
+  int         inputLineNumber,
+  int         number,
+  msrBeamKind beamKind)
 {
   msrBeam* o =
     new msrBeam (
@@ -430,9 +436,9 @@ S_msrBeam msrBeam::create (
 }
 
 msrBeam::msrBeam (
-  int           inputLineNumber,
-  int           number,
-  msrBeamKind   beamKind)
+  int         inputLineNumber,
+  int         number,
+  msrBeamKind beamKind)
     : msrElement (inputLineNumber)
 {
   fBeamNumber = number;
@@ -518,13 +524,21 @@ string msrBeam::beamKindAsString (
   return result;
 }
 
-void msrBeam::print (ostream& os)
-{  
-  os <<
+string msrBeam::beamAsString () const
+{
+  stringstream s;
+
+  s <<
     "Beam" <<
     " number " << fBeamNumber <<
     ", line " << fInputLineNumber << " " <<
-    beamKindAsString (fBeamKind) <<
+    beamKindAsString (fBeamKind);  
+}
+
+void msrBeam::print (ostream& os)
+{  
+  os <<
+    beamAsString () <<
     endl;
 }
 

@@ -10260,7 +10260,7 @@ void mxmltree2MsrTranslator::copyNoteBeamsToChord (
       gGeneralOptions->fTraceChords) // JMI
       cerr << idtr <<
         "--> copying beam '" <<
-        (*i)->beamKindAsString () <<
+        (*i)->beamAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
         endl;

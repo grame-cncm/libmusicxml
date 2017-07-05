@@ -486,9 +486,9 @@ class EXP msrBeam : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBeam> create (
-      int           inputLineNumber,
-      int           number,
-      msrBeamKind   beamKind);
+      int        inputLineNumber,
+      int         number,
+      msrBeamKind beamKind);
 
   protected:
 
@@ -496,9 +496,9 @@ class EXP msrBeam : public msrElement
     // ------------------------------------------------------
 
     msrBeam (
-      int           inputLineNumber,
-      int           number,
-      msrBeamKind   beamKind);
+      int         inputLineNumber,
+      int         number,
+      msrBeamKind beamKind);
       
     virtual ~msrBeam();
   
@@ -507,11 +507,16 @@ class EXP msrBeam : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrBeamKind getBeamKind   () const { return fBeamKind; }
-    int         getBeamNumber () const { return fBeamNumber; }
+    msrBeamKind           getBeamKind   () const
+                              { return fBeamKind; }
+                              
+    int                   getBeamNumber () const
+                              { return fBeamNumber; }
 
     // services
     // ------------------------------------------------------
+
+    string                beamAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -528,8 +533,8 @@ class EXP msrBeam : public msrElement
 
   private:
 
-    int         fBeamNumber;
-    msrBeamKind fBeamKind;
+    int                   fBeamNumber;
+    msrBeamKind           fBeamKind;
 };
 typedef SMARTP<msrBeam> S_msrBeam;
 EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);

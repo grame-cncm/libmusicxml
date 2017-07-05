@@ -24,6 +24,10 @@ using namespace std;
 namespace MusicXML2
 {
 
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
+
 //________________________________________________________________________
 msr2SummaryVisitor::msr2SummaryVisitor (
   S_msrOptions& msrOpts,

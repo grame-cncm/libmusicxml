@@ -35,7 +35,13 @@
 
 
 using namespace std;
+
 using namespace MusicXML2;
+
+
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
 
 enum msrHelpKind {
   kAllHelp,
@@ -3643,3 +3649,4 @@ int main (int argc, char *argv[])
 
   return 0;
 }
+
