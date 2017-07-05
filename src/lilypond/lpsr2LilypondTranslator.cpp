@@ -5603,6 +5603,23 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     } // for
   }
 
+  // print the chord beams if any
+  list<S_msrBeam>
+    chordBeams =
+      elt->getChordBeams ();
+      
+  if (chordBeams.size()) {
+    list<S_msrBeam>::const_iterator i;
+    for (
+      i=chordBeams.begin();
+      i!=chordBeams.end();
+      i++) {
+      fOstream <<
+        "] ";
+      fMusicOlec++;
+    } // for
+  }
+
   // print the chord words if any
   list<S_msrWords>
     chordWords =

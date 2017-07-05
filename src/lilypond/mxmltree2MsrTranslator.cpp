@@ -10236,41 +10236,6 @@ void mxmltree2MsrTranslator::copyNoteOrnamentsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteBeamsToChord (
-  S_msrNote note, S_msrChord chord)
-{  
-  // copy note's beams if any from the first note to chord
-  
-  list<S_msrBeam>
-    noteBeams =
-      note->
-        getNoteBeams ();
-                          
-  list<S_msrBeam>::const_iterator i;
-  for (
-    i=noteBeams.begin();
-    i!=noteBeams.end();
-    i++) {
-
-    if (
-      gGeneralOptions->fTraceNotes
-        ||
-      gGeneralOptions->fTraceBeams
-        ||
-      gGeneralOptions->fTraceChords) // JMI
-      cerr << idtr <<
-        "--> copying beam '" <<
-        (*i)->beamAsString () <<
-        "' from note " << note->noteAsString () <<
-        " to chord" <<
-        endl;
-
-    chord->
-      addBeamToChord ((*i));
-  } // for      
-}
-
-//______________________________________________________________________________
 void mxmltree2MsrTranslator::copyNoteSingleTremoloToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -10386,6 +10351,36 @@ void mxmltree2MsrTranslator::copyNoteWordsToChord (
 }
 
 //______________________________________________________________________________
+void mxmltree2MsrTranslator::copyNoteBeamsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's beams if any from the first note to chord
+  
+  list<S_msrBeam>
+    noteBeams =
+      note->
+        getNoteBeams ();
+                          
+  list<S_msrBeam>::const_iterator i;
+  for (
+    i=noteBeams.begin();
+    i!=noteBeams.end();
+    i++) {
+
+    if (gGeneralOptions->fTraceBeams || gGeneralOptions->fTraceChords)
+      cerr << idtr <<
+        "--> copying beam '" <<
+        (*i)->beamAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->
+      addBeamToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void mxmltree2MsrTranslator::copyNoteSlursToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -10405,7 +10400,7 @@ void mxmltree2MsrTranslator::copyNoteSlursToChord (
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceSlurs)
       cerr << idtr <<
         "--> copying slur '" <<
-        (*i)->slurKindAsString () <<
+        (*i)->slurAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
         endl;
@@ -10516,9 +10511,6 @@ void mxmltree2MsrTranslator::copyNoteElementsToChord (
   // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
 
-  // copy note's beams if any to the chord
-  copyNoteBeamsToChord (note, chord);
-
   // copy note's single tremolo if any to the chord
   copyNoteSingleTremoloToChord (note, chord);
 
@@ -10530,6 +10522,9 @@ void mxmltree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's words if any to the chord
   copyNoteWordsToChord (note, chord);
+
+  // copy note's beams if any to the chord
+  copyNoteBeamsToChord (note, chord);
 
   // copy note's slurs if any to the chord
   copyNoteSlursToChord (note, chord);

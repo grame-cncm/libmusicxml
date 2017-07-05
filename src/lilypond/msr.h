@@ -1752,9 +1752,9 @@ class EXP msrSlur : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSlur> create (
-      int           inputLineNumber,
-      int           slurNumber,
-      msrSlurKind   slurKind);
+      int         inputLineNumber,
+      int         slurNumber,
+      msrSlurKind slurKind);
 
   protected:
 
@@ -1762,9 +1762,9 @@ class EXP msrSlur : public msrElement
     // ------------------------------------------------------
 
     msrSlur (
-      int           inputLineNumber,
-      int           slurNumber,
-      msrSlurKind   slurKind);
+      int         inputLineNumber,
+      int         slurNumber,
+      msrSlurKind slurKind);
       
     virtual ~msrSlur();
   
@@ -1781,6 +1781,8 @@ class EXP msrSlur : public msrElement
     // ------------------------------------------------------
 
     string                slurKindAsString ();
+
+    string                slurAsString ();
 
     // visitors
     // ------------------------------------------------------

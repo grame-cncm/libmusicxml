@@ -531,8 +531,10 @@ string msrBeam::beamAsString () const
   s <<
     "Beam" <<
     " number " << fBeamNumber <<
-    ", line " << fInputLineNumber << " " <<
-    beamKindAsString (fBeamKind);  
+    ", line " << fInputLineNumber <<
+    ", " << beamKindAsString (fBeamKind);
+
+  return s.str();
 }
 
 void msrBeam::print (ostream& os)
@@ -2847,34 +2849,6 @@ msrSlur::msrSlur (
 msrSlur::~msrSlur()
 {}
 
-string msrSlur::slurKindAsString (
-  msrSlurKind slurKind)
-{
-  stringstream s;
-  
-  switch (slurKind) {
-    case msrSlur::kStartSlur:
-      s << "start";
-      break;
-    case msrSlur::kContinueSlur:
-      s << "continue";
-      break;
-    case msrSlur::kStopSlur:
-      s << "stop";
-      break;
-    default:
-      s << "Slur" << slurKind << "???";
-  } // switch
-    
-  return s.str();
-  
-}
-      
-string msrSlur::slurKindAsString ()
-{
-  return slurKindAsString (fSlurKind);
-}
-
 void msrSlur::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -2917,6 +2891,45 @@ void msrSlur::acceptOut (basevisitor* v) {
 void msrSlur::browseData (basevisitor* v)
 {}
 
+string msrSlur::slurKindAsString (
+  msrSlurKind slurKind)
+{
+  stringstream s;
+  
+  switch (slurKind) {
+    case msrSlur::kStartSlur:
+      s << "start";
+      break;
+    case msrSlur::kContinueSlur:
+      s << "continue";
+      break;
+    case msrSlur::kStopSlur:
+      s << "stop";
+      break;
+    default:
+      s << "Slur" << slurKind << "???";
+  } // switch
+    
+  return s.str();
+  
+}
+      
+string msrSlur::slurKindAsString ()
+{
+  return slurKindAsString (fSlurKind);
+}
+
+string msrSlur::slurAsString ()
+{
+  stringstream s;
+
+  s <<
+   "Slur" " " << slurKindAsString () <<
+    ", line " << fInputLineNumber;
+  
+  return s.str();
+}
+
 ostream& operator<< (ostream& os, const S_msrSlur& elt)
 {
   elt->print (os);
@@ -2926,9 +2939,8 @@ ostream& operator<< (ostream& os, const S_msrSlur& elt)
 void msrSlur::print (ostream& os)
 {
   os <<
-    "Slur" " " << slurKindAsString () <<
-    ", line " << fInputLineNumber <<
-    endl;
+    slurAsString () <<
+     endl;
 }
 
 //______________________________________________________________________________
@@ -7010,6 +7022,14 @@ void msrChord::print (ostream& os)
   if (fChordOtherDynamics.size()) {
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fChordOtherDynamics.begin(); i!=fChordOtherDynamics.end(); i++) {
+      os << idtr << (*i);
+    } // for
+  }
+
+  // print the beams if any
+  if (fChordBeams.size()) {
+    list<S_msrBeam>::const_iterator i;
+    for (i=fChordBeams.begin(); i!=fChordBeams.end(); i++) {
       os << idtr << (*i);
     } // for
   }

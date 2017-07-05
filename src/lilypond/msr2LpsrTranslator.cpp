@@ -2521,8 +2521,8 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
       endl;
 
   if (fOnGoingNote) {
-  //  // don't add beams to chord member notes JMI ???
- //   if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+    // don't add beams to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
         addBeamToNote (elt);
   }
