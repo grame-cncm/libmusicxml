@@ -21,6 +21,8 @@
 
 #include "conversions.h"
 
+#include "msrWarningsAndErrors.h"
+
 #include "msr2LpsrTranslator.h"
 
 
@@ -28,6 +30,10 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
 
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (

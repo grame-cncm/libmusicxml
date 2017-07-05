@@ -24,6 +24,8 @@
 
 #include "conversions.h"
 
+#include "msrWarningsAndErrors.h"
+
 #include "mxmltree2MsrTranslator.h"
 
 #include "lpsrOptions.h"
@@ -33,6 +35,10 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
 
 //________________________________________________________________________
 void mxmltree2MsrTranslator::initializeNoteData ()
@@ -10224,7 +10230,43 @@ void mxmltree2MsrTranslator::copyNoteOrnamentsToChord (
         " to chord" <<
         endl;
 
-    chord->addOrnamentToChord ((*i));
+    chord->
+      addOrnamentToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void mxmltree2MsrTranslator::copyNoteBeamsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's beams if any from the first note to chord
+  
+  list<S_msrBeam>
+    noteBeams =
+      note->
+        getNoteBeams ();
+                          
+  list<S_msrBeam>::const_iterator i;
+  for (
+    i=noteBeams.begin();
+    i!=noteBeams.end();
+    i++) {
+
+    if (
+      gGeneralOptions->fTraceNotes
+        ||
+      gGeneralOptions->fTraceBeams
+        ||
+      gGeneralOptions->fTraceChords) // JMI
+      cerr << idtr <<
+        "--> copying beam '" <<
+        (*i)->beamKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+
+    chord->
+      addBeamToChord ((*i));
   } // for      
 }
 
@@ -10248,7 +10290,8 @@ void mxmltree2MsrTranslator::copyNoteSingleTremoloToChord (
         " to chord" <<
         endl;
     
-    chord->addSingleTremoloToChord (noteSingleTremolo);
+    chord->
+      addSingleTremoloToChord (noteSingleTremolo);
   }
 }
 
@@ -10277,7 +10320,8 @@ void mxmltree2MsrTranslator::copyNoteDynamicsToChord (
         " to chord" <<
         endl;
 
-    chord->addDynamicsToChord ((*i));
+    chord->
+      addDynamicsToChord ((*i));
   } // for      
 }
 
@@ -10306,7 +10350,8 @@ void mxmltree2MsrTranslator::copyNoteOtherDynamicsToChord (
         " to chord" <<
         endl;
 
-    chord->addOtherDynamicsToChord ((*i));
+    chord->
+      addOtherDynamicsToChord ((*i));
   } // for      
 }
 
@@ -10335,7 +10380,8 @@ void mxmltree2MsrTranslator::copyNoteWordsToChord (
         " to chord" <<
         endl;
 
-    chord->addWordsToChord ((*i));
+    chord->
+      addWordsToChord ((*i));
   } // for      
 }
 
@@ -10364,7 +10410,8 @@ void mxmltree2MsrTranslator::copyNoteSlursToChord (
         " to chord" <<
         endl;
 
-    chord->addSlurToChord ((*i));
+    chord->
+      addSlurToChord ((*i));
   } // for      
 }
 
@@ -10393,7 +10440,8 @@ void mxmltree2MsrTranslator::copyNoteLigaturesToChord (
         " to chord" <<
         endl;
 
-    chord->addLigatureToChord ((*i));
+    chord->
+      addLigatureToChord ((*i));
   } // for      
 }
 
@@ -10422,7 +10470,8 @@ void mxmltree2MsrTranslator::copyNoteWedgesToChord (
         " to chord" <<
         endl;
 
-    chord->addWedgeToChord ((*i));
+    chord->
+      addWedgeToChord ((*i));
   } // for      
 }
 
@@ -10447,7 +10496,8 @@ void mxmltree2MsrTranslator::copyNoteHarmonyToChord (
         "'" <<
         endl;
 
-    chord->setChordHarmony (harmony);
+    chord->
+      setChordHarmony (harmony);
   }   
 }
 
@@ -10465,6 +10515,9 @@ void mxmltree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
+
+  // copy note's beams if any to the chord
+  copyNoteBeamsToChord (note, chord);
 
   // copy note's single tremolo if any to the chord
   copyNoteSingleTremoloToChord (note, chord);
@@ -12309,7 +12362,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChord (
     addAnotherNoteToChord (newChordNote);
 
   // copy newChordNote's elements if any to the chord
-  copyNoteElementsToChord (newChordNote, fCurrentChord);
+  copyNoteElementsToChord (
+    newChordNote, fCurrentChord);
 }
 
 //______________________________________________________________________________
@@ -12634,7 +12688,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     addAnotherNoteToChord (newChordNote);
 
   // copy newChordNote's elements if any to the chord
-  copyNoteElementsToChord (newChordNote, fCurrentChord);
+  copyNoteElementsToChord (
+    newChordNote, fCurrentChord);
 }
 
 //______________________________________________________________________________

@@ -32,6 +32,10 @@ using namespace std;
 namespace MusicXML2 
 {
 
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
+
 //_______________________________________________________________________________
 /*
  * The method that converts the file contents to LilyPond code

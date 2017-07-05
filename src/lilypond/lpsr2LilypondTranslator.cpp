@@ -22,6 +22,8 @@
 
 #include "conversions.h"
 
+#include "msrWarningsAndErrors.h"
+
 #include "lpsr2LilypondTranslator.h"
 
 
@@ -30,6 +32,11 @@ using namespace std;
 namespace MusicXML2
 {
 
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
+
+// for comments highlighting in the generated Lilypond code
 const int commentFieldWidth = 30;
 
 //________________________________________________________________________

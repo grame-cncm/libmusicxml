@@ -18,8 +18,6 @@
 
 #include "msrVersion.h"
 
-//#include "xml2Msr.h"
-
 #include "lpsr.h"
 
 #include "lpsrOptions.h"
@@ -29,6 +27,10 @@ using namespace std;
 
 namespace MusicXML2 
 {
+
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
 
 // chords languages
 //______________________________________________________________________________

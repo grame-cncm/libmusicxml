@@ -24,6 +24,10 @@ using namespace std;
 namespace MusicXML2 
 {
 
+// useful shortcut macros
+#define idtr indenter::gIndenter
+#define tab  indenter::gIndenter.getSpacer ()
+
 //_______________________________________________________________________________
 S_msrMusicXMLOptions gMusicXMLOptions;
 S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
@@ -282,6 +286,9 @@ void msrGeneralOptions::initializeGeneralOptions (
   // notes
   fTraceNotes = boolOptionsInitialValue;
   
+  // beams
+  fTraceBeams = boolOptionsInitialValue;
+  
   // technicals
   fTraceTechnicals = boolOptionsInitialValue;
   
@@ -421,6 +428,10 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   
   // notes
   clone->fTraceNotes =
+    true;
+    
+  // beams
+  clone->fTraceBeams =
     true;
     
   // technicals
@@ -1074,6 +1085,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (fTraceNotes) <<
+      endl <<
+
+    // beams
+    idtr <<
+      setw(fieldWidth) << "traceBeams" << " : " <<
+      booleanAsString (fTraceBeams) <<
       endl <<
 
     // technicals

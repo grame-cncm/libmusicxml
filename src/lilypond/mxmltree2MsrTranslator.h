@@ -1219,6 +1219,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     void                      copyNoteOrnamentsToChord (
                                 S_msrNote note, S_msrChord chord);
 
+    // beams handling
+    // ------------------------------------------------------
+
+    void                      copyNoteBeamsToChord (
+                                S_msrNote note, S_msrChord chord);
+    
     // tremolos handling
     // ------------------------------------------------------
     

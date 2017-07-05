@@ -330,6 +330,9 @@ class EXP msrGeneralOptions : public smartable
 
     // notes
     bool                  fTraceNotes;
+
+    // beams
+    bool                  fTraceBeams;
     
     // technicals
     bool                  fTraceTechnicals;
