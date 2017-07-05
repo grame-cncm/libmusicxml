@@ -47,7 +47,7 @@ class EXP xmlattribute : public smartable
     //! the attribute name
     std::string fName;
     //! the attribute value
-    std::string   fValue;
+    std::string fValue;
     
   protected:
   
@@ -101,12 +101,16 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
     // the element type
     int fType;
 
+    // the element name
+    std::string fTypeName;
+
     // the input line number for messages to the user
     int fInputLineNumber;
 
     xmlelement (int inputLineNumber)
       {
         fType            = 0;
+        fName            = "";
         fInputLineNumber = inputLineNumber;
       }
 
@@ -131,8 +135,9 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
     
     void setName  (const std::string& name);
 
-    int                 getType () const    { return fType; }
-    const std::string&  getName () const    { return fName; }
+    int                 getType ()     const { return fType; }
+    const std::string&  getName ()     const { return fName; }
+    const std::string&  getTypeName () const { return fTypeName; }
 
     //! returns the element value as a string
     const std::string& getValue () const    { return fValue; }

@@ -1104,7 +1104,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     string                    fCurrentBeamValue;
     int                       fCurrentBeamNumber;
-    vector<S_msrBeam>         fCurrentBeams;
 
     // initialization
     void                      initializeNoteData ();
@@ -1221,6 +1220,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     // beams handling
     // ------------------------------------------------------
+
+    vector<S_msrBeam>         fPendingBeams; // stack JMI ???
 
     void                      copyNoteBeamsToChord (
                                 S_msrNote note, S_msrChord chord);

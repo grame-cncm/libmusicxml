@@ -38,7 +38,7 @@ namespace MusicXML2
 int currentInputLineNumber ()
   { return libmxmllineno; }
   
-template<int elt>
+template<int elt, std::string name>
 class newElementFunctor : public functor<Sxmlelement>
 {
   public:
@@ -46,7 +46,7 @@ class newElementFunctor : public functor<Sxmlelement>
     Sxmlelement operator ()()
       {
         return
-          musicxml<elt>::new_musicxml (
+          musicxml<elt, name>::new_musicxml (
             currentInputLineNumber ());
       }
 };

@@ -3452,12 +3452,12 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
 
   fCurrentAccordionMiddle = (int)(*elt);
 
-  if (fCurrentAccordionMiddle < 0 || fCurrentAccordionMiddle > 3) {
+  if (fCurrentAccordionMiddle < 1 || fCurrentAccordionMiddle > 3) {
     stringstream s;
     
     s <<
       "accordion middle " <<
-      fCurrentAccordionMiddle << " should be 0, 1, 2 or 3" <<
+      fCurrentAccordionMiddle << " should be 1, 2 or 3" <<
       ", replaced by 0";
     
     msrMusicXMLWarning (
@@ -3823,7 +3823,6 @@ void mxmltree2MsrTranslator::visitStart (S_staff& elt)
     s << "staff " << fCurrentStaffNumber << " is out of context";
     
     msrMusicXMLError (
-// JMI    msrMusicXMLWarning (
       inputLineNumber,
       s.str());    
   }
@@ -6595,8 +6594,7 @@ void mxmltree2MsrTranslator::visitStart ( S_duration& elt )
     
     s << "duration " << duration << " is out of context";
     
- // JMI   msrMusicXMLError (s.str());
-    msrMusicXMLWarning (
+    msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
   }
@@ -6835,9 +6833,11 @@ void mxmltree2MsrTranslator::visitStart ( S_beam& elt )
   }
   else {
     stringstream s;
+    
     s <<
       "beam \"" << fCurrentBeamValue <<
       "\"" << "is not handled, ignored";
+      
     msrMusicXMLWarning (
       inputLineNumber,
       s.str());
@@ -6853,7 +6853,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beam& elt )
           fCurrentBeamNumber,
           beamKind);
 
-    fCurrentBeams.push_back (beam);
+    fPendingBeams.push_back (beam);
   }
 }
 
@@ -11623,17 +11623,17 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
     newNote->
       setNoteStem (fCurrentStem);
 
-  // add its beams if any
-  if (fCurrentBeams.size ()) {
+  // attach the beams if any to the note
+  if (fPendingBeams.size ()) {
     for (
-      vector<S_msrBeam>::const_iterator i=fCurrentBeams.begin();
-      i!=fCurrentBeams.end();
+      vector<S_msrBeam>::const_iterator i=fPendingBeams.begin();
+      i!=fPendingBeams.end();
       i++) {
       newNote->
         addBeamToNote ((*i));
     } // for
 
-    fCurrentBeams.clear ();
+    fPendingBeams.clear ();
   }
 
   // attach the articulations if any to the note

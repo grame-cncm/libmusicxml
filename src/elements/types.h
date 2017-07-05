@@ -25,13 +25,16 @@ namespace MusicXML2
 @{
 */
 
-template <int elt> class musicxml : public xmlelement
+template <int elt, string typeName> class musicxml : public xmlelement
 { 
   protected:  
   
     musicxml (int inputLineNumber)
       : xmlelement (inputLineNumber)
-    { fType = elt; }
+    {
+      fType = elt;
+      fTypeName = typeName;
+    }
 
   public:
 
@@ -47,7 +50,7 @@ template <int elt> class musicxml : public xmlelement
       int inputLineNumber)  
       {
         musicxml<elt>* o =
-          new musicxml<elt>(inputLineNumber);
+          new musicxml<elt, typeName> (inputLineNumber);
         assert(o!=0);
         return o;
       }
@@ -56,8 +59,8 @@ template <int elt> class musicxml : public xmlelement
       const std::vector<Sxmlelement>& elts,
       int                             inputLineNumber)  
       {
-        musicxml<elt>* o =
-          new musicxml<elt>(elts, inputLineNumber);
+        musicxml<elt, typeName>* o =
+          new musicxml<elt, typeName> (elts, inputLineNumber);
         assert(o!=0);
         return o;
       }
@@ -65,9 +68,9 @@ template <int elt> class musicxml : public xmlelement
     virtual void acceptIn (basevisitor& v)
       {
         if (
-            visitor<SMARTP<musicxml<elt> > >* p =
-              dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {
-          SMARTP<musicxml<elt> > sptr = this;
+            visitor<SMARTP<musicxml<elt, typeName> > >* p =
+              dynamic_cast<visitor<SMARTP<musicxml<elt, typeName> > >*>(&v)) {
+          SMARTP<musicxml<elt, typeName> > sptr = this;
           
           p->visitStart (sptr);
         }
@@ -77,9 +80,9 @@ template <int elt> class musicxml : public xmlelement
     virtual void acceptOut (basevisitor& v)
       {
         if (
-            visitor<SMARTP<musicxml<elt> > >* p =
-              dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {
-          SMARTP<musicxml<elt> > sptr = this;
+            visitor<SMARTP<musicxml<elt, typeName> > >* p =
+              dynamic_cast<visitor<SMARTP<musicxml<elt, typeName> > >*>(&v)) {
+          SMARTP<musicxml<elt, typeName> > sptr = this;
           
           p->visitEnd (sptr);
         }
