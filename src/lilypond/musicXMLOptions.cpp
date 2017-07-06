@@ -27,6 +27,110 @@ namespace MusicXML2
 #define tab  indenter::gIndenter.getSpacer ()
 
 //_______________________________________________________________________________
+S_msrSingleOption msrSingleOption::create (
+  string             optionShortName,
+  string             optionLongName,
+  string             optionHelp,
+  optionArgumentKind optionArgumentKind,
+  int&               optionFlag,
+  int                optionValue)
+{
+  msrSingleOption* o = new msrSingleOption(
+    optionShortName,
+    optionLongName,
+    optionArgumentKind,
+    optionFlag,
+    optionValue);
+  assert(o!=0);
+  return o;
+}
+
+msrSingleOption::msrSingleOption (
+  string             optionShortName,
+  string             optionLongName,
+  string             optionHelp,
+  optionArgumentKind optionArgumentKind,
+  int&               optionFlag,
+  int                optionValue)
+  : fOptionFlag (optionFlag)
+{
+  initializeSingleOption (false);
+  
+  fOptionShortName    = optionShortName;
+  fOptionLongName     = optionLongName;
+
+  fOptionHelp         = optionHelp;
+  
+  fOptionArgumentKind = optionArgumentKind;
+
+  fOptionValue        = optionValue;
+}
+
+msrSingleOption::~msrSingleOption ()
+{}
+
+void msrSingleOption::initializeSingleOption (
+  bool boolOptionsInitialValue)
+{
+  // trace and display
+  // --------------------------------------
+
+  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
+
+  // other
+  // --------------------------------------
+
+  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
+  fLoopToMusicXML = boolOptionsInitialValue;
+}
+
+S_msrSingleOption msrSingleOption::createCloneWithDetailedTrace ()
+{
+  S_msrSingleOption
+    clone =
+      msrSingleOption::create ();
+
+  // trace and display
+  // --------------------------------------
+
+  clone->fTraceMusicXMLTreeVisitors =
+    true;
+
+  // other
+  // --------------------------------------
+
+  clone->fIgnoreMusicXMLErrors =
+    fIgnoreMusicXMLErrors;
+    
+  clone->fLoopToMusicXML =
+    fLoopToMusicXML;
+
+  return clone;
+}  
+
+void msrSingleOption::printSingleOptionHelp ()
+{
+  cerr <<
+    idtr <<
+      "--" fOptionShortName ", --" fOptionLongName <<
+      endl <<
+    idtr << tab << tab << tab <<
+      fOptionHelp <<
+      endl <<
+    endl;
+}
+
+void msrSingleOption::printSingleOptionValue (int fieldWidth)
+{  
+  cerr <<
+    idtr <<
+      setw(fieldWidth) << "fOptionLongName" << " : " <<
+      booleanAsString (fOptionHasBeenSelected) <<
+      endl;
+
+}
+
+//_______________________________________________________________________________
 
 S_msrMusicXMLOptions gMusicXMLOptions;
 S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;

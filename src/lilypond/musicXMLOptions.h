@@ -37,26 +37,44 @@ struct option {
     
   public:
 
-    static SMARTP<msrSingleOption> create ();
+    static SMARTP<msrSingleOption> create (
+      string             optionShortName,
+      string             optionLongName,
+      string             optionHelp,
+      optionArgumentKind optionArgumentKind,
+      int&               optionFlag,
+      int                optionValue);
         
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMusicXMLOptions (
-                            bool boolOptionsInitialValue);
-        
-    void                  printMusicXMLOptionsHelp ();
+    void                  setOptionHasBeenSelected (
+                            bool value)
+                              {
+                                fOptionHasBeenSelected = value;
+                              }
 
-    void                  printMusicXMLOptionsValues (int fieldWidth);
+    bool                  getOptionHasBeenSelected () const
+                              { return fOptionHasBeenSelected; }
+                              
+    void                  printSingleOptionHelp ();
+
+    void                  printSingleOptionValue (int fieldWidth);
     
   protected:
   
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSingleOption();
+    msrSingleOption(
+      string             optionShortName,
+      string             optionLongName,
+      string             optionHelp,
+      optionArgumentKind optionArgumentKind,
+      int&               optionFlag,
+      int                optionValue);
   
     virtual ~msrSingleOption();
  
@@ -65,19 +83,28 @@ struct option {
     // trace and display
     // --------------------------------------
     
-    bool                  fTraceMusicXMLTreeVisitors;
+    bool                  getOptionFlag () const // JMI ???
+                              { return fOptionFlag; }
 
-    // other
+    // for 'struct option'
     // --------------------------------------
   
-    bool                  fOptionShortName;
-    bool                  fOptionLongName;
+    string                fOptionShortName;
+    string                fOptionLongName;
+
+    string                fOptionHelp;
 
     optionArgumentKind    fOptionArgumentKind;
 
     int&                  fOptionFlag;
     
     int                   fOptionValue;
+
+    // has this option been selected?
+    // --------------------------------------
+    
+    bool                  fOptionHasBeenSelected;
+
 };
 typedef SMARTP<msrSingleOption> S_msrSingleOption;
 
