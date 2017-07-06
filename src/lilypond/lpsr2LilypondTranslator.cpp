@@ -24,6 +24,8 @@
 
 #include "lpsr2LilypondTranslator.h"
 
+#include "lilypondOptions.h"
+
 
 using namespace std;
 

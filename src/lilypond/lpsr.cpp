@@ -21,6 +21,7 @@
 #include "lpsr.h"
 
 #include "lpsrOptions.h"
+#include "lilypondOptions.h"
 
 
 using namespace std;

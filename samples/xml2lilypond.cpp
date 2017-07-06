@@ -33,6 +33,8 @@
 
 #include "lpsr2LilypondInterface.h"
 
+#include "lilypondOptions.h"
+
 
 using namespace std;
 
@@ -1772,6 +1774,76 @@ struct option {
 
   vector<struct option> myLongOptions;
 
+  struct option option0;
+
+  option0.name =
+    _VERSION_SHORT_NAME_;
+  option0.has_arg =
+    no_argument;
+  option0.flag =
+    &versionPresent;
+  option0.val =
+    1;
+
+  struct option option1;
+
+  option1.name =
+    _LILYPOND_COMPILE_DATE_LONG_NAME_;
+  option1.has_arg =
+    no_argument;
+  option1.flag =
+    &lilypondCompileDatePresent;
+  option1.val =
+    1;
+
+  struct option option2;
+
+  option2.name =
+    _HELP_LONG_NAME_;
+  option2.has_arg =
+    no_argument;
+  option2.flag =
+    &helpPresent;
+  option2.val =
+    1;
+
+  struct option option3;
+
+  option3.name =
+    _HELP_SHORT_NAME_;
+  option3.has_arg =
+    no_argument;
+  option3.flag =
+    &helpPresent;
+  option3.val =
+    1;
+
+  struct option optionsTrailer;
+
+  optionsTrailer.name =
+    0;
+  optionsTrailer.has_arg =
+    0;
+  optionsTrailer.flag =
+    0;
+  optionsTrailer.val =
+    0;
+
+  myLongOptions.push_back (
+    option0);
+    
+  myLongOptions.push_back (
+    option1);
+    
+  myLongOptions.push_back (
+    option2);
+    
+  myLongOptions.push_back (
+    option3);
+    
+  myLongOptions.push_back (
+    optionsTrailer);
+    
   // initialize output file name
   outputFileName = "";
   
@@ -1787,7 +1859,9 @@ struct option {
     (c = getopt_long (
       argc, argv,
       "hab",
-      long_options, & option_index ))
+// JMI      long_options,
+      myLongOptions.data (),
+      & option_index ))
       !=
     -1
     )
