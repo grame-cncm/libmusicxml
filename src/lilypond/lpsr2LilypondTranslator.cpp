@@ -22,8 +22,6 @@
 
 #include "conversions.h"
 
-#include "msrWarningsAndErrors.h"
-
 #include "lpsr2LilypondTranslator.h"
 
 
