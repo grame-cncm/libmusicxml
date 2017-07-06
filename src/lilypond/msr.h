@@ -142,6 +142,110 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 
 
 /*!
+\internal
+\brief A macro to exit when a condition if false
+*/
+// a macro to abort with code source line information,
+// as assert() itself
+//______________________________________________________________________________
+#define msrAssert( condition, messageIfFalse ) \
+{ \
+  if (! condition) { \
+    cerr << \
+      endl << \
+      "#### " << messageIfFalse << \
+      endl << endl << \
+      flush; \
+    assert(condition); \
+  } \
+}
+
+/*!
+\internal
+\brief A macro to emit warning messages regarding MusicXML data
+*/
+//______________________________________________________________________________
+#define msrMusicXMLWarning( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "!!! MusicXML WARNING !!!, " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl; \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MusicXML data and exit
+*/
+//______________________________________________________________________________
+#define msrMusicXMLError( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "### MusicXML ERROR ###, " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
+    assert(false); \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR and exit
+*/
+//______________________________________________________________________________
+#define msrInternalError( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "[[[ MSR INTERNAL ERROR ]]], " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR
+*/
+//______________________________________________________________________________
+#define msrInternalWarning( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "[[[ MSR INTERNAL WARNING ]]], " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+}
+
+
+/*!
 \brief A generic msr element representation.
 
   An element is represented by its name and the

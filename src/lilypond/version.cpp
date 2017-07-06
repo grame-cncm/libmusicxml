@@ -13,9 +13,10 @@
 #include <iostream>
 #include <iomanip>      // setw, set::precision, ...
 
-#include "msrVersion.h"
+#include "version.h"
 
-#include "msrUtilities.h"
+#include "utilities.h"
+
 
 using namespace std;
 

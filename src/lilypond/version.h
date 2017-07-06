@@ -10,11 +10,12 @@
   research@grame.fr
 */
 
-#ifndef __msrVersion__
-#define __msrVersion__
+#ifndef __version__
+#define __version__
 
 #include <string>
 #include <list>
+
 
 using namespace std;
 

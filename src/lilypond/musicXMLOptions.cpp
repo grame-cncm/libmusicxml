@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, set::precision, ...
 
-#include "msrUtilities.h"
+#include "utilities.h"
 
 #include "musicXMLOptions.h"
 

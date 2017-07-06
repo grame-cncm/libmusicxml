@@ -21,9 +21,10 @@
 
 #include <iomanip>      // setw, set::precision, ...
 
-#include "msrUtilities.h"
+#include "utilities.h"
 
-#include "msrMsrOptions.h"
+#include "msrOptions.h"
+
 
 using namespace std;
 

@@ -16,7 +16,7 @@
 #include <iomanip>      // setw, set::precision, ...
 #include <climits>      /* INT_MIN, INT_MAX */
 
-#include "msrVersion.h"
+#include "version.h"
 
 #include "lpsr.h"
 
