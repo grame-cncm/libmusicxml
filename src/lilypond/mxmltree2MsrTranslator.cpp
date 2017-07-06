@@ -3460,11 +3460,11 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
       fCurrentAccordionMiddle << " should be 1, 2 or 3" <<
       ", replaced by 0";
     
-    msrMusicXMLWarning (
+    msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
 
-    fCurrentAccordionMiddle = 0;
+    fCurrentAccordionMiddle = 1;
   }
 
   fCurrentAccordionNumbersCounter++;
