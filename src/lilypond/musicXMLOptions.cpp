@@ -10,16 +10,12 @@
   research@grame.fr
 */
 
-/*
-#include <iostream>
-#include <list>
-#include <algorithm>
-*/
 #include <iomanip>      // setw, set::precision, ...
 
 #include "msrUtilities.h"
 
 #include "musicXMLOptions.h"
+
 
 using namespace std;
 

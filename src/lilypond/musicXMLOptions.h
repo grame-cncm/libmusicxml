@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrMusicXMLOptions__
-#define __msrMusicXMLOptions__
+#ifndef __musicXMLOptions__
+#define __musicXMLOptions__
 
 #include "smartpointer.h"
 

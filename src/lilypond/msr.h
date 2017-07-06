@@ -26,10 +26,12 @@
 
 #include "tree_browser.h"
 
-#include "msrUtilities.h"
+#include "utilities.h"
 
 #include "generalOptions.h"
+
 #include "msrOptions.h"
+
 
 namespace MusicXML2 
 {
