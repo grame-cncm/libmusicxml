@@ -27,8 +27,9 @@
 #include "tree_browser.h"
 
 #include "msrUtilities.h"
-#include "msrGeneralOptions.h"
-#include "msrMsrOptions.h"
+
+#include "generalOptions.h"
+#include "msrOptions.h"
 
 namespace MusicXML2 
 {

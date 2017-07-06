@@ -17,7 +17,9 @@
 */
 #include <iomanip>      // setw, set::precision, ...
 
-#include "msrMusicXMLOptions.h"
+#include "msrUtilities.h"
+
+#include "musicXMLOptions.h"
 
 using namespace std;
 
