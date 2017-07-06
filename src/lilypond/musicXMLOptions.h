@@ -20,6 +20,68 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class EXP msrSingleOption : public smartable
+{
+/*
+struct option {
+    const char *name;
+    int         has_arg;
+    int        *flag;
+    int         val;
+*/
+
+  // data types
+
+  enum optionArgumentKind {
+    kNoArgument = 0, kRequiredArgument = 1, kOptionalArgument = 2 };
+    
+  public:
+
+    static SMARTP<msrSingleOption> create ();
+        
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeMusicXMLOptions (
+                            bool boolOptionsInitialValue);
+        
+    void                  printMusicXMLOptionsHelp ();
+
+    void                  printMusicXMLOptionsValues (int fieldWidth);
+    
+  protected:
+  
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSingleOption();
+  
+    virtual ~msrSingleOption();
+ 
+  public:
+
+    // trace and display
+    // --------------------------------------
+    
+    bool                  fTraceMusicXMLTreeVisitors;
+
+    // other
+    // --------------------------------------
+  
+    bool                  fOptionShortName;
+    bool                  fOptionLongName;
+
+    optionArgumentKind    fOptionArgumentKind;
+
+    int&                  fOptionFlag;
+    
+    int                   fOptionValue;
+};
+typedef SMARTP<msrSingleOption> S_msrSingleOption;
+
+//______________________________________________________________________________
 // MusicXML options
 //______________________________________________________________________________
 
@@ -38,6 +100,7 @@ namespace MusicXML2
 #define _LOOP_TO_MUSICXML_LONG_NAME_  "loopToMusicXML"
 #define _LOOP_TO_MUSICXML_SHORT_NAME_ "loop"
 
+//______________________________________________________________________________
 class EXP msrMusicXMLOptions : public smartable
 {
   public:

@@ -3488,10 +3488,10 @@ int main (int argc, char *argv[])
 
   // MusicXML options
   
-  S_msrMusicXMLOptions gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
+  gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
   assert(gMusicXMLOptionsUserChoices != 0);
 
-  S_msrMusicXMLOptions gMusicXMLOptions =
+  gMusicXMLOptions =
     gMusicXMLOptionsUserChoices;
 
   // general options
