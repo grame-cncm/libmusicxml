@@ -27,6 +27,7 @@ namespace MusicXML2
 #define tab  indenter::gIndenter.getSpacer ()
 
 //_______________________________________________________________________________
+
 S_msrMusicXMLOptions gMusicXMLOptions;
 S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
 S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;

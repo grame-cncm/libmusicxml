@@ -24,8 +24,8 @@
 
 #include <regex>
 
-#include "msrVersion.h"
-#include "msrUtilities.h"
+#include "version.h"
+#include "utilities.h"
 
 #include "musicxml2MsrInterface.h"
 
@@ -1762,6 +1762,15 @@ void analyzeOptions (
     {0, 0, 0, 0}
     };
 
+/*
+struct option {
+    const char *name;
+    int         has_arg;
+    int        *flag;
+    int         val;
+*/
+
+  vector<struct option> myLongOptions;
 
   // initialize output file name
   outputFileName = "";
@@ -3405,10 +3414,10 @@ int main (int argc, char *argv[])
 
   // MusicXML options
   
-  gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
+  S_msrMusicXMLOptions gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
   assert(gMusicXMLOptionsUserChoices != 0);
 
-  gMusicXMLOptions =
+  S_msrMusicXMLOptions gMusicXMLOptions =
     gMusicXMLOptionsUserChoices;
 
   // general options

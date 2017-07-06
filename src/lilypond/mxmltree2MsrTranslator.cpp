@@ -24,11 +24,7 @@
 
 #include "conversions.h"
 
-#include "msrWarningsAndErrors.h"
-
 #include "mxmltree2MsrTranslator.h"
-
-#include "lpsrOptions.h"
 
 
 using namespace std;
@@ -5236,6 +5232,7 @@ void mxmltree2MsrTranslator::visitStart (S_measure& elt)
       inputLineNumber,
       fCurrentMeasureNumber);
 
+/* JMI
   // is this measure number in the debug set?
   if (gGeneralOptions->fTraceDetailed) {
     set<int>::const_iterator
@@ -5252,6 +5249,7 @@ void mxmltree2MsrTranslator::visitStart (S_measure& elt)
       gLilypondOptions = gLilypondOptionsWithDetailedTrace;
     }
   }
+  */
 }
 
 void mxmltree2MsrTranslator::visitEnd (S_measure& elt)
@@ -5315,12 +5313,14 @@ void mxmltree2MsrTranslator::visitEnd (S_measure& elt)
     }
   }
 
+/* JMI
   // restore debug options in case they were set in visitStart()
   gMusicXMLOptions = gMusicXMLOptionsUserChoices;
   gGeneralOptions  = gGeneralOptionsUserChoices;
   gMsrOptions      = gMsrOptionsUserChoices;
   gLpsrOptions     = gLpsrOptionsUserChoices;
   gLilypondOptions = gLilypondOptionsUserChoices;
+  */
 }
 
 //______________________________________________________________________________
