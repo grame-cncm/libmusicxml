@@ -3390,6 +3390,9 @@ class EXP msrMeasure : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // lengthes
     
     rational              fMeasureFullMeasureLength;

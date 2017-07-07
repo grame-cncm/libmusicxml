@@ -31,11 +31,16 @@ struct option {
 */
 
   // data types
+  // ------------------------------------------------------
 
   enum optionArgumentKind {
+    // mapped to the needs of getopt_long()
     kNoArgument = 0, kRequiredArgument = 1, kOptionalArgument = 2 };
     
   public:
+
+    // creation
+    // ------------------------------------------------------
 
     static SMARTP<msrSingleOption> create (
       string             optionShortName,
@@ -45,23 +50,15 @@ struct option {
       int&               optionFlag,
       int                optionValue);
         
-  public:
+    static SMARTP<msrSingleOption> createCloneWithDetailedTrace ();
+
+  private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  setOptionHasBeenSelected (
-                            bool value)
-                              {
-                                fOptionHasBeenSelected = value;
-                              }
-
-    bool                  getOptionHasBeenSelected () const
-                              { return fOptionHasBeenSelected; }
-                              
-    void                  printSingleOptionHelp ();
-
-    void                  printSingleOptionValue (int fieldWidth);
+    void                  initializeSingleOption
+                            (bool boolOptionsInitialValue);
     
   protected:
   
@@ -80,19 +77,42 @@ struct option {
  
   public:
 
-    // trace and display
+    // set and get
     // --------------------------------------
     
     bool                  getOptionFlag () const // JMI ???
                               { return fOptionFlag; }
 
+    void                  setOptionHasBeenSelected (
+                            bool value)
+                              {
+                                fOptionHasBeenSelected = value;
+                              }
+
+    bool                  getOptionHasBeenSelected () const
+                              { return fOptionHasBeenSelected; }
+                              
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printSingleOptionHelp ();
+
+    void                  printSingleOptionValue (int fieldWidth);
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionHelp;
+
     // for 'struct option'
-    // --------------------------------------
   
     string                fOptionShortName;
     string                fOptionLongName;
-
-    string                fOptionHelp;
 
     optionArgumentKind    fOptionArgumentKind;
 
@@ -101,12 +121,81 @@ struct option {
     int                   fOptionValue;
 
     // has this option been selected?
-    // --------------------------------------
     
     bool                  fOptionHasBeenSelected;
 
 };
 typedef SMARTP<msrSingleOption> S_msrSingleOption;
+
+//______________________________________________________________________________
+class EXP msrOptionsGroup : public smartable
+{    
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsGroup> create (
+      string optionGroupNName);
+        
+    static SMARTP<msrOptionsGroup> createCloneWithDetailedTrace ();
+
+  private:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeOptionsGroup (
+                            bool boolOptionsInitialValue);
+
+  protected:
+  
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsGroup(
+      string optionGroupNName);
+  
+    virtual ~msrOptionsGroup();
+ 
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionGroupNName () const
+                              { return fOptionGroupNName; }
+                              
+    // services
+    // ------------------------------------------------------
+
+    void                  appendSingleOption (
+                            S_msrSingleOption singleOption)
+                              {
+                                fOptionGroupSingleOptionsList.
+                                  push_back (
+                                    singleOption);
+                              }
+                              
+    // print
+    // ------------------------------------------------------
+
+    void                  printOptionsGroupHelp ();
+
+    void                  printOptionsGroupValue (int fieldWidth);
+    
+  public:
+
+    // fields
+    // ------------------------------------------------------
+  
+    string                fOptionGroupNName;
+
+    list<S_msrSingleOption>
+                          fOptionGroupSingleOptionsList;
+
+};
+typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
 
 //______________________________________________________________________________
 // MusicXML options
@@ -144,10 +233,6 @@ class EXP msrMusicXMLOptions : public smartable
     void                  initializeMusicXMLOptions (
                             bool boolOptionsInitialValue);
         
-    void                  printMusicXMLOptionsHelp ();
-
-    void                  printMusicXMLOptionsValues (int fieldWidth);
-    
   protected:
   
     // constructors/destructor
@@ -157,6 +242,15 @@ class EXP msrMusicXMLOptions : public smartable
   
     virtual ~msrMusicXMLOptions();
  
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printMusicXMLOptionsHelp ();
+
+    void                  printMusicXMLOptionsValues (int fieldWidth);
+    
   public:
 
     // trace and display

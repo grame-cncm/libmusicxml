@@ -38,6 +38,7 @@ S_msrSingleOption msrSingleOption::create (
   msrSingleOption* o = new msrSingleOption(
     optionShortName,
     optionLongName,
+    optionHelp,
     optionArgumentKind,
     optionFlag,
     optionValue);
@@ -72,38 +73,20 @@ msrSingleOption::~msrSingleOption ()
 void msrSingleOption::initializeSingleOption (
   bool boolOptionsInitialValue)
 {
-  // trace and display
-  // --------------------------------------
-
-  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-
-  // other
-  // --------------------------------------
-
-  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
-  fLoopToMusicXML = boolOptionsInitialValue;
+  // JMI
 }
 
 S_msrSingleOption msrSingleOption::createCloneWithDetailedTrace ()
 {
   S_msrSingleOption
     clone =
-      msrSingleOption::create ();
-
-  // trace and display
-  // --------------------------------------
-
-  clone->fTraceMusicXMLTreeVisitors =
-    true;
-
-  // other
-  // --------------------------------------
-
-  clone->fIgnoreMusicXMLErrors =
-    fIgnoreMusicXMLErrors;
-    
-  clone->fLoopToMusicXML =
-    fLoopToMusicXML;
+      msrSingleOption::create (
+        fOptionShortName,
+        fOptionLongName,
+        fOptionHelp,
+        fOptionArgumentKind,
+        fOptionFlag,
+        fOptionValue);
 
   return clone;
 }  
@@ -112,7 +95,7 @@ void msrSingleOption::printSingleOptionHelp ()
 {
   cerr <<
     idtr <<
-      "--" fOptionShortName ", --" fOptionLongName <<
+      "--" << fOptionShortName << ", --" << fOptionLongName <<
       endl <<
     idtr << tab << tab << tab <<
       fOptionHelp <<
@@ -128,6 +111,101 @@ void msrSingleOption::printSingleOptionValue (int fieldWidth)
       booleanAsString (fOptionHasBeenSelected) <<
       endl;
 
+}
+
+//_______________________________________________________________________________
+S_msrOptionsGroup msrOptionsGroup::create (
+  string optionGroupNName)
+{
+  msrOptionsGroup* o = new msrOptionsGroup(
+    optionGroupNName);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsGroup::msrOptionsGroup (
+  string optionGroupNName)
+{
+  fOptionGroupNName = optionGroupNName;
+
+  initializeOptionsGroup (false);
+}
+
+msrOptionsGroup::~msrOptionsGroup ()
+{}
+
+void msrOptionsGroup::initializeOptionsGroup (
+  bool boolOptionsInitialValue)
+{
+  for (
+    list<S_msrSingleOption>::const_iteator i =
+      fOptionGroupSingleOptionsList.begin();
+    i != fOptionGroupSingleOptionsList.end();
+    i++) {
+      (*i)->
+        initializeSingleOption (
+          boolOptionsInitialValue);
+  } // for
+}
+
+S_msrOptionsGroup msrOptionsGroup::createCloneWithDetailedTrace ()
+{
+  S_msrOptionsGroup
+    clone =
+      msrOptionsGroup::create (
+        fOptionGroupNName);
+
+  for (
+    list<S_msrSingleOption>::const_iterator i =
+      fOptionGroupSingleOptionsList.begin();
+    i != fOptionGroupSingleOptionsList.end();
+    i++) {
+      appendSingleOption (
+        (*i)->
+          createCloneWithDetailedTrace ();
+  } // for
+
+  return clone;
+}  
+
+void msrOptionsGroup::printOptionsGroupHelp ()
+{
+  cerr << idtr <<
+    fOptionGroupNName <<
+    endl;
+
+  idtr++;
+  
+  for (
+    list<S_msrSingleOption>::const_iterator i =
+      fOptionGroupSingleOptionsList.begin();
+    i != fOptionGroupSingleOptionsList.end();
+    i++) {
+      (*i)->
+        printSingleOptionHelp ();
+  } // for
+
+  idtr--;
+}
+
+void msrOptionsGroup::printOptionsGroupValue (int fieldWidth)
+{  
+  cerr << idtr <<
+    fOptionGroupNName <<
+    endl;
+
+  idtr++;
+  
+  for (
+    list<S_msrSingleOption>::const_iterator i =
+      fOptionGroupSingleOptionsList.begin();
+    i != fOptionGroupSingleOptionsList.end();
+    i++) {
+      (*i)->
+        printSingleOptionValue (fieldWidth);
+  } // for
+
+  idtr--;
 }
 
 //_______________________________________________________________________________
