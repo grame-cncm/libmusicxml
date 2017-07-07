@@ -33,7 +33,7 @@ struct option {
   // data types
   // ------------------------------------------------------
 
-  enum optionArgumentKind {
+  enum msrOptionArgumentKind {
     // mapped to the needs of getopt_long()
     kNoArgument = 0, kRequiredArgument = 1, kOptionalArgument = 2 };
     
@@ -46,7 +46,8 @@ struct option {
       string             optionShortName,
       string             optionLongName,
       string             optionHelp,
-      optionArgumentKind optionArgumentKind,
+      msrOptionArgumentKind
+                         optionArgumentKind,
       int&               optionFlag,
       int                optionValue);
         
@@ -69,7 +70,8 @@ struct option {
       string             optionShortName,
       string             optionLongName,
       string             optionHelp,
-      optionArgumentKind optionArgumentKind,
+      msrOptionArgumentKind
+                         optionArgumentKind,
       int&               optionFlag,
       int                optionValue);
   
@@ -95,6 +97,9 @@ struct option {
     // services
     // ------------------------------------------------------
 
+    void                  copyToStructOption (
+                            struct option & structOption) const;
+
     // print
     // ------------------------------------------------------
 
@@ -114,7 +119,15 @@ struct option {
     string                fOptionShortName;
     string                fOptionLongName;
 
-    optionArgumentKind    fOptionArgumentKind;
+    /*
+    struct option {
+        const char *name;
+        int         has_arg;
+        int        *flag;
+        int         val;
+    */
+  
+    msrOptionArgumentKind fOptionArgumentKind;
 
     int&                  fOptionFlag;
     

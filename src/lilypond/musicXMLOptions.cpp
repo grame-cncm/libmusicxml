@@ -31,7 +31,8 @@ S_msrSingleOption msrSingleOption::create (
   string             optionShortName,
   string             optionLongName,
   string             optionHelp,
-  optionArgumentKind optionArgumentKind,
+  msrOptionArgumentKind
+                     optionArgumentKind,
   int&               optionFlag,
   int                optionValue)
 {
@@ -50,7 +51,8 @@ msrSingleOption::msrSingleOption (
   string             optionShortName,
   string             optionLongName,
   string             optionHelp,
-  optionArgumentKind optionArgumentKind,
+  msrOptionArgumentKind
+                     optionArgumentKind,
   int&               optionFlag,
   int                optionValue)
   : fOptionFlag (optionFlag)
@@ -90,6 +92,30 @@ S_msrSingleOption msrSingleOption::createCloneWithDetailedTrace ()
 
   return clone;
 }  
+
+
+void msrSingleOption::copyToStructOption (
+  struct option & structOption) const
+{
+/*
+struct option {
+    const char *name;
+    int         has_arg;
+    int        *flag;
+    int         val;
+*/
+
+/*
+  structOption.name =
+    _VERSION_SHORT_NAME_;
+  structOption.has_arg =
+    no_argument;
+  structOption.flag =
+    &versionPresent;
+  structOption.val =
+    1;
+    */
+}
 
 void msrSingleOption::printSingleOptionHelp ()
 {

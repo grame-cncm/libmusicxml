@@ -1859,8 +1859,8 @@ struct option {
     (c = getopt_long (
       argc, argv,
       "hab",
-// JMI      long_options,
-      myLongOptions.data (),
+      long_options,
+// JMI      myLongOptions.data (),
       & option_index ))
       !=
     -1
