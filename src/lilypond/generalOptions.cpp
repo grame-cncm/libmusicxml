@@ -611,6 +611,15 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
 
+    // beams
+    idtr <<
+      "--" _TRACE_BEAMS_SHORT_NAME_ ", --" _TRACE_BEAMS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "beams" <<
+      endl <<
+    endl <<
+      
     // technicals
     idtr <<
       "--" _TRACE_TECHNICALS_SHORT_NAME_ ", --" _TRACE_TECHNICALS_LONG_NAME_ <<

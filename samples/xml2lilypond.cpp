@@ -380,6 +380,12 @@ void analyzeOptions (
     
   int traceNotesPresent = 0;
 
+  // breams
+  checkOptionUniqueness (
+    _TRACE_BEAMS_LONG_NAME_, _TRACE_BEAMS_SHORT_NAME_);
+    
+  int traceBeamsPresent = 0;
+
   // technicals
   checkOptionUniqueness (
     _TRACE_TECHNICALS_LONG_NAME_, _TRACE_TECHNICALS_SHORT_NAME_);
@@ -1072,6 +1078,17 @@ void analyzeOptions (
     {
       _TRACE_NOTES_SHORT_NAME_,
       no_argument, &traceNotesPresent, 1
+    },
+    
+    // beams
+    {
+      _TRACE_BEAMS_LONG_NAME_,
+      no_argument, &traceBeamsPresent, 1
+    },
+
+    {
+      _TRACE_BEAMS_SHORT_NAME_,
+      no_argument, &traceBeamsPresent, 1
     },
     
     // technicals
@@ -2218,6 +2235,19 @@ R"(
           traceNotesPresent = false;
         }
 
+        // beams
+        if (traceBeamsPresent) {
+          gGeneralOptions->fTraceGeneral = true;
+          gGeneralOptions->fTraceBeams = true;
+          
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _TRACE_BEAMS_LONG_NAME_ " ";
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _TRACE_BEAMS_SHORT_NAME_ " ";
+            
+          traceBeamsPresent = false;
+        }
+        
         // technicals
         if (traceTechnicalsPresent) {
           gGeneralOptions->fTraceGeneral = true;
