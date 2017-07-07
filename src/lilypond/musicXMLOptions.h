@@ -50,9 +50,9 @@ struct option {
       int&               optionFlag,
       int                optionValue);
         
-    static SMARTP<msrSingleOption> createCloneWithDetailedTrace ();
+    SMARTP<msrSingleOption> createCloneWithDetailedTrace ();
 
-  private:
+  public:
 
     // initialisation
     // ------------------------------------------------------
@@ -138,7 +138,7 @@ class EXP msrOptionsGroup : public smartable
     static SMARTP<msrOptionsGroup> create (
       string optionGroupNName);
         
-    static SMARTP<msrOptionsGroup> createCloneWithDetailedTrace ();
+    SMARTP<msrOptionsGroup> createCloneWithDetailedTrace ();
 
   private:
 
@@ -221,11 +221,14 @@ class EXP msrMusicXMLOptions : public smartable
 {
   public:
 
+    // creation
+    // ------------------------------------------------------
+
     static SMARTP<msrMusicXMLOptions> create ();
     
     SMARTP<msrMusicXMLOptions>        createCloneWithDetailedTrace ();
     
-  public:
+  private:
 
     // initialisation
     // ------------------------------------------------------

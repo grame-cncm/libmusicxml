@@ -138,7 +138,7 @@ void msrOptionsGroup::initializeOptionsGroup (
   bool boolOptionsInitialValue)
 {
   for (
-    list<S_msrSingleOption>::const_iteator i =
+    list<S_msrSingleOption>::const_iterator i =
       fOptionGroupSingleOptionsList.begin();
     i != fOptionGroupSingleOptionsList.end();
     i++) {
@@ -162,7 +162,7 @@ S_msrOptionsGroup msrOptionsGroup::createCloneWithDetailedTrace ()
     i++) {
       appendSingleOption (
         (*i)->
-          createCloneWithDetailedTrace ();
+          createCloneWithDetailedTrace ());
   } // for
 
   return clone;
