@@ -14326,7 +14326,7 @@ string msrSyllable::syllableAsString () const
       
     case kSkipSyllable:
       s << 
-        "skip" << ":" << syllableWholeNotesAsString () <<
+        "skip" << ":" << // JMI syllableWholeNotesAsString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;

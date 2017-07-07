@@ -11578,7 +11578,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
     
     // note is the second, third, ..., member of a chord
     // that is a member of a tuplet
-    handleNoteBelongingToAChordInATuplet (newNote);
+    handleNoteBelongingToAChordInATuplet (
+      newNote);
     
   }
   
@@ -11586,21 +11587,24 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
     
     // note is the second, third, ..., member of a chord
     // whose first member is 'fLastHandledNoteInVoice [currentVoice]'
-    handleNoteBelongingToAChord (newNote);
+    handleNoteBelongingToAChord (
+      newNote);
     
   }
   
   else if (fCurrentNoteBelongsToATuplet) {
     
     // note/rest is the first, second, third, ..., member of a tuplet
-    handleNoteBelongingToATuplet (newNote);
+    handleNoteBelongingToATuplet (
+      newNote);
     
   }
   
   else {
     
     // note/rest is standalone or a member of grace notes
-    handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (newNote);
+    handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
+      newNote);
     
   }
 
