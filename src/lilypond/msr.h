@@ -4073,7 +4073,7 @@ class EXP msrSyllable : public msrElement
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
-      string                syllableWholeNotesAsString,
+      string                syllableWholeNotesAsMsrString,
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableNewbornClone (
@@ -4094,7 +4094,7 @@ class EXP msrSyllable : public msrElement
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
-      string                syllableWholeNotesAsString,
+      string                syllableWholeNotesAsMsrString,
       S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable();
@@ -4108,17 +4108,17 @@ class EXP msrSyllable : public msrElement
     rational              getSyllableWholeNotes () const
                               { return fSyllableWholeNotes; }
 
-    void                  getSyllableWholeNotesAsString (
-                            string syllableWholeNotesAsString)
+    void                  setSyllableWholeNotesAsMsrString (
+                            string syllableWholeNotesAsMsrString)
                               {
-                                fSyllableWholeNotesAsString =
-                                  syllableWholeNotesAsString;
+                                fSyllableWholeNotesAsMsrString =
+                                  syllableWholeNotesAsMsrString;
                               }
                               
-    string                getSyllableWholeNotesAsString () const
+    string                getSyllableWholeNotesAsMsrString () const
                               {
                                 return
-                                  fSyllableWholeNotesAsString;
+                                  fSyllableWholeNotesAsMsrString;
                               }
 
     // syllable kind and contents
@@ -4166,7 +4166,7 @@ class EXP msrSyllable : public msrElement
   
     // syllable whole notes
     rational              fSyllableWholeNotes;
-    string                fSyllableWholeNotesAsString;
+    string                fSyllableWholeNotesAsMsrString;
 
     // syllable kind and contents
     msrSyllableKind       fSyllableKind;
@@ -4379,7 +4379,7 @@ class EXP msrNote : public msrElement
  // JMI     int                  noteDivisionsPerQuarterNote,
       
       rational             noteSoundingWholeNotes,
-      rational             noteSoundingWholeNotesAsString,
+      string               noteSoundingWholeNotesAsMsrString,
       rational             noteDisplayWholeNotes,
       
       int                  noteDotsNumber,
@@ -4410,7 +4410,7 @@ class EXP msrNote : public msrElement
       S_msrPart noteDirectPartUplink,
  // JMI     int       noteDivisionsPerQuarterNote,
       rational  wholeNotes,
-      rational             noteSoundingWholeNotesAsString,
+      string    wholeNotesAsMsrString,
       int       dotsNumber,
       int       staffNumber,
       int       voicePartRelativeID);
@@ -4431,7 +4431,7 @@ class EXP msrNote : public msrElement
  // JMI     int                  noteDivisionsPerQuarterNote,
 
       rational             noteSoundingWholeNotes,
-      rational             noteSoundingWholeNotesAsString,
+      string               noteSoundingWholeNotesAsMsrString,
       rational             noteDisplayWholeNotes,
       
       int                  noteDotsNumber,
@@ -6705,31 +6705,38 @@ class EXP msrStanza : public msrElement
       
     S_msrSyllable         appendRestSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendSkipSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendTiedSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendSlurSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendSlurBeyondEndSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendLigatureSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendLigatureBeyondEndSyllableToStanza (
                             int      inputLineNumber,
-                            rational divisions);
+                            rational wholeNotes,
+                            string   wholeNotesAsMsrString);
 
     S_msrSyllable         appendBarNumberCheckSyllableToStanza (
                             int    inputLineNumber,
