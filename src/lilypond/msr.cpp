@@ -14234,10 +14234,17 @@ string msrSyllable::syllableExtendKindAsString (
 
 string msrSyllable::syllableWholeNotesAsString () const
 {
+  msrAssert(fSyllableDirectPartUplink!=0, "fSyllableDirectPartUplink");
+
+  S_msrDivisions foo = fSyllableDirectPartUplink->
+      getPartCurrentDivisions ();
+
+  msrAssert(foo!=0, "foo");
+  
   return
     fSyllableDirectPartUplink->
       getPartCurrentDivisions ()->
-        divisionsAsMsrString (
+        wholeNotesAsMsrString (
           fInputLineNumber,
           fSyllableWholeNotes);
 }
@@ -26754,9 +26761,9 @@ void msrPart::setPartCurrentDivisions (
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "Appending divisions '" <<
+      "Setting current divisions to '" <<
       divisions->divisionsAsString () <<
-      "' to part \"" <<
+      "' in part \"" <<
       fPartName <<
       "\"" <<
       endl;
