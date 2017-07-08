@@ -1936,1477 +1936,1479 @@ struct option {
     
     switch (c) {
       case 0 :
-
         {
-          // General options
-          // ------------
-  
-          // version
-          // --------------------------------------
-          
-          if (versionPresent) {
-            idtr++;
+
+          {
+            // General options
+            // ------------
+    
+            // version
+            // --------------------------------------
             
-            cerr <<
-              idtr <<
-                "This is " << argv [0] << " version " <<
-                currentVersionNumber () << "," <<
+            if (versionPresent) {
+              idtr++;
+              
+              cerr <<
+                idtr <<
+                  "This is " << argv [0] << " version " <<
+                  currentVersionNumber () << "," <<
 R"(
   an open translator of MusicXML into LilyPond.
 
   See https://github.com/grame-cncm/libmusicxml/tree/lilypond
   for more information and access to the source code.
 )" <<
-              endl;
-  
-            idtr--;
-            
-            exit (0);
-            break;
-          }
-  
-          // help
-          
-          if (helpPresent) {
-            printUsage (kAllHelp, 0);
-            break;
-          }
-  
-          if (helpGeneralPresent) {
-            printUsage (kGeneralHelp, 0);
-            break;
-          }
-          if (helpMusicXMLPresent) {
-            printUsage (kMusicXMLHelp, 0);
-            break;
-          }
-          if (helpMsrPresent) {
-            printUsage (kMsrHelp, 0);
-            break;
-          }
-          if (helpLpsrPresent) {
-            printUsage (kLpsrHelp, 0);
-            break;
-          }
-          if (helpLilypondPresent) {
-            printUsage (kLilypondHelp, 0);
-            break;
-          }
-  
-          // output file
-          // --------------------------------------
-          
-          if (outputFilePresent) {
-            outputFileName = optarg;
-            gGeneralOptions->fOutputFileName = outputFileName;
-            
-            {
-              stringstream s;
-    
-              s <<
-                "--" _OUTPUT_FILE_LONG_NAME_ << " " << outputFileName << " ";
-                
-              gGeneralOptions->fCommandLineLongOptions +=
-                s.str();
-            }
-            
-            {
-              stringstream s;
-    
-              s <<
-                "--" _OUTPUT_FILE_SHORT_NAME_ << " " << outputFileName << " ";
-                
-              gGeneralOptions->fCommandLineShortOptions +=
-                s.str();
-            }
-            
-            outputFilePresent = false;
-          }
-          
-          if (autoOutputFilePresent) {
-            gGeneralOptions->fAutoOutputFile = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _AUTO_OUTPUT_FILE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _AUTO_OUTPUT_FILE_SHORT_NAME_ " ";
-              
-            autoOutputFilePresent = false;
-          }
-  
-          // trace and display
-          // --------------------------------------
-          
-          if (traceGeneralPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_GENERAL_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_GENERAL_SHORT_NAME_ " ";
-              
-            traceGeneralPresent = false;
-          }
-  
-          if (traceDetailedPresent) {
-            // optarg contains the measure numbers set specification
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceDetailed = true;
-  
-            char*        measuresSpec = optarg;
-  
-            gGeneralOptions->
-              fTraceDetailedMeasureNumbersSet =
-                decipherNumbersSetSpecification (
-                  measuresSpec, false); // 'true' to debug it
-  
-            {
-              stringstream s;
-    
-              s <<
-                 "--" _TRACE_DETAILED_LONG_NAME_ " " << measuresSpec << " ";
-                 
-              gGeneralOptions->fCommandLineLongOptions +=
-                s.str();
-            }
-  
-            {
-              stringstream s;
-    
-              s <<
-                 "--" _TRACE_DETAILED_SHORT_NAME_ " " << measuresSpec << " ";
-                 
-              gGeneralOptions->fCommandLineShortOptions +=
-                s.str();
-             }
-                    
-            traceDetailedPresent = false;
-          }
-  
-          // CPU usage
-          // --------------------------------------
-  
-          if (displayCPUusagePresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fDisplayCPUusage = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _CPU_USAGE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _CPU_USAGE_SHORT_NAME_ " ";
-              
-            displayCPUusagePresent = false;
-          }
-          
-          // specific trace
-          // --------------------------------------
-  
-          // divisions
-          if (traceDivisionsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceDivisions = true;
-            
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_DIVISIONS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_DIVISIONS_SHORT_NAME_ " ";
-              
-            traceDivisionsPresent = false;
-          }
-          
-          // geometry
-          if (traceGeometryPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceGeometry = true;
-                      
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_GEOMETRY_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_GEOMETRY_SHORT_NAME_ " ";
-              
-            traceGeometryPresent = false;
-          }
-          
-          // part groupss
-          if (tracePartGroupsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceParts = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_PARTGROUPS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_PARTGROUPS_SHORT_NAME_ " ";
-              
-            tracePartGroupsPresent = false;
-          }
-          
-          // parts
-          if (tracePartsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceParts = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_PARTS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_PARTS_SHORT_NAME_ " ";
-              
-            tracePartsPresent = false;
-          }
-          
-          // staves
-          if (traceStavesPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceStaves = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_STAVES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_STAVES_SHORT_NAME_ " ";
-  
-            traceStavesPresent = false;
-          }
-          
-          // voices
-          if (traceVoicesPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceVoices = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_VOICES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_VOICES_SHORT_NAME_ " ";
-  
-            traceVoicesPresent = false;
-          }
-  
-          // clefs
-          if (traceClefsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceClefs = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_CLEFS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_CLEFS_SHORT_NAME_ " ";
-  
-            traceClefsPresent = false;
-          }
-  
-          // keys
-          if (traceKeysPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceKeys = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_KEYS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_KEYS_SHORT_NAME_ " ";
-  
-            traceKeysPresent = false;
-          }
-  
-          // times
-          if (traceTimesPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceTimes = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_TIMES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_TIMES_SHORT_NAME_ " ";
-  
-            traceTimesPresent = false;
-          }
-  
-          // segments
-          if (traceSegmentsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceSegments = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_SEGMENTS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_SEGMENTS_SHORT_NAME_ " ";
-              
-            traceSegmentsPresent = false;
-          }
-  
-          // repeats
-          if (traceRepeatsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceRepeats = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_REPEATS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_REPEATS_SHORT_NAME_ " ";
-              
-            traceRepeatsPresent = false;
-          }
-  
-          // measures
-          if (traceMeasuresPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceMeasures = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_MEASURES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_MEASURES_SHORT_NAME_ " ";
-  
-            traceMeasuresPresent = false;
-          }
-  
-          // notes
-          if (traceNotesPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceNotes = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_NOTES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_NOTES_SHORT_NAME_ " ";
-              
-            traceNotesPresent = false;
-          }
-  
-          // beams
-          if (traceBeamsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceBeams = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_BEAMS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_BEAMS_SHORT_NAME_ " ";
-              
-            traceBeamsPresent = false;
-          }
-          
-          // technicals
-          if (traceTechnicalsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceTechnicals = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_TECHNICALS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_TECHNICALS_SHORT_NAME_ " ";
-              
-            traceTechnicalsPresent = false;
-          }
-          
-          // words
-          if (traceWordsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceWords = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_WORDS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_WORDS_SHORT_NAME_ " ";
-              
-            traceWordsPresent = false;
-          }
-          
-          // tremolos
-          if (traceTremolosPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceTremolos = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_TREMOLOS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_TREMOLOS_SHORT_NAME_ " ";
-              
-            traceTremolosPresent = false;
-          }
-  
-          // chords
-          if (traceChordsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceChords = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_CHORDS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_CHORDS_SHORT_NAME_ " ";
-              
-            traceChordsPresent = false;
-          }
-  
-          // tuplets
-          if (traceTupletsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceTuplets = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_TUPLETS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_TUPLETS_SHORT_NAME_ " ";
-                          
-            traceTupletsPresent = false;
-          }
-          
-          // grace notes
-          if (traceGracenotesPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceGraceNotes = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_GRACENOTES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_GRACENOTES_SHORT_NAME_ " ";
-              
-            traceGracenotesPresent = false;
-          }
-  
-          // lyrics
-          if (traceLyricsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceLyrics = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_LYRICS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_LYRICS_SHORT_NAME_ " ";
-              
-            traceLyricsPresent = false;
-          }
-          
-          // harmonies
-          if (traceHarmoniesPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gGeneralOptions->fTraceHarmonies = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_HARMONIES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_HARMONIES_SHORT_NAME_ " ";
-              
-            traceHarmoniesPresent = false;
-          }
-        }
-
-        {
-          // MusicXML options
-          // ----------------
-  
-          // trace and display
-          // --------------------------------------
-  
-          if (traceMusicXMLTreeVisitorsPresent) {
-            gMusicXMLOptions->fTraceMusicXMLTreeVisitors = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ " ";
-              
-            traceMusicXMLTreeVisitorsPresent = false;
-          }
-          
-          // other
-          // --------------------------------------
-  
-          if (ignoreMusicXMLErrorsPresent) {
-            gMusicXMLOptions->fIgnoreMusicXMLErrors = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _INGORE_MUSICXML_ERRORS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ " ";
-              
-            ignoreMusicXMLErrorsPresent = false;
-          }
-          
-          if (loopToMusicXMLPresent) {
-            gMusicXMLOptions->fLoopToMusicXML = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _LOOP_TO_MUSICXML_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _LOOP_TO_MUSICXML_SHORT_NAME_ " ";
-              
-            loopToMusicXMLPresent = false;
-          }
-        }
-
-        {
-          // MSR options
-          // -----------
-          
-          // trace and display
-          // --------------------------------------
-  
-          if (traceMsrPresent) {
-            gMsrOptions->fTraceMsr = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_MSR_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_MSR_SHORT_NAME_ " ";
-              
-            traceMsrPresent = false;
-          }
-  
-          if (traceMsrVisitorsPresent) {
-            gMsrOptions->fTraceMsrVisitors = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_MSR_VISITORS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_MSR_VISITORS_SHORT_NAME_ " ";
-              
-            traceMsrVisitorsPresent = false;
-          }
-  
-          if (displayMsrPresent) {
-            gMsrOptions->fDisplayMsr = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DISPLAY_MSR_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DISPLAY_MSR_SHORT_NAME_ " ";
-              
-            displayMsrPresent = false;
-          }
-  
-          if (displayMsrSummaryPresent) {
-            gMsrOptions->fDisplayMsrSummary = true;
-            gLilypondOptions->fNoLilypondCode = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DISPLAY_MSR_SUMMARY_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DISPLAY_MSR_SUMMARY_SHORT_NAME_ " ";
-              
-            displayMsrSummaryPresent = false;
-          }
-          
-          // languages
-          // --------------------------------------
-  
-          if (msrPitchesLanguagePresent) {
-            // optarg contains the language name
-            string optargAsString;
-            {
-              stringstream s;
-              s << optarg;
-              optargAsString = s.str();
-            }
-            
-            if (! gMsrOptions->setMsrQuarterTonesPitchesLanguage (
-              optargAsString)) {
-              stringstream s;
-          
-              s <<
-                "MSR pitches language " << optargAsString <<
-                " is unknown" <<
-                endl <<
-                "The " <<
-                gQuarterTonesPitchesLanguagesMap.size () <<
-                " known MSR pitches languages are:" <<
                 endl;
-          
-              idtr++;
-            
-              s <<
-                existingQuarterTonesPitchesLanguages ();
-          
+    
               idtr--;
-          
-              optionError (s.str());
-            }
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _MSR_PITCHES_LANGUAGE_LONG_NAME_ " " +
-              optargAsString +
-              " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _MSR_PITCHES_LANGUAGE_SHORT_NAME_ " " +
-              optargAsString +
-              " ";
               
-            msrPitchesLanguagePresent = false;
+              exit (0);
+              break;
             }
-               
-          // parts
-          // --------------------------------------
-  
-          if (partNamePresent) {
-            // optarg contains the part name
-            char*        partNameSpec = optarg;
-  
-            {
-              stringstream s;
     
-              s <<
-                "--" _PART_NAME_LONG_NAME_ << " " << outputFileName << " ";
-                
-              gGeneralOptions->fCommandLineLongOptions +=
-                s.str();
-            }
+            // help
             
-            {
-              stringstream s;
+            if (helpPresent) {
+              printUsage (kAllHelp, 0);
+              break;
+            }
     
-              s <<
-                "--" _PART_NAME_SHORT_NAME_ << " " << outputFileName << " ";
-                
-              gGeneralOptions->fCommandLineShortOptions +=
-                s.str();
+            if (helpGeneralPresent) {
+              printUsage (kGeneralHelp, 0);
+              break;
             }
+            if (helpMusicXMLPresent) {
+              printUsage (kMusicXMLHelp, 0);
+              break;
+            }
+            if (helpMsrPresent) {
+              printUsage (kMsrHelp, 0);
+              break;
+            }
+            if (helpLpsrPresent) {
+              printUsage (kLpsrHelp, 0);
+              break;
+            }
+            if (helpLilypondPresent) {
+              printUsage (kLilypondHelp, 0);
+              break;
+            }
+    
+            // output file
+            // --------------------------------------
             
-            std::pair<string, string>
-              pair =
-                extractNamesPairFromString (
-                  partNameSpec,
-                  '=',
-                  false); // 'true' to debug it
-            /*
-            cerr <<
-              "--> pair.first = \"" << pair.first << "\", " <<
-              "--> pair.second = \"" << pair.second << "\"" <<
-              endl;
-            */
-  
-            // is this part name in the part renaming map?
-            map<string, string>::iterator
-              it =
-                gMsrOptions->fPartsRenaming.find (pair.first);
+            if (outputFilePresent) {
+              outputFileName = optarg;
+              gGeneralOptions->fOutputFileName = outputFileName;
+              
+              {
+                stringstream s;
+      
+                s <<
+                  "--" _OUTPUT_FILE_LONG_NAME_ << " " << outputFileName << " ";
                   
-            if (it != gMsrOptions->fPartsRenaming.end ()) {
-              // yes, issue error message
-              stringstream s;
-  
-              s <<
-                "Part \"" << pair.first << "\" occurs more that one" <<
-                "in the '--partName' option";
+                gGeneralOptions->fCommandLineLongOptions +=
+                  s.str();
+              }
+              
+              {
+                stringstream s;
+      
+                s <<
+                  "--" _OUTPUT_FILE_SHORT_NAME_ << " " << outputFileName << " ";
+                  
+                gGeneralOptions->fCommandLineShortOptions +=
+                  s.str();
+              }
+              
+              outputFilePresent = false;
+            }
+            
+            if (autoOutputFilePresent) {
+              gGeneralOptions->fAutoOutputFile = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _AUTO_OUTPUT_FILE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _AUTO_OUTPUT_FILE_SHORT_NAME_ " ";
                 
-              optionError (s.str());
+              autoOutputFilePresent = false;
+            }
+    
+            // trace and display
+            // --------------------------------------
+            
+            if (traceGeneralPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_GENERAL_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_GENERAL_SHORT_NAME_ " ";
+                
+              traceGeneralPresent = false;
+            }
+    
+            if (traceDetailedPresent) {
+              // optarg contains the measure numbers set specification
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceDetailed = true;
+    
+              char*        measuresSpec = optarg;
+    
+              gGeneralOptions->
+                fTraceDetailedMeasureNumbersSet =
+                  decipherNumbersSetSpecification (
+                    measuresSpec, false); // 'true' to debug it
+    
+              {
+                stringstream s;
+      
+                s <<
+                   "--" _TRACE_DETAILED_LONG_NAME_ " " << measuresSpec << " ";
+                   
+                gGeneralOptions->fCommandLineLongOptions +=
+                  s.str();
+              }
+    
+              {
+                stringstream s;
+      
+                s <<
+                   "--" _TRACE_DETAILED_SHORT_NAME_ " " << measuresSpec << " ";
+                   
+                gGeneralOptions->fCommandLineShortOptions +=
+                  s.str();
+               }
+                      
+              traceDetailedPresent = false;
+            }
+    
+            // CPU usage
+            // --------------------------------------
+    
+            if (displayCPUusagePresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fDisplayCPUusage = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _CPU_USAGE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _CPU_USAGE_SHORT_NAME_ " ";
+                
+              displayCPUusagePresent = false;
             }
             
-            else
-              gMsrOptions->fPartsRenaming [pair.first] =
-                pair.second;
-  
-            partNamePresent = false;
-          }
-          
-          // voices
-          // --------------------------------------
-          
-          if (staffRelativeVoiceNumbersPresent) {
-            gMsrOptions->fCreateVoicesStaffRelativeNumbers = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ " ";
+            // specific trace
+            // --------------------------------------
+    
+            // divisions
+            if (traceDivisionsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceDivisions = true;
               
-            staffRelativeVoiceNumbersPresent = false;
-          }
-          
-          if (showSilentVoicesPresent) {
-            gMsrOptions->fShowSilentVoices = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _SHOW_SILENT_VOICES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _SHOW_SILENT_VOICES_SHORT_NAME_ " ";
               
-            showSilentVoicesPresent = false;
-          }
-  
-          if (keepSilentVoicesPresent) {
-            gMsrOptions->fKeepSilentVoices = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _KEEP_SILENT_VOICES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _KEEP_SILENT_VOICES_SHORT_NAME_ " ";
-              
-            keepSilentVoicesPresent = false;
-          }
-  
-          // notes
-          // --------------------------------------
-          
-          if (delayRestsDynamicsPresent) {
-            gMsrOptions->fDelayRestsDynamics = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DELAY_RESTS_DYNAMICS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DELAY_RESTS_DYNAMICS_SHORT_NAME_ " ";
-              
-            delayRestsDynamicsPresent = false;
-          }
-          
-          if (delayRestsWordsPresent) {
-            gMsrOptions->fDelayRestsWords = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DELAY_RESTS_WORDS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DELAY_RESTS_WORDS_SHORT_NAME_ " ";
-              
-            delayRestsWordsPresent = false;
-          }
-          
-          if (delayRestsSlursPresent) {
-            gMsrOptions->fDelayRestsSlurs = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DELAY_RESTS_SLURS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DELAY_RESTS_SLURS_SHORT_NAME_ " ";
-              
-            delayRestsSlursPresent = false;
-          }
-          
-          if (delayRestsLigaturesPresent) {
-            gMsrOptions->fDelayRestsLigatures = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DELAY_RESTS_LIGATURES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DELAY_RESTS_LIGATURES_SHORT_NAME_ " ";
-              
-            delayRestsLigaturesPresent = false;
-          }
-          
-          if (delayRestsWedgesPresent) {
-            gMsrOptions->fDelayRestsWedges = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DELAY_RESTS_WEDGES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DELAY_RESTS_WEDGES_SHORT_NAME_ " ";
-              
-            delayRestsWedgesPresent = false;
-          }
-          
-          // lyrics
-          
-          if (showMsrStanzasPresent) {
-            gMsrOptions->fShowMsrStanzas = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _SHOW_MSR_STANZAS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _SHOW_MSR_STANZAS_SHORT_NAME_ " ";
-              
-            showMsrStanzasPresent = false;
-          }
-          
-          if (keepMuteStanzasPresent) {
-            gMsrOptions->fKeepMuteStanzas = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _KEEP_MUTE_STANZAS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _KEEP_MUTE_STANZAS_SHORT_NAME_ " ";
-              
-            keepMuteStanzasPresent = false;
-          }
-  
-          // harmonies
-  
-          if (showHarmonyVoicesPresent) {
-            gMsrOptions->fShowHarmonyVoices = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _SHOW_HARMONY_VOICES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _SHOW_HARMONY_VOICES_SHORT_NAME_ " ";
-              
-            showHarmonyVoicesPresent = false;
-          }
-        
-          if (keepEmptyHarmonyVoicesPresent) {
-            gMsrOptions->fKeepEmptyHarmonyVoices = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ " ";
-              
-            keepEmptyHarmonyVoicesPresent = false;
-          }
-        }
-
-        {
-          // LPSR options
-          // ------------
-  
-          // trace and display
-          // --------------------------------------
-  
-          if (traceLpsrPresent) {
-            gLpsrOptions->fTraceLpsr = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_LPSR_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_LPSR_SHORT_NAME_ " ";
-              
-            traceLpsrPresent = false;
-          }
-  
-          if (traceLpsrVisitorsPresent) {
-            gLpsrOptions->fTraceLpsrVisitors = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
-              
-            traceLpsrVisitorsPresent = false;
-          }
-  
-          if (displayLPSRPresent) {
-            gLpsrOptions->fDisplayLpsr = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DISPLAY_LPSR_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DISPLAY_LPSR_SHORT_NAME_ " ";
-              
-            displayLPSRPresent = false;
-          }
-          
-          // Scheme functions
-          if (traceSchemeFunctionsPresent) {
-            gGeneralOptions->fTraceGeneral = true;
-            gLpsrOptions->fTraceSchemeFunctions = true;
-            
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TRACE_SCHEME_FUNCTIONS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ " ";
-              
-            traceSchemeFunctionsPresent = false;
-          }
-
-          // languages
-          // --------------------------------------
-  
-          if (lpsrPitchesLanguagePresent) {
-            // optarg contains the language name
-            string optargAsString;
-            {
-              stringstream s;
-              s << optarg;
-              optargAsString = s.str();
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_DIVISIONS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_DIVISIONS_SHORT_NAME_ " ";
+                
+              traceDivisionsPresent = false;
             }
             
-            if (! gLpsrOptions->setLpsrQuarterTonesPitchesLanguage (
-              optargAsString)) {
-              stringstream s;
+            // geometry
+            if (traceGeometryPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceGeometry = true;
+                        
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_GEOMETRY_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_GEOMETRY_SHORT_NAME_ " ";
+                
+              traceGeometryPresent = false;
+            }
+            
+            // part groupss
+            if (tracePartGroupsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceParts = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_PARTGROUPS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_PARTGROUPS_SHORT_NAME_ " ";
+                
+              tracePartGroupsPresent = false;
+            }
+            
+            // parts
+            if (tracePartsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceParts = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_PARTS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_PARTS_SHORT_NAME_ " ";
+                
+              tracePartsPresent = false;
+            }
+            
+            // staves
+            if (traceStavesPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceStaves = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_STAVES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_STAVES_SHORT_NAME_ " ";
+    
+              traceStavesPresent = false;
+            }
+            
+            // voices
+            if (traceVoicesPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceVoices = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_VOICES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_VOICES_SHORT_NAME_ " ";
+    
+              traceVoicesPresent = false;
+            }
+    
+            // clefs
+            if (traceClefsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceClefs = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_CLEFS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_CLEFS_SHORT_NAME_ " ";
+    
+              traceClefsPresent = false;
+            }
+    
+            // keys
+            if (traceKeysPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceKeys = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_KEYS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_KEYS_SHORT_NAME_ " ";
+    
+              traceKeysPresent = false;
+            }
+    
+            // times
+            if (traceTimesPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceTimes = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_TIMES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_TIMES_SHORT_NAME_ " ";
+    
+              traceTimesPresent = false;
+            }
+    
+            // segments
+            if (traceSegmentsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceSegments = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_SEGMENTS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_SEGMENTS_SHORT_NAME_ " ";
+                
+              traceSegmentsPresent = false;
+            }
+    
+            // repeats
+            if (traceRepeatsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceRepeats = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_REPEATS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_REPEATS_SHORT_NAME_ " ";
+                
+              traceRepeatsPresent = false;
+            }
+    
+            // measures
+            if (traceMeasuresPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceMeasures = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_MEASURES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_MEASURES_SHORT_NAME_ " ";
+    
+              traceMeasuresPresent = false;
+            }
+    
+            // notes
+            if (traceNotesPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceNotes = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_NOTES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_NOTES_SHORT_NAME_ " ";
+                
+              traceNotesPresent = false;
+            }
+    
+            // beams
+            if (traceBeamsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceBeams = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_BEAMS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_BEAMS_SHORT_NAME_ " ";
+                
+              traceBeamsPresent = false;
+            }
+            
+            // technicals
+            if (traceTechnicalsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceTechnicals = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_TECHNICALS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_TECHNICALS_SHORT_NAME_ " ";
+                
+              traceTechnicalsPresent = false;
+            }
+            
+            // words
+            if (traceWordsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceWords = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_WORDS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_WORDS_SHORT_NAME_ " ";
+                
+              traceWordsPresent = false;
+            }
+            
+            // tremolos
+            if (traceTremolosPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceTremolos = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_TREMOLOS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_TREMOLOS_SHORT_NAME_ " ";
+                
+              traceTremolosPresent = false;
+            }
+    
+            // chords
+            if (traceChordsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceChords = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_CHORDS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_CHORDS_SHORT_NAME_ " ";
+                
+              traceChordsPresent = false;
+            }
+    
+            // tuplets
+            if (traceTupletsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceTuplets = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_TUPLETS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_TUPLETS_SHORT_NAME_ " ";
+                            
+              traceTupletsPresent = false;
+            }
+            
+            // grace notes
+            if (traceGracenotesPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceGraceNotes = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_GRACENOTES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_GRACENOTES_SHORT_NAME_ " ";
+                
+              traceGracenotesPresent = false;
+            }
+    
+            // lyrics
+            if (traceLyricsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceLyrics = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_LYRICS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_LYRICS_SHORT_NAME_ " ";
+                
+              traceLyricsPresent = false;
+            }
+            
+            // harmonies
+            if (traceHarmoniesPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceHarmonies = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_HARMONIES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_HARMONIES_SHORT_NAME_ " ";
+                
+              traceHarmoniesPresent = false;
+            }
+          }
   
-              s <<
-                "LPSR pitches language name '" << optargAsString <<
-                "' is unknown" <<
-                endl <<
-                "The " <<
-                gQuarterTonesPitchesLanguagesMap.size () <<
-                " known LPSR pitches languages are:" <<
+          {
+            // MusicXML options
+            // ----------------
+    
+            // trace and display
+            // --------------------------------------
+    
+            if (traceMusicXMLTreeVisitorsPresent) {
+              gMusicXMLOptions->fTraceMusicXMLTreeVisitors = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_MUSICXML_TREE_VISITORS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_MUSICXML_TREE_VISITORS_SHORT_NAME_ " ";
+                
+              traceMusicXMLTreeVisitorsPresent = false;
+            }
+            
+            // other
+            // --------------------------------------
+    
+            if (ignoreMusicXMLErrorsPresent) {
+              gMusicXMLOptions->fIgnoreMusicXMLErrors = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _INGORE_MUSICXML_ERRORS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _INGORE_MUSICXML_ERRORS_SHORT_NAME_ " ";
+                
+              ignoreMusicXMLErrorsPresent = false;
+            }
+            
+            if (loopToMusicXMLPresent) {
+              gMusicXMLOptions->fLoopToMusicXML = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _LOOP_TO_MUSICXML_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _LOOP_TO_MUSICXML_SHORT_NAME_ " ";
+                
+              loopToMusicXMLPresent = false;
+            }
+          }
+  
+          {
+            // MSR options
+            // -----------
+            
+            // trace and display
+            // --------------------------------------
+    
+            if (traceMsrPresent) {
+              gMsrOptions->fTraceMsr = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_MSR_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_MSR_SHORT_NAME_ " ";
+                
+              traceMsrPresent = false;
+            }
+    
+            if (traceMsrVisitorsPresent) {
+              gMsrOptions->fTraceMsrVisitors = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_MSR_VISITORS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_MSR_VISITORS_SHORT_NAME_ " ";
+                
+              traceMsrVisitorsPresent = false;
+            }
+    
+            if (displayMsrPresent) {
+              gMsrOptions->fDisplayMsr = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DISPLAY_MSR_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DISPLAY_MSR_SHORT_NAME_ " ";
+                
+              displayMsrPresent = false;
+            }
+    
+            if (displayMsrSummaryPresent) {
+              gMsrOptions->fDisplayMsrSummary = true;
+              gLilypondOptions->fNoLilypondCode = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DISPLAY_MSR_SUMMARY_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DISPLAY_MSR_SUMMARY_SHORT_NAME_ " ";
+                
+              displayMsrSummaryPresent = false;
+            }
+            
+            // languages
+            // --------------------------------------
+    
+            if (msrPitchesLanguagePresent) {
+              // optarg contains the language name
+              string optargAsString;
+              {
+                stringstream s;
+                s << optarg;
+                optargAsString = s.str();
+              }
+              
+              if (! gMsrOptions->setMsrQuarterTonesPitchesLanguage (
+                optargAsString)) {
+                stringstream s;
+            
+                s <<
+                  "MSR pitches language " << optargAsString <<
+                  " is unknown" <<
+                  endl <<
+                  "The " <<
+                  gQuarterTonesPitchesLanguagesMap.size () <<
+                  " known MSR pitches languages are:" <<
+                  endl;
+            
+                idtr++;
+              
+                s <<
+                  existingQuarterTonesPitchesLanguages ();
+            
+                idtr--;
+            
+                optionError (s.str());
+              }
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _MSR_PITCHES_LANGUAGE_LONG_NAME_ " " +
+                optargAsString +
+                " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _MSR_PITCHES_LANGUAGE_SHORT_NAME_ " " +
+                optargAsString +
+                " ";
+                
+              msrPitchesLanguagePresent = false;
+              }
+                 
+            // parts
+            // --------------------------------------
+    
+            if (partNamePresent) {
+              // optarg contains the part name
+              char*        partNameSpec = optarg;
+    
+              {
+                stringstream s;
+      
+                s <<
+                  "--" _PART_NAME_LONG_NAME_ << " " << outputFileName << " ";
+                  
+                gGeneralOptions->fCommandLineLongOptions +=
+                  s.str();
+              }
+              
+              {
+                stringstream s;
+      
+                s <<
+                  "--" _PART_NAME_SHORT_NAME_ << " " << outputFileName << " ";
+                  
+                gGeneralOptions->fCommandLineShortOptions +=
+                  s.str();
+              }
+              
+              std::pair<string, string>
+                pair =
+                  extractNamesPairFromString (
+                    partNameSpec,
+                    '=',
+                    false); // 'true' to debug it
+              /*
+              cerr <<
+                "--> pair.first = \"" << pair.first << "\", " <<
+                "--> pair.second = \"" << pair.second << "\"" <<
                 endl;
-          
-              idtr++;
-            
-              s <<
-                existingQuarterTonesPitchesLanguages ();
-          
-              idtr--;
-          
-              optionError (s.str());
+              */
+    
+              // is this part name in the part renaming map?
+              map<string, string>::iterator
+                it =
+                  gMsrOptions->fPartsRenaming.find (pair.first);
+                    
+              if (it != gMsrOptions->fPartsRenaming.end ()) {
+                // yes, issue error message
+                stringstream s;
+    
+                s <<
+                  "Part \"" << pair.first << "\" occurs more that one" <<
+                  "in the '--partName' option";
+                  
+                optionError (s.str());
+              }
+              
+              else
+                gMsrOptions->fPartsRenaming [pair.first] =
+                  pair.second;
+    
+              partNamePresent = false;
             }
             
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _LPSR_PITCHES_LANGUAGE_LONG_NAME_ " " +
-              optargAsString +
-              " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ " " +
-              optargAsString +
-              " ";
-  
-            lpsrPitchesLanguagePresent = false;
+            // voices
+            // --------------------------------------
+            
+            if (staffRelativeVoiceNumbersPresent) {
+              gMsrOptions->fCreateVoicesStaffRelativeNumbers = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _STAFF_RELATIVE_VOICE_NUMBERS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _STAFF_RELATIVE_VOICE_NUMBERS_SHORT_NAME_ " ";
+                
+              staffRelativeVoiceNumbersPresent = false;
+            }
+            
+            if (showSilentVoicesPresent) {
+              gMsrOptions->fShowSilentVoices = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _SHOW_SILENT_VOICES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _SHOW_SILENT_VOICES_SHORT_NAME_ " ";
+                
+              showSilentVoicesPresent = false;
+            }
+    
+            if (keepSilentVoicesPresent) {
+              gMsrOptions->fKeepSilentVoices = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _KEEP_SILENT_VOICES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _KEEP_SILENT_VOICES_SHORT_NAME_ " ";
+                
+              keepSilentVoicesPresent = false;
+            }
+    
+            // notes
+            // --------------------------------------
+            
+            if (delayRestsDynamicsPresent) {
+              gMsrOptions->fDelayRestsDynamics = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DELAY_RESTS_DYNAMICS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DELAY_RESTS_DYNAMICS_SHORT_NAME_ " ";
+                
+              delayRestsDynamicsPresent = false;
+            }
+            
+            if (delayRestsWordsPresent) {
+              gMsrOptions->fDelayRestsWords = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DELAY_RESTS_WORDS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DELAY_RESTS_WORDS_SHORT_NAME_ " ";
+                
+              delayRestsWordsPresent = false;
+            }
+            
+            if (delayRestsSlursPresent) {
+              gMsrOptions->fDelayRestsSlurs = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DELAY_RESTS_SLURS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DELAY_RESTS_SLURS_SHORT_NAME_ " ";
+                
+              delayRestsSlursPresent = false;
+            }
+            
+            if (delayRestsLigaturesPresent) {
+              gMsrOptions->fDelayRestsLigatures = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DELAY_RESTS_LIGATURES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DELAY_RESTS_LIGATURES_SHORT_NAME_ " ";
+                
+              delayRestsLigaturesPresent = false;
+            }
+            
+            if (delayRestsWedgesPresent) {
+              gMsrOptions->fDelayRestsWedges = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DELAY_RESTS_WEDGES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DELAY_RESTS_WEDGES_SHORT_NAME_ " ";
+                
+              delayRestsWedgesPresent = false;
+            }
+            
+            // lyrics
+            
+            if (showMsrStanzasPresent) {
+              gMsrOptions->fShowMsrStanzas = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _SHOW_MSR_STANZAS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _SHOW_MSR_STANZAS_SHORT_NAME_ " ";
+                
+              showMsrStanzasPresent = false;
+            }
+            
+            if (keepMuteStanzasPresent) {
+              gMsrOptions->fKeepMuteStanzas = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _KEEP_MUTE_STANZAS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _KEEP_MUTE_STANZAS_SHORT_NAME_ " ";
+                
+              keepMuteStanzasPresent = false;
+            }
+    
+            // harmonies
+    
+            if (showHarmonyVoicesPresent) {
+              gMsrOptions->fShowHarmonyVoices = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _SHOW_HARMONY_VOICES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _SHOW_HARMONY_VOICES_SHORT_NAME_ " ";
+                
+              showHarmonyVoicesPresent = false;
+            }
+          
+            if (keepEmptyHarmonyVoicesPresent) {
+              gMsrOptions->fKeepEmptyHarmonyVoices = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ " ";
+                
+              keepEmptyHarmonyVoicesPresent = false;
+            }
           }
-               
-          if (lpsrChordsLanguagePresent) {
-            // optarg contains the language name
-            string optargAsString;
-            {
-              stringstream s;
-              s << optarg;
-              optargAsString = s.str();
+  
+          {
+            // LPSR options
+            // ------------
+    
+            // trace and display
+            // --------------------------------------
+    
+            if (traceLpsrPresent) {
+              gLpsrOptions->fTraceLpsr = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_LPSR_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_LPSR_SHORT_NAME_ " ";
+                
+              traceLpsrPresent = false;
+            }
+    
+            if (traceLpsrVisitorsPresent) {
+              gLpsrOptions->fTraceLpsrVisitors = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_LPSR_VISITORS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_LPSR_VISITORS_SHORT_NAME_ " ";
+                
+              traceLpsrVisitorsPresent = false;
+            }
+    
+            if (displayLPSRPresent) {
+              gLpsrOptions->fDisplayLpsr = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DISPLAY_LPSR_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DISPLAY_LPSR_SHORT_NAME_ " ";
+                
+              displayLPSRPresent = false;
             }
             
-            if (! gLpsrOptions->setLpsrChordsLanguage (
-              optargAsString)) {
-              stringstream s;
+            // Scheme functions
+            if (traceSchemeFunctionsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gLpsrOptions->fTraceSchemeFunctions = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_SCHEME_FUNCTIONS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ " ";
+                
+              traceSchemeFunctionsPresent = false;
+            }
   
-              s <<
-                "LPSR chords language name '" << optargAsString <<
-                "' is unknown" <<
-                endl <<
-                "The " <<
-                gQuarterTonesPitchesLanguagesMap.size () <<
-                " known LPSR chords languages are:" <<
+            // languages
+            // --------------------------------------
+    
+            if (lpsrPitchesLanguagePresent) {
+              // optarg contains the language name
+              string optargAsString;
+              {
+                stringstream s;
+                s << optarg;
+                optargAsString = s.str();
+              }
+              
+              if (! gLpsrOptions->setLpsrQuarterTonesPitchesLanguage (
+                optargAsString)) {
+                stringstream s;
+    
+                s <<
+                  "LPSR pitches language name '" << optargAsString <<
+                  "' is unknown" <<
+                  endl <<
+                  "The " <<
+                  gQuarterTonesPitchesLanguagesMap.size () <<
+                  " known LPSR pitches languages are:" <<
+                  endl;
+            
+                idtr++;
+              
+                s <<
+                  existingQuarterTonesPitchesLanguages ();
+            
+                idtr--;
+            
+                optionError (s.str());
+              }
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _LPSR_PITCHES_LANGUAGE_LONG_NAME_ " " +
+                optargAsString +
+                " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ " " +
+                optargAsString +
+                " ";
+    
+              lpsrPitchesLanguagePresent = false;
+            }
+                 
+            if (lpsrChordsLanguagePresent) {
+              // optarg contains the language name
+              string optargAsString;
+              {
+                stringstream s;
+                s << optarg;
+                optargAsString = s.str();
+              }
+              
+              if (! gLpsrOptions->setLpsrChordsLanguage (
+                optargAsString)) {
+                stringstream s;
+    
+                s <<
+                  "LPSR chords language name '" << optargAsString <<
+                  "' is unknown" <<
+                  endl <<
+                  "The " <<
+                  gQuarterTonesPitchesLanguagesMap.size () <<
+                  " known LPSR chords languages are:" <<
+                  endl;
+            
+                idtr++;
+              
+                s <<
+                  existingLpsrChordsLanguages ();
+            
+                idtr--;
+                  
+                optionError (s.str());
+              }
+              
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _LPSR_CHORDS_LANGUAGE_LONG_NAME_ " " +
+              optargAsString +
+              " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ " " +
+                optargAsString +
+                " ";
+    
+              lpsrChordsLanguagePresent = false;
+            }
+          }
+  
+          {
+            // LilyPond options
+            // ----------------
+            
+            // time
+            // --------------------------------------
+    
+            if (numericaltimePresent) {
+              gLilypondOptions->fNumericalTime = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _NUMERICAL_TIME_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _NUMERICAL_TIME_SHORT_NAME_ " ";
+                
+              numericaltimePresent = false;
+            }
+    
+            // notes
+            // --------------------------------------
+            
+            if (absolutePresent) {
+              gLilypondOptions->fAbsoluteOctaves = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _ABSOLUTE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _ABSOLUTE_SHORT_NAME_ " ";
+                
+              absolutePresent = false;
+            }
+    
+            if (stemsPresent) {
+              gLilypondOptions->fStems = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _STEMS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _STEMS_LONG_NAME_ " "; // _STEMS_SHORT_NAME_ is empty
+       
+              stemsPresent = false;
+            }
+            
+            if (noAutoBeamingPresent) {
+              gLilypondOptions->fNoAutoBeaming = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _NO_AUTO_BEAMING_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _NO_AUTO_BEAMING_SHORT_NAME_ " ";
+                
+              noAutoBeamingPresent = false;
+            }
+    
+            if (romanStringNumbersPresent) {
+              gLilypondOptions->fRomanStringNumbers = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _ROMAN_STRING_NUMBERS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _ROMAN_STRING_NUMBERS_SHORT_NAME_ " ";
+                
+              romanStringNumbersPresent = false;
+            }
+    
+            if (avoidOpenStringPresent) {
+              gLilypondOptions->fAvoidOpenString = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _AVOID_OPEN_STRINGS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _AVOID_OPEN_STRINGS_SHORT_NAME_ " ";
+                
+              avoidOpenStringPresent = false;
+            }
+    
+            if (accidentalStylePresent) {
+              // optarg contains the accidental style name
+              if (! gLilypondOptions->setAccidentalStyle (optarg)) {
+                stringstream s;
+      
+                s <<
+                  "--accidentalStyle argument '" << optarg <<
+                  "' is not known";
+                  
+                optionError (s.str());
+              }
+    
+              {
+                stringstream s;
+    
+                s <<
+                  "--" _ACCIDENTAL_STYLE_LONG_NAME_ " "  <<
+                  optarg << " ";
+      
+                gGeneralOptions->fCommandLineLongOptions +=
+                  s.str();
+              }
+    
+              {
+                stringstream s;
+    
+                s <<
+                  "--" _ACCIDENTAL_STYLE_SHORT_NAME_ " "  <<
+                  optarg << " ";
+      
+                gGeneralOptions->fCommandLineShortOptions +=
+                  s.str();
+              }
+                
+              accidentalStylePresent = false;
+            }
+    
+            if (noteInputLineNumbersPresent) {
+              gLilypondOptions->fInputLineNumbers = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ " ";
+                
+              noteInputLineNumbersPresent = false;
+            }
+            
+            // bars
+            // --------------------------------------
+            
+            if (showAllBarNumbersPresent) {
+              gLilypondOptions->fShowAllBarNumbers = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _SHOW_ALL_BAR_NUMBERS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ " ";
+                
+              showAllBarNumbersPresent = false;
+            }
+    
+            if (compressMultiMeasureRestsPresent) {
+              gLilypondOptions->fCompressMultiMeasureRests = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_ " ";
+                
+              compressMultiMeasureRestsPresent = false;
+            }
+    
+            // line breaks
+            // --------------------------------------
+            
+            if (dontKeepLineBreaksPresent) {
+              gLilypondOptions->fDontKeepLineBreaks = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DONT_KEEP_LINE_BREAKS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ " ";
+                
+              dontKeepLineBreaksPresent = false;
+            }
+    
+            if (breakLinesAtIncompleteRightMeasuresPresent) {
+              gLilypondOptions->fBreakLinesAtIncompleteRightMeasures = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ " ";
+                
+              breakLinesAtIncompleteRightMeasuresPresent = false;
+            }
+    
+            if (separatorLineEveryNMeasuresPresent) {
+              gLilypondOptions->fSeparatorLineEveryNMeasures = true;
+              gLilypondOptions->fSeparatorLineEveryNMeasuresValue =
+                atoi (optarg);
+    
+              {
+                stringstream s;
+    
+                s <<
+                  "--" _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_ " "  <<
+                  optarg << " ";
+      
+                gGeneralOptions->fCommandLineLongOptions +=
+                  s.str();
+              }
+    
+              {
+                stringstream s;
+    
+                s <<
+                  "--" _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ " "  <<
+                  optarg << " ";
+      
+                gGeneralOptions->fCommandLineShortOptions +=
+                  s.str();
+              }
+                
+              separatorLineEveryNMeasuresPresent = false;
+            }
+    
+            // staves
+            // --------------------------------------
+            
+            if (modernTabPresent) {
+              gLilypondOptions->fModernTab = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _MODERN_TAB_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _MODERN_TAB_SHORT_NAME_ " ";
+                
+              modernTabPresent = false;
+            }
+            
+            // LilyPond code generation
+            // --------------------------------------
+            
+            if (commentsPresent) {
+              gLilypondOptions->fComments = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _COMMENTS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _COMMENTS_SHORT_NAME_ " ";
+                
+              commentsPresent = false;
+            }
+    
+            if (globalPresent) {
+              gLilypondOptions->fGlobal = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _GLOBAL_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _GLOBAL_LONG_NAME_ " "; // _GLOBAL_SHORT_NAME_ is empty
+                
+              globalPresent = false;
+            }
+    
+            if (tupletsOnALinePresent) {
+              gLilypondOptions->fTupletsOnALine = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TUPLETS_ON_A_LINE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ " ";
+                
+              tupletsOnALinePresent = false;
+            }
+    
+            if (repeatBracketsPresent) {
+              gLilypondOptions->fRepeatBrackets = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _REPEAT_BRACKETS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _REPEAT_BRACKETS_SHORT_NAME_ " ";
+                
+              repeatBracketsPresent = false;
+            }
+    
+            if (delayedOrnamentFractionPresent) {
+              // optarg contains the midi tempo specification
+              // decipher it to extract numerator and denominator values
+              string optargAsString;
+              {
+                stringstream s;
+                s << optarg;
+                optargAsString = s.str();
+              }
+              
+              string regularExpression (
+                "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+                "/"
+                "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+                
+              regex  e (regularExpression);
+              smatch sm;
+    
+              regex_match (optargAsString, sm, e);
+    
+              /*
+              cout <<
+                "There are " << sm.size() << " matches" <<
+                " for string '" << optargAsString <<
+                "' with regex '" << regularExpression <<
+                "'" <<
                 endl;
-          
-              idtr++;
+              */
             
+              if (sm.size ()) {
+                for (unsigned i = 0; i < sm.size (); ++i) {
+                  cout << "[" << sm [i] << "] ";
+                } // for
+                cout << endl;
+              }
+              
+              else {
+                stringstream s;
+    
+                s <<
+                  "--delayedOrnamentFraction argument '" << optarg <<
+                  "' is ill-formed";
+                  
+                optionError (s.str());
+              }
+              
+              {
+                stringstream s;
+                s << sm [1];
+                s >> gLilypondOptions->fDelayedOrnamentFractionNumerator;
+              }
+              {
+                stringstream s;
+                s << sm [2];
+                s >> gLilypondOptions->fDelayedOrnamentFractionDenominator;
+              }
+              /*
+              cerr << JMI
+                "gLilypondOptions->fDelayedOrnamentFractionNumerator = " <<
+                gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+                endl <<
+                "gLilypondOptions->fDelayedOrnamentFractionDenominator = " <<
+                gLilypondOptions->fDelayedOrnamentFractionDenominator <<
+                endl;
+              */
+    
+              stringstream s;
+    
               s <<
-                existingLpsrChordsLanguages ();
-          
-              idtr--;
+                "--delayedOrnamentFraction '" << optargAsString << "' ";
+              
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " " +
+                optargAsString + "' ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ " " +
+                optargAsString + "' ";
                 
-              optionError (s.str());
+              delayedOrnamentFractionPresent = false;
+            }
+    
+            if (displayMusicPresent) {
+              gLilypondOptions->fDisplayMusic = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _DISPLAY_MUSIC_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _DISPLAY_MUSIC_SHORT_NAME_ " ";
+                
+              displayMusicPresent = false;
+            }
+    
+            if (noLilypondCodePresent) {
+              gLilypondOptions->fNoLilypondCode = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _NO_LILYPOND_CODE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _NO_LILYPOND_CODE_SHORT_NAME_ " ";
+                
+              noLilypondCodePresent = false;
+            }
+    
+            if (noLilypondLyricsPresent) {
+              gLilypondOptions->fNoLilypondLyrics = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _NO_LILYPOND_LYRICS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _NO_LILYPOND_LYRICS_SHORT_NAME_ " ";
+                
+              noLilypondLyricsPresent = false;
             }
             
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _LPSR_CHORDS_LANGUAGE_LONG_NAME_ " " +
-            optargAsString +
-            " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ " " +
-              optargAsString +
-              " ";
-  
-            lpsrChordsLanguagePresent = false;
+            if (lilypondCompileDatePresent) {
+              gLilypondOptions->fLilypondCompileDate = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _LILYPOND_COMPILE_DATE_SHORT_NAME_ " ";
+                
+              lilypondCompileDatePresent = false;
+            }
+          
+            // score notation
+            // --------------------------------------
+    
+            if (jianpuPresent) {
+              gLilypondOptions->fScoreNotationKind =
+                lilypondOptions::kJianpuNotation;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _JIANPU_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _JIANPU_LONG_NAME_ " ";
+                // _JIANPU_SHORT_NAME_ is empty
+                
+              jianpuPresent = false;
+            }
+            
+            if (abcPresent) {
+              gLilypondOptions->fScoreNotationKind =
+                lilypondOptions::kABCNotation;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _ABC_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _ABC_LONG_NAME_ " ";
+                // _ABC_SHORT_NAME_ is empty
+      
+              abcPresent = false;
+            }
+    
+            // Midi
+            // --------------------------------------
+            
+            if (midiTempoPresent) {
+              // optarg contains the midi tempo specification
+              // decipher it to extract duration and perSecond values
+              string optargAsString;
+              {
+                stringstream s;
+                s << optarg;
+                optargAsString = s.str();
+              }
+              
+              string regularExpression (
+                "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
+                "="
+                "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+                
+              regex  e (regularExpression);
+              smatch sm;
+    
+              regex_match (optargAsString, sm, e);
+    
+              /*
+              cout <<
+                "There are " << sm.size() << " matches" <<
+                " for string '" << optargAsString <<
+                "' with regex '" << regularExpression <<
+                "'" <<
+                endl;
+              */
+            
+              if (sm.size ()) {
+                for (unsigned i = 0; i < sm.size (); ++i) {
+                  cout << "[" << sm [i] << "] ";
+                } // for
+                cout << endl;
+              }
+              
+              else {
+                stringstream s;
+    
+                s <<
+                  "--midiTempo argument '" << optarg <<
+                  "' is ill-formed";
+                  
+                optionError (s.str());
+              }
+              
+              gLilypondOptions->fMidiTempoDuration =  sm [1];
+    
+              {
+                stringstream s;
+                s << sm [2];
+                s >> gLilypondOptions->fMidiTempoPerSecond;
+              }
+              /* JMI
+              cerr <<
+                "gLilypondOptions->fMidiTempoDuration = " <<
+                gLilypondOptions->fMidiTempoDuration <<
+                endl <<
+                "gLilypondOptions->fMidiTempoPerSecond = " <<
+                gLilypondOptions->fMidiTempoPerSecond <<
+                endl;
+              */
+    
+              {
+                stringstream s;
+    
+                s <<
+                  "--" _MIDI_TEMPO_LONG_NAME_ " '"  <<
+                  optarg << "' ";
+      
+                gGeneralOptions->fCommandLineLongOptions +=
+                  s.str();
+              }
+    
+              {
+                stringstream s;
+    
+                s <<
+                  "--" _MIDI_TEMPO_SHORT_NAME_ " '"  <<
+                  optarg << "' ";
+      
+                gGeneralOptions->fCommandLineShortOptions +=
+                  s.str();
+              }
+                            
+              midiTempoPresent = false;
+            }
+    
+            if (noMidiCommandPresent) {
+              gLilypondOptions->fNoMidiCommand = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _NO_MIDI_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _NO_MIDI_LONG_NAME_ " "; // _NO_MIDI_SHORT_NAME_ is empty
+                
+              noMidiCommandPresent = false;
+            }
           }
-        }
 
-        {
-          // LilyPond options
-          // ----------------
-          
-          // time
-          // --------------------------------------
-  
-          if (numericaltimePresent) {
-            gLilypondOptions->fNumericalTime = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _NUMERICAL_TIME_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _NUMERICAL_TIME_SHORT_NAME_ " ";
-              
-            numericaltimePresent = false;
-          }
-  
-          // notes
-          // --------------------------------------
-          
-          if (absolutePresent) {
-            gLilypondOptions->fAbsoluteOctaves = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _ABSOLUTE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _ABSOLUTE_SHORT_NAME_ " ";
-              
-            absolutePresent = false;
-          }
-  
-          if (stemsPresent) {
-            gLilypondOptions->fStems = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _STEMS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _STEMS_LONG_NAME_ " "; // _STEMS_SHORT_NAME_ is empty
-     
-            stemsPresent = false;
-          }
-          
-          if (noAutoBeamingPresent) {
-            gLilypondOptions->fNoAutoBeaming = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _NO_AUTO_BEAMING_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _NO_AUTO_BEAMING_SHORT_NAME_ " ";
-              
-            noAutoBeamingPresent = false;
-          }
-  
-          if (romanStringNumbersPresent) {
-            gLilypondOptions->fRomanStringNumbers = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _ROMAN_STRING_NUMBERS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _ROMAN_STRING_NUMBERS_SHORT_NAME_ " ";
-              
-            romanStringNumbersPresent = false;
-          }
-  
-          if (avoidOpenStringPresent) {
-            gLilypondOptions->fAvoidOpenString = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _AVOID_OPEN_STRINGS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _AVOID_OPEN_STRINGS_SHORT_NAME_ " ";
-              
-            avoidOpenStringPresent = false;
-          }
-  
-          if (accidentalStylePresent) {
-            // optarg contains the accidental style name
-            if (! gLilypondOptions->setAccidentalStyle (optarg)) {
-              stringstream s;
-    
-              s <<
-                "--accidentalStyle argument '" << optarg <<
-                "' is not known";
-                
-              optionError (s.str());
-            }
-  
-            {
-              stringstream s;
-  
-              s <<
-                "--" _ACCIDENTAL_STYLE_LONG_NAME_ " "  <<
-                optarg << " ";
-    
-              gGeneralOptions->fCommandLineLongOptions +=
-                s.str();
-            }
-  
-            {
-              stringstream s;
-  
-              s <<
-                "--" _ACCIDENTAL_STYLE_SHORT_NAME_ " "  <<
-                optarg << " ";
-    
-              gGeneralOptions->fCommandLineShortOptions +=
-                s.str();
-            }
-              
-            accidentalStylePresent = false;
-          }
-  
-          if (noteInputLineNumbersPresent) {
-            gLilypondOptions->fInputLineNumbers = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _NOTE_INPUT_LINE_NUMBERS_SHORT_NAME_ " ";
-              
-            noteInputLineNumbersPresent = false;
-          }
-          
-          // bars
-          // --------------------------------------
-          
-          if (showAllBarNumbersPresent) {
-            gLilypondOptions->fShowAllBarNumbers = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _SHOW_ALL_BAR_NUMBERS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _SHOW_ALL_BAR_NUMBERS_SHORT_NAME_ " ";
-              
-            showAllBarNumbersPresent = false;
-          }
-  
-          if (compressMultiMeasureRestsPresent) {
-            gLilypondOptions->fCompressMultiMeasureRests = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _COMPRESS_MULTI_MEASURE_RESTS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _COMPRESS_MULTI_MEASURE_RESTS_SHORT_NAME_ " ";
-              
-            compressMultiMeasureRestsPresent = false;
-          }
-  
-          // line breaks
-          // --------------------------------------
-          
-          if (dontKeepLineBreaksPresent) {
-            gLilypondOptions->fDontKeepLineBreaks = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DONT_KEEP_LINE_BREAKS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DONT_KEEP_LINE_BREAKS_SHORT_NAME_ " ";
-              
-            dontKeepLineBreaksPresent = false;
-          }
-  
-          if (breakLinesAtIncompleteRightMeasuresPresent) {
-            gLilypondOptions->fBreakLinesAtIncompleteRightMeasures = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _BREAK_LINES_AT_INCOMPLETE_RIGHT_MEASURES_SHORT_NAME_ " ";
-              
-            breakLinesAtIncompleteRightMeasuresPresent = false;
-          }
-  
-          if (separatorLineEveryNMeasuresPresent) {
-            gLilypondOptions->fSeparatorLineEveryNMeasures = true;
-            gLilypondOptions->fSeparatorLineEveryNMeasuresValue =
-              atoi (optarg);
-  
-            {
-              stringstream s;
-  
-              s <<
-                "--" _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_ " "  <<
-                optarg << " ";
-    
-              gGeneralOptions->fCommandLineLongOptions +=
-                s.str();
-            }
-  
-            {
-              stringstream s;
-  
-              s <<
-                "--" _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ " "  <<
-                optarg << " ";
-    
-              gGeneralOptions->fCommandLineShortOptions +=
-                s.str();
-            }
-              
-            separatorLineEveryNMeasuresPresent = false;
-          }
-  
-          // staves
-          // --------------------------------------
-          
-          if (modernTabPresent) {
-            gLilypondOptions->fModernTab = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _MODERN_TAB_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _MODERN_TAB_SHORT_NAME_ " ";
-              
-            modernTabPresent = false;
-          }
-          
-          // LilyPond code generation
-          // --------------------------------------
-          
-          if (commentsPresent) {
-            gLilypondOptions->fComments = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _COMMENTS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _COMMENTS_SHORT_NAME_ " ";
-              
-            commentsPresent = false;
-          }
-  
-          if (globalPresent) {
-            gLilypondOptions->fGlobal = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _GLOBAL_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _GLOBAL_LONG_NAME_ " "; // _GLOBAL_SHORT_NAME_ is empty
-              
-            globalPresent = false;
-          }
-  
-          if (tupletsOnALinePresent) {
-            gLilypondOptions->fTupletsOnALine = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _TUPLETS_ON_A_LINE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _TUPLETS_ON_A_LINE_SHORT_NAME_ " ";
-              
-            tupletsOnALinePresent = false;
-          }
-  
-          if (repeatBracketsPresent) {
-            gLilypondOptions->fRepeatBrackets = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _REPEAT_BRACKETS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _REPEAT_BRACKETS_SHORT_NAME_ " ";
-              
-            repeatBracketsPresent = false;
-          }
-  
-          if (delayedOrnamentFractionPresent) {
-            // optarg contains the midi tempo specification
-            // decipher it to extract numerator and denominator values
-            string optargAsString;
-            {
-              stringstream s;
-              s << optarg;
-              optargAsString = s.str();
-            }
-            
-            string regularExpression (
-              "[[:space:]]*([[:digit:]]+)[[:space:]]*"
-              "/"
-              "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-              
-            regex  e (regularExpression);
-            smatch sm;
-  
-            regex_match (optargAsString, sm, e);
-  
-            /*
-            cout <<
-              "There are " << sm.size() << " matches" <<
-              " for string '" << optargAsString <<
-              "' with regex '" << regularExpression <<
-              "'" <<
-              endl;
-            */
-          
-            if (sm.size ()) {
-              for (unsigned i = 0; i < sm.size (); ++i) {
-                cout << "[" << sm [i] << "] ";
-              } // for
-              cout << endl;
-            }
-            
-            else {
-              stringstream s;
-  
-              s <<
-                "--delayedOrnamentFraction argument '" << optarg <<
-                "' is ill-formed";
-                
-              optionError (s.str());
-            }
-            
-            {
-              stringstream s;
-              s << sm [1];
-              s >> gLilypondOptions->fDelayedOrnamentFractionNumerator;
-            }
-            {
-              stringstream s;
-              s << sm [2];
-              s >> gLilypondOptions->fDelayedOrnamentFractionDenominator;
-            }
-            /*
-            cerr << JMI
-              "gLilypondOptions->fDelayedOrnamentFractionNumerator = " <<
-              gLilypondOptions->fDelayedOrnamentFractionNumerator <<
-              endl <<
-              "gLilypondOptions->fDelayedOrnamentFractionDenominator = " <<
-              gLilypondOptions->fDelayedOrnamentFractionDenominator <<
-              endl;
-            */
-  
-            stringstream s;
-  
-            s <<
-              "--delayedOrnamentFraction '" << optargAsString << "' ";
-            
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_ " " +
-              optargAsString + "' ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ " " +
-              optargAsString + "' ";
-              
-            delayedOrnamentFractionPresent = false;
-          }
-  
-          if (displayMusicPresent) {
-            gLilypondOptions->fDisplayMusic = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _DISPLAY_MUSIC_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _DISPLAY_MUSIC_SHORT_NAME_ " ";
-              
-            displayMusicPresent = false;
-          }
-  
-          if (noLilypondCodePresent) {
-            gLilypondOptions->fNoLilypondCode = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _NO_LILYPOND_CODE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _NO_LILYPOND_CODE_SHORT_NAME_ " ";
-              
-            noLilypondCodePresent = false;
-          }
-  
-          if (noLilypondLyricsPresent) {
-            gLilypondOptions->fNoLilypondLyrics = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _NO_LILYPOND_LYRICS_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _NO_LILYPOND_LYRICS_SHORT_NAME_ " ";
-              
-            noLilypondLyricsPresent = false;
-          }
-          
-          if (lilypondCompileDatePresent) {
-            gLilypondOptions->fLilypondCompileDate = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _LILYPOND_COMPILE_DATE_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _LILYPOND_COMPILE_DATE_SHORT_NAME_ " ";
-              
-            lilypondCompileDatePresent = false;
-          }
-        
-          // score notation
-          // --------------------------------------
-  
-          if (jianpuPresent) {
-            gLilypondOptions->fScoreNotationKind =
-              lilypondOptions::kJianpuNotation;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _JIANPU_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _JIANPU_LONG_NAME_ " ";
-              // _JIANPU_SHORT_NAME_ is empty
-              
-            jianpuPresent = false;
-          }
-          
-          if (abcPresent) {
-            gLilypondOptions->fScoreNotationKind =
-              lilypondOptions::kABCNotation;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _ABC_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _ABC_LONG_NAME_ " ";
-              // _ABC_SHORT_NAME_ is empty
-    
-            abcPresent = false;
-          }
-  
-          // Midi
-          // --------------------------------------
-          
-          if (midiTempoPresent) {
-            // optarg contains the midi tempo specification
-            // decipher it to extract duration and perSecond values
-            string optargAsString;
-            {
-              stringstream s;
-              s << optarg;
-              optargAsString = s.str();
-            }
-            
-            string regularExpression (
-              "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
-              "="
-              "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-              
-            regex  e (regularExpression);
-            smatch sm;
-  
-            regex_match (optargAsString, sm, e);
-  
-            /*
-            cout <<
-              "There are " << sm.size() << " matches" <<
-              " for string '" << optargAsString <<
-              "' with regex '" << regularExpression <<
-              "'" <<
-              endl;
-            */
-          
-            if (sm.size ()) {
-              for (unsigned i = 0; i < sm.size (); ++i) {
-                cout << "[" << sm [i] << "] ";
-              } // for
-              cout << endl;
-            }
-            
-            else {
-              stringstream s;
-  
-              s <<
-                "--midiTempo argument '" << optarg <<
-                "' is ill-formed";
-                
-              optionError (s.str());
-            }
-            
-            gLilypondOptions->fMidiTempoDuration =  sm [1];
-  
-            {
-              stringstream s;
-              s << sm [2];
-              s >> gLilypondOptions->fMidiTempoPerSecond;
-            }
-            /* JMI
-            cerr <<
-              "gLilypondOptions->fMidiTempoDuration = " <<
-              gLilypondOptions->fMidiTempoDuration <<
-              endl <<
-              "gLilypondOptions->fMidiTempoPerSecond = " <<
-              gLilypondOptions->fMidiTempoPerSecond <<
-              endl;
-            */
-  
-            {
-              stringstream s;
-  
-              s <<
-                "--" _MIDI_TEMPO_LONG_NAME_ " '"  <<
-                optarg << "' ";
-    
-              gGeneralOptions->fCommandLineLongOptions +=
-                s.str();
-            }
-  
-            {
-              stringstream s;
-  
-              s <<
-                "--" _MIDI_TEMPO_SHORT_NAME_ " '"  <<
-                optarg << "' ";
-    
-              gGeneralOptions->fCommandLineShortOptions +=
-                s.str();
-            }
-                          
-            midiTempoPresent = false;
-          }
-  
-          if (noMidiCommandPresent) {
-            gLilypondOptions->fNoMidiCommand = true;
-  
-            gGeneralOptions->fCommandLineLongOptions +=
-              "--" _NO_MIDI_LONG_NAME_ " ";
-            gGeneralOptions->fCommandLineShortOptions +=
-              "--" _NO_MIDI_LONG_NAME_ " "; // _NO_MIDI_SHORT_NAME_ is empty
-              
-            noMidiCommandPresent = false;
-          }
         }
-  
         break;
           
 
