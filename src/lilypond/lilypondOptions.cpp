@@ -778,6 +778,8 @@ string lilypondOptions::scoreNotationKindAsString (
       result = "abc";
       break;
   } // switch
+
+  return result;
 }
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)

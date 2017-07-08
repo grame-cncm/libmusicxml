@@ -2390,7 +2390,6 @@ R"(
             }
           }
 
-  /* JMI
           {
             // MusicXML options
             // ----------------
@@ -3411,7 +3410,6 @@ R"(
               noMidiCommandPresent = false;
             }
           }
-*/
         }
         break;
           
