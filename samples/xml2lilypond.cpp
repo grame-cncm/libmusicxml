@@ -721,21 +721,7 @@ void analyzeOptions (
     
   int modernTabPresent = 0;
 
-  // midi
-  // --------------------------------------
-  
-  checkOptionUniqueness (
-    _MIDI_TEMPO_LONG_NAME_, _MIDI_TEMPO_SHORT_NAME_);
-    
-  int midiTempoPresent = 0;
-
-
-  checkOptionUniqueness (
-    _NO_MIDI_LONG_NAME_, _NO_MIDI_SHORT_NAME_);
-    
-  int noMidiCommandPresent = 0;
-
-  // LilyPond code generation
+  // code generation
   // --------------------------------------
   
   checkOptionUniqueness (
@@ -760,6 +746,8 @@ void analyzeOptions (
     
   int repeatBracketsPresent = 0;
 
+
+  // ornaments
 
   checkOptionUniqueness (
     _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_, _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_);
@@ -789,6 +777,32 @@ void analyzeOptions (
     _LILYPOND_COMPILE_DATE_LONG_NAME_, _LILYPOND_COMPILE_DATE_SHORT_NAME_);
     
   int lilypondCompileDatePresent = 0;
+
+  // score notation
+
+  checkOptionUniqueness (
+    _JIANPU_LONG_NAME_, _JIANPU_SHORT_NAME_);
+    
+  int jianpuPresent = 0;
+
+  checkOptionUniqueness (
+    _ABC_LONG_NAME_, _ABC_SHORT_NAME_);
+    
+  int abcPresent = 0;
+
+  // midi
+  // --------------------------------------
+  
+  checkOptionUniqueness (
+    _MIDI_TEMPO_LONG_NAME_, _MIDI_TEMPO_SHORT_NAME_);
+    
+  int midiTempoPresent = 0;
+
+
+  checkOptionUniqueness (
+    _NO_MIDI_LONG_NAME_, _NO_MIDI_SHORT_NAME_);
+    
+  int noMidiCommandPresent = 0;
 
 
   // long_options data structure
@@ -3331,9 +3345,43 @@ R"(
           lilypondCompileDatePresent = false;
         }
         
+        // score notation
+        // --------------------------------------
+
+        if (jianpuPresent) {
+          gLilypondOptions->fScoreNotationKind =
+            lilypondOptions::kJianpuNotation;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _JIANPU_LONG_NAME_ " ";
+            /* _JIANPU_SHORT_NAME_ is empty
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _JIANPU_SHORT_NAME_ " ";
+            */
+            
+          jianpuPresent = false;
         }
-        break;
         
+        if (abcPresent) {
+          gLilypondOptions->fScoreNotationKind =
+            lilypondOptions::kABCNotation;
+
+          gGeneralOptions->fCommandLineLongOptions +=
+            "--" _ABC_LONG_NAME_ " ";
+            /* _ABC_SHORT_NAME_ is empty
+          gGeneralOptions->fCommandLineShortOptions +=
+            "--" _ABC_SHORT_NAME_ " ";
+            */
+            
+          abcPresent = false;
+        }
+
+        }
+        break;        
+
+      // otherwise
+      // --------------------------------------
+
       default:
         cerr <<
           endl <<

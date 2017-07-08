@@ -699,6 +699,8 @@ void lilypondOptions::printLilypondOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "Generate the score using jianpu (numbered) notation instead of the default western notation." <<
+      endl <<
+    idtr << tab << tab << tab <<
       "This option and '--" _ABC_LONG_NAME_ "' are mutually exclusive." <<
       endl <<
     endl <<
@@ -707,7 +709,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
       "--" _ABC_LONG_NAME_ << // _ABC_SHORT_NAME_ is empty
       endl <<
     idtr << tab << tab << tab <<
-      "Generate the score using ABC (lettered) notation instead of the default western notation." << 
+      "Generate the score using ABC (lettered) notation instead of the default western notation." <<
+      endl <<
+    idtr << tab << tab << tab <<
       "This option and '--" _JIANPU_LONG_NAME_ "' are mutually exclusive." <<
       endl <<
     endl;
@@ -981,9 +985,17 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       booleanAsString (fLilypondCompileDate) <<
       endl;
 
+  idtr--;
+
   // score notation
   // --------------------------------------
     
+  cerr <<
+    idtr << "Score notation:" <<
+    endl;
+
+  idtr++;
+
   cerr <<
     idtr << setw(fieldWidth) << "fcoreNotationKind" << " : " <<
       scoreNotationKindAsString (
