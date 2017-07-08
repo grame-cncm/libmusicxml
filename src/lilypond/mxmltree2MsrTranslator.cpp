@@ -6811,8 +6811,6 @@ void mxmltree2MsrTranslator::visitStart ( S_beam& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-
-  bool beamIsOK = true;
   
   msrBeam::msrBeamKind beamKind;
 
@@ -6836,25 +6834,21 @@ void mxmltree2MsrTranslator::visitStart ( S_beam& elt )
     
     s <<
       "beam \"" << fCurrentBeamValue <<
-      "\"" << "is not handled, ignored";
+      "\"" << "is not known";
       
-    msrMusicXMLWarning (
+    msrMusicXMLError (
       inputLineNumber,
       s.str());
-
-    beamIsOK = false;
   }
     
-  if (beamIsOK) {
-    S_msrBeam
-      beam =
-        msrBeam::create (
-          inputLineNumber,
-          fCurrentBeamNumber,
-          beamKind);
+  S_msrBeam
+    beam =
+      msrBeam::create (
+        inputLineNumber,
+        fCurrentBeamNumber,
+        beamKind);
 
-    fPendingBeams.push_back (beam);
-  }
+  fPendingBeams.push_back (beam);
 }
 
 //______________________________________________________________________________

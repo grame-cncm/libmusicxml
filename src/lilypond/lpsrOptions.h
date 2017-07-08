@@ -36,6 +36,7 @@ namespace MusicXML2
 #define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
 
 // Scheme functions
+
 #define _TRACE_SCHEME_FUNCTIONS_LONG_NAME_  "traceSchemeFunctions"
 #define _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ "tscheme"
 

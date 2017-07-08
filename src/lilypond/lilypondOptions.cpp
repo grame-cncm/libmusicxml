@@ -112,6 +112,11 @@ void lilypondOptions::initializeLilypondOptions (
   
   fLilypondCompileDate = boolOptionsInitialValue;
     
+  // score notation
+
+  fScoreNotationKind =  lilypondOptions::kWesternNotation;
+    // default value
+  
   // midi
 
   fMidiTempoDuration  = "4";
@@ -254,6 +259,11 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fLilypondCompileDate =
     fLilypondCompileDate;
     
+  // score notation
+
+  clone->fScoreNotationKind =
+    fScoreNotationKind;
+        
   // midi
   
   clone->fMidiTempoDuration =
@@ -664,13 +674,44 @@ void lilypondOptions::printLilypondOptionsHelp ()
     endl <<
       
     idtr <<
-      "--" _LILYPOND_COMPILE_DATE_SHORT_NAME_ << // _LILYPOND_COMPILE_DATE_SHORT_NAME_ is empty 
+      "--" _LILYPOND_COMPILE_DATE_SHORT_NAME_ << _LILYPOND_COMPILE_DATE_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
       "Generate code to include the date when LilyPond creates the score in the latter." << 
       endl <<
     endl;
     
+  idtr--;
+
+  // score notation
+  // --------------------------------------
+
+  cerr <<
+    idtr << "Score notation:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _JIANPU_LONG_NAME_ << // _JIANPU_SHORT_NAME_ is empty
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate the score using jianpu (numbered) notation instead of the default western notation." <<
+      "This option and '--" _ABC_LONG_NAME_ "' are mutually exclusive." <<
+      endl <<
+    endl <<
+    
+    idtr <<
+      "--" _ABC_LONG_NAME_ << // _ABC_SHORT_NAME_ is empty
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate the score using ABC (lettered) notation instead of the default western notation." << 
+      "This option and '--" _JIANPU_LONG_NAME_ "' are mutually exclusive." <<
+      endl <<
+    endl;
+
   idtr--;
 
   // midi
@@ -715,6 +756,24 @@ void lilypondOptions::printLilypondOptionsHelp ()
 
   
   idtr--;
+}
+
+string lilypondOptions::scoreNotationKindAsString (
+  scoreNotationKind notationKind)
+{
+  string result;
+
+  switch (notationKind) {
+    case lilypondOptions::kWesternNotation:
+      result = "western";
+      break;
+    case lilypondOptions::kJianpuNotation:
+      result = "jianpu";
+      break;
+    case lilypondOptions::kABCNotation:
+      result = "abc";
+      break;
+  } // switch
 }
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
@@ -920,6 +979,15 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
     idtr << setw(fieldWidth) << "lilypondCompileDate" << " : " <<
       booleanAsString (fLilypondCompileDate) <<
+      endl;
+
+  // score notation
+  // --------------------------------------
+    
+  cerr <<
+    idtr << setw(fieldWidth) << "fcoreNotationKind" << " : " <<
+      scoreNotationKindAsString (
+        fScoreNotationKind) <<
       endl;
 
   idtr--;

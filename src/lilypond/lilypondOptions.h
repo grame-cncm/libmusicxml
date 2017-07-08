@@ -120,6 +120,15 @@ namespace MusicXML2
 #define _LILYPOND_COMPILE_DATE_LONG_NAME_  "lilypondCompileDate"
 #define _LILYPOND_COMPILE_DATE_SHORT_NAME_ "lpcd"
 
+// score notation
+// --------------------------------------
+
+#define _JIANPU_LONG_NAME_  "jianpu"
+#define _JIANPU_SHORT_NAME_ ""
+
+#define _ABC_LONG_NAME_  "abc"
+#define _ABC_SHORT_NAME_ ""
+
 // midi
 // --------------------------------------
 
@@ -132,6 +141,20 @@ namespace MusicXML2
 
 class EXP lilypondOptions : public smartable {
   public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum scoreNotationKind {
+      kWesternNotation, kJianpuNotation, kABCNotation };
+
+    static string scoreNotationKindAsString (
+      scoreNotationKind notationKind);
+
+  public:
+
+    // creation
+    // ------------------------------------------------------
 
     static SMARTP<lilypondOptions> create ();
     
@@ -239,6 +262,11 @@ class EXP lilypondOptions : public smartable {
 
     bool                  fLilypondCompileDate;
 
+    // score notation
+    // --------------------------------------
+
+    scoreNotationKind     fScoreNotationKind;
+    
     // midi
     // --------------------------------------
     
