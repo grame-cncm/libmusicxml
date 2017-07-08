@@ -2389,7 +2389,8 @@ R"(
               traceHarmoniesPresent = false;
             }
           }
-  
+
+  /* JMI
           {
             // MusicXML options
             // ----------------
@@ -2566,12 +2567,13 @@ R"(
                     partNameSpec,
                     '=',
                     false); // 'true' to debug it
-              /*
-              cerr <<
-                "--> pair.first = \"" << pair.first << "\", " <<
-                "--> pair.second = \"" << pair.second << "\"" <<
-                endl;
-              */
+
+              if (false) {
+                cerr <<
+                  "--> pair.first = \"" << pair.first << "\", " <<
+                  "--> pair.second = \"" << pair.second << "\"" <<
+                  endl;
+              }
     
               // is this part name in the part renaming map?
               map<string, string>::iterator
@@ -3170,14 +3172,14 @@ R"(
     
               regex_match (optargAsString, sm, e);
     
-              /*
-              cout <<
-                "There are " << sm.size() << " matches" <<
-                " for string '" << optargAsString <<
-                "' with regex '" << regularExpression <<
-                "'" <<
-                endl;
-              */
+              if (false) {
+                cout <<
+                  "There are " << sm.size() << " matches" <<
+                  " for string '" << optargAsString <<
+                  "' with regex '" << regularExpression <<
+                  "'" <<
+                  endl;
+              }
             
               if (sm.size ()) {
                 for (unsigned i = 0; i < sm.size (); ++i) {
@@ -3206,15 +3208,16 @@ R"(
                 s << sm [2];
                 s >> gLilypondOptions->fDelayedOrnamentFractionDenominator;
               }
-              /*
-              cerr << JMI
-                "gLilypondOptions->fDelayedOrnamentFractionNumerator = " <<
-                gLilypondOptions->fDelayedOrnamentFractionNumerator <<
-                endl <<
-                "gLilypondOptions->fDelayedOrnamentFractionDenominator = " <<
-                gLilypondOptions->fDelayedOrnamentFractionDenominator <<
-                endl;
-              */
+
+              if (false) {
+                cerr << // JMI
+                  "gLilypondOptions->fDelayedOrnamentFractionNumerator = " <<
+                  gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+                  endl <<
+                  "gLilypondOptions->fDelayedOrnamentFractionDenominator = " <<
+                  gLilypondOptions->fDelayedOrnamentFractionDenominator <<
+                  endl;
+              }
     
               stringstream s;
     
@@ -3328,14 +3331,14 @@ R"(
     
               regex_match (optargAsString, sm, e);
     
-              /*
-              cout <<
-                "There are " << sm.size() << " matches" <<
-                " for string '" << optargAsString <<
-                "' with regex '" << regularExpression <<
-                "'" <<
-                endl;
-              */
+              if (false) {
+                cout <<
+                  "There are " << sm.size() << " matches" <<
+                  " for string '" << optargAsString <<
+                  "' with regex '" << regularExpression <<
+                  "'" <<
+                  endl;
+              }
             
               if (sm.size ()) {
                 for (unsigned i = 0; i < sm.size (); ++i) {
@@ -3361,15 +3364,16 @@ R"(
                 s << sm [2];
                 s >> gLilypondOptions->fMidiTempoPerSecond;
               }
-              /* JMI
-              cerr <<
-                "gLilypondOptions->fMidiTempoDuration = " <<
-                gLilypondOptions->fMidiTempoDuration <<
-                endl <<
-                "gLilypondOptions->fMidiTempoPerSecond = " <<
-                gLilypondOptions->fMidiTempoPerSecond <<
-                endl;
-              */
+
+              if (false) {
+                cerr <<
+                  "gLilypondOptions->fMidiTempoDuration = " <<
+                  gLilypondOptions->fMidiTempoDuration <<
+                  endl <<
+                  "gLilypondOptions->fMidiTempoPerSecond = " <<
+                  gLilypondOptions->fMidiTempoPerSecond <<
+                  endl;
+              }
     
               {
                 stringstream s;
@@ -3407,7 +3411,7 @@ R"(
               noMidiCommandPresent = false;
             }
           }
-
+*/
         }
         break;
           
