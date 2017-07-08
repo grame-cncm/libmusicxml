@@ -14949,7 +14949,8 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
         msrSyllable::kBarNumberCheckSyllable,
         s.str(),
         msrSyllable::k_NoSyllableExtend,
-        0,
+        0,  // wholeNotes
+        "", // wholeNotesAsMsrString
         this);
        
   // append syllable to this stanza
@@ -14982,7 +14983,8 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
         msrSyllable::kBreakSyllable,
         s.str(),
         msrSyllable::k_NoSyllableExtend,
-        0,
+        0,  // wholeNotes
+        "", // wholeNotesAsMsrString
         this);
         
   // append syllable to this stanza
@@ -22821,7 +22823,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     fVoiceMuteStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingWholeNotes);
+        noteSoundingWholeNotes,
         noteSoundingWholeNotesAsMsrString);
 }
 
@@ -22890,17 +22892,23 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     noteSoundingWholeNotes =
       note->
         getNoteSoundingWholeNotes ();
+  string
+    noteSoundingWholeNotesAsMsrString =
+      note->
+        getNoteSoundingWholeNotesAsMsrString ();
 
   if (note->getNoteIsARest ())
     fVoiceMuteStanza->
       appendRestSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingWholeNotes);
+        noteSoundingWholeNotes,
+        noteSoundingWholeNotesAsMsrString);
   else
     fVoiceMuteStanza->
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
-        noteSoundingWholeNotes);
+        noteSoundingWholeNotes,
+        noteSoundingWholeNotesAsMsrString);
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
