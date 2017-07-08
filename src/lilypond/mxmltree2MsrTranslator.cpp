@@ -46,6 +46,8 @@ void mxmltree2MsrTranslator::initializeNoteData ()
   fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
   
   fCurrentNoteSoundingWholeNotes  = rational (-17, 1);
+  fCurrentNoteSoundingWholeNotesAsString = "???";
+  
   fCurrentNoteDisplayWholeNotes = rational (0, 1);
   
   fCurrentNoteDotsNumber = 0;
@@ -5133,7 +5135,10 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         " syllable"
         ", text = \"" << fCurrentLyricText << "\"" <<
         ", line " << inputLineNumber <<
-        ", sounding whole notes = " << fCurrentNoteSoundingWholeNotes << 
+        ", sounding whole notes = " <<
+        fCurrentNoteSoundingWholeNotes << 
+        ", sounding whole notes as string = " <<
+        fCurrentNoteSoundingWholeNotesAsString << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -5148,6 +5153,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentLyricText,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteSoundingWholeNotes,
+        fCurrentNoteSoundingWholeNotesAsString,
         stanza);
 
 /* JMI
@@ -11445,6 +11451,12 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
     // standalone note
     fCurrentNoteDisplayWholeNotes =
       fCurrentNoteSoundingWholeNotes;
+
+    fCurrentNoteSoundingWholeNotesAsString =
+      fCurrentDivisions->
+        wholeNotesAsMsrString (
+          inputLineNumber,
+          fCurrentNoteSoundingWholeNotes);
   }
 
   // create the (new) note
@@ -11461,6 +11473,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
  // JMI       fCurrentDivisionsPerQuarterNote, // JMI
         
         fCurrentNoteSoundingWholeNotes,
+        fCurrentNoteSoundingWholeNotesAsString,
         fCurrentNoteDisplayWholeNotes,
         
         fCurrentNoteDotsNumber,

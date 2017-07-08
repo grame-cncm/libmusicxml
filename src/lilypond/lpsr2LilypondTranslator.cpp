@@ -4513,7 +4513,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         fOstream <<
           lilypondizeDurationString (
             note->
-              getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
+  // JMI            getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
+              getNoteSoundingWholeNotesAsMsrString ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4542,7 +4543,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
+  // JMI            getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
+              getNoteSoundingWholeNotesAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept

@@ -5807,6 +5807,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
           containingVoice-> getVoiceDirectPartUplink (),
  // JMI         note->            getNoteDivisionsPerQuarterNote (),
           note->            getNoteSoundingWholeNotes (),
+          note->            getNoteSoundingWholeNotesAsMsrString (),
           note->            getNoteDotsNumber (),
           containingVoice-> getVoiceStaffRelativeNumber (), // JMI
           containingVoice-> getVoicePartRelativeID ());
@@ -6167,6 +6168,7 @@ S_msrNote msrNote::create (
  // JMI int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingWholeNotes,
+  rational             noteSoundingWholeNotesAsString,
   rational             noteDisplayWholeNotes,
   
   int                  noteDotsNumber,
@@ -6195,6 +6197,7 @@ S_msrNote msrNote::create (
  // JMI     noteDivisionsPerQuarterNote,
       
       noteSoundingWholeNotes,
+      noteSoundingWholeNotesAsString,
       noteDisplayWholeNotes,
       
       noteDotsNumber,
@@ -6220,6 +6223,7 @@ S_msrNote msrNote::createSkipNote (
   S_msrPart noteDirectPartUplink,
  // JMI int       noteDivisionsPerQuarterNote,
   rational  wholeNotes,
+  rational  wholeNotesAsMsrString,
   int       dotsNumber,
   int       staffNumber,
   int       voicePartRelativeID)
@@ -6236,6 +6240,7 @@ S_msrNote msrNote::createSkipNote (
  // JMI     noteDivisionsPerQuarterNote,
       
       wholeNotes, // noteSoundingWholeNotes
+      wholeNotesAsMsrString,
       wholeNotes, // noteDisplayWholeNotes
       
       dotsNumber,
@@ -6271,6 +6276,7 @@ msrNote::msrNote (
 // JMI  int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingWholeNotes,
+  rational             noteSoundingWholeNotesAsString,
   rational             noteDisplayWholeNotes,
   
   int                  noteDotsNumber,
@@ -6303,7 +6309,9 @@ msrNote::msrNote (
 
  // JMI fNoteDivisionsPerQuarterNote = noteDivisionsPerQuarterNote;
   
-  fNoteSoundingWholeNotes = noteSoundingWholeNotes;
+  fNoteSoundingWholeNotes            = noteSoundingWholeNotes;
+  fNoteSoundingWholeNotesAsMsrString = noteSoundingWholeNotesAsString;
+  
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
   
   fNoteDotsNumber         = noteDotsNumber;
@@ -6558,30 +6566,36 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kRestNote:
+    /* JMI
       fNoteSkipOrRestSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
             wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteSoundingWholeNotes);
+              */
       break;
       
     case msrNote::kSkipNote:
+    /* JMI
       fNoteSkipOrRestSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
             wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteSoundingWholeNotes);
+              */
       break;
       
     case msrNote::kStandaloneNote:
+    /* JMI
       fNoteSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
             wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteSoundingWholeNotes);
+              */
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -6820,8 +6834,8 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
     
-  newbornClone->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
-    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+// JMI newbornClone->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
+//    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
     
   newbornClone->fNoteTupletNoteSoundingWholeNotesAsMsrString =
     fNoteTupletNoteSoundingWholeNotesAsMsrString;
@@ -7162,8 +7176,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
     
-  noteDeepCopy->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
-    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+ // JMI noteDeepCopy->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
+//    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
     
   noteDeepCopy->fNoteTupletNoteSoundingWholeNotesAsMsrString =
     fNoteTupletNoteSoundingWholeNotesAsMsrString;
@@ -8056,14 +8070,16 @@ string msrNote::noteAsShortString () const
       s <<
         "R" <<
         ":" <<
-        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+        fNoteSoundingWholeNotesAsMsrString;
+ // JMI       fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+        fNoteSoundingWholeNotesAsMsrString;
+ // JMI       fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
@@ -8160,14 +8176,16 @@ string msrNote::noteAsString () const
         fNoteDisplayWholeNotes <<
         " disp" <<
         ":" <<
-        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+        fNoteSoundingWholeNotesAsMsrString;
+ // JMI       fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
       s <<
         "Skip" <<
         ":" <<
-        fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+        fNoteSoundingWholeNotesAsMsrString;
+ // JMI       fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
@@ -8455,8 +8473,10 @@ void msrNote::print (ostream& os)
 
           os << left <<
             idtr << setw(fieldWidth) <<
-              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
-              fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
+              "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+              fNoteSoundingWholeNotesAsMsrString <<
+// JMI              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
+      //        fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
               "\"" <<
             endl;
         }
@@ -8468,8 +8488,10 @@ void msrNote::print (ostream& os)
 
           os << left <<
             idtr << setw(fieldWidth) <<
-              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
-              fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
+              "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+              fNoteSoundingWholeNotesAsMsrString <<
+// JMI              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
+      //        fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
               "\"" <<
               endl;
         }
@@ -13949,6 +13971,7 @@ msrSyllable::msrSyllable (
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
+  string                syllableWholeNotesAsString,
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
@@ -13962,7 +13985,9 @@ msrSyllable::msrSyllable (
     
   fSyllableKind = syllableKind;
   fSyllableText = syllableText;
+  
   fSyllableWholeNotes = syllableWholeNotes;
+  fSyllableWholeNotesAsString = syllableWholeNotesAsString;
 
   fSyllableExtendKind = syllableExtendKind;
   
@@ -14001,6 +14026,9 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
     
+  newbornClone->fSyllableWholeNotesAsString =
+    fSyllableWholeNotesAsString;
+  
   // dont't set 'newbornClone->fSyllableStanzaUplink'
   // nor 'newbornClone->fSyllableNoteUplink',
   // this will be done by the caller
@@ -14037,6 +14065,9 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
     
+  syllableDeepCopy->fSyllableWholeNotesAsString =
+    fSyllableWholeNotesAsString;
+  
   // dont't set 'newbornClone->fSyllableStanzaUplink'
   // nor 'newbornClone->fSyllableNoteUplink',
   // this will be done by the caller
@@ -14232,23 +14263,6 @@ string msrSyllable::syllableExtendKindAsString (
   return result;
 }
 
-string msrSyllable::syllableWholeNotesAsString () const
-{
-  msrAssert(fSyllableDirectPartUplink!=0, "fSyllableDirectPartUplink");
-
-  S_msrDivisions foo = fSyllableDirectPartUplink->
-      getPartCurrentDivisions ();
-
-  msrAssert(foo!=0, "foo");
-  
-  return
-    fSyllableDirectPartUplink->
-      getPartCurrentDivisions ()->
-        wholeNotesAsMsrString (
-          fInputLineNumber,
-          fSyllableWholeNotes);
-}
-
 string msrSyllable::syllableNoteUplinkAsString () const
 {
   string result;
@@ -14274,7 +14288,7 @@ string msrSyllable::syllableAsString () const
       s <<
         "single" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << syllableWholeNotesAsString () <<
+        ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14287,7 +14301,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "begin" <<
         ", " << "\"" << fSyllableText << "\"" <<
-         ":" << syllableWholeNotesAsString () <<
+         ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14300,7 +14314,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "middle" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << syllableWholeNotesAsString () <<
+        ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14313,7 +14327,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "end" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << syllableWholeNotesAsString () <<
+        ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14324,7 +14338,7 @@ string msrSyllable::syllableAsString () const
       
     case kRestSyllable:
        s << 
-        "rest" << ":" << syllableWholeNotesAsString () <<
+        "rest" << ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14333,14 +14347,14 @@ string msrSyllable::syllableAsString () const
       
     case kSkipSyllable:
       s << 
-        "skip" << ":" << // JMI syllableWholeNotesAsString () <<
+        "skip" << ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;
       
     case kSlurSyllable:
       s << 
-        "slur" << ":" << syllableWholeNotesAsString () <<
+        "slur" << ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14349,7 +14363,7 @@ string msrSyllable::syllableAsString () const
       
     case kSlurBeyondEndSyllable:
       s << 
-        "slur beyond end" << ":" << syllableWholeNotesAsString () <<
+        "slur beyond end" << ":" << fSyllableWholeNotesAsString <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14357,7 +14371,7 @@ string msrSyllable::syllableAsString () const
       
     case kLigatureSyllable:
       s << 
-        "ligature" << ":" << syllableWholeNotesAsString () <<
+        "ligature" << ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14366,7 +14380,7 @@ string msrSyllable::syllableAsString () const
       
     case kLigatureBeyondEndSyllable:
       s << 
-        "ligature beyond end" << ":" << syllableWholeNotesAsString () <<
+        "ligature beyond end" << ":" << fSyllableWholeNotesAsString <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14374,7 +14388,7 @@ string msrSyllable::syllableAsString () const
       
     case kTiedSyllable:
       s << 
-        "tied" << ":" << syllableWholeNotesAsString () <<
+        "tied" << ":" << fSyllableWholeNotesAsString <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -16904,7 +16918,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // fetch note sounding whole notes
   rational noteSoundingWholeNotes =
     note->getNoteSoundingWholeNotes ();
-
+  string noteSoundingWholeNotesAsMsrString =
+    note->getNoteSoundingWholeNotesAsMsrString ();
+    
   // account for note duration in measure length
   setMeasureLength (
     inputLineNumber,
@@ -16979,6 +16995,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               fMeasureDirectPartUplink,
   // JMI            note->getNoteDivisionsPerQuarterNote (),
               noteSoundingWholeNotes,
+              noteSoundingWholeNotesAsMsrString,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
                 getVoiceStaffUplink ()->
@@ -17669,6 +17686,13 @@ void msrMeasure::bringMeasureToMeasureLength (
     rational
       skipDuration =
         measureLength - fMeasureLength;
+    string
+      skipDurationAsMsrString =
+        fMeasureDirectPartUplink->
+          getPartCurrentDivisions ()->
+            wholeNotesAsMsrString (
+              fInputLineNumber,
+              skipDuration);
     
     // fetch the voice
     S_msrVoice
@@ -17684,6 +17708,7 @@ void msrMeasure::bringMeasureToMeasureLength (
           fMeasureDirectPartUplink,
    // JMI       37, // JMI
           skipDuration,
+          skipDurationAsMsrString,
           0, // dots number JMI ???
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
@@ -18216,6 +18241,14 @@ void msrMeasure::finalizeMeasure (
       rational
         skipDuration =
           partMeasureLengthHighTide - fMeasureLength;
+      string
+        skipDurationAsMsrString =
+          fMeasureDirectPartUplink->
+            getPartCurrentDivisions ()->
+              wholeNotesAsMsrString (
+                fInputLineNumber,
+                skipDuration);
+  
       /* JMI
         partMeasureLengthHighTide > fMeasureFullMeasureLength // + 1 // JMI ???
           ? partMeasureLengthHighTide - fMeasureLength
@@ -18230,6 +18263,7 @@ void msrMeasure::finalizeMeasure (
             fMeasureDirectPartUplink,
    // JMI         49, // JMI
             skipDuration,
+            skipDurationAsMsrString,
             0, // dots number JMI ???
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),

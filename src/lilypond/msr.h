@@ -4073,6 +4073,7 @@ class EXP msrSyllable : public msrElement
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
+      string                syllableWholeNotesAsString,
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableNewbornClone (
@@ -4093,6 +4094,7 @@ class EXP msrSyllable : public msrElement
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
+      string                syllableWholeNotesAsString,
       S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable();
@@ -4102,16 +4104,26 @@ class EXP msrSyllable : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrPart             getSyllableDirectPartUplink () const
-                             { return fSyllableDirectPartUplink; }
+    // syllable whole notes
+    rational              getSyllableWholeNotes () const
+                              { return fSyllableWholeNotes; }
 
+    void                  getSyllableWholeNotesAsString (
+                            string syllableWholeNotesAsString)
+                              {
+                                fSyllableWholeNotesAsString =
+                                  syllableWholeNotesAsString;
+                              }
+                              
+    string                getSyllableWholeNotesAsString () const
+                              {
+                                return
+                                  fSyllableWholeNotesAsString;
+                              }
+
+    // syllable kind and contents
     msrSyllableKind       getSyllableKind () const
                               { return fSyllableKind; }
-
-    void                  setSyllableNoteUplink (S_msrNote note);
-
-    S_msrNote             getSyllableNoteUplink () const
-                              { return fSyllableNoteUplink; }
 
     string                getSyllableText () const
                               { return fSyllableText; }
@@ -4119,16 +4131,19 @@ class EXP msrSyllable : public msrElement
     msrSyllableExtendKind getSyllableExtendKind () const
                               { return fSyllableExtendKind; }
 
-    // syllable whole notes
-    rational              getSyllableWholeNotes () const
-                              { return fSyllableWholeNotes; }
+    // uplinks
+    void                  setSyllableNoteUplink (S_msrNote note);
+
+    S_msrNote             getSyllableNoteUplink () const
+                              { return fSyllableNoteUplink; }
+
+    S_msrPart             getSyllableDirectPartUplink () const
+                             { return fSyllableDirectPartUplink; }
 
     // services
     // ------------------------------------------------------
   
     string                syllableKindAsString () const;
-
-    string                syllableWholeNotesAsString () const;
 
     string                syllableNoteUplinkAsString () const;
 
@@ -4149,12 +4164,14 @@ class EXP msrSyllable : public msrElement
 
   private:
   
+    // syllable whole notes
+    rational              fSyllableWholeNotes;
+    string                fSyllableWholeNotesAsString;
+
+    // syllable kind and contents
     msrSyllableKind       fSyllableKind;
     string                fSyllableText;
     msrSyllableExtendKind fSyllableExtendKind;
-
-    // syllable whole notes
-    rational              fSyllableWholeNotes;
 
     // uplinks
     S_msrNote             fSyllableNoteUplink;
@@ -4362,6 +4379,7 @@ class EXP msrNote : public msrElement
  // JMI     int                  noteDivisionsPerQuarterNote,
       
       rational             noteSoundingWholeNotes,
+      rational             noteSoundingWholeNotesAsString,
       rational             noteDisplayWholeNotes,
       
       int                  noteDotsNumber,
@@ -4392,6 +4410,7 @@ class EXP msrNote : public msrElement
       S_msrPart noteDirectPartUplink,
  // JMI     int       noteDivisionsPerQuarterNote,
       rational  wholeNotes,
+      rational             noteSoundingWholeNotesAsString,
       int       dotsNumber,
       int       staffNumber,
       int       voicePartRelativeID);
@@ -4412,6 +4431,7 @@ class EXP msrNote : public msrElement
  // JMI     int                  noteDivisionsPerQuarterNote,
 
       rational             noteSoundingWholeNotes,
+      rational             noteSoundingWholeNotesAsString,
       rational             noteDisplayWholeNotes,
       
       int                  noteDotsNumber,
@@ -4494,6 +4514,18 @@ class EXP msrNote : public msrElement
                               {
                                 return
                                   fNoteSoundingWholeNotes;
+                              }
+
+    string                getNoteSoundingWholeNotesAsMsrString () const
+                              {
+                                return
+                                  fNoteSoundingWholeNotesAsMsrString;
+                              }
+                              
+    string                getNoteDisplayWholeNotesAsMsrString () const
+                              {
+                                return
+                                  fNoteDisplayWholeNotesAsMsrString;
                               }
 
     // note display
@@ -4725,23 +4757,13 @@ class EXP msrNote : public msrElement
     // note MSR strings
     void                  setNoteMSRstrings ();
 
-    string                getNoteSoundingWholeNotesAsMsrString () const
-                              {
-                                return
-                                  fNoteSoundingWholeNotesAsMsrString;
-                              }
-                              
-    string                getNoteDisplayWholeNotesAsMsrString () const
-                              {
-                                return
-                                  fNoteDisplayWholeNotesAsMsrString;
-                              }
-                              
+                              /* JMI
     string                getNoteSkipOrRestSoundingWholeNotesAsMsrString () const
                               {
                                 return
                                   fNoteSkipOrRestSoundingWholeNotesAsMsrString;
                               }
+                              */
                               
     string                getNoteGraphicDurationAsMsrString () const
                               {
@@ -4884,7 +4906,10 @@ class EXP msrNote : public msrElement
  // JMI   int                   fNoteDivisionsPerQuarterNote; // JMI
     
     rational              fNoteSoundingWholeNotes;
+    string                fNoteSoundingWholeNotesAsMsrString;
+    
     rational              fNoteDisplayWholeNotes;
+    string                fNoteDisplayWholeNotesAsMsrString;
     
     int                   fNoteDotsNumber;
     
@@ -5017,16 +5042,13 @@ class EXP msrNote : public msrElement
     
     bool                  fNoteOccupiesAFullMeasure;
     
-    // note as MSR string
+    // note as MSR string // JMI
     // ------------------------------------------------------
     // these fileds are set by msrNote::create()
     
-    string                fNoteSoundingWholeNotesAsMsrString;
-    string                fNoteDisplayWholeNotesAsMsrString;
-    
     string                fNoteGraphicDurationAsMsrString;
     
-    string                fNoteSkipOrRestSoundingWholeNotesAsMsrString;
+//    string                fNoteSkipOrRestSoundingWholeNotesAsMsrString;
     
     string                fNoteTupletNoteSoundingWholeNotesAsMsrString;
     

@@ -1071,6 +1071,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // note sound
     msrQuarterTonesPitch      fCurrentNoteQuarterTonesPitch;
     rational                  fCurrentNoteSoundingWholeNotes;
+    string                    fCurrentNoteSoundingWholeNotesAsString;
 
     // note display
     msrQuarterTonesPitch      fCurrentNoteQuarterTonesDisplayPitch;
