@@ -1675,27 +1675,7 @@ void analyzeOptions (
       no_argument, &modernTabPresent, 1
     },
     
-    // midi
-    // --------------------------------------
-
-    {
-      _MIDI_TEMPO_LONG_NAME_,
-      required_argument, &midiTempoPresent, 1
-    },
-
-    {
-      _MIDI_TEMPO_SHORT_NAME_,
-      required_argument, &midiTempoPresent, 1
-    },
-
-    
-    {
-      _NO_MIDI_LONG_NAME_,
-      no_argument, &noMidiCommandPresent, 1
-    },
-    // _NO_MIDI_SHORT_NAME_ is empty
-    
-    // LilyPond code generation
+    // code generation
     // --------------------------------------
 
     {
@@ -1791,6 +1771,50 @@ void analyzeOptions (
       no_argument, &lilypondCompileDatePresent, 1
     },
 
+    // score notation
+    // --------------------------------------
+
+    {
+      _JIANPU_LONG_NAME_,
+      no_argument, &jianpuPresent, 1
+    },
+
+    {
+      _JIANPU_SHORT_NAME_,
+      no_argument, &jianpuPresent, 1
+    },
+
+
+    {
+      _ABC_LONG_NAME_,
+      no_argument, &abcPresent, 1
+    },
+
+    {
+      _ABC_SHORT_NAME_,
+      no_argument, &abcPresent, 1
+    },
+
+    // midi
+    // --------------------------------------
+
+    {
+      _MIDI_TEMPO_LONG_NAME_,
+      required_argument, &midiTempoPresent, 1
+    },
+
+    {
+      _MIDI_TEMPO_SHORT_NAME_,
+      required_argument, &midiTempoPresent, 1
+    },
+
+    
+    {
+      _NO_MIDI_LONG_NAME_,
+      no_argument, &noMidiCommandPresent, 1
+    },
+    // _NO_MIDI_SHORT_NAME_ is empty
+    
 
     {0, 0, 0, 0}
     };
@@ -3354,10 +3378,9 @@ R"(
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _JIANPU_LONG_NAME_ " ";
-            /* _JIANPU_SHORT_NAME_ is empty
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _JIANPU_SHORT_NAME_ " ";
-            */
+            "--" _JIANPU_LONG_NAME_ " ";
+            // _JIANPU_SHORT_NAME_ is empty
             
           jianpuPresent = false;
         }
@@ -3368,11 +3391,10 @@ R"(
 
           gGeneralOptions->fCommandLineLongOptions +=
             "--" _ABC_LONG_NAME_ " ";
-            /* _ABC_SHORT_NAME_ is empty
           gGeneralOptions->fCommandLineShortOptions +=
-            "--" _ABC_SHORT_NAME_ " ";
-            */
-            
+            "--" _ABC_LONG_NAME_ " ";
+            // _ABC_SHORT_NAME_ is empty
+  
           abcPresent = false;
         }
 
