@@ -2080,6 +2080,7 @@ string wholeNotesAsString (
     s << ".";
   } // for
   
+  // return the result
   return
     s.str();
 }

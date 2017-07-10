@@ -3597,16 +3597,16 @@ int main (int argc, char *argv[])
 
   if (true) {
     cerr <<
-      wholeNotesAsString (1, rational (7, 16)).toString () <<
-      end <<
-      wholeNotesAsString (1, rational (3, 4)).toString () <<
-      end <<
-      wholeNotesAsString (1, rational (5, 4)).toString () <<
-      end <<
-      wholeNotesAsString (1, rational (9, 4)).toString () <<
-      end <<
-      end;
-    
+      wholeNotesAsString (1, rational (7, 16)) <<
+      endl <<
+      wholeNotesAsString (1, rational (3, 4)) <<
+      endl <<
+      wholeNotesAsString (1, rational (5, 4)) <<
+      endl <<
+      wholeNotesAsString (1, rational (9, 4)) <<
+      endl <<
+      endl;
+      
     exit (0);
   }
   
