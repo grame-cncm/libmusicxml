@@ -2057,7 +2057,7 @@ string wholeNotesAsString (
     if (numerator % 2 == 1) {
       numberOfDots += 1;
       
-      numerator -= 1;
+      numerator = (numerator - 1) / 2;
       denominator /= 2;
       
       rational r (numerator, denominator);
