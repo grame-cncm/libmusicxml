@@ -402,6 +402,11 @@ enum msrDuration {
 
 string msrDurationAsString (msrDuration duration);
 
+// whole notes
+//______________________________________________________________________________
+string wholeNotesAsString (
+  int      inputLineNumber,
+  rational wholeNotes);
 
 //______________________________________________________________________________
 /*!

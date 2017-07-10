@@ -3594,6 +3594,21 @@ int main (int argc, char *argv[])
 
   initializePitchesLanguages ();
   initializeLpsrChordsLanguages ();
+
+  if (true) {
+    cerr <<
+      wholeNotesAsString (1, rational (7, 16)).toString () <<
+      end <<
+      wholeNotesAsString (1, rational (3, 4)).toString () <<
+      end <<
+      wholeNotesAsString (1, rational (5, 4)).toString () <<
+      end <<
+      wholeNotesAsString (1, rational (9, 4)).toString () <<
+      end <<
+      end;
+    
+    exit (0);
+  }
   
   // create the options variables
   // ------------------------------------------------------

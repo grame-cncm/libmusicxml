@@ -2040,6 +2040,49 @@ string msrDurationAsString (msrDuration duration)
   return result;
 }
 
+//_______________________________________________________________________________
+string wholeNotesAsString (
+  int      inputLineNumber,
+  rational wholeNotes)
+{  
+  wholeNotes.rationalise ();
+
+  int
+    numerator    = wholeNotes.getNumerator (),
+    denominator  = wholeNotes.getDenominator (),
+    numberOfDots = 0;
+
+  // handle the quarter note fraction if any
+  while (denominator > 4) {
+    if (numerator % 2 == 1) {
+      numberOfDots += 1;
+      
+      numerator -= 1;
+      denominator /= 2;
+      
+      rational r (numerator, denominator);
+      r.rationalise ();
+      
+      numerator    = r.getNumerator (),
+      denominator  = r.getDenominator ();
+    }
+  } // while
+  
+  // handle the 'above quarter note' part
+
+  // produce the result
+  stringstream s;
+
+  s <<
+    numerator << "/" << denominator;
+    
+  for (int i = 0; i < numberOfDots; i++) {
+    s << ".";
+  } // for
+  
+  return
+    s.str();
+}
 
 //_______________________________________________________________________________
 S_msrOptions gMsrOptions;
