@@ -14823,7 +14823,6 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
         nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
-        "", // wholeNotesAsMsrString
         this);
        
   // append syllable to this stanza
@@ -14857,7 +14856,6 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
         s.str(),
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
-        "", // wholeNotesAsMsrString
         this);
        
   // append syllable to this stanza
@@ -14891,7 +14889,6 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
         s.str(),
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
-        "", // wholeNotesAsMsrString
         this);
         
   // append syllable to this stanza
@@ -17608,13 +17605,6 @@ void msrMeasure::bringMeasureToMeasureLength (
     rational
       skipDuration =
         measureLength - fMeasureLength;
-    string
-      skipDurationAsMsrString =
-        fMeasureDirectPartUplink->
-          getPartCurrentDivisions ()->
-            wholeNotesAsMsrString (
-              fInputLineNumber,
-              skipDuration);
     
     // fetch the voice
     S_msrVoice
@@ -17630,7 +17620,6 @@ void msrMeasure::bringMeasureToMeasureLength (
           fMeasureDirectPartUplink,
    // JMI       37, // JMI
           skipDuration,
-          skipDurationAsMsrString,
           0, // dots number JMI ???
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
@@ -18163,13 +18152,6 @@ void msrMeasure::finalizeMeasure (
       rational
         skipDuration =
           partMeasureLengthHighTide - fMeasureLength;
-      string
-        skipDurationAsMsrString =
-          fMeasureDirectPartUplink->
-            getPartCurrentDivisions ()->
-              wholeNotesAsMsrString (
-                fInputLineNumber,
-                skipDuration);
   
       /* JMI
         partMeasureLengthHighTide > fMeasureFullMeasureLength // + 1 // JMI ???
@@ -18185,7 +18167,6 @@ void msrMeasure::finalizeMeasure (
             fMeasureDirectPartUplink,
    // JMI         49, // JMI
             skipDuration,
-            skipDurationAsMsrString,
             0, // dots number JMI ???
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),
