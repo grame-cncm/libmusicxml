@@ -404,7 +404,12 @@ string msrDurationAsString (msrDuration duration);
 
 // whole notes
 //______________________________________________________________________________
-string wholeNotesAsString (
+string wholeNotesAsMsrString (
+  int      inputLineNumber,
+  rational wholeNotes,
+  int&     dotsNumber);
+
+string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
 

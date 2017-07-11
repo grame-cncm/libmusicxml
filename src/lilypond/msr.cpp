@@ -2043,7 +2043,8 @@ string msrDurationAsString (msrDuration duration)
 //_______________________________________________________________________________
 string wholeNotesAsMsrString (
   int      inputLineNumber,
-  rational wholeNotes)
+  rational wholeNotes,
+  int&     dotsNumber)
 {
   wholeNotes.rationalise ();
 
@@ -2088,19 +2089,22 @@ string wholeNotesAsMsrString (
           s << "breve";
           break;
         case 3:
-          s << "breve.";
+          s << "breve";
+          numberOfDots += 1;
           break;
         case 4:
           s << "long";
           break;
         case 6:
-          s << "long.";
+          s << "long";
+          numberOfDots += 1;
           break;
         case 8:
           s << "maxima";
           break;
         case 12:
-          s << "maxima.";
+          s << "maxima";
+          numberOfDots += 1;
           break;
         default:
           s << numerator << "???";
@@ -2124,7 +2128,7 @@ string wholeNotesAsMsrString (
   } // for
   
 
-  // produce the result
+  // append the dots if any
   if (false) {
     s <<
       " %{" << numerator << "/" << denominator << "%} ";
@@ -2135,8 +2139,23 @@ string wholeNotesAsMsrString (
   } // for
   
   // return the result
+  dotsNumber = numberOfDots;
+  
   return
     s.str();
+}
+
+string wholeNotesAsMsrString (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  int dotsNumber; // not used
+
+  return
+    wholeNotesAsMsrString (
+      inputLineNumber,
+      wholeNotes,
+      dotsNumber);
 }
 
 //_______________________________________________________________________________
