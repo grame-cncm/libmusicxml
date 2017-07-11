@@ -2041,25 +2041,10 @@ string msrDurationAsString (msrDuration duration)
 }
 
 //_______________________________________________________________________________
-string wholeNotesAsString (
+string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes)
 {
-/*
-    msrDuration dur = msrDuration::kQuarter;
-
-    cerr <<
-      "dur = " << 
-      msrDurationAsString (dur) <<
-      end;
-      
-    dur++;
-
-    cerr <<
-      "dur = " << msrDurationAsString (dur) <<
-      end;
- */     
-  
   wholeNotes.rationalise ();
 
   int
@@ -6722,6 +6707,7 @@ void msrNote::setNoteMSRstrings ()
       break;
       
     case msrNote::kChordMemberNote:
+    /* JMI
       fNoteSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
@@ -6735,9 +6721,11 @@ void msrNote::setNoteMSRstrings ()
             wholeNotesAsMsrString (
               fInputLineNumber,
               fNoteDisplayWholeNotes);
+              */
       break;
       
     case msrNote::kTupletMemberNote:
+    /* JMI
       fNoteTupletNoteSoundingWholeNotesAsMsrString =
         fNoteDirectPartUplink->
           getPartCurrentDivisions ()->
@@ -6746,6 +6734,7 @@ void msrNote::setNoteMSRstrings ()
               fNoteSoundingWholeNotes,
               fNoteTupletUplink->getTupletActualNotes (),
               fNoteTupletUplink->getTupletNormalNotes ());
+              */
 
       fNoteGraphicDurationAsMsrString =
         msrDurationAsString (
@@ -9063,6 +9052,7 @@ msrChord::msrChord (
 
 void msrChord::setChordMSRstrings ()
 {
+  /* JMI
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
       "Setting MSR strings for chord:" <<
@@ -9094,6 +9084,7 @@ void msrChord::setChordMSRstrings ()
         wholeNotesAsMsrString (
           fInputLineNumber,
           fChordDisplayWholeNotes);
+          */
 }
 
 msrChord::~msrChord()
@@ -9558,49 +9549,6 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
   return os;
 }
 
-string msrChord::chordSoundingWholeNotesAsMsrString () const
-{
-  return fChordSoundingWholeNotesAsMsrString;
-  
-  // string result;
-
-/* JMI
-  int inputSourceSuppliedNumberOfDots =
-    fChordNotes [0]-> 
-      getNoteDotsNumber (); // any chord member note is fine
-  
-  result =
-    fChordDirectPartUplink->
-      getPartCurrentDivisions ()->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fChordSoundingWholeNotes);
-  
-  return result;
-  */
-}
-
-string msrChord::chordDisplayWholeNotesAsMsrString () const
-{
-  return fChordDisplayWholeNotesAsMsrString;
-
-//  string result;
-
-/* JMI
-  int inputSourceSuppliedNumberOfDots =
-    fChordNotes [0]-> 
-      getNoteDotsNumber (); // any chord member note is fine
-  
-  result =
-    fChordDirectPartUplink->
-      getPartCurrentDivisions ()->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fChordDisplayWholeNotes);
-
-  return result;
-  */
-}
 
 /* JMI
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (

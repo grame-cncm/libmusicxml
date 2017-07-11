@@ -4123,7 +4123,8 @@ class EXP msrSyllable : public msrElement
     string                getSyllableWholeNotesAsMsrString () const
                               {
                                 return
-                                  fSyllableWholeNotesAsMsrString;
+                                  wholeNotesAsMsrString (
+                                    fSyllableWholeNotes);
                               }
 
     // syllable kind and contents
@@ -4524,13 +4525,15 @@ class EXP msrNote : public msrElement
     string                getNoteSoundingWholeNotesAsMsrString () const
                               {
                                 return
-                                  fNoteSoundingWholeNotesAsMsrString;
-                              }
+                                  wholeNotesAsMsrString (
+                                  fNoteSoundingWholeNotes);
+                                }
                               
     string                getNoteDisplayWholeNotesAsMsrString () const
                               {
                                 return
-                                  fNoteDisplayWholeNotesAsMsrString;
+                                  wholeNotesAsMsrString (
+                                    fNoteDisplayWholeNotes);
                               }
 
     // note display
@@ -4779,7 +4782,8 @@ class EXP msrNote : public msrElement
     string                getNoteTupletNoteSoundingWholeNotesAsMsrString () const
                               {
                                 return
-                                  fNoteTupletNoteSoundingWholeNotesAsMsrString;
+                                  wholeNotesAsMsrString (
+                                    fNoteTupletNoteSoundingWholeNotes);
                               }
 
 /* JMI                              
@@ -5142,7 +5146,8 @@ class EXP msrChord : public msrElement
     string                getChordSoundingWholeNotesAsMsrString () const
                               {
                                 return
-                                  fChordSoundingWholeNotesAsMsrString;
+                                  wholeNotesAsMsrString (
+                                    fChordSoundingWholeNotes);
                               }
                         
     void                  setChordDisplayWholeNotes (
@@ -5157,13 +5162,10 @@ class EXP msrChord : public msrElement
     string                getChordDisplayWholeNotesAsMsrString () const
                               {
                                 return
-                                  fChordDisplayWholeNotesAsMsrString;
+                                  wholeNotesAsMsrString (
+                                    fChordDisplayWholeNotes);
                               }
                         
-
-    string                chordSoundingWholeNotesAsMsrString () const;
-    string                chordDisplayWholeNotesAsMsrString () const;
-
     // direct part uplink
     S_msrPart             getChordDirectPartUplink () const
                              { return fChordDirectPartUplink; }

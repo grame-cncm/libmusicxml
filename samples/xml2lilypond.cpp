@@ -3595,7 +3595,7 @@ int main (int argc, char *argv[])
   initializePitchesLanguages ();
   initializeLpsrChordsLanguages ();
 
-  if (true) {
+  if (false) {
     cerr <<
       "7/16: " << wholeNotesAsString (1, rational (7, 16)) <<
       endl <<
