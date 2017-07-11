@@ -2044,13 +2044,30 @@ string msrDurationAsString (msrDuration duration)
 string wholeNotesAsString (
   int      inputLineNumber,
   rational wholeNotes)
-{  
+{
+/*
+    msrDuration dur = msrDuration::kQuarter;
+
+    cerr <<
+      "dur = " << 
+      msrDurationAsString (dur) <<
+      end;
+      
+    dur++;
+
+    cerr <<
+      "dur = " << msrDurationAsString (dur) <<
+      end;
+ */     
+  
   wholeNotes.rationalise ();
 
   int
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator (),
     numberOfDots = 0;
+
+  stringstream s;
 
   // handle the quarter note fraction if any
   while (denominator > 4) {
@@ -2063,18 +2080,70 @@ string wholeNotesAsString (
       rational r (numerator, denominator);
       r.rationalise ();
       
-      numerator    = r.getNumerator (),
-      denominator  = r.getDenominator ();
+      numerator   = r.getNumerator (),
+      denominator = r.getDenominator ();
     }
   } // while
   
   // handle the 'above quarter note' part
+  for ( ; ; ) {
+    if (numerator == 1) {
+      // a number of whole notes
+      s << denominator;
+      break;
+    }
+    
+    if (denominator == 1) {
+      // a number of whole notes
+      switch (numerator) {
+        case 1:
+          s << "1";
+          break;
+        case 2:
+          s << "breve";
+          break;
+        case 3:
+          s << "breve.";
+          break;
+        case 4:
+          s << "long";
+          break;
+        case 6:
+          s << "long.";
+          break;
+        case 8:
+          s << "maxima";
+          break;
+        case 12:
+          s << "maxima.";
+          break;
+        default:
+          s << numerator << "???";
+      } // switch
+      break;
+    }
+    
+    if (numerator % 2 == 1) {
+      // a number of quarter or half notes
+      numberOfDots += 1;
+      
+      numerator = (numerator - 1) / 2;
+      denominator /= 2;
+      
+      rational r (numerator, denominator);
+      r.rationalise ();
+      
+      numerator   = r.getNumerator (),
+      denominator = r.getDenominator ();
+    }
+  } // for
+  
 
   // produce the result
-  stringstream s;
-
-  s <<
-    numerator << "/" << denominator;
+  if (false) {
+    s <<
+      " %{" << numerator << "/" << denominator << "%} ";
+  }
     
   for (int i = 0; i < numberOfDots; i++) {
     s << ".";

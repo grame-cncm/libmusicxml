@@ -3597,13 +3597,11 @@ int main (int argc, char *argv[])
 
   if (true) {
     cerr <<
-      wholeNotesAsString (1, rational (7, 16)) <<
+      "7/16: " << wholeNotesAsString (1, rational (7, 16)) <<
       endl <<
-      wholeNotesAsString (1, rational (3, 4)) <<
+      "3/4:  " << wholeNotesAsString (1, rational (3, 4)) <<
       endl <<
-      wholeNotesAsString (1, rational (5, 4)) <<
-      endl <<
-      wholeNotesAsString (1, rational (9, 4)) <<
+      "14/4: " << wholeNotesAsString (1, rational (14, 4)) <<
       endl <<
       endl;
       
