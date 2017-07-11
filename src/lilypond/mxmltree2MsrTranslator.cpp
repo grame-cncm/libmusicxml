@@ -46,7 +46,6 @@ void mxmltree2MsrTranslator::initializeNoteData ()
   fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
   
   fCurrentNoteSoundingWholeNotes  = rational (-17, 1);
-  fCurrentNoteSoundingWholeNotesAsString = "???";
   
   fCurrentNoteDisplayWholeNotes = rational (0, 1);
   
@@ -5138,7 +5137,9 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         ", sounding whole notes = " <<
         fCurrentNoteSoundingWholeNotes << 
         ", sounding whole notes as string = " <<
-        fCurrentNoteSoundingWholeNotesAsString << 
+        wholeNotesAsMsrString (
+          inputLineNumber,
+          fCurrentNoteSoundingWholeNotes) << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -5153,7 +5154,6 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentLyricText,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteSoundingWholeNotes,
-        fCurrentNoteSoundingWholeNotesAsString,
         stanza);
 
 /* JMI
@@ -10059,10 +10059,6 @@ S_msrChord mxmltree2MsrTranslator::createChordFromItsFirstNote (
         chordFirstNote->getNoteSoundingWholeNotes (),
         chordFirstNote->getNoteDisplayWholeNotes (),
         chordFirstNote->getNoteGraphicDuration ());
-
-  // set the chords's MSR strings
-  chord->
-    setChordMSRstrings ();
   
   // chord's tie kind is that of its first note
   chord->
@@ -11451,12 +11447,6 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
     // standalone note
     fCurrentNoteDisplayWholeNotes =
       fCurrentNoteSoundingWholeNotes;
-
-    fCurrentNoteSoundingWholeNotesAsString =
-      fCurrentDivisions->
-        wholeNotesAsMsrString (
-          inputLineNumber,
-          fCurrentNoteSoundingWholeNotes);
   }
 
   // create the (new) note
@@ -11469,11 +11459,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
         msrNote::k_NoNoteKind, // will be set by 'setNoteKind()' later
         
         fCurrentNoteQuarterTonesPitch,
-
- // JMI       fCurrentDivisionsPerQuarterNote, // JMI
         
         fCurrentNoteSoundingWholeNotes,
-        fCurrentNoteSoundingWholeNotesAsString,
         fCurrentNoteDisplayWholeNotes,
         
         fCurrentNoteDotsNumber,
@@ -11614,14 +11601,6 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
       newNote);
     
   }
-
-  // set the note's MSR strings, done here
-  // to avoid doing it in MSR visitors later,
-  // such as lpsr2LilypondTranslator.cpp,
-  // which don't have the disisions context available,
-  // and only now because this needs fNoteKind to be set
-  newNote->
-    setNoteMSRstrings ();
     
   // set its tie if any
   if (fCurrentTie) {

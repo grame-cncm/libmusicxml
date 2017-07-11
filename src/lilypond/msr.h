@@ -4083,7 +4083,6 @@ class EXP msrSyllable : public msrElement
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
-      string                syllableWholeNotesAsMsrString,
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableNewbornClone (
@@ -4104,7 +4103,6 @@ class EXP msrSyllable : public msrElement
       string                syllableText,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
-      string                syllableWholeNotesAsMsrString,
       S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable();
@@ -4117,21 +4115,7 @@ class EXP msrSyllable : public msrElement
     // syllable whole notes
     rational              getSyllableWholeNotes () const
                               { return fSyllableWholeNotes; }
-
-    void                  setSyllableWholeNotesAsMsrString (
-                            string syllableWholeNotesAsMsrString)
-                              {
-                                fSyllableWholeNotesAsMsrString =
-                                  syllableWholeNotesAsMsrString;
-                              }
                               
-    string                getSyllableWholeNotesAsMsrString () const
-                              {
-                                return
-                                  wholeNotesAsMsrString (
-                                    fSyllableWholeNotes);
-                              }
-
     // syllable kind and contents
     msrSyllableKind       getSyllableKind () const
                               { return fSyllableKind; }
@@ -4153,12 +4137,17 @@ class EXP msrSyllable : public msrElement
 
     // services
     // ------------------------------------------------------
-  
+
+    // as MSR string
+    string                syllableWholeNotesAsMsrString ();
+    
     string                syllableKindAsString () const;
 
-    string                syllableNoteUplinkAsString () const;
-
+    // as string
     string                syllableAsString () const;
+
+    // uplinks
+    string                syllableNoteUplinkAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -4177,7 +4166,6 @@ class EXP msrSyllable : public msrElement
   
     // syllable whole notes
     rational              fSyllableWholeNotes;
-    string                fSyllableWholeNotesAsMsrString;
 
     // syllable kind and contents
     msrSyllableKind       fSyllableKind;
@@ -4390,7 +4378,6 @@ class EXP msrNote : public msrElement
  // JMI     int                  noteDivisionsPerQuarterNote,
       
       rational             noteSoundingWholeNotes,
-      string               noteSoundingWholeNotesAsMsrString,
       rational             noteDisplayWholeNotes,
       
       int                  noteDotsNumber,
@@ -4419,9 +4406,7 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
- // JMI     int       noteDivisionsPerQuarterNote,
       rational  wholeNotes,
-      string    wholeNotesAsMsrString,
       int       dotsNumber,
       int       staffNumber,
       int       voicePartRelativeID);
@@ -4439,10 +4424,7 @@ class EXP msrNote : public msrElement
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
       
- // JMI     int                  noteDivisionsPerQuarterNote,
-
       rational             noteSoundingWholeNotes,
-      string               noteSoundingWholeNotesAsMsrString,
       rational             noteDisplayWholeNotes,
       
       int                  noteDotsNumber,
@@ -4525,20 +4507,6 @@ class EXP msrNote : public msrElement
                               {
                                 return
                                   fNoteSoundingWholeNotes;
-                              }
-
-    string                getNoteSoundingWholeNotesAsMsrString () const
-                              {
-                                return
-                                  wholeNotesAsMsrString (
-                                  fNoteSoundingWholeNotes);
-                                }
-                              
-    string                getNoteDisplayWholeNotesAsMsrString () const
-                              {
-                                return
-                                  wholeNotesAsMsrString (
-                                    fNoteDisplayWholeNotes);
                               }
 
     // note display
@@ -4767,16 +4735,7 @@ class EXP msrNote : public msrElement
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
 
-    // note MSR strings
-    void                  setNoteMSRstrings ();
-
-                              /* JMI
-    string                getNoteSkipOrRestSoundingWholeNotesAsMsrString () const
-                              {
-                                return
-                                  fNoteSkipOrRestSoundingWholeNotesAsMsrString;
-                              }
-                              */
+    // as MSR string
                               
     string                getNoteGraphicDurationAsMsrString () const
                               {
@@ -4788,7 +4747,8 @@ class EXP msrNote : public msrElement
                               {
                                 return
                                   wholeNotesAsMsrString (
-                                    fNoteTupletNoteSoundingWholeNotes);
+                                    1, // JMI
+                                    0); // JMI BOF ???? fNoteTupletNoteSoundingWholeNotes);
                               }
 
 /* JMI                              
@@ -4841,7 +4801,11 @@ class EXP msrNote : public msrElement
                             
     string                noteDiatonicPitchAsString (
                             int inputLineNumber) const;
-    
+
+    // whole notes
+    string                noteSoundingWholeNotesAsMsrString ();
+    string                gnoteDisplayWholeNotesAsMsrString ();
+
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
     string                tupletNoteGraphicDurationAsMsrString (
@@ -4917,13 +4881,9 @@ class EXP msrNote : public msrElement
 
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
 
- // JMI   int                   fNoteDivisionsPerQuarterNote; // JMI
-    
+    // whole notes
     rational              fNoteSoundingWholeNotes;
-    string                fNoteSoundingWholeNotesAsMsrString;
-    
     rational              fNoteDisplayWholeNotes;
-    string                fNoteDisplayWholeNotesAsMsrString;
     
     int                   fNoteDotsNumber;
     
@@ -5141,35 +5101,18 @@ class EXP msrChord : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-     // divisions
+     // whole notes
     void                  setChordSoundingWholeNotes (
                             rational divisions);
             
     rational              getChordSoundingWholeNotes () const
                               { return fChordSoundingWholeNotes; }
                         
-    string                getChordSoundingWholeNotesAsMsrString () const
-                              {
-                                return
-                                  wholeNotesAsMsrString (
-                                    fChordSoundingWholeNotes);
-                              }
-                        
     void                  setChordDisplayWholeNotes (
                             rational divisions);
             
     rational              getChordDisplayWholeNotes () const
                               { return fChordDisplayWholeNotes; }
-                        
-    // chord MSR strings
-    void                  setChordMSRstrings ();
-
-    string                getChordDisplayWholeNotesAsMsrString () const
-                              {
-                                return
-                                  wholeNotesAsMsrString (
-                                    fChordDisplayWholeNotes);
-                              }
                         
     // direct part uplink
     S_msrPart             getChordDirectPartUplink () const
@@ -5300,7 +5243,10 @@ class EXP msrChord : public msrElement
                          
     // services
     // ------------------------------------------------------
-    
+
+    // as MSR string
+    string                chordSoundingWholeNotesAsMsrString ();
+    string                chordDisplayWholeNotesAsMsrString ();
  // JMI   string                chordGraphicDurationAsMsrString () const;
 
     void                  addFirstNoteToChord (S_msrNote note);
@@ -5388,11 +5334,9 @@ class EXP msrChord : public msrElement
 
     // sounding divisions
     rational              fChordSoundingWholeNotes;
-    string                fChordSoundingWholeNotesAsMsrString;
     
     // display divisions
     rational              fChordDisplayWholeNotes;
-    string                fChordDisplayWholeNotesAsMsrString;
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
@@ -5418,7 +5362,7 @@ class EXP msrChord : public msrElement
     
     // double tremolo
     bool                  fChordIsFirstChordInADoubleTremolo;
-    bool                      fChordIsSecondChordInADoubleTremolo;
+    bool                  fChordIsSecondChordInADoubleTremolo;
 
     // technicals
     list<S_msrTechnical>  fChordTechnicals;

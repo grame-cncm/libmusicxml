@@ -641,7 +641,7 @@ string lpsr2LilypondTranslator::noteSoundingWholeNotesAsLilypondString (
   string
     noteSoundingWholeNotesAsMsrString =
       note->
-        getNoteSoundingWholeNotesAsMsrString ();
+        noteSoundingWholeNotesAsMsrString ();
 
   string
     lilypondSoundingWholeNotesAsString =
@@ -907,7 +907,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
     noteUplinkDuration =
       ornament->
         getOrnamentNoteUplink ()->
-          getNoteSoundingWholeNotesAsMsrString ();
+          noteSoundingWholeNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
@@ -4514,7 +4514,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
           lilypondizeDurationString (
             note->
   // JMI            getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
-              getNoteSoundingWholeNotesAsMsrString ());
+              noteSoundingWholeNotesAsMsrString ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4544,7 +4544,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
         lilypondizeDurationString (
           note->
   // JMI            getNoteSkipOrRestSoundingWholeNotesAsMsrString ());
-              getNoteSoundingWholeNotesAsMsrString ());
+              noteSoundingWholeNotesAsMsrString ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -4559,7 +4559,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteSoundingWholeNotesAsMsrString ());
+            noteSoundingWholeNotesAsMsrString ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -4685,7 +4685,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString (S_msrNote note)
       fOstream <<
         lilypondizeDurationString (
           note->
-            getNoteTupletNoteSoundingWholeNotesAsMsrString ());
+            getNoteTupletNoteSoundingWholeNotesAsMsrString ()); // ??? JMI
 
       // print the tie if any
       {
@@ -5452,7 +5452,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     // print the chord duration
     fOstream <<
       elt->
-        getChordSoundingWholeNotesAsMsrString ();
+        chordSoundingWholeNotesAsMsrString ();
     /* JMI
       wholeNotesAsLilypondString (
         chordInputLineNumber,
