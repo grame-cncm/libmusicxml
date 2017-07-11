@@ -2061,6 +2061,40 @@ string wholeNotesAsMsrString (
       break;
     }
     
+    if (numerator == 1) {
+      // a number of ??? JMI notes
+      s << denominator;
+/*
+      switch (denominator) {
+        case 1:
+          s << "1";
+          break;
+        case 2:
+          s << "breve";
+          break;
+        case 4:
+          s << "long";
+          break;
+        case 8:
+          s << "maxima";
+          break;
+        case 16:
+          s << "maxima";
+          numberOfDots += 1;
+          break;
+        default:
+          s <<
+            numerator << "/" << denominator <<
+            " whole notes cannot be represented as an MSR string";
+
+          msrInternalError (
+            inputLineNumber,
+            s.str());
+      } // switch
+ */
+      break;
+    }
+    
     if (numerator % 2 == 1) {
       numberOfDots += 1;
       
@@ -6511,6 +6545,8 @@ void msrNote::initializeNote ()
         setw(fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
+        endl <<
+      idtr << left <<
         setw(fieldWidth) <<
         "noteSoundingWholeNotesAsMSRString" << " = " <<
         wholeNotesAsMsrString (
@@ -6521,6 +6557,8 @@ void msrNote::initializeNote ()
         setw(fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
+        endl <<
+      idtr << left <<
         "noteDisplayWholeNotesAsMSRString" << " = " <<
         wholeNotesAsMsrString (
           fInputLineNumber,
