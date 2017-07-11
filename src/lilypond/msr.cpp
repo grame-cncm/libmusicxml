@@ -2050,7 +2050,14 @@ string wholeNotesAsMsrString (
 
   int
     numerator    = wholeNotes.getNumerator (),
-    denominator  = wholeNotes.getDenominator (),
+    denominator  = wholeNotes.getDenominator ();
+
+  if (numerator == 1) {
+    // a number of ??? JMI notes
+    return to_string (denominator);
+  }
+
+  int
     numberOfDots = 0;
 
   stringstream s;

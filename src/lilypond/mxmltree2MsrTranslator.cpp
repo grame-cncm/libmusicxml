@@ -45,9 +45,8 @@ void mxmltree2MsrTranslator::initializeNoteData ()
 
   fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
   
-  fCurrentNoteSoundingWholeNotes  = rational (-17, 1);
-  
-  fCurrentNoteDisplayWholeNotes = rational (0, 1);
+  fCurrentNoteSoundingWholeNotes = rational (-17, 1);
+  fCurrentNoteDisplayWholeNotes  = rational (-29, 1);
   
   fCurrentNoteDotsNumber = 0;
   
@@ -5146,6 +5145,11 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         wholeNotesAsMsrString (
           inputLineNumber,
           fCurrentNoteSoundingWholeNotes) << 
+        fCurrentNoteSoundingWholeNotes << 
+        ", display whole notes as string = " <<
+        wholeNotesAsMsrString (
+          inputLineNumber,
+          fCurrentNoteDisplayWholeNotes) << 
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -6591,13 +6595,18 @@ void mxmltree2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
+    // set current grace note whole notes      
     fCurrentNoteSoundingWholeNotes =
       rational (
         duration,
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
 
     fCurrentNoteSoundingWholeNotes.rationalise ();
-    
+
+    // set current grace note display whole notes
+    // to note sounding whole notes
+    fCurrentNoteDisplayWholeNotes =
+      fCurrentNoteSoundingWholeNotes; // by default
   }
   
   else {
@@ -11397,6 +11406,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
     cerr << idtr <<
       "--> currentNoteSoundingWholeNotes = " << 
       fCurrentNoteSoundingWholeNotes << ", " << 
+      "--> currentNoteDisplayWholeNotes = " << 
+      fCurrentNoteDisplayWholeNotes << ", " << 
       "--> currentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote <<
       endl;
@@ -11405,16 +11416,17 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
   // before we create the note
 
   if (fCurrentNoteIsAGraceNote) {
-    // set current grace note divisions      
+    // set current grace note whole notes      
     fCurrentNoteSoundingWholeNotes =
       fCurrentDivisions->
         durationAsDivisions (
           inputLineNumber,
           fCurrentNoteGraphicDuration);
   
-    // set current grace note displayed divisions to note divisions JMI   ???
+    // set current grace note display whole notes
+    // to note sounding whole notes
     fCurrentNoteDisplayWholeNotes =
-      fCurrentNoteSoundingWholeNotes;
+      fCurrentNoteSoundingWholeNotes; // by default
   }
   
   else if (
@@ -11451,8 +11463,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
 
   else {
     // standalone note
-    fCurrentNoteDisplayWholeNotes =
-      fCurrentNoteSoundingWholeNotes;
+ // JMI   fCurrentNoteDisplayWholeNotes =
+ //     fCurrentNoteSoundingWholeNotes;
   }
 
   // create the (new) note
