@@ -8393,8 +8393,9 @@ void msrNote::print (ostream& os)
 
     // full measure length
     os <<
-      ", per full measure: ";
-        measureFullMeasureLength;
+      ", " <<
+      measureFullMeasureLength <<
+      " per full measure";
 
     os <<
       endl;
@@ -12913,6 +12914,7 @@ void msrKey::print (ostream& os)
           fKeyTonicQuarterTonesPitch) <<
         " " <<
         keyModeKindAsString (fKeyModeKind) <<
+        ", line " << fInputLineNumber <<
         endl;
       break;
       
@@ -12923,7 +12925,9 @@ void msrKey::print (ostream& os)
           fKeyItemsOctavesAreSpecified) <<
         ", " <<
         fHumdrumScotKeyItemsVector.size () <<
-        " items:";
+        " items" <<
+        ", line " << fInputLineNumber <<
+        endl;
 
       if (fHumdrumScotKeyItemsVector.size ()) {
         os <<
@@ -13465,6 +13469,7 @@ void msrTime::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
+    ", line " << fInputLineNumber <<
     ":";
 
   if (fTimeItemsVector.size ()) {
@@ -16431,6 +16436,13 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   return measureDeepCopy;
 }
 
+string msrMeasure::measureFullMeasureLengthAsMSRString ()
+{
+  return
+    wholeNotesAsMsrString (
+      fMeasureFullMeasureLength);
+}
+
 void msrMeasure::setMeasureLength (
   int      inputLineNumber,
   rational measureLength)
@@ -16454,13 +16466,20 @@ void msrMeasure::setMeasureLength (
   fMeasureLength.rationalise ();
 }
 
+string msrMeasure::measureLengthAsMSRString ()
+{
+  return
+    wholeNotesAsMsrString (
+      fMeasureLength);
+}
+
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
     cerr <<
       idtr <<
-        "Appending clef " << clef->clefAsString () <<
-        " to measure " << fMeasureNumber <<
+        "Appending clef '" << clef->clefAsString () <<
+        "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
       getMeasureVoiceDirectUplink ()->getVoiceName () <<
       "\"" <<
@@ -16476,8 +16495,8 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
     cerr <<
       idtr <<
-        "Appending key " << key->keyAsString () <<
-        " to measure " << fMeasureNumber <<
+        "Appending key '" << key->keyAsString () <<
+        "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
       getMeasureVoiceDirectUplink ()->getVoiceName () <<
       "\"" <<
@@ -18972,8 +18991,8 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
-        "Appending clef " << clef->clefAsString () <<
-        " to segment " << segmentAsString () <<
+        "Appending clef '" << clef->clefAsString () <<
+        "' to segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -18993,8 +19012,8 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
-        "Appending key " << key->keyAsString () <<
-        " to segment " << segmentAsString () <<
+        "Appending key '" << key->keyAsString () <<
+        "' to segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -21988,7 +22007,8 @@ void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
     // register voice first segment for LilyPond issue 34
     fVoiceFirstSegment =
       fVoiceLastSegment;
-  
+
+  /* JMI
     // get the initial clef from the staff if any
     {
       S_msrClef
@@ -22045,6 +22065,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
           appendTransposeToSegment (transpose); //JMI
       }
     }
+    */
   }
 
   else {
@@ -25113,7 +25134,7 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
         cerr << idtr <<
           "Appending part clef '" << clef->clefAsString () <<
-          "' to staff \"" <<
+          "' as initial clef to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -25153,7 +25174,7 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceKeys) {
         cerr << idtr <<
           "Appending part key '" << key->keyAsString () <<
-          "' to staff \"" <<
+          "' as initial key to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -25195,7 +25216,7 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes) {
         cerr << idtr <<
           "Appending part time '" << time->timeAsString () <<
-          "' to staff \"" <<
+          "' as initial time to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -25234,7 +25255,7 @@ void msrStaff::initializeStaff ()
       if (gGeneralOptions->fTraceStaves /* JMI || gGeneralOptions->fTraceTransposes */) {
         cerr << idtr <<
           "Appending part transpose '" << transpose->transposeAsString () <<
-          "' to staff \"" <<
+          "' as initial transpose to staff \"" <<
           getStaffName () <<
           "\" in part " <<
           fStaffDirectPartUplink->getPartCombinedName () <<
@@ -27131,9 +27152,9 @@ void msrPart::appendClefToPart (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceClefs) {
     cerr << idtr <<
-      "Appending clef \"" <<
+      "Appending clef '" <<
       clef->clefAsString () <<
-      "\" to part " << getPartCombinedName () <<
+      "' to part " << getPartCombinedName () <<
     endl;
   }
 
@@ -27154,9 +27175,9 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "Appending key \"" <<
+      "Appending key '" <<
       key->keyAsString () <<
-      "\" to part " << getPartCombinedName () <<
+      "' to part " << getPartCombinedName () <<
     endl;
   }
   
@@ -27180,9 +27201,9 @@ void msrPart::appendTimeToPart (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "Appending time \"" <<
+      "Appending time '" <<
       time->timeAsString () <<
-      "\" to part " << getPartCombinedName () <<
+      "' to part " << getPartCombinedName () <<
     endl;
   }
   
@@ -27206,9 +27227,9 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "Appending time \"" <<
+      "Appending time '" <<
       time->timeAsString () <<
-      "\" to part clone " << getPartCombinedName () <<
+      "' to part clone " << getPartCombinedName () <<
     endl;
   }
   

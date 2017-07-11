@@ -2989,7 +2989,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         string
           upbeatDuration =
             lilypondizeDurationString (
-            elt->getMeasureLengthAsMSRString ());
+            elt->measureLengthAsMSRString ());
 
         fOstream << idtr <<
           "\\partial" " " << upbeatDuration <<
@@ -3114,7 +3114,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         // followed by a bar check
         fOstream << idtr <<
           "R" <<
-          elt->getMeasureFullMeasureLengthAsMSRString () <<
+          elt->measureFullMeasureLengthAsMSRString () <<
           " | " <<
           endl;
       }

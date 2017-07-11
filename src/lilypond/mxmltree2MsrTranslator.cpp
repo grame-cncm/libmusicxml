@@ -1917,7 +1917,7 @@ void mxmltree2MsrTranslator::visitStart ( S_clef& elt )
   // If absent (0), apply to all part staves.
   
   fCurrentClefStaffNumber =
-    elt->getAttributeIntValue("number", 0); 
+    elt->getAttributeIntValue ("number", 0); 
 
   fCurrentClefLine = 0;
   fCurrentClefOctaveChange = 0;

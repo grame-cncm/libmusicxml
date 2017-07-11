@@ -3126,12 +3126,6 @@ class EXP msrMeasure : public msrElement
                                   fMeasureFullMeasureLength;
                               }
 
-    string                getMeasureFullMeasureLengthAsMSRString () const
-                              {
-                                return
-                                  fMeasureFullMeasureLengthAsMSRString;
-                              }
-
     void                  setMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
@@ -3139,12 +3133,6 @@ class EXP msrMeasure : public msrElement
     rational              getMeasureLength () const
                               { return fMeasureLength; }
                       
-    string                getMeasureLengthAsMSRString () const
-                              {
-                                return
-                                  fMeasureLengthAsMSRString;
-                              }
-
     // measure kind
     
     void                  setMeasureKind (msrMeasureKind measureKind)
@@ -3192,7 +3180,13 @@ class EXP msrMeasure : public msrElement
     // services
     // ------------------------------------------------------
 
-    // divisions
+    // lengthes
+
+    string                measureFullMeasureLengthAsMSRString ();
+
+    string                measureLengthAsMSRString ();
+
+
 
 /* JMI
     void                  appendDivisionsToMeasure (
@@ -3406,10 +3400,8 @@ class EXP msrMeasure : public msrElement
     // lengthes
     
     rational              fMeasureFullMeasureLength;
-    string                fMeasureFullMeasureLengthAsMSRString;
     
     rational              fMeasureLength;
-    string                fMeasureLengthAsMSRString;
 
     // measure number
     
@@ -5028,9 +5020,7 @@ class EXP msrNote : public msrElement
     // these fileds are set by msrNote::create()
     
     string                fNoteGraphicDurationAsMsrString;
-    
-//    string                fNoteSkipOrRestSoundingWholeNotesAsMsrString;
-    
+        
     string                fNoteTupletNoteSoundingWholeNotesAsMsrString;
     
     string                fNoteTupletNoteGraphicDurationAsMsrString;
