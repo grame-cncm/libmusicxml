@@ -2045,7 +2045,7 @@ string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes,
   int&     dotsNumber)
-{
+{  
   wholeNotes.rationalise ();
 
   int
@@ -7202,6 +7202,7 @@ string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fNoteSoundingWholeNotes);
   }
 
@@ -7209,6 +7210,7 @@ string msrNote::noteDisplayWholeNotesAsMsrString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fNoteDisplayWholeNotes);
 }
 
@@ -8048,7 +8050,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
   return s.str();
 }
 
-string msrNote::noteAsShortString () const
+string msrNote::noteAsShortString ()
 {
   stringstream s;
 
@@ -8063,7 +8065,6 @@ string msrNote::noteAsShortString () const
         "R" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
- // JMI       fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kSkipNote:
@@ -8071,7 +8072,6 @@ string msrNote::noteAsShortString () const
         "S" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
- // JMI       fNoteSkipOrRestSoundingWholeNotesAsMsrString;
       break;
       
     case msrNote::kStandaloneNote:
@@ -8133,7 +8133,7 @@ string msrNote::noteAsShortString () const
   return s.str();
 }
 
-string msrNote::noteAsString () const
+string msrNote::noteAsString ()
 {
   stringstream s;
 
@@ -8465,8 +8465,6 @@ void msrNote::print (ostream& os)
             idtr << setw(fieldWidth) <<
               "noteSoundingWholeNotesAsMsrString" << " = \"" <<
               noteSoundingWholeNotesAsMsrString () <<
-// JMI              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
-      //        fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
               "\"" <<
             endl;
         }
@@ -8480,8 +8478,6 @@ void msrNote::print (ostream& os)
             idtr << setw(fieldWidth) <<
               "noteSoundingWholeNotesAsMsrString" << " = \"" <<
               noteSoundingWholeNotesAsMsrString () <<
-// JMI              "noteSkipOrRestSoundingWholeNotesAsMsrString" << " = \"" <<
-      //        fNoteSkipOrRestSoundingWholeNotesAsMsrString <<
               "\"" <<
               endl;
         }
@@ -8499,7 +8495,7 @@ void msrNote::print (ostream& os)
               endl <<
             idtr << setw(fieldWidth) <<
               "noteDisplayWholeNotesAsMsrString" << " = \"" <<
-              fNoteDisplayWholeNotesAsMsrString <<
+              noteDisplayWholeNotesAsMsrString () <<
               "\"" <<
               endl <<
             idtr << setw(fieldWidth) <<
@@ -8962,14 +8958,6 @@ S_msrChord msrChord::createChordNewbornClone (
         fChordSoundingWholeNotes,
         fChordDisplayWholeNotes,
         fChordGraphicDuration);
-
-  newbornClone->
-    fChordSoundingWholeNotesAsMsrString =
-      fChordSoundingWholeNotesAsMsrString;
-    
-  newbornClone->
-    fChordDisplayWholeNotesAsMsrString =
-      fChordDisplayWholeNotesAsMsrString;
     
   newbornClone->
     fChordPositionInMeasure =
@@ -9023,6 +9011,7 @@ string msrChord::chordSoundingWholeNotesAsMsrString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fChordSoundingWholeNotes);
 }
 
@@ -9030,6 +9019,7 @@ string msrChord::chordDisplayWholeNotesAsMsrString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fChordDisplayWholeNotes);
 }
 
@@ -13883,7 +13873,7 @@ S_msrSyllable msrSyllable::create (
       inputLineNumber,
       syllableDirectPartUplink,
       syllableKind, syllableText, syllableExtendKind,
-      syllableWholeNotes,,
+      syllableWholeNotes,
       syllableStanzaUplink);
   assert(o!=0);
 
@@ -13897,7 +13887,6 @@ msrSyllable::msrSyllable (
   string                syllableText,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
-  string                ,
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
@@ -13949,7 +13938,6 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableText,
         fSyllableExtendKind,
         fSyllableWholeNotes,
-        fSyllableWholeNotesAsMsrString,
         fSyllableStanzaUplink);
     
   // dont't set 'newbornClone->fSyllableStanzaUplink'
@@ -13986,7 +13974,6 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fSyllableText,
         fSyllableExtendKind,
         fSyllableWholeNotes,
-        fSyllableWholeNotesAsMsrString,
         fSyllableStanzaUplink);
       
   // dont't set 'newbornClone->fSyllableStanzaUplink'
@@ -14045,6 +14032,7 @@ string msrSyllable::syllableWholeNotesAsMsrString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fSyllableWholeNotes);
 }
 
@@ -14207,7 +14195,7 @@ string msrSyllable::syllableNoteUplinkAsString () const
   return result;
 }
 
-string msrSyllable::syllableAsString () const
+string msrSyllable::syllableAsString ()
 {
   stringstream s;
   
@@ -14216,7 +14204,7 @@ string msrSyllable::syllableAsString () const
       s <<
         "single" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << fSyllableWholeNotesAsMsrString <<
+        ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14229,7 +14217,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "begin" <<
         ", " << "\"" << fSyllableText << "\"" <<
-         ":" << fSyllableWholeNotesAsMsrString <<
+         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14242,7 +14230,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "middle" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << fSyllableWholeNotesAsMsrString <<
+        ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14255,7 +14243,7 @@ string msrSyllable::syllableAsString () const
       s << 
         "end" <<
         ", " << "\"" << fSyllableText << "\"" <<
-        ":" << fSyllableWholeNotesAsMsrString <<
+        ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14266,7 +14254,7 @@ string msrSyllable::syllableAsString () const
       
     case kRestSyllable:
        s << 
-        "rest" << ":" << fSyllableWholeNotesAsMsrString <<
+        "rest" << ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14275,14 +14263,14 @@ string msrSyllable::syllableAsString () const
       
     case kSkipSyllable:
       s << 
-        "skip" << ":" << fSyllableWholeNotesAsMsrString <<
+        "skip" << ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;
       
     case kSlurSyllable:
       s << 
-        "slur" << ":" << fSyllableWholeNotesAsMsrString <<
+        "slur" << ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14291,7 +14279,8 @@ string msrSyllable::syllableAsString () const
       
     case kSlurBeyondEndSyllable:
       s << 
-        "slur beyond end" << ":" << fSyllableWholeNotesAsMsrString <<
+        "slur beyond end" << ":" <<
+        syllableWholeNotesAsMsrString () <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14299,7 +14288,8 @@ string msrSyllable::syllableAsString () const
       
     case kLigatureSyllable:
       s << 
-        "ligature" << ":" << fSyllableWholeNotesAsMsrString <<
+        "ligature" << ":" <<
+        syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14308,7 +14298,8 @@ string msrSyllable::syllableAsString () const
       
     case kLigatureBeyondEndSyllable:
       s << 
-        "ligature beyond end" << ":" << fSyllableWholeNotesAsMsrString <<
+        "ligature beyond end" << ":" <<
+        syllableWholeNotesAsMsrString () <<
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString ();
@@ -14316,7 +14307,8 @@ string msrSyllable::syllableAsString () const
       
     case kTiedSyllable:
       s << 
-        "tied" << ":" << fSyllableWholeNotesAsMsrString <<
+        "tied" << ":" <<
+        syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
@@ -14601,8 +14593,7 @@ void msrStanza::appendSyllableToStanza (
 
 S_msrSyllable msrStanza::appendRestSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14621,7 +14612,6 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
         msrSyllable::kRestSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
 
   // append syllable to this stanza
@@ -14633,8 +14623,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
 
 S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14654,7 +14643,6 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
         "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
 
   // append syllable to this stanza
@@ -14666,8 +14654,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 
 S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14687,7 +14674,6 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
         "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
         
   // append syllable to this stanza
@@ -14699,8 +14685,7 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
 
 S_msrSyllable msrStanza::appendSlurSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14719,7 +14704,6 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
         msrSyllable::kSlurSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
         
   // append syllable to this stanza
@@ -14731,8 +14715,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
 
 S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14751,7 +14734,6 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
         msrSyllable::kSlurBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
         
   // append syllable to this stanza
@@ -14763,8 +14745,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
 
 S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14783,7 +14764,6 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
         msrSyllable::kLigatureSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
         
   // append syllable to this stanza
@@ -14795,8 +14775,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
 
 S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
   int      inputLineNumber,
-  rational wholeNotes,
-  string   wholeNotesAsMsrString)
+  rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14815,7 +14794,6 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
         msrSyllable::kLigatureBeyondEndSyllable, "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
-        wholeNotesAsMsrString,
         this);
         
   // append syllable to this stanza

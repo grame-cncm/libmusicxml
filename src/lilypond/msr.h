@@ -4144,7 +4144,7 @@ class EXP msrSyllable : public msrElement
     string                syllableKindAsString () const;
 
     // as string
-    string                syllableAsString () const;
+    string                syllableAsString ();
 
     // uplinks
     string                syllableNoteUplinkAsString () const;
@@ -4792,8 +4792,10 @@ class EXP msrNote : public msrElement
     bool                  noteIsAPitchedRest () const;
     
     string                noteAsShortStringWithRawDivisions () const;
-    string                noteAsShortString () const;
-    string                noteAsString () const;
+    
+    string                noteAsShortString ();
+    
+    string                noteAsString ();
       
     // diatonic pitch
     msrDiatonicPitch      noteDiatonicPitch (
@@ -4804,8 +4806,7 @@ class EXP msrNote : public msrElement
 
     // whole notes
     string                noteSoundingWholeNotesAsMsrString ();
-    string                gnoteDisplayWholeNotesAsMsrString ();
-
+    string                noteDisplayWholeNotesAsMsrString ();
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
     string                tupletNoteGraphicDurationAsMsrString (
@@ -6661,38 +6662,31 @@ class EXP msrStanza : public msrElement
       
     S_msrSyllable         appendRestSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendSkipSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendTiedSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendSlurSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendSlurBeyondEndSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendLigatureSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendLigatureBeyondEndSyllableToStanza (
                             int      inputLineNumber,
-                            rational wholeNotes,
-                            string   wholeNotesAsMsrString);
+                            rational wholeNotes);
 
     S_msrSyllable         appendBarNumberCheckSyllableToStanza (
                             int    inputLineNumber,
