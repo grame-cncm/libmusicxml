@@ -66,6 +66,12 @@ void mxmltree2MsrTranslator::initializeNoteData ()
   
   fCurrentNoteIsAGraceNote = false;
 
+  // accidentals
+  fCurrentNoteEditorialAccidentalKind =
+    msrNote::kNoteEditorialAccidentalNo; // default value
+  fCurrentNoteCautionaryAccidentalKind =
+    msrNote::kNoteCautionaryAccidentalNo; // default value
+        
   // note context
   
   fCurrentNoteStaffNumber = 0;
@@ -6703,9 +6709,9 @@ void mxmltree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
     sharp-down, sharp-up, natural-down, natural-up, flat-down, flat-up, triple-sharp, triple-flat, slash-quarter-sharp, slash-sharp, slash-flat, double-slash-flat, sharp-1, sharp-2, sharp-3, sharp-5, flat-1, flat-2, flat-3, flat-4, sori, and koron added in 3.0
 */
 
-  string editorialAccidental = elt->getAttributeValue ("editorial");
-
   {
+    string editorialAccidental = elt->getAttributeValue ("editorial");
+
     fCurrentNoteEditorialAccidentalKind =
       msrNote::kNoteEditorialAccidentalNo; // default value
         

@@ -1057,6 +1057,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentDisplayOctave;
     msrDiatonicPitch          fCurrentDisplayDiatonicPitch;
 
+    // accidentals
     msrNote::msrNoteEditorialAccidentalKind
                               fCurrentNoteEditorialAccidentalKind;
     msrNote::msrNoteCautionaryAccidentalKind

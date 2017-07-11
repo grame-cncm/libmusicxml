@@ -4483,7 +4483,10 @@ class EXP msrNote : public msrElement
                               
     msrNoteEditorialAccidentalKind
                           getNoteEditorialAccidentalKind ()
-                              { return fNoteEditorialAccidentalKind; }
+                              {
+                                return
+                                  fNoteEditorialAccidentalKind;
+                              }
 
     void                  setNoteCautionaryAccidentalKind (
                             msrNoteCautionaryAccidentalKind
@@ -4495,7 +4498,10 @@ class EXP msrNote : public msrElement
                               
     msrNoteCautionaryAccidentalKind
                           getNoteCautionaryAccidentalKind ()
-                              { return fNoteCautionaryAccidentalKind; }
+                              {
+                                return
+                                  fNoteCautionaryAccidentalKind;
+                              }
 
     // note divisions per quarter note
 // JMI    int                   getNoteDivisionsPerQuarterNote () const
