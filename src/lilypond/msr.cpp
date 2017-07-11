@@ -2056,7 +2056,11 @@ string wholeNotesAsMsrString (
   stringstream s;
 
   // handle the quarter note fraction if any
-  while (denominator > 4) {
+  for ( ; ; ) {
+    if (denominator == 4) {
+      break;
+    }
+    
     if (numerator % 2 == 1) {
       numberOfDots += 1;
       
@@ -2069,7 +2073,7 @@ string wholeNotesAsMsrString (
       numerator   = r.getNumerator (),
       denominator = r.getDenominator ();
     }
-  } // while
+  } // for
   
   // handle the 'above quarter note' part
   for ( ; ; ) {
@@ -6479,7 +6483,8 @@ void msrNote::initializeNote ()
   
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a note, kind: ";
+      "Creating a note" <<
+      ", kind: ";
     if (fNoteKind == k_NoNoteKind)
       cerr <<
         "not yet known";
@@ -6506,11 +6511,20 @@ void msrNote::initializeNote ()
         setw(fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
+        setw(fieldWidth) <<
+        "noteSoundingWholeNotesAsMSRString" << " = " <<
+        wholeNotesAsMsrString (
+          fInputLineNumber,
+          fNoteSoundingWholeNotes) <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
+        "noteDisplayWholeNotesAsMSRString" << " = " <<
+        wholeNotesAsMsrString (
+          fInputLineNumber,
+          fNoteDisplayWholeNotes) <<
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
@@ -7268,8 +7282,6 @@ string msrNote::noteEditorialAccidentalKindAsString (
     case msrNote::kNoteEditorialAccidentalNo:
       result = "editorial accidental: no";
       break;
-    default:
-      result = to_string (noteEditorialAccidentalKind) + " FOUFOU"; // JMI
   } // switch
 
   return result;
@@ -8307,67 +8319,66 @@ void msrNote::print (ostream& os)
         /* JMI
           "note divisions per quarter note: " <<
           fNoteDivisionsPerQuarterNote <<
-          ", whole notes: " <<
           */
+          "Whole notes: " <<
           fNoteSoundingWholeNotes <<
-          " sound, " <<
+          " sounding, " <<
           fNoteDisplayWholeNotes<<
-          " disp";
+          " display";
         break;
   
       case msrNote::kGraceNote:
         os <<
-          "whole notes: " <<
+          "Whole notes: " <<
           fNoteDisplayWholeNotes <<
-          " disp";
+          " display";
         break;
   
       case msrNote::kTupletMemberNote:
         os <<
-          "whole notes: " <<
+          "Whole notes: " <<
           fNoteSoundingWholeNotes <<
-          " sound, " <<
+          " sounding, " <<
           fNoteDisplayWholeNotes<<
-          " disp" <<
-          ", whole notes: " <<
-          fNoteTupletNoteSoundingWholeNotesAsMsrString;
-  /* JMI
-        if (
-            fNoteSoundingWholeNotes
-              ==
-            fNoteDisplayWholeNotes) {
-          os <<
-            fNoteSoundingWholeNotes <<
-            " whole notes";
-        }
-        */
+          " display" <<
+          ", note tuplet sounding: " <<
+          fNoteTupletNoteSoundingWholeNotesAsMsrString; // JMI
         break;
       } // switch
 
-    // accidentals
-    os <<
-      ", " <<
-      noteEditorialAccidentalKindAsString (
-        fNoteEditorialAccidentalKind) <<
-      ", " <<
-      noteCautionaryAccidentalKindAsString (
-        fNoteCautionaryAccidentalKind);
-
     // full measure length
-    if (measureFullMeasureLength.getNumerator () != 0) { // JMI
-      os <<
-        ", " <<
-        measureFullMeasureLength <<
-        " per full measure";
-    }
+    os <<
+      ", per full measure: ";
+        measureFullMeasureLength;
+
+    os <<
+      endl;
   
+   // accidentals
+    os <<
+      idtr <<
+        noteEditorialAccidentalKindAsString (
+          fNoteEditorialAccidentalKind) <<
+        ", " <<
+        noteCautionaryAccidentalKindAsString (
+          fNoteCautionaryAccidentalKind) <<
+        endl;
+
     // print measure related information
     os <<
-      ", measure: ";
+      idtr <<
+        "Measure: ";
     if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER)
-      os << "unknown";
-    else
-      fNoteMeasureNumber;
+      os <<
+        "unknown";
+    else if (fNoteMeasureNumber.size ())
+      os <<
+        fNoteMeasureNumber;
+    else {
+      msrInternalError (
+        fInputLineNumber,
+        "note measure number is empty");
+    }
 
     os <<
       ", position in measure: ";
