@@ -18457,14 +18457,8 @@ void msrMeasure::print (ostream& os)
       ", length: " << getMeasureLength () << " whole notes" <<
       ", measureLengthAsMSRString: " <<
       measureLengthAsMSRString () <<
-      wholeNotesAsMsrString (
-        fInputLineNumber,
-        fMeasureLength) <<
-      ", measureFullMeasureLength: " <<
+      ", measureFullMeasureLengthAsMSRString: " <<
       measureFullMeasureLengthAsMSRString () <<
-       wholeNotesAsMsrString (
-        fInputLineNumber,
-        fMeasureFullMeasureLength) <<
       ", " << fMeasureFullMeasureLength << " per full measure" <<
       ", " <<
       singularOrPlural (
