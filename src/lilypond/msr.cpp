@@ -18363,48 +18363,6 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
   return os;
 }
 
-string msrMeasure::getMeasureLengthAsString () const
-{
-  string result;
-  string errorMessage;
-
-  rational
-    measureLength =
-      this->getMeasureLength (); 
-  
-  if (gGeneralOptions->fTraceMeasures) // JMI
-    cerr <<
-      endl <<
-      idtr <<
-        "% --> measure " << fMeasureNumber <<
-        ", line " << fInputLineNumber <<
-        ", measureLength = " << measureLength <<
-        ", measureFullMeasureLength = " <<
-        fMeasureFullMeasureLength <<
-      endl;
-
-  if (measureLength.getNumerator () != 0) {
-    result =
-      fMeasureDirectPartUplink->
-        getPartCurrentDivisions ()->
-          divisionsAsMsrString (
-            fInputLineNumber,
-            measureLength);
-  }
-  
-  else
-    result = "0";
-
-  if (gGeneralOptions->fTraceMeasures)
-    cerr <<
-      endl <<
-      idtr <<
-      "%% --> result = " << result <<
-      endl;
-
-  return result;
-}
-
 string msrMeasure::measureKindAsString (
   msrMeasureKind measureKind)
 {
@@ -18472,7 +18430,7 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   return result;
 }
 
-string msrMeasure::getMeasureKindAsString () const
+string msrMeasure::measureKindAsString () const
 {
   return
     measureKindAsString (fMeasureKind);
@@ -18491,17 +18449,19 @@ void msrMeasure::print (ostream& os)
     endl <<
     idtr <<
       "Measure " << fMeasureNumber <<
-      ", " << getMeasureKindAsString () <<
+      ", " << measureKindAsString () <<
       ", " <<
       msrMeasure::measureFirstInSegmentKindAsString (
         fMeasureFirstInSegmentKind) << 
       ", line " << fInputLineNumber <<
       ", length: " << getMeasureLength () << " whole notes" <<
       ", measureLengthAsMSRString: " <<
+      measureLengthAsMSRString () <<
       wholeNotesAsMsrString (
         fInputLineNumber,
         fMeasureLength) <<
       ", measureFullMeasureLength: " <<
+      measureFullMeasureLengthAsMSRString () <<
        wholeNotesAsMsrString (
         fInputLineNumber,
         fMeasureFullMeasureLength) <<

@@ -3186,23 +3186,13 @@ class EXP msrMeasure : public msrElement
 
     string                measureLengthAsMSRString ();
 
-
-
-/* JMI
-    void                  appendDivisionsToMeasure (
-                            S_msrDivisions divisions);
-*/
     void                  bringMeasureToMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
 
     // measure kind
     
-    string                getMeasureKindAsString () const;
-
-    // measure length
-    
-    string                getMeasureLengthAsString () const;
+    string                measureKindAsString () const;
 
     // clefs
     
