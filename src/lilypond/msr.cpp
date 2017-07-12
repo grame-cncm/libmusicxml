@@ -7212,15 +7212,6 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteGraphicDurationAsMsrString =
     fNoteGraphicDurationAsMsrString;
-    
- // JMI noteDeepCopy->fNoteSkipOrRestSoundingWholeNotesAsMsrString =
-//    fNoteSkipOrRestSoundingWholeNotesAsMsrString;
-    
-  noteDeepCopy->fNoteTupletNoteSoundingWholeNotesAsMsrString =
-    fNoteTupletNoteSoundingWholeNotesAsMsrString;
-    
-  noteDeepCopy->fNoteGraphicDurationAsMsrString =
-    fNoteGraphicDurationAsMsrString;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
@@ -8387,7 +8378,10 @@ void msrNote::print (ostream& os)
           fNoteDisplayWholeNotes<<
           " display" <<
           ", note tuplet sounding: " <<
-          fNoteTupletNoteSoundingWholeNotesAsMsrString; // JMI
+          wholeNotesAsMsrString (
+            fInputLineNumber,
+            getNoteTupletUplink ()->
+              getTupletSoundingWholeNotes ());
         break;
       } // switch
 
@@ -8601,8 +8595,11 @@ void msrNote::print (ostream& os)
               "\"" <<
               endl <<
             idtr << setw(fieldWidth) <<
-              "noteTupletNoteSoundingWholeNotesAsMsrString" << " = \"" <<
-              fNoteTupletNoteSoundingWholeNotesAsMsrString <<
+              "noteTupletNoteSoundingWholeNotes" << " = \"" <<
+              wholeNotesAsMsrString (
+                fInputLineNumber,
+                getNoteTupletUplink ()->
+                  getTupletSoundingWholeNotes ()) <<
               "\"" <<
             endl <<
       
@@ -16251,15 +16248,9 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureFullMeasureLength =
     fMeasureFullMeasureLength;
     
-  newbornClone->fMeasureFullMeasureLengthAsMSRString =
-    fMeasureFullMeasureLengthAsMSRString;
-
-  // don't take fMeasureLength and fMeasureFullMeasureLengthAsMSRString over,
-  // they will be computed on the fly
+  // don't take fMeasureLength over,
+  // it will be computed on the fly
   // while appending notes to the measure newborn clone
-
-  newbornClone->fMeasureLengthAsMSRString =
-    fMeasureLengthAsMSRString;
 
   // measure kind
   newbornClone->fMeasureKind =
@@ -16328,18 +16319,9 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   measureDeepCopy->fMeasureFullMeasureLength =
     fMeasureFullMeasureLength;
     
-  measureDeepCopy->fMeasureFullMeasureLengthAsMSRString =
-    fMeasureFullMeasureLengthAsMSRString;
-
   measureDeepCopy->fMeasureLength =
     fMeasureLength;
     
-  measureDeepCopy->fMeasureLengthAsMSRString =
-    fMeasureLengthAsMSRString;
-
-  measureDeepCopy->fMeasureLengthAsMSRString =
-    fMeasureLengthAsMSRString;
-
   // measure kind
   measureDeepCopy->fMeasureKind =
     fMeasureKind;
@@ -16440,6 +16422,7 @@ string msrMeasure::measureFullMeasureLengthAsMSRString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fMeasureFullMeasureLength);
 }
 
@@ -16470,6 +16453,7 @@ string msrMeasure::measureLengthAsMSRString ()
 {
   return
     wholeNotesAsMsrString (
+      fInputLineNumber,
       fMeasureLength);
 }
 
@@ -16716,8 +16700,6 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     
     fMeasureFullMeasureLength =
       rational (INT_MAX, 1);
-    fMeasureFullMeasureLengthAsMSRString =
-      "rational (INT_MAX, 1)"; // JMI
   }
   
   else {
@@ -16765,15 +16747,6 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     // set full measure length
     fMeasureFullMeasureLength =
       wholeNotesPerMeasure;
-
-    // set full measure length as MSR string
-    fMeasureFullMeasureLengthAsMSRString =
-      fMeasureDirectPartUplink->
-        getPartCurrentDivisions ()->
-          wholeNotesAsMsrString (
-            fInputLineNumber,
-            fMeasureFullMeasureLength);
-      
 
     /* JMI
     int
@@ -18357,14 +18330,6 @@ void msrMeasure::finalizeMeasure (
   else {
     // leave measure as it it
   }
-
-  // set measure length as MSR string
-  fMeasureLengthAsMSRString =
-    fMeasureDirectPartUplink->
-      getPartCurrentDivisions ()->
-        wholeNotesAsMsrString (
-          fInputLineNumber,
-          fMeasureLength);
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -18568,9 +18533,13 @@ void msrMeasure::print (ostream& os)
       ", line " << fInputLineNumber <<
       ", length: " << getMeasureLength () << " whole notes" <<
       ", measureLengthAsMSRString: " <<
-      fMeasureLengthAsMSRString <<
-      ", measureFullMeasureLengthAsMSRString: " <<
-      fMeasureFullMeasureLengthAsMSRString <<
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fMeasureLength) <<
+      ", measureFullMeasureLength: " <<
+       wholeNotesAsMsrString (
+        fInputLineNumber,
+        fMeasureFullMeasureLength) <<
       ", " << fMeasureFullMeasureLength << " per full measure" <<
       ", " <<
       singularOrPlural (
