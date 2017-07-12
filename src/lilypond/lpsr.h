@@ -110,6 +110,17 @@ string existingLpsrChordsLanguages ();
 
 void initializeLpsrChordsLanguages ();
 
+// whole notes
+//______________________________________________________________________________
+string wholeNotesAsLilypondString (
+  int      inputLineNumber,
+  rational wholeNotes,
+  int&     dotsNumber);
+
+string wholeNotesAsLilypondString (
+  int      inputLineNumber,
+  rational wholeNotes);
+
 /*!
 \brief A generic msr element representation.
 

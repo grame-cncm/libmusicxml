@@ -4257,13 +4257,6 @@ class EXP msrHarmony : public msrElement
                 
     msrQuarterTonesPitch  getHarmonyBassQuarterTonesPitch () const
                               { return fHarmonyBassQuarterTonesPitch; }                                              
-    // MSR strings
-    string                getHarmonySoundingWholeNotesAsString () const
-                              {
-                                return
-                                  fHarmonySoundingWholeNotesAsString;
-                              }
-
     // uplinks
     S_msrPart             getHarmonyDirectPartUplink () const
                              { return fHarmonyDirectPartUplink; }
@@ -4299,9 +4292,6 @@ class EXP msrHarmony : public msrElement
     string                fHarmonyKindText;
 
     msrQuarterTonesPitch  fHarmonyBassQuarterTonesPitch;
-
-    // MSR strings
-    string                fHarmonySoundingWholeNotesAsString;
 
     // uplinks
     S_msrPart             fHarmonyDirectPartUplink;

@@ -15112,14 +15112,6 @@ msrHarmony::msrHarmony (
  
   fHarmonySoundingWholeNotes = harmonySoundingWholeNotes;
 
-  // MSR strings
-  fHarmonySoundingWholeNotesAsString =
-    fHarmonyDirectPartUplink->
-      getPartCurrentDivisions ()->
-        wholeNotesAsMsrString (
-          fInputLineNumber,
-          fHarmonySoundingWholeNotes);
-  
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "Creating harmony '" <<
@@ -15159,11 +15151,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 
   newbornClone->fHarmonySoundingWholeNotes =
     fHarmonySoundingWholeNotes;
-    
-  // MSR strings
-  newbornClone->fHarmonySoundingWholeNotesAsString =
-    fHarmonySoundingWholeNotesAsString;
-    
+        
   return newbornClone;
 }
 
@@ -15194,11 +15182,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 
   harmonyDeepCopy->fHarmonySoundingWholeNotes =
     fHarmonySoundingWholeNotes;
-    
-  // MSR strings
-  harmonyDeepCopy->fHarmonySoundingWholeNotesAsString =
-    fHarmonySoundingWholeNotesAsString;
-    
+        
   return harmonyDeepCopy;
 }
 

@@ -420,11 +420,7 @@ class lpsr2LilypondTranslator :
     virtual void visitEnd   (S_msrMidi& elt);
 
     // whole notes
-    
-    string                wholeNotesAsLilypondString (
-                            int       inputLineNumber,
-                            S_msrPart part,
-                            rational  wholeNotes);
+    // JMI
                             
     // octaves
     
@@ -451,9 +447,6 @@ class lpsr2LilypondTranslator :
     string                pitchedRestAsLilypondString (S_msrNote note);
 
     void                  printNoteAsLilypondString (S_msrNote note);
-
-    string                noteSoundingWholeNotesAsLilypondString (
-                            S_msrNote note);
 
     // articulations
     

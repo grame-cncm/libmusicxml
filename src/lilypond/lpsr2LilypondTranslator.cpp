@@ -267,23 +267,6 @@ string lpsr2LilypondTranslator::lilypondizeDurationString (
   return result;
 }
 
-string lpsr2LilypondTranslator::wholeNotesAsLilypondString (
-  int       inputLineNumber,
-  S_msrPart part,
-  rational  wholeNotes)
-{
-  string result;
-
-  result = wholeNotes.toString ();
-
-/* JMI
-  fOstream <<
-    "%{ wholeNotesAsLilypondString: " << result << " %}";
-*/
-  
-  return lilypondizeDurationString (result);
-}
-
 //________________________________________________________________________
 string lpsr2LilypondTranslator::lilypondRelativeOctave (
   S_msrNote note)
@@ -634,33 +617,6 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   return s.str();
 }
 
-//________________________________________________________________________
-string lpsr2LilypondTranslator::noteSoundingWholeNotesAsLilypondString (
-  S_msrNote note)
-{
-  string
-    noteSoundingWholeNotesAsMsrString =
-      note->
-        noteSoundingWholeNotesAsMsrString ();
-
-  string
-    lilypondSoundingWholeNotesAsString =
-      noteSoundingWholeNotesAsMsrString;
-
-  if (! isdigit (lilypondSoundingWholeNotesAsString [0])) {
-    if      (lilypondSoundingWholeNotesAsString == "Breve")
-      lilypondSoundingWholeNotesAsString = "\\breve";
-      
-    else if (lilypondSoundingWholeNotesAsString == "Long")
-      lilypondSoundingWholeNotesAsString = "\\longa";
-      
-    else if (lilypondSoundingWholeNotesAsString == "Maxima")
-      lilypondSoundingWholeNotesAsString = "\\maxima";
-  }
-
-  return lilypondSoundingWholeNotesAsString;
-}
-        
 //________________________________________________________________________
 string lpsr2LilypondTranslator::articulationAsLilyponString (
   S_msrArticulation articulation)
@@ -1073,7 +1029,10 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
         fMsrQuarterTonesPitchesLanguage,
       harmony->
         getHarmonyRootQuarterTonesPitch ()) <<
-    harmony->getHarmonySoundingWholeNotesAsString ();
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      harmony->
+        getHarmonySoundingWholeNotes ());
     
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::kMajor:
