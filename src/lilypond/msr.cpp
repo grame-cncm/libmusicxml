@@ -7960,18 +7960,12 @@ string msrNote::noteGraphicDurationAsMsrString () const
 string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
   int actualNotes, int normalNotes) const
 {
-  string result;
-
-  result =
-    fNoteDirectPartUplink->
-      getPartCurrentDivisions ()->
-        tupletWholeNotesAsMsrString (
-          fInputLineNumber,
-          fNoteSoundingWholeNotes,
-          actualNotes,
-          normalNotes);
-
-  return result;
+  return
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fNoteSoundingWholeNotes
+        *
+      rational (actualNotes, normalNotes));
 }
 
 string msrNote::noteDiatonicPitchAsString (

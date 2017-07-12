@@ -4772,7 +4772,7 @@ class EXP msrNote : public msrElement
     
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
-    string                tupletNoteGraphicDurationAsMsrString (
+    string                tupletNoteGraphicDurationAsMsrString ( // JMI
                             int actualNotes, int normalNotes) const;
 
     // tuplet members
