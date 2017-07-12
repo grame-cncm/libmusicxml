@@ -4732,18 +4732,6 @@ class EXP msrNote : public msrElement
                   
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
-
-    // as MSR string
-                              
-/* JMI                              
-    string                getNoteTupletNoteGraphicDurationAsMsrString () const
-    string                 (
-                            int actualNotes, int normalNotes) const;
-                              {
-                                return
-                                  getNoteTupletNoteGraphicDurationAsMsrString;
-                              }
- */
                               
     // uplinks
     // measure uplink
@@ -5002,12 +4990,6 @@ class EXP msrNote : public msrElement
     
     bool                  fNoteOccupiesAFullMeasure;
     
-    // note as MSR string // JMI
-    // ------------------------------------------------------
-    // these fileds are set by msrNote::create()
-                
-    string                fNoteTupletNoteGraphicDurationAsMsrString;
-
     // note redundant information (for speed)
     // ------------------------------------------------------
 

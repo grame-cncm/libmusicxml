@@ -8574,11 +8574,13 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
+          /* JMI
             idtr << setw(fieldWidth) <<
               "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
               fNoteTupletNoteGraphicDurationAsMsrString <<
               "\"" <<
               endl <<
+              */
             idtr << setw(fieldWidth) <<
               "noteTupletNoteSoundingWholeNotes" << " = \"" <<
               wholeNotesAsMsrString (
