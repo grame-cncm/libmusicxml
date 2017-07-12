@@ -1837,19 +1837,20 @@ void mxmltree2MsrTranslator::visitEnd (S_attributes& elt)
       "--> End visiting S_attributes" <<
       endl;
 
+/* JMI
   // time is crucially needed for measures management,
   // we cannot stay without any
-  if (false && ! fCurrentTime) { // JMI BOF
+  if (false && ! fCurrentTime) {
     // create the default 4/4 time
     fCurrentTime =
       msrTime::createFourQuartersTime (
         elt->getInputLineNumber ());
         
     // register time in staff
-    if (fCurrentTimeStaffNumber == 0)
-      fCurrentPart->
-        appendTimeToPart (fCurrentTime);
+    fCurrentPart->
+      appendTimeToPart (fCurrentTime);
   }
+  */
 }
 
 //______________________________________________________________________________

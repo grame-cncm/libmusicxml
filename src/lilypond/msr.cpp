@@ -8392,11 +8392,16 @@ void msrNote::print (ostream& os)
         break;
       } // switch
 
-    // full measure length
-    os <<
-      ", " <<
-      measureFullMeasureLength <<
-      " per full measure";
+    // full measure length,
+    // may be unknown if there is no time signature
+    if (measureFullMeasureLength.getNumerator () == 0)
+      os <<
+        ", full measure length unknown, no time signature";
+    else
+      os <<
+        ", " <<
+        measureFullMeasureLength <<
+        " per full measure";
 
     os <<
       endl;
@@ -25106,7 +25111,10 @@ void msrStaff::initializeStaff ()
       appendKeyToStaff (key);
       }
       /* JMI
-    else { 
+    else {
+      // time is crucially needed for measures management,
+      // we cannot stay without any
+
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Appending default C major key " <<
@@ -25149,6 +25157,9 @@ void msrStaff::initializeStaff ()
     }
     /* JMI
     else {
+      // time is crucially needed for measures management,
+      // we cannot stay without any
+
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
         cerr << idtr <<
           "Appending default 4/4 time " <<
@@ -25163,7 +25174,7 @@ void msrStaff::initializeStaff ()
         msrTime::createFourQuartersTime (
           fInputLineNumber));
     }
-    * */
+    */
   }
   
   // get the initial transpose from the part if any
