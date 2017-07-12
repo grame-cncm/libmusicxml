@@ -4735,12 +4735,6 @@ class EXP msrNote : public msrElement
 
     // as MSR string
                               
-    string                getNoteGraphicDurationAsMsrString () const
-                              {
-                                return
-                                  fNoteGraphicDurationAsMsrString;
-                              }
-                              
     string                getNoteTupletNoteSoundingWholeNotesAsMsrString () const
                               {
                                 return
@@ -4805,6 +4799,7 @@ class EXP msrNote : public msrElement
     // whole notes
     string                noteSoundingWholeNotesAsMsrString ();
     string                noteDisplayWholeNotesAsMsrString ();
+    
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
     string                tupletNoteGraphicDurationAsMsrString (
@@ -5018,9 +5013,7 @@ class EXP msrNote : public msrElement
     // note as MSR string // JMI
     // ------------------------------------------------------
     // these fileds are set by msrNote::create()
-    
-    string                fNoteGraphicDurationAsMsrString;
-        
+            
     string                fNoteTupletNoteSoundingWholeNotesAsMsrString;
     
     string                fNoteTupletNoteGraphicDurationAsMsrString;

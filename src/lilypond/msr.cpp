@@ -6874,16 +6874,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
-
-  // note as MSR string
-  // ------------------------------------------------------
     
-  newbornClone->fNoteGraphicDurationAsMsrString =
-    fNoteGraphicDurationAsMsrString;
-    
-  newbornClone->fNoteGraphicDurationAsMsrString =
-    fNoteGraphicDurationAsMsrString;
-
   // note redundant information (for speed)
   // ------------------------------------------------------
 
@@ -7206,12 +7197,6 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
-
-  // note as MSR string
-  // ------------------------------------------------------
-
-  noteDeepCopy->fNoteGraphicDurationAsMsrString =
-    fNoteGraphicDurationAsMsrString;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
@@ -8551,7 +8536,7 @@ void msrNote::print (ostream& os)
               endl <<
             idtr << setw(fieldWidth) <<
               "noteGraphicDurationAsMsrString" << " = \"" <<
-              fNoteGraphicDurationAsMsrString <<
+              noteGraphicDurationAsMsrString () <<
               "\"" <<
               endl;
         }
@@ -8571,7 +8556,7 @@ void msrNote::print (ostream& os)
           os << left <<
             idtr << setw(fieldWidth) <<
               "noteGraphicDurationAsMsrString" << " = \"" <<
-              fNoteGraphicDurationAsMsrString <<
+              noteGraphicDurationAsMsrString () <<
               "\"" <<
               endl;
         }
@@ -8605,7 +8590,7 @@ void msrNote::print (ostream& os)
       
             idtr << setw(fieldWidth) <<
               "noteGraphicDurationAsMsrString" << " = \"" <<
-              fNoteGraphicDurationAsMsrString <<
+              noteGraphicDurationAsMsrString () <<
               "\"" <<
               endl;
         }
