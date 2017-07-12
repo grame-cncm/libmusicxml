@@ -2045,13 +2045,41 @@ string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes,
   int&     dotsNumber)
-{  
+{
+//#define DEBUG_WHOLE_NOTES
+
+#ifdef DEBUG_WHOLE_NOTES
+  cout<<
+    "--> wholeNotes: " << wholeNotes <<
+    ", line " << inputLineNumber <<
+    endl;
+#endif
+
   wholeNotes.rationalise ();
+
+#ifdef DEBUG_WHOLE_NOTES
+  cerr <<
+    "--> wholeNotes rationalised: " << wholeNotes <<
+    endl;
+#endif
 
   int
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
+#ifdef DEBUG_WHOLE_NOTES
+  cerr <<
+    "--> numerator: " << numerator <<
+    endl <<
+    "--> denominator: " << denominator <<
+    endl <<
+    endl;
+#endif
+
+  msrAssert (
+    numerator != 0,
+    "numerator is 0");
+    
   if (numerator == 1) {
     // a number of ??? JMI notes
     return to_string (denominator);
@@ -13734,6 +13762,9 @@ string msrWords::msrWordsXMLLangKindAsString (
     case kJaLang:
       result = "ja";
       break;
+    case kLaLang:
+      result = "la";
+      break;
   } // switch
 
   return result;
@@ -18454,12 +18485,15 @@ void msrMeasure::print (ostream& os)
       msrMeasure::measureFirstInSegmentKindAsString (
         fMeasureFirstInSegmentKind) << 
       ", line " << fInputLineNumber <<
-      ", length: " << getMeasureLength () << " whole notes" <<
+      ", length: " << fMeasureLength << " whole notes" <<
+      ", full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
+/* JMI
       ", measureLengthAsMSRString: " <<
       measureLengthAsMSRString () <<
       ", measureFullMeasureLengthAsMSRString: " <<
       measureFullMeasureLengthAsMSRString () <<
       ", " << fMeasureFullMeasureLength << " per full measure" <<
+      */
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<

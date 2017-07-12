@@ -3911,25 +3911,25 @@ class EXP msrWords : public msrElement
     // ------------------------------------------------------
 
     enum msrWordsPlacementKind {
-      kWordsPlacementAbove, kWordsPlacementBelow};
+      kWordsPlacementAbove, kWordsPlacementBelow };
 
     static string wordsPlacementKindAsString (
       msrWordsPlacementKind wordsPlacementKind);
       
     enum msrWordsFontStyleKind {
-      kNormalStyle, KItalicStyle};
+      kNormalStyle, KItalicStyle };
 
     static string wordsFontStyleKindAsString (
       msrWordsFontStyleKind wordsFontStyleKind);
       
     enum msrWordsFontWeightKind {
-      kNormalWeight, kBoldWeight};
+      kNormalWeight, kBoldWeight };
 
     static string msrWordsFontWeightKindAsString (
       msrWordsFontWeightKind wordsFontWeightKind);
       
     enum msrWordsXMLLangKind {
-      kItLang, kEnLang, kDeLang, kFrLang, kJaLang};
+      kItLang, kEnLang, kDeLang, kFrLang, kJaLang, kLaLang };
 
     static string msrWordsXMLLangKindAsString (
       msrWordsXMLLangKind wordsXMLLangKind);

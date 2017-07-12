@@ -3371,13 +3371,15 @@ void mxmltree2MsrTranslator::visitStart (S_words& elt)
     wordsXMLLangKind = msrWords::kFrLang;
   else if (wordsXMLLang == "ja")
     wordsXMLLangKind = msrWords::kJaLang;
+  else if (wordsXMLLang == "la")
+    wordsXMLLangKind = msrWords::kLaLang;
   else {
     if (wordsXMLLang.size ()) {
       stringstream s;
       
       s <<
-        "xml:lang value " << wordsXMLLang <<
-        " should be 'it', 'en', 'de' or 'fr'";
+        "xml:lang value '" << wordsXMLLang <<
+        "' should be 'it', 'en', 'de' or 'fr'";
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
