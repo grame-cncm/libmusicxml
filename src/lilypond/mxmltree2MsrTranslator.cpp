@@ -207,7 +207,6 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   fOnGoingLyric = false;
   fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
-  fCurrentLyricText = "";
   fCurrentLyricElision = false;
 
   fCurrentSyllableKind       = msrSyllable::k_NoSyllable;
@@ -4833,8 +4832,8 @@ void mxmltree2MsrTranslator::visitStart ( S_text& elt )
     fCurrentLyricText += textToUse;
 */
 
-  // there can be several <text/>'s in a row, hence the concatenation
-  fCurrentLyricText += text;
+  // there can be several <text/>'s in a row, hence the list
+  fCurrentLyricTextList.push_back (text);
   
   fCurrentStanzaHasText = true;
 
@@ -4855,7 +4854,13 @@ void mxmltree2MsrTranslator::visitStart ( S_text& elt )
         "fCurrentSyllabic" << " = " << fCurrentSyllabic <<
         endl <<
       idtr <<
-        ", fCurrentLyricText" << " = |" << fCurrentLyricText << "|" <<
+        ", fCurrentLyricTextList" << " = ";
+
+    writeTextsList (
+      fCurrentLyricTextList,
+      cerr);
+    
+    cerr <<
       endl;
 
     idtr--;
@@ -4947,7 +4952,14 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
           endl <<
         idtr <<
           setw(fieldwidth) <<
-          "fCurrentLyricText" << " = \"" << fCurrentLyricText << "\"" <<
+          "fCurrentLyricText" << " = \"";
+
+      writeTextsList (
+        fCurrentLyricTextList,
+        cerr);
+  
+      cerr <<
+        "\"" <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
@@ -5102,7 +5114,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     else if (
       fOnGoingSlurHasStanza // JMI Ligature ???
         &&
-      ! fCurrentLyricText.size ()) {
+      ! fCurrentLyricTextList.size ()) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
       }
@@ -5136,11 +5148,17 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
    // create a syllable
    //     fCurrentLyricElision ??? JMI
     if (gGeneralOptions->fTraceLyrics) {      
-      cerr << idtr <<
+      cerr <<
+        idtr <<
         "--> creating a " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
         " syllable"
-        ", text = \"" << fCurrentLyricText << "\"" <<
+        ", text = \"";
+  
+      writeCurrentLyricTextList (cerr);
+
+      cerr <<
+        "\"" <<
         ", line " << inputLineNumber <<
         ", sounding whole notes = " <<
         fCurrentNoteSoundingWholeNotes << 
@@ -5164,7 +5182,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         inputLineNumber,
         fCurrentPart,
         fCurrentSyllableKind,
-        fCurrentLyricText,
+        fCurrentLyricTextList,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteSoundingWholeNotes,
         stanza);
@@ -5208,8 +5226,7 @@ void mxmltree2MsrTranslator::visitStart (S_measure& elt)
       idtr << 
         "<!--=== measure " << fCurrentMeasureNumber <<
         ", line " << inputLineNumber << " ===-->" <<
-        endl <<
-      endl;
+        endl;
   }
 
   // Measures with an implicit attribute set to "yes"
@@ -6490,7 +6507,7 @@ void mxmltree2MsrTranslator::visitStart ( S_note& elt )
   // for use by notes without lyrics
   
   fCurrentSyllabic = "";
-  fCurrentLyricText = "";
+  fCurrentLyricTextList.clear ();
   fCurrentSyllableKind = msrSyllable::k_NoSyllable;
     // to handle properly a note without any <text/> JMI
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;

@@ -8182,6 +8182,9 @@ string msrNote::noteAsShortString ()
       if (! fNoteIsARest)
         s <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      s <<
+        ", line " << fInputLinNumber;
       break;
   } // switch
 
@@ -8290,6 +8293,9 @@ string msrNote::noteAsString ()
       if (! fNoteIsARest)
         s <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      s <<
+        ", line " << fInputLinNumber;
       break;
   } // switch
 
@@ -13938,7 +13944,7 @@ S_msrSyllable msrSyllable::create (
   int                   inputLineNumber,
   S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
-  string                syllableText,
+  list<string>          syllableTextList,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
@@ -13947,7 +13953,7 @@ S_msrSyllable msrSyllable::create (
     new msrSyllable (
       inputLineNumber,
       syllableDirectPartUplink,
-      syllableKind, syllableText, syllableExtendKind,
+      syllableKind, syllableTextList, syllableExtendKind,
       syllableWholeNotes,
       syllableStanzaUplink);
   assert(o!=0);
@@ -13959,7 +13965,7 @@ msrSyllable::msrSyllable (
   int                   inputLineNumber,
   S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
-  string                syllableText,
+  list<string>          syllableTextList,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
@@ -13974,7 +13980,7 @@ msrSyllable::msrSyllable (
     syllableDirectPartUplink;
     
   fSyllableKind = syllableKind;
-  fSyllableText = syllableText;
+  fSyllableTextList = syllableTextList;
   
   fSyllableWholeNotes = syllableWholeNotes;
 
@@ -14010,7 +14016,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fInputLineNumber,
         containingPart,
         fSyllableKind,
-        fSyllableText,
+        fSyllableTextList,
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
@@ -14046,7 +14052,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fInputLineNumber,
         containingPart,
         fSyllableKind,
-        fSyllableText,
+        fSyllableTextList,
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
@@ -14061,12 +14067,32 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   return syllableDeepCopy;
 }
 
+void msrSyllable::writeTextsList (
+  list<string>& textsList,
+  ostream&      os)
+{
+  list<string>::const_iterator
+    iBegin = textsList.begin(),
+    iEnd   = textsList.end(),
+    i      = iBegin;
+
+  os << "[]";
+  
+  for ( ; ; ) {
+    os << (*i);
+    if (++i == iEnd) break;
+    os << ", ";
+  } // for
+
+  os << "|";
+} 
+
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
   fSyllableNoteUplink = note;
 
-  // register syllable in note if its text is not empty
-  if (fSyllableText.size ())
+  // register syllable in note if its text list is not empty
+  if (fSyllableTextList.size ())
      note->
       appendSyllableToNote (this); // JMI
   

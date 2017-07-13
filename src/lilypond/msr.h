@@ -4062,7 +4062,7 @@ class EXP msrSyllable : public msrElement
       int                   inputLineNumber,
       S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
-      string                syllableText,
+      list<string>          syllableTextList,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
@@ -4082,7 +4082,7 @@ class EXP msrSyllable : public msrElement
       int                   inputLineNumber,
       S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
-      string                syllableText,
+      list<string>          syllableTextList,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
@@ -4102,8 +4102,8 @@ class EXP msrSyllable : public msrElement
     msrSyllableKind       getSyllableKind () const
                               { return fSyllableKind; }
 
-    string                getSyllableText () const
-                              { return fSyllableText; }
+    const list<string>&   getSyllableTextList () const
+                              { return fSyllableTextList; }
 
     msrSyllableExtendKind getSyllableExtendKind () const
                               { return fSyllableExtendKind; }
@@ -4119,6 +4119,11 @@ class EXP msrSyllable : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    // texts lists
+    static void           writeTextsList (
+                            list<string>& textsList,
+                            ostream&      os);
 
     // as MSR string
     string                syllableWholeNotesAsMsrString ();
@@ -4151,7 +4156,7 @@ class EXP msrSyllable : public msrElement
 
     // syllable kind and contents
     msrSyllableKind       fSyllableKind;
-    string                fSyllableText;
+    list<string>          fSyllableTextList;
     msrSyllableExtendKind fSyllableExtendKind;
 
     // uplinks

@@ -943,7 +943,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     bool                      fOnGoingInterchangeable;
 
 
-    // lyric handling
+    // lyrics handling
     // ------------------------------------------------------
     
     bool                      fOnGoingLyric;
@@ -956,7 +956,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     msrSyllable::msrSyllableKind
                               fFirstSyllableInLigatureKind;
     // the last lyric fragment met
-    string                    fCurrentLyricText;
+    list<string>              fCurrentLyricTextList;
     bool                      fCurrentLyricElision;
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;
@@ -967,6 +967,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     bool                      fCurrentStanzaHasText;
 
     list<S_msrSyllable>       fCurrentNoteSyllables;
+
+    void                      writeCurrentLyricTextList (ostream& os);
 
     void                      handleLyric (
                                 S_msrVoice currentVoice,
