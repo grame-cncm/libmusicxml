@@ -14328,14 +14328,13 @@ string msrSyllable::syllableAsString ()
     case kSingleSyllable:
       s <<
         "single" <<
-        ", " << "\"";
+        ", texts list: ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
 
       s <<
-        "\"" <<
         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
@@ -14348,14 +14347,13 @@ string msrSyllable::syllableAsString ()
     case kBeginSyllable:
       s << 
         "begin" <<
-        ", " << "\"";
+        ", texts list: ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
 
       s <<
-        "\"" <<
          ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
@@ -14368,14 +14366,13 @@ string msrSyllable::syllableAsString ()
     case kMiddleSyllable:
       s << 
         "middle" <<
-        ", " << "\"";
+        ", texts list: ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
 
       s <<
-        "\"" <<
         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
@@ -14388,14 +14385,13 @@ string msrSyllable::syllableAsString ()
     case kEndSyllable:
       s << 
         "end" <<
-        ", " << "\"";
+        ", texts list: ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
 
       s <<
-        "\"" <<
         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<

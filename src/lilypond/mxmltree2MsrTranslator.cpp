@@ -12080,8 +12080,11 @@ void mxmltree2MsrTranslator::handleLyric (
   }
   */
 
+  bool
+    newNoteHasLyrics =
+      fCurrentNoteSyllables.size () > 0;
 
-  if (fCurrentNoteSyllables.size ()) {
+  if (newNoteHasLyrics) {
     // newNote has lyrics attached to it
     for (
       list<S_msrSyllable>::const_iterator i =
@@ -12166,11 +12169,15 @@ void mxmltree2MsrTranslator::handleLyric (
       break;
   } // switch
 
-  if (fOnGoingSyllableExtend) // JMI
+  if (fOnGoingSyllableExtend) { // JMI
     // register newNote's extend kind
     newNote->
       setNoteSyllableExtendKind (
         fCurrentSyllableExtendKind);
+  }
+
+  fPreviousNoteHasLyrics =
+    newNoteHasLyrics;
 }
 
 //______________________________________________________________________________
