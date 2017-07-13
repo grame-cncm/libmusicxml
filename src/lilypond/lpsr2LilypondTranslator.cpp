@@ -3271,7 +3271,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       
       switch (elt->getSyllableKind ()) {
         case msrSyllable::kSingleSyllable:
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3279,7 +3279,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
           
         case msrSyllable::kBeginSyllable:
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3289,7 +3289,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kMiddleSyllable:
           fOstream <<
             "-- ";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3299,7 +3299,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kEndSyllable:
           fOstream <<
             "-- ";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3310,7 +3310,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           // LilyPond ignores the skip duration
           // when \lyricsto is used
           fOstream <<
-            "\\skip1" " ";
+            "%{rest" << elt->syllableWholeNotesAsMsrString () << "%}" " ";
 
           fStanzaOlec++; // for the comment        
           break;
@@ -3319,13 +3319,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           // LilyPond ignores the skip duration
           // when \lyricsto is used
           fOstream <<
-            "\\skip1" " ";
+            "\\skip" << elt->syllableWholeNotesAsMsrString () << " ";
           break;
           
         case msrSyllable::kTiedSyllable:
           fOstream <<
             "%{ ~ " << "\"";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3337,7 +3337,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSlurSyllable:
           fOstream <<
             "%{ slur " << "\"";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3354,7 +3354,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kLigatureSyllable:
           fOstream <<
             "%{ ligature " << "\"";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3371,7 +3371,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kBarcheckSyllable:
           fOstream <<
             "| %{ ";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3385,7 +3385,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kBarNumberCheckSyllable:
           fOstream <<
             "%{ | ";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
@@ -3399,7 +3399,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kBreakSyllable:
           fOstream <<
             "%{ break " << "\"";
-          msrSyllable::writeTextsList (
+          writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<

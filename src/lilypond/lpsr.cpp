@@ -263,6 +263,31 @@ string wholeNotesAsLilypondString (
 }
 
 //_______________________________________________________________________________
+void writeTextsListAsLilypondString (
+  const list<string>& textsList,
+  ostream&            os)
+{
+  string contents;
+  
+  if (textsList.size ()) {
+    list<string>::const_iterator
+      iBegin = textsList.begin(),
+      iEnd   = textsList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      contents += (*i);
+      if (++i == iEnd) break;
+  // JMI    os << ", ";
+    } // for
+  }
+
+  os <<
+    quoteStringIfNonAlpha (
+      contents);
+} 
+
+//_______________________________________________________________________________
 S_lpsrElement lpsrElement::create (
   int            inputLineNumber)
 {

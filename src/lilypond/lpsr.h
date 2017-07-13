@@ -121,6 +121,12 @@ string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes);
 
+// texts lists
+//______________________________________________________________________________
+void writeTextsListAsLilypondString (
+  const list<string>& textsList,
+  ostream&            os);
+
 /*!
 \brief A generic msr element representation.
 

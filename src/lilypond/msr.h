@@ -4123,10 +4123,6 @@ class EXP msrSyllable : public msrElement
                             const list<string>& textsList,
                             ostream&            os);
 
-    static void           writeTextsListQuotedIfNonAlpha (
-                            const list<string>& textsList,
-                            ostream&            os);
-
     void                  appendLyricTextToSyllable (string text)
                               {
                                 fSyllableTextsList.push_back (
