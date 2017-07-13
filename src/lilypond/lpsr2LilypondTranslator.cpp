@@ -3329,7 +3329,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             that has to be added to the melisma.
           */
           fOstream <<
-            "_%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+            "_"; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
           break;
           
         case msrSyllable::kTiedSyllable:

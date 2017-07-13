@@ -968,7 +968,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     list<S_msrSyllable>       fCurrentNoteSyllables;
 
-    bool                      fPreviousNoteHasLyrics;
+    bool                      fOnGoingMelisma;
     
     void                      handleLyric (
                                 S_msrVoice currentVoice,

@@ -216,7 +216,7 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   fFirstSyllableInSlurKind     = msrSyllable::k_NoSyllable;
   fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
 
-  fPreviousNoteHasLyrics = false;
+  fOnGoingMelisma = false;
 
   // harmonies handling
   fPendingHarmony                  = false;
@@ -12059,9 +12059,9 @@ void mxmltree2MsrTranslator::handleLyric (
       "Handling lyric" <<
       ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
       ", newNote = \"" << newNote->noteAsShortString () << "\"" <<
-      ", fPreviousNoteHasLyrics = " <<
+      ", fOnGoingMelisma = " <<
       booleanAsString (
-        fPreviousNoteHasLyrics) <<
+        fOnGoingMelisma) <<
       endl;
   }
 
@@ -12110,7 +12110,7 @@ void mxmltree2MsrTranslator::handleLyric (
   else {
     // newNote has no lyrics attached to it
 
-    if (fPreviousNoteHasLyrics) {
+    if (fOnGoingMelisma) {
       // fetch stanzaNumber in current voice
       S_msrStanza
         stanza =
@@ -12176,8 +12176,8 @@ void mxmltree2MsrTranslator::handleLyric (
         fCurrentSyllableExtendKind);
   }
 
-  fPreviousNoteHasLyrics =
-    newNoteHasLyrics;
+  fOnGoingMelisma =
+    ! newNoteHasLyrics;
 }
 
 //______________________________________________________________________________
