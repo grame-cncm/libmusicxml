@@ -3322,6 +3322,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             "\\skip" << elt->syllableWholeNotesAsMsrString () << " ";
           break;
           
+        case msrSyllable::kMelismaSyllable:
+          /*
+            A melisma can be defined entirely in the lyrics by entering
+            a single underscore character, _, for every extra note
+            that has to be added to the melisma.
+          */
+          fOstream <<
+            "_%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+          break;
+          
         case msrSyllable::kTiedSyllable:
           fOstream <<
             "%{ ~ " << "\"";

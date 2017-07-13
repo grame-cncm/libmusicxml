@@ -203,7 +203,7 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   // measures
   fMeasuresCounter = 0;
     
-  // lyric handling
+  // lyrics handling
   fOnGoingLyric = false;
   fCurrentStanzaNumber = -1; // JMI
   fCurrentSyllabic = "";
@@ -215,6 +215,8 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
 
   fFirstSyllableInSlurKind     = msrSyllable::k_NoSyllable;
   fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
+
+  fPreviousNoteHasLyrics = false;
 
   // harmonies handling
   fPendingHarmony                  = false;
@@ -5204,7 +5206,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentPart);
       */
       
-    // register syllable in current note's syllables list
+    // append syllable to current note's syllables list
     fCurrentNoteSyllables.push_back (syllable);
   }
 
@@ -12057,6 +12059,9 @@ void mxmltree2MsrTranslator::handleLyric (
       "Handling lyric" <<
       ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
       ", newNote = \"" << newNote->noteAsShortString () << "\"" <<
+      ", fPreviousNoteHasLyrics = " <<
+      booleanAsString (
+        fPreviousNoteHasLyrics) <<
       endl;
   }
 
@@ -12077,6 +12082,7 @@ void mxmltree2MsrTranslator::handleLyric (
 
 
   if (fCurrentNoteSyllables.size ()) {
+    // newNote has lyrics attached to it
     for (
       list<S_msrSyllable>::const_iterator i =
         fCurrentNoteSyllables.begin();
@@ -12099,9 +12105,33 @@ void mxmltree2MsrTranslator::handleLyric (
   }
 
   else {
-    int inputLineNumber =
-      newNote->getInputLineNumber ();
-      
+    // newNote has no lyrics attached to it
+
+    if (fPreviousNoteHasLyrics) {
+      // fetch stanzaNumber in current voice
+      S_msrStanza
+        stanza =
+          currentVoice->
+            createStanzaInVoiceIfNotYetDone (
+              inputLineNumber,
+              fCurrentStanzaNumber);
+
+      // create a melisma syllable
+      S_msrSyllable
+        melismaSyllable =
+          msrSyllable::create (
+            inputLineNumber,
+            fCurrentPart,
+            msrSyllable::kMelismaSyllable,
+            msrSyllable::k_NoSyllableExtend,
+            fCurrentNoteSoundingWholeNotes,
+            stanza);
+          
+      // append melisma syllable to current note's syllables list
+      fCurrentNoteSyllables.push_back (melismaSyllable);
+    }
+    
+      /* JMI
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -12109,6 +12139,8 @@ void mxmltree2MsrTranslator::handleLyric (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
+*/
+          
 
 /*
     // this ends the current syllable extension if any

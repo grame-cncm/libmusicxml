@@ -14231,6 +14231,10 @@ string msrSyllable::syllableKindAsString (
       result = "skip";
       break;
       
+    case msrSyllable::kMelismaSyllable:
+      result = "melisma";
+      break;
+      
     case msrSyllable::kSlurSyllable:
       result = "slur";
       break;
@@ -14413,6 +14417,13 @@ string msrSyllable::syllableAsString ()
     case kSkipSyllable:
       s << 
         "skip" << ":" << syllableWholeNotesAsMsrString () <<
+        " (" << fSyllableWholeNotes << ")" <<
+        ", line " << fInputLineNumber;
+      break;
+      
+    case kMelismaSyllable:
+      s << 
+        "melisma" << ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;
@@ -14729,6 +14740,7 @@ void msrStanza::appendSyllableToStanza (
       
     case msrSyllable::kRestSyllable:
     case msrSyllable::kSkipSyllable:
+    case msrSyllable::kMelismaSyllable:
     case msrSyllable::kSlurSyllable:
     case msrSyllable::kSlurBeyondEndSyllable:
     case msrSyllable::kLigatureSyllable:
@@ -14796,6 +14808,36 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
         inputLineNumber,
         fStanzaDirectPartUplink,
         msrSyllable::kSkipSyllable,
+        msrSyllable::k_NoSyllableExtend,
+        wholeNotes,
+        this);
+
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
+
+  // and return it
+  return syllable;
+}
+
+S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  if (gGeneralOptions->fTraceLyrics) {
+    cerr << idtr <<
+      "% Appending 'Melisma' syllable, " <<
+      " to stanza " << getStanzaName () <<
+      ", whole notes = " << wholeNotes <<
+      endl;
+  }
+  
+  // create stanza melisma syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        fStanzaDirectPartUplink,
+        msrSyllable::kMelismaSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);

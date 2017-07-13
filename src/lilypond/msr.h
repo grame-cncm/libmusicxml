@@ -4037,6 +4037,7 @@ class EXP msrSyllable : public msrElement
       k_NoSyllable,
       kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
       kRestSyllable, kSkipSyllable,
+      kMelismaSyllable,
       kTiedSyllable,
       kSlurSyllable, kSlurBeyondEndSyllable,
       kLigatureSyllable, kLigatureBeyondEndSyllable,
@@ -6615,6 +6616,10 @@ class EXP msrStanza : public msrElement
                             rational wholeNotes);
 
     S_msrSyllable         appendSkipSyllableToStanza (
+                            int      inputLineNumber,
+                            rational wholeNotes);
+
+    S_msrSyllable         appendMelismaSyllableToStanza (
                             int      inputLineNumber,
                             rational wholeNotes);
 
