@@ -4062,7 +4062,7 @@ class EXP msrSyllable : public msrElement
       int                   inputLineNumber,
       S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
-      list<string>          syllableTextList,
+      list<string>          syllableTextsList,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
@@ -4082,7 +4082,7 @@ class EXP msrSyllable : public msrElement
       int                   inputLineNumber,
       S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
-      list<string>          syllableTextList,
+      list<string>          syllableTextsList,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
@@ -4102,8 +4102,8 @@ class EXP msrSyllable : public msrElement
     msrSyllableKind       getSyllableKind () const
                               { return fSyllableKind; }
 
-    const list<string>&   getSyllableTextList () const
-                              { return fSyllableTextList; }
+    const list<string>&   getSyllableTextsList ()
+                              { return fSyllableTextsList; }
 
     msrSyllableExtendKind getSyllableExtendKind () const
                               { return fSyllableExtendKind; }
@@ -4122,9 +4122,13 @@ class EXP msrSyllable : public msrElement
 
     // texts lists
     static void           writeTextsList (
-                            list<string>& textsList,
-                            ostream&      os);
+                            const list<string>& textsList,
+                            ostream&            os);
 
+    static void           writeTextsListQuotedIfNonAlpha (
+                            const list<string>& textsList,
+                            ostream&            os);
+    
     // as MSR string
     string                syllableWholeNotesAsMsrString ();
     
@@ -4156,7 +4160,7 @@ class EXP msrSyllable : public msrElement
 
     // syllable kind and contents
     msrSyllableKind       fSyllableKind;
-    list<string>          fSyllableTextList;
+    list<string>          fSyllableTextsList;
     msrSyllableExtendKind fSyllableExtendKind;
 
     // uplinks

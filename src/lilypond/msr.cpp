@@ -8184,7 +8184,7 @@ string msrNote::noteAsShortString ()
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       s <<
-        ", line " << fInputLinNumber;
+        ", line " << fInputLineNumber;
       break;
   } // switch
 
@@ -8295,7 +8295,7 @@ string msrNote::noteAsString ()
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       s <<
-        ", line " << fInputLinNumber;
+        ", line " << fInputLineNumber;
       break;
   } // switch
 
@@ -8653,7 +8653,14 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os <<
         idtr <<
-        " \"" << (*i)->getSyllableText () << "\"" <<
+        " \"";
+
+      msrSyllable::writeTextsList (
+        (*i)->getSyllableTextsList (),
+        os);
+
+      os <<
+        "\"" <<
         ", line " << (*i)->getInputLineNumber ();
       if (++i == iEnd) break;
       os << endl;
@@ -13944,7 +13951,7 @@ S_msrSyllable msrSyllable::create (
   int                   inputLineNumber,
   S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
-  list<string>          syllableTextList,
+  list<string>          syllableTextsList,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
@@ -13953,7 +13960,7 @@ S_msrSyllable msrSyllable::create (
     new msrSyllable (
       inputLineNumber,
       syllableDirectPartUplink,
-      syllableKind, syllableTextList, syllableExtendKind,
+      syllableKind, syllableTextsList, syllableExtendKind,
       syllableWholeNotes,
       syllableStanzaUplink);
   assert(o!=0);
@@ -13965,7 +13972,7 @@ msrSyllable::msrSyllable (
   int                   inputLineNumber,
   S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
-  list<string>          syllableTextList,
+  list<string>          syllableTextsList,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
@@ -13980,7 +13987,7 @@ msrSyllable::msrSyllable (
     syllableDirectPartUplink;
     
   fSyllableKind = syllableKind;
-  fSyllableTextList = syllableTextList;
+  fSyllableTextsList = syllableTextsList;
   
   fSyllableWholeNotes = syllableWholeNotes;
 
@@ -14016,7 +14023,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fInputLineNumber,
         containingPart,
         fSyllableKind,
-        fSyllableTextList,
+        fSyllableTextsList,
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
@@ -14052,7 +14059,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fInputLineNumber,
         containingPart,
         fSyllableKind,
-        fSyllableTextList,
+        fSyllableTextsList,
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
@@ -14068,8 +14075,8 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 }
 
 void msrSyllable::writeTextsList (
-  list<string>& textsList,
-  ostream&      os)
+  const list<string>& textsList,
+  ostream&            os)
 {
   list<string>::const_iterator
     iBegin = textsList.begin(),
@@ -14087,12 +14094,32 @@ void msrSyllable::writeTextsList (
   os << "|";
 } 
 
+void msrSyllable::writeTextsListQuotedIfNonAlpha (
+  const list<string>& textsList,
+  ostream&            os)
+{
+  list<string>::const_iterator
+    iBegin = textsList.begin(),
+    iEnd   = textsList.end(),
+    i      = iBegin;
+
+  os << "[]";
+  
+  for ( ; ; ) {
+    os << quoteStringIfNonAlpha (*i);
+    if (++i == iEnd) break;
+    os << ", ";
+  } // for
+
+  os << "|";
+} 
+
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
   fSyllableNoteUplink = note;
 
   // register syllable in note if its text list is not empty
-  if (fSyllableTextList.size ())
+  if (fSyllableTextsList.size ())
      note->
       appendSyllableToNote (this); // JMI
   
@@ -14304,7 +14331,14 @@ string msrSyllable::syllableAsString ()
     case kSingleSyllable:
       s <<
         "single" <<
-        ", " << "\"" << fSyllableText << "\"" <<
+        ", " << "\"";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
+
+      s <<
+        "\"" <<
         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
@@ -14317,7 +14351,14 @@ string msrSyllable::syllableAsString ()
     case kBeginSyllable:
       s << 
         "begin" <<
-        ", " << "\"" << fSyllableText << "\"" <<
+        ", " << "\"";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
+
+      s <<
+        "\"" <<
          ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
@@ -14330,7 +14371,14 @@ string msrSyllable::syllableAsString ()
     case kMiddleSyllable:
       s << 
         "middle" <<
-        ", " << "\"" << fSyllableText << "\"" <<
+        ", " << "\"";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
+
+      s <<
+        "\"" <<
         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
@@ -14343,7 +14391,14 @@ string msrSyllable::syllableAsString ()
     case kEndSyllable:
       s << 
         "end" <<
-        ", " << "\"" << fSyllableText << "\"" <<
+        ", " << "\"";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
+
+      s <<
+        "\"" <<
         ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<

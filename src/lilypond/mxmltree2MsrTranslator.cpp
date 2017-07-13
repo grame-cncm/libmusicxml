@@ -4833,7 +4833,7 @@ void mxmltree2MsrTranslator::visitStart ( S_text& elt )
 */
 
   // there can be several <text/>'s in a row, hence the list
-  fCurrentLyricTextList.push_back (text);
+  fCurrentLyricTextsList.push_back (text);
   
   fCurrentStanzaHasText = true;
 
@@ -4854,10 +4854,10 @@ void mxmltree2MsrTranslator::visitStart ( S_text& elt )
         "fCurrentSyllabic" << " = " << fCurrentSyllabic <<
         endl <<
       idtr <<
-        ", fCurrentLyricTextList" << " = ";
+        ", fCurrentLyricTextsList" << " = ";
 
-    writeTextsList (
-      fCurrentLyricTextList,
+    msrSyllable::writeTextsList (
+      fCurrentLyricTextsList,
       cerr);
     
     cerr <<
@@ -4954,8 +4954,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
           setw(fieldwidth) <<
           "fCurrentLyricText" << " = \"";
 
-      writeTextsList (
-        fCurrentLyricTextList,
+      msrSyllable::writeTextsList (
+        fCurrentLyricTextsList,
         cerr);
   
       cerr <<
@@ -5114,7 +5114,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     else if (
       fOnGoingSlurHasStanza // JMI Ligature ???
         &&
-      ! fCurrentLyricTextList.size ()) {
+      ! fCurrentLyricTextsList.size ()) {
       if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
         fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
       }
@@ -5182,7 +5182,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         inputLineNumber,
         fCurrentPart,
         fCurrentSyllableKind,
-        fCurrentLyricTextList,
+        fCurrentLyricTextsList,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteSoundingWholeNotes,
         stanza);
@@ -6507,7 +6507,7 @@ void mxmltree2MsrTranslator::visitStart ( S_note& elt )
   // for use by notes without lyrics
   
   fCurrentSyllabic = "";
-  fCurrentLyricTextList.clear ();
+  fCurrentLyricTextsList.clear ();
   fCurrentSyllableKind = msrSyllable::k_NoSyllable;
     // to handle properly a note without any <text/> JMI
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;

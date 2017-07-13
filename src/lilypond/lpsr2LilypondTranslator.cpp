@@ -3271,32 +3271,46 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       
       switch (elt->getSyllableKind ()) {
         case msrSyllable::kSingleSyllable:
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
           fOstream <<
-            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
+            " ";
           break;
           
         case msrSyllable::kBeginSyllable:
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
           fOstream <<
-            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
+            " ";
           break;
           
         case msrSyllable::kMiddleSyllable:
           fOstream <<
-            "-- " <<
-            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
+            "-- ";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            " ";
           break;
           
         case msrSyllable::kEndSyllable:
           fOstream <<
-            "-- " <<
-            quoteStringIfNonAlpha (elt->getSyllableText ()) << " ";
+            "-- ";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            " ";
           break;
           
         case msrSyllable::kRestSyllable:
           // LilyPond ignores the skip duration
           // when \lyricsto is used
-       //   fOstream <<
-         //   "\\skip1" " ";
+          fOstream <<
+            "\\skip1" " ";
 
           fStanzaOlec++; // for the comment        
           break;
@@ -3310,14 +3324,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           
         case msrSyllable::kTiedSyllable:
           fOstream <<
-            "%{ ~ " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
+            "%{ ~ " << "\"";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            "\"" << " %}" <<
             endl <<
             idtr;
           break;
           
         case msrSyllable::kSlurSyllable:
           fOstream <<
-            "%{ slur " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
+            "%{ slur " << "\"";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            "\"" << " %}" <<
             endl <<
             idtr;
           break;
@@ -3329,7 +3353,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
   
         case msrSyllable::kLigatureSyllable:
           fOstream <<
-            "%{ ligature " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
+            "%{ ligature " << "\"";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            "\"" << " %}" <<
             endl <<
             idtr;
           break;
@@ -3341,8 +3370,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
   
         case msrSyllable::kBarcheckSyllable:
           fOstream <<
-     // JMI       "%{ | % " << elt->getSyllableText () << " %}" <<
-            "| %{ " << elt->getSyllableText () << " %}" <<
+            "| %{ ";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            " %}" <<
             endl <<
             idtr;
 
@@ -3351,8 +3384,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
     
         case msrSyllable::kBarNumberCheckSyllable:
           fOstream <<
-     // JMI       "%{ | % " << elt->getSyllableText () << " %}" <<
-            "%{ " << elt->getSyllableText () << " %}" <<
+            "%{ | ";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            " %}" <<
             endl <<
             idtr;
 
@@ -3361,7 +3398,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
     
         case msrSyllable::kBreakSyllable:
           fOstream <<
-            "%{ break " << "\"" << elt->getSyllableText () << "\"" << " %}" <<
+            "%{ break " << "\"";
+          msrSyllable::writeTextsListQuotedIfNonAlpha (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            "\"" << " %}" <<
             endl <<
             idtr;
           break;

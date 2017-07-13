@@ -956,7 +956,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     msrSyllable::msrSyllableKind
                               fFirstSyllableInLigatureKind;
     // the last lyric fragment met
-    list<string>              fCurrentLyricTextList;
+    list<string>              fCurrentLyricTextsList;
     bool                      fCurrentLyricElision;
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;
