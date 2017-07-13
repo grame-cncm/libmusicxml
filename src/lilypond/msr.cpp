@@ -14022,6 +14022,15 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
     
+  // append the lyric texts to the syllable clone
+  for (
+    list<string>::const_iterator i = fSyllableTextsList.begin();
+    i!=fSyllableTextsList.end();
+    i++) {
+    newbornClone->
+      appendLyricTextToSyllable ((*i));
+  } // for
+
   // dont't set 'newbornClone->fSyllableStanzaUplink'
   // nor 'newbornClone->fSyllableNoteUplink',
   // this will be done by the caller
@@ -14057,6 +14066,15 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
       
+  // append the lyric texts to the syllable deep copy
+  for (
+    list<string>::const_iterator i = fSyllableTextsList.begin();
+    i!=fSyllableTextsList.end();
+    i++) {
+    syllableDeepCopy->
+      appendLyricTextToSyllable ((*i));
+  } // for
+
   // dont't set 'newbornClone->fSyllableStanzaUplink'
   // nor 'newbornClone->fSyllableNoteUplink',
   // this will be done by the caller
