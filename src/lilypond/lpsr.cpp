@@ -184,24 +184,24 @@ string wholeNotesAsLilypondString (
           s << "1";
           break;
         case 2:
-          s << "\breve";
+          s << "\\breve";
           break;
         case 3:
-          s << "\breve";
+          s << "\\breve";
           numberOfDots += 1;
           break;
         case 4:
-          s << "\longa";
+          s << "\\longa";
           break;
         case 6:
-          s << "\longa";
+          s << "\\longa";
           numberOfDots += 1;
           break;
         case 8:
-          s << "\maxima";
+          s << "\\maxima";
           break;
         case 12:
-          s << "\maxima";
+          s << "\\maxima";
           numberOfDots += 1;
           break;
         default:

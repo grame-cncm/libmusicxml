@@ -4062,7 +4062,6 @@ class EXP msrSyllable : public msrElement
       int                   inputLineNumber,
       S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
-      list<string>          syllableTextsList,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
@@ -4082,7 +4081,6 @@ class EXP msrSyllable : public msrElement
       int                   inputLineNumber,
       S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
-      list<string>          syllableTextsList,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
@@ -4128,7 +4126,13 @@ class EXP msrSyllable : public msrElement
     static void           writeTextsListQuotedIfNonAlpha (
                             const list<string>& textsList,
                             ostream&            os);
-    
+
+    void                  appendLyricTextToSyllable (string text)
+                              {
+                                fSyllableTextsList.push_back (
+                                  text);
+                              }
+                                  
     // as MSR string
     string                syllableWholeNotesAsMsrString ();
     

@@ -968,8 +968,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     list<S_msrSyllable>       fCurrentNoteSyllables;
 
-    void                      writeCurrentLyricTextList (ostream& os);
-
     void                      handleLyric (
                                 S_msrVoice currentVoice,
                                 S_msrNote newNote);

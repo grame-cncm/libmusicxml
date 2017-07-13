@@ -5155,7 +5155,9 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         " syllable"
         ", text = \"";
   
-      writeCurrentLyricTextList (cerr);
+      msrSyllable::writeTextsList (
+        fCurrentLyricTextsList,
+        cerr);
 
       cerr <<
         "\"" <<
@@ -5182,10 +5184,18 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         inputLineNumber,
         fCurrentPart,
         fCurrentSyllableKind,
-        fCurrentLyricTextsList,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteSoundingWholeNotes,
         stanza);
+
+    // append the lyric texts to the syllable
+    for (
+      list<string>::const_iterator i = fCurrentLyricTextsList.begin();
+      i!=fCurrentLyricTextsList.end();
+      i++) {
+      syllable->
+        appendLyricTextToSyllable ((*i));
+    } // for
 
 /* JMI
     // set syllable's note direct uplink

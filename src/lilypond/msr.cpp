@@ -13951,7 +13951,6 @@ S_msrSyllable msrSyllable::create (
   int                   inputLineNumber,
   S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
-  list<string>          syllableTextsList,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
@@ -13960,7 +13959,7 @@ S_msrSyllable msrSyllable::create (
     new msrSyllable (
       inputLineNumber,
       syllableDirectPartUplink,
-      syllableKind, syllableTextsList, syllableExtendKind,
+      syllableKind, syllableExtendKind,
       syllableWholeNotes,
       syllableStanzaUplink);
   assert(o!=0);
@@ -13972,7 +13971,6 @@ msrSyllable::msrSyllable (
   int                   inputLineNumber,
   S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
-  list<string>          syllableTextsList,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
@@ -13987,7 +13985,6 @@ msrSyllable::msrSyllable (
     syllableDirectPartUplink;
     
   fSyllableKind = syllableKind;
-  fSyllableTextsList = syllableTextsList;
   
   fSyllableWholeNotes = syllableWholeNotes;
 
@@ -14023,7 +14020,6 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fInputLineNumber,
         containingPart,
         fSyllableKind,
-        fSyllableTextsList,
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
@@ -14059,7 +14055,6 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fInputLineNumber,
         containingPart,
         fSyllableKind,
-        fSyllableTextsList,
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableStanzaUplink);
@@ -14469,28 +14464,35 @@ string msrSyllable::syllableAsString ()
         ", line " << fInputLineNumber <<
         ", " <<
         syllableNoteUplinkAsString () <<
-        " " << "\"" << fSyllableText << "\"";
+        ", " << "\"";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
+
+      s <<
+        "\"";
       break;
       
     case kBarcheckSyllable:
-      // fSyllableText contains the measure number
+      // fSyllableText contains the measure number JMI ???
       s << 
         "bar check" <<
-        " measure " << fSyllableText;
+        " measure " << "fSyllableText ???";
       break;
       
     case kBarNumberCheckSyllable:
       // fSyllableText contains the measure number
       s << 
         "bar number check" <<
-        " measure " << fSyllableText;
+        " measure " << "fSyllableText ???";
       break;
       
     case kBreakSyllable:
       // fSyllableText contains the measure number
       s << 
         "break" <<
-        " measure " << fSyllableText;
+        " measure " << "fSyllableText ???";
       break;
       
     case k_NoSyllable:
@@ -14765,7 +14767,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kRestSyllable, "",
+        msrSyllable::kRestSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14796,7 +14798,6 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
         inputLineNumber,
         fStanzaDirectPartUplink,
         msrSyllable::kSkipSyllable,
-        "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14827,7 +14828,6 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
         inputLineNumber,
         fStanzaDirectPartUplink,
         msrSyllable::kTiedSyllable,
-        "",
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14857,7 +14857,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kSlurSyllable, "",
+        msrSyllable::kSlurSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14887,7 +14887,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kSlurBeyondEndSyllable, "",
+        msrSyllable::kSlurBeyondEndSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14917,7 +14917,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kLigatureSyllable, "",
+        msrSyllable::kLigatureSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14947,7 +14947,7 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kLigatureBeyondEndSyllable, "",
+        msrSyllable::kLigatureBeyondEndSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -14976,7 +14976,7 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
         inputLineNumber,
         fStanzaDirectPartUplink,
         msrSyllable::kBarcheckSyllable,
-        nextMeasureNumber,
+ // JMI       nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
         this);
@@ -14998,10 +14998,6 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
       " to stanza " << getStanzaName () << endl;
   }
 
-  // convert nextMeasureNumber to string
-  stringstream s;
-  s << nextMeasureNumber;
-  
   // create stanza break syllable        
   S_msrSyllable
     syllable =
@@ -15009,7 +15005,7 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
         inputLineNumber,
         fStanzaDirectPartUplink,
         msrSyllable::kBarNumberCheckSyllable,
-        s.str(),
+ // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
         this);
@@ -15030,10 +15026,6 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
       "% Appending a 'Break' syllable" <<
       " to stanza " << getStanzaName () << endl;
   }
-
-  // convert nextMeasureNumber to string
-  stringstream s;
-  s << nextMeasureNumber;
   
   // create stanza break syllable
   S_msrSyllable
@@ -15042,7 +15034,7 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
         inputLineNumber,
         fStanzaDirectPartUplink,
         msrSyllable::kBreakSyllable,
-        s.str(),
+ // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
         this);
@@ -27128,7 +27120,7 @@ void msrPart::complementPartVoicesUpToMeasure (
     i++) {
     S_msrStaff
       staff = (*i).second;
-      /* JMI
+      / * JMI
     staff->
       createMeasureAndAppendItToStaff (
         inputLineNumber, measureNumber);
