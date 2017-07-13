@@ -8641,7 +8641,7 @@ void msrNote::print (ostream& os)
 
     os <<
       idtr <<
-      "Syllables:" <<
+      "Syllables: " <<
       endl;
       
     idtr++;
@@ -8652,15 +8652,13 @@ void msrNote::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        idtr <<
-        " \"";
+        idtr;
 
       msrSyllable::writeTextsList (
         (*i)->getSyllableTextsList (),
         os);
 
       os <<
-        "\"" <<
         ", line " << (*i)->getInputLineNumber ();
       if (++i == iEnd) break;
       os << endl;
@@ -14073,40 +14071,22 @@ void msrSyllable::writeTextsList (
   const list<string>& textsList,
   ostream&            os)
 {
-  list<string>::const_iterator
-    iBegin = textsList.begin(),
-    iEnd   = textsList.end(),
-    i      = iBegin;
+  os << "[";
 
-  os << "[]";
-  
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
-    os << ", ";
-  } // for
+  if (textsList.size ()) {
+    list<string>::const_iterator
+      iBegin = textsList.begin(),
+      iEnd   = textsList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << quoteStringIfNonAlpha (*i);
+      if (++i == iEnd) break;
+      os << ", ";
+    } // for
+  }
 
-  os << "|";
-} 
-
-void msrSyllable::writeTextsListQuotedIfNonAlpha (
-  const list<string>& textsList,
-  ostream&            os)
-{
-  list<string>::const_iterator
-    iBegin = textsList.begin(),
-    iEnd   = textsList.end(),
-    i      = iBegin;
-
-  os << "[]";
-  
-  for ( ; ; ) {
-    os << quoteStringIfNonAlpha (*i);
-    if (++i == iEnd) break;
-    os << ", ";
-  } // for
-
-  os << "|";
+  os << "]";
 } 
 
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
