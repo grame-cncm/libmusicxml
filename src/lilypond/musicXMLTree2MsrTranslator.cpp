@@ -24,7 +24,7 @@
 
 #include "conversions.h"
 
-#include "mxmltree2MsrTranslator.h"
+#include "musicXMLTree2MsrTranslator.h"
 
 
 using namespace std;

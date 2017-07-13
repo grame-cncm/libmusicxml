@@ -27,7 +27,7 @@
 #include "version.h"
 #include "utilities.h"
 
-#include "musicxml2MsrInterface.h"
+#include "musicXMLTree2MsrInterface.h"
 
 #include "msr2LpsrInterface.h"
 

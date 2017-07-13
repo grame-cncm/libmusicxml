@@ -22,9 +22,9 @@
 
 #include "versions.h"
 
-#include "musicxml2MsrInterface.h"
+#include "musicXMLTree2MsrInterface.h"
 
-#include "mxmltree2MsrTranslator.h"
+#include "musicXMLTree2MsrTranslator.h"
 
 #include "msr2Summary.h"
 
