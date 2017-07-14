@@ -121,6 +121,12 @@ string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes);
 
+// notes
+//______________________________________________________________________________
+void writeNoteAsLilypondString (
+  S_msrNote note,
+  ostream&  os);
+
 // texts lists
 //______________________________________________________________________________
 void writeTextsListAsLilypondString (
