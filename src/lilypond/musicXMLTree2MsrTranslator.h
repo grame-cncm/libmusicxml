@@ -968,6 +968,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     list<S_msrSyllable>       fCurrentNoteSyllables;
 
+    bool                      fLastHandledNoteInVoiceHasLyrics;
     bool                      fOnGoingMelisma;
     
     void                      handleLyric (
@@ -1264,7 +1265,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     map<S_msrVoice, S_msrNote>
                               fLastHandledNoteInVoice;
                                 // may be the first note of a chord
-                                // or subjet to aftergrace optimisation
+                                // or subject to aftergrace optimisation
                               
     void                      displayLastHandledNoteInVoice (
                                 string header);

@@ -14231,7 +14231,11 @@ string msrSyllable::syllableKindAsString (
       result = "skip";
       break;
       
-    case msrSyllable::kMelismaSyllable:
+    case msrSyllable::kMelismaFirstSyllable:
+      result = "melisma first";
+      break;
+      
+    case msrSyllable::kMelismaOtherSyllable:
       result = "melisma";
       break;
       
@@ -14417,9 +14421,16 @@ string msrSyllable::syllableAsString ()
         ", line " << fInputLineNumber;
       break;
       
-    case kMelismaSyllable:
+    case kMelismaFirstSyllable:
       s << 
-        "melisma" << ":" << syllableWholeNotesAsMsrString () <<
+        "melisma first" << ":" << syllableWholeNotesAsMsrString () <<
+        " (" << fSyllableWholeNotes << ")" <<
+        ", line " << fInputLineNumber;
+      break;
+      
+    case kMelismaOtherSyllable:
+      s << 
+        "melisma other" << ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;
@@ -14736,7 +14747,8 @@ void msrStanza::appendSyllableToStanza (
       
     case msrSyllable::kRestSyllable:
     case msrSyllable::kSkipSyllable:
-    case msrSyllable::kMelismaSyllable:
+    case msrSyllable::kMelismaFirstSyllable:
+    case msrSyllable::kMelismaOtherSyllable:
     case msrSyllable::kSlurSyllable:
     case msrSyllable::kSlurBeyondEndSyllable:
     case msrSyllable::kLigatureSyllable:
@@ -14816,8 +14828,10 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
-  int      inputLineNumber,
-  rational wholeNotes)
+  int             inputLineNumber,
+  msrSyllable::msrSyllableKind
+                  syllableKind,
+  rational        wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
@@ -14833,7 +14847,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kMelismaSyllable,
+        syllableKind,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);

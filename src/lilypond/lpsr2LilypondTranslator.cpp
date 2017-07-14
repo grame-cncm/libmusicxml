@@ -2323,10 +2323,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 
   switch (elt->getMelismaKind ()) {
     case lpsrMelismaCommand::kMelismaStart:
-      fOstream << "\\melisma" " ";
+// JMI      fOstream << "\\melisma" " ";
       break;
     case lpsrMelismaCommand::kMelismaEnd:
-      fOstream << "\\melismaEnd" " ";
+// JMI      fOstream << "\\melismaEnd" " ";
       break;
   } // switch
 
@@ -3322,14 +3322,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             "\\skip" << elt->syllableWholeNotesAsMsrString () << " ";
           break;
           
-        case msrSyllable::kMelismaSyllable:
+        case msrSyllable::kMelismaFirstSyllable:
           /*
             A melisma can be defined entirely in the lyrics by entering
             a single underscore character, _, for every extra note
             that has to be added to the melisma.
           */
           fOstream <<
-            "_"; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+            "_ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+          break;
+          
+        case msrSyllable::kMelismaOtherSyllable:
+          /*
+            A melisma can be defined entirely in the lyrics by entering
+            a single underscore character, _, for every extra note
+            that has to be added to the melisma.
+          */
+          fOstream <<
+            "__ _ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
           break;
           
         case msrSyllable::kTiedSyllable:

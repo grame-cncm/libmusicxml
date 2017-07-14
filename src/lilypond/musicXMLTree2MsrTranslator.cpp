@@ -216,6 +216,7 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   fFirstSyllableInSlurKind     = msrSyllable::k_NoSyllable;
   fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
 
+  fLastHandledNoteInVoiceHasLyrics = false;
   fOnGoingMelisma = false;
 
   // harmonies handling
@@ -11758,6 +11759,10 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
   }
   */
   
+  // lyric if any has to be handled in all cases
+  handleLyric (
+    currentVoice, newNote);
+
   fLastHandledNoteInVoice [currentVoice] = newNote;
 
   /* JMI
@@ -12023,11 +12028,6 @@ void mxmltree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         endl << endl;
   }
 
-  // lyric has to be handled in all cases
-  // in case they are empty at the beginning of the voice JMI
-  handleLyric (
-    currentVoice, newNote);
-
   // take care of slurs JMI ???
   if (fCurrentSlurKind == msrSlur::kStartSlur)
     fFirstSyllableInSlurKind = fCurrentSyllableKind;
@@ -12059,6 +12059,9 @@ void mxmltree2MsrTranslator::handleLyric (
       "Handling lyric" <<
       ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
       ", newNote = \"" << newNote->noteAsShortString () << "\"" <<
+      ", fLastHandledNoteInVoiceHasLyrics = " <<
+      booleanAsString (
+        fLastHandledNoteInVoiceHasLyrics) <<
       ", fOnGoingMelisma = " <<
       booleanAsString (
         fOnGoingMelisma) <<
@@ -12086,13 +12089,15 @@ void mxmltree2MsrTranslator::handleLyric (
 
   if (newNoteHasLyrics) {
     // newNote has lyrics attached to it
+    
     for (
       list<S_msrSyllable>::const_iterator i =
         fCurrentNoteSyllables.begin();
       i != fCurrentNoteSyllables.end();
       i++ ) {
       // set syllables note uplink to newNote
-      (*i)->setSyllableNoteUplink (newNote);
+      (*i)->
+        setSyllableNoteUplink (newNote);
 
       // register syllable in current voice
       currentVoice->
@@ -12105,12 +12110,17 @@ void mxmltree2MsrTranslator::handleLyric (
 
     // forget all of newNote's syllables
     fCurrentNoteSyllables.clear ();
+
+    fLastHandledNoteInVoiceHasLyrics = true;
+
+    // end of any melisma that may precede newNote
+    fOnGoingMelisma = false;
   }
 
   else {
     // newNote has no lyrics attached to it
 
-    if (fOnGoingMelisma) {
+    if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
       // fetch stanzaNumber in current voice
       S_msrStanza
         stanza =
@@ -12119,13 +12129,30 @@ void mxmltree2MsrTranslator::handleLyric (
               inputLineNumber,
               fCurrentStanzaNumber);
 
+      // determine the kind of melisma syllable to create
+      msrSyllable::msrSyllableKind syllableKind;
+      
+      if (fLastHandledNoteInVoiceHasLyrics) {
+        syllableKind =
+          msrSyllable::kMelismaFirstSyllable;
+
+        // beginning of a melisma
+        fOnGoingMelisma = true;
+      }
+      else {
+        syllableKind =
+          msrSyllable::kMelismaOtherSyllable;
+
+        // leave fOnGoingMelisma true
+      }
+
       // create a melisma syllable
       S_msrSyllable
         melismaSyllable =
           msrSyllable::create (
             inputLineNumber,
             fCurrentPart,
-            msrSyllable::kMelismaSyllable,
+            syllableKind,
             msrSyllable::k_NoSyllableExtend,
             fCurrentNoteSoundingWholeNotes,
             stanza);
@@ -12133,17 +12160,11 @@ void mxmltree2MsrTranslator::handleLyric (
       // append melisma syllable to current note's syllables list
       fCurrentNoteSyllables.push_back (melismaSyllable);
     }
-    
-      /* JMI
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentVoiceNumber);
-*/
-          
+
+    else {
+    }
+
+    fLastHandledNoteInVoiceHasLyrics = false;
 
 /*
     // this ends the current syllable extension if any
@@ -12176,8 +12197,9 @@ void mxmltree2MsrTranslator::handleLyric (
         fCurrentSyllableExtendKind);
   }
 
-  fOnGoingMelisma =
-    ! newNoteHasLyrics;
+  // register whether the new last handled note has lyrics
+//  JMI fLastHandledNoteInVoiceHasLyrics =
+ //   newNoteHasLyrics;
 }
 
 //______________________________________________________________________________
