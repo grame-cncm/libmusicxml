@@ -5208,7 +5208,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       */
       
     // append syllable to current note's syllables list
-    fCurrentNoteSyllables.push_back (syllable);
+    fCurrentNoteSyllables.push_back (
+      syllable);
   }
 
   fOnGoingLyric = false;
@@ -12054,9 +12055,14 @@ void mxmltree2MsrTranslator::handleLyric (
   int inputLineNumber =
     newNote->getInputLineNumber ();
 
+  bool
+    newNoteHasLyrics =
+      fCurrentNoteSyllables.size () > 0;
+
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Handling lyric" <<
+      ", line " << inputLineNumber <<
       ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
       ", newNote = \"" << newNote->noteAsShortString () << "\"" <<
       ", fLastHandledNoteInVoiceHasLyrics = " <<
@@ -12065,6 +12071,9 @@ void mxmltree2MsrTranslator::handleLyric (
       ", fOnGoingMelisma = " <<
       booleanAsString (
         fOnGoingMelisma) <<
+      ", newNoteHasLyrics = " <<
+      booleanAsString (
+        newNoteHasLyrics) <<
       endl;
   }
 
@@ -12082,10 +12091,6 @@ void mxmltree2MsrTranslator::handleLyric (
     fCurrentNoteHasStanza = true;
   }
   */
-
-  bool
-    newNoteHasLyrics =
-      fCurrentNoteSyllables.size () > 0;
 
   if (newNoteHasLyrics) {
     // newNote has lyrics attached to it
@@ -12105,16 +12110,23 @@ void mxmltree2MsrTranslator::handleLyric (
           inputLineNumber,
           fCurrentStanzaNumber,
           (*i));
-
     } // for
 
     // forget all of newNote's syllables
     fCurrentNoteSyllables.clear ();
 
-    fLastHandledNoteInVoiceHasLyrics = true;
-
-    // end of any melisma that may precede newNote
-    fOnGoingMelisma = false;
+    // this is the end of any melisma that may precede newNote
+    if (fOnGoingMelisma) {
+      if (gGeneralOptions->fTraceLyrics) {
+        cerr << idtr <<
+          "End of a melisma" <<
+          " on note '" << newNote->noteAsShortString () << "'" <<
+          ", line " << inputLineNumber  <<
+          endl;
+      }
+          
+      fOnGoingMelisma = false;
+    }
   }
 
   else {
@@ -12129,14 +12141,22 @@ void mxmltree2MsrTranslator::handleLyric (
               inputLineNumber,
               fCurrentStanzaNumber);
 
-      // determine the kind of melisma syllable to create
+      // determine the kind of melisma syllable to be created
       msrSyllable::msrSyllableKind syllableKind;
       
       if (fLastHandledNoteInVoiceHasLyrics) {
         syllableKind =
           msrSyllable::kMelismaFirstSyllable;
 
-        // beginning of a melisma
+        // this is the beginning of a melisma
+        if (gGeneralOptions->fTraceLyrics) {
+          cerr << idtr <<
+            "Start of a melisma" <<
+            " on note '" << newNote->noteAsShortString () << "'" <<
+            ", line " << inputLineNumber  <<
+            endl;
+        }
+            
         fOnGoingMelisma = true;
       }
       else {
@@ -12157,21 +12177,23 @@ void mxmltree2MsrTranslator::handleLyric (
             fCurrentNoteSoundingWholeNotes,
             stanza);
           
-      // append melisma syllable to current note's syllables list
-      fCurrentNoteSyllables.push_back (melismaSyllable);
+      // register syllable in current voice
+      currentVoice->
+        appendSyllableToVoice (
+          inputLineNumber,
+          fCurrentStanzaNumber,
+          melismaSyllable);
     }
+  }
 
-    else {
-    }
-
-    fLastHandledNoteInVoiceHasLyrics = false;
-
-/*
+  // register whether the new last handled note has lyrics
+  fLastHandledNoteInVoiceHasLyrics =
+    newNoteHasLyrics;
+ 
+/* JMI
     // this ends the current syllable extension if any
     fOnGoingSyllableExtend = false;
 */
-  }
- 
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
@@ -12196,10 +12218,6 @@ void mxmltree2MsrTranslator::handleLyric (
       setNoteSyllableExtendKind (
         fCurrentSyllableExtendKind);
   }
-
-  // register whether the new last handled note has lyrics
-//  JMI fLastHandledNoteInVoiceHasLyrics =
- //   newNoteHasLyrics;
 }
 
 //______________________________________________________________________________

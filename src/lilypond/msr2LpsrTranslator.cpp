@@ -1459,7 +1459,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   if (eltNoteUplink) {
     // set syllable clone's note uplink to the clone of elt's note uplink
     if (gGeneralOptions->fTraceLyrics)
-      fOstream <<
+      cerr <<
         idtr <<
         "--> setting syllable note uplink " <<
         fCurrentSyllableClone->syllableAsString () <<

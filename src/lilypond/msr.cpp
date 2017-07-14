@@ -14595,7 +14595,7 @@ void msrStanza::initializeStanza ()
     case kMuteStanza:
       fStanzaName =
         fStanzaVoiceUplink->getVoiceName() +
-        "_MUTE_Stanza_";
+        "_MUTE_Stanza";
       break;
   } // switch
  
