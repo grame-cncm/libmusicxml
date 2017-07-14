@@ -2868,7 +2868,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     measureKind =
       elt->getMeasureKind ();
       
-  if (gLpsrOptions->fTraceLpsrVisitors) }
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     fOstream << idtr <<
       "% --> Start visiting msrMeasure " <<
       measureNumber <<
@@ -2949,6 +2949,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         string
           upbeatDuration =
             wholeNotesAsLilypondString (
+              inputLineNumber,
               elt->getMeasureLength ());
 
         fOstream << idtr <<
@@ -3330,7 +3331,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             that has to be added to the melisma.
           */
           fOstream <<
-            "_ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+            "__ _ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
           break;
           
         case msrSyllable::kMelismaOtherSyllable:
@@ -3340,7 +3341,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             that has to be added to the melisma.
           */
           fOstream <<
-            "__ _ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+            "_ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
           break;
           
         case msrSyllable::kTiedSyllable:
@@ -4361,9 +4362,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   fOnGoingNote = true;
 }
 
-void lpsr2LilypondTranslator::printNoteAsLilypondString
+void lpsr2LilypondTranslator::printNoteAsLilypondString (
   S_msrNote note)
-{  
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
   // print the note ligatures if any
   list<S_msrLigature>
     noteLigatures =
@@ -4535,8 +4539,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString
         // print the rest duration
         fOstream <<
           wholeNotesAsLilypondString (
+            inputLineNumber,
             note->
-              noteSoundingWholeNotes ());
+              getNoteSoundingWholeNotes ());
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
@@ -4564,8 +4569,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString
       // print the skip duration
       fOstream <<
         wholeNotesAsLilypondString (
+          inputLineNumber,
           note->
-              noteSoundingWholeNotes ());
+            getNoteSoundingWholeNotes ());
 
       // a rest is no relative octave reference,
       // the preceding one is kept
@@ -4579,8 +4585,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString
       // print the note duration
       fOstream <<
         wholeNotesAsLilypondString (
+          inputLineNumber,
           note->
-            noteSoundingWholeNotes ());
+            getNoteSoundingWholeNotes ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -4646,9 +4653,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString
       
       // print the grace note's graphic duration
       fOstream <<
-        wholeNotesAsLilypondString (
+        msrDurationAsString (
           note->
-            noteGraphicDuration ());
+            getNoteGraphicDuration ());
 
       // print the dots if any JMI ???
       for (int i = 0; i < note->getNoteDotsNumber (); i++) {
@@ -4706,6 +4713,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString
       /* JMI
       fOstream <<
         wholeNotesAsLilypondString (
+          inputLineNumber,
           note->
             getNoteTupletNoteSoundingWholeNotesAsMsrString ()); // ??? JMI
             */
