@@ -2215,9 +2215,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
     
     fOstream <<
       idtr <<
+      /* JMI
         "\\lyricsto" " " <<
         "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
         endl <<
+        */
       idtr <<
         "\\" << elt->getStanza ()->getStanzaName () <<
       endl;
@@ -3279,6 +3281,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
+            elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
           
@@ -3287,6 +3290,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
+            elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
           
@@ -3297,6 +3301,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
+            elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
           
@@ -3307,6 +3312,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fOstream);
           fOstream <<
+            elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
           
@@ -3314,7 +3320,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           // LilyPond ignores the skip duration
           // when \lyricsto is used
           fOstream <<
-            "%{rest" << elt->syllableWholeNotesAsMsrString () << "%}" " ";
+ //           "%{rest" << elt->syllableWholeNotesAsMsrString () << "%}" " ";
+            "\\skip" << elt->syllableWholeNotesAsMsrString () << " %{rest%}" " ";
 
           fStanzaOlec++; // for the comment        
           break;
@@ -3333,8 +3340,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             that has to be added to the melisma.
           */
           fOstream <<
-            "__ _ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
-          break;
+            "__ _ " // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+                << elt->syllableWholeNotesAsMsrString () << " ";
+           break;
           
         case msrSyllable::kMelismaOtherSyllable:
           /*
@@ -3343,7 +3351,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             that has to be added to the melisma.
           */
           fOstream <<
-            "_ "; // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+            "_ " // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+                << elt->syllableWholeNotesAsMsrString () << " ";
           break;
           
         case msrSyllable::kTiedSyllable:
