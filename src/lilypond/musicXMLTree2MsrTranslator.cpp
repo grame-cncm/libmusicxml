@@ -12068,6 +12068,9 @@ void mxmltree2MsrTranslator::handleLyric (
       ", fLastHandledNoteInVoiceHasLyrics = " <<
       booleanAsString (
         fLastHandledNoteInVoiceHasLyrics) <<
+      ", fOnGoingSyllableExtend = " <<
+      booleanAsString (
+        fOnGoingSyllableExtend) <<
       ", fOnGoingMelisma = " <<
       booleanAsString (
         fOnGoingMelisma) <<
@@ -12076,21 +12079,6 @@ void mxmltree2MsrTranslator::handleLyric (
         newNoteHasLyrics) <<
       endl;
   }
-
-/* JMI 
-
-// JMI ???
-
-    // the presence of a '<lyric />' ends the effect
-    // of an on going syllable extend
-    fOnGoingSyllableExtend = false;
-    
-    if (fOnGoingSlur)
-      fOnGoingSlurHasStanza = true;
-      
-    fCurrentNoteHasStanza = true;
-  }
-  */
 
   if (newNoteHasLyrics) {
     // newNote has lyrics attached to it
@@ -12132,7 +12120,8 @@ void mxmltree2MsrTranslator::handleLyric (
   else {
     // newNote has no lyrics attached to it
 
-    if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
+ // JMI   if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
+    if (fOnGoingSyllableExtend) {
       // fetch stanzaNumber in current voice
       S_msrStanza
         stanza =
@@ -12189,11 +12178,8 @@ void mxmltree2MsrTranslator::handleLyric (
   // register whether the new last handled note has lyrics
   fLastHandledNoteInVoiceHasLyrics =
     newNoteHasLyrics;
- 
-/* JMI
-    // this ends the current syllable extension if any
-    fOnGoingSyllableExtend = false;
-*/
+
+ /* JMI
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
@@ -12211,6 +12197,7 @@ void mxmltree2MsrTranslator::handleLyric (
     case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
+  */
 
   if (fOnGoingSyllableExtend) { // JMI
     // register newNote's extend kind
