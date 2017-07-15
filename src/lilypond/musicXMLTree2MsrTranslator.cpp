@@ -12117,8 +12117,8 @@ void mxmltree2MsrTranslator::handleLyric (
   else {
     // newNote has no lyrics attached to it
 
- // JMI   if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
-    if (fOnGoingSyllableExtend) {
+    if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
+ // JMI   if (fOnGoingSyllableExtend) {
       // fetch stanzaNumber in current voice
       S_msrStanza
         stanza =

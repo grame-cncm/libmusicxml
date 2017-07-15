@@ -26581,6 +26581,9 @@ void msrPart::initializePart ()
     fInputLineNumber,
     rational (0, 1));
 
+  // create the part harmony staff and voice
+  createPartHarmonyStaffAndVoice ();
+
 /* JMI
   // set part current time to the default 4/4 time signature
   fPartCurrenltTime =
@@ -26625,9 +26628,10 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
   return newbornClone;
 }
 
-void msrPart::createPartHarmonyStaffAndVoice (
-  int inputLineNumber)
+void msrPart::createPartHarmonyStaffAndVoice ()
 {
+  int inputLineNumber = 9999;
+  
   // create the part harmony staff
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceStaves)
     cerr << idtr <<

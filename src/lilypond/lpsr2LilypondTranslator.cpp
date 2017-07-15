@@ -3269,7 +3269,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       endl;
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
-    if (gGeneralOptions->fTraceLyrics || fOngoingNonEmptyStanza) {
+    if (
+    (gGeneralOptions->fTraceLyrics || fOngoingNonEmptyStanza)
+  && ! fOnGoingVoice    ) { // JMI
       
       switch (elt->getSyllableKind ()) {
         case msrSyllable::kSingleSyllable:
