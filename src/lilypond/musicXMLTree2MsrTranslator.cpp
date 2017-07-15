@@ -12117,16 +12117,18 @@ void mxmltree2MsrTranslator::handleLyric (
   else {
     // newNote has no lyrics attached to it
 
-    if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
- // JMI   if (fOnGoingSyllableExtend) {
-      // fetch stanzaNumber in current voice
-      S_msrStanza
-        stanza =
-          currentVoice->
-            createStanzaInVoiceIfNotYetDone (
-              inputLineNumber,
-              fCurrentStanzaNumber);
+    // fetch stanzaNumber in current voice
+    S_msrStanza
+      stanza =
+        currentVoice->
+          createStanzaInVoiceIfNotYetDone (
+            inputLineNumber,
+            fCurrentStanzaNumber);
 
+ // JMI    if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
+    if (fOnGoingSyllableExtend) {
+      // newNote has no lyrics, and inside a melisma
+      
       // determine the kind of melisma syllable to be created
       msrSyllable::msrSyllableKind syllableKind;
       
@@ -12163,12 +12165,34 @@ void mxmltree2MsrTranslator::handleLyric (
             fCurrentNoteSoundingWholeNotes,
             stanza);
           
-      // register syllable in current voice
+      // append syllable to current voice
       currentVoice->
         appendSyllableToVoice (
           inputLineNumber,
           fCurrentStanzaNumber,
           melismaSyllable);
+    }
+
+    else {
+      // newNote has no lyrics, and outside of a melisma
+
+      // create a skip syllable
+      S_msrSyllable
+        skipSyllable =
+          msrSyllable::create (
+            inputLineNumber,
+            fCurrentPart,
+            msrSyllable::kSkipSyllable,
+            msrSyllable::k_NoSyllableExtend,
+            fCurrentNoteSoundingWholeNotes,
+            stanza);
+          
+      // append syllable to current voice
+      currentVoice->
+        appendSyllableToVoice (
+          inputLineNumber,
+          fCurrentStanzaNumber,
+          skipSyllable);
     }
   }
 
@@ -12176,7 +12200,6 @@ void mxmltree2MsrTranslator::handleLyric (
   fLastHandledNoteInVoiceHasLyrics =
     newNoteHasLyrics;
 
- /* JMI
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
@@ -12194,7 +12217,6 @@ void mxmltree2MsrTranslator::handleLyric (
     case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
-  */
 
   if (fOnGoingSyllableExtend) { // JMI
     // register newNote's extend kind

@@ -2099,34 +2099,6 @@ string wholeNotesAsMsrString (
     if (numerator == 1) {
       // a number of ??? JMI notes
       s << denominator;
-/*
-      switch (denominator) {
-        case 1:
-          s << "1";
-          break;
-        case 2:
-          s << "breve";
-          break;
-        case 4:
-          s << "long";
-          break;
-        case 8:
-          s << "maxima";
-          break;
-        case 16:
-          s << "maxima";
-          numberOfDots += 1;
-          break;
-        default:
-          s <<
-            numerator << "/" << denominator <<
-            " whole notes cannot be represented as an MSR string";
-
-          msrInternalError (
-            inputLineNumber,
-            s.str());
-      } // switch
- */
       break;
     }
     
@@ -2143,72 +2115,73 @@ string wholeNotesAsMsrString (
       denominator = r.getDenominator ();
     }
   } // for
-  
-  // handle the 'above quarter note' part
-  for ( ; ; ) {
-    if (numerator == 1) {
-      // a number of whole notes
-      s << denominator;
-      break;
-    }
-    
-    if (denominator == 1) {
-      // a number of whole notes
-      switch (numerator) {
-        case 1:
-          s << "1";
-          break;
-        case 2:
-          s << "breve";
-          break;
-        case 3:
-          s << "breve";
-          numberOfDots += 1;
-          break;
-        case 4:
-          s << "long";
-          break;
-        case 6:
-          s << "long";
-          numberOfDots += 1;
-          break;
-        case 8:
-          s << "maxima";
-          break;
-        case 12:
-          s << "maxima";
-          numberOfDots += 1;
-          break;
-        default:
-          s <<
-            numerator << "/" << denominator <<
-            " whole notes cannot be represented as an MSR string";
 
-          msrInternalError (
-            inputLineNumber,
-            s.str());
-      } // switch
-      break;
-    }
-    
-    if (numerator % 2 == 1) {
-      // a number of quarter or half notes
-      numberOfDots += 1;
+  if (denominator <= 4) {
+    // handle the 'above quarter note' part
+    for ( ; ; ) {
+      if (numerator == 1) {
+        // a number of whole notes
+        s << denominator;
+        break;
+      }
       
-      numerator = (numerator - 1) / 2;
-      denominator /= 2;
-      
-      rational r (numerator, denominator);
-      r.rationalise ();
-      
-      numerator   = r.getNumerator (),
-      denominator = r.getDenominator ();
-    }
-  } // for
+      if (denominator == 1) {
+        // a number of whole notes
+        switch (numerator) {
+          case 1:
+            s << "1";
+            break;
+          case 2:
+            s << "breve";
+            break;
+          case 3:
+            s << "breve";
+            numberOfDots += 1;
+            break;
+          case 4:
+            s << "long";
+            break;
+          case 6:
+            s << "long";
+            numberOfDots += 1;
+            break;
+          case 8:
+            s << "maxima";
+            break;
+          case 12:
+            s << "maxima";
+            numberOfDots += 1;
+            break;
+          default:
+            s <<
+              numerator << "/" << denominator <<
+              " whole notes cannot be represented as an MSR string";
   
+            msrInternalError (
+              inputLineNumber,
+              s.str());
+        } // switch
+        break;
+      }
+      
+      if (numerator % 2 == 1) {
+        // a number of quarter or half notes
+        numberOfDots += 1;
+        
+        numerator = (numerator - 1) / 2;
+        denominator /= 2;
+        
+        rational r (numerator, denominator);
+        r.rationalise ();
+        
+        numerator   = r.getNumerator (),
+        denominator = r.getDenominator ();
+      }
+    } // for
+  }
 
   // append the dots if any
-  if (false) {
+  if (false) { // JMI
     s <<
       " %{" << numerator << "/" << denominator << "%} ";
   }
