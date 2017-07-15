@@ -1899,11 +1899,6 @@ void mxmltree2MsrTranslator::visitStart ( S_divisions& elt )
     msrDivisions::create (
       inputLineNumber,
       fCurrentDivisionsPerQuarterNote);
-
-  // append it to the current part
-  fCurrentPart->
-    setPartCurrentDivisions (
-      fCurrentDivisions);
 }
 
 //______________________________________________________________________________
@@ -4358,7 +4353,8 @@ void mxmltree2MsrTranslator::visitEnd (S_backup& elt )
   fCurrentPart->
     handleBackup (
       inputLineNumber,
-      fCurrentBackupDurationDivisions);
+      fCurrentBackupDurationDivisions,
+      fCurrentDivisionsPerQuarterNote);
 
   fOnGoingBackup = false;
 }
@@ -4456,6 +4452,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_forward& elt )
     handleForward (
       inputLineNumber,
       fCurrentForwardDurationDivisions,
+      fCurrentDivisionsPerQuarterNote,
       currentVoice);
 
   fOnGoingForward = false;

@@ -6001,7 +6001,6 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
         msrNote::createSkipNote (
           note->            getInputLineNumber (),
           containingVoice-> getVoiceDirectPartUplink (),
- // JMI         note->            getNoteDivisionsPerQuarterNote (),
           note->            getNoteSoundingWholeNotes (),
           note->            getNoteDotsNumber (),
           containingVoice-> getVoiceStaffRelativeNumber (), // JMI
@@ -6359,8 +6358,6 @@ S_msrNote msrNote::create (
   msrNoteKind          noteKind,
 
   msrQuarterTonesPitch noteQuarterTonesPitch,
-
- // JMI int                  noteDivisionsPerQuarterNote,
   
   rational             noteSoundingWholeNotes,
   rational             noteDisplayWholeNotes,
@@ -6387,8 +6384,6 @@ S_msrNote msrNote::create (
       noteKind,
       
       noteQuarterTonesPitch,
-
- // JMI     noteDivisionsPerQuarterNote,
       
       noteSoundingWholeNotes,
       noteDisplayWholeNotes,
@@ -6427,8 +6422,6 @@ S_msrNote msrNote::createSkipNote (
       kSkipNote, // noteKind
       
       k_NoQuarterTonesPitch, // noteQuarterTonesPitch
-
- // JMI     noteDivisionsPerQuarterNote,
       
       wholeNotes, // noteSoundingWholeNotes
       wholeNotes, // noteDisplayWholeNotes
@@ -6489,8 +6482,6 @@ msrNote::msrNote (
   fNoteKind = noteKind;
 
   fNoteQuarterTonesPitch  = noteQuarterTonesPitch;
-
- // JMI fNoteDivisionsPerQuarterNote = noteDivisionsPerQuarterNote;
   
   fNoteSoundingWholeNotes = noteSoundingWholeNotes;
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
@@ -6605,17 +6596,6 @@ void msrNote::initializeNote ()
         fNoteDotsNumber <<
         endl <<
 
-/*
-    if (fNoteDirectPartUplink) // it may not have been set yet
-    cerr <<
-      idtr << left <<
-        setw(fieldWidth) << "fNoteGraphicDuration" << " = " <<
-        fNoteDirectPartUplink->
-          divisionsAsMsrString (
-            fInputLineNumber,
-            fNoteGraphicDuration) <<
-        endl <<
-*/
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
@@ -6766,8 +6746,6 @@ S_msrNote msrNote::createNoteNewbornClone (
         fNoteKind,
         
         fNoteQuarterTonesPitch,
-
-  // JMI      fNoteDivisionsPerQuarterNote,
         
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
@@ -6963,8 +6941,6 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteKind,
         
         fNoteQuarterTonesPitch,
-
-  // JMI      fNoteDivisionsPerQuarterNote,
         
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
@@ -8365,10 +8341,6 @@ void msrNote::print (ostream& os)
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kChordMemberNote:
         os <<
-        /* JMI
-          "note divisions per quarter note: " <<
-          fNoteDivisionsPerQuarterNote <<
-          */
           "Whole notes: " <<
           fNoteSoundingWholeNotes <<
           " sounding, " <<
@@ -10466,120 +10438,6 @@ string msrDivisions::tupletWholeNotesAsMsrString (
         *
       rational (actualNotes, normalNotes));
 }
-
-/*
-void msrDivisions::testDivisionsAndDurations ()
-{
-  int divisionsPerQuarterNote = 8;
-  cerr <<
-    "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
-    endl <<
-    endl;
-    
-  setupDurationsDivisions (divisionsPerQuarterNote);
-
-  int k;
-
-  k = 32;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 16;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 24;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 28;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 20;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  k = 40;
-  cerr <<
-    "divisionsAsMsrString (" << k << ") = " <<
-    divisionsAsMsrString (
-      133, k) <<
-    endl <<
-    endl;
-    
-  exit (0);
-}
-
-void msrDivisions::testTupletSoundingWholeNotesAndDurations ()
-{
-  int divisionsPerQuarterNote = 30;
-  cerr <<
-    "divisionsPerQuarterNote = " << divisionsPerQuarterNote <<
-    endl <<
-    endl;
-    
-  setupDurationsDivisions (divisionsPerQuarterNote);
-
-  int k, actual, normal;
-
-  k = 12;
-  actual = 5;
-  normal = 4;
-
-  cerr <<
-    "tupletDivisionsAsMsrString (" << k << // JMI
-    ", " << actual <<
-    ", " << normal <<
-    ") = " <<
-    tupletDivisionsAsMsrString (
-      133,
-      k,
-      actual,
-      normal) <<
-    endl <<
-    endl;
-
-  k = 20;
-  actual = 3;
-  normal = 2;
-
-  cerr <<
-    "tupletDivisionsAsMsrString (" << k <<
-    ", " << actual <<
-    ", " << normal <<
-    ") = " <<
-    tupletDivisionsAsMsrString (
-      133,
-      k,
-      actual,
-      normal) <<
-    endl <<
-    endl;
-
-  exit (0);
-}
-*/
 
 msrDivisions::~msrDivisions()
 {}
@@ -15437,11 +15295,9 @@ string msrHarmony::harmonyAsString () const
 
   if (fHarmonyDirectPartUplink) // JMI ???
     s <<
-      fHarmonyDirectPartUplink->
-        getPartCurrentDivisions ()->
-          divisionsAsMsrString (
-            fInputLineNumber,
-            fHarmonySoundingWholeNotes);
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fHarmonySoundingWholeNotes);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -15509,12 +15365,10 @@ void msrHarmony::print (ostream& os)
   os <<
     "Harmony" <<
     ", " <<
-    fHarmonyDirectPartUplink->
-      getPartCurrentDivisions ()->
-        divisionsAsMsrString (
-          fInputLineNumber,
-          fHarmonySoundingWholeNotes) <<
-    " (" << fHarmonySoundingWholeNotes << " sound whole notes)" <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes) <<
+    " (" << fHarmonySoundingWholeNotes << " sounding whole notes)" <<
      ", line " << fInputLineNumber <<
     endl;
     
@@ -16872,30 +16726,6 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     fMeasureFullMeasureLength =
       wholeNotesPerMeasure;
 
-    /* JMI
-    int
-      currentDivisionsPerQuarterNote = // JMI
-        fMeasureDirectPartUplink->
-          getPartCurrentDivisions ()->
-            getDivisionsPerQuarterNote ();
-
-
-    if (wholeNotesPerMeasure.getNumerator () == 4) {
-      // whole notes per measure is already expresses in whole notes
-      fMeasureFullMeasureLength =
-        wholeNotesPerMeasure;
-    }
-    else {
-      // get the denominator to be 4
-      if (wholeNotesPerMeasure.getNumerator () < 4) {
-        fMeasureFullMeasureLength =
-          wholeNotesPerMeasure * 4;
-    }
-
-        *
-      currentDivisionsPerQuarterNote * 4; // hence a whole note
-    */
-  
     if (
       gGeneralOptions->fTraceDivisions
         ||
@@ -17085,7 +16915,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             msrNote::createSkipNote (
               inputLineNumber,
               fMeasureDirectPartUplink,
-  // JMI            note->getNoteDivisionsPerQuarterNote (),
               noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
@@ -26747,8 +26576,6 @@ void msrPart::initializePart ()
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Creating part " << getPartCombinedName () << endl;
-
-// JMI  fPartDivisionsPerQuarterNote = rational (-417, 1); // JMI
   
   setPartMeasureLengthHighTide (
     fInputLineNumber,
@@ -26760,9 +26587,6 @@ void msrPart::initializePart ()
     msrTime::createFourQuartersTime (
       fInputLineNumber);
 */
-
-  // the part harmony staff and voice will be created later
-  // in setPartDivisionsPerQuarterNote()
 }
 
 msrPart::~msrPart()
@@ -26788,14 +26612,6 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
         fPartID,
         partGroupClone);
 
-/* JMI
-  // it is not enough just to set fPartDivisionsPerQuarterNote,
-  // since the part harmony staff and voice should be created
-  newbornClone->
-    setPartDivisionsPerQuarterNote (
-      fPartDivisionsPerQuarterNote);
-*/
-
   newbornClone->fPartName =
     fPartName;
   newbornClone->fPartAbbreviation =
@@ -26808,140 +26624,6 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 
   return newbornClone;
 }
-
-/*
-void msrPart::setPartCurrentDivisions (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions) {
-    cerr <<
-      "Setting divisions for part \"" <<
-      "\"" << fPartName <<
-      ", divisions = " <<
-      divisions->divisionsAsString () <<
-      endl;
-  }
-  
-  fPartCurrentDivisions = divisions;
-}
-*/
-
-void msrPart::setPartCurrentDivisions (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceParts) {
-    cerr << idtr <<
-      "Setting current divisions to '" <<
-      divisions->divisionsAsString () <<
-      "' in part \"" <<
-      fPartName <<
-      "\"" <<
-      endl;
-  }
-
-  // register divisions in the part
-  fPartCurrentDivisions = divisions;
-
-  // print durations divisions if need be
-  if (gGeneralOptions->fTraceDivisions) {
-    fPartCurrentDivisions->
-      printDurationsDivisions (cerr);
-  }
-
-  // create the part harmony staff and voice upon first <divisions/>,
-  // only now because we need the current part divisions
-  if (! fPartHarmonyStaff) {
-    createPartHarmonyStaffAndVoice (
-      fInputLineNumber);
-  }
-
-/* JMI n'existent pas encore
-  // propagate to all staves
-  for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    S_msrStaff
-      staff = (*i).second;
-      
-    staff->
-      appendDivisionsToStaff (divisions);
-  } // for
-  */
-}
-
-/* JMI
-void msrStaff::appendDivisionsToStaff (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceStaves)
-    cerr << idtr <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      "' to staff \"" <<
-      getStaffName () <<
-      "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
-      endl;
-
-  // propagate it to all voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      appendDivisionsToVoice (divisions);
-  } // for
-}
-
-void msrVoice::appendDivisionsToVoice (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceVoices)
-    cerr << idtr <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
-      endl;
-
-  // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNotYetDone (
-    divisions->getInputLineNumber ());
-
-  // append divisions to last segment
-  fVoiceLastSegment->
-    appendDivisionsToSegment (divisions);
-}
-
-void msrSegment::appendDivisionsToSegment (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      " to segment " << segmentAsString () <<
-      endl;
-      
-  // register divisions in segments's current measure
-  fSegmentMeasuresList.back ()->
-    appendDivisionsToMeasure (divisions);
-}
-    
-void msrMeasure::appendDivisionsToMeasure (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
-    cerr << idtr <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      " to measure '" << fMeasureNumber << "'" <<
-      endl;
-      
-  // append it to the measure elements list
-  fMeasureElementsList.push_back (divisions);
-}
-*/
 
 void msrPart::createPartHarmonyStaffAndVoice (
   int inputLineNumber)
@@ -27088,36 +26770,6 @@ string msrPart::getPartCombinedName () const
 
   return s.str();
 }
-
-/* JMI
-void msrPart::setPartDivisionsPerQuarterNote (
-  int divisionsPerQuarterNote)
-{
-  msrAssert(
-    divisionsPerQuarterNote != 0,
-    "divisionsPerQuarterNote == 0");
-  
-  if (gGeneralOptions->fTraceDivisions)
-    cerr << idtr <<
-      "Setting part divisions per quarter note to " <<
-      divisionsPerQuarterNote <<
-      " in part " << getPartCombinedName () <<
-      endl;
-
-  // register divisions per quarter note
-  fPartDivisionsPerQuarterNote =
-    divisionsPerQuarterNote;
-
-  // initialize fPartDurationsToDivisions
-  setupDurationsDivisions (
-    fPartDivisionsPerQuarterNote);
-
-  // create the part harmony staff and voice,
-  // only now because we need the divisions per whole notes
-  createPartHarmonyStaffAndVoice (
-    fInputLineNumber);
-}
-*/
 
 void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
@@ -27760,7 +27412,8 @@ void msrPart::appendHarmonyToPartClone (
 
 void msrPart:: handleBackup (
   int inputLineNumber,
-  int divisions)
+  int divisions,
+  int divisionsPerQuarterNote)
 {
   if (
     gGeneralOptions->fTraceParts
@@ -27776,12 +27429,6 @@ void msrPart:: handleBackup (
       ", line " << inputLineNumber <<
       endl;
   }
-
-  // get the part's number of divisions per quarter note
-  int
-    divisionsPerQuarterNote =
-      fPartCurrentDivisions->
-        getDivisionsPerQuarterNote ();
 
   // compute the backup step length
   rational
@@ -27806,6 +27453,7 @@ void msrPart:: handleBackup (
 void msrPart:: handleForward (
   int        inputLineNumber,
   int        divisions,
+  int        divisionsPerQuarterNote,
   S_msrVoice voice)
 {
   if (
@@ -27823,12 +27471,6 @@ void msrPart:: handleForward (
       ", line " << inputLineNumber <<
       endl;
   }
-
-  // get the part's number of divisions per quarter note
-  int
-    divisionsPerQuarterNote =
-      fPartCurrentDivisions->
-        getDivisionsPerQuarterNote ();
 
   // compute the backup step length
   rational
@@ -29441,3 +29083,78 @@ void msrMidi::print (ostream& os)
 
 }
     
+
+
+/* JMI
+void msrStaff::appendDivisionsToStaff (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceStaves)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      "' to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffDirectPartUplink->getPartCombinedName () <<
+      endl;
+
+  // propagate it to all voices
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendDivisionsToVoice (divisions);
+  } // for
+}
+
+void msrVoice::appendDivisionsToVoice (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    divisions->getInputLineNumber ());
+
+  // append divisions to last segment
+  fVoiceLastSegment->
+    appendDivisionsToSegment (divisions);
+}
+
+void msrSegment::appendDivisionsToSegment (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      " to segment " << segmentAsString () <<
+      endl;
+      
+  // register divisions in segments's current measure
+  fSegmentMeasuresList.back ()->
+    appendDivisionsToMeasure (divisions);
+}
+    
+void msrMeasure::appendDivisionsToMeasure (
+  S_msrDivisions divisions)
+{
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
+    cerr << idtr <<
+      "Appending divisions '" <<
+      divisions->divisionsAsString () <<
+      " to measure '" << fMeasureNumber << "'" <<
+      endl;
+      
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (divisions);
+}
+*/
+

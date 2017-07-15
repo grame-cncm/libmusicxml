@@ -9086,24 +9086,6 @@ class EXP msrPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-/* JMI
-    // divisions per quarter note
-    
-    void                  setPartCurrentDivisions (
-                            S_msrDivisions divisions);
-                      
-    void                  setPartDivisionsPerQuarterNote (
-                            int divisionsPerQuarterNote);
-                      
-    const int             getPartDivisionsPerQuarterNote () const
-                              { return fPartDivisionsPerQuarterNote; }
-*/
-
-    // divisions
-    
-    S_msrDivisions        getPartCurrentDivisions () const
-                              { return fPartCurrentDivisions; }
-
     // clef, key, time
     
     S_msrClef             getPartCurrentClef () const
@@ -9230,41 +9212,6 @@ class EXP msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
-    // divisions
-
-    void                  setPartCurrentDivisions (
-                            S_msrDivisions divisions);
-
-/* JMI
-
-    void                  setupDurationsDivisions (
-                            int divisionPerQuarterNote);
-    
-    int                   durationAsDivisions (
-                            int         inputLineNumber,
-                            msrDuration duration);
-
-    void                  printDurationsDivisions (ostream& os);
-    
-    string                divisionsAsMsrString (
-                            int  inputLineNumber,
-                            int  divisions,
-                            int& numberOfDotsNeeded);
-
-    string                divisionsAsMsrString (
-                            int  inputLineNumber,
-                            int  divisions);
-
-    string                tupletDivisionsAsMsrString (
-                            int  inputLineNumber,
-                            int  divisions,
-                            int actualNotes,
-                            int normalNotes);
-
-    void                  testDivisionsAndDurations (); // JMI
-    void                  testTupletSoundingWholeNotesAndDurations ();
-*/
-
     // measures
 
     void                  bringPartToMeasureLength (
@@ -9386,13 +9333,15 @@ class EXP msrPart : public msrElement
     
     void                  handleBackup (
                             int inputLineNumber,
-                            int divisions);
+                            int divisions,
+                            int divisionsPerQuarterNote);
 
     // forward
     
     void                  handleForward (
                             int        inputLineNumber,
                             int        divisions,
+                            int        divisionsPerQuarterNote,
                             S_msrVoice voice);
 
     // finalization
@@ -9419,16 +9368,6 @@ class EXP msrPart : public msrElement
     virtual void          printStructure (ostream& os);
 
   private:
-
-    // divisions
-
-    S_msrDivisions        fPartCurrentDivisions;
-    
-/* JMI
-    int                   fPartDivisionsPerQuarterNote;
-    list<pair<msrDuration, int> >
-                          fPartDurationsToDivisions;
-*/
 
     // measures
 
