@@ -4952,14 +4952,13 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
           endl <<
         idtr <<
           setw(fieldwidth) <<
-          "fCurrentLyricText" << " = \"";
+          "fCurrentLyricText" << " = ";
 
       msrSyllable::writeTextsList (
         fCurrentLyricTextsList,
         cerr);
   
       cerr <<
-        "\"" <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
@@ -4968,7 +4967,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fCurrentSyllableExtendKind" << " = " <<
-            fCurrentSyllableExtendKind <<
+          fCurrentSyllableExtendKind <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
@@ -5074,7 +5073,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable;
 
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
-    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
+ // BAD JMI   fCurrentSyllableKind = msrSyllable::kSingleSyllable;
     
     // the presence of a '<lyric />' ends the effect
     // of an on going syllable extend
@@ -5178,17 +5177,11 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       cerr <<
         "\"" <<
         ", line " << inputLineNumber <<
-        ", sounding whole notes = " <<
-        fCurrentNoteSoundingWholeNotes << 
-        ", sounding whole notes as string = " <<
-        wholeNotesAsMsrString (
-          inputLineNumber,
-          fCurrentNoteSoundingWholeNotes) << 
-        fCurrentNoteSoundingWholeNotes << 
-        ", display whole notes as string = " <<
-        wholeNotesAsMsrString (
-          inputLineNumber,
-          fCurrentNoteDisplayWholeNotes) << 
+        ", whole notes: " <<
+        fCurrentNoteSoundingWholeNotes <<
+        " sounding, " <<
+         fCurrentNoteDisplayWholeNotes << 
+        ", display" <<
         ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
         ", elision: " << fCurrentLyricElision << 
         " in stanza " << stanza->getStanzaName () <<
@@ -5224,8 +5217,12 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       */
       
     // append syllable to current note's syllables list
-    fCurrentNoteSyllables.push_back (
-      syllable);
+  //JMI  fCurrentNoteSyllables.push_back (
+   //   syllable);
+
+    // append syllable to stanza
+    stanza->
+      appendSyllableToStanza (syllable);
   }
 
   fOnGoingLyric = false;
@@ -12093,6 +12090,7 @@ void mxmltree2MsrTranslator::handleLyric (
       ", newNoteHasLyrics = " <<
       booleanAsString (
         newNoteHasLyrics) <<
+      ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
       endl;
   }
 

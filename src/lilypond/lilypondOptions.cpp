@@ -999,7 +999,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "fcoreNotationKind" << " : " <<
+    idtr << setw(fieldWidth) << "scoreNotationKind" << " : " <<
       scoreNotationKindAsString (
         fScoreNotationKind) <<
       endl;

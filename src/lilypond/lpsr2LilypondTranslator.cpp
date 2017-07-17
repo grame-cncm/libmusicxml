@@ -2925,7 +2925,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
   fSegmentNotesAndChordsCountersStack.push (0);
 
-  switch (elt->getMeasureKind ()) {
+  switch (measureKind) {
     case msrMeasure::kUnknownMeasureKind:
       {
         stringstream s;
