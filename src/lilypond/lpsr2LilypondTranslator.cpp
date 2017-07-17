@@ -382,6 +382,400 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
   return s.str();
 }
 
+void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+  // print the note ligatures if any
+  list<S_msrLigature>
+    noteLigatures =
+      note->getNoteLigatures ();
+
+  if (noteLigatures.size()) {
+    list<S_msrLigature>::const_iterator i;
+    for (
+      i=noteLigatures.begin();
+      i!=noteLigatures.end();
+      i++) {
+        
+      switch ((*i)->getLigatureKind ()) {
+        case msrLigature::k_NoLigature:
+          break;
+        case msrLigature::kStartLigature:
+          fOstream << "\\[" " ";
+          break;
+        case msrLigature::kContinueLigature:
+          break;
+        case msrLigature::kStopLigature:
+   // JMI       fOstream << "\\]" " ";
+          break;
+      } // switch
+      fMusicOlec++;
+    } // for
+  }
+
+  // get note stem kind 
+  msrStem::msrStemKind
+    stemKind =
+      fCurrentStem
+        ? fCurrentStem->getStemKind ()
+        : msrStem::k_NoStem;
+
+  // handle note kind before printing note itself
+  switch (note->getNoteKind ()) {
+    
+    case msrNote::k_NoNoteKind:
+      break;
+        
+    case msrNote::kRestNote:      
+      break;
+      
+    case msrNote::kSkipNote:      
+      break;
+      
+    case msrNote::kStandaloneNote:
+      {
+        // should the stem be omitted?
+        if (note->getNoteIsStemless ()) {
+          fOstream <<
+            endl <<
+            idtr <<
+            "\\stemNeutral" " "; // JMI ""\\once\\omit Stem" " ";
+        }
+
+        // should stem direction be generated?
+        if (gLilypondOptions->fStems) {
+      
+          if (fCurrentStem) {
+            // should stem direction be generated?
+            if (stemKind != fCurrentStemKind) {
+              switch (stemKind) {
+                case msrStem::k_NoStem:
+                  fOstream << "\\stemNeutral" " ";
+                  break;
+                case msrStem::kStemUp:
+                  fOstream << "\\stemUp" " ";
+                  break;
+                case msrStem::kStemDown:
+                  fOstream << "\\stemDown" " ";
+                  break;
+                case msrStem::kStemNone:
+                  break;
+                case msrStem::kStemDouble: // JMI ???
+                  break;
+              } // switch
+            }
+            fMusicOlec++;
+      
+            // is there a stem kind change?
+            if (stemKind != fCurrentStemKind)
+              fCurrentStemKind = stemKind;
+          }
+        }
+      }
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      {
+        // should the stem be omitted?
+        if (note->getNoteIsStemless ()) {
+          fOstream <<
+            endl <<
+            idtr <<
+            "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
+        }
+
+        // should stem direction be generated?
+        if (gLilypondOptions->fStems) {
+      
+          if (fCurrentStem) {
+            // should stem direction be generated?
+            if (stemKind != fCurrentStemKind) {
+              switch (stemKind) {
+                case msrStem::k_NoStem:
+                  fOstream << "\\stemNeutral" " ";
+                  break;
+                case msrStem::kStemUp:
+                  fOstream << "\\stemUp" " ";
+                  break;
+                case msrStem::kStemDown:
+                  fOstream << "\\stemDown" " ";
+                  break;
+                case msrStem::kStemNone:
+                  break;
+                case msrStem::kStemDouble: // JMI ???
+                  break;
+              } // switch
+            }
+            fMusicOlec++;
+      
+            // is there a stem kind change?
+            if (stemKind != fCurrentStemKind)
+              fCurrentStemKind = stemKind;
+          }
+        }
+      }
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+      
+    case msrNote::kChordMemberNote:
+     // don't omit stems for chord member note JMI
+     break;
+      
+    case msrNote::kTupletMemberNote:
+      break;
+  } // switch
+
+  // print the note itself
+  switch (note->getNoteKind ()) {
+    
+    case msrNote::k_NoNoteKind:
+      break;
+        
+    case msrNote::kRestNote:
+      {
+        // get pitched rest status
+        bool noteIsAPitchedRest =
+          note->noteIsAPitchedRest ();
+  
+        if (noteIsAPitchedRest) {
+          fOstream <<
+            pitchedRestAsLilypondString (note);
+        }
+  
+        else {
+          // print the rest name
+          fOstream <<
+            string (
+              note->getNoteOccupiesAFullMeasure ()
+                ? "R"
+                : "r");
+        }
+          
+        // print the rest duration
+        fOstream <<
+          wholeNotesAsLilypondString (
+            inputLineNumber,
+            note->
+              getNoteSoundingWholeNotes ());
+  
+        // is the rest pitched?
+        if (noteIsAPitchedRest) {
+          fOstream <<
+            " " "\\rest";
+
+          // this note is the new relative octave reference
+          // (the display quarter tone pitch and octave
+          // have been copied to the note octave
+          // in the msrNote::msrNote() constructor,
+          // since the note octave is used in relative code generation)
+          fRelativeOctaveReference = note;
+        }
+        else {
+          // an unpitched rest is no relative octave reference,
+          // the preceding one is kept
+        }
+      }
+      break;
+      
+    case msrNote::kSkipNote:      
+      // print the skip name
+      fOstream << "s";
+      
+      // print the skip duration
+      fOstream <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          note->
+            getNoteSoundingWholeNotes ());
+
+      // a rest is no relative octave reference,
+      // the preceding one is kept
+      break;
+      
+    case msrNote::kStandaloneNote:
+      // print the note name
+      fOstream <<
+        noteAsLilypondString (note);
+      
+      // print the note duration
+      fOstream <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          note->
+            getNoteSoundingWholeNotes ());
+
+      // handle delayed ornaments if any
+      if (note->getNoteHasADelayedOrnament ())
+        // c2*2/3 ( s2*1/3\turn JMI
+        fOstream <<
+          "*" <<
+          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+          "/" <<
+          gLilypondOptions->fDelayedOrnamentFractionDenominator;
+      
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << " ~";
+          }
+        }
+      }
+
+      // this note is the new relative octave reference
+      fRelativeOctaveReference = note;
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      // print the note name
+      fOstream <<
+        noteAsLilypondString (note);
+      
+      // print the note duration, i.e. the double tremolo elements duration
+      fOstream <<
+        fCurrentDoubleTremoloElementsLpsrDuration; // JMI
+
+      // handle delayed ornaments if any
+      if (note->getNoteHasADelayedOrnament ())
+        // c2*2/3 ( s2*1/3\turn JMI
+        fOstream <<
+          "*" <<
+          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+          "/" <<
+          gLilypondOptions->fDelayedOrnamentFractionDenominator;
+      
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << " ~";
+          }
+        }
+      }
+
+      // this note is the new relative octave reference
+      fRelativeOctaveReference = note;
+      break;
+
+    case msrNote::kGraceNote:
+      // print the note name
+      fOstream <<
+        noteAsLilypondString (note);
+      
+      // print the grace note's graphic duration
+      fOstream <<
+        msrDurationAsString (
+          note->
+            getNoteGraphicDuration ());
+
+      // print the dots if any JMI ???
+      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
+        fOstream << ".";
+      } // for
+      
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << "~ ";
+          }
+        }
+      }
+
+      // this note is the new relative octave reference
+      fRelativeOctaveReference = note;
+      break;
+      
+    case msrNote::kChordMemberNote:
+      // print the note name
+      fOstream <<
+        noteAsLilypondString (note);
+      
+      // don't print the note duration,
+      // it will be printed for the chord itself
+
+      // inside chords, a note is relative to the preceding one
+      fRelativeOctaveReference = note;
+      break;
+      
+    case msrNote::kTupletMemberNote:
+      if (! gLilypondOptions->fTupletsOnALine) {
+        fOstream <<
+          endl <<
+          idtr;
+      }
+        
+      // print the note name
+      if (note->getNoteIsARest ()) {
+        fOstream <<
+          string (
+            note->getNoteOccupiesAFullMeasure ()
+              ? "R"
+              : "r");
+      }
+      else {
+        fOstream <<
+          noteAsLilypondString (note);
+      }
+      
+      // print the note duration
+      /* JMI
+      fOstream <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          note->
+            getNoteTupletNoteSoundingWholeNotesAsMsrString ()); // ??? JMI
+            */
+
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+      
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kStartTie) {
+            fOstream << "~ ";
+          }
+        }
+      }
+
+      // a rest is no relative octave reference,
+      if (! note->getNoteIsARest ())
+        // this note is the new relative octave reference
+        fRelativeOctaveReference = note;
+      break;
+  } // switch
+
+  fOstream << " ";
+
+  fMusicOlec++;
+
+  // was there an unmetered (stemless) section?
+  if (stemKind != fCurrentStemKind) {
+    switch (stemKind) {
+      case msrStem::kStemNone:
+        break;
+        
+      case msrStem::k_NoStem:
+      case msrStem::kStemUp:
+      case msrStem::kStemDown:
+      case msrStem::kStemDouble:
+        fOnGoingStemNone =false;
+        break;
+    } // switch
+  }
+}
+
 //________________________________________________________________________
 string lpsr2LilypondTranslator::noteAsLilypondString (
   S_msrNote note)
@@ -2791,6 +3185,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingHarmonyVoice) {
+    // indent before the fist note of the msrSegment if needed
+    if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
+      fOstream <<
+        idtr;
+
     fOstream <<
       harmonyAsLilypondString (elt) <<
       " ";
@@ -2934,8 +3333,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' is of unknown kind";
 
-        msrInternalError (
-   // JMI     msrInternalWarning (
+    // JMI     msrInternalError (
+        msrInternalWarning (
           inputLineNumber, s.str ());
       }
       break;
@@ -4377,400 +4776,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   printNoteAsLilypondString (elt);
 
   fOnGoingNote = true;
-}
-
-void lpsr2LilypondTranslator::printNoteAsLilypondString (
-  S_msrNote note)
-{
-  int inputLineNumber =
-    note->getInputLineNumber ();
-    
-  // print the note ligatures if any
-  list<S_msrLigature>
-    noteLigatures =
-      note->getNoteLigatures ();
-
-  if (noteLigatures.size()) {
-    list<S_msrLigature>::const_iterator i;
-    for (
-      i=noteLigatures.begin();
-      i!=noteLigatures.end();
-      i++) {
-        
-      switch ((*i)->getLigatureKind ()) {
-        case msrLigature::k_NoLigature:
-          break;
-        case msrLigature::kStartLigature:
-          fOstream << "\\[" " ";
-          break;
-        case msrLigature::kContinueLigature:
-          break;
-        case msrLigature::kStopLigature:
-   // JMI       fOstream << "\\]" " ";
-          break;
-      } // switch
-      fMusicOlec++;
-    } // for
-  }
-
-  // get note stem kind 
-  msrStem::msrStemKind
-    stemKind =
-      fCurrentStem
-        ? fCurrentStem->getStemKind ()
-        : msrStem::k_NoStem;
-
-  // handle note kind before printing note itself
-  switch (note->getNoteKind ()) {
-    
-    case msrNote::k_NoNoteKind:
-      break;
-        
-    case msrNote::kRestNote:      
-      break;
-      
-    case msrNote::kSkipNote:      
-      break;
-      
-    case msrNote::kStandaloneNote:
-      {
-        // should the stem be omitted?
-        if (note->getNoteIsStemless ()) {
-          fOstream <<
-            endl <<
-            idtr <<
-            "\\stemNeutral" " "; // JMI ""\\once\\omit Stem" " ";
-        }
-
-        // should stem direction be generated?
-        if (gLilypondOptions->fStems) {
-      
-          if (fCurrentStem) {
-            // should stem direction be generated?
-            if (stemKind != fCurrentStemKind) {
-              switch (stemKind) {
-                case msrStem::k_NoStem:
-                  fOstream << "\\stemNeutral" " ";
-                  break;
-                case msrStem::kStemUp:
-                  fOstream << "\\stemUp" " ";
-                  break;
-                case msrStem::kStemDown:
-                  fOstream << "\\stemDown" " ";
-                  break;
-                case msrStem::kStemNone:
-                  break;
-                case msrStem::kStemDouble: // JMI ???
-                  break;
-              } // switch
-            }
-            fMusicOlec++;
-      
-            // is there a stem kind change?
-            if (stemKind != fCurrentStemKind)
-              fCurrentStemKind = stemKind;
-          }
-        }
-      }
-      break;
-
-    case msrNote::kDoubleTremoloMemberNote:
-      {
-        // should the stem be omitted?
-        if (note->getNoteIsStemless ()) {
-          fOstream <<
-            endl <<
-            idtr <<
-            "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
-        }
-
-        // should stem direction be generated?
-        if (gLilypondOptions->fStems) {
-      
-          if (fCurrentStem) {
-            // should stem direction be generated?
-            if (stemKind != fCurrentStemKind) {
-              switch (stemKind) {
-                case msrStem::k_NoStem:
-                  fOstream << "\\stemNeutral" " ";
-                  break;
-                case msrStem::kStemUp:
-                  fOstream << "\\stemUp" " ";
-                  break;
-                case msrStem::kStemDown:
-                  fOstream << "\\stemDown" " ";
-                  break;
-                case msrStem::kStemNone:
-                  break;
-                case msrStem::kStemDouble: // JMI ???
-                  break;
-              } // switch
-            }
-            fMusicOlec++;
-      
-            // is there a stem kind change?
-            if (stemKind != fCurrentStemKind)
-              fCurrentStemKind = stemKind;
-          }
-        }
-      }
-      break;
-
-    case msrNote::kGraceNote:
-      break;
-      
-    case msrNote::kChordMemberNote:
-     // don't omit stems for chord member note JMI
-     break;
-      
-    case msrNote::kTupletMemberNote:
-      break;
-  } // switch
-
-  // print the note itself
-  switch (note->getNoteKind ()) {
-    
-    case msrNote::k_NoNoteKind:
-      break;
-        
-    case msrNote::kRestNote:
-      {
-        // get pitched rest status
-        bool noteIsAPitchedRest =
-          note->noteIsAPitchedRest ();
-  
-        if (noteIsAPitchedRest) {
-          fOstream <<
-            pitchedRestAsLilypondString (note);
-        }
-  
-        else {
-          // print the rest name
-          fOstream <<
-            string (
-              note->getNoteOccupiesAFullMeasure ()
-                ? "R"
-                : "r");
-        }
-          
-        // print the rest duration
-        fOstream <<
-          wholeNotesAsLilypondString (
-            inputLineNumber,
-            note->
-              getNoteSoundingWholeNotes ());
-  
-        // is the rest pitched?
-        if (noteIsAPitchedRest) {
-          fOstream <<
-            " " "\\rest";
-
-          // this note is the new relative octave reference
-          // (the display quarter tone pitch and octave
-          // have been copied to the note octave
-          // in the msrNote::msrNote() constructor,
-          // since the note octave is used in relative code generation)
-          fRelativeOctaveReference = note;
-        }
-        else {
-          // an unpitched rest is no relative octave reference,
-          // the preceding one is kept
-        }
-      }
-      break;
-      
-    case msrNote::kSkipNote:      
-      // print the skip name
-      fOstream << "s";
-      
-      // print the skip duration
-      fOstream <<
-        wholeNotesAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteSoundingWholeNotes ());
-
-      // a rest is no relative octave reference,
-      // the preceding one is kept
-      break;
-      
-    case msrNote::kStandaloneNote:
-      // print the note name
-      fOstream <<
-        noteAsLilypondString (note);
-      
-      // print the note duration
-      fOstream <<
-        wholeNotesAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteSoundingWholeNotes ());
-
-      // handle delayed ornaments if any
-      if (note->getNoteHasADelayedOrnament ())
-        // c2*2/3 ( s2*1/3\turn JMI
-        fOstream <<
-          "*" <<
-          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
-          "/" <<
-          gLilypondOptions->fDelayedOrnamentFractionDenominator;
-      
-      // print the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-      
-        if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fOstream << " ~";
-          }
-        }
-      }
-
-      // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
-      break;
-
-    case msrNote::kDoubleTremoloMemberNote:
-      // print the note name
-      fOstream <<
-        noteAsLilypondString (note);
-      
-      // print the note duration, i.e. the double tremolo elements duration
-      fOstream <<
-        fCurrentDoubleTremoloElementsLpsrDuration; // JMI
-
-      // handle delayed ornaments if any
-      if (note->getNoteHasADelayedOrnament ())
-        // c2*2/3 ( s2*1/3\turn JMI
-        fOstream <<
-          "*" <<
-          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
-          "/" <<
-          gLilypondOptions->fDelayedOrnamentFractionDenominator;
-      
-      // print the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-      
-        if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fOstream << " ~";
-          }
-        }
-      }
-
-      // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
-      break;
-
-    case msrNote::kGraceNote:
-      // print the note name
-      fOstream <<
-        noteAsLilypondString (note);
-      
-      // print the grace note's graphic duration
-      fOstream <<
-        msrDurationAsString (
-          note->
-            getNoteGraphicDuration ());
-
-      // print the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
-        fOstream << ".";
-      } // for
-      
-      // print the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-      
-        if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fOstream << "~ ";
-          }
-        }
-      }
-
-      // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
-      break;
-      
-    case msrNote::kChordMemberNote:
-      // print the note name
-      fOstream <<
-        noteAsLilypondString (note);
-      
-      // don't print the note duration,
-      // it will be printed for the chord itself
-
-      // inside chords, a note is relative to the preceding one
-      fRelativeOctaveReference = note;
-      break;
-      
-    case msrNote::kTupletMemberNote:
-      if (! gLilypondOptions->fTupletsOnALine) {
-        fOstream <<
-          endl <<
-          idtr;
-      }
-        
-      // print the note name
-      if (note->getNoteIsARest ()) {
-        fOstream <<
-          string (
-            note->getNoteOccupiesAFullMeasure ()
-              ? "R"
-              : "r");
-      }
-      else {
-        fOstream <<
-          noteAsLilypondString (note);
-      }
-      
-      // print the note duration
-      /* JMI
-      fOstream <<
-        wholeNotesAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteTupletNoteSoundingWholeNotesAsMsrString ()); // ??? JMI
-            */
-
-      // print the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-      
-        if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fOstream << "~ ";
-          }
-        }
-      }
-
-      // a rest is no relative octave reference,
-      if (! note->getNoteIsARest ())
-        // this note is the new relative octave reference
-        fRelativeOctaveReference = note;
-      break;
-  } // switch
-
-  fOstream << " ";
-
-  fMusicOlec++;
-
-  // was there an unmetered (stemless) section?
-  if (stemKind != fCurrentStemKind) {
-    switch (stemKind) {
-      case msrStem::kStemNone:
-        break;
-        
-      case msrStem::k_NoStem:
-      case msrStem::kStemUp:
-      case msrStem::kStemDown:
-      case msrStem::kStemDouble:
-        fOnGoingStemNone =false;
-        break;
-    } // switch
-  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
