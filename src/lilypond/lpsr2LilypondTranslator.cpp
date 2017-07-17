@@ -3185,7 +3185,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingHarmonyVoice) {
-    // indent before the fist note of the msrSegment if needed
+    // indent before the fist harmony of the msrSegment if needed
     if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
       fOstream <<
         idtr;
