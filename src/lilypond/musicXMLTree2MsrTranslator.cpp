@@ -5213,6 +5213,9 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         appendLyricTextToSyllable ((*i));
     } // for
 
+    // forget about those texts
+    fCurrentLyricTextsList.clear ();
+
 /* JMI
     // set syllable's note direct uplink
     syllable->
