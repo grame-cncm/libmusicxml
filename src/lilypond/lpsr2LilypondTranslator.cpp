@@ -2934,7 +2934,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' is of unknown kind";
 
-        msrInternalError (
+   // JMI     msrInternalError (
+        msrInternalWarning (
           inputLineNumber, s.str ());
       }
       break;

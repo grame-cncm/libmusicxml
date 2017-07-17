@@ -8378,7 +8378,8 @@ void msrNote::print (ostream& os)
       os <<
         fNoteMeasureNumber;
     else {
-      msrInternalError (
+ // JMI     msrInternalError (
+      msrInternalWarning (
         fInputLineNumber,
         "note measure number is empty");
     }
@@ -15268,6 +15269,7 @@ string msrHarmony::harmonyAsString () const
 
   if (fHarmonyDirectPartUplink) // JMI ???
     s <<
+      ":" <<
       wholeNotesAsMsrString (
         fInputLineNumber,
         fHarmonySoundingWholeNotes);
