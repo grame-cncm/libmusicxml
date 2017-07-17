@@ -17935,151 +17935,6 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 }
 */
 
-/*
-bool msrMeasure::checkForIncompleteMeasure (
-  int                        inputLineNumber,
-  msrMeasure::msrMeasureKind measureKind)
-{
-  if (gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Checking for incompleteness of measure  " <<
-      fMeasureNumber <<
-      ", line " << inputLineNumber <<
-      ", in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      endl;
-
-  if (gGeneralOptions->fTraceMeasures) {
-    idtr++;
-
-    const int fieldWidth = 31;
-    
-    cerr << left <<
-      idtr <<
-        setw(fieldWidth) << "MeasureFullMeasureLength" << " = " <<
-        fMeasureFullMeasureLength <<
-        endl <<
-      idtr <<
-        setw(fieldWidth) << "MeasureLength" << " = " <<
-        fMeasureLength <<
-        endl <<
-      idtr <<
-        setw(fieldWidth) << "MeasureLength" << " = " <<
-        getMeasureLength () <<
-        endl;
-
-    idtr--;
-  }
-
-  bool measureIsIncomplete =
-    // positions start at 1
-    fMeasureLength <= fMeasureFullMeasureLength;
-
-  if (measureIsIncomplete) {    
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-          "Measure " << fMeasureNumber <<
-          " of segment " <<
-          fMeasureSegmentUplink->segmentAsString () <<
-          " in voice \"" <<
-          fMeasureSegmentUplink->
-            getSegmentVoiceUplink ()->
-              getVoiceName () <<
-          "\"" <<
-          " is " <<
-          string(
-            fMeasureLength == 1
-              ? "incomplete"
-              : "empty") <<
-          ", line " << inputLineNumber <<
-          ": length = " << fMeasureLength <<
-          ", divisionsPerWholeMeasure = " <<
-          fMeasureFullMeasureLength <<
-        endl;
-    }
-    
-    // set measure kind
-    setMeasureKind (
-      measureKind);
-  }
-
-  return measureIsIncomplete;
-}
-
-bool msrMeasure::checkForOverfullMeasure (
-  int inputLineNumber)
-{
-  if (gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Checking for overfull measure  " <<
-      fMeasureNumber <<
-      ", line " << inputLineNumber <<
-      ", in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      endl;
-
-  if (gGeneralOptions->fTraceMeasures) {
-    idtr++;
-
-    const int fieldWidth = 31;
-    
-    cerr <<
-      idtr <<
-        setw(fieldWidth) << "MeasureFullMeasureLength" << " = " <<
-        fMeasureFullMeasureLength <<
-        endl <<
-      idtr <<
-        setw(fieldWidth) << "MeasureLength" << " = " <<
-        fMeasureLength <<
-        endl <<
-      idtr <<
-        setw(fieldWidth) << "MeasureLength" << " = " <<
-        getMeasureLength () <<
-        endl;
-
-    idtr--;
-  }
-
-  bool measureIsOverfull =
-    // positions start at 1
-    fMeasureLength > fMeasureFullMeasureLength + 1;
-
-  if (measureIsOverfull) {    
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr <<
-        idtr <<
-          "Measure " << fMeasureNumber <<
-          ", in segment " <<
-          fMeasureSegmentUplink->segmentAsString () <<
-          " in voice \"" <<
-          fMeasureSegmentUplink->
-            getSegmentVoiceUplink ()->
-              getVoiceName () <<
-          "\"" <<
-          " is overfull" <<
-          ", line " << inputLineNumber <<
-          ": length = " << fMeasureLength <<
-          ", divisionsPerWholeMeasure = " <<
-          fMeasureFullMeasureLength <<
-        endl;
-    }
-    
-    // set measure kind
-    setMeasureKind (
-      kOverfullMeasureKind);
-  }
-
-  return measureIsOverfull;
-}
-*/
-
 void msrMeasure::finalizeMeasure (
   int inputLineNumber)
 {
@@ -18759,7 +18614,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
       fSegmentDirectPartUplink->
         getPartCurrentTime ();
 
-  // the measure can be created upon appendKeyTo...,
+  // the measure can be created upon appendKeyTo..., // JMI
   // when the part time has not yet been set,
   // in which case the time will be set later
   if (partCurrentTime) {
@@ -19213,9 +19068,15 @@ void msrSegment::bringSegmentToMeasureLength (
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  int inputLineNumber =
+    measure->getInputLineNumber ();
+    
+  string measureNumber =
+    measure->getMeasureNumber ();
+    
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "Appending measure " << measure->getMeasureNumber () <<
+      "Appending measure " << measureNumber <<
       " to segment " << segmentAsString () <<
  // JMI     ", lastMeasureNumber = " << lastMeasureNumber <<
       "' in voice \"" <<
@@ -19223,7 +19084,23 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       "\"," <<
       ", line " << measure->getInputLineNumber () <<
       endl;
+  }
 
+  if (
+    measureNumber
+      ==
+    fSegmentMeasuresList.back ()->getMeasureNumber ()) {
+    stringstream s;
+
+    s <<
+      "measure number '" << measureNumber << "' occurs twice in a row";
+
+  // JMI  msrInternalError (
+    msrInternalWarning (
+      inputLineNumber,
+      s.str());
+  }
+  
   // append measure to the segment
   fSegmentMeasuresList.push_back (measure);
 }
@@ -19552,35 +19429,6 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   
   return result;
 }
-
-/*
-bool msrSegment::checkForIncompleteSegmentLastMeasure (
-  int                        inputLineNumber,
-  msrMeasure::msrMeasureKind measureKind)
-{
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Checking for incomplete last measure in segment '" <<
-      segmentAsString () <<
-      ", in voice \"" <<
-      fSegmentVoiceUplink->
-        getVoiceName () <<
-      "\"" <<
-      "', line " << inputLineNumber <<
-      endl;
-
-  // fetch segment last measure
-  S_msrMeasure
-    lastMeasure =
-      fSegmentMeasuresList.back ();
-
-  return
-    lastMeasure->
-      checkForIncompleteMeasure (
-        inputLineNumber,
-        measureKind);
-}
-*/
 
 void msrSegment::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -21970,36 +21818,9 @@ void msrVoice::createMeasureAndAppendItToVoice (
       measureNumber);
 }
 
-/* JMI
-bool msrVoice::checkForIncompleteVoiceLastMeasure (
-  int inputLineNumber)
-{
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Checking for incomplete last measure in voice \"" <<
-      getVoiceName () << "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  return
-    fVoiceLastSegment->
-      checkForIncompleteSegmentLastMeasure (
-        inputLineNumber,
-        msrMeasure::kUnderfullMeasureKind);
-}
-*/
-
 void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
 {
-  /* JMI
-  // check for incomplete last measure
-  // before creating the new last measure
-  bool lastMeasureIsIncomplete =
-    checkForIncompleteVoiceLastMeasure (
-      inputLineNumber);
-    */
-    
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -27561,9 +27382,12 @@ void msrPart::browseData (basevisitor* v)
       "% ==> msrPart::browseData()" <<
       endl;
 
-  // browse the harmony staff
+  // don't browse the harmony staff specifically,
+  // it's part of fPartStavesMap
+  /* JMI
   msrBrowser<msrStaff> browser (v);
   browser.browse (*fPartHarmonyStaff);
+*/
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -27622,6 +27446,7 @@ void msrPart::print (ostream& os)
       fPartInstrumentName << "\"" <<
       endl;
 
+/* JMI not specifically
   // print the harmony staff
   if (fPartHarmonyStaff) {
     os <<
@@ -27634,6 +27459,7 @@ void msrPart::print (ostream& os)
     os << idtr << fPartHarmonyStaff;
     idtr--;
   }
+*/
 
   // print the staves
   if (fPartStavesMap.size()) {

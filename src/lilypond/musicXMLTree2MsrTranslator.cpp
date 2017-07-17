@@ -13692,7 +13692,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_harmony& elt )
      inputLineNumber,
      s.str());
 
-    fCurrentHarmonyBassQuarterTonesPitch = k_NoQuarterTonesPitch;
+    fCurrentHarmonyBassQuarterTonesPitch =
+      k_NoQuarterTonesPitch;
   }
 
 

@@ -3355,15 +3355,6 @@ class EXP msrMeasure : public msrElement
 
     void                  removeElementFromMeasure (S_msrElement elem); // JMI
 
-/* JMI
-    bool                  checkForIncompleteMeasure (
-                            int                        inputLineNumber,
-                            msrMeasure::msrMeasureKind measureKind);
-
-    bool                  checkForOverfullMeasure (
-                            int inputLineNumber);
-*/
-
     // finalization
 
     void                  finalizeMeasure (
@@ -8240,11 +8231,6 @@ class EXP msrVoice : public msrElement
                             int inputLineNumber,
                             int stanzaNumber);
     
-/* JMI
-    bool                  checkForIncompleteVoiceLastMeasure (
-                            int inputLineNumber);
-*/
-
     // finalization
     
     void                  finalizeCurrentMeasureInVoice (

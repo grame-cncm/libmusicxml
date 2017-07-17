@@ -1248,7 +1248,9 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
         endl;
   }
 
-  msrMeasure::msrMeasureKind measureKind; // JMI
+  msrMeasure::msrMeasureKind
+    measureKind =
+      msrMeasure::kUnknownMeasureKind; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
     
   if (measureLength == measureFullMeasureLength ) {
@@ -1283,23 +1285,23 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kOverfullMeasureKind;
   }
 
-  if (false) { // JMI ??? measureKind != originalMeasure->getMeasureKind ()) {
+  if (false && /* JMI */ measureKind != originalMeasure->getMeasureKind ()) { // JMI
     stringstream s;
 
     s <<
       "line " << inputLineNumber << ":" <<
-      endl <<
-      "clone measure:" <<
+      " clone measure:" <<
       endl <<
       fCurrentMeasureClone <<
       endl <<
-      "differs from original measure:" <<
+      "differs for measure kind from original measure:" <<
+      endl <<
       originalMeasure;
 
     msrInternalError (
       inputLineNumber,
       s.str());
-  }  
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
