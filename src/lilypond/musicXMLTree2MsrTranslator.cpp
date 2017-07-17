@@ -5108,6 +5108,22 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     }
   
     else if (fCurrentNoteIsARest) {
+      stringstream s;
+
+      s <<
+        "syllable ";
+
+     msrSyllable::writeTextsList (
+      fCurrentLyricTextsList,
+      s);
+
+      s <<
+        " is attached to a rest";
+
+      msrMusicXMLWarning (
+        inputLineNumber,
+        s.str());
+        
       fCurrentSyllableKind = msrSyllable::kRestSyllable;
     }
   

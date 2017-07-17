@@ -2220,6 +2220,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
         "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
         endl <<
         */
+        "\\with { associatedVoice = " <<
+        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+        "}" <<
+        endl <<
+
       idtr <<
         "\\" << elt->getStanza ()->getStanzaName () <<
       endl;
