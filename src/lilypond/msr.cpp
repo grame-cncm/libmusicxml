@@ -16152,6 +16152,15 @@ void msrMeasure::initializeMeasure ()
 
   fMeasureKind = kUnknownMeasureKind;
 
+/* JMI
+  static int count = 0;
+
+  count++;
+
+  if (count == 2)
+    abort();
+*/
+
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,
@@ -19073,12 +19082,15 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     
   string measureNumber =
     measure->getMeasureNumber ();
+
+  string currentMeasureNumber =
+    fSegmentMeasuresList.back ()->getMeasureNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "Appending measure " << measureNumber <<
       " to segment " << segmentAsString () <<
- // JMI     ", lastMeasureNumber = " << lastMeasureNumber <<
+      ", currentMeasureNumber = " << currentMeasureNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -19086,10 +19098,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       endl;
   }
 
-  if (
-    measureNumber
-      ==
-    fSegmentMeasuresList.back ()->getMeasureNumber ()) {
+  if (measureNumber == currentMeasureNumber) {
     stringstream s;
 
     s <<
@@ -19100,9 +19109,11 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       inputLineNumber,
       s.str());
   }
-  
+
+  else { // JMI TEMP
   // append measure to the segment
   fSegmentMeasuresList.push_back (measure);
+  }
 }
 
 void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
