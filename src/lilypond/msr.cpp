@@ -21697,6 +21697,10 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
   int inputLineNumber)
 {
+  // this is done for voices that are created after t
+  // the voice has been created.
+  // the current // JMI ??? measure number has been registered by the voice
+  
   if (! fVoiceLastSegment) {
     // create the initial segment for this voice
     if (gGeneralOptions->fTraceSegments)
@@ -25104,7 +25108,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
     i++) {
     (*i).second->
       createMeasureAndAppendItToVoice (
-        inputLineNumber, measureNumber);
+        inputLineNumber,
+        measureNumber);
   } // for
 }
 

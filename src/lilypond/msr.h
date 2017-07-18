@@ -9114,7 +9114,7 @@ class EXP msrPart : public msrElement
 
     string                getPartCombinedName () const;
 
-    // divisions
+    // measures
     
     void                  setPartMeasureLengthHighTide (
                             int      inputLineNumber,
@@ -9129,8 +9129,6 @@ class EXP msrPart : public msrElement
                                 return
                                   fPartMeasureLengthHighTide;
                               }
-
-    // measures
 
     void                  setPartCurrentMeasureNumber (
                             string measureNumber)
