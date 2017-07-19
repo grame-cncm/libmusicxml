@@ -28590,6 +28590,16 @@ S_msrScore msrScore::createScoreNewbornClone ()
       msrScore::create (
         fInputLineNumber);
 
+/* JMI
+  for (
+    list<S_msrPartGroup>::const_iterator i = fCreditsList.begin();
+    i != fCreditsList.end();
+    i++) {
+    // append the credit to the clone
+    appendCreditToScore (*i);
+  } // for
+*/
+
   newbornClone->fInhibitMeasureRepeatReplicasBrowsing =
     fInhibitMeasureRepeatReplicasBrowsing;
     
@@ -28691,11 +28701,14 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fPageGeometry);
   }
 
-  if (fCredit) {
-    // browse page credit
+  for (
+    list<S_msrCredit>::const_iterator i = fCreditsList.begin();
+    i != fCreditsList.end();
+    i++) {
+    // browse the part credit
     msrBrowser<msrCredit> browser (v);
-    browser.browse (*fCredit);
-  }
+    browser.browse (*(*i));
+  } // for
 
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin();
@@ -28746,11 +28759,17 @@ void msrScore::print (ostream& os)
       fPageGeometry;
   }
 
-  // print the credit if any
-  if (fCredit) {
-    os <<
-      idtr <<
-      fCredit;
+  // print the credits if any
+  if (fCreditsList.size ()) {
+    list<S_msrCredit>::const_iterator
+      iBegin = fCreditsList.begin(),
+      iEnd   = fCreditsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
   }
 
   // print the part groups
@@ -28790,8 +28809,17 @@ void msrScore::printStructure (ostream& os)
     os << idtr << fPageGeometry;
   }
   
-  if (fCredit) {
-    os << idtr << fCredit;
+  // print the credits if any
+  if (fCreditsList.size ()) {
+    list<S_msrCredit>::const_iterator
+      iBegin = fCreditsList.begin(),
+      iEnd   = fCreditsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
   }
   
   for (

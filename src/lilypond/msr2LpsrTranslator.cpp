@@ -314,7 +314,7 @@ void msr2LpsrTranslator::visitStart (S_msrCredit& elt)
   // set elt as credit of the MSR score part of the LPSR score
   fLpsrScore->
     getMsrScore ()->
-      setCredit (fCurrentCredit);
+      appendCreditToScore (fCurrentCredit);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)

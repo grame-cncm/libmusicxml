@@ -1013,7 +1013,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_credit& elt )
       endl;
 
   fMsrScore->
-    setCredit (fCurrentCredit);
+    appendCreditToScore (fCurrentCredit);
   
   fCurrentCredit = 0;
 }

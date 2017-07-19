@@ -9668,15 +9668,14 @@ class EXP msrScore : public msrElement
     S_msrPageGeometry     getPageGeometry () const
                               { return fPageGeometry; }
 
-    void                  setCredit (S_msrCredit credit)
-                              { fCredit = credit; }
-    S_msrCredit           getCredit () const
-                              { return fCredit; }
-        
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
                               { return fPartGroupsList; }
 
+    const list<S_msrCredit>&
+                          getCreditsList () const
+                              { return fCreditsList; }
+        
     void                  setInhibitMeasureRepeatReplicasBrowsing ()
                               {
                                 fInhibitMeasureRepeatReplicasBrowsing =
@@ -9709,6 +9708,9 @@ class EXP msrScore : public msrElement
     void                  addPartGroupToScore (
                             S_msrPartGroup partGroup);
 
+    void                  appendCreditToScore (S_msrCredit credit)
+                              { fCreditsList.push_back (credit); }
+                              
     // visitors
     // ------------------------------------------------------
 
@@ -9730,8 +9732,8 @@ class EXP msrScore : public msrElement
 
     S_msrPageGeometry    fPageGeometry;
     
-    S_msrCredit          fCredit;
-    
+    list<S_msrCredit>    fCreditsList;
+
     list<S_msrPartGroup> fPartGroupsList;
 
     // in <measure-repeat/>, the measure replicas are explicit,
