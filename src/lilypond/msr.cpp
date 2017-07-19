@@ -26393,9 +26393,6 @@ void msrPart::initializePart ()
     fInputLineNumber,
     rational (0, 1));
 
-  // create the part harmony staff and voice
-  createPartHarmonyStaffAndVoice ();
-
 /* JMI
   // set part current time to the default 4/4 time signature
   fPartCurrenltTime =
@@ -26440,48 +26437,49 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
   return newbornClone;
 }
 
-void msrPart::createPartHarmonyStaffAndVoice ()
+void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
+  int inputLineNumber)
 {
-  int inputLineNumber = 9999;
+  if (! fPartHarmonyStaff) {    
+    // create the part harmony staff
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceStaves)
+      cerr << idtr <<
+        "Creating the harmony staff" <<
+        " with number " << K_PART_HARMONY_STAFF_NUMBER <<
+        " for part " <<
+        getPartCombinedName () <<
+        ", line " << inputLineNumber <<
+        endl;
   
-  // create the part harmony staff
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceStaves)
-    cerr << idtr <<
-      "Creating the harmony staff" <<
-      " with number " << K_PART_HARMONY_STAFF_NUMBER <<
-      " for part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  fPartHarmonyStaff =
-    addStaffToPartByItsNumber (
-      inputLineNumber,
-      msrStaff::kHarmonyStaff,
-      K_PART_HARMONY_STAFF_NUMBER);
-    
-  // create the part harmony voice  
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
-    cerr << idtr <<
-      "Creating the harmony voice " <<
-      " with number " << K_PART_HARMONY_VOICE_NUMBER <<
-      " for part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  fPartHarmonyVoice =
-    msrVoice::create (
-      inputLineNumber,
-      this,
-      msrVoice::kHarmonyVoice,
-      K_PART_HARMONY_VOICE_NUMBER,
-      fPartHarmonyStaff);
-
-  fPartHarmonyStaff->
-    registerVoiceInStaff (
-      inputLineNumber,
-      fPartHarmonyVoice );
+    fPartHarmonyStaff =
+      addStaffToPartByItsNumber (
+        inputLineNumber,
+        msrStaff::kHarmonyStaff,
+        K_PART_HARMONY_STAFF_NUMBER);
+      
+    // create the part harmony voice  
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+      cerr << idtr <<
+        "Creating the harmony voice " <<
+        " with number " << K_PART_HARMONY_VOICE_NUMBER <<
+        " for part " <<
+        getPartCombinedName () <<
+        ", line " << inputLineNumber <<
+        endl;
+  
+    fPartHarmonyVoice =
+      msrVoice::create (
+        inputLineNumber,
+        this,
+        msrVoice::kHarmonyVoice,
+        K_PART_HARMONY_VOICE_NUMBER,
+        fPartHarmonyStaff);
+  
+    fPartHarmonyStaff->
+      registerVoiceInStaff (
+        inputLineNumber,
+        fPartHarmonyVoice );
+  }
 }
 
 void msrPart::setPartMeasureLengthHighTide (
@@ -27120,6 +27118,10 @@ void msrPart::appendHarmonyToPart (
 
   switch (harmoniesSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
+      // create the harmony staff and voice if not yet done
+      createPartHarmonyStaffAndVoiceIfNotYetDone (
+        inputLineNumber);
+      
       // register this voice as the part harmonies supplier voice
       setPartHarmoniesSupplierVoice (
         inputLineNumber,

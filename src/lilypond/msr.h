@@ -9218,7 +9218,8 @@ class EXP msrPart : public msrElement
 
     // harmony staff and voice
     
-    void                  createPartHarmonyStaffAndVoice ();
+    void                  createPartHarmonyStaffAndVoiceIfNotYetDone (
+                            int inputLineNumber);
         
     // measures
     

@@ -945,6 +945,11 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       
     case msrVoice::kHarmonyVoice:
       {
+        // create the harmony staff and voice if not yet done
+        fCurrentPartClone->
+          createPartHarmonyStaffAndVoiceIfNotYetDone (
+            inputLineNumber);
+          
         // fetch harmony voice
         fCurrentVoiceClone =
           fCurrentPartClone->
@@ -957,7 +962,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           ) {          
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
-            appendVoiceToScoreElements (fCurrentVoiceClone);
+            appendVoiceToScoreElements (
+              fCurrentVoiceClone);
       
           // create a ChordNames context command
           string voiceName =
