@@ -678,7 +678,7 @@ template <typename T> class EXP msrBrowser : public browser<T>
 \brief A beat description for MusicXML.
 */
 //______________________________________________________________________________
-class msrBeatData // JMI ???
+class msrPolyphony : public smartable
 {
   public:
   
@@ -688,9 +688,12 @@ class msrBeatData // JMI ???
     virtual void          print (ostream& os);
  
   public:
-  
-    string fBeatUnit;
-    int    fDots;
+
+    // what happens every measure
+    list<string>          fPolyphonyMeasureActivities;
+
+    // what happens to the voices
+    list<S_msrVoice>      fPolyphonyVoiceActivities;
 };
 
 /*!

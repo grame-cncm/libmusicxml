@@ -2906,10 +2906,11 @@ void msrElement::print (ostream& os)
 
 
 //______________________________________________________________________________
-void msrBeatData::print (ostream& os)
+void msrPolyphony::print (ostream& os)
 {
   const int fieldWidth = 9;
 
+/* JMI
   os << left <<
     idtr <<
       setw(fieldWidth) <<
@@ -2919,6 +2920,7 @@ void msrBeatData::print (ostream& os)
       setw(fieldWidth) <<
       "fDots" << " = " << fDots <<
       endl;
+      */
 };
 
 //______________________________________________________________________________
