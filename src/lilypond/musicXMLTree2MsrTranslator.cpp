@@ -9929,7 +9929,10 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet& elt )
   string tupletShowNumber =
     elt->getAttributeValue("show-number");
 
-  msrTuplet::msrTupletShowNumberKind tupletShowNumberKind; // JMI use it
+  msrTuplet::msrTupletShowNumberKind
+    tupletShowNumberKind =
+      msrTuplet::kTupletShowNumberNo; // default value
+      // JMI use it
   
   if      (tupletShowNumber == "yes") {
     tupletShowNumberKind = msrTuplet::kTupletShowNumberYes;
@@ -9940,11 +9943,11 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet& elt )
   }
 
   else {
- // JMI   if (restMeasure.size ())
+    if (tupletShowNumber.size ())
       msrMusicXMLError (
         elt->getInputLineNumber (),
           "unknown tuplet show number \"" + tupletShowNumber + "\"");
-  }  
+  }
 
   string tupletShowType =
     elt->getAttributeValue("show-type");
@@ -9960,7 +9963,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet& elt )
   }
 
   else {
-// JMI    if (restMeasure.size ())
+    if (tupletShowType.size ())
       msrMusicXMLError (
         elt->getInputLineNumber (),
           "unknown tuplet show type \"" + tupletShowType + "\"");

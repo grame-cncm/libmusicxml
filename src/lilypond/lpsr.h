@@ -1569,6 +1569,7 @@ class EXP lpsrHeader : public lpsrElement
     // centered at the bottom of the first page
     string                getLilypondCopyright () const
                               { return fLilypondCopyright; }
+                              
     void                  setLilypondCopyright (
                             string lilypondCopyright)
                               {
@@ -1578,6 +1579,7 @@ class EXP lpsrHeader : public lpsrElement
     // centered at the bottom of the last page
     string                getLilypondTagline () const
                               { return fLilypondTagline; }
+                              
     void                  setLilypondTagline (
                             string lilypondTagline)
                               {
@@ -1617,21 +1619,32 @@ class EXP lpsrHeader : public lpsrElement
 
     // MusicXML informations
     
-    S_lpsrLilypondVarValAssoc         fWorkNumber;
-    S_lpsrLilypondVarValAssoc         fWorkTitle;
-    S_lpsrLilypondVarValAssoc         fMovementNumber;
-    S_lpsrLilypondVarValAssoc         fMovementTitle;
+    S_lpsrLilypondVarValAssoc
+                          fWorkNumber;
+    S_lpsrLilypondVarValAssoc
+                          fWorkTitle;
+    S_lpsrLilypondVarValAssoc
+                          fMovementNumber;
+    S_lpsrLilypondVarValAssoc
+                          fMovementTitle;
     
-    vector<S_lpsrLilypondVarValAssoc> fComposers;
-    vector<S_lpsrLilypondVarValAssoc> fArrangers;
-    vector<S_lpsrLilypondVarValAssoc> fLyricists;
-    S_lpsrLilypondVarValAssoc         fRights;
+    vector<S_lpsrLilypondVarValAssoc>
+                          fComposers;
+    vector<S_lpsrLilypondVarValAssoc>
+                          fArrangers;
+    vector<S_lpsrLilypondVarValAssoc>
+                          fLyricists;
+    S_lpsrLilypondVarValAssoc
+                          fRights;
     
-    vector<S_lpsrLilypondVarValAssoc> fSoftwares;
+    vector<S_lpsrLilypondVarValAssoc>
+                          fSoftwares;
     
-    S_lpsrLilypondVarValAssoc         fEncodingDate;
+    S_lpsrLilypondVarValAssoc
+                          fEncodingDate;
     
-    S_lpsrLilypondVarValAssoc         fScoreInstrument;
+    S_lpsrLilypondVarValAssoc
+                          fScoreInstrument;
 
     // Lilypond informations
 
