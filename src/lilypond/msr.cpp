@@ -15381,6 +15381,339 @@ void msrHarmony::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrFiguredBass msrFiguredBass::create (
+  int                  inputLineNumber,
+  S_msrPart            figuredBassDirectPartUplink,
+  msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
+  msrFiguredBassKind       figuredBassKind,
+  string               figuredBassKindText,
+  msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
+  rational             figuredBassSoundingWholeNotes)
+{
+  msrFiguredBass* o =
+    new msrFiguredBass (
+      inputLineNumber,
+      figuredBassDirectPartUplink,
+      figuredBassRootQuarterTonesPitch,
+      figuredBassKind, figuredBassKindText,
+      figuredBassBassQuarterTonesPitch,
+      figuredBassSoundingWholeNotes);
+  assert(o!=0);
+
+  return o;
+}
+
+msrFiguredBass::msrFiguredBass (
+  int                  inputLineNumber,
+  S_msrPart            figuredBassDirectPartUplink,
+  msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
+  msrFiguredBassKind       figuredBassKind,
+  string               figuredBassKindText,
+  msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
+  rational             figuredBassSoundingWholeNotes)
+    : msrElement (inputLineNumber)
+{
+  // set figuredBass's direct part uplink
+  msrAssert(
+    figuredBassDirectPartUplink != 0,
+     "figuredBassDirectPartUplink is null");
+     
+  fFiguredBassDirectPartUplink =
+    figuredBassDirectPartUplink;
+    
+  fFiguredBassRootQuarterTonesPitch = figuredBassRootQuarterTonesPitch;
+ 
+  fFiguredBassKind     = figuredBassKind;
+  fFiguredBassKindText = figuredBassKindText;
+ 
+  fFiguredBassBassQuarterTonesPitch = figuredBassBassQuarterTonesPitch;
+ 
+  fFiguredBassSoundingWholeNotes = figuredBassSoundingWholeNotes;
+
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "Creating figuredBass '" <<
+      figuredBassAsString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrFiguredBass::~msrFiguredBass()
+{}
+
+S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "Creating a newborn clone of figuredBass '" <<
+      figuredBassKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrFiguredBass
+    newbornClone =
+      msrFiguredBass::create (
+        fInputLineNumber,
+        containingPart,
+        fFiguredBassRootQuarterTonesPitch,
+        fFiguredBassKind, fFiguredBassKindText,
+        fFiguredBassBassQuarterTonesPitch,
+        fFiguredBassSoundingWholeNotes);
+
+  newbornClone->fFiguredBassSoundingWholeNotes =
+    fFiguredBassSoundingWholeNotes;
+        
+  return newbornClone;
+}
+
+S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "Creating a deep copy of figuredBass '" <<
+      figuredBassKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrFiguredBass
+    figuredBassDeepCopy =
+      msrFiguredBass::create (
+        fInputLineNumber,
+        containingPart,
+        fFiguredBassRootQuarterTonesPitch,
+        fFiguredBassKind, fFiguredBassKindText,
+        fFiguredBassBassQuarterTonesPitch,
+        fFiguredBassSoundingWholeNotes);
+
+  figuredBassDeepCopy->fFiguredBassSoundingWholeNotes =
+    fFiguredBassSoundingWholeNotes;
+        
+  return figuredBassDeepCopy;
+}
+
+string msrFiguredBass::figuredBassKindAsString (
+  msrFiguredBassKind figuredBassKind)
+{
+  string result;
+  
+  switch (figuredBassKind) {
+    case msrFiguredBass::kMajor:
+      result = "Major";
+      break;
+    case msrFiguredBass::kMinor:
+      result = "Minor";
+      break;
+    case msrFiguredBass::kDominant:
+      result = "Dominant";
+      break;
+    case msrFiguredBass::kAugmented:
+      result = "Augmented";
+      break;
+    case msrFiguredBass::kDiminished:
+      result = "Diminished";
+      break;
+    case msrFiguredBass::kSuspendedFourth:
+      result = "SuspendedFourth";
+      break;
+    case msrFiguredBass::kMajorSeventh:
+      result = "MajorSeventh";
+      break;
+    case msrFiguredBass::kMinorSeventh:
+      result = "MinorSeventh";
+      break;
+    case msrFiguredBass::kMajorNinth:
+      result = "MajorNinth";
+      break;
+    case msrFiguredBass::kMinorNinth:
+      result = "MinorNinth";
+      break;
+    case msrFiguredBass::k_NoFiguredBass:
+      result = "FiguredBass???";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrFiguredBass::figuredBassKindAsShortString () const
+{
+  string result;
+  
+  switch (fFiguredBassKind) {
+    case msrFiguredBass::kMajor:
+      break;
+    case msrFiguredBass::kMinor:
+      result = "m";
+      break;
+    case msrFiguredBass::kDominant:
+      result = "7";
+      break;
+    case msrFiguredBass::kAugmented:
+      result = "+";
+      break;
+    case msrFiguredBass::kDiminished:
+      result = "dim";
+      break;
+    case msrFiguredBass::kSuspendedFourth:
+      result = "sus4";
+      break;
+    case msrFiguredBass::kMajorSeventh:
+      result = "∆7";
+      break;
+    case msrFiguredBass::kMinorSeventh:
+      result = "m7";
+      break;
+    case msrFiguredBass::kMajorNinth:
+      result = "9";
+      break;
+    case msrFiguredBass::kMinorNinth:
+      result = "-9";
+      break;
+    case msrFiguredBass::k_NoFiguredBass:
+      result = "FiguredBass???";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrFiguredBass::figuredBassAsString () const
+{
+  stringstream s;
+
+  s <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fFiguredBassRootQuarterTonesPitch) <<          
+    figuredBassKindAsShortString ();
+
+  if (fFiguredBassDirectPartUplink) // JMI ???
+    s <<
+      ":" <<
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fFiguredBassSoundingWholeNotes);
+
+  if (fFiguredBassKindText.size ())
+    s <<
+      " (" <<fFiguredBassKindText << ") ";
+
+  if (fFiguredBassBassQuarterTonesPitch != k_NoQuarterTonesPitch)
+    s <<
+      "/" <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fFiguredBassBassQuarterTonesPitch);    
+
+  return s.str();
+}
+
+void msrFiguredBass::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFiguredBass::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrFiguredBass>*
+    p =
+      dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
+        S_msrFiguredBass elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFiguredBass::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrFiguredBass::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFiguredBass::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrFiguredBass>*
+    p =
+      dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
+        S_msrFiguredBass elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFiguredBass::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrFiguredBass::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrFiguredBass& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrFiguredBass::print (ostream& os)
+{  
+  os <<
+    "FiguredBass" <<
+    ", " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fFiguredBassSoundingWholeNotes) <<
+    " (" << fFiguredBassSoundingWholeNotes << " sounding whole notes)" <<
+     ", line " << fInputLineNumber <<
+    endl;
+    
+  idtr++;
+
+  const int fieldWidth = 15;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "FiguredBassRoot" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fFiguredBassRootQuarterTonesPitch) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "FiguredBassKind" << " = " <<
+      figuredBassKindAsString (fFiguredBassKind) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "FiguredBassKindText" << " = " <<
+      fFiguredBassKindText <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "FiguredBassBass" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fFiguredBassBassQuarterTonesPitch) <<
+      endl;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrSegno msrSegno::create (
   int                       inputLineNumber)
 {
@@ -16815,7 +17148,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // register note measure position in measure
   rational
     noteMeasurePosition =
-      fMeasureLength; // for harmony voice
+      fMeasureLength; // for figuredBass voice
   
   note->
     setNotePositionInMeasure (
@@ -16848,25 +17181,25 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // if it happens to be the first note of a chord
   fMeasureElementsList.push_back (note);
 
-  // fetch part harmony voice
+  // fetch part figuredBass voice
   S_msrVoice
     partHarmonyVoice =
       fMeasureDirectPartUplink->
         getPartHarmonyVoice ();
 
-  // fetch part harmony supplier voice
+  // fetch part figuredBass supplier voice
   S_msrVoice
     partHarmoniesSupplierVoice =
       fMeasureDirectPartUplink->
         getPartHarmoniesSupplierVoice ();
 
-  // fetch note harmony
+  // fetch note figuredBass
   S_msrHarmony
     noteHarmony =
       note->getNoteHarmony ();
       
-  // don't handle the note harmony here,
-  // this has been done after harmony::create ()
+  // don't handle the note figuredBass here,
+  // this has been done after figuredBass::create ()
   if (! noteHarmony) {
     if (partHarmoniesSupplierVoice) {
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
@@ -16881,7 +17214,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           endl;
 
 /* JMI
-      // bring harmony voice to the same measure length
+      // bring figuredBass voice to the same measure length
       partHarmonyVoice->
         bringVoiceToMeasureLength (
           inputLineNumber,
@@ -16907,7 +17240,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               partHarmonyVoice->
                 getVoicePartRelativeID ());
   
-        // append the skip to the part harmony voice
+        // append the skip to the part figuredBass voice
         if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
           cerr << idtr <<
             "Appending skip '" << skipNote->noteAsShortString () <<

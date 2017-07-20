@@ -4291,6 +4291,132 @@ typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 
 /*!
+/*!
+\brief A msr harmony representation.
+
+  A harmony is represented by a list of syllables,
+*/
+//______________________________________________________________________________
+class EXP msrFiguredBass : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrFiguredBassKind {
+      k_NoFiguredBass,
+      kMajor, kMinor, kDominant,
+      kAugmented, kDiminished,
+      kSuspendedFourth,
+      kMajorSeventh,kMinorSeventh,
+      kMajorNinth, kMinorNinth};
+
+    static string figuredBassKindAsString (
+      msrFiguredBassKind figuredBassKind);
+      
+    enum msrFiguredBassDegreeTypeKind {
+      kAdd, kAlter, kSubstract};
+
+    static string figuredBassDegreeTypeKindAsString (
+      msrFiguredBassDegreeTypeKind figuredBassDegreeTypeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFiguredBass> create (
+      int                  inputLineNumber,
+      S_msrPart            figuredBassDirectPartUplink,
+      msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
+      msrFiguredBassKind       figuredBassKind,
+      string               figuredBassKindText,
+      msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
+      rational             figuredBassSoundingWholeNotes);
+    
+    SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
+      S_msrPart containingPart);
+
+    SMARTP<msrFiguredBass> createFiguredBassDeepCopy ( // JMI ???
+      S_msrPart containingPart);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFiguredBass (
+      int                  inputLineNumber,
+      S_msrPart            figuredBassDirectPartUplink,
+      msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
+      msrFiguredBassKind       figuredBassKind,
+      string               figuredBassKindText,
+      msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
+      rational             figuredBassSoundingWholeNotes);
+
+    virtual ~msrFiguredBass();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    rational              getFiguredBassSoundingWholeNotes () const
+                              { return fFiguredBassSoundingWholeNotes; }
+
+    msrQuarterTonesPitch  getFiguredBassRootQuarterTonesPitch () const
+                              { return fFiguredBassRootQuarterTonesPitch; }
+                                
+    msrFiguredBassKind        getFiguredBassKind () const
+                              { return fFiguredBassKind; }
+                
+    string                getFiguredBassKindText () const
+                              { return fFiguredBassKindText; }
+                
+    msrQuarterTonesPitch  getFiguredBassBassQuarterTonesPitch () const
+                              { return fFiguredBassBassQuarterTonesPitch; }                                              
+    // uplinks
+    S_msrPart             getFiguredBassDirectPartUplink () const
+                             { return fFiguredBassDirectPartUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                figuredBassKindAsString () const;
+    string                figuredBassKindAsShortString () const;
+    
+    string                figuredBassAsString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    rational              fFiguredBassSoundingWholeNotes;
+    
+    msrQuarterTonesPitch  fFiguredBassRootQuarterTonesPitch;
+
+    msrFiguredBassKind        fFiguredBassKind;
+    string                fFiguredBassKindText;
+
+    msrQuarterTonesPitch  fFiguredBassBassQuarterTonesPitch;
+
+    // uplinks
+    S_msrPart             fFiguredBassDirectPartUplink;
+};
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
+
+/*!
 \brief A msr note representation.
 
   A note is represented by its name, optional accidentals,
