@@ -12145,7 +12145,7 @@ void mxmltree2MsrTranslator::handleLyric (
             inputLineNumber,
             fCurrentStanzaNumber);
 
- // JMI    if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
+ // JMI   if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
     if (fOnGoingSyllableExtend) {
       // newNote has no lyrics, and inside a melisma
       
