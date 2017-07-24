@@ -5158,7 +5158,6 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
         endl;
 
-
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
    // create a syllable
    //     fCurrentLyricElision ??? JMI
@@ -5217,12 +5216,14 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       */
       
     // append syllable to current note's syllables list
-  //JMI  fCurrentNoteSyllables.push_back (
-   //   syllable);
+    fCurrentNoteSyllables.push_back (
+      syllable);
 
+/* JMI
     // append syllable to stanza
     stanza->
       appendSyllableToStanza (syllable);
+      */
   }
 
   fOnGoingLyric = false;

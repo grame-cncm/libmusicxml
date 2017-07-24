@@ -8615,15 +8615,22 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteSyllables.end(),
       i      = iBegin;
     for ( ; ; ) {
+      S_msrSyllable
+        syllable = (*i);
+        
       os <<
         idtr;
 
       msrSyllable::writeTextsList (
-        (*i)->getSyllableTextsList (),
+        syllable->getSyllableTextsList (),
         os);
 
       os <<
-        ", line " << (*i)->getInputLineNumber ();
+        ", line " << syllable->getInputLineNumber () <<
+        ", noteUpLink: " <<
+        syllable->
+          getSyllableNoteUplink ()->
+            noteAsShortString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
