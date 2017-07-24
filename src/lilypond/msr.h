@@ -697,6 +697,31 @@ class msrPolyphony : public smartable
 };
 
 /*!
+\brief A beat description for MusicXML.
+*/
+//______________________________________________________________________________
+class msrBeatData // JMI ???
+{
+  public:
+  
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+ 
+  public:
+  
+    string fBeatUnit;
+    int    fDots;
+};
+
+/*!
+\brief A msr stem representation.
+
+  A beam is represented by a msrBeamKind value
+*/
+
+/*!
 \brief A msr stem representation.
 
   A beam is represented by a msrBeamKind value

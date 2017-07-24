@@ -2924,6 +2924,22 @@ void msrPolyphony::print (ostream& os)
 };
 
 //______________________________________________________________________________
+void msrBeatData::print (ostream& os)
+{
+  const int fieldWidth = 9;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fBeatUnit" << " = " << fBeatUnit <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fDots" << " = " << fDots <<
+      endl;
+};
+
+//______________________________________________________________________________
 S_msrOctaveShift msrOctaveShift::create (
   int                inputLineNumber,
   msrOctaveShiftKind octaveShiftKind,
