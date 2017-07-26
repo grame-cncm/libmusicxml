@@ -612,7 +612,7 @@ namespace MusicXML2
             }
             
             
-            xml2guidovisitor::addPosY(elt, tag, 12, -1);    //addPosition(elt, tag, 18);
+            xml2guidovisitor::addPosY(elt, tag, 12, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
             if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
             else add (tag);
         }
@@ -1618,19 +1618,40 @@ namespace MusicXML2
             Sguidoelement tag;
             tag = guidotag::create("trill");
             
-            // If there's a wavy-line AND the Trill is TIED, then add "<repeat="false">" attribute
+            // parse accidental-mark as it'll be used by all
+            string accidentalMark="";
+            if (nv.fAccidentalMark)
+                accidentalMark = nv.fAccidentalMark->getValue();
+            string guidoAccident="";
+            if (accidentalMark=="sharp")
+            {
+                guidoAccident = "#";
+            }
+            if (accidentalMark=="flat")
+            {
+                guidoAccident = "&";
+            }
+            
+            // Generate ornament note ONLY if there is an AccidentalMark in MusicXML
+            if (nv.fAccidentalMark) {
+                string stepString = nv.getStep();
+                int stepi = ( stepString == "B" ? notevisitor::C :  step2i(stepString) + 1);
+                string newName = i2step(stepi);
+                if (!newName.empty()) newName[0]=tolower(newName[0]);
+
+                stringstream s;
+                s << newName << guidoAccident;
+                
+                tag->add (guidoparam::create(s.str(), true));
+            }
+            
+            // Check for continuous Trills
             if (nv.getWavylines().size()>0)
             {
                 std::vector<S_wavy_line>::const_iterator i;
                 for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
                     if ((*i)->getAttributeValue("type") == "start") {
                         fWavyTrillOpened = true;
-                        
-                        if (nv.getTied().size()>0) {
-                            stringstream s;
-                            s << "repeat=\"false\"";
-                            tag->add (guidoparam::create(s.str(), false));
-                        }
                     }
                 }
                 
@@ -1668,16 +1689,30 @@ namespace MusicXML2
     {
         // We can visit mordent, tremolo, trill, turn, inverted-turn, vertical-turn, and accidental-mark
         // See http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-ornaments.htm
-        /// NOTE: In Guido, the following ornaments accept CHORD as input: mord, turn
-        ///         On the contrary, trem accept note list (to be moved to Articulation??)
-        /// TRILL is now dealt with separately since they can have SCOPE
+        /// NOTE: GUIDO 1.6.4+ was upgraded, removing Chord construction by default for ornaments (and thus allowing using ornaments on chords!)
+        ///         This implementation complies to GuidoLib 1.6.4 onwards. -- Arshia Cont
         
         int n = 0;
         Sguidoelement tag;
         
-        // Inversed mordent in Guido is mordent with inversed chord structure. See generateOrnaments.
+        // Inversed mordent in Guido is mordent with inversed chord structure.
         if (note.fMordent || note.fInvertedMordent) {
             tag = guidotag::create("mord");
+            
+            // if mordent, then we need to add "inverted" parameter with the "correct" pitch!
+            if (note.fMordent) {
+                // Calculating the ornament note to add requires knowing the KEY! CHEAT: put "-"
+                string stepString = note.getStep();
+                 int stepi = ( step2i(stepString) == 0 ? notevisitor::B :  step2i(stepString) - 1);
+                 string newName = i2step(stepi);
+                 
+                if (!newName.empty()) {
+                    newName[0]=tolower(newName[0]);
+                }
+                tag->add (guidoparam::create("-", true));
+                tag->add (guidoparam::create("inverted", true));
+            }
+            
             //if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fMordent, tag);
             push(tag);
             n++;
@@ -1685,75 +1720,22 @@ namespace MusicXML2
         
         if (note.fTurn || note.fInvertedTurn) {
             tag = guidotag::create("turn");
+            
+            if (note.fInvertedTurn) {
+                tag->add (guidoparam::create("type=\"inverted\"", false));
+            }
+            
             //if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fInvertedMordent, tag);
             push(tag);
             n++;
         }
         
+        if (note.fTrill) {
+            tag = guidotag::create("trill");
+            
+        }
+        
         return n;
-    }
-    
-    /// generates ornaments for Guido from XML accidental-mark
-    void xmlpart2guido::generateOrnaments(const notevisitor& note)
-    {
-        notevisitor baseNote = note;
-        
-        // parse accidental-mark as it'll be used by all
-        string accidentalMark="";
-        if (note.fAccidentalMark)
-            accidentalMark = note.fAccidentalMark->getValue();
-        string guidoAccident="";
-        if (accidentalMark=="sharp")
-        {
-            guidoAccident = "#";
-        }
-        if (accidentalMark=="flat")
-        {
-            guidoAccident = "&";
-        }
-        guidonoteduration dur = noteDuration(note);
-        int octave = note.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
-        
-        
-        // In case of a TRILL, generate ornament ONLY if there is an accidental-mark
-        if ( note.fTrill && note.fAccidentalMark) {
-            string stepString = note.getStep();
-            int stepi = ( stepString == "B" ? notevisitor::C :  step2i(stepString) + 1);
-            string newName = i2step(stepi);
-            
-            if (!newName.empty()) newName[0]=tolower(newName[0]);
-            
-            Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
-            add (note2add);
-        }
-        
-        // Nothing to do for regular mordent. For inverse mordent, don't add anything either since otherwise you need to consider the KEY and the corresponding step to add.
-        // This seems to be sufficient for visualisations.
-        if (note.fInvertedMordent) {
-            /*string stepString = note.getStep();
-             int stepi = ( step2i(stepString) == 0 ? notevisitor::B :  step2i(stepString) - 1);
-             string newName = i2step(stepi);
-             
-             if (!newName.empty()) newName[0]=tolower(newName[0]);
-             
-             Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
-             add (note2add);*/
-        }
-        
-        // Nothing to do for regular turn. For inverse turn, add step-1 and step
-        if (note.fInvertedTurn) {
-            string originalName = note.getStep();
-            int stepi = step2i(originalName) - 1;
-            string newName = i2step(stepi);
-            
-            if (!newName.empty()) newName[0]=tolower(newName[0]);
-            
-            Sguidoelement note2add = guidonote::create(fTargetVoice, newName, octave, dur, guidoAccident);
-            add (note2add);
-            
-            note2add = guidonote::create(fTargetVoice, originalName, octave, dur, alter2accident(note.getAlter()));
-            add (note2add);
-        }
     }
     
     //______________________________________________________________________________
@@ -1928,9 +1910,9 @@ namespace MusicXML2
         bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
-        if (nv.fNotehead ||
-            ( (timePos4measure != timePositions.end()) )              // if we need to infer default-x
-            )
+        if ( nv.fNotehead
+             //|| ((timePos4measure != timePositions.end()) )              // if we need to infer default-x
+            &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
@@ -2123,7 +2105,7 @@ namespace MusicXML2
         checkTiedBegin((*this).getTied());
         
         vector<Sxmlelement> chord = getChord(elt);
-        if (chord.size() || (chordOrnaments>0) || fWavyTrillOpened || fSingleScopeTrill)     // also enforce chord creation in case of Guido Ornaments Trill, Turn and Mord
+        if (chord.size())
         {
             Sguidoelement chord = guidochord::create();
             pendingPops += checkNoteFormatDx(*this, thisNoteHeadPosition);
@@ -2145,11 +2127,6 @@ namespace MusicXML2
         }
         
         checkTiedEnd((*this).getTied());
-
-        // generate Guido Ornaments in case of checkChordOrnaments
-        if (chordOrnaments>0 || fWavyTrillOpened || fSingleScopeTrill ) {
-            generateOrnaments(*this);
-        }
         isProcessingChord = false;
         
         while (pendingPops--) pop();
