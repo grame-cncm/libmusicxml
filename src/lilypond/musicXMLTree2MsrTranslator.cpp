@@ -4943,7 +4943,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     {
       idtr++;
 
-      const int fieldwidth = 26;
+      const int fieldwidth = 28;
   
       cerr <<
         idtr <<
@@ -5027,7 +5027,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fFirstSyllableInSlurKind" << " = \"" <<
-          fFirstSyllableInSlurKind << // JMI->syllableKindAsString () <<
+          msrSyllable::syllableKindAsString (fFirstSyllableInSlurKind) <<
           "\"" <<
       endl;
   
@@ -5035,7 +5035,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fFirstSyllableInLigatureKind" << " = \"" <<
-          fFirstSyllableInLigatureKind << // JMI->syllableKindAsString () <<
+          msrSyllable::syllableKindAsString (fFirstSyllableInLigatureKind) <<
           "\"" <<
       endl;
   
@@ -5043,7 +5043,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fCurrentSyllableKind" << " = \""<<
-          fCurrentSyllableKind << // JMI ->syllableKindAsString () <<
+          msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
           "\"" <<
       endl;
           

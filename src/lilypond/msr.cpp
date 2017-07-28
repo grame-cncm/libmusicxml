@@ -19480,6 +19480,17 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
 {
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+      cerr <<
+        idtr <<
+          "Appending a new measure '" << measureNumber <<
+          "' to segment '" << segmentAsString () << "'" <<
+          "' in voice \"" <<
+          fSegmentVoiceUplink->getVoiceName () <<
+          "\"," <<
+          ", line " << inputLineNumber <<
+        endl;
+
     S_msrMeasure
       newMeasure =
         msrMeasure::create (
@@ -22355,13 +22366,6 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   int inputLineNumber,
   int stanzaNumber)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
-    cerr << idtr <<
-      "### % --> createStanzaInVoiceIfNotYetDone (" << inputLineNumber <<
-      ", " << stanzaNumber << ")" <<
-      ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
-      endl;
-
   S_msrStanza stanza;
 
   // is stanzaNumber already known in voice?
@@ -22371,7 +22375,15 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   }
   
   else {
-    // no, add it to the voice
+    // no, create it and add it to the voice
+    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
+      cerr << idtr <<
+        "Creating stanza " << stanzaNumber <<
+        " in voice \"" << getVoiceName () << "\"" <<
+        ", line " << inputLineNumber <<
+        ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
+        endl;
+
     stanza =
       addStanzaToVoiceByItsNumber (
         inputLineNumber, stanzaNumber);
