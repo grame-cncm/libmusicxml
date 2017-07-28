@@ -4962,12 +4962,13 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
           endl <<
         idtr <<
           setw(fieldwidth) <<
-          "fCurrentLyricElision" << " = " << fCurrentLyricElision <<
+          "fCurrentLyricElision" << " = " <<
+          booleanAsString (fCurrentLyricElision) <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
           "fCurrentSyllableExtendKind" << " = " <<
-          fCurrentSyllableExtendKind <<
+          msrSyllable::syllableExtendKindAsString (fCurrentSyllableExtendKind) <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
@@ -4983,8 +4984,9 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       cerr <<
         idtr <<
           setw(fieldwidth) <<
-          "fCurrentTieKind" << " = " <<
+          "fCurrentTieKind" << " = \"" <<
           msrTie::tieKindAsString (fCurrentTieKind) <<
+          "\"" <<
         endl;
           
       cerr <<
@@ -5006,21 +5008,25 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       cerr <<
         idtr <<
           setw(fieldwidth) <<
-          "fOnGoingSlur" << " = " << fOnGoingSlur <<
+          "fOnGoingSlur" << " = " <<
+          booleanAsString (fOnGoingSlur) <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
-          "fOnGoingSlurHasStanza" << " = " << fOnGoingSlurHasStanza <<
+          "fOnGoingSlurHasStanza" << " = " <<
+          booleanAsString (fOnGoingSlurHasStanza) <<
           endl;
   
       cerr <<
         idtr <<
           setw(fieldwidth) <<
-          "fOnGoingLigature" << " = " << fOnGoingLigature <<
+          "fOnGoingLigature" << " = " <<
+          booleanAsString (fOnGoingLigature) <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
-          "fOnGoingLigatureHasStanza" << " = " << fOnGoingLigatureHasStanza <<
+          "fOnGoingLigatureHasStanza" << " = " <<
+          booleanAsString (fOnGoingLigatureHasStanza) <<
           endl;
   
       cerr <<
@@ -5164,7 +5170,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     if (gGeneralOptions->fTraceLyrics) {      
       cerr <<
         idtr <<
-        "--> creating a " <<
+        "Creating a \"" <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
         " syllable"
         ", text = \"";
@@ -5181,9 +5187,11 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         " sounding, " <<
          fCurrentNoteDisplayWholeNotes << 
         ", display" <<
-        ", syllabic = \"" << fCurrentSyllableKind << "\"" <<
-        ", elision: " << fCurrentLyricElision << 
-        " in stanza " << stanza->getStanzaName () <<
+        ", syllabic = \"" <<
+        msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
+        ", elision: " <<
+        booleanAsString (fCurrentLyricElision) << 
+        ", in stanza " << stanza->getStanzaName () <<
         endl;
     }
     

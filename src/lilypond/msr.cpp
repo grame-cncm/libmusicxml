@@ -7619,9 +7619,9 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
   if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "Appending syllable " <<
+      "Appending syllable '" <<
       syllable->syllableAsString () <<
-      " to note " << noteAsString () <<
+      "' to note " << noteAsString () <<
       endl;
 
   fNoteSyllables.push_back (syllable);
@@ -14582,9 +14582,9 @@ void msrStanza::appendSyllableToStanza (
   if (gGeneralOptions->fTraceLyrics)
     cerr <<
       idtr <<
-        "% Appending syllable " << syllable->syllableAsString () <<
+        "Appending syllable '" << syllable->syllableAsString () <<
       idtr <<
-        "to stanza" << getStanzaName () <<
+        "' to stanza " << getStanzaName () <<
       endl;
       
   // append the syllable to this stanza
@@ -14630,9 +14630,10 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending 'Rest' syllable" <<
+      "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14660,9 +14661,10 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending 'Skip' syllable, " <<
+      "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14692,9 +14694,12 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending 'Melisma' syllable, " <<
+      "Appending '" <<
+      msrSyllable::syllableKindAsString (syllableKind) <<
+      "' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14722,9 +14727,10 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending 'Tied' syllable" <<
+      "Appending 'Tied' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14752,9 +14758,10 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending 'Slur' syllable:" <<
+      "Appending 'Slur' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14782,9 +14789,10 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending a 'SlurBeyondEnd' syllable" <<
+      "Appending a 'SlurBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14812,9 +14820,10 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending 'Ligature' syllable:" <<
+      "Appending 'Ligature' syllable:" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14842,9 +14851,10 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending a 'LigatureBeyondEnd' syllable" <<
+      "Appending a 'LigatureBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -14872,8 +14882,10 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending a 'barcheck' syllable" <<
-      " to stanza " << getStanzaName () << endl;
+      "Appending a 'barcheck' syllable" <<
+      " to stanza " << getStanzaName () <<
+      ", line " << inputLineNumber <<
+      endl;
   }
 
   // create stanza break syllable
@@ -14901,8 +14913,10 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending a 'bar number check' syllable" <<
-      " to stanza " << getStanzaName () << endl;
+      "Appending a 'bar number check' syllable" <<
+      " to stanza " << getStanzaName () <<
+      ", line " << inputLineNumber <<
+      endl;
   }
 
   // create stanza break syllable        
@@ -14930,8 +14944,10 @@ S_msrSyllable msrStanza::appendBreakSyllableToStanza (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "% Appending a 'Break' syllable" <<
-      " to stanza " << getStanzaName () << endl;
+      "Appending a 'Break' syllable" <<
+      " to stanza " << getStanzaName () <<
+      ", line " << inputLineNumber <<
+      endl;
   }
   
   // create stanza break syllable
