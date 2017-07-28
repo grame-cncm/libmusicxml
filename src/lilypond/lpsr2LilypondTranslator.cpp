@@ -3635,7 +3635,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
         
       idtr++;
       
-      fOstream << idtr;
+      fOstream << idtr; // JMI
       
       fStanzaOlec.resetToZero ();
     }
@@ -3656,6 +3656,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
       idtr--;
     
       fOstream <<
+        endl <<
         idtr << "}" <<
         endl <<
         endl;

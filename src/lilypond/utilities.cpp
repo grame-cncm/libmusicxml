@@ -791,6 +791,37 @@ string quoteStringIfNonAlpha (
 }
 
 //______________________________________________________________________________
+string quoteString (
+  string theString)
+{
+  string result;
+    
+  for (
+    string::const_iterator i = theString.begin ();
+    i != theString.end ();
+    i++) {
+
+    if (
+      ((*i) >= 'a' && (*i) <= 'z')
+        ||
+      ((*i) >= 'A' && (*i) <= 'Z')) {
+      // (*i) is a letter
+      result += (*i);
+    }
+
+    else {
+      // (*i) is not a letter
+      if ((*i) == ' ')
+        result += " "; // TEMP JMI
+      else
+        result += (*i);
+    }
+  } // for
+
+  return "\"" + result + "\"";
+}
+
+//______________________________________________________________________________
 string booleanAsString (bool value)
 {
   return

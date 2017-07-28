@@ -354,6 +354,9 @@ pair<string, string> extractNamesPairFromString (
 string quoteStringIfNonAlpha (
   string theString);
 
+string quoteString (
+  string theString);
+
 //______________________________________________________________________________
 string booleanAsString (bool value);
 

@@ -964,6 +964,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     int                       fCurrentStanzaNumber;
     bool                      fCurrentNoteHasStanza;
+    bool                      fCurrentNoteHasLyrics;
     bool                      fCurrentStanzaHasText;
 
     list<S_msrSyllable>       fCurrentNoteSyllables;

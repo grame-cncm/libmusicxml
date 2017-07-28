@@ -677,7 +677,8 @@ void writeTextsListAsLilypondString (
   }
 
   os <<
-    quoteStringIfNonAlpha (
+  // JMI  quoteStringIfNonAlpha (
+    quoteString (
       contents);
 } 
 

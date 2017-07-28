@@ -5231,17 +5231,18 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable->
       setSyllableDirectPartUplink (
         fCurrentPart);
-      */
       
     // append syllable to current note's syllables list
     fCurrentNoteSyllables.push_back (
       syllable);
+      */
 
-/* JMI
     // append syllable to stanza
     stanza->
       appendSyllableToStanza (syllable);
-      */
+
+    // register current note as having lyrics
+    fCurrentNoteHasLyrics = true;
   }
 
   fOnGoingLyric = false;
@@ -6560,6 +6561,7 @@ void mxmltree2MsrTranslator::visitStart ( S_note& elt )
   
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
+  fCurrentNoteHasLyrics = false;
 
   fCurrentStem = 0;
 
@@ -12091,8 +12093,8 @@ void mxmltree2MsrTranslator::handleLyric (
     newNote->getInputLineNumber ();
 
   bool
-    newNoteHasLyrics =
-      fCurrentNoteSyllables.size () > 0;
+    newNoteHasLyrics = fCurrentNoteHasLyrics; // JMI
+//      fCurrentNoteSyllables.size () > 0;
 
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
