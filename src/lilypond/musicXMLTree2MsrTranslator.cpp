@@ -12217,23 +12217,28 @@ void mxmltree2MsrTranslator::handleLyric (
     else {
       // newNote has no lyrics, and outside of a melisma
 
-      // create a skip syllable
-      S_msrSyllable
-        skipSyllable =
-          msrSyllable::create (
+      // a chord member note is heard on the same syllable
+      // as the previous note
+
+      if (! fCurrentNoteBelongsToAChord) { // JMI
+        // create a skip syllable
+        S_msrSyllable
+          skipSyllable =
+            msrSyllable::create (
+              inputLineNumber,
+              fCurrentPart,
+              msrSyllable::kSkipSyllable,
+              msrSyllable::k_NoSyllableExtend,
+              fCurrentNoteSoundingWholeNotes,
+              stanza);
+            
+        // append syllable to current voice
+        currentVoice->
+          appendSyllableToVoice (
             inputLineNumber,
-            fCurrentPart,
-            msrSyllable::kSkipSyllable,
-            msrSyllable::k_NoSyllableExtend,
-            fCurrentNoteSoundingWholeNotes,
-            stanza);
-          
-      // append syllable to current voice
-      currentVoice->
-        appendSyllableToVoice (
-          inputLineNumber,
-          fCurrentStanzaNumber,
-          skipSyllable);
+            fCurrentStanzaNumber,
+            skipSyllable);
+      }
     }
   }
 
