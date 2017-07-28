@@ -4848,13 +4848,16 @@ void mxmltree2MsrTranslator::visitStart ( S_text& elt )
         "line " << " = " << elt->getInputLineNumber () <<
         endl <<
       idtr <<
+        setw(fieldWidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
       idtr <<
+        setw(fieldWidth) <<
         "fCurrentSyllabic" << " = " << fCurrentSyllabic <<
         endl <<
       idtr <<
-        ", fCurrentLyricTextsList" << " = ";
+        setw(fieldWidth) <<
+        "fCurrentLyricTextsList" << " = ";
 
     msrSyllable::writeTextsList (
       fCurrentLyricTextsList,
@@ -4968,7 +4971,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fCurrentSyllableExtendKind" << " = " <<
-          msrSyllable::syllableExtendKindAsString (fCurrentSyllableExtendKind) <<
+          msrSyllable::syllableExtendKindAsString (
+            fCurrentSyllableExtendKind) <<
           endl <<
         idtr <<
           setw(fieldwidth) <<
@@ -5001,7 +5005,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fCurrentLigatureKind" << " = \"" <<
-          msrLigature::ligatureKindAsString (fCurrentLigatureKind) <<
+          msrLigature::ligatureKindAsString (
+            fCurrentLigatureKind) <<
           "\"" <<
           endl;
   
@@ -5033,7 +5038,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fFirstSyllableInSlurKind" << " = \"" <<
-          msrSyllable::syllableKindAsString (fFirstSyllableInSlurKind) <<
+          msrSyllable::syllableKindAsString (
+            fFirstSyllableInSlurKind) <<
           "\"" <<
       endl;
   
@@ -5041,7 +5047,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fFirstSyllableInLigatureKind" << " = \"" <<
-          msrSyllable::syllableKindAsString (fFirstSyllableInLigatureKind) <<
+          msrSyllable::syllableKindAsString (
+            fFirstSyllableInLigatureKind) <<
           "\"" <<
       endl;
   
@@ -5049,7 +5056,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
         idtr <<
           setw(fieldwidth) <<
           "fCurrentSyllableKind" << " = \""<<
-          msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
+          msrSyllable::syllableKindAsString (
+            fCurrentSyllableKind) <<
           "\"" <<
       endl;
           
@@ -5171,7 +5179,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
       cerr <<
         idtr <<
         "Creating a \"" <<
-        msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
+        msrSyllable::syllableKindAsString (
+          fCurrentSyllableKind) << "\"" <<
         " syllable"
         ", text = \"";
   
@@ -5188,7 +5197,8 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
          fCurrentNoteDisplayWholeNotes << 
         ", display" <<
         ", syllabic = \"" <<
-        msrSyllable::syllableKindAsString (fCurrentSyllableKind) << "\"" <<
+        msrSyllable::syllableKindAsString (
+          fCurrentSyllableKind) << "\"" <<
         ", elision: " <<
         booleanAsString (fCurrentLyricElision) << 
         ", in stanza " << stanza->getStanzaName () <<

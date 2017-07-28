@@ -8626,6 +8626,8 @@ void msrNote::print (ostream& os)
         os);
 
       os <<
+        ", stanza " <<
+        syllable->getSyllableStanzaUplink ()->getStanzaNumber () <<
         ", line " << syllable->getInputLineNumber () <<
         ", noteUpLink: " <<
         syllable->
@@ -14374,6 +14376,10 @@ string msrSyllable::syllableAsString ()
         "syllable type has not been set");
       break;
   } // switch
+
+  s <<
+    ", in stanza " <<
+    fSyllableStanzaUplink->getStanzaName ();
 
   return s.str();
 }
@@ -22387,7 +22393,8 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   // is stanzaNumber already known in voice?
   if (fVoiceStanzasMap.count (stanzaNumber)) {
     // yes, use it
-    stanza = fVoiceStanzasMap [stanzaNumber];
+    stanza =
+      fVoiceStanzasMap [stanzaNumber];
   }
   
   else {

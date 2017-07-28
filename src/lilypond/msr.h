@@ -4132,6 +4132,9 @@ class EXP msrSyllable : public msrElement
     S_msrNote             getSyllableNoteUplink () const
                               { return fSyllableNoteUplink; }
 
+    S_msrStanza           getSyllableStanzaUplink () const
+                              { return fSyllableStanzaUplink; }
+
     S_msrPart             getSyllableDirectPartUplink () const
                              { return fSyllableDirectPartUplink; }
 
