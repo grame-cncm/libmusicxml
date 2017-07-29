@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __mxmltree2MsrTranslator__
-#define __mxmltree2MsrTranslator__
+#ifndef __musicXMLTree2MsrTranslator__
+#define __musicXMLTree2MsrTranslator__
 
 #include <map>
 #include <vector>
@@ -32,7 +32,7 @@ namespace MusicXML2
 /*!
 \brief Produces a summary of a MusicXML part.
 */
-class EXP mxmltree2MsrTranslator : 
+class EXP musicXMLTree2MsrTranslator : 
 
 /*
   public visitor<S_comment>,
@@ -339,9 +339,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 {
   public:
   
-    mxmltree2MsrTranslator ();
+    musicXMLTree2MsrTranslator ();
 
-    virtual ~mxmltree2MsrTranslator ();
+    virtual ~musicXMLTree2MsrTranslator ();
 
     S_msrScore buildMsrScoreFromXMLElementTree (
         const Sxmlelement& xmlTree);

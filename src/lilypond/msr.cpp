@@ -4544,7 +4544,7 @@ string msrSingleTremolo::singleTremoloAsString () const
     s <<
       ", note uplink" << " = " <<
       fSingleTremoloNoteUplink->
-        noteAsShortStringWithRawDivisions ();
+        noteAsShortStringWithRawWholeNotes ();
 
   return s.str();
 }
@@ -7415,7 +7415,7 @@ void msrNote::setNoteBelongsToAChord ()
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "Setting note '" <<
-      noteAsShortStringWithRawDivisions () <<
+      noteAsShortStringWithRawWholeNotes () <<
       "' to belong to a chord"
       ", line " << fInputLineNumber <<
       endl;
@@ -7451,10 +7451,10 @@ void msrNote::applyTupletMemberSoundingFactorToNote (
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Applying tuplet display factor '" <<
+      "Applying tuplet sounding factor '" <<
       actualNotes << "/" << normalNotes <<
       "' to note '" <<
-      noteAsShortStringWithRawDivisions () <<
+      noteAsShortString () <<
       "', line " << fInputLineNumber <<
       endl;
 
@@ -7467,6 +7467,12 @@ void msrNote::applyTupletMemberSoundingFactorToNote (
     actualNotes;
 
   fNoteSoundingWholeNotes.rationalise ();
+
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
+    cerr << idtr <<
+      "Result is: '" <<
+      noteAsShortString () <<
+      endl;
 }
 
 void msrNote::addBeamToNote (S_msrBeam beam)
@@ -8055,7 +8061,7 @@ string msrNote::noteDiatonicPitchAsString (
         fInputLineNumber));
 }
 
-string msrNote::noteAsShortStringWithRawDivisions () const
+string msrNote::noteAsShortStringWithRawWholeNotes () const
 {
   stringstream s;
 
@@ -8070,7 +8076,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "R" <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8081,7 +8087,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         "S" <<
         ":" <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8093,7 +8099,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8105,7 +8111,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        " whole notes:" <<
+        " whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8127,7 +8133,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
       s <<
         notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8143,7 +8149,7 @@ string msrNote::noteAsShortStringWithRawDivisions () const
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
 
       s <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8161,19 +8167,21 @@ string msrNote::noteAsShortString ()
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
-        "???";
+        "note kind: unknown" <<
+        ":" <<
+        noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kRestNote:
       s <<
-        "R" <<
+        "Rest" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
-        "S" <<
+        "Skip" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
@@ -8214,7 +8222,7 @@ string msrNote::noteAsShortString ()
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8269,7 +8277,7 @@ string msrNote::noteAsString ()
           ")";
 
       s <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -8325,7 +8333,7 @@ string msrNote::noteAsString ()
       s <<
         "Tuplet member note"  " "<<
         notePitchAsString () <<
-        ", whole notes:" <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -9201,7 +9209,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
   if (gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "Adding another note '" <<
-      note->noteAsShortStringWithRawDivisions () <<
+      note->noteAsShortStringWithRawWholeNotes () <<
       "' to chord '" <<
       chordAsString () <<
       "'" <<
@@ -9582,7 +9590,7 @@ string msrChord::chordAsStringwithRawDivisions () const
         "[" << note->getNoteOctave () << "]"
         */
 
-        note->noteAsShortStringWithRawDivisions ();
+        note->noteAsShortStringWithRawWholeNotes ();
         
       if (++i == iEnd) break;
       s << " ";
@@ -10911,7 +10919,8 @@ S_msrTuplet msrTuplet::create (
   msrTuplet* o =
     new msrTuplet (
       inputLineNumber,
-      number, actualNotes, normalNotes, notePositionInMeasure);
+      number, actualNotes, normalNotes,
+      notePositionInMeasure);
   assert(o!=0);
   return o;
 }
@@ -10974,7 +10983,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "Adding note '" <<
-      note->noteAsShortStringWithRawDivisions () <<
+      note->noteAsShortStringWithRawWholeNotes () <<
       // the information is missing to display it the normal way
       "' to tuplet '" <<
       tupletAsShortString () <<
@@ -10990,8 +10999,11 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
   // account for note duration
   fTupletSoundingWholeNotes +=
     note->getNoteSoundingWholeNotes ();
+  fTupletSoundingWholeNotes.rationalise ();
+  
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();  
+  fTupletDisplayWholeNotes.rationalise ();
     
   // populate note's measure number
   note->setNoteMeasureNumber (
@@ -11018,8 +11030,11 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   // account for chord duration
   fTupletSoundingWholeNotes +=
     chord->getChordSoundingWholeNotes ();
+  fTupletSoundingWholeNotes.rationalise ();
+
   fTupletDisplayWholeNotes += // JMI
     chord->getChordDisplayWholeNotes ();  
+  fTupletDisplayWholeNotes.rationalise ();
     
   // populate chord's measure number
   chord->setChordMeasureNumber (
@@ -11056,8 +11071,11 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   // account for tuplet duration
   fTupletSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
+  fTupletSoundingWholeNotes.rationalise ();
+
   fTupletDisplayWholeNotes += // JMI
     tuplet->getTupletDisplayWholeNotes ();
+  fTupletDisplayWholeNotes.rationalise ();
     
     /*
   fTupletDisplayWholeNotes += // JMI
@@ -11096,8 +11114,11 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   // account for tuplet duration
   fTupletSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
+  fTupletSoundingWholeNotes.rationalise ();
+
   fTupletDisplayWholeNotes +=
     tuplet->getTupletDisplayWholeNotes ();
+  fTupletDisplayWholeNotes.rationalise ();
 }
 
 void msrTuplet::removeFirstNoteFromTuplet (
@@ -11107,7 +11128,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
       "Removing first note '" <<
-      note->noteAsShortStringWithRawDivisions () <<
+      note->noteAsShortStringWithRawWholeNotes () <<
       "' from tuplet '" <<
       tupletAsString () <<
       "'" <<
@@ -11129,8 +11150,11 @@ void msrTuplet::removeFirstNoteFromTuplet (
         // account for note duration
         fTupletSoundingWholeNotes -=
           note->getNoteSoundingWholeNotes ();
+        fTupletSoundingWholeNotes.rationalise ();
+
         fTupletDisplayWholeNotes -= // JMI
           note->getNoteDisplayWholeNotes ();  
+        fTupletDisplayWholeNotes.rationalise ();
 
         // don't update measure number nor position in measure: // JMI
         // they have not been set yet
@@ -11452,7 +11476,7 @@ string msrTuplet::tupletAsShortString () const
         S_msrNote note = dynamic_cast<msrNote*>(&(**i))
         ) {    
         s <<
-          note->noteAsShortStringWithRawDivisions ();
+          note->noteAsShortStringWithRawWholeNotes ();
       }
     
       else if (
@@ -11518,7 +11542,7 @@ string msrTuplet::tupletAsString () const
         S_msrNote note = dynamic_cast<msrNote*>(&(**i))
         ) {    
         s <<
-          note->noteAsShortStringWithRawDivisions ();
+          note->noteAsShortStringWithRawWholeNotes ();
       }
     
       else if (

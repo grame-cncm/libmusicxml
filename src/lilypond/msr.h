@@ -4903,7 +4903,7 @@ class EXP msrNote : public msrElement
     
     bool                  noteIsAPitchedRest () const;
     
-    string                noteAsShortStringWithRawDivisions () const;
+    string                noteAsShortStringWithRawWholeNotes () const;
     
     string                noteAsShortString ();
     

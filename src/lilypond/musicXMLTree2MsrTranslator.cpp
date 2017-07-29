@@ -37,7 +37,7 @@ namespace MusicXML2
 #define tab  indenter::gIndenter.getSpacer ()
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::initializeNoteData ()
+void musicXMLTree2MsrTranslator::initializeNoteData ()
 {
   // basic note description
 
@@ -89,7 +89,7 @@ void mxmltree2MsrTranslator::initializeNoteData ()
 // JMI  fCurrentNoteSyllableExtendKind = k_NoSyllableExtend;
 }
 
-mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
+musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
 {
   // initialize note data to a neutral state
   initializeNoteData ();
@@ -282,11 +282,11 @@ mxmltree2MsrTranslator::mxmltree2MsrTranslator ()
   fOnGoingForward = false;
 }
 
-mxmltree2MsrTranslator::~mxmltree2MsrTranslator ()
+musicXMLTree2MsrTranslator::~musicXMLTree2MsrTranslator ()
 {}
 
 //________________________________________________________________________
-S_msrScore mxmltree2MsrTranslator::buildMsrScoreFromXMLElementTree (
+S_msrScore musicXMLTree2MsrTranslator::buildMsrScoreFromXMLElementTree (
   const Sxmlelement& xmlTree)
 {
   S_msrScore result;
@@ -306,7 +306,7 @@ S_msrScore mxmltree2MsrTranslator::buildMsrScoreFromXMLElementTree (
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::checkStep (
+void musicXMLTree2MsrTranslator::checkStep (
   int    inputLineNumber,
   string stepValue)
 {  
@@ -340,7 +340,7 @@ void mxmltree2MsrTranslator::checkStep (
 }
 
 //________________________________________________________________________
-S_msrPartGroup mxmltree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDone (
+S_msrPartGroup musicXMLTree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDone (
   int inputLineNumber)
 {
   /*
@@ -406,7 +406,7 @@ S_msrPartGroup mxmltree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDone (
 }
 
 //______________________________________________________________________________
-S_msrPartGroup mxmltree2MsrTranslator::fetchPartGroupInThisVisitor (
+S_msrPartGroup musicXMLTree2MsrTranslator::fetchPartGroupInThisVisitor (
   int partGroupNumber)
 {
   S_msrPartGroup result;
@@ -420,7 +420,7 @@ S_msrPartGroup mxmltree2MsrTranslator::fetchPartGroupInThisVisitor (
 }
 
 //______________________________________________________________________________
-S_msrStaff mxmltree2MsrTranslator::createStaffInCurrentPartIfNotYetDone (
+S_msrStaff musicXMLTree2MsrTranslator::createStaffInCurrentPartIfNotYetDone (
   int            inputLineNumber,
   int            staffNumber)
 {    
@@ -444,7 +444,7 @@ S_msrStaff mxmltree2MsrTranslator::createStaffInCurrentPartIfNotYetDone (
 }  
 
 //______________________________________________________________________________
-S_msrVoice mxmltree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
+S_msrVoice musicXMLTree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
   int inputLineNumber,
   int staffNumber,
   int voiceNumber)
@@ -536,7 +536,7 @@ S_msrVoice mxmltree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
 
 /* JMI
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_comment& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_comment& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -553,7 +553,7 @@ void mxmltree2MsrTranslator::visitStart ( S_comment& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_processing_instruction& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -571,7 +571,7 @@ void mxmltree2MsrTranslator::visitStart ( S_processing_instruction& elt )
 */
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_work_number& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_work_number& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -584,7 +584,7 @@ void mxmltree2MsrTranslator::visitStart ( S_work_number& elt )
       elt->getValue ());
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_work_title& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_work_title& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -597,7 +597,7 @@ void mxmltree2MsrTranslator::visitStart ( S_work_title& elt )
       elt->getValue ());
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_movement_number& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_movement_number& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -610,7 +610,7 @@ void mxmltree2MsrTranslator::visitStart ( S_movement_number& elt )
       elt->getValue ());
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_movement_title& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_movement_title& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -623,7 +623,7 @@ void mxmltree2MsrTranslator::visitStart ( S_movement_title& elt )
       elt->getValue ());
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_creator& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_creator& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -680,7 +680,7 @@ void mxmltree2MsrTranslator::visitStart ( S_creator& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_rights& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_rights& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -693,7 +693,7 @@ void mxmltree2MsrTranslator::visitStart ( S_rights& elt )
       elt->getValue ());
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_software& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_software& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -706,7 +706,7 @@ void mxmltree2MsrTranslator::visitStart ( S_software& elt )
       elt->getValue ());
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_encoding_date& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_encoding_date& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -720,7 +720,7 @@ void mxmltree2MsrTranslator::visitStart ( S_encoding_date& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_millimeters& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_millimeters& elt )
 { 
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -733,7 +733,7 @@ void mxmltree2MsrTranslator::visitStart ( S_millimeters& elt )
     setMillimeters (fCurrentMillimeters);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_tenths& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tenths& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -746,7 +746,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tenths& elt )
     setTenths (fCurrentTenths);
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_scaling& elt)
+void musicXMLTree2MsrTranslator::visitEnd ( S_scaling& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -763,7 +763,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_scaling& elt)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_system_distance& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_system_distance& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -778,7 +778,7 @@ void mxmltree2MsrTranslator::visitStart ( S_system_distance& elt )
       systemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_top_system_distance& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -794,7 +794,7 @@ void mxmltree2MsrTranslator::visitStart ( S_top_system_distance& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_page_layout& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_page_layout& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -803,7 +803,7 @@ void mxmltree2MsrTranslator::visitStart ( S_page_layout& elt )
 
   fOnGoingPageLayout = true;
 }
-void mxmltree2MsrTranslator::visitEnd ( S_page_layout& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_page_layout& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -813,7 +813,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_page_layout& elt )
   fOnGoingPageLayout = false;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_page_height& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_page_height& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -830,7 +830,7 @@ void mxmltree2MsrTranslator::visitStart ( S_page_height& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_page_width& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_page_width& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -847,7 +847,7 @@ void mxmltree2MsrTranslator::visitStart ( S_page_width& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_left_margin& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_left_margin& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -864,7 +864,7 @@ void mxmltree2MsrTranslator::visitStart ( S_left_margin& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_right_margin& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_right_margin& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -881,7 +881,7 @@ void mxmltree2MsrTranslator::visitStart ( S_right_margin& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_top_margin& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_top_margin& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -898,7 +898,7 @@ void mxmltree2MsrTranslator::visitStart ( S_top_margin& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_bottom_margin& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -916,7 +916,7 @@ void mxmltree2MsrTranslator::visitStart ( S_bottom_margin& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_credit& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_credit& elt )
 {
 /*
   <credit page="1">
@@ -954,7 +954,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
       creditPageNumber);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_credit_words& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_credit_words& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1005,7 +1005,7 @@ void mxmltree2MsrTranslator::visitStart ( S_credit_words& elt )
       creditWords);
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_credit& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_credit& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1019,7 +1019,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_credit& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_part_list& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_part_list& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1058,7 +1058,7 @@ void mxmltree2MsrTranslator::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
-void mxmltree2MsrTranslator::visitEnd (S_part_list& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_part_list& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1110,7 +1110,7 @@ void mxmltree2MsrTranslator::visitEnd (S_part_list& elt)
 */
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_part_group& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_part_group& elt)
 {  
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1132,7 +1132,7 @@ void mxmltree2MsrTranslator::visitStart (S_part_group& elt)
   fCurrentPartGroupBarline = "yes";
 }
 
-void mxmltree2MsrTranslator::visitStart (S_group_name& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_group_name& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1142,7 +1142,7 @@ void mxmltree2MsrTranslator::visitStart (S_group_name& elt)
   fCurrentPartGroupName = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_group_name_display& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_group_name_display& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1152,7 +1152,7 @@ void mxmltree2MsrTranslator::visitStart (S_group_name_display& elt)
   fOnGoingGroupNameDisplay = true;
 }
 
-void mxmltree2MsrTranslator::visitStart (S_display_text& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_display_text& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1163,7 +1163,7 @@ void mxmltree2MsrTranslator::visitStart (S_display_text& elt)
     fCurrentPartGroupDisplayText = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_accidental_text& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_accidental_text& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1173,7 +1173,7 @@ void mxmltree2MsrTranslator::visitStart (S_accidental_text& elt)
     fCurrentPartGroupAccidentalText = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_group_abbreviation& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_group_abbreviation& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1183,7 +1183,7 @@ void mxmltree2MsrTranslator::visitStart (S_group_abbreviation& elt)
   fCurrentPartGroupAbbreviation = elt->getValue ();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_group_symbol& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_group_symbol& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1196,7 +1196,7 @@ void mxmltree2MsrTranslator::visitStart (S_group_symbol& elt)
     elt->getAttributeIntValue ("default-x", 0);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_group_barline& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_group_barline& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1207,7 +1207,7 @@ void mxmltree2MsrTranslator::visitStart ( S_group_barline& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::showPartGroupsData (string context)
+void musicXMLTree2MsrTranslator::showPartGroupsData (string context)
 {    
   if (gGeneralOptions->fTracePartGroups) {
     cerr << idtr <<
@@ -1259,7 +1259,7 @@ void mxmltree2MsrTranslator::showPartGroupsData (string context)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::handlePartGroupStart (
+void musicXMLTree2MsrTranslator::handlePartGroupStart (
   int     inputLineNumber,
   msrPartGroup::msrPartGroupSymbolKind
           partGroupSymbol,
@@ -1353,7 +1353,7 @@ void mxmltree2MsrTranslator::handlePartGroupStart (
 }
   
 //________________________________________________________________________
-void mxmltree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
+void musicXMLTree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
 {
   showPartGroupsData ("BEFORE STOP");
 
@@ -1495,7 +1495,7 @@ void mxmltree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitEnd (S_part_group& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_part_group& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1600,7 +1600,7 @@ void mxmltree2MsrTranslator::visitEnd (S_part_group& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_score_part& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_score_part& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1621,7 +1621,7 @@ void mxmltree2MsrTranslator::visitStart (S_score_part& elt)
   fCurrentPartInstrumentAbbreviation = "";
 }
 
-void mxmltree2MsrTranslator::visitStart (S_part_name& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_part_name& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1631,7 +1631,7 @@ void mxmltree2MsrTranslator::visitStart (S_part_name& elt)
   fCurrentPartName = elt->getValue ();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_part_abbreviation& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_part_abbreviation& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1641,7 +1641,7 @@ void mxmltree2MsrTranslator::visitStart (S_part_abbreviation& elt)
   fCurrentPartAbbreviation = elt->getValue ();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_instrument_name& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_instrument_name& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1651,7 +1651,7 @@ void mxmltree2MsrTranslator::visitStart (S_instrument_name& elt)
   fCurrentPartInstrumentName = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1661,7 +1661,7 @@ void mxmltree2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
   fCurrentPartInstrumentAbbreviation = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_score_part& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_score_part& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1751,7 +1751,7 @@ void mxmltree2MsrTranslator::visitEnd (S_score_part& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_part& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_part& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1796,7 +1796,7 @@ void mxmltree2MsrTranslator::visitStart (S_part& elt)
   fPartVoiceNumberToDisplayingStaffNumberMap.clear ();
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_part& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_part& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1822,7 +1822,7 @@ void mxmltree2MsrTranslator::visitEnd (S_part& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_attributes& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_attributes& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1832,7 +1832,7 @@ void mxmltree2MsrTranslator::visitStart (S_attributes& elt)
   fCurrentTime = 0;
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_attributes& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_attributes& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1856,7 +1856,7 @@ void mxmltree2MsrTranslator::visitEnd (S_attributes& elt)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_divisions& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_divisions& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1902,7 +1902,7 @@ void mxmltree2MsrTranslator::visitStart ( S_divisions& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_clef& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_clef& elt )
 { 
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1922,7 +1922,7 @@ void mxmltree2MsrTranslator::visitStart ( S_clef& elt )
   fCurrentClefSign = "";
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_sign& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_sign& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1932,7 +1932,7 @@ void mxmltree2MsrTranslator::visitStart ( S_sign& elt )
   fCurrentClefSign = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_line& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_line& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1942,7 +1942,7 @@ void mxmltree2MsrTranslator::visitStart ( S_line& elt )
   fCurrentClefLine = (int)(*elt);
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -1964,7 +1964,7 @@ void mxmltree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
   }
 }
   
-void mxmltree2MsrTranslator::visitEnd ( S_clef& elt ) 
+void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2200,7 +2200,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_clef& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_key& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_key& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2225,7 +2225,7 @@ void mxmltree2MsrTranslator::visitStart ( S_key& elt )
   fCurrentHumdrumScotKeyItem = 0;
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_cancel& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_cancel& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2235,7 +2235,7 @@ void mxmltree2MsrTranslator::visitStart ( S_cancel& elt )
   fCurrentKeyCancelFifths = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_fifths& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_fifths& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2247,7 +2247,7 @@ void mxmltree2MsrTranslator::visitStart ( S_fifths& elt )
   fCurrentKeyFifths = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_mode& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_mode& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2315,7 +2315,7 @@ void mxmltree2MsrTranslator::visitStart ( S_mode& elt )
         </key>
 */
 
-void mxmltree2MsrTranslator::visitStart ( S_key_step& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_key_step& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2361,7 +2361,7 @@ void mxmltree2MsrTranslator::visitStart ( S_key_step& elt )
       fCurrentHumdrumScotKeyItem);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_key_alter& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_key_alter& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2402,7 +2402,7 @@ void mxmltree2MsrTranslator::visitStart ( S_key_alter& elt )
   fCurrentHumdrumScotKeyItem = 0;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_key_octave& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_key_octave& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2472,7 +2472,7 @@ If the cancel attribute is
       keyOctave);
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_key& elt ) 
+void musicXMLTree2MsrTranslator::visitEnd ( S_key& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2513,7 +2513,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_key& elt )
   }
 }
 
-S_msrKey mxmltree2MsrTranslator::handleTraditionalKey (
+S_msrKey musicXMLTree2MsrTranslator::handleTraditionalKey (
   int inputLineNumber)
 {
   // key fifths number
@@ -2618,7 +2618,7 @@ S_msrKey mxmltree2MsrTranslator::handleTraditionalKey (
   return key;
 }
 
-S_msrKey mxmltree2MsrTranslator::handleHumdrumScotKey (
+S_msrKey musicXMLTree2MsrTranslator::handleHumdrumScotKey (
   int inputLineNumber)
 {
  //  msrQuarterTonesPitch fCurrentNoteQuarterTonesPitch; // JMI BOF
@@ -2659,7 +2659,7 @@ S_msrKey mxmltree2MsrTranslator::handleHumdrumScotKey (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_time& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_time& elt )
 {  
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2746,7 +2746,7 @@ Cut time, also known as  or alla breve, is a meter with two half-note beats per 
   fOnGoingInterchangeable = false;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_beats& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_beats& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2756,7 +2756,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beats& elt )
   fCurrentTimeBeats = elt->getValue (); // can be a string such as 3+2
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_beat_type& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_beat_type& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2809,7 +2809,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beat_type& elt )
     timeItem);
 }
  
-void mxmltree2MsrTranslator::visitStart ( S_senza_misura& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_senza_misura& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2819,7 +2819,7 @@ void mxmltree2MsrTranslator::visitStart ( S_senza_misura& elt )
   fCurrentTimeSymbolKind = msrTime::kTimeSymbolSenzaMisura;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_interchangeable& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_interchangeable& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2899,7 +2899,7 @@ void mxmltree2MsrTranslator::visitStart ( S_interchangeable& elt )
   fOnGoingInterchangeable = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_time_relation& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_time_relation& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -2946,7 +2946,7 @@ void mxmltree2MsrTranslator::visitStart ( S_time_relation& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_time& elt ) 
+void musicXMLTree2MsrTranslator::visitEnd ( S_time& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3002,7 +3002,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_time& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_instruments& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_instruments& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3017,7 +3017,7 @@ void mxmltree2MsrTranslator::visitStart ( S_instruments& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_transpose& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_transpose& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3045,7 +3045,7 @@ void mxmltree2MsrTranslator::visitStart ( S_transpose& elt )
   fCurrentTransposeChromatic = 0;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_diatonic& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_diatonic& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3055,7 +3055,7 @@ void mxmltree2MsrTranslator::visitStart ( S_diatonic& elt )
   fCurrentTransposeDiatonic = (int)(*elt);
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_chromatic& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_chromatic& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3065,7 +3065,7 @@ void mxmltree2MsrTranslator::visitStart ( S_chromatic& elt )
   fCurrentTransposeChromatic = (int)(*elt);
 }
  
-void mxmltree2MsrTranslator::visitEnd ( S_transpose& elt ) 
+void musicXMLTree2MsrTranslator::visitEnd ( S_transpose& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3099,7 +3099,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_transpose& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_direction& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_direction& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3179,7 +3179,7 @@ void mxmltree2MsrTranslator::visitStart (S_direction& elt)
   fOnGoingDirection = true;
 }
 
-void mxmltree2MsrTranslator::visitStart (S_direction_type& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_direction_type& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3189,7 +3189,7 @@ void mxmltree2MsrTranslator::visitStart (S_direction_type& elt)
   fOnGoingDirectionType = true;
 }
 
-void mxmltree2MsrTranslator::visitStart (S_offset& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_offset& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3206,7 +3206,7 @@ void mxmltree2MsrTranslator::visitStart (S_offset& elt)
   }
 }
 
-void mxmltree2MsrTranslator::visitStart (S_octave_shift& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3290,7 +3290,7 @@ void mxmltree2MsrTranslator::visitStart (S_octave_shift& elt)
     appendOctaveShiftToVoice (octaveShift);
 }
 
-void mxmltree2MsrTranslator::visitStart (S_words& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3407,7 +3407,7 @@ void mxmltree2MsrTranslator::visitStart (S_words& elt)
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accordion_registration& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_accordion_registration& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3433,7 +3433,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_registration& elt )
   fCurrentAccordionNumbersCounter = 0;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_accordion_high& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3445,7 +3445,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_high& elt )
   fCurrentAccordionNumbersCounter++;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3472,7 +3472,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_middle& elt )
   fCurrentAccordionNumbersCounter++;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_accordion_low& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3484,7 +3484,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accordion_low& elt )
   fCurrentAccordionNumbersCounter++;
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3520,7 +3520,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_direction_type& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_direction_type& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3531,7 +3531,7 @@ void mxmltree2MsrTranslator::visitEnd (S_direction_type& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_metronome& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_metronome& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3568,7 +3568,7 @@ void mxmltree2MsrTranslator::visitStart ( S_metronome& elt )
   }
 }
   
-void mxmltree2MsrTranslator::visitEnd ( S_metronome& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_metronome& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3644,7 +3644,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_metronome& elt )
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_beat_unit& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_beat_unit& elt )
 { 
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3661,7 +3661,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beat_unit& elt )
   fCurrentMetronomeBeat.fBeatUnit = elt->getValue();
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3671,7 +3671,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
   fCurrentMetronomeBeat.fDots++;
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_per_minute& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_per_minute& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3681,7 +3681,7 @@ void mxmltree2MsrTranslator::visitStart ( S_per_minute& elt )
   fCurrentMetrenomePerMinute = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_direction& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_direction& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3698,7 +3698,7 @@ void mxmltree2MsrTranslator::visitEnd (S_direction& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_staves& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_staves& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3748,7 +3748,7 @@ void mxmltree2MsrTranslator::visitStart (S_staves& elt)
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_staff& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_staff& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3831,7 +3831,7 @@ void mxmltree2MsrTranslator::visitStart (S_staff& elt)
 }
     
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_staff_details& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_staff_details& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3903,7 +3903,7 @@ void mxmltree2MsrTranslator::visitStart (S_staff_details& elt )
   idtr++;
 }
 
-void mxmltree2MsrTranslator::visitStart (S_staff_type& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_staff_type& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3953,7 +3953,7 @@ void mxmltree2MsrTranslator::visitStart (S_staff_type& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart (S_staff_lines& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_staff_lines& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3970,7 +3970,7 @@ void mxmltree2MsrTranslator::visitStart (S_staff_lines& elt )
       staffLines);
 }
 
-void mxmltree2MsrTranslator::visitStart (S_staff_tuning& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_staff_tuning& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -3984,7 +3984,7 @@ void mxmltree2MsrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningOctave     = -1;
 }
     
-void mxmltree2MsrTranslator::visitStart (S_tuning_step& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_tuning_step& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4002,7 +4002,7 @@ void mxmltree2MsrTranslator::visitStart (S_tuning_step& elt )
       tuningStep [0]);
 }
 
-void mxmltree2MsrTranslator::visitStart (S_tuning_octave& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_tuning_octave& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4012,7 +4012,7 @@ void mxmltree2MsrTranslator::visitStart (S_tuning_octave& elt )
   fCurrentStaffTuningOctave = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart (S_tuning_alter& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_tuning_alter& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4038,7 +4038,7 @@ void mxmltree2MsrTranslator::visitStart (S_tuning_alter& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_staff_tuning& elt )
+void musicXMLTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4116,7 +4116,7 @@ void mxmltree2MsrTranslator::visitEnd (S_staff_tuning& elt )
       fCurrentStaffTuningOctave);
 }
     
-void mxmltree2MsrTranslator::visitStart (S_capo& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_capo& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4126,7 +4126,7 @@ void mxmltree2MsrTranslator::visitStart (S_capo& elt )
   fCurrentStaffDetailsCapo = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart (S_staff_size& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_staff_size& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4137,7 +4137,7 @@ void mxmltree2MsrTranslator::visitStart (S_staff_size& elt )
   // JMI not used
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_staff_details& elt )
+void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4202,7 +4202,7 @@ void mxmltree2MsrTranslator::visitEnd (S_staff_details& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_voice& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_voice& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4310,7 +4310,7 @@ void mxmltree2MsrTranslator::visitStart (S_voice& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_backup& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_backup& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4332,7 +4332,7 @@ void mxmltree2MsrTranslator::visitStart (S_backup& elt )
   fOnGoingBackup = true;
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_backup& elt )
+void musicXMLTree2MsrTranslator::visitEnd (S_backup& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4360,7 +4360,7 @@ void mxmltree2MsrTranslator::visitEnd (S_backup& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_forward& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_forward& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4410,7 +4410,7 @@ void mxmltree2MsrTranslator::visitStart ( S_forward& elt )
   fOnGoingForward = true;
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_forward& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_forward& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4459,7 +4459,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_forward& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_tied& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_tied& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4534,7 +4534,7 @@ void mxmltree2MsrTranslator::visitStart (S_tied& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_slur& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_slur& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4616,7 +4616,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_bracket& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_bracket& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4676,7 +4676,7 @@ void mxmltree2MsrTranslator::visitStart (S_bracket& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_wedge& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_wedge& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4716,7 +4716,7 @@ void mxmltree2MsrTranslator::visitStart ( S_wedge& elt )
 }
     
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_lyric& elt )
+void musicXMLTree2MsrTranslator::visitStart (S_lyric& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4761,7 +4761,7 @@ void mxmltree2MsrTranslator::visitStart (S_lyric& elt )
   fOnGoingLyric = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_syllabic& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_syllabic& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4789,7 +4789,7 @@ void mxmltree2MsrTranslator::visitStart ( S_syllabic& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_text& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_text& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4870,7 +4870,7 @@ void mxmltree2MsrTranslator::visitStart ( S_text& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_elision& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_elision& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4880,7 +4880,7 @@ void mxmltree2MsrTranslator::visitStart ( S_elision& elt )
   fCurrentLyricElision = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_extend& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_extend& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -4919,7 +4919,7 @@ void mxmltree2MsrTranslator::visitStart ( S_extend& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5249,7 +5249,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_lyric& elt )
 }
 
 //________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart (S_measure& elt)
+void musicXMLTree2MsrTranslator::visitStart (S_measure& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5335,7 +5335,7 @@ void mxmltree2MsrTranslator::visitStart (S_measure& elt)
   */
 }
 
-void mxmltree2MsrTranslator::visitEnd (S_measure& elt)
+void musicXMLTree2MsrTranslator::visitEnd (S_measure& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5407,7 +5407,7 @@ void mxmltree2MsrTranslator::visitEnd (S_measure& elt)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_print& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_print& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5610,7 +5610,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
 */
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_barline& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_barline& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5678,7 +5678,7 @@ void mxmltree2MsrTranslator::visitStart ( S_barline& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_bar_style& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_bar_style& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5742,7 +5742,7 @@ void mxmltree2MsrTranslator::visitStart ( S_bar_style& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_segno& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_segno& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5777,7 +5777,7 @@ void mxmltree2MsrTranslator::visitStart ( S_segno& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_coda& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_coda& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5812,7 +5812,7 @@ void mxmltree2MsrTranslator::visitStart ( S_coda& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_eyeglasses& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_eyeglasses& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5847,7 +5847,7 @@ void mxmltree2MsrTranslator::visitStart ( S_eyeglasses& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_pedal& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5950,7 +5950,7 @@ void mxmltree2MsrTranslator::visitStart ( S_pedal& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_ending& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_ending& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -5990,7 +5990,7 @@ void mxmltree2MsrTranslator::visitStart ( S_ending& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_repeat& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_repeat& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6070,7 +6070,7 @@ void mxmltree2MsrTranslator::visitStart ( S_repeat& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitEnd ( S_barline& elt ) 
+void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6519,7 +6519,7 @@ The discontinue value is typically used for the last ending in a set, where ther
     */
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_note& elt ) 
+void musicXMLTree2MsrTranslator::visitStart ( S_note& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6589,7 +6589,7 @@ void mxmltree2MsrTranslator::visitStart ( S_note& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_step& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_step& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6606,7 +6606,7 @@ void mxmltree2MsrTranslator::visitStart ( S_step& elt )
     msrDiatonicPitchFromString (step [0]);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_alter& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_alter& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6632,7 +6632,7 @@ void mxmltree2MsrTranslator::visitStart ( S_alter& elt)
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_octave& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_octave& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6642,7 +6642,7 @@ void mxmltree2MsrTranslator::visitStart ( S_octave& elt)
   fCurrentNoteOctave = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_duration& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6690,10 +6690,10 @@ void mxmltree2MsrTranslator::visitStart ( S_duration& elt )
       s.str());
   }
     
-//  cerr << "=== mxmltree2MsrTranslator::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << endl; JMI
+//  cerr << "=== musicXMLTree2MsrTranslator::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << endl; JMI
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_instrument& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_instrument& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6706,7 +6706,7 @@ void mxmltree2MsrTranslator::visitStart ( S_instrument& elt )
  string id = elt->getAttributeValue ("id"); // JMI
 }
        
-void mxmltree2MsrTranslator::visitStart ( S_dot& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_dot& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6716,7 +6716,7 @@ void mxmltree2MsrTranslator::visitStart ( S_dot& elt )
   fCurrentNoteDotsNumber++;
 }
        
-void mxmltree2MsrTranslator::visitStart ( S_type& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6779,7 +6779,7 @@ void mxmltree2MsrTranslator::visitStart ( S_type& elt )
     fCurrentNoteDisplayWholeNotes;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
+void musicXMLTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6847,7 +6847,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_stem& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_stem& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6888,7 +6888,7 @@ void mxmltree2MsrTranslator::visitStart ( S_stem& elt )
       stemKind);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_beam& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_beam& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6951,7 +6951,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beam& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_measure_style& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_measure_style& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6959,7 +6959,7 @@ void mxmltree2MsrTranslator::visitStart ( S_measure_style& elt )
       endl;
 }
        
-void mxmltree2MsrTranslator::visitStart ( S_beat_repeat& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -6985,7 +6985,7 @@ void mxmltree2MsrTranslator::visitStart ( S_beat_repeat& elt )
   }
 }
        
-void mxmltree2MsrTranslator::visitStart ( S_measure_repeat& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7033,7 +7033,7 @@ void mxmltree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   }
 }
        
-void mxmltree2MsrTranslator::visitStart ( S_multiple_rest& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7075,7 +7075,7 @@ void mxmltree2MsrTranslator::visitStart ( S_multiple_rest& elt )
   fOnGoingMultipleRest = true;
 }
        
-void mxmltree2MsrTranslator::visitStart ( S_slash& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7136,7 +7136,7 @@ void mxmltree2MsrTranslator::visitStart ( S_slash& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_articulations& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_articulations& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7144,7 +7144,7 @@ void mxmltree2MsrTranslator::visitStart ( S_articulations& elt )
       endl;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accent& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_accent& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7160,7 +7160,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accent& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_breath_mark& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_breath_mark& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7176,7 +7176,7 @@ void mxmltree2MsrTranslator::visitStart ( S_breath_mark& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_caesura& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_caesura& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7192,7 +7192,7 @@ void mxmltree2MsrTranslator::visitStart ( S_caesura& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_spiccato& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_spiccato& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7208,7 +7208,7 @@ void mxmltree2MsrTranslator::visitStart ( S_spiccato& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_staccato& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_staccato& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7224,7 +7224,7 @@ void mxmltree2MsrTranslator::visitStart ( S_staccato& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_staccatissimo& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7240,7 +7240,7 @@ void mxmltree2MsrTranslator::visitStart ( S_staccatissimo& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_stress& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_stress& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7256,7 +7256,7 @@ void mxmltree2MsrTranslator::visitStart ( S_stress& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_unstress& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_unstress& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7272,7 +7272,7 @@ void mxmltree2MsrTranslator::visitStart ( S_unstress& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_detached_legato& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_detached_legato& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7288,7 +7288,7 @@ void mxmltree2MsrTranslator::visitStart ( S_detached_legato& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_strong_accent& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_strong_accent& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7305,7 +7305,7 @@ void mxmltree2MsrTranslator::visitStart ( S_strong_accent& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_tenuto& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tenuto& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7322,7 +7322,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tenuto& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_fermata& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7432,7 +7432,7 @@ void mxmltree2MsrTranslator::visitStart ( S_fermata& elt )
   fCurrentArticulations.push_back (fermata);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_arpeggiate& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7448,7 +7448,7 @@ void mxmltree2MsrTranslator::visitStart ( S_arpeggiate& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7466,7 +7466,7 @@ void mxmltree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   */
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_doit& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_doit& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7482,7 +7482,7 @@ void mxmltree2MsrTranslator::visitStart ( S_doit& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_falloff& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_falloff& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7498,7 +7498,7 @@ void mxmltree2MsrTranslator::visitStart ( S_falloff& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_plop& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_plop& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7514,7 +7514,7 @@ void mxmltree2MsrTranslator::visitStart ( S_plop& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_scoop& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_scoop& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7530,7 +7530,7 @@ void mxmltree2MsrTranslator::visitStart ( S_scoop& elt )
   fCurrentArticulations.push_back (articulation);
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_articulations& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_articulations& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7541,7 +7541,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_articulations& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_technical& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_technical& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7549,7 +7549,7 @@ void mxmltree2MsrTranslator::visitStart ( S_technical& elt )
       endl;
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_technical& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_technical& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7557,7 +7557,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_technical& elt )
       endl;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_arrow& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_arrow& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7602,7 +7602,7 @@ void mxmltree2MsrTranslator::visitStart ( S_arrow& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_bend_alter& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_bend_alter& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7612,7 +7612,7 @@ void mxmltree2MsrTranslator::visitStart ( S_bend_alter& elt )
   fBendAlterValue = (int)(*elt);
 }
   
-void mxmltree2MsrTranslator::visitStart ( S_bend& elt ) // JMI
+void musicXMLTree2MsrTranslator::visitStart ( S_bend& elt ) // JMI
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7620,7 +7620,7 @@ void mxmltree2MsrTranslator::visitStart ( S_bend& elt ) // JMI
       endl;
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_bend& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_bend& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7666,7 +7666,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_bend& elt )
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_double_tongue& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_double_tongue& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7713,7 +7713,7 @@ void mxmltree2MsrTranslator::visitStart ( S_double_tongue& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_down_bow& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_down_bow& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7760,7 +7760,7 @@ void mxmltree2MsrTranslator::visitStart ( S_down_bow& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_fingering& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_fingering& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7810,7 +7810,7 @@ void mxmltree2MsrTranslator::visitStart ( S_fingering& elt )
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_fingernails& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_fingernails& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7857,7 +7857,7 @@ void mxmltree2MsrTranslator::visitStart ( S_fingernails& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_fret& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_fret& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7907,7 +7907,7 @@ void mxmltree2MsrTranslator::visitStart ( S_fret& elt )
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_hammer_on& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_hammer_on& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -7957,7 +7957,7 @@ void mxmltree2MsrTranslator::visitStart ( S_hammer_on& elt )
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_handbell& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_handbell& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8009,7 +8009,7 @@ void mxmltree2MsrTranslator::visitStart ( S_handbell& elt )
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_harmonic& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_harmonic& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8056,7 +8056,7 @@ void mxmltree2MsrTranslator::visitStart ( S_harmonic& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_heel& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_heel& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8103,7 +8103,7 @@ void mxmltree2MsrTranslator::visitStart ( S_heel& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_hole& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_hole& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8150,7 +8150,7 @@ void mxmltree2MsrTranslator::visitStart ( S_hole& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_open_string& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_open_string& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8197,7 +8197,7 @@ void mxmltree2MsrTranslator::visitStart ( S_open_string& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_other_technical& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_other_technical& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8249,7 +8249,7 @@ void mxmltree2MsrTranslator::visitStart ( S_other_technical& elt )
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_pluck& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_pluck& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8301,7 +8301,7 @@ void mxmltree2MsrTranslator::visitStart ( S_pluck& elt )
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_pull_off& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_pull_off& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8353,7 +8353,7 @@ void mxmltree2MsrTranslator::visitStart ( S_pull_off& elt )
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8400,7 +8400,7 @@ void mxmltree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_stopped& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_stopped& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8447,7 +8447,7 @@ void mxmltree2MsrTranslator::visitStart ( S_stopped& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_string& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_string& elt )
 {
 /*
         <notations>
@@ -8520,7 +8520,7 @@ void mxmltree2MsrTranslator::visitStart ( S_string& elt )
   fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_tap& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tap& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8567,7 +8567,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tap& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_thumb_position& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_thumb_position& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8614,7 +8614,7 @@ void mxmltree2MsrTranslator::visitStart ( S_thumb_position& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_toe& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_toe& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8661,7 +8661,7 @@ void mxmltree2MsrTranslator::visitStart ( S_toe& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_triple_tongue& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8708,7 +8708,7 @@ void mxmltree2MsrTranslator::visitStart ( S_triple_tongue& elt )
   fCurrentTechnicalsList.push_back (technical);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_up_bow& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_up_bow& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8756,7 +8756,7 @@ void mxmltree2MsrTranslator::visitStart ( S_up_bow& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_ornaments& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_ornaments& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -8764,7 +8764,7 @@ void mxmltree2MsrTranslator::visitStart ( S_ornaments& elt )
       endl;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_tremolo& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tremolo& elt )
 {
   /*
     <notations>
@@ -9021,7 +9021,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   } // switch
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_trill_mark& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_trill_mark& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9037,7 +9037,7 @@ void mxmltree2MsrTranslator::visitStart ( S_trill_mark& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_wavy_line& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_wavy_line& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9095,7 +9095,7 @@ void mxmltree2MsrTranslator::visitStart ( S_wavy_line& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_turn& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_turn& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9110,7 +9110,7 @@ void mxmltree2MsrTranslator::visitStart ( S_turn& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_inverted_turn& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9125,7 +9125,7 @@ void mxmltree2MsrTranslator::visitStart ( S_inverted_turn& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_delayed_turn& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9140,7 +9140,7 @@ void mxmltree2MsrTranslator::visitStart ( S_delayed_turn& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9155,7 +9155,7 @@ void mxmltree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_vertical_turn& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9170,7 +9170,7 @@ void mxmltree2MsrTranslator::visitStart ( S_vertical_turn& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_mordent& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_mordent& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9185,7 +9185,7 @@ void mxmltree2MsrTranslator::visitStart ( S_mordent& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9200,7 +9200,7 @@ void mxmltree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_schleifer& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_schleifer& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9215,7 +9215,7 @@ void mxmltree2MsrTranslator::visitStart ( S_schleifer& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_shake& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_shake& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9230,7 +9230,7 @@ void mxmltree2MsrTranslator::visitStart ( S_shake& elt )
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_accidental_mark& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9318,7 +9318,7 @@ void mxmltree2MsrTranslator::visitStart ( S_accidental_mark& elt )
       currentOrnamentAccidentalMarkKind);
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_ornaments& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_ornaments& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9387,7 +9387,7 @@ unstress
   */
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart( S_f& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_f& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9402,7 +9402,7 @@ void mxmltree2MsrTranslator::visitStart( S_f& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_ff& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_ff& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9417,7 +9417,7 @@ void mxmltree2MsrTranslator::visitStart( S_ff& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_fff& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_fff& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9432,7 +9432,7 @@ void mxmltree2MsrTranslator::visitStart( S_fff& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_ffff& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_ffff& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9447,7 +9447,7 @@ void mxmltree2MsrTranslator::visitStart( S_ffff& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_fffff& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_fffff& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9462,7 +9462,7 @@ void mxmltree2MsrTranslator::visitStart( S_fffff& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_ffffff& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_ffffff& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9478,7 +9478,7 @@ void mxmltree2MsrTranslator::visitStart( S_ffffff& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_p& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_p& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9493,7 +9493,7 @@ void mxmltree2MsrTranslator::visitStart( S_p& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_pp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_pp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9508,7 +9508,7 @@ void mxmltree2MsrTranslator::visitStart( S_pp& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_ppp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_ppp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9523,7 +9523,7 @@ void mxmltree2MsrTranslator::visitStart( S_ppp& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_pppp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_pppp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9538,7 +9538,7 @@ void mxmltree2MsrTranslator::visitStart( S_pppp& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_ppppp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_ppppp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9553,7 +9553,7 @@ void mxmltree2MsrTranslator::visitStart( S_ppppp& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_pppppp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_pppppp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9570,7 +9570,7 @@ void mxmltree2MsrTranslator::visitStart( S_pppppp& elt)
 }
 
 
-void mxmltree2MsrTranslator::visitStart( S_mf& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_mf& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9585,7 +9585,7 @@ void mxmltree2MsrTranslator::visitStart( S_mf& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_mp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_mp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9601,7 +9601,7 @@ void mxmltree2MsrTranslator::visitStart( S_mp& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_fp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_fp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9616,7 +9616,7 @@ void mxmltree2MsrTranslator::visitStart( S_fp& elt)
         
   fPendingDynamics.push_back(dynamics);
 }
-void mxmltree2MsrTranslator::visitStart( S_fz& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_fz& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9632,7 +9632,7 @@ void mxmltree2MsrTranslator::visitStart( S_fz& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_rf& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_rf& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9648,7 +9648,7 @@ void mxmltree2MsrTranslator::visitStart( S_rf& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_sf& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_sf& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9664,7 +9664,7 @@ void mxmltree2MsrTranslator::visitStart( S_sf& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_rfz& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_rfz& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9680,7 +9680,7 @@ void mxmltree2MsrTranslator::visitStart( S_rfz& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_sfz& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_sfz& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9696,7 +9696,7 @@ void mxmltree2MsrTranslator::visitStart( S_sfz& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_sfp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_sfp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9712,7 +9712,7 @@ void mxmltree2MsrTranslator::visitStart( S_sfp& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_sfpp& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_sfpp& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9728,7 +9728,7 @@ void mxmltree2MsrTranslator::visitStart( S_sfpp& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_sffz& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_sffz& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9744,7 +9744,7 @@ void mxmltree2MsrTranslator::visitStart( S_sffz& elt)
   fPendingDynamics.push_back(dynamics);
 }
 
-void mxmltree2MsrTranslator::visitStart( S_other_dynamics& elt)
+void musicXMLTree2MsrTranslator::visitStart( S_other_dynamics& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9763,7 +9763,7 @@ void mxmltree2MsrTranslator::visitStart( S_other_dynamics& elt)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_grace& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_grace& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9798,7 +9798,7 @@ void mxmltree2MsrTranslator::visitStart ( S_grace& elt )
 }
        
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_chord& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_chord& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9813,7 +9813,7 @@ void mxmltree2MsrTranslator::visitStart ( S_chord& elt)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_time_modification& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_time_modification& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9826,7 +9826,7 @@ void mxmltree2MsrTranslator::visitStart ( S_time_modification& elt )
   fCurrentNoteHasATimeModification = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_actual_notes& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_actual_notes& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9841,7 +9841,7 @@ void mxmltree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentNoteBelongsToATuplet = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_normal_notes& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_normal_notes& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9856,7 +9856,7 @@ void mxmltree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentNoteBelongsToATuplet = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_normal_type& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_normal_type& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9918,7 +9918,7 @@ From NestedTuplets.xml:
 
 */
 
-void mxmltree2MsrTranslator::visitStart ( S_tuplet& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tuplet& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -9935,7 +9935,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet& elt )
   
   /* JMI* /
   cerr <<
-    "--> mxmltree2MsrTranslator::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
+    "--> musicXMLTree2MsrTranslator::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
     fCurrentTupletNumber << ", tupletType = " << tupletType <<endl;
  // */
   
@@ -10003,7 +10003,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet& elt )
   fCurrentNoteBelongsToATuplet = true;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_tuplet_number& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -10014,7 +10014,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   fCurrentTupletDisplayNumber = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_tuplet_type& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -10030,7 +10030,7 @@ void mxmltree2MsrTranslator::visitStart ( S_tuplet_type& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_rest& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_rest& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -10050,7 +10050,7 @@ void mxmltree2MsrTranslator::visitStart ( S_rest& elt)
       </rest>
 
 */
-  //  cerr << "--> mxmltree2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
+  //  cerr << "--> musicXMLTree2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
   fCurrentNoteIsARest = true;
 
   string restMeasure = elt->getAttributeValue ("measure");
@@ -10074,7 +10074,7 @@ void mxmltree2MsrTranslator::visitStart ( S_rest& elt)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_display_step& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_display_step& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -10095,7 +10095,7 @@ void mxmltree2MsrTranslator::visitStart ( S_display_step& elt)
   fCurrentNoteAlteration = kNatural;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_display_octave& elt)
+void musicXMLTree2MsrTranslator::visitStart ( S_display_octave& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -10105,7 +10105,7 @@ void mxmltree2MsrTranslator::visitStart ( S_display_octave& elt)
   fCurrentDisplayOctave = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_unpitched& elt)
+void musicXMLTree2MsrTranslator::visitEnd ( S_unpitched& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -10125,7 +10125,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_unpitched& elt)
 }
 
 //______________________________________________________________________________
-S_msrChord mxmltree2MsrTranslator::createChordFromItsFirstNote (
+S_msrChord musicXMLTree2MsrTranslator::createChordFromItsFirstNote (
   S_msrVoice voice,
   S_msrNote  chordFirstNote)
 {
@@ -10163,7 +10163,8 @@ S_msrChord mxmltree2MsrTranslator::createChordFromItsFirstNote (
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "--> adding first note 2 " <<
-      chordFirstNote->noteAsShortStringWithRawDivisions() <<
+      chordFirstNote->
+        noteAsShortStringWithRawWholeNotes() <<
       ", line " << inputLineNumber <<
       ", to new chord" <<
       endl;
@@ -10179,7 +10180,7 @@ S_msrChord mxmltree2MsrTranslator::createChordFromItsFirstNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteArticulationsToChord (
+void musicXMLTree2MsrTranslator::copyNoteArticulationsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's articulations if any from the first note to chord
@@ -10208,7 +10209,7 @@ void mxmltree2MsrTranslator::copyNoteArticulationsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteTechnicalsToChord (
+void musicXMLTree2MsrTranslator::copyNoteTechnicalsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's technicals if any from the first note to chord
@@ -10237,7 +10238,7 @@ void mxmltree2MsrTranslator::copyNoteTechnicalsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
+void musicXMLTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's technicals if any from the first note to chord
@@ -10266,7 +10267,7 @@ void mxmltree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
+void musicXMLTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's technicals if any from the first note to chord
@@ -10295,7 +10296,7 @@ void mxmltree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteOrnamentsToChord (
+void musicXMLTree2MsrTranslator::copyNoteOrnamentsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's ornaments if any from the first note to chord
@@ -10325,7 +10326,7 @@ void mxmltree2MsrTranslator::copyNoteOrnamentsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteSingleTremoloToChord (
+void musicXMLTree2MsrTranslator::copyNoteSingleTremoloToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's singleTremolo if any from the first note to chord
@@ -10350,7 +10351,7 @@ void mxmltree2MsrTranslator::copyNoteSingleTremoloToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteDynamicsToChord (
+void musicXMLTree2MsrTranslator::copyNoteDynamicsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's dynamics if any from the first note to chord
@@ -10380,7 +10381,7 @@ void mxmltree2MsrTranslator::copyNoteDynamicsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteOtherDynamicsToChord (
+void musicXMLTree2MsrTranslator::copyNoteOtherDynamicsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's other dynamics if any from the first note to chord
@@ -10410,7 +10411,7 @@ void mxmltree2MsrTranslator::copyNoteOtherDynamicsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteWordsToChord (
+void musicXMLTree2MsrTranslator::copyNoteWordsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's words if any from the first note to chord
@@ -10440,7 +10441,7 @@ void mxmltree2MsrTranslator::copyNoteWordsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteBeamsToChord (
+void musicXMLTree2MsrTranslator::copyNoteBeamsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's beams if any from the first note to chord
@@ -10470,7 +10471,7 @@ void mxmltree2MsrTranslator::copyNoteBeamsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteSlursToChord (
+void musicXMLTree2MsrTranslator::copyNoteSlursToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's slurs if any from the first note to chord
@@ -10500,7 +10501,7 @@ void mxmltree2MsrTranslator::copyNoteSlursToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteLigaturesToChord (
+void musicXMLTree2MsrTranslator::copyNoteLigaturesToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's ligatures if any from the first note to chord
@@ -10530,7 +10531,7 @@ void mxmltree2MsrTranslator::copyNoteLigaturesToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteWedgesToChord (
+void musicXMLTree2MsrTranslator::copyNoteWedgesToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's wedges if any from the first note to chord
@@ -10560,7 +10561,7 @@ void mxmltree2MsrTranslator::copyNoteWedgesToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteHarmonyToChord (
+void musicXMLTree2MsrTranslator::copyNoteHarmonyToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's harmony if any from the first note to chord
@@ -10586,7 +10587,7 @@ void mxmltree2MsrTranslator::copyNoteHarmonyToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::copyNoteElementsToChord (
+void musicXMLTree2MsrTranslator::copyNoteElementsToChord (
   S_msrNote note, S_msrChord chord)
 {  
   // copy note's articulations if any to the chord
@@ -10629,7 +10630,7 @@ void mxmltree2MsrTranslator::copyNoteElementsToChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
+void musicXMLTree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 {
   // firstNote is the first tuplet note,
   // and is currently at the end of the voice
@@ -10642,7 +10643,8 @@ void mxmltree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
       "/" <<
       fCurrentNormalNotes <<
       "' tuplet with first note " <<
-      firstNote->noteAsShortStringWithRawDivisions () <<
+      firstNote->
+        noteAsShortStringWithRawWholeNotes () <<
       endl;
       
   S_msrTuplet
@@ -10660,7 +10662,9 @@ void mxmltree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   if (gGeneralOptions->fTraceTuplets)
     // only after addNoteToTuplet() has set the note's tuplet uplink
     cerr << idtr <<
-      "Adding first note " << firstNote->noteAsShortStringWithRawDivisions () <<
+      "Adding first note " <<
+      firstNote->
+        noteAsShortStringWithRawWholeNotes () <<
       " to tuplet '" <<
       tuplet->tupletAsShortString () <<
        "'" <<
@@ -10705,12 +10709,12 @@ void mxmltree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::finalizeTuplet (
+void musicXMLTree2MsrTranslator::finalizeTuplet (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "mxmltree2MsrTranslator::finalizeTuplet(), " <<
+      "musicXMLTree2MsrTranslator::finalizeTuplet(), " <<
       "line " << inputLineNumber <<
       endl;
 
@@ -10790,7 +10794,7 @@ void mxmltree2MsrTranslator::finalizeTuplet (
 }          
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentArticulationsToNote (
+void musicXMLTree2MsrTranslator::attachCurrentArticulationsToNote (
   S_msrNote note)
 {
   // attach the current articulations if any to the note
@@ -10824,7 +10828,7 @@ void mxmltree2MsrTranslator::attachCurrentArticulationsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentTechnicalsToNote (
+void musicXMLTree2MsrTranslator::attachCurrentTechnicalsToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
@@ -10858,7 +10862,7 @@ void mxmltree2MsrTranslator::attachCurrentTechnicalsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
+void musicXMLTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
@@ -10892,7 +10896,7 @@ void mxmltree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
+void musicXMLTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
@@ -10926,7 +10930,7 @@ void mxmltree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentOrnamentsToNote (
+void musicXMLTree2MsrTranslator::attachCurrentOrnamentsToNote (
   S_msrNote note)
 {
   // attach the current ornaments if any to the note
@@ -10960,7 +10964,7 @@ void mxmltree2MsrTranslator::attachCurrentOrnamentsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentSingleTremoloToNote (
+void musicXMLTree2MsrTranslator::attachCurrentSingleTremoloToNote (
   S_msrNote note)
 {
   // attach the current singleTremolo if any to the note
@@ -10980,7 +10984,7 @@ void mxmltree2MsrTranslator::attachCurrentSingleTremoloToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
+void musicXMLTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   S_msrChord chord)
 {
   if (! fCurrentArticulations.empty()) {
@@ -11010,7 +11014,7 @@ void mxmltree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 
 /*
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
+void musicXMLTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   S_msrChord chord)
 {
   if (! fCurrentOrnamentsList.empty()) {
@@ -11040,7 +11044,7 @@ void mxmltree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 */
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachPendingDynamicsToNote (
+void musicXMLTree2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
@@ -11096,7 +11100,7 @@ void mxmltree2MsrTranslator::attachPendingDynamicsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachPendingOtherDynamicsToNote (
+void musicXMLTree2MsrTranslator::attachPendingOtherDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
@@ -11152,7 +11156,7 @@ void mxmltree2MsrTranslator::attachPendingOtherDynamicsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachPendingWordsToNote (
+void musicXMLTree2MsrTranslator::attachPendingWordsToNote (
   S_msrNote note)
 {
   // attach the pending words if any to the note
@@ -11207,7 +11211,7 @@ void mxmltree2MsrTranslator::attachPendingWordsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachPendingSlursToNote (
+void musicXMLTree2MsrTranslator::attachPendingSlursToNote (
   S_msrNote note)
 {
   // attach the pending slurs if any to the note
@@ -11262,7 +11266,7 @@ void mxmltree2MsrTranslator::attachPendingSlursToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachPendingLigaturesToNote (
+void musicXMLTree2MsrTranslator::attachPendingLigaturesToNote (
   S_msrNote note)
 {
   // attach the pending ligatures if any to the note
@@ -11317,7 +11321,7 @@ void mxmltree2MsrTranslator::attachPendingLigaturesToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::attachPendingWedgesToNote (
+void musicXMLTree2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
   // attach the pending wedges if any to the note
@@ -11371,7 +11375,7 @@ void mxmltree2MsrTranslator::attachPendingWedgesToNote (
   }
 }
 
-void mxmltree2MsrTranslator::attachPendingElementsToNote (
+void musicXMLTree2MsrTranslator::attachPendingElementsToNote (
   S_msrNote note)
 {
   // attach the pending dynamics, if any, to the note
@@ -11394,7 +11398,7 @@ void mxmltree2MsrTranslator::attachPendingElementsToNote (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -11442,6 +11446,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
+/* JMI
   if (gGeneralOptions->fTraceNotes) { // JMI
     cerr <<
       endl <<
@@ -11476,6 +11481,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
         "<==" <<
         endl << endl;
   }
+*/
 
   // store voice and staff numbers in MusicXML note data
   fCurrentNoteStaffNumber = fCurrentStaffNumber;
@@ -11738,6 +11744,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);
 
+/* JMI
   if (gGeneralOptions->fTraceNotes) { // JMI
      const int fieldWidth = 27;
 
@@ -11769,6 +11776,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
         endl <<
       endl;
   }
+*/
 
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingChord) {
@@ -11823,7 +11831,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
+void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
   S_msrNote newNote)
 {
   int inputLineNumber =
@@ -12094,7 +12102,7 @@ void mxmltree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleLyric (
+void musicXMLTree2MsrTranslator::handleLyric (
   S_msrVoice currentVoice,
   S_msrNote newNote)
 {
@@ -12282,7 +12290,7 @@ void mxmltree2MsrTranslator::handleLyric (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleNoteBelongingToAChord (
+void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
   S_msrNote newChordNote)
 {
 /*
@@ -12304,7 +12312,7 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChord (
 
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "mxmltree2MsrTranslator::handleNoteBelongingToAChord()" <<
+      "handleNoteBelongingToAChord()" <<
       ", newChordNote:" <<
       endl;
 
@@ -12360,7 +12368,7 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChord (
         
     if (gGeneralOptions->fTraceChords) {
       cerr << idtr <<
-        "mxmltree2MsrTranslator::handleNoteBelongingToAChord()" <<
+        "musicXMLTree2MsrTranslator::handleNoteBelongingToAChord()" <<
         ", chordFirstNote:" <<
         endl;
 
@@ -12381,7 +12389,7 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChord (
         
     if (gGeneralOptions->fTraceChords) {
       cerr << idtr <<
-        "mxmltree2MsrTranslator::handleNoteBelongingToAChord()" <<
+        "musicXMLTree2MsrTranslator::handleNoteBelongingToAChord()" <<
         ", savedChordFirstNoteKind = " <<
         msrNote::noteKindAsString (savedChordFirstNoteKind) <<
         endl;
@@ -12540,7 +12548,7 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChord (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
+void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
   S_msrNote note)
 {
   int inputLineNumber =
@@ -12558,8 +12566,10 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "mxmltree2MsrTranslator::handleNoteBelongingToATuplet " <<
-      note->noteAsShortStringWithRawDivisions () <<
+      "handleNoteBelongingToATuplet()" <<
+      ", note: " <<
+      note->
+        noteAsShortStringWithRawWholeNotes () <<
       endl;
 
   // attach the pending elements, if any, to the note
@@ -12577,7 +12587,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           cerr << idtr <<
             "--> kStartTuplet: note = '" <<
-            note->noteAsShortStringWithRawDivisions () <<
+            note->
+              noteAsShortStringWithRawWholeNotes () <<
             "', line " << inputLineNumber <<
             endl;
 
@@ -12609,7 +12620,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           cerr << idtr <<
             "--> kContinueTuplet: adding tuplet member note '" <<
-            note->noteAsShortStringWithRawDivisions () <<
+            note->
+              noteAsShortStringWithRawWholeNotes () <<
             "' to stack top tuplet '" <<
             currentTuplet->tupletAsShortString () <<
             "', line " << inputLineNumber <<
@@ -12633,7 +12645,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
             "handleNoteBelongingToATuplet():" <<
             endl <<
             "tuplet member note '" <<
-            note->noteAsShortStringWithRawDivisions () <<
+            note->
+              noteAsShortStringWithRawWholeNotes () <<
             "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
@@ -12654,7 +12667,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           cerr << idtr <<
             "--> kStopTuplet: adding tuplet member note '" <<
-            note->noteAsShortStringWithRawDivisions () <<
+            note->
+              noteAsShortStringWithRawWholeNotes () <<
             "' to stack top tuplet '" <<
             currentTuplet->tupletAsShortString () <<
             "', line " << inputLineNumber <<
@@ -12685,7 +12699,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
             "handleNoteBelongingToATuplet():" <<
             endl <<
             "tuplet member note '" <<
-            note->noteAsShortStringWithRawDivisions () <<
+            note->
+              noteAsShortStringWithRawWholeNotes () <<
             "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
@@ -12706,7 +12721,7 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
+void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   S_msrNote newChordNote)
 {
   /*
@@ -12729,8 +12744,10 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet " <<
-      newChordNote->noteAsShortStringWithRawDivisions () <<
+      "handleNoteBelongingToAChordInATuplet()" <<
+      ", newChordNote: " <<
+      newChordNote->
+        noteAsShortStringWithRawWholeNotes () <<
       endl;
 
   int inputLineNumber =
@@ -12799,7 +12816,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
         cerr << idtr <<
           "--> removing last handled note " <<
-          lastHandledNoteInVoice->noteAsShortStringWithRawDivisions () <<
+          lastHandledNoteInVoice->
+            noteAsShortStringWithRawWholeNotes () <<
           ", line " << inputLineNumber <<
           ", from tuplet '" <<
           currentTuplet->tupletAsShortString () <<
@@ -12854,7 +12872,8 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
     cerr << idtr <<
       "--> adding another note " <<
-      newChordNote->noteAsShortStringWithRawDivisions() <<
+      newChordNote->
+        noteAsShortStringWithRawWholeNotes () <<
       ", line " << inputLineNumber <<
       " to current chord" <<
       endl;
@@ -12868,13 +12887,13 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleTupletsPendingOnTupletStack (
+void musicXMLTree2MsrTranslator::handleTupletsPendingOnTupletStack (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "=== handleTupletsPendingOnTupletStack()" <<
-      ", line = " << inputLineNumber <<
+      "handleTupletsPendingOnTupletStack()" <<
+      ", line: " << inputLineNumber <<
       endl;
 
   // fetch current voice
@@ -12939,7 +12958,7 @@ void mxmltree2MsrTranslator::handleTupletsPendingOnTupletStack (
   } // while
 }
 
-void mxmltree2MsrTranslator::displayLastHandledNoteInVoice (string header)
+void musicXMLTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
 {
   cerr <<
     endl <<
@@ -12976,7 +12995,7 @@ void mxmltree2MsrTranslator::displayLastHandledNoteInVoice (string header)
     endl;
 }
 
-void mxmltree2MsrTranslator::displayLastHandledTupletInVoice (string header)
+void musicXMLTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
 {
   cerr <<
     endl <<
@@ -13014,7 +13033,7 @@ void mxmltree2MsrTranslator::displayLastHandledTupletInVoice (string header)
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleRepeatStart (
+void musicXMLTree2MsrTranslator::handleRepeatStart (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -13066,7 +13085,7 @@ void mxmltree2MsrTranslator::handleRepeatStart (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleRepeatEnd (
+void musicXMLTree2MsrTranslator::handleRepeatEnd (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -13159,7 +13178,7 @@ void mxmltree2MsrTranslator::handleRepeatEnd (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleHookedEndingStart (
+void musicXMLTree2MsrTranslator::handleHookedEndingStart (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -13216,7 +13235,7 @@ void mxmltree2MsrTranslator::handleHookedEndingStart (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleHookedEndingEnd (
+void musicXMLTree2MsrTranslator::handleHookedEndingEnd (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -13262,7 +13281,7 @@ void mxmltree2MsrTranslator::handleHookedEndingEnd (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleHooklessEndingStart (
+void musicXMLTree2MsrTranslator::handleHooklessEndingStart (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -13305,7 +13324,7 @@ void mxmltree2MsrTranslator::handleHooklessEndingStart (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::handleHooklessEndingEnd (
+void musicXMLTree2MsrTranslator::handleHooklessEndingEnd (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -13360,7 +13379,7 @@ void mxmltree2MsrTranslator::handleHooklessEndingEnd (
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_rehearsal& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13451,7 +13470,7 @@ void mxmltree2MsrTranslator::visitStart ( S_rehearsal& elt )
 }
 
 //______________________________________________________________________________
-void mxmltree2MsrTranslator::visitStart ( S_harmony& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_harmony& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13470,7 +13489,7 @@ void mxmltree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyDegreeAlteration  = kNatural;
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_root_step& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_root_step& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13487,7 +13506,7 @@ void mxmltree2MsrTranslator::visitStart ( S_root_step& elt )
     msrDiatonicPitchFromString (step [0]);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_root_alter& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_root_alter& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13513,7 +13532,7 @@ void mxmltree2MsrTranslator::visitStart ( S_root_alter& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_kind& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13581,7 +13600,7 @@ void mxmltree2MsrTranslator::visitStart ( S_kind& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_bass_step& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_bass_step& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13598,7 +13617,7 @@ void mxmltree2MsrTranslator::visitStart ( S_bass_step& elt )
     msrDiatonicPitchFromString (step [0]);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_bass_alter& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_bass_alter& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13624,7 +13643,7 @@ void mxmltree2MsrTranslator::visitStart ( S_bass_alter& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_degree_value& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_degree_value& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13634,7 +13653,7 @@ void mxmltree2MsrTranslator::visitStart ( S_degree_value& elt )
   fCurrentHarmonyDegreeValue = (int)(*elt);
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_degree_alter& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_degree_alter& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13660,7 +13679,7 @@ void mxmltree2MsrTranslator::visitStart ( S_degree_alter& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitStart ( S_degree_type& elt )
+void musicXMLTree2MsrTranslator::visitStart ( S_degree_type& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
@@ -13689,7 +13708,7 @@ void mxmltree2MsrTranslator::visitStart ( S_degree_type& elt )
   }
 }
 
-void mxmltree2MsrTranslator::visitEnd ( S_harmony& elt )
+void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<

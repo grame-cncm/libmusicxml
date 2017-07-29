@@ -230,8 +230,8 @@ S_msrScore buildMSRFromElementsTree (
         endl;
   }
   
-  // create an mxmltree2MsrTranslator
-  mxmltree2MsrTranslator translator;
+  // create an musicXMLTree2MsrTranslator
+  musicXMLTree2MsrTranslator translator;
 
   // build the MSR score
   S_msrScore

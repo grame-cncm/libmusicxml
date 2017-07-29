@@ -729,14 +729,12 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           noteAsLilypondString (note);
       }
       
-      // print the note duration
-      /* JMI
+      // print the note (display) duration
       fOstream <<
         wholeNotesAsLilypondString (
           inputLineNumber,
           note->
-            getNoteTupletNoteSoundingWholeNotesAsMsrString ()); // ??? JMI
-            */
+            getNoteDisplayWholeNotes ());
 
       // print the tie if any
       {
