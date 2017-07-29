@@ -6537,6 +6537,8 @@ void mxmltree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentNoteOctave = K_NO_OCTAVE;
 
+  fCurrentNoteSoundingWholeNotes = rational (0, 1);
+
   fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;
   fCurrentDisplayOctave = K_NO_OCTAVE;
   fCurrentNoteDisplayWholeNotes = rational (0, 1);
@@ -6766,7 +6768,15 @@ void mxmltree2MsrTranslator::visitStart ( S_type& elt )
       msrMusicXMLError (
         elt->getInputLineNumber (),
           "unknown note type size \"" + noteTypeSize + "\"");
-  }  
+  }
+
+  // the type contains a display duration
+  fCurrentNoteDisplayWholeNotes =
+    msrDurationAsWholeNotes (fCurrentNoteGraphicDuration);
+
+  // set the sounding duration to the same value by default
+  fCurrentNoteSoundingWholeNotes =
+    fCurrentNoteDisplayWholeNotes;
 }
 
 void mxmltree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
@@ -10061,9 +10071,6 @@ void mxmltree2MsrTranslator::visitStart ( S_rest& elt)
         elt->getInputLineNumber (),
           "unknown rest measure \"" + restMeasure + "\"");
   }
-
-  fCurrentNoteDisplayWholeNotes =
-    rational (0, 1); // JMI
 }
 
 //______________________________________________________________________________
@@ -10673,7 +10680,8 @@ void mxmltree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
   // set note displayed divisions
   firstNote->
     applyTupletMemberDisplayFactor (
-      fCurrentActualNotes, fCurrentNormalNotes);
+      fCurrentActualNotes,
+      fCurrentNormalNotes);
   */
 
 
@@ -10722,7 +10730,8 @@ void mxmltree2MsrTranslator::finalizeTuplet (
 /*  // set note displayed divisions JMI
   note->
     applyTupletMemberDisplayFactor (
-      fCurrentActualNotes, fCurrentNormalNotes);
+      fCurrentActualNotes,
+      fCurrentNormalNotes);
 */
 
 /* JMI
@@ -11433,7 +11442,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-  if (false && gGeneralOptions->fTraceNotes) { // JMI
+  if (gGeneralOptions->fTraceNotes) { // JMI
     cerr <<
       endl <<
       idtr <<
@@ -11729,7 +11738,7 @@ void mxmltree2MsrTranslator::visitEnd ( S_note& elt )
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);
 
-  if (false && gGeneralOptions->fTraceNotes) { // JMI
+  if (gGeneralOptions->fTraceNotes) { // JMI
      const int fieldWidth = 27;
 
     cerr <<
@@ -12543,8 +12552,9 @@ void mxmltree2MsrTranslator::handleNoteBelongingToATuplet (
 
   // apply tuplet display factor to note
   note->
-    applyTupletMemberDisplayFactorToNote (
-      fCurrentActualNotes, fCurrentNormalNotes);
+    applyTupletMemberSoundingFactorToNote (
+      fCurrentActualNotes,
+      fCurrentNormalNotes);
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
@@ -12713,8 +12723,9 @@ void mxmltree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   // apply tuplet display factor to note
   newChordNote->
-    applyTupletMemberDisplayFactorToNote (
-      fCurrentActualNotes, fCurrentNormalNotes);
+    applyTupletMemberSoundingFactorToNote (
+      fCurrentActualNotes,
+      fCurrentNormalNotes);
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<

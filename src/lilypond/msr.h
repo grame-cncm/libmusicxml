@@ -400,6 +400,8 @@ enum msrDuration {
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
   k_NoDuration};
 
+rational msrDurationAsWholeNotes (msrDuration duration);
+
 string msrDurationAsString (msrDuration duration);
 
 // whole notes
@@ -4924,7 +4926,7 @@ class EXP msrNote : public msrElement
                             int actualNotes, int normalNotes) const;
 
     // tuplet members
-    void                  applyTupletMemberDisplayFactorToNote (
+    void                  applyTupletMemberSoundingFactorToNote (
                             int actualNotes, int normalNotes);
                     
     // lyrics
@@ -6474,7 +6476,7 @@ class EXP msrTuplet : public msrElement
 
  // JMI   void                  applyDisplayFactorToTupletMembers ();
     
-    void                  unapplyDisplayFactorToTupletMembers (
+    void                  unapplySoundingFactorToTupletMembers (
                             int containingTupletActualNotes,
                             int containingTupletNormalNotes);
 

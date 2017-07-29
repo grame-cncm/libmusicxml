@@ -5835,7 +5835,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
     // unapply containing tuplet factor,
     // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
     elt->
-      unapplyDisplayFactorToTupletMembers (
+      unapplySoundingFactorToTupletMembers (
         containingTuplet->
           getTupletActualNotes (),
         containingTuplet->

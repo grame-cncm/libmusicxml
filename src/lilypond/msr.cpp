@@ -1985,6 +1985,61 @@ string existingQuarterTonesPitchesLanguages ()
 
 // durations
 //______________________________________________________________________________
+rational msrDurationAsWholeNotes (msrDuration duration)
+{
+  rational result;
+
+  switch (duration) {
+    case k1024th:
+      result = rational (1, 1024);
+      break;
+    case k512th:
+      result = rational (1, 512);
+      break;
+    case k256th:
+      result = rational (1, 256);
+      break;
+    case k128th:
+      result = rational (1, 128);
+      break;
+    case k64th:
+      result = rational (1, 64);
+      break;
+    case k32nd:
+      result = rational (1, 32);
+      break;
+    case k16th:
+      result = rational (1, 16);
+      break;
+    case kEighth:
+      result = rational (1, 8);
+      break;
+    case kQuarter:
+      result = rational (1, 4);
+      break;
+    case kHalf:
+      result = rational (1, 2);
+      break;
+    case kWhole:
+      result = rational (1, 1);
+      break;
+    case kBreve:
+      result = rational (2, 1);
+      break;
+    case kLong:
+      result = rational (4, 1);
+      break;
+    case kMaxima:
+      result = rational (8, 1);
+      break;
+    case k_NoDuration:
+      result = rational (0, 1);
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrDurationAsString (msrDuration duration)
 {
   string result;
@@ -6533,7 +6588,9 @@ void msrNote::initializeNote ()
     msrSyllable::k_NoSyllableExtend;
   
   if (gGeneralOptions->fTraceNotes) {
-    cerr << idtr <<
+    cerr <<
+      endl <<
+      idtr <<
       "Creating a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
@@ -6548,7 +6605,7 @@ void msrNote::initializeNote ()
 
     idtr++;
     
-    const int fieldWidth = 31;
+    const int fieldWidth = 33;
     
     cerr <<
       idtr << left <<
@@ -7367,9 +7424,31 @@ void msrNote::setNoteBelongsToAChord ()
   fNoteKind = msrNote::kChordMemberNote;
 }
 
-void msrNote::applyTupletMemberDisplayFactorToNote (
+void msrNote::applyTupletMemberSoundingFactorToNote (
   int actualNotes, int normalNotes)
 {
+  /*
+  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
+
+  Quarter note in a triplet, sounds 2/3 of a quarter:
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <notations>
+          <tuplet number="1" type="start" />
+        </notations>
+      </note>
+  */
+
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
       "Applying tuplet display factor '" <<
@@ -7379,12 +7458,15 @@ void msrNote::applyTupletMemberDisplayFactorToNote (
       "', line " << fInputLineNumber <<
       endl;
 
-  fNoteDisplayWholeNotes =
+  // the display whole notes are known, compute the sounding ones
+  fNoteSoundingWholeNotes =
     fNoteDisplayWholeNotes
       *
-    actualNotes
+    normalNotes
       /
-    normalNotes;
+    actualNotes;
+
+  fNoteSoundingWholeNotes.rationalise ();
 }
 
 void msrNote::addBeamToNote (S_msrBeam beam)
@@ -9472,7 +9554,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
     i != fChordNotes.end();
     ++i) {
     (*i)->
-      applyTupletMemberDisplayFactorToNote (
+      applyTupletMemberSoundingFactorToNote (
         actualNotes, normalNotes);
   } // for
 }
@@ -10963,7 +11045,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   // unapply containing tuplet factor,
   // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
   tuplet->
-    unapplyDisplayFactorToTupletMembers (
+    unapplySoundingFactorToTupletMembers (
       this->fTupletActualNotes,
       this->fTupletNormalNotes);
   */
@@ -11218,7 +11300,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
       S_msrNote note = dynamic_cast<msrNote*>(&(**i))
       ) {    
       note->
-        applyTupletMemberDisplayFactorToNote (
+        applyTupletMemberSoundingFactorToNote (
           fTupletActualNotes, fTupletNormalNotes);
      }
   
@@ -11248,14 +11330,14 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
 }
 */
 
-void msrTuplet::unapplyDisplayFactorToTupletMembers (
+void msrTuplet::unapplySoundingFactorToTupletMembers (
   int containingTupletActualNotes,
   int containingTupletNormalNotes)
 {
   if (gGeneralOptions->fTraceTuplets) {
     cerr <<
       idtr <<
-        "UnapplyDisplayFactorToTupletMembers()" <<
+        "unapplySoundingFactorToTupletMembers()" <<
         endl;
 
     idtr++;
