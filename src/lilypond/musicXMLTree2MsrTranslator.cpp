@@ -12312,7 +12312,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
 
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "handleNoteBelongingToAChord()" <<
+      "Handling a note belonging to a chord" <<
       ", newChordNote:" <<
       endl;
 
@@ -12389,7 +12389,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
         
     if (gGeneralOptions->fTraceChords) {
       cerr << idtr <<
-        "musicXMLTree2MsrTranslator::handleNoteBelongingToAChord()" <<
+        "Handling a note belonging to a chord" <<
         ", savedChordFirstNoteKind = " <<
         msrNote::noteKindAsString (savedChordFirstNoteKind) <<
         endl;
@@ -12421,7 +12421,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
         // remove last handled (previous current) note from the current voice
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
           cerr << idtr <<
-            "--> removing chord first note " <<
+            "Removing chord first note " <<
             chordFirstNote->noteAsShortString () <<
             ", line " << inputLineNumber <<
             ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
@@ -12502,7 +12502,8 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
             stringstream s;
   
             s <<
-              "chord first note '" << chordFirstNote->noteAsShortString () <<
+              "chord first note '" <<
+              chordFirstNote->noteAsShortString () <<
               "' belongs to a double tremolo, but is not marked as such";
   
             msrInternalError (
@@ -12558,7 +12559,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
   note->
     setNoteKind (msrNote::kTupletMemberNote);
 
-  // apply tuplet display factor to note
+  // apply tuplet sounding factor to note
   note->
     applyTupletMemberSoundingFactorToNote (
       fCurrentActualNotes,
@@ -12566,7 +12567,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "handleNoteBelongingToATuplet()" <<
+      "Handling a note belonging to a tuplet" <<
       ", note: " <<
       note->
         noteAsShortStringWithRawWholeNotes () <<
@@ -12736,7 +12737,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-  // apply tuplet display factor to note
+  // apply tuplet sounding factor to note
   newChordNote->
     applyTupletMemberSoundingFactorToNote (
       fCurrentActualNotes,
@@ -12744,7 +12745,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "handleNoteBelongingToAChordInATuplet()" <<
+      "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
       newChordNote->
         noteAsShortStringWithRawWholeNotes () <<
@@ -12780,7 +12781,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       stringstream s;
 
       s <<
-        "handleNoteBelongingToAChordInATuplet:" <<
+        "handleNoteBelongingToAChordInATuplet():" <<
         endl <<
         idtr <<
           "lastHandledNoteInVoice is null on " <<
@@ -12815,7 +12816,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       // remove last handled (previous current) note from the current tuplet
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
         cerr << idtr <<
-          "--> removing last handled note " <<
+          "Removing last handled note " <<
           lastHandledNoteInVoice->
             noteAsShortStringWithRawWholeNotes () <<
           ", line " << inputLineNumber <<
@@ -12833,7 +12834,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       // add fCurrentChord to the current tuplet instead
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
       cerr << idtr <<
-        "--> adding chord " << fCurrentChord->chordAsString () <<
+        "Adding chord " << fCurrentChord->chordAsString () <<
         " to stack top tuplet '" <<
         currentTuplet->tupletAsShortString () <<
         "', line " << inputLineNumber <<
@@ -12841,13 +12842,12 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
       currentTuplet->
         addChordToTuplet (fCurrentChord);
-  /* JMI
-      // set note displayed divisions
-      note->
-        applyTupletMemberDisplayFactor (
+
+      // set newChordNote sounding whole notes
+      newChordNote->
+        applyTupletMemberSoundingFactorToNote (
           fTupletsStack.top ()->getTupletActualNotes (),
           fTupletsStack.top ()->getTupletNormalNotes ());
-  */
     }
     
     else {
@@ -12871,7 +12871,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   // register note as another member of fCurrentChord
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "--> adding another note " <<
+      "Adding another note " <<
       newChordNote->
         noteAsShortStringWithRawWholeNotes () <<
       ", line " << inputLineNumber <<
@@ -12892,7 +12892,7 @@ void musicXMLTree2MsrTranslator::handleTupletsPendingOnTupletStack (
 {
   if (gGeneralOptions->fTraceTuplets)
     cerr << idtr <<
-      "handleTupletsPendingOnTupletStack()" <<
+      "Handling tuplets pending on tuplet stack" <<
       ", line: " << inputLineNumber <<
       endl;
 

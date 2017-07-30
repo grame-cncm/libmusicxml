@@ -9551,7 +9551,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
 {
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords)
     cerr << idtr <<
-      "Applying tuplet member display factor '" <<
+      "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
       "' to the members of chord '" << chordAsStringwithRawDivisions () <<
       "', line " << fInputLineNumber <<
@@ -11318,7 +11318,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
     list<S_msrElement>::const_iterator i = fTupletElements.begin();
     i != fTupletElements.end();
     i++ ) {
-    // apply display factor to tuplet element
+    // apply sounding factor to tuplet element
     
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(**i))
@@ -11339,7 +11339,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
     else if (
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
       ) {
-      // don't apply the display factor to nested tuplets
+      // don't apply the sounding factor to nested tuplets
  // JMI     tuplet->
        // applyDisplayFactorToTupletMembers ();
     }
