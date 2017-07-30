@@ -5503,14 +5503,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   else {
     // print the chord duration
     fOstream <<
-      elt->
-        chordSoundingWholeNotesAsMsrString ();
-    /* JMI
       wholeNotesAsLilypondString (
         chordInputLineNumber,
-        elt->getChordDirectPartUplink (),
-        elt->getChordDisplayWholeNotes ());
-        */
+        elt->
+          getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
   }
    
   // fetch the chord single tremolo
