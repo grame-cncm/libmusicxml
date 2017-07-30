@@ -4718,6 +4718,122 @@ void musicXMLTree2MsrTranslator::visitStart ( S_wedge& elt )
 //________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart (S_lyric& elt )
 {
+  /*
+    Text underlays for lyrics, based on Humdrum with support
+    for other formats. The lyric number indicates multiple
+    lines, though a name can be used as well (as in Finale's
+    verse/chorus/section specification). Word extensions are
+    represented using the extend element. Hyphenation is 
+    indicated by the syllabic element, which can be single, 
+    begin, end, or middle. These represent single-syllable
+    words, word-beginning syllables, word-ending syllables,
+    and mid-word syllables. Multiple syllables on a single
+    note are separated by elision elements. A hyphen in the
+    text element should only be used for an actual hyphenated
+    word. Two text elements that are not separated by an
+    elision element are part of the same syllable, but may have
+    different text formatting.
+  
+    Humming and laughing representations are taken from
+    Humdrum. The end-line and end-paragraph elements come
+    from RP-017 for Standard MIDI File Lyric meta-events;
+    they help facilitate lyric display for Karaoke and
+    similar applications. Language names for text elements
+    come from ISO 639, with optional country subcodes from
+    ISO 3166. Justification is center by default; placement is
+    below by default. The print-object attribute can override
+    a note's print-lyric attribute in cases where only some
+    lyrics on a note are printed, as when lyrics for later verses
+    are printed in a block of text rather than with each note.
+
+    Single and begin can occur on one and the same note...:
+
+      <note default-x="143">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-5">up</stem>
+        <beam number="1">begin</beam>
+        
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">1.</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+        </lyric>
+        
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">2.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'T</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">was</text>
+        </lyric>
+        
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">3.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Throug</text>
+          <extend type="start"/>
+        </lyric>
+        
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">4.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">The</text>
+          <extend type="start"/>
+        </lyric>
+        
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">5.</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+        </lyric>
+        
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">6.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Yes,</text>
+          <extend type="start"/>
+        </lyric>
+        
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">7.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">The</text>
+          <extend type="start"/>
+        </lyric>
+        
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">8.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">When</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+  */
+  
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
       "--> Start visiting S_lyric" <<
