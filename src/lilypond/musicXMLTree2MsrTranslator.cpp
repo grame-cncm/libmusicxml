@@ -4903,6 +4903,19 @@ void musicXMLTree2MsrTranslator::visitStart ( S_syllabic& elt )
       elt->getInputLineNumber (),
       s.str());
   }
+
+  if (fCurrentLyricElision) { // JMI
+    if (fCurrentLyricTextsList.size ()) {
+      // fine, there are several <syllabic /> on the given note
+    }
+    else {
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        "there is an out of context <elision /> markup");
+    }
+
+    fCurrentLyricElision = false;
+  }
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_text& elt ) 
