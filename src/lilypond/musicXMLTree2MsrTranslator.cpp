@@ -5302,7 +5302,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         endl;
 
   if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
-   // create a syllable
    //     fCurrentLyricElision ??? JMI
     if (gGeneralOptions->fTraceLyrics) {      
       cerr <<
@@ -5334,6 +5333,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         endl;
     }
     
+    // create a syllable
     syllable =
       msrSyllable::create (
         inputLineNumber,
@@ -12238,10 +12238,6 @@ void musicXMLTree2MsrTranslator::handleLyric (
   int inputLineNumber =
     newNote->getInputLineNumber ();
 
-  bool
-    newNoteHasLyrics = fCurrentNoteHasLyrics; // JMI
-//      fCurrentNoteSyllables.size () > 0;
-
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
       "Handling lyric" <<
@@ -12257,14 +12253,14 @@ void musicXMLTree2MsrTranslator::handleLyric (
       ", fOnGoingMelisma = " <<
       booleanAsString (
         fOnGoingMelisma) <<
-      ", newNoteHasLyrics = " <<
+      ", fCurrentNoteHasLyrics = " <<
       booleanAsString (
-        newNoteHasLyrics) <<
+        fCurrentNoteHasLyrics) <<
       ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
       endl;
   }
 
-  if (newNoteHasLyrics) {
+  if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
     
     for (
@@ -12390,7 +12386,7 @@ void musicXMLTree2MsrTranslator::handleLyric (
 
   // register whether the new last handled note has lyrics
   fLastHandledNoteInVoiceHasLyrics =
-    newNoteHasLyrics;
+    fCurrentNoteHasLyrics;
 
   // is '<extend />' active for newNote?
   switch (fCurrentSyllableExtendKind) {

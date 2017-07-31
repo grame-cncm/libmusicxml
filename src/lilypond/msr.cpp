@@ -8702,7 +8702,7 @@ void msrNote::print (ostream& os)
     idtr--;
   }
 
-  // are there syllables associated to this note?
+  // print the syllables associated to this note if any
   if (fNoteSyllables.size ()) {
     idtr++;
 
