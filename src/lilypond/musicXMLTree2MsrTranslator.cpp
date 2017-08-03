@@ -12277,13 +12277,6 @@ void musicXMLTree2MsrTranslator::handleLyric (
       // set syllables note uplink to newNote
       syllable->
         setSyllableNoteUplink (newNote);
-
-      // register syllable in current voice
-      currentVoice->
-        appendSyllableToVoice (
-          inputLineNumber,
-          fCurrentStanzaNumber,
-          syllable);
     } // for
 
     // forget all of newNote's syllables
