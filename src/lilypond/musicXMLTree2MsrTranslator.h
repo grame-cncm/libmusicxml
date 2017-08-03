@@ -1295,7 +1295,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                                 
     void                      handleNoteBelongingToATuplet (
                                 S_msrNote newNote);
-    void                      handleTupletsPendingOnTupletStack (
+    void                      handleTupletsPendingOnTupletsStack (
                                 int inputLineNumber);
 
     void                      handleNoteBelongingToAChordInATuplet (

@@ -4326,7 +4326,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_backup& elt )
 */
 
   // handle the pending tuplets if any
-  handleTupletsPendingOnTupletStack (
+  handleTupletsPendingOnTupletsStack (
     elt->getInputLineNumber ());
   
   fOnGoingBackup = true;
@@ -4404,7 +4404,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_forward& elt )
 
   
   // handle the pending tuplets if any
-  handleTupletsPendingOnTupletStack (
+  handleTupletsPendingOnTupletsStack (
     elt->getInputLineNumber ());
   
   fOnGoingForward = true;
@@ -5056,7 +5056,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
       endl;
 
   int inputLineNumber =
-      elt->getInputLineNumber ();
+    elt->getInputLineNumber ();
 
   if (gGeneralOptions->fTraceLyrics) {
     cerr <<
@@ -5360,11 +5360,11 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable->
       setSyllableDirectPartUplink (
         fCurrentPart);
+      */
       
     // append syllable to current note's syllables list
     fCurrentNoteSyllables.push_back (
       syllable);
-      */
 
     // append syllable to stanza
     stanza->
@@ -12043,7 +12043,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
   }
 
   // handle the pending tuplets if any ??? JMI XXL
-  handleTupletsPendingOnTupletStack (
+  handleTupletsPendingOnTupletsStack (
     inputLineNumber);
 
   if (fCurrentNoteIsAGraceNote) {
@@ -12262,14 +12262,20 @@ void musicXMLTree2MsrTranslator::handleLyric (
 
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
-    
+    cerr <<
+      "*** " << "newNote has lyrics attached to it" << " ***" <<
+      endl;
+      
     for (
       list<S_msrSyllable>::const_iterator i =
         fCurrentNoteSyllables.begin();
       i != fCurrentNoteSyllables.end();
       i++ ) {
+      S_msrSyllable
+        syllable = (*i);
+        
       // set syllables note uplink to newNote
-      (*i)->
+      syllable->
         setSyllableNoteUplink (newNote);
 
       // register syllable in current voice
@@ -12277,7 +12283,7 @@ void musicXMLTree2MsrTranslator::handleLyric (
         appendSyllableToVoice (
           inputLineNumber,
           fCurrentStanzaNumber,
-          (*i));
+          syllable);
     } // for
 
     // forget all of newNote's syllables
@@ -13012,7 +13018,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 }
 
 //______________________________________________________________________________
-void musicXMLTree2MsrTranslator::handleTupletsPendingOnTupletStack (
+void musicXMLTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceTuplets)

@@ -8708,7 +8708,7 @@ void msrNote::print (ostream& os)
 
     os <<
       idtr <<
-      "Syllables: " <<
+      "Syllables:" <<
       endl;
       
     idtr++;
@@ -8722,7 +8722,9 @@ void msrNote::print (ostream& os)
         syllable = (*i);
         
       os <<
-        idtr;
+        idtr <<
+        syllable->syllableKindAsString () <<
+        ": ";
 
       msrSyllable::writeTextsList (
         syllable->getSyllableTextsList (),
