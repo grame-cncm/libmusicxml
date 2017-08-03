@@ -9415,7 +9415,7 @@ class EXP msrPart : public msrElement
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);
 
-//    void            appendRepeatEndingToPart (int inputLineNumber);
+//    void            appendRepeatEndingToPart (int inputLineNumber); // JMI
 
     void                  createMeasureRepeatFromItsFirstMeasureInPart (
                             int inputLineNumber,

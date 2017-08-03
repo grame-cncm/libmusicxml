@@ -25312,7 +25312,10 @@ void msrStaff::initializeStaff ()
           fInputLineNumber, s.str());
       }
       
-      // dont't create any staff silent voice for a harmony staff
+    // JMI ???  // dont't create any staff silent voice for a harmony staff
+      // create the staff silent voice
+      createStaffSilentVoice (
+        fInputLineNumber);
       break;
   } // switch
 
@@ -26293,6 +26296,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
     case msrStaff::kRegularStaff:
     case msrStaff::kTablatureStaff:
     case msrStaff::kPercussionStaff:
+    case msrStaff::kHarmonyStaff:
       {
         rational
           partMeasureLengthHighTide =
@@ -26319,9 +26323,12 @@ void msrStaff::finalizeCurrentMeasureInStaff (
             inputLineNumber);
       }
       break;
+
+      /* JMI
     case msrStaff::kHarmonyStaff:
       // no silent voice here
       break;
+      */
   } // switch
 
   // then finlalize all the other voices
@@ -26993,6 +27000,13 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
       registerVoiceInStaff (
         inputLineNumber,
         fPartHarmonyVoice );
+
+    if (fPartCurrentTime) {
+      // append part current time to harmony voice
+      fPartHarmonyVoice->
+        appendTimeToVoice (
+          fPartCurrentTime);
+    }
   }
 }
 

@@ -824,7 +824,14 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         fCurrentStaffClone =
           fCurrentPartClone->
             getPartHarmonyStaff ();
-            
+
+        if (! fCurrentStaffClone) { // JMI
+          // create a staff clone
+          fCurrentStaffClone =
+            elt->createStaffNewbornClone (
+              fCurrentPartClone);
+        }
+        
         /* JMI
         // create a staff clone
         fCurrentStaffClone =
