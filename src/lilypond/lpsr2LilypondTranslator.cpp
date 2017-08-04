@@ -2354,7 +2354,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   s <<
     staffContextName <<
     " = \"" <<
-    staff->getStaffNumber () <<
+    staff->getStaffName () <<
     "\"";
 
   string newContext = s.str();

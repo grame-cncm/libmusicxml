@@ -24616,21 +24616,30 @@ void msrVoice::print (ostream& os)
     idtr--;
   }
   os << endl;
-  
+
+  /* JMI
   // print the last segment
   msrAssert (
     fVoiceLastSegment != 0,
     "fVoiceLastSegment is null");
-    
-  os << idtr <<
-    "Last segment:" <<
-    endl;
-    
-  idtr++;
-  os <<
-    fVoiceLastSegment <<
-    endl;
-  idtr--;
+    */
+
+  if (fVoiceLastSegment) {
+    os << idtr <<
+      "Last segment:" <<
+      endl;
+      
+    idtr++;
+    os <<
+      fVoiceLastSegment <<
+      endl;
+    idtr--;
+  }
+  else {
+    os << idtr <<
+      "*** Last segment is null ***" << // JMI
+      endl;
+  }
   
   if (gGeneralOptions->fTraceLyrics) {
     // print the mute stanza
@@ -25490,8 +25499,8 @@ msrStaff::~msrStaff()
 void msrStaff::createStaffSilentVoice (
   int inputLineNumber)
 {
-  // create the part harmony voice  
-  if (gGeneralOptions->fTraceHarmonies)
+  // create the staff silent voice  
+  if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
       "Creating the silent voice for staff \"" <<
       getStaffName () <<
@@ -27704,11 +27713,13 @@ void msrPart::appendHarmonyToPartClone (
       // create the harmony staff and voice if not yet done
       createPartHarmonyStaffAndVoiceIfNotYetDone (
         inputLineNumber);
-      
+
+      /* JMI NON
       // register this voice as the part harmonies supplier voice
       setPartHarmoniesSupplierVoice (
         inputLineNumber,
         harmoniesSupplierVoice);
+        */
     
       // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
