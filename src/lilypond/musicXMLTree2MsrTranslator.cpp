@@ -5354,13 +5354,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
     // forget about those texts
     fCurrentLyricTextsList.clear ();
-
-/* JMI
-    // set syllable's note direct uplink
-    syllable->
-      setSyllableDirectPartUplink (
-        fCurrentPart);
-      */
+    
+    // setSyllableNoteUplink() will be called in handleLyrics(),
+    // after the note has been created
       
     // append syllable to current note's syllables list
     fCurrentNoteSyllables.push_back (
@@ -11943,8 +11939,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   }
   */
   
-  // lyric if any has to be handled in all cases
-  handleLyric (
+  // lyrics if any have to be handled in all cases
+  handleLyrics (
     currentVoice, newNote);
 
   fLastHandledNoteInVoice [currentVoice] = newNote;
@@ -12231,7 +12227,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
 }
 
 //______________________________________________________________________________
-void musicXMLTree2MsrTranslator::handleLyric (
+void musicXMLTree2MsrTranslator::handleLyrics (
   S_msrVoice currentVoice,
   S_msrNote newNote)
 {

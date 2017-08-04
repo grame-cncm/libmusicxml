@@ -972,7 +972,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     bool                      fLastHandledNoteInVoiceHasLyrics;
     bool                      fOnGoingMelisma;
     
-    void                      handleLyric (
+    void                      handleLyrics (
                                 S_msrVoice currentVoice,
                                 S_msrNote newNote);
 

@@ -819,28 +819,19 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       
     case msrStaff::kHarmonyStaff:
       {
-        // don't create a harmony staff clone here,
-        // since it has been created already in the part clone
-        fCurrentStaffClone =
-          fCurrentPartClone->
-            getPartHarmonyStaff ();
-
-        if (! fCurrentStaffClone) { // JMI
-          // create a staff clone
-          fCurrentStaffClone =
-            elt->createStaffNewbornClone (
-              fCurrentPartClone);
-        }
-        
-        /* JMI
         // create a staff clone
         fCurrentStaffClone =
-          elt->createStaffNewbornClone (fCurrentPartClone);
-          
+          elt->createStaffNewbornClone (
+            fCurrentPartClone);
+        
         // add it to the part clone
         fCurrentPartClone->
-          addStaffToPartClone (fCurrentStaffClone);
-*/
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
+
+        // register it as the part harmony staff
+        fCurrentPartClone->
+          setPartHarmonyStaff (fCurrentStaffClone);
 
       /* JMI
         // create a staff block
@@ -952,6 +943,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       
     case msrVoice::kHarmonyVoice:
       {
+        /* JMI
         // create the harmony staff and voice if not yet done
         fCurrentPartClone->
           createPartHarmonyStaffAndVoiceIfNotYetDone (
@@ -961,6 +953,21 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         fCurrentVoiceClone =
           fCurrentPartClone->
             getPartHarmonyVoice ();
+*/
+
+        // create a voice clone
+        fCurrentVoiceClone =
+          elt->createVoiceNewbornClone (
+            fCurrentStaffClone);
+              
+        // add it to the staff clone
+        fCurrentStaffClone->
+          registerVoiceInStaff (
+            inputLineNumber, fCurrentVoiceClone);
+    
+        // register it as the part harmony voice
+        fCurrentPartClone->
+          setPartHarmonyVoice (fCurrentVoiceClone);
 
         if (
           elt->getMusicHasBeenInsertedInVoice ()

@@ -22693,9 +22693,11 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       break;
       
     case msrVoice::kHarmonyVoice:
+   // /* JMI DON'T
       // create the voice last segment and first measure if needed
       appendAFirstMeasureToVoiceIfNotYetDone (
         harmony->getInputLineNumber ());
+//*/
 
       fVoiceLastSegment->
         appendHarmonyToSegmentClone (harmony);
@@ -27690,28 +27692,6 @@ void msrPart::appendHarmonyToPart (
   } // switch
 }
 
-void msrPart::appendAccordionRegistrationToPart (
-  S_msrAccordionRegistration
-    accordionRegistration)
-{
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
-    cerr << idtr <<
-      "Appending accordion registration '" <<
-      accordionRegistration->accordionRegistrationAsString () <<
-      "' to part " <<
-      getPartCombinedName () <<
-      endl;
-
-  for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->
-      appendAccordionRegistrationToStaff (
-        accordionRegistration);
-  } // for
-}
-
 void msrPart::appendHarmonyToPartClone (
   S_msrVoice   harmoniesSupplierVoice,
   S_msrHarmony harmony)
@@ -27721,6 +27701,15 @@ void msrPart::appendHarmonyToPartClone (
 
   switch (harmoniesSupplierVoice->getVoiceKind ()) {
     case msrVoice::kHarmonyVoice:
+      // create the harmony staff and voice if not yet done
+      createPartHarmonyStaffAndVoiceIfNotYetDone (
+        inputLineNumber);
+      
+      // register this voice as the part harmonies supplier voice
+      setPartHarmoniesSupplierVoice (
+        inputLineNumber,
+        harmoniesSupplierVoice);
+    
       // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
         cerr << idtr <<
@@ -27754,6 +27743,28 @@ void msrPart::appendHarmonyToPartClone (
       }
       break;
   } // switch
+}
+
+void msrPart::appendAccordionRegistrationToPart (
+  S_msrAccordionRegistration
+    accordionRegistration)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
+    cerr << idtr <<
+      "Appending accordion registration '" <<
+      accordionRegistration->accordionRegistrationAsString () <<
+      "' to part " <<
+      getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      appendAccordionRegistrationToStaff (
+        accordionRegistration);
+  } // for
 }
 
 void msrPart:: handleBackup (
@@ -28039,7 +28050,7 @@ void msrPart::print (ostream& os)
           break;
           
         case msrStaff::kHarmonyStaff:
-          if (gMsrOptions->fShowHarmonyVoices)
+    // JMI      if (gMsrOptions->fShowHarmonyVoices)
           os << idtr <<
             staff;
           break;
@@ -28066,7 +28077,7 @@ void msrPart::print (ostream& os)
             break;
             
           case msrStaff::kHarmonyStaff:
-            if (gMsrOptions->fShowHarmonyVoices)
+   // JMI         if (gMsrOptions->fShowHarmonyVoices)
               os <<
                 idtr <<
                 endl;
@@ -28116,7 +28127,7 @@ void msrPart::printStructure (ostream& os)
       endl <<
     endl;
 
-  // print the harmony staff
+  // print the harmony staff // JMI specifically?
   if (fPartHarmonyStaff) {
     os <<
       endl <<

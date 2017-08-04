@@ -9325,9 +9325,17 @@ class EXP msrPart : public msrElement
 
     // harmony staff and voice
     
+    void                  setPartHarmonyStaff (
+                            S_msrStaff harmonyStaff)
+                              { fPartHarmonyStaff = harmonyStaff; }
+                  
     S_msrStaff            getPartHarmonyStaff () const
                               { return fPartHarmonyStaff; }
-                  
+                 
+    void                  setPartHarmonyVoice (
+                            S_msrVoice harmonyVoice)
+                              { fPartHarmonyVoice = harmonyVoice; }
+
     S_msrVoice            getPartHarmonyVoice () const
                               { return fPartHarmonyVoice; }
                   
