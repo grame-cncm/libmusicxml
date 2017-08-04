@@ -3473,7 +3473,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         // followed by a bar check
         fOstream << idtr <<
           "R" <<
-          elt->measureFullMeasureLengthAsMSRString () <<
+          wholeNotesAsLilypondString (
+            inputLineNumber,
+            elt->
+              getMeasureFullMeasureLength ()) <<
           " | " <<
           endl;
       }
