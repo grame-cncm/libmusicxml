@@ -45,8 +45,11 @@ void musicXMLTree2MsrTranslator::initializeNoteData ()
 
   fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
   
-  fCurrentNoteSoundingWholeNotes = rational (-17, 1);
-  fCurrentNoteDisplayWholeNotes  = rational (-29, 1);
+  fCurrentNoteSoundingWholeNotes = rational (-13, 1);
+  fCurrentNoteSoundingWholeNotesFromDuration = rational (-17, 1);
+  
+  fCurrentNoteDisplayWholeNotes  = rational (-25, 1);
+  fCurrentNoteDisplayWholeNotesFromType  = rational (-29, 1);
   
   fCurrentNoteDotsNumber = 0;
   
@@ -5320,10 +5323,10 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         "\"" <<
         ", line " << inputLineNumber <<
         ", whole notes: " <<
-        fCurrentNoteSoundingWholeNotes <<
-        " sounding, " <<
-         fCurrentNoteDisplayWholeNotes << 
-        ", display" <<
+        fCurrentNoteSoundingWholeNotesFromDuration <<
+        " sounding from duration, " <<
+         fCurrentNoteDisplayWholeNotesFromType << 
+        ", display from type" <<
         ", syllabic = \"" <<
         msrSyllable::syllableKindAsString (
           fCurrentSyllableKind) << "\"" <<
@@ -5340,7 +5343,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentPart,
         fCurrentSyllableKind,
         msrSyllable::k_NoSyllableExtend,
-        fCurrentNoteSoundingWholeNotes,
+        fCurrentNoteSoundingWholeNotesFromDuration,
         stanza);
 
     // append the lyric texts to the syllable
@@ -6663,10 +6666,12 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteOctave = K_NO_OCTAVE;
 
   fCurrentNoteSoundingWholeNotes = rational (0, 1);
+  fCurrentNoteSoundingWholeNotesFromDuration = rational (0, 1);
 
   fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;
   fCurrentDisplayOctave = K_NO_OCTAVE;
   fCurrentNoteDisplayWholeNotes = rational (0, 1);
+  fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
   
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
@@ -6776,7 +6781,13 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
 
   int duration = (int)(*elt); // divisions
 
-  if      (fOnGoingBackup) {
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "Note duration: " << duration <<
+      endl;
+  }
+
+  if (fOnGoingBackup) {
   
     fCurrentBackupDurationDivisions = duration;
 
@@ -6790,18 +6801,34 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
+    if (gGeneralOptions->fTraceNotes) {
+      cerr << idtr <<
+        "fCurrentDivisionsPerQuarterNote: " <<
+        fCurrentDivisionsPerQuarterNote <<
+        endl;
+    }
+
     // set current grace note whole notes      
-    fCurrentNoteSoundingWholeNotes =
+    fCurrentNoteSoundingWholeNotesFromDuration =
       rational (
         duration,
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
 
-    fCurrentNoteSoundingWholeNotes.rationalise ();
+    fCurrentNoteSoundingWholeNotesFromDuration.rationalise ();
 
+    if (gGeneralOptions->fTraceNotes) {
+      cerr << idtr <<
+        "fCurrentNoteSoundingWholeNotesFromDuration: " <<
+        fCurrentNoteSoundingWholeNotesFromDuration <<
+        endl;
+    }
+
+/*
     // set current grace note display whole notes
     // to note sounding whole notes
-    fCurrentNoteDisplayWholeNotes =
-      fCurrentNoteSoundingWholeNotes; // by default
+    fCurrentNoteDisplayWholeNotesFromDuration =
+      fCurrentNoteSoundingWholeNotesFromDuration; // by default
+      */
   }
   
   else {
@@ -6896,12 +6923,15 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
   }
 
   // the type contains a display duration
-  fCurrentNoteDisplayWholeNotes =
-    msrDurationAsWholeNotes (fCurrentNoteGraphicDuration);
+  fCurrentNoteDisplayWholeNotesFromType =
+    msrDurationAsWholeNotes (
+      fCurrentNoteGraphicDuration);
 
+/*
   // set the sounding duration to the same value by default
-  fCurrentNoteSoundingWholeNotes =
-    fCurrentNoteDisplayWholeNotes;
+  fCurrentNoteSoundingWholeNotesFromType =
+    fCurrentNoteDisplayWholeNotesFromType;
+    */
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
@@ -11612,31 +11642,30 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   fCurrentNoteStaffNumber = fCurrentStaffNumber;
   fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
-  // set current voices' 'notes divisions per quarter note
   if (gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "--> currentNoteSoundingWholeNotes = " << 
-      fCurrentNoteSoundingWholeNotes << ", " << 
-      "--> currentNoteDisplayWholeNotes = " << 
-      fCurrentNoteDisplayWholeNotes << ", " << 
-      "--> currentDivisionsPerQuarterNote = " <<
+      "--> fCurrentNoteSoundingWholeNotesFromDuration = " << 
+      fCurrentNoteSoundingWholeNotesFromDuration << ", " << 
+      "--> fCurrentNoteDisplayWholeNotesFromType = " << 
+      fCurrentNoteDisplayWholeNotesFromType << ", " << 
+      "--> fCurrentDivisionsPerQuarterNote = " <<
       fCurrentDivisionsPerQuarterNote <<
       endl;
 
-  // set current note displayed divisions right now,
-  // before we create the note
-
   if (fCurrentNoteIsAGraceNote) {
-    // set current grace note whole notes      
-    fCurrentNoteSoundingWholeNotes =
+    // set current grace note sounding whole notes      
+    fCurrentNoteSoundingWholeNotesFromDuration =
       fCurrentDivisions->
         durationAsDivisions (
           inputLineNumber,
           fCurrentNoteGraphicDuration);
-  
+
+    fCurrentNoteSoundingWholeNotes =
+      fCurrentNoteSoundingWholeNotesFromDuration;
+      
     // set current grace note display whole notes
     // to note sounding whole notes
-    fCurrentNoteDisplayWholeNotes =
+    fCurrentNoteDisplayWholeNotesFromType =
       fCurrentNoteSoundingWholeNotes; // by default
   }
   
@@ -11657,25 +11686,58 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     }
 
     // set current double tremolo note displayed divisions
-    fCurrentNoteDisplayWholeNotes =
+    fCurrentNoteDisplayWholeNotesFromType =
       fCurrentDivisions->
         durationAsDivisions (
           inputLineNumber,
           fCurrentNoteGraphicDuration);
 
     // rationalise it
-    fCurrentNoteDisplayWholeNotes.rationalise ();
+    fCurrentNoteDisplayWholeNotesFromType.rationalise ();
   }
 
   else if (fCurrentNoteIsARest) {
     // rest
-    // leave fCurrentNoteDisplayWholeNotes as it is
+
+    // set current note sounding and display whole notes
+    if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+      // only <type /> was met, no <duration /> was specified
+      fCurrentNoteDisplayWholeNotes =
+        fCurrentNoteDisplayWholeNotesFromType;
+  
+      fCurrentNoteSoundingWholeNotes =
+        fCurrentNoteDisplayWholeNotes; // same value by default
+    }
+    else {
+      // <duration /> was met
+      fCurrentNoteSoundingWholeNotes =
+        fCurrentNoteSoundingWholeNotesFromDuration;
+  
+      fCurrentNoteDisplayWholeNotes =
+        fCurrentNoteSoundingWholeNotes; // same value by default
+    }
   }
 
   else {
     // standalone note
- // JMI   fCurrentNoteDisplayWholeNotes =
- //     fCurrentNoteSoundingWholeNotes;
+    
+    // set current note sounding and display whole notes
+    if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+      // only <type /> was met, no <duration /> was specified
+      fCurrentNoteDisplayWholeNotes =
+        fCurrentNoteDisplayWholeNotesFromType;
+  
+      fCurrentNoteSoundingWholeNotes =
+        fCurrentNoteDisplayWholeNotes; // same value by default
+    }
+    else {
+      // <duration /> was met
+      fCurrentNoteSoundingWholeNotes =
+        fCurrentNoteSoundingWholeNotesFromDuration;
+  
+      fCurrentNoteDisplayWholeNotes =
+        fCurrentNoteSoundingWholeNotes; // same value by default
+    }
   }
 
   // create the (new) note

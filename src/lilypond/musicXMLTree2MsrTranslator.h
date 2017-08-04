@@ -1075,14 +1075,18 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     // note sound
     msrQuarterTonesPitch      fCurrentNoteQuarterTonesPitch;
+    rational                  fCurrentNoteSoundingWholeNotesFromDuration;
     rational                  fCurrentNoteSoundingWholeNotes;
 
     // note display
     msrQuarterTonesPitch      fCurrentNoteQuarterTonesDisplayPitch;
+    rational                  fCurrentNoteDisplayWholeNotesFromType;
     rational                  fCurrentNoteDisplayWholeNotes;
 
     // augmentation dots
     int                       fCurrentNoteDotsNumber;
+
+    // graphic duration
     msrDuration               fCurrentNoteGraphicDuration;
 
     // rests

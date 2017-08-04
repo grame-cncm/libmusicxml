@@ -26925,6 +26925,8 @@ void msrPart::initializePart ()
     fInputLineNumber,
     rational (0, 1));
 
+  createPartHarmonyStaffAndVoiceIfNotYetDone (0); // JMI
+  
 /* JMI
   // set part current time to the default 4/4 time signature
   fPartCurrenltTime =
