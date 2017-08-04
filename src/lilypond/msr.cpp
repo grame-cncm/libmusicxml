@@ -2147,7 +2147,7 @@ string wholeNotesAsMsrString (
 
   // handle the quarter note fraction if any
   for ( ; ; ) {
-    if (denominator == 4) {
+    if (denominator <= 4) {
       break;
     }
     
@@ -6607,6 +6607,14 @@ void msrNote::initializeNote ()
     
     const int fieldWidth = 33;
     
+    cerr << // JMI
+      idtr << left <<
+        setw(fieldWidth) <<
+        "fNoteDisplayWholeNotes" << " = " <<
+        fNoteDisplayWholeNotes <<
+        endl <<
+      endl;
+        
     cerr <<
       idtr << left <<
         setw(fieldWidth) <<

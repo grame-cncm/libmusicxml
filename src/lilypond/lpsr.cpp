@@ -117,41 +117,13 @@ string wholeNotesAsLilypondString (
 
   // handle the quarter note fraction if any
   for ( ; ; ) {
-    if (denominator == 4) {
+    if (denominator <= 4) {
       break;
     }
     
     if (numerator == 1) {
       // a number of ??? JMI notes
       s << denominator;
-/*
-      switch (denominator) {
-        case 1:
-          s << "1";
-          break;
-        case 2:
-          s << "breve";
-          break;
-        case 4:
-          s << "long";
-          break;
-        case 8:
-          s << "maxima";
-          break;
-        case 16:
-          s << "maxima";
-          numberOfDots += 1;
-          break;
-        default:
-          s <<
-            numerator << "/" << denominator <<
-            " whole notes cannot be represented as an MSR string";
-
-          msrInternalError (
-            inputLineNumber,
-            s.str());
-      } // switch
- */
       break;
     }
     
@@ -257,7 +229,7 @@ string wholeNotesAsLilypondString (
   int dotsNumber; // not used
 
   return
-    wholeNotesAsMsrString (
+    wholeNotesAsLilypondString (
       inputLineNumber,
       wholeNotes,
       dotsNumber);

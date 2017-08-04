@@ -442,7 +442,7 @@ class lpsr2LilypondTranslator :
     string                lilypondRelativeOctave (
                             S_msrNote note);
 
-    string                noteAsLilypondString (S_msrNote note);
+    string                notePitchAsLilypondString (S_msrNote note);
     
     string                pitchedRestAsLilypondString (S_msrNote note);
 

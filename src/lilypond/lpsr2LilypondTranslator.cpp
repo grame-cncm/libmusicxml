@@ -600,7 +600,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kStandaloneNote:
       // print the note name
       fOstream <<
-        noteAsLilypondString (note);
+        notePitchAsLilypondString (note);
       
       // print the note duration
       fOstream <<
@@ -636,7 +636,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kDoubleTremoloMemberNote:
       // print the note name
       fOstream <<
-        noteAsLilypondString (note);
+        notePitchAsLilypondString (note);
       
       // print the note duration, i.e. the double tremolo elements duration
       fOstream <<
@@ -669,7 +669,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kGraceNote:
       // print the note name
       fOstream <<
-        noteAsLilypondString (note);
+        notePitchAsLilypondString (note);
       
       // print the grace note's graphic duration
       fOstream <<
@@ -700,7 +700,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kChordMemberNote:
       // print the note name
       fOstream <<
-        noteAsLilypondString (note);
+        notePitchAsLilypondString (note);
       
       // don't print the note duration,
       // it will be printed for the chord itself
@@ -726,7 +726,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       }
       else {
         fOstream <<
-          noteAsLilypondString (note);
+          notePitchAsLilypondString (note);
       }
       
       // print the note (display) duration
@@ -775,7 +775,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::noteAsLilypondString (
+string lpsr2LilypondTranslator::notePitchAsLilypondString (
   S_msrNote note)
 {
   int inputLineNumber =
@@ -1120,13 +1120,6 @@ string lpsr2LilypondTranslator::technicalAsLilypondString (
   S_msrTechnical technical)
 {
   string result;
-
-  /* JMI
-  string
-    noteDuration =
-      (*i)->getTechnicalNoteUplink ()->
-        noteSoundingWholeNotesAsMsrString ();
-  */
 
   switch (technical->getTechnicalKind ()) {
     case msrTechnical::kArrow:
