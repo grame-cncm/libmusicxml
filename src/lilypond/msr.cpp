@@ -21918,6 +21918,7 @@ void msrVoice::initializeVoice ()
 
   // counters
   fVoiceActualNotesCounter     = 0;
+  fVoiceRestsCounter           = 0;
   fVoiceSkipsCounter           = 0;
   fVoiceActualHarmoniesCounter = 0;
 
@@ -22011,6 +22012,9 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
   newbornClone->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
 
+  newbornClone->fVoiceRestsCounter =
+    fVoiceRestsCounter;
+
   newbornClone->fVoiceSkipsCounter =
     fVoiceSkipsCounter;
 
@@ -22086,6 +22090,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // counters
   voiceDeepCopy->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
+
+  voiceDeepCopy->fVoiceRestsCounter =
+    fVoiceRestsCounter;
 
   voiceDeepCopy->fVoiceSkipsCounter =
     fVoiceSkipsCounter;
@@ -22942,9 +22949,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr--;
   }
 
-  // register actual note
-  fVoiceActualNotesCounter++;
-
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
@@ -22952,6 +22956,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
 
     case msrNote::kRestNote:
+      // register rest
+      fVoiceRestsCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
@@ -22961,22 +22967,32 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
       
     case msrNote::kStandaloneNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kGraceNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kChordMemberNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kTupletMemberNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
@@ -23025,9 +23041,6 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     idtr--;
   }
 
-  // register actual note
-  fVoiceActualNotesCounter++;
-
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
@@ -23035,6 +23048,8 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
 
     case msrNote::kRestNote:
+      // register rest
+      fVoiceRestsCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
@@ -23044,22 +23059,32 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
       
     case msrNote::kStandaloneNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kGraceNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kChordMemberNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kTupletMemberNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
@@ -24568,6 +24593,9 @@ void msrVoice::print (ostream& os)
      ", " <<
     singularOrPlural (
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceRestsCounter, "rest", "rests") <<
      ", " <<
     singularOrPlural (
       fVoiceSkipsCounter, "skip", "skips") <<
