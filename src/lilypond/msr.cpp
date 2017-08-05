@@ -6591,7 +6591,7 @@ void msrNote::initializeNote ()
     cerr <<
       endl <<
       idtr <<
-      "Creating a note" <<
+      "Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
       cerr <<
@@ -9881,7 +9881,7 @@ void msrDivisions::initializeDivisions ()
 {
   if (gGeneralOptions->fTraceDivisions) {
   cerr << idtr <<
-    "Creating divisions" <<
+    "Initializing divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
     ", line " << fInputLineNumber <<
     endl;
@@ -14593,7 +14593,8 @@ void msrStanza::initializeStanza ()
  
   if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "Creating stanza " << getStanzaName () << endl;
+      "Initializing stanza " << getStanzaName () <<
+      endl;
 
   fStanzaTextPresent = false;
 }
@@ -16650,7 +16651,7 @@ void msrMeasure::initializeMeasure ()
 
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Creating measure " << fMeasureNumber <<
+      "Initializing measure " << fMeasureNumber <<
       " in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
@@ -18936,7 +18937,7 @@ void msrSegment::initializeSegment ()
   
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "% --> new segment gets absolute number " <<
+      "% --> Initializing new segment, gets absolute number " <<
       fSegmentAbsoluteNumber <<
       endl;
   }
@@ -19162,9 +19163,16 @@ void msrSegment::createMeasureAndAppendItToSegment (
 void msrSegment::finalizeCurrentMeasureInSegment (
   int    inputLineNumber)
 {
+  string
+    currentMeasureNumber =
+      fSegmentDirectPartUplink->
+        getPartCurrentMeasureNumber ();
+      
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "Finalizing current measure in segment " <<
+      "Finalizing current measure '" <<
+      currentMeasureNumber <<
+      "'in segment " <<
       segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19175,11 +19183,6 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 
   // should a measure be appended to the segment
   // to match measureNumber?
-  string
-    currentMeasureNumber =
-      fSegmentDirectPartUplink->
-        getPartCurrentMeasureNumber ();
-      
   bool doCreateAndAppendAMeasure = false;
   
   if (! fSegmentMeasuresList.size ()) {
@@ -21863,7 +21866,7 @@ void msrVoice::initializeVoice ()
     
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
-      "Creating voice \"" << fVoiceName <<
+      "Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
       fVoiceStaffUplink->getStaffName () <<
       "\"" <<
@@ -25334,7 +25337,7 @@ void msrStaff::initializeStaff ()
 
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Creating staff \"" << fStaffName <<
+      "Initializing staff \"" << fStaffName <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
       endl;
@@ -26963,6 +26966,11 @@ msrPart::msrPart (
 
 void msrPart::initializePart ()
 {
+  if (gGeneralOptions->fTraceParts)
+    cerr << idtr <<
+      "Initializing part \"" << getPartCombinedName () <<
+      endl;
+
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
