@@ -8115,6 +8115,9 @@ class EXP msrVoice : public msrElement
     int                   getVoiceActualNotesCounter () const
                               { return fVoiceActualNotesCounter; }
 
+    int                   getVoiceSkipsCounter () const
+                              { return fVoiceSkipsCounter; }
+
     int                   getVoiceActualHarmoniesCounter () const
                               { return fVoiceActualHarmoniesCounter; }
 
@@ -8436,6 +8439,7 @@ class EXP msrVoice : public msrElement
     static int            gVoicesCounter;
 
     int                   fVoiceActualNotesCounter;
+    int                   fVoiceSkipsCounter;
     int                   fVoiceActualHarmoniesCounter;
 
     // measures

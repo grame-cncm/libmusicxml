@@ -17324,7 +17324,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // register note measure position in measure
   rational
     noteMeasurePosition =
-      fMeasureLength; // for figuredBass voice
+      fMeasureLength; // for harmony voice
   
   note->
     setNotePositionInMeasure (
@@ -17357,25 +17357,25 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // if it happens to be the first note of a chord
   fMeasureElementsList.push_back (note);
 
-  // fetch part figuredBass voice
+  // fetch part harmony voice
   S_msrVoice
     partHarmonyVoice =
       fMeasureDirectPartUplink->
         getPartHarmonyVoice ();
 
-  // fetch part figuredBass supplier voice
+  // fetch part harmonies supplier voice
   S_msrVoice
     partHarmoniesSupplierVoice =
       fMeasureDirectPartUplink->
         getPartHarmoniesSupplierVoice ();
 
-  // fetch note figuredBass
+  // fetch note harmony
   S_msrHarmony
     noteHarmony =
       note->getNoteHarmony ();
       
-  // don't handle the note figuredBass here,
-  // this has been done after figuredBass::create ()
+  // don't handle the note harmony here,
+  // this has been done after harmony::create ()
   if (! noteHarmony) {
     if (partHarmoniesSupplierVoice) {
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
@@ -17390,7 +17390,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           endl;
 
 /* JMI
-      // bring figuredBass voice to the same measure length
+      // bring harmony voice to the same measure length
       partHarmonyVoice->
         bringVoiceToMeasureLength (
           inputLineNumber,
@@ -17416,7 +17416,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               partHarmonyVoice->
                 getVoicePartRelativeID ());
   
-        // append the skip to the part figuredBass voice
+        // append the skip to the part harmony voice
         if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
           cerr << idtr <<
             "Appending skip '" << skipNote->noteAsShortString () <<
@@ -21918,6 +21918,7 @@ void msrVoice::initializeVoice ()
 
   // counters
   fVoiceActualNotesCounter     = 0;
+  fVoiceSkipsCounter           = 0;
   fVoiceActualHarmoniesCounter = 0;
 
   // get the initial staff details from the staff if any
@@ -22010,6 +22011,9 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
   newbornClone->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
 
+  newbornClone->fVoiceSkipsCounter =
+    fVoiceSkipsCounter;
+
   newbornClone->fVoiceActualHarmoniesCounter =
     fVoiceActualHarmoniesCounter;
 
@@ -22082,6 +22086,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // counters
   voiceDeepCopy->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
+
+  voiceDeepCopy->fVoiceSkipsCounter =
+    fVoiceSkipsCounter;
 
   voiceDeepCopy->fVoiceActualHarmoniesCounter =
     fVoiceActualHarmoniesCounter;
@@ -22950,6 +22957,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       
     case msrNote::kSkipNote:
       // don't account skips as music
+      fVoiceSkipsCounter++;
       break;
       
     case msrNote::kStandaloneNote:
@@ -23032,6 +23040,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       
     case msrNote::kSkipNote:
       // don't account skips as music
+      fVoiceSkipsCounter++;
       break;
       
     case msrNote::kStandaloneNote:
@@ -24559,6 +24568,9 @@ void msrVoice::print (ostream& os)
      ", " <<
     singularOrPlural (
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceSkipsCounter, "skip", "skips") <<
      ", " <<
     singularOrPlural (
       fVoiceStanzasMap.size(), "stanza", "stanzas") <<
