@@ -16809,9 +16809,14 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   if (numberOfMeasureElements) {
      if (gGeneralOptions->fTraceMeasures) {
       cerr << idtr <<
-        "There are " <<
-        numberOfMeasureElements <<
-        " elements in measure to be deep copied" <<
+        singularOrPluralWithoutNumber (
+          numberOfMeasureElements, "There is", "There are") <<
+        " " <<
+        singularOrPlural (
+          numberOfMeasureElements, "element", "elements") <<
+        " to be deep copied" <<
+        " in measure " <<
+        fMeasureNumber <<
         " in segment " <<
         containingSegment->segmentAsString () <<
         " in voice \"" <<
@@ -22231,7 +22236,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
   int inputLineNumber)
 {
-  // this is done for voices that are created after t
+  // this is done for voices that are created after JMI
   // the voice has been created.
   // the current // JMI ??? measure number has been registered by the voice
   
@@ -22356,10 +22361,18 @@ void msrVoice::createMeasureAndAppendItToVoice (
 {
   fVoiceMeasureNumber = measureNumber;
 
+/* JMI
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
     inputLineNumber);
+    */
 
+  if (! fVoiceLastSegment) {
+    // create the voice last segment if not yet done // JMI
+    createNewLastSegmentForVoice (
+      inputLineNumber);
+  }
+  
   // append new measure with given number
   fVoiceLastSegment->
     createMeasureAndAppendItToSegment (

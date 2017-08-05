@@ -850,6 +850,21 @@ string singularOrPlural (
   return s.str ();
 }
 
+string singularOrPluralWithoutNumber (
+  int number, string singularName, string pluralName)
+{
+  stringstream s;
+
+  if (number <= 1)
+    s <<
+      singularName;
+  else
+    s <<
+      pluralName;
+      
+  return s.str ();
+}
+
 //______________________________________________________________________________
 void optionError (string errorMessage)
 {
