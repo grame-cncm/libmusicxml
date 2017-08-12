@@ -6605,7 +6605,7 @@ void msrNote::initializeNote ()
 
     idtr++;
     
-    const int fieldWidth = 33;
+    const int fieldWidth = 34;
     
     cerr << // JMI
       idtr << left <<
@@ -6622,7 +6622,9 @@ void msrNote::initializeNote ()
         msrQuarterTonesPitchAsString (
           gMsrOptions->fMsrQuarterTonesPitchesLanguage,
           fNoteQuarterTonesPitch) <<
-        endl <<
+        endl;
+
+    cerr <<
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
@@ -6630,22 +6632,44 @@ void msrNote::initializeNote ()
         endl <<
       idtr << left <<
         setw(fieldWidth) <<
-        "noteSoundingWholeNotesAsMSRString" << " = " <<
-        wholeNotesAsMsrString (
-          fInputLineNumber,
-          fNoteSoundingWholeNotes) <<
-        endl <<
+        "noteSoundingWholeNotesAsMSRString" << " = ";
+
+      if (fNoteSoundingWholeNotes.getNumerator () == 0) {
+        cerr <<
+          "none";
+      }
+      else {
+        cerr <<
+          wholeNotesAsMsrString (
+            fInputLineNumber,
+            fNoteSoundingWholeNotes);
+      }
+    cerr <<
+        endl;
+      
+    cerr <<
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl <<
       idtr << left <<
-        "noteDisplayWholeNotesAsMSRString" << " = " <<
-        wholeNotesAsMsrString (
-          fInputLineNumber,
-          fNoteDisplayWholeNotes) <<
-        endl <<
+        "noteDisplayWholeNotesAsMSRString" << " = ";
+
+      if (fNoteDisplayWholeNotes.getNumerator () == 0) {
+        cerr <<
+          "none";
+      }
+      else {
+        cerr <<
+          wholeNotesAsMsrString (
+            fInputLineNumber,
+            fNoteDisplayWholeNotes);
+      }
+    cerr <<
+        endl;
+      
+    cerr <<
       idtr << left <<
         setw(fieldWidth) <<
         "fNoteDotsNumber" << " = " <<
@@ -9932,6 +9956,11 @@ void msrDivisions::initializeDivisions ()
       currentDuration = msrDuration (currentDuration + 1);
       smallDivisions /= 2;
     } // while
+  }
+
+  // print the durations divisions if needed
+  if (gGeneralOptions->fTraceDivisions) {
+    printDurationsDivisions (cerr);
   }
 }
 
@@ -16832,13 +16861,14 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
       i != fMeasureElementsList.end();
       i++ ) {
-
+      S_msrElement element = (*i);
+      
       // handlle deep copying
       S_msrElement
         elementDeepCopy;
         
       if (
-        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        S_msrNote note = dynamic_cast<msrNote*>(&(*element))
         ) {    
         // create the note deep copy
         elementDeepCopy =
@@ -16853,9 +16883,27 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 */
       }
     
+      else if (
+        S_msrTime time = dynamic_cast<msrTime*>(&(*element))
+        ) {
+        if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+          cerr << idtr <<
+            "Sharing time '" <<
+            time->timeAsShortString () <<
+            "' in measure '" <<
+            fMeasureNumber <<
+            "'deep copy" <<
+            ", line " << fInputLineNumber <<
+            endl;
+        }
+          
+        // share the element with the original measure
+        elementDeepCopy = time;
+      }
+    
       else {
         // share the element with the original measure
-        elementDeepCopy = (*i);
+        elementDeepCopy = element;
       }
 
       // append the element deep copy to the measure deep copy
@@ -25820,7 +25868,6 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   // add initial measures with skip notes up to currentMeasureNumber
   // in case this voice does not start at the beginning of the part
   
-
   return voice;
 }
 
@@ -26017,16 +26064,18 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
   }
   
   // set staff time
-  fStaffCurrentTime = time;
+  if (time != fStaffCurrentTime) { // JMI
+    fStaffCurrentTime = time;
 
-  // propagate it to all voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->
-      appendTimeToVoice (time);
-  } // for
+    // propagate it to all voices
+    for (
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+      i != fStaffAllVoicesMap.end();
+      i++) {
+      (*i).second->
+        appendTimeToVoice (time);
+    } // for
+  }
 }    
 
 void msrStaff::appendTimeToStaffClone (S_msrTime time)

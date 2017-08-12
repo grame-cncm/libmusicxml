@@ -3526,15 +3526,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kOverfullMeasureKind:
-    /* JMI
       fOstream <<
         endl <<
         idtr <<
           "\\cadenzaOff" <<
           endl;
 
-      fOnGoingVoiceCadenza = true;
-      */
+      fOnGoingVoiceCadenza = false;
       
 /* JMI
       idtr--;
@@ -3547,7 +3545,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kSenzaMisuraMeasureKind:
-    /* JMI   
       fOstream <<
         idtr <<
           "\\cadenzaOff" <<
@@ -3555,7 +3552,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         idtr<<
           "\\bar \"|\"" <<
           endl;
-          */
+
+      fOnGoingVoiceCadenza = false;
       break;
 
     case msrMeasure::kEmptyMeasureKind:

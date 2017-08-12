@@ -11653,20 +11653,22 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       endl;
 
   if (fCurrentNoteIsAGraceNote) {
-    // set current grace note sounding whole notes      
-    fCurrentNoteSoundingWholeNotesFromDuration =
+    // set current grace note display whole notes      
+    fCurrentNoteDisplayWholeNotesFromType =
       fCurrentDivisions->
         durationAsDivisions (
           inputLineNumber,
           fCurrentNoteGraphicDuration);
 
-    fCurrentNoteSoundingWholeNotes =
-      fCurrentNoteSoundingWholeNotesFromDuration;
-      
+// JMI    fCurrentNoteSoundingWholeNotes =
+      // fCurrentNoteSoundingWholeNotesFromDuration;
+
+    /* JMI  
     // set current grace note display whole notes
     // to note sounding whole notes
     fCurrentNoteDisplayWholeNotesFromType =
       fCurrentNoteSoundingWholeNotes; // by default
+      */
   }
   
   else if (
