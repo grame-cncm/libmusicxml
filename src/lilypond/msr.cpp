@@ -7332,18 +7332,32 @@ S_msrNote msrNote::createNoteDeepCopy (
 
 string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
-  return
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fNoteSoundingWholeNotes);
+  string result;
+
+  if (fNoteSoundingWholeNotes.getNumerator () == 0)
+    result = "none";
+  else
+    result =
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fNoteSoundingWholeNotes);
+
+  return result;
   }
 
 string msrNote::noteDisplayWholeNotesAsMsrString ()
 {
-  return
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fNoteDisplayWholeNotes);
+  string result;
+
+  if (fNoteDisplayWholeNotes.getNumerator () == 0)
+    result = "none";
+  else
+    result =
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fNoteDisplayWholeNotes);
+
+  return result;
 }
 
 string msrNote::noteKindAsString (
