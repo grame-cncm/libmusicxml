@@ -11653,22 +11653,29 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       endl;
 
   if (fCurrentNoteIsAGraceNote) {
+    // convert note graphic duration into whole notes
+    rational
+      wholeNotes =
+        fCurrentDivisions->
+          durationAsDivisions (
+            inputLineNumber,
+            fCurrentNoteGraphicDuration);
+
+    // take dots into account if any
+    if (fCurrentNoteDotsNumber > 0) {
+      int dots = fCurrentNoteDotsNumber;
+
+      while (dots > 0) {
+        wholeNotes *=
+          rational (3, 2);
+        wholeNotes.rationalise ();
+
+        dots--;
+      } // while
+    }
+
     // set current grace note display whole notes      
-    fCurrentNoteDisplayWholeNotesFromType =
-      fCurrentDivisions->
-        durationAsDivisions (
-          inputLineNumber,
-          fCurrentNoteGraphicDuration);
-
-// JMI    fCurrentNoteSoundingWholeNotes =
-      // fCurrentNoteSoundingWholeNotesFromDuration;
-
-    /* JMI  
-    // set current grace note display whole notes
-    // to note sounding whole notes
-    fCurrentNoteDisplayWholeNotesFromType =
-      fCurrentNoteSoundingWholeNotes; // by default
-      */
+    fCurrentNoteDisplayWholeNotesFromType = wholeNotes;
   }
   
   else if (
@@ -11687,7 +11694,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         s.str());
     }
 
-    // set current double tremolo note displayed divisions
+    // set current double tremolo note display whole notes 
     fCurrentNoteDisplayWholeNotesFromType =
       fCurrentDivisions->
         durationAsDivisions (
