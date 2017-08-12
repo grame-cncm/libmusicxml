@@ -6922,10 +6922,12 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
           "unknown note type size \"" + noteTypeSize + "\"");
   }
 
+/* JMI
   // the type contains a display duration
   fCurrentNoteDisplayWholeNotesFromType =
     msrDurationAsWholeNotes (
       fCurrentNoteGraphicDuration);
+*/
 
 /*
   // set the sounding duration to the same value by default
@@ -11653,13 +11655,19 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       endl;
 
   if (fCurrentNoteIsAGraceNote) {
+    // the type contains a display duration
+
     // convert note graphic duration into whole notes
     rational
       wholeNotes =
+        msrDurationAsWholeNotes (
+          fCurrentNoteGraphicDuration);
+      /* JMI
         fCurrentDivisions->
           durationAsDivisions (
             inputLineNumber,
             fCurrentNoteGraphicDuration);
+            */
 
     // take dots into account if any
     if (fCurrentNoteDotsNumber > 0) {
@@ -11697,7 +11705,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     // set current double tremolo note display whole notes 
     fCurrentNoteDisplayWholeNotesFromType =
       fCurrentDivisions->
-        durationAsDivisions (
+        durationAsDivisions ( // JMI
           inputLineNumber,
           fCurrentNoteGraphicDuration);
 
@@ -12119,7 +12127,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
 
       if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGraceNotes) {
         cerr <<  idtr <<
-          "Vreating grace notes for note " <<
+          "Creating grace notes for note " <<
           newNote->noteAsString () <<
           " in voice \"" <<
           currentVoice->getVoiceName () << "\"" <<

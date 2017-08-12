@@ -7335,7 +7335,7 @@ string msrNote::noteSoundingWholeNotesAsMsrString ()
   string result;
 
   if (fNoteSoundingWholeNotes.getNumerator () == 0)
-    result = "none";
+    result = "(no sounding whole notes)";
   else
     result =
       wholeNotesAsMsrString (
@@ -7350,7 +7350,7 @@ string msrNote::noteDisplayWholeNotesAsMsrString ()
   string result;
 
   if (fNoteDisplayWholeNotes.getNumerator () == 0)
-    result = "none";
+    result = "(no display whole notes)";
   else
     result =
       wholeNotesAsMsrString (
@@ -8372,7 +8372,8 @@ string msrNote::noteAsString ()
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
-        noteGraphicDurationAsMsrString () <<
+ // JMI       noteGraphicDurationAsMsrString () <<
+        noteDisplayWholeNotesAsMsrString () <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
