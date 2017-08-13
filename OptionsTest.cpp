@@ -61,6 +61,60 @@ void analyzeOptions (
   int            argc,
   char*          argv[])
 {
+  int   n = 0;
+
+  while (true) { 
+    if (argv [n] == 0)
+      break;
+
+    string currentElement = string (argv [n]);
+    
+    // print current element
+    cout <<
+      n << ":" << currentElement <<
+      endl;
+
+    // handle current element
+    if (currentElement [0] == '-') {
+      // this is an option
+      string elementTrailer =
+        currentElement.substr (1, string::npos);
+      
+      cout <<
+        "'" << elementTrailer << "' is preceded by a dash" <<
+        endl;
+
+      if (elementTrailer.size ()) {
+        if (elementTrailer [0] == '-') {
+          // it is a double-dashed option
+          string currentDoubleDashedOption =
+            elementTrailer.substr (1, string::npos);
+          
+          cout <<
+            "'" << currentDoubleDashedOption << "' is a double-dashed option" <<
+            endl;
+        }
+        else {
+          // it is a single-dashed option
+          string currentSingleDashedOption =
+            elementTrailer.substr (1, string::npos);
+          
+          cout <<
+            "'" << currentSingleDashedOption << "' is a single-dashed option" <<
+            endl;
+        }
+      }
+      
+      else {
+        cout <<
+          "'-' is the minimal single-dashed option" <<
+          endl;
+      }
+    }
+
+    // next please
+    n++;
+  } // while
 }
 
 int main (int argc, char *argv[])
@@ -96,6 +150,7 @@ struct option
 };
 */
 
+/*
   vector<struct option> myLongOptions {
     option ("1short", no_argument, &vec [0].fOptionSelected, 1),
     option ("1long", no_argument, &vec [0].fOptionSelected, 1),
@@ -105,7 +160,7 @@ struct option
     
     option (0, 0, 0, 0) // option trailer
   };
-
+*/
 
 
 /*
