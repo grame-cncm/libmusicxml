@@ -6047,7 +6047,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
         msrNote::createSkipNote (
           note->            getInputLineNumber (),
           containingVoice-> getVoiceDirectPartUplink (),
-          note->            getNoteSoundingWholeNotes (),
+          note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
           note->            getNoteDisplayWholeNotes (),
           note->            getNoteDotsNumber (),
           containingVoice-> getVoiceStaffRelativeNumber (), // JMI
