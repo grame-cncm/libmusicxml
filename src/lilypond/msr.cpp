@@ -6048,6 +6048,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
           note->            getInputLineNumber (),
           containingVoice-> getVoiceDirectPartUplink (),
           note->            getNoteSoundingWholeNotes (),
+          note->            getNoteDisplayWholeNotes (),
           note->            getNoteDotsNumber (),
           containingVoice-> getVoiceStaffRelativeNumber (), // JMI
           containingVoice-> getVoicePartRelativeID ());
@@ -6455,7 +6456,8 @@ S_msrNote msrNote::create (
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   S_msrPart noteDirectPartUplink,
-  rational  wholeNotes,
+  rational  soundingWholeNotes,
+  rational  displayWholeNotes,
   int       dotsNumber,
   int       staffNumber,
   int       voicePartRelativeID)
@@ -6467,10 +6469,10 @@ S_msrNote msrNote::createSkipNote (
       
       kSkipNote, // noteKind
       
-      k_NoQuarterTonesPitch, // noteQuarterTonesPitch
+      k_NoQuarterTonesPitch,
       
-      wholeNotes, // noteSoundingWholeNotes
-      wholeNotes, // noteDisplayWholeNotes
+      soundingWholeNotes,
+      displayWholeNotes,
       
       dotsNumber,
       
@@ -17478,6 +17480,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               inputLineNumber,
               fMeasureDirectPartUplink,
               noteSoundingWholeNotes,
+              noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
                 getVoiceStaffUplink ()->
@@ -17615,6 +17618,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
             msrNote::createSkipNote (
               inputLineNumber,
               fMeasureDirectPartUplink,
+              noteSoundingWholeNotes,
               noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
               partHarmonyVoice->
@@ -18083,6 +18087,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
             inputLineNumber,
             fMeasureDirectPartUplink,
             harmonySoundingWholeNotes,
+            harmonySoundingWholeNotes,
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),
             voice->
@@ -18182,6 +18187,7 @@ void msrMeasure::bringMeasureToMeasureLength (
           inputLineNumber,
           fMeasureDirectPartUplink,
    // JMI       37, // JMI
+          skipDuration,
           skipDuration,
           0, // dots number JMI ???
           voice->
@@ -18584,6 +18590,7 @@ void msrMeasure::finalizeMeasure (
             inputLineNumber,
             fMeasureDirectPartUplink,
    // JMI         49, // JMI
+            skipDuration,
             skipDuration,
             0, // dots number JMI ???
             voice->

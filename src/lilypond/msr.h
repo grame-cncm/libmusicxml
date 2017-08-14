@@ -4538,7 +4538,8 @@ class EXP msrNote : public msrElement
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       S_msrPart noteDirectPartUplink,
-      rational  wholeNotes,
+      rational  soundingWholeNotes,
+      rational  displayWholeNotes,
       int       dotsNumber,
       int       staffNumber,
       int       voicePartRelativeID);
