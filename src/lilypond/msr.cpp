@@ -22251,7 +22251,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   }
 
   // last segment
-  if (fVoiceLastSegment) {
+  if (fVoiceLastSegment) { // JMI
     voiceDeepCopy->fVoiceLastSegment =
       fVoiceLastSegment->
         createSegmentDeepCopy (
