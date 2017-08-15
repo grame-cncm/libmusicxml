@@ -2101,7 +2101,7 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-//#define DEBUG_WHOLE_NOTES
+#define DEBUG_WHOLE_NOTES
 
 #ifdef DEBUG_WHOLE_NOTES
   cout<<
