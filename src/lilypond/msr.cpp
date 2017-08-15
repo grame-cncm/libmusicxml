@@ -16972,23 +16972,35 @@ void msrMeasure::setMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
+  // rationalise the measure length
+  rational rationalisedMeasureLength = measureLength;
+  rationalisedMeasureLength.rationalise ();
+  
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions) {
     cerr << idtr <<
       "Setting measure " << fMeasureNumber <<
-      " measure length to '"  << measureLength <<
-      "' in voice \"" <<
+      " measure length to '"  << rationalisedMeasureLength << "'";
+
+    if (
+      rationalisedMeasureLength.getDenominator ()
+        !=
+      measureLength.getDenominator ()) {
+      cerr <<
+        " (was '" << measureLength << "')";
+    }
+
+    cerr <<
+      " in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"" <<
       "', line " << inputLineNumber <<
       endl;
+  }
 
   // set measure length
-  fMeasureLength = measureLength;
-
-  // rationalise it
-  fMeasureLength.rationalise ();
+  fMeasureLength = rationalisedMeasureLength;
 }
 
 string msrMeasure::measureLengthAsMSRString ()
