@@ -5547,17 +5547,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
       "--> Start visiting S_print" <<
       endl;
 
-  const string newSystem = elt->getAttributeValue ("new-system");
-  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // handle 'new-system' if present
+  
+  const string newSystem = elt->getAttributeValue ("new-system");
+  
   if (newSystem.size()) {
     
     if (newSystem == "yes") {
-      
-      int inputLineNumber =
-        elt->getInputLineNumber ();
       
       // create a barNumberCheck command
       if (gGeneralOptions->fTraceMeasures) {
@@ -5614,6 +5613,79 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
       stringstream s;
   
       s << "unknown 'new-system' value '" << newSystem <<
+      "' in '<print />', should be 'yes', 'no' or empty";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+    }
+  }
+
+    // handle 'new-page' if present
+
+  const string newPage = elt->getAttributeValue ("new-page");
+  
+  if (newPage.size()) {
+    
+    if (newPage == "yes") { // JMI
+      
+      // create a barNumberCheck command
+      if (gGeneralOptions->fTraceMeasures) {
+        cerr << idtr << 
+          "Creating a page break " <<
+          "line = " << inputLineNumber <<
+          endl;
+      }
+
+      // fetch current voice
+      S_msrVoice
+        currentVoice =
+          createVoiceInStaffInCurrentPartIfNotYetDone (
+            inputLineNumber,
+            fCurrentStaffNumber,
+            fCurrentVoiceNumber);
+
+/* JMI
+      S_msrBarNumberCheck
+        barNumberCheck_ =
+          msrBarNumberCheck::create (
+            inputLineNumber,
+            currentVoice->
+              getVoiceMeasureNumber ());
+            
+      // append it to the voice
+// JMI      S_msrElement bnc = barNumberCheck_;
+      currentVoice->
+        appendBarNumberCheckToVoice (barNumberCheck_);
+  
+      // create a break command
+      if (gGeneralOptions->fTraceMeasures) {
+        cerr << idtr << 
+          "Creating a break, " <<
+          "line = " << inputLineNumber << endl;
+      }
+
+      S_msrBreak
+        break_ =
+          msrBreak::create (
+            inputLineNumber,
+            currentVoice->
+              getVoiceMeasureNumber ());
+  
+      // append it to the voice
+      currentVoice->
+        appendBreakToVoice (break_);
+        */
+     }
+    
+    else if (newPage == "no") {
+      // ignore it
+    }
+    
+    else {
+      stringstream s;
+  
+      s << "unknown 'new-page' value '" << newPage <<
       "' in '<print />', should be 'yes', 'no' or empty";
       
       msrMusicXMLError (

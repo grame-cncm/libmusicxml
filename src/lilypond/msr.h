@@ -9504,6 +9504,12 @@ class EXP msrPart : public msrElement
                             int        divisionsPerQuarterNote,
                             S_msrVoice voice);
 
+    // LilyPond issue 34
+
+    void                  appendSkipGraceNotesToVoicesClones (
+                            S_msrVoice      graceNotesOriginVoice,
+                            S_msrGraceNotes skipGraceNotes);
+                            
     // finalization
 
     void                  finalizeCurrentMeasureInPart (

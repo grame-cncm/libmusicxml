@@ -18276,6 +18276,7 @@ void msrMeasure::prependGraceNotesToMeasure (
     
     else {
        // insert graceNotes before (*i) in the list
+       // JMI what about further such occurrences???
       fMeasureElementsList.insert (
         i, graceNotes);
 
@@ -28014,6 +28015,54 @@ void msrPart:: handleForward (
     inputLineNumber,
     measurePosition);
     */
+}
+
+void msrPart::appendSkipGraceNotesToVoicesClones (
+  S_msrVoice      graceNotesOriginVoice,
+  S_msrGraceNotes skipGraceNotes)
+{
+  int inputLineNumber =
+    skipGraceNotes->getInputLineNumber ();
+
+  rational
+    graceNotesOriginVoiceMeasureLength =
+      graceNotesOriginVoice->
+        getVoiceLastSegment ()->
+          getSegmentMeasuresList ().back ()->
+            getMeasureLength ();
+        
+  for (
+    map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin();
+    i!=fPartStavesMap.end();
+    i++) {
+
+    map<int, S_msrVoice>
+      staffAllVoicesMap =
+        (*i).second->
+          getStaffAllVoicesMap ();
+          
+    for (
+      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin();
+      j!=staffAllVoicesMap.end();
+      j++) {
+
+      S_msrVoice voice = (*j).second;
+      
+      if (voice != graceNotesOriginVoice) {
+        // bring voice to the same measure length as graceNotesOriginVoice
+        voice->
+          bringVoiceToMeasureLength (
+            inputLineNumber,
+            graceNotesOriginVoiceMeasureLength);
+        
+        // append skip grace notes to voice
+        voice->
+          appendGraceNotesToVoice (
+            skipGraceNotes);
+      }
+    } // for
+
+  } // for
 }
 
 void msrPart::finalizeCurrentMeasureInPart (
