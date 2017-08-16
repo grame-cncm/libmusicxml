@@ -2101,11 +2101,19 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
           createSkipGraceNotesClone (
             fCurrentVoiceClone);
 
+/* JMI
     // prepend it to the other voices in the part
     prependSkipGraceNotesToPartOtherVoices (
       fCurrentPartClone,
       fCurrentVoiceClone,
       skipGraceNotes);
+*/
+
+    // append it to the other voices in the part
+    fCurrentPartClone->
+      appendSkipGraceNotesToVoicesClones (
+        fCurrentVoiceClone,
+        skipGraceNotes);
   }
 }
 

@@ -28049,6 +28049,10 @@ void msrPart::appendSkipGraceNotesToVoicesClones (
       S_msrVoice voice = (*j).second;
       
       if (voice != graceNotesOriginVoice) {
+        voice->
+          appendAFirstMeasureToVoiceIfNotYetDone ( // JMI
+            inputLineNumber);
+            
         // bring voice to the same measure length as graceNotesOriginVoice
         voice->
           bringVoiceToMeasureLength (
