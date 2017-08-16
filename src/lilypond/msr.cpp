@@ -2101,7 +2101,7 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-#define DEBUG_WHOLE_NOTES
+//#define DEBUG_WHOLE_NOTES
 
 #ifdef DEBUG_WHOLE_NOTES
   cout<<
@@ -27994,6 +27994,7 @@ void msrPart:: handleForward (
       endl;
   }
 
+/* Don't do anything... JMI
   // compute the backup step length
   rational
     forwardStepLength =
@@ -28012,6 +28013,7 @@ void msrPart:: handleForward (
   bringPartToMeasureLength (
     inputLineNumber,
     measurePosition);
+    */
 }
 
 void msrPart::finalizeCurrentMeasureInPart (

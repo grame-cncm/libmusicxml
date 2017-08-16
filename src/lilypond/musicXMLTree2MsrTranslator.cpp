@@ -4399,7 +4399,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_forward& elt )
       
     msrAssert (false, s.str());
   }
-  
+
+  /* Don't do anything JMI
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNotYetDone (
@@ -4408,8 +4409,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_forward& elt )
   
   // handle the pending tuplets if any
   handleTupletsPendingOnTupletsStack (
-    elt->getInputLineNumber ());
-  
+    elt->getInputLineNumber ());  
+  */
+
   fOnGoingForward = true;
 }
 
@@ -4423,16 +4425,18 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_forward& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  /* Don't do anything JMI
+
   // change staff
   fCurrentStaffNumber = fCurrentForwardStaffNumber;
 
   S_msrStaff
     staff =
-      createStaffInCurrentPartIfNotYetDone (
+      createStaffInCurrentPartIfNotYetDone ( // already done JMI
         inputLineNumber, fCurrentStaffNumber);
 
   // change voice
-  fCurrentVoiceNumber = fCurrentForwardVoiceNumber;
+  fCurrentVoiceNumber = fCurrentForwardVoiceNumber; // DANGER JMI
 
   S_msrVoice
     currentVoice =
@@ -4457,6 +4461,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_forward& elt )
       fCurrentForwardDurationDivisions,
       fCurrentDivisionsPerQuarterNote,
       currentVoice);
+  */
 
   fOnGoingForward = false;
 }

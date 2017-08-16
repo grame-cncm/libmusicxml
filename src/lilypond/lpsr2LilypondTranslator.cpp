@@ -5270,7 +5270,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  if (elt->getNoteIsFollowedByGraceNotes ()) { // JMI
+  if (false && elt->getNoteIsFollowedByGraceNotes ()) { // JMI
     if (! elt->getNoteIsARest ()) {
       fOstream <<
        " { % NoteIsFollowedByGraceNotes" <<
