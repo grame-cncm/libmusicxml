@@ -24906,6 +24906,10 @@ void msrVoice::print (ostream& os)
 
   os <<
     idtr <<
+      setw(fieldWidth) << "VoiceKind" << " : " <<
+      voiceKindAsString () <<
+      endl <<
+    idtr <<
       setw(fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
       fVoiceAbsoluteNumber <<
       endl <<
