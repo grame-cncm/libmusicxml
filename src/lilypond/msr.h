@@ -4329,7 +4329,6 @@ typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 
 /*!
-/*!
 \brief A msr harmony representation.
 
   A harmony is represented by a list of syllables,
@@ -8159,7 +8158,8 @@ class EXP msrVoice : public msrElement
     void                  setVoiceNameFromNumber (
                             int voiceNumber);
 
-    string                getVoiceName () const;
+    string                getVoiceName () const
+                              { return fVoiceName; }
 
     // stanzas
     

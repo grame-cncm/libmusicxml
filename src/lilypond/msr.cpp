@@ -22009,10 +22009,11 @@ void msrVoice::setVoiceNameFromNumber (
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Setting the name of voice \"" <<
-      getVoiceName () <<
+      "Setting the name of " <<
+      voiceKindAsString () <<
+      " voice \"" <<
       "\"" <<
-      ", voice number: " << voiceNumber <<
+      " from number: " << voiceNumber <<
       endl;
   }
 
@@ -22285,6 +22286,19 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     containingStaff != 0,
     "containingStaff is null");
     
+
+  cerr <<
+    "****" <<
+    " BEFORE voiceDeepCopy = " <<
+    endl;
+
+  print (cerr);
+  
+  cerr <<
+    endl <<
+    "****" <<
+    endl;
+    
   S_msrVoice
     voiceDeepCopy =
       msrVoice::create (
@@ -22447,7 +22461,17 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   voiceDeepCopy->fVoiceDirectPartUplink =
     containingStaff->
       getStaffDirectPartUplink ();
-  
+
+
+  cerr <<
+    "****" <<
+    " AFTER voiceDeepCopy = " <<
+    endl <<
+    voiceDeepCopy <<
+    endl <<
+    "****" <<
+    endl;
+    
   return voiceDeepCopy;
 }
 
@@ -22551,11 +22575,11 @@ void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
   }
 }
 
+/* JMI
 string msrVoice::getVoiceName () const
 {
   return fVoiceName;
 
-  /* 
   int voiceNumber =
     gMsrOptions-> fCreateVoicesStaffRelativeNumbers // JMI use
       ? fVoiceStaffRelativeNumber
@@ -22570,8 +22594,8 @@ string msrVoice::getVoiceName () const
     fVoiceStaffUplink->getStaffName() +
     "_Voice_" +
     suffix;
-    */
 }
+*/
 
 void msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
