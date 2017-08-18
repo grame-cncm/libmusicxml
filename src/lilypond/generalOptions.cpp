@@ -130,6 +130,12 @@ void msrGeneralOptions::initializeGeneralOptions (
   // harmonies
   fTraceHarmonies = boolOptionsInitialValue;
 
+  // figured bass
+  fTraceFiguredBass = boolOptionsInitialValue;
+    
+  // credits
+  fTraceCredits = boolOptionsInitialValue;
+    
 
   /* STUFF not yet handled JMI */
 
@@ -182,11 +188,9 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   // trace and display
   // --------------------------------------
 
-  clone->fTraceGeneral =
-    true;
+  clone->fTraceGeneral = true;
     
-  clone->fTraceDetailed =
-    true;
+  clone->fTraceDetailed = true;
 
   clone->fTraceDetailedMeasureNumbersSet =
     fTraceDetailedMeasureNumbersSet;
@@ -201,112 +205,89 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   // --------------------------------------
 
   // divisions
-  clone->fTraceDivisions =
-    true;
+  clone->fTraceDivisions = true;
 
   // geometry
-  clone->fTraceGeometry =
-    true;
+  clone->fTraceGeometry = true;
 
   // part groups
-  clone->fTracePartGroups =
-    true;
+  clone->fTracePartGroups = true;
   // parts
-  clone->fTraceParts =
-    true;
+  clone->fTraceParts = true;
   // staves
-  clone->fTraceStaves =
-    true;
+  clone->fTraceStaves = true;
   // voices
-  clone->fTraceVoices =
-    true;
+  clone->fTraceVoices = true;
 
   // clefs
-  clone->fTraceClefs =
-    true;
+  clone->fTraceClefs = true;
   // keys
-  clone->fTraceKeys =
-    true;
+  clone->fTraceKeys = true;
   // times
-  clone->fTraceTimes =
-    true;
+  clone->fTraceTimes = true;
 
   // segments
-  clone->fTraceSegments =
-    true;
+  clone->fTraceSegments = true;
     
   // repeats
-  clone->fTraceRepeats =
-    true;
+  clone->fTraceRepeats = true;
 
   // measures
-  clone->fTraceMeasures =
-    true;
+  clone->fTraceMeasures = true;
   
   // notes
-  clone->fTraceNotes =
-    true;
+  clone->fTraceNotes = true;
     
   // beams
-  clone->fTraceBeams =
-    true;
+  clone->fTraceBeams = true;
     
   // technicals
-  clone->fTraceTechnicals =
-    true;
+  clone->fTraceTechnicals = true;
   
   // words
-  clone->fTraceWords =
-    true;
+  clone->fTraceWords = true;
   
   // tremolos
-  clone->fTraceTremolos =
-    true;
+  clone->fTraceTremolos = true;
 
   // chords
-  clone->fTraceChords =
-    true;
+  clone->fTraceChords = true;
     
   // tuplets
-  clone->fTraceTuplets =
-    true;
+  clone->fTraceTuplets = true;
   
   // grace notes
-  clone->fTraceGraceNotes =
-    true;
+  clone->fTraceGraceNotes = true;
 
   // lyrics
-  clone->fTraceLyrics =
-    true;
+  clone->fTraceLyrics = true;
   
   // harmonies
-  clone->fTraceHarmonies =
-    true;
+  clone->fTraceHarmonies = true;
   
+  // figured bass
+  clone->fTraceFiguredBass = true;
+    
+  // credits
+  clone->fTraceCredits = true;
+
     
   /* STUFF not yet handled JMI */
 
-  clone->fTraceScore =
-    true;
+  clone->fTraceScore = true;
 
 
-  clone->fTraceDynamics =
-    true;
+  clone->fTraceDynamics = true;
 
-  clone->fTraceSlurs =
-    true;
+  clone->fTraceSlurs = true;
 
-  clone->fTraceLigatures =
-    true;
+  clone->fTraceLigatures = true;
 
-  clone->fTraceWedges =
-    true;
+  clone->fTraceWedges = true;
   
-  clone->fTraceStaffTuning =
-    true;
+  clone->fTraceStaffTuning = true;
   
-  clone->fTraceMidi =
-    true;
+  clone->fTraceMidi = true;
 
   return clone;
 }
@@ -559,6 +540,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "clefs" <<
       endl <<
+      
     // keys
     idtr <<
       "--" _TRACE_KEYS_SHORT_NAME_ ", --" _TRACE_KEYS_LONG_NAME_ <<
@@ -566,6 +548,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "keys" <<
       endl <<
+      
     // times
     idtr <<
       "--" _TRACE_TIMES_SHORT_NAME_ ", --" _TRACE_TIMES_LONG_NAME_ <<
@@ -689,6 +672,24 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "<harmony/> in MusicXML, \\chordmode in LilyPond" <<
+      endl <<      
+    endl <<
+      
+    // figured bass
+    idtr <<
+      "--" _TRACE_FIGURED_BASS_SHORT_NAME_ ", --" _TRACE_FIGURED_BASS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "figured bass" <<
+      endl <<      
+    endl <<
+      
+    // credits
+    idtr <<
+      "--" _TRACE_CREDITS_SHORT_NAME_ ", --" _TRACE_CREDITS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "credits" <<
       endl <<      
     endl;
       
@@ -965,6 +966,18 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (fTraceHarmonies) <<
+      endl <<
+      
+    // figured bass
+    idtr <<
+      setw(fieldWidth) << "traceFiguresBass" << " : " <<
+      booleanAsString (fTraceFiguredBass) <<
+      endl <<
+      
+    // credits
+    idtr <<
+      setw(fieldWidth) << "traceCredits" << " : " <<
+      booleanAsString (fTraceCredits) <<
       endl;
 
   idtr--;

@@ -165,6 +165,14 @@ namespace MusicXML2
 #define _TRACE_HARMONIES_LONG_NAME_  "traceHarmonies"
 #define _TRACE_HARMONIES_SHORT_NAME_ "tharms"
 
+// figured bass
+#define _TRACE_FIGURED_BASS_LONG_NAME_  "traceFiguredBass"
+#define _TRACE_FIGURED_BASS_SHORT_NAME_ "tfigbass"
+
+// credits
+#define _TRACE_CREDITS_LONG_NAME_  "traceCredits"
+#define _TRACE_CREDITS_SHORT_NAME_ "tcredits"
+
 
 class EXP msrGeneralOptions : public smartable
 {
@@ -294,6 +302,11 @@ class EXP msrGeneralOptions : public smartable
     // harmonies
     bool                  fTraceHarmonies;
 
+    // figured bass
+    bool                  fTraceFiguredBass;
+    
+    // credits
+    bool                  fTraceCredits;
     
     /* STUFF not yet handled JMI */
 

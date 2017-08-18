@@ -434,6 +434,18 @@ void analyzeOptions (
     
   int traceHarmoniesPresent = 0;
 
+  // figured bass
+  checkOptionUniqueness (
+    _TRACE_FIGURED_BASS_LONG_NAME_, _TRACE_FIGURED_BASS_SHORT_NAME_);
+    
+  int traceFiguredBassPresent = 0;
+
+  // credits
+  checkOptionUniqueness (
+    _TRACE_CREDITS_LONG_NAME_, _TRACE_CREDITS_SHORT_NAME_);
+    
+  int traceCreditsPresent = 0;
+
   // Scheme functions
   checkOptionUniqueness (
     _TRACE_SCHEME_FUNCTIONS_LONG_NAME_, _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_);
@@ -1201,6 +1213,28 @@ void analyzeOptions (
       no_argument, &traceHarmoniesPresent, 1
     },
     
+    // figured bass
+    {
+      _TRACE_FIGURED_BASS_LONG_NAME_,
+      no_argument, &traceFiguredBassPresent, 1
+    },
+
+    {
+      _TRACE_FIGURED_BASS_SHORT_NAME_,
+      no_argument, &traceFiguredBassPresent, 1
+    },
+    
+    // credits
+    {
+      _TRACE_CREDITS_LONG_NAME_,
+      no_argument, &traceCreditsPresent, 1
+    },
+
+    {
+      _TRACE_CREDITS_SHORT_NAME_,
+      no_argument, &traceCreditsPresent, 1
+    },
+    
     // Scheme functions
     {
       _TRACE_SCHEME_FUNCTIONS_LONG_NAME_,
@@ -1459,6 +1493,32 @@ void analyzeOptions (
     {
       _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_,
       no_argument, &keepEmptyHarmonyVoicesPresent, 1
+    },
+
+    // figured bass
+    // --------------------------------------
+
+    {
+      _SHOW_HARMONY_VOICES_LONG_NAME_,
+      no_argument, &showHarmonyVoicesPresent, 1
+    },
+    
+    {
+      _SHOW_HARMONY_VOICES_SHORT_NAME_,
+      no_argument, &showHarmonyVoicesPresent, 1
+    },
+
+    // credits
+    // --------------------------------------
+
+    {
+      _SHOW_HARMONY_VOICES_LONG_NAME_,
+      no_argument, &showHarmonyVoicesPresent, 1
+    },
+    
+    {
+      _SHOW_HARMONY_VOICES_SHORT_NAME_,
+      no_argument, &showHarmonyVoicesPresent, 1
     },
 
     // LPSR options
@@ -2408,6 +2468,32 @@ R"(
                 "--" _TRACE_HARMONIES_SHORT_NAME_ " ";
                 
               traceHarmoniesPresent = false;
+            }
+            
+            // figured bass
+            if (traceFiguredBassPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceFiguredBass = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_FIGURED_BASS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_FIGURED_BASS_SHORT_NAME_ " ";
+                
+              traceFiguredBassPresent = false;
+            }
+            
+            // credits
+            if (traceCreditsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceCredits = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_CREDITS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_CREDITS_SHORT_NAME_ " ";
+                
+              traceCreditsPresent = false;
             }
           }
 
