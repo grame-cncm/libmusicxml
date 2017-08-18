@@ -22269,6 +22269,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 }
 
 S_msrVoice msrVoice::createVoiceDeepCopy (
+  int        inputLineNumber,
   int        voiceNumber,
   S_msrStaff containingStaff)
 {
@@ -22279,6 +22280,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       "\"" <<
       ", to be placed in containing staff \"" <<
       containingStaff->getStaffName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -22307,8 +22309,6 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           getStaffDirectPartUplink (),
         fVoiceKind,
         fVoicePartRelativeID,
-          // temporary tp be consistent with fVoiceKind,
-          // will be set below
         msrVoice::kCreateInitialLastSegmentNo,
           // will be created by deep cloning below
         containingStaff);
@@ -22316,9 +22316,6 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // voice numbers
   voiceDeepCopy->fVoiceAbsoluteNumber =
     ++gVoicesCounter;;
-
-  voiceDeepCopy->fVoiceStaffRelativeNumber = // JMI
-    voiceNumber;
 
   // voice name
   voiceDeepCopy->fVoiceName =
@@ -26040,7 +26037,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
     voice =
       fStaffSilentVoice->
         createVoiceDeepCopy (
- // JMI serait utile?         inputLineNumber,
+          inputLineNumber,
           voicePartRelativeID,
           this);
 
