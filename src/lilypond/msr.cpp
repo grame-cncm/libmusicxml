@@ -10669,18 +10669,18 @@ void msrDivisions::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrBreak msrBreak::create (
+S_msrLineBreak msrLineBreak::create (
   int    inputLineNumber,
   string nextBarNumber)
 {
-  msrBreak* o =
-    new msrBreak (
+  msrLineBreak* o =
+    new msrLineBreak (
       inputLineNumber, nextBarNumber);
   assert(o!=0);
   return o;
 }
 
-msrBreak::msrBreak (
+msrLineBreak::msrLineBreak (
   int    inputLineNumber,
   string nextBarNumber)
     : msrElement (inputLineNumber)
@@ -10693,10 +10693,10 @@ msrBreak::msrBreak (
       endl;
 }
 
-msrBreak::~msrBreak()
+msrLineBreak::~msrLineBreak()
 {}
 
-string msrBreak::breakAsString () const
+string msrLineBreak::breakAsString () const
 {
   stringstream s;
 
@@ -10707,54 +10707,54 @@ string msrBreak::breakAsString () const
   return s.str();
 }
 
-void msrBreak::acceptIn (basevisitor* v) {
+void msrLineBreak::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrBreak::acceptIn()" <<
+      "% ==> msrLineBreak::acceptIn()" <<
       endl;
       
-  if (visitor<S_msrBreak>*
+  if (visitor<S_msrLineBreak>*
     p =
-      dynamic_cast<visitor<S_msrBreak>*> (v)) {
-        S_msrBreak elem = this;
+      dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
+        S_msrLineBreak elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrBreak::visitStart()" <<
+            "% ==> Launching msrLineBreak::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrBreak::acceptOut (basevisitor* v) {
+void msrLineBreak::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "% ==> msrBreak::acceptOut()" <<
+      "% ==> msrLineBreak::acceptOut()" <<
       endl;
 
-  if (visitor<S_msrBreak>*
+  if (visitor<S_msrLineBreak>*
     p =
-      dynamic_cast<visitor<S_msrBreak>*> (v)) {
-        S_msrBreak elem = this;
+      dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
+        S_msrLineBreak elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
           cerr << idtr <<
-            "% ==> Launching msrBreak::visitEnd()" <<
+            "% ==> Launching msrLineBreak::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrBreak::browseData (basevisitor* v)
+void msrLineBreak::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBreak& elt)
+ostream& operator<< (ostream& os, const S_msrLineBreak& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrBreak::print (ostream& os)
+void msrLineBreak::print (ostream& os)
 {
   os <<
     breakAsString () <<
@@ -15120,7 +15120,7 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::appendBreakSyllableToStanza (
+S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
@@ -18353,9 +18353,9 @@ void msrMeasure::appendAccordionRegistrationToMeasure (
   fMeasureElementsList.push_back (accordionRegistration);
 }    
 
-void msrMeasure::appendBreakToMeasure (S_msrBreak break_)
+void msrMeasure::appendLineBreakToMeasure (S_msrLineBreak lineBreak)
 {
-  fMeasureElementsList.push_back (break_);
+  fMeasureElementsList.push_back (lineBreak);
 }
 
 void msrMeasure::appendStaffDetailsToMeasure (
@@ -19543,7 +19543,7 @@ void msrSegment::appendStaffDetailsToSegment (
     appendStaffDetailsToMeasure (staffDetails);
 }
 
-void msrSegment::appendBreakToSegment (S_msrBreak break_)
+void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     cerr <<
@@ -19557,7 +19557,7 @@ void msrSegment::appendBreakToSegment (S_msrBreak break_)
       
   // append it to this segment
   fSegmentMeasuresList.back ()->
-    appendBreakToMeasure (break_);
+    appendLineBreakToMeasure (lineBreak);
 }
 
 void msrSegment::appendBarNumberCheckToSegment (
@@ -23453,26 +23453,26 @@ void msrVoice::appendBarNumberCheckToVoice (
       barNumberCheck->getNextBarNumber ());
 }
 
-void msrVoice::appendBreakToVoice (S_msrBreak break_)
+void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Appending break '" << break_->breakAsString () <<
+      "Appending break '" << lineBreak->breakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
-    break_->getInputLineNumber ());
+    lineBreak->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendBreakToSegment (break_);
+    appendLineBreakToSegment (lineBreak);
 
   // add break syllable to the voice mute stanza
   fVoiceMuteStanza->
-    appendBreakSyllableToStanza (
-      break_->getInputLineNumber (),
-      break_->getNextBarNumber ());
+    appendLineBreakSyllableToStanza (
+      lineBreak->getInputLineNumber (),
+      lineBreak->getNextBarNumber ());
 }
 
 void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)

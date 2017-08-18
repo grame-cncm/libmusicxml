@@ -2816,22 +2816,22 @@ void msr2LpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrBreak& elt)
+void msr2LpsrTranslator::visitStart (S_msrLineBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrBreak" <<
+      "--> Start visiting msrLineBreak" <<
       endl;
 
   fCurrentVoiceClone->
-    appendBreakToVoice (elt);
+    appendLineBreakToVoice (elt);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrBreak& elt)
+void msr2LpsrTranslator::visitEnd (S_msrLineBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrBreak" <<
+      "--> End visiting msrLineBreak" <<
       endl;
 }
 

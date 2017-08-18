@@ -61,8 +61,8 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 class msrBarNumberCheck;
 typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 
-class msrBreak;
-typedef SMARTP<msrBreak> S_msrBreak;
+class msrLineBreak;
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
 
 class msrVoiceStaffChange;
 typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
@@ -3258,7 +3258,7 @@ class EXP msrMeasure : public msrElement
 
     // breaks
 
-    void                  appendBreakToMeasure (S_msrBreak break_);
+    void                  appendLineBreakToMeasure (S_msrLineBreak lineBreak);
 
     // tempo
     
@@ -3643,7 +3643,7 @@ class EXP msrSegment : public msrElement
 
     // breaks
 
-    void                  appendBreakToSegment (S_msrBreak break_);
+    void                  appendLineBreakToSegment (S_msrLineBreak lineBreak);
 
     // segno
     
@@ -6170,14 +6170,14 @@ EXP ostream& operator<< (ostream& os, const S_msrDivisions& elt);
   A break is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBreak : public msrElement
+class EXP msrLineBreak : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrBreak> create (
+    static SMARTP<msrLineBreak> create (
       int    inputLineNumber,
       string nextBarNumber);
 
@@ -6186,11 +6186,11 @@ class EXP msrBreak : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBreak (
+    msrLineBreak (
       int    inputLineNumber,
       string nextBarNumber);
       
-    virtual ~msrBreak();
+    virtual ~msrLineBreak();
   
   public:
 
@@ -6222,8 +6222,8 @@ class EXP msrBreak : public msrElement
 
     string                fNextBarNumber;
 };
-typedef SMARTP<msrBreak> S_msrBreak;
-EXP ostream& operator<< (ostream& os, const S_msrBreak& elt);
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
+EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
 
 /*!
 \brief A msr barNumberCheck representation.
@@ -6804,7 +6804,7 @@ class EXP msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    S_msrSyllable         appendBreakSyllableToStanza (
+    S_msrSyllable         appendLineBreakSyllableToStanza (
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
@@ -8298,7 +8298,7 @@ class EXP msrVoice : public msrElement
 
     // breaks
     
-    void                  appendBreakToVoice (S_msrBreak break_);
+    void                  appendLineBreakToVoice (S_msrLineBreak lineBreak);
 
     // bar lines
     

@@ -821,19 +821,19 @@ void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrBreak& elt)
+void msr2SummaryVisitor::visitStart (S_msrLineBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> Start visiting msrBreak" <<
+      "--> Start visiting msrLineBreak" <<
       endl;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrBreak& elt)
+void msr2SummaryVisitor::visitEnd (S_msrLineBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
     fOstream << idtr <<
-      "--> End visiting msrBreak" <<
+      "--> End visiting msrLineBreak" <<
       endl;
 }
 

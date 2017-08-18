@@ -6148,11 +6148,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrBreak& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> Start visiting msrBreak" <<
+      "% --> Start visiting msrLineBreak" <<
       endl;
 
   fOstream << idtr <<
@@ -6164,11 +6164,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBreak& elt)
   fStanzaOlec.resetToZero ();
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrBreak& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrLineBreak& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
-      "% --> End visiting msrBreak" <<
+      "% --> End visiting msrLineBreak" <<
       endl;
 }
 

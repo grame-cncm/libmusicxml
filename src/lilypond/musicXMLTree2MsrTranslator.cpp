@@ -5593,16 +5593,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
           "line = " << inputLineNumber << endl;
       }
 
-      S_msrBreak
-        break_ =
-          msrBreak::create (
+      S_msrLineBreak
+        lineBreak =
+          msrLineBreak::create (
             inputLineNumber,
             currentVoice->
               getVoiceMeasureNumber ());
   
       // append it to the voice
       currentVoice->
-        appendBreakToVoice (break_);
+        appendLineBreakToVoice (lineBreak);
      }
     
     else if (newSystem == "no") {
@@ -5665,16 +5665,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
           "line = " << inputLineNumber << endl;
       }
 
-      S_msrBreak
-        break_ =
-          msrBreak::create (
+      S_msrLineBreak
+        lineBreak =
+          msrLineBreak::create (
             inputLineNumber,
             currentVoice->
               getVoiceMeasureNumber ());
   
       // append it to the voice
       currentVoice->
-        appendBreakToVoice (break_);
+        appendLineBreakToVoice (lineBreak);
         */
      }
     
