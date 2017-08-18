@@ -24914,7 +24914,12 @@ void msrVoice::print (ostream& os)
   os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
-    " (" <<
+    endl;
+
+  idtr++;
+
+  os << idtr <<
+    "(" <<
     singularOrPlural (
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
      ", " <<
@@ -24932,15 +24937,15 @@ void msrVoice::print (ostream& os)
     ")" <<
     endl;
 
-  idtr++;
-
   const int fieldWidth = 28;
 
   os <<
+  /* JMI
     idtr <<
       setw(fieldWidth) << "VoiceKind" << " : " <<
       voiceKindAsString () <<
       endl <<
+      */
     idtr <<
       setw(fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
       fVoiceAbsoluteNumber <<
