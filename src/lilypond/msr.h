@@ -8005,19 +8005,22 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     enum msrVoiceKind {
-        kRegularVoice,
-        kHarmonyVoice,  // for MusicXML <harmony/>, LilyPond ChordNames
-        kSilentVoice }; // for voices that don't start at the very beginning
+      kRegularVoice,
+      kHarmonyVoice,  // for MusicXML <harmony/>, LilyPond ChordNames
+      kSilentVoice }; // for voices that don't start at the very beginning
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
       
     enum msrVoiceFinalizationStatus {
-        kKeepVoice,
-        kEraseVoice };
+      kKeepVoice,
+      kEraseVoice };
           
     static string voiceFinalizationStatusAsString (
       msrVoiceFinalizationStatus voiceFinalizationStatus);
+
+    enum msrVoiceCreateInitialLastSegment {
+      kCreateInitialLastSegmentYes, kCreateInitialLastSegmentNo };
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -8027,6 +8030,8 @@ class EXP msrVoice : public msrElement
       S_msrPart    voiceDirectPartUplink, // superfluous JMI ???
       msrVoiceKind voiceKind,
       int          voicePartRelativeID,
+      msrVoiceCreateInitialLastSegment
+                   voiceCreateInitialLastSegment,
       S_msrStaff   voiceStaffUplink);
     
     SMARTP<msrVoice> createVoiceNewbornClone (

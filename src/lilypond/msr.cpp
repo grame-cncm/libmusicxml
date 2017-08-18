@@ -19196,8 +19196,8 @@ void msrSegment::createMeasureAndAppendItToSegment (
   // create a measure
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "Creating measure " << measureNumber <<
-      " in segment " << segmentAsString () <<
+      "Creating measure '" << measureNumber <<
+      "' in segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -21835,6 +21835,8 @@ S_msrVoice msrVoice::create (
   S_msrPart    voiceDirectPartUplink,
   msrVoiceKind voiceKind,
   int          voicePartRelativeID,
+  msrVoiceCreateInitialLastSegment
+               voiceCreateInitialLastSegment,
   S_msrStaff   voiceStaffUplink)
 {
   msrVoice* o =
@@ -21845,7 +21847,18 @@ S_msrVoice msrVoice::create (
       voicePartRelativeID,
       voiceStaffUplink);
   assert(o!=0);
-    
+
+  // should the initial last segment be created?
+  switch (voiceCreateInitialLastSegment) {
+    case msrVoice::kCreateInitialLastSegmentYes:
+      o->
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+      break;
+    case msrVoice::kCreateInitialLastSegmentNo:
+      break;
+  } // switch
+  
   return o;
 }
 
@@ -22086,6 +22099,8 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
           getStaffDirectPartUplink (),
         fVoiceKind,
         fVoicePartRelativeID,
+        msrVoice::kCreateInitialLastSegmentNo,
+          // will be created upon a later segment visit
         staffClone);
 
   // voice numbers
@@ -22165,6 +22180,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         fVoicePartRelativeID,
           // temporary tp be consistent with fVoiceKind,
           // will be set below
+        msrVoice::kCreateInitialLastSegmentNo,
+          // will be created by deep cloning below
         containingStaff);
 
   // voice numbers
@@ -22470,7 +22487,7 @@ void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
 {
   // create the segment
-  if (gGeneralOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
@@ -24315,6 +24332,10 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
       "' to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
       
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    barline->getInputLineNumber ());
+
   fVoiceLastSegment->
     prependBarlineToSegment (barline);
 }
@@ -24328,6 +24349,10 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
       "' to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
       
+  // create the voice last segment and first measure if needed
+ // appendAFirstMeasureToVoiceIfNotYetDone (
+ //JMI   barline->getInputLineNumber ());
+
   fVoiceLastSegment->
     appendBarlineToSegment (barline);
 }
@@ -24338,6 +24363,10 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
     cerr << idtr <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    segno->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendSegnoToSegment (segno);
@@ -24350,6 +24379,10 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
 
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    coda->getInputLineNumber ());
+
   fVoiceLastSegment->
     appendCodaToSegment (coda);
 }
@@ -24361,6 +24394,10 @@ void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
       "Appending a eyeGlasses to voice \"" << getVoiceName () << "\"" <<
       endl;
 
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    eyeGlasses->getInputLineNumber ());
+
   fVoiceLastSegment->
     appendEyeGlassesToSegment (eyeGlasses);
 }
@@ -24371,6 +24408,10 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
     cerr << idtr <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    pedal->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendPedalToSegment (pedal);
@@ -25660,6 +25701,7 @@ void msrStaff::createStaffSilentVoice (
       fStaffDirectPartUplink,
       msrVoice::kSilentVoice,
       K_SILENT_VOICE_NUMBER,
+      msrVoice::kCreateInitialLastSegmentYes,
       this);
 
 /*
@@ -25833,18 +25875,6 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       inputLineNumber,
       s.str());
   }
-
-/* JMI
-  // create the voice
-  S_msrVoice
-    voice =
-      msrVoice::create (
-        inputLineNumber,
-        fStaffDirectPartUplink,
-        msrVoice::kRegularVoice,
-        voicePartRelativeID,
-        this);
-*/
 
   // create the voice as a deep copy of the silent voice
   S_msrVoice
@@ -27160,6 +27190,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         this,
         msrVoice::kHarmonyVoice,
         K_PART_HARMONY_VOICE_NUMBER,
+        msrVoice::kCreateInitialLastSegmentYes,
         fPartHarmonyStaff);
   
     fPartHarmonyStaff->
