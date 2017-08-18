@@ -6173,6 +6173,31 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLineBreak& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrPageBreak& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrPageBreak" <<
+      endl;
+
+  fOstream << idtr <<
+    "\\myPageBreak " <<
+    endl <<
+    endl;
+
+  fMusicOlec.resetToZero ();
+  fStanzaOlec.resetToZero ();
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrPageBreak& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrPageBreak" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

@@ -2836,6 +2836,26 @@ void msr2LpsrTranslator::visitEnd (S_msrLineBreak& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrPageBreak& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrPageBreak" <<
+      endl;
+
+  fCurrentVoiceClone->
+    appendPageBreakToVoice (elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrPageBreak& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> End visiting msrPageBreak" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)

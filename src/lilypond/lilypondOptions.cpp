@@ -81,6 +81,10 @@ void lilypondOptions::initializeLilypondOptions (
   fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
   fSeparatorLineEveryNMeasuresValue    = INT_MAX;
   
+  // line breaks
+  
+  fDontKeepPageBreaks                  = boolOptionsInitialValue;
+
   // staves
   
   fModernTab = boolOptionsInitialValue;
@@ -216,6 +220,11 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fSeparatorLineEveryNMeasures;
   clone->fSeparatorLineEveryNMeasuresValue =
     fSeparatorLineEveryNMeasuresValue;
+
+  // page breaks
+
+  clone->fDontKeepPageBreaks =
+    fDontKeepPageBreaks;
 
   // staves
   
@@ -521,6 +530,27 @@ void lilypondOptions::printLilypondOptionsHelp ()
 
   idtr--;
 
+  // page breaks
+  // --------------------------------------
+  cerr <<
+    idtr << "Page breaks:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _DONT_KEEP_PAGE_BREAKS_SHORT_NAME_ ", --" _DONT_KEEP_PAGE_BREAKS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Don't keep the page breaks from the MusicXML input" << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "and let LilyPond decide about them." << 
+      endl <<
+    endl;
+      
   // staves
   // --------------------------------------
   cerr <<
@@ -612,6 +642,29 @@ void lilypondOptions::printLilypondOptionsHelp ()
     endl;
       
   idtr--;
+
+  // fonts
+  // --------------------------------------
+  
+  cerr <<
+    idtr << "Fonts:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _JAZZ_FONTS_SHORT_NAME_ ", --" _JAZZ_FONTS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Use LilyJazz fonts formusic, braces, text and chords." << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "This font should be installed so that LilyPond can use it." << 
+      endl <<
+    endl;
+
 
   // code generation
   // --------------------------------------

@@ -721,6 +721,14 @@ void analyzeOptions (
     
   int modernTabPresent = 0;
 
+  // fonts
+  // --------------------------------------
+  
+  checkOptionUniqueness (
+    _JAZZ_FONTS_LONG_NAME_, _JAZZ_FONTS_SHORT_NAME_);
+    
+  int jazzFontsPresent = 0;
+
   // code generation
   // --------------------------------------
   
@@ -1675,6 +1683,19 @@ void analyzeOptions (
       no_argument, &modernTabPresent, 1
     },
     
+    // fonts
+    // --------------------------------------
+
+   {
+      _JAZZ_FONTS_LONG_NAME_,
+      no_argument, &jazzFontsPresent, 1
+    },
+
+    {
+      _JAZZ_FONTS_SHORT_NAME_,
+      no_argument, &jazzFontsPresent, 1
+    },
+
     // code generation
     // --------------------------------------
 
@@ -3104,6 +3125,20 @@ R"(
               modernTabPresent = false;
             }
             
+            // fonts
+            // --------------------------------------
+
+            if (jazzFontsPresent) {
+              gLilypondOptions->fJazzFonts = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _JAZZ_FONTS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _JAZZ_FONTS_SHORT_NAME_ " ";
+                
+              jazzFontsPresent = false;
+            }
+    
             // LilyPond code generation
             // --------------------------------------
             

@@ -3992,6 +3992,50 @@ R"(\markup {
         lpsrLilypondVarValAssoc::kWithEndl);
   }
 
+  // create the 'myPageBreakIsPageBreak' assoc
+  {
+    lpsrLilypondVarValAssoc::lpsrCommentedKind
+      commentedKind =
+        gLilypondOptions->fDontKeepLineBreaks
+          ? lpsrLilypondVarValAssoc::kCommented
+          : lpsrLilypondVarValAssoc::kUncommented;
+  
+    fMyPageBreakIsPageBreakAssoc =
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        commentedKind,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        "myPageBreak",
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        "{ \\pageBreak }",
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        "Pick your choice from the next two lines as needed",
+        lpsrLilypondVarValAssoc::kWithoutEndl);
+  }
+  
+  // create the 'myPageBreakIsEmpty' assoc
+  {
+    lpsrLilypondVarValAssoc::lpsrCommentedKind
+      commentedKind =
+        gLilypondOptions->fDontKeepLineBreaks
+          ? lpsrLilypondVarValAssoc::kUncommented
+          : lpsrLilypondVarValAssoc::kCommented;
+  
+    fMyPageBreakIsEmptyAssoc =
+      lpsrLilypondVarValAssoc::create (
+        inputLineNumber,
+        commentedKind,
+        lpsrLilypondVarValAssoc::kWithoutBackslash,
+        "myPageBreak",
+        lpsrLilypondVarValAssoc::kEqualSign,
+        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        "{ }",
+        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+        lpsrLilypondVarValAssoc::kWithEndl);
+  }
+
   if (gLilypondOptions->fGlobal) {
     // create the 'global' assoc
     fGlobalAssoc =
@@ -4369,6 +4413,17 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fMyBreakIsEmptyAssoc);
   }
 
+  {
+    // browse the myPageBreakIsPageBreak assoc
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    browser.browse (*fMyPageBreakIsPageBreakAssoc);
+  }
+  {
+    // browse the myPageBreakIsEmpty assoc
+    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    browser.browse (*fMyPageBreakIsEmptyAssoc);
+  }
+
   if (fGlobalAssoc) {
     // browse the 'global' assoc
     msrBrowser<lpsrLilypondVarValAssoc> browser (v);
@@ -4454,7 +4509,7 @@ void lpsrScore::print (ostream& os)
     idtr << fScoreLayout <<
     endl;
 
-// myBreakAssoc, globalAssoc? JMI
+// myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
   // print the voices
   if (fScoreElements.size()) {  

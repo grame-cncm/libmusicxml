@@ -117,6 +117,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrBarNumberCheck>,
   
   public visitor<S_msrLineBreak>,
+
+  public visitor<S_msrPageBreak>,
   
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatEnding>,
@@ -294,6 +296,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrLineBreak& elt);
     virtual void visitEnd   (S_msrLineBreak& elt);
+
+    virtual void visitStart (S_msrPageBreak& elt);
+    virtual void visitEnd   (S_msrPageBreak& elt);
 
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);

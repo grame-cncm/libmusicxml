@@ -75,6 +75,12 @@ namespace MusicXML2
 #define _SEPARATOR_LINE_EVERY_N_MEASURES_LONG_NAME_  "separatorLineEveryNMeasures"
 #define _SEPARATOR_LINE_EVERY_N_MEASURES_SHORT_NAME_ "slenm"
 
+// page breaks
+// --------------------------------------
+
+#define _DONT_KEEP_PAGE_BREAKS_LONG_NAME_  "dontKeepPageBreaks"
+#define _DONT_KEEP_PAGE_BREAKS_SHORT_NAME_ "noPageBreaks"
+
 // staves
 // --------------------------------------
 
@@ -98,6 +104,12 @@ namespace MusicXML2
 
 #define _DELAYED_ORNAMENTS_FRACTION_LONG_NAME_  "delayedOrnamentsFraction"
 #define _DELAYED_ORNAMENTS_FRACTION_SHORT_NAME_ "dof"
+
+// fonts
+// --------------------------------------
+
+#define _JAZZ_FONTS_LONG_NAME_  "jazzFonts"
+#define _JAZZ_FONTS_SHORT_NAME_ "jazz"
 
 // code generation
 // --------------------------------------
@@ -226,6 +238,11 @@ class EXP lilypondOptions : public smartable {
     bool                  fSeparatorLineEveryNMeasures;
     int                   fSeparatorLineEveryNMeasuresValue;
 
+    // page breaks
+    // --------------------------------------
+    
+    bool                  fDontKeepPageBreaks;
+    
     // staves
     // --------------------------------------
     
@@ -246,6 +263,11 @@ class EXP lilypondOptions : public smartable {
 
     int                   fDelayedOrnamentFractionNumerator;
     int                   fDelayedOrnamentFractionDenominator;
+
+    // fonts
+    // --------------------------------------
+
+    bool                  fJazzFonts;
 
     // code generation
     // --------------------------------------

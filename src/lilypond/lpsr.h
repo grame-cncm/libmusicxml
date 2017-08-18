@@ -2386,6 +2386,12 @@ class EXP lpsrScore : public lpsrElement
     S_lpsrLilypondVarValAssoc
                           fMyBreakIsEmptyAssoc;
 
+    // to keep the original page breaks
+    S_lpsrLilypondVarValAssoc
+                          fMyPageBreakIsPageBreakAssoc;
+    S_lpsrLilypondVarValAssoc
+                          fMyPageBreakIsEmptyAssoc;
+
     // to generate 'global' variable
     S_lpsrLilypondVarValAssoc
                           fGlobalAssoc;
