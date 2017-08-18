@@ -550,7 +550,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
       "and let LilyPond decide about them." << 
       endl <<
     endl;
-      
+
+  idtr--;
+
   // staves
   // --------------------------------------
   cerr <<
@@ -658,13 +660,14 @@ void lilypondOptions::printLilypondOptionsHelp ()
       "--" _JAZZ_FONTS_SHORT_NAME_ ", --" _JAZZ_FONTS_LONG_NAME_ << 
       endl <<
     idtr << tab << tab << tab <<
-      "Use LilyJazz fonts formusic, braces, text and chords." << 
+      "Use the LilyJazz font for notes, braces, text and chords." << 
       endl <<
     idtr << tab << tab << tab <<
       "This font should be installed so that LilyPond can use it." << 
       endl <<
     endl;
 
+  idtr--;
 
   // code generation
   // --------------------------------------
@@ -943,6 +946,21 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   idtr--;
   
+  // page breaks
+  // --------------------------------------
+  cerr <<
+    idtr << "Page breaks:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "dontKeepPageBreaks" << " : " <<
+      booleanAsString (fDontKeepPageBreaks) <<
+      endl;
+
+  idtr--;
+  
   // staves
   // --------------------------------------
   cerr <<
@@ -1006,6 +1024,22 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
     idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
       fDelayedOrnamentFractionDenominator <<
+      endl;
+
+  idtr--;
+
+  // fonts
+  // --------------------------------------
+
+  cerr <<
+    idtr << "Fonts:" <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr << setw(fieldWidth) << "jazzFonts" << " : " <<
+      booleanAsString (fJazzFonts) <<
       endl;
 
   idtr--;

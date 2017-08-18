@@ -1686,7 +1686,7 @@ void analyzeOptions (
     // fonts
     // --------------------------------------
 
-   {
+    {
       _JAZZ_FONTS_LONG_NAME_,
       no_argument, &jazzFontsPresent, 1
     },
