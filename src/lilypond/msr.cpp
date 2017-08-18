@@ -22320,18 +22320,19 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     containingStaff != 0,
     "containingStaff is null");
     
-
-  cerr <<
-    "****" <<
-    " BEFORE voiceDeepCopy = " <<
-    endl;
-
-  print (cerr);
+  if (false) { // JMI
+    cerr <<
+      "****" <<
+      " BEFORE voiceDeepCopy = " <<
+      endl;
   
-  cerr <<
-    endl <<
-    "****" <<
-    endl;
+    print (cerr);
+    
+    cerr <<
+      endl <<
+      "****" <<
+      endl;
+  }
     
   S_msrVoice
     voiceDeepCopy =
@@ -22492,14 +22493,16 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       getStaffDirectPartUplink ();
 
 
-  cerr <<
-    "****" <<
-    " AFTER voiceDeepCopy = " <<
-    endl <<
-    voiceDeepCopy <<
-    endl <<
-    "****" <<
-    endl;
+  if (false) { // JMI
+    cerr <<
+      "****" <<
+      " AFTER voiceDeepCopy = " <<
+      endl <<
+      voiceDeepCopy <<
+      endl <<
+      "****" <<
+      endl;
+  }
     
   return voiceDeepCopy;
 }

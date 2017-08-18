@@ -131,7 +131,7 @@ namespace MusicXML2
 
 // beams
 #define _TRACE_BEAMS_LONG_NAME_  "traceBeams"
-#define _TRACE_BEAMS_SHORT_NAME_ "tbeamss"
+#define _TRACE_BEAMS_SHORT_NAME_ "tbeams"
 
 // technicals
 #define _TRACE_TECHNICALS_LONG_NAME_  "traceTechnicals"
