@@ -8111,6 +8111,8 @@ class EXP msrVoice : public msrElement
       S_msrPart    voiceDirectPartUplink,
       msrVoiceKind voiceKind,
       int          voicePartRelativeID,
+      msrVoiceCreateInitialLastSegment
+                   voiceCreateInitialLastSegment,
       S_msrStaff   voiceStaffUplink);
 
     // destructor
@@ -8121,7 +8123,9 @@ class EXP msrVoice : public msrElement
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeVoice ();
+    void                  initializeVoice (
+                            msrVoiceCreateInitialLastSegment
+                             voiceCreateInitialLastSegment);
 
   public:
 
@@ -8358,7 +8362,7 @@ class EXP msrVoice : public msrElement
     // breaks
     
     void                  appendLineBreakToVoice (S_msrLineBreak lineBreak);
-    void                  appendPageBreakToVoice (S_msrLineBreak lineBreak);
+    void                  appendPageBreakToVoice (S_msrPageBreak pageBreak);
 
     // bar lines
     

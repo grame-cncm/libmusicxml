@@ -21955,20 +21955,10 @@ S_msrVoice msrVoice::create (
       voiceDirectPartUplink,
       voiceKind,
       voicePartRelativeID,
+      voiceCreateInitialLastSegment,
       voiceStaffUplink);
   assert(o!=0);
 
-  // should the initial last segment be created?
-  switch (voiceCreateInitialLastSegment) {
-    case msrVoice::kCreateInitialLastSegmentYes:
-      o->
-        createNewLastSegmentForVoice (
-          inputLineNumber);
-      break;
-    case msrVoice::kCreateInitialLastSegmentNo:
-      break;
-  } // switch
-  
   return o;
 }
 
@@ -21978,6 +21968,8 @@ msrVoice::msrVoice (
   S_msrPart    voiceDirectPartUplink,
   msrVoiceKind voiceKind,
   int          voicePartRelativeID,
+  msrVoiceCreateInitialLastSegment
+               voiceCreateInitialLastSegment,
   S_msrStaff   voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
@@ -22005,7 +21997,8 @@ msrVoice::msrVoice (
   fVoicePartRelativeID = voicePartRelativeID;
   
   // do other initializations
-  initializeVoice ();
+  initializeVoice (
+    voiceCreateInitialLastSegment);
 }
 
 msrVoice::~msrVoice()
@@ -22054,7 +22047,9 @@ void msrVoice::setVoiceNameFromNumber (
   */
 }
 
-void msrVoice::initializeVoice ()
+void msrVoice::initializeVoice (
+  msrVoiceCreateInitialLastSegment
+    voiceCreateInitialLastSegment)
 {
   fVoiceStaffRelativeNumber = fVoicePartRelativeID;
     // may be changed afterwards JMI ???
@@ -22122,6 +22117,16 @@ void msrVoice::initializeVoice ()
       break;
   } // switch
 
+  // should the initial last segment be created?
+  switch (voiceCreateInitialLastSegment) {
+    case msrVoice::kCreateInitialLastSegmentYes:
+      createNewLastSegmentForVoice (
+        fInputLineNumber);
+      break;
+    case msrVoice::kCreateInitialLastSegmentNo:
+      break;
+  } // switch
+  
   // set voice number
   fVoiceMeasureNumber = // JMI "??";
     fVoiceDirectPartUplink->
@@ -23595,7 +23600,7 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
-    pageBreak->getInputPageNumber ());
+    pageBreak->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendPageBreakToSegment (pageBreak);

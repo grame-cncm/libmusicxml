@@ -5563,7 +5563,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  const int staffSpacing = elt->getAttributeIntValue ("staff-spacing"); // JMI
+  const int staffSpacing =
+    elt->getAttributeIntValue ("staff-spacing", 0); // JMI
   
   // handle 'new-system' if present
   
@@ -5662,9 +5663,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
       S_msrPageBreak
         pageBreak =
           msrPageBreak::create (
-            inputLineNumber,
-            currentVoice->
-              getVoiceMeasureNumber ());
+            inputLineNumber);
   
       // append it to the voice
       currentVoice->
@@ -5689,11 +5688,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
 
   // handle 'blank-page' if present
 
-  const string newSystem = elt->getAttributeValue ("blank-page"); // JMI
+  const string blankPage = elt->getAttributeValue ("blank-page"); // JMI
   
   // handle 'page-number' if present
 
-  const string newSystem = elt->getAttributeValue ("page-number"); // JMI
+  const string pageNumber = elt->getAttributeValue ("page-number"); // JMI
   
 }
 
