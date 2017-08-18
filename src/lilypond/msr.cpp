@@ -10669,99 +10669,6 @@ void msrDivisions::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrLineBreak msrLineBreak::create (
-  int    inputLineNumber,
-  string nextBarNumber)
-{
-  msrLineBreak* o =
-    new msrLineBreak (
-      inputLineNumber, nextBarNumber);
-  assert(o!=0);
-  return o;
-}
-
-msrLineBreak::msrLineBreak (
-  int    inputLineNumber,
-  string nextBarNumber)
-    : msrElement (inputLineNumber)
-{
-  fNextBarNumber = nextBarNumber; 
-
-  if (gGeneralOptions->fTraceMeasures)
-    cerr << idtr <<
-      "Creating a break before measure " << fNextBarNumber <<
-      endl;
-}
-
-msrLineBreak::~msrLineBreak()
-{}
-
-string msrLineBreak::breakAsString () const
-{
-  stringstream s;
-
-  s <<
-    "Break" <<
-    ", next bar number = \"" << fNextBarNumber << "\"";
-
-  return s.str();
-}
-
-void msrLineBreak::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrLineBreak::acceptIn()" <<
-      endl;
-      
-  if (visitor<S_msrLineBreak>*
-    p =
-      dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
-        S_msrLineBreak elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrLineBreak::visitStart()" <<
-             endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrLineBreak::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrLineBreak::acceptOut()" <<
-      endl;
-
-  if (visitor<S_msrLineBreak>*
-    p =
-      dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
-        S_msrLineBreak elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrLineBreak::visitEnd()" <<
-            endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrLineBreak::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrLineBreak& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrLineBreak::print (ostream& os)
-{
-  os <<
-    breakAsString () <<
-    endl;
-}
-
-//______________________________________________________________________________
 S_msrBarCheck msrBarCheck::create (
   int    inputLineNumber)
 {
@@ -10975,6 +10882,187 @@ void msrBarNumberCheck::print (ostream& os)
 {
   os <<
     barNumberCheckAsString ();
+}
+
+//______________________________________________________________________________
+S_msrLineBreak msrLineBreak::create (
+  int    inputLineNumber,
+  string nextBarNumber)
+{
+  msrLineBreak* o =
+    new msrLineBreak (
+      inputLineNumber, nextBarNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrLineBreak::msrLineBreak (
+  int    inputLineNumber,
+  string nextBarNumber)
+    : msrElement (inputLineNumber)
+{
+  fNextBarNumber = nextBarNumber; 
+
+  if (gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Creating a break before measure " << fNextBarNumber <<
+      endl;
+}
+
+msrLineBreak::~msrLineBreak()
+{}
+
+string msrLineBreak::lineBreakAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Line break" <<
+    ", next bar number = \"" << fNextBarNumber << "\"";
+
+  return s.str();
+}
+
+void msrLineBreak::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrLineBreak::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrLineBreak>*
+    p =
+      dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
+        S_msrLineBreak elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrLineBreak::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrLineBreak::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrLineBreak::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrLineBreak>*
+    p =
+      dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
+        S_msrLineBreak elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrLineBreak::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrLineBreak::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrLineBreak& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrLineBreak::print (ostream& os)
+{
+  os <<
+    lineBreakAsString () <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrPageBreak msrPageBreak::create (
+  int inputLineNumber)
+{
+  msrPageBreak* o =
+    new msrPageBreak (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrPageBreak::msrPageBreak (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  if (gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Creating a page break" <<
+      endl;
+}
+
+msrPageBreak::~msrPageBreak()
+{}
+
+string msrPageBreak::pageBreakAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Page break";
+
+  return s.str();
+}
+
+void msrPageBreak::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrPageBreak::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrPageBreak>*
+    p =
+      dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
+        S_msrPageBreak elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrPageBreak::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrPageBreak::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrPageBreak::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrPageBreak>*
+    p =
+      dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
+        S_msrPageBreak elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrPageBreak::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrPageBreak::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrPageBreak& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrPageBreak::print (ostream& os)
+{
+  os <<
+    pageBreakAsString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -14300,7 +14388,7 @@ string msrSyllable::syllableKindAsString (
       break;
       
     case msrSyllable::kBreakSyllable:
-      result = "break";
+      result = "line break";
       break;
       
     case msrSyllable::k_NoSyllable:
@@ -14541,7 +14629,7 @@ string msrSyllable::syllableAsString ()
     case kBreakSyllable:
       // fSyllableText contains the measure number
       s << 
-        "break" <<
+        "line break" <<
         " measure " << "fSyllableText ???";
       break;
       
@@ -23457,7 +23545,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Appending break '" << lineBreak->breakAsString () <<
+      "Appending break '" << lineBreak->lineBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 

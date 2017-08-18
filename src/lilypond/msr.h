@@ -6165,67 +6165,6 @@ typedef SMARTP<msrDivisions> S_msrDivisions;
 EXP ostream& operator<< (ostream& os, const S_msrDivisions& elt);
 
 /*!
-\brief A msr break representation.
-
-  A break is represented by the number of the next bar
-*/
-//______________________________________________________________________________
-class EXP msrLineBreak : public msrElement
-{
-  public:
-    
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrLineBreak> create (
-      int    inputLineNumber,
-      string nextBarNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrLineBreak (
-      int    inputLineNumber,
-      string nextBarNumber);
-      
-    virtual ~msrLineBreak();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    string                getNextBarNumber () const
-                              { return fNextBarNumber; }
-
-    // services
-    // ------------------------------------------------------
-
-    string                breakAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    string                fNextBarNumber;
-};
-typedef SMARTP<msrLineBreak> S_msrLineBreak;
-EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
-
-/*!
 \brief A msr barNumberCheck representation.
 
   A barNumberCheck is represented by the number of the next bar
@@ -6354,6 +6293,121 @@ class EXP msrBarNumberCheck : public msrElement
 };
 typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
+
+/*!
+\brief A msr break representation.
+
+  A break is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrLineBreak : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrLineBreak> create (
+      int    inputLineNumber,
+      string nextBarNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrLineBreak (
+      int    inputLineNumber,
+      string nextBarNumber);
+      
+    virtual ~msrLineBreak();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getNextBarNumber () const
+                              { return fNextBarNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                lineBreakAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    string                fNextBarNumber;
+};
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
+EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
+
+/*!
+\brief A msr break representation.
+
+  A break is represented by the number of the next bar
+*/
+//______________________________________________________________________________
+class EXP msrPageBreak : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPageBreak> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrPageBreak (
+      int inputLineNumber);
+      
+    virtual ~msrPageBreak();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    string                pageBreakAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+};
+typedef SMARTP<msrPageBreak> S_msrPageBreak;
+EXP ostream& operator<< (ostream& os, const S_msrPageBreak& elt);
 
 /*!
 \brief A msr tuplet representation.
