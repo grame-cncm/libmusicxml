@@ -12262,6 +12262,28 @@ ostream& operator<< (ostream& os, const S_msrCredit& elt)
   return os;
 }
 
+string msrCredit::creditAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Credit" <<
+    ", fCreditPageNumber" << " = " << fCreditPageNumber;
+      
+  vector<S_msrCreditWords>::const_iterator
+    iBegin = fCreditWordsList.begin(),
+    iEnd   = fCreditWordsList.end(),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i) << " ";
+    if (++i == iEnd) break;
+// JMI    os << endl;
+  } // for
+  
+  return s.str();
+}
+
 void msrCredit::print (ostream& os)
 {
   os <<
@@ -29578,6 +29600,19 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 
   // register it in this score
   fPartGroupsList.push_back (partGroup);
+}
+
+void msrScore::appendCreditToScore (S_msrCredit credit)
+{
+  if (gGeneralOptions->fTraceCredits) {
+    cerr << idtr <<
+      "Appending credit '" <<
+      credit->creditAsString () <<
+      "' to score" <<
+      endl;
+  }
+  
+  fCreditsList.push_back (credit);
 }
 
 /*

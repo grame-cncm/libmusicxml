@@ -841,7 +841,7 @@ string lilypondOptions::scoreNotationKindAsString (
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
   cerr << idtr <<
-    "The LPSR options are:" <<
+    "The LilyPond options are:" <<
     endl;
 
   idtr++;

@@ -5965,6 +5965,8 @@ class EXP msrCredit : public msrElement
     void                  appendCreditWordsToCredit (
                             S_msrCreditWords creditWords);
 
+    string                creditAsString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -9963,8 +9965,8 @@ class EXP msrScore : public msrElement
     void                  addPartGroupToScore (
                             S_msrPartGroup partGroup);
 
-    void                  appendCreditToScore (S_msrCredit credit)
-                              { fCreditsList.push_back (credit); }
+    void                  appendCreditToScore (
+                            S_msrCredit credit);
                               
     // visitors
     // ------------------------------------------------------

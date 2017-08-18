@@ -970,7 +970,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       
     // figured bass
     idtr <<
-      setw(fieldWidth) << "traceFiguresBass" << " : " <<
+      setw(fieldWidth) << "traceFiguredBass" << " : " <<
       booleanAsString (fTraceFiguredBass) <<
       endl <<
       
