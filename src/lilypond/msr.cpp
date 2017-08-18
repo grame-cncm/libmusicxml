@@ -22269,9 +22269,10 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 }
 
 S_msrVoice msrVoice::createVoiceDeepCopy (
-  int        inputLineNumber,
-  int        voiceNumber,
-  S_msrStaff containingStaff)
+  int          inputLineNumber,
+  msrVoiceKind voiceKind,
+  int          voicePartRelativeID,
+  S_msrStaff   containingStaff)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
@@ -22307,8 +22308,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         fInputLineNumber,
         containingStaff->
           getStaffDirectPartUplink (),
-        fVoiceKind,
-        fVoicePartRelativeID,
+        voiceKind,
+        voicePartRelativeID,
         msrVoice::kCreateInitialLastSegmentNo,
           // will be created by deep cloning below
         containingStaff);
@@ -25987,9 +25988,11 @@ void msrStaff::createMeasureAndAppendItToStaff (
 }
 
 S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
-  int    inputLineNumber,
-  int    voicePartRelativeID,
-  string currentMeasureNumber)
+  int          inputLineNumber,
+  msrVoice::msrVoiceKind
+               voiceKind,
+  int          voicePartRelativeID,
+  string       currentMeasureNumber)
 {
   // take this new voice into account
   fStaffRegisteredVoicesCounter++;
@@ -26038,6 +26041,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       fStaffSilentVoice->
         createVoiceDeepCopy (
           inputLineNumber,
+          voiceKind,
           voicePartRelativeID,
           this);
 

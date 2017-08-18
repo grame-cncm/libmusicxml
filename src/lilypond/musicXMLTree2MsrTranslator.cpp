@@ -477,6 +477,7 @@ S_msrVoice musicXMLTree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDo
       staff->
         createVoiceInStaffByItsPartRelativeID (
           inputLineNumber,
+          msrVoice::kRegularVoice,
           voiceNumber,
           fCurrentMeasureNumber);
 

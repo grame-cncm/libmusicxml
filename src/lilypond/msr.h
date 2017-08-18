@@ -8096,9 +8096,10 @@ class EXP msrVoice : public msrElement
       S_msrStaff containingStaff);
 
     SMARTP<msrVoice> createVoiceDeepCopy (
-      int        inputLineNumber,
-      int        voiceNumber,
-      S_msrStaff containingStaff);
+      int          inputLineNumber,
+      msrVoiceKind voiceKind,
+      int          voicePartRelativeID,
+      S_msrStaff   containingStaff);
 
   protected:
 
@@ -9032,9 +9033,11 @@ class EXP msrStaff : public msrElement
     string                staffKindAsString () const;
     
     S_msrVoice            createVoiceInStaffByItsPartRelativeID (
-                            int    inputLineNumber,
-                            int    voicePartRelativeID,
-                            string currentMeasureNumber);
+                            int          inputLineNumber,
+                            msrVoice::msrVoiceKind
+                                         voiceKind,
+                            int          voicePartRelativeID,
+                            string       currentMeasureNumber);
 
     void                  registerVoiceInStaff (
                             int inputLineNumber,
