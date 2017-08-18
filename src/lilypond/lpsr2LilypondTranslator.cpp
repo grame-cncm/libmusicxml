@@ -3831,7 +3831,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fStanzaOlec.resetToZero ();
           break;
     
-        case msrSyllable::kBreakSyllable:
+        case msrSyllable::kLineBreakSyllable:
           fOstream <<
             "%{ break " << "\"";
           writeTextsListAsLilypondString (

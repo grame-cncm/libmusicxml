@@ -14387,7 +14387,7 @@ string msrSyllable::syllableKindAsString (
       result = "barnumber check";
       break;
       
-    case msrSyllable::kBreakSyllable:
+    case msrSyllable::kLineBreakSyllable:
       result = "line break";
       break;
       
@@ -14626,7 +14626,7 @@ string msrSyllable::syllableAsString ()
         " measure " << "fSyllableText ???";
       break;
       
-    case kBreakSyllable:
+    case kLineBreakSyllable:
       // fSyllableText contains the measure number
       s << 
         "line break" <<
@@ -14883,7 +14883,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kTiedSyllable:
     case msrSyllable::kBarcheckSyllable:
     case msrSyllable::kBarNumberCheckSyllable:
-    case msrSyllable::kBreakSyllable:
+    case msrSyllable::kLineBreakSyllable:
       break;
       
     case msrSyllable::k_NoSyllable:
@@ -15208,7 +15208,7 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
   return syllable;
 }
 
-S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
+S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
@@ -15226,7 +15226,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         fStanzaDirectPartUplink,
-        msrSyllable::kBreakSyllable,
+        msrSyllable::kLineBreakSyllable,
  // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
@@ -23558,7 +23558,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 
   // add break syllable to the voice mute stanza
   fVoiceMuteStanza->
-    appendLineBreakSyllableToStanza (
+    appendLineLineBreakSyllableToStanza (
       lineBreak->getInputLineNumber (),
       lineBreak->getNextBarNumber ());
 }

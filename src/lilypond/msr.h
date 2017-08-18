@@ -4063,7 +4063,7 @@ class EXP msrSyllable : public msrElement
       kSlurSyllable, kSlurBeyondEndSyllable,
       kLigatureSyllable, kLigatureBeyondEndSyllable,
       kBarcheckSyllable, kBarNumberCheckSyllable,
-      kBreakSyllable};
+      kLineBreakSyllable};
 
     static string syllableKindAsString (
       msrSyllableKind syllableKind);
@@ -6858,7 +6858,7 @@ class EXP msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    S_msrSyllable         appendLineBreakSyllableToStanza (
+    S_msrSyllable         appendLineLineBreakSyllableToStanza (
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
