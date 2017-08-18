@@ -18446,6 +18446,11 @@ void msrMeasure::appendLineBreakToMeasure (S_msrLineBreak lineBreak)
   fMeasureElementsList.push_back (lineBreak);
 }
 
+void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
+{
+  fMeasureElementsList.push_back (pageBreak);
+}
+
 void msrMeasure::appendStaffDetailsToMeasure (
   S_msrStaffDetails staffDetails)
 {
@@ -19646,6 +19651,23 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendLineBreakToMeasure (lineBreak);
+}
+
+void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending break " <<
+        " to segment " << segmentAsString () <<
+        "' in voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendPageBreakToMeasure (pageBreak);
 }
 
 void msrSegment::appendBarNumberCheckToSegment (
@@ -23545,7 +23567,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Appending break '" << lineBreak->lineBreakAsString () <<
+      "Appending line break '" << lineBreak->lineBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
 
@@ -23561,6 +23583,22 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
     appendLineLineBreakSyllableToStanza (
       lineBreak->getInputLineNumber (),
       lineBreak->getNextBarNumber ());
+}
+
+void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
+{
+  if (gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending page break '" << pageBreak->pageBreakAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    pageBreak->getInputPageNumber ());
+
+  fVoiceLastSegment->
+    appendPageBreakToSegment (pageBreak);
 }
 
 void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)

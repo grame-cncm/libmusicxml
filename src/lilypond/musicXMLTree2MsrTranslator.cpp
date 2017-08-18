@@ -5542,6 +5542,19 @@ void musicXMLTree2MsrTranslator::visitEnd (S_measure& elt)
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_print& elt ) 
 {
+/*
+<!ELEMENT print (page-layout?, system-layout?, staff-layout*,
+    measure-layout?, measure-numbering?, part-name-display?, 
+    part-abbreviation-display?)>
+<!ATTLIST print
+    staff-spacing %tenths; #IMPLIED
+    new-system %yes-no; #IMPLIED
+    new-page %yes-no; #IMPLIED
+    blank-page NMTOKEN #IMPLIED
+    page-number CDATA #IMPLIED  
+>
+*/
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
       "--> Start visiting S_print" <<
@@ -5550,6 +5563,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  const int staffSpacing = elt->getAttributeIntValue ("staff-spacing"); // JMI
+  
   // handle 'new-system' if present
   
   const string newSystem = elt->getAttributeValue ("new-system");
@@ -5558,7 +5573,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
     
     if (newSystem == "yes") {
       
-      // create a barNumberCheck command
+      // create a barNumberCheck
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr << 
           "Creating a barnumber check, " <<
@@ -5586,10 +5601,10 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
       currentVoice->
         appendBarNumberCheckToVoice (barNumberCheck_);
   
-      // create a break command
+      // create a line break
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr << 
-          "Creating a break, " <<
+          "Creating a line break, " <<
           "line = " << inputLineNumber << endl;
       }
 
@@ -5621,7 +5636,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
     }
   }
 
-    // handle 'new-page' if present
+  // handle 'new-page' if present
 
   const string newPage = elt->getAttributeValue ("new-page");
   
@@ -5629,14 +5644,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
     
     if (newPage == "yes") { // JMI
       
-      // create a barNumberCheck command
-      if (gGeneralOptions->fTraceMeasures) {
-        cerr << idtr << 
-          "Creating a page break " <<
-          "line = " << inputLineNumber <<
-          endl;
-      }
-
       // fetch current voice
       S_msrVoice
         currentVoice =
@@ -5644,38 +5651,24 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
             inputLineNumber,
             fCurrentStaffNumber,
             fCurrentVoiceNumber);
-
-/* JMI
-      S_msrBarNumberCheck
-        barNumberCheck_ =
-          msrBarNumberCheck::create (
-            inputLineNumber,
-            currentVoice->
-              getVoiceMeasureNumber ());
-            
-      // append it to the voice
-// JMI      S_msrElement bnc = barNumberCheck_;
-      currentVoice->
-        appendBarNumberCheckToVoice (barNumberCheck_);
   
-      // create a break command
+      // create a page break
       if (gGeneralOptions->fTraceMeasures) {
         cerr << idtr << 
-          "Creating a break, " <<
+          "Creating a page break, " <<
           "line = " << inputLineNumber << endl;
       }
 
-      S_msrLineBreak
-        lineBreak =
-          msrLineBreak::create (
+      S_msrPageBreak
+        pageBreak =
+          msrPageBreak::create (
             inputLineNumber,
             currentVoice->
               getVoiceMeasureNumber ());
   
       // append it to the voice
       currentVoice->
-        appendLineBreakToVoice (lineBreak);
-        */
+        appendPageBreakToVoice (pageBreak);
      }
     
     else if (newPage == "no") {
@@ -5693,6 +5686,15 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
         s.str());
     }
   }
+
+  // handle 'blank-page' if present
+
+  const string newSystem = elt->getAttributeValue ("blank-page"); // JMI
+  
+  // handle 'page-number' if present
+
+  const string newSystem = elt->getAttributeValue ("page-number"); // JMI
+  
 }
 
 /*

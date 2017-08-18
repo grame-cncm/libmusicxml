@@ -64,6 +64,9 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 class msrLineBreak;
 typedef SMARTP<msrLineBreak> S_msrLineBreak;
 
+class msrPageBreak;
+typedef SMARTP<msrPageBreak> S_msrPageBreak;
+
 class msrVoiceStaffChange;
 typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 
@@ -3259,6 +3262,7 @@ class EXP msrMeasure : public msrElement
     // breaks
 
     void                  appendLineBreakToMeasure (S_msrLineBreak lineBreak);
+    void                  appendPageBreakToMeasure (S_msrPageBreak pageBreak);
 
     // tempo
     
@@ -3644,6 +3648,7 @@ class EXP msrSegment : public msrElement
     // breaks
 
     void                  appendLineBreakToSegment (S_msrLineBreak lineBreak);
+    void                  appendPageBreakToSegment (S_msrPageBreak pageBreak);
 
     // segno
     
@@ -8353,6 +8358,7 @@ class EXP msrVoice : public msrElement
     // breaks
     
     void                  appendLineBreakToVoice (S_msrLineBreak lineBreak);
+    void                  appendPageBreakToVoice (S_msrLineBreak lineBreak);
 
     // bar lines
     
