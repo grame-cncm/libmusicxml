@@ -81,7 +81,7 @@ void lilypondOptions::initializeLilypondOptions (
   fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
   fSeparatorLineEveryNMeasuresValue    = INT_MAX;
   
-  // line breaks
+  // page breaks
   
   fDontKeepPageBreaks                  = boolOptionsInitialValue;
 

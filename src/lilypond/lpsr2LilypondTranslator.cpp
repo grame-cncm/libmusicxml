@@ -1874,6 +1874,21 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       "%" "system-count" << " = " <<
     setprecision(4) << 1 <<
     endl;
+
+  // fonts
+  if (gLilypondOptions->fJazzFonts) {
+    fOstream <<
+R"(
+  #(define fonts
+     (set-global-fonts
+      #:music "lilyjazz"
+      #:brace "lilyjazz"
+      #:roman "lilyjazz-text"
+      #:sans "lilyjazz-chord"
+      #:factor (/ staff-height pt 20)
+      ))
+)";
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
