@@ -12269,18 +12269,27 @@ string msrCredit::creditAsString () const
   s <<
     "Credit" <<
     ", fCreditPageNumber" << " = " << fCreditPageNumber;
-      
-  vector<S_msrCreditWords>::const_iterator
-    iBegin = fCreditWordsList.begin(),
-    iEnd   = fCreditWordsList.end(),
-    i      = iBegin;
 
-  for ( ; ; ) {
-    s << (*i) << " ";
-    if (++i == iEnd) break;
-// JMI    os << endl;
-  } // for
+  if (fCreditWordsList.size ()) {
+    s << "[";
+    
+    vector<S_msrCreditWords>::const_iterator
+      iBegin = fCreditWordsList.begin(),
+      iEnd   = fCreditWordsList.end(),
+      i      = iBegin;
   
+    for ( ; ; ) {
+      s << (*i)->getCreditWordsContents () << " ";
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+
+    s << "]";
+  }
+  
+  else
+    s << "no credit words";
+    
   return s.str();
 }
 
