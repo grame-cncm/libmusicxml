@@ -6510,14 +6510,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
       "% --> Start visiting msrRehearsal" <<
       endl;
 
+  int saveIndent =
+    idtr.getIndent ();
+
   fOstream <<
     endl <<
     endl <<
     idtr <<
-    "\\mark" "\\markup " "{" "\\box {"  "\""<< elt->getRehearsalText () << "\"" "}}" <<
-    endl <<
-    idtr;
+    "\\mark" "\\markup " "{" "\\box {"  "\""<<
+    elt->getRehearsalText () <<
+    "\"" "}}" <<
+    endl;
   
+  if (saveIndent > 0) {      
+    for (int i = 0; i < saveIndent; i++) {
+      fOstream <<
+        idtr;
+    } // for
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)

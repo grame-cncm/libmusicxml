@@ -12268,7 +12268,7 @@ string msrCredit::creditAsString () const
 
   s <<
     "Credit" <<
-    ", fCreditPageNumber" << " = " << fCreditPageNumber;
+    ", fCreditPageNumber" << " = " << fCreditPageNumber << ", ";
 
   if (fCreditWordsList.size ()) {
     s << "[";
@@ -12279,9 +12279,9 @@ string msrCredit::creditAsString () const
       i      = iBegin;
   
     for ( ; ; ) {
-      s << (*i)->getCreditWordsContents () << " ";
+      s << (*i)->getCreditWordsContents ();
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      s << " ";
     } // for
 
     s << "]";
