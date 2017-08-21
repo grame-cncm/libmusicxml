@@ -22041,7 +22041,7 @@ void msrVoice::initializeVoice (
     
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Initializing voice \"" << fVoiceName <<
+      "==> Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
       fVoiceStaffUplink->getStaffName () <<
       "\"" <<
@@ -22471,102 +22471,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
 void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
   int inputLineNumber)
-{
-  // this is done for voices that are created after JMI
-  // the voice has been created.
-  // the current // JMI ??? measure number has been registered by the voice
-  
-  if (! fVoiceLastSegment) {
-    // create the initial segment for this voice
-    if (gGeneralOptions->fTraceSegments)
-      cerr << idtr <<
-        "==> Creating the initial last segment for voice \"" <<
-        getVoiceName () << "\"" <<
-        endl;
-        
-    fVoiceLastSegment =
-      msrSegment::create (
-        fInputLineNumber,
-        fVoiceDirectPartUplink,
-        this);
-
-    // create and append a new measure to last segment
-    fVoiceLastSegment->
-      createMeasureAndAppendItToSegment (
-        inputLineNumber,
-        fVoiceMeasureNumber);
-      
-    // register voice first segment for LilyPond issue 34
-    fVoiceFirstSegment =
-      fVoiceLastSegment;
-
-  /* JMI
-    // get the initial clef from the staff if any
-    {
-      S_msrClef
-        clef =
-          fVoiceStaffUplink->
-            getStaffCurrentClef ();
-    
-      if (clef) {
-        // append it to the last segment
-        fVoiceLastSegment->
-          appendClefToSegment (clef);
-        }
-    }
-      
-    // get the initial key from the staff if any
-    {
-      S_msrKey
-        key =
-          fVoiceStaffUplink->
-            getStaffCurrentKey ();
-  
-      if (key) {
-        // append it to the last segment
-        fVoiceLastSegment->
-          appendKeyToSegment (key);
-      }
-    }
-    
-    // get the initial time from the staff if any
-    {
-      S_msrTime
-        time =
-          fVoiceStaffUplink->
-            getStaffCurrentTime ();
-  
-      if (time) {
-        // append it to the last segment
-        fVoiceLastSegment->
-          appendTimeToSegment (time);
-      }
-    }
-    
-    // get the initial transpose from the staff if any
-    {
-      S_msrTranspose
-        transpose =
-          fVoiceStaffUplink->
-            getStaffTranspose ();
-          
-      if (transpose) {
-        // append it to the last segment
-        S_msrElement t = transpose;
-        fVoiceLastSegment->
-          appendTransposeToSegment (transpose); //JMI
-      }
-    }
-    */
-  }
-
-  else {
-    if (! fVoiceFirstSegment) {
-      // register voice first segment for LilyPond issue 34
-      fVoiceFirstSegment =
-        fVoiceLastSegment;
-    }
-  }
+{ // JMI
 }
 
 /* JMI
