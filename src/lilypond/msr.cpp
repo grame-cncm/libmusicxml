@@ -2236,10 +2236,10 @@ string wholeNotesAsMsrString (
   }
 
   // append the dots if any
-  if (false) { // JMI
+#ifdef DEBUG_WHOLE_NOTES
     s <<
       " %{" << numerator << "/" << denominator << "%} ";
-  }
+#endif
     
   for (int i = 0; i < numberOfDots; i++) {
     s << ".";

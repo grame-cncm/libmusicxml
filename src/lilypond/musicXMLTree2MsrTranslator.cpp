@@ -1846,7 +1846,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_attributes& elt)
 /* JMI
   // time is crucially needed for measures management,
   // we cannot stay without any
-  if (false && ! fCurrentTime) {
+  if (! fCurrentTime) {
     // create the default 4/4 time
     fCurrentTime =
       msrTime::createFourQuartersTime (
