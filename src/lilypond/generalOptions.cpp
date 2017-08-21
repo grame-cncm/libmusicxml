@@ -77,17 +77,23 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   // part groups
   fTracePartGroups = boolOptionsInitialValue;
+  
   // parts
   fTraceParts = boolOptionsInitialValue;
+  
   // staves
   fTraceStaves = boolOptionsInitialValue;
+  
   // voices
   fTraceVoices = boolOptionsInitialValue;
+  fTraceVoicesDetails = boolOptionsInitialValue;
 
   // clefs
   fTraceClefs = boolOptionsInitialValue;
+  
   // keys
   fTraceKeys  = boolOptionsInitialValue;
+  
   // times
   fTraceTimes = boolOptionsInitialValue;
 
@@ -102,6 +108,7 @@ void msrGeneralOptions::initializeGeneralOptions (
 
   // notes
   fTraceNotes = boolOptionsInitialValue;
+  fTraceNotesDetails = boolOptionsInitialValue;
   
   // beams
   fTraceBeams = boolOptionsInitialValue;
@@ -212,17 +219,23 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
 
   // part groups
   clone->fTracePartGroups = true;
+  
   // parts
   clone->fTraceParts = true;
+  
   // staves
   clone->fTraceStaves = true;
+  
   // voices
   clone->fTraceVoices = true;
+  clone->fTraceVoicesDetails = true;
 
   // clefs
   clone->fTraceClefs = true;
+  
   // keys
   clone->fTraceKeys = true;
+  
   // times
   clone->fTraceTimes = true;
 
@@ -237,6 +250,7 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   
   // notes
   clone->fTraceNotes = true;
+  clone->fTraceNotesDetails = true;
     
   // beams
   clone->fTraceBeams = true;
@@ -507,6 +521,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "part groups" <<
       endl <<
+    endl <<
       
     // parts
     idtr <<
@@ -515,6 +530,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "parts" <<
       endl <<
+    endl <<
 
     // staves
     idtr <<
@@ -523,6 +539,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "staves" <<
       endl <<
+    endl <<
       
     // voices
     idtr <<
@@ -530,6 +547,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "voices" <<
+      endl <<
+
+    idtr <<
+      "--" _TRACE_VOICES_DETAILS_SHORT_NAME_ ", --" _TRACE_VOICES_DETAILS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "voices with more details (quite verbose)" <<
       endl <<
     endl <<
 
@@ -590,7 +614,14 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_NOTES_SHORT_NAME_ ", --" _TRACE_NOTES_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "notes (quite verbose)" <<
+      "notes" <<
+      endl <<
+    
+    idtr <<
+      "--" _TRACE_NOTES_DETAILS_SHORT_NAME_ ", --" _TRACE_NOTES_DETAILS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "notes with more details (quite verbose)" <<
       endl <<
     endl <<
 
@@ -873,6 +904,10 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (fTraceVoices) <<
       endl <<
+    idtr <<
+      setw(fieldWidth) << "traceVoicesDetails" << " : " <<
+      booleanAsString (fTraceVoicesDetails) <<
+      endl <<
 
     // clefs
     idtr <<
@@ -912,6 +947,10 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (fTraceNotes) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) << "traceNotesDetails" << " : " <<
+      booleanAsString (fTraceNotesDetails) <<
       endl <<
 
     // beams

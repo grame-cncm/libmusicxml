@@ -101,6 +101,9 @@ namespace MusicXML2
 #define _TRACE_VOICES_LONG_NAME_  "traceVoices"
 #define _TRACE_VOICES_SHORT_NAME_ "tvoices"
 
+#define _TRACE_VOICES_DETAILS_LONG_NAME_  "traceVoicesDetails"
+#define _TRACE_VOICES_DETAILS_SHORT_NAME_ "tvdetails"
+
 // clefs
 #define _TRACE_CLEFS_LONG_NAME_  "traceClefs"
 #define _TRACE_CLEFS_SHORT_NAME_ "tclefs"
@@ -128,6 +131,9 @@ namespace MusicXML2
 // notes
 #define _TRACE_NOTES_LONG_NAME_  "traceNotes"
 #define _TRACE_NOTES_SHORT_NAME_ "tnotes"
+
+#define _TRACE_NOTES_DETAILS_LONG_NAME_  "traceNotesDetails"
+#define _TRACE_NOTES_DETAILS_SHORT_NAME_ "tndetails"
 
 // beams
 #define _TRACE_BEAMS_LONG_NAME_  "traceBeams"
@@ -249,12 +255,16 @@ class EXP msrGeneralOptions : public smartable
 
     // part groups
     bool                  fTracePartGroups;
+    
     // parts
     bool                  fTraceParts;
+    
     // staves
     bool                  fTraceStaves;
+    
     // voices
     bool                  fTraceVoices;
+    bool                  fTraceVoicesDetails;
 
     // clefs
     bool                  fTraceClefs;
@@ -274,6 +284,7 @@ class EXP msrGeneralOptions : public smartable
 
     // notes
     bool                  fTraceNotes;
+    bool                  fTraceNotesDetails;
 
     // beams
     bool                  fTraceBeams;

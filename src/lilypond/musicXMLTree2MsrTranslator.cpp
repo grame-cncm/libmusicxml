@@ -12425,9 +12425,11 @@ void musicXMLTree2MsrTranslator::handleLyrics (
 
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
-    cerr <<
-      "*** " << "newNote has lyrics attached to it" << " ***" <<
-      endl;
+    if (gGeneralOptions->fTraceNotesDetails) {
+      cerr <<
+        "*** " << "newNote has lyrics attached to it" << " ***" <<
+        endl;
+    }
       
     for (
       list<S_msrSyllable>::const_iterator i =

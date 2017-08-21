@@ -338,6 +338,11 @@ void analyzeOptions (
     
   int traceVoicesPresent = 0;
 
+  checkOptionUniqueness (
+    _TRACE_VOICES_DETAILS_LONG_NAME_, _TRACE_VOICES_DETAILS_SHORT_NAME_);
+    
+  int traceVoicesDetailsPresent = 0;
+
   // clefs
   checkOptionUniqueness (
     _TRACE_CLEFS_LONG_NAME_, _TRACE_CLEFS_SHORT_NAME_);
@@ -379,6 +384,11 @@ void analyzeOptions (
     _TRACE_NOTES_LONG_NAME_, _TRACE_NOTES_SHORT_NAME_);
     
   int traceNotesPresent = 0;
+
+  checkOptionUniqueness (
+    _TRACE_NOTES_DETAILS_LONG_NAME_, _TRACE_NOTES_DETAILS_SHORT_NAME_);
+    
+  int traceNotesDetailsPresent = 0;
 
   // breams
   checkOptionUniqueness (
@@ -1037,6 +1047,16 @@ void analyzeOptions (
       no_argument, &traceVoicesPresent, 1
     },
     
+    {
+      _TRACE_VOICES_DETAILS_LONG_NAME_,
+      no_argument, &traceVoicesDetailsPresent, 1
+    },
+
+    {
+      _TRACE_VOICES_DETAILS_SHORT_NAME_,
+      no_argument, &traceVoicesDetailsPresent, 1
+    },
+    
     // clefs
     {
       _TRACE_CLEFS_LONG_NAME_,
@@ -1112,6 +1132,16 @@ void analyzeOptions (
     {
       _TRACE_NOTES_SHORT_NAME_,
       no_argument, &traceNotesPresent, 1
+    },
+    
+    {
+      _TRACE_NOTES_DETAILS_LONG_NAME_,
+      no_argument, &traceNotesDetailsPresent, 1
+    },
+
+    {
+      _TRACE_NOTES_DETAILS_SHORT_NAME_,
+      no_argument, &traceNotesDetailsPresent, 1
     },
     
     // beams
@@ -2261,6 +2291,17 @@ R"(
     
               traceVoicesPresent = false;
             }
+            if (traceVoicesDetailsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceVoicesDetails = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_VOICES_DETAILS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_VOICES_DETAILS_SHORT_NAME_ " ";
+    
+              traceVoicesDetailsPresent = false;
+            }
     
             // clefs
             if (traceClefsPresent) {
@@ -2351,6 +2392,17 @@ R"(
                 "--" _TRACE_NOTES_SHORT_NAME_ " ";
                 
               traceNotesPresent = false;
+            }
+            if (traceNotesDetailsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceNotesDetails = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_NOTES_DETAILS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_NOTES_DETAILS_SHORT_NAME_ " ";
+                
+              traceNotesDetailsPresent = false;
             }
     
             // beams

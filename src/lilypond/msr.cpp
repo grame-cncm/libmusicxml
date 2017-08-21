@@ -22071,8 +22071,8 @@ void msrVoice::setVoiceNameFromNumber (
   
   /* JMI
     CAUTION:
-      the following makes the lilypond not compilable, but may be useful
-      to disambiguate the voice and voice clones names
+      the following makes the generated LilyPond code not compilable,
+      but may be useful to disambiguate the voice and voice clones names
 
   fVoiceName += // JMI
     "[" + to_string (fVoiceAbsoluteNumber) + "]";
@@ -22097,13 +22097,14 @@ void msrVoice::initializeVoice (
   setVoiceNameFromNumber (
     voiceNumber);
     
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
       fVoiceStaffUplink->getStaffName () <<
       "\"" <<
       endl;
+  }
 
   // check voice part-relative ID
   switch (fVoiceKind) {
@@ -22152,9 +22153,20 @@ void msrVoice::initializeVoice (
   // should the initial last segment be created?
   switch (voiceCreateInitialLastSegment) {
     case msrVoice::kCreateInitialLastSegmentYes:
+      if (gGeneralOptions->fTraceVoices) {
+        cerr << idtr <<
+          "Creating and initial voice last segment for voice \"" <<
+          fVoiceName <<
+          "\" in staff \"" <<
+          fVoiceStaffUplink->getStaffName () <<
+          "\"" <<
+          endl;
+      }
+      
       createNewLastSegmentForVoice (
         fInputLineNumber);
       break;
+      
     case msrVoice::kCreateInitialLastSegmentNo:
       break;
   } // switch
@@ -22320,7 +22332,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     containingStaff != 0,
     "containingStaff is null");
     
-  if (false) { // JMI
+  if (gGeneralOptions->fTraceVoicesDetails) {
     cerr <<
       "****" <<
       " BEFORE voiceDeepCopy = " <<
@@ -22384,7 +22396,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       cerr << idtr <<
         "There are " <<
         numberOfInitialRepeatsAndSegments <<
-        " initial repeats and segments in " <<
+        " initial repeats and segments in voice \"" <<
+        getVoiceName () <<
+        "\"" <<
         endl;
     }
 
@@ -22419,7 +22433,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       else {
         msrInternalError (
           fInputLineNumber,
-          "voice initial repeats and segments element should be a repeat or a segment");
+          "voice  \"" <<
+          getVoiceName () <<
+          "\" initial repeats and segments element should be a repeat or a segment");
       }
   
       // append the element deep copy to the voice deep copy
@@ -22434,7 +22450,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   else {    
     if (gGeneralOptions->fTraceVoices) {
       cerr << idtr <<
-        "There are no initial repeats and segments in voice to be deep copied" <<
+        "There are no initial repeats and segments in voice \"" <<
+        getVoiceName () <<
+        "\" to be deep copied" <<
         endl;
     }
   }
@@ -22449,7 +22467,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   else {    
     if (gGeneralOptions->fTraceVoices) {
       cerr << idtr <<
-        "There is no last segment in voice to be deep copied" <<
+        "There is no last segment in voice \"" <<
+        getVoiceName () <<
+        "\" to be deep copied" <<
         endl;
     }
   }
@@ -22493,7 +22513,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       getStaffDirectPartUplink ();
 
 
-  if (false) { // JMI
+  if (gGeneralOptions->fTraceVoicesDetails) {
     cerr <<
       "****" <<
       " AFTER voiceDeepCopy = " <<
