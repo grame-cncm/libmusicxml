@@ -4416,7 +4416,7 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a deep copy of single tremolo " <<
+      "==> Creating a deep copy of single tremolo " <<
       singleTremoloAsString () <<
       " in note '" <<
       noteUplink->
@@ -4655,7 +4655,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
 {
   if (gGeneralOptions->fTraceTremolos)
     cerr << idtr <<
-      "Creating a newborn clone of a double tremolo" <<
+      "==> Creating a newborn clone of a double tremolo" <<
       endl;
   
   msrAssert(
@@ -5988,7 +5988,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
-      "Creating a newborn clone of grace notes" <<
+      "==> Creating a newborn clone of grace notes" <<
       graceNotesAsShortString () <<
       endl;
   }
@@ -6017,7 +6017,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
-      "Creating a skip clone of grace notes" <<
+      "==> Creating a skip clone of grace notes" <<
       graceNotesAsShortString () <<
       endl;
   }
@@ -6226,7 +6226,7 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     cerr << idtr <<
-      "Creating a newborn clone of after grace notes" <<
+      "==> Creating a newborn clone of after grace notes" <<
       endl;
   }
 
@@ -6589,7 +6589,7 @@ void msrNote::initializeNote ()
   fNoteSyllableExtendKind =
     msrSyllable::k_NoSyllableExtend;
   
-  if (gGeneralOptions->fTraceNotes) {
+  if (gGeneralOptions->fTraceNotesDetails) {
     cerr <<
       endl <<
       idtr <<
@@ -6807,7 +6807,7 @@ S_msrNote msrNote::createNoteNewbornClone (
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a newborn clone of note " <<
+      "==> Creating a newborn clone of note " <<
       noteAsString () <<
       " in part " <<
       containingPart->
@@ -7002,7 +7002,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 {
   if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "Creating a deep copy of note " <<
+      "==> Creating a deep copy of note " <<
       noteAsString () <<
       " in part " <<
       containingPart->
@@ -9094,7 +9094,7 @@ S_msrChord msrChord::create (
   if (gGeneralOptions->fTraceChords) {
     cerr <<
       idtr <<
-      "Creating a chord" <<
+      "==> Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
       ", chordDisplayWholeNotes = " << chordDisplayWholeNotes <<
       ", chordGraphicDuration = " <<
@@ -9146,7 +9146,7 @@ S_msrChord msrChord::createChordNewbornClone (
 {
   if (gGeneralOptions->fTraceChords) {
     cerr << idtr <<
-      "Creating a newborn clone of chord '" <<
+      "==> Creating a newborn clone of chord '" <<
       chordAsString () <<
       "'" <<
       endl;
@@ -9891,7 +9891,7 @@ S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
  if (gGeneralOptions->fTraceDivisions) {
     cerr << idtr <<
-      "Creating a newborn clone of divisions '" <<
+      "==> Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
       "'" <<
       endl;
@@ -10696,7 +10696,7 @@ msrBarCheck::msrBarCheck (
 {
   if (gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
-      "Creating a bar check without next bar number" <<
+      "==> Creating a bar check without next bar number" <<
       endl;
   }
 }
@@ -10710,7 +10710,7 @@ msrBarCheck::msrBarCheck (
 
   if (gGeneralOptions->fTraceMeasures) {
     cerr << idtr <<
-      "Creating a bar check with next bar number '" <<
+      "==> Creating a bar check with next bar number '" <<
       fNextBarNumber <<
       "'" <<
       endl;
@@ -10905,7 +10905,7 @@ msrLineBreak::msrLineBreak (
 
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Creating a break before measure " << fNextBarNumber <<
+      "==> Creating a break before measure " << fNextBarNumber <<
       endl;
 }
 
@@ -10994,7 +10994,7 @@ msrPageBreak::msrPageBreak (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Creating a page break" <<
+      "==> Creating a page break" <<
       endl;
 }
 
@@ -11108,7 +11108,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
   if (gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
-      "Creating a newborn clone of tuplet '" <<
+      "==> Creating a newborn clone of tuplet '" <<
       tupletAsShortString () <<
       "'" <<
       endl;
@@ -12731,7 +12731,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 {
   if (gGeneralOptions->fTraceKeys) {
     cerr << idtr <<
-      "Creating Humdrum/Scot key item" <<
+      "==> Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
@@ -13153,7 +13153,7 @@ msrTimeItem::msrTimeItem (
   
   if (gGeneralOptions->fTraceTimes) {
     cerr << idtr <<
-      "Creating time item" <<
+      "==> Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
@@ -14155,7 +14155,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "Creating a newborn clone of syllable '" <<
+      "==> Creating a newborn clone of syllable '" <<
       syllableAsString () <<
       "'" <<
       endl;
@@ -14199,7 +14199,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "Creating a newborn clone of syllable '" <<
+      "==> Creating a newborn clone of syllable '" <<
       syllableAsString () <<
       "'" <<
       endl;
@@ -14777,7 +14777,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "Creating a newborn clone of stanza \"" <<
+      "==> Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
       containingVoice->getVoiceName () <<
@@ -14825,7 +14825,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 {
   if (gGeneralOptions->fTraceLyrics) {
     cerr << idtr <<
-      "Creating a deep copy of stanza \"" <<
+      "==> Creating a deep copy of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
       containingVoice->getVoiceName () <<
@@ -15441,7 +15441,7 @@ msrHarmony::msrHarmony (
 
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating harmony '" <<
+      "==> Creating harmony '" <<
       harmonyAsString () <<
       "'" <<
       endl;
@@ -15456,7 +15456,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating a newborn clone of harmony '" <<
+      "==> Creating a newborn clone of harmony '" <<
       harmonyKindAsShortString () <<
       "'" <<
       endl;
@@ -15487,7 +15487,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating a deep copy of harmony '" <<
+      "==> Creating a deep copy of harmony '" <<
       harmonyKindAsShortString () <<
       "'" <<
       endl;
@@ -15774,7 +15774,7 @@ msrFiguredBass::msrFiguredBass (
 
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating figuredBass '" <<
+      "==> Creating figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
       endl;
@@ -15789,7 +15789,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating a newborn clone of figuredBass '" <<
+      "==> Creating a newborn clone of figuredBass '" <<
       figuredBassKindAsShortString () <<
       "'" <<
       endl;
@@ -15820,7 +15820,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
-      "Creating a deep copy of figuredBass '" <<
+      "==> Creating a deep copy of figuredBass '" <<
       figuredBassKindAsShortString () <<
       "'" <<
       endl;
@@ -16850,7 +16850,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Creating a newborn clone of measure '" <<
+      "==> Creating a newborn clone of measure '" <<
       fMeasureNumber <<
       "'" <<
       " in segment " <<
@@ -16921,7 +16921,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Creating a deep copy of measure '" <<
+      "==> Creating a deep copy of measure '" <<
       fMeasureNumber <<
       "'" <<
       " in segment " <<
@@ -19053,12 +19053,6 @@ S_msrSegment msrSegment::create (
       segmentDirectPartUplink,
       segmentVoicekUplink);
   assert(o!=0);
-
-/* JMI
-  // create the segment initial measure
-  o->
-    createSegmentInitialMeasure ();
-  */
   
   return o;
 }
@@ -19092,52 +19086,6 @@ msrSegment::msrSegment (
 msrSegment::~msrSegment()
 {}
 
-/* JMI
-void msrSegment::createSegmentInitialMeasure () // JMI
-{
-  string
-    firstMeasureNumber = // JMI
-      fSegmentDirectPartUplink->
-        getPartCurrentMeasureNumber (); // JMI "?";
-  
-  if (gGeneralOptions->fTraceSegments) {
-    cerr <<
-      idtr <<
-        "Creating segment " << segmentAsString () <<
-        "'s first measure with number " <<
-        firstMeasureNumber <<
-        ", in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
-  }
-
-  // create a first measure
-  S_msrMeasure
-    firstMeasure =
-      msrMeasure::create (
-        fInputLineNumber,
-        fSegmentDirectPartUplink,
-        firstMeasureNumber,
-        this);
-
-  // fetch staff current time
-  S_msrTime
-    staffCurrentTime =
-      fSegmentVoiceUplink->
-        getVoiceStaffUplink ()->
-          getStaffCurrentTime ();
-        
-  // set the measure length in whole notes per full measure
-  firstMeasure->
-    setMeasureFullMeasureLengthFromTime (
-      staffCurrentTime);
-
-  // append first measure to the segment
-  appendMeasureToSegment (firstMeasure);
-}
-*/
-
 void msrSegment::initializeSegment ()
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
@@ -19158,7 +19106,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 {
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "Creating a newborn clone of segment " <<
+      "==> Creating a newborn clone of segment " <<
       segmentAsString () <<
       endl;
   }
@@ -19197,7 +19145,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 {
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "Creating a deep copy of segment " <<
+      "==> Creating a deep copy of segment " <<
       segmentAsString () <<
       endl;
   }
@@ -19272,7 +19220,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "Creating and appending a measure '" << measureNumber <<
+      "==> Creating and appending a measure '" << measureNumber <<
       "', to segment '" << segmentAsString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19281,13 +19229,6 @@ void msrSegment::createMeasureAndAppendItToSegment (
       endl;
 
   fSegmentMeasureNumber = measureNumber; // JMI
-
-/* JMI
-  // make sure there's at least one measure in the segment
-  appendMeasureToSegmentIfNotYetDone (
-    inputLineNumber,
-    measureNumber);
-*/
 
   // determine new measure 'first in segment' kind
   msrMeasure::msrMeasureFirstInSegmentKind
@@ -19320,7 +19261,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   // create a measure
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     cerr << idtr <<
-      "Creating measure '" << measureNumber <<
+      "==> Creating measure '" << measureNumber <<
       "' in segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19861,6 +19802,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
   int    inputLineNumber,
   string measureNumber)
 {
+  /* JMI BOF
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
@@ -19886,6 +19828,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
     appendMeasureToSegment (
       newMeasure);
   }
+  */
 }
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
@@ -20372,7 +20315,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a " <<
+      "==> Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
   
@@ -20413,7 +20356,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a " <<
+      "==> Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
   
@@ -20592,7 +20535,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a repeat" <<
+      "==> Creating a newborn clone of a repeat" <<
       endl;
   
   msrAssert(
@@ -20621,7 +20564,7 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a deep copy of a repeat" <<
+      "==> Creating a deep copy of a repeat" <<
       endl;
   
   msrAssert(
@@ -20847,7 +20790,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNew
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a measure repeat pattern" <<
+      "==> Creating a newborn clone of a measure repeat pattern" <<
       endl;
   
   msrAssert(
@@ -20874,7 +20817,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDee
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a measure repeat pattern" <<
+      "==> Creating a newborn clone of a measure repeat pattern" <<
       endl;
   
   msrAssert(
@@ -21072,7 +21015,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a measure repeat replicas" <<
+      "==> Creating a newborn clone of a measure repeat replicas" <<
       endl;
   
   msrAssert(
@@ -21099,7 +21042,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a deep copy of a measure repeat replicas" <<
+      "==> Creating a deep copy of a measure repeat replicas" <<
       endl;
   
   msrAssert(
@@ -21307,7 +21250,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a measure repeat" <<
+      "==> Creating a newborn clone of a measure repeat" <<
       endl;
   
   msrAssert(
@@ -21338,7 +21281,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a deep copy of a measure repeat" <<
+      "==> Creating a deep copy of a measure repeat" <<
       endl;
   
   msrAssert(
@@ -21615,7 +21558,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of a multiple rest contents" <<
+      "==> Creating a newborn clone of a multiple rest contents" <<
       endl;
   
   msrAssert(
@@ -21811,7 +21754,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a newborn clone of multiple rest " <<
+      "==> Creating a newborn clone of multiple rest " <<
       multipleRestAsString () <<
       endl;
   
@@ -21993,7 +21936,6 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
-// for regular voices JMI
 msrVoice::msrVoice (
   int          inputLineNumber,
   S_msrPart    voiceDirectPartUplink,
@@ -22155,7 +22097,7 @@ void msrVoice::initializeVoice (
     case msrVoice::kCreateInitialLastSegmentYes:
       if (gGeneralOptions->fTraceVoices) {
         cerr << idtr <<
-          "Creating and initial voice last segment for voice \"" <<
+          "==> Creating and initial voice last segment for voice \"" <<
           fVoiceName <<
           "\" in staff \"" <<
           fVoiceStaffUplink->getStaffName () <<
@@ -22240,7 +22182,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Creating a newborn clone of voice \"" <<
+      "==> Creating a newborn clone of voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -22319,7 +22261,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Creating a deep copy of voice \"" <<
+      "==> Creating a deep copy of voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", to be placed in containing staff \"" <<
@@ -22538,7 +22480,7 @@ void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
     // create the initial segment for this voice
     if (gGeneralOptions->fTraceSegments)
       cerr << idtr <<
-        "Creating the initial last segment for voice \"" <<
+        "==> Creating the initial last segment for voice \"" <<
         getVoiceName () << "\"" <<
         endl;
         
@@ -22680,7 +22622,7 @@ void msrVoice::createNewLastSegmentForVoice (
   // create the segment
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Creating a new segment for voice \"" <<
+      "==> Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -22710,7 +22652,7 @@ void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Creating a new segment with first measure '" <<
+      "==> Creating a new segment with first measure '" <<
       firstMeasure->getMeasureNumber () <<
       "'for voice \"" <<
       getVoiceName () << "\"" <<
@@ -22851,7 +22793,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
     // no, create it and add it to the voice
     if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
       cerr << idtr <<
-        "Creating stanza " << stanzaNumber <<
+        "==> Creating stanza " << stanzaNumber <<
         " in voice \"" << getVoiceName () << "\"" <<
         ", line " << inputLineNumber <<
         ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
@@ -23692,7 +23634,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Creating and appending a repeat in voice \"" <<
+            "==> Creating and appending a repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -23734,7 +23676,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment for voice \"" <<
+            "==> Creating a new last segment for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -23758,7 +23700,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // create a measure repeat
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
-            "Creating a measure repeat from it's first measure in voice \"" <<
+            "==> Creating a measure repeat from it's first measure in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -23797,7 +23739,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // create the measure pattern
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a measure pattern for voice \"" <<
+            "==> Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
@@ -23840,7 +23782,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the first replica for voice \"" <<
+            "==> Creating a new last segment with the first replica for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -23940,7 +23882,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
          // create the measure repeat replicas contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a measure repeat replicas contents for voice \"" <<
+            "==> Creating a measure repeat replicas contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
@@ -24013,7 +23955,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the measure repeat next measure for voice \"" <<
+            "==> Creating a new last segment with the measure repeat next measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -24067,7 +24009,7 @@ void msrVoice::createMultipleRestInVoice (
         // create a multiple rest
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
-            "Creating a multiple rest in voice \"" <<
+            "==> Creating a multiple rest in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -24117,7 +24059,7 @@ void msrVoice::createMultipleRestInVoice (
         // containing the first, rest measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment containing the first rest measure in voice \"" <<
+            "==> Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -24237,7 +24179,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // create the multiple rest contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a measure pattern for voice \"" <<
+            "==> Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
@@ -24293,7 +24235,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment with the measure after the multiple rests for voice \"" <<
+            "==> Creating a new last segment with the measure after the multiple rests for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -24428,7 +24370,7 @@ void msrVoice::appendRepeatCloneToVoice (
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment for voice BOF JMI \"" <<
+            "==> Creating a new last segment for voice BOF JMI \"" <<
             fVoiceName << "\"" <<
             endl;
             
@@ -24480,7 +24422,7 @@ void msrVoice::appendRepeatEndingToVoice (
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment for voice \"" <<
+            "==> Creating a new last segment for voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
@@ -24518,7 +24460,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "Creating a new last segment for voice \"" <<
+            "==> Creating a new last segment for voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
@@ -25102,7 +25044,7 @@ S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
     cerr << idtr <<
-      "Creating a newborn clone of staff lines number '" <<
+      "==> Creating a newborn clone of staff lines number '" <<
       staffLinesNumberAsString () <<
       "'" <<
       endl;
@@ -25220,7 +25162,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
   if (gGeneralOptions->fTraceStaffTuning) {
     cerr << idtr <<
-      "Creating a newborn clone of staff tuning '" <<
+      "==> Creating a newborn clone of staff tuning '" <<
       staffTuningAsString () <<
       "'" <<
       endl;
@@ -25386,7 +25328,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "Creating a newborn clone of staff details \"" <<
+      "==> Creating a newborn clone of staff details \"" <<
       staffDetailsAsShortString () <<
       "\"" <<
       endl;
@@ -25906,7 +25848,7 @@ void msrStaff::createStaffSilentVoice (
   // create the staff silent voice  
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Creating the silent voice for staff \"" <<
+      "==> Creating the silent voice for staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
       endl;
@@ -25941,7 +25883,7 @@ S_msrStaff msrStaff::createStaffNewbornClone (
 {
   if (gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "Creating a newborn clone of staff \"" <<
+      "==> Creating a newborn clone of staff \"" <<
       fStaffName <<
       "\"" <<
       endl;
@@ -26025,7 +25967,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
 {
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Creating and appending a new measure, " <<
+      "==> Creating and appending a new measure, " <<
       ", measureNumber = " << measureNumber <<
       ", line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
@@ -26058,7 +26000,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
 
   if (gGeneralOptions->fTraceVoices)
     cerr << idtr <<
-      "Creating voice with part-relative ID '" <<
+      "==> Creating voice with part-relative ID '" <<
       voicePartRelativeID <<
       "' as relative voice '" <<
       fStaffRegisteredVoicesCounter <<
@@ -26391,7 +26333,7 @@ void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating and appending a repeat to staff \"" <<
+      "==> Creating and appending a repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -26439,7 +26381,7 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a measure repeat from it's first measure in staff \"" <<
+      "==> Creating a measure repeat from it's first measure in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -26484,7 +26426,7 @@ void msrStaff::createMultipleRestInStaff (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a multiple rest in staff \"" <<
+      "==> Creating a multiple rest in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffDirectPartUplink->getPartCombinedName () <<
@@ -27177,7 +27119,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
     cerr << idtr <<
-      "Creating a newborn clone of staff change '" <<
+      "==> Creating a newborn clone of staff change '" <<
       voiceStaffChangeAsString () <<
       "'" <<
       endl;
@@ -27321,7 +27263,7 @@ void msrPart::initializePart ()
     
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Creating part " << getPartCombinedName () << endl;
+      "==> Creating part " << getPartCombinedName () << endl;
   
   setPartMeasureLengthHighTide (
     fInputLineNumber,
@@ -27344,7 +27286,7 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
   if (gGeneralOptions->fTraceParts) {
     cerr << idtr <<
-      "Creating a newborn clone of part " <<
+      "==> Creating a newborn clone of part " <<
       getPartCombinedName () <<
       endl;
   }
@@ -27380,7 +27322,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     // create the part harmony staff
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceStaves)
       cerr << idtr <<
-        "Creating the harmony staff" <<
+        "==> Creating the harmony staff" <<
         " with number " << K_PART_HARMONY_STAFF_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
@@ -27396,7 +27338,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     // create the part harmony voice  
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
       cerr << idtr <<
-        "Creating the harmony voice " <<
+        "==> Creating the harmony voice " <<
         " with number " << K_PART_HARMONY_VOICE_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
@@ -27536,7 +27478,7 @@ void msrPart::createMeasureAndAppendItToPart (
   if (gGeneralOptions->fTraceMeasures)
     cerr <<
       idtr <<
-        "Creating and appending a measure to part " <<
+        "==> Creating and appending a measure to part " <<
         getPartCombinedName () <<
         ", measure '" <<  measureNumber <<
         "', line " << inputLineNumber <<
@@ -27848,7 +27790,7 @@ void msrPart::createMultipleRestInPart (
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Creating a multiple rest in part " <<
+      "==> Creating a multiple rest in part " <<
       getPartCombinedName () <<
       ", " <<
       singularOrPlural (
@@ -28703,7 +28645,7 @@ msrPartGroup::msrPartGroup (
       "--------------------------------------------" <<
       endl <<
       idtr <<
-      "Creating part group " << fPartGroupNumber <<
+      "==> Creating part group " << fPartGroupNumber <<
       endl;
 }
 
@@ -28720,7 +28662,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
       "--------------------------------------------" <<
       endl <<
       idtr <<
-      "Creating a newborn clone part group " <<
+      "==> Creating a newborn clone part group " <<
       getPartGroupCombinedName () <<
       endl;
 
@@ -29590,7 +29532,7 @@ S_msrScore msrScore::createScoreNewbornClone ()
 {
   if (gGeneralOptions->fTraceScore) {
     cerr << idtr <<
-      "Creating a newborn clone of a score" <<
+      "==> Creating a newborn clone of a score" <<
       endl;
   }
 

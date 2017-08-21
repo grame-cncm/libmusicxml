@@ -3491,8 +3491,6 @@ class EXP msrSegment : public msrElement
 
     void                  initializeSegment ();
 
-// JMI    void                  createSegmentInitialMeasure ();
-
   public:
 
     // set and get
