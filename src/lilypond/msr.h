@@ -3108,7 +3108,6 @@ class EXP msrMeasure : public msrElement
 
     static SMARTP<msrMeasure> create (
       int           inputLineNumber,
-      S_msrPart     measureDirectPartUplink,
       string        measureNumber,
       S_msrSegment  measureSegmentUplink);
     
@@ -3125,7 +3124,6 @@ class EXP msrMeasure : public msrElement
 
     msrMeasure (
       int           inputLineNumber,
-      S_msrPart     measureDirectPartUplink,
       string        measureNumber,
       S_msrSegment  measureSegmentUplink);
       
@@ -3143,6 +3141,11 @@ class EXP msrMeasure : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+        
+    S_msrSegment          getMeasureSegmentUplink () const
+                              { return fMeasureSegmentUplink; }
+                      
     // measure number
     
     void                  setMeasureNumber (string measureNumber)
@@ -3193,17 +3196,6 @@ class EXP msrMeasure : public msrElement
     S_msrNote              getMeasureLastHandledNote () const
                               { return fMeasureLastHandledNote; }
 
-    // uplinks
-    
-    S_msrSegment          getMeasureSegmentUplink () const
-                              { return fMeasureSegmentUplink; }
-                      
-    S_msrVoice            getMeasureVoiceDirectUplink () const
-                              { return fMeasureVoiceDirectUplink; }
-
-    S_msrPart             getMeasureDirectPartUplink () const
-                             { return fMeasureDirectPartUplink; }
-
     // elements list
     
     const list<S_msrElement>&
@@ -3212,6 +3204,12 @@ class EXP msrMeasure : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    // uplinks
+    
+    S_msrPart             getMeasureDirectPartUplink () const;
+    
+    S_msrVoice            getMeasureVoiceDirectUplink () const;
 
     // lengthes
 
@@ -3412,6 +3410,11 @@ class EXP msrMeasure : public msrElement
     // fields
     // ------------------------------------------------------
 
+    
+    // uplinks
+    
+    S_msrSegment          fMeasureSegmentUplink;
+
     // lengthes
     
     rational              fMeasureFullMeasureLength;
@@ -3438,14 +3441,6 @@ class EXP msrMeasure : public msrElement
     // elements
 
     list<S_msrElement>    fMeasureElementsList;
-    
-    // uplinks
-    
-    S_msrSegment          fMeasureSegmentUplink;
-
-    S_msrVoice            fMeasureVoiceDirectUplink; // to accelerate things
-
-    S_msrPart             fMeasureDirectPartUplink; // to accelerate things
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -3463,7 +3458,6 @@ class EXP msrSegment : public msrElement
 
     static SMARTP<msrSegment> create (
       int        inputLineNumber,
-      S_msrPart  segmentDirectPartUplink, // inutile ??? JM
       S_msrVoice segmentVoicekUplink);
 
     SMARTP<msrSegment> createSegmentNewbornClone (
@@ -3479,7 +3473,6 @@ class EXP msrSegment : public msrElement
 
     msrSegment (
       int        inputLineNumber,
-      S_msrPart  segmentDirectPartUplink,
       S_msrVoice segmentVoicekUplink);
       
     virtual ~msrSegment();
@@ -3495,16 +3488,19 @@ class EXP msrSegment : public msrElement
 
     // set and get
     // ------------------------------------------------------
-                            
-    S_msrPart             getSegmentDirectPartUplink () const
-                             { return fSegmentDirectPartUplink; }
 
-    int                   getSegmentAbsoluteNumber () const
-                              { return fSegmentAbsoluteNumber; }
-                      
+    // uplinks
+
     S_msrVoice            getSegmentVoiceUplink () const
                               { return fSegmentVoiceUplink; }
                       
+    // number
+    
+    int                   getSegmentAbsoluteNumber () const
+                              { return fSegmentAbsoluteNumber; }
+                      
+    // measures
+    
     const list<S_msrMeasure>&
                           getSegmentMeasuresList () const
                               { return fSegmentMeasuresList; }
@@ -3512,8 +3508,6 @@ class EXP msrSegment : public msrElement
     list<S_msrMeasure>&   getSegmentMeasuresListToModify ()
                               { return fSegmentMeasuresList; }
                                             
-    // measures
-    
     void                  createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber);
@@ -3524,12 +3518,10 @@ class EXP msrSegment : public msrElement
     // services
     // ------------------------------------------------------
 
-    // divisions
+    // uplinks
+    
+    S_msrPart             getSegmentDirectPartUplink () const;
 
-/* JMI
-    void                  appendDivisionsToSegment (
-                            S_msrDivisions divisions);
-*/
     // strings
   
     string                segmentAsString ();
@@ -3712,6 +3704,9 @@ class EXP msrSegment : public msrElement
 
   private:
 
+    // uplinks
+    S_msrVoice            fSegmentVoiceUplink;
+
     // counter
     static int            gSegmentsCounter;
 
@@ -3724,10 +3719,6 @@ class EXP msrSegment : public msrElement
 
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
-
-    // uplinks
-    S_msrVoice            fSegmentVoiceUplink;
-    S_msrPart             fSegmentDirectPartUplink;
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
@@ -3749,7 +3740,6 @@ class EXP msrGraceNotes : public msrElement
 
     static SMARTP<msrGraceNotes> create (
       int        inputLineNumber,
-      S_msrPart  graceNotesDirectPartUplink,
       bool       slashed,
       S_msrVoice graceNotesVoiceUplink);
     
@@ -3769,7 +3759,6 @@ class EXP msrGraceNotes : public msrElement
 
     msrGraceNotes (
       int        inputLineNumber,
-      S_msrPart  graceNotesDirectPartUplink,
       bool       gracenoteIsSlashed,
       S_msrVoice graceNotesVoiceUplink);
       
@@ -3780,9 +3769,6 @@ class EXP msrGraceNotes : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrPart             getGraceNotesDirectPartUplink () const
-                              { return fGraceNotesDirectPartUplink; }
-
     list<S_msrNote>&      getGraceNotesNotesList ()
                               { return fGraceNotesNotesList; }
 
@@ -3791,6 +3777,8 @@ class EXP msrGraceNotes : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    S_msrPart             getGraceNotesDirectPartUplink () const;
 
     void                  appendNoteToGraceNotes (S_msrNote note);
 
@@ -3811,13 +3799,12 @@ class EXP msrGraceNotes : public msrElement
 
   private:
 
-    S_msrPart             fGraceNotesDirectPartUplink;
+    // uplinks
+    S_msrVoice            fGraceNotesVoiceUplink;
 
     list<S_msrNote>       fGraceNotesNotesList;
 
     bool                  fGraceNotesIsSlashed;
-
-    S_msrVoice            fGraceNotesVoiceUplink;
 };
 typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
@@ -3839,7 +3826,6 @@ class EXP msrAfterGraceNotes : public msrElement
 
     static SMARTP<msrAfterGraceNotes> create (
       int        inputLineNumber,
-      S_msrPart  afterGraceNotesDirectPartUplink,
       S_msrNote  afterGraceNotesNote,
       bool       aftergracenoteIsSlashed,
       S_msrVoice afterGraceNotesVoiceUplink);
@@ -3859,7 +3845,6 @@ class EXP msrAfterGraceNotes : public msrElement
 
     msrAfterGraceNotes (
       int        inputLineNumber,
-      S_msrPart  afterGraceNotesDirectPartUplink,
       S_msrNote  afterGraceNotesNote,
       bool       aftergracenoteIsSlashed,
       S_msrVoice afterGraceNotesVoiceUplink);
@@ -3871,9 +3856,6 @@ class EXP msrAfterGraceNotes : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrPart             getAfterGraceNotesDirectPartUplink () const
-                              { return fAfterGraceNotesDirectPartUplink; }
-
     S_msrNote             getAfterGraceNotesNote ()
                               { return fAfterGraceNotesNote; }
 
@@ -3888,6 +3870,9 @@ class EXP msrAfterGraceNotes : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    // uplinks
+    S_msrPart             getAfterGraceNotesDirectPartUplink () const;
 
     void                  appendNoteToAfterGraceNotes (S_msrNote note);
 
@@ -3908,15 +3893,14 @@ class EXP msrAfterGraceNotes : public msrElement
 
   private:
 
-    S_msrPart             fAfterGraceNotesDirectPartUplink;
+    // uplinks
+    S_msrVoice            fAfterGraceNotesVoiceUplink;
 
     S_msrNote             fAfterGraceNotesNote;
 
     list<S_msrNote>       fAfterGraceNotesNotesList;
 
     bool                  fAfterGraceNotesIsSlashed;
-    
-    S_msrVoice            fAfterGraceNotesVoiceUplink;
 };
 typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);

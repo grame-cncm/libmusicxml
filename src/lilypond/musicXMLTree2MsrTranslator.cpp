@@ -12226,7 +12226,6 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
       fCurrentGraceNotes =
         msrGraceNotes::create (
           inputLineNumber,
-          fCurrentPart,
           fCurrentGraceIsSlashed,
           currentVoice);
 

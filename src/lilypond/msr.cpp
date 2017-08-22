@@ -5944,14 +5944,12 @@ void msrLigature::print (ostream& os)
 //______________________________________________________________________________
 S_msrGraceNotes msrGraceNotes::create (
   int        inputLineNumber,
-  S_msrPart  graceNotesDirectPartUplink,
   bool       gracenoteIsSlashed,
   S_msrVoice graceNotesVoiceUplink)
 {
   msrGraceNotes* o =
     new msrGraceNotes (
       inputLineNumber,
-      graceNotesDirectPartUplink,
       gracenoteIsSlashed,
       graceNotesVoiceUplink);
   assert(o!=0);
@@ -5961,23 +5959,18 @@ S_msrGraceNotes msrGraceNotes::create (
 
 msrGraceNotes::msrGraceNotes (
   int        inputLineNumber,
-  S_msrPart  graceNotesDirectPartUplink,
   bool       gracenoteIsSlashed,
   S_msrVoice graceNotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  // set gracenote's direct part uplink
   msrAssert(
-    graceNotesDirectPartUplink != 0,
-    "graceNotesDirectPartUplink is null");
-    
-  fGraceNotesDirectPartUplink =
-    graceNotesDirectPartUplink;
-    
-  fGraceNotesIsSlashed = gracenoteIsSlashed;
+    graceNotesVoiceUplink != 0,
+    "graceNotesVoiceUplink is null");
 
   fGraceNotesVoiceUplink =
-    graceNotesVoiceUplink;
+    graceNotesVoiceUplink;    
+    
+  fGraceNotesIsSlashed = gracenoteIsSlashed;
 }
 
 msrGraceNotes::~msrGraceNotes()
@@ -6001,8 +5994,6 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
     newbornClone =
       msrGraceNotes::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         fGraceNotesIsSlashed,
         containingVoice);
 
@@ -6010,6 +6001,13 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
     fGraceNotesIsSlashed;
     
   return newbornClone;
+}
+
+S_msrPart msrGraceNotes::getGraceNotesDirectPartUplink () const
+{
+  return
+    fGraceNotesVoiceUplink->
+      getVoiceDirectPartUplink ();
 }
 
 S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
@@ -6026,8 +6024,6 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
     clone =
       msrGraceNotes::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         fGraceNotesIsSlashed,
         containingVoice);
 
@@ -6174,7 +6170,6 @@ void msrGraceNotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrAfterGraceNotes msrAfterGraceNotes::create (
   int        inputLineNumber,
-  S_msrPart  afterGraceNotesDirectPartUplink,
   S_msrNote  afterGraceNotesNote,
   bool       aftergracenoteIsSlashed,
   S_msrVoice afterGraceNotesVoiceUplink)
@@ -6182,7 +6177,6 @@ S_msrAfterGraceNotes msrAfterGraceNotes::create (
   msrAfterGraceNotes* o =
     new msrAfterGraceNotes (
       inputLineNumber,
-      afterGraceNotesDirectPartUplink,
       afterGraceNotesNote,
       aftergracenoteIsSlashed,
       afterGraceNotesVoiceUplink);
@@ -6193,7 +6187,6 @@ S_msrAfterGraceNotes msrAfterGraceNotes::create (
 
 msrAfterGraceNotes::msrAfterGraceNotes (
   int        inputLineNumber,
-  S_msrPart  afterGraceNotesDirectPartUplink,
   S_msrNote  afterGraceNotesNote,
   bool       aftergracenoteIsSlashed,
   S_msrVoice afterGraceNotesVoiceUplink)
@@ -6201,24 +6194,28 @@ msrAfterGraceNotes::msrAfterGraceNotes (
 {
   // set gracenote's direct part uplink
   msrAssert(
-    afterGraceNotesDirectPartUplink != 0,
-    "afterGraceNotesDirectPartUplink is null");
-
-  fAfterGraceNotesDirectPartUplink =
-    afterGraceNotesDirectPartUplink;
+    afterGraceNotesVoiceUplink != 0,
+    "afterGraceNotesVoiceUplink is null");
+  
+  fAfterGraceNotesVoiceUplink =
+    afterGraceNotesVoiceUplink;
 
   fAfterGraceNotesNote =
     afterGraceNotesNote;
     
   fAfterGraceNotesIsSlashed =
     aftergracenoteIsSlashed;
-  
-  fAfterGraceNotesVoiceUplink =
-    afterGraceNotesVoiceUplink;
 }
 
 msrAfterGraceNotes::~msrAfterGraceNotes()
 {}
+
+S_msrPart msrAfterGraceNotes::getAfterGraceNotesDirectPartUplink () const
+{
+  return
+    fAfterGraceNotesVoiceUplink->
+      getVoiceDirectPartUplink ();
+}
 
 S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
   S_msrNote  noteClone,
@@ -6248,8 +6245,6 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
     newbornClone =
       msrAfterGraceNotes::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         noteClone,
         fAfterGraceNotesIsSlashed,
         containingVoice);
@@ -16762,14 +16757,12 @@ void msrBarline::print (ostream& os)
 //______________________________________________________________________________
 S_msrMeasure msrMeasure::create (
   int           inputLineNumber,
-  S_msrPart     measureDirectPartUplink,
   string        measureNumber,
   S_msrSegment  measureSegmentUplink)
 {
   msrMeasure* o =
     new msrMeasure (
       inputLineNumber,
-      measureDirectPartUplink,
       measureNumber,
       measureSegmentUplink);
   assert(o!=0);
@@ -16779,22 +16772,10 @@ S_msrMeasure msrMeasure::create (
 
 msrMeasure::msrMeasure (
   int           inputLineNumber,
-  S_msrPart     measureDirectPartUplink,
   string        measureNumber,
   S_msrSegment  measureSegmentUplink)
     : msrElement (inputLineNumber)
 {
-  // set measure's direct part uplink
-  msrAssert(
-    measureDirectPartUplink != 0,
-    "measureDirectPartUplink is null");
-
-  fMeasureDirectPartUplink =
-    measureDirectPartUplink;
-
-  // set measure number
-  fMeasureNumber = measureNumber;
-  
   // set measure's segment uplink
   msrAssert(
     measureSegmentUplink != 0,
@@ -16803,24 +16784,25 @@ msrMeasure::msrMeasure (
   fMeasureSegmentUplink =
     measureSegmentUplink;
 
+  // set measure number
+  fMeasureNumber = measureNumber;
+  
   // do other initializations
   initializeMeasure ();
 }
 
 void msrMeasure::initializeMeasure ()
 {
-  // set measure voice direct uplink
-  fMeasureVoiceDirectUplink =
-    fMeasureSegmentUplink->
-      getSegmentVoiceUplink ();
-
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
       "Initializing measure " << fMeasureNumber <<
       " in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
-      fMeasureVoiceDirectUplink->getVoiceName () <<
+      fMeasureSegmentUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
       "\"" <<
       ", line " << fInputLineNumber <<
       endl;
@@ -16844,6 +16826,20 @@ void msrMeasure::initializeMeasure ()
 
 msrMeasure::~msrMeasure()
 {}
+
+S_msrPart msrMeasure::getMeasureDirectPartUplink () const;
+{
+  return
+    fMeasureSegmentUplink->
+      getSegmentDirectPartUplink ();
+}
+
+S_msrVoice msrMeasure::getMeasureVoiceDirectUplink () const
+{
+  return
+    fMeasureVoiceDirectUplink->
+      getVoiceDirectPartUplink ();
+}
 
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
@@ -19044,13 +19040,11 @@ int msrSegment::gSegmentsCounter = 0;
 
 S_msrSegment msrSegment::create (
   int        inputLineNumber,
-  S_msrPart  segmentDirectPartUplink,
   S_msrVoice segmentVoicekUplink)
 {
   msrSegment* o =
     new msrSegment (
       inputLineNumber,
-      segmentDirectPartUplink,
       segmentVoicekUplink);
   assert(o!=0);
   
@@ -19059,18 +19053,9 @@ S_msrSegment msrSegment::create (
 
 msrSegment::msrSegment (
   int        inputLineNumber,
-  S_msrPart  segmentDirectPartUplink,
   S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
-  // set segment's direct part uplink
-  msrAssert(
-    segmentDirectPartUplink != 0,
-    "segmentDirectPartUplink is null");
-    
-  fSegmentDirectPartUplink =
-    segmentDirectPartUplink;
-
   // set segment's voice uplink
   msrAssert(
     segmentVoicekUplink != 0,
@@ -19101,6 +19086,14 @@ void msrSegment::initializeSegment ()
   fMeasureNumberHasBeenSetInSegment = false;
 }
 
+S_msrPart msrSegment::getSegmentDirectPartUplink () const
+{
+  return
+    fSegmentVoiceUplink->
+      getVoiceDirectPartUplink ();
+}
+
+
 S_msrSegment msrSegment::createSegmentNewbornClone (
   S_msrVoice containingVoice)
 {
@@ -19119,8 +19112,6 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
     newbornClone =
       msrSegment::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         containingVoice);
 
   // absolute number
@@ -19158,8 +19149,6 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
     segmentDeepCopy =
       msrSegment::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         containingVoice);
   
   // absolute number
@@ -19276,14 +19265,13 @@ void msrSegment::createMeasureAndAppendItToSegment (
     newMeasure =
       msrMeasure::create (
         inputLineNumber,
-        fSegmentDirectPartUplink,
         measureNumber,
         this);
 
   // get part current time
   S_msrTime
     partCurrentTime =
-      fSegmentDirectPartUplink->
+      getSegmentDirectPartUplink ()->
         getPartCurrentTime ();
 
   // the measure can be created upon appendKeyTo..., // JMI
