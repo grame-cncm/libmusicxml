@@ -14674,7 +14674,6 @@ void msrSyllable::print (ostream& os)
 //______________________________________________________________________________
 S_msrStanza msrStanza::create (
   int           inputLineNumber,
-  S_msrPart     stanzaDirectPartUplink,
   int           stanzaNumber,
   msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
@@ -14682,7 +14681,6 @@ S_msrStanza msrStanza::create (
   msrStanza* o =
     new msrStanza (
       inputLineNumber,
-      stanzaDirectPartUplink,
       stanzaNumber,
       stanzaKind,
       stanzaVoiceUplink);
@@ -14693,20 +14691,11 @@ S_msrStanza msrStanza::create (
 
 msrStanza::msrStanza (
   int           inputLineNumber,
-  S_msrPart     stanzaDirectPartUplink,
   int           stanzaNumber,
   msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  // set stanza's direct part uplink
-  msrAssert(
-    stanzaDirectPartUplink != 0,
-    "stanzaDirectPartUplink is null");
-
-  fStanzaDirectPartUplink =
-    stanzaDirectPartUplink;
-
   // set stanza number and kind
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
@@ -14798,8 +14787,6 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
   // uplinks
   newbornClone->fStanzaVoiceUplink =
     containingVoice;
-
-  // fStanzaDirectPartUplink ??? JMI
   
   return newbornClone;
 }
@@ -14855,8 +14842,6 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
   // uplinks
   stanzaDeepCopy->fStanzaVoiceUplink =
     containingVoice;
-
-  // fStanzaDirectPartUplink ??? JMI
   
   return stanzaDeepCopy;
 }
@@ -14927,7 +14912,6 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kRestSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -14958,7 +14942,6 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kSkipSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -14993,7 +14976,6 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         syllableKind,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -15024,7 +15006,6 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kTiedSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -15055,7 +15036,6 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kSlurSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -15086,7 +15066,6 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kSlurBeyondEndSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -15117,7 +15096,6 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kLigatureSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -15148,7 +15126,6 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kLigatureBeyondEndSyllable,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
@@ -15178,7 +15155,6 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kBarcheckSyllable,
  // JMI       nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
@@ -15209,7 +15185,6 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kBarNumberCheckSyllable,
  // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
@@ -15240,7 +15215,6 @@ S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fStanzaDirectPartUplink,
         msrSyllable::kLineBreakSyllable,
  // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
@@ -15376,7 +15350,7 @@ void msrStanza::print (ostream& os)
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
-  S_msrPart            harmonyDirectPartUplink,
+  S_msrPart            harmonyPart,
   msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
@@ -15386,7 +15360,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
-      harmonyDirectPartUplink,
+      harmonyPart,
       harmonyRootQuarterTonesPitch,
       harmonyKind, harmonyKindText,
       harmonyBassQuarterTonesPitch,
@@ -15398,7 +15372,7 @@ S_msrHarmony msrHarmony::create (
 
 msrHarmony::msrHarmony (
   int                  inputLineNumber,
-  S_msrPart            harmonyDirectPartUplink,
+  S_msrPart            harmonyPart,
   msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
@@ -15406,13 +15380,13 @@ msrHarmony::msrHarmony (
   rational             harmonySoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
-  // set harmony's direct part uplink
+  // set harmony's part
   msrAssert(
-    harmonyDirectPartUplink != 0,
-     "harmonyDirectPartUplink is null");
+    harmonyPart != 0,
+     "harmonyPart is null");
      
-  fHarmonyDirectPartUplink =
-    harmonyDirectPartUplink;
+  fHarmonyPart =
+    harmonyPart;
     
   fHarmonyRootQuarterTonesPitch = harmonyRootQuarterTonesPitch;
  
@@ -15593,7 +15567,7 @@ string msrHarmony::harmonyAsString () const
       fHarmonyRootQuarterTonesPitch) <<          
     harmonyKindAsShortString ();
 
-  if (fHarmonyDirectPartUplink) // JMI ???
+  if (fHarmonyPart) // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
@@ -15709,7 +15683,7 @@ void msrHarmony::print (ostream& os)
 //______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
   int                  inputLineNumber,
-  S_msrPart            figuredBassDirectPartUplink,
+  S_msrPart            figuredBassPart,
   msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
   msrFiguredBassKind       figuredBassKind,
   string               figuredBassKindText,
@@ -15719,7 +15693,7 @@ S_msrFiguredBass msrFiguredBass::create (
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-      figuredBassDirectPartUplink,
+      figuredBassPart,
       figuredBassRootQuarterTonesPitch,
       figuredBassKind, figuredBassKindText,
       figuredBassBassQuarterTonesPitch,
@@ -15731,7 +15705,7 @@ S_msrFiguredBass msrFiguredBass::create (
 
 msrFiguredBass::msrFiguredBass (
   int                  inputLineNumber,
-  S_msrPart            figuredBassDirectPartUplink,
+  S_msrPart            figuredBassPart,
   msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
   msrFiguredBassKind       figuredBassKind,
   string               figuredBassKindText,
@@ -15739,13 +15713,13 @@ msrFiguredBass::msrFiguredBass (
   rational             figuredBassSoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
-  // set figuredBass's direct part uplink
+  // set figuredBass's part
   msrAssert(
-    figuredBassDirectPartUplink != 0,
-     "figuredBassDirectPartUplink is null");
+    figuredBassPart != 0,
+     "figuredBassPart is null");
      
-  fFiguredBassDirectPartUplink =
-    figuredBassDirectPartUplink;
+  fFiguredBassPart =
+    figuredBassPart;
     
   fFiguredBassRootQuarterTonesPitch = figuredBassRootQuarterTonesPitch;
  
@@ -15926,7 +15900,7 @@ string msrFiguredBass::figuredBassAsString () const
       fFiguredBassRootQuarterTonesPitch) <<          
     figuredBassKindAsShortString ();
 
-  if (fFiguredBassDirectPartUplink) // JMI ???
+  if (fFiguredBassPart) // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
@@ -16851,18 +16825,11 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
     containingSegment != 0,
     "containingSegment is null");
 
-  // get direct part uplink
-  S_msrPart
-    directPartUplink =
-      containingSegment->
-        getSegmentDirectPartUplink ();
-
   // create newborn clone
   S_msrMeasure
     newbornClone =
       msrMeasure::create (
         fInputLineNumber,
-        directPartUplink,
         fMeasureNumber,
         containingSegment);
 
@@ -16888,16 +16855,6 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 
   // uplinks
 
-  // JMI fMeasureSegmentUplink ???
-  
-  newbornClone->fMeasureVoiceDirectUplink =
-    containingSegment->
-      getSegmentVoiceUplink ();
-
-  newbornClone->fMeasureDirectPartUplink =
-    containingSegment->
-      getSegmentDirectPartUplink ();
-
   return newbornClone;
 }
 
@@ -16922,18 +16879,11 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     containingSegment != 0,
     "containingSegment is null");
 
-  // get direct part uplink
-  S_msrPart
-    directPartUplink =
-      containingSegment->
-        getSegmentDirectPartUplink ();
-
   // create deep copy
   S_msrMeasure
     measureDeepCopy =
       msrMeasure::create (
         fInputLineNumber,
-        directPartUplink,
         fMeasureNumber,
         containingSegment);
 
@@ -17053,14 +17003,6 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 
   // fMeasureSegmentUplink JMI ???
   
-  measureDeepCopy->fMeasureVoiceDirectUplink =
-    containingSegment->
-      getSegmentVoiceUplink ();
-
-  measureDeepCopy->fMeasureDirectPartUplink =
-    containingSegment->
-      getSegmentDirectPartUplink ();
-
   return measureDeepCopy;
 }
 

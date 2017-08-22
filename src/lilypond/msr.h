@@ -6687,7 +6687,6 @@ class EXP msrStanza : public msrElement
 
     static SMARTP<msrStanza> create (
       int           inputLineNumber,
-      S_msrPart     stanzaDirectPartUplink,
       int           stanzaNumber,
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
@@ -6705,7 +6704,6 @@ class EXP msrStanza : public msrElement
 
     msrStanza (
       int           inputLineNumber,
-      S_msrPart     stanzaDirectPartUplink,
       int           stanzaNumber,
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
@@ -6751,10 +6749,6 @@ class EXP msrStanza : public msrElement
     // uplinks
     S_msrVoice            getStanzaVoiceUplink () const
                               { return fStanzaVoiceUplink; }
-                
-    S_msrPart             getStanzaDirectPartUplink () const
-                              { return fStanzaDirectPartUplink; }
-
 
     // services
     // ------------------------------------------------------
@@ -6823,6 +6817,9 @@ class EXP msrStanza : public msrElement
 
   private:
 
+    // uplinks
+    S_msrVoice            fStanzaVoiceUplink;
+
     // number
     int                   fStanzaNumber;
 
@@ -6836,11 +6833,6 @@ class EXP msrStanza : public msrElement
     vector<S_msrSyllable> fSyllables;
 
     bool                  fStanzaTextPresent;
-
-    // uplinks
-    S_msrVoice            fStanzaVoiceUplink;
-
-    S_msrPart             fStanzaDirectPartUplink;
 };
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
