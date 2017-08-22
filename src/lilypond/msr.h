@@ -2024,6 +2024,10 @@ class EXP msrDoubleTremolo : public msrElement
 
   private:
 
+    // uplinks
+    
+    S_msrMeasure          fDoubleTremoloMeasureUplink;
+
     // sounding divisions
     // the same as the displayed divisions of both members
     rational              fDoubleTremoloSoundingWholeNotes;
@@ -2046,15 +2050,6 @@ class EXP msrDoubleTremolo : public msrElement
     rational              fDoubleTremoloPositionInMeasure;
     
     S_msrHarmony          fDoubleTremoloHarmony;
-
-    // uplinks
-    
-    S_msrVoice            fDoubleTremoloVoiceUplink;
-
-    S_msrMeasure          fDoubleTremoloMeasureUplink;
-
-    // divisions handling is done at the part level
-    S_msrPart             fDoubleTremoloDirectPartUplink;
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
@@ -3209,7 +3204,7 @@ class EXP msrMeasure : public msrElement
     
     S_msrPart             getMeasureDirectPartUplink () const;
     
-    S_msrVoice            getMeasureVoiceDirectUplink () const;
+    S_msrVoice            getMeasureDirectVoiceUplink () const;
 
     // lengthes
 
@@ -4069,7 +4064,6 @@ class EXP msrSyllable : public msrElement
 
     static SMARTP<msrSyllable> create (
       int                   inputLineNumber,
-      S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
@@ -4088,7 +4082,6 @@ class EXP msrSyllable : public msrElement
 
     msrSyllable (
       int                   inputLineNumber,
-      S_msrPart             syllableDirectPartUplink,
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
@@ -4123,9 +4116,6 @@ class EXP msrSyllable : public msrElement
 
     S_msrStanza           getSyllableStanzaUplink () const
                               { return fSyllableStanzaUplink; }
-
-    S_msrPart             getSyllableDirectPartUplink () const
-                             { return fSyllableDirectPartUplink; }
 
     // services
     // ------------------------------------------------------
@@ -4166,6 +4156,10 @@ class EXP msrSyllable : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // uplinks
+    S_msrNote             fSyllableNoteUplink;
+    S_msrStanza           fSyllableStanzaUplink;
   
     // syllable whole notes
     rational              fSyllableWholeNotes;
@@ -4175,12 +4169,6 @@ class EXP msrSyllable : public msrElement
     list<string>          fSyllableTextsList;
     msrSyllableExtendKind fSyllableExtendKind;
 
-    // uplinks
-    S_msrNote             fSyllableNoteUplink;
-
-    S_msrStanza           fSyllableStanzaUplink;
-
-    S_msrPart             fSyllableDirectPartUplink;
 };
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
@@ -4220,7 +4208,7 @@ class EXP msrHarmony : public msrElement
 
     static SMARTP<msrHarmony> create (
       int                  inputLineNumber,
-      S_msrPart            harmonyDirectPartUplink,
+      S_msrPart            harmonyPart,
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
@@ -4240,7 +4228,7 @@ class EXP msrHarmony : public msrElement
 
     msrHarmony (
       int                  inputLineNumber,
-      S_msrPart            harmonyDirectPartUplink,
+      S_msrPart            harmonyPart,
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
@@ -4253,6 +4241,9 @@ class EXP msrHarmony : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    S_msrPart             getHarmonyPart () const
+                             { return fHarmonyPart; }
 
     rational              getHarmonySoundingWholeNotes () const
                               { return fHarmonySoundingWholeNotes; }
@@ -4268,10 +4259,6 @@ class EXP msrHarmony : public msrElement
                 
     msrQuarterTonesPitch  getHarmonyBassQuarterTonesPitch () const
                               { return fHarmonyBassQuarterTonesPitch; }                                              
-    // uplinks
-    S_msrPart             getHarmonyDirectPartUplink () const
-                             { return fHarmonyDirectPartUplink; }
-
     // services
     // ------------------------------------------------------
 
@@ -4295,6 +4282,8 @@ class EXP msrHarmony : public msrElement
 
   private:
 
+    S_msrPart             fHarmonyPart;
+
     rational              fHarmonySoundingWholeNotes;
     
     msrQuarterTonesPitch  fHarmonyRootQuarterTonesPitch;
@@ -4303,9 +4292,6 @@ class EXP msrHarmony : public msrElement
     string                fHarmonyKindText;
 
     msrQuarterTonesPitch  fHarmonyBassQuarterTonesPitch;
-
-    // uplinks
-    S_msrPart             fHarmonyDirectPartUplink;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
@@ -4345,7 +4331,7 @@ class EXP msrFiguredBass : public msrElement
 
     static SMARTP<msrFiguredBass> create (
       int                  inputLineNumber,
-      S_msrPart            figuredBassDirectPartUplink,
+      S_msrPart            figuredBassPart,
       msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
       msrFiguredBassKind       figuredBassKind,
       string               figuredBassKindText,
@@ -4365,7 +4351,7 @@ class EXP msrFiguredBass : public msrElement
 
     msrFiguredBass (
       int                  inputLineNumber,
-      S_msrPart            figuredBassDirectPartUplink,
+      S_msrPart            figuredBassPart,
       msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
       msrFiguredBassKind       figuredBassKind,
       string               figuredBassKindText,
@@ -4378,6 +4364,9 @@ class EXP msrFiguredBass : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    S_msrPart             getFiguredBassPart () const
+                             { return fFiguredBassPart; }
 
     rational              getFiguredBassSoundingWholeNotes () const
                               { return fFiguredBassSoundingWholeNotes; }
@@ -4393,10 +4382,6 @@ class EXP msrFiguredBass : public msrElement
                 
     msrQuarterTonesPitch  getFiguredBassBassQuarterTonesPitch () const
                               { return fFiguredBassBassQuarterTonesPitch; }                                              
-    // uplinks
-    S_msrPart             getFiguredBassDirectPartUplink () const
-                             { return fFiguredBassDirectPartUplink; }
-
     // services
     // ------------------------------------------------------
 
@@ -4430,7 +4415,7 @@ class EXP msrFiguredBass : public msrElement
     msrQuarterTonesPitch  fFiguredBassBassQuarterTonesPitch;
 
     // uplinks
-    S_msrPart             fFiguredBassDirectPartUplink;
+    S_msrPart             fFiguredBassPart;
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
@@ -4492,8 +4477,6 @@ class EXP msrNote : public msrElement
       msrNoteKind          noteKind,
     
       msrQuarterTonesPitch noteQuarterTonesPitch,
-
- // JMI     int                  noteDivisionsPerQuarterNote,
       
       rational             noteSoundingWholeNotes,
       rational             noteDisplayWholeNotes,
@@ -4622,10 +4605,6 @@ class EXP msrNote : public msrElement
                                   fNoteCautionaryAccidentalKind;
                               }
 
-    // note divisions per quarter note
-// JMI    int                   getNoteDivisionsPerQuarterNote () const
-// JMI                              { return fNoteDivisionsPerQuarterNote; }
-
     // note whole notes
     
     rational              getNoteSoundingWholeNotes ()
@@ -4751,10 +4730,6 @@ class EXP msrNote : public msrElement
     const list<S_msrOrnament>&
                           getNoteOrnaments () const
                               { return fNoteOrnaments; }
-      /* JMI                
-    list<S_msrOrnament>&  getNoteOrnamentsToModify ()
-                              { return fNoteOrnaments; }
-        */
         
     // singleTremolo
     S_msrSingleTremolo    getNoteSingleTremolo () const
@@ -4773,9 +4748,6 @@ class EXP msrNote : public msrElement
     const list<S_msrOtherDynamics>&
                           getNoteOtherDynamics () const
                               { return fNoteOtherDynamics; };
-
-    list<S_msrDynamics>&  getNoteDynamicsToModify () // JMI
-                              { return fNoteDynamics; };
         
     // words
     const list<S_msrWords>&
@@ -4860,7 +4832,6 @@ class EXP msrNote : public msrElement
     bool                  getNoteHasADelayedOrnament () const
                               { return fNoteHasADelayedOrnament; }
                               
-    // uplinks
     // measure uplink
     void                  setNoteMeasureUplink (
                             const S_msrMeasure& measure)
@@ -4868,9 +4839,6 @@ class EXP msrNote : public msrElement
                       
     S_msrMeasure          getNoteMeasureUplink () const
                               { return fNoteMeasureUplink; }
-    // direct part uplink
-    S_msrPart             getNoteDirectPartUplink () const
-                             { return fNoteDirectPartUplink; }
 
     // tuplet uplink
     void                  setNoteTupletUplink (
@@ -4974,6 +4942,14 @@ class EXP msrNote : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+
+    // uplinks
+    // ------------------------------------------------------
+
+    S_msrTuplet           fNoteTupletUplink;
+
+    S_msrMeasure          fNoteMeasureUplink;
 
     // basic note description
     // ------------------------------------------------------
@@ -5134,15 +5110,6 @@ class EXP msrNote : public msrElement
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                  fNoteHasADelayedOrnament;
-
-    // uplinks
-    // ------------------------------------------------------
-
-    S_msrTuplet           fNoteTupletUplink;
-
-    S_msrMeasure          fNoteMeasureUplink;
-
-    S_msrPart             fNoteDirectPartUplink;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
@@ -5157,7 +5124,6 @@ class EXP msrChord : public msrElement
 
     static SMARTP<msrChord> create (
       int         inputLineNumber,
-      S_msrPart   chordDirectPartUplink,
       rational    chordSoundingWholeNotes,
       rational    chordDisplayWholeNotes,
       msrDuration chordGraphicDuration);
@@ -5178,7 +5144,6 @@ class EXP msrChord : public msrElement
 
     msrChord (
       int         inputLineNumber,
-      S_msrPart   chordDirectPartUplink,
       rational    chordSoundingWholeNotes,
       rational    chordDisplayWholeNotes,
       msrDuration chordGraphicDuration);
@@ -5203,10 +5168,6 @@ class EXP msrChord : public msrElement
     rational              getChordDisplayWholeNotes () const
                               { return fChordDisplayWholeNotes; }
                         
-    // direct part uplink
-    S_msrPart             getChordDirectPartUplink () const
-                             { return fChordDirectPartUplink; }
-
     // graphic duration
     msrDuration           getChordGraphicDuration () const
                               { return fChordGraphicDuration; }
@@ -5417,9 +5378,6 @@ class EXP msrChord : public msrElement
     virtual void          print (ostream& os);
 
   private:
-
-    // divisions handling is done at the part level
-    S_msrPart             fChordDirectPartUplink;
 
     // sounding divisions
     rational              fChordSoundingWholeNotes;

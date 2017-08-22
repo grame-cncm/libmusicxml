@@ -9081,7 +9081,6 @@ void msrNote::print (ostream& os)
 //______________________________________________________________________________
 S_msrChord msrChord::create (
   int         inputLineNumber,
-  S_msrPart   chordDirectPartUplink,
   rational    chordSoundingWholeNotes,
   rational    chordDisplayWholeNotes,
   msrDuration chordGraphicDuration)
@@ -9100,7 +9099,6 @@ S_msrChord msrChord::create (
   msrChord* o =
     new msrChord (
       inputLineNumber,
-      chordDirectPartUplink,
       chordSoundingWholeNotes, chordDisplayWholeNotes,
       chordGraphicDuration);
   assert(o!=0);
@@ -9110,20 +9108,11 @@ S_msrChord msrChord::create (
 
 msrChord::msrChord (
   int         inputLineNumber,
-  S_msrPart   chordDirectPartUplink,
   rational    chordSoundingWholeNotes,
   rational    chordDisplayWholeNotes,
   msrDuration chordGraphicDuration)
     : msrElement (inputLineNumber)
 {
-  // set chord's direct part uplink
-  msrAssert(
-    chordDirectPartUplink != 0,
-    "chordDirectPartUplink is null");
-    
-  fChordDirectPartUplink =
-    chordDirectPartUplink;
-  
   fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fChordDisplayWholeNotes  = chordDisplayWholeNotes;
   
