@@ -16779,7 +16779,7 @@ S_msrVoice msrMeasure::fetchMeasureVoiceUplink () const
 {
   return
     fMeasureSegmentUplink->
-      fetchSegmentPartUplink ();
+      getSegmentVoiceUplink ();
 }
 
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
@@ -17467,13 +17467,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // fetch part harmony voice
   S_msrVoice
     partHarmonyVoice =
-      fetchMeasurePartUplink->
+      fetchMeasurePartUplink ()->
         getPartHarmonyVoice ();
 
   // fetch part harmonies supplier voice
   S_msrVoice
     partHarmoniesSupplierVoice =
-      fetchMeasurePartUplink->
+      fetchMeasurePartUplink ()->
         getPartHarmoniesSupplierVoice ();
 
   // fetch note harmony
@@ -17488,7 +17488,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
           "measureVoiceUplink = \"" <<
-          fetchMeasureVoiceUplink->getVoiceName () <<
+          fetchMeasureVoiceUplink ()->getVoiceName () <<
           "\"" <<
           endl <<
           "partHarmoniesSupplierVoice = \"" <<
@@ -17597,7 +17597,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       fMeasureLength + noteSoundingWholeNotes);
   
     // update part measure length high tide if need be
-    fetchMeasurePartUplink->
+    fetchMeasurePartUplink ()->
       updatePartMeasureLengthHighTide (
         inputLineNumber,
         fMeasureLength);
@@ -17615,7 +17615,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // fetch part harmony voice
     S_msrVoice
       partHarmonyVoice =
-        fetchMeasurePartUplink->
+        fetchMeasurePartUplink ()->
           getPartHarmonyVoice ();
 
     // fetch note harmony
@@ -17735,7 +17735,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
     fMeasureLength + doubleTremoloSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fetchMeasurePartUplink->
+  fetchMeasurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -18032,7 +18032,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     fMeasureLength + tupletSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fetchMeasurePartUplink->
+  fetchMeasurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -18137,7 +18137,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       fMeasureLength + harmonySoundingWholeNotes);
   
     // update part measure length high tide if need be
-    fetchMeasurePartUplink->
+    fetchMeasurePartUplink ()->
       updatePartMeasureLengthHighTide (
         inputLineNumber,
         fMeasureLength);
@@ -18177,7 +18177,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     fMeasureLength + harmonySoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fetchMeasurePartUplink->
+  fetchMeasurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -19202,7 +19202,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 {
   string
     currentMeasureNumber =
-      fetchSegmentPartUplink->
+      fetchSegmentPartUplink ()->
         getPartCurrentMeasureNumber ();
       
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
@@ -25669,9 +25669,9 @@ S_msrStaff msrStaff::createStaffNewbornClone (
     newbornClone =
       msrStaff::create (
         fInputLineNumber,
-        containingPart,
         fStaffKind,
-        fStaffNumber);
+        fStaffNumber,
+        containingPart);
 
   newbornClone->fStaffName =
     fStaffName;
@@ -27120,7 +27120,6 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     fPartHarmonyVoice =
       msrVoice::create (
         inputLineNumber,
-        this,
         msrVoice::kHarmonyVoice,
         K_PART_HARMONY_VOICE_NUMBER,
         msrVoice::kCreateInitialLastSegmentYes,
@@ -27665,9 +27664,9 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     staff =
       msrStaff::create (
         inputLineNumber,
-        this,
         staffKind,
-        staffNumber);
+        staffNumber,
+        this);
 
   // register staff in this part
   fPartStavesMap [staffNumber] = staff;
