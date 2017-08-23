@@ -4585,12 +4585,17 @@ msrDoubleTremolo::msrDoubleTremolo (
   S_msrVoice           voiceUplink)
     : msrElement (inputLineNumber)
 {
+  // set the double tremolo voice uplink
+  msrAssert (
+    voiceUplink != 0,
+    "voiceUplink is null");
+    
+  fDoubleTremoloVoiceUplink = voiceUplink;
+  
   fDoubleTremoloKind          = doubleTremoloKind;
   fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
   fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
   
-  fDoubleTremoloVoiceUplink = voiceUplink;
-
   fDoubleTremoloSoundingWholeNotes =
     rational (-1, 1); // will be set later
 
@@ -4605,7 +4610,7 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
   // fetch the current part's number of divisions per quarter element
   int partDivisionsPerQuarterNote =
     fDoubleTremoloVoiceUplink->
-      voicePartUplink ()->
+      fetchVoicePartUplink ()->
         getPartDivisionsPerQuarterNote ();
 
   // fetch the number of divisions per double tremolo element
@@ -4649,13 +4654,6 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
   return numberOfRepeats;
 }
 * */
-
-S_msrVoice msrDoubleTremolo::doubleTremoloVoiceUplink () const
-{
-  return
-    fDoubleTremoloMeasureUplink->
-      measureVoiceUplink ();
-}
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrVoice containingVoice)
@@ -6014,7 +6012,7 @@ S_msrPart msrGraceNotes::graceNotesPartUplink () const
 {
   return
     fGraceNotesVoiceUplink->
-      voicePartUplink ();
+      fetchVoicePartUplink ();
 }
 
 S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
@@ -6220,11 +6218,11 @@ msrAfterGraceNotes::msrAfterGraceNotes (
 msrAfterGraceNotes::~msrAfterGraceNotes()
 {}
 
-S_msrPart msrAfterGraceNotes::afterGraceNotesPartUplink () const
+S_msrPart msrAfterGraceNotes::fetchAfterGraceNotesPartUplink () const
 {
   return
     fAfterGraceNotesVoiceUplink->
-      voicePartUplink ();
+      fetchVoicePartUplink ();
 }
 
 S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
@@ -6815,7 +6813,6 @@ S_msrNote msrNote::createNoteNewbornClone (
     newbornClone =
       msrNote::create (
         fInputLineNumber,
-        containingPart,
         
         fNoteKind,
         
@@ -6993,21 +6990,24 @@ S_msrNote msrNote::createNoteDeepCopy (
     cerr << idtr <<
       "==> Creating a deep copy of note " <<
       noteAsString () <<
+      /* JMI
       " in part " <<
       containingPart->
-        getPartCombinedName () << 
+        getPartCombinedName () <<
+        */
       endl;
   }
 
+/* JMI
   msrAssert(
     containingPart != 0,
     "containingPart is null");
+    */
     
   S_msrNote
     noteDeepCopy =
       msrNote::create (
         fInputLineNumber,
-        containingPart,
         
         fNoteKind,
         
@@ -8791,7 +8791,7 @@ void msrNote::print (ostream& os)
   os <<
     idtr <<
     "NoteVoiceUplink" " = " <<
-    fNoteMeasureUplink->measureVoiceUplink () <<
+    fNoteMeasureUplink->fetchMeasureVoiceUplink () <<
     endl;
   idtr--;
 */
@@ -9135,7 +9135,6 @@ S_msrChord msrChord::createChordNewbornClone (
     newbornClone =
       msrChord::create (
         fInputLineNumber,
-        containingPart,
         fChordSoundingWholeNotes,
         fChordDisplayWholeNotes,
         fChordGraphicDuration);
@@ -14139,7 +14138,6 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
     newbornClone =
       msrSyllable::create (
         fInputLineNumber,
-        containingPart,
         fSyllableKind,
         fSyllableExtendKind,
         fSyllableWholeNotes,
@@ -14183,7 +14181,6 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
     syllableDeepCopy =
       msrSyllable::create (
         fInputLineNumber,
-        containingPart,
         fSyllableKind,
         fSyllableExtendKind,
         fSyllableWholeNotes,
@@ -14815,7 +14812,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
       fSyllables [i]->
         createSyllableDeepCopy (
           containingVoice->
-            voicePartUplink ()));
+            fetchVoicePartUplink ()));
   } // for
 
   stanzaDeepCopy->fStanzaTextPresent =
@@ -15354,7 +15351,7 @@ S_msrHarmony msrHarmony::create (
 
 msrHarmony::msrHarmony (
   int                  inputLineNumber,
-  S_msrPart            harmonyPart,
+  S_msrPart            harmonyPartUplink,
   msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
@@ -15364,11 +15361,11 @@ msrHarmony::msrHarmony (
 {
   // set harmony's part
   msrAssert(
-    harmonyPart != 0,
-     "harmonyPart is null");
+    harmonyPartUplink != 0,
+     "harmonyPartUplink is null");
      
-  fHarmonyPart =
-    harmonyPart;
+  fHarmonyPartUplink =
+    harmonyPartUplink;
     
   fHarmonyRootQuarterTonesPitch = harmonyRootQuarterTonesPitch;
  
@@ -15549,7 +15546,7 @@ string msrHarmony::harmonyAsString () const
       fHarmonyRootQuarterTonesPitch) <<          
     harmonyKindAsShortString ();
 
-  if (fHarmonyPart) // JMI ???
+  if (fHarmonyPartUplink) // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
@@ -15687,7 +15684,7 @@ S_msrFiguredBass msrFiguredBass::create (
 
 msrFiguredBass::msrFiguredBass (
   int                  inputLineNumber,
-  S_msrPart            figuredBassPart,
+  S_msrPart            figuredBassPartUplink,
   msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
   msrFiguredBassKind       figuredBassKind,
   string               figuredBassKindText,
@@ -15697,11 +15694,11 @@ msrFiguredBass::msrFiguredBass (
 {
   // set figuredBass's part
   msrAssert(
-    figuredBassPart != 0,
-     "figuredBassPart is null");
+    figuredBassPartUplink != 0,
+     "figuredBassPartUplink is null");
      
-  fFiguredBassPart =
-    figuredBassPart;
+  fFiguredBassPartUplink =
+    figuredBassPartUplink;
     
   fFiguredBassRootQuarterTonesPitch = figuredBassRootQuarterTonesPitch;
  
@@ -15882,7 +15879,7 @@ string msrFiguredBass::figuredBassAsString () const
       fFiguredBassRootQuarterTonesPitch) <<          
     figuredBassKindAsShortString ();
 
-  if (fFiguredBassPart) // JMI ???
+  if (fFiguredBassPartUplink) // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
@@ -16745,9 +16742,8 @@ void msrMeasure::initializeMeasure ()
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
       fMeasureSegmentUplink->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
       "\"" <<
       ", line " << fInputLineNumber <<
       endl;
@@ -16772,18 +16768,18 @@ void msrMeasure::initializeMeasure ()
 msrMeasure::~msrMeasure()
 {}
 
-S_msrPart msrMeasure::measurePartUplink () const;
+S_msrPart msrMeasure::fetchMeasurePartUplink () const
 {
   return
     fMeasureSegmentUplink->
-      segmentPartUplink ();
+      fetchSegmentPartUplink ();
 }
 
-S_msrVoice msrMeasure::measureVoiceUplink () const
+S_msrVoice msrMeasure::fetchMeasureVoiceUplink () const
 {
   return
     fMeasureSegmentUplink->
-      measurePartUplink ();
+      fetchSegmentPartUplink ();
 }
 
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
@@ -16926,7 +16922,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         // create the note deep copy
         elementDeepCopy =
           note->createNoteDeepCopy (
-            directPartUplink);
+            fetchMeasurePartUplink ()); // JMI
 
 /* JMI
         // append the element deep copy to the measure deep copy
@@ -17047,7 +17043,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
         "Appending clef '" << clef->clefAsString () <<
         "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
-      measureVoiceUplink ()->getVoiceName () <<
+      fetchMeasureVoiceUplink ()->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -17064,7 +17060,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
         "Appending key '" << key->keyAsString () <<
         "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
-      measureVoiceUplink ()->getVoiceName () <<
+      fetchMeasureVoiceUplink ()->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -17137,7 +17133,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     // this measure is con misura
     
     int partDivisionsPerQuarterNote =
-      measurePartUplink->
+      fetchMeasurePartUplink->
         getPartDivisionsPerQuarterNote ();
   
     rational
@@ -17453,7 +17449,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasureLength + noteSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  measurePartUplink ()->
+  fetchMeasurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -17471,13 +17467,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // fetch part harmony voice
   S_msrVoice
     partHarmonyVoice =
-      measurePartUplink->
+      fetchMeasurePartUplink->
         getPartHarmonyVoice ();
 
   // fetch part harmonies supplier voice
   S_msrVoice
     partHarmoniesSupplierVoice =
-      measurePartUplink->
+      fetchMeasurePartUplink->
         getPartHarmoniesSupplierVoice ();
 
   // fetch note harmony
@@ -17975,7 +17971,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 
 /* JMI
   // bring harmony voice to the new measure length
-  fMeasurePartUplink->
+  fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
@@ -18056,7 +18052,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
 
 /* JMI
   // bring harmony voice to the new measure length
-  fMeasurePartUplink->
+  fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
@@ -18103,7 +18099,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 
   // register voice as part harmonies supplied
   // this will abort if another voice is already supplying harmonies
-  fMeasurePartUplink->
+  fetchMeasurePartUplink->
     setPartHarmoniesSupplierVoice (
       voice);
 
@@ -18130,7 +18126,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
             voice->
               getVoicePartRelativeID ());
   
-    fMeasurePartUplink->
+    fetchMeasurePartUplink->
       getPartHarmonyVoice ()->
         appendNoteToVoice (skip);
   */
@@ -18894,7 +18890,7 @@ void msrMeasure::print (ostream& os)
   /* JMI
   // fetch the part measure length high tide
   int partMeasureLengthHighTide =
-    fMeasurePartUplink->
+    fetchMeasurePartUplink->
       getPartMeasureLengthHighTide ();
    */
 
@@ -18920,7 +18916,7 @@ void msrMeasure::print (ostream& os)
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
   // JMI      ", part high tide = " <<
-  // JMI      fMeasurePartUplink->
+  // JMI      fetchMeasurePartUplink->
   // JMI        getPartMeasureLengthHighTide () <<
       endl;
       
@@ -21859,7 +21855,7 @@ msrVoice::msrVoice (
 msrVoice::~msrVoice()
 {}
 
-S_msrPart msrVoice::voicePartUplink () const
+S_msrPart msrVoice::fetchVoicePartUplink () const
 {
  return
   fVoiceStaffUplink->
@@ -22004,7 +22000,7 @@ void msrVoice::initializeVoice (
   
   // set voice number
   fVoiceMeasureNumber = // JMI "??";
-    voicePartUplink ()->
+    fetchVoicePartUplink ()->
       getPartCurrentMeasureNumber ();
 
   // music has not been inserted in voice yet
@@ -24412,7 +24408,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       idtr <<
         setw(fieldWidth) <<
         "partMeasureLengthHighTide" << " = " <<
-        voicePartUplink ()->
+        fetchVoicePartUplink ()->
           getPartMeasureLengthHighTide () <<
         endl;
         

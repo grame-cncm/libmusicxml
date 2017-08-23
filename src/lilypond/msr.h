@@ -1858,6 +1858,29 @@ class EXP msrDoubleTremolo : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+
+    // uplinks
+
+    S_msrVoice            getDoubleTremoloVoiceUplink () const
+                              {
+                                return
+                                  fDoubleTremoloVoiceUplink;
+                              }
+
+    void                  setDoubleTremoloMeasureUplink (
+                            const S_msrMeasure& measure)
+                              {
+                                fDoubleTremoloMeasureUplink =
+                                  measure;
+                              }
+                      
+    S_msrMeasure          getDoubleTremoloMeasureUplink () const
+                              {
+                                return
+                                  fDoubleTremoloMeasureUplink;
+                              }
+
     // double tremolo kind
     
     void                  setDoubleTremoloKind (
@@ -1871,10 +1894,10 @@ class EXP msrDoubleTremolo : public msrElement
     
     void                  setDoubleTremoloPlacementKind (
                             msrDoubleTremoloPlacementKind
-                              DoubleTremoloPlacementKind)
+                              doubleTremoloPlacementKind)
                               {
                                 fDoubleTremoloPlacementKind =
-                                  DoubleTremoloPlacementKind;
+                                  doubleTremoloPlacementKind;
                               }
         
     msrDoubleTremoloPlacementKind
@@ -1977,24 +2000,8 @@ class EXP msrDoubleTremolo : public msrElement
                                   fDoubleTremoloPositionInMeasure;
                               }
 
-    // uplinks
-
-    void                  setDoubleTremoloMeasureUplink (
-                            const S_msrMeasure& measure)
-                              {
-                                fDoubleTremoloMeasureUplink =
-                                  measure;
-                              }
-                      
-    S_msrMeasure          getDoubleTremoloMeasureUplink () const
-                            { return fDoubleTremoloMeasureUplink; }
-
     // services
     // ------------------------------------------------------
-
-    // uplinks
-
-    S_msrVoice            fetchDoubleTremoloVoiceUplink () const;
 
     // strings
 
@@ -2028,7 +2035,8 @@ class EXP msrDoubleTremolo : public msrElement
   private:
 
     // uplinks
-    
+
+    S_msrVoice            fDoubleTremoloVoiceUplink;
     S_msrMeasure          fDoubleTremoloMeasureUplink;
 
     // sounding divisions
