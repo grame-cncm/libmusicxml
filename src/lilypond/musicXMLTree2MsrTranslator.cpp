@@ -5346,7 +5346,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        fCurrentPart,
         fCurrentSyllableKind,
         msrSyllable::k_NoSyllableExtend,
         fCurrentNoteSoundingWholeNotesFromDuration,
@@ -10371,7 +10370,6 @@ S_msrChord musicXMLTree2MsrTranslator::createChordFromItsFirstNote (
     chord =
       msrChord::create (
         inputLineNumber,
-        fCurrentPart,
         chordFirstNote->getNoteSoundingWholeNotes (),
         chordFirstNote->getNoteDisplayWholeNotes (),
         chordFirstNote->getNoteGraphicDuration ());
@@ -11850,7 +11848,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote =
       msrNote::create (
         inputLineNumber,
-        fCurrentPart,
         
         msrNote::k_NoNoteKind, // will be set by 'setNoteKind()' later
         
@@ -12505,7 +12502,6 @@ void musicXMLTree2MsrTranslator::handleLyrics (
         melismaSyllable =
           msrSyllable::create (
             inputLineNumber,
-            fCurrentPart,
             syllableKind,
             msrSyllable::k_NoSyllableExtend,
             fCurrentNoteSoundingWholeNotes,
@@ -12531,7 +12527,6 @@ void musicXMLTree2MsrTranslator::handleLyrics (
           skipSyllable =
             msrSyllable::create (
               inputLineNumber,
-              fCurrentPart,
               msrSyllable::kSkipSyllable,
               msrSyllable::k_NoSyllableExtend,
               fCurrentNoteSoundingWholeNotes,

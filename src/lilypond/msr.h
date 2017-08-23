@@ -1989,11 +1989,14 @@ class EXP msrDoubleTremolo : public msrElement
     S_msrMeasure          getDoubleTremoloMeasureUplink () const
                             { return fDoubleTremoloMeasureUplink; }
 
-    S_msrVoice            getDoubleTremoloVoiceUplink () const
-                            { return fDoubleTremoloVoiceUplink; }
-
     // services
     // ------------------------------------------------------
+
+    // uplinks
+
+    S_msrVoice            doubleTremoloVoiceUplink () const;
+
+    // strings
 
     string                doubleTremoloPlacementKindAsString () const;
     
@@ -3202,9 +3205,9 @@ class EXP msrMeasure : public msrElement
 
     // uplinks
     
-    S_msrPart             getMeasureDirectPartUplink () const;
+    S_msrPart             getMeasurePartUplink () const;
     
-    S_msrVoice            getMeasureDirectVoiceUplink () const;
+    S_msrVoice            getMeasureVoiceUplink () const;
 
     // lengthes
 
@@ -3515,7 +3518,7 @@ class EXP msrSegment : public msrElement
 
     // uplinks
     
-    S_msrPart             getSegmentDirectPartUplink () const;
+    S_msrPart             segmentPartUplink () const;
 
     // strings
   
@@ -3773,7 +3776,7 @@ class EXP msrGraceNotes : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart             getGraceNotesDirectPartUplink () const;
+    S_msrPart             graceNotesPartUplink () const;
 
     void                  appendNoteToGraceNotes (S_msrNote note);
 
@@ -3867,7 +3870,7 @@ class EXP msrAfterGraceNotes : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrPart             getAfterGraceNotesDirectPartUplink () const;
+    S_msrPart             afterGraceNotesPartUplink () const;
 
     void                  appendNoteToAfterGraceNotes (S_msrNote note);
 
@@ -4208,7 +4211,7 @@ class EXP msrHarmony : public msrElement
 
     static SMARTP<msrHarmony> create (
       int                  inputLineNumber,
-      S_msrPart            harmonyPart,
+      S_msrPart            harmonyPartUplink,
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
@@ -4228,7 +4231,7 @@ class EXP msrHarmony : public msrElement
 
     msrHarmony (
       int                  inputLineNumber,
-      S_msrPart            harmonyPart,
+      S_msrPart            harmonyPartUplink,
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
@@ -4242,8 +4245,8 @@ class EXP msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart             getHarmonyPart () const
-                             { return fHarmonyPart; }
+    S_msrPart             getHarmonyPartUplink () const
+                             { return fHarmonyPartUplink; }
 
     rational              getHarmonySoundingWholeNotes () const
                               { return fHarmonySoundingWholeNotes; }
@@ -4282,7 +4285,8 @@ class EXP msrHarmony : public msrElement
 
   private:
 
-    S_msrPart             fHarmonyPart;
+    // uplinks
+    S_msrPart             fHarmonyPartUplink;
 
     rational              fHarmonySoundingWholeNotes;
     
@@ -4331,7 +4335,7 @@ class EXP msrFiguredBass : public msrElement
 
     static SMARTP<msrFiguredBass> create (
       int                  inputLineNumber,
-      S_msrPart            figuredBassPart,
+      S_msrPart            figuredBassPartUplink,
       msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
       msrFiguredBassKind       figuredBassKind,
       string               figuredBassKindText,
@@ -4351,7 +4355,7 @@ class EXP msrFiguredBass : public msrElement
 
     msrFiguredBass (
       int                  inputLineNumber,
-      S_msrPart            figuredBassPart,
+      S_msrPart            figuredBassPartUplink,
       msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
       msrFiguredBassKind       figuredBassKind,
       string               figuredBassKindText,
@@ -4365,8 +4369,8 @@ class EXP msrFiguredBass : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart             getFiguredBassPart () const
-                             { return fFiguredBassPart; }
+    S_msrPart             getFiguredBassPartUplink () const
+                             { return fFiguredBassPartUplink; }
 
     rational              getFiguredBassSoundingWholeNotes () const
                               { return fFiguredBassSoundingWholeNotes; }
@@ -4405,6 +4409,9 @@ class EXP msrFiguredBass : public msrElement
 
   private:
 
+    // uplinks
+    S_msrPart             fFiguredBassPartUplink;
+
     rational              fFiguredBassSoundingWholeNotes;
     
     msrQuarterTonesPitch  fFiguredBassRootQuarterTonesPitch;
@@ -4413,9 +4420,6 @@ class EXP msrFiguredBass : public msrElement
     string                fFiguredBassKindText;
 
     msrQuarterTonesPitch  fFiguredBassBassQuarterTonesPitch;
-
-    // uplinks
-    S_msrPart             fFiguredBassPart;
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
@@ -4472,7 +4476,6 @@ class EXP msrNote : public msrElement
 
     static SMARTP<msrNote> create (
       int                  inputLineNumber,
-      S_msrPart            noteDirectPartUplink,
       
       msrNoteKind          noteKind,
     
@@ -4506,7 +4509,6 @@ class EXP msrNote : public msrElement
 
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
-      S_msrPart noteDirectPartUplink,
       rational  soundingWholeNotes,
       rational  displayWholeNotes,
       int       dotsNumber,
@@ -4520,7 +4522,6 @@ class EXP msrNote : public msrElement
 
     msrNote (
       int                  inputLineNumber,
-      S_msrPart            noteDirectPartUplink,
 
       msrNoteKind          noteKind,
     
@@ -5301,9 +5302,6 @@ class EXP msrChord : public msrElement
 
     void                  addFirstNoteToChord (S_msrNote note);
     void                  addAnotherNoteToChord (S_msrNote note);
-
- // JMI   S_msrNote     chordLastNote () const
-       //               { return fChordNotes.back (); }
 
     // articulations
     void                  addArticulationToChord (S_msrArticulation art);
@@ -8019,7 +8017,6 @@ class EXP msrVoice : public msrElement
 
     static SMARTP<msrVoice> create (
       int          inputLineNumber,
-      S_msrPart    voiceDirectPartUplink, // superfluous JMI ???
       msrVoiceKind voiceKind,
       int          voicePartRelativeID,
       msrVoiceCreateInitialLastSegment
@@ -8043,7 +8040,6 @@ class EXP msrVoice : public msrElement
     // for regular voices
     msrVoice (
       int          inputLineNumber,
-      S_msrPart    voiceDirectPartUplink,
       msrVoiceKind voiceKind,
       int          voicePartRelativeID,
       msrVoiceCreateInitialLastSegment
@@ -8162,11 +8158,12 @@ class EXP msrVoice : public msrElement
     S_msrStaff            getVoiceStaffUplink () const
                               { return fVoiceStaffUplink; }
 
-    S_msrPart             getVoiceDirectPartUplink () const
-                             { return fVoiceDirectPartUplink; }
-
     // services
     // ------------------------------------------------------
+
+    // uplinks
+
+    S_msrPart             voicePartUplink () const;
 
     // identity
 
@@ -8426,6 +8423,10 @@ class EXP msrVoice : public msrElement
 
   private:
 
+    // uplinks
+    
+    S_msrStaff            fVoiceStaffUplink;
+
     // voice kind
 
     msrVoiceKind          fVoiceKind;
@@ -8498,14 +8499,6 @@ class EXP msrVoice : public msrElement
                             // K_MUTE_STANZA_NUMBER
     
     map<int, S_msrStanza> fVoiceStanzasMap;
-
-    // uplinks
-    
-    S_msrStaff            fVoiceStaffUplink;
-
-    S_msrPart             fVoiceDirectPartUplink;
-
-
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
@@ -8824,9 +8817,9 @@ class EXP msrStaff : public msrElement
 
     static SMARTP<msrStaff> create (
       int          inputLineNumber,
-      S_msrPart    staffDirectPartUplink,
       msrStaffKind staffKind,
-      int          staffNumber);
+      int          staffNumber,
+      S_msrPart    staffPartUplink);
     
     SMARTP<msrStaff> createStaffNewbornClone (
       S_msrPart containingPart);
@@ -8838,9 +8831,9 @@ class EXP msrStaff : public msrElement
 
     msrStaff (
       int          inputLineNumber,
-      S_msrPart    staffDirectPartUplink,
       msrStaffKind staffKind,
-      int          staffNumber);
+      int          staffNumber,
+      S_msrPart    staffPartUplink);
       
     virtual ~msrStaff();
   
@@ -8855,6 +8848,11 @@ class EXP msrStaff : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // uplinks
+
+    S_msrPart             getStaffPartUplink () const
+                              { return fStaffPartUplink; }
 
     // staff kind
     
@@ -8917,11 +8915,6 @@ class EXP msrStaff : public msrElement
                       
     const string          getStaffMeasureNumber () const
                               { return fStaffMeasureNumber; }
-
-    // uplinks
-
-    S_msrPart             getStaffDirectPartUplink () const
-                              { return fStaffDirectPartUplink; }
 
     // services
     // ------------------------------------------------------
@@ -9070,6 +9063,10 @@ class EXP msrStaff : public msrElement
 
   private:
 
+    // uplinks
+
+    S_msrPart             fStaffPartUplink;
+
     // staff kind
 
     string                fStaffName;
@@ -9123,11 +9120,6 @@ class EXP msrStaff : public msrElement
     // counters
     
     int                   fStaffRegisteredVoicesCounter;
-
-    // uplinks
-
-    // divisions handling is done at the part level
-    S_msrPart             fStaffDirectPartUplink;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);

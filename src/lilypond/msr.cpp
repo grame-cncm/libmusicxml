@@ -4650,6 +4650,13 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
 }
 * */
 
+S_msrVoice msrDoubleTremolo::doubleTremoloVoiceUplink () const
+{
+  return
+    fDoubleTremoloMeasureUplink->
+      measureVoiceUplink ();
+}
+
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrVoice containingVoice)
 {
@@ -21895,6 +21902,13 @@ msrVoice::msrVoice (
 
 msrVoice::~msrVoice()
 {}
+
+S_msrPart msrVoice::voicePartUplink () const
+{
+ return
+  fVoiceStaffUplink->
+    getStaffPartUplink ();
+}
 
 void msrVoice::setVoiceNameFromNumber (
   int voiceNumber)
