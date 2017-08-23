@@ -1994,7 +1994,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     // uplinks
 
-    S_msrVoice            doubleTremoloVoiceUplink () const;
+    S_msrVoice            fetchDoubleTremoloVoiceUplink () const;
 
     // strings
 
@@ -3205,9 +3205,9 @@ class EXP msrMeasure : public msrElement
 
     // uplinks
     
-    S_msrPart             getMeasurePartUplink () const;
+    S_msrPart             fetchMeasurePartUplink () const;
     
-    S_msrVoice            getMeasureVoiceUplink () const;
+    S_msrVoice            fetchMeasureVoiceUplink () const;
 
     // lengthes
 
@@ -3518,7 +3518,7 @@ class EXP msrSegment : public msrElement
 
     // uplinks
     
-    S_msrPart             segmentPartUplink () const;
+    S_msrPart             fetchSegmentPartUplink () const;
 
     // strings
   
@@ -3870,10 +3870,12 @@ class EXP msrAfterGraceNotes : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrPart             afterGraceNotesPartUplink () const;
+    S_msrPart             fetchAfterGraceNotesPartUplink () const;
 
+    // notes
     void                  appendNoteToAfterGraceNotes (S_msrNote note);
 
+    // strings
     string                afterGraceNotesAsShortString () const;
     
     // visitors
@@ -4142,7 +4144,6 @@ class EXP msrSyllable : public msrElement
     // as string
     string                syllableAsString ();
 
-    // uplinks
     string                syllableNoteUplinkAsString () const;
 
     // visitors
@@ -8163,7 +8164,7 @@ class EXP msrVoice : public msrElement
 
     // uplinks
 
-    S_msrPart             voicePartUplink () const;
+    S_msrPart             fetchVoicePartUplink () const;
 
     // identity
 

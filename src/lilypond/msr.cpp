@@ -4605,7 +4605,7 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
   // fetch the current part's number of divisions per quarter element
   int partDivisionsPerQuarterNote =
     fDoubleTremoloVoiceUplink->
-      getVoiceDirectPartUplink ()->
+      voicePartUplink ()->
         getPartDivisionsPerQuarterNote ();
 
   // fetch the number of divisions per double tremolo element
@@ -6010,11 +6010,11 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
   return newbornClone;
 }
 
-S_msrPart msrGraceNotes::getGraceNotesDirectPartUplink () const
+S_msrPart msrGraceNotes::graceNotesPartUplink () const
 {
   return
     fGraceNotesVoiceUplink->
-      getVoiceDirectPartUplink ();
+      voicePartUplink ();
 }
 
 S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
@@ -6049,7 +6049,6 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
       skip =
         msrNote::createSkipNote (
           note->            getInputLineNumber (),
-          containingVoice-> getVoiceDirectPartUplink (),
           note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
           note->            getNoteDisplayWholeNotes (),
           note->            getNoteDotsNumber (),
@@ -6199,7 +6198,7 @@ msrAfterGraceNotes::msrAfterGraceNotes (
   S_msrVoice afterGraceNotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  // set gracenote's direct part uplink
+  // set gracenote's voice uplink
   msrAssert(
     afterGraceNotesVoiceUplink != 0,
     "afterGraceNotesVoiceUplink is null");
@@ -6207,6 +6206,10 @@ msrAfterGraceNotes::msrAfterGraceNotes (
   fAfterGraceNotesVoiceUplink =
     afterGraceNotesVoiceUplink;
 
+  // set gracenote's note uplink
+  msrAssert(
+    afterGraceNotesVoiceUplink != 0,
+    "afterGraceNotesVoiceUplink is null");
   fAfterGraceNotesNote =
     afterGraceNotesNote;
     
@@ -6217,11 +6220,11 @@ msrAfterGraceNotes::msrAfterGraceNotes (
 msrAfterGraceNotes::~msrAfterGraceNotes()
 {}
 
-S_msrPart msrAfterGraceNotes::getAfterGraceNotesDirectPartUplink () const
+S_msrPart msrAfterGraceNotes::afterGraceNotesPartUplink () const
 {
   return
     fAfterGraceNotesVoiceUplink->
-      getVoiceDirectPartUplink ();
+      voicePartUplink ();
 }
 
 S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
@@ -6243,9 +6246,9 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
     "containingVoice is null");
     
   /* JMI ???
-  // set after grace note's direct part uplink
-  o->fAfterGraceNotesDirectPartUplink =
-    afterGraceNotesDirectPartUplink;
+  // set after grace note's part uplink
+  o->fAfterGraceNotesPartUplink =
+    afterGraceNotesPartUplink;
     */
     
   S_msrAfterGraceNotes
@@ -6402,7 +6405,6 @@ void msrAfterGraceNotes::print (ostream& os)
 //______________________________________________________________________________
 S_msrNote msrNote::create (
   int                  inputLineNumber,
-  S_msrPart            noteDirectPartUplink,
 
   msrNoteKind          noteKind,
 
@@ -6428,7 +6430,6 @@ S_msrNote msrNote::create (
   msrNote * o =
     new msrNote (
       inputLineNumber,
-      noteDirectPartUplink,
       
       noteKind,
       
@@ -6457,7 +6458,6 @@ S_msrNote msrNote::create (
 
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
-  S_msrPart noteDirectPartUplink,
   rational  soundingWholeNotes,
   rational  displayWholeNotes,
   int       dotsNumber,
@@ -6467,7 +6467,6 @@ S_msrNote msrNote::createSkipNote (
   msrNote * o =
     new msrNote (
       inputLineNumber,
-      noteDirectPartUplink,
       
       kSkipNote, // noteKind
       
@@ -6496,7 +6495,6 @@ S_msrNote msrNote::createSkipNote (
 
 msrNote::msrNote (
   int                  inputLineNumber,
-  S_msrPart            noteDirectPartUplink,
 
   msrNoteKind          noteKind,
 
@@ -6520,14 +6518,6 @@ msrNote::msrNote (
   bool                 noteIsAGraceNote)
   : msrElement (inputLineNumber)
 {
-  // set note's direct part uplink
-  msrAssert(
-    noteDirectPartUplink != 0,
-    "noteDirectPartUplink is null");
-    
-  fNoteDirectPartUplink =
-    noteDirectPartUplink;
-  
   // basic note description
   fNoteKind = noteKind;
 
@@ -6987,9 +6977,6 @@ S_msrNote msrNote::createNoteNewbornClone (
   // uplinks
   // ------------------------------------------------------
 
-  newbornClone->fNoteDirectPartUplink =
-    containingPart;
-
   /* JMI
     S_msrTuplet           fNoteTupletUplink;
 
@@ -7320,9 +7307,6 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   // uplinks
   // ------------------------------------------------------
-
-  noteDeepCopy->fNoteDirectPartUplink =
-    containingPart;
 
   /* JMI
   
@@ -8291,7 +8275,7 @@ string msrNote::noteAsShortString ()
         fNoteDisplayWholeNotes <<
         " disp";
         /* JMI
-        fNoteDirectPartUplink->
+        notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
@@ -8403,7 +8387,7 @@ string msrNote::noteAsString ()
         fNoteDisplayWholeNotes <<
         " disp";
 /* JMI
-        fNoteDirectPartUplink->
+        notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
@@ -8806,8 +8790,8 @@ void msrNote::print (ostream& os)
   idtr++;
   os <<
     idtr <<
-    "NoteVoiceDirectUplink" " = " <<
-    fNoteMeasureUplink->getMeasureVoiceDirectUplink () <<
+    "NoteVoiceUplink" " = " <<
+    fNoteMeasureUplink->measureVoiceUplink () <<
     endl;
   idtr--;
 */
@@ -14091,7 +14075,6 @@ void msrTempo::print (ostream& os)
 //______________________________________________________________________________
 S_msrSyllable msrSyllable::create (
   int                   inputLineNumber,
-  S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
@@ -14100,7 +14083,6 @@ S_msrSyllable msrSyllable::create (
   msrSyllable* o =
     new msrSyllable (
       inputLineNumber,
-      syllableDirectPartUplink,
       syllableKind, syllableExtendKind,
       syllableWholeNotes,
       syllableStanzaUplink);
@@ -14111,20 +14093,19 @@ S_msrSyllable msrSyllable::create (
 
 msrSyllable::msrSyllable (
   int                   inputLineNumber,
-  S_msrPart             syllableDirectPartUplink,
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
-  // set syllable's direct part uplink
+  // set syllable's stanza uplink
   msrAssert(
-    syllableDirectPartUplink != 0,
-    "syllableDirectPartUplink is null");
+    syllableStanzaUplink != 0,
+    "syllableStanzaUplink is null");
     
-  fSyllableDirectPartUplink =
-    syllableDirectPartUplink;
+  fSyllableStanzaUplink =
+    syllableStanzaUplink;
     
   fSyllableKind = syllableKind;
   
@@ -14132,8 +14113,6 @@ msrSyllable::msrSyllable (
 
   fSyllableExtendKind = syllableExtendKind;
   
-  fSyllableStanzaUplink = syllableStanzaUplink;
-
   // fSyllableNoteUplink will be set
   // by setSyllableNoteUplink() later
 }
@@ -14773,8 +14752,6 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
     newbornClone =
       msrStanza::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         fStanzaNumber,
         fStanzaKind,
         containingVoice);
@@ -14819,8 +14796,6 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
     stanzaDeepCopy =
       msrStanza::create (
         fInputLineNumber,
-        containingVoice->
-          getVoiceDirectPartUplink (),
         fStanzaNumber,
         fStanzaKind,
         containingVoice);
@@ -14840,7 +14815,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
       fSyllables [i]->
         createSyllableDeepCopy (
           containingVoice->
-            getVoiceDirectPartUplink ()));
+            voicePartUplink ()));
   } // for
 
   stanzaDeepCopy->fStanzaTextPresent =
@@ -16797,18 +16772,18 @@ void msrMeasure::initializeMeasure ()
 msrMeasure::~msrMeasure()
 {}
 
-S_msrPart msrMeasure::getMeasureDirectPartUplink () const;
+S_msrPart msrMeasure::measurePartUplink () const;
 {
   return
     fMeasureSegmentUplink->
-      getSegmentDirectPartUplink ();
+      segmentPartUplink ();
 }
 
-S_msrVoice msrMeasure::getMeasureVoiceDirectUplink () const
+S_msrVoice msrMeasure::measureVoiceUplink () const
 {
   return
-    fMeasureVoiceDirectUplink->
-      getVoiceDirectPartUplink ();
+    fMeasureSegmentUplink->
+      measurePartUplink ();
 }
 
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
@@ -17072,7 +17047,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
         "Appending clef '" << clef->clefAsString () <<
         "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
-      getMeasureVoiceDirectUplink ()->getVoiceName () <<
+      measureVoiceUplink ()->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -17089,7 +17064,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
         "Appending key '" << key->keyAsString () <<
         "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
-      getMeasureVoiceDirectUplink ()->getVoiceName () <<
+      measureVoiceUplink ()->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -17162,7 +17137,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     // this measure is con misura
     
     int partDivisionsPerQuarterNote =
-      fMeasureDirectPartUplink->
+      measurePartUplink->
         getPartDivisionsPerQuarterNote ();
   
     rational
@@ -17478,7 +17453,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasureLength + noteSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fMeasureDirectPartUplink->
+  measurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -17496,13 +17471,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // fetch part harmony voice
   S_msrVoice
     partHarmonyVoice =
-      fMeasureDirectPartUplink->
+      measurePartUplink->
         getPartHarmonyVoice ();
 
   // fetch part harmonies supplier voice
   S_msrVoice
     partHarmoniesSupplierVoice =
-      fMeasureDirectPartUplink->
+      measurePartUplink->
         getPartHarmoniesSupplierVoice ();
 
   // fetch note harmony
@@ -17516,8 +17491,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     if (partHarmoniesSupplierVoice) {
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
         cerr << idtr <<
-          "fMeasureVoiceDirectUplink = \"" <<
-          fMeasureVoiceDirectUplink->getVoiceName () <<
+          "measureVoiceUplink = \"" <<
+          fetchMeasureVoiceUplink->getVoiceName () <<
           "\"" <<
           endl <<
           "partHarmoniesSupplierVoice = \"" <<
@@ -17533,9 +17508,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           noteMeasureLength);
 */
 
-      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+      // is measure voice uplink the part harmonies suppplier voice?
       if (
-        fMeasureVoiceDirectUplink
+        fetchMeasureVoiceUplink ()
           ==
         partHarmoniesSupplierVoice) {
         // yes, create a skip note of the same duration as the note
@@ -17543,7 +17518,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           skipNote =
             msrNote::createSkipNote (
               inputLineNumber,
-              fMeasureDirectPartUplink,
               noteSoundingWholeNotes,
               noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
@@ -17627,7 +17601,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       fMeasureLength + noteSoundingWholeNotes);
   
     // update part measure length high tide if need be
-    fMeasureDirectPartUplink->
+    fetchMeasurePartUplink->
       updatePartMeasureLengthHighTide (
         inputLineNumber,
         fMeasureLength);
@@ -17645,7 +17619,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // fetch part harmony voice
     S_msrVoice
       partHarmonyVoice =
-        fMeasureDirectPartUplink->
+        fetchMeasurePartUplink->
           getPartHarmonyVoice ();
 
     // fetch note harmony
@@ -17672,9 +17646,9 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     }
 
     else {
-      // is fMeasureVoiceDirectUplink the part harmonies suppplier voice?
+      // is fetchMeasureVoiceUplink the part harmonies suppplier voice?
       if (
-        fMeasureVoiceDirectUplink
+        fetchMeasureVoiceUplink
           ==
         fMeasureDirectPartUplink->getPartHarmoniesSupplierVoice ()) {
         // yes, create a skip note of the same duration as the note
@@ -17682,7 +17656,6 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
           skipNote =
             msrNote::createSkipNote (
               inputLineNumber,
-              fMeasureDirectPartUplink,
               noteSoundingWholeNotes,
               noteSoundingWholeNotes,
               note->getNoteDotsNumber (),
@@ -17766,7 +17739,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
     fMeasureLength + doubleTremoloSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fMeasureDirectPartUplink->
+  fetchMeasurePartUplink->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -17780,7 +17753,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
 /* JMI
   // bring harmony voice to the same measure length
-  fMeasureDirectPartUplink->
+  fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
@@ -17988,7 +17961,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     fMeasureLength + chordSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fMeasureDirectPartUplink->
+  fetchMeasurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -18002,7 +17975,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 
 /* JMI
   // bring harmony voice to the new measure length
-  fMeasureDirectPartUplink->
+  fMeasurePartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
@@ -18063,7 +18036,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     fMeasureLength + tupletSoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fMeasureDirectPartUplink->
+  fetchMeasurePartUplink->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -18083,7 +18056,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
 
 /* JMI
   // bring harmony voice to the new measure length
-  fMeasureDirectPartUplink->
+  fMeasurePartUplink->
     getPartHarmonyVoice ()->
       bringVoiceToMeasureLength (
         inputLineNumber,
@@ -18130,7 +18103,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
 
   // register voice as part harmonies supplied
   // this will abort if another voice is already supplying harmonies
-  fMeasureDirectPartUplink->
+  fMeasurePartUplink->
     setPartHarmoniesSupplierVoice (
       voice);
 
@@ -18150,7 +18123,6 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     skip =
         msrNote::createSkipNote (
             inputLineNumber,
-            fMeasureDirectPartUplink,
             harmonySoundingWholeNotes,
             harmonySoundingWholeNotes,
             voice->
@@ -18158,7 +18130,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
             voice->
               getVoicePartRelativeID ());
   
-    fMeasureDirectPartUplink->
+    fMeasurePartUplink->
       getPartHarmonyVoice ()->
         appendNoteToVoice (skip);
   */
@@ -18169,7 +18141,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       fMeasureLength + harmonySoundingWholeNotes);
   
     // update part measure length high tide if need be
-    fMeasureDirectPartUplink->
+    fetchMeasurePartUplink->
       updatePartMeasureLengthHighTide (
         inputLineNumber,
         fMeasureLength);
@@ -18209,7 +18181,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     fMeasureLength + harmonySoundingWholeNotes);
 
   // update part measure length high tide if need be
-  fMeasureDirectPartUplink->
+  fetchMeasurePartUplink->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
@@ -18250,7 +18222,6 @@ void msrMeasure::bringMeasureToMeasureLength (
       skip =
         msrNote::createSkipNote (
           inputLineNumber,
-          fMeasureDirectPartUplink,
    // JMI       37, // JMI
           skipDuration,
           skipDuration,
@@ -18611,7 +18582,7 @@ void msrMeasure::finalizeMeasure (
   // fetch the part measure length high tide
   rational
     partMeasureLengthHighTide =
-      fMeasureDirectPartUplink->
+      fetchMeasurePartUplink ()->
         getPartMeasureLengthHighTide ();
     
   if (gGeneralOptions->fTraceMeasures) {
@@ -18659,7 +18630,6 @@ void msrMeasure::finalizeMeasure (
         skip =
           msrNote::createSkipNote (
             inputLineNumber,
-            fMeasureDirectPartUplink,
    // JMI         49, // JMI
             skipDuration,
             skipDuration,
@@ -18924,7 +18894,7 @@ void msrMeasure::print (ostream& os)
   /* JMI
   // fetch the part measure length high tide
   int partMeasureLengthHighTide =
-    fMeasureDirectPartUplink->
+    fMeasurePartUplink->
       getPartMeasureLengthHighTide ();
    */
 
@@ -18950,7 +18920,7 @@ void msrMeasure::print (ostream& os)
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
   // JMI      ", part high tide = " <<
-  // JMI      fMeasureDirectPartUplink->
+  // JMI      fMeasurePartUplink->
   // JMI        getPartMeasureLengthHighTide () <<
       endl;
       
@@ -19024,13 +18994,12 @@ void msrSegment::initializeSegment ()
   fMeasureNumberHasBeenSetInSegment = false;
 }
 
-S_msrPart msrSegment::getSegmentDirectPartUplink () const
+S_msrPart msrSegment::fetchSegmentPartUplink () const
 {
   return
     fSegmentVoiceUplink->
-      getVoiceDirectPartUplink ();
+      fetchVoicePartUplink ();
 }
-
 
 S_msrSegment msrSegment::createSegmentNewbornClone (
   S_msrVoice containingVoice)
@@ -19135,8 +19104,6 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   // uplinks
   segmentDeepCopy->fSegmentVoiceUplink =
     containingVoice;
-
-  // fSegmentDirectPartUplink JMI ???
   
   return segmentDeepCopy;
 }
@@ -19209,7 +19176,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   // get part current time
   S_msrTime
     partCurrentTime =
-      getSegmentDirectPartUplink ()->
+      fetchSegmentPartUplink ()->
         getPartCurrentTime ();
 
   // the measure can be created upon appendKeyTo..., // JMI
@@ -19239,7 +19206,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 {
   string
     currentMeasureNumber =
-      fSegmentDirectPartUplink->
+      fetchSegmentPartUplink->
         getPartCurrentMeasureNumber ();
       
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
@@ -19746,7 +19713,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
       newMeasure =
         msrMeasure::create (
           inputLineNumber,
-          fSegmentDirectPartUplink,
+          fSegmentPartUplink,
           measureNumber,
           this);
 
@@ -21348,7 +21315,7 @@ void msrMeasureRepeat::browseData (basevisitor* v)
   S_msrScore
     score =
       fMeasureRepeatVoiceUplink->
-        getVoiceDirectPartUplink ()->
+        fetchVoicePartUplink ()->
           getPartPartGroupUplink ()->
             getPartGroupScoreUplink ();
               
@@ -21767,7 +21734,7 @@ void msrMultipleRest::browseData (basevisitor* v)
   S_msrScore
     score =
       fMultipleRestVoiceUplink->
-        getVoiceDirectPartUplink ()->
+        fetchVoicePartUplink ()->
           getPartPartGroupUplink ()->
             getPartGroupScoreUplink ();
 
@@ -21842,7 +21809,6 @@ int msrVoice::gVoicesCounter = 0;
 
 S_msrVoice msrVoice::create (
   int          inputLineNumber,
-  S_msrPart    voiceDirectPartUplink,
   msrVoiceKind voiceKind,
   int          voicePartRelativeID,
   msrVoiceCreateInitialLastSegment
@@ -21852,7 +21818,6 @@ S_msrVoice msrVoice::create (
   msrVoice* o =
     new msrVoice (
       inputLineNumber,
-      voiceDirectPartUplink,
       voiceKind,
       voicePartRelativeID,
       voiceCreateInitialLastSegment,
@@ -21864,7 +21829,6 @@ S_msrVoice msrVoice::create (
 
 msrVoice::msrVoice (
   int          inputLineNumber,
-  S_msrPart    voiceDirectPartUplink,
   msrVoiceKind voiceKind,
   int          voicePartRelativeID,
   msrVoiceCreateInitialLastSegment
@@ -21874,14 +21838,6 @@ msrVoice::msrVoice (
 {
   fVoiceAbsoluteNumber = ++gVoicesCounter;
   
-  // set voice's direct part uplink
-  msrAssert(
-    voiceDirectPartUplink != 0,
-    "voiceDirectPartUplink is null");
-    
-  fVoiceDirectPartUplink =
-    voiceDirectPartUplink;
-    
   // set voice staff uplink
   msrAssert(
     voiceStaffUplink != 0,
@@ -22048,7 +22004,7 @@ void msrVoice::initializeVoice (
   
   // set voice number
   fVoiceMeasureNumber = // JMI "??";
-    fVoiceDirectPartUplink->
+    voicePartUplink ()->
       getPartCurrentMeasureNumber ();
 
   // music has not been inserted in voice yet
@@ -22077,7 +22033,6 @@ void msrVoice::initializeVoice (
   fVoiceMuteStanza =
     msrStanza::create (
       fInputLineNumber,
-      fVoiceDirectPartUplink,
       K_MUTE_STANZA_NUMBER,    // this stanza number is unused anyway
       msrStanza::kMuteStanza,
       this);
@@ -22106,8 +22061,6 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
   // set its name
   setVoiceNameFromNumber (
     voicePartRelativeID);
-  
-  // its part direct uplink is fine, leave it as it is
 }
     
 S_msrVoice msrVoice::createVoiceNewbornClone (
@@ -22129,8 +22082,6 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
     newbornClone =
       msrVoice::create (
         fInputLineNumber,
-        staffClone->
-          getStaffDirectPartUplink (),
         fVoiceKind,
         fVoicePartRelativeID,
         msrVoice::kCreateInitialLastSegmentNo,
@@ -22225,8 +22176,6 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     voiceDeepCopy =
       msrVoice::create (
         fInputLineNumber,
-        containingStaff->
-          getStaffDirectPartUplink (),
         voiceKind,
         voicePartRelativeID,
         msrVoice::kCreateInitialLastSegmentNo,
@@ -22382,11 +22331,6 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // uplinks
   voiceDeepCopy->fVoiceStaffUplink =
     containingStaff;
-  
-  voiceDeepCopy->fVoiceDirectPartUplink =
-    containingStaff->
-      getStaffDirectPartUplink ();
-
 
   if (gGeneralOptions->fTraceVoicesDetails) {
     cerr <<
@@ -22469,7 +22413,6 @@ void msrVoice::createNewLastSegmentForVoice (
   fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
-      fVoiceDirectPartUplink,
       this);
 
 /* JMI BOF
@@ -22502,7 +22445,6 @@ void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
   fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
-      fVoiceDirectPartUplink,
       this);
 
   // append firstMeasure to it
@@ -22536,7 +22478,6 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
     stanza =
       msrStanza::create (
         inputLineNumber,
-        fVoiceDirectPartUplink,
         stanzaNumber,
         msrStanza::kRegularStanza,
         this);
@@ -23566,7 +23507,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           repeatedSegment =
             msrSegment::create (
               inputLineNumber,
-              fVoiceDirectPartUplink,
               this);
 
         // append the repeated measure to the repeated segment
@@ -23872,7 +23812,6 @@ void msrVoice::createMultipleRestInVoice (
           restsSegment =
             msrSegment::create (
               inputLineNumber,
-              fVoiceDirectPartUplink,
               this);
 */
 
@@ -24473,7 +24412,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       idtr <<
         setw(fieldWidth) <<
         "partMeasureLengthHighTide" << " = " <<
-        getVoiceDirectPartUplink ()->
+        voicePartUplink ()->
           getPartMeasureLengthHighTide () <<
         endl;
         
@@ -25385,16 +25324,16 @@ int msrStaff::gMaxStaffVoices = 4;
 
 S_msrStaff msrStaff::create (
   int          inputLineNumber,
-  S_msrPart    staffDirectPartUplink,
   msrStaffKind staffKind,
-  int          staffNumber)
+  int          staffNumber,
+  S_msrPart    staffPartUplink)
 {
   msrStaff* o =
     new msrStaff (
       inputLineNumber,
-      staffDirectPartUplink,
       staffKind,
-      staffNumber);
+      staffNumber,
+      staffPartUplink);
   assert(o!=0);
 
   return o;
@@ -25402,18 +25341,18 @@ S_msrStaff msrStaff::create (
 
 msrStaff::msrStaff (
   int          inputLineNumber,
-  S_msrPart    staffDirectPartUplink,
   msrStaffKind staffKind,
-  int          staffNumber)
+  int          staffNumber,
+  S_msrPart    staffPartUplink)
     : msrElement (inputLineNumber)
 {
   // set staff part uplink
   msrAssert(
-    staffDirectPartUplink != 0,
-    "staffDirectPartUplink is null");
+    staffPartUplink != 0,
+    "staffPartUplink is null");
 
-  fStaffDirectPartUplink =
-    staffDirectPartUplink;
+  fStaffPartUplink =
+    staffPartUplink;
 
   // set staff kind and number
   fStaffKind = staffKind;
@@ -25431,26 +25370,26 @@ void msrStaff::initializeStaff ()
   switch (fStaffKind) {
     case msrStaff::kRegularStaff:
       fStaffName =
-        fStaffDirectPartUplink->getPartMsrName () +
+        fStaffPartUplink->getPartMsrName () +
         "_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kTablatureStaff:
-        fStaffDirectPartUplink->getPartMsrName () +
+        fStaffPartUplink->getPartMsrName () +
         "_Tablature_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kPercussionStaff:
-        fStaffDirectPartUplink->getPartMsrName () +
+        fStaffPartUplink->getPartMsrName () +
         "_Percussion_" +
         int2EnglishWord (fStaffNumber);
       break;
       
     case msrStaff::kHarmonyStaff:
       fStaffName =
-        fStaffDirectPartUplink->getPartMsrName () +
+        fStaffPartUplink->getPartMsrName () +
         "_HarmonyStaff";
       break;
   } // switch
@@ -25459,7 +25398,7 @@ void msrStaff::initializeStaff ()
     cerr << idtr <<
       "Initializing staff \"" << fStaffName <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // check the staff number
@@ -25517,7 +25456,7 @@ void msrStaff::initializeStaff ()
   // get the initial staff details from the part if any
   S_msrStaffDetails
     partStaffDetails =
-      fStaffDirectPartUplink->
+      fStaffPartUplink->
         getCurrentPartStaffDetails ();
 
   if (partStaffDetails) {
@@ -25529,7 +25468,7 @@ void msrStaff::initializeStaff ()
   {
     S_msrClef
       clef =
-        fStaffDirectPartUplink->
+        fStaffPartUplink->
           getPartCurrentClef ();
   
     if (clef) {
@@ -25539,7 +25478,7 @@ void msrStaff::initializeStaff ()
           "' as initial clef to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
       }
 
@@ -25553,7 +25492,7 @@ void msrStaff::initializeStaff ()
           " to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
 
       // create the implicit initial G line 2 clef
@@ -25569,7 +25508,7 @@ void msrStaff::initializeStaff ()
   {
     S_msrKey
       key =
-        fStaffDirectPartUplink->
+        fStaffPartUplink->
           getPartCurrentKey ();
   
     if (key) {
@@ -25579,7 +25518,7 @@ void msrStaff::initializeStaff ()
           "' as initial key to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
       }
 
@@ -25596,7 +25535,7 @@ void msrStaff::initializeStaff ()
           " to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
           
       // create the implicit initial C major key
@@ -25614,7 +25553,7 @@ void msrStaff::initializeStaff ()
   {
     S_msrTime
       time =
-        fStaffDirectPartUplink->
+        fStaffPartUplink->
           getPartCurrentTime ();
 
     if (time) {
@@ -25624,7 +25563,7 @@ void msrStaff::initializeStaff ()
           "' as initial time to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
       }
 
@@ -25641,7 +25580,7 @@ void msrStaff::initializeStaff ()
           " to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
           
       // append the implicit initial 4/4 time signature
@@ -25656,7 +25595,7 @@ void msrStaff::initializeStaff ()
   {
     S_msrTranspose
       transpose =
-        fStaffDirectPartUplink->
+        fStaffPartUplink->
           getPartTranspose ();
         
     if (transpose) {
@@ -25666,7 +25605,7 @@ void msrStaff::initializeStaff ()
           "' as initial transpose to staff \"" <<
           getStaffName () <<
           "\" in part " <<
-          fStaffDirectPartUplink->getPartCombinedName () <<
+          fStaffPartUplink->getPartCombinedName () <<
           endl;
       }
       
@@ -25694,7 +25633,6 @@ void msrStaff::createStaffSilentVoice (
   fStaffSilentVoice =
     msrVoice::create (
       inputLineNumber,
-      fStaffDirectPartUplink,
       msrVoice::kSilentVoice,
       K_SILENT_VOICE_NUMBER,
       msrVoice::kCreateInitialLastSegmentYes,
@@ -25758,11 +25696,11 @@ string msrStaff::getStaffName () const
   return
     fStaffNumber == 0
       ?
-        fStaffDirectPartUplink->getPartMsrName () +
+        fStaffPartUplink->getPartMsrName () +
         "_S_" +
         "(SILENT)"
       :
-        fStaffDirectPartUplink->getPartMsrName () +
+        fStaffPartUplink->getPartMsrName () +
         "_S_" +
         int2EnglishWord (fStaffNumber);
         */
@@ -25846,7 +25784,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       "\", line " << inputLineNumber <<
       "\", current measure number: " <<
       currentMeasureNumber <<
- // JMI     " in part " << fStaffDirectPartUplink->getPartCombinedName () <<
+ // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // are there too many voices in this staff? 
@@ -25892,7 +25830,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   // get the part current time JMI???
   S_msrTime
     time =
-      fStaffDirectPartUplink->
+      fStaffPartUplink->
         getPartCurrentTime ();
 
   if (! time) {
@@ -25902,7 +25840,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
         inputLineNumber);
 
     // register it in the part for future use
-    fStaffDirectPartUplink->
+    fStaffPartUplink->
       setPartCurrentTime (time);
   }
       
@@ -25948,7 +25886,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
      " in staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
       " in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26010,7 +25948,7 @@ void msrStaff::registerVoiceInStaff (
       "\" as relative voice " << fStaffRegisteredVoicesCounter <<
       " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
-// JMI       " in part " << fStaffDirectPartUplink->getPartCombinedName () <<
+// JMI       " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // register is by its relative number
@@ -26054,7 +25992,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
   }
 
@@ -26098,7 +26036,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
   }
   
@@ -26123,7 +26061,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
   }
   
@@ -26150,7 +26088,7 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
       "' to staff clone \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
   }
   
@@ -26174,7 +26112,7 @@ void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
       "==> Creating and appending a repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26197,7 +26135,7 @@ void msrStaff::appendRepeatEndingToStaff (
       "Appending repeat ending to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26222,7 +26160,7 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
       "==> Creating a measure repeat from it's first measure in staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26245,7 +26183,7 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
       "Appending the pending measure repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26267,7 +26205,7 @@ void msrStaff::createMultipleRestInStaff (
       "==> Creating a multiple rest in staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       ", " <<
       singularOrPlural (
         multipleRestMeasuresNumber, "measure", "measures") <<
@@ -26292,7 +26230,7 @@ void msrStaff::appendPendingMultipleRestToStaff (
       "Appending the pending multiple rest to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26338,7 +26276,7 @@ void msrStaff::appendRepeatCloneToStaff (
       "Appending repeat clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26358,7 +26296,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
       "Appending repeat ending clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26378,7 +26316,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
       "' to staff " <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   for (
@@ -26399,7 +26337,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
       "' in staff " <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // set staff transpose
@@ -26419,7 +26357,7 @@ void msrStaff::appendStaffDetailsToStaff (
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // register staff details in staff
@@ -26488,7 +26426,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       {
         rational
           partMeasureLengthHighTide =
-            fStaffDirectPartUplink->
+            fStaffPartUplink->
               getPartMeasureLengthHighTide ();
             
         if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
@@ -28119,7 +28057,7 @@ void msrPart::finalizeCurrentMeasureInPart (
         inputLineNumber);
   } // for
 
-  // reset measure direct part uplink's measure length high tide
+  // reset measure length high tide
   setPartMeasureLengthHighTide (
     fInputLineNumber,
     rational (0, 1));
@@ -29749,7 +29687,7 @@ void msrStaff::appendDivisionsToStaff (
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
-      fStaffDirectPartUplink->getPartCombinedName () <<
+      fStaffPartUplink->getPartCombinedName () <<
       endl;
 
   // propagate it to all voices

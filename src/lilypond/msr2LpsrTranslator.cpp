@@ -984,7 +984,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->getVoiceName ();
   
           string partCombinedName =
-            elt->getVoiceDirectPartUplink ()->
+            elt->voicePartUplink ()->
               getPartCombinedName ();
                           
           if (gGeneralOptions->fTraceHarmonies)
@@ -1231,7 +1231,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
   rational
     partMeasureLengthHighTide = // JMI
       fCurrentMeasureClone->
-        getMeasureDirectPartUplink ()->
+        measurePartUplink ()->
           getPartMeasureLengthHighTide ();
 
   // get the measure number
@@ -1354,7 +1354,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' in voice \"" <<
           elt->
-            getMeasureVoiceDirectUplink ()->
+            measureVoiceUplink ()->
               getVoiceName () <<
           "\" is of unknown kind";
 
