@@ -25626,6 +25626,7 @@ void msrStaff::createStaffSilentVoice (
       "\", line " << inputLineNumber <<
       endl;
 
+/* JMI
   cerr <<
     endl <<
     "*****************" <<
@@ -25649,6 +25650,7 @@ void msrStaff::createStaffSilentVoice (
     "*****************" <<
     endl <<
     endl;
+*/
 
 if (false) // JMI
   // the harmony voice pre-exists, let's deep copy it
