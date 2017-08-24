@@ -6583,7 +6583,7 @@ void msrNote::initializeNote ()
     cerr <<
       endl <<
       idtr <<
-      "Initializing a note" <<
+      "==> Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
       cerr <<
@@ -9896,7 +9896,7 @@ void msrDivisions::initializeDivisions ()
 {
   if (gGeneralOptions->fTraceDivisions) {
   cerr << idtr <<
-    "Initializing divisions" <<
+    "==> Initializing divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
     ", line " << fInputLineNumber <<
     endl;
@@ -14714,7 +14714,7 @@ void msrStanza::initializeStanza ()
  
   if (gGeneralOptions->fTraceLyrics)
     cerr << idtr <<
-      "Initializing stanza " << getStanzaName () <<
+      "==> Initializing stanza " << getStanzaName () <<
       endl;
 
   fStanzaTextPresent = false;
@@ -16737,7 +16737,7 @@ void msrMeasure::initializeMeasure ()
 {
   if (gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
-      "Initializing measure " << fMeasureNumber <<
+      "==> Initializing measure " << fMeasureNumber <<
       " in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
@@ -18981,7 +18981,7 @@ void msrSegment::initializeSegment ()
   
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "% --> Initializing new segment, gets absolute number " <<
+      "% ==> Initializing new segment, gets absolute number " <<
       fSegmentAbsoluteNumber <<
       endl;
   }
@@ -25392,7 +25392,7 @@ void msrStaff::initializeStaff ()
 
   if (gGeneralOptions->fTraceStaves)
     cerr << idtr <<
-      "Initializing staff \"" << fStaffName <<
+      "==> Initializing staff \"" << fStaffName <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
@@ -25619,14 +25619,25 @@ void msrStaff::createStaffSilentVoice (
   int inputLineNumber)
 {
   // create the staff silent voice  
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "==> Creating the silent voice for staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
       endl;
 
+if (false) // JMI
+  // the harmony voice pre-exists, let's deep copy it
   fStaffSilentVoice =
+    fStaffPartUplink->
+      getPartHarmonyVoice ()->
+        createVoiceDeepCopy (
+          inputLineNumber,
+          msrVoice::kSilentVoice,
+          K_SILENT_VOICE_NUMBER,
+          this);
+        
+else
     msrVoice::create (
       inputLineNumber,
       msrVoice::kSilentVoice,
@@ -25737,13 +25748,14 @@ void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
   string measureNumber)
 {
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
-      "==> Creating and appending a new measure, " <<
-      ", measureNumber = " << measureNumber <<
-      ", line " << inputLineNumber <<
+      "==> Creating and appending measure '" <<
+      measureNumber <<
+      "', line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
       endl;
+  }
 
   // set staff measure location
   fStaffMeasureNumber = measureNumber;
@@ -25753,7 +25765,18 @@ void msrStaff::createMeasureAndAppendItToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    S_msrVoice voice = (*i).second;
+    
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+      cerr << idtr <<
+        "==> Propagating the creation and appending of measure '" <<
+        measureNumber <<
+        "', line " << inputLineNumber <<
+        ", to voice \"" << voice->getVoiceName () << "\"" <<
+        endl;
+    }
+
+    voice->
       createMeasureAndAppendItToVoice (
         inputLineNumber,
         measureNumber);
@@ -25770,7 +25793,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   // take this new voice into account
   fStaffRegisteredVoicesCounter++;
 
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "==> Creating voice with part-relative ID '" <<
       voicePartRelativeID <<
@@ -25782,6 +25805,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       currentMeasureNumber <<
  // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   // are there too many voices in this staff? 
   if (fStaffRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
@@ -27015,7 +27039,7 @@ void msrPart::initializePart ()
 {
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
-      "Initializing part \"" << getPartCombinedName () <<
+      "==> Initializing part \"" << getPartCombinedName () <<
       endl;
 
   // is this part name in the part renaming map?
@@ -27249,9 +27273,10 @@ void msrPart::createMeasureAndAppendItToPart (
   if (gGeneralOptions->fTraceMeasures)
     cerr <<
       idtr <<
-        "==> Creating and appending a measure to part " <<
+        "==> Creating and appending measure '" <<
+        measureNumber <<
+        "'to part " <<
         getPartCombinedName () <<
-        ", measure '" <<  measureNumber <<
         "', line " << inputLineNumber <<
         endl;
 
