@@ -21867,26 +21867,20 @@ S_msrPart msrVoice::fetchVoicePartUplink () const
 }
 
 void msrVoice::setVoiceNameFromNumber (
+  int inputLineNumber,
   int voiceNumber)
 {
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
-      "Setting the name of " <<
+      "Setting the name of '" <<
       voiceKindAsString () <<
-      " voice \"" <<
+      "' voice \"" <<
       "\"" <<
       " from number: " << voiceNumber <<
       endl;
   }
 
   switch (fVoiceKind) {
-    case msrVoice::kMasterVoice:
-      fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
-        "_Voice_" +
-        int2EnglishWord (voiceNumber);
-      break;
-      
     case msrVoice::kRegularVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
@@ -21894,16 +21888,20 @@ void msrVoice::setVoiceNameFromNumber (
         int2EnglishWord (voiceNumber);
       break;
       
+    case msrVoice::kMasterVoice:
     case msrVoice::kHarmonyVoice:
-      fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
-        "_HARMONY_Voice";
-      break;
-      
     case msrVoice::kSilentVoice:
-      fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
-        "_SILENT_Voice";
+      {
+        stringstream s;
+
+        s <<
+          "A '" <<
+          voiceAsString () <<
+          "' voice cannot get its name from its number";
+
+        msrInternalError (
+          inputLineNumber,
+          s.str());
       break;
   } // switch
   
@@ -21932,9 +21930,28 @@ void msrVoice::initializeVoice (
         : fVoicePartRelativeID;
   
   // set voice name
-  setVoiceNameFromNumber (
-    voiceNumber);
-    
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      break;
+      
+    case msrVoice::kRegularVoice:
+      setVoiceNameFromNumber (
+        voiceNumber);
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_HARMONY_Voice";
+      break;
+      
+    case msrVoice::kSilentVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_SILENT_Voice";
+      break;
+  } // switch
+  
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "==> Initializing voice \"" << fVoiceName <<
@@ -21947,16 +21964,14 @@ void msrVoice::initializeVoice (
   // check voice part-relative ID
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
-      // the voice part-relative ID should not be negative
-      // (K_SILENT_VOICE_NUMBER is used for the staves silent voices)
-      if (fVoicePartRelativeID < 0) {
+      if (fVoicePartRelativeID != K_PART_MASTER_VOICE_NUMBER) {
         stringstream s;
     
         s <<
-          "regular voice number " << fVoicePartRelativeID <<
-          " is not in the 0..4 range";
+          "master voice number " << fVoicePartRelativeID <<
+          " is not equal to " << K_PART_MASTER_VOICE_NUMBER;
           
-        msrMusicXMLError (
+        msrInternalError (
           fInputLineNumber, s.str());
       }
       break;
@@ -24515,7 +24530,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
       if (! getMusicHasBeenInsertedInVoice ()) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
-            "Erasing empty master voice \"" <<
+            "Erasing empty master voice \"" << // JMI
             getVoiceName () <<
             "\" in staff " <<
             fVoiceStaffUplink->getStaffName () <<
@@ -25455,7 +25470,7 @@ void msrStaff::initializeStaff ()
     case msrStaff::kMasterStaff:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
-        "_Staff_" +
+        "_MASTER_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
       
@@ -25481,7 +25496,7 @@ void msrStaff::initializeStaff ()
     case msrStaff::kHarmonyStaff:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
-        "_HARMONYStaff";
+        "_HARMONY_Staff";
       break;
   } // switch
 
@@ -26834,6 +26849,11 @@ void msrStaff::print (ostream& os)
 
   idtr++;
 
+  os <<
+    idtr <<
+    "StaffNumber" << " : " << fStaffNumber <<
+    endl;
+
 /* JMI
   os <<
     idtr << "StaffInstrumentName: \"" <<
@@ -27292,8 +27312,6 @@ void msrPart::createPartMasterStaffAndVoice (
   if (
     gGeneralOptions->fTraceParts
       ||
-    gGeneralOptions->fTraceHarmonies
-      ||
     gGeneralOptions->fTraceStaves
       ||
     gGeneralOptions->fTraceVoices) {
@@ -27315,8 +27333,6 @@ void msrPart::createPartMasterStaffAndVoice (
   // create the part master voice  
   if (
     gGeneralOptions->fTraceParts
-      ||
-    gGeneralOptions->fTraceHarmonies
       ||
     gGeneralOptions->fTraceStaves
       ||

@@ -8098,6 +8098,7 @@ class EXP msrVoice : public msrElement
     // voice name
     
     void                  setVoiceNameFromNumber (
+                            int inputLineNumber,
                             int voiceNumber);
 
     string                getVoiceName () const
