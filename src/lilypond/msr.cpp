@@ -19274,6 +19274,10 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   // register clef in segment
 // JMI  fSegmentClef = clef;
 
+  msrAssert ( // JMI
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
     appendClefToMeasure (clef);
