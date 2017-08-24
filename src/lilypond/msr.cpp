@@ -25386,7 +25386,7 @@ void msrStaff::initializeStaff ()
     case msrStaff::kHarmonyStaff:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
-        "_HarmonyStaff";
+        "_HARMONYStaff";
       break;
   } // switch
 
@@ -25626,6 +25626,30 @@ void msrStaff::createStaffSilentVoice (
       "\", line " << inputLineNumber <<
       endl;
 
+  cerr <<
+    endl <<
+    "*****************" <<
+    endl <<
+    "msrStaff::createStaffSilentVoice, this =" <<
+    endl;
+  print (cerr);
+  cerr <<
+    "*****************" <<
+    endl <<
+    endl;
+    
+  cerr <<
+    endl <<
+    "*****************" <<
+    endl <<
+    "fStaffPartUplink->getPartHarmonyVoice () = " <<
+    endl <<
+    fStaffPartUplink->
+      getPartHarmonyVoice () <<
+    "*****************" <<
+    endl <<
+    endl;
+
 if (false) // JMI
   // the harmony voice pre-exists, let's deep copy it
   fStaffSilentVoice =
@@ -25638,6 +25662,7 @@ if (false) // JMI
           this);
         
 else
+  fStaffSilentVoice =
     msrVoice::create (
       inputLineNumber,
       msrVoice::kSilentVoice,
@@ -25645,11 +25670,12 @@ else
       msrVoice::kCreateInitialLastSegmentYes,
       this);
 
-/*
+if (true) // JMI
   registerVoiceInStaff (
     inputLineNumber,
     fStaffSilentVoice );
-    */
+
+else
   // register is by its relative number
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     fStaffSilentVoice;
@@ -25766,6 +25792,10 @@ void msrStaff::createMeasureAndAppendItToStaff (
     i != fStaffAllVoicesMap.end();
     i++) {
     S_msrVoice voice = (*i).second;
+
+    msrAssert (
+      voice != 0,
+      "voice is null");
     
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
       cerr << idtr <<
@@ -25937,6 +25967,10 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 void msrStaff::registerVoiceInStaff (
   int inputLineNumber, S_msrVoice voice)
 {
+  msrAssert (
+    voice != 0,
+    "voice is null");
+    
   // take this new voice into account
   fStaffRegisteredVoicesCounter++;
 
@@ -25997,7 +26031,7 @@ void msrStaff::bringStaffToMeasureLength (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    (*i).second-> // JMI msrAssert???
       bringVoiceToMeasureLength (
         inputLineNumber,
         measureLength);
@@ -26043,7 +26077,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    (*i).second-> // JMI msrAssert???
       appendClefToVoice (clef);
   } // for
 }
@@ -26068,7 +26102,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    (*i).second-> // JMI msrAssert???
       appendKeyToVoice (key);
   } // for
 }
@@ -26094,7 +26128,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
       i != fStaffAllVoicesMap.end();
       i++) {
-      (*i).second->
+      (*i).second-> // JMI msrAssert???
         appendTimeToVoice (time);
     } // for
   }
@@ -26120,7 +26154,7 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    (*i).second-> // JMI msrAssert???
       appendTimeToVoiceClone (time);
   } // for
 }    
@@ -26280,7 +26314,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    (*i).second-> // JMI msrAssert???
       appendMultipleRestCloneToVoice (
         inputLineNumber,
         multipleRest);
@@ -26303,8 +26337,9 @@ void msrStaff::appendRepeatCloneToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->appendRepeatCloneToVoice (
-      inputLineNumber, repeatCLone);
+    (*i).second-> // JMI msrAssert???
+      appendRepeatCloneToVoice (
+        inputLineNumber, repeatCLone);
   } // for
 }
 
@@ -26323,7 +26358,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
     i++) {
-    (*i).second->
+    (*i).second-> // JMI msrAssert???
       appendRepeatEndingCloneToVoice (repeatEndingClone);
   } // for
 }
@@ -26391,18 +26426,6 @@ void msrStaff::appendStaffDetailsToStaff (
       appendStaffDetailsToVoice (staffDetails);
   } // for
 }
-
-/*
-void msrStaff::appendHarmonyToStaff (S_msrHarmony harmony) // JMI
-{
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second->appendHarmonyToVoice (harmony);
-  } // for
-}
-*/
 
 void msrStaff::appendTransposeToAllStaffVoices (
   S_msrTranspose transpose)
@@ -27065,7 +27088,7 @@ void msrPart::initializePart ()
     fInputLineNumber,
     rational (0, 1));
 
-  createPartHarmonyStaffAndVoiceIfNotYetDone (0); // JMI
+  createPartHarmonyStaffAndVoiceIfNotYetDone (0); // input line number // JMI
   
 /* JMI
   // set part current time to the default 4/4 time signature
@@ -27584,7 +27607,7 @@ void msrPart::createMultipleRestInPart (
   int inputLineNumber,
   int multipleRestMeasuresNumber)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "==> Creating a multiple rest in part " <<
       getPartCombinedName () <<
@@ -27592,6 +27615,7 @@ void msrPart::createMultipleRestInPart (
       singularOrPlural (
         multipleRestMeasuresNumber, "measure", "measures") <<
       endl;
+  }
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -27607,11 +27631,12 @@ void msrPart::createMultipleRestInPart (
 void msrPart::appendPendingMultipleRestToPart (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -27627,13 +27652,14 @@ void msrPart::appendMultipleRestCloneToPart (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
       "' to part clone " <<
       getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -27675,7 +27701,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     return fPartStavesMap [staffNumber];
   }
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
@@ -27702,11 +27728,12 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
 void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
     cerr << idtr <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
       endl;
+  }
 
   // register staff in this part
   fPartStavesMap [staff->getStaffNumber ()] = staff;

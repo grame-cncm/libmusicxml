@@ -9034,8 +9034,6 @@ class EXP msrStaff : public msrElement
     
     void                  appendBarlineToStaff (S_msrBarline barline);
     
- //   void            appendHarmonyToStaff (S_msrHarmony harmony); // JMI
-
     // transpose
     
     void                  appendTransposeToAllStaffVoices ( // JMI
