@@ -21880,6 +21880,13 @@ void msrVoice::setVoiceNameFromNumber (
   }
 
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_Voice_" +
+        int2EnglishWord (voiceNumber);
+      break;
+      
     case msrVoice::kRegularVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
@@ -21939,6 +21946,21 @@ void msrVoice::initializeVoice (
 
   // check voice part-relative ID
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      // the voice part-relative ID should not be negative
+      // (K_SILENT_VOICE_NUMBER is used for the staves silent voices)
+      if (fVoicePartRelativeID < 0) {
+        stringstream s;
+    
+        s <<
+          "regular voice number " << fVoicePartRelativeID <<
+          " is not in the 0..4 range";
+          
+        msrMusicXMLError (
+          fInputLineNumber, s.str());
+      }
+      break;
+      
     case msrVoice::kRegularVoice:
       // the voice part-relative ID should not be negative
       // (K_SILENT_VOICE_NUMBER is used for the staves silent voices)
@@ -22667,6 +22689,23 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       endl;
       
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+      
     case msrVoice::kRegularVoice:
       {
         stringstream s;
@@ -22725,6 +22764,23 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       endl;
       
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+      
     case msrVoice::kRegularVoice:
       {
         stringstream s;
@@ -23406,6 +23462,7 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -23472,6 +23529,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
   int measureRepeatSlashes)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -23589,6 +23647,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
   int inputLineNumber)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -23780,6 +23839,7 @@ void msrVoice::createMultipleRestInVoice (
   int multipleRestMeasuresNumber)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -23876,6 +23936,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
   int inputLineNumber)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -24050,6 +24111,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
   S_msrMultipleRest multipleRest)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -24103,6 +24165,7 @@ void msrVoice::appendRepeatCloneToVoice (
   S_msrRepeat repeatCLone)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -24165,6 +24228,7 @@ void msrVoice::appendRepeatEndingToVoice (
             repeatEndingKind)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -24215,6 +24279,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
   S_msrRepeatEnding repeatEndingClone)
 {
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
@@ -24446,6 +24511,22 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
 
   // should the voice be erased?
   switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      if (! getMusicHasBeenInsertedInVoice ()) {
+        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+          cerr << idtr <<
+            "Erasing empty master voice \"" <<
+            getVoiceName () <<
+            "\" in staff " <<
+            fVoiceStaffUplink->getStaffName () <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+        result = msrVoice::kEraseVoice;
+      }
+      break;
+
     case msrVoice::kRegularVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
@@ -24606,6 +24687,9 @@ string msrVoice::voiceKindAsString (
   string result;
   
   switch (voiceKind) {
+    case msrVoice::kMasterVoice:
+      result = "master";
+      break;
     case msrVoice::kRegularVoice:
       result = "regular";
       break;
@@ -25368,6 +25452,13 @@ void msrStaff::initializeStaff ()
 
   // set staff name
   switch (fStaffKind) {
+    case msrStaff::kMasterStaff:
+      fStaffName =
+        fStaffPartUplink->getPartMsrName () +
+        "_Staff_" +
+        int2EnglishWord (fStaffNumber);
+      break;
+      
     case msrStaff::kRegularStaff:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
@@ -25403,6 +25494,10 @@ void msrStaff::initializeStaff ()
 
   // check the staff number
   switch (fStaffKind) {
+    case msrStaff::kMasterStaff:
+      // DON'T create any staff silent voice
+      break;
+      
     case msrStaff::kRegularStaff:
       // the staff number should not be negative
       // (K_SILENT_VOICE_NUMBER is used for hidden staff
@@ -25623,12 +25718,13 @@ void msrStaff::createStaffSilentVoice (
   int inputLineNumber)
 {
   // create the staff silent voice  
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "==> Creating the silent voice for staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
       endl;
+  }
 
 /* JMI
   cerr <<
@@ -25680,7 +25776,6 @@ if (true) // JMI
   registerVoiceInStaff (
     inputLineNumber,
     fStaffSilentVoice );
-
 else
   // register is by its relative number
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
@@ -25690,7 +25785,18 @@ else
   // register it by its part-relative ID
   fStaffVoiceRelativeNumberToVoiceMap [voice->getVoicePartRelativeID ()] =
     fStaffSilentVoice;
-    */ 
+    */
+
+  cerr <<
+    endl <<
+    "**********" <<
+    endl;
+  print (cerr);
+  cerr <<
+    endl <<
+    "**********" <<
+    endl <<
+    endl;
 }
 
 S_msrStaff msrStaff::createStaffNewbornClone (
@@ -25759,6 +25865,11 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
           (*i).second;
 
       switch (voice->getVoiceKind ()) {
+        case msrVoice::kMasterVoice:
+          if (voice->getMusicHasBeenInsertedInVoice ())
+            result++;
+          break;
+          
         case msrVoice::kRegularVoice:
           if (voice->getMusicHasBeenInsertedInVoice ())
             result++;
@@ -26061,6 +26172,9 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
   // is this a tablature or percussion staff?
   switch (fStaffKind) {
+    case msrStaff::kMasterStaff: // JMI
+      break;
+      
     case msrStaff::kRegularStaff: // JMI
       if (clef->clefIsATablatureClef ())
         fStaffKind = kTablatureStaff;
@@ -26468,6 +26582,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
   // first finalize the staff silent voice,
   // for use by the other voices
   switch (fStaffKind) {
+    case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
     case msrStaff::kTablatureStaff:
     case msrStaff::kPercussionStaff:
@@ -26516,6 +26631,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
         (*i).second;
 
     switch (voice->getVoiceKind ()) {
+      case msrVoice::kMasterVoice:
       case msrVoice::kRegularVoice:
       case msrVoice::kHarmonyVoice:
         voice->
@@ -26680,6 +26796,9 @@ string msrStaff::staffKindAsString (
   string result;
   
   switch (staffKind) {
+    case msrStaff::kMasterStaff:
+      result = "master";
+      break;
     case msrStaff::kRegularStaff:
       result = "regular";
       break;
@@ -26759,7 +26878,7 @@ void msrStaff::print (ostream& os)
 
 */
 
-  // print the voices
+  // print the registered voices
 // JMI ???  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
   if (fStaffAllVoicesMap.size ()) {
     map<int, S_msrVoice>::const_iterator
@@ -26781,6 +26900,11 @@ os <<
 */
 
       switch (voice->getVoiceKind ()) {
+        case msrVoice::kMasterVoice:
+          os << idtr <<
+            voice;
+          break;
+
         case msrVoice::kRegularVoice:
           os << idtr <<
             voice;
@@ -26805,6 +26929,10 @@ os <<
       if (++i == iEnd) break;
 
       switch (voice->getVoiceKind ()) {
+        case msrVoice::kMasterVoice:
+          os << endl;
+          break;
+
         case msrVoice::kRegularVoice:
           os << endl;
           break;
@@ -27094,6 +27222,10 @@ void msrPart::initializePart ()
     fInputLineNumber,
     rational (0, 1));
 
+  // create the part master staff and voice
+  createPartMasterStaffAndVoice (0); // input line number // JMI
+  
+  // create the part harmony staff and voice
   createPartHarmonyStaffAndVoiceIfNotYetDone (0); // input line number // JMI
   
 /* JMI
@@ -27140,12 +27272,109 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
   return newbornClone;
 }
 
+void msrPart::createPartMasterStaffAndVoice (
+  int inputLineNumber)
+{
+  if (fPartMasterStaff) {
+    stringstream s;
+
+    s <<
+      "Part \"" <<
+      getPartCombinedName () <<
+      "\" already has a master staff";
+
+    msrInternalError (
+      inputLineNumber,
+      s.str());
+  }
+    
+  // create the part master staff
+  if (
+    gGeneralOptions->fTraceParts
+      ||
+    gGeneralOptions->fTraceHarmonies
+      ||
+    gGeneralOptions->fTraceStaves
+      ||
+    gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "==> Creating the master staff" <<
+      " with number " << K_PART_MASTER_STAFF_NUMBER <<
+      " for part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fPartMasterStaff =
+    addStaffToPartByItsNumber (
+      inputLineNumber,
+      msrStaff::kMasterStaff,
+      K_PART_MASTER_STAFF_NUMBER);
+    
+  // create the part master voice  
+  if (
+    gGeneralOptions->fTraceParts
+      ||
+    gGeneralOptions->fTraceHarmonies
+      ||
+    gGeneralOptions->fTraceStaves
+      ||
+    gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "==> Creating the master voice " <<
+      " with number " << K_PART_MASTER_VOICE_NUMBER <<
+      " for part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fPartMasterVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kMasterVoice,
+      K_PART_MASTER_VOICE_NUMBER,
+      msrVoice::kCreateInitialLastSegmentYes,
+      fPartMasterStaff);
+
+  fPartMasterStaff->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fPartMasterVoice );
+
+  if (fPartCurrentTime) { // JMI
+    // append part current time to master voice
+    fPartMasterVoice->
+      appendTimeToVoice (
+        fPartCurrentTime);
+  }
+
+  cerr <<
+    endl <<
+    "***********" << endl <<
+    endl;
+  print (cerr);
+  cerr <<
+    "***********" << endl <<
+    endl <<
+    endl;
+    
+}
+
 void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
 {
   if (! fPartHarmonyStaff) {    
     // create the part harmony staff
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceStaves)
+    if (
+      gGeneralOptions->fTraceParts
+        ||
+      gGeneralOptions->fTraceHarmonies
+        ||
+      gGeneralOptions->fTraceStaves
+        ||
+      gGeneralOptions->fTraceVoices) {
       cerr << idtr <<
         "==> Creating the harmony staff" <<
         " with number " << K_PART_HARMONY_STAFF_NUMBER <<
@@ -27153,6 +27382,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
         endl;
+    }
   
     fPartHarmonyStaff =
       addStaffToPartByItsNumber (
@@ -27190,6 +27420,17 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
           fPartCurrentTime);
     }
   }
+
+  cerr <<
+    endl <<
+    "***********" << endl <<
+    endl;
+  print (cerr);
+  cerr <<
+    "***********" << endl <<
+    endl <<
+    endl;
+    
 }
 
 void msrPart::setPartMeasureLengthHighTide (
@@ -27312,7 +27553,13 @@ void msrPart::createMeasureAndAppendItToPart (
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
 
-  // propagate to all staves
+  // propagate measure creation and appending to master staff and part
+  fPartMasterStaff->
+    createMeasureAndAppendItToStaff (
+      inputLineNumber,
+      measureNumber);
+
+  // propagate measure creation and appending to all registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27550,6 +27797,11 @@ void msrPart::appendRepeatCloneToPart (
         (*i).second;
 
     switch (staff->getStaffKind ()) {
+      case msrStaff::kMasterStaff:
+        staff->appendRepeatCloneToStaff (
+          inputLineNumber, repeatCLone);
+        break;
+        
       case msrStaff::kRegularStaff:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
@@ -27803,6 +28055,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
       }
       break;
       
+    case msrVoice::kMasterVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
       {
@@ -27856,6 +28109,7 @@ void msrPart::appendHarmonyToPart (
         appendHarmonyToVoice (harmony);
       break;
       
+    case msrVoice::kMasterVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
       {
@@ -27911,6 +28165,7 @@ void msrPart::appendHarmonyToPartClone (
         appendHarmonyToVoiceClone (harmony);
       break;
       
+    case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
     case msrVoice::kSilentVoice:
       {
@@ -28259,7 +28514,11 @@ void msrPart::print (ostream& os)
   }
 */
 
-  // print the staves
+  // print the master stave
+  os << idtr <<
+    fPartMasterStaff;
+  
+  // print the registered staves
   if (fPartStavesMap.size()) {
     os << endl;
     for (
@@ -28275,6 +28534,11 @@ void msrPart::print (ostream& os)
           staff->getStaffKind ();
 
       switch (staffKind) {
+        case msrStaff::kMasterStaff:
+          os << idtr <<
+            staff;
+          break;
+          
         case msrStaff::kRegularStaff:
           os << idtr <<
             staff;
@@ -28299,6 +28563,12 @@ void msrPart::print (ostream& os)
 
       if (i != fPartStavesMap.end())
         switch (staffKind) {
+          case msrStaff::kMasterStaff:
+            os <<
+              idtr <<
+              endl;
+            break;
+            
           case msrStaff::kRegularStaff:
             os <<
               idtr <<

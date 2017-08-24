@@ -8004,6 +8004,7 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     enum msrVoiceKind {
+      kMasterVoice,
       kRegularVoice,
       kHarmonyVoice,  // for MusicXML <harmony/>, LilyPond ChordNames
       kSilentVoice }; // for voices that don't start at the very beginning
@@ -8813,6 +8814,7 @@ class EXP msrStaff : public msrElement
     // ------------------------------------------------------
 
     enum msrStaffKind {
+      kMasterStaff,
       kRegularStaff,
       kTablatureStaff,
       kPercussionStaff,
@@ -9211,6 +9213,9 @@ class EXP msrPart : public msrElement
     #define K_PART_HARMONY_STAFF_NUMBER -19  
     #define K_PART_HARMONY_VOICE_NUMBER -27
     
+    #define K_PART_MASTER_STAFF_NUMBER -119  
+    #define K_PART_MASTER_VOICE_NUMBER -127
+    
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -9398,9 +9403,14 @@ class EXP msrPart : public msrElement
     void                  appendTransposeToPart (
                             S_msrTranspose transpose);
 
+    // master staff and voice
+    
+    void                  createPartMasterStaffAndVoice ( // JMI ???
+                            int inputLineNumber);
+        
     // harmony staff and voice
     
-    void                  createPartHarmonyStaffAndVoiceIfNotYetDone (
+    void                  createPartHarmonyStaffAndVoiceIfNotYetDone ( // JMI ???
                             int inputLineNumber);
         
     // measures
@@ -9540,6 +9550,11 @@ class EXP msrPart : public msrElement
     virtual void          printStructure (ostream& os);
 
   private:
+
+    // master
+
+    S_msrStaff            fPartMasterStaff;
+    S_msrVoice            fPartMasterVoice;
 
     // measures
 
