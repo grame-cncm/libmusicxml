@@ -18899,6 +18899,8 @@ void msrMeasure::print (ostream& os)
     idtr <<
       "Measure " << fMeasureNumber <<
       ", " << measureKindAsString () <<
+      ", MeasureSegmentUplink: " <<
+      fMeasureSegmentUplink->segmentAsString () <<
       ", " <<
       msrMeasure::measureFirstInSegmentKindAsString (
         fMeasureFirstInSegmentKind) << 
@@ -20131,7 +20133,7 @@ void msrSegment::print (ostream& os)
   os << idtr <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
-    "' in voice \"" <<
+    "' SegmentVoiceUplink : \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"" <<
     ", " <<
@@ -21896,12 +21898,13 @@ void msrVoice::setVoiceNameFromNumber (
 
         s <<
           "A '" <<
-          voiceAsString () <<
+          getVoiceName () <<
           "' voice cannot get its name from its number";
 
         msrInternalError (
           inputLineNumber,
           s.str());
+      }
       break;
   } // switch
   
@@ -21936,6 +21939,7 @@ void msrVoice::initializeVoice (
       
     case msrVoice::kRegularVoice:
       setVoiceNameFromNumber (
+        fInputLineNumber,
         voiceNumber);
       break;
       
@@ -22097,6 +22101,7 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
 
   // set its name
   setVoiceNameFromNumber (
+    fInputLineNumber,
     voicePartRelativeID);
 }
     
@@ -24778,12 +24783,10 @@ void msrVoice::print (ostream& os)
   const int fieldWidth = 28;
 
   os <<
-  /* JMI
     idtr <<
-      setw(fieldWidth) << "VoiceKind" << " : " <<
-      voiceKindAsString () <<
+      setw(fieldWidth) << "VoiceStaffUplink" << " : " <<
+      fVoiceStaffUplink->getStaffName () <<
       endl <<
-      */
     idtr <<
       setw(fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
       fVoiceAbsoluteNumber <<
@@ -26851,6 +26854,10 @@ void msrStaff::print (ostream& os)
 
   os <<
     idtr <<
+    "StaffPartUplink" << " : " <<
+    fStaffPartUplink->getPartName () <<
+    endl <<
+    idtr <<
     "StaffNumber" << " : " << fStaffNumber <<
     endl;
 
@@ -28494,6 +28501,11 @@ void msrPart::print (ostream& os)
   const int fieldWidth = 29;
 
   os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "PartPartGroupUplink" << ": \"" <<
+      fPartPartGroupUplink->getPartGroupName () << "\"" <<
+      endl <<
     idtr <<
       setw(fieldWidth) <<
       "PartMsrName" << ": \"" <<

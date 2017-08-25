@@ -8221,8 +8221,6 @@ class EXP msrVoice : public msrElement
     void                  appendStaffDetailsToVoice (
                             S_msrStaffDetails staffDetails);
 
-// JMI    void          appendWordsToVoice  (S_msrWords words);
-
     // tempo
     
     void                  appendTempoToVoice (S_msrTempo tempo);
@@ -9552,6 +9550,10 @@ class EXP msrPart : public msrElement
 
   private:
 
+    // uplinks
+    
+    S_msrPartGroup        fPartPartGroupUplink;
+
     // master
 
     S_msrStaff            fPartMasterStaff;
@@ -9601,10 +9603,6 @@ class EXP msrPart : public msrElement
     S_msrStaff            fPartHarmonyStaff;
     S_msrVoice            fPartHarmonyVoice;
     S_msrVoice            fPartHarmoniesSupplierVoice;
-
-    // uplinks
-    
-    S_msrPartGroup        fPartPartGroupUplink;
 
     map<int, S_msrStaff>  fPartStavesMap;
 };
