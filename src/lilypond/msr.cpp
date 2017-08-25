@@ -19279,10 +19279,20 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   cerr << idtr; // JMI
   fetchSegmentPartUplink ()->
     print (cerr);
-    
-  msrAssert ( // JMI
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
+
+  if (fSegmentMeasuresList.size () == 0) {
+    stringstream s;
+
+    s <<
+      "fSegmentMeasuresList is empty"  <<
+      " in voice \"" +
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"";
+
+    msrAssert (
+      false,
+      s.str());
+  }
     
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
@@ -27248,7 +27258,7 @@ void msrPart::initializePart ()
   createPartMasterStaffAndVoice (0); // input line number // JMI
   
   // create the part harmony staff and voice
-  createPartHarmonyStaffAndVoiceIfNotYetDone (0); // input line number // JMI
+  // JMI createPartHarmonyStaffAndVoiceIfNotYetDone (0); // input line number // JMI
   
 /* JMI
   // set part current time to the default 4/4 time signature
@@ -27356,6 +27366,7 @@ void msrPart::createPartMasterStaffAndVoice (
       msrVoice::kCreateInitialLastSegmentYes,
       fPartMasterStaff);
 
+  // register it in master staff
   fPartMasterStaff->
     registerVoiceInStaff (
       inputLineNumber,
@@ -27428,6 +27439,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         msrVoice::kCreateInitialLastSegmentYes,
         fPartHarmonyStaff);
   
+  // register it in harmony staff
     fPartHarmonyStaff->
       registerVoiceInStaff (
         inputLineNumber,
@@ -27500,6 +27512,13 @@ void msrPart::bringPartToMeasureLength (
       endl;
   }
 
+  // print the master staff to measure length specifically
+  fPartMasterStaff->
+      bringStaffToMeasureLength (
+        inputLineNumber,
+        measureLength);  
+
+  // print the registered staves to measure length  
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27637,7 +27656,12 @@ void msrPart::appendStaffDetailsToPart (
   // register staff details in part
   fCurrentPartStaffDetails = staffDetails;
   
-  // propagate it to all staves
+  // propagate it to the master staff specifically
+  fPartMasterStaff->
+    appendStaffDetailsToStaff (
+      staffDetails);
+  
+  // propagate it to all registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27646,7 +27670,8 @@ void msrPart::appendStaffDetailsToPart (
       staff = (*i).second;
 
     staff->
-      appendStaffDetailsToStaff (staffDetails);
+      appendStaffDetailsToStaff (
+        staffDetails);
   } // for
 }
 
@@ -27663,13 +27688,19 @@ void msrPart::appendClefToPart (S_msrClef clef)
   // set part clef
   fPartCurrentClef = clef;
 
-  // propagate it to all staves
+  // propagate it to the master staff specifically
+  fPartMasterStaff->
+    appendClefToStaff (
+      clef);
+  
+  // propagate it to all registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      appendClefToStaff (clef);
+      appendClefToStaff (
+        clef);
   } // for
 }
 
@@ -27686,7 +27717,12 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
   // set part key
   fPartCurrentKey = key;
 
-  // propagate it to all staves
+  // propagate it to the master staff specifically
+  fPartMasterStaff->
+    appendKeyToStaff (
+      key);
+  
+  // propagate it to all registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27695,7 +27731,8 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
       staff = (*i).second;
 
     staff->
-      appendKeyToStaff (key);
+      appendKeyToStaff (
+        key);
   } // for
 }
 
@@ -27712,7 +27749,12 @@ void msrPart::appendTimeToPart (S_msrTime time)
   // set part time
   fPartCurrentTime = time;
 
-  // propagate it to all staves
+  // propagate it to the master staff specifically
+  fPartMasterStaff->
+    appendTimeToStaff (
+      time);
+  
+  // propagate it to all registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27721,7 +27763,8 @@ void msrPart::appendTimeToPart (S_msrTime time)
       staff = (*i).second;
 
     staff->
-      appendTimeToStaff (time);
+      appendTimeToStaff (
+        time);
   } // for
 }
 
@@ -28378,6 +28421,11 @@ void msrPart::finalizeCurrentMeasureInPart (
       endl;
   }
 
+  // finalize current measure in master staff specifically
+  fPartMasterStaff->
+    finalizeCurrentMeasureInStaff (
+      inputLineNumber);
+  
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -28403,12 +28451,19 @@ void msrPart::finalizePart (int inputLineNumber)
       endl;
   }
 
+  // finalize master staff specifically
+  fPartMasterStaff->
+    finalizeStaff (
+      inputLineNumber);
+
+  // finalize registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
     (*i).second->
-      finalizeStaff (inputLineNumber);
+      finalizeStaff (
+        inputLineNumber);
   } // for
 }
 
@@ -28541,7 +28596,7 @@ void msrPart::print (ostream& os)
   }
 */
 
-  // print the master stave
+  // print the master staff specifically
   os << idtr <<
     fPartMasterStaff;
   
@@ -28665,6 +28720,20 @@ void msrPart::printStructure (ostream& os)
       endl <<
     endl;
 
+  // print the master staff specifically
+  if (fPartMasterStaff) {
+    os <<
+      endl <<
+      idtr <<
+        "Master staff" <<
+      endl;
+            
+    idtr++;
+    os <<
+      idtr << fPartMasterStaff;
+    idtr--;
+  }
+
   // print the harmony staff // JMI specifically?
   if (fPartHarmonyStaff) {
     os <<
@@ -28674,7 +28743,8 @@ void msrPart::printStructure (ostream& os)
       endl;
             
     idtr++;
-    os << idtr << fPartHarmonyStaff;
+    os << idtr <<
+      fPartHarmonyStaff;
     idtr--;
   }
 
