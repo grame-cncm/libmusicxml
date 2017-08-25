@@ -668,6 +668,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
   idtr++;
 
   switch (elt->getStaffKind ()) {
+    case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
       {
         // create a staff clone
@@ -885,6 +886,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
       endl;
 
   switch (elt->getStaffKind ()) {
+    case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
       {
         fOnGoingStaff = false;

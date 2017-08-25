@@ -2340,6 +2340,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   string staffContextName;
   
   switch (staff->getStaffKind ()) {
+    case msrStaff::kMasterStaff:
+      staffContextName = "\\new Staff";
+      break;
+      
     case msrStaff::kRegularStaff:
       staffContextName = "\\new Staff";
       break;
@@ -2513,6 +2517,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   string voiceContextName;
   
   switch (staffKind) {
+    case msrStaff::kMasterStaff:
+      staffContextName = "\\context Staff";
+      voiceContextName = "Voice";
+      break;
+      
     case msrStaff::kRegularStaff:
       staffContextName = "\\context Staff";
       voiceContextName = "Voice";

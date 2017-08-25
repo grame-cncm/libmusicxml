@@ -21935,6 +21935,9 @@ void msrVoice::initializeVoice (
   // set voice name
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_MASTER_Voice";
       break;
       
     case msrVoice::kRegularVoice:
@@ -25473,8 +25476,7 @@ void msrStaff::initializeStaff ()
     case msrStaff::kMasterStaff:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
-        "_MASTER_Staff_" +
-        int2EnglishWord (fStaffNumber);
+        "_MASTER_Staff";
       break;
       
     case msrStaff::kRegularStaff:
@@ -25747,13 +25749,14 @@ void msrStaff::createStaffSilentVoice (
 /* JMI
   cerr <<
     endl <<
-    "*****************" <<
+    idtr << "*****************" <<
     endl <<
-    "msrStaff::createStaffSilentVoice, this =" <<
-    endl;
+    idtr << "msrStaff::createStaffSilentVoice, this =" <<
+    endl <<
+    idtr;
   print (cerr);
   cerr <<
-    "*****************" <<
+    idtr << "*****************" <<
     endl <<
     endl;
     
@@ -25807,12 +25810,13 @@ else
 
   cerr <<
     endl <<
-    "**********" <<
-    endl;
+    idtr << "**********" <<
+    endl <<
+    idtr;
   print (cerr);
   cerr <<
     endl <<
-    "**********" <<
+    idtr << "**********" <<
     endl <<
     endl;
 }
@@ -25845,29 +25849,6 @@ S_msrStaff msrStaff::createStaffNewbornClone (
     
   return newbornClone;
 }
-
-S_msrTime msrStaff::getStaffCurrentTime () const
-{
-  return fStaffCurrentTime;
-};
-
-string msrStaff::getStaffName () const
-  {
-    return fStaffName;
-
-    /*
-  return
-    fStaffNumber == 0
-      ?
-        fStaffPartUplink->getPartMsrName () +
-        "_S_" +
-        "(SILENT)"
-      :
-        fStaffPartUplink->getPartMsrName () +
-        "_S_" +
-        int2EnglishWord (fStaffNumber);
-        */
-  }
 
 const int msrStaff::getStaffNumberOfMusicVoices () const
 {
@@ -26852,13 +26833,15 @@ void msrStaff::print (ostream& os)
 
   idtr++;
 
+  const int fieldwidth = 16;
+  
   os <<
     idtr <<
-    "StaffPartUplink" << " : " <<
-    fStaffPartUplink->getPartName () <<
+    setw(fieldwidth) << "StaffPartUplink" << " : " <<
+    fStaffPartUplink->getPartCombinedName () <<
     endl <<
     idtr <<
-    "StaffNumber" << " : " << fStaffNumber <<
+    setw(fieldwidth) << "StaffNumber" << " : " << fStaffNumber <<
     endl;
 
 /* JMI
@@ -27375,11 +27358,13 @@ void msrPart::createPartMasterStaffAndVoice (
 
   cerr <<
     endl <<
-    "***********" << endl <<
-    endl;
+    idtr << "***********" <<
+    endl <<
+    endl <<
+    idtr;
   print (cerr);
   cerr <<
-    "***********" << endl <<
+    idtr << "***********" <<
     endl <<
     endl;
     
@@ -27446,11 +27431,13 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
 
   cerr <<
     endl <<
-    "***********" << endl <<
-    endl;
+    idtr << "***********" <<
+    endl <<
+    endl <<
+    idtr;
   print (cerr);
   cerr <<
-    "***********" << endl <<
+    idtr << "***********" <<
     endl <<
     endl;
     

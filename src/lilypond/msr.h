@@ -8874,7 +8874,8 @@ class EXP msrStaff : public msrElement
     int                   getStaffNumber () const
                               { return fStaffNumber; }
                 
-    string                getStaffName () const;
+    string                getStaffName () const
+                              { return fStaffName; }
 
 // JMI    string          getStaffInstrumentName () const
       //                  { return fStaffInstrumentName; }
@@ -8887,7 +8888,8 @@ class EXP msrStaff : public msrElement
     S_msrKey              getStaffCurrentKey  () const
                               { return fStaffCurrentKey; };
                               
-    S_msrTime             getStaffCurrentTime () const;
+    S_msrTime             getStaffCurrentTime () const
+                              { return fStaffCurrentTime; };
 
     // transpose
     
