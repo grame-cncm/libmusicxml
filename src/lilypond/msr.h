@@ -9251,6 +9251,25 @@ class EXP msrPart : public msrElement
 
     // set and get
     // ------------------------------------------------------
+    
+    // uplinks
+    
+    S_msrPartGroup        getPartPartGroupUplink () const
+                              { return fPartPartGroupUplink; }
+              
+    // master
+
+    S_msrStaff            getPartMasterStaff () const
+                              { return fPartMasterStaff; }
+                              
+    S_msrVoice            getPartMasterVoice () const
+                              { return fPartMasterVoice; }
+
+    // staves map
+    
+    const map<int, S_msrStaff>&
+                          getPartStavesMap ()
+                              { return fPartStavesMap; }
 
     // clef, key, time
     
@@ -9371,15 +9390,6 @@ class EXP msrPart : public msrElement
 
     S_msrTranspose        getPartTranspose () const
                               { return fPartTranspose; };
-    
-    // uplinks
-    
-    S_msrPartGroup        getPartPartGroupUplink () const
-                              { return fPartPartGroupUplink; }
-              
-    const map<int, S_msrStaff>&
-                          getPartStavesMap ()
-                              { return fPartStavesMap; }
 
     // services
     // ------------------------------------------------------

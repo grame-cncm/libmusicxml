@@ -25795,11 +25795,11 @@ void msrStaff::createStaffSilentVoice (
     endl;
 */
 
-if (false) // JMI
-  // the harmony voice pre-exists, let's deep copy it
+if (true) // JMI
+  // create a deep copy of the part master voice
   fStaffSilentVoice =
     fStaffPartUplink->
-      getPartHarmonyVoice ()->
+      getPartMasterVoice ()->
         createVoiceDeepCopy (
           inputLineNumber,
           msrVoice::kSilentVoice,
@@ -27514,9 +27514,9 @@ void msrPart::bringPartToMeasureLength (
 
   // print the master staff to measure length specifically
   fPartMasterStaff->
-      bringStaffToMeasureLength (
-        inputLineNumber,
-        measureLength);  
+    bringStaffToMeasureLength (
+      inputLineNumber,
+      measureLength);  
 
   // print the registered staves to measure length  
   for (
@@ -28042,9 +28042,21 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
         staffNumber,
         this);
 
-  // register staff in this part
-  fPartStavesMap [staffNumber] = staff;
-
+  // register staff in this part if relevant
+  switch (staffKind) {
+    case msrStaff::kMasterStaff:
+      // DON'T register it in part staves map,
+      // it will be handled specifically
+      break;
+      
+    case msrStaff::kRegularStaff:
+    case msrStaff::kTablatureStaff:
+    case msrStaff::kPercussionStaff:
+    case msrStaff::kHarmonyStaff:
+      fPartStavesMap [staffNumber] = staff;
+      break;
+  } // switch
+  
   // return staff
   return staff;
 }
