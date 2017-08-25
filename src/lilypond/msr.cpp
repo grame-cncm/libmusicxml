@@ -20133,21 +20133,29 @@ void msrSegment::print (ostream& os)
   os << idtr <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
-    "' SegmentVoiceUplink : \"" <<
+    "', " <<
+    singularOrPlural (
+      fSegmentMeasuresList.size(), "measure", "measures") <<
+    endl;
+
+  idtr++;
+
+  const int fieldWidth = 20;
+  
+  os << idtr <<
+    setw(fieldWidth) << "SegmentVoiceUplink" << " : " <<
+    "\"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"" <<
-    ", " <<
-    singularOrPlural (
-      fSegmentMeasuresList.size(), "measure", "measures");
+    endl;
 
   if (! fSegmentMeasuresList.size ()) {
     os << idtr <<
-      "Measures: none";
+      setw(fieldWidth) << "Measures" << " : " << "none" <<
+      endl;
   }
   
   else {        
-    idtr++;
-    
     list<S_msrMeasure>::const_iterator
       iBegin = fSegmentMeasuresList.begin(),
       iEnd   = fSegmentMeasuresList.end(),
@@ -20158,9 +20166,9 @@ void msrSegment::print (ostream& os)
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
-    idtr--;
   }
+    
+  idtr--;
 }
 
 //______________________________________________________________________________
@@ -24795,11 +24803,11 @@ void msrVoice::print (ostream& os)
       fVoiceAbsoluteNumber <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "voicePartRelativeID" << " : " <<
+      setw(fieldWidth) << "VoicePartRelativeID" << " : " <<
       fVoicePartRelativeID <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "voiceStaffRelativeNumber" << " : " <<
+      setw(fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
       fVoiceStaffRelativeNumber <<
       endl <<
     idtr <<
