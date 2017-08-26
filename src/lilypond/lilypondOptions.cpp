@@ -757,6 +757,9 @@ void lilypondOptions::printLilypondOptionsHelp ()
       "Generate the score using jianpu (numbered) notation instead of the default western notation." <<
       endl <<
     idtr << tab << tab << tab <<
+      "This options needs lilypond-Jianpu (https://github.com/nybbs2003/lilypond-Jianpu/blob/master/jianpu10a.ly) to be accessible to LilyPond." <<
+      endl <<
+    idtr << tab << tab << tab <<
       "This option and '--" _ABC_LONG_NAME_ "' are mutually exclusive." <<
       endl <<
     endl <<
