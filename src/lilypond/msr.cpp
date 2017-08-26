@@ -19083,6 +19083,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
       list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin();
       i != fSegmentMeasuresList.end();
       i++) {
+      // append a deep copy of the measure to the deep copy
       segmentDeepCopy->
         appendMeasureToSegment (
           (*i)->
@@ -19284,7 +19285,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     stringstream s;
 
     s <<
-      "fSegmentMeasuresList is empty"  <<
+      "SegmentMeasuresList is empty"  <<
       " in voice \"" +
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
@@ -19673,15 +19674,25 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     
   string measureNumber =
     measure->getMeasureNumber ();
-
+  
   string currentMeasureNumber =
-    fSegmentMeasuresList.back ()->getMeasureNumber ();
+    fSegmentMeasuresList.size () == 0
+      ? ""
+      : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
       "Appending measure " << measureNumber <<
-      " to segment " << segmentAsString () <<
-      ", currentMeasureNumber = " << currentMeasureNumber <<
+      " to segment " << segmentAsString ();
+
+    if (fSegmentMeasuresList.size () == 0)
+      cerr <<
+        ", first measure";
+    else
+      cerr <<
+      ", after measure number '" << currentMeasureNumber << "'";
+
+    cerr <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -22246,6 +22257,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         voiceKind,
         voicePartRelativeID,
         msrVoice::kCreateInitialLastSegmentNo,
+          // the voice initial last segment
           // will be created by deep cloning below
         containingStaff);
 
@@ -27430,7 +27442,8 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
         endl;
-  
+
+  if (false) // JMI
     fPartHarmonyVoice =
       msrVoice::create (
         inputLineNumber,
@@ -27438,8 +27451,17 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         K_PART_HARMONY_VOICE_NUMBER,
         msrVoice::kCreateInitialLastSegmentYes,
         fPartHarmonyStaff);
+  else
+    // create a deep copy of the part master voice
+    fPartHarmonyVoice =
+      fPartMasterVoice->
+        createVoiceDeepCopy (
+          inputLineNumber,
+          msrVoice::kHarmonyVoice,
+          K_PART_HARMONY_VOICE_NUMBER,
+          fPartHarmonyStaff);
   
-  // register it in harmony staff
+    // register it in harmony staff
     fPartHarmonyStaff->
       registerVoiceInStaff (
         inputLineNumber,
@@ -28438,6 +28460,7 @@ void msrPart::finalizeCurrentMeasureInPart (
     finalizeCurrentMeasureInStaff (
       inputLineNumber);
   
+  // finalize current measure in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
