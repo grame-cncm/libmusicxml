@@ -25615,6 +25615,7 @@ void msrStaff::initializeStaff ()
     
   // get the initial clef from the part if any
   {
+    /* JMI
     S_msrClef
       clef =
         fStaffPartUplink->
@@ -25633,6 +25634,8 @@ void msrStaff::initializeStaff ()
 
       appendClefToStaff (clef);
     }
+      */
+
     /* JMI
     else {
       if (gGeneralOptions->fTraceStaves)
@@ -25655,6 +25658,7 @@ void msrStaff::initializeStaff ()
     
   // get the initial key from the part if any
   {
+    /* JMI
     S_msrKey
       key =
         fStaffPartUplink->
@@ -25673,6 +25677,7 @@ void msrStaff::initializeStaff ()
 
       appendKeyToStaff (key);
       }
+      */
       /* JMI
     else {
       // time is crucially needed for measures management,
@@ -25700,6 +25705,7 @@ void msrStaff::initializeStaff ()
   
   // get the initial time from the part if any
   {
+    /* JMI
     S_msrTime
       time =
         fStaffPartUplink->
@@ -25718,6 +25724,8 @@ void msrStaff::initializeStaff ()
 
       appendTimeToStaff (time);
     }
+    */
+    
     /* JMI
     else {
       // time is crucially needed for measures management,
@@ -27394,18 +27402,19 @@ void msrPart::createPartMasterStaffAndVoice (
         fPartCurrentTime);
   }
 
-  cerr <<
-    endl <<
-    idtr << "***********" <<
-    endl <<
-    endl <<
-    idtr;
-  print (cerr);
-  cerr <<
-    idtr << "***********" <<
-    endl <<
-    endl;
-    
+  if (false && gGeneralOptions->fTraceParts) { // JMI
+    cerr <<
+      endl <<
+      idtr << "***********" <<
+      endl <<
+      endl <<
+      idtr;
+    print (cerr);
+    cerr <<
+      idtr << "***********" <<
+      endl <<
+      endl;
+  }
 }
 
 void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
@@ -28794,6 +28803,14 @@ void msrPart::printStructure (ostream& os)
 
   // print the staves
   if (fPartStavesMap.size()) {
+    os << 
+        endl <<
+        idtr <<
+          "Other staves" <<
+        endl;
+              
+    idtr++;
+  
     map<int, S_msrStaff>::const_iterator
       iBegin = fPartStavesMap.begin(),
       iEnd   = fPartStavesMap.end(),
@@ -28806,6 +28823,8 @@ void msrPart::printStructure (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+
+    idtr--;
   }
 
   idtr--;

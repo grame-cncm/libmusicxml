@@ -159,7 +159,8 @@ bool rational::operator > (const rational &rat) const
 bool rational::operator < (const rational &rat) const
 {
   // a/b < c/d if and only if a * d < b * c.
-  return ((fNumerator * rat.fDenominator) < (fDenominator * rat.fNumerator));
+  return
+    ((fNumerator * rat.fDenominator) < (fDenominator * rat.fNumerator));
 }
 
 bool rational::operator == (const rational &rat) const
