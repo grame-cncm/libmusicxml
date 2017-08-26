@@ -26608,14 +26608,13 @@ void msrStaff::appendAccordionRegistrationToStaff (
 
 void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
-{  
-  // first bring the staff's silent voice
-  // to the part's measure lenth high tide
-
-  // first finalize the staff silent voice,
-  // for use by the other voices
+{
+  // first take care of the staff's silent voice
   switch (fStaffKind) {
     case msrStaff::kMasterStaff:
+      // no silent voice here
+      break;
+      
     case msrStaff::kRegularStaff:
     case msrStaff::kTablatureStaff:
     case msrStaff::kPercussionStaff:
@@ -26636,11 +26635,15 @@ void msrStaff::finalizeCurrentMeasureInStaff (
             endl;
         }
 
+        // first bring the staff's silent voice
+        // to the part's measure lenth high tide
         fStaffSilentVoice->
           bringVoiceToMeasureLength (
             inputLineNumber,
             partMeasureLengthHighTide);
       
+        // then finalize the staff silent voice,
+        // for use by the other voices
         fStaffSilentVoice->
           finalizeCurrentMeasureInVoice ( // JMI deja???
             inputLineNumber);
@@ -26654,7 +26657,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       */
   } // switch
 
-  // then finlalize all the other voices
+  // then finalize all the registered voices
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
     i != fStaffAllVoicesMap.end();
@@ -28614,7 +28617,8 @@ void msrPart::print (ostream& os)
       setw(fieldWidth) <<
        "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
-      endl;
+      endl <<
+    endl;
 
 /* JMI not specifically
   // print the harmony staff
@@ -28633,7 +28637,12 @@ void msrPart::print (ostream& os)
 
   // print the master staff specifically
   os << idtr <<
+    "Part master staff:" <<
+    endl;
+  idtr++;
+  os << idtr <<
     fPartMasterStaff;
+  idtr--;
   
   // print the registered staves
   if (fPartStavesMap.size()) {
