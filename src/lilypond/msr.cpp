@@ -18900,6 +18900,9 @@ void msrMeasure::print (ostream& os)
       ", " << fMeasureFullMeasureLength << " per full measure" <<
       */
       ", " <<
+      msrMeasure::measureFirstInSegmentKindAsString (
+        fMeasureFirstInSegmentKind) << 
+      ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
       ", line " << fInputLineNumber <<
@@ -18912,9 +18915,7 @@ void msrMeasure::print (ostream& os)
       fMeasureSegmentUplink->segmentAsShortString () <<
       endl <<
     idtr <<
-      msrMeasure::measureFirstInSegmentKindAsString (
-        fMeasureFirstInSegmentKind) << 
-      ", length: " << fMeasureLength << " whole notes" <<
+      "Length: " << fMeasureLength << " whole notes" <<
       ", full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
       endl;
   idtr--;
@@ -19273,9 +19274,6 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
         endl;
   }
       
-  // register clef in segment
-// JMI  fSegmentClef = clef;
-
   cerr << idtr; // JMI
   fetchSegmentPartUplink ()->
     print (cerr);
@@ -19285,12 +19283,25 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
     s <<
       "SegmentMeasuresList is empty"  <<
-      " in voice \"" +
+      " in segment " <<
+      fSegmentAbsoluteNumber <<
+      " in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
 
-    msrAssert (
-      false,
+    cerr <<
+      idtr <<
+      "SegmentVoiceUplink:" <<
+      endl;
+    idtr++;
+    cerr <<
+      idtr <<
+      fSegmentVoiceUplink <<
+      endl;
+    idtr--;
+    
+    msrInternalError (
+      clef->getInputLineNumber (),
       s.str());
   }
     
@@ -19660,6 +19671,44 @@ void msrSegment::bringSegmentToMeasureLength (
       ", line " << inputLineNumber <<
       endl;
 
+  if (fSegmentMeasuresList.size () == 0) {
+    stringstream s;
+
+    s <<
+      "SegmentMeasuresList is empty"  <<
+      " in segment " <<
+      fSegmentAbsoluteNumber <<
+      " in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"";
+
+    cerr <<
+      idtr <<
+      "SegmentVoiceUplink:" <<
+      endl;
+    idtr++;
+    cerr <<
+      idtr <<
+      fSegmentVoiceUplink <<
+      endl;
+    idtr--;
+    
+    cerr <<
+      idtr <<
+      "Part:" <<
+      endl;
+    idtr++;
+    cerr <<
+      idtr <<
+      fSegmentVoiceUplink->fetchVoicePartUplink () <<
+      endl;
+    idtr--;
+    
+    msrInternalError (
+      inputLineNumber,
+      s.str());
+  }
+    
   // append last measure to this length
   fSegmentMeasuresList.back ()->
     bringMeasureToMeasureLength (
@@ -19703,7 +19752,8 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     stringstream s;
 
     s <<
-      "measure number '" << measureNumber << "' occurs twice in a row";
+      "measure number '" << measureNumber <<
+      "' occurs twice in a row";
 
   // JMI  msrInternalError (
     msrInternalWarning (
@@ -20151,9 +20201,10 @@ string msrSegment::segmentAsShortString ()
   stringstream s;
 
   s <<
-    "Segment " <<
+ // JMI   "Segment " <<
     fSegmentAbsoluteNumber <<
-    " in voice \"" <<
+ // JMI   " in voice \"" <<
+    " in \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
 
