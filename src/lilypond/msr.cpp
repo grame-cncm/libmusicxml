@@ -19833,9 +19833,10 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
         "\"," <<
       endl;
 
-  if (! fSegmentMeasuresList.size ()) {// JMI
-  }
-  
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
 }
@@ -19851,7 +19852,11 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
         fSegmentVoiceUplink->getVoiceName () <<
         "\"," <<
       endl;
-      
+
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendBarCheckToMeasure (barCheck);
 }
@@ -19873,6 +19878,10 @@ void msrSegment::appendVoiceStaffChangeToSegment (
       endl;
   }
   
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendVoiceStaffChangeToMeasure (
       voiceStaffChange);
@@ -19890,6 +19899,10 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
 
 void msrSegment::appendNoteToSegmentClone (S_msrNote note)
 {
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendNoteToMeasureClone (note);
 }
@@ -19908,6 +19921,10 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
@@ -19926,6 +19943,10 @@ void msrSegment::appendMeasureRepeatToSegment (
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendMeasureRepeatToMeasure (measureRepeat);
 }
@@ -19944,6 +19965,10 @@ void msrSegment::appendMultipleRestToSegment (
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendMultipleRestToMeasure (multipleRest);
 }
@@ -19956,6 +19981,10 @@ void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 
 void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 {
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendTupletToMeasure (tuplet);
 }
@@ -19963,6 +19992,10 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 {
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendGraceNotesToMeasure (graceNotes);
 }
@@ -19971,6 +20004,10 @@ void msrSegment::prependGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 
 {
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.front ()->
     prependGraceNotesToMeasure (graceNotes); // JMI
 }
@@ -19978,6 +20015,10 @@ void msrSegment::prependGraceNotesToSegment (
 void msrSegment::appendAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 {
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendAfterGraceNotesToMeasure (afterGraceNotes);
 }
@@ -19986,6 +20027,10 @@ void msrSegment::prependAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 
 {
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.front ()->
     prependAfterGraceNotesToMeasure (afterGraceNotes); // JMI
 }
@@ -19996,6 +20041,10 @@ void msrSegment::appendOtherElementToSegment (S_msrElement elem)
     elem->getInputLineNumber (),
     fSegmentMeasureNumber); // +1??? JMI
   
+  msrAssert (
+    fSegmentMeasuresList.size () != 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendOtherElementToMeasure (elem);
 }
@@ -20521,6 +20570,10 @@ msrRepeat::msrRepeat (
 {
   fRepeatEndingsInternalCounter = 0;
   
+  msrAssert(
+    voiceUplink != 0,
+    "voiceUplink is null");
+    
   fRepeatVoiceUplink = voiceUplink;
 }
 
@@ -20611,6 +20664,10 @@ void msrRepeat::setRepeatCommonSegment (
         "measures") <<
       endl;
       
+  msrAssert(
+    repeatCommonSegment != 0,
+    "repeatCommonSegment is null");
+    
   fRepeatCommonSegment = repeatCommonSegment;
 }
 
@@ -20698,9 +20755,14 @@ void msrRepeat::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "Repeat" <<
-    ", line " << fInputLineNumber <<
-    " (" << fRepeatEndings.size() << " repeat endings)" <<
+    idtr <<
+      "Repeat" <<
+      ", line " << fInputLineNumber <<
+      " (" <<
+      singularOrPlural (
+        fRepeatEndings.size(), "repeat ending", "repeat endings") <<
+      ")" <<
+      endl <<
     endl;
   
   idtr++;
@@ -20716,7 +20778,8 @@ void msrRepeat::print (ostream& os)
     idtr++;
     
     os <<
-      fRepeatCommonSegment;
+      fRepeatCommonSegment <<
+      endl;
 
     idtr--;
   }
@@ -20726,7 +20789,6 @@ void msrRepeat::print (ostream& os)
     fRepeatEndings.size ();
     
   os <<
-    endl <<
     idtr <<
     "Repeat endings: ";
   if (endingsNumber)
@@ -23577,6 +23639,10 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
     case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
       {
+        // finalize current measure in voice
+        finalizeCurrentMeasureInVoice (
+          inputLineNumber);
+          
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -23592,10 +23658,6 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
               inputLineNumber,
               this);
 
-        // finalize current measure in voice
-        finalizeCurrentMeasureInVoice (
-          inputLineNumber);
-          
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
