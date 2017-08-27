@@ -18985,8 +18985,9 @@ void msrSegment::initializeSegment ()
   
   if (gGeneralOptions->fTraceSegments) {
     cerr << idtr <<
-      "% ==> Initializing new segment, gets absolute number " <<
+      "% ==> Initializing new segment, gets absolute number '" <<
       fSegmentAbsoluteNumber <<
+      "'" <<
       endl;
   }
 
@@ -19285,9 +19286,9 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
     s <<
       "SegmentMeasuresList is empty"  <<
-      " in segment " <<
+      " in segment '" <<
       fSegmentAbsoluteNumber <<
-      " in voice \"" <<
+      "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
 
@@ -19678,9 +19679,9 @@ void msrSegment::bringSegmentToMeasureLength (
 
     s <<
       "SegmentMeasuresList is empty"  <<
-      " in segment " <<
+      " in segment '" <<
       fSegmentAbsoluteNumber <<
-      " in voice \"" <<
+      "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
 
@@ -20204,9 +20205,9 @@ string msrSegment::segmentAsShortString ()
 
   s <<
  // JMI   "Segment " <<
-    fSegmentAbsoluteNumber <<
+    "'" << fSegmentAbsoluteNumber <<
  // JMI   " in voice \"" <<
-    " in \"" <<
+    "' in \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
 
@@ -22524,12 +22525,6 @@ void msrVoice::createMeasureAndAppendItToVoice (
 {
   fVoiceMeasureNumber = measureNumber;
 
-/* JMI
-  // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNotYetDone (
-    inputLineNumber);
-    */
-
   if (! fVoiceLastSegment) {
     // create the voice last segment if not yet done // JMI
     createNewLastSegmentForVoice (
@@ -22559,16 +22554,6 @@ void msrVoice::createNewLastSegmentForVoice (
     msrSegment::create (
       inputLineNumber,
       this);
-
-/* JMI BOF
-  // the new last measure keeps the measure number
-  // of the preceeding one whenever the latter is incomplete
-  if (! lastMeasureIsIncomplete)
-    // increment new segment's first measure's number
-    fVoiceLastSegment->
-      incrementSegmentLastMeasureNumber ( // JMI
-        inputLineNumber);
-        */
 }
 
 void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
@@ -23604,7 +23589,11 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
             msrRepeat::create (
               inputLineNumber,
               this);
-      
+
+        // finalize current measure in voice
+        finalizeCurrentMeasureInVoice (
+          inputLineNumber);
+          
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -28749,15 +28738,24 @@ void msrPart::print (ostream& os)
   // print the master staff specifically
   os << idtr <<
     "Part master staff:" <<
+    endl <<
     endl;
   idtr++;
   os << idtr <<
     fPartMasterStaff;
   idtr--;
-  
+
+  os << endl;
+
   // print the registered staves
   if (fPartStavesMap.size()) {
-    os << endl;
+    os << idtr <<
+      "Other staves:" <<
+      endl <<
+      endl;
+
+    idtr++;
+    
     for (
       map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
       i != fPartStavesMap.end();
@@ -28770,7 +28768,7 @@ void msrPart::print (ostream& os)
         staffKind =
           staff->getStaffKind ();
 
-      switch (staffKind) {
+      switch (staffKind) { // JMI
         case msrStaff::kMasterStaff:
           os << idtr <<
             staff;
@@ -28832,6 +28830,8 @@ void msrPart::print (ostream& os)
             break;
         } // switch
     } // for
+
+    idtr--;
   }
 
   idtr--;
