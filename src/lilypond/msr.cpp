@@ -27787,11 +27787,6 @@ void msrPart::appendClefToPart (S_msrClef clef)
 
   // set part clef
   fPartCurrentClef = clef;
-
-  // append clef to the master staff specifically
-  fPartMasterStaff->
-    appendClefToStaff (
-      clef);
   
   // append clef to registered staves
   for (
@@ -27817,11 +27812,6 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
   // set part key
   fPartCurrentKey = key;
 
-  // append key to the master staff specifically
-  fPartMasterStaff->
-    appendKeyToStaff (
-      key);
-  
   // append key to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -27849,7 +27839,8 @@ void msrPart::appendTimeToPart (S_msrTime time)
   // set part time
   fPartCurrentTime = time;
 
-  // append time to the master staff specifically
+  // append time to the master staff specifically,
+  // this is crucial to the score structure
   fPartMasterStaff->
     appendTimeToStaff (
       time);
