@@ -7322,6 +7322,12 @@ string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
   string result;
 
+  cerr <<
+    endl <<
+    "fNoteSoundingWholeNotes: " << fNoteSoundingWholeNotes <<
+    endl <<
+    endl;
+    
   if (fNoteSoundingWholeNotes.getNumerator () == 0)
     result = "(no sounding whole notes)";
   else
