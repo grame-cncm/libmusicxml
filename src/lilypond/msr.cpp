@@ -18887,26 +18887,11 @@ string msrMeasure::measureKindAsString () const
 
 void msrMeasure::print (ostream& os)
 {
-  /* JMI
-  // fetch the part measure length high tide
-  int partMeasureLengthHighTide =
-    fetchMeasurePartUplink->
-      getPartMeasureLengthHighTide ();
-   */
-
   os <<
     endl <<
     idtr <<
       "Measure " << fMeasureNumber <<
       ", " << measureKindAsString () <<
-      ", MeasureSegmentUplink: " <<
-      fMeasureSegmentUplink->segmentAsString () <<
-      ", " <<
-      msrMeasure::measureFirstInSegmentKindAsString (
-        fMeasureFirstInSegmentKind) << 
-      ", line " << fInputLineNumber <<
-      ", length: " << fMeasureLength << " whole notes" <<
-      ", full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
 /* JMI
       ", measureLengthAsMSRString: " <<
       measureLengthAsMSRString () <<
@@ -18917,12 +18902,26 @@ void msrMeasure::print (ostream& os)
       ", " <<
       singularOrPlural (
         fMeasureElementsList.size (), "element", "elements") <<
-  // JMI      ", part high tide = " <<
-  // JMI      fetchMeasurePartUplink->
-  // JMI        getPartMeasureLengthHighTide () <<
+      ", line " << fInputLineNumber <<
       endl;
-      
+
+  idtr++;
+  os <<
+    idtr <<
+      "MeasureSegmentUplink: " <<
+      fMeasureSegmentUplink->segmentAsShortString () <<
+      endl <<
+    idtr <<
+      msrMeasure::measureFirstInSegmentKindAsString (
+        fMeasureFirstInSegmentKind) << 
+      ", length: " << fMeasureLength << " whole notes" <<
+      ", full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
+      endl;
+  idtr--;
+
   if (fMeasureElementsList.size ()) {
+    os << endl;
+    
     idtr++;
     
     list<S_msrElement>::const_iterator
@@ -20130,7 +20129,7 @@ string msrSegment::segmentAsString ()
   s <<
     "Segment " <<
     fSegmentAbsoluteNumber <<
-    "' in voice \"" <<
+    " in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
   
@@ -20143,6 +20142,20 @@ string msrSegment::segmentAsString ()
       singularOrPlural (
         fSegmentMeasuresList.size (), "measure", " measures") <<
       ")";
+
+  return s.str();
+}
+
+string msrSegment::segmentAsShortString ()
+{
+  stringstream s;
+
+  s <<
+    "Segment " <<
+    fSegmentAbsoluteNumber <<
+    " in voice \"" <<
+    fSegmentVoiceUplink->getVoiceName () <<
+    "\"";
 
   return s.str();
 }

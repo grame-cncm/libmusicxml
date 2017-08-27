@@ -3531,6 +3531,7 @@ class EXP msrSegment : public msrElement
     // strings
   
     string                segmentAsString ();
+    string                segmentAsShortString ();
 
     // divisions
     
