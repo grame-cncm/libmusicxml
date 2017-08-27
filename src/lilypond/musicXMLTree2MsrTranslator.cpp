@@ -6437,9 +6437,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
       
         barlineIsAlright = true;
         break;
@@ -6450,9 +6450,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
               
         barlineIsAlright = true;
         break;
@@ -6463,9 +6463,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
       
         barlineIsAlright = true;
         break;
@@ -6476,9 +6476,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
       
         barlineIsAlright = true;
         break;
@@ -6489,9 +6489,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
   
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
     
         barlineIsAlright = true;
         break;
@@ -6516,9 +6516,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
           
         barlineIsAlright = true;        
         break;
@@ -6529,9 +6529,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
           
         barlineIsAlright = true;
         break;
@@ -6542,9 +6542,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
   
         barlineIsAlright = true;
         break;
@@ -6555,9 +6555,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
   
         barlineIsAlright = true;
         break;
@@ -6568,9 +6568,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
   
         barlineIsAlright = true;
         break;
@@ -6581,9 +6581,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         barline->
           setBarlineCategory (msrBarline::kStandaloneBarline);
         
-        // append the bar line to the current segment
-        currentVoice->
-          appendBarlineToVoice (barline);
+        // append the bar line to the current part
+        fCurrentPart->
+          appendBarlineToPart (barline);
   
         barlineIsAlright = true;
         break;
@@ -6632,9 +6632,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
             barline->
               setBarlineCategory (msrBarline::kEndOfAHookedEnding);
             
-            // append the bar line to the current segment
-            currentVoice->
-              appendBarlineToVoice (barline);
+            // append the bar line to the current part
+            fCurrentPart->
+              appendBarlineToPart (barline);
   
             barlineIsAlright = true;
           }
@@ -11951,7 +11951,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote->
       setNoteHarmony (harmony);
 
-    // append the current harmony to the part
+    // append the current harmony to the current part
     fCurrentPart->
       appendHarmonyToPart (
         currentVoice,
@@ -13359,7 +13359,7 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
   }
 */
 
-  // append the bar line to the part
+  // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
 
@@ -13396,9 +13396,9 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
   barline->
     setBarlineCategory (msrBarline::kRepeatEndBarline);
 
-  // append the bar line to the current voice
-  currentVoice->
-    appendBarlineToVoice (barline);
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
 
   if (fPendingBarlines.empty ()) {
     if (gGeneralOptions->fTraceRepeats) {
@@ -13509,9 +13509,9 @@ void musicXMLTree2MsrTranslator::handleHookedEndingStart (
   barline->
     setBarlineCategory (msrBarline::kHookedEndingStartBarline);
   
-  // append the bar line to the voice
-  currentVoice->
-    appendBarlineToVoice (barline);
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
 
   // push the barline onto the stack
   fPendingBarlines.push (barline);
@@ -13545,9 +13545,9 @@ void musicXMLTree2MsrTranslator::handleHookedEndingEnd (
   barline->
     setBarlineCategory (msrBarline::kHookedEndingEndBarline);
 
-  // append the bar line to the current segment
-  currentVoice->
-    appendBarlineToVoice (barline);
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
 
   // create a hooked repeat ending from the current segment
   if (gGeneralOptions->fTraceRepeats)
@@ -13598,9 +13598,9 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingStart (
   barline->
     setBarlineCategory (msrBarline::kHooklessEndingStartBarline);
   
-  // append the bar line to the voice
-  currentVoice-> // JMI
-    appendBarlineToVoice (barline);
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
 
   // push the barline onto the stack
   fPendingBarlines.push (barline); // JMI
@@ -13643,9 +13643,9 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingEnd (
   barline->
     setBarlineCategory (msrBarline::kHooklessEndingEndBarline);
   
-  // append the bar line to the current segment
-  currentVoice->
-    appendBarlineToVoice (barline);
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
 
   // create a hookless repeat ending from the current segment
   if (gGeneralOptions->fTraceRepeats)

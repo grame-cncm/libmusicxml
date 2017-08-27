@@ -18916,7 +18916,9 @@ void msrMeasure::print (ostream& os)
       endl <<
     idtr <<
       "Length: " << fMeasureLength << " whole notes" <<
-      ", full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
+      endl <<
+    idtr <<
+      "Full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
       endl;
   idtr--;
 
@@ -27692,13 +27694,13 @@ void msrPart::createMeasureAndAppendItToPart (
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
 
-  // propagate measure creation and appending to master staff and part
+  // create and append measure to the master staff
   fPartMasterStaff->
     createMeasureAndAppendItToStaff (
       inputLineNumber,
       measureNumber);
 
-  // propagate measure creation and appending to all registered staves
+  // create and append measure to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27754,12 +27756,12 @@ void msrPart::appendStaffDetailsToPart (
   // register staff details in part
   fCurrentPartStaffDetails = staffDetails;
   
-  // propagate it to the master staff specifically
+  // append staff details to the master staff specifically
   fPartMasterStaff->
     appendStaffDetailsToStaff (
       staffDetails);
   
-  // propagate it to all registered staves
+  // append staff details to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27786,12 +27788,12 @@ void msrPart::appendClefToPart (S_msrClef clef)
   // set part clef
   fPartCurrentClef = clef;
 
-  // propagate it to the master staff specifically
+  // append clef to the master staff specifically
   fPartMasterStaff->
     appendClefToStaff (
       clef);
   
-  // propagate it to all registered staves
+  // append clef to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27815,12 +27817,12 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
   // set part key
   fPartCurrentKey = key;
 
-  // propagate it to the master staff specifically
+  // append key to the master staff specifically
   fPartMasterStaff->
     appendKeyToStaff (
       key);
   
-  // propagate it to all registered staves
+  // append key to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27847,12 +27849,12 @@ void msrPart::appendTimeToPart (S_msrTime time)
   // set part time
   fPartCurrentTime = time;
 
-  // propagate it to the master staff specifically
+  // append time to the master staff specifically
   fPartMasterStaff->
     appendTimeToStaff (
       time);
   
-  // propagate it to all registered staves
+  // append time to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27920,6 +27922,11 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 
 void msrPart::createRepeatAndAppendItToPart (int inputLineNumber)
 {
+  // create repeat and append it to master staff specifically
+  fPartMasterStaff->
+    createRepeatAndAppendItToStaff (inputLineNumber);  
+  
+  // create repeat and append it to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27935,6 +27942,14 @@ void msrPart::appendRepeatEndingToPart (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
+  // append repeat ending to master staff specifically
+  fPartMasterStaff->
+    appendRepeatEndingToStaff (
+      inputLineNumber,
+      repeatEndingNumber,
+      repeatEndingKind);
+  
+  // append repeat ending to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -27999,6 +28014,14 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
   int measureRepeatMeasuresNumber,
   int measureRepeatSlashes)
 {
+  // create measure repeat from its first measure in master staff specifically
+  fPartMasterStaff->
+    createMeasureRepeatFromItsFirstMeasureInStaff (
+      inputLineNumber,
+      measureRepeatMeasuresNumber,
+      measureRepeatSlashes);
+  
+  // create measure repeat from its first measure in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -28014,6 +28037,12 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
 void msrPart::appendPendingMeasureRepeatToPart (
   int inputLineNumber)
 {
+  // append pending measure repeat to master staff specifically
+  fPartMasterStaff->
+    appendPendingMeasureRepeatToStaff (
+      inputLineNumber);
+  
+  // append pending measure repeat to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -28038,6 +28067,13 @@ void msrPart::createMultipleRestInPart (
       endl;
   }
 
+  // create multiple rest in master staff specifically
+  fPartMasterStaff->
+    createMultipleRestInStaff (
+      inputLineNumber,
+      multipleRestMeasuresNumber);
+  
+  // create multiple rest in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -28059,6 +28095,12 @@ void msrPart::appendPendingMultipleRestToPart (
       endl;
   }
 
+  // append pending multiple rest to master staff specifically
+  fPartMasterStaff->
+    appendPendingMultipleRestToStaff (
+      inputLineNumber);
+  
+  // append pending multiple rest to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
@@ -28095,6 +28137,11 @@ void msrPart::appendMultipleRestCloneToPart (
 
 void msrPart::appendBarlineToPart (S_msrBarline barline)
 {
+  // append barline to master staff specifically
+  fPartMasterStaff->
+    appendBarlineToStaff (barline);
+  
+  // append barline to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
