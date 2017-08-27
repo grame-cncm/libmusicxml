@@ -8193,6 +8193,12 @@ class EXP msrVoice : public msrElement
 
     string                voiceKindAsString () const;
 
+    // voice numbers
+    
+    string                voicePartRelativeIDAsString () const;
+
+    string                voiceStaffRelativeNumberAsString () const;
+
     // measures
 
     void                  fillVoiceWithSkipsUpToMeasure (
@@ -8870,7 +8876,7 @@ class EXP msrStaff : public msrElement
     msrStaffKind          getStaffKind () const
                               { return fStaffKind; }
 
-    // staff number and anme
+    // staff number and name
     
     int                   getStaffNumber () const
                               { return fStaffNumber; }
@@ -8938,6 +8944,11 @@ class EXP msrStaff : public msrElement
     void                  appendDivisionsToStaff (
                             S_msrDivisions divisions);
 */
+
+    // staff number
+    
+    string                staffNumberAsString () const;
+
     // staff details
     
     void                  appendStaffDetailsToStaff (

@@ -24817,7 +24817,49 @@ string msrVoice::voiceKindAsString (
 
   return result;
 }
-          
+
+string msrVoice::voicePartRelativeIDAsString () const
+{
+  string result;
+  
+  switch (fVoicePartRelativeID) {
+    case K_PART_MASTER_VOICE_NUMBER:
+      result = "K_PART_MASTER_VOICE_NUMBER";
+      break;
+    case K_PART_HARMONY_VOICE_NUMBER:
+      result = "K_PART_HARMONY_VOICE_NUMBER";
+      break;
+    case K_SILENT_VOICE_NUMBER:
+      result = "K_SILENT_VOICE_NUMBER";
+      break;
+    default:
+      result = to_string (fVoicePartRelativeID);
+  } // switch
+  
+  return result;
+}
+
+string msrVoice::voiceStaffRelativeNumberAsString () const
+{
+  string result;
+  
+  switch (fVoiceStaffRelativeNumber) {
+    case K_PART_MASTER_VOICE_NUMBER:
+      result = "K_PART_MASTER_VOICE_NUMBER";
+      break;
+    case K_PART_HARMONY_VOICE_NUMBER:
+      result = "K_PART_HARMONY_VOICE_NUMBER";
+      break;
+    case K_SILENT_VOICE_NUMBER:
+      result = "K_SILENT_VOICE_NUMBER";
+      break;
+    default:
+      result = to_string (fVoiceStaffRelativeNumber);
+  } // switch
+  
+  return result;
+}
+         
 string msrVoice::voiceFinalizationStatusAsString (
   msrVoiceFinalizationStatus voiceFinalizationStatus)
 {
@@ -24887,11 +24929,11 @@ void msrVoice::print (ostream& os)
       endl <<
     idtr <<
       setw(fieldWidth) << "VoicePartRelativeID" << " : " <<
-      fVoicePartRelativeID <<
+      voicePartRelativeIDAsString () <<
       endl <<
     idtr <<
       setw(fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
-      fVoiceStaffRelativeNumber <<
+      voiceStaffRelativeNumberAsString () <<
       endl <<
     idtr <<
       setw(fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
@@ -25949,6 +25991,24 @@ S_msrStaff msrStaff::createStaffNewbornClone (
   return newbornClone;
 }
 
+string msrStaff::staffNumberAsString () const
+{
+  string result;
+  
+  switch (fStaffNumber) {
+    case K_PART_MASTER_STAFF_NUMBER:
+      result = "K_PART_MASTER_STAFF_NUMBER";
+      break;
+    case K_PART_HARMONY_STAFF_NUMBER:
+      result = "K_PART_HARMONY_STAFF_NUMBER";
+      break;
+    default:
+      result = to_string (fStaffNumber);
+  } // switch
+  
+  return result;
+}
+
 const int msrStaff::getStaffNumberOfMusicVoices () const
 {
   int result = 0;
@@ -26943,7 +27003,8 @@ void msrStaff::print (ostream& os)
     fStaffPartUplink->getPartCombinedName () <<
     endl <<
     idtr <<
-    setw(fieldwidth) << "StaffNumber" << " : " << fStaffNumber <<
+    setw(fieldwidth) << "StaffNumber" << " : " <<
+    staffNumberAsString () <<
     endl;
 
 /* JMI
