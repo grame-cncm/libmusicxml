@@ -19674,7 +19674,7 @@ void msrSegment::bringSegmentToMeasureLength (
       ", line " << inputLineNumber <<
       endl;
 
-  if (fSegmentMeasuresList.size () == 0) {
+  if (false && fSegmentMeasuresList.size () == 0) {
     stringstream s;
 
     s <<
@@ -19711,11 +19711,13 @@ void msrSegment::bringSegmentToMeasureLength (
       inputLineNumber,
       s.str());
   }
-    
-  // append last measure to this length
-  fSegmentMeasuresList.back ()->
-    bringMeasureToMeasureLength (
-      inputLineNumber, measureLength);
+
+  if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
+    // bring last measure to this length
+    fSegmentMeasuresList.back ()->
+      bringMeasureToMeasureLength (
+        inputLineNumber, measureLength);
+  }
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
