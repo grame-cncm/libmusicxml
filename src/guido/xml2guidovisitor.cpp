@@ -101,8 +101,7 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("instr");
             string instr = header.fPartName;
             
-            int offset = instr.size() * 2;
-            
+            //int offset = instr.size() * 2;
             /* removed as of GuidoLib 1.64
              s1 << "dx=-" << offset << "hs";
              tag->add (guidoparam::create(s1.str(), false));
@@ -112,12 +111,12 @@ namespace MusicXML2
             add (tag);
             
             
-            tag = guidotag::create("systemFormat");
+            /*tag = guidotag::create("systemFormat");
             tag->add (guidoparam::create(""));
             s2 << "dx=" << offset << "hs";
             tag->add (guidoparam::create(s2.str(), false));
             
-            add (tag);
+            add (tag);*/
             header.visited = true;
         }
     }
