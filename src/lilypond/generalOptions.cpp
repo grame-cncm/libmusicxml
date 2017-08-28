@@ -621,7 +621,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_NOTES_DETAILS_SHORT_NAME_ ", --" _TRACE_NOTES_DETAILS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "notes with more details (quite verbose)" <<
+      "notes with more details, including divisions handling (quite verbose)" <<
       endl <<
     endl <<
 

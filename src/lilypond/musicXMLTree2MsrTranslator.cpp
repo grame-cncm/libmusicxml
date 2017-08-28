@@ -6859,7 +6859,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
 
   int duration = (int)(*elt); // divisions
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (gGeneralOptions->fTraceNotesDetails) {
     cerr << idtr <<
       "Note duration: " << duration <<
       endl;
@@ -6879,7 +6879,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
-    if (gGeneralOptions->fTraceNotes) {
+    if (gGeneralOptions->fTraceNotesDetails) {
       cerr << idtr <<
         "fCurrentDivisionsPerQuarterNote: " <<
         fCurrentDivisionsPerQuarterNote <<
@@ -6894,7 +6894,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
 
     fCurrentNoteSoundingWholeNotesFromDuration.rationalise ();
 
-    if (gGeneralOptions->fTraceNotes) {
+    if (gGeneralOptions->fTraceNotesDetails) {
       cerr << idtr <<
         "fCurrentNoteSoundingWholeNotesFromDuration: " <<
         fCurrentNoteSoundingWholeNotesFromDuration <<
@@ -10057,6 +10057,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_actual_notes& elt )
 
   fCurrentActualNotes = (int)(*elt);
 
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "fCurrentActualNotes: " <<
+      fCurrentActualNotes <<
+      endl;
+  }
+
   // notes inside a tuplet have no <tuplet/> markup
   // and 2 actual notes indicate a double tremolo
   if (fCurrentActualNotes != 2)
@@ -10072,6 +10082,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_normal_notes& elt )
 
   fCurrentNormalNotes = (int)(*elt);
 
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "fCurrentNormalNotes: " <<
+      fCurrentNormalNotes <<
+      endl;
+  }
+
   // notes inside a tuplet have no <tuplet/> markup
   // and 1 actual note indicates a double tremolo
   if (fCurrentNormalNotes != 1)
@@ -10086,6 +10106,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_normal_type& elt )
       endl;
 
   fCurrentNormalNoteType = elt->getValue();
+
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "fCurrentNormalNoteType: " <<
+      fCurrentNormalNoteType <<
+      endl;
+  }
 }
 
 /*
@@ -10222,6 +10252,22 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tuplet& elt )
           "unknown tuplet show type \"" + tupletShowType + "\"");
   }  
 
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "fCurrentTupletNumber: " <<
+      fCurrentTupletNumber <<
+      "tupletType: " <<
+      tupletType <<
+      "tupletShowNumber: " <<
+      tupletShowNumber <<
+      "tupletShowType: " <<
+      tupletShowType <<
+      endl;
+  }
+
   fCurrentNoteBelongsToATuplet = true;
 }
 
@@ -10234,6 +10280,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
 
   // not handled JMI
   fCurrentTupletDisplayNumber = (int)(*elt);
+
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "fCurrentTupletDisplayNumber (not handled): " <<
+      fCurrentTupletDisplayNumber <<
+      endl;
+  }
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
@@ -10249,6 +10305,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
 
   // not handled JMI
   fCurrentTupletDisplayType = elt->getValue();
+
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "fCurrentTupletDisplayType (not handled): " <<
+      fCurrentTupletDisplayType <<
+      endl;
+  }
 }
 
 //______________________________________________________________________________
@@ -11709,15 +11775,34 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   fCurrentNoteStaffNumber = fCurrentStaffNumber;
   fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
-  if (gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceNotes) {
     cerr << idtr <<
-      "--> fCurrentNoteSoundingWholeNotesFromDuration = " << 
-      fCurrentNoteSoundingWholeNotesFromDuration << ", " << 
-      "--> fCurrentNoteDisplayWholeNotesFromType = " << 
-      fCurrentNoteDisplayWholeNotesFromType << ", " << 
-      "--> fCurrentDivisionsPerQuarterNote = " <<
-      fCurrentDivisionsPerQuarterNote <<
+      "--> Gathered note information:" <<
       endl;
+
+    idtr++;
+
+    const int fieldWidth = 42;
+    
+    cerr << left <<
+      idtr <<
+        setw(fieldWidth) <<
+        "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
+        fCurrentNoteSoundingWholeNotesFromDuration <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "CurrentNoteDisplayWholeNotesFromType" << " = " << 
+        fCurrentNoteDisplayWholeNotesFromType <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "CurrentDivisionsPerQuarterNote" << " = " <<
+        fCurrentDivisionsPerQuarterNote <<
+        endl;
+
+    idtr--;
+  }
 
   if (fCurrentNoteIsAGraceNote) {
     // the grace note's type contains a display duration

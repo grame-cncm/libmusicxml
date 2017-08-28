@@ -2293,6 +2293,7 @@ R"(
             }
             if (traceVoicesDetailsPresent) {
               gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceVoices = true;
               gGeneralOptions->fTraceVoicesDetails = true;
               
               gGeneralOptions->fCommandLineLongOptions +=
@@ -2395,6 +2396,8 @@ R"(
             }
             if (traceNotesDetailsPresent) {
               gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceDivisions = true;
+              gGeneralOptions->fTraceNotes = true;
               gGeneralOptions->fTraceNotesDetails = true;
               
               gGeneralOptions->fCommandLineLongOptions +=

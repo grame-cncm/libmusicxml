@@ -8154,8 +8154,8 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kStandaloneNote:
       s <<
-        notePitchAsString () <<
-        ", " << noteKindAsString () << " " <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
@@ -8167,8 +8167,8 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        notePitchAsString () <<
-        ", " << noteKindAsString () << " " <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
@@ -8180,8 +8180,8 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kGraceNote:
       s <<
-        notePitchAsString () <<
-        ", " << noteKindAsString () << " " <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -8192,8 +8192,8 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kChordMemberNote:
       s <<
-        notePitchAsString () <<
-        ", " << noteKindAsString () << " " <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -8204,12 +8204,13 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberNote:
       s <<
-        notePitchAsString () <<
-        ", " << noteKindAsString () << " ";
+        noteKindAsString () <<
+        " " << notePitchAsString ();
 
-      if (! fNoteIsARest)
+      if (! fNoteIsARest) {
         s <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        " [" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+      }
 
       s <<
         ", whole notes: " <<
