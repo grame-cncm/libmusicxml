@@ -12921,19 +12921,23 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
   note->
     setNoteKind (msrNote::kTupletMemberNote);
 
-  // apply tuplet sounding factor to note
-  note->
-    applyTupletMemberSoundingFactorToNote (
-      fCurrentActualNotes,
-      fCurrentNormalNotes);
+  if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+    // no duration has been found,
+    // determine sounding from display whole notes
+    note->
+      determineTupletMemberSoundingFromDisplayWholeNotes (
+        fCurrentActualNotes,
+        fCurrentNormalNotes);
+  }
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
       "Handling a note belonging to a tuplet" <<
       ", note: " <<
       note->
         noteAsShortStringWithRawWholeNotes () <<
       endl;
+  }
 
   // attach the pending elements, if any, to the note
   attachPendingElementsToNote (note);
@@ -12947,13 +12951,14 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
   switch (fCurrentTupletKind) {
     case msrTuplet::kStartTuplet:
       {
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
           cerr << idtr <<
             "--> kStartTuplet: note = '" <<
             note->
               noteAsShortStringWithRawWholeNotes () <<
             "', line " << inputLineNumber <<
             endl;
+        }
 
         if (fCurrentATupletStopIsPending) {
           // finalize the tuplet, only now in case the last element
@@ -13100,18 +13105,28 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     setNoteKind (msrNote::kChordMemberNote);
 
   // apply tuplet sounding factor to note
-  newChordNote->
-    applyTupletMemberSoundingFactorToNote (
-      fCurrentActualNotes,
-      fCurrentNormalNotes);
+  if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+    // no duration has been found,
+    // determine sounding from display whole notes
+    newChordNote->
+      determineTupletMemberSoundingFromDisplayWholeNotes (
+        fCurrentActualNotes,
+        fCurrentNormalNotes);
+  }
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
+  if (
+    gGeneralOptions->fTraceNotes
+      ||
+    gGeneralOptions->fTraceChords
+      ||
+      gGeneralOptions->fTraceTuplets) {
     cerr << idtr <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
       newChordNote->
         noteAsShortStringWithRawWholeNotes () <<
       endl;
+  }
 
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
@@ -13176,7 +13191,12 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           fTupletsStack.top ();
           
       // remove last handled (previous current) note from the current tuplet
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
+      if (
+        gGeneralOptions->fTraceNotes
+          ||
+        gGeneralOptions->fTraceChords
+          ||
+        gGeneralOptions->fTraceTuplets) {
         cerr << idtr <<
           "Removing last handled note " <<
           lastHandledNoteInVoice->
@@ -13186,6 +13206,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           currentTuplet->tupletAsShortString () <<
           "'" <<
           endl;
+      }
 
       // remove lastHandledNoteInVoice from the current voice
       currentTuplet->
@@ -13194,22 +13215,31 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           lastHandledNoteInVoice);
   
       // add fCurrentChord to the current tuplet instead
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
-      cerr << idtr <<
-        "Adding chord " << fCurrentChord->chordAsString () <<
-        " to stack top tuplet '" <<
-        currentTuplet->tupletAsShortString () <<
-        "', line " << inputLineNumber <<
-        endl;
+      if (
+        gGeneralOptions->fTraceNotes
+          ||
+        gGeneralOptions->fTraceChords
+          ||
+        gGeneralOptions->fTraceTuplets) {
+        cerr << idtr <<
+          "Adding chord " << fCurrentChord->chordAsString () <<
+          " to stack top tuplet '" <<
+          currentTuplet->tupletAsShortString () <<
+          "', line " << inputLineNumber <<
+          endl;
+      }
 
       currentTuplet->
         addChordToTuplet (fCurrentChord);
 
-      // set newChordNote sounding whole notes
-      newChordNote->
-        applyTupletMemberSoundingFactorToNote (
-          fTupletsStack.top ()->getTupletActualNotes (),
-          fTupletsStack.top ()->getTupletNormalNotes ());
+      if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+        // no duration has been found,
+        // determine sounding from display whole notes
+        newChordNote->
+          determineTupletMemberSoundingFromDisplayWholeNotes (
+            fCurrentActualNotes,
+            fCurrentNormalNotes);
+      }
     }
     
     else {

@@ -4894,7 +4894,7 @@ class EXP msrNote : public msrElement
                             int actualNotes, int normalNotes) const;
 
     // tuplet members
-    void                  applyTupletMemberSoundingFactorToNote (
+    void                  determineTupletMemberSoundingFromDisplayWholeNotes (
                             int actualNotes, int normalNotes);
                     
     // lyrics

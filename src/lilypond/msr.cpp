@@ -6633,7 +6633,7 @@ void msrNote::initializeNote ()
 
     idtr++;
     
-    const int fieldWidth = 34;
+    const int fieldWidth = 30;
     
     cerr <<
       idtr << left <<
@@ -6649,22 +6649,6 @@ void msrNote::initializeNote ()
         setw(fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
-        endl <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "noteSoundingWholeNotesAsMSRString" << " = ";
-
-      if (fNoteSoundingWholeNotes.getNumerator () == 0) {
-        cerr <<
-          "none";
-      }
-      else {
-        cerr <<
-          wholeNotesAsMsrString (
-            fInputLineNumber,
-            fNoteSoundingWholeNotes);
-      }
-    cerr <<
         endl;
       
     cerr <<
@@ -6672,22 +6656,6 @@ void msrNote::initializeNote ()
         setw(fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
-        endl <<
-      idtr << left <<
-        setw(fieldWidth) <<
-        "noteDisplayWholeNotesAsMSRString" << " = ";
-
-      if (fNoteDisplayWholeNotes.getNumerator () == 0) {
-        cerr <<
-          "none";
-      }
-      else {
-        cerr <<
-          wholeNotesAsMsrString (
-            fInputLineNumber,
-            fNoteDisplayWholeNotes);
-      }
-    cerr <<
         endl;
       
     cerr <<
@@ -7500,7 +7468,7 @@ void msrNote::setNoteBelongsToAChord ()
   fNoteKind = msrNote::kChordMemberNote;
 }
 
-void msrNote::applyTupletMemberSoundingFactorToNote (
+void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   int actualNotes, int normalNotes)
 {
   /*
@@ -7527,10 +7495,11 @@ void msrNote::applyTupletMemberSoundingFactorToNote (
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Applying tuplet sounding factor '" <<
-      actualNotes << "/" << normalNotes <<
-      "' to note '" <<
+      "Determining tuplet sounding from display whole notes" <<
+      " for note '" <<
       noteAsShortString () <<
+      ", factor is '" <<
+      actualNotes << "/" << normalNotes <<
       "', line " << fInputLineNumber <<
       endl;
 
@@ -7546,7 +7515,7 @@ void msrNote::applyTupletMemberSoundingFactorToNote (
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Result is: '" <<
+      "The result is: '" <<
       noteAsShortString () <<
       endl;
 }
@@ -8218,11 +8187,12 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberNote:
       s <<
-        notePitchAsString ();
+        notePitchAsString () <<
+        noteGraphicDurationAsMsrString ();
 
       if (! fNoteIsARest)
         s <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       s <<
         ", whole notes: " <<
