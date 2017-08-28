@@ -11872,6 +11872,14 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   else if (fCurrentNoteIsARest) {
     // rest
 
+    // set current rest sounding and display whole notes
+    fCurrentNoteSoundingWholeNotes =
+      fCurrentNoteSoundingWholeNotesFromDuration;
+
+    fCurrentNoteDisplayWholeNotes =
+      fCurrentNoteDisplayWholeNotesFromType;
+
+/* JMI
     // set current note sounding and display whole notes
     if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
       // only <type /> was met, no <duration /> was specified
@@ -11889,6 +11897,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentNoteDisplayWholeNotes =
         fCurrentNoteSoundingWholeNotes; // same value by default
     }
+    */
   }
 
   else {
