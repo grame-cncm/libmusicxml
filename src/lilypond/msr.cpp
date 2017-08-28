@@ -7430,6 +7430,11 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   return result;
 }
 
+string msrNote::noteKindAsString () const
+{
+  return noteKindAsString (fNoteKind);
+}
+
 msrDiatonicPitch msrNote::noteDiatonicPitch (
   int inputLineNumber) const
 {
@@ -8129,51 +8134,54 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
         "R" <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        ", whole notes: " <<
+        " whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        ", whole notes: " <<
+        " whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
       break;
       
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
+        ", " << noteKindAsString () << " " <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        ", whole notes: " <<
+        " whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
+        ", " << noteKindAsString () << " " <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
       break;
       
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
+        ", " << noteKindAsString () << " " <<
         noteGraphicDurationAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -8185,17 +8193,19 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
+        ", " << noteKindAsString () << " " <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
       break;
       
     case msrNote::kTupletMemberNote:
       s <<
-        notePitchAsString ();
+        notePitchAsString () <<
+        ", " << noteKindAsString () << " ";
 
       if (! fNoteIsARest)
         s <<
@@ -8204,9 +8214,9 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
       break;
   } // switch
 
@@ -8277,9 +8287,9 @@ string msrNote::noteAsShortString ()
         notePitchAsString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
         /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -8332,9 +8342,9 @@ string msrNote::noteAsString ()
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp" <<
+        " display" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
@@ -8389,9 +8399,9 @@ string msrNote::noteAsString ()
         notePitchAsString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
 /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -9665,7 +9675,7 @@ string msrChord::chordAsString () const
         note->notePitchAsString () <<
         ", whole notes: " <<
         note->getNoteSoundingWholeNotes () <<
-        " sound, " <<
+        " sounding, " <<
         note->getNoteDisplayWholeNotes () <<
         " disp," <<
         "[" << note->getNoteOctave () << "]";
@@ -11048,15 +11058,16 @@ void msrPageBreak::print (ostream& os)
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   int      inputLineNumber,
-  int      number,
-  int      actualNotes,
-  int      normalNotes,
+  int      tupletNumber,
+  int      tupletActualNotes,
+  int      tupletNormalNotes,
   rational notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
       inputLineNumber,
-      number, actualNotes, normalNotes,
+      tupletNumber,
+      tupletActualNotes, tupletNormalNotes,
       notePositionInMeasure);
   assert(o!=0);
   return o;
@@ -11064,16 +11075,26 @@ S_msrTuplet msrTuplet::create (
 
 msrTuplet::msrTuplet (
   int      inputLineNumber,
-  int      number,
-  int      actualNotes,
-  int      normalNotes,
+  int      tupletNumber,
+  int      tupletActualNotes,
+  int      tupletNormalNotes,
   rational notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
-  fTupletNumber = number;
+  if (gGeneralOptions->fTraceTuplets) {
+    cerr << idtr <<
+      "==> Creating a '" <<
+      tupletActualNotes << "/" << tupletNormalNotes <<
+      "'tuplet '" <<
+      ", tupletNumber: " << tupletNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fTupletNumber = tupletNumber;
   
-  fTupletActualNotes = actualNotes;
-  fTupletNormalNotes = normalNotes;
+  fTupletActualNotes = tupletActualNotes;
+  fTupletNormalNotes = tupletNormalNotes;
   
   fTupletSoundingWholeNotes = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
@@ -11721,8 +11742,8 @@ void msrTuplet::print (ostream& os)
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
     ", whole notes: " <<
-    fTupletSoundingWholeNotes << " sound, " <<
-    fTupletDisplayWholeNotes << " disp" <<
+    fTupletSoundingWholeNotes << " sounding, " <<
+    fTupletDisplayWholeNotes << " display" <<
     ", meas "<<
     fTupletMeasureNumber <<
     ":";

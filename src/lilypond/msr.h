@@ -4862,6 +4862,8 @@ class EXP msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                noteKindAsString () const;
+    
     string                notePitchAsString () const;
     string                noteDisplayPitchAsString () const;
 
@@ -6402,9 +6404,9 @@ class EXP msrTuplet : public msrElement
 
     static SMARTP<msrTuplet> create (
       int      inputLineNumber,
-      int      number,
-      int      actualNotes,
-      int      normalNotes,
+      int      tupletNumber,
+      int      tupletActualNotes,
+      int      tupletNormalNotes,
       rational notePositionInMeasure); // JMI
 
     SMARTP<msrTuplet> createTupletNewbornClone ();
@@ -6418,9 +6420,9 @@ class EXP msrTuplet : public msrElement
 
     msrTuplet (
       int      inputLineNumber,
-      int      number,
-      int      actualNotes,
-      int      normalNotes,
+      int      tupletNumber,
+      int      tupletActualNotes,
+      int      tupletNormalNotes,
       rational notePositionInMeasure);
       
     virtual ~msrTuplet();

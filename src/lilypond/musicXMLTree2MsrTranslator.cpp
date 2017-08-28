@@ -10851,7 +10851,8 @@ void musicXMLTree2MsrTranslator::copyNoteElementsToChord (
 }
 
 //______________________________________________________________________________
-void musicXMLTree2MsrTranslator::createTupletWithItsFirstNote (S_msrNote firstNote)
+void musicXMLTree2MsrTranslator::createTupletWithItsFirstNote (
+  S_msrNote firstNote)
 {
   // firstNote is the first tuplet note,
   // and is currently at the end of the voice
@@ -11719,7 +11720,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       endl;
 
   if (fCurrentNoteIsAGraceNote) {
-    // the type contains a display duration
+    // the grace note's type contains a display duration
 
     // convert note graphic duration into whole notes
     rational
