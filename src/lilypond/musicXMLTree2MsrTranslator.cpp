@@ -6999,6 +6999,20 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
         elt->getInputLineNumber (),
           "unknown note type size \"" + noteTypeSize + "\"");
   }
+
+  if (gGeneralOptions->fTraceNotesDetails) {
+    cerr <<
+      idtr <<
+        "noteType: \"" <<
+        noteType <<
+        "\"" <<
+        endl <<
+      idtr <<
+        "noteTypeSize: \"" <<
+        noteTypeSize <<
+        "\"" <<
+        endl;
+  }
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
@@ -11908,7 +11922,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   else {
-    // standalone note
+    // standalone note, that may later become a tuplet member
     
     // set current note sounding and display whole notes
     if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -11935,7 +11949,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       msrNote::create (
         inputLineNumber,
         
-        msrNote::k_NoNoteKind, // will be set by 'setNoteKind()' later
+        msrNote::k_NoNoteKind,
+          // will be set by 'setNoteKind()' when it becomes known later
         
         fCurrentNoteQuarterTonesPitch,
         
