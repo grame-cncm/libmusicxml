@@ -7321,12 +7321,6 @@ S_msrNote msrNote::createNoteDeepCopy (
 string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
   string result;
-
-  cerr <<
-    endl <<
-    "fNoteSoundingWholeNotes: " << fNoteSoundingWholeNotes <<
-    endl <<
-    endl;
     
   if (fNoteSoundingWholeNotes.getNumerator () == 0)
     result = "(no sounding whole notes)";
@@ -7528,7 +7522,7 @@ void msrNote::applyTupletMemberSoundingFactorToNote (
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Result is: '" <<
+      "Result is: " <<
       noteAsShortString () <<
       endl;
 }
@@ -8044,7 +8038,7 @@ string msrNote::notePitchAsString () const
   */
   
   if (fNoteIsUnpitched)
-    s << "unpitched ";
+    s << "unpitched";
   else {
     s <<
       msrQuarterTonesPitchAsString (
@@ -8252,7 +8246,8 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kStandaloneNote:
       s <<
-        notePitchAsString () <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -8266,7 +8261,8 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kGraceNote:
       s <<
-        notePitchAsString () <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -8277,7 +8273,8 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kChordMemberNote:
       s <<
-        notePitchAsString () <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -8285,7 +8282,8 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kTupletMemberNote:
       s <<
-        notePitchAsString () <<
+        noteKindAsString () <<
+        " " << notePitchAsString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sounding, " <<

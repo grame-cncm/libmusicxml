@@ -6959,7 +6959,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
 
   string noteType = elt->getValue();
 
-
+  // the type contains a display duration,
   if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
   else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
   else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
@@ -6985,6 +6985,24 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str());
+  }
+
+  // convert note graphic duration into whole notes
+  fCurrentNoteDisplayWholeNotesFromType =
+    msrDurationAsWholeNotes (
+      fCurrentNoteGraphicDuration);
+
+  // take dots into account if any
+  if (fCurrentNoteDotsNumber > 0) {
+    int dots = fCurrentNoteDotsNumber;
+
+    while (dots > 0) {
+      fCurrentNoteDisplayWholeNotesFromType *=
+        rational (3, 2);
+      fCurrentNoteDisplayWholeNotesFromType.rationalise ();
+
+      dots--;
+    } // while
   }
 
   string noteTypeSize = elt->getAttributeValue ("size");
@@ -11819,37 +11837,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   if (fCurrentNoteIsAGraceNote) {
-    // the grace note's type contains a display duration
-
-    // convert note graphic duration into whole notes
-    rational
-      wholeNotes =
-        msrDurationAsWholeNotes (
-          fCurrentNoteGraphicDuration);
-      /* JMI
-        fCurrentDivisions->
-          durationAsDivisions (
-            inputLineNumber,
-            fCurrentNoteGraphicDuration);
-            */
-
-    // take dots into account if any
-    if (fCurrentNoteDotsNumber > 0) {
-      int dots = fCurrentNoteDotsNumber;
-
-      while (dots > 0) {
-        wholeNotes *=
-          rational (3, 2);
-        wholeNotes.rationalise ();
-
-        dots--;
-      } // while
-    }
-
     // set current grace note display whole notes      
-    fCurrentNoteDisplayWholeNotesFromType =
-      wholeNotes;
-      
     fCurrentNoteDisplayWholeNotes =
       fCurrentNoteDisplayWholeNotesFromType;
   }
@@ -11870,31 +11858,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         s.str());
     }
 
-    // the type contains a display duration
-
-    // convert note graphic duration into whole notes
-    rational
-      wholeNotes =
-        msrDurationAsWholeNotes (
-          fCurrentNoteGraphicDuration);
-
-    // take dots into account if any
-    if (fCurrentNoteDotsNumber > 0) {
-      int dots = fCurrentNoteDotsNumber;
-
-      while (dots > 0) {
-        wholeNotes *=
-          rational (3, 2);
-        wholeNotes.rationalise ();
-
-        dots--;
-      } // while
-    }
-
     // set current double tremolo note display whole notes 
-    fCurrentNoteDisplayWholeNotesFromType =
-      wholeNotes;
-
     fCurrentNoteDisplayWholeNotes =
       fCurrentNoteDisplayWholeNotesFromType;
   }
@@ -11922,9 +11886,16 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   else {
-    // standalone note, that may later become a tuplet member
+    // other note
     
     // set current note sounding and display whole notes
+    fCurrentNoteSoundingWholeNotes =
+      fCurrentNoteSoundingWholeNotesFromDuration;
+
+    fCurrentNoteDisplayWholeNotes =
+      fCurrentNoteDisplayWholeNotesFromType;
+
+    /* JMI
     if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
       // only <type /> was met, no <duration /> was specified
       fCurrentNoteDisplayWholeNotes =
@@ -11941,6 +11912,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentNoteDisplayWholeNotes =
         fCurrentNoteSoundingWholeNotes; // same value by default
     }
+    */
   }
 
   // create the (new) note
