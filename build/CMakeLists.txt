@@ -30,9 +30,16 @@ set (libtype SHARED)
 if(APPLE)
 	if ( IOS STREQUAL "yes" )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
+		
+		#set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+		#set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s x86_64 i386")
+		#set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
 		set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s")
 		set (CMAKE_OSX_SYSROOT "iphoneos")
+		
+		set(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET 9.3)
+		
 		set (libtype STATIC)
 	else ()
 		if ( C++11 )
