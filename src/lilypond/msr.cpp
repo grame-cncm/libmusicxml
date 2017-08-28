@@ -63,6 +63,9 @@ void initializePitchesLanguages ()
   gQuarterTonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
 
   // nederlands
+  gNederlandsPitchName [k_NoQuarterTonesPitch]  = "-";
+  gNederlandsPitchName [k_Rest]                 = "r";
+  
   gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
   gNederlandsPitchName [k_aSesquiFlat]  = "aeseh";
   gNederlandsPitchName [k_aFlat]        = "aes";
@@ -134,6 +137,9 @@ void initializePitchesLanguages ()
   gNederlandsPitchName [k_gDoubleSharp] = "gisis";
 
   // catalan
+  gCatalanPitchName [k_NoQuarterTonesPitch]  = "-";
+  gCatalanPitchName [k_Rest]                 = "r";
+  
   gCatalanPitchName [k_aDoubleFlat]  = "labb";
   gCatalanPitchName [k_aSesquiFlat]  = "labSesquiFlat???";
   gCatalanPitchName [k_aFlat]        = "lab";
@@ -205,6 +211,9 @@ void initializePitchesLanguages ()
   gCatalanPitchName [k_gDoubleSharp] = "soldd";
 
   // deutsch
+  gDeutschPitchName [k_NoQuarterTonesPitch]  = "-";
+  gDeutschPitchName [k_Rest]                 = "r";
+  
   gDeutschPitchName [k_aDoubleFlat]  = "asas";
   gDeutschPitchName [k_aSesquiFlat]  = "asah";
   gDeutschPitchName [k_aFlat]        = "as";
@@ -276,6 +285,9 @@ void initializePitchesLanguages ()
   gDeutschPitchName [k_gDoubleSharp] = "gisis";
 
   // english
+  gEnglishPitchName [k_NoQuarterTonesPitch]  = "-";
+  gEnglishPitchName [k_Rest]                 = "r";
+  
   gEnglishPitchName [k_aDoubleFlat]  = "aff";
   gEnglishPitchName [k_aSesquiFlat]  = "atqf";
   gEnglishPitchName [k_aFlat]        = "af";
@@ -347,6 +359,9 @@ void initializePitchesLanguages ()
   gEnglishPitchName [k_gDoubleSharp] = "gx";
 
   // espanol
+  gEspanolPitchName [k_NoQuarterTonesPitch]  = "-";
+  gEspanolPitchName [k_Rest]                 = "r";
+  
   gEspanolPitchName [k_aDoubleFlat]  = "labb";
   gEspanolPitchName [k_aSesquiFlat]  = "latcb";
   gEspanolPitchName [k_aFlat]        = "lab";
@@ -418,6 +433,9 @@ void initializePitchesLanguages ()
   gEspanolPitchName [k_gDoubleSharp] = "solx";
 
   // francais
+  gFrancaisPitchName [k_NoQuarterTonesPitch]  = "-";
+  gFrancaisPitchName [k_Rest]                 = "r";
+  
   gFrancaisPitchName [k_aDoubleFlat]  = "labb";
   gFrancaisPitchName [k_aSesquiFlat]  = "labtqt";
   gFrancaisPitchName [k_aFlat]        = "lab";
@@ -489,6 +507,9 @@ void initializePitchesLanguages ()
   gFrancaisPitchName [k_gDoubleSharp] = "solss";
 
   // italiano
+  gItalianoPitchName [k_NoQuarterTonesPitch]  = "-";
+  gItalianoPitchName [k_Rest]                 = "r";
+  
   gItalianoPitchName [k_aDoubleFlat]  = "labb";
   gItalianoPitchName [k_aSesquiFlat]  = "labsb";
   gItalianoPitchName [k_aFlat]        = "lab";
@@ -560,6 +581,9 @@ void initializePitchesLanguages ()
   gItalianoPitchName [k_gDoubleSharp] = "soldd";
 
   // norsk
+  gNorskPitchName [k_NoQuarterTonesPitch]  = "-";
+  gNorskPitchName [k_Rest]                 = "r";
+  
   gNorskPitchName [k_aDoubleFlat]  = "aeses";
   gNorskPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
   gNorskPitchName [k_aFlat]        = "aes";
@@ -631,6 +655,9 @@ void initializePitchesLanguages ()
   gNorskPitchName [k_gDoubleSharp] = "gisis";
 
   // portugues
+  gPortuguesPitchName [k_NoQuarterTonesPitch]  = "-";
+  gPortuguesPitchName [k_Rest]                 = "r";
+  
   gPortuguesPitchName [k_aDoubleFlat]  = "labb";
   gPortuguesPitchName [k_aSesquiFlat]  = "labtqt";
   gPortuguesPitchName [k_aFlat]        = "lab";
@@ -702,6 +729,9 @@ void initializePitchesLanguages ()
   gPortuguesPitchName [k_gDoubleSharp] = "soldd";
 
   // suomi
+  gSuomiPitchName [k_NoQuarterTonesPitch]  = "-";
+  gSuomiPitchName [k_Rest]                 = "r";
+  
   gSuomiPitchName [k_aDoubleFlat]  = "asas";
   gSuomiPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
   gSuomiPitchName [k_aFlat]        = "as";
@@ -773,6 +803,9 @@ void initializePitchesLanguages ()
   gSuomiPitchName [k_gDoubleSharp] = "gisis";
 
   // svenska
+  gSvenskaPitchName [k_NoQuarterTonesPitch]  = "-";
+  gSvenskaPitchName [k_Rest]                 = "r";
+  
   gSvenskaPitchName [k_aDoubleFlat]  = "assess";
   gSvenskaPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
   gSvenskaPitchName [k_aFlat]        = "ass";
@@ -844,6 +877,9 @@ void initializePitchesLanguages ()
   gSvenskaPitchName [k_gDoubleSharp] = "gississ";
 
   // vlaams
+  gVlaamsPitchName [k_NoQuarterTonesPitch]  = "none";
+  gVlaamsPitchName [k_Rest]                 = "r";
+  
   gVlaamsPitchName [k_aDoubleFlat]  = "labb";
   gVlaamsPitchName [k_aSesquiFlat]  = "laSesquiFlat???";
   gVlaamsPitchName [k_aFlat]        = "lab";
@@ -6599,14 +6635,6 @@ void msrNote::initializeNote ()
     
     const int fieldWidth = 34;
     
-    cerr << // JMI
-      idtr << left <<
-        setw(fieldWidth) <<
-        "fNoteDisplayWholeNotes" << " = " <<
-        fNoteDisplayWholeNotes <<
-        endl <<
-      endl;
-        
     cerr <<
       idtr << left <<
         setw(fieldWidth) <<
@@ -6646,6 +6674,7 @@ void msrNote::initializeNote ()
         fNoteDisplayWholeNotes <<
         endl <<
       idtr << left <<
+        setw(fieldWidth) <<
         "noteDisplayWholeNotesAsMSRString" << " = ";
 
       if (fNoteDisplayWholeNotes.getNumerator () == 0) {
@@ -7321,7 +7350,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
   string result;
-    
+
   if (fNoteSoundingWholeNotes.getNumerator () == 0)
     result = "(no sounding whole notes)";
   else
@@ -7424,11 +7453,6 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   return result;
 }
 
-string msrNote::noteKindAsString () const
-{
-  return noteKindAsString (fNoteKind);
-}
-
 msrDiatonicPitch msrNote::noteDiatonicPitch (
   int inputLineNumber) const
 {
@@ -7522,7 +7546,7 @@ void msrNote::applyTupletMemberSoundingFactorToNote (
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "Result is: " <<
+      "Result is: '" <<
       noteAsShortString () <<
       endl;
 }
@@ -8038,7 +8062,7 @@ string msrNote::notePitchAsString () const
   */
   
   if (fNoteIsUnpitched)
-    s << "unpitched";
+    s << "unpitched ";
   else {
     s <<
       msrQuarterTonesPitchAsString (
@@ -8128,54 +8152,51 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
         "R" <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        " whole notes: " <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
       break;
       
     case msrNote::kSkipNote:
       s <<
         "S" <<
         ":" <<
-        " whole notes: " <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
       break;
       
     case msrNote::kStandaloneNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
-        " whole notes: " <<
+        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
       break;
       
     case msrNote::kGraceNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -8186,32 +8207,29 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       
     case msrNote::kChordMemberNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
       break;
       
     case msrNote::kTupletMemberNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString ();
+        notePitchAsString ();
 
-      if (! fNoteIsARest) {
+      if (! fNoteIsARest)
         s <<
-        " [" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-      }
+        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
 
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
       break;
   } // switch
 
@@ -8246,8 +8264,7 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kStandaloneNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -8261,8 +8278,7 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kGraceNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -8273,8 +8289,7 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kChordMemberNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
         "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -8282,13 +8297,12 @@ string msrNote::noteAsShortString ()
       
     case msrNote::kTupletMemberNote:
       s <<
-        noteKindAsString () <<
-        " " << notePitchAsString () <<
+        notePitchAsString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
         /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -8341,9 +8355,9 @@ string msrNote::noteAsString ()
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display" <<
+        " disp" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
@@ -8398,9 +8412,9 @@ string msrNote::noteAsString ()
         notePitchAsString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        " sound, " <<
         fNoteDisplayWholeNotes <<
-        " display";
+        " disp";
 /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -9674,7 +9688,7 @@ string msrChord::chordAsString () const
         note->notePitchAsString () <<
         ", whole notes: " <<
         note->getNoteSoundingWholeNotes () <<
-        " sounding, " <<
+        " sound, " <<
         note->getNoteDisplayWholeNotes () <<
         " disp," <<
         "[" << note->getNoteOctave () << "]";
@@ -11057,16 +11071,15 @@ void msrPageBreak::print (ostream& os)
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   int      inputLineNumber,
-  int      tupletNumber,
-  int      tupletActualNotes,
-  int      tupletNormalNotes,
+  int      number,
+  int      actualNotes,
+  int      normalNotes,
   rational notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
       inputLineNumber,
-      tupletNumber,
-      tupletActualNotes, tupletNormalNotes,
+      number, actualNotes, normalNotes,
       notePositionInMeasure);
   assert(o!=0);
   return o;
@@ -11074,26 +11087,16 @@ S_msrTuplet msrTuplet::create (
 
 msrTuplet::msrTuplet (
   int      inputLineNumber,
-  int      tupletNumber,
-  int      tupletActualNotes,
-  int      tupletNormalNotes,
+  int      number,
+  int      actualNotes,
+  int      normalNotes,
   rational notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
-  if (gGeneralOptions->fTraceTuplets) {
-    cerr << idtr <<
-      "==> Creating a '" <<
-      tupletActualNotes << "/" << tupletNormalNotes <<
-      "'tuplet '" <<
-      ", tupletNumber: " << tupletNumber <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fTupletNumber = tupletNumber;
+  fTupletNumber = number;
   
-  fTupletActualNotes = tupletActualNotes;
-  fTupletNormalNotes = tupletNormalNotes;
+  fTupletActualNotes = actualNotes;
+  fTupletNormalNotes = normalNotes;
   
   fTupletSoundingWholeNotes = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
@@ -11741,8 +11744,8 @@ void msrTuplet::print (ostream& os)
     singularOrPlural (
       fTupletElements.size (), "element", "elements") <<
     ", whole notes: " <<
-    fTupletSoundingWholeNotes << " sounding, " <<
-    fTupletDisplayWholeNotes << " display" <<
+    fTupletSoundingWholeNotes << " sound, " <<
+    fTupletDisplayWholeNotes << " disp" <<
     ", meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -19859,10 +19862,9 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
         "\"," <<
       endl;
 
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
+  if (! fSegmentMeasuresList.size ()) {// JMI
+  }
+  
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
 }
@@ -19878,11 +19880,7 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
         fSegmentVoiceUplink->getVoiceName () <<
         "\"," <<
       endl;
-
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
+      
   fSegmentMeasuresList.back ()->
     appendBarCheckToMeasure (barCheck);
 }
@@ -19904,10 +19902,6 @@ void msrSegment::appendVoiceStaffChangeToSegment (
       endl;
   }
   
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendVoiceStaffChangeToMeasure (
       voiceStaffChange);
@@ -19925,10 +19919,6 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
 
 void msrSegment::appendNoteToSegmentClone (S_msrNote note)
 {
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendNoteToMeasureClone (note);
 }
@@ -19947,10 +19937,6 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
         "\"," <<
       endl;
       
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
@@ -19969,10 +19955,6 @@ void msrSegment::appendMeasureRepeatToSegment (
         "\"," <<
       endl;
       
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendMeasureRepeatToMeasure (measureRepeat);
 }
@@ -19991,10 +19973,6 @@ void msrSegment::appendMultipleRestToSegment (
         "\"," <<
       endl;
       
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendMultipleRestToMeasure (multipleRest);
 }
@@ -20007,10 +19985,6 @@ void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 
 void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 {
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendTupletToMeasure (tuplet);
 }
@@ -20018,10 +19992,6 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 {
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendGraceNotesToMeasure (graceNotes);
 }
@@ -20030,10 +20000,6 @@ void msrSegment::prependGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 
 {
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.front ()->
     prependGraceNotesToMeasure (graceNotes); // JMI
 }
@@ -20041,10 +20007,6 @@ void msrSegment::prependGraceNotesToSegment (
 void msrSegment::appendAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 {
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendAfterGraceNotesToMeasure (afterGraceNotes);
 }
@@ -20053,10 +20015,6 @@ void msrSegment::prependAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 
 {
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.front ()->
     prependAfterGraceNotesToMeasure (afterGraceNotes); // JMI
 }
@@ -20067,10 +20025,6 @@ void msrSegment::appendOtherElementToSegment (S_msrElement elem)
     elem->getInputLineNumber (),
     fSegmentMeasureNumber); // +1??? JMI
   
-  msrAssert (
-    fSegmentMeasuresList.size () != 0,
-    "fSegmentMeasuresList is empty");
-    
   fSegmentMeasuresList.back ()->
     appendOtherElementToMeasure (elem);
 }

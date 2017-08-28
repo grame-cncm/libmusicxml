@@ -10371,6 +10371,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rest& elt)
 
 */
   //  cerr << "--> musicXMLTree2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
+  fCurrentNoteQuarterTonesPitch = k_Rest;
   fCurrentNoteIsARest = true;
 
   string restMeasure = elt->getAttributeValue ("measure");
@@ -11826,6 +11827,11 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         setw(fieldWidth) <<
         "CurrentNoteDisplayWholeNotesFromType" << " = " << 
         fCurrentNoteDisplayWholeNotesFromType <<
+        endl <<
+      idtr <<
+        setw(fieldWidth) <<
+        "CurrentNoteIsARest" << " = " << 
+        booleanAsString (fCurrentNoteIsARest) <<
         endl <<
       idtr <<
         setw(fieldWidth) <<
