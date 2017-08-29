@@ -8087,6 +8087,7 @@ class EXP msrVoice : public msrElement
       kMasterVoice,
       kRegularVoice,
       kHarmonyVoice,  // for MusicXML <harmony/>, LilyPond ChordNames
+      kFiguredBassVoice,  // for MusicXML <figured-bass/>, LilyPond ChordNames
       kSilentVoice }; // for voices that don't start at the very beginning
           
     static string voiceKindAsString (
@@ -8908,7 +8909,8 @@ class EXP msrStaff : public msrElement
       kRegularStaff,
       kTablatureStaff,
       kPercussionStaff,
-      kHarmonyStaff};
+      kHarmonyStaff,
+      kFiguredBassStaff};
 
     static string staffKindAsString (
       msrStaffKind staffKind);
@@ -9307,11 +9309,14 @@ class EXP msrPart : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_PART_HARMONY_STAFF_NUMBER -19  
-    #define K_PART_HARMONY_VOICE_NUMBER -27
+    #define K_PART_MASTER_STAFF_NUMBER -19  
+    #define K_PART_MASTER_VOICE_NUMBER -27
     
-    #define K_PART_MASTER_STAFF_NUMBER -119  
-    #define K_PART_MASTER_VOICE_NUMBER -127
+    #define K_PART_HARMONY_STAFF_NUMBER -119  
+    #define K_PART_HARMONY_VOICE_NUMBER -127
+    
+    #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
+    #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
     
     // creation from MusicXML
     // ------------------------------------------------------
@@ -9481,6 +9486,22 @@ class EXP msrPart : public msrElement
 
     S_msrVoice            getPartHarmoniesSupplierVoice () const
                               { return fPartHarmoniesSupplierVoice; }
+
+    // figured bass staff and voice
+    
+    void                  setPartFiguredBassStaff (
+                            S_msrStaff figuredBassStaff)
+                              { fPartFiguredBassStaff = figuredBassStaff; }
+                  
+    S_msrStaff            getPartFiguredBassStaff () const
+                              { return fPartFiguredBassStaff; }
+                 
+    void                  setPartFiguredBassVoice (
+                            S_msrVoice figuredBassVoice)
+                              { fPartFiguredBassVoice = figuredBassVoice; }
+
+    S_msrVoice            getPartHarmonyVoice () const
+                              { return fPartHarmonyVoice; }
                   
     // transpose
 
@@ -9518,6 +9539,11 @@ class EXP msrPart : public msrElement
     // harmony staff and voice
     
     void                  createPartHarmonyStaffAndVoiceIfNotYetDone ( // JMI ???
+                            int inputLineNumber);
+        
+    // figured bass staff and voice
+    
+    void                  createPartFiguredStaffAndVoiceIfNotYetDone ( // JMI ???
                             int inputLineNumber);
         
     // measures
@@ -9715,6 +9741,13 @@ class EXP msrPart : public msrElement
     S_msrVoice            fPartHarmonyVoice;
     S_msrVoice            fPartHarmoniesSupplierVoice;
 
+    // figured bass
+
+    S_msrStaff            fPartFiguredBassStaff;
+    S_msrVoice            fPartFiguredBassVoice;
+
+    // the registered staves map
+    
     map<int, S_msrStaff>  fPartStavesMap;
 };
 typedef SMARTP<msrPart> S_msrPart;

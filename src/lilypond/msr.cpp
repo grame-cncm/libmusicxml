@@ -15940,6 +15940,7 @@ S_msrFiguredBass msrFiguredBass::create (
 }
 
 msrFiguredBass::msrFiguredBass (
+  int       inputLineNumber,
   S_msrPart figuredBassPartUplink)
     : msrElement (inputLineNumber)
 {
@@ -15982,9 +15983,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
     newbornClone =
       msrFiguredBass::create (
         fInputLineNumber,
-        containingPart,
-        fFiguredBassPrefixKind,
-        fFiguredBassSuffixKind);
+        containingPart);
         
   return newbornClone;
 }
@@ -16008,9 +16007,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
     figuredBassDeepCopy =
       msrFiguredBass::create (
         fInputLineNumber,
-        containingPart,
-        fFiguredBassPrefixKind,
-        fFiguredBassSuffixKind);
+        containingPart);
         
   return figuredBassDeepCopy;
 }
@@ -16030,90 +16027,28 @@ void msrFiguredBass::appendFiguredFigureToFiguredBass (
   fFiguredBassFiguresList.push_back (figure);
 }
 
-string msrFiguredBass::figuredBassPrefixKindAsString (
-  msrFiguredBassPrefixKind figuredBassPrefixKind)
-{
-  string result;
-  
-  switch (figuredBassPrefixKind) {
-    case msrFiguredBass::k_NoFiguredBassPrefix:
-      result = "none";
-      break;
-    case msrFiguredBass::kDoubleFlatPrefix:
-      result = "double flat";
-      break;
-    case msrFiguredBass::kFlatPrefix:
-      result = "flat";
-      break;
-    case msrFiguredBass::kFlatFlatPrefix:
-      result = "flat flat";
-      break;
-    case msrFiguredBass::kNaturalPrefix:
-      result = "natural";
-      break;
-    case msrFiguredBass::kSharpSharpPrefix:
-      result = "sharp sharp";
-      break;
-    case msrFiguredBass::kSharpPrefix:
-      result = "sharp";
-      break;
-    case msrFiguredBass::kDoubleSharpPrefix:
-      result = "souble sharp";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrFiguredBass::figuredBassSuffixKindAsString (
-  msrFiguredBassSuffixKind figuredBassSuffixKind)
-{
-  string result;
-  
-  switch (figuredBassSuffixKind) {
-    case msrFiguredBass::k_NoFiguredBassSuffix:
-      result = "none";
-      break;
-    case msrFiguredBass::kDoubleFlatSuffix:
-      result = "double flat";
-      break;
-    case msrFiguredBass::kFlatSuffix:
-      result = "flat";
-      break;
-    case msrFiguredBass::kFlatFlatSuffix:
-      result = "flat flat";
-      break;
-    case msrFiguredBass::kNaturalSuffix:
-      result = "natural";
-      break;
-    case msrFiguredBass::kSharpSharpSuffix:
-      result = "sharp sharp";
-      break;
-    case msrFiguredBass::kSharpSuffix:
-      result = "sharp";
-      break;
-    case msrFiguredBass::kDoubleSharpSuffix:
-      result = "souble sharp";
-      break;
-    case msrFiguredBass::kSlashSuffix:
-      result = "slash";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrFiguredBass::figuredBassAsString () const
 {
   stringstream s;
 
   s <<
-    "prefix: " <<
-    figuredBassPrefixKindAsString (
-      fFiguredBassPrefixKind) <<
-    ", suffix: " <<
-    figuredBassSuffixKindAsString (
-      fFiguredBassSuffixKind);
+    "Figured bass";
+
+  if (fFiguredBassFiguresList.size ()) {
+    s << ", ";
+
+    list<S_msrFigure>::const_iterator
+      iBegin = fFiguredBassFiguresList.begin(),
+      iEnd   = fFiguredBassFiguresList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s <<
+        idtr << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
 
 /* JMI
   if (fFiguredBassPartUplink) // JMI ???
@@ -16178,20 +16113,24 @@ void msrFiguredBass::print (ostream& os)
 {  
   os <<
     "FiguredBass" <<
-    ", prefix: " <<
-    figuredBassPrefixKindAsString (
-      fFiguredBassPrefixKind) <<
-    ", suffix: " <<
-    figuredBassSuffixKindAsString (
-      fFiguredBassSuffixKind) <<
-     ", line " << fInputLineNumber <<
+      ", line " << fInputLineNumber <<
     endl;
 
   if (fFiguredBassFiguresList.size ()) {
     idtr++;
-    for (i : fFiguredBassFiguresList) {
-      os << (*i) << endl;
+
+    list<S_msrFigure>::const_iterator
+      iBegin = fFiguredBassFiguresList.begin(),
+      iEnd   = fFiguredBassFiguresList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os <<
+        idtr << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
+
     idtr--;
   }
 }
@@ -18394,7 +18333,7 @@ void msrMeasure::appendFiguredBassToMeasure (
   S_msrFiguredBass figuredBass)
 {
   int inputLineNumber =
-    harmony->getInputLineNumber ();
+    figuredBass->getInputLineNumber ();
     
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
     cerr << idtr <<
@@ -18408,73 +18347,27 @@ void msrMeasure::appendFiguredBassToMeasure (
       ", measureLength = " << fMeasureLength <<
       endl;
 
-  // populate measure uplink
-// JMI   harmony->setHarmonyMeasureUplink (this);
-
-  // register harmony measure number
-//   harmony->
-// JMI     setHarmonyMeasureNumber (fMeasureNumber);
-  
-  // register harmony measure position in measure
-//  int dummy = // JMI
- //   harmony->
-  //    setHarmonyPositionInMeasure (fMeasureLength);
-
-
-/* JMI
-  // fetch voice
-  S_msrVoice
-    voice =
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ();
-
-  // register voice as part harmonies supplied
-  // this will abort if another voice is already supplying harmonies
-  fetchMeasurePartUplink->
-    setPartHarmoniesSupplierVoice (
-      voice);
-
-      */
-
-      
+      /* JMI
   // fetch harmony sounding whole notes
   rational
     harmonySoundingWholeNotes =
       figuredBass->
         getHarmonySoundingWholeNotes ();
     
-//* JMI FOO
-/*
-  // append a skip syllable of the same duration to the part harmony voice
-  S_msrNote
-    skip =
-        msrNote::createSkipNote (
-            inputLineNumber,
-            harmonySoundingWholeNotes,
-            harmonySoundingWholeNotes,
-            voice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            voice->
-              getVoicePartRelativeID ());
-  
-    fetchMeasurePartUplink->
-      getPartHarmonyVoice ()->
-        appendNoteToVoice (skip);
-  */
+  // account for harmony duration in measure length
+  setMeasureLength (
+    inputLineNumber,
+    fMeasureLength + harmonySoundingWholeNotes);
 
-    // account for harmony duration in measure length
-    setMeasureLength (
+  // update part measure length high tide if need be
+  fetchMeasurePartUplink ()->
+    updatePartMeasureLengthHighTide (
       inputLineNumber,
-      fMeasureLength + harmonySoundingWholeNotes);
+      fMeasureLength);
+      */
   
-    // update part measure length high tide if need be
-    fetchMeasurePartUplink ()->
-      updatePartMeasureLengthHighTide (
-        inputLineNumber,
-        fMeasureLength);
-    
-    // append the harmony to the measure elements list
-    fMeasureElementsList.push_back (figuredBass);
+  // append the harmony to the measure elements list
+  fMeasureElementsList.push_back (figuredBass);
 }
 
 void msrMeasure::bringMeasureToMeasureLength (
@@ -23264,7 +23157,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
   } // switch
 }
 
-void msrVoice::appendFIguredBassToVoice (
+void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
@@ -26110,6 +26003,24 @@ void msrStaff::initializeStaff ()
       createStaffSilentVoice (
         fInputLineNumber);
       break;
+      
+    case msrStaff::kFiguredBassStaff:
+      if (fStaffNumber != K_PART_FIGURED_BASS_STAFF_NUMBER) {
+        stringstream s;
+    
+        s <<
+          "figured bass staff number " << fStaffNumber <<
+          " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
+          
+        msrInternalError (
+          fInputLineNumber, s.str());
+      }
+      
+    // JMI ???  // dont't create any staff silent voice for a harmony staff
+      // create the staff silent voice
+      createStaffSilentVoice (
+        fInputLineNumber);
+      break;
   } // switch
 
   // get the initial staff details from the part if any
@@ -26412,6 +26323,9 @@ string msrStaff::staffNumberAsString () const
       break;
     case K_PART_HARMONY_STAFF_NUMBER:
       result = "K_PART_HARMONY_STAFF_NUMBER";
+      break;
+    case K_PART_FIGURED_BASS_STAFF_NUMBER:
+      result = "K_PART_FIGURED_BASS_STAFF_NUMBER";
       break;
     default:
       result = to_string (fStaffNumber);
@@ -28030,6 +27944,90 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     
 }
 
+void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
+  int inputLineNumber)
+{
+  if (! fPartFiguredBassStaff) {    
+    // create the part figured bass staff
+    if (
+      gGeneralOptions->fTraceParts
+        ||
+      gGeneralOptions->fTraceFiguredBass
+        ||
+      gGeneralOptions->fTraceStaves
+        ||
+      gGeneralOptions->fTraceVoices) {
+      cerr << idtr <<
+        "==> Creating the figured bass staff" <<
+        " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
+        " for part " <<
+        getPartCombinedName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+  
+    fPartFiguredBassStaff =
+      addStaffToPartByItsNumber (
+        inputLineNumber,
+        msrStaff::kFiguredBassStaff,
+        K_PART_FIGURED_BASS_STAFF_NUMBER);
+      
+    // create the part figured bass voice  
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+      cerr << idtr <<
+        "==> Creating the figured bass voice " <<
+        " with number " << K_PART_BASS_VOICE_NUMBER <<
+        " for part " <<
+        getPartCombinedName () <<
+        ", line " << inputLineNumber <<
+        endl;
+
+  if (false) // JMI
+    fPartFiguredBassVoice =
+      msrVoice::create (
+        inputLineNumber,
+        msrVoice::kFiguredBassVoice,
+        K_PART_BASS_VOICE_NUMBER,
+        msrVoice::kCreateInitialLastSegmentYes,
+        fPartFiguredBassStaff);
+  else
+    // create a deep copy of the part master voice
+    fPartFiguredBassVoice =
+      fPartMasterVoice->
+        createVoiceDeepCopy (
+          inputLineNumber,
+          msrVoice::kFiguredBassVoice,
+          K_PART_BASS_VOICE_NUMBER,
+          fPartFiguredBassStaff);
+  
+    // register it in figured bass staff
+    fPartFiguredBassStaff->
+      registerVoiceInStaff (
+        inputLineNumber,
+        fPartFiguredBassVoice );
+
+    if (fPartCurrentTime) {
+      // append part current time to figured bass voice
+      fPartFiguredBassVoice->
+        appendTimeToVoice (
+          fPartCurrentTime);
+    }
+  }
+
+  cerr <<
+    endl <<
+    idtr << "***********" <<
+    endl <<
+    endl <<
+    idtr;
+  print (cerr);
+  cerr <<
+    idtr << "***********" <<
+    endl <<
+    endl;
+    
+}
+
 void msrPart::setPartMeasureLengthHighTide (
   int      inputLineNumber,
   rational measureLength)
@@ -28883,15 +28881,15 @@ void msrPart::appendFiguredBassToPart (
       // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
         cerr << idtr <<
-          "Appending harmony '" <<
-          harmony->harmonyAsString () <<
+          "Appending figured bass '" <<
+          figuredBass->figuredBassAsString () <<
           "' to part " <<
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;
     
-      fPartHarmonyVoice->
-        appendHarmonyToVoice (figuredBass);
+      fPartFiguredBassVoice->
+        appendFiguredBassToVoice (figuredBass);
       break;
       
     case msrVoice::kMasterVoice:
