@@ -14155,7 +14155,66 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )
     fCurrentHarmonyBassQuarterTonesPitch =
       k_NoQuarterTonesPitch;
   }
+}
 
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_figured_bass" <<
+      endl;
+
+  fPendingFiguredBass                  = true;
+  fCurrentFiguredBassInputLineNumber   = elt->getInputLineNumber ();
+}
+
+
+void musicXMLTree2MsrTranslator::visitStart ( S_figure& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_figure" <<
+      endl;
+}
+
+void musicXMLTree2MsrTranslator::visitStart ( S_prefix& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_prefix" <<
+      endl;
+}
+
+void musicXMLTree2MsrTranslator::visitStart ( S_figure_number& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_figure_number" <<
+      endl;
+
+  fCurrentFigureNumber = (int)(*elt);
+}
+
+void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_suffix" <<
+      endl;
+}
+
+void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_figured_bass" <<
+      endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+}
 
 /*
  * Figured bass elements take their position from the first
@@ -14181,7 +14240,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )
   // the harmony will be created in visisEnd (S_note&),
   // when its duration can be be taken as that of the note following it
   // create the harmony
-}
+
 
 /*
        <degree>

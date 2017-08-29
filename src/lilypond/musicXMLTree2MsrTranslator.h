@@ -186,6 +186,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_bass_step>,
   public visitor<S_bass_alter>,
   
+  public visitor<S_figured_bass>,
+  public visitor<S_figure>,
+  public visitor<S_prefix>,
+  public visitor<S_figure_number>,
+  public visitor<S_suffix>,
+
   public visitor<S_degree_value>,
   public visitor<S_degree_alter>,
   public visitor<S_degree_type>,
@@ -509,6 +515,13 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_degree_value& elt);
     virtual void visitStart ( S_degree_alter& elt);
     virtual void visitStart ( S_degree_type& elt);
+
+    virtual void visitStart ( S_figured_bass& elt);
+    virtual void visitEnd   ( S_figured_bass& elt);
+    virtual void visitStart ( S_figure& elt);
+    virtual void visitStart ( S_prefix& elt);
+    virtual void visitStart ( S_figure_number& elt);
+    virtual void visitStart ( S_suffix& elt);
 
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
@@ -998,6 +1011,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     msrQuarterTonesPitch      fCurrentHarmonyRootQuarterTonesPitch;
     msrQuarterTonesPitch      fCurrentHarmonyBassQuarterTonesPitch;
+
+    // figured bass handling
+    // ------------------------------------------------------
+    
+    bool                      fPendingFiguredBass;
+    
+    int                       fCurrentFiguredBassInputLineNumber;
+    int                       fCurrentFigureNumber;
 
     // barline handling
     // ------------------------------------------------------
