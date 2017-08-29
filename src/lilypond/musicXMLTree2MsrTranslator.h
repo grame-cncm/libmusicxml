@@ -1016,10 +1016,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // figured bass handling
     // ------------------------------------------------------
     
-    bool                      fPendingFiguredBass;
+    bool                      fOnGoingFiguredBass;
     
     int                       fCurrentFiguredBassInputLineNumber;
     bool                      fCurrentFiguredBassParentheses;
+    int                       fCurrentFiguredBassDurationDivisions;
+
     msrFigure::msrFigurePrefixKind
                               fCurrentFigurePrefixKind;
     int                       fCurrentFigureNumber;

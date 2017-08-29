@@ -234,8 +234,9 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   fCurrentHarmonyDegreeAlteration  = k_NoAlteration;
 
   // figured bass handling
-  fPendingFiguredBass            = false;
+  fOnGoingFiguredBass            = false;
   fCurrentFiguredBassParentheses = false;
+  fCurrentFiguredBassDurationDivisions = -1;
   fCurrentFigureNumber = -1;
   
   // barline handling
@@ -6913,6 +6914,12 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
     fCurrentNoteDisplayWholeNotesFromDuration =
       fCurrentNoteSoundingWholeNotesFromDuration; // by default
       */
+  }
+
+  else if (fOnGoingFiguredBass) {
+
+    fCurrentFiguredBassDurationDivisions = duration;
+    
   }
   
   else {
@@ -14203,9 +14210,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   fCurrentFiguredBassInputLineNumber   = -1;  
   fCurrentFigureNumber = -1;
   
-  fPendingFiguredBass = true;
+  fOnGoingFiguredBass = true;
 }
-
 
 void musicXMLTree2MsrTranslator::visitStart ( S_figure& elt )
 {
@@ -14366,6 +14372,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     appendFiguredBassToPart (
       currentVoice,
       fCurrentFiguredBass);
+
+  fOnGoingFiguredBass = false;
 }
 
 /*

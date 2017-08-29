@@ -3360,6 +3360,9 @@ class EXP msrMeasure : public msrElement
     void                  appendFiguredBassToMeasure (
                             S_msrFiguredBass figuredBass);
     
+    void                  appendFiguredBassToMeasureClone (
+                            S_msrFiguredBass figuredBass);
+
     // grace notes
     
     void                  appendGraceNotesToMeasure (

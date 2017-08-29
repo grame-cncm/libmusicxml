@@ -15493,14 +15493,17 @@ msrHarmony::msrHarmony (
   fHarmonyPartUplink =
     harmonyPartUplink;
     
-  fHarmonyRootQuarterTonesPitch = harmonyRootQuarterTonesPitch;
+  fHarmonyRootQuarterTonesPitch =
+    harmonyRootQuarterTonesPitch;
  
   fHarmonyKind     = harmonyKind;
   fHarmonyKindText = harmonyKindText;
  
-  fHarmonyBassQuarterTonesPitch = harmonyBassQuarterTonesPitch;
+  fHarmonyBassQuarterTonesPitch =
+    harmonyBassQuarterTonesPitch;
  
-  fHarmonySoundingWholeNotes = harmonySoundingWholeNotes;
+  fHarmonySoundingWholeNotes =
+    harmonySoundingWholeNotes;
 
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
@@ -15538,9 +15541,6 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingWholeNotes);
-
-  newbornClone->fHarmonySoundingWholeNotes =
-    fHarmonySoundingWholeNotes;
         
   return newbornClone;
 }
@@ -15569,9 +15569,6 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonyKind, fHarmonyKindText,
         fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingWholeNotes);
-
-  harmonyDeepCopy->fHarmonySoundingWholeNotes =
-    fHarmonySoundingWholeNotes;
         
   return harmonyDeepCopy;
 }
@@ -15667,17 +15664,16 @@ string msrHarmony::harmonyAsString () const
   stringstream s;
 
   s <<
+    "Harmony" <<
+    ":" <<
     msrQuarterTonesPitchAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       fHarmonyRootQuarterTonesPitch) <<          
-    harmonyKindAsShortString ();
-
-  if (fHarmonyPartUplink) // JMI ???
-    s <<
-      ":" <<
-      wholeNotesAsMsrString (
-        fInputLineNumber,
-        fHarmonySoundingWholeNotes);
+    harmonyKindAsShortString () <<
+    " | " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes);
 
   if (fHarmonyKindText.size ())
     s <<
@@ -16116,7 +16112,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
     newbornClone =
       msrFiguredBass::create (
         fInputLineNumber,
-        containingPart);
+        containingPart,
+        fFiguredBassSoundingWholeNotes);
         
   return newbornClone;
 }
@@ -16140,7 +16137,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
     figuredBassDeepCopy =
       msrFiguredBass::create (
         fInputLineNumber,
-        containingPart);
+        containingPart,
+        fFiguredBassSoundingWholeNotes);
         
   return figuredBassDeepCopy;
 }
@@ -16165,7 +16163,11 @@ string msrFiguredBass::figuredBassAsString () const
   stringstream s;
 
   s <<
-    "Figured bass";
+    "Figured bass" <<
+    ": " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fFiguredBassSoundingWholeNotes);
 
   if (fFiguredBassFiguresList.size ()) {
     s << ", ";
@@ -16246,6 +16248,10 @@ void msrFiguredBass::print (ostream& os)
 {  
   os <<
     "FiguredBass" <<
+    ": " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fFiguredBassSoundingWholeNotes) <<
       ", line " << fInputLineNumber <<
     endl;
 
@@ -18480,24 +18486,63 @@ void msrMeasure::appendFiguredBassToMeasure (
       ", measureLength = " << fMeasureLength <<
       endl;
 
-      /* JMI
   // fetch harmony sounding whole notes
   rational
-    harmonySoundingWholeNotes =
+    figuredBassSoundingWholeNotes =
       figuredBass->
-        getHarmonySoundingWholeNotes ();
+        getFiguredBassSoundingWholeNotes ();
     
   // account for harmony duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + harmonySoundingWholeNotes);
+    fMeasureLength + figuredBassSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fetchMeasurePartUplink ()->
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
-      */
+  
+  // append the harmony to the measure elements list
+  fMeasureElementsList.push_back (figuredBass);
+}
+
+void msrMeasure::appendFiguredBassToMeasureClone (
+  S_msrFiguredBass figuredBass)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
+  // regular insertion in current measure
+  
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "' to measure clone '" << fMeasureNumber <<
+      "' in voice clone \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      ", measureLength = " << fMeasureLength <<
+      endl;
+      
+  // fetch harmony sounding whole notes
+  rational
+    figuredBassSoundingWholeNotes =
+      figuredBass->
+        getFiguredBassSoundingWholeNotes ();
+    
+  // account for harmony duration in measure length
+  setMeasureLength (
+    inputLineNumber,
+    fMeasureLength + figuredBassSoundingWholeNotes);
+
+  // update part measure length high tide if need be
+  fetchMeasurePartUplink ()->
+    updatePartMeasureLengthHighTide (
+      inputLineNumber,
+      fMeasureLength);
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (figuredBass);
