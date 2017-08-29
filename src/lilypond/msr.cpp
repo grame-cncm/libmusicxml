@@ -16015,6 +16015,21 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   return figuredBassDeepCopy;
 }
 
+void msrFiguredBass::appendFiguredFigureToFiguredBass (
+  S_msrFigure figure)
+{
+  if (gGeneralOptions->fTraceFiguredBass) {
+    cerr << idtr <<
+      "Appending figure'" << figure->figureAsString () <<
+      "' to figuredBass '" <<
+      figuredBassAsString () <<
+      "'" <<
+      endl;
+  }
+
+  fFiguredBassFiguresList.push_back (figure);
+}
+
 string msrFiguredBass::figuredBassPrefixKindAsString (
   msrFiguredBassPrefixKind figuredBassPrefixKind)
 {
@@ -16171,6 +16186,14 @@ void msrFiguredBass::print (ostream& os)
       fFiguredBassSuffixKind) <<
      ", line " << fInputLineNumber <<
     endl;
+
+  if (fFiguredBassFiguresList.size ()) {
+    idtr++;
+    for (i : fFiguredBassFiguresList) {
+      os << (*i) << endl;
+    } // for
+    idtr--;
+  }
 }
 
 //______________________________________________________________________________

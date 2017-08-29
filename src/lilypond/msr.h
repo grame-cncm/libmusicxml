@@ -4482,7 +4482,10 @@ class EXP msrFiguredBass : public msrElement
                                                                               
     // services
     // ------------------------------------------------------
-    
+
+    void                  appendFiguredFigureToFiguredBass (
+                            S_msrFigure figure);
+
     string                figuredBassAsString () const;
    
     // visitors

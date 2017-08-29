@@ -14337,8 +14337,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figure& elt )
         fCurrentFigureSuffixKind);
 
   // append it to the current part
-  fCurrentPart->
-    appendFiguredBassToPart (
+  fCurrentFiguredBass->
+    appendFiguredFigureToFiguredBass (
       figure);
 }
 
@@ -14352,6 +14352,10 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
+  // append the figured bass to the current part
+  fCurrentPart->
+    appendFiguredBassToPart (
+      fCurrentFiguredBass);
 }
 
 /*
