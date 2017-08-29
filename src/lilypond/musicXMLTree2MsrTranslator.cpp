@@ -14352,9 +14352,18 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNotYetDone ( // JMI
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentNoteVoiceNumber);
+
   // append the figured bass to the current part
   fCurrentPart->
     appendFiguredBassToPart (
+      currentVoice,
       fCurrentFiguredBass);
 }
 

@@ -2383,7 +2383,12 @@ void msrOptions::initializeMsrOptions (
   // harmonies
 
   fShowHarmonyVoices      = boolOptionsInitialValue;  
-  fKeepEmptyHarmonyVoices = boolOptionsInitialValue;  
+  fKeepEmptyHarmonyVoices = boolOptionsInitialValue;
+
+  // figured bass
+  
+  fShowFiguredBassVoices      = boolOptionsInitialValue;
+  fKeepEmptyFiguredBassVoices = boolOptionsInitialValue;
 }
 
 S_msrOptions msrOptions::createCloneWithDetailedTrace ()
@@ -2454,6 +2459,14 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
     fShowHarmonyVoices;
   clone->fKeepEmptyHarmonyVoices =
     fKeepEmptyHarmonyVoices;
+
+
+  // figured bass
+  
+  clone->fShowFiguredBassVoices =
+    fShowFiguredBassVoices;
+  clone->fKeepEmptyFiguredBassVoices =
+    fKeepEmptyFiguredBassVoices;
 
   return clone;
 }  
@@ -2741,6 +2754,37 @@ void msrOptions::printMsrOptionsHelp ()
 
   idtr--;
   
+  // figured bass
+  // --------------------------------------
+  cerr <<
+    idtr << "Harmonies:" <<
+    endl <<
+    endl;
+
+  idtr++;
+
+  cerr <<
+    idtr <<
+      "--" _SHOW_FIGURED_BASS_VOICES_SHORT_NAME_ ", --" _SHOW_FIGURED_BASS_VOICES_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Show the parts harmony voices in the MSR data even though is does not contain music." <<
+      endl <<
+    endl <<
+    
+    idtr <<
+      "--" _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ ", --" _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Keep the harmonies voice in the MSR data even though is does not contain music." <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "It is thrown away in such a case by default." <<
+      endl <<
+    endl;
+
+  idtr--;
+  
   idtr--;
 
   idtr--; 
@@ -2928,6 +2972,25 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       endl <<
     idtr << setw(fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
       booleanAsString (fKeepEmptyHarmonyVoices) <<
+      endl;
+  
+  idtr--;
+  
+  // figured bass
+  // --------------------------------------
+  
+  cerr <<
+    idtr << "Figured bass:" <<
+    endl;
+
+  idtr++;    
+
+  cerr <<
+    idtr << setw(fieldWidth) << "showFiguredBassVoices" << " : " <<
+      booleanAsString (fShowFiguredBassVoices) <<
+      endl <<
+    idtr << setw(fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
+      booleanAsString (fKeepEmptyFiguredBassVoices) <<
       endl;
   
   idtr--;
@@ -6936,6 +6999,12 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteHarmony = // JMI
     fNoteHarmony;
 
+  // figured bass
+  // ------------------------------------------------------
+
+  newbornClone->fNoteFiguredBass = // JMI
+    fNoteFiguredBass;
+
   // note measure information
   // ------------------------------------------------------
 
@@ -7266,6 +7335,16 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy->fNoteHarmony =
       fNoteHarmony->
         createHarmonyDeepCopy (
+          containingPart);
+  }
+
+  // figured bass
+  // ------------------------------------------------------
+
+  if (fNoteFiguredBass) {
+    noteDeepCopy->fNoteFiguredBass =
+      fNoteFiguredBass->
+        createFiguredBassDeepCopy (
           containingPart);
   }
 
@@ -7771,6 +7850,17 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
   fNoteHarmony = harmony;
 }
 
+void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
+{
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies)
+    cerr << idtr <<
+      "Setting note '" << noteAsShortString ()  << "'" <<
+      " figured bass to '" << figuredBass->figuredBassAsString () << "'" <<
+      endl;
+      
+  fNoteFiguredBass = figuredBass;
+}
+
 void msrNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -8006,6 +8096,12 @@ void msrNote::browseData (basevisitor* v)
     // browse the harmony
     msrBrowser<msrHarmony> browser (v);
     browser.browse (*fNoteHarmony);
+  }
+
+  if (fNoteFiguredBass) {
+    // browse the figured bass
+    msrBrowser<msrFiguredBass> browser (v);
+    browser.browse (*fNoteFiguredBass);
   }
 }
 
@@ -9066,6 +9162,16 @@ void msrNote::print (ostream& os)
         endl;
     idtr--;
   }
+
+  // print the figured bass if any
+  if (fNoteFiguredBass) {
+    idtr++;
+    os <<
+      idtr <<
+        fNoteFiguredBass <<
+        endl;
+    idtr--;
+  }
 }
 
 //______________________________________________________________________________
@@ -9573,6 +9679,12 @@ void msrChord::browseData (basevisitor* v)
     msrBrowser<msrHarmony> browser (v);
     browser.browse (*fChordHarmony);
   }
+
+  if (fChordFiguredBass) {
+    // browse the figured bass
+    msrBrowser<msrFiguredBass> browser (v);
+    browser.browse (*fChordFiguredBass);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrChord& elt)
@@ -9840,6 +9952,21 @@ void msrChord::print (ostream& os)
 
     os << idtr <<
       fChordHarmony->harmonyAsString () <<
+      endl;
+      
+    idtr--;
+  }
+
+  // print the figured bass if any
+  if (fChordFiguredBass) {
+    os << idtr <<
+      "Chord fibured bass: " <<
+      endl;
+        
+    idtr++;
+
+    os << idtr <<
+      fChordFiguredBass->figuredBassAsString () <<
       endl;
       
     idtr--;
@@ -19634,7 +19761,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
-        "Appending figured bass " << figuredBass->figuredBassAsString) <<
+        "Appending figured bass " << figuredBass->figuredBassAsString () <<
         " to segment clone " << segmentAsString () <<
         "' in voice clone \"" <<
         fSegmentVoiceUplink->getVoiceName () <<
@@ -23217,7 +23344,7 @@ void msrVoice::appendFiguredBassToVoiceClone (S_msrFiguredBass figuredBass)
           "\"";
 
         msrInternalError (
-          harmony->getInputLineNumber (),
+          figuredBass->getInputLineNumber (),
           s.str());
       }
       break;
@@ -28024,7 +28151,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
       cerr << idtr <<
         "==> Creating the figured bass voice " <<
-        " with number " << K_PART_BASS_VOICE_NUMBER <<
+        " with number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
@@ -28035,7 +28162,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
       msrVoice::create (
         inputLineNumber,
         msrVoice::kFiguredBassVoice,
-        K_PART_BASS_VOICE_NUMBER,
+        K_PART_FIGURED_BASS_VOICE_NUMBER,
         msrVoice::kCreateInitialLastSegmentYes,
         fPartFiguredBassStaff);
   else
@@ -28045,7 +28172,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         createVoiceDeepCopy (
           inputLineNumber,
           msrVoice::kFiguredBassVoice,
-          K_PART_BASS_VOICE_NUMBER,
+          K_PART_FIGURED_BASS_VOICE_NUMBER,
           fPartFiguredBassStaff);
   
     // register it in figured bass staff
@@ -28848,8 +28975,8 @@ void msrPart::appendHarmonyToPart (
           msrVoice::voiceKindAsString (
             harmoniesSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
-           harmoniesSupplierVoice->getVoiceName () <<
-           "\"";
+          harmoniesSupplierVoice->getVoiceName () <<
+          "\"";
     
         msrInternalError (
           inputLineNumber,
@@ -28905,8 +29032,8 @@ void msrPart::appendHarmonyToPartClone (
           msrVoice::voiceKindAsString (
             harmoniesSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
-           harmoniesSupplierVoice->getVoiceName () <<
-           "\"";
+          harmoniesSupplierVoice->getVoiceName () <<
+          "\"";
     
         msrInternalError (
           inputLineNumber,
@@ -28917,23 +29044,24 @@ void msrPart::appendHarmonyToPartClone (
 }
 
 void msrPart::appendFiguredBassToPart (
+  S_msrVoice       figuredBassSupplierVoice,
   S_msrFiguredBass figuredBass)
 {
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
-  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+  switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      // create the harmony staff and voice if not yet done
+      // create the figured bass staff and voice if not yet done
       createPartHarmonyStaffAndVoiceIfNotYetDone (
         inputLineNumber);
       
-      // register this voice as the part harmonies supplier voice
+      // register this voice as the part figured bass supplier voice
       setPartHarmoniesSupplierVoice (
         inputLineNumber,
-        harmoniesSupplierVoice);
+        figuredBassSupplierVoice);
     
-      // append the harmony to the part harmony voice
+      // append the figured bass to the part figured bass voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
         cerr << idtr <<
           "Appending figured bass '" <<
@@ -28957,10 +29085,10 @@ void msrPart::appendFiguredBassToPart (
         s <<
           "figured bass cannot by supplied to part by " <<
           msrVoice::voiceKindAsString (
-            harmoniesSupplierVoice->getVoiceKind ()) <<
+            figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
-           harmoniesSupplierVoice->getVoiceName () <<
-           "\"";
+          figuredBassSupplierVoice->getVoiceName () <<
+          "\"";
     
         msrInternalError (
           inputLineNumber,

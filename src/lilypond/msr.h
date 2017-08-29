@@ -497,6 +497,14 @@ string wholeNotesAsMsrString (
 #define _KEEP_EMPTY_HARMONIES_VOICE_LONG_NAME_  "keepEmptyHarmoniesVoice"
 #define _KEEP_EMPTY_HARMONIES_VOICE_SHORT_NAME_ "kehv"
 
+// figured bass
+
+#define _SHOW_FIGURED_BASS_VOICES_LONG_NAME_  "showFiguredBassVoices"
+#define _SHOW_FIGURED_BASS_VOICES_SHORT_NAME_ "sfbv"
+
+#define _KEEP_EMPTY_FIGURED_BASS_VOICE_LONG_NAME_  "keepEmptyFiguredBassVoice"
+#define _KEEP_EMPTY_FIGURED_BASS_VOICE_SHORT_NAME_ "kefbv"
+
 
 class EXP msrOptions : public smartable
 {
@@ -585,6 +593,12 @@ class EXP msrOptions : public smartable
     
     bool                  fShowHarmonyVoices;
     bool                  fKeepEmptyHarmonyVoices;
+    
+    // figured bass
+    // --------------------------------------
+    
+    bool                  fShowFiguredBassVoices;
+    bool                  fKeepEmptyFiguredBassVoices;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 
@@ -4760,10 +4774,19 @@ class EXP msrNote : public msrElement
                               { return fNoteBelongsToAChord; }
 
     // harmony
-    void                  setNoteHarmony (S_msrHarmony harmony);
+    void                  setNoteHarmony (
+                            S_msrHarmony harmony);
                               
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
+
+    // figured bass
+    void                  setNoteFiguredBass (
+                            S_msrFiguredBass figuredBass);
+                              
+    const S_msrFiguredBass&
+                          getNoteFiguredBass () const
+                              { return fNoteFiguredBass; };
 
     // note lyrics
     // -------------------------------
@@ -5180,6 +5203,11 @@ class EXP msrNote : public msrElement
 
     S_msrHarmony          fNoteHarmony;
 
+    // figured bass
+    // ------------------------------------------------------
+
+    S_msrFiguredBass      fNoteFiguredBass;
+
     // note measure information
     // ------------------------------------------------------
 
@@ -5353,11 +5381,18 @@ class EXP msrChord : public msrElement
                               { return fChordTie; }
 
     // harmony
-    void                  setChordHarmony (S_msrHarmony harmony)
+    void                  setChordHarmony (
+                            S_msrHarmony harmony)
                               { fChordHarmony = harmony; }
                       
-    const S_msrHarmony&   getChordHarmony () const
-                              { return fChordHarmony; };
+    // figured bass
+    void                  setChordFiguredBass (
+                            S_msrFiguredBass figuredBass)
+                              { fChordFiguredBass = figuredBass; }
+                      
+    const S_msrFiguredBass&
+                          getChordFiguredBass () const
+                              { return fChordFiguredBass; };
                       
     // measure uplink
     void                  setChordMeasureUplink (
@@ -5539,6 +5574,9 @@ class EXP msrChord : public msrElement
 
     // harmony
     S_msrHarmony          fChordHarmony;
+
+    // figured bass
+    S_msrFiguredBass      fChordFiguredBass;
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
@@ -9647,7 +9685,8 @@ class EXP msrPart : public msrElement
     // figured bass
 
     void                  appendFiguredBassToPart (
-                            S_msrFiguredBass figuredBass);
+                            S_msrVoice      figuredBassSupplierVoice,
+                           S_msrFiguredBass figuredBass);
     
     // accordion registration
 
