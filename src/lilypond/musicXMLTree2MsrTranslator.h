@@ -519,6 +519,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_figured_bass& elt);
     virtual void visitEnd   ( S_figured_bass& elt);
     virtual void visitStart ( S_figure& elt);
+    virtual void visitEnd   ( S_figure& elt);
     virtual void visitStart ( S_prefix& elt);
     virtual void visitStart ( S_figure_number& elt);
     virtual void visitStart ( S_suffix& elt);
@@ -1019,7 +1020,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     int                       fCurrentFiguredBassInputLineNumber;
     bool                      fCurrentFiguredBassParentheses;
+    msrFigure::msrFigurePrefixKind
+                              fCurrentFigurePrefixKind;
     int                       fCurrentFigureNumber;
+    msrFigure::msrFigureSuffixKind
+                              fCurrentFigureSuffixKind;
+    
+
+    S_msrFiguredBass          fCurrentFiguredBass;
 
     // barline handling
     // ------------------------------------------------------

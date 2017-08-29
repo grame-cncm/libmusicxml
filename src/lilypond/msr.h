@@ -100,6 +100,9 @@ typedef SMARTP<msrVoice> S_msrVoice;
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
 
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
 class msrSegment;
 typedef SMARTP<msrSegment> S_msrSegment;
 
@@ -3338,6 +3341,11 @@ class EXP msrMeasure : public msrElement
     void                  appendHarmonyToMeasureClone (
                             S_msrHarmony harmony);
 
+    // figured bass
+
+    void                  appendFiguredBassToMeasure (
+                            S_msrFiguredBass figuredBass);
+    
     // grace notes
     
     void                  appendGraceNotesToMeasure (
@@ -3593,6 +3601,11 @@ class EXP msrSegment : public msrElement
     
     void                  appendHarmonyToSegmentClone (S_msrHarmony harmony);
 
+    // figured bass
+
+    void                  appendFiguredBassToSegment (
+                            S_msrFiguredBass figuredBass);
+    
     // staff change
     
     void                  appendVoiceStaffChangeToSegment (
@@ -4349,6 +4362,7 @@ class EXP msrFigure : public msrElement
       int                 inputLineNumber,
       S_msrPart           figurePartUplink,
       msrFigurePrefixKind figurePrefixKind,
+      int                 figureNumber,
       msrFigureSuffixKind figureSuffixKind);
     
     SMARTP<msrFigure> createFigureNewbornClone (
@@ -4366,6 +4380,7 @@ class EXP msrFigure : public msrElement
       int                 inputLineNumber,
       S_msrPart           figurePartUplink,
       msrFigurePrefixKind figurePrefixKind,
+      int                 figureNumber,
       msrFigureSuffixKind figureSuffixKind);
 
     virtual ~msrFigure();
@@ -4381,6 +4396,9 @@ class EXP msrFigure : public msrElement
     msrFigurePrefixKind
                           getFigurePrefixKind () const
                               { return fFigurePrefixKind; }
+
+    int                   getFigureNumber () const
+                              { return fFigureNumber; }
 
     msrFigureSuffixKind
                           getFigureSuffixKind () const
@@ -4414,6 +4432,7 @@ class EXP msrFigure : public msrElement
 
     msrFigurePrefixKind
                           fFigurePrefixKind;
+    int                   fFigureNumber;
     msrFigureSuffixKind
                           fFigureSuffixKind;
 };
@@ -8334,6 +8353,11 @@ class EXP msrVoice : public msrElement
     
     void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
 
+    // figured bass
+
+    void                  appendFiguredBassToVoice (
+                            S_msrFiguredBass figuredBass);
+    
     // grace notes
     
     void                  appendGraceNotesToVoice (
@@ -9577,6 +9601,11 @@ class EXP msrPart : public msrElement
                             S_msrVoice   harmoniesSupplierVoice,
                             S_msrHarmony harmony);
 
+    // figured bass
+
+    void                  appendFiguredBassToPart (
+                            S_msrFiguredBass figuredBass);
+    
     // accordion registration
 
     void                  appendAccordionRegistrationToPart (

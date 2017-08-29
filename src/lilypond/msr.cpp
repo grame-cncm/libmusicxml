@@ -15663,6 +15663,7 @@ S_msrFigure msrFigure::create (
   int                 inputLineNumber,
   S_msrPart           figurePartUplink,
   msrFigurePrefixKind figurePrefixKind,
+  int                 figureNumber,
   msrFigureSuffixKind figureSuffixKind)
 {
   msrFigure* o =
@@ -15670,6 +15671,7 @@ S_msrFigure msrFigure::create (
       inputLineNumber,
       figurePartUplink,
       figurePrefixKind,
+      figureNumber,
       figureSuffixKind);
   assert(o!=0);
 
@@ -15680,6 +15682,7 @@ msrFigure::msrFigure (
   int                 inputLineNumber,
   S_msrPart           figurePartUplink,
   msrFigurePrefixKind figurePrefixKind,
+  int                 figureNumber,
   msrFigureSuffixKind figureSuffixKind)
     : msrElement (inputLineNumber)
 {
@@ -15692,6 +15695,7 @@ msrFigure::msrFigure (
     figurePartUplink;
  
   fFigurePrefixKind = figurePrefixKind;
+  fFigureNumber     = figureNumber;
   fFigureSuffixKind = figureSuffixKind;
  
   if (gGeneralOptions->fTraceFiguredBass) {
@@ -15727,6 +15731,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
         fInputLineNumber,
         containingPart,
         fFigurePrefixKind,
+        fFigureNumber,
         fFigureSuffixKind);
         
   return newbornClone;
@@ -15753,6 +15758,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
         fInputLineNumber,
         containingPart,
         fFigurePrefixKind,
+        fFigureNumber,
         fFigureSuffixKind);
         
   return figureDeepCopy;
@@ -15837,7 +15843,8 @@ string msrFigure::figureAsString () const
 
   s <<
     "Figure" <<
-    ", prefix: " <<
+      "'" << fFigureNumber <<
+    "', prefix: " <<
     figurePrefixKindAsString (
       fFigurePrefixKind) <<
     ", suffix: " <<
@@ -15907,6 +15914,7 @@ void msrFigure::print (ostream& os)
 {  
   os <<
     "Figure" <<
+    "'" << fFigureNumber <<
     ", prefix: " <<
     figurePrefixKindAsString (
       fFigurePrefixKind) <<
@@ -18359,6 +18367,93 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   fMeasureElementsList.push_back (harmony);
 }
 
+void msrMeasure::appendFiguredBassToMeasure (
+  S_msrFiguredBass figuredBass)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+    cerr << idtr <<
+      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      ", measureLength = " << fMeasureLength <<
+      endl;
+
+  // populate measure uplink
+// JMI   harmony->setHarmonyMeasureUplink (this);
+
+  // register harmony measure number
+//   harmony->
+// JMI     setHarmonyMeasureNumber (fMeasureNumber);
+  
+  // register harmony measure position in measure
+//  int dummy = // JMI
+ //   harmony->
+  //    setHarmonyPositionInMeasure (fMeasureLength);
+
+
+/* JMI
+  // fetch voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+
+  // register voice as part harmonies supplied
+  // this will abort if another voice is already supplying harmonies
+  fetchMeasurePartUplink->
+    setPartHarmoniesSupplierVoice (
+      voice);
+
+      */
+
+      
+  // fetch harmony sounding whole notes
+  rational
+    harmonySoundingWholeNotes =
+      figuredBass->
+        getHarmonySoundingWholeNotes ();
+    
+//* JMI FOO
+/*
+  // append a skip syllable of the same duration to the part harmony voice
+  S_msrNote
+    skip =
+        msrNote::createSkipNote (
+            inputLineNumber,
+            harmonySoundingWholeNotes,
+            harmonySoundingWholeNotes,
+            voice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            voice->
+              getVoicePartRelativeID ());
+  
+    fetchMeasurePartUplink->
+      getPartHarmonyVoice ()->
+        appendNoteToVoice (skip);
+  */
+
+    // account for harmony duration in measure length
+    setMeasureLength (
+      inputLineNumber,
+      fMeasureLength + harmonySoundingWholeNotes);
+  
+    // update part measure length high tide if need be
+    fetchMeasurePartUplink ()->
+      updatePartMeasureLengthHighTide (
+        inputLineNumber,
+        fMeasureLength);
+    
+    // append the harmony to the measure elements list
+    fMeasureElementsList.push_back (figuredBass);
+}
+
 void msrMeasure::bringMeasureToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
@@ -19597,6 +19692,24 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
+}
+
+void msrSegment::appendFiguredBassToSegment (
+  S_msrFiguredBass figuredBass)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending figured bass " << figuredBass->figuredBassAsString () <<
+        " to segment " << segmentAsString () <<
+        "' in voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()-> // JMI ???
+    appendFiguredBassToMeasure (figuredBass);
 }
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
@@ -23117,6 +23230,95 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
           "cannot append a harmony to " <<
           voiceKindAsString () <<
           " voice clone \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          harmony->getInputLineNumber (),
+          s.str());
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::appendFIguredBassToVoice (
+  S_msrFiguredBass figuredBass)
+{
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+      
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          figuredBass->getInputLineNumber (),
+          s.str());
+      }
+      break;
+      
+    case msrVoice::kRegularVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          figuredBass->getInputLineNumber (),
+          s.str());
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      // create the voice last segment and first measure if needed
+      appendAFirstMeasureToVoiceIfNotYetDone (
+        harmony->getInputLineNumber ());
+
+      fVoiceLastSegment->
+        appendHarmonyToSegment (harmony);
+    
+      // register harmony
+      fVoiceActualHarmoniesCounter++;
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      // create the voice last segment and first measure if needed
+      appendAFirstMeasureToVoiceIfNotYetDone (
+        harmony->getInputLineNumber ());
+
+      fVoiceLastSegment->
+        appendHarmonyToSegment (figuredBass);
+    
+      // register harmony
+      fVoiceActualHarmoniesCounter++;
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrVoice::kSilentVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a harmony to " <<
+          voiceKindAsString () <<
+          " voice \"" <<
           getVoiceName () <<
           "\"";
 
@@ -28624,6 +28826,59 @@ void msrPart::appendHarmonyToPartClone (
     
         s <<
           "harmonies cannot by supplied to part clone by " <<
+          msrVoice::voiceKindAsString (
+            harmoniesSupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+           harmoniesSupplierVoice->getVoiceName () <<
+           "\"";
+    
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
+      break;
+  } // switch
+}
+
+void msrPart::appendFiguredBassToPart (
+  S_msrFiguredBass figuredBass)
+{
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
+
+  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      // create the harmony staff and voice if not yet done
+      createPartHarmonyStaffAndVoiceIfNotYetDone (
+        inputLineNumber);
+      
+      // register this voice as the part harmonies supplier voice
+      setPartHarmoniesSupplierVoice (
+        inputLineNumber,
+        harmoniesSupplierVoice);
+    
+      // append the harmony to the part harmony voice
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+        cerr << idtr <<
+          "Appending harmony '" <<
+          harmony->harmonyAsString () <<
+          "' to part " <<
+          getPartCombinedName () <<
+          ", line " << inputLineNumber <<
+          endl;
+    
+      fPartHarmonyVoice->
+        appendHarmonyToVoice (figuredBass);
+      break;
+      
+    case msrVoice::kMasterVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
+      {
+        stringstream s;
+    
+        s <<
+          "harmonies cannot by supplied to part by " <<
           msrVoice::voiceKindAsString (
             harmoniesSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<

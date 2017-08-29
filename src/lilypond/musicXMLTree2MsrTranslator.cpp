@@ -236,6 +236,7 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // figured bass handling
   fPendingFiguredBass            = false;
   fCurrentFiguredBassParentheses = false;
+  fCurrentFigureNumber = -1;
   
   // barline handling
   fOnGoingBarline      = false;
@@ -14170,8 +14171,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
       "--> Start visiting S_figured_bass" <<
       endl;
 
-  fCurrentFiguredBassInputLineNumber   = elt->getInputLineNumber ();  
-
   string parentheses = elt->getAttributeValue("parentheses");
   
   if (parentheses.size()) {    
@@ -14194,6 +14193,15 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
     }
   }
 
+  // create the figured bass
+  fCurrentFiguredBass =
+    msrFiguredBass::create (
+      elt->getInputLineNumber (),
+      fCurrentPart);
+
+  fCurrentFiguredBassInputLineNumber   = -1;  
+  fCurrentFigureNumber = -1;
+  
   fPendingFiguredBass = true;
 }
 
@@ -14216,9 +14224,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_prefix& elt )
   string prefix =
     elt->getValue ();
 
-  msrFigure::msrFigurePrefixKind
-    fCurrentFigurePrefixKind;
-    
   if      (prefix == "double-flat")
     fCurrentFigurePrefixKind = msrFigure::kDoubleFlatPrefix;
     
@@ -14274,9 +14279,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
   string suffix =
     elt->getValue ();
 
-  msrFigure::msrFigureSuffixKind
-    fCurrentFigureSuffixKind;
-    
   if      (suffix == "double-flat")
     fCurrentFigureSuffixKind = msrFigure::kDoubleFlatSuffix;
     
@@ -14312,6 +14314,32 @@ void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
       elt->getInputLineNumber (),
       s.str());    
   }
+}
+
+void musicXMLTree2MsrTranslator::visitEnd ( S_figure& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_figure" <<
+      endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  // create the figure
+  S_msrFigure
+    figure =
+      msrFigure::create (
+        inputLineNumber,
+        fCurrentPart,
+        fCurrentFigurePrefixKind,
+        fCurrentFigureNumber,
+        fCurrentFigureSuffixKind);
+
+  // append it to the current part
+  fCurrentPart->
+    appendFiguredBassToPart (
+      figure);
 }
 
 void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
