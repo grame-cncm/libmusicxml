@@ -1026,8 +1026,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     msrFigure::msrFigureSuffixKind
                               fCurrentFigureSuffixKind;
     
-
-    S_msrFiguredBass          fCurrentFiguredBass;
+    S_msrFiguredBass          fPendinFiguredBass;
 
     // barline handling
     // ------------------------------------------------------

@@ -16055,12 +16055,14 @@ void msrFigure::print (ostream& os)
 //______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
   int       inputLineNumber,
-  S_msrPart figuredBassPartUplink)
+  S_msrPart figuredBassPartUplink,
+  rational  figuredBassSoundingWholeNotes)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-      figuredBassPartUplink);
+      figuredBassPartUplink,
+      figuredBassSoundingWholeNotes);
   assert(o!=0);
 
   return o;
@@ -16068,7 +16070,8 @@ S_msrFiguredBass msrFiguredBass::create (
 
 msrFiguredBass::msrFiguredBass (
   int       inputLineNumber,
-  S_msrPart figuredBassPartUplink)
+  S_msrPart figuredBassPartUplink,
+  rational  figuredBassSoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
   // set figuredBass's part uplink
@@ -16078,7 +16081,10 @@ msrFiguredBass::msrFiguredBass (
      
   fFiguredBassPartUplink =
     figuredBassPartUplink;
-  
+
+  fFiguredBassSoundingWholeNotes =
+    figuredBassSoundingWholeNotes;
+    
   if (gGeneralOptions->fTraceFiguredBass) {
     cerr << idtr <<
       "==> Creating figuredBass '" <<

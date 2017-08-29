@@ -14197,7 +14197,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   fCurrentFiguredBass =
     msrFiguredBass::create (
       elt->getInputLineNumber (),
-      fCurrentPart);
+      fCurrentPart,
+      fCurrentNoteSoundingWholeNotes);
 
   fCurrentFiguredBassInputLineNumber   = -1;  
   fCurrentFigureNumber = -1;

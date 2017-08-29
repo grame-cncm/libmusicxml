@@ -4303,7 +4303,8 @@ class EXP msrHarmony : public msrElement
                               { return fHarmonyKindText; }
                 
     msrQuarterTonesPitch  getHarmonyBassQuarterTonesPitch () const
-                              { return fHarmonyBassQuarterTonesPitch; }                                              
+                              { return fHarmonyBassQuarterTonesPitch; }
+                              
     // services
     // ------------------------------------------------------
 
@@ -4453,7 +4454,7 @@ class EXP msrFigure : public msrElement
                           fFigurePrefixKind;
     int                   fFigureNumber;
     msrFigureSuffixKind
-                          fFigureSuffixKind;
+                          fFigureSuffixKind;    
 };
 typedef SMARTP<msrFigure> S_msrFigure;
 EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
@@ -4468,7 +4469,8 @@ class EXP msrFiguredBass : public msrElement
 
     static SMARTP<msrFiguredBass> create (
       int       inputLineNumber,
-      S_msrPart figuredBassPartUplink);
+      S_msrPart figuredBassPartUplink,
+      rational  figuredBassSoundingWholeNotes);
     
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
       S_msrPart containingPart);
@@ -4483,7 +4485,8 @@ class EXP msrFiguredBass : public msrElement
 
     msrFiguredBass (
       int       inputLineNumber,
-      S_msrPart figuredBassPartUplink);
+      S_msrPart figuredBassPartUplink,
+      rational  figuredBassSoundingWholeNotes);
 
     virtual ~msrFiguredBass();
   
@@ -4494,6 +4497,9 @@ class EXP msrFiguredBass : public msrElement
 
     S_msrPart             getFiguredBassPartUplink () const
                               { return fFiguredBassPartUplink; }
+
+    rational              getFiguredBassSoundingWholeNotes () const
+                              { return fFiguredBassSoundingWholeNotes; }
 
     const list<S_msrFigure>&
                           getfFiguredBassFiguresList ()
@@ -4524,6 +4530,8 @@ class EXP msrFiguredBass : public msrElement
 
     // uplinks
     S_msrPart             fFiguredBassPartUplink;
+
+    rational              fFiguredBassSoundingWholeNotes;
 
     list<S_msrFigure>     fFiguredBassFiguresList; 
 };
