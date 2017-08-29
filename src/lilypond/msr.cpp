@@ -19613,7 +19613,7 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
     cerr <<
       idtr <<
         "Appending figured bass " << figuredBass->figuredBassAsString () <<
@@ -19625,6 +19625,24 @@ void msrSegment::appendFiguredBassToSegment (
       
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
+    appendFiguredBassToMeasure (figuredBass);
+}
+
+void msrSegment::appendFiguredBassToSegmentClone (
+  S_msrFiguredBass figuredBass)
+{
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending figured bass " << figuredBass->figuredBassAsString) <<
+        " to segment clone " << segmentAsString () <<
+        "' in voice clone \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
 }
 
@@ -23034,40 +23052,6 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       endl;
       
   switch (fVoiceKind) {
-    case msrVoice::kMasterVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
-    case msrVoice::kRegularVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
     case msrVoice::kHarmonyVoice:
       // create the voice last segment and first measure if needed
       appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23081,23 +23065,9 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       fMusicHasBeenInsertedInVoice = true;
       break;
       
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
     case msrVoice::kFiguredBassVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
     case msrVoice::kSilentVoice:
       {
         stringstream s;
@@ -23126,40 +23096,6 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       endl;
       
   switch (fVoiceKind) {
-    case msrVoice::kMasterVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
-    case msrVoice::kRegularVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
     case msrVoice::kHarmonyVoice:
    // /* JMI DON'T
       // create the voice last segment and first measure if needed
@@ -23175,23 +23111,9 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       fMusicHasBeenInsertedInVoice = true;
       break;
       
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
     case msrVoice::kFiguredBassVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice clone \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
     case msrVoice::kSilentVoice:
       {
         stringstream s;
@@ -23214,85 +23136,83 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
     cerr << idtr <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
       
   switch (fVoiceKind) {
-    case msrVoice::kMasterVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          figuredBass->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
-    case msrVoice::kRegularVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          figuredBass->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
-    case msrVoice::kHarmonyVoice:
-      {
-        stringstream s;
-
-        s <<
-          "cannot append a harmony to " <<
-          voiceKindAsString () <<
-          " voice \"" <<
-          getVoiceName () <<
-          "\"";
-
-        msrInternalError (
-          harmony->getInputLineNumber (),
-          s.str());
-      }
-      break;
-      
     case msrVoice::kFiguredBassVoice:
       // create the voice last segment and first measure if needed
       appendAFirstMeasureToVoiceIfNotYetDone (
         figuredBass->getInputLineNumber ());
 
       fVoiceLastSegment->
-        appendHarmonyToSegment (figuredBass);
+        appendFiguredBassToSegment (figuredBass);
     
       // register harmony
       fVoiceActualFiguredBassCounter++;
       fMusicHasBeenInsertedInVoice = true;
       break;
-      
+
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
     case msrVoice::kSilentVoice:
       {
         stringstream s;
 
         s <<
-          "cannot append a harmony to " <<
+          "cannot append a figured bass to " <<
           voiceKindAsString () <<
           " voice \"" <<
+          getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          figuredBass->getInputLineNumber (),
+          s.str());
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::appendFiguredBassToVoiceClone (S_msrFiguredBass figuredBass)
+{
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "' to voice clone \"" << getVoiceName () << "\"" <<
+      endl;
+      
+  switch (fVoiceKind) {
+    case msrVoice::kFiguredBassVoice:
+   // /* JMI DON'T
+      // create the voice last segment and first measure if needed
+      appendAFirstMeasureToVoiceIfNotYetDone (
+        figuredBass->getInputLineNumber ());
+//*/
+
+      fVoiceLastSegment->
+        appendFiguredBassToSegmentClone (figuredBass);
+    
+      // register figured bass
+      fVoiceActualFiguredBassCounter++;
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
+      {
+        stringstream s;
+
+        s <<
+          "cannot append a figured bass to " <<
+          voiceKindAsString () <<
+          " voice clone \"" <<
           getVoiceName () <<
           "\"";
 

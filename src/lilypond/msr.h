@@ -3597,15 +3597,20 @@ class EXP msrSegment : public msrElement
 
     // harmonies
     
-    void                  appendHarmonyToSegment (S_msrHarmony harmony);
+    void                  appendHarmonyToSegment (
+                            S_msrHarmony harmony);
     
-    void                  appendHarmonyToSegmentClone (S_msrHarmony harmony);
+    void                  appendHarmonyToSegmentClone (
+                            S_msrHarmony harmony);
 
     // figured bass
 
     void                  appendFiguredBassToSegment (
                             S_msrFiguredBass figuredBass);
     
+    void                  appendFiguredBassToSegmentClone (
+                            S_msrFiguredBass figuredBass);
+
     // staff change
     
     void                  appendVoiceStaffChangeToSegment (
@@ -8217,6 +8222,9 @@ class EXP msrVoice : public msrElement
     int                   getVoiceActualHarmoniesCounter () const
                               { return fVoiceActualHarmoniesCounter; }
 
+    int                   getVoiceActualFiguredBassCounter () const
+                              { return fVoiceActualFiguredBassCounter; }
+
      // measures
      
     void                  createMeasureAndAppendItToVoice (
@@ -8353,15 +8361,20 @@ class EXP msrVoice : public msrElement
 
     // harmonies
 
-    void                  appendHarmonyToVoice (S_msrHarmony harmony);
+    void                  appendHarmonyToVoice (
+                            S_msrHarmony harmony);
     
-    void                  appendHarmonyToVoiceClone (S_msrHarmony harmony);
+    void                  appendHarmonyToVoiceClone (
+                            S_msrHarmony harmony);
 
     // figured bass
 
     void                  appendFiguredBassToVoice (
                             S_msrFiguredBass figuredBass);
     
+    void                  appendFiguredBassToVoiceClone (
+                            S_msrFiguredBass figuredBass);
+
     // grace notes
     
     void                  appendGraceNotesToVoice (
@@ -8553,6 +8566,7 @@ class EXP msrVoice : public msrElement
     int                   fVoiceRestsCounter;
     int                   fVoiceSkipsCounter;
     int                   fVoiceActualHarmoniesCounter;
+    int                   fVoiceActualFiguredBassCounter;
 
     // measures
     
