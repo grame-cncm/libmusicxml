@@ -4323,34 +4323,31 @@ class EXP msrFiguredBass : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrFiguredBassKind {
-      k_NoFiguredBass,
-      kMajor, kMinor, kDominant,
-      kAugmented, kDiminished,
-      kSuspendedFourth,
-      kMajorSeventh,kMinorSeventh,
-      kMajorNinth, kMinorNinth};
+    enum msrFiguredBassPrefixKind {
+      k_NoFiguredBassPrefix,
+      kDoubleFlat, kFlat, kFlatFlat,
+      kNatural, kSharpSharp, kSharp, kDoubleSharp };
 
-    static string figuredBassKindAsString (
-      msrFiguredBassKind figuredBassKind);
+    static string figuredBassPrefixKindAsString (
+      msrFiguredBassPrefixKind figuredBassPrefixKind);
       
-    enum msrFiguredBassDegreeTypeKind {
-      kAdd, kAlter, kSubstract};
+    enum msrFiguredBassSuffixKind {
+      k_NoFiguredBassSuffix,
+      kDoubleFlat, kFlat, kFlatFlat,
+      kNatural, kSharpSharp, kSharp, kDoubleSharp,
+      kSlash };
 
-    static string figuredBassDegreeTypeKindAsString (
-      msrFiguredBassDegreeTypeKind figuredBassDegreeTypeKind);
-      
+    static string figuredBassSuffixKindAsString (
+      msrFiguredBassSuffixKind figuredBassSuffixKind);
+            
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrFiguredBass> create (
-      int                  inputLineNumber,
-      S_msrPart            figuredBassPartUplink,
-      msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
-      msrFiguredBassKind       figuredBassKind,
-      string               figuredBassKindText,
-      msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
-      rational             figuredBassSoundingWholeNotes);
+      int                      inputLineNumber,
+      S_msrPart                figuredBassPartUplink,
+      msrFiguredBassPrefixKind figuredBassPrefixKind,
+      msrFiguredBassSuffixKind figuredBassSuffixKind);
     
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
       S_msrPart containingPart);
@@ -4364,13 +4361,10 @@ class EXP msrFiguredBass : public msrElement
     // ------------------------------------------------------
 
     msrFiguredBass (
-      int                  inputLineNumber,
-      S_msrPart            figuredBassPartUplink,
-      msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
-      msrFiguredBassKind       figuredBassKind,
-      string               figuredBassKindText,
-      msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
-      rational             figuredBassSoundingWholeNotes);
+      int                      inputLineNumber,
+      S_msrPart                figuredBassPartUplink,
+      msrFiguredBassPrefixKind figuredBassPrefixKind,
+      msrFiguredBassSuffixKind figuredBassSuffixKind);
 
     virtual ~msrFiguredBass();
   
@@ -4382,25 +4376,19 @@ class EXP msrFiguredBass : public msrElement
     S_msrPart             getFiguredBassPartUplink () const
                              { return fFiguredBassPartUplink; }
 
-    rational              getFiguredBassSoundingWholeNotes () const
-                              { return fFiguredBassSoundingWholeNotes; }
+    msrFiguredBassPrefixKind
+                          getFiguredBassPrefixKind () const
+                              { return fFiguredBassPrefixKind; }
 
-    msrQuarterTonesPitch  getFiguredBassRootQuarterTonesPitch () const
-                              { return fFiguredBassRootQuarterTonesPitch; }
-                                
-    msrFiguredBassKind        getFiguredBassKind () const
-                              { return fFiguredBassKind; }
-                
-    string                getFiguredBassKindText () const
-                              { return fFiguredBassKindText; }
-                
-    msrQuarterTonesPitch  getFiguredBassBassQuarterTonesPitch () const
-                              { return fFiguredBassBassQuarterTonesPitch; }                                              
+    msrFiguredBassSuffixKind
+                          getFiguredBassSuffixKind () const
+                              { return fFiguredBassSuffixKind; }
+                                                                              
     // services
     // ------------------------------------------------------
 
-    string                figuredBassKindAsString () const;
-    string                figuredBassKindAsShortString () const;
+    string                figuredBassPrefixKindAsString () const;
+    string                figuredBassSuffixKindAsShortString () const;
     
     string                figuredBassAsString () const;
    
@@ -4422,14 +4410,10 @@ class EXP msrFiguredBass : public msrElement
     // uplinks
     S_msrPart             fFiguredBassPartUplink;
 
-    rational              fFiguredBassSoundingWholeNotes;
-    
-    msrQuarterTonesPitch  fFiguredBassRootQuarterTonesPitch;
-
-    msrFiguredBassKind        fFiguredBassKind;
-    string                fFiguredBassKindText;
-
-    msrQuarterTonesPitch  fFiguredBassBassQuarterTonesPitch;
+    msrFiguredBassPrefixKind
+                          fFiguredBassPrefixKind;
+    msrFiguredBassSuffixKind
+                          fFiguredBassSuffixKind;
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);

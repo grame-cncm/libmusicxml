@@ -15660,55 +15660,41 @@ void msrHarmony::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
-  int                  inputLineNumber,
-  S_msrPart            figuredBassPart,
-  msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
-  msrFiguredBassKind       figuredBassKind,
-  string               figuredBassKindText,
-  msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
-  rational             figuredBassSoundingWholeNotes)
+  int                      inputLineNumber,
+  S_msrPart                figuredBassPartUplink,
+  msrFiguredBassPrefixKind figuredBassPrefixKind,
+  msrFiguredBassSuffixKind figuredBassSuffixKind)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-      figuredBassPart,
-      figuredBassRootQuarterTonesPitch,
-      figuredBassKind, figuredBassKindText,
-      figuredBassBassQuarterTonesPitch,
-      figuredBassSoundingWholeNotes);
+      figuredBassPartUplink,
+      figuredBassPrefixKind,
+      figuredBassSuffixKind);
   assert(o!=0);
 
   return o;
 }
 
 msrFiguredBass::msrFiguredBass (
-  int                  inputLineNumber,
-  S_msrPart            figuredBassPartUplink,
-  msrQuarterTonesPitch figuredBassRootQuarterTonesPitch,
-  msrFiguredBassKind       figuredBassKind,
-  string               figuredBassKindText,
-  msrQuarterTonesPitch figuredBassBassQuarterTonesPitch,
-  rational             figuredBassSoundingWholeNotes)
+  int                      inputLineNumber,
+  S_msrPart                figuredBassPartUplink,
+  msrFiguredBassPrefixKind figuredBassPrefixKind,
+  msrFiguredBassSuffixKind figuredBassSuffixKind)
     : msrElement (inputLineNumber)
 {
-  // set figuredBass's part
+  // set figuredBass's part uplink
   msrAssert(
     figuredBassPartUplink != 0,
      "figuredBassPartUplink is null");
      
   fFiguredBassPartUplink =
     figuredBassPartUplink;
-    
-  fFiguredBassRootQuarterTonesPitch = figuredBassRootQuarterTonesPitch;
  
-  fFiguredBassKind     = figuredBassKind;
-  fFiguredBassKindText = figuredBassKindText;
+  fFiguredBassPrefixKind = figuredBassPrefixKind;
+  fFiguredBassSuffixKind = figuredBassSuffixKind;
  
-  fFiguredBassBassQuarterTonesPitch = figuredBassBassQuarterTonesPitch;
- 
-  fFiguredBassSoundingWholeNotes = figuredBassSoundingWholeNotes;
-
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceFiguredBasses) {
     cerr << idtr <<
       "==> Creating figuredBass '" <<
       figuredBassAsString () <<
@@ -15740,10 +15726,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
       msrFiguredBass::create (
         fInputLineNumber,
         containingPart,
-        fFiguredBassRootQuarterTonesPitch,
-        fFiguredBassKind, fFiguredBassKindText,
-        fFiguredBassBassQuarterTonesPitch,
-        fFiguredBassSoundingWholeNotes);
+        fFiguredBassPrefixKind,
+        fFiguredBassSuffixKind);
 
   newbornClone->fFiguredBassSoundingWholeNotes =
     fFiguredBassSoundingWholeNotes;
@@ -15771,97 +15755,79 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
       msrFiguredBass::create (
         fInputLineNumber,
         containingPart,
-        fFiguredBassRootQuarterTonesPitch,
-        fFiguredBassKind, fFiguredBassKindText,
-        fFiguredBassBassQuarterTonesPitch,
-        fFiguredBassSoundingWholeNotes);
-
-  figuredBassDeepCopy->fFiguredBassSoundingWholeNotes =
-    fFiguredBassSoundingWholeNotes;
+        fFiguredBassPrefixKind,
+        fFiguredBassSuffixKind);
         
   return figuredBassDeepCopy;
 }
 
-string msrFiguredBass::figuredBassKindAsString (
-  msrFiguredBassKind figuredBassKind)
+string msrFiguredBass::figuredBassPrefixKindAsString (
+  msrFiguredBassPrefixKind figuredBassPrefixKind)
 {
   string result;
   
-  switch (figuredBassKind) {
-    case msrFiguredBass::kMajor:
-      result = "Major";
+  switch (figuredBassPrefixKind) {
+    case msrFiguredBass::k_NoFiguredBassPrefix:
+      result = "none";
       break;
-    case msrFiguredBass::kMinor:
-      result = "Minor";
+    case msrFiguredBass::kDoubleFlat:
+      result = "double flat";
       break;
-    case msrFiguredBass::kDominant:
-      result = "Dominant";
+    case msrFiguredBass::kFlat:
+      result = "flat";
       break;
-    case msrFiguredBass::kAugmented:
-      result = "Augmented";
+    case msrFiguredBass::kFlatFlat:
+      result = "flat flat";
       break;
-    case msrFiguredBass::kDiminished:
-      result = "Diminished";
+    case msrFiguredBass::kNatural:
+      result = "natural";
       break;
-    case msrFiguredBass::kSuspendedFourth:
-      result = "SuspendedFourth";
+    case msrFiguredBass::kSharpSharp:
+      result = "sharp sharp";
       break;
-    case msrFiguredBass::kMajorSeventh:
-      result = "MajorSeventh";
+    case msrFiguredBass::kSharp:
+      result = "sharp";
       break;
-    case msrFiguredBass::kMinorSeventh:
-      result = "MinorSeventh";
-      break;
-    case msrFiguredBass::kMajorNinth:
-      result = "MajorNinth";
-      break;
-    case msrFiguredBass::kMinorNinth:
-      result = "MinorNinth";
-      break;
-    case msrFiguredBass::k_NoFiguredBass:
-      result = "FiguredBass???";
+    case msrFiguredBass::kDoubleSharp:
+      result = "souble sharp";
       break;
   } // switch
 
   return result;
 }
 
-string msrFiguredBass::figuredBassKindAsShortString () const
+string msrFiguredBass::figuredBassSuffixKindAsString (
+  msrFiguredBassSuffixKind figuredBassSuffixKind)
 {
   string result;
   
-  switch (fFiguredBassKind) {
-    case msrFiguredBass::kMajor:
+  switch (figuredBassSuffixKind) {
+    case msrFiguredBass::k_NoFiguredBassSuffix:
+      result = "none";
       break;
-    case msrFiguredBass::kMinor:
-      result = "m";
+    case msrFiguredBass::kDoubleFlat:
+      result = "double flat";
       break;
-    case msrFiguredBass::kDominant:
-      result = "7";
+    case msrFiguredBass::kFlat:
+      result = "flat";
       break;
-    case msrFiguredBass::kAugmented:
-      result = "+";
+    case msrFiguredBass::kFlatFlat:
+      result = "flat flat";
       break;
-    case msrFiguredBass::kDiminished:
-      result = "dim";
+    case msrFiguredBass::kNatural:
+      result = "natural";
       break;
-    case msrFiguredBass::kSuspendedFourth:
-      result = "sus4";
+    case msrFiguredBass::kSharpSharp:
+      result = "sharp sharp";
       break;
-    case msrFiguredBass::kMajorSeventh:
-      result = "∆7";
+    case msrFiguredBass::kSharp:
+      result = "sharp";
       break;
-    case msrFiguredBass::kMinorSeventh:
-      result = "m7";
+    case msrFiguredBass::kDoubleSharp:
+      result = "souble sharp";
       break;
-    case msrFiguredBass::kMajorNinth:
-      result = "9";
-      break;
-    case msrFiguredBass::kMinorNinth:
-      result = "-9";
-      break;
-    case msrFiguredBass::k_NoFiguredBass:
-      result = "FiguredBass???";
+    case msrFiguredBass::kSlash:
+      result = "slash";
       break;
   } // switch
 
@@ -15873,10 +15839,12 @@ string msrFiguredBass::figuredBassAsString () const
   stringstream s;
 
   s <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fFiguredBassRootQuarterTonesPitch) <<          
-    figuredBassKindAsShortString ();
+    "prefix: " <<
+    figuredBassPrefixKindAsString (
+      fFiguredBassPrefixKindAsString) <<
+    ", suffix: " <<
+    figuredBassSuffixKindAsString (
+      fFiguredBassSuffixKindAsString);
 
   if (fFiguredBassPartUplink) // JMI ???
     s <<
@@ -15885,16 +15853,6 @@ string msrFiguredBass::figuredBassAsString () const
         fInputLineNumber,
         fFiguredBassSoundingWholeNotes);
 
-  if (fFiguredBassKindText.size ())
-    s <<
-      " (" <<fFiguredBassKindText << ") ";
-
-  if (fFiguredBassBassQuarterTonesPitch != k_NoQuarterTonesPitch)
-    s <<
-      "/" <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fFiguredBassBassQuarterTonesPitch);    
 
   return s.str();
 }
@@ -15950,45 +15908,14 @@ void msrFiguredBass::print (ostream& os)
 {  
   os <<
     "FiguredBass" <<
-    ", " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fFiguredBassSoundingWholeNotes) <<
-    " (" << fFiguredBassSoundingWholeNotes << " sounding whole notes)" <<
+    ", prefix: " <<
+    figuredBassPrefixKindAsString (
+      fFiguredBassPrefixKindAsString) <<
+    ", suffix: " <<
+    figuredBassSuffixKindAsString (
+      fFiguredBassSuffixKindAsString);
      ", line " << fInputLineNumber <<
     endl;
-    
-  idtr++;
-
-  const int fieldWidth = 15;
-
-  os << left <<
-    idtr <<
-      setw(fieldWidth) <<
-      "FiguredBassRoot" << " = " <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fFiguredBassRootQuarterTonesPitch) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "FiguredBassKind" << " = " <<
-      figuredBassKindAsString (fFiguredBassKind) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "FiguredBassKindText" << " = " <<
-      fFiguredBassKindText <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "FiguredBassBass" << " = " <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fFiguredBassBassQuarterTonesPitch) <<
-      endl;
-
-  idtr--;
 }
 
 //______________________________________________________________________________

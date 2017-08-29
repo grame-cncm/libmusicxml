@@ -233,16 +233,21 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   fCurrentHarmonyDegreeValue       = -1;
   fCurrentHarmonyDegreeAlteration  = k_NoAlteration;
 
+  // figured bass handling
+  fPendingFiguredBass            = false;
+  fCurrentFiguredBassParentheses = false;
+  
   // barline handling
-  fOnGoingBarline = false;
-
+  fOnGoingBarline      = false;
+  fCurrentFigureNumber = -1;
+  
   // repeats handling
   fRepeatHasBeenCreatedForCurrentPart = false;
 
   // MusicXML notes handling
   fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = k_NoAlteration;
-  fOnGoingNote            = false;
+  fOnGoingNote              = false;
 
   // note context
   fCurrentNoteStaffNumber = 0;
@@ -3556,7 +3561,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_metronome& elt )
       fCurrentMetronomeParentheses = true;
       
     else if (parentheses == "no")
-      fCurrentMetronomeParentheses = true;
+      fCurrentMetronomeParentheses = false;
       
     else {
       stringstream s;
@@ -14165,8 +14170,31 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
       "--> Start visiting S_figured_bass" <<
       endl;
 
-  fPendingFiguredBass                  = true;
-  fCurrentFiguredBassInputLineNumber   = elt->getInputLineNumber ();
+  fCurrentFiguredBassInputLineNumber   = elt->getInputLineNumber ();  
+
+  string parentheses = elt->getAttributeValue("parentheses");
+  
+  if (parentheses.size()) {    
+    if (parentheses == "yes")
+      fCurrentFiguredBassParentheses = true;
+      
+    else if (parentheses == "no")
+      fCurrentFiguredBassParentheses = false;
+      
+    else {
+      stringstream s;
+      
+      s <<
+        "parentheses value " << parentheses <<
+        " should be 'yes' or 'no'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str());
+    }
+  }
+
+  fPendingFiguredBass = true;
 }
 
 
@@ -14184,6 +14212,46 @@ void musicXMLTree2MsrTranslator::visitStart ( S_prefix& elt )
     cerr << idtr <<
       "--> Start visiting S_prefix" <<
       endl;
+
+  string prefix =
+    elt->getValue ();
+
+  msrFiguredBass::msrFiguredBassPrefixKind
+    fCurrentFiguredBassPrefixKind;
+    
+  if      (prefix == "double-flat")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kDoubleFlat;
+    
+  else if (prefix == "flat")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kFlat;
+    
+  else if (prefix == "flat-flat")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kFlatFlat;
+    
+  else if (prefix == "natural")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kNatural;
+    
+  else if (prefix == "sharp-sharp")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kSharpSharp;
+    
+  else if (prefix == "sharp")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kSharp;
+    
+  else if (prefix == "double-sharp")
+    fCurrentFiguredBassPrefixKind = msrFiguredBass::kDoubleSharp;
+        
+  else if (prefix.size ()) {
+    stringstream s;
+    
+    s <<
+      "prefix \"" << prefix <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());    
+  }
+
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_figure_number& elt )
@@ -14202,6 +14270,48 @@ void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
     cerr << idtr <<
       "--> Start visiting S_suffix" <<
       endl;
+
+  string suffix =
+    elt->getValue ();
+
+  msrFiguredBass::msrFiguredBassSuffixKind
+    fCurrentFiguredBassSuffixKind;
+    
+  if      (suffix == "double-flat")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kDoubleFlat;
+    
+  else if (suffix == "flat")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kFlat;
+    
+  else if (suffix == "flat-flat")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kFlatFlat;
+    
+  else if (suffix == "natural")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kNatural;
+    
+  else if (suffix == "sharp-sharp")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kSharpSharp;
+    
+  else if (suffix == "sharp")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kSharp;
+    
+  else if (suffix == "double-sharp")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kDoubleSharp;
+        
+  else if (suffix == "slash")
+    fCurrentFiguredBassSuffixKind = msrFiguredBass::kSlash;
+        
+  else if (suffix.size ()) {
+    stringstream s;
+    
+    s <<
+      "suffix \"" << suffix <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str());    
+  }
 }
 
 void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
