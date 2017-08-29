@@ -9500,8 +9500,8 @@ class EXP msrPart : public msrElement
                             S_msrVoice figuredBassVoice)
                               { fPartFiguredBassVoice = figuredBassVoice; }
 
-    S_msrVoice            getPartHarmonyVoice () const
-                              { return fPartHarmonyVoice; }
+    S_msrVoice            getPartFiguredBassVoice () const
+                              { return fPartFiguredBassVoice; }
                   
     // transpose
 
