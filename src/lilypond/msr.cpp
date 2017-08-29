@@ -15659,41 +15659,290 @@ void msrHarmony::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrFigure msrFigure::create (
+  int                 inputLineNumber,
+  S_msrPart           figurePartUplink,
+  msrFigurePrefixKind figurePrefixKind,
+  msrFigureSuffixKind figureSuffixKind)
+{
+  msrFigure* o =
+    new msrFigure (
+      inputLineNumber,
+      figurePartUplink,
+      figurePrefixKind,
+      figureSuffixKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrFigure::msrFigure (
+  int                 inputLineNumber,
+  S_msrPart           figurePartUplink,
+  msrFigurePrefixKind figurePrefixKind,
+  msrFigureSuffixKind figureSuffixKind)
+    : msrElement (inputLineNumber)
+{
+  // set figured's part uplink
+  msrAssert(
+    figurePartUplink != 0,
+    "figurePartUplink is null");
+     
+  fFigurePartUplink =
+    figurePartUplink;
+ 
+  fFigurePrefixKind = figurePrefixKind;
+  fFigureSuffixKind = figureSuffixKind;
+ 
+  if (gGeneralOptions->fTraceFiguredBass) {
+    cerr << idtr <<
+      "==> Creating figure '" <<
+      figureAsString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrFigure::~msrFigure()
+{}
+
+S_msrFigure msrFigure::createFigureNewbornClone (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceFiguredBass) {
+    cerr << idtr <<
+      "==> Creating a newborn clone of figure '" <<
+      figureAsString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrFigure
+    newbornClone =
+      msrFigure::create (
+        fInputLineNumber,
+        containingPart,
+        fFigurePrefixKind,
+        fFigureSuffixKind);
+        
+  return newbornClone;
+}
+
+S_msrFigure msrFigure::createFigureDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceFiguredBass) {
+    cerr << idtr <<
+      "==> Creating a deep copy of figure '" <<
+      figureAsString () <<
+      "'" <<
+      endl;
+  }
+
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrFigure
+    figureDeepCopy =
+      msrFigure::create (
+        fInputLineNumber,
+        containingPart,
+        fFigurePrefixKind,
+        fFigureSuffixKind);
+        
+  return figureDeepCopy;
+}
+
+string msrFigure::figurePrefixKindAsString (
+  msrFigurePrefixKind figurePrefixKind)
+{
+  string result;
+  
+  switch (figurePrefixKind) {
+    case msrFigure::k_NoFigurePrefix:
+      result = "none";
+      break;
+    case msrFigure::kDoubleFlatPrefix:
+      result = "double flat";
+      break;
+    case msrFigure::kFlatPrefix:
+      result = "flat";
+      break;
+    case msrFigure::kFlatFlatPrefix:
+      result = "flat flat";
+      break;
+    case msrFigure::kNaturalPrefix:
+      result = "natural";
+      break;
+    case msrFigure::kSharpSharpPrefix:
+      result = "sharp sharp";
+      break;
+    case msrFigure::kSharpPrefix:
+      result = "sharp";
+      break;
+    case msrFigure::kDoubleSharpPrefix:
+      result = "souble sharp";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrFigure::figureSuffixKindAsString (
+  msrFigureSuffixKind figureSuffixKind)
+{
+  string result;
+  
+  switch (figureSuffixKind) {
+    case msrFigure::k_NoFigureSuffix:
+      result = "none";
+      break;
+    case msrFigure::kDoubleFlatSuffix:
+      result = "double flat";
+      break;
+    case msrFigure::kFlatSuffix:
+      result = "flat";
+      break;
+    case msrFigure::kFlatFlatSuffix:
+      result = "flat flat";
+      break;
+    case msrFigure::kNaturalSuffix:
+      result = "natural";
+      break;
+    case msrFigure::kSharpSharpSuffix:
+      result = "sharp sharp";
+      break;
+    case msrFigure::kSharpSuffix:
+      result = "sharp";
+      break;
+    case msrFigure::kDoubleSharpSuffix:
+      result = "souble sharp";
+      break;
+    case msrFigure::kSlashSuffix:
+      result = "slash";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrFigure::figureAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Figure" <<
+    ", prefix: " <<
+    figurePrefixKindAsString (
+      fFigurePrefixKind) <<
+    ", suffix: " <<
+    figureSuffixKindAsString (
+      fFigureSuffixKind);
+
+/* JMI
+  if (fFigurePartUplink) // JMI ???
+    s <<
+      ":" <<
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fFigureSoundingWholeNotes);
+*/
+
+  return s.str();
+}
+
+void msrFigure::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFigure::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrFigure>*
+    p =
+      dynamic_cast<visitor<S_msrFigure>*> (v)) {
+        S_msrFigure elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFigure::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrFigure::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFigure::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrFigure>*
+    p =
+      dynamic_cast<visitor<S_msrFigure>*> (v)) {
+        S_msrFigure elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFigure::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrFigure::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrFigure& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrFigure::print (ostream& os)
+{  
+  os <<
+    "Figure" <<
+    ", prefix: " <<
+    figurePrefixKindAsString (
+      fFigurePrefixKind) <<
+    ", suffix: " <<
+    figureSuffixKindAsString (
+      fFigureSuffixKind) <<
+     ", line " << fInputLineNumber <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
-  int                      inputLineNumber,
-  S_msrPart                figuredBassPartUplink,
-  msrFiguredBassPrefixKind figuredBassPrefixKind,
-  msrFiguredBassSuffixKind figuredBassSuffixKind)
+  int       inputLineNumber,
+  S_msrPart figuredBassPartUplink)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-      figuredBassPartUplink,
-      figuredBassPrefixKind,
-      figuredBassSuffixKind);
+      figuredBassPartUplink);
   assert(o!=0);
 
   return o;
 }
 
 msrFiguredBass::msrFiguredBass (
-  int                      inputLineNumber,
-  S_msrPart                figuredBassPartUplink,
-  msrFiguredBassPrefixKind figuredBassPrefixKind,
-  msrFiguredBassSuffixKind figuredBassSuffixKind)
+  S_msrPart figuredBassPartUplink)
     : msrElement (inputLineNumber)
 {
   // set figuredBass's part uplink
   msrAssert(
     figuredBassPartUplink != 0,
-     "figuredBassPartUplink is null");
+    "figuredBassPartUplink is null");
      
   fFiguredBassPartUplink =
     figuredBassPartUplink;
- 
-  fFiguredBassPrefixKind = figuredBassPrefixKind;
-  fFiguredBassSuffixKind = figuredBassSuffixKind;
- 
+  
   if (gGeneralOptions->fTraceFiguredBass) {
     cerr << idtr <<
       "==> Creating figuredBass '" <<

@@ -14216,29 +14216,29 @@ void musicXMLTree2MsrTranslator::visitStart ( S_prefix& elt )
   string prefix =
     elt->getValue ();
 
-  msrFiguredBass::msrFiguredBassPrefixKind
-    fCurrentFiguredBassPrefixKind;
+  msrFigure::msrFigurePrefixKind
+    fCurrentFigurePrefixKind;
     
   if      (prefix == "double-flat")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kDoubleFlatPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kDoubleFlatPrefix;
     
   else if (prefix == "flat")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kFlatPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kFlatPrefix;
     
   else if (prefix == "flat-flat")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kFlatFlatPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kFlatFlatPrefix;
     
   else if (prefix == "natural")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kNaturalPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kNaturalPrefix;
     
   else if (prefix == "sharp-sharp")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kSharpSharpPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kSharpSharpPrefix;
     
   else if (prefix == "sharp")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kSharpPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kSharpPrefix;
     
   else if (prefix == "double-sharp")
-    fCurrentFiguredBassPrefixKind = msrFiguredBass::kDoubleSharpPrefix;
+    fCurrentFigurePrefixKind = msrFigure::kDoubleSharpPrefix;
         
   else if (prefix.size ()) {
     stringstream s;
@@ -14274,32 +14274,32 @@ void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
   string suffix =
     elt->getValue ();
 
-  msrFiguredBass::msrFiguredBassSuffixKind
-    fCurrentFiguredBassSuffixKind;
+  msrFigure::msrFigureSuffixKind
+    fCurrentFigureSuffixKind;
     
   if      (suffix == "double-flat")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kDoubleFlatSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kDoubleFlatSuffix;
     
   else if (suffix == "flat")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kFlatSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kFlatSuffix;
     
   else if (suffix == "flat-flat")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kFlatFlatSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kFlatFlatSuffix;
     
   else if (suffix == "natural")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kNaturalSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kNaturalSuffix;
     
   else if (suffix == "sharp-sharp")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kSharpSharpSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kSharpSharpSuffix;
     
   else if (suffix == "sharp")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kSharpSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kSharpSuffix;
     
   else if (suffix == "double-sharp")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kDoubleSharpSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kDoubleSharpSuffix;
         
   else if (suffix == "slash")
-    fCurrentFiguredBassSuffixKind = msrFiguredBass::kSlashSuffix;
+    fCurrentFigureSuffixKind = msrFigure::kSlashSuffix;
         
   else if (suffix.size ()) {
     stringstream s;

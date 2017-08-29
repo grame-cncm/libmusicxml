@@ -4316,40 +4316,121 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrFiguredBass : public msrElement
+class EXP msrFigure : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrFiguredBassPrefixKind {
-      k_NoFiguredBassPrefix,
+    enum msrFigurePrefixKind {
+      k_NoFigurePrefix,
       kDoubleFlatPrefix, kFlatPrefix, kFlatFlatPrefix,
       kNaturalPrefix,
       kSharpSharpPrefix, kSharpPrefix, kDoubleSharpPrefix };
 
-    static string figuredBassPrefixKindAsString (
-      msrFiguredBassPrefixKind figuredBassPrefixKind);
+    static string figurePrefixKindAsString (
+      msrFigurePrefixKind figurePrefixKind);
       
-    enum msrFiguredBassSuffixKind {
-      k_NoFiguredBassSuffix,
+    enum msrFigureSuffixKind {
+      k_NoFigureSuffix,
       kDoubleFlatSuffix, kFlatSuffix, kFlatFlatSuffix,
       kNaturalSuffix,
       kSharpSharpSuffix, kSharpSuffix, kDoubleSharpSuffix,
       kSlashSuffix };
 
-    static string figuredBassSuffixKindAsString (
-      msrFiguredBassSuffixKind figuredBassSuffixKind);
+    static string figureSuffixKindAsString (
+      msrFigureSuffixKind figureSuffixKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFigure> create (
+      int                 inputLineNumber,
+      S_msrPart           figurePartUplink,
+      msrFigurePrefixKind figurePrefixKind,
+      msrFigureSuffixKind figureSuffixKind);
+    
+    SMARTP<msrFigure> createFigureNewbornClone (
+      S_msrPart containingPart);
+
+    SMARTP<msrFigure> createFigureDeepCopy ( // JMI ???
+      S_msrPart containingPart);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFigure (
+      int                 inputLineNumber,
+      S_msrPart           figurePartUplink,
+      msrFigurePrefixKind figurePrefixKind,
+      msrFigureSuffixKind figureSuffixKind);
+
+    virtual ~msrFigure();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrPart             getFigurePartUplink () const
+                              { return fFigurePartUplink; }
+
+    msrFigurePrefixKind
+                          getFigurePrefixKind () const
+                              { return fFigurePrefixKind; }
+
+    msrFigureSuffixKind
+                          getFigureSuffixKind () const
+                              { return fFigureSuffixKind; }
+                                                                              
+    // services
+    // ------------------------------------------------------
+
+    string                figurePrefixKindAsString () const;
+    string                figureSuffixKindAsShortString () const;
+    
+    string                figureAsString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // uplinks
+    S_msrPart             fFigurePartUplink;
+
+    msrFigurePrefixKind
+                          fFigurePrefixKind;
+    msrFigureSuffixKind
+                          fFigureSuffixKind;
+};
+typedef SMARTP<msrFigure> S_msrFigure;
+EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
+
+//______________________________________________________________________________
+class EXP msrFiguredBass : public msrElement
+{
+  public:
             
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrFiguredBass> create (
-      int                      inputLineNumber,
-      S_msrPart                figuredBassPartUplink,
-      msrFiguredBassPrefixKind figuredBassPrefixKind,
-      msrFiguredBassSuffixKind figuredBassSuffixKind);
+      int       inputLineNumber,
+      S_msrPart figuredBassPartUplink);
     
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
       S_msrPart containingPart);
@@ -4363,10 +4444,8 @@ class EXP msrFiguredBass : public msrElement
     // ------------------------------------------------------
 
     msrFiguredBass (
-      int                      inputLineNumber,
-      S_msrPart                figuredBassPartUplink,
-      msrFiguredBassPrefixKind figuredBassPrefixKind,
-      msrFiguredBassSuffixKind figuredBassSuffixKind);
+      int       inputLineNumber,
+      S_msrPart figuredBassPartUplink);
 
     virtual ~msrFiguredBass();
   
@@ -4376,21 +4455,14 @@ class EXP msrFiguredBass : public msrElement
     // ------------------------------------------------------
 
     S_msrPart             getFiguredBassPartUplink () const
-                             { return fFiguredBassPartUplink; }
+                              { return fFiguredBassPartUplink; }
 
-    msrFiguredBassPrefixKind
-                          getFiguredBassPrefixKind () const
-                              { return fFiguredBassPrefixKind; }
-
-    msrFiguredBassSuffixKind
-                          getFiguredBassSuffixKind () const
-                              { return fFiguredBassSuffixKind; }
+    const list<S_msrFigure>&
+                          getfFiguredBassFiguresList ()
+                              { return fFiguredBassFiguresList;  }
                                                                               
     // services
     // ------------------------------------------------------
-
-    string                figuredBassPrefixKindAsString () const;
-    string                figuredBassSuffixKindAsShortString () const;
     
     string                figuredBassAsString () const;
    
@@ -4412,10 +4484,7 @@ class EXP msrFiguredBass : public msrElement
     // uplinks
     S_msrPart             fFiguredBassPartUplink;
 
-    msrFiguredBassPrefixKind
-                          fFiguredBassPrefixKind;
-    msrFiguredBassSuffixKind
-                          fFiguredBassSuffixKind;
+    list<S_msrFigure>     fFiguredBassFiguresList; 
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
