@@ -15694,7 +15694,7 @@ msrFiguredBass::msrFiguredBass (
   fFiguredBassPrefixKind = figuredBassPrefixKind;
   fFiguredBassSuffixKind = figuredBassSuffixKind;
  
-  if (gGeneralOptions->fTraceFiguredBasses) {
+  if (gGeneralOptions->fTraceFiguredBass) {
     cerr << idtr <<
       "==> Creating figuredBass '" <<
       figuredBassAsString () <<
@@ -15709,10 +15709,10 @@ msrFiguredBass::~msrFiguredBass()
 S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceFiguredBass) {
     cerr << idtr <<
       "==> Creating a newborn clone of figuredBass '" <<
-      figuredBassKindAsShortString () <<
+      figuredBassAsString () <<
       "'" <<
       endl;
   }
@@ -15728,9 +15728,6 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
         containingPart,
         fFiguredBassPrefixKind,
         fFiguredBassSuffixKind);
-
-  newbornClone->fFiguredBassSoundingWholeNotes =
-    fFiguredBassSoundingWholeNotes;
         
   return newbornClone;
 }
@@ -15738,10 +15735,10 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceFiguredBass) {
     cerr << idtr <<
       "==> Creating a deep copy of figuredBass '" <<
-      figuredBassKindAsShortString () <<
+      figuredBassAsString () <<
       "'" <<
       endl;
   }
@@ -15770,25 +15767,25 @@ string msrFiguredBass::figuredBassPrefixKindAsString (
     case msrFiguredBass::k_NoFiguredBassPrefix:
       result = "none";
       break;
-    case msrFiguredBass::kDoubleFlat:
+    case msrFiguredBass::kDoubleFlatPrefix:
       result = "double flat";
       break;
-    case msrFiguredBass::kFlat:
+    case msrFiguredBass::kFlatPrefix:
       result = "flat";
       break;
-    case msrFiguredBass::kFlatFlat:
+    case msrFiguredBass::kFlatFlatPrefix:
       result = "flat flat";
       break;
-    case msrFiguredBass::kNatural:
+    case msrFiguredBass::kNaturalPrefix:
       result = "natural";
       break;
-    case msrFiguredBass::kSharpSharp:
+    case msrFiguredBass::kSharpSharpPrefix:
       result = "sharp sharp";
       break;
-    case msrFiguredBass::kSharp:
+    case msrFiguredBass::kSharpPrefix:
       result = "sharp";
       break;
-    case msrFiguredBass::kDoubleSharp:
+    case msrFiguredBass::kDoubleSharpPrefix:
       result = "souble sharp";
       break;
   } // switch
@@ -15805,28 +15802,28 @@ string msrFiguredBass::figuredBassSuffixKindAsString (
     case msrFiguredBass::k_NoFiguredBassSuffix:
       result = "none";
       break;
-    case msrFiguredBass::kDoubleFlat:
+    case msrFiguredBass::kDoubleFlatSuffix:
       result = "double flat";
       break;
-    case msrFiguredBass::kFlat:
+    case msrFiguredBass::kFlatSuffix:
       result = "flat";
       break;
-    case msrFiguredBass::kFlatFlat:
+    case msrFiguredBass::kFlatFlatSuffix:
       result = "flat flat";
       break;
-    case msrFiguredBass::kNatural:
+    case msrFiguredBass::kNaturalSuffix:
       result = "natural";
       break;
-    case msrFiguredBass::kSharpSharp:
+    case msrFiguredBass::kSharpSharpSuffix:
       result = "sharp sharp";
       break;
-    case msrFiguredBass::kSharp:
+    case msrFiguredBass::kSharpSuffix:
       result = "sharp";
       break;
-    case msrFiguredBass::kDoubleSharp:
+    case msrFiguredBass::kDoubleSharpSuffix:
       result = "souble sharp";
       break;
-    case msrFiguredBass::kSlash:
+    case msrFiguredBass::kSlashSuffix:
       result = "slash";
       break;
   } // switch
@@ -15841,18 +15838,19 @@ string msrFiguredBass::figuredBassAsString () const
   s <<
     "prefix: " <<
     figuredBassPrefixKindAsString (
-      fFiguredBassPrefixKindAsString) <<
+      fFiguredBassPrefixKind) <<
     ", suffix: " <<
     figuredBassSuffixKindAsString (
-      fFiguredBassSuffixKindAsString);
+      fFiguredBassSuffixKind);
 
+/* JMI
   if (fFiguredBassPartUplink) // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
         fInputLineNumber,
         fFiguredBassSoundingWholeNotes);
-
+*/
 
   return s.str();
 }
@@ -15910,10 +15908,10 @@ void msrFiguredBass::print (ostream& os)
     "FiguredBass" <<
     ", prefix: " <<
     figuredBassPrefixKindAsString (
-      fFiguredBassPrefixKindAsString) <<
+      fFiguredBassPrefixKind) <<
     ", suffix: " <<
     figuredBassSuffixKindAsString (
-      fFiguredBassSuffixKindAsString);
+      fFiguredBassSuffixKind) <<
      ", line " << fInputLineNumber <<
     endl;
 }

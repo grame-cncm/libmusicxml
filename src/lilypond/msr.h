@@ -4325,17 +4325,19 @@ class EXP msrFiguredBass : public msrElement
 
     enum msrFiguredBassPrefixKind {
       k_NoFiguredBassPrefix,
-      kDoubleFlat, kFlat, kFlatFlat,
-      kNatural, kSharpSharp, kSharp, kDoubleSharp };
+      kDoubleFlatPrefix, kFlatPrefix, kFlatFlatPrefix,
+      kNaturalPrefix,
+      kSharpSharpPrefix, kSharpPrefix, kDoubleSharpPrefix };
 
     static string figuredBassPrefixKindAsString (
       msrFiguredBassPrefixKind figuredBassPrefixKind);
       
     enum msrFiguredBassSuffixKind {
       k_NoFiguredBassSuffix,
-      kDoubleFlat, kFlat, kFlatFlat,
-      kNatural, kSharpSharp, kSharp, kDoubleSharp,
-      kSlash };
+      kDoubleFlatSuffix, kFlatSuffix, kFlatFlatSuffix,
+      kNaturalSuffix,
+      kSharpSharpSuffix, kSharpSuffix, kDoubleSharpSuffix,
+      kSlashSuffix };
 
     static string figuredBassSuffixKindAsString (
       msrFiguredBassSuffixKind figuredBassSuffixKind);
