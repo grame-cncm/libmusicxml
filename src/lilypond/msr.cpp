@@ -27948,10 +27948,7 @@ void msrPart::initializePart ()
 
   // create the part master staff and voice
   createPartMasterStaffAndVoice (0); // input line number // JMI
-  
-  // create the part harmony staff and voice
-  // JMI createPartHarmonyStaffAndVoiceIfNotYetDone (0); // input line number // JMI
-  
+    
 /* JMI
   // set part current time to the default 4/4 time signature
   fPartCurrenltTime =
@@ -29104,7 +29101,7 @@ void msrPart::appendFiguredBassToPart (
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
       // create the figured bass staff and voice if not yet done
-      createPartHarmonyStaffAndVoiceIfNotYetDone (
+      createPartFiguredStaffAndVoiceIfNotYetDone (
         inputLineNumber);
       
       // register this voice as the part figured bass supplier voice
@@ -29135,6 +29132,63 @@ void msrPart::appendFiguredBassToPart (
     
         s <<
           "figured bass cannot by supplied to part by " <<
+          msrVoice::voiceKindAsString (
+            figuredBassSupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+          figuredBassSupplierVoice->getVoiceName () <<
+          "\"";
+    
+        msrInternalError (
+          inputLineNumber,
+          s.str());
+      }
+      break;
+  } // switch
+}
+
+void msrPart::appendFiguredBassToPartClone (
+  S_msrVoice       figuredBassSupplierVoice,
+  S_msrFiguredBass figuredBass)
+{
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
+
+  switch (figuredBassSupplierVoice->getVoiceKind ()) {
+    case msrVoice::kFiguredBassVoice:
+      // create the figured bass staff and voice if not yet done
+      createPartFiguredStaffAndVoiceIfNotYetDone (
+        inputLineNumber);
+
+      /* JMI NON
+      // register this voice as the part figuredBass supplier voice
+      setPartfiguredBassSupplierVoice (
+        inputLineNumber,
+        figuredBassSupplierVoice);
+        */
+    
+      // append the figured bass to the part figured bass voice
+      if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts)
+        cerr << idtr <<
+          "Appending figured bass '" <<
+          FiguredBass->figuredBassAsString () <<
+          "' to part clone " <<
+          getPartCombinedName () <<
+          ", line " << inputLineNumber <<
+          endl;
+    
+      fPartFiguredBassVoice->
+        appendFiguredBassToVoiceClone (figuredBass);
+      break;
+      
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kSilentVoice:
+      {
+        stringstream s;
+    
+        s <<
+          "figured bass cannot by supplied to part clone by " <<
           msrVoice::voiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<

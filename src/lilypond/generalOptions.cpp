@@ -711,7 +711,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       "--" _TRACE_FIGURED_BASS_SHORT_NAME_ ", --" _TRACE_FIGURED_BASS_LONG_NAME_ <<
       endl <<
     idtr << tab << tab << tab <<
-      "figured bass" <<
+      "<figured-bass> in MusicXML, \\figuremode in LilyPond" <<
       endl <<      
     endl <<
       
