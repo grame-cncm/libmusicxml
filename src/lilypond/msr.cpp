@@ -16037,8 +16037,8 @@ void msrFigure::print (ostream& os)
 {  
   os <<
     "Figure" <<
-    "'" << fFigureNumber <<
-    ", prefix: " <<
+    " '" << fFigureNumber <<
+    "', prefix: " <<
     figurePrefixKindAsString (
       fFigurePrefixKind) <<
     ", suffix: " <<
@@ -16267,7 +16267,7 @@ void msrFiguredBass::print (ostream& os)
       os <<
         idtr << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
 
     idtr--;

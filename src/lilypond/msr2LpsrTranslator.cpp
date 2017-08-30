@@ -983,6 +983,12 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
   switch (elt->getVoiceKind ()) {
     
+    case msrVoice::kMasterVoice:
+      msrInternalError (
+        inputLineNumber,
+        "a master voice is not expected in msr2LpsrTranslator");
+      break;
+      
     case msrVoice::kRegularVoice:
       // create a voice clone
       fCurrentVoiceClone =
@@ -1186,6 +1192,12 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
       endl;
 
   switch (elt->getVoiceKind ()) {
+    case msrVoice::kMasterVoice:
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "a master voice is not expected in msr2LpsrTranslator"); // JMI
+      break;
+      
     case msrVoice::kRegularVoice:
       // JMI
       break;

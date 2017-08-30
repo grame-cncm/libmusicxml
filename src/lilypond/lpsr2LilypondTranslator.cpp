@@ -80,6 +80,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // voices
   fOnGoingVoice = false;
   fOnGoingHarmonyVoice = false;
+  fOnGoingFiguredBassVoice = false;
 
   // repeats
   fCurrentRepeatEndingsNumber = 0;
@@ -1469,6 +1470,37 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::figuredBassAsLilypondString (
+  S_msrFiguredBass figuredBass)
+{
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
+    
+  stringstream s;
+
+  s <<
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      figuredBass->
+        getFiguredBassSoundingWholeNotes ());
+    
+/* JMI
+  msrQuarterTonesPitch
+    harmonyBassQuarterTonesPitch =
+      harmony->getHarmonyBassQuarterTonesPitch ();
+      
+  if (harmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
+    s <<
+      "/" <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        harmonyBassQuarterTonesPitch);
+*/
+
+  return s.str();
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -2359,6 +2391,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     case msrStaff::kHarmonyStaff:
       staffContextName = "\\new kHarmonyStaff???";
       break;
+      
+    case msrStaff::kFiguredBassStaff:
+      staffContextName = "\\new FiguredBassStaff???";
+      break;
   } // switch
 
   stringstream s;
@@ -2539,6 +2575,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       
     case msrStaff::kHarmonyStaff:
       staffContextName = "\\context ChordNames";
+      voiceContextName = "???"; // JMI
+      break;
+      
+    case msrStaff::kFiguredBassStaff:
+      staffContextName = "\\context FiguredBass";
       voiceContextName = "???"; // JMI
       break;
   } // switch
@@ -2976,6 +3017,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   // generate the beginning of the voice definition
   switch (elt->getVoiceKind ()) {
+    
+    case msrVoice::kMasterVoice:
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
+      break;      
+    
     case msrVoice::kRegularVoice:
       if (gLilypondOptions->fAbsoluteOctaves)
         fOstream <<
@@ -2990,6 +3038,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kHarmonyVoice:
       fOstream <<
         "\\chordmode" " " "{" <<
+        endl;
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      fOstream <<
+        "\\figuremode" " " "{" <<
         endl;
       break;
       
@@ -3075,11 +3129,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   fOnGoingVoice = true;
 
   switch (elt->getVoiceKind ()) {
+    case msrVoice::kMasterVoice:
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
+      break;      
+    
     case msrVoice::kRegularVoice:
       break;
       
     case msrVoice::kHarmonyVoice:
       fOnGoingHarmonyVoice = true;
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      fOnGoingFiguredBassVoice = true;
       break;
       
     case msrVoice::kSilentVoice:
@@ -3109,6 +3173,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
     
   // generate the end of the voice definition
   switch (elt->getVoiceKind ()) {
+    case msrVoice::kMasterVoice:
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
+      break;      
+    
     case msrVoice::kRegularVoice:
       fOstream << idtr <<
         "}" <<
@@ -3117,6 +3187,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       break;
       
     case msrVoice::kHarmonyVoice:
+      fOstream << idtr <<
+        "}" <<
+        endl <<
+        endl;
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
       fOstream << idtr <<
         "}" <<
         endl <<
@@ -3134,11 +3211,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   fOnGoingVoice = false;
 
   switch (elt->getVoiceKind ()) {
+    case msrVoice::kMasterVoice:
+      msrInternalError (
+        elt->getInputLineNumber (),
+        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
+      break;
+      
     case msrVoice::kRegularVoice:
       break;
       
     case msrVoice::kHarmonyVoice:
       fOnGoingHarmonyVoice = false;
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      fOnGoingFiguredBassVoice = false;
       break;
       
     case msrVoice::kSilentVoice:
@@ -3218,6 +3305,55 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 /* JMI
   else if (fOnGoingChord) {
     // don't generate code for the code harmony,
+    // this will be done after the chord itself JMI
+  }
+  */
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrFiguredBass '" <<
+      elt->figuredBassAsString () <<
+      "'" <<
+      endl;
+
+  if (fOnGoingNote) {
+    fOstream <<
+      "%{ " << elt->figuredBassAsString () << " %}" <<
+      endl <<
+      idtr;
+  }
+  
+  else if (fOnGoingChord) { // JMI
+    /*
+    // register the figured bass in the current chord clone
+    fCurrentChord->
+      setChordFiguredBass (elt); // JMI
+      */
+  }
+
+  else if (fOnGoingFiguredBassVoice) {
+    // indent before the fist figured bass of the msrSegment if needed
+    if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
+      fOstream <<
+        idtr;
+
+    fOstream <<
+      figuredBassAsLilypondString (elt) <<
+      " ";
+      
+    if (gLilypondOptions->fInputLineNumbers)
+      // print the figured bass line number as a comment
+      fOstream <<
+        "%{ " << elt->getInputLineNumber () << " %} ";  
+  }
+
+/* JMI
+  else if (fOnGoingChord) {
+    // don't generate code for the code figured bass,
     // this will be done after the chord itself JMI
   }
   */

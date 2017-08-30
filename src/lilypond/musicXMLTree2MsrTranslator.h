@@ -1022,14 +1022,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentFiguredBassInputLineNumber;
     bool                      fCurrentFiguredBassParentheses;
 
-    rational                  fCurrentFiguredBassSoundingWholeNotes;
-    
     msrFigure::msrFigurePrefixKind
                               fCurrentFigurePrefixKind;
     int                       fCurrentFigureNumber;
     msrFigure::msrFigureSuffixKind
                               fCurrentFigureSuffixKind;
 
+    rational                  fCurrentFiguredBassSoundingWholeNotes;
+    
     list<S_msrFigure>         fPendingFiguredBassFigures; 
 
     // barline handling

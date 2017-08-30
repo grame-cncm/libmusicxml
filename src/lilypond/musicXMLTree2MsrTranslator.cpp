@@ -14293,9 +14293,14 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
     }
   }
 
-  fCurrentFiguredBassInputLineNumber   = -1;  
-  fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
+  fCurrentFiguredBassInputLineNumber   = -1;
+  
   fCurrentFigureNumber = -1;
+
+  fCurrentFigurePrefixKind = msrFigure::k_NoFigurePrefix;
+  fCurrentFigureSuffixKind = msrFigure::k_NoFigureSuffix;
+
+  fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
   
   fOnGoingFiguredBass = true;
   fPendingFiguredBass = true;
@@ -14319,6 +14324,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_prefix& elt )
   string prefix =
     elt->getValue ();
 
+  fCurrentFigurePrefixKind = msrFigure::k_NoFigurePrefix;
+    
   if      (prefix == "double-flat")
     fCurrentFigurePrefixKind = msrFigure::kDoubleFlatPrefix;
     
@@ -14362,6 +14369,18 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figure_number& elt )
       endl;
 
   fCurrentFigureNumber = (int)(*elt);
+
+  if (fCurrentFigureNumber > 13) {
+    stringstream s;
+
+    s <<
+      "figure-number '" << fCurrentFigureNumber <<
+      "' is greater that 13, that's strange...";
+
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
@@ -14374,6 +14393,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
   string suffix =
     elt->getValue ();
 
+  fCurrentFigureSuffixKind = msrFigure::k_NoFigureSuffix;
+    
   if      (suffix == "double-flat")
     fCurrentFigureSuffixKind = msrFigure::kDoubleFlatSuffix;
     
@@ -14442,7 +14463,13 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     cerr << idtr <<
       "--> End visiting S_figured_bass" <<
       endl;
-  
+
+  if (! fPendingFiguredBassFigures.size ()) {
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (),
+      "figured-bass nas no figures contents");
+  }
+
   fOnGoingFiguredBass = false;
 }
 

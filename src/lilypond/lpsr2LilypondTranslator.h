@@ -86,6 +86,8 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrVoiceStaffChange>,
   
   public visitor<S_msrHarmony>,
+  
+  public visitor<S_msrFiguredBass>,
 
   public visitor<S_msrSegment>,
   public visitor<S_msrMeasure>,
@@ -284,6 +286,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrVoiceStaffChange& elt);
 
     virtual void visitStart (S_msrHarmony& elt);
+    
+    virtual void visitStart (S_msrFiguredBass& elt);
     
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
@@ -484,6 +488,11 @@ class lpsr2LilypondTranslator :
     string                harmonyAsLilypondString (
                             S_msrHarmony harmony);
 
+    // figured bass
+    
+    string                figuredBassAsLilypondString (
+                            S_msrFiguredBass figuredBass);
+
   private:
                      
     S_msrOptions          fMsrOptions;
@@ -528,6 +537,7 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     bool                  fOnGoingVoice;
     bool                  fOnGoingHarmonyVoice;
+    bool                  fOnGoingFiguredBassVoice;
     
     // relative octaves
     // ------------------------------------------------------
