@@ -16174,10 +16174,10 @@ string msrFiguredBass::figuredBassParenthesesKindAsString (
   string result;
   
   switch (figuredBassParenthesesKind) {
-    case msrPedal::kFiguredBassParenthesesYes:
+    case msrFiguredBass::kFiguredBassParenthesesYes:
       result = "parentheses: yes";
       break;
-    case msrPedal::kFiguredBassParenthesesNo:
+    case msrFiguredBass::kFiguredBassParenthesesNo:
       result = "parentheses: no";
       break;
   } // switch

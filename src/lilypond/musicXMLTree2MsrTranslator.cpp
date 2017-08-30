@@ -238,7 +238,7 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   fPendingFiguredBass                   = false;
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
   fCurrentFiguredBassParenthesesKind =
-    msrFiguredBass::kFiguredBassParenthesNo; // default value
+    msrFiguredBass::kFiguredBassParenthesesNo; // default value
   fCurrentFigureNumber                  = -1;
   
   // barline handling
@@ -12123,7 +12123,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         msrFiguredBass::create (
           elt->getInputLineNumber (),
           fCurrentPart,
-          fCurrentFiguredBassSoundingWholeNotes);
+          fCurrentFiguredBassSoundingWholeNotes,
+          fCurrentFiguredBassParenthesesKind);
   
     // attach pending figures to the figured bass
     if (fPendingFiguredBassFigures.size ()) {
@@ -14275,7 +14276,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   string parentheses = elt->getAttributeValue("parentheses");
   
   fCurrentFiguredBassParenthesesKind =
-    msrFiguredBass::kFiguredBassParenthesNo; // default value
+    msrFiguredBass::kFiguredBassParenthesesNo; // default value
 
   if (parentheses.size()) {    
     if (parentheses == "yes")
@@ -14284,7 +14285,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
       
     else if (parentheses == "no")
      fCurrentFiguredBassParenthesesKind =
-        msrFiguredBass::kFiguredBassParenthesNo;
+        msrFiguredBass::kFiguredBassParenthesesNo;
       
     else {
       stringstream s;
