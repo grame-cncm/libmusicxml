@@ -3378,7 +3378,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
     case msrFigure::k_NoFigurePrefix:
       break;
     case msrFigure::kDoubleFlatPrefix:
-      fOstream << "double flat";
+      fOstream << "--";
       break;
     case msrFigure::kFlatPrefix:
       fOstream << "-";
@@ -3396,18 +3396,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       fOstream << "+";
       break;
     case msrFigure::kDoubleSharpPrefix:
-      fOstream << "souble sharp";
+      fOstream << "++";
       break;
   } // switch
 
-  // generate a space
-  if (
-    fCurrentFiguredBassFiguresCounter
-      <
-    fCurrentFiguredBass->getFiguredBassFiguresList ().size ()) {
-    fOstream << " ";
-  }
-  
   // handle the figure suffix
   switch (elt->getFigureSuffixKind ()) {
     case msrFigure::k_NoFigureSuffix:
@@ -3437,7 +3429,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       fOstream << "/";
       break;
   } // switch
-}
+
+  // generate a space if not last figure in figured bass
+  if (
+    fCurrentFiguredBassFiguresCounter
+      <
+    fCurrentFiguredBass->getFiguredBassFiguresList ().size ()) {
+    fOstream << " ";
+  }
+  }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
 {
