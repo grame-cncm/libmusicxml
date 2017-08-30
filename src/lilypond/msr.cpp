@@ -16052,13 +16052,16 @@ void msrFigure::print (ostream& os)
 S_msrFiguredBass msrFiguredBass::create (
   int       inputLineNumber,
   S_msrPart figuredBassPartUplink,
-  rational  figuredBassSoundingWholeNotes)
+  rational  figuredBassSoundingWholeNotes,
+    msrFiguredBassParenthesesKind
+              figuredBassParenthesesKind)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
       figuredBassPartUplink,
-      figuredBassSoundingWholeNotes);
+      figuredBassSoundingWholeNotes,
+      figuredBassParenthesesKind);
   assert(o!=0);
 
   return o;
@@ -16067,7 +16070,9 @@ S_msrFiguredBass msrFiguredBass::create (
 msrFiguredBass::msrFiguredBass (
   int       inputLineNumber,
   S_msrPart figuredBassPartUplink,
-  rational  figuredBassSoundingWholeNotes)
+  rational  figuredBassSoundingWholeNotes,
+  msrFiguredBassParenthesesKind
+            figuredBassParenthesesKind)
     : msrElement (inputLineNumber)
 {
   // set figuredBass's part uplink
@@ -16080,6 +16085,9 @@ msrFiguredBass::msrFiguredBass (
 
   fFiguredBassSoundingWholeNotes =
     figuredBassSoundingWholeNotes;
+
+  fFiguredBassParenthesesKind =
+    figuredBassParenthesesKind;
     
   if (gGeneralOptions->fTraceFiguredBass) {
     cerr << idtr <<
@@ -16113,7 +16121,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
       msrFiguredBass::create (
         fInputLineNumber,
         containingPart,
-        fFiguredBassSoundingWholeNotes);
+        fFiguredBassSoundingWholeNotes,
+        fFiguredBassParenthesesKind);
         
   return newbornClone;
 }
@@ -16138,7 +16147,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
       msrFiguredBass::create (
         fInputLineNumber,
         containingPart,
-        fFiguredBassSoundingWholeNotes);
+        fFiguredBassSoundingWholeNotes,
+        fFiguredBassParenthesesKind);
         
   return figuredBassDeepCopy;
 }
@@ -16158,6 +16168,23 @@ void msrFiguredBass::appendFiguredFigureToFiguredBass (
   fFiguredBassFiguresList.push_back (figure);
 }
 
+string msrFiguredBass::figuredBassParenthesesKindAsString (
+  msrFiguredBassParenthesesKind figuredBassParenthesesKind)
+{
+  string result;
+  
+  switch (figuredBassParenthesesKind) {
+    case msrPedal::kFiguredBassParenthesesYes:
+      result = "parentheses: yes";
+      break;
+    case msrPedal::kFiguredBassParenthesesNo:
+      result = "parentheses: no";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrFiguredBass::figuredBassAsString () const
 {
   stringstream s;
@@ -16167,7 +16194,12 @@ string msrFiguredBass::figuredBassAsString () const
     ": " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fFiguredBassSoundingWholeNotes);
+      fFiguredBassSoundingWholeNotes) <<
+    " sounding whole notes" <<
+    ", " <<
+    figuredBassParenthesesKindAsString (
+      fFiguredBassParenthesesKind) <<
+    ", line " << fInputLineNumber;
 
   if (fFiguredBassFiguresList.size ()) {
     s << ", ";
@@ -16236,7 +16268,16 @@ void msrFiguredBass::acceptOut (basevisitor* v) {
 }
 
 void msrFiguredBass::browseData (basevisitor* v)
-{}
+{
+  for (
+    list<S_msrFigure>::const_iterator i = fFiguredBassFiguresList.begin();
+    i != fFiguredBassFiguresList.end();
+    i++) {
+    // browse the figure
+    msrBrowser<msrFigure> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrFiguredBass& elt)
 {
@@ -16252,6 +16293,10 @@ void msrFiguredBass::print (ostream& os)
     wholeNotesAsMsrString (
       fInputLineNumber,
       fFiguredBassSoundingWholeNotes) <<
+    " sounding whole notes" <<
+    ", " <<
+    figuredBassParenthesesKindAsString (
+      fFiguredBassParenthesesKind) <<
       ", line " << fInputLineNumber <<
     endl;
 
@@ -26468,6 +26513,7 @@ else
     fStaffSilentVoice;
     */
 
+/* JMI
   cerr <<
     endl <<
     idtr << "**********" <<
@@ -26479,6 +26525,7 @@ else
     idtr << "**********" <<
     endl <<
     endl;
+    */
 }
 
 S_msrStaff msrStaff::createStaffNewbornClone (
@@ -28153,6 +28200,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     }
   }
 
+/* JMI
   cerr <<
     endl <<
     idtr << "***********" <<
@@ -28164,7 +28212,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     idtr << "***********" <<
     endl <<
     endl;
-    
+  */  
 }
 
 void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
@@ -28237,6 +28285,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
     }
   }
 
+/* JMI
   cerr <<
     endl <<
     idtr << "***********" <<
@@ -28248,7 +28297,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
     idtr << "***********" <<
     endl <<
     endl;
-    
+  */  
 }
 
 void msrPart::setPartMeasureLengthHighTide (

@@ -236,8 +236,9 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // figured bass handling
   fOnGoingFiguredBass                   = false;
   fPendingFiguredBass                   = false;
-  fCurrentFiguredBassParentheses        = false;
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
+  fCurrentFiguredBassParenthesesKind =
+    msrFiguredBass::kFiguredBassParenthesNo; // default value
   fCurrentFigureNumber                  = -1;
   
   // barline handling
@@ -14273,12 +14274,17 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
 
   string parentheses = elt->getAttributeValue("parentheses");
   
+  fCurrentFiguredBassParenthesesKind =
+    msrFiguredBass::kFiguredBassParenthesNo; // default value
+
   if (parentheses.size()) {    
     if (parentheses == "yes")
-      fCurrentFiguredBassParentheses = true;
+      fCurrentFiguredBassParenthesesKind =
+        msrFiguredBass::kFiguredBassParenthesesYes;
       
     else if (parentheses == "no")
-      fCurrentFiguredBassParentheses = false;
+     fCurrentFiguredBassParenthesesKind =
+        msrFiguredBass::kFiguredBassParenthesNo;
       
     else {
       stringstream s;

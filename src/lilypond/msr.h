@@ -4467,13 +4467,24 @@ class EXP msrFiguredBass : public msrElement
 {
   public:
             
+    // data types
+    // ------------------------------------------------------
+
+    enum msrFiguredBassParenthesesKind {
+      kFiguredBassParenthesesYes, kFiguredBassParenthesesNo };
+
+    static string figuredBassParenthesesKindAsString (
+      msrFiguredBassParenthesesKind figuredBassParenthesesKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrFiguredBass> create (
       int       inputLineNumber,
       S_msrPart figuredBassPartUplink,
-      rational  figuredBassSoundingWholeNotes);
+      rational  figuredBassSoundingWholeNotes,
+      msrFiguredBassParenthesesKind
+                figuredBassParenthesesKind);
     
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
       S_msrPart containingPart);
@@ -4489,7 +4500,9 @@ class EXP msrFiguredBass : public msrElement
     msrFiguredBass (
       int       inputLineNumber,
       S_msrPart figuredBassPartUplink,
-      rational  figuredBassSoundingWholeNotes);
+      rational  figuredBassSoundingWholeNotes,
+      msrFiguredBassParenthesesKind
+                figuredBassParenthesesKind);
 
     virtual ~msrFiguredBass();
   
@@ -4501,7 +4514,7 @@ class EXP msrFiguredBass : public msrElement
     S_msrPart             getFiguredBassPartUplink () const
                               { return fFiguredBassPartUplink; }
 
-    void                  setFiguredBassSoundingWholeNotes (
+    void                  setFiguredBassSoundingWholeNotes ( // JMI
                             rational figuredBassSoundingWholeNotes)
                               {
                                 fFiguredBassSoundingWholeNotes =
@@ -4510,6 +4523,11 @@ class EXP msrFiguredBass : public msrElement
 
     rational              getFiguredBassSoundingWholeNotes () const
                               { return fFiguredBassSoundingWholeNotes; }
+
+    msrFiguredBassParenthesesKind
+                          getFiguredBassParenthesesKind (
+                            )
+                              { return fFiguredBassParenthesesKind; }
 
     const list<S_msrFigure>&
                           getfFiguredBassFiguresList ()
@@ -4542,6 +4560,9 @@ class EXP msrFiguredBass : public msrElement
     S_msrPart             fFiguredBassPartUplink;
 
     rational              fFiguredBassSoundingWholeNotes;
+
+    msrFiguredBassParenthesesKind
+                          fFiguredBassParenthesesKind;
 
     list<S_msrFigure>     fFiguredBassFiguresList; 
 };

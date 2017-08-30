@@ -1336,10 +1336,16 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
       "'" <<
       endl;
 
+  // create a deep copy of the figured bass
+  fCurrentFiguredBass =
+    elt->
+      createFiguredBassDeepCopy (
+        fCurrentPartClone);
+  
   if (fOnGoingNote) {
     // register the figured bass in the current note clone
     fCurrentNoteClone->
-      setNoteFiguredBass (elt);
+      setNoteFiguredBass (fCurrentFiguredBass);
 
   // don't append the figured bass to the part figured bass,
   // this will be done below
@@ -1348,7 +1354,7 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
   else if (fOnGoingChord) {
     // register the figured bass in the current chord clone
     fCurrentChordClone->
-      setChordFiguredBass (elt); // JMI
+      setChordFiguredBass (fCurrentFiguredBass); // JMI
   }
   
   else if (fOnGoingFiguredBassVoice) { // JMI
@@ -1356,8 +1362,23 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
     fCurrentPartClone->
       appendFiguredBassToPartClone (
         fCurrentVoiceClone,
-        elt);
+        fCurrentFiguredBass);
   }
+}
+
+void msr2LpsrTranslator::visitStart (S_msrFigure& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrFigure '" <<
+      elt->figureAsString () <<
+      "'" <<
+      endl;
+
+  // append the figure to the current figured bass
+  fCurrentFiguredBass->
+    appendFiguredFigureToFiguredBass (
+      elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
@@ -1368,6 +1389,8 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
       elt->figuredBassAsString () <<
       "'" <<
       endl;
+
+  fCurrentFiguredBass = 0;
 }
 
 //________________________________________________________________________

@@ -1470,37 +1470,6 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::figuredBassAsLilypondString (
-  S_msrFiguredBass figuredBass)
-{
-  int inputLineNumber =
-    figuredBass->getInputLineNumber ();
-    
-  stringstream s;
-
-  s <<
-    wholeNotesAsLilypondString (
-      inputLineNumber,
-      figuredBass->
-        getFiguredBassSoundingWholeNotes ());
-    
-/* JMI
-  msrQuarterTonesPitch
-    harmonyBassQuarterTonesPitch =
-      harmony->getHarmonyBassQuarterTonesPitch ();
-      
-  if (harmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
-    s <<
-      "/" <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        harmonyBassQuarterTonesPitch);
-*/
-
-  return s.str();
-}
-
-//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
@@ -3342,8 +3311,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
         idtr;
 
     fOstream <<
-      figuredBassAsLilypondString (elt) <<
-      " ";
+      "<";
       
     if (gLilypondOptions->fInputLineNumbers)
       // print the figured bass line number as a comment
@@ -3357,6 +3325,97 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
     // this will be done after the chord itself JMI
   }
   */
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrFigure '" <<
+      elt->figureAsString () <<
+      "'" <<
+      endl;
+
+  // generate the figure number
+  fOstream <<
+    elt->getFigureNumber ();
+
+  // handle the figure prefix
+  switch (elt->getFigurePrefixKind ()) {
+    case msrFigure::k_NoFigurePrefix:
+      fOstream << "none";
+      break;
+    case msrFigure::kDoubleFlatPrefix:
+      fOstream << "double flat";
+      break;
+    case msrFigure::kFlatPrefix:
+      fOstream << "flat";
+      break;
+    case msrFigure::kFlatFlatPrefix:
+      fOstream << "flat flat";
+      break;
+    case msrFigure::kNaturalPrefix:
+      fOstream << "natural";
+      break;
+    case msrFigure::kSharpSharpPrefix:
+      fOstream << "sharp sharp";
+      break;
+    case msrFigure::kSharpPrefix:
+      fOstream << "sharp";
+      break;
+    case msrFigure::kDoubleSharpPrefix:
+      fOstream << "souble sharp";
+      break;
+  } // switch
+
+  // handle the figure suffix
+  switch (elt->getFigureSuffixKind ()) {
+    case msrFigure::k_NoFigureSuffix:
+      fOstream << "none";
+      break;
+    case msrFigure::kDoubleFlatSuffix:
+      fOstream << "double flat";
+      break;
+    case msrFigure::kFlatSuffix:
+      fOstream << "flat";
+      break;
+    case msrFigure::kFlatFlatSuffix:
+      fOstream << "flat flat";
+      break;
+    case msrFigure::kNaturalSuffix:
+      fOstream << "natural";
+      break;
+    case msrFigure::kSharpSharpSuffix:
+      fOstream << "sharp sharp";
+      break;
+    case msrFigure::kSharpSuffix:
+      fOstream << "sharp";
+      break;
+    case msrFigure::kDoubleSharpSuffix:
+      fOstream << "souble sharp";
+      break;
+    case msrFigure::kSlashSuffix:
+      fOstream << "slash";
+      break;
+  } // switch
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrFiguredBass '" <<
+      elt->figuredBassAsString () <<
+      "'" <<
+      endl;
+
+  fOstream <<
+    ">" <<
+    wholeNotesAsLilypondString (
+      elt->getInputLineNumber (),
+      elt->
+        getFiguredBassSoundingWholeNotes ()) <<
+    " ";
 }
 
 //________________________________________________________________________

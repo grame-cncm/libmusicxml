@@ -88,6 +88,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrHarmony>,
   
   public visitor<S_msrFiguredBass>,
+  public visitor<S_msrFigure>,
 
   public visitor<S_msrSegment>,
   public visitor<S_msrMeasure>,
@@ -288,6 +289,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrHarmony& elt);
     
     virtual void visitStart (S_msrFiguredBass& elt);
+    virtual void visitEnd   (S_msrFiguredBass& elt);
+    virtual void visitStart (S_msrFigure& elt);
     
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
@@ -489,9 +492,7 @@ class lpsr2LilypondTranslator :
                             S_msrHarmony harmony);
 
     // figured bass
-    
-    string                figuredBassAsLilypondString (
-                            S_msrFiguredBass figuredBass);
+    //   JMI ???
 
   private:
                      
