@@ -492,7 +492,8 @@ class lpsr2LilypondTranslator :
                             S_msrHarmony harmony);
 
     // figured bass
-    //   JMI ???
+    S_msrFiguredBass      fCurrentFiguredBass;
+    int                   fCurrentFiguredBassFiguresCounter;
 
   private:
                      

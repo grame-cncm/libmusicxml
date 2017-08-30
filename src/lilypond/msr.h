@@ -4525,12 +4525,11 @@ class EXP msrFiguredBass : public msrElement
                               { return fFiguredBassSoundingWholeNotes; }
 
     msrFiguredBassParenthesesKind
-                          getFiguredBassParenthesesKind (
-                            )
+                          getFiguredBassParenthesesKind () const
                               { return fFiguredBassParenthesesKind; }
 
     const list<S_msrFigure>&
-                          getfFiguredBassFiguresList ()
+                          getFiguredBassFiguresList ()
                               { return fFiguredBassFiguresList;  }
                                                                               
     // services

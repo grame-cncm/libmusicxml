@@ -49,8 +49,8 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
       fMusicOlec (os),
       fStanzaOlec (os)
 {
-  fMsrOptions       = msrOpts;
-  fLpsrOptions      = lpsrOpts;
+  fMsrOptions  = msrOpts;
+  fLpsrOptions = lpsrOpts;
   
   // the LPSR score we're visiting
   fVisitedLpsrScore = lpScore;
@@ -79,8 +79,13 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // voices
   fOnGoingVoice = false;
+
+  // harmonies
   fOnGoingHarmonyVoice = false;
+
+  // figured bass
   fOnGoingFiguredBassVoice = false;
+  fCurrentFiguredBassFiguresCounter = 0;
 
   // repeats
   fCurrentRepeatEndingsNumber = 0;
@@ -3289,9 +3294,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
       "'" <<
       endl;
 
+  fCurrentFiguredBass = elt;
+  
   if (fOnGoingNote) {
     fOstream <<
-      "%{ " << elt->figuredBassAsString () << " %}" <<
+      "%{ " << fCurrentFiguredBass->figuredBassAsString () << " %}" <<
       endl <<
       idtr;
   }
@@ -3316,7 +3323,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
     if (gLilypondOptions->fInputLineNumbers)
       // print the figured bass line number as a comment
       fOstream <<
-        "%{ " << elt->getInputLineNumber () << " %} ";  
+        "%{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";  
   }
 
 /* JMI
@@ -3325,6 +3332,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
     // this will be done after the chord itself JMI
   }
   */
+
+  fCurrentFiguredBassFiguresCounter = 0;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
@@ -3336,42 +3345,72 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       "'" <<
       endl;
 
+  fCurrentFiguredBassFiguresCounter++;
+  
+  // is the figured bass parenthesized?
+  msrFiguredBass::msrFiguredBassParenthesesKind
+    figuredBassParenthesesKind =
+      fCurrentFiguredBass->
+        getFiguredBassParenthesesKind ();
+        
   // generate the figure number
+  switch (figuredBassParenthesesKind) {
+    case msrFiguredBass::kFiguredBassParenthesesYes:
+      fOstream << "[";
+      break;
+    case msrFiguredBass::kFiguredBassParenthesesNo:
+      break;
+  } // switch
+
   fOstream <<
     elt->getFigureNumber ();
+    
+  switch (figuredBassParenthesesKind) {
+    case msrFiguredBass::kFiguredBassParenthesesYes:
+      fOstream << "]";
+      break;
+    case msrFiguredBass::kFiguredBassParenthesesNo:
+      break;
+  } // switch
 
   // handle the figure prefix
   switch (elt->getFigurePrefixKind ()) {
     case msrFigure::k_NoFigurePrefix:
-      fOstream << "none";
       break;
     case msrFigure::kDoubleFlatPrefix:
       fOstream << "double flat";
       break;
     case msrFigure::kFlatPrefix:
-      fOstream << "flat";
+      fOstream << "-";
       break;
     case msrFigure::kFlatFlatPrefix:
       fOstream << "flat flat";
       break;
     case msrFigure::kNaturalPrefix:
-      fOstream << "natural";
+      fOstream << "!";
       break;
     case msrFigure::kSharpSharpPrefix:
       fOstream << "sharp sharp";
       break;
     case msrFigure::kSharpPrefix:
-      fOstream << "sharp";
+      fOstream << "+";
       break;
     case msrFigure::kDoubleSharpPrefix:
       fOstream << "souble sharp";
       break;
   } // switch
 
+  // generate a space
+  if (
+    fCurrentFiguredBassFiguresCounter
+      <
+    fCurrentFiguredBass->getFiguredBassFiguresList ().size ()) {
+    fOstream << " ";
+  }
+  
   // handle the figure suffix
   switch (elt->getFigureSuffixKind ()) {
     case msrFigure::k_NoFigureSuffix:
-      fOstream << "none";
       break;
     case msrFigure::kDoubleFlatSuffix:
       fOstream << "double flat";
@@ -3395,7 +3434,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       fOstream << "souble sharp";
       break;
     case msrFigure::kSlashSuffix:
-      fOstream << "slash";
+      fOstream << "/";
       break;
   } // switch
 }
