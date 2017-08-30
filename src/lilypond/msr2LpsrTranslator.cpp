@@ -55,7 +55,8 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingStaff          = false;
 
   // voices
-  fOnGoingHarmonyVoice   = false;
+  fOnGoingHarmonyVoice     = false;
+  fOnGoingFiguredBassVoice = false;
 
   // repeats
   fRepeatHasBeenCreatedForCurrentPartClone = false;
@@ -872,6 +873,61 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         fOnGoingStaff = true;
       }
       break;
+      
+    case msrStaff::kFiguredBassStaff:
+      {
+        // create a staff clone
+        fCurrentStaffClone =
+          elt->createStaffNewbornClone (
+            fCurrentPartClone);
+        
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
+
+        // register it as the part figured bass staff
+        fCurrentPartClone->
+          setPartFiguredBassStaff (fCurrentStaffClone);
+
+      /* JMI
+        // create a staff block
+        fCurrentStaffBlock =
+          lpsrStaffBlock::create (
+            fCurrentStaffClone);
+      
+        string
+          partName =
+            fCurrentPartClone->getPartName (),
+          partAbbreviation =
+            fCurrentPartClone->getPartAbbreviation ();
+      
+        string staffBlockInstrumentName;
+        string staffBlockShortInstrumentName;
+      
+        // don't set instrument name nor short instrument name
+        // if the staff belongs to a piano part where they're already set
+        if (! partName.size ())
+          staffBlockInstrumentName = partName;
+        if (! partAbbreviation.size ())
+          staffBlockShortInstrumentName = partAbbreviation;
+      
+        if (staffBlockInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockInstrumentName (staffBlockInstrumentName);
+            
+        if (staffBlockShortInstrumentName.size ())
+          fCurrentStaffBlock->
+            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+              
+        // append the staff block to the current part block
+        fCurrentPartBlock->
+          appendElementToPartBlock (fCurrentStaffBlock);
+      */
+      
+        fOnGoingStaff = true;
+      }
+      break;
   } // switch
 }
 
@@ -902,6 +958,10 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
       break;
       
     case msrStaff::kHarmonyStaff:
+      // JMI
+      break;
+      
+    case msrStaff::kFiguredBassStaff:
       // JMI
       break;
   } // switch
@@ -1019,6 +1079,82 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       }
       break;
       
+    case msrVoice::kFiguredBassVoice:
+      {
+        /* JMI
+        // create the figured bass staff and voice if not yet done
+        fCurrentPartClone->
+          createPartFiguredBassStaffAndVoiceIfNotYetDone (
+            inputLineNumber);
+          
+        // fetch figured bass voice
+        fCurrentVoiceClone =
+          fCurrentPartClone->
+            getPartFiguredBassVoice ();
+*/
+
+        // create a voice clone
+        fCurrentVoiceClone =
+          elt->createVoiceNewbornClone (
+            fCurrentStaffClone);
+              
+        // add it to the staff clone
+        fCurrentStaffClone->
+          registerVoiceInStaff (
+            inputLineNumber, fCurrentVoiceClone);
+    
+        // register it as the part figured bass voice
+        fCurrentPartClone->
+          setPartFiguredBassVoice (fCurrentVoiceClone);
+
+        if (
+          elt->getMusicHasBeenInsertedInVoice ()
+            ||
+          gMsrOptions->fKeepEmptyFiguredBassVoices
+          ) {          
+          // append the voice clone to the LPSR score elements list
+          fLpsrScore ->
+            appendVoiceToScoreElements (
+              fCurrentVoiceClone);
+      
+          // create a FiguredBass context command
+          string voiceName =
+            elt->getVoiceName ();
+  
+          string partCombinedName =
+            elt->fetchVoicePartUplink ()->
+              getPartCombinedName ();
+                          
+          if (gGeneralOptions->fTraceHarmonies)
+            cerr << idtr <<
+              "Creating a FiguredBass context for \"" << voiceName <<
+              "\" in part " << partCombinedName <<
+              endl;
+  
+          S_lpsrContext
+            figuredBassContext =
+              lpsrContext::create (
+                inputLineNumber,
+                lpsrContext::kExistingContext,
+                "FiguredBass",
+                voiceName);
+  
+          // append it to the current part block
+          if (gGeneralOptions->fTraceHarmonies)
+            cerr << idtr <<
+              "Appending the FiguredBass context for \"" << voiceName <<
+              "\" in part " << partCombinedName <<
+              endl;
+  
+          fCurrentPartBlock->
+            appendElementToPartBlock (
+              figuredBassContext);
+  
+          fOnGoingFiguredBassVoice = true;
+        }
+      }
+      break;
+      
     case msrVoice::kSilentVoice:
       // create a voice clone
       fCurrentVoiceClone =
@@ -1056,6 +1192,10 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
       
     case msrVoice::kHarmonyVoice:
       fOnGoingHarmonyVoice = false;
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      fOnGoingFiguredBassVoice = false;
       break;
       
     case msrVoice::kSilentVoice:
@@ -1170,6 +1310,50 @@ void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
     cerr << idtr <<
       "--> End visiting msrHarmony '" <<
       elt->harmonyAsString () <<
+      "'" <<
+      endl;
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrFiguredBass '" <<
+      elt->figuredBassAsString () <<
+      "'" <<
+      endl;
+
+  if (fOnGoingNote) {
+    // register the figured bass in the current note clone
+    fCurrentNoteClone->
+      setNoteFiguredBass (elt);
+
+  // don't append the figured bass to the part figured bass,
+  // this will be done below
+  }
+  
+  else if (fOnGoingChord) {
+    // register the figured bass in the current chord clone
+    fCurrentChordClone->
+      setChordFiguredBass (elt); // JMI
+  }
+  
+  else if (fOnGoingFiguredBassVoice) { // JMI
+    // register the figured bass in the part clone figured bass
+    fCurrentPartClone->
+      appendFiguredBassToPartClone (
+        fCurrentVoiceClone,
+        elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> End visiting msrFiguredBass '" <<
+      elt->figuredBassAsString () <<
       "'" <<
       endl;
 }

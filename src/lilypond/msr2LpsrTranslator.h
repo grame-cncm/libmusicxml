@@ -64,6 +64,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrSegment>,
   
   public visitor<S_msrHarmony>,
+  
+  public visitor<S_msrFiguredBass>,
 
   public visitor<S_msrMeasure>,
     
@@ -212,6 +214,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrHarmony& elt);
     virtual void visitEnd   (S_msrHarmony& elt);
+    
+    virtual void visitStart (S_msrFiguredBass& elt);
+    virtual void visitEnd   (S_msrFiguredBass& elt);
     
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
@@ -399,7 +404,9 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
     map<S_msrNote, S_msrNote> fVoiceNotesMap;
+    
     bool                      fOnGoingHarmonyVoice;
+    bool                      fOnGoingFiguredBassVoice;
     
     // repeats
     // ------------------------------------------------------
