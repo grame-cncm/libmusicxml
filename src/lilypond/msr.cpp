@@ -29170,7 +29170,7 @@ void msrPart::appendFiguredBassToPartClone (
       if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts)
         cerr << idtr <<
           "Appending figured bass '" <<
-          FiguredBass->figuredBassAsString () <<
+          figuredBass->figuredBassAsString () <<
           "' to part clone " <<
           getPartCombinedName () <<
           ", line " << inputLineNumber <<

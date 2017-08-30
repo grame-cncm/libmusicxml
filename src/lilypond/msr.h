@@ -9706,6 +9706,10 @@ class EXP msrPart : public msrElement
                             S_msrVoice      figuredBassSupplierVoice,
                            S_msrFiguredBass figuredBass);
     
+    void                  appendFiguredBassToPartClone (
+                            S_msrVoice       figuredBassSupplierVoice,
+                            S_msrFiguredBass figuredBass);
+  
     // accordion registration
 
     void                  appendAccordionRegistrationToPart (
