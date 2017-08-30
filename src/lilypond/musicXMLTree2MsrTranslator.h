@@ -993,7 +993,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // harmonies handling
     // ------------------------------------------------------
     
-    bool                      fPendingHarmony;
+    bool                      fPendingHarmony; // JMI
     
     int                       fCurrentHarmonyInputLineNumber;
     
@@ -1017,18 +1017,20 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // ------------------------------------------------------
     
     bool                      fOnGoingFiguredBass;
+    bool                      fPendingFiguredBass;
     
     int                       fCurrentFiguredBassInputLineNumber;
     bool                      fCurrentFiguredBassParentheses;
-    int                       fCurrentFiguredBassDurationDivisions;
 
+    rational                  fCurrentFiguredBassSoundingWholeNotes;
+    
     msrFigure::msrFigurePrefixKind
                               fCurrentFigurePrefixKind;
     int                       fCurrentFigureNumber;
     msrFigure::msrFigureSuffixKind
                               fCurrentFigureSuffixKind;
-    
-    S_msrFiguredBass          fPendinFiguredBass;
+
+    list<S_msrFigure>         fPendingFiguredBassFigures; 
 
     // barline handling
     // ------------------------------------------------------

@@ -18511,7 +18511,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   S_msrFiguredBass figuredBass)
 {
   int inputLineNumber =
-    harmony->getInputLineNumber ();
+    figuredBass->getInputLineNumber ();
     
   // regular insertion in current measure
   

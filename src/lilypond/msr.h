@@ -4501,6 +4501,13 @@ class EXP msrFiguredBass : public msrElement
     S_msrPart             getFiguredBassPartUplink () const
                               { return fFiguredBassPartUplink; }
 
+    void                  setFiguredBassSoundingWholeNotes (
+                            rational figuredBassSoundingWholeNotes)
+                              {
+                                fFiguredBassSoundingWholeNotes =
+                                  figuredBassSoundingWholeNotes;
+                              }
+
     rational              getFiguredBassSoundingWholeNotes () const
                               { return fFiguredBassSoundingWholeNotes; }
 
