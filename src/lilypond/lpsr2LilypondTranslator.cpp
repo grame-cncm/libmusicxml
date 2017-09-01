@@ -2428,22 +2428,24 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   string
     staffBlockInstrumentName =
       elt->getStaffBlockInstrumentName (),
-    staffShortInstrumentName =
+    staffBlockShortInstrumentName =
       elt->getStaffBlockShortInstrumentName ();
 
-  if (staffBlockInstrumentName.size ())
+  if (staffBlockInstrumentName.size ()) {
     fOstream << idtr <<
       "\\set " << staffContextName << ".instrumentName = \"" <<
       staffBlockInstrumentName <<
       "\"" <<
       endl;
+  }
 
-  if (staffShortInstrumentName.size ())
+  if (staffBlockShortInstrumentName.size ()) {
     fOstream << idtr <<
       "\\set " << staffContextName << ".shortInstrumentName = \"" <<
-      staffShortInstrumentName <<
+      staffBlockShortInstrumentName <<
       "\"" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
@@ -5044,11 +5046,22 @@ If the double element is present, it indicates that the music is doubled one oct
     }
 
   // now we can generate the transpostion command
+  int saveIndent =
+    idtr.getIndent ();
+    
   fOstream << idtr <<
     "\\transposition " <<
     transpositionPitchAsString <<
     transitionOctaveAsString <<
-    " ";
+    " " <<
+    endl;
+
+  if (saveIndent > 0) {
+    for (int i = 0; i < saveIndent - 1 /* JMI */; i++) {
+      fOstream <<
+        idtr;
+    } // for
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)

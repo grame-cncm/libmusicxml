@@ -1895,7 +1895,7 @@ class EXP lpsrStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrStaffBlock> create (
-      S_msrStaff     staff);
+      S_msrStaff staff);
      
   protected:
 
@@ -1903,7 +1903,7 @@ class EXP lpsrStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrStaffBlock (
-      S_msrStaff     staff);
+      S_msrStaff staff);
       
     virtual ~lpsrStaffBlock();
   
@@ -1967,12 +1967,12 @@ class EXP lpsrStaffBlock : public lpsrElement
 
   private:
 
-    S_msrStaff         fStaff;
+    S_msrStaff            fStaff;
 
-    list<S_msrElement> fStaffBlockElements;
+    list<S_msrElement>    fStaffBlockElements;
 
-    string             fStaffBlockInstrumentName;
-    string             fStaffBlockShortInstrumentName;
+    string                fStaffBlockInstrumentName;
+    string                fStaffBlockShortInstrumentName;
 };
 typedef SMARTP<lpsrStaffBlock> S_lpsrStaffBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrStaffBlock& elt);

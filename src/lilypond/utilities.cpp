@@ -276,6 +276,26 @@ outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
   return *this;
 }
 
+outputLineElementsCounter& outputLineElementsCounter::increment (int value)
+{
+  fElementsCounter += value;
+  
+  if (fElementsCounter >= fMaxElementsPerLine) {
+#ifdef DEBUG_OLEC
+    fOstream <<
+      "%{ ~" << fMaxElementsPerLine << " elems %}";
+#endif
+
+    fOstream <<
+      endl <<
+      indenter::gIndenter;
+
+    fElementsCounter = 0;
+  }
+    
+  return *this;
+}
+
 outputLineElementsCounter
 outputLineElementsCounter::gOutputLineElementsCounter (cout);
 

@@ -3139,7 +3139,7 @@ void lpsrLayout::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrStaffBlock lpsrStaffBlock::create (
-  S_msrStaff     staff)
+  S_msrStaff staff)
 {
   lpsrStaffBlock* o = new lpsrStaffBlock (
     staff);
@@ -3148,7 +3148,7 @@ S_lpsrStaffBlock lpsrStaffBlock::create (
 }
 
 lpsrStaffBlock::lpsrStaffBlock (
-  S_msrStaff     staff)
+  S_msrStaff staff)
     : lpsrElement (0) // JMI
 {
   fStaff = staff;
@@ -3258,6 +3258,21 @@ void lpsrStaffBlock::print (ostream& os)
     endl;
 
   idtr++;
+
+  const int fieldWidth = 31;
+  
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "(StaffBlockInstrumentName" << " = " << fStaffBlockInstrumentName <<
+      ")" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "(StaffBlockShortInstrumentName" << " = " << fStaffBlockShortInstrumentName <<
+      ")" <<
+      endl <<
+    endl;
 
   if (fStaffBlockElements.size()) {  
     list<S_msrElement>::const_iterator

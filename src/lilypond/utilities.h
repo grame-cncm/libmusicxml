@@ -109,10 +109,10 @@ class indenter
     int                   getIndent () const
                               { return fIndent; }
                          
-    // increase the indentation
+    // increase the indentation by 1
     indenter&             operator++ (const int value);
     
-    // decrease the indentation
+    // decrease the indentation by 1
     indenter&             operator-- (const int value);
 
     // reset the indentation
@@ -155,9 +155,14 @@ class outputLineElementsCounter
     int                   getElementsCounter () const
                               { return fElementsCounter; }
                          
-    // increase the counter
+    // increase the counter by 1
     outputLineElementsCounter&
                           operator++ (int value);
+    
+    // increase the counter by 'value' at once without checking
+    // for the maximun number of elements per line in-between
+    outputLineElementsCounter&
+                          increment (int value);
     
     // set the maximum number of elements per line
     void                  setMaxElementsPerLine (int maxElementsPerLine)
