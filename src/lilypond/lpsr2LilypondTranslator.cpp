@@ -537,7 +537,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           
         // print the rest duration
         fOstream <<
-          wholeNotesAsLilypondString (
+          durationAsLilypondString (
             inputLineNumber,
             note->
               getNoteSoundingWholeNotes ());
@@ -567,7 +567,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
       // print the skip duration
       fOstream <<
-        wholeNotesAsLilypondString (
+        durationAsLilypondString (
           inputLineNumber,
           note->
             getNoteSoundingWholeNotes ());
@@ -583,7 +583,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
       // print the note duration
       fOstream <<
-        wholeNotesAsLilypondString (
+        durationAsLilypondString (
           inputLineNumber,
           note->
             getNoteSoundingWholeNotes ());
@@ -710,7 +710,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
       // print the note (display) duration
       fOstream <<
-        wholeNotesAsLilypondString (
+        durationAsLilypondString (
           inputLineNumber,
           note->
             getNoteDisplayWholeNotes ());
@@ -6229,7 +6229,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   else {
     // print the chord duration
     fOstream <<
-      wholeNotesAsLilypondString (
+      durationAsLilypondString (
         chordInputLineNumber,
         elt->
           getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?

@@ -507,7 +507,7 @@ class lpsr2LilypondTranslator :
 
     // figured bass
     S_msrFiguredBass      fCurrentFiguredBass;
-    int                   fCurrentFiguredBassFiguresCounter;
+    unsigned int          fCurrentFiguredBassFiguresCounter;
 
   private:
                      
