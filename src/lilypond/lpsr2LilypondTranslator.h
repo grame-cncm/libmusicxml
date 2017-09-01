@@ -451,9 +451,12 @@ class lpsr2LilypondTranslator :
 
     // durations
     
-    string                lilypondizeDurationString (
-                            string msrDurationString);
-
+    rational              fLastMetWholeNotes;
+    
+    string                durationAsLilypondString (
+                            int      inputLineNumber,
+                            rational wholeNotes);
+    
     // notes
     
     string                lilypondRelativeOctave (

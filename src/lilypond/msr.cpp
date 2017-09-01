@@ -13873,7 +13873,34 @@ string msrTranspose::transposeAsString () const
 
 void msrTranspose::print (ostream& os)
 {
-  os << transposeAsString () << endl;
+  const int fieldWidth = 22;
+  
+  os <<
+    "Transpose" <<
+    endl;
+
+  idtr++;
+  
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "Diatonic" << " = " << fTransposeDiatonic <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "Chromatic" << " = " << fTransposeChromatic <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "TransposeOctaveChange" << " = " << fTransposeOctaveChange <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "TransposeDouble" << " = " << fTransposeDouble <<
+      endl <<
+    endl;
+    
+  idtr--;
 }
 
 //______________________________________________________________________________

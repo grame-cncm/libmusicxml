@@ -55,6 +55,8 @@ void lilypondOptions::initializeLilypondOptions (
   // notes
   
   fAbsoluteOctaves  = boolOptionsInitialValue;
+  
+  fAllDurations  = boolOptionsInitialValue;
 
   fStems          = boolOptionsInitialValue;
   fNoAutoBeaming  = boolOptionsInitialValue;
@@ -181,6 +183,9 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   
   clone->fAbsoluteOctaves =
     fAbsoluteOctaves;
+
+  clone->fAllDurations =
+    fAllDurations;
 
   clone->fStems =
     fStems;
@@ -362,6 +367,18 @@ void lilypondOptions::printLilypondOptionsHelp ()
       endl <<
     idtr << tab << tab << tab <<
       "By default, relative octaves are generated." << 
+      endl <<
+    endl;
+
+  cerr <<
+    idtr <<
+      "--" _ALL_DURATIONS_SHORT_NAME_ ", --" _ALL_DURATIONS_LONG_NAME_ << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "Generate all LilyPond durations. " << 
+      endl <<
+    idtr << tab << tab << tab <<
+      "By default, they are omitted for code conciseness." << 
       endl <<
     endl;
 
@@ -875,6 +892,10 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "absoluteOctaves" << " : " <<
       booleanAsString (fAbsoluteOctaves) <<
+      endl <<
+    
+    idtr << setw(fieldWidth) << "allDurations" << " : " <<
+      booleanAsString (fAllDurations) <<
       endl <<
     
     idtr << setw(fieldWidth) << "stems" << " : " <<

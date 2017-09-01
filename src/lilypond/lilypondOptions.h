@@ -36,6 +36,9 @@ namespace MusicXML2
 #define _ABSOLUTE_LONG_NAME_  "absolute"
 #define _ABSOLUTE_SHORT_NAME_ "abs"
 
+#define _ALL_DURATIONS_LONG_NAME_  "allDurations"
+#define _ALL_DURATIONS_SHORT_NAME_ "alldurs"
+
 #define _STEMS_LONG_NAME_  "stems"
 #define _STEMS_SHORT_NAME_ ""
 
@@ -210,6 +213,8 @@ class EXP lilypondOptions : public smartable {
     // --------------------------------------
     
     bool                  fAbsoluteOctaves;
+    
+    bool                  fAllDurations;
     
     bool                  fStems;
     bool                  fNoAutoBeaming;

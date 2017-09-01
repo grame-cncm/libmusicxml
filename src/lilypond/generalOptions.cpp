@@ -386,6 +386,13 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
     idtr << tab << tab << tab <<
       "Display LPSR help and exit." <<
       endl <<
+      
+    idtr <<
+      "--" _HELP_LILYPOND_SHORT_NAME_ ", --" _HELP_LILYPOND_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "Display LilyPond help and exit." <<
+      endl <<
     endl;
 
   idtr--;

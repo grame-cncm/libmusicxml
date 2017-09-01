@@ -667,6 +667,12 @@ void analyzeOptions (
 
 
   checkOptionUniqueness (
+    _ALL_DURATIONS_LONG_NAME_, _ALL_DURATIONS_SHORT_NAME_);
+    
+  int allDurationsPresent = 0;
+
+
+  checkOptionUniqueness (
     _STEMS_LONG_NAME_, _STEMS_SHORT_NAME_);
     
   int stemsPresent = 0;
@@ -1637,6 +1643,17 @@ void analyzeOptions (
     {
       _ABSOLUTE_SHORT_NAME_,
       no_argument, &absolutePresent, 1
+    },
+
+    
+    {
+      _ALL_DURATIONS_LONG_NAME_,
+      no_argument, &allDurationsPresent, 1
+    },
+
+    {
+      _ALL_DURATIONS_SHORT_NAME_,
+      no_argument, &allDurationsPresent, 1
     },
 
     
@@ -3078,6 +3095,17 @@ R"(
                 "--" _ABSOLUTE_SHORT_NAME_ " ";
                 
               absolutePresent = false;
+            }
+    
+            if (allDurationsPresent) {
+              gLilypondOptions->fAllDurations = true;
+    
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _ALL_DURATIONS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _ALL_DURATIONS_SHORT_NAME_ " ";
+                
+              allDurationsPresent = false;
             }
     
             if (stemsPresent) {

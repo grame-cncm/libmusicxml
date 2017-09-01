@@ -200,8 +200,6 @@ void lpsrOptions::printLpsrOptionsHelp ()
       endl <<
     endl;
 
-  idtr--;
-
   cerr <<
     idtr <<
       "--" _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ ", --" _TRACE_SCHEME_FUNCTIONS_LONG_NAME_ << 

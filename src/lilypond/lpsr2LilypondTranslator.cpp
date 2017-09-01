@@ -93,6 +93,9 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // measures
   fMeasuresCounter = 0;
   
+  // durations
+  fLastMetWholeNotes = rational (0, 1);
+
   // notes
   fOnGoingNote = false;
 
@@ -239,36 +242,6 @@ string lpsr2LilypondTranslator::alterationAsLilypondString (
       result = "alteration???";
       break;
   } // switch
-
-  return result;
-}
-
-//______________________________________________________________________________
-string lpsr2LilypondTranslator::lilypondizeDurationString (
-  string msrDurationString)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) { // JMI
-    fOstream <<
-      endl <<
-      idtr <<
-      "% lilypondizeDurationString()" <<
-      ", msrDurationString = \"" << msrDurationString << "\"" <<
-      endl;
-  }
-
-  string result = msrDurationString;
-
-/* JMI
-    fOstream <<
-      "%{ lilypondizeDurationString: " << result << " %}";
-*/
-
-  if (result.size ()) { // JMI
-    if (! isdigit (result [0])) {
-      result [0] = tolower (result [0]);
-      result = "\\" + result;
-    }
-  }
 
   return result;
 }
@@ -907,6 +880,33 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   } // switch
 
   return s.str();
+}
+
+//________________________________________________________________________
+string lpsr2LilypondTranslator::durationAsLilypondString (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  string result;
+  
+  bool explicitDuration;
+  
+  if (wholeNotes != fLastMetWholeNotes) {
+    explicitDuration = true;
+    fLastMetWholeNotes = wholeNotes;
+  }
+  else {
+    explicitDuration =
+      gLilypondOptions->fAllDurations;
+  }
+  
+  if (explicitDuration)
+    result =
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        wholeNotes);
+
+  return result;
 }
 
 //________________________________________________________________________
@@ -3142,6 +3142,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kSilentVoice:
       break;
   } // switch
+
+  // force durations to be displayed explicitly
+  fLastMetWholeNotes = rational (0, 1);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
