@@ -3264,13 +3264,13 @@ void lpsrStaffBlock::print (ostream& os)
   os << left <<
     idtr <<
       setw(fieldWidth) <<
-      "(StaffBlockInstrumentName" << " = " << fStaffBlockInstrumentName <<
-      ")" <<
+      "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
+      "\")" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "(StaffBlockShortInstrumentName" << " = " << fStaffBlockShortInstrumentName <<
-      ")" <<
+      "(StaffBlockShortInstrumentName" << " = \"" << fStaffBlockShortInstrumentName <<
+      "\")" <<
       endl <<
     endl;
 
@@ -3291,7 +3291,7 @@ void lpsrStaffBlock::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrPartBlock lpsrPartBlock::create (
-  S_msrPart      part)
+  S_msrPart part)
 {
   lpsrPartBlock* o = new lpsrPartBlock (
     part);
@@ -3300,10 +3300,22 @@ S_lpsrPartBlock lpsrPartBlock::create (
 }
 
 lpsrPartBlock::lpsrPartBlock (
-  S_msrPart      part)
+  S_msrPart part)
     : lpsrElement (0) // JMI 
 {
+  msrAssert (
+    part != 0,
+    "part is null");
+    
   fPart = part;
+
+  // set instrument names default values
+  fPartBlockInstrumentName =
+    fPart->
+      getPartInstrumentName ();
+  fPartBlockShortInstrumentName =
+    fPart->
+      getPartInstrumentAbbreviation();
 }
 
 lpsrPartBlock::~lpsrPartBlock()
@@ -3402,10 +3414,12 @@ void lpsrPartBlock::print (ostream& os)
     idtr <<
       setw(fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
       fPartBlockInstrumentName <<
+      "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
       fPartBlockShortInstrumentName <<
+      "\"" <<
       endl;
 
   os << endl;

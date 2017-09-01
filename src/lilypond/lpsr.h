@@ -1991,7 +1991,7 @@ class EXP lpsrPartBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPartBlock> create (
-      S_msrPart      part);
+      S_msrPart part);
      
   protected:
 
@@ -1999,7 +1999,7 @@ class EXP lpsrPartBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrPartBlock (
-      S_msrPart      part);
+      S_msrPart part);
       
     virtual ~lpsrPartBlock();
   
@@ -2057,12 +2057,12 @@ class EXP lpsrPartBlock : public lpsrElement
 
   private:
 
-    S_msrPart          fPart;
+    S_msrPart             fPart;
 
-    list<S_msrElement> fPartBlockElements;
+    list<S_msrElement>    fPartBlockElements;
 
-    string             fPartBlockInstrumentName; // JMI
-    string             fPartBlockShortInstrumentName; // JMI
+    string                fPartBlockInstrumentName; // JMI
+    string                fPartBlockShortInstrumentName; // JMI
 };
 typedef SMARTP<lpsrPartBlock> S_lpsrPartBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);
