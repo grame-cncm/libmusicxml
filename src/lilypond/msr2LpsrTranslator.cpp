@@ -1808,9 +1808,9 @@ void msr2LpsrTranslator::visitStart (S_msrTranspose& elt)
       "--> Start visiting msrTranspose" <<
       endl;
 
-  // append time to voice clone
-  fCurrentVoiceClone->
-    appendTranposeToVoiceClone (elt);
+  // append time to part clone
+  fCurrentPartClone->
+    appendTransposeToPart (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTranspose& elt)

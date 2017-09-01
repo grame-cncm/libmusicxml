@@ -5008,10 +5008,9 @@ If the double element is present, it indicates that the music is doubled one oct
   // now we can generate the transpostion command
   fOstream << idtr <<
     "\\transposition " <<
-    quarterTonesPitchAsString =
-      msrQuarterTonesPitchAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-        transpositionPitch) <<
+    msrQuarterTonesPitchAsString (
+      gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+      transpositionPitch) <<
     absoluteOctaveAsLilypondString (
       transpositionOctave) <<
     " ";

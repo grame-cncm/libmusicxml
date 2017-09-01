@@ -13793,7 +13793,8 @@ S_msrTranspose msrTranspose::create (
   return o;
 }
 
-msrTranspose::msrTranspose (,
+msrTranspose::msrTranspose (
+  int  inputLineNumber,
   int  transposeDiatonic,
   int  transposeChromatic,
   int  transposeOctaveChange,

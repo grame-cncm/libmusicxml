@@ -207,6 +207,7 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrTime& elt);
 
     virtual void visitStart (S_msrTranspose& elt);
+    virtual void visitEnd   (S_msrTranspose& elt);
 
     virtual void visitStart (S_msrWords& elt);
     virtual void visitEnd   (S_msrWords& elt);
