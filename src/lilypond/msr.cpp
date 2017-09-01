@@ -1956,7 +1956,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
 
 string msrQuarterTonesPitchAsString (
   msrQuarterTonesPitchesLanguage language,
-  msrQuarterTonesPitch          quarterTonesPitch)
+  msrQuarterTonesPitch           quarterTonesPitch)
 {
    string result;
   

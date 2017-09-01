@@ -1360,8 +1360,9 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::transposeDiatonicError (
-  int  transposeDiatonic,
-  int  transposeChromatic)
+  int inputLineNumber,
+  int transposeDiatonic,
+  int transposeChromatic)
 {
   stringstream s;
 
@@ -4625,7 +4626,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4637,7 +4640,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4653,7 +4658,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4665,7 +4672,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4677,7 +4686,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4693,7 +4704,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4705,7 +4718,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4721,7 +4736,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4733,7 +4750,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4749,7 +4768,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4761,7 +4782,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4773,7 +4796,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
 
@@ -4784,12 +4809,14 @@ If the double element is present, it indicates that the music is doubled one oct
           break;
 
         case 1:
-          transpositionPitch = k_dMoll;
+          transpositionPitch = k_dFlat;
           break;
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4801,7 +4828,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4817,7 +4846,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4829,7 +4860,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4841,7 +4874,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4857,7 +4892,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4869,7 +4906,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4885,7 +4924,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4897,7 +4938,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4913,7 +4956,9 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
       
@@ -4925,23 +4970,51 @@ If the double element is present, it indicates that the music is doubled one oct
 
         default:
           transposeDiatonicError (
-            transposeDiatonic, transposeChromatic);
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
       } // switch
       break;
+
+    default:
+      {
+        stringstream s;
+      
+        s <<
+          "transpose chromaticic '" << transposeChromatic <<
+          "' is not between -11 and 11";
+          
+        msrMusicXMLError (
+          inputLineNumber,
+          s.str());
+      }
   } // switch
+
+  // 4 is the octave starting with middle C
+  int transpositionOctave;
   
+  if (transposeChromatic < 0)
+    transpositionOctave = 4;
+  else
+    transpositionOctave = 3;
+
+  // take the transpose octave change into account
+  transpositionOctave += transposeOctaveChange;
+
+  // take the transpose double if any into account
+  if (transposeDouble)
+    transpositionOctave--;
+
+  // now we can generate the transpostion command
   fOstream << idtr <<
-    "\\transposition";
-
-  if (tempoIndication.size ())
-    fOstream <<
-      " \"" << tempoIndication << "\"";
-
-  if (tempoUnit)
-    fOstream <<
-      " " << tempoUnit << " = " << perMinute;
-
-  fOstream << endl;
+    "\\transposition " <<
+    quarterTonesPitchAsString =
+      msrQuarterTonesPitchAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+        transpositionPitch) <<
+    absoluteOctaveAsLilypondString (
+      transpositionOctave) <<
+    " ";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)

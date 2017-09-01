@@ -370,7 +370,7 @@ string msrDiatonicPitchAsString ( // JMI
 
 string msrQuarterTonesPitchAsString (
   msrQuarterTonesPitchesLanguage language,
-  msrQuarterTonesPitch          quarterTonesPitch);
+  msrQuarterTonesPitch           quarterTonesPitch);
 
 // global variables
 //______________________________________________________________________________
@@ -4608,7 +4608,7 @@ class EXP msrFiguredBass : public msrElement
                               { return fFiguredBassParenthesesKind; }
 
     const list<S_msrFigure>&
-                          f
+                          getFiguredBassFiguresList ()
                               { return fFiguredBassFiguresList;  }
                                                                               
     // services

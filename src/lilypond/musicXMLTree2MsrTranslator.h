@@ -901,6 +901,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentTransposeNumber;
     int                       fCurrentTransposeDiatonic;
     int                       fCurrentTransposeChromatic;
+    int                       fCurrentTransposeOctaveChange;
+    bool                      fCurrentTransposeDouble;
 
     // direction handling
     // ------------------------------------------------------

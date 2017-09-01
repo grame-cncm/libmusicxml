@@ -3112,8 +3112,10 @@ Oboe d'amore (A):
 
   fCurrentTransposeNumber = elt->getAttributeIntValue ("number", 0);
   
-  fCurrentTransposeDiatonic  = 0;
-  fCurrentTransposeChromatic = 0;
+  fCurrentTransposeDiatonic     = 0;
+  fCurrentTransposeChromatic    = 0;
+  fCurrentTransposeOctaveChange = 0;
+  fCurrentTransposeDouble       = false;
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_diatonic& elt )
@@ -3143,7 +3145,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_octave_change& elt )
       "--> Start visiting octave_change" <<
       endl;
 
-  fCurrentTransposeChromatic = (int)(*elt);
+  fCurrentTransposeOctaveChange = (int)(*elt);
 }
  
 void musicXMLTree2MsrTranslator::visitStart ( S_double& elt )
@@ -3153,7 +3155,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_double& elt )
       "--> Start visiting double" <<
       endl;
 
-  fCurrentTransposeChromatic = (int)(*elt);
+  fCurrentTransposeDouble = true;
 }
  
 void musicXMLTree2MsrTranslator::visitEnd ( S_transpose& elt ) 
@@ -3172,7 +3174,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_transpose& elt )
       msrTranspose::create (
         inputLineNumber,
         fCurrentTransposeDiatonic,
-        fCurrentTransposeChromatic);
+        fCurrentTransposeChromatic,
+        fCurrentTransposeOctaveChange,
+        fCurrentTransposeDouble);
 
   if (fCurrentTransposeNumber == 0)
     fCurrentPart->

@@ -492,8 +492,9 @@ class lpsr2LilypondTranslator :
 
     // transpose
     void                  transposeDiatonicError (
-                            int  transposeDiatonic,
-                            int  transposeChromatic);
+                            int inputLineNumber,
+                            int transposeDiatonic,
+                            int transposeChromatic);
 
     // harmonies
     
