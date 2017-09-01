@@ -9279,7 +9279,7 @@ class EXP msrStaff : public msrElement
 
     S_msrPart             fStaffPartUplink;
 
-    // staff kind
+    // staff name
 
     string                fStaffName;
     
@@ -9287,9 +9287,14 @@ class EXP msrStaff : public msrElement
 
     msrStaffKind          fStaffKind;
 
-    // staff number and anme
+    // staff number
 
     int                   fStaffNumber;
+
+    // staff instrument name
+    
+    string                fStaffInstrumentName;
+    string                fStaffInstrumentAbbreviation;
 
     // staff voices
     
@@ -9821,7 +9826,7 @@ class EXP msrPart : public msrElement
     string                fPartName; // from '<part-name/>'
     string                fPartAbbreviation;
 
-    // instrument name
+    // part instrument name
     
     string                fPartInstrumentName;
     string                fPartInstrumentAbbreviation;

@@ -3151,7 +3151,21 @@ lpsrStaffBlock::lpsrStaffBlock (
   S_msrStaff staff)
     : lpsrElement (0) // JMI
 {
+  msrAssert (
+    staff != 0,
+    "staff is null");
+    
   fStaff = staff;
+
+  // set staff block instrument names default values // JMI
+  fStaffBlockInstrumentName =
+    staff->
+      getStaffPartUplink ()->
+        getPartInstrumentName ();
+  fStaffBlockShortInstrumentName =
+    staff->
+      getStaffPartUplink ()->
+        getPartInstrumentAbbreviation();
 }
 
 lpsrStaffBlock::~lpsrStaffBlock()
@@ -3309,7 +3323,7 @@ lpsrPartBlock::lpsrPartBlock (
     
   fPart = part;
 
-  // set instrument names default values // JMI
+  // set part block instrument names default values // JMI
   fPartBlockInstrumentName =
     fPart->
       getPartName ();

@@ -26660,6 +26660,14 @@ void msrStaff::initializeStaff ()
       appendTransposeToAllStaffVoices (transpose);
     }
   }
+
+  // set staff instrument names default values // JMI
+  fStaffInstrumentName =
+    fStaffPartUplink->
+      getPartName ();
+  fStaffInstrumentAbbreviation =
+    fStaffPartUplink->
+      getPartAbbreviation();
 }
 
 msrStaff::~msrStaff()
