@@ -9382,10 +9382,6 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 void msrChord::setChordFirstNotePositionInMeasure (
   rational positionInMeasure)
 {
-  msrAssert (
-    fChordNotes.size () > 0,
-    "fChordNotes is empty");
-
   if (fChordNotes.size ()) { // JMI
     fChordNotes.front ()->
       setNotePositionInMeasure (positionInMeasure);
@@ -9399,10 +9395,6 @@ void msrChord::setChordFirstNotePositionInMeasure (
 void msrChord::setChordFirstNoteMeasureNumber (
   string measureNumber)
 {
-  msrAssert (
-    fChordNotes.size () > 0,
-    "fChordNotes is empty");
-
   if (fChordNotes.size ()) { // JMI
     fChordNotes.front ()->
       setNoteMeasureNumber (measureNumber);
@@ -19765,12 +19757,14 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
-        endl;
+      endl;
   }
-      
+
+      /* JMI
   cerr << idtr; // JMI
   fetchSegmentPartUplink ()->
     print (cerr);
+*/
 
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
@@ -28427,15 +28421,6 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         ", line " << inputLineNumber <<
         endl;
 
-  if (false) // JMI
-    fPartHarmonyVoice =
-      msrVoice::create (
-        inputLineNumber,
-        msrVoice::kHarmonyVoice,
-        K_PART_HARMONY_VOICE_NUMBER,
-        msrVoice::kCreateInitialLastSegmentYes,
-        fPartHarmonyStaff);
-  else
     // create a deep copy of the part master voice
     fPartHarmonyVoice =
       fPartMasterVoice->
@@ -28512,15 +28497,6 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         ", line " << inputLineNumber <<
         endl;
 
-  if (false) // JMI
-    fPartFiguredBassVoice =
-      msrVoice::create (
-        inputLineNumber,
-        msrVoice::kFiguredBassVoice,
-        K_PART_FIGURED_BASS_VOICE_NUMBER,
-        msrVoice::kCreateInitialLastSegmentYes,
-        fPartFiguredBassStaff);
-  else
     // create a deep copy of the part master voice
     fPartFiguredBassVoice =
       fPartMasterVoice->
