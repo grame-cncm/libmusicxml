@@ -4609,20 +4609,30 @@ The octave-change element indicates how many octaves to add to get from written 
 If the double element is present, it indicates that the music is doubled one octave down from what is currently written (as is the case for mixed cello / bass parts in orchestral literature).
 */
   
-  fOstream << idtr <<
-    "\\transposition";
-
-  msrQuarterTonesPitch transposePitch;
+  // determine transposition pitch
+  msrQuarterTonesPitch transpositionPitch;
   
   switch (transposeChromatic) {
     case -11:
-      transposePitch = k_cSharp;
+      switch (transposeDiatonic) {
+        case -7:
+          transpositionPitch = k_cSharp;
+          break;
+
+        case -6:
+          transpositionPitch = k_dFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
       
     case -10:
       switch (transposeDiatonic) {
         case -6:
-          transposePitch = k_dNatural;
+          transpositionPitch = k_dNatural;
           break;
 
         default:
@@ -4632,13 +4642,25 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case -9:
-      transposePitch = k_eFlat;
+      switch (transposeDiatonic) {
+        case -6:
+          transpositionPitch = k_dSharp;
+          break;
+
+        case -5:
+          transpositionPitch = k_eFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
       
     case -8:
       switch (transposeDiatonic) {
         case -5:
-          transposePitch = k_eNatural;
+          transpositionPitch = k_eNatural;
           break;
 
         default:
@@ -4650,7 +4672,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -7:
       switch (transposeDiatonic) {
         case -4:
-          transposePitch = k_fNatural;
+          transpositionPitch = k_fNatural;
           break;
 
         default:
@@ -4660,13 +4682,25 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case -6:
-      transposePitch = k_fSharp;
+      switch (transposeDiatonic) {
+        case -4:
+          transpositionPitch = k_fSharp;
+          break;
+
+        case -3:
+          transpositionPitch = k_gFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
       
     case -5:
       switch (transposeDiatonic) {
         case -3:
-          transposePitch = k_gNatural;
+          transpositionPitch = k_gNatural;
           break;
 
         default:
@@ -4676,13 +4710,25 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case -4:
-      transposePitch = k_aFlat;
+      switch (transposeDiatonic) {
+        case -3:
+          transpositionPitch = k_gSharp;
+          break;
+
+        case -2:
+          transpositionPitch = k_aFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
       
     case -3:
       switch (transposeDiatonic) {
         case -2:
-          transposePitch = k_aNatural;
+          transpositionPitch = k_aNatural;
           break;
 
         default:
@@ -4692,13 +4738,25 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case -2:
-      transposePitch = k_bFlat;
+      switch (transposeDiatonic) {
+        case -2:
+          transpositionPitch = k_aSharp;
+          break;
+
+        case -1:
+          transpositionPitch = k_bFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
       
     case -1:
       switch (transposeDiatonic) {
         case -1:
-          transposePitch = k_bNatural;
+          transpositionPitch = k_bNatural;
           break;
 
         default:
@@ -4708,9 +4766,9 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case 0:
-      transposePitch = k_cNatural;
       switch (transposeDiatonic) {
         case 0:
+          transpositionPitch = k_cNatural;
           break;
 
         default:
@@ -4722,11 +4780,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 1:
       switch (transposeDiatonic) {
         case 0:
-          transposePitch = k_cSharp;
+          transpositionPitch = k_cSharp;
           break;
 
         case 1:
-          transposePitch = k_dMoll;
+          transpositionPitch = k_dMoll;
           break;
 
         default:
@@ -4738,7 +4796,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 2:
       switch (transposeDiatonic) {
         case 1:
-          transposePitch = k_dNatural;
+          transpositionPitch = k_dNatural;
           break;
 
         default:
@@ -4749,12 +4807,12 @@ If the double element is present, it indicates that the music is doubled one oct
       
     case 3:
       switch (transposeDiatonic) {
-        case 2:
-          transposePitch = k_dSharp;
+        case 1:
+          transpositionPitch = k_dSharp;
           break;
 
-        case 3:
-          transposePitch = k_eFlat;
+        case 2:
+          transpositionPitch = k_eFlat;
           break;
 
         default:
@@ -4766,7 +4824,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 4:
       switch (transposeDiatonic) {
         case 2:
-          transposePitch = k_eNatural;
+          transpositionPitch = k_eNatural;
           break;
 
         default:
@@ -4778,7 +4836,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 5:
       switch (transposeDiatonic) {
         case 3:
-          transposePitch = k_fNatural;
+          transpositionPitch = k_fNatural;
           break;
 
         default:
@@ -4788,14 +4846,13 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case 6:
-      transposePitch = k_cNatural;
       switch (transposeDiatonic) {
-        case 4:
-          transposePitch = k_dSharp;
+        case 3:
+          transpositionPitch = k_fSharp;
           break;
 
-        case 5:
-          transposePitch = k_eFlat;
+        case 4:
+          transpositionPitch = k_gFlat;
           break;
 
         default:
@@ -4807,7 +4864,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 7:
       switch (transposeDiatonic) {
         case 4:
-          transposePitch = k_gNatural;
+          transpositionPitch = k_gNatural;
           break;
 
         default:
@@ -4817,14 +4874,13 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case 8:
-      transposePitch = k_cNatural;
       switch (transposeDiatonic) {
-        case 5:
-          transposePitch = k_dSharp;
+        case 4:
+          transpositionPitch = k_gSharp;
           break;
 
-        case 7:
-          transposePitch = k_eFlat;
+        case 5:
+          transpositionPitch = k_aFlat;
           break;
 
         default:
@@ -4836,7 +4892,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 9:
       switch (transposeDiatonic) {
         case 5:
-          transposePitch = k_aNatural;
+          transpositionPitch = k_aNatural;
           break;
 
         default:
@@ -4846,14 +4902,13 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
       
     case 10:
-      transposePitch = k_cNatural;
       switch (transposeDiatonic) {
-        case 7:
-          transposePitch = k_dSharp;
+        case 5:
+          transpositionPitch = k_aSharp;
           break;
 
-        case 8:
-          transposePitch = k_eFlat;
+        case 6:
+          transpositionPitch = k_bFlat;
           break;
 
         default:
@@ -4865,7 +4920,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 11:
       switch (transposeDiatonic) {
         case 6:
-          transposePitch = k_bNatural;
+          transpositionPitch = k_bNatural;
           break;
 
         default:
@@ -4875,6 +4930,9 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
   } // switch
   
+  fOstream << idtr <<
+    "\\transposition";
+
   if (tempoIndication.size ())
     fOstream <<
       " \"" << tempoIndication << "\"";
