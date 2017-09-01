@@ -266,6 +266,8 @@ void lpsrOptions::printLpsrOptionsHelp ()
     endl;
 
   idtr--;
+  
+  idtr--;
     
   
   idtr--;

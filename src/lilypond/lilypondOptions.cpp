@@ -378,7 +378,10 @@ void lilypondOptions::printLilypondOptionsHelp ()
       "Generate all LilyPond durations. " << 
       endl <<
     idtr << tab << tab << tab <<
-      "By default, they are omitted for code conciseness." << 
+      "By default, a duration equal to last one met in the current voice" <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "is omitted for code conciseness." << 
       endl <<
     endl;
 
@@ -774,8 +777,12 @@ void lilypondOptions::printLilypondOptionsHelp ()
       "Generate the score using jianpu (numbered) notation instead of the default western notation." <<
       endl <<
     idtr << tab << tab << tab <<
-      "This options needs lilypond-Jianpu (https://github.com/nybbs2003/lilypond-Jianpu/blob/master/jianpu10a.ly) to be accessible to LilyPond." <<
+      "This option needs lilypond-Jianpu to be accessible to LilyPond" <<
       endl <<
+    idtr << tab << tab << tab <<
+      "(https://github.com/nybbs2003/lilypond-Jianpu/blob/master/jianpu10a.ly)." <<
+      endl <<
+/* JMI
     idtr << tab << tab << tab <<
       "This option and '--" _ABC_LONG_NAME_ "' are mutually exclusive." <<
       endl <<
@@ -790,6 +797,7 @@ void lilypondOptions::printLilypondOptionsHelp ()
     idtr << tab << tab << tab <<
       "This option and '--" _JIANPU_LONG_NAME_ "' are mutually exclusive." <<
       endl <<
+*/
     endl;
 
   idtr--;

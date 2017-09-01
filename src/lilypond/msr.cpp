@@ -2757,7 +2757,7 @@ void msrOptions::printMsrOptionsHelp ()
   // figured bass
   // --------------------------------------
   cerr <<
-    idtr << "Harmonies:" <<
+    idtr << "Figured bass:" <<
     endl <<
     endl;
 
