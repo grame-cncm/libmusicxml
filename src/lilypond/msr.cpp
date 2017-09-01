@@ -28237,7 +28237,7 @@ void msrPart::initializePart ()
     fPartMsrName =
       "P_"+stringNumbersToEnglishWords (fPartID);
   }
-    
+  
   if (gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "==> Creating part " << getPartCombinedName () << endl;
@@ -28388,7 +28388,7 @@ void msrPart::setPartName (string partName)
   fPartName = partName;
 
   // set part instrument name value by default it not yet set
-  if (fPartName.size () == 0)
+  if (fPartInstrumentName.size () == 0)
     fPartInstrumentName = fPartName;
 }
 
@@ -28398,7 +28398,7 @@ void msrPart::setPartAbbreviation (
   fPartAbbreviation = partAbbreviation;
 
   // set part instrument abbreviation value by default it not yet set
-  if (fPartAbbreviation.size () == 0)
+  if (fPartInstrumentAbbreviation.size () == 0)
     fPartInstrumentAbbreviation = fPartName;
 }
 
@@ -29807,7 +29807,7 @@ void msrPart::print (ostream& os)
     
   idtr++;
   
-  const int fieldWidth = 29;
+  const int fieldWidth = 19;
 
   os << left <<
     idtr <<
