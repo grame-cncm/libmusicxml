@@ -544,6 +544,7 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     bool                  fVoiceIsCurrentlySenzaMisura;
     bool                  fOnGoingVoiceCadenza;
+    
     // staves
     // ------------------------------------------------------
     // prevent clef, key and time from being handled twice
@@ -552,6 +553,8 @@ class lpsr2LilypondTranslator :
     // voices
     // ------------------------------------------------------
     bool                  fOnGoingVoice;
+    S_msrVoice            fCurrentVoice;
+    
     bool                  fOnGoingHarmonyVoice;
     bool                  fOnGoingFiguredBassVoice;
     

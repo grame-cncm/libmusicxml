@@ -3003,17 +3003,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       elt->getVoiceName () <<
       "\"" <<
       endl;
- 
+
+  fCurrentVoice = elt;
+  
   fOstream <<
     idtr <<
-    elt->getVoiceName () << " = ";
+    fCurrentVoice->getVoiceName () << " = ";
 
   // generate the beginning of the voice definition
-  switch (elt->getVoiceKind ()) {
+  switch (fCurrentVoice->getVoiceKind ()) {
     
     case msrVoice::kMasterVoice:
       msrInternalError (
-        elt->getInputLineNumber (),
+        fCurrentVoice->getInputLineNumber (),
         "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
       break;      
     
@@ -3097,7 +3099,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
 
   if (
-    elt->getVoiceContainsMultipleRests ()
+    fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
     gLilypondOptions->fCompressMultiMeasureRests)
     fOstream <<
@@ -3121,7 +3123,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   
   fOnGoingVoice = true;
 
-  switch (elt->getVoiceKind ()) {
+  switch (fCurrentVoice->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
         elt->getInputLineNumber (),
@@ -3204,8 +3206,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       break;
   } // switch
 
-  fOnGoingVoice = false;
-
   switch (elt->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
@@ -3227,6 +3227,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
     case msrVoice::kSilentVoice:
       break;
   } // switch
+
+  fCurrentVoice = 0;
+  fOnGoingVoice = false;
 }
 
 //________________________________________________________________________
@@ -5008,14 +5011,43 @@ If the double element is present, it indicates that the music is doubled one oct
   if (transposeDouble)
     transpositionOctave--;
 
+  string
+    transpositionPitchAsString =
+      msrQuarterTonesPitchAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
+        transpositionPitch);
+
+  string
+    transitionOctaveAsString =
+      absoluteOctaveAsLilypondString (
+        transpositionOctave);
+
+  if (gGeneralOptions->fTraceTranspositions) {
+    cerr << idtr <<
+      "Handlling transpose '" <<
+      elt->transposeAsString () <<
+      "' ignored because it is already present in voice \"" <<
+      fCurrentVoice->getVoiceName () <<
+      "\"" <<
+      /* JMI
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      */
+      endl <<
+      ", transpositionPitch: " <<
+      transpositionPitchAsString <<
+      ", transpositionOctave: " <<
+      transitionOctaveAsString <<
+      "(" << transpositionOctave << ")" <<
+      endl;
+    }
+
   // now we can generate the transpostion command
   fOstream << idtr <<
     "\\transposition " <<
-    msrQuarterTonesPitchAsString (
-      gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-      transpositionPitch) <<
-    absoluteOctaveAsLilypondString (
-      transpositionOctave) <<
+    transpositionPitchAsString <<
+    transitionOctaveAsString <<
     " ";
 }
 
