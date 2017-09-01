@@ -13810,7 +13810,8 @@ msrTranspose::msrTranspose (
     cerr << idtr <<
       "==> Creating transpose '" <<
       transposeAsString () <<
-      "'";
+      "'" <<
+      endl;
   }
 }
 
@@ -17437,7 +17438,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
       "\"" <<
       endl;
   }
-      
+          
   // append it to the measure elements list
   fMeasureElementsList.push_back (clef);
 }
@@ -17454,7 +17455,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
       "\"" <<
       endl;
   }
-      
+          
   // append it to the measure elements list
   fMeasureElementsList.push_back (key);
 }
@@ -17487,7 +17488,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         "\"" <<
         endl;
   }
-
+    
   // append time to the measure elements list
   fMeasureElementsList.push_back (time);
 
@@ -17600,7 +17601,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
         "\"" <<
         endl;
   }
-
+    
   // append time to the measure elements list
   fMeasureElementsList.push_back (time);
 }
@@ -17739,13 +17740,13 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
 
 void msrMeasure::appendTransposeToMeasure (
   S_msrTranspose transpose)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (transpose);
 }
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (barline);
 }
@@ -17757,39 +17758,39 @@ void msrMeasure::prependBarlineToMeasure (S_msrBarline barline)
 }
 
 void msrMeasure::appendSegnoToMeasure (S_msrSegno segno)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (segno);
 }
 
 void msrMeasure::appendCodaToMeasure (S_msrCoda coda)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (coda);
 }
 
 void msrMeasure::appendEyeGlassesToMeasure (
   S_msrEyeGlasses eyeGlasses)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (eyeGlasses);
 }
 
 void msrMeasure::appendPedalToMeasure (S_msrPedal pedal)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (pedal);
 }
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (barCheck);
 }
 
 void msrMeasure::appendVoiceStaffChangeToMeasure (
   S_msrVoiceStaffChange voiceStaffChange)
-{
+{    
   // append it to the measure elements list
   fMeasureElementsList.push_back (voiceStaffChange);
 }
@@ -17848,7 +17849,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
     note->
       setNoteOccupiesAFullMeasure ();
-
+    
   // append the note to the measure elements list
 // JMI  // only now to make it possible to remove it afterwards
   // if it happens to be the first note of a chord
@@ -17923,6 +17924,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             "\"" <<
             endl;
 
+        msrAssert (
+          fMeasureElementsList.size () > 0,
+          "fMeasureElementsList is empty"); // JMI
+          
         partHarmonyVoice->
           appendNoteToVoice (skipNote);
       }
@@ -17996,7 +18001,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
       note->
         setNoteOccupiesAFullMeasure ();
-  
+      
     // append the note to the measure elements list
   // JMI  // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
@@ -19778,6 +19783,10 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       s.str());
   }
     
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
     appendClefToMeasure (clef);
@@ -19799,6 +19808,10 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   // register key in segment
 // JMI  fSegmentKey = key;
 
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
     appendKeyToMeasure (key);
@@ -19828,6 +19841,10 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
         endl;
   }
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasure (time);
@@ -19857,6 +19874,10 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
         endl;
   }
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasureClone (time);
@@ -19874,6 +19895,10 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
     appendHarmonyToMeasure (harmony);
@@ -19891,6 +19916,10 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
@@ -19909,6 +19938,10 @@ void msrSegment::appendFiguredBassToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
     appendFiguredBassToMeasure (figuredBass);
@@ -19927,6 +19960,10 @@ void msrSegment::appendFiguredBassToSegmentClone (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
@@ -19944,6 +19981,10 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendSegnoToMeasure (segno);
@@ -19961,6 +20002,10 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendCodaToMeasure (coda);
@@ -19979,6 +20024,10 @@ void msrSegment::appendEyeGlassesToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendEyeGlassesToMeasure (eyeGlasses);
@@ -19996,6 +20045,10 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPedalToMeasure (pedal);
@@ -20015,6 +20068,10 @@ void msrSegment::appendTransposeToSegment (
         endl;
   }
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTransposeToMeasure (transpose);
@@ -20033,6 +20090,10 @@ void msrSegment::appendStaffDetailsToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendStaffDetailsToMeasure (staffDetails);
@@ -20050,6 +20111,10 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendLineBreakToMeasure (lineBreak);
@@ -20067,6 +20132,10 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPageBreakToMeasure (pageBreak);
@@ -20085,6 +20154,10 @@ void msrSegment::appendBarNumberCheckToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendBarNumberCheckToMeasure (barNumberCheck);
@@ -20103,6 +20176,10 @@ void msrSegment::appendTempoToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTempoToMeasure (tempo);
@@ -20121,6 +20198,10 @@ void msrSegment::appendRehearsalToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendRehearsalToMeasure (rehearsal);
@@ -20140,6 +20221,10 @@ void msrSegment::appendOctaveShiftToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendOctaveShiftToMeasure (octaveShift);
@@ -20160,6 +20245,10 @@ void msrSegment::appendAccordionRegistrationToSegment (
         "\"" <<
         endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendAccordionRegistrationToMeasure (
@@ -20274,8 +20363,8 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   }
 
   else { // JMI TEMP
-  // append measure to the segment
-  fSegmentMeasuresList.push_back (measure);
+    // append measure to the segment
+    fSegmentMeasuresList.push_back (measure);
   }
 }
 
@@ -20324,6 +20413,11 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
         "\"," <<
       endl;
 
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+
+  // prepend barline to this segment
   fSegmentMeasuresList.front ()->
     prependBarlineToMeasure (barline);
 }
@@ -20343,6 +20437,11 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   if (! fSegmentMeasuresList.size ()) {// JMI
   }
   
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+
+  // append barline to this segment
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
 }
@@ -20359,6 +20458,10 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendBarCheckToMeasure (barCheck);
 }
@@ -20380,6 +20483,10 @@ void msrSegment::appendVoiceStaffChangeToSegment (
       endl;
   }
   
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendVoiceStaffChangeToMeasure (
       voiceStaffChange);
@@ -20391,6 +20498,10 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
     note->getInputLineNumber (),
     fSegmentMeasureNumber);
   
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendNoteToMeasure (note);
 }
@@ -20415,6 +20526,10 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
@@ -20433,6 +20548,10 @@ void msrSegment::appendMeasureRepeatToSegment (
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendMeasureRepeatToMeasure (measureRepeat);
 }
@@ -20451,18 +20570,30 @@ void msrSegment::appendMultipleRestToSegment (
         "\"," <<
       endl;
       
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendMultipleRestToMeasure (multipleRest);
 }
 
 void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 {
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendChordToMeasure (chord);
 }
 
 void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 {
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendTupletToMeasure (tuplet);
 }
@@ -20470,6 +20601,10 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 {
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendGraceNotesToMeasure (graceNotes);
 }
@@ -20478,6 +20613,10 @@ void msrSegment::prependGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 
 {
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.front ()->
     prependGraceNotesToMeasure (graceNotes); // JMI
 }
@@ -20485,6 +20624,10 @@ void msrSegment::prependGraceNotesToSegment (
 void msrSegment::appendAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 {
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendAfterGraceNotesToMeasure (afterGraceNotes);
 }
@@ -20493,6 +20636,10 @@ void msrSegment::prependAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 
 {
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.front ()->
     prependAfterGraceNotesToMeasure (afterGraceNotes); // JMI
 }
@@ -20503,6 +20650,10 @@ void msrSegment::appendOtherElementToSegment (S_msrElement elem)
     elem->getInputLineNumber (),
     fSegmentMeasureNumber); // +1??? JMI
   
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
   fSegmentMeasuresList.back ()->
     appendOtherElementToMeasure (elem);
 }
@@ -28712,7 +28863,7 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
 
 void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts)
     cerr << idtr <<
       "Appending transpose \"" <<
       transpose->transposeAsString () <<
