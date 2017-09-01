@@ -26642,7 +26642,7 @@ void msrStaff::initializeStaff ()
     S_msrTranspose
       transpose =
         fStaffPartUplink->
-          getPartTranspose ();
+          getPartCurrentTranspose ();
         
     if (transpose) {
       if (gGeneralOptions->fTraceStaves /* JMI || gGeneralOptions->fTraceTransposes */) {
@@ -28383,6 +28383,25 @@ void msrPart::createPartMasterStaffAndVoice (
   }
 }
 
+void msrPart::setPartName (string partName)
+{
+  fPartName = partName;
+
+  // set part instrument name value by default it not yet set
+  if (fPartName.size () == 0)
+    fPartInstrumentName = fPartName;
+}
+
+void msrPart::setPartAbbreviation (
+  string partAbbreviation)
+{
+  fPartAbbreviation = partAbbreviation;
+
+  // set part instrument abbreviation value by default it not yet set
+  if (fPartAbbreviation.size () == 0)
+    fPartInstrumentAbbreviation = fPartName;
+}
+
 void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
 {
@@ -28862,8 +28881,8 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
       "\" to part " << getPartCombinedName () <<
     endl;
 
-  // set part transpose
-  fPartTranspose = transpose;
+  // set part current transpose
+  fPartCurrentTranspose = transpose;
 
   // propagate it to all staves
   for (

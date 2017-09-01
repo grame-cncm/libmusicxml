@@ -9503,15 +9503,13 @@ class EXP msrPart : public msrElement
     string                getPartMsrName () const
                             { return fPartMsrName; }
 
-    void                  setPartName (string partName)
-                              { fPartName = partName; }
+    void                  setPartName (string partName);
     
     string                getPartName () const
                               { return fPartName; }
 
     void                  setPartAbbreviation (
-                            string partAbbreviation)
-                              { fPartAbbreviation = partAbbreviation; }
+                            string partAbbreviation);
                 
     string                getPartAbbreviation () const
                               { return fPartAbbreviation; }
@@ -9609,8 +9607,8 @@ class EXP msrPart : public msrElement
                   
     // transpose
 
-    S_msrTranspose        getPartTranspose () const
-                              { return fPartTranspose; };
+    S_msrTranspose        getPartCurrentTranspose () const
+                              { return fPartCurrentTranspose; };
 
     // services
     // ------------------------------------------------------
@@ -9838,7 +9836,7 @@ class EXP msrPart : public msrElement
 
     // transpose
     
-    S_msrTranspose        fPartTranspose;
+    S_msrTranspose        fPartCurrentTranspose;
 
     // staff details
 

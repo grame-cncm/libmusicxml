@@ -3309,13 +3309,13 @@ lpsrPartBlock::lpsrPartBlock (
     
   fPart = part;
 
-  // set instrument names default values
+  // set instrument names default values // JMI
   fPartBlockInstrumentName =
     fPart->
-      getPartInstrumentName ();
+      getPartName ();
   fPartBlockShortInstrumentName =
     fPart->
-      getPartInstrumentAbbreviation();
+      getPartAbbreviation();
 }
 
 lpsrPartBlock::~lpsrPartBlock()
