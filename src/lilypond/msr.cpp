@@ -13817,6 +13817,22 @@ msrTranspose::msrTranspose (
 msrTranspose::~msrTranspose()
 {}
 
+bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
+{
+  return
+    fTransposeDiatonic ==
+      otherTranspose->fTransposeDiatonic
+      &&
+    fTransposeChromatic ==
+      otherTranspose->fTransposeChromatic
+      &&
+    fTransposeOctaveChange ==
+      otherTranspose->fTransposeOctaveChange
+      &&
+    fTransposeDouble ==
+      otherTranspose->fTransposeDouble;
+}
+
 void msrTranspose::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -19988,7 +20004,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 void msrSegment::appendTransposeToSegment (
   S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceSegments) {
     cerr <<
       idtr <<
         "Appending transpose " <<
@@ -19997,6 +20013,7 @@ void msrSegment::appendTransposeToSegment (
         fSegmentVoiceUplink->getVoiceName () <<
         "\"" <<
         endl;
+  }
       
   // append it to this segment
   fSegmentMeasuresList.back ()->
@@ -23536,12 +23553,13 @@ void msrVoice::bringVoiceToMeasureLength (
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceVoices || gMsrOptions->fTraceMsr)
+  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "Appending transpose '" <<
       transpose->transposeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -27285,7 +27303,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 
 void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
     cerr << idtr <<
       "Setting transpose '" <<
       transpose->transposeAsString () <<
@@ -27294,12 +27312,27 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   // set staff transpose
-  fStaffTranspose = transpose;
-
-  // propagate it to all voices
-  appendTransposeToAllStaffVoices (transpose);
+  if (transpose->isEqualTo (fStaffTranspose)) {
+    if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+      cerr << idtr <<
+        "Transpose '" <<
+        transpose->transposeAsString () <<
+        "' ignored because it is already present in staff " <<
+        getStaffName () <<
+        "\" in part " <<
+        fStaffPartUplink->getPartCombinedName () <<
+        endl;
+    }
+  }
+  else {
+    fStaffTranspose = transpose;
+  
+    // propagate it to all voices
+    appendTransposeToAllStaffVoices (transpose);
+  }
 }
 
 void msrStaff::appendStaffDetailsToStaff (

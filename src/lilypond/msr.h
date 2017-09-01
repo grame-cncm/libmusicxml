@@ -3139,6 +3139,8 @@ class EXP msrTranspose : public msrElement
     // services
     // ------------------------------------------------------
 
+    bool                  isEqualTo (S_msrTranspose otherTranspose) const;
+                            
     string                transposeAsString () const;
 
     // visitors
