@@ -7815,6 +7815,10 @@ void msrNote::addWedgeToNote (S_msrWedge wedge)
 
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
+  msrAssert (
+    fNoteDynamics.size () > 0,
+    "fNoteDynamics is empty");
+
   S_msrDynamics dyn = fNoteDynamics.front ();
   fNoteDynamics.pop_front ();
   return dyn;
@@ -7822,6 +7826,10 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
+  msrAssert (
+    fNoteDynamics.size () > 0,
+    "fNoteDynamics is empty");
+
   S_msrWedge wedge = fNoteWedges.front ();
   fNoteWedges.pop_front ();
   return wedge;
@@ -9374,7 +9382,11 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 void msrChord::setChordFirstNotePositionInMeasure (
   rational positionInMeasure)
 {
-  if (fChordNotes.size ()) {
+  msrAssert (
+    fChordNotes.size () > 0,
+    "fChordNotes is empty");
+
+  if (fChordNotes.size ()) { // JMI
     fChordNotes.front ()->
       setNotePositionInMeasure (positionInMeasure);
   }
@@ -9387,7 +9399,11 @@ void msrChord::setChordFirstNotePositionInMeasure (
 void msrChord::setChordFirstNoteMeasureNumber (
   string measureNumber)
 {
-  if (fChordNotes.size ()) {
+  msrAssert (
+    fChordNotes.size () > 0,
+    "fChordNotes is empty");
+
+  if (fChordNotes.size ()) { // JMI
     fChordNotes.front ()->
       setNoteMeasureNumber (measureNumber);
   }
