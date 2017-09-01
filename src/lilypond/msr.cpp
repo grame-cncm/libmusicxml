@@ -27836,17 +27836,27 @@ void msrStaff::print (ostream& os)
 
   idtr++;
 
-  const int fieldwidth = 16;
+  const int fieldwidth = 28;
   
   os <<
     idtr <<
-    setw(fieldwidth) << "StaffPartUplink" << " : " <<
-    fStaffPartUplink->getPartCombinedName () <<
-    endl <<
+      setw(fieldwidth) << "StaffPartUplink" << " : " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl <<
     idtr <<
-    setw(fieldwidth) << "StaffNumber" << " : " <<
-    staffNumberAsString () <<
-    endl;
+      setw(fieldwidth) << "StaffNumber" << " : " <<
+      staffNumberAsString () <<
+      endl <<
+    idtr <<
+      setw(fieldwidth) << "StaffInstrumentName" << " : \"" <<
+      fStaffInstrumentName <<
+      "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldwidth) << "StaffInstrumentAbbreviation" << " : \"" <<
+      fStaffInstrumentAbbreviation <<
+      "\"" <<
+      endl;
 
 /* JMI
   os <<

@@ -9074,8 +9074,11 @@ class EXP msrStaff : public msrElement
     string                getStaffName () const
                               { return fStaffName; }
 
-// JMI    string          getStaffInstrumentName () const
-      //                  { return fStaffInstrumentName; }
+    string                getStaffInstrumentName () const
+                              { return fStaffInstrumentName; }
+
+    string                getStaffInstrumentAbbreviation () const
+                              { return fStaffInstrumentAbbreviation; }
 
     // clef, key, time
     
@@ -9127,13 +9130,6 @@ class EXP msrStaff : public msrElement
 
     // services
     // ------------------------------------------------------
-
-    // divisions
-
-/* JMI
-    void                  appendDivisionsToStaff (
-                            S_msrDivisions divisions);
-*/
 
     // staff number
     

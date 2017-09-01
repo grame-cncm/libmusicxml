@@ -2433,7 +2433,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   if (staffBlockInstrumentName.size ()) {
     fOstream << idtr <<
-      "\\set " << staffContextName << ".instrumentName = \"" <<
+      "\\set Staff.instrumentName = \"" <<
       staffBlockInstrumentName <<
       "\"" <<
       endl;
@@ -2441,7 +2441,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   if (staffBlockShortInstrumentName.size ()) {
     fOstream << idtr <<
-      "\\set " << staffContextName << ".shortInstrumentName = \"" <<
+      "\\set Staff.shortInstrumentName = \"" <<
       staffBlockShortInstrumentName <<
       "\"" <<
       endl;

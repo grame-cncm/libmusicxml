@@ -3159,13 +3159,11 @@ lpsrStaffBlock::lpsrStaffBlock (
 
   // set staff block instrument names default values // JMI
   fStaffBlockInstrumentName =
-    staff->
-      getStaffPartUplink ()->
-        getPartInstrumentName ();
+    fStaff->
+      getStaffInstrumentName ();
   fStaffBlockShortInstrumentName =
-    staff->
-      getStaffPartUplink ()->
-        getPartInstrumentAbbreviation();
+    fStaff->
+      getStaffInstrumentAbbreviation ();
 }
 
 lpsrStaffBlock::~lpsrStaffBlock()
