@@ -3040,16 +3040,74 @@ void musicXMLTree2MsrTranslator::visitStart ( S_transpose& elt )
   /*
   https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-transpose.htm
 
-  The optional number attribute refers to staff numbers,
-  from top to bottom on the system.
-  If absent, the transposition applies to all staves in the part.
-  Per-staff transposition is most often used in parts
-  that represent multiple instruments.
+  If the part is being encoded for a transposing instrument
+  in written vs. concert pitch, the transposition must be
+  encoded in the transpose element. The transpose element
+  represents what must be added to the written pitch to get
+  the correct sounding pitch.
+
+  The transposition is represented by chromatic steps
+  (required) and three optional elements: diatonic pitch
+  steps, octave changes, and doubling an octave down.
+  
+  The chromatic and octave-change elements are numeric values
+  added to the encoded pitch data to create the sounding
+  pitch.
+  
+  The diatonic element is also numeric and allows
+  for correct spelling of enharmonic transpositions.
+
+  The optional number attribute refers to staff numbers, 
+  from top to bottom on the system. If absent, the
+  transposition applies to all staves in the part. Per-staff 
+  transposition is most often used in parts that represent
+  multiple instruments. 
+-->
+<!ELEMENT transpose
+  (diatonic?, chromatic, octave-change?, double?)>
+<!ATTLIST transpose
+    number CDATA #IMPLIED
+>
+<!ELEMENT diatonic (#PCDATA)>
+<!ELEMENT chromatic (#PCDATA)>
+<!ELEMENT octave-change (#PCDATA)>
+<!ELEMENT double EMPTY>
+        
+
+The diatonic element specifies the number of pitch steps needed to go from written to sounding pitch. This allows for correct spelling of enharmonic transpositions
+
+The chromatic element represents the number of semitones needed to get from written to sounding pitch. This value does not include octave-change values; the values for both elements need to be added to the written pitch to get the correct sounding pitch.
+
+The octave-change element indicates how many octaves to add to get from written pitch to sounding pitch.
+
+If the double element is present, it indicates that the music is doubled one octave down from what is currently written (as is the case for mixed cello / bass parts in orchestral literature).
+
+        <transpose>
+          <diatonic>0</diatonic>
+          <chromatic>0</chromatic>
+          <octave-change>1</octave-change>
+        </transpose>
+
+    <transpose>
+      <diatonic>-1</diatonic>
+      <chromatic>-2</chromatic>
+      <double/>
+    </transpose>
+
+English horn (F):
+
+        <transpose>
+          <diatonic>-4</diatonic>
+          <chromatic>-7</chromatic>
+        </transpose>
+
+Oboe d'amore (A):
 
         <transpose>
           <diatonic>-2</diatonic>
           <chromatic>-3</chromatic>
         </transpose>
+
   */
 
   fCurrentTransposeNumber = elt->getAttributeIntValue ("number", 0);
@@ -3073,6 +3131,26 @@ void musicXMLTree2MsrTranslator::visitStart ( S_chromatic& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
       "--> Start visiting S_chromatic" <<
+      endl;
+
+  fCurrentTransposeChromatic = (int)(*elt);
+}
+ 
+void musicXMLTree2MsrTranslator::visitStart ( S_octave_change& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting octave_change" <<
+      endl;
+
+  fCurrentTransposeChromatic = (int)(*elt);
+}
+ 
+void musicXMLTree2MsrTranslator::visitStart ( S_double& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting double" <<
       endl;
 
   fCurrentTransposeChromatic = (int)(*elt);

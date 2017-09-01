@@ -1801,6 +1801,27 @@ void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrTranspose& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrTranspose" <<
+      endl;
+
+  // append time to voice clone
+  fCurrentVoiceClone->
+    appendTranposeToVoiceClone (elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrTranspose& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> End visiting msrTranspose" <<
+      endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)

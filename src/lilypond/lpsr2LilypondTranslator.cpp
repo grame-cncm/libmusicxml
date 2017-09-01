@@ -4563,6 +4563,146 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrTranspose& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrTranspose" <<
+      endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  int  transposeDiatonic  = elt->getTransposeDiatonic ();
+  int  transposeChromatic = elt->getTransposeChromatic ();
+  int  transposeOctaveChange = elt->getTransposeOctaveChange ();
+  bool transposeDouble = elt->getTransposeDouble ();
+
+/*
+  // transposition in LilyPond is relative to c',
+  // i.e. the C in the middle of the piano keyboard
+
+The diatonic element specifies the number of pitch steps needed to go from written to sounding pitch. This allows for correct spelling of enharmonic transpositions
+
+The chromatic element represents the number of semitones needed to get from written to sounding pitch. This value does not include octave-change values; the values for both elements need to be added to the written pitch to get the correct sounding pitch.
+
+The octave-change element indicates how many octaves to add to get from written pitch to sounding pitch.
+
+If the double element is present, it indicates that the music is doubled one octave down from what is currently written (as is the case for mixed cello / bass parts in orchestral literature).
+*/
+  
+  fOstream << idtr <<
+    "\\transposition";
+
+  msrQuarterTonesPitch transposePitch;
+  
+  switch (transposeChromatic) {
+    case -11:
+      transposePitch = k_cSharp;
+      break;
+    case -10:
+      transposePitch = k_dNatural;
+      break;
+    case -9:
+      transposePitch = k_eFlat;
+      break;
+    case -8:
+      transposePitch = k_eNatural;
+      break;
+    case -7:
+      transposePitch = k_fNatural;
+      break;
+    case -6:
+      transposePitch = k_fSharp;
+      break;
+    case -5:
+      transposePitch = k_gNatural;
+      break;
+    case -4:
+      transposePitch = k_aFlat;
+      break;
+    case -3:
+      transposePitch = k_aNatural;
+      break;
+    case -2:
+      transposePitch = k_bFlat;
+      break;
+    case -1:
+      transposePitch = k_bNatural;
+      break;
+      
+    case 0:
+      transposePitch = k_cNatural;
+      if (transposeDiatonic != 0) {
+        stringstream s;
+
+        s <<
+          "diatonic '" << transposeDiatonic <<
+          "' is not consistent with " <<
+          "chromaticic '" << transposeChromatic <<
+          "'";
+          
+        msrMusicXMLError (
+          inputLineNumber,
+          s.str());
+      }
+      break;
+
+    case 1:
+      transposePitch = k_cNatural;
+      break;
+    case 2:
+      transposePitch = k_dNatural;
+      break;
+    case 3:
+      transposePitch = k_cNatural;
+      break;
+    case 4:
+      transposePitch = k_eNatural;
+      break;
+    case 5:
+      transposePitch = k_fNatural;
+      break;
+    case 6:
+      transposePitch = k_cNatural;
+      break;
+    case 7:
+      transposePitch = k_gNatural;
+      break;
+    case 8:
+      transposePitch = k_cNatural;
+      break;
+    case 9:
+      transposePitch = k_aNatural;
+      break;
+    case 10:
+      transposePitch = k_cNatural;
+      break;
+    case 11:
+      transposePitch = k_bNatural;
+      break;
+  } // switch
+  
+  if (tempoIndication.size ())
+    fOstream <<
+      " \"" << tempoIndication << "\"";
+
+  if (tempoUnit)
+    fOstream <<
+      " " << tempoUnit << " = " << perMinute;
+
+  fOstream << endl;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrTranspose" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

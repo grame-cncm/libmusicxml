@@ -152,6 +152,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_transpose>,
   public visitor<S_diatonic>,
   public visitor<S_chromatic>,
+  public visitor<S_octave_change>,
+  public visitor<S_double>,
 
   public visitor<S_direction>,
   public visitor<S_direction_type>,
@@ -472,6 +474,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitEnd   ( S_transpose& elt );
     virtual void visitStart ( S_diatonic& elt );
     virtual void visitStart ( S_chromatic& elt );
+    virtual void visitStart ( S_octave_change& elt );
+    virtual void visitStart ( S_double& elt );
 
     virtual void visitStart ( S_direction& elt );
     virtual void visitEnd   ( S_direction& elt );

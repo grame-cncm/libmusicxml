@@ -3086,6 +3086,85 @@ typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
 /*!
+\brief A msr time representation.
+
+  A time is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrTranspose : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTranspose> create (
+      int  inputLineNumber,
+      int  transposeDiatonic,
+      int  transposeChromatic,
+      int  transposeOctaveChange,
+      bool transposeDouble);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTranspose (
+      int  inputLineNumber,
+      int  transposeDiatonic,
+      int  transposeChromatic,
+      int  transposeOctaveChange,
+      bool transposeDouble);
+      
+    virtual ~msrTranspose();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getTransposeDiatonic () const
+                              { return fTransposeDiatonic; }
+                  
+    int                   getTransposeChromatic () const
+                              { return fTransposeChromatic; }
+                  
+    int                   getTransposeOctaveChange () const
+                              { return fTransposeOctaveChange; }
+                  
+    int                   getTransposeDouble () const
+                              { return fTransposeDouble; }
+                  
+    // services
+    // ------------------------------------------------------
+
+    string                transposeAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    int                   fTransposeDiatonic;
+    int                   fTransposeChromatic;
+    int                   fTransposeOctaveChange;
+    bool                  fTransposeDouble;
+};
+typedef SMARTP<msrTranspose> S_msrTranspose;
+EXP ostream& operator<< (ostream& os, const S_msrTranspose& elt);
+
+/*!
 \brief A msr repeat representation.
 
   A repeat is represented by:
@@ -4529,7 +4608,7 @@ class EXP msrFiguredBass : public msrElement
                               { return fFiguredBassParenthesesKind; }
 
     const list<S_msrFigure>&
-                          getFiguredBassFiguresList ()
+                          f
                               { return fFiguredBassFiguresList;  }
                                                                               
     // services
@@ -6684,73 +6763,6 @@ class EXP msrTuplet : public msrElement
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
-
-/*!
-\brief A msr time representation.
-
-  A time is represented by the numerator and denominator
-*/
-//______________________________________________________________________________
-class EXP msrTranspose : public msrElement
-{
-  public:
-    
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrTranspose> create (
-      int           inputLineNumber,
-      int           transposeDiatonic,
-      int           transposeChromatic);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTranspose (
-      int           inputLineNumber,
-      int           transposeDiatonic,
-      int           transposeChromatic);
-      
-    virtual ~msrTranspose();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int                   getTransposeDiatonic () const
-                              { return fTransposeDiatonic; }
-                  
-    int                   getTransposeChromatic () const
-                              { return fTransposeChromatic; }
-                  
-    // services
-    // ------------------------------------------------------
-
-    string                transposeAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    int      fTransposeDiatonic;
-    int      fTransposeChromatic;
-};
-typedef SMARTP<msrTranspose> S_msrTranspose;
-EXP ostream& operator<< (ostream& os, const S_msrTranspose& elt);
 
 /*!
 \brief A tempo representation.

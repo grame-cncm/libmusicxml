@@ -13776,26 +13776,34 @@ void msrTime::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTranspose msrTranspose::create (
-  int           inputLineNumber,
-  int           transposeDiatonic,
-  int           transposeChromatic)
+  int  inputLineNumber,
+  int  transposeDiatonic,
+  int  transposeChromatic,
+  int  transposeOctaveChange,
+  bool transposeDouble)
 {
   msrTranspose* o =
     new msrTranspose (
       inputLineNumber,
-      transposeDiatonic, transposeChromatic);
+      transposeDiatonic,
+      transposeChromatic,
+      transposeOctaveChange,
+      transposeDouble);
   assert (o!=0);
   return o;
 }
 
-msrTranspose::msrTranspose (
-  int           inputLineNumber,
-  int           transposeDiatonic,
-  int           transposeChromatic)
+msrTranspose::msrTranspose (,
+  int  transposeDiatonic,
+  int  transposeChromatic,
+  int  transposeOctaveChange,
+  bool transposeDouble)
     : msrElement (inputLineNumber)
 {
-  fTransposeDiatonic  = transposeDiatonic;
-  fTransposeChromatic = transposeChromatic;
+  fTransposeDiatonic     = transposeDiatonic;
+  fTransposeChromatic    = transposeChromatic;
+  fTransposeOctaveChange = transposeOctaveChange;
+  fTransposeDouble       = transposeDouble;
 }
 
 msrTranspose::~msrTranspose()
@@ -13853,9 +13861,11 @@ string msrTranspose::transposeAsString () const
   stringstream s;
 
   s <<
-    "Transpose " << 
-    "diatonic = " << fTransposeDiatonic <<
-    ", chromatic= " << fTransposeChromatic;
+    "Transpose" << 
+    ", diatonic = " << fTransposeDiatonic <<
+    ", chromatic = " << fTransposeChromatic <<
+    ", transposeOctaveChange = " << fTransposeOctaveChange <<
+    ", transposeDouble = " << fTransposeDouble;
 
   return s.str();
 }

@@ -57,6 +57,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
   
+  public visitor<S_msrTranspose>,
+  
   public visitor<S_msrWords>,
   
   public visitor<S_msrTempo>,
@@ -203,6 +205,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
+
+    virtual void visitStart (S_msrTranspose& elt);
 
     virtual void visitStart (S_msrWords& elt);
     virtual void visitEnd   (S_msrWords& elt);
