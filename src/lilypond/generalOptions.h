@@ -116,6 +116,10 @@ namespace MusicXML2
 #define _TRACE_TIMES_LONG_NAME_  "traceTimes"
 #define _TRACE_TIMES_SHORT_NAME_ "ttimes"
 
+// transpositions
+#define _TRACE_TRANSPOSITIONS_LONG_NAME_  "traceTranspositions"
+#define _TRACE_TRANSPOSITIONS_SHORT_NAME_ "ttransps"
+
 // segments
 #define _TRACE_SEGMENTS_LONG_NAME_  "traceSegments"
 #define _TRACE_SEGMENTS_SHORT_NAME_ "tsegs"
@@ -272,7 +276,10 @@ class EXP msrGeneralOptions : public smartable
     bool                  fTraceKeys;
     // times
     bool                  fTraceTimes;
-    
+
+    //transpositions
+    bool                  fTraceTranspositions;
+
     // segments
     bool                  fTraceSegments;
 

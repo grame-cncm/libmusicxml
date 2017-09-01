@@ -13805,6 +13805,13 @@ msrTranspose::msrTranspose (
   fTransposeChromatic    = transposeChromatic;
   fTransposeOctaveChange = transposeOctaveChange;
   fTransposeDouble       = transposeDouble;
+
+  if (gGeneralOptions->fTraceTranspositions) {
+    cerr << idtr <<
+      "==> Creating transpose '" <<
+      transposeAsString () <<
+      "'";
+  }
 }
 
 msrTranspose::~msrTranspose()
@@ -13866,7 +13873,8 @@ string msrTranspose::transposeAsString () const
     ", diatonic = " << fTransposeDiatonic <<
     ", chromatic = " << fTransposeChromatic <<
     ", transposeOctaveChange = " << fTransposeOctaveChange <<
-    ", transposeDouble = " << fTransposeDouble;
+    ", transposeDouble = " << fTransposeDouble <<
+    ", line " << fInputLineNumber;
 
   return s.str();
 }
@@ -13877,6 +13885,7 @@ void msrTranspose::print (ostream& os)
   
   os <<
     "Transpose" <<
+    ", line " << fInputLineNumber <<
     endl;
 
   idtr++;

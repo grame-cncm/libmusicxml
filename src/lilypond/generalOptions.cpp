@@ -97,6 +97,9 @@ void msrGeneralOptions::initializeGeneralOptions (
   // times
   fTraceTimes = boolOptionsInitialValue;
 
+  // transpositions
+  fTraceTranspositions = boolOptionsInitialValue;
+
   // segments
   fTraceSegments = boolOptionsInitialValue;
   
@@ -238,6 +241,9 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   
   // times
   clone->fTraceTimes = true;
+
+  // transpositions
+  clone->fTraceTranspositions = true;
 
   // segments
   clone->fTraceSegments = true;
@@ -589,6 +595,15 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
       endl <<
     endl <<
      
+    // transpositions
+    idtr <<
+      "--" _TRACE_TRANSPOSITIONS_SHORT_NAME_ ", --" _TRACE_TRANSPOSITIONS_LONG_NAME_ <<
+      endl <<
+    idtr << tab << tab << tab <<
+      "transpositions (<transpose> in MusicXML, \transposition in LilyPond)" <<
+      endl <<
+    endl <<
+     
      // segments
    idtr <<
       "--" _TRACE_SEGMENTS_SHORT_NAME_ ", --" _TRACE_SEGMENTS_LONG_NAME_ <<
@@ -930,6 +945,12 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
     idtr <<
       setw(fieldWidth) << "traceTimes" << " : " <<
       booleanAsString (fTraceTimes) <<
+      endl <<
+
+    // transpositions
+    idtr <<
+      setw(fieldWidth) << "traceTranspositions" << " : " <<
+      booleanAsString (fTraceTranspositions) <<
       endl <<
 
     // segments

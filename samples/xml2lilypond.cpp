@@ -361,6 +361,12 @@ void analyzeOptions (
     
   int traceTimesPresent = 0;
 
+  // transpositions
+  checkOptionUniqueness (
+    _TRACE_TRANSPOSITIONS_LONG_NAME_, _TRACE_TRANSPOSITIONS_SHORT_NAME_);
+    
+  int traceTranspositionsPresent = 0;
+
   // segments
   checkOptionUniqueness (
     _TRACE_SEGMENTS_LONG_NAME_, _TRACE_SEGMENTS_SHORT_NAME_);
@@ -1094,6 +1100,17 @@ void analyzeOptions (
     {
       _TRACE_TIMES_SHORT_NAME_,
       no_argument, &traceTimesPresent, 1
+    },
+    
+    // transpositions
+    {
+      _TRACE_TRANSPOSITIONS_LONG_NAME_,
+      no_argument, &traceTranspositionsPresent, 1
+    },
+
+    {
+      _TRACE_TRANSPOSITIONS_SHORT_NAME_,
+      no_argument, &traceTranspositionsPresent, 1
     },
     
     // segments
@@ -2358,6 +2375,19 @@ R"(
                 "--" _TRACE_TIMES_SHORT_NAME_ " ";
     
               traceTimesPresent = false;
+            }
+    
+            // transpositions
+            if (traceTranspositionsPresent) {
+              gGeneralOptions->fTraceGeneral = true;
+              gGeneralOptions->fTraceTranspositions = true;
+              
+              gGeneralOptions->fCommandLineLongOptions +=
+                "--" _TRACE_TRANSPOSITIONS_LONG_NAME_ " ";
+              gGeneralOptions->fCommandLineShortOptions +=
+                "--" _TRACE_TRANSPOSITIONS_SHORT_NAME_ " ";
+    
+              traceTranspositionsPresent = false;
             }
     
             // segments
