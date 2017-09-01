@@ -1359,6 +1359,24 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::transposeDiatonicError (
+  int  transposeDiatonic,
+  int  transposeChromatic)
+{
+  stringstream s;
+
+  s <<
+    "diatonic '" << transposeDiatonic <<
+    "' is not consistent with " <<
+    "chromaticic '" << transposeChromatic <<
+    "'";
+    
+  msrMusicXMLError (
+    inputLineNumber,
+    s.str());
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   S_msrSingleTremolo singleTremolo)
 {  
@@ -4600,86 +4618,260 @@ If the double element is present, it indicates that the music is doubled one oct
     case -11:
       transposePitch = k_cSharp;
       break;
+      
     case -10:
-      transposePitch = k_dNatural;
+      switch (transposeDiatonic) {
+        case -6:
+          transposePitch = k_dNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case -9:
       transposePitch = k_eFlat;
       break;
+      
     case -8:
-      transposePitch = k_eNatural;
+      switch (transposeDiatonic) {
+        case -5:
+          transposePitch = k_eNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case -7:
-      transposePitch = k_fNatural;
+      switch (transposeDiatonic) {
+        case -4:
+          transposePitch = k_fNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case -6:
       transposePitch = k_fSharp;
       break;
+      
     case -5:
-      transposePitch = k_gNatural;
+      switch (transposeDiatonic) {
+        case -3:
+          transposePitch = k_gNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case -4:
       transposePitch = k_aFlat;
       break;
+      
     case -3:
-      transposePitch = k_aNatural;
+      switch (transposeDiatonic) {
+        case -2:
+          transposePitch = k_aNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case -2:
       transposePitch = k_bFlat;
       break;
+      
     case -1:
-      transposePitch = k_bNatural;
+      switch (transposeDiatonic) {
+        case -1:
+          transposePitch = k_bNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
       
     case 0:
       transposePitch = k_cNatural;
-      if (transposeDiatonic != 0) {
-        stringstream s;
+      switch (transposeDiatonic) {
+        case 0:
+          break;
 
-        s <<
-          "diatonic '" << transposeDiatonic <<
-          "' is not consistent with " <<
-          "chromaticic '" << transposeChromatic <<
-          "'";
-          
-        msrMusicXMLError (
-          inputLineNumber,
-          s.str());
-      }
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
 
     case 1:
-      transposePitch = k_cNatural;
+      switch (transposeDiatonic) {
+        case 0:
+          transposePitch = k_cSharp;
+          break;
+
+        case 1:
+          transposePitch = k_dMoll;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 2:
-      transposePitch = k_dNatural;
+      switch (transposeDiatonic) {
+        case 1:
+          transposePitch = k_dNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 3:
-      transposePitch = k_cNatural;
+      switch (transposeDiatonic) {
+        case 2:
+          transposePitch = k_dSharp;
+          break;
+
+        case 3:
+          transposePitch = k_eFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 4:
-      transposePitch = k_eNatural;
+      switch (transposeDiatonic) {
+        case 2:
+          transposePitch = k_eNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 5:
-      transposePitch = k_fNatural;
+      switch (transposeDiatonic) {
+        case 3:
+          transposePitch = k_fNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 6:
       transposePitch = k_cNatural;
+      switch (transposeDiatonic) {
+        case 4:
+          transposePitch = k_dSharp;
+          break;
+
+        case 5:
+          transposePitch = k_eFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 7:
-      transposePitch = k_gNatural;
+      switch (transposeDiatonic) {
+        case 4:
+          transposePitch = k_gNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 8:
       transposePitch = k_cNatural;
+      switch (transposeDiatonic) {
+        case 5:
+          transposePitch = k_dSharp;
+          break;
+
+        case 7:
+          transposePitch = k_eFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 9:
-      transposePitch = k_aNatural;
+      switch (transposeDiatonic) {
+        case 5:
+          transposePitch = k_aNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 10:
       transposePitch = k_cNatural;
+      switch (transposeDiatonic) {
+        case 7:
+          transposePitch = k_dSharp;
+          break;
+
+        case 8:
+          transposePitch = k_eFlat;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
+      
     case 11:
-      transposePitch = k_bNatural;
+      switch (transposeDiatonic) {
+        case 6:
+          transposePitch = k_bNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            transposeDiatonic, transposeChromatic);
+      } // switch
       break;
   } // switch
   

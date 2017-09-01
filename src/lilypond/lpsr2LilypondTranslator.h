@@ -490,6 +490,11 @@ class lpsr2LilypondTranslator :
     string                singleTremoloDurationAsLilypondString (
                             S_msrSingleTremolo singleTremolo);
 
+    // transpose
+    void                  transposeDiatonicError (
+                            int  transposeDiatonic,
+                            int  transposeChromatic);
+
     // harmonies
     
     string                harmonyAsLilypondString (
