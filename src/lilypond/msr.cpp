@@ -26494,7 +26494,7 @@ void msrStaff::initializeStaff ()
           endl;
       }
       
-      fStaffTranspose = transpose;
+      fStaffCurrentTranspose = transpose;
       
       appendTransposeToAllStaffVoices (transpose);
     }
@@ -27315,20 +27315,32 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   }
 
   // set staff transpose
-  if (transpose->isEqualTo (fStaffTranspose)) {
-    if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
-      cerr << idtr <<
-        "Transpose '" <<
-        transpose->transposeAsString () <<
-        "' ignored because it is already present in staff " <<
-        getStaffName () <<
-        "\" in part " <<
-        fStaffPartUplink->getPartCombinedName () <<
-        endl;
+  bool doAppendTransposeToStaff;
+  
+  if (! fStaffCurrentTranspose) {
+    doAppendTransposeToStaff = true;
+  }
+  
+  else {
+    if (transpose->isEqualTo (fStaffCurrentTranspose)) {
+      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+        cerr << idtr <<
+          "Transpose '" <<
+          transpose->transposeAsString () <<
+          "' ignored because it is already present in staff " <<
+          getStaffName () <<
+          "\" in part " <<
+          fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
+
+      doAppendTransposeToStaff = false;
     }
   }
-  else {
-    fStaffTranspose = transpose;
+  
+  if (doAppendTransposeToStaff) {
+    // register transpose as current staff transpose
+    fStaffCurrentTranspose = transpose;
   
     // propagate it to all voices
     appendTransposeToAllStaffVoices (transpose);

@@ -9090,8 +9090,8 @@ class EXP msrStaff : public msrElement
 
     // transpose
     
-    S_msrTranspose        getStaffTranspose () const
-                              { return fStaffTranspose; };
+    S_msrTranspose        getStaffCurrentTranspose () const
+                              { return fStaffCurrentTranspose; };
     
     // staff details
 
@@ -9323,7 +9323,7 @@ class EXP msrStaff : public msrElement
 
     // transpose
     
-    S_msrTranspose        fStaffTranspose;
+    S_msrTranspose        fStaffCurrentTranspose;
 
     // staff details
 
