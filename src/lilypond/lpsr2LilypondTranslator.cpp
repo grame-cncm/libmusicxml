@@ -5002,9 +5002,9 @@ If the double element is present, it indicates that the music is doubled one oct
   int transpositionOctave;
   
   if (transposeChromatic < 0)
-    transpositionOctave = 4;
-  else
     transpositionOctave = 3;
+  else
+    transpositionOctave = 4;
 
   // take the transpose octave change into account
   transpositionOctave += transposeOctaveChange;
