@@ -2075,14 +2075,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
       endl;
 
   if (elt->getParallelMusicElements ().size()) { // JMI
-    fOstream << idtr <<
-      "<<";
-
-    if (gLilypondOptions->fComments)
-      fOstream <<
-        setw(commentFieldWidth) <<
-        "% parallel music";
-
+    if (gLilypondOptions->fComments) {
+      fOstream << left <<
+        idtr <<
+          setw(commentFieldWidth) <<
+          "<<" <<
+          "% parallel music";
+    }
+    
+    else {
+      fOstream << idtr <<
+        "<<";
+    }
+    
     fOstream <<
       endl;
   
@@ -2100,9 +2105,20 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
   if (elt->getParallelMusicElements ().size()) { // JMI
     idtr--;
     
-    fOstream << idtr <<
-      setw(commentFieldWidth) <<
-      ">>" <<
+    if (gLilypondOptions->fComments) {
+      fOstream << left <<
+        idtr <<
+          setw(commentFieldWidth) <<
+          ">>" <<
+          "% parallel music";
+    }
+
+    else {
+      fOstream << idtr <<
+        ">>";
+    }
+    
+    fOstream <<
       endl <<
       endl;
   }
@@ -2182,7 +2198,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       
     if (gLilypondOptions->fComments)
       fOstream <<
-        setw(commentFieldWidth) <<
         "% part group " <<
         partGroup->getPartGroupCombinedName ();
         
@@ -2242,7 +2257,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
       
     if (gLilypondOptions->fComments)
       fOstream <<
-        setw(commentFieldWidth) <<
         "% part group " <<
         partGroup->getPartGroupCombinedName ();
         
