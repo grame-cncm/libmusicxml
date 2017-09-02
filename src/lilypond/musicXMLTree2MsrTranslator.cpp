@@ -375,14 +375,14 @@ S_msrPartGroup musicXMLTree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDon
       msrPartGroup::create (
         inputLineNumber,
         fCurrentPartGroupNumber,
-        "Implicit",
-        "",
-        "",
-        "Impl.",
+        "Implicit", // partGroupName
+        "",         // partGroupDisplayText
+        "",         // partGroupAccidentalText
+        "Impl.",    // partGroupAbbreviation
         msrPartGroup::kBracketPartGroupSymbol,
-        0,
-        true,
-        0, // the top level part group has an empty uplink
+        0,          // partGroupSymbolDefaultX
+        true,       // partGroupBarline
+        0,          // the top level part group has an empty uplink
         fMsrScore);
   
     // append it to the MSR score

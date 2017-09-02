@@ -26584,6 +26584,9 @@ void msrStaff::initializeStaff ()
     }
      */
   }
+
+  // DON'T get the staff initial time from the part,
+  // it has already been copied during the deep copy of the part master staff
   
   // get the initial time from the part if any
   {
@@ -29898,8 +29901,6 @@ void msrPart::print (ostream& os)
   os << idtr <<
     fPartMasterStaff;
   idtr--;
-
-  os << endl;
 
   // print the registered staves
   if (fPartStavesMap.size()) {
