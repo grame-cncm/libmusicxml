@@ -26547,7 +26547,7 @@ void msrStaff::initializeStaff ()
     
   // get the initial key from the part if any
   {
-    /* JMI
+    //* JMI
     S_msrKey
       key =
         fStaffPartUplink->
@@ -26566,12 +26566,8 @@ void msrStaff::initializeStaff ()
 
       appendKeyToStaff (key);
       }
-      */
       /* JMI
     else {
-      // time is crucially needed for measures management,
-      // we cannot stay without any
-
       if (gGeneralOptions->fTraceStaves)
         cerr << idtr <<
           "Appending default C major key " <<
@@ -26589,7 +26585,7 @@ void msrStaff::initializeStaff ()
           msrKey::kMajorMode,
           0)); // keyCancel
     }
-    * */
+     */
   }
   
   // get the initial time from the part if any
@@ -26790,6 +26786,16 @@ S_msrStaff msrStaff::createStaffNewbornClone (
     
   return newbornClone;
 }
+
+void msrStaff::setStaffCurrentClef (S_msrClef clef)
+{
+  fStaffCurrentClef = clef;
+};
+
+void msrStaff::setStaffCurrentKey (S_msrKey key)
+{
+  fStaffCurrentKey = key;
+};
 
 string msrStaff::staffNumberAsString () const
 {
@@ -29199,6 +29205,22 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     case msrStaff::kHarmonyStaff:
     case msrStaff::kFiguredBassStaff:
       fPartStavesMap [staffNumber] = staff;
+      break;
+  } // switch
+  
+  // initialize staff current clef and key if relevant // JMI
+  switch (staffKind) {
+    case msrStaff::kMasterStaff:
+      // DON'T initialize staff and key in par master stave,
+      break;
+      
+    case msrStaff::kRegularStaff:
+    case msrStaff::kTablatureStaff:
+    case msrStaff::kPercussionStaff:
+    case msrStaff::kHarmonyStaff:
+    case msrStaff::kFiguredBassStaff:
+      staff->setStaffCurrentClef (fPartCurrentClef);
+      staff->setStaffCurrentKey (fPartCurrentKey);
       break;
   } // switch
   

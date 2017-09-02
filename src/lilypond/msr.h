@@ -9082,8 +9082,12 @@ class EXP msrStaff : public msrElement
 
     // clef, key, time
     
+    void                  setStaffCurrentClef (S_msrClef clef);
+                              
     S_msrClef             getStaffCurrentClef () const
                               { return fStaffCurrentClef; };
+                              
+    void                  setStaffCurrentKey (S_msrKey key);
                               
     S_msrKey              getStaffCurrentKey  () const
                               { return fStaffCurrentKey; };
