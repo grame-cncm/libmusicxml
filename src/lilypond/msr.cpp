@@ -26504,7 +26504,6 @@ void msrStaff::initializeStaff ()
     
   // get the initial clef from the part if any
   {
-    /* JMI
     S_msrClef
       clef =
         fStaffPartUplink->
@@ -26523,8 +26522,6 @@ void msrStaff::initializeStaff ()
 
       appendClefToStaff (clef);
     }
-      */
-
     /* JMI
     else {
       if (gGeneralOptions->fTraceStaves)
