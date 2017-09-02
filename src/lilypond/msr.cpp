@@ -30067,6 +30067,11 @@ void msrPart::printStructure (ostream& os)
        "PartInstrumentAbbreviation" << ": \"" <<
       fPartInstrumentAbbreviation << "\"" <<
       endl <<
+    idtr <<
+      setw(fieldWidth) <<
+       "PartInstrumentAbbreviation" << ": \"" <<
+      fPartInstrumentAbbreviation << "\"" <<
+      endl <<
     endl;
 
   // print the master staff specifically
