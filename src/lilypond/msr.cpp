@@ -26657,6 +26657,7 @@ void msrStaff::initializeStaff ()
     }
   }
 
+
   // set staff instrument names default values // JMI
   fStaffInstrumentName =
     fStaffPartUplink->
@@ -26664,6 +26665,7 @@ void msrStaff::initializeStaff ()
   fStaffInstrumentAbbreviation =
     fStaffPartUplink->
       getPartInstrumentAbbreviation ();
+      
 }
 
 msrStaff::~msrStaff()
@@ -26784,6 +26786,15 @@ S_msrStaff msrStaff::createStaffNewbornClone (
   newbornClone->fStaffName =
     fStaffName;
     
+  newbornClone->fStaffNumber =
+    fStaffNumber;
+    
+  newbornClone->fStaffInstrumentName =
+    fStaffInstrumentName;
+    
+  newbornClone->fStaffInstrumentAbbreviation =
+    fStaffInstrumentAbbreviation;
+        
   return newbornClone;
 }
 
@@ -27682,6 +27693,19 @@ void msrStaff::finalizeStaff (int inputLineNumber)
             " if staff \"" <<getStaffName () << "\"" <<
             ", line " << inputLineNumber <<
             endl;
+        }
+
+        // set staff instrument names if still empty
+        if (fStaffInstrumentName.size () == 0) {
+          fStaffInstrumentName =
+            fStaffPartUplink->
+              getPartName ();
+        }
+
+        if (fStaffInstrumentName.size () == 0) {
+          fStaffInstrumentAbbreviation =
+            fStaffPartUplink->
+              getPartAbbreviation ();
         }
         break;
         

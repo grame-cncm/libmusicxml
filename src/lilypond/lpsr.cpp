@@ -3157,7 +3157,7 @@ lpsrStaffBlock::lpsrStaffBlock (
     
   fStaff = staff;
 
-  // set staff block instrument names default values // JMI
+  // set staff block instrument names
   fStaffBlockInstrumentName =
     fStaff->
       getStaffInstrumentName ();
