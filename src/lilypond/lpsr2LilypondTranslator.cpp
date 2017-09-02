@@ -2075,8 +2075,15 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
       endl;
 
   if (elt->getParallelMusicElements ().size()) { // JMI
+    fOstream << idtr <<
+      "<<";
+
+    if (gLilypondOptions->fComments)
+      fOstream <<
+        setw(commentFieldWidth) <<
+        "% parallel music";
+
     fOstream <<
-      idtr << "<<" <<
       endl;
   
     idtr++;
@@ -2093,9 +2100,11 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
   if (elt->getParallelMusicElements ().size()) { // JMI
     idtr--;
     
-    fOstream <<
-      idtr << ">>" <<
-      endl << endl;
+    fOstream << idtr <<
+      setw(commentFieldWidth) <<
+      ">>" <<
+      endl <<
+      endl;
   }
 }
 
@@ -2128,8 +2137,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
   // LPNR, page 567
 
-  // don't generate code for a 1-element part group block
-  if (elt->getPartGroupBlockElements ().size () > 1) {
+  // don't generate code for a single part group block
+  if (partGroup->getPartGroupElements ().size () > 1) {
     switch (partGroupSymbolKind) {
       case msrPartGroup::k_NoPartGroupSymbol:
         partGroupContextName = "";
@@ -2173,6 +2182,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       
     if (gLilypondOptions->fComments)
       fOstream <<
+        setw(commentFieldWidth) <<
         "% part group " <<
         partGroup->getPartGroupCombinedName ();
         
@@ -2232,7 +2242,8 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
       
     if (gLilypondOptions->fComments)
       fOstream <<
-         "% part group " <<
+        setw(commentFieldWidth) <<
+        "% part group " <<
         partGroup->getPartGroupCombinedName ();
         
     fOstream <<
@@ -2403,19 +2414,18 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   if (gLilypondOptions->fComments) {
     fOstream << left <<
       idtr <<
+      newContext << " <<" <<
       setw(commentFieldWidth) <<
-      newContext <<
       " % staff \"" << staff->getStaffName () << "\"";
   }
   else {
     fOstream << idtr <<
-      newContext;   
+      newContext << " <<";    
   }
-      
-  fOstream <<
-    " <<" <<
-    endl;
 
+  fOstream <<
+    endl;
+ 
   idtr++;
 
 /* JMI

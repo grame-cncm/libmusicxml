@@ -10043,48 +10043,50 @@ class EXP msrPartGroup : public msrElement
 
     // counters
     
-    static int              gPartGroupsCounter;
+    static int            gPartGroupsCounter;
 
     // numbers
     
-    int                     fPartGroupAbsoluteNumber;
+    int                   fPartGroupAbsoluteNumber;
     
-    int                     fPartGroupNumber;
+    int                    fPartGroupNumber;
 
     // name
     
-    string                  fPartGroupName;
+    string                fPartGroupName;
 
-    string                  fPartGroupDisplayText;
-    string                  fPartGroupAccidentalText;
+    string                fPartGroupDisplayText;
+    string                fPartGroupAccidentalText;
     
-    string                  fPartGroupAbbreviation;
+    string                fPartGroupAbbreviation;
 
     // symbol kind
     
-    msrPartGroupSymbolKind  fPartGroupSymbolKind;
+    msrPartGroupSymbolKind
+                          fPartGroupSymbolKind;
 
     // default X
     
-    int                     fPartGroupSymbolDefaultX;
+    int                   fPartGroupSymbolDefaultX;
 
     // bar line
     
-    bool                    fPartGroupBarline;
+    bool                  fPartGroupBarline;
 
     // instrument name
 
-    string                  fPartGroupInstrumentName;
+    string                fPartGroupInstrumentName;
 
     // accessing parts by name
-    map<string, S_msrPart>  fPartGroupPartsMap;
+    map<string, S_msrPart>
+                          fPartGroupPartsMap;
 
     // allowing for both parts and (sub-)part groups as elements
-    list<S_msrElement>      fPartGroupElements;
+    list<S_msrElement>    fPartGroupElements;
     
-    S_msrPartGroup          fPartGroupPartGroupUplink;
+    S_msrPartGroup        fPartGroupPartGroupUplink;
 
-    S_msrScore              fPartGroupScoreUplink;
+    S_msrScore            fPartGroupScoreUplink;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
