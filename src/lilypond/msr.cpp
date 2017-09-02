@@ -26881,7 +26881,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
       endl;
   }
 
-  // set staff measure location
+  // set staff measure number
   fStaffMeasureNumber = measureNumber;
 
   // propagate it to all staves
@@ -28328,6 +28328,9 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
         fPartID,
         partGroupClone);
 
+  newbornClone->fPartMsrName =
+    fPartMsrName;
+    
   newbornClone->fPartName =
     fPartName;
   newbornClone->fPartAbbreviation =
@@ -30273,6 +30276,9 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   // avoid part group newborn clone to keep its (new) absolute number
   newbornClone->fPartGroupAbsoluteNumber =
     fPartGroupAbsoluteNumber;
+  
+  newbornClone->fPartGroupInstrumentName =
+    fPartGroupInstrumentName;
   
   return newbornClone;
 }

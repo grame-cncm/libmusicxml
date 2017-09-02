@@ -9316,7 +9316,7 @@ class EXP msrStaff : public msrElement
 
     // measures
 
-    string                fStaffMeasureNumber;
+    string                fStaffMeasureNumber; // VIRER JMI
 
     // clef, key, time
     
@@ -10075,7 +10075,7 @@ class EXP msrPartGroup : public msrElement
 
     // instrument name
 
-    string                fPartGroupInstrumentName;
+    string                fPartGroupInstrumentName; // JMI
 
     // accessing parts by name
     map<string, S_msrPart>
