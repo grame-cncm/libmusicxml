@@ -26660,10 +26660,10 @@ void msrStaff::initializeStaff ()
   // set staff instrument names default values // JMI
   fStaffInstrumentName =
     fStaffPartUplink->
-      getPartName ();
+      getPartInstrumentName ();
   fStaffInstrumentAbbreviation =
     fStaffPartUplink->
-      getPartAbbreviation();
+      getPartInstrumentAbbreviation ();
 }
 
 msrStaff::~msrStaff()
@@ -28317,6 +28317,7 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
   return newbornClone;
 }
 
+
 void msrPart::createPartMasterStaffAndVoice (
   int inputLineNumber)
 {
@@ -28425,6 +28426,20 @@ void msrPart::setPartAbbreviation (
   if (fPartInstrumentAbbreviation.size () == 0)
     fPartInstrumentAbbreviation = fPartName;
 }
+
+/* JMI
+void msrPart::setPartInstrumentName (
+  string partInstrumentName)
+{
+  fPartInstrumentName = partInstrumentName; }
+
+void msrPart::setPartInstrumentAbbreviation (
+  string partInstrumentAbbreviation)
+    {
+      fPartInstrumentAbbreviation =
+        partInstrumentAbbreviation;
+    }
+*/
 
 void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
@@ -29875,6 +29890,12 @@ void msrPart::print (ostream& os)
        "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
       endl <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+       "PartInstrumentAbbreviation" << ": \"" <<
+      fPartInstrumentAbbreviation << "\"" <<
+      endl <<
     endl;
 
 /* JMI not specifically
@@ -30040,6 +30061,11 @@ void msrPart::printStructure (ostream& os)
       setw(fieldWidth) <<
       "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+       "PartInstrumentAbbreviation" << ": \"" <<
+      fPartInstrumentAbbreviation << "\"" <<
       endl <<
     endl;
 

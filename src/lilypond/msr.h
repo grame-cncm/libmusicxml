@@ -9556,7 +9556,9 @@ class EXP msrPart : public msrElement
 
     void                  setPartInstrumentName (
                             string partInstrumentName)
-                              { fPartInstrumentName = partInstrumentName; }
+                              {
+                                fPartInstrumentName = partInstrumentName;
+                              }
                               
     string                getPartInstrumentName () const
                               { return fPartInstrumentName; }
