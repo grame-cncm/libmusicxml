@@ -30045,7 +30045,6 @@ void msrPart::printStructure (ostream& os)
   // print the master staff specifically
   if (fPartMasterStaff) {
     os <<
-      endl <<
       idtr <<
         "Master staff" <<
       endl;
@@ -30059,7 +30058,6 @@ void msrPart::printStructure (ostream& os)
   // print the harmony staff // JMI specifically?
   if (fPartHarmonyStaff) {
     os <<
-      endl <<
       idtr <<
         "Harmony staff" <<
       endl;
@@ -30073,7 +30071,6 @@ void msrPart::printStructure (ostream& os)
   // print the staves
   if (fPartStavesMap.size()) {
     os << 
-        endl <<
         idtr <<
           "Other staves" <<
         endl;
