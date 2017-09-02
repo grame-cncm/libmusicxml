@@ -30564,6 +30564,19 @@ void msrPartGroup::print (ostream& os)
     os << "false";
   os << endl;
 
+  os <<
+    idtr <<
+    setw(fieldWidth) << "PartGroupPartGroupUplink" << " : ";
+  if (fPartGroupPartGroupUplink)
+    os <<
+      "\"" <<
+      fPartGroupPartGroupUplink->
+        getPartGroupName () <<
+      "\"";
+  else
+    os << "none";
+  os << endl;
+
   if (fPartGroupElements.size()) {
     os << endl;
     list<S_msrElement>::const_iterator

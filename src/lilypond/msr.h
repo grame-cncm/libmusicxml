@@ -10049,7 +10049,7 @@ class EXP msrPartGroup : public msrElement
     
     int                   fPartGroupAbsoluteNumber;
     
-    int                    fPartGroupNumber;
+    int                   fPartGroupNumber;
 
     // name
     

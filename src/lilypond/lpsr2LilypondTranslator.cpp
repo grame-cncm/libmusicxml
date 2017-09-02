@@ -2153,8 +2153,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
   // LPNR, page 567
 
-  // don't generate code for a single part group block
-  if (partGroup->getPartGroupElements ().size () > 1) {
+  // don't generate code for a for the top-most part group block
+  if (partGroup->getPartGroupPartGroupUplink ()) {
     switch (partGroupSymbolKind) {
       case msrPartGroup::k_NoPartGroupSymbol:
         partGroupContextName = "";
@@ -2249,8 +2249,8 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
   if (elt->getPartGroupBlockElements ().size () > 1)
     idtr--;
 
-  // don't generate code for a 1-element part group block
-  if (elt->getPartGroupBlockElements ().size () > 1) {
+  // don't generate code for a for the top-most part group block
+  if (partGroup->getPartGroupPartGroupUplink ()) {
     fOstream <<
       idtr <<
       setw(commentFieldWidth) << ">>";
@@ -2428,9 +2428,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   if (gLilypondOptions->fComments) {
     fOstream << left <<
       idtr <<
-      newContext << " <<" <<
-      setw(commentFieldWidth) <<
-      " % staff \"" << staff->getStaffName () << "\"";
+        setw(commentFieldWidth) <<
+        newContext + " " "<<" <<
+        " % staff \"" << staff->getStaffName () << "\"";
   }
   else {
     fOstream << idtr <<
