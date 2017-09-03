@@ -3151,6 +3151,7 @@ lpsrStaffBlock::lpsrStaffBlock (
   S_msrStaff staff)
     : lpsrElement (0) // JMI
 {
+  // sanity check
   msrAssert (
     staff != 0,
     "staff is null");
@@ -3315,6 +3316,7 @@ lpsrPartBlock::lpsrPartBlock (
   S_msrPart part)
     : lpsrElement (0) // JMI 
 {
+  // sanity check
   msrAssert (
     part != 0,
     "part is null");

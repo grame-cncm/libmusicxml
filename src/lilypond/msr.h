@@ -52,6 +52,18 @@ namespace MusicXML2
 class msrDivisions;
 typedef SMARTP<msrDivisions> S_msrDivisions;
 
+class msrClef;
+typedef SMARTP<msrClef> S_msrClef;
+
+class msrKey;
+typedef SMARTP<msrKey> S_msrKey;
+
+class msrTime;
+typedef SMARTP<msrTime> S_msrTime;
+
+class msrHumdrumScotKeyItem;
+typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
+
 class msrBarline;
 typedef SMARTP<msrBarline> S_msrBarline;
 
@@ -2649,6 +2661,8 @@ class EXP msrClef : public msrElement
     // services
     // ------------------------------------------------------
 
+    bool                  isEqualTo (S_msrClef otherClef) const; // JMI
+
     string                clefAsString () const;
 
     bool                  clefIsATablatureClef () const;
@@ -2743,6 +2757,10 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // services
     // ------------------------------------------------------
 
+    bool                  isEqualTo (
+                            S_msrHumdrumScotKeyItem
+                              otherHumdrumScotKeyItem) const;
+                            
     string                humdrumScotKeyItemAsString () const;
 
     // visitors
@@ -2857,6 +2875,8 @@ class EXP msrKey : public msrElement
     // services
     // ------------------------------------------------------
 
+    bool                  isEqualTo (S_msrKey otherKey) const;
+                            
     void                  appendHumdrumScotKeyItem (
                             S_msrHumdrumScotKeyItem item);                                
 
@@ -2936,6 +2956,8 @@ class EXP msrTimeItem : public msrElement
     // services
     // ------------------------------------------------------
 
+    bool                  isEqualTo (S_msrTime otherTime) const;
+                            
     void                  appendBeatsNumber (int beatsNumber);
 
     int                   getTimeBeatsNumber () const;
@@ -3049,6 +3071,8 @@ class EXP msrTime : public msrElement
     // services
     // ------------------------------------------------------
                   
+    bool                  isEqualTo (S_msrTime otherTime) const;
+                            
     void                  appendTimeItem (
                             S_msrTimeItem timeItem);
 
@@ -9128,9 +9152,6 @@ class EXP msrStaff : public msrElement
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber);
-                      
-    const string          getStaffMeasureNumber () const
-                              { return fStaffMeasureNumber; }
 
     // services
     // ------------------------------------------------------
@@ -9311,12 +9332,6 @@ class EXP msrStaff : public msrElement
     // are initialized as deep clones of the staff silent voice,
     // in order to 'fill the gap'
     S_msrVoice            fStaffSilentVoice;
-
- // JMI   string                fStaffInstrumentName;
-
-    // measures
-
-    string                fStaffMeasureNumber; // VIRER JMI
 
     // clef, key, time
     

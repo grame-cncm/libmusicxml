@@ -2167,6 +2167,7 @@ string wholeNotesAsMsrString (
     endl;
 #endif
 
+  // sanity check
   msrAssert (
     numerator != 0,
     "numerator is 0");
@@ -4524,6 +4525,7 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     noteUplink != 0,
     "noteUplink is null");
@@ -4684,11 +4686,12 @@ msrDoubleTremolo::msrDoubleTremolo (
   S_msrVoice           voiceUplink)
     : msrElement (inputLineNumber)
 {
-  // set the double tremolo voice uplink
+  // sanity check
   msrAssert (
     voiceUplink != 0,
     "voiceUplink is null");
     
+  // set the double tremolo voice uplink
   fDoubleTremoloVoiceUplink = voiceUplink;
   
   fDoubleTremoloKind          = doubleTremoloKind;
@@ -4762,6 +4765,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
       "==> Creating a newborn clone of a double tremolo" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -6067,6 +6071,7 @@ msrGraceNotes::msrGraceNotes (
   S_msrVoice graceNotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
+  // sanity check
   msrAssert(
     graceNotesVoiceUplink != 0,
     "graceNotesVoiceUplink is null");
@@ -6090,6 +6095,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
       endl;
   }
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -6295,18 +6301,21 @@ msrAfterGraceNotes::msrAfterGraceNotes (
   S_msrVoice afterGraceNotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
-  // set gracenote's voice uplink
+  // sanity check
   msrAssert(
     afterGraceNotesVoiceUplink != 0,
     "afterGraceNotesVoiceUplink is null");
   
+  // set gracenote's voice uplink
   fAfterGraceNotesVoiceUplink =
     afterGraceNotesVoiceUplink;
 
-  // set gracenote's note uplink
+  // sanity check
   msrAssert(
     afterGraceNotesVoiceUplink != 0,
     "afterGraceNotesVoiceUplink is null");
+
+  // set gracenote's note uplink
   fAfterGraceNotesNote =
     afterGraceNotesNote;
     
@@ -6334,10 +6343,12 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     noteClone != 0,
     "noteClone is null");
     
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -6865,6 +6876,7 @@ S_msrNote msrNote::createNoteNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -7065,6 +7077,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   }
 
 /* JMI
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -7815,6 +7828,7 @@ void msrNote::addWedgeToNote (S_msrWedge wedge)
 
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
+  // sanity check
   msrAssert (
     fNoteDynamics.size () > 0,
     "fNoteDynamics is empty");
@@ -7826,6 +7840,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
+  // sanity check
   msrAssert (
     fNoteDynamics.size () > 0,
     "fNoteDynamics is empty");
@@ -9240,6 +9255,7 @@ S_msrChord msrChord::createChordNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -12682,6 +12698,23 @@ bool msrClef::clefIsAPercussionClef () const
   } // switch
 }
 
+bool msrClef::isEqualTo (S_msrClef otherClef) const // JMI
+{
+  if (fClefKind != otherClef->fClefKind)
+    return false;
+    
+  switch (fClefKind) {
+    case msrClef::kTablature4Clef:
+    case msrClef::kTablature5Clef:
+    case msrClef::kTablature6Clef:
+    case msrClef::kTablature7Clef:
+      return false;
+      break;
+    default:
+      return false;
+  } // switch
+}
+
 void msrClef::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -13023,6 +13056,21 @@ msrKey::msrKey ( // for Humdrum/Scot keys
 
 msrKey::~msrKey()
 {}
+
+bool msrKey::isEqualTo (S_msrKey otherKey) const // JMI
+{
+  if (fKeyKind != otherKey->fKeyKind)
+    return false;
+    
+  switch (fKeyKind) {
+    case msrKey::kTraditionalKind:
+    case msrKey::kHumdrumScotKind:
+      return false;
+      break;
+    default:
+      return false;
+  } // switch
+}
 
 void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
@@ -13407,6 +13455,43 @@ msrTime::msrTime (
   fTimeSymbolKind = timeSymbolKind;
     
   fTimeIsCompound = false;
+}
+
+bool msrTime::isEqualTo (S_msrTime otherTime) const // JMI
+{
+  if (fTimeSymbolKind != otherTime->fTimeSymbolKind)
+    return false;
+    
+    /* JMI
+  switch (fTimeSymbolKind) {
+    case msrTime::kTimeSymbolCommon:
+      result = "common";
+      break;
+    case msrTime::kTimeSymbolCut:
+      result = "cut";
+      break;
+    case msrTime::kTimeSymbolNote:
+      result = "note";
+      break;
+    case msrTime::kTimeSymbolDottedNote:
+      result = "dotted note";
+      break;
+    case msrTime::kTimeSymbolSingleNumber:
+      result = "single number";
+      break;
+    case msrTime::kTimeSymbolSenzaMisura:
+      result = "senza misura";
+      break;
+    case msrTime::k_NoTimeSymbol:
+      result = "none";
+      break;
+  } // switch
+      return false;
+      break;
+    default:
+      return false;
+  } // switch
+  */
 }
 
 S_msrTime msrTime::createFourQuartersTime (
@@ -14296,11 +14381,12 @@ msrSyllable::msrSyllable (
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
-  // set syllable's stanza uplink
+  // sanity check
   msrAssert(
     syllableStanzaUplink != 0,
     "syllableStanzaUplink is null");
     
+  // set syllable's stanza uplink
   fSyllableStanzaUplink =
     syllableStanzaUplink;
     
@@ -14328,6 +14414,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -14371,6 +14458,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -14881,11 +14969,12 @@ msrStanza::msrStanza (
   fStanzaNumber = stanzaNumber;
   fStanzaKind   = stanzaKind;
 
-  // set stanza's voice uplink
+  // sanity check
   msrAssert(
     stanzaVoiceUplink != 0,
     "stanzaVoiceUplink is null");
 
+  // set stanza's voice uplink
   fStanzaVoiceUplink =
     stanzaVoiceUplink;
   
@@ -14939,6 +15028,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -14983,6 +15073,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -15557,11 +15648,12 @@ msrHarmony::msrHarmony (
   rational             harmonySoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
-  // set harmony's part
+  // sanity check
   msrAssert(
     harmonyPartUplink != 0,
      "harmonyPartUplink is null");
      
+  // set harmony's part
   fHarmonyPartUplink =
     harmonyPartUplink;
     
@@ -15600,6 +15692,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -15628,6 +15721,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -15881,11 +15975,12 @@ msrFigure::msrFigure (
   msrFigureSuffixKind figureSuffixKind)
     : msrElement (inputLineNumber)
 {
-  // set figured's part uplink
+  // sanity check
   msrAssert(
     figurePartUplink != 0,
     "figurePartUplink is null");
      
+  // set figured's part uplink
   fFigurePartUplink =
     figurePartUplink;
  
@@ -15916,6 +16011,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -15943,6 +16039,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -16147,11 +16244,12 @@ msrFiguredBass::msrFiguredBass (
             figuredBassParenthesesKind)
     : msrElement (inputLineNumber)
 {
-  // set figuredBass's part uplink
+  // sanity check
   msrAssert(
     figuredBassPartUplink != 0,
     "figuredBassPartUplink is null");
      
+  // set figuredBass's part uplink
   fFiguredBassPartUplink =
     figuredBassPartUplink;
 
@@ -16184,6 +16282,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -16210,6 +16309,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -17117,11 +17217,12 @@ msrMeasure::msrMeasure (
   S_msrSegment  measureSegmentUplink)
     : msrElement (inputLineNumber)
 {
-  // set measure's segment uplink
+  // sanity check
   msrAssert(
     measureSegmentUplink != 0,
     "measureSegmentUplink is null");
 
+  // set measure's segment uplink
   fMeasureSegmentUplink =
     measureSegmentUplink;
 
@@ -17198,6 +17299,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
       "\"" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingSegment != 0,
     "containingSegment is null");
@@ -17252,6 +17354,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       "\"" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingSegment != 0,
     "containingSegment is null");
@@ -17470,6 +17573,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
 
 void msrMeasure::appendTimeToMeasure (S_msrTime time)
 {
+  // sanity check
   msrAssert(
     time != 0, "time is null");
 
@@ -17583,6 +17687,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
 
 void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 {
+  // sanity check
   msrAssert(
     time != 0, "time is null");
 
@@ -17617,6 +17722,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 void msrMeasure::setMeasureFullMeasureLengthFromTime (
   S_msrTime time)
 {
+  // sanity check
   msrAssert(
     time != 0,
     "time is null");
@@ -17932,6 +18038,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             "\"" <<
             endl;
 
+        // sanity check
         msrAssert (
           fMeasureElementsList.size () > 0,
           "fMeasureElementsList is empty"); // JMI
@@ -19447,11 +19554,12 @@ msrSegment::msrSegment (
   S_msrVoice segmentVoicekUplink)
     : msrElement (inputLineNumber)
 {
-  // set segment's voice uplink
+  // sanity check
   msrAssert(
     segmentVoicekUplink != 0,
     "segmentVoicekUplink is null");
     
+  // set segment's voice uplink
   fSegmentVoiceUplink =
     segmentVoicekUplink;
 
@@ -19495,6 +19603,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -19532,6 +19641,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -19793,6 +19903,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       s.str());
   }
     
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19818,6 +19929,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   // register key in segment
 // JMI  fSegmentKey = key;
 
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19851,6 +19963,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
         endl;
   }
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19884,6 +19997,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
         endl;
   }
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19905,6 +20019,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19926,6 +20041,7 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19948,6 +20064,7 @@ void msrSegment::appendFiguredBassToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19970,6 +20087,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -19991,6 +20109,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20012,6 +20131,7 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20034,6 +20154,7 @@ void msrSegment::appendEyeGlassesToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20055,6 +20176,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20078,6 +20200,7 @@ void msrSegment::appendTransposeToSegment (
         endl;
   }
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20100,6 +20223,7 @@ void msrSegment::appendStaffDetailsToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20121,6 +20245,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20142,6 +20267,7 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20164,6 +20290,7 @@ void msrSegment::appendBarNumberCheckToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20186,6 +20313,7 @@ void msrSegment::appendTempoToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20208,6 +20336,7 @@ void msrSegment::appendRehearsalToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20231,6 +20360,7 @@ void msrSegment::appendOctaveShiftToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20255,6 +20385,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
         "\"" <<
         endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20423,6 +20554,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
         "\"," <<
       endl;
 
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20447,6 +20579,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   if (! fSegmentMeasuresList.size ()) {// JMI
   }
   
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20468,6 +20601,7 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
         "\"," <<
       endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20493,6 +20627,7 @@ void msrSegment::appendVoiceStaffChangeToSegment (
       endl;
   }
   
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20508,6 +20643,7 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
     note->getInputLineNumber (),
     fSegmentMeasureNumber);
   
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20536,6 +20672,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
         "\"," <<
       endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20558,6 +20695,7 @@ void msrSegment::appendMeasureRepeatToSegment (
         "\"," <<
       endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20580,6 +20718,7 @@ void msrSegment::appendMultipleRestToSegment (
         "\"," <<
       endl;
       
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20590,6 +20729,7 @@ void msrSegment::appendMultipleRestToSegment (
 
 void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 {
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20600,6 +20740,7 @@ void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
 
 void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 {
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20611,6 +20752,7 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 {
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20623,6 +20765,7 @@ void msrSegment::prependGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 
 {
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20634,6 +20777,7 @@ void msrSegment::prependGraceNotesToSegment (
 void msrSegment::appendAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 {
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20646,6 +20790,7 @@ void msrSegment::prependAfterGraceNotesToSegment (
   S_msrAfterGraceNotes afterGraceNotes)
 
 {
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20660,6 +20805,7 @@ void msrSegment::appendOtherElementToSegment (S_msrElement elem)
     elem->getInputLineNumber (),
     fSegmentMeasureNumber); // +1??? JMI
   
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
@@ -20984,6 +21130,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
       repeatEndingAsString () <<
       endl;
   
+  // sanity check
   msrAssert(
     containingRepeat != 0,
     "containingRepeat is null");
@@ -21025,6 +21172,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
       repeatEndingAsString () <<
       endl;
   
+  // sanity check
   msrAssert(
     containingRepeat != 0,
     "containingRepeat is null");
@@ -21189,6 +21337,7 @@ msrRepeat::msrRepeat (
 {
   fRepeatEndingsInternalCounter = 0;
   
+  // sanity check
   msrAssert(
     voiceUplink != 0,
     "voiceUplink is null");
@@ -21207,6 +21356,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
       "==> Creating a newborn clone of a repeat" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21236,6 +21386,7 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
       "==> Creating a deep copy of a repeat" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21283,6 +21434,7 @@ void msrRepeat::setRepeatCommonSegment (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert(
     repeatCommonSegment != 0,
     "repeatCommonSegment is null");
@@ -21471,6 +21623,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNew
       "==> Creating a newborn clone of a measure repeat pattern" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21498,6 +21651,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDee
       "==> Creating a newborn clone of a measure repeat pattern" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21530,6 +21684,7 @@ void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert (
     measureRepeatPatternSegment != 0,
     "measureRepeatPatternSegment is null");
@@ -21696,6 +21851,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
       "==> Creating a newborn clone of a measure repeat replicas" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21723,6 +21879,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
       "==> Creating a deep copy of a measure repeat replicas" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21758,6 +21915,7 @@ void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert (
     measureRepeatReplicasSegment != 0,
     "measureRepeatReplicasSegment is null");
@@ -21931,6 +22089,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
       "==> Creating a newborn clone of a measure repeat" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -21962,6 +22121,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
       "==> Creating a deep copy of a measure repeat" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -22009,6 +22169,7 @@ void msrMeasureRepeat::setMeasureRepeatPattern (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert (
     measureRepeatPattern != 0,
     "measureRepeatPattern is null");
@@ -22029,6 +22190,7 @@ void msrMeasureRepeat::setMeasureRepeatReplicas (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert (
     measureRepeatReplicas != 0,
     "measureRepeatReplicas is null");
@@ -22239,6 +22401,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
       "==> Creating a newborn clone of a multiple rest contents" <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -22264,6 +22427,7 @@ void msrMultipleRestContents::setMultipleRestContentsSegment (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert (
     multipleRestContentsSegment != 0,
     "multipleRestContentsSegment is null");
@@ -22436,6 +22600,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
       multipleRestAsString () <<
       endl;
   
+  // sanity check
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
@@ -22463,6 +22628,7 @@ void msrMultipleRest::setMultipleRestContents (
         "measures") <<
       endl;
       
+  // sanity check
   msrAssert (
     multipleRestContents != 0,
     "multipleRestContents is null");
@@ -22623,11 +22789,12 @@ msrVoice::msrVoice (
 {
   fVoiceAbsoluteNumber = ++gVoicesCounter;
   
-  // set voice staff uplink
+  // sanity check
   msrAssert(
     voiceStaffUplink != 0,
     "voiceStaffUplink is null");
 
+  // set voice staff uplink
   fVoiceStaffUplink = voiceStaffUplink;
 
   // set voice kind
@@ -22922,6 +23089,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
       endl;
   }
 
+  // sanity check
   msrAssert(
     staffClone != 0,
     "staffClone is null");
@@ -23002,6 +23170,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       endl;
   }
 
+  // sanity check
   msrAssert(
     containingStaff != 0,
     "containingStaff is null");
@@ -25048,6 +25217,7 @@ void msrVoice::appendRepeatCloneToVoice (
             "\"" <<
             endl;
       
+        // sanity check
         msrAssert(
           repeatCLone != 0,
           "repeatCLone is null");
@@ -25146,6 +25316,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
             "\"" <<
             endl;
             
+        // sanity check
         msrAssert(
           fVoiceCurrentRepeat != 0,
           "fVoiceCurrentRepeat is null");
@@ -25745,12 +25916,13 @@ void msrVoice::print (ostream& os)
   os << endl;
 
   /* JMI
-  // print the last segment
+  // sanity check
   msrAssert (
     fVoiceLastSegment != 0,
     "fVoiceLastSegment is null");
     */
 
+  // print the last segment
   if (fVoiceLastSegment) {
     os << idtr <<
       "Last segment:" <<
@@ -26350,11 +26522,12 @@ msrStaff::msrStaff (
   S_msrPart    staffPartUplink)
     : msrElement (inputLineNumber)
 {
-  // set staff part uplink
+  // sanity check
   msrAssert(
     staffPartUplink != 0,
     "staffPartUplink is null");
 
+  // set staff part uplink
   fStaffPartUplink =
     staffPartUplink;
 
@@ -26771,6 +26944,7 @@ S_msrStaff msrStaff::createStaffNewbornClone (
       endl;
   }
   
+  // sanity check
   msrAssert(
     containingPart != 0,
     "containingPart is null");
@@ -26881,9 +27055,6 @@ void msrStaff::createMeasureAndAppendItToStaff (
       endl;
   }
 
-  // set staff measure number
-  fStaffMeasureNumber = measureNumber;
-
   // propagate it to all staves
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
@@ -26891,6 +27062,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
     i++) {
     S_msrVoice voice = (*i).second;
 
+    // sanity check
     msrAssert (
       voice != 0,
       "voice is null");
@@ -27065,6 +27237,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 void msrStaff::registerVoiceInStaff (
   int inputLineNumber, S_msrVoice voice)
 {
+  // sanity check
   msrAssert (
     voice != 0,
     "voice is null");
@@ -27201,14 +27374,43 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
   // set staff key
   fStaffCurrentKey = key;
 
-  // propagate it to all voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second-> // JMI msrAssert???
-      appendKeyToVoice (key);
-  } // for
+
+  bool doAppendKeyToStaff;
+  
+  if (! fStaffCurrentKey) {
+    doAppendKeyToStaff = true;
+  }
+  
+  else {
+    if (key->isEqualTo (fStaffCurrentKey)) {
+      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+        cerr << idtr <<
+          "Key '" <<
+          key->keyAsString () <<
+          "' ignored because it is already present in staff " <<
+          getStaffName () <<
+          "\" in part " <<
+          fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
+
+      doAppendKeyToStaff = false;
+    }
+  }
+  
+  if (doAppendKeyToStaff) {
+    // register key as current staff key
+    fStaffCurrentKey = key;
+  
+    // propagate it to all voices
+    for (
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+      i != fStaffAllVoicesMap.end();
+      i++) {
+      (*i).second-> // JMI msrAssert???
+        appendKeyToVoice (key);
+    } // for
+  }
 }
 
 void msrStaff::appendTimeToStaff (S_msrTime time)
@@ -28253,11 +28455,12 @@ msrPart::msrPart (
     partID.end(),
     stringSpaceReplacer (fPartID, '_'));
 
-  // set part's part group uplink
+  // sanity check
   msrAssert(
     partPartGroupUplink != 0,
     "partPartGroupUplink is null");
     
+  // set part's part group uplink
   fPartPartGroupUplink = partPartGroupUplink;
 
   // do other initializations
@@ -28317,6 +28520,7 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
       endl;
   }
 
+  // sanity check
   msrAssert(
     partGroupClone != 0,
     "partGroupClone is null");
@@ -30250,9 +30454,10 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
       getPartGroupCombinedName () <<
       endl;
 
-  // don't check against 0, since the partGroup stack
+  // don't check against 0, since the partGroup stack JMI
   // that it comes from may be empty
 /* JMI
+  // sanity check
   msrAssert(
     partGroupClone != 0,
     "partGroupClone is null");
