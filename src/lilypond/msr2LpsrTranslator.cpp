@@ -1396,9 +1396,12 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> Start visiting msrMeasure" <<
+      "--> Start visiting msrMeasure '" << inputLineNumber << "'" <<
       endl;
 
   // measure 1 is created by default initially
@@ -1547,14 +1550,14 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "--> End visiting msrMeasure" <<
-      endl;
-
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> End visiting msrMeasure '" << inputLineNumber << "'" <<
+      endl;
+
   string
     measureNumber =
       elt->getMeasureNumber ();
