@@ -1630,6 +1630,18 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       msrBarCheck::create (
         inputLineNumber);
               
+  cerr <<
+    endl <<
+    idtr << "***********" <<
+    endl <<
+    endl <<
+    idtr;
+  fCurrentPartClone->print (cerr);
+  cerr <<
+    idtr << "***********" <<
+    endl <<
+    endl;
+
     // append it to the current voice clone
     fCurrentVoiceClone->
       appendBarCheckToVoice (fLastBarCheck);
@@ -3507,7 +3519,20 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       "--> Start visiting msrBarline" <<
       ", line " << inputLineNumber <<
       endl;
-  
+
+
+  cerr <<
+    endl <<
+    idtr << "***********" <<
+    endl <<
+    endl <<
+    idtr;
+  fCurrentPartClone->print (cerr);
+  cerr <<
+    idtr << "***********" <<
+    endl <<
+    endl;
+
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kStandaloneBarline:
