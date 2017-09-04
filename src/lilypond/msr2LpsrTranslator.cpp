@@ -190,6 +190,7 @@ void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrIdentification" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   idtr++;
@@ -215,6 +216,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrPageGeometry" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   idtr++;
@@ -298,6 +300,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrPageGeometry" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -511,7 +514,6 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
       appendElementToPartGroupBlock (
         currentPartGroupBlock);
   }
-
 }
 
 //________________________________________________________________________
@@ -584,6 +586,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrStaffLinesNumber" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   // create a staff lines number clone
@@ -598,6 +601,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrStaffTuning" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   
   // create a staff tuning clone
@@ -612,6 +616,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrStaffDetails" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentStaffLinesNumberClone = 0;
@@ -623,6 +628,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrStaffDetails" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   // create a staff details clone
@@ -2414,7 +2420,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrGraceNotes" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   // forget about these grace notes if any
@@ -2771,7 +2777,7 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrOctaveShift" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -2783,7 +2789,7 @@ void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrOctaveShift" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -2793,7 +2799,7 @@ void msr2LpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrAccordionRegistration" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   // append the accordion registration to the voice clone
@@ -2811,7 +2817,7 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrStem" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   if (fOnGoingNote) {
@@ -2833,7 +2839,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrStem" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -2843,7 +2849,7 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrBeam" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   if (fOnGoingNote) {
@@ -2863,7 +2869,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrBeam" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -2873,7 +2879,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrChord" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentChordClone =
@@ -2930,7 +2936,7 @@ void msr2LpsrTranslator::visitEnd (S_msrChord& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrChord" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fOnGoingChord = false;
@@ -2942,7 +2948,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrTuplet" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   // create the tuplet clone
@@ -2966,7 +2972,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrTuplet" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   if (gGeneralOptions->fTraceTuplets)
@@ -3016,7 +3022,7 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrTie" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   // we don't need the kTieStop or kContinue for LilyPond
@@ -3030,7 +3036,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrTie" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3040,7 +3046,7 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrSegno" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3052,7 +3058,7 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrCoda" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3065,7 +3071,7 @@ void msr2LpsrTranslator::visitStart (S_msrEyeGlasses& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting eyeGlasses" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3077,7 +3083,7 @@ void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting pedal" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3090,7 +3096,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrBarCheck" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3102,7 +3108,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrBarCheck" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3112,7 +3118,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarNumberCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrBarNumberCheck" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3124,7 +3130,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrBarNumberCheck" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3134,7 +3140,7 @@ void msr2LpsrTranslator::visitStart (S_msrLineBreak& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrLineBreak" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3146,7 +3152,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLineBreak& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrLineBreak" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3156,7 +3162,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageBreak& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrPageBreak" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3168,7 +3174,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPageBreak& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrPageBreak" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3178,7 +3184,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrRepeat" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
 /* JMI
@@ -3203,7 +3209,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrRepeat" <<
-      ", line " << elt->getInputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fRepeatHasBeenCreatedForCurrentPartClone = false;
@@ -3659,7 +3665,7 @@ void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrBarline" <<
-      ", line " << inputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3669,6 +3675,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrVarValAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   string variableName     = elt->getVariableName ();
@@ -3782,6 +3789,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrVarValAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3791,6 +3799,7 @@ void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrLayout" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   idtr++;
@@ -3803,6 +3812,7 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrLayout" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3812,6 +3822,7 @@ void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrMidi" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3820,6 +3831,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrMidi" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
@@ -3829,6 +3841,7 @@ void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> Start visiting msrRehearsal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentVoiceClone->
@@ -3840,6 +3853,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrRehearsal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 }
 
