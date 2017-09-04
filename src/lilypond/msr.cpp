@@ -10862,7 +10862,8 @@ string msrBarCheck::barCheckAsString () const
 
   s <<
     "BarCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"";
+    ", next bar number = \"" << fNextBarNumber << "\"" <<
+    ", line " << fInputLineNumber;
 
   return s.str();
 }
@@ -25212,7 +25213,7 @@ void msrVoice::appendRepeatCloneToVoice (
         // register repeat clone as the (new) current repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Registering repeat as the new current repeat in voice \"" <<
+            "Registering repeat clone as the new current repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
