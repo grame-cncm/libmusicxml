@@ -1637,7 +1637,9 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
     fOstream <<
       endl << endl <<
       idtr <<
-        "--> Start visiting msrStanza" <<
+        "--> Start visiting msrStanza \"" <<
+        elt->getStanzaName () <<
+        "\"" <<
       endl;
 
   idtr++;
@@ -1667,7 +1669,9 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
   
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
-      "--> End visiting msrStanza" <<
+        "--> End visiting msrStanza \"" <<
+        elt->getStanzaName () <<
+        "\"" <<
       endl << endl <<
       endl;
 
