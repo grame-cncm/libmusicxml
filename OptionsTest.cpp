@@ -151,6 +151,62 @@ ostream& operator<< (ostream& os, const msrOptionsItem& elt)
 }
 
 //______________________________________________________________________________
+class EXP msrOptionsBoolItem : public msrOptionsItem
+{
+  public:
+  
+    msrOptionsBoolItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      bool&  optionsBoolItemVariable)
+      : msrOptionsItem (
+          optionsItemShortName,
+          optionsItemLongName,
+          optionsItemDescription),
+        fOptionsBoolItemVariable (optionsBoolItemVariable)
+      {}
+      
+    void                  print (ostream& os) const
+      {
+        const int fieldWidth = 19;
+        
+        os <<
+          "OptionsBoolItem:" <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsBoolItemVariable" << " : " << fOptionsBoolItemVariable <<
+          endl;
+      }
+
+  private:
+  
+    bool&                 fOptionsBoolItemVariable;
+};
+typedef msrOptionsBoolItem* S_msrOptionsBoolItem;
+
+ostream& operator<< (ostream& os, const msrOptionsBoolItem& elt)
+{
+  os <<
+    "OptionsBoolItem:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 class EXP msrOptionsIntItem : public msrOptionsItem
 {
   public:
@@ -201,6 +257,62 @@ ostream& operator<< (ostream& os, const msrOptionsIntItem& elt)
 {
   os <<
     "OptionsIntItem:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+class EXP msrOptionsFloatItem : public msrOptionsItem
+{
+  public:
+  
+    msrOptionsFloatItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      float& optionsFloatItemVariable)
+      : msrOptionsItem (
+          optionsItemShortName,
+          optionsItemLongName,
+          optionsItemDescription),
+        fOptionsFloatItemVariable (optionsFloatItemVariable)
+      {}
+      
+    void                  print (ostream& os) const
+      {
+        const int fieldWidth = 19;
+        
+        os <<
+          "OptionsFloatItem:" <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsFloatItemVariable" << " : " << fOptionsFloatItemVariable <<
+          endl;
+      }
+
+  private:
+  
+    float&                fOptionsFloatItemVariable;
+};
+typedef msrOptionsFloatItem* S_msrOptionsFloatItem;
+
+ostream& operator<< (ostream& os, const msrOptionsFloatItem& elt)
+{
+  os <<
+    "OptionsFloatItem:" <<
     endl;
   elt.print (os);
   return os;
@@ -392,6 +504,71 @@ ostream& operator<< (ostream& os, const msrOptionsGroup& elt)
   return os;
 }
 
+//_______________________________________________________________________________
+class EXP msrOptionsGroupsList : public msrOptionsElement
+{
+  public:
+  
+    msrOptionsGroupsList (
+      string optionGroupsListShortName,
+      string optionGroupsListLongName,
+      string optionGroupsListDescription)
+      : msrOptionsElement (
+          optionGroupsListShortName,
+          optionGroupsListLongName,
+          optionGroupsListDescription)
+      {}
+      
+    void                  appendOptionsGroup (
+                            S_msrOptionsGroup optionsGroup)
+      {
+        fOptionsGroupGroupsList.push_back (
+          optionsGroup);
+      }
+        
+    void                  print (ostream& os) const
+      {
+        const int fieldWidth = 19;
+        
+        os <<
+          "OptionsGroupsList:" <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+          endl;
+  
+        for (
+          list<S_msrOptionsGroup>::const_iterator
+            i = fOptionsGroupGroupsList.begin();
+          i != fOptionsGroupGroupsList.end();
+          i++) {
+          // print the element
+          os << (*i);
+        } // for
+      }
+
+  private:
+
+    list<S_msrOptionsGroup>
+                          fOptionsGroupGroupsList;
+};
+typedef msrOptionsGroupsList* S_msrOptionsGroupsList;
+
+ostream& operator<< (ostream& os, const msrOptionsGroupsList& elt)
+{
+  os <<
+    "OptionsGroupsList:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 void optionError (string errorMessage)
 {
@@ -491,14 +668,24 @@ void analyzeOptions (
   optionsSubGroup->
     appendOptionsItem (optionsItem2);
 
-  cerr <<
-    "optionsItem1:" << endl <<
-    optionsItem1 <<
-    endl;
+  float floatVariable = -3.14;
+  S_msrOptionsFloatItem optionsItem3 =
+    new msrOptionsFloatItem (
+      "fs", "fl", "floatVariable", floatVariable);
+  optionsSubGroup->
+    appendOptionsItem (optionsItem3);
+  optionsSubGroup->
+    appendOptionsItem (optionsItem3);
+
+  S_msrOptionsGroupsList optionsGroupsList =
+    new msrOptionsGroupsList (
+    "h", "help", " help for OptionsGroupsList");
+
+  optionsGroupsList->
+    appendOptionsGroup (optionsGroup);
     
   cerr <<
-    "optionsGroup:" << endl <<
-    optionsGroup <<
+    optionsGroupsList <<
     endl;
     
   while (true) { 
