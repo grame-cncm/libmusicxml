@@ -126,6 +126,7 @@ class msr2LpsrTranslator :
   public visitor<S_msrPageBreak>,
   
   public visitor<S_msrRepeat>,
+  public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
   
   public visitor<S_msrMeasureRepeat>,
@@ -314,6 +315,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
+    virtual void visitStart (S_msrRepeatCommonPart& elt);
+    virtual void visitEnd   (S_msrRepeatCommonPart& elt);
     virtual void visitStart (S_msrRepeatEnding& elt);
     virtual void visitEnd   (S_msrRepeatEnding& elt);
 

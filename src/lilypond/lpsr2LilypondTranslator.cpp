@@ -7064,6 +7064,23 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrRepeatCommonPart" <<
+      endl;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrRepeatCommonPart" <<
+      endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)

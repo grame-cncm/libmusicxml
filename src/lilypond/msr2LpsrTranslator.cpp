@@ -3230,6 +3230,25 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrRepeatCommonPart" <<
+      endl;
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> End visiting msrRepeatCommonPart" <<
+      endl;
+
+  // forget current repeat ending clone
+  fCurrentRepeatEndingClone = 0;
+}
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
