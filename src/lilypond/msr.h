@@ -7519,6 +7519,88 @@ EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
+class EXP msrRepeatCommonPart : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatCommonPart> create (
+      int          inputLineNumber,
+      S_msrSegment segment,
+      S_msrRepeat  repeatUplink);
+    
+    SMARTP<msrRepeatCommonPart> createRepeatCommonPartNewbornClone (
+      S_msrRepeat containingRepeat);
+
+    SMARTP<msrRepeatCommonPart> createRepeatCommonPartDeepCopy (
+      S_msrRepeat containingRepeat);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatCommonPart (
+      int          inputLineNumber,
+      S_msrSegment segment,
+      S_msrRepeat  repeatUplink);
+      
+    virtual ~msrRepeatCommonPart();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // segment
+    S_msrSegment          getRepeatCommonPartSegment () const
+                              { return fRepeatCommonPartSegment; }
+                
+    // uplinks
+    S_msrRepeat           getRepeatCommonPartRepeatUplink () const
+                              { return fRepeatCommonPartRepeatUplink; }
+
+    // services
+    // ------------------------------------------------------
+  
+    string                repeatCommonPartAsString () const;
+
+ //  JMI void                  appendElementToRepeatCommonPart (S_msrElement elem);
+                    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // segment
+    S_msrSegment          fRepeatCommonPartSegment;
+
+    // uplinks
+    S_msrRepeat           fRepeatCommonPartRepeatUplink;
+};
+typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
+
+/*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common segment
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
 class EXP msrRepeatEnding : public msrElement
 {
   public:
@@ -7676,6 +7758,13 @@ class EXP msrRepeat : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // common part
+    void                  setRepeatCommonPart (
+                            S_msrRepeatCommonPart repeatCommonPart);
+                  
+    S_msrRepeatCommonPart getRepeatCommonPart () const
+                              { return fRepeatCommonPart; }
+
     // common segment
     void                  setRepeatCommonSegment (
                             S_msrSegment repeatCommonSegment);
@@ -7686,15 +7775,16 @@ class EXP msrRepeat : public msrElement
     // endings
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
-                            { return fRepeatEndings; }
+                              { return fRepeatEndings; }
 
     S_msrVoice            getRepeatVoiceUplink () const
-                            { return fRepeatVoiceUplink; }
+                              { return fRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    void                  addRepeatEnding (S_msrRepeatEnding repeatEnding);
+    void                  addRepeatEnding (
+                            S_msrRepeatEnding repeatEnding);
 
     // visitors
     // ------------------------------------------------------
@@ -7713,6 +7803,7 @@ class EXP msrRepeat : public msrElement
 
     // common segment
     S_msrSegment          fRepeatCommonSegment;
+    S_msrRepeatCommonPart fRepeatCommonPart;
 
     // repeat endings
     vector<S_msrRepeatEnding>

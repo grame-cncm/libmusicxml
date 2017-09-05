@@ -21080,6 +21080,188 @@ void msrSegment::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrRepeatCommonPart msrRepeatCommonPart::create (
+  int                 inputLineNumber,
+  S_msrSegment        segment,
+  S_msrRepeat         repeatUplink)
+{
+  msrRepeatCommonPart* o =
+    new msrRepeatCommonPart (
+      inputLineNumber,
+      segment,
+      repeatUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatCommonPart::msrRepeatCommonPart (
+  int                 inputLineNumber,
+  S_msrSegment        segment,
+  S_msrRepeat         repeatUplink)
+    : msrElement (inputLineNumber)
+{
+  fRepeatCommonPartSegment = segment;
+  
+  fRepeatCommonPartRepeatUplink = repeatUplink;
+}
+
+msrRepeatCommonPart::~msrRepeatCommonPart()
+{}
+
+S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "==> Creating a newborn clone of a " <<
+      repeatCommonPartAsString () <<
+      endl;
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != 0,
+    "containingRepeat is null");
+    
+  S_msrRepeatCommonPart
+    newbornClone =
+      msrRepeatCommonPart::create (
+        fInputLineNumber,
+        containingRepeat->
+          getRepeatCommonSegment (), // JMI
+        containingRepeat);
+      
+  // segment
+
+  // uplinks
+
+  return newbornClone;
+}
+
+S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "==> Creating a newborn clone of a " <<
+      repeatCommonPartAsString () <<
+      endl;
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != 0,
+    "containingRepeat is null");
+    
+  S_msrRepeatCommonPart
+    repeatCommonPartDeepCopy =
+      msrRepeatCommonPart::create (
+        fInputLineNumber,
+        containingRepeat->
+          getRepeatCommonSegment (), // JMI
+        containingRepeat);
+    
+  // segment
+  repeatCommonPartDeepCopy->fRepeatCommonPartSegment =
+    fRepeatCommonPartSegment->
+      createSegmentDeepCopy (
+        fRepeatCommonPartRepeatUplink->
+          getRepeatVoiceUplink ());
+    
+  // uplinks
+  repeatCommonPartDeepCopy->fRepeatCommonPartRepeatUplink =
+    containingRepeat;
+
+  return repeatCommonPartDeepCopy;
+}
+
+/* JMI
+void msrRepeatCommonPart::appendElementToRepeatCommonPart (
+  S_msrElement elem) // JMI ???
+{
+  fRepeatCommonPartSegment->
+    appendOtherElementToSegment (elem);
+}
+*/
+
+void msrRepeatCommonPart::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrRepeatCommonPart::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrRepeatCommonPart>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
+        S_msrRepeatCommonPart elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrRepeatCommonPart::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrRepeatCommonPart::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrRepeatCommonPart::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrRepeatCommonPart>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
+        S_msrRepeatCommonPart elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrRepeatCommonPart::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrRepeatCommonPart::browseData (basevisitor* v)
+{
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fRepeatCommonPartSegment);
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrRepeatCommonPart::repeatCommonPartAsString () const
+{
+  stringstream s;
+
+  s <<
+    "RepeatCommonPart, " <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  return s.str();
+}
+
+void msrRepeatCommonPart::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr <<
+    repeatCommonPartAsString () <<
+    endl;
+ 
+  idtr++;
+
+  os <<
+    fRepeatCommonPartSegment;
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrRepeatEnding msrRepeatEnding::create (
   int                 inputLineNumber,
   string              repeatEndingNumber, // may be "1, 2"
