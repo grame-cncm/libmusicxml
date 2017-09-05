@@ -15,6 +15,16 @@ using namespace std;
 #define EXP
 
 //______________________________________________________________________________
+string booleanAsString (bool value)
+{
+  return
+    string (
+      value
+        ? "true"
+        : "false");
+}
+
+//______________________________________________________________________________
 class EXP msrOptionsElement
 {
   public:
@@ -95,19 +105,55 @@ void msrOptionsElement::print (ostream& os) const
 class EXP msrOptionsItem : public msrOptionsElement
 {
   public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrOptionsItemKind {
+      kOptionsItemHasNoArgument,
+      kOptionsItemHasARequiredArgument,
+      kOptionsItemHasAnOptionsArgument };
+          
+    static string optionsItemKindAsString (
+      msrOptionsItemKind optionsItemKind)
+      {
+        string result;
+        
+        switch (optionsItemKind) {
+          case msrOptionsItem::kOptionsItemHasNoArgument:
+            result = "OptionsItemHasNoArgument";
+            break;
+          case msrOptionsItem::kOptionsItemHasARequiredArgument:
+            result = "OptionsItemHasARequiredArgument";
+            break;
+          case msrOptionsItem::kOptionsItemHasAnOptionsArgument:
+            result = "OptionsItemHasAnOptionsArgument";
+            break;
+        } // switch
+      
+        return result;
+      }  
+
+  public:
   
     msrOptionsItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription)
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      msrOptionsItemKind optionsItemKind)
       : msrOptionsElement (
           optionsItemShortName,
           optionsItemLongName,
           optionsItemDescription)
       {
+        fOptionsItemKind = optionsItemKind;
+        
         fOptionsItemHasBeenSelected = false;
       }
     
+    msrOptionsItemKind    getOptionsItemKind () const
+                              { return fOptionsItemKind; }
+  
     void                  setOptionsItemHasBeenSelected ()
                               { fOptionsItemHasBeenSelected = true; }
   
@@ -131,12 +177,21 @@ class EXP msrOptionsItem : public msrOptionsElement
           "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
           endl <<
           setw(fieldWidth) <<
-          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          "fOptionsItemKind" << " : " <<
+            optionsItemKindAsString (
+              fOptionsItemKind) <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsItemHasBeenSelected" << " : " <<
+          booleanAsString (
+            fOptionsItemHasBeenSelected) <<
           endl;
       }
 
   protected:
-      
+
+    msrOptionsItemKind    fOptionsItemKind;
+    
     bool                  fOptionsItemHasBeenSelected;
 };
 typedef msrOptionsItem* S_msrOptionsItem;
@@ -163,7 +218,8 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
       : msrOptionsItem (
           optionsItemShortName,
           optionsItemLongName,
-          optionsItemDescription),
+          optionsItemDescription,
+          msrOptionsItem::kOptionsItemHasNoArgument),
         fOptionsBoolItemVariable (optionsBoolItemVariable)
       {}
       
@@ -184,10 +240,14 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
           "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
           endl <<
           setw(fieldWidth) <<
-          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          "fOptionsItemHasBeenSelected" << " : " <<
+          booleanAsString (
+            fOptionsItemHasBeenSelected) <<
           endl <<
           setw(fieldWidth) <<
-          "fOptionsBoolItemVariable" << " : " << fOptionsBoolItemVariable <<
+          "fOptionsBoolItemVariable" << " : " <<
+          booleanAsString (
+            fOptionsBoolItemVariable) <<
           endl;
       }
 
@@ -212,14 +272,16 @@ class EXP msrOptionsIntItem : public msrOptionsItem
   public:
   
     msrOptionsIntItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      int&   optionsIntItemVariable)
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      int&               optionsIntItemVariable,
+      msrOptionsItemKind optionsItemKind)
       : msrOptionsItem (
           optionsItemShortName,
           optionsItemLongName,
-          optionsItemDescription),
+          optionsItemDescription,
+          optionsItemKind),
         fOptionsIntItemVariable (optionsIntItemVariable)
       {}
       
@@ -240,7 +302,9 @@ class EXP msrOptionsIntItem : public msrOptionsItem
           "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
           endl <<
           setw(fieldWidth) <<
-          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          "fOptionsItemHasBeenSelected" << " : " <<
+          booleanAsString (
+            fOptionsItemHasBeenSelected) <<
           endl <<
           setw(fieldWidth) <<
           "fOptionsIntItemVariable" << " : " << fOptionsIntItemVariable <<
@@ -268,14 +332,16 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
   public:
   
     msrOptionsFloatItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      float& optionsFloatItemVariable)
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      float&             optionsFloatItemVariable,
+      msrOptionsItemKind optionsItemKind)
       : msrOptionsItem (
           optionsItemShortName,
           optionsItemLongName,
-          optionsItemDescription),
+          optionsItemDescription,
+          optionsItemKind),
         fOptionsFloatItemVariable (optionsFloatItemVariable)
       {}
       
@@ -296,7 +362,9 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
           "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
           endl <<
           setw(fieldWidth) <<
-          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          "fOptionsItemHasBeenSelected" << " : " <<
+          booleanAsString (
+            fOptionsItemHasBeenSelected) <<
           endl <<
           setw(fieldWidth) <<
           "fOptionsFloatItemVariable" << " : " << fOptionsFloatItemVariable <<
@@ -324,14 +392,16 @@ class EXP msrOptionsStringItem : public msrOptionsItem
   public:
   
     msrOptionsStringItem (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
-      string& optionsStringItemVariable)
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string&            optionsStringItemVariable,
+      msrOptionsItemKind optionsItemKind)
       : msrOptionsItem (
           optionsItemShortName,
           optionsItemLongName,
-          optionsItemDescription),
+          optionsItemDescription,
+          optionsItemKind),
         fOptionsStringItemVariable (optionsStringItemVariable)
       {}
       
@@ -352,7 +422,9 @@ class EXP msrOptionsStringItem : public msrOptionsItem
           "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
           endl <<
           setw(fieldWidth) <<
-          "fOptionsItemHasBeenSelected" << " : " << fOptionsItemHasBeenSelected <<
+          "fOptionsItemHasBeenSelected" << " : " <<
+          booleanAsString (
+            fOptionsItemHasBeenSelected) <<
           endl <<
           setw(fieldWidth) <<
           "fOptionsStringItemVariable" << " : " << fOptionsStringItemVariable <<
@@ -657,25 +729,35 @@ void analyzeOptions (
   int intVariable = -3;
   S_msrOptionsIntItem optionsItem1 =
     new msrOptionsIntItem (
-      "is", "il", "intVariable", intVariable);
+      "is", "il", "intVariable", intVariable,
+      msrOptionsItem::kOptionsItemHasARequiredArgument);
   optionsSubGroup->
     appendOptionsItem (optionsItem1);
       
   string stringVariable = "a string";
   S_msrOptionsStringItem optionsItem2 =
     new msrOptionsStringItem (
-      "ss", "sl", "stringVariable", stringVariable);
+      "ss", "sl", "stringVariable", stringVariable,
+      msrOptionsItem::kOptionsItemHasAnOptionsArgument);
   optionsSubGroup->
     appendOptionsItem (optionsItem2);
 
   float floatVariable = -3.14;
   S_msrOptionsFloatItem optionsItem3 =
     new msrOptionsFloatItem (
-      "fs", "fl", "floatVariable", floatVariable);
+      "fs", "fl", "floatVariable", floatVariable,
+      msrOptionsItem::kOptionsItemHasARequiredArgument);
   optionsSubGroup->
     appendOptionsItem (optionsItem3);
   optionsSubGroup->
     appendOptionsItem (optionsItem3);
+
+  bool boolVariable = false;
+  S_msrOptionsBoolItem optionsItem4 =
+    new msrOptionsBoolItem (
+      "fs", "fl", "boolVariable", boolVariable);
+  optionsSubGroup->
+    appendOptionsItem (optionsItem4);
 
   S_msrOptionsGroupsList optionsGroupsList =
     new msrOptionsGroupsList (

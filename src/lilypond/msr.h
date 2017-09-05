@@ -7764,14 +7764,14 @@ class EXP msrRepeat : public msrElement
                   
     S_msrRepeatCommonPart getRepeatCommonPart () const
                               { return fRepeatCommonPart; }
-
+/*
     // common segment
     void                  setRepeatCommonSegment (
                             S_msrSegment repeatCommonSegment);
                   
     S_msrSegment          getRepeatCommonSegment () const
                               { return fRepeatCommonSegment; }
-
+*/
     // endings
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
@@ -7801,8 +7801,8 @@ class EXP msrRepeat : public msrElement
 
   private:
 
-    // common segment
-    S_msrSegment          fRepeatCommonSegment;
+    // common part
+  //  S_msrSegment          fRepeatCommonSegment;
     S_msrRepeatCommonPart fRepeatCommonPart;
 
     // repeat endings
