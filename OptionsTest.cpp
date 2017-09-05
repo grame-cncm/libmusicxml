@@ -119,6 +119,8 @@ class EXP msrOptionsItem : public msrOptionsElement
         const int fieldWidth = 19;
         
         os <<
+          "OptionsItem ???:" <<
+          endl <<
           setw(fieldWidth) <<
           "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
           endl <<
@@ -141,6 +143,9 @@ typedef msrOptionsItem* S_msrOptionsItem;
 
 ostream& operator<< (ostream& os, const msrOptionsItem& elt)
 {
+  os <<
+    "OptionsItem ???:" <<
+    endl;
   elt.print (os);
   return os;
 }
@@ -167,6 +172,8 @@ class EXP msrOptionsIntItem : public msrOptionsItem
         const int fieldWidth = 19;
         
         os <<
+          "OptionsIntItem:" <<
+          endl <<
           setw(fieldWidth) <<
           "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
           endl <<
@@ -192,6 +199,9 @@ typedef msrOptionsIntItem* S_msrOptionsIntItem;
 
 ostream& operator<< (ostream& os, const msrOptionsIntItem& elt)
 {
+  os <<
+    "OptionsIntItem:" <<
+    endl;
   elt.print (os);
   return os;
 }
@@ -218,6 +228,8 @@ class EXP msrOptionsStringItem : public msrOptionsItem
         const int fieldWidth = 19;
         
         os <<
+          "OptionsStringItem:" <<
+          endl <<
           setw(fieldWidth) <<
           "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
           endl <<
@@ -243,6 +255,9 @@ typedef msrOptionsStringItem* S_msrOptionsStringItem;
 
 ostream& operator<< (ostream& os, const msrOptionsStringItem& elt)
 {
+  os <<
+    "OptionsStringItem:" <<
+    endl;
   elt.print (os);
   return os;
 }
@@ -274,6 +289,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
         const int fieldWidth = 19;
         
         os <<
+          "OptionsSubGroup:" <<
+          endl <<
           setw(fieldWidth) <<
           "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
           endl <<
@@ -303,6 +320,9 @@ typedef msrOptionsSubGroup* S_msrOptionsSubGroup;
 
 ostream& operator<< (ostream& os, const msrOptionsSubGroup& elt)
 {
+  os <<
+    "OptionsSubGroup:" <<
+    endl;
   elt.print (os);
   return os;
 }
@@ -334,6 +354,8 @@ class EXP msrOptionsGroup : public msrOptionsElement
         const int fieldWidth = 19;
         
         os <<
+          "OptionsGroup:" <<
+          endl <<
           setw(fieldWidth) <<
           "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
           endl <<
@@ -363,6 +385,9 @@ typedef msrOptionsGroup* S_msrOptionsGroup;
 
 ostream& operator<< (ostream& os, const msrOptionsGroup& elt)
 {
+  os <<
+    "OptionsGroup:" <<
+    endl;
   elt.print (os);
   return os;
 }
@@ -452,20 +477,25 @@ void analyzeOptions (
   optionsGroup->
     appendOptionsSubGroup (optionsSubGroup);
 
-  int intVariable;
+  int intVariable = -3;
   S_msrOptionsIntItem optionsItem1 =
     new msrOptionsIntItem (
       "is", "il", "intVariable", intVariable);
   optionsSubGroup->
     appendOptionsItem (optionsItem1);
       
-  string stringVariable;
+  string stringVariable = "a string";
   S_msrOptionsStringItem optionsItem2 =
     new msrOptionsStringItem (
       "ss", "sl", "stringVariable", stringVariable);
   optionsSubGroup->
     appendOptionsItem (optionsItem2);
 
+  cerr <<
+    "optionsItem1:" << endl <<
+    optionsItem1 <<
+    endl;
+    
   cerr <<
     "optionsGroup:" << endl <<
     optionsGroup <<
