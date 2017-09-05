@@ -21704,10 +21704,10 @@ void msrRepeat::acceptOut (basevisitor* v) {
 
 void msrRepeat::browseData (basevisitor* v)
 {
-  if (fRepeatCommonSegment) {
-  // browse the common segment
-    msrBrowser<msrSegment> browser (v);
-    browser.browse (*fRepeatCommonSegment);
+  if (fRepeatCommonPart) {
+  // browse the common part
+    msrBrowser<msrRepeatCommonPart> browser (v);
+    browser.browse (*fRepeatCommonPart);
   }
   
   // browse the alternatives
@@ -21743,6 +21743,23 @@ void msrRepeat::print (ostream& os)
   
   idtr++;
   
+  // print the repeat common part
+  os << idtr <<
+    "Common part: ";
+  if (! fRepeatCommonPart)
+    os << "none";
+  os << endl;
+
+  if (fRepeatCommonPart) {
+    idtr++;
+    
+    os <<
+      fRepeatCommonPart <<
+      endl;
+
+    idtr--;
+  }
+
   // print the repeat common segment
   os << idtr <<
     "Common segment: ";
