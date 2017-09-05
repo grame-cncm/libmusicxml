@@ -3059,7 +3059,6 @@ void msrElement::print (ostream& os)
   os << "??? Element ???" << endl;
 }
 
-
 //______________________________________________________________________________
 void msrPolyphony::print (ostream& os)
 {

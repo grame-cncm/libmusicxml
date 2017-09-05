@@ -635,8 +635,8 @@ class EXP msrElement : public smartable
 
   protected:
 
-     msrElement (
-      int           inputLineNumber);
+    msrElement (
+      int inputLineNumber);
 
     virtual ~msrElement();
 
@@ -668,7 +668,7 @@ class EXP msrElement : public smartable
     
   protected:
      
-    int            fInputLineNumber;
+    int                   fInputLineNumber;
 };
 typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);

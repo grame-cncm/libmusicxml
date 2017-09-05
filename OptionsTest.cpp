@@ -12,120 +12,208 @@
 
 using namespace std;
 
+#define EXP
 
-class msrOptionsItem
+//______________________________________________________________________________
+class EXP msrOptionsElement
 {
-public:
+  public:
 
-  msrOptionsItem (
-    string optionsItemShortName,
-    string optionsItemLongName,
-    string optionsItemDescription)
-    : fOptionsItemShortName (optionsItemShortName),
-      fOptionsItemLongName (optionsItemLongName),
-      fOptionsItemDescription (optionsItemDescription)
-    {
-      fOptionsItemSelected = 0;
-    }
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+  protected:
+
+    msrOptionsElement (
+      string optionsElementShortName,
+      string optionsElementLongName,
+      string optionsElementDescription);
+
+    virtual ~msrOptionsElement();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsElementShortName () const
+                              { return fOptionsElementShortName; }
+
+    string                getOptionsElementLongName () const
+                              { return fOptionsElementLongName; }
+
+    string                getOptionsElementDescription () const
+                              { return fOptionsElementDescription; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                operator() () const
+                              { return fOptionsElementDescription; }
   
-  string operator() () const
-    { return fOptionsItemDescription; }
+    // print
+    // ------------------------------------------------------
 
-  void print (ostream& os) const
-    {
-      const int fieldWidth = 19;
-      
-      os <<
-        setw(fieldWidth) <<
-        "fOptionsItemShortName" << " : " << fOptionsItemShortName <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionsItemLongName" << " : " << fOptionsItemLongName <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionsItemDescription" << " : " << fOptionsItemDescription <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionsItemSelected" << " : " << fOptionsItemSelected <<
-        endl;
-    }
+    virtual void          print (ostream& os) = 0;
+    
+  protected:
+     
+    string                fOptionsElementShortName;
+    string                fOptionsElementLongName;
+    string                fOptionsElementDescription;
+};
+//typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
+typedef msrOptionsElement* S_msrOptionsElement;
+EXP ostream& operator<< (ostream& os, const S_msrOptionsElement& elt);
+
+
+msrOptionsElement::msrOptionsElement (
+  string optionsElementShortName,
+  string optionsElementLongName,
+  string optionsElementDescription)
+{
+  fOptionsElementShortName   = optionsElementShortName;  
+  fOptionsElementLongName    = optionsElementLongName;  
+  fOptionsElementDescription = optionsElementDescription;  
+}
+
+msrOptionsElement::~msrOptionsElement()
+{}
+
+ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrOptionsElement::print (ostream& os)
+{
+  os << "??? msrOptionsElement ???" << endl;
+}
+
+//______________________________________________________________________________
+template <typename T> class EXP msrOptionsItem : public msrOptionsElement
+{
+  public:
+  
+    msrOptionsItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      T&     optionsItemVariable)
+      : msrOptionsElement (
+          optionsItemShortName,
+          optionsItemLongName,
+          optionsItemDescription),
+        fOptionsItemVariable (optionsItemVariable)
+      {
+        fOptionsItemSelected = 0;
+      }
+    
+    bool                  optionsItemSelected () const
+                              { return fOptionsItemSelected; }
+  
+    void                  print (ostream& os) const
+      {
+        const int fieldWidth = 19;
+        
+        os <<
+          setw(fieldWidth) <<
+          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsItemSelected" << " : " << fOptionsItemSelected <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsItemVariable" << " : " << fOptionsItemVariable <<
+          endl;
+      }
 
   private:
-    string                fOptionsItemShortName;
-    string                fOptionsItemLongName;
-    string                fOptionsItemDescription;
-
+  
+    T&                    fOptionsItemVariable;
+    
     int                   fOptionsItemSelected;
 };
-typedef msrOptionsItem* S_msrOptionsItem;
+typedef msrOptionsItem<int>* S_msrOptionsIntItem;
+typedef msrOptionsItem<string>* S_msrOptionsStringItem;
 
-ostream& operator<< (ostream& os, const msrOptionsItem& elt)
+ostream& operator<< (ostream& os, const msrOptionsItem<int>& elt)
+{
+  elt.print (os);
+  return os;
+}
+
+ostream& operator<< (ostream& os, const msrOptionsItem<string>& elt)
 {
   elt.print (os);
   return os;
 }
 
 //_______________________________________________________________________________
-class msrOptionsSubGroup
+class EXP msrOptionsSubGroup : public msrOptionsElement
 {
-public:
-
-  msrOptionsSubGroup (
-    string optionsSubGroupShortName,
-    string optionsSubGroupLongName,
-    string optionsSubGroupDescription)
-    : fOptionsSubGroupShortName (optionsSubGroupShortName),
-      fOptionsSubGroupLongName (optionsSubGroupLongName),
-      fOptionsSubGroupDescription (optionsSubGroupDescription)
-    {
-      fOptionsSubGroupSelected = 0;
-    }
+  public:
   
-  string operator() () const
-    { return fOptionsSubGroupDescription; }
+    msrOptionsSubGroup (
+      string optionsSubGroupShortName,
+      string optionsSubGroupLongName,
+      string optionsSubGroupDescription)
+      : msrOptionsElement (
+          optionsItemShortName,
+          optionsItemLongName,
+          optionsItemDescription)
+      {}
+    
+    void                  appendOptionsIntItem (
+                            S_msrOptionsIntItem optionsIntItem)
+      {
+        fOptionsSubGroupItemsList.push_back (
+          optionsIntItem);
+      }
 
-  void appendOptionsItem (S_msrOptionsItem optionsItem)
-    {
-      fOptionsSubGroupItemsList.push_back (
-        optionsItem);
-    }
-      
-  void print (ostream& os) const
-    {
-      const int fieldWidth = 19;
-      
-      os <<
-        setw(fieldWidth) <<
-        "fOptionsSubGroupShortName" << " : " << fOptionsSubGroupShortName <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionsSubGroupLongName" << " : " << fOptionsSubGroupLongName <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionsSubGroupDescription" << " : " << fOptionsSubGroupDescription <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionsSubGroupSelected" << " : " << fOptionsSubGroupSelected <<
-        endl;
-
-      for (
-        list<S_msrOptionsItem>::const_iterator
-          i = fOptionsSubGroupItemsList.begin();
-        i != fOptionsSubGroupItemsList.end();
-        i++) {
-        // print the element
-        os << (*i);
-      } // for
-    }
+    void                  appendOptionsStringItem (
+                            S_msrOptionsStringItem optionsStringItem)
+      {
+        fOptionsSubGroupItemsList.push_back (
+          optionsStringItem);
+      }
+        
+    void                  print (ostream& os) const
+      {
+        const int fieldWidth = 19;
+        
+        os <<
+          setw(fieldWidth) <<
+          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+          endl;
+  
+        for (
+          list<S_msrOptionsItem>::const_iterator
+            i = fOptionsSubGroupItemsList.begin();
+          i != fOptionsSubGroupItemsList.end();
+          i++) {
+          // print the element
+          os << (*i);
+        } // for
+      }
 
   private:
-    string                fOptionsSubGroupShortName;
-    string                fOptionsSubGroupLongName;
-    string                fOptionsSubGroupDescription;
-
-    int                   fOptionsSubGroupSelected;
-
-    list<S_msrOptionsItem>   fOptionsSubGroupItemsList;
+  
+    list<S_msrOptionsItem>
+                          fOptionsSubGroupItemsList;
 };
 typedef msrOptionsSubGroup* S_msrOptionsSubGroup;
 
@@ -136,64 +224,53 @@ ostream& operator<< (ostream& os, const msrOptionsSubGroup& elt)
 }
 
 //_______________________________________________________________________________
-class msrOptionsGroup
+class EXP msrOptionsGroup : public msrOptionsElement
 {
-public:
-
-  msrOptionsGroup (
-    string optionGroupShortName,
-    string optionGroupLongName,
-    string optionGroupDescription)
-    : fOptionGroupShortName (optionGroupShortName),
-      fOptionGroupLongName (optionGroupLongName),
-      fOptionGroupDescription (optionGroupDescription)
-    {
-      fOptionGroupSelected = 0;
-    }
+  public:
   
-  string operator() () const
-    { return fOptionGroupDescription; }
-
-  void appendOptionsSubGroup (S_msrOptionsSubGroup optionsSubGroup)
-    {
-      fOptionsGroupSubGroupsList.push_back (
-        optionsSubGroup);
-    }
+    msrOptionsGroup (
+      string optionGroupShortName,
+      string optionGroupLongName,
+      string optionGroupDescription)
+      : msrOptionsElement (
+          optionsItemShortName,
+          optionsItemLongName,
+          optionsItemDescription)
+      {}
       
-  void print (ostream& os) const
-    {
-      const int fieldWidth = 19;
-      
-      os <<
-        setw(fieldWidth) <<
-        "fOptionGroupShortName" << " : " << fOptionGroupShortName <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionGroupLongName" << " : " << fOptionGroupLongName <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionGroupDescription" << " : " << fOptionGroupDescription <<
-        endl <<
-        setw(fieldWidth) <<
-        "fOptionGroupSelected" << " : " << fOptionGroupSelected <<
-        endl;
-
-      for (
-        list<S_msrOptionsSubGroup>::const_iterator
-          i = fOptionsGroupSubGroupsList.begin();
-        i != fOptionsGroupSubGroupsList.end();
-        i++) {
-        // print the element
-        os << (*i);
-      } // for
-    }
+    void                  appendOptionsSubGroup (
+                            S_msrOptionsSubGroup optionsSubGroup)
+      {
+        fOptionsGroupSubGroupsList.push_back (
+          optionsSubGroup);
+      }
+        
+    void                  print (ostream& os) const
+      {
+        const int fieldWidth = 19;
+        
+        os <<
+          setw(fieldWidth) <<
+          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+          endl <<
+          setw(fieldWidth) <<
+          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+          endl;
+  
+        for (
+          list<S_msrOptionsSubGroup>::const_iterator
+            i = fOptionsGroupSubGroupsList.begin();
+          i != fOptionsGroupSubGroupsList.end();
+          i++) {
+          // print the element
+          os << (*i);
+        } // for
+      }
 
   private:
-    string                fOptionGroupShortName;
-    string                fOptionGroupLongName;
-    string                fOptionGroupDescription;
-
-    int                   fOptionGroupSelected;
 
     list<S_msrOptionsSubGroup>
                           fOptionsGroupSubGroupsList;
@@ -288,18 +365,28 @@ void analyzeOptions (
     new msrOptionsSubGroup (
     "hosg", "helpOptionsSubGroup", " help for OptionsSubGroup");
 
-  optionsGroup->appendOptionsSubGroup (optionsSubGroup);
+  optionsGroup->
+    appendOptionsSubGroup (optionsSubGroup);
 
-  S_msrOptionsItem optionsItem =
+  int intVariable;
+  S_msrOptionsItem<int> optionsItem1 =
     new msrOptionsItem (
-      "1short", "1long", "descr1");
-  optionsGroup->appendOptionsItem (optionsItem);
+      "is", "il", "intVariable", intVariable);
+  optionsSubGroup->
+    appendOptionsItem (optionsItem1);
       
-  S_msrOptionsItem optionsItem =
+  string stringVariable;
+  S_msrOptionsItem<string> optionsItem2 =
     new msrOptionsItem (
-      "2short", "1long", "descr2")
-  optionsGroup->appendOptionsItem (optionsItem);
+      "ss", "sl", "stringVariable", stringVariable);
+  optionsSubGroup->
+    appendOptionsItem (optionsItem2);
 
+  cerr <<
+    "optionsGroup:" << endl <<
+    optionsGroup <<
+    endl;
+    
   while (true) { 
     if (argv [n] == 0)
       break;
@@ -358,7 +445,8 @@ void analyzeOptions (
 
 int main (int argc, char *argv[])
 {
-  vector<msrOptionItem> vec {
+/*
+  vector<msrOptionsItem> vec {
     msrOptionItem ("1short", "1long", "descr1"),
     msrOptionItem ("2short", "1long", "descr2")
   };
@@ -377,7 +465,6 @@ int main (int argc, char *argv[])
     counter++;
   }
 
-/*
 struct option
 {
   const char *name;
