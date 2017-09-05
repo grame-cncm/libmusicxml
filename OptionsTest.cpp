@@ -1,27 +1,35 @@
 #include <iostream>
+#include <sstream>
+
 #include <vector>
+#include <list>
+#include <map>
+
 #include <algorithm>
+
 #include <iomanip>      // setw, set::precision, ...
 
-#include <getopt.h>
 
 using namespace std;
 
-struct myOption
+
+class msrOptionsItem
 {
-  myOption (
-    string optionShortName,
-    string optionLongName,
-    string optionDescription)
-    : fOptionShortName (optionShortName),
-      fOptionLongName (optionLongName),
-      fOptionDescription (optionDescription)
+public:
+
+  msrOptionsItem (
+    string optionsItemShortName,
+    string optionsItemLongName,
+    string optionsItemDescription)
+    : fOptionsItemShortName (optionsItemShortName),
+      fOptionsItemLongName (optionsItemLongName),
+      fOptionsItemDescription (optionsItemDescription)
     {
-      fOptionSelected = 0;
+      fOptionsItemSelected = 0;
     }
   
   string operator() () const
-    { return fOptionDescription; }
+    { return fOptionsItemDescription; }
 
   void print (ostream& os) const
     {
@@ -29,31 +37,240 @@ struct myOption
       
       os <<
         setw(fieldWidth) <<
-        "fOptionShortName" << " : " << fOptionShortName <<
+        "fOptionsItemShortName" << " : " << fOptionsItemShortName <<
         endl <<
         setw(fieldWidth) <<
-        "fOptionLongName" << " : " << fOptionLongName <<
+        "fOptionsItemLongName" << " : " << fOptionsItemLongName <<
         endl <<
         setw(fieldWidth) <<
-        "fOptionDescription" << " : " << fOptionDescription <<
+        "fOptionsItemDescription" << " : " << fOptionsItemDescription <<
         endl <<
         setw(fieldWidth) <<
-        "fOptionSelected" << " : " << fOptionSelected <<
+        "fOptionsItemSelected" << " : " << fOptionsItemSelected <<
         endl;
     }
 
   private:
-    string fOptionShortName;
-    string fOptionLongName;
-    string fOptionDescription;
+    string                fOptionsItemShortName;
+    string                fOptionsItemLongName;
+    string                fOptionsItemDescription;
 
-    int    fOptionSelected;
+    int                   fOptionsItemSelected;
 };
+typedef msrOptionsItem* S_msrOptionsItem;
 
-ostream& operator<< (ostream& os, const myOption& elt)
+ostream& operator<< (ostream& os, const msrOptionsItem& elt)
 {
   elt.print (os);
   return os;
+}
+
+//_______________________________________________________________________________
+class msrOptionsSubGroup
+{
+public:
+
+  msrOptionsSubGroup (
+    string optionsSubGroupShortName,
+    string optionsSubGroupLongName,
+    string optionsSubGroupDescription)
+    : fOptionsSubGroupShortName (optionsSubGroupShortName),
+      fOptionsSubGroupLongName (optionsSubGroupLongName),
+      fOptionsSubGroupDescription (optionsSubGroupDescription)
+    {
+      fOptionsSubGroupSelected = 0;
+    }
+  
+  string operator() () const
+    { return fOptionsSubGroupDescription; }
+
+  void appendOptionsItem (S_msrOptionsItem optionsItem)
+    {
+      fOptionsSubGroupItemsList.push_back (
+        optionsItem);
+    }
+      
+  void print (ostream& os) const
+    {
+      const int fieldWidth = 19;
+      
+      os <<
+        setw(fieldWidth) <<
+        "fOptionsSubGroupShortName" << " : " << fOptionsSubGroupShortName <<
+        endl <<
+        setw(fieldWidth) <<
+        "fOptionsSubGroupLongName" << " : " << fOptionsSubGroupLongName <<
+        endl <<
+        setw(fieldWidth) <<
+        "fOptionsSubGroupDescription" << " : " << fOptionsSubGroupDescription <<
+        endl <<
+        setw(fieldWidth) <<
+        "fOptionsSubGroupSelected" << " : " << fOptionsSubGroupSelected <<
+        endl;
+
+      for (
+        list<S_msrOptionsItem>::const_iterator
+          i = fOptionsSubGroupItemsList.begin();
+        i != fOptionsSubGroupItemsList.end();
+        i++) {
+        // print the element
+        os << (*i);
+      } // for
+    }
+
+  private:
+    string                fOptionsSubGroupShortName;
+    string                fOptionsSubGroupLongName;
+    string                fOptionsSubGroupDescription;
+
+    int                   fOptionsSubGroupSelected;
+
+    list<S_msrOptionsItem>   fOptionsSubGroupItemsList;
+};
+typedef msrOptionsSubGroup* S_msrOptionsSubGroup;
+
+ostream& operator<< (ostream& os, const msrOptionsSubGroup& elt)
+{
+  elt.print (os);
+  return os;
+}
+
+//_______________________________________________________________________________
+class msrOptionsGroup
+{
+public:
+
+  msrOptionsGroup (
+    string optionGroupShortName,
+    string optionGroupLongName,
+    string optionGroupDescription)
+    : fOptionGroupShortName (optionGroupShortName),
+      fOptionGroupLongName (optionGroupLongName),
+      fOptionGroupDescription (optionGroupDescription)
+    {
+      fOptionGroupSelected = 0;
+    }
+  
+  string operator() () const
+    { return fOptionGroupDescription; }
+
+  void appendOptionsSubGroup (S_msrOptionsSubGroup optionsSubGroup)
+    {
+      fOptionsGroupSubGroupsList.push_back (
+        optionsSubGroup);
+    }
+      
+  void print (ostream& os) const
+    {
+      const int fieldWidth = 19;
+      
+      os <<
+        setw(fieldWidth) <<
+        "fOptionGroupShortName" << " : " << fOptionGroupShortName <<
+        endl <<
+        setw(fieldWidth) <<
+        "fOptionGroupLongName" << " : " << fOptionGroupLongName <<
+        endl <<
+        setw(fieldWidth) <<
+        "fOptionGroupDescription" << " : " << fOptionGroupDescription <<
+        endl <<
+        setw(fieldWidth) <<
+        "fOptionGroupSelected" << " : " << fOptionGroupSelected <<
+        endl;
+
+      for (
+        list<S_msrOptionsSubGroup>::const_iterator
+          i = fOptionsGroupSubGroupsList.begin();
+        i != fOptionsGroupSubGroupsList.end();
+        i++) {
+        // print the element
+        os << (*i);
+      } // for
+    }
+
+  private:
+    string                fOptionGroupShortName;
+    string                fOptionGroupLongName;
+    string                fOptionGroupDescription;
+
+    int                   fOptionGroupSelected;
+
+    list<S_msrOptionsSubGroup>
+                          fOptionsGroupSubGroupsList;
+};
+typedef msrOptionsGroup* S_msrOptionsGroup;
+
+ostream& operator<< (ostream& os, const msrOptionsGroup& elt)
+{
+  elt.print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+void optionError (string errorMessage)
+{
+  cerr <<
+    endl <<
+    endl <<
+    "### ERROR in the options:" <<
+    endl <<
+    errorMessage <<
+    endl <<
+    endl;
+    
+  exit(99);
+}
+
+//_______________________________________________________________________________
+// a private variable
+map<string, string> pOptionShortNames;
+
+void checkOptionUniqueness (
+  string optionLongName, string optionShortName)
+{
+  if (optionShortName == optionLongName) {
+    stringstream s;
+
+    s <<
+      "option long name '" << optionLongName << "'" <<
+      " is also used as short name";
+      
+    optionError (s.str());
+  }
+  
+  for (
+    map<string, string>::iterator i = pOptionShortNames.begin();
+    i != pOptionShortNames.end();
+    i++) {
+      
+    // is optionLongName in the options names map?
+    if ((*i).first == optionLongName) {
+      stringstream s;
+  
+      s <<
+        "option long name '" << optionLongName << "'" <<
+        " is specified more that once";
+        
+      optionError (s.str());
+    }
+
+    // is optionShortName in the options names map?
+    if ((*i).second == optionShortName) {
+      if (optionShortName.size ()) {
+        stringstream s;
+    
+        s <<
+          "option short name '" << optionShortName << "'" <<
+          " for option long name '" << optionLongName << "'" <<
+          " is specified more that once";
+          
+        optionError (s.str());
+      }
+    }
+  } // for
+
+  // everything OK, register the option names
+  pOptionShortNames [optionLongName] = optionShortName;
 }
 
 //_______________________________________________________________________________
@@ -62,6 +279,26 @@ void analyzeOptions (
   char*          argv[])
 {
   int   n = 0;
+
+  S_msrOptionsGroup optionsGroup =
+    new msrOptionsGroup (
+    "hog", "helpOptionsGroup", " help for OptionsGroup");
+
+  S_msrOptionsSubGroup optionsSubGroup =
+    new msrOptionsSubGroup (
+    "hosg", "helpOptionsSubGroup", " help for OptionsSubGroup");
+
+  optionsGroup->appendOptionsSubGroup (optionsSubGroup);
+
+  S_msrOptionsItem optionsItem =
+    new msrOptionsItem (
+      "1short", "1long", "descr1");
+  optionsGroup->appendOptionsItem (optionsItem);
+      
+  S_msrOptionsItem optionsItem =
+    new msrOptionsItem (
+      "2short", "1long", "descr2")
+  optionsGroup->appendOptionsItem (optionsItem);
 
   while (true) { 
     if (argv [n] == 0)
@@ -79,10 +316,12 @@ void analyzeOptions (
       // this is an option
       string elementTrailer =
         currentElement.substr (1, string::npos);
-      
+
+      /* JMI
       cout <<
-        "'" << elementTrailer << "' is preceded by a dash" <<
+        "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
         endl;
+      */
 
       if (elementTrailer.size ()) {
         if (elementTrailer [0] == '-') {
@@ -97,7 +336,7 @@ void analyzeOptions (
         else {
           // it is a single-dashed option
           string currentSingleDashedOption =
-            elementTrailer.substr (1, string::npos);
+            elementTrailer; //.substr (1, string::npos);
           
           cout <<
             "'" << currentSingleDashedOption << "' is a single-dashed option" <<
@@ -119,16 +358,16 @@ void analyzeOptions (
 
 int main (int argc, char *argv[])
 {
-  vector<myOption> vec {
-    myOption ("1short", "1long", "descr1"),
-    myOption ("2short", "1long", "descr2")
+  vector<msrOptionItem> vec {
+    msrOptionItem ("1short", "1long", "descr1"),
+    msrOptionItem ("2short", "1long", "descr2")
   };
 
   int counter = 0;
   cout <<
     "The contents of 'vec' is:" <<
     endl << endl;
-  for (myOption i : vec)
+  for (msrOptionItem i : vec)
   {
     cout <<
       "Element " << counter << ":" <<
