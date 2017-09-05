@@ -21604,6 +21604,28 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
   return repeatDeepCopy;
 }
 
+void msrRepeat::setRepeatCommonPart (
+  S_msrRepeatCommonPart repeatCommonPart)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting repeat common part with segment containing " <<
+      singularOrPlural (
+        repeatCommonPart->
+          getRepeatCommonPartSegment ()->
+            getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
+      endl;
+      
+  // sanity check
+  msrAssert(
+    repeatCommonPart != 0,
+    "repeatCommonPart is null");
+    
+  fRepeatCommonPart = repeatCommonPart;
+}
+
 void msrRepeat::setRepeatCommonSegment (
   S_msrSegment repeatCommonSegment)
 {
@@ -21611,7 +21633,8 @@ void msrRepeat::setRepeatCommonSegment (
     cerr << idtr <<
       "Setting repeat common segment containing " <<
       singularOrPlural (
-        repeatCommonSegment->getSegmentMeasuresList ().size (),
+        repeatCommonSegment->
+          getSegmentMeasuresList ().size (),
         "measure",
         "measures") <<
       endl;
