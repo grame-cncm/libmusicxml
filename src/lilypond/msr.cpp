@@ -24702,32 +24702,37 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
               inputLineNumber,
               this);
 
-        // create a repeat common part
+        // create a repeat common part from current last segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "==> Creating and appending a repeat common part in voice \"" <<
+            "==> Creating a repeat common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
       
-        S_msrRepeat
-          repeat =
-            msrRepeat::create (
+        S_msrRepeatCommonPart
+          repeatCommonPart =
+            msrRepeatCommonPart::create (
               inputLineNumber,
-              this);
+              fVoiceLastSegment,
+              repeat);
 
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
-            "Setting current last segment as repeat common segment in voice \"" <<
+            "Setting repeat common part in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
-      
+      /*
         repeat->
           setRepeatCommonSegment (
             fVoiceLastSegment);
+            */
+        repeat->
+          setRepeatCommonPart (
+            repeatCommonPart);
           
         // register repeat as the (new) current repeat
         if (gGeneralOptions->fTraceRepeats)
