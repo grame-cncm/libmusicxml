@@ -21127,7 +21127,8 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
       msrRepeatCommonPart::create (
         fInputLineNumber,
         containingRepeat->
-          getRepeatCommonSegment (), // JMI
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
         containingRepeat);
       
   // segment
@@ -21156,7 +21157,8 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
       msrRepeatCommonPart::create (
         fInputLineNumber,
         containingRepeat->
-          getRepeatCommonSegment (), // JMI
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
         containingRepeat);
     
   // segment
@@ -21324,7 +21326,8 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
         fRepeatEndingNumber,
         fRepeatEndingKind,
         containingRepeat->
-          getRepeatCommonSegment (), // JMI
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
         containingRepeat);
   
   // numbers
@@ -21366,7 +21369,8 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
         fRepeatEndingNumber,
         fRepeatEndingKind,
         containingRepeat->
-          getRepeatCommonSegment (), // JMI
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
         containingRepeat);
     
   // numbers
@@ -21578,12 +21582,18 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
       msrRepeat::create (
         fInputLineNumber,
         containingVoice);
-
+/*
   // common segment
   repeatDeepCopy->fRepeatCommonSegment =
     fRepeatCommonSegment->
       createSegmentDeepCopy (
         containingVoice);
+  */      
+  // common part
+  repeatDeepCopy->fRepeatCommonPart =
+    fRepeatCommonPart->
+      createRepeatCommonPartDeepCopy (
+        repeatDeepCopy);
         
   // repeat endings
   for (
@@ -21625,7 +21635,7 @@ void msrRepeat::setRepeatCommonPart (
     
   fRepeatCommonPart = repeatCommonPart;
 }
-
+/*
 void msrRepeat::setRepeatCommonSegment (
   S_msrSegment repeatCommonSegment)
 {
@@ -21645,6 +21655,28 @@ void msrRepeat::setRepeatCommonSegment (
     "repeatCommonSegment is null");
     
   fRepeatCommonSegment = repeatCommonSegment;
+}
+*/
+void msrRepeat::setRepeatCommonPart (
+  S_msrRepeatCommonPart repeatCommonPart)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Setting repeat common part containing " <<
+      singularOrPlural (
+        repeatCommonPart->
+          getRepeatCommonPartSegment ()->
+            getSegmentMeasuresList ().size (),
+        "measure",
+        "measures") <<
+      endl;
+      
+  // sanity check
+  msrAssert(
+    repeatCommonPart != 0,
+    "repeatCommonPart is null");
+    
+  fRepeatCommonPart = repeatCommonPart;
 }
 
 void msrRepeat::addRepeatEnding (S_msrRepeatEnding repeatEnding)

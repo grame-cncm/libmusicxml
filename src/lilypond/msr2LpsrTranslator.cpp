@@ -1641,10 +1641,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     idtr << "***********" <<
     endl <<
     endl;
-
+/* JMI
     // append it to the current voice clone
     fCurrentVoiceClone->
       appendBarCheckToVoice (fLastBarCheck);
+      */
   }
 }
 
