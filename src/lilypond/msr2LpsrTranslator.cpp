@@ -59,7 +59,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingFiguredBassVoice = false;
 
   // repeats
-  fRepeatHasBeenCreatedForCurrentPartClone = false;
+ // JMI fRepeatHasBeenCreatedForCurrentPartClone = false;
   fOnGoingRepeat         = false;
 
   // measures
@@ -3200,7 +3200,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
 
-/* JMI
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -3212,20 +3211,41 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
           getVoiceName () <<
       "\"" <<
       endl;
-  */
-  
+
+  fCurrentRepeatClone =
+    elt->
+      createRepeatNewbornClone (
+        fCurrentVoiceClone);
+        
   fOnGoingRepeat = true;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
       "--> End visiting msrRepeat" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
 
-  fRepeatHasBeenCreatedForCurrentPartClone = false;
+  // append the repeat clone to the current part clone
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending a repeat to part clone " <<
+      fCurrentPartClone->getPartCombinedName () << "\"" <<
+      endl;
+
+  fCurrentPartClone-> // no test needed JMI
+    appendRepeatCloneToPart (
+      inputLineNumber,
+      fCurrentRepeatClone);
+
+  // JMI fRepeatHasBeenCreatedForCurrentPartClone = false;
+
+  fCurrentPartClone = 0;
   
   fOnGoingRepeat = false;
 }
@@ -3237,6 +3257,12 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
     cerr << idtr <<
       "--> Start visiting msrRepeatCommonPart" <<
       endl;
+
+  // create a repeat common part clone
+  fCurrentRepeatCommonPartClone =
+    elt->
+      createRepeatCommonPartNewbornClone (
+        fCurrentRepeatClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
@@ -3246,9 +3272,10 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       "--> End visiting msrRepeatCommonPart" <<
       endl;
 
-  // forget current repeat ending clone
-  fCurrentRepeatEndingClone = 0;
+  // forget current repeat common part clone
+  fCurrentRepeatCommonPartClone = 0;
 }
+
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 {
@@ -3256,6 +3283,12 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
     cerr << idtr <<
       "--> Start visiting msrRepeatEnding" <<
       endl;
+
+  // create a repeat ending clone
+  fCurrentRepeatEndingClone =
+    elt->
+      createRepeatEndingNewbornClone (
+        fCurrentRepeatClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
@@ -3594,7 +3627,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
-
+/*
         // append the repeat clone to the current part clone
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -3605,11 +3638,13 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentPartClone-> // no test needed JMI
           createRepeatAndAppendItToPart (
             inputLineNumber);
+            */
         }
       break;
             
     case msrBarline::kHookedEndingStartBarline:
       {
+        /* JMI
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
             "--> handling kHookedEndingStart in voice \"" <<
@@ -3630,6 +3665,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
   
           fRepeatHasBeenCreatedForCurrentPartClone = true;
         }
+        */
 
         // append the barline to the current voice clone
         fCurrentVoiceClone->

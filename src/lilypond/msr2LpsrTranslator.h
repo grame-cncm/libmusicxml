@@ -427,8 +427,9 @@ class msr2LpsrTranslator :
     // repeats
     // ------------------------------------------------------
     S_msrRepeat               fCurrentRepeatClone;
-    bool                      fRepeatHasBeenCreatedForCurrentPartClone;
+// JMI    bool                      fRepeatHasBeenCreatedForCurrentPartClone;
     bool                      fOnGoingRepeat;
+    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
     int                       fCurrentRepeatEndingsNumber;
  //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative; // JMI

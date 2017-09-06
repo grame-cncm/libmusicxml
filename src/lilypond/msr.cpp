@@ -21240,7 +21240,7 @@ string msrRepeatCommonPart::repeatCommonPartAsString () const
   stringstream s;
 
   s <<
-    "RepeatCommonPart, " <<
+    "RepeatCommonPart" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -21749,28 +21749,23 @@ void msrRepeat::print (ostream& os)
       singularOrPlural (
         fRepeatEndings.size(), "repeat ending", "repeat endings") <<
       ")" <<
-      endl <<
-    endl;
+      endl;
   
   idtr++;
   
   // print the repeat common part
-  os << idtr <<
-    "Common part: ";
-  if (! fRepeatCommonPart)
-    os << "none";
-  os << endl;
-
-  if (fRepeatCommonPart) {
-    idtr++;
-    
+  if (! fRepeatCommonPart) {
+    os << idtr <<
+      "Common part: none" <<
+      endl;
+  }
+  else {    
     os <<
       fRepeatCommonPart <<
       endl;
-
-    idtr--;
   }
-/*
+  
+/* JMI
   // print the repeat common segment
   os << idtr <<
     "Common segment: ";
@@ -21819,7 +21814,7 @@ void msrRepeat::print (ostream& os)
     idtr--;
   }
 
-  os << endl;
+ // JMI os << endl;
       
   idtr--;
 }
@@ -26211,7 +26206,7 @@ void msrVoice::print (ostream& os)
   // print the last segment
   if (fVoiceLastSegment) {
     os << idtr <<
-      "Last segment:" <<
+      "Voice last segment:" <<
       endl;
       
     idtr++;
