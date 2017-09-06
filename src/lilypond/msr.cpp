@@ -21617,6 +21617,11 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
 void msrRepeat::setRepeatCommonPart (
   S_msrRepeatCommonPart repeatCommonPart)
 {
+  // sanity check
+  msrAssert(
+    repeatCommonPart != 0,
+    "repeatCommonPart is null");
+    
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Setting repeat common part with segment containing " <<
@@ -21628,11 +21633,6 @@ void msrRepeat::setRepeatCommonPart (
         "measures") <<
       endl;
       
-  // sanity check
-  msrAssert(
-    repeatCommonPart != 0,
-    "repeatCommonPart is null");
-    
   fRepeatCommonPart = repeatCommonPart;
 }
 /*
@@ -21657,27 +21657,6 @@ void msrRepeat::setRepeatCommonSegment (
   fRepeatCommonSegment = repeatCommonSegment;
 }
 */
-void msrRepeat::setRepeatCommonPart (
-  S_msrRepeatCommonPart repeatCommonPart)
-{
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Setting repeat common part containing " <<
-      singularOrPlural (
-        repeatCommonPart->
-          getRepeatCommonPartSegment ()->
-            getSegmentMeasuresList ().size (),
-        "measure",
-        "measures") <<
-      endl;
-      
-  // sanity check
-  msrAssert(
-    repeatCommonPart != 0,
-    "repeatCommonPart is null");
-    
-  fRepeatCommonPart = repeatCommonPart;
-}
 
 void msrRepeat::addRepeatEnding (S_msrRepeatEnding repeatEnding)
 {
@@ -21791,7 +21770,7 @@ void msrRepeat::print (ostream& os)
 
     idtr--;
   }
-
+/*
   // print the repeat common segment
   os << idtr <<
     "Common segment: ";
@@ -21808,7 +21787,7 @@ void msrRepeat::print (ostream& os)
 
     idtr--;
   }
-
+*/
   // print the repeat endings
   int endingsNumber =
     fRepeatEndings.size ();
@@ -25458,6 +25437,11 @@ void msrVoice::appendRepeatCloneToVoice (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
+  // sanity check
+  msrAssert(
+    repeatCLone != 0,
+    "repeatCLone is null");
+      
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
@@ -25471,6 +25455,39 @@ void msrVoice::appendRepeatCloneToVoice (
             getVoiceName () <<  "\"" <<
             endl;
       
+        // create a repeat common part from current last segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "==> Creating a repeat clone common part from current last segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+      
+        S_msrRepeatCommonPart
+          repeatCommonPart =
+            msrRepeatCommonPart::create (
+              inputLineNumber,
+              fVoiceLastSegment,
+              repeatCLone);
+
+        // set current last segment as the repeat common segment
+        if (gGeneralOptions->fTraceRepeats)
+          cerr << idtr <<
+            "Setting repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+      /*
+        repeat->
+          setRepeatCommonSegment (
+            fVoiceLastSegment);
+            */
+        repeatCLone->
+          setRepeatCommonPart (
+            repeatCommonPart);
+
+/*
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -25482,7 +25499,7 @@ void msrVoice::appendRepeatCloneToVoice (
         repeatCLone->
           setRepeatCommonSegment (
             fVoiceLastSegment);
-          
+ */         
         // register repeat clone as the (new) current repeat
         if (gGeneralOptions->fTraceRepeats)
           cerr << idtr <<
@@ -25490,11 +25507,6 @@ void msrVoice::appendRepeatCloneToVoice (
             getVoiceName () <<
             "\"" <<
             endl;
-      
-        // sanity check
-        msrAssert(
-          repeatCLone != 0,
-          "repeatCLone is null");
       
         fVoiceCurrentRepeat =
           repeatCLone;
