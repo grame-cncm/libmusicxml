@@ -3266,6 +3266,30 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       "--> End visiting msrRepeatCommonPart" <<
       endl;
 
+  cerr <<
+    endl <<
+    idtr << "*********** fCurrentPartClone" <<
+    endl <<
+    endl <<
+    idtr;
+  fCurrentPartClone->print (cerr);
+  cerr <<
+    idtr << "*********** fCurrentPartClone" <<
+    endl <<
+    endl;
+
+  cerr <<
+    endl <<
+    idtr << "*********** fCurrentRepeatClone" <<
+    endl <<
+    endl <<
+    idtr;
+  fCurrentRepeatClone->print (cerr);
+  cerr <<
+    idtr << "*********** fCurrentRepeatClone" <<
+    endl <<
+    endl;
+
   // create a repeat common part clone
   fCurrentRepeatCommonPartClone =
     elt->
