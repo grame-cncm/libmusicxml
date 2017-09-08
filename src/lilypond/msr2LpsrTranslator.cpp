@@ -3257,12 +3257,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
     cerr << idtr <<
       "--> Start visiting msrRepeatCommonPart" <<
       endl;
-
-  // create a repeat common part clone
-  fCurrentRepeatCommonPartClone =
-    elt->
-      createRepeatCommonPartNewbornClone (
-        fCurrentRepeatClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
@@ -3272,7 +3266,13 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       "--> End visiting msrRepeatCommonPart" <<
       endl;
 
-  // forget current repeat common part clone
+  // create a repeat common part clone
+  fCurrentRepeatCommonPartClone =
+    elt->
+      createRepeatCommonPartNewbornClone (
+        fCurrentRepeatClone);
+
+  // forget current repeat common part clone // JMI
   fCurrentRepeatCommonPartClone = 0;
 }
 

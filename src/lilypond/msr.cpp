@@ -23578,8 +23578,17 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     ++gVoicesCounter;;
 
   // voice name
+  if (false) // JMI
   voiceDeepCopy->fVoiceName =
     fVoiceName;
+
+/* JMI
+  // set voice name // JMI
+  voiceDeepCopy->
+    setVoiceNameFromNumber (
+      fInputLineNumber,
+      voicePartRelativeID);
+*/
 
   // counters
   voiceDeepCopy->fVoiceActualNotesCounter =
@@ -27309,7 +27318,6 @@ void msrStaff::createStaffSilentVoice (
     endl;
 */
 
-if (true) // JMI
   // create a deep copy of the part master voice
   fStaffSilentVoice =
     fStaffPartUplink->
@@ -27319,15 +27327,6 @@ if (true) // JMI
           msrVoice::kSilentVoice,
           K_SILENT_VOICE_NUMBER,
           this);
-        
-else
-  fStaffSilentVoice =
-    msrVoice::create (
-      inputLineNumber,
-      msrVoice::kSilentVoice,
-      K_SILENT_VOICE_NUMBER,
-      msrVoice::kCreateInitialLastSegmentYes,
-      this);
 
 if (true) // JMI
   registerVoiceInStaff (
