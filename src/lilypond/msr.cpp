@@ -15930,7 +15930,7 @@ string msrHarmony::harmonyKindAsShortString () const
       result = "13";
       break;
     case msrHarmony::kMajorThirteenth:
-      result = "∆7/9/11/13"";
+      result = "∆7/9/11/13";
       break;
     case msrHarmony::kMinorThirteenth:
       result = "m∆7/9/11/13";

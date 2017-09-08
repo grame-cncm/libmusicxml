@@ -1445,13 +1445,15 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
         getHarmonySoundingWholeNotes ());
     
   switch (harmony->getHarmonyKind ()) {
+    case msrHarmony::k_NoHarmony:
+      s << "Harmony???";
+      break;
+
     case msrHarmony::kMajor:
+      s << "";
       break;
     case msrHarmony::kMinor:
       s << ":m";
-      break;
-    case msrHarmony::kDominant:
-      s << ":7";
       break;
     case msrHarmony::kAugmented:
       s << ":aug";
@@ -1459,11 +1461,9 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     case msrHarmony::kDiminished:
       s << ":dim";
       break;
-    case msrHarmony::kSuspendedFourth:
-      s << ":sus4";
-      break;
-    case msrHarmony::kMajorSixth:
-      s << ":6";
+
+    case msrHarmony::kDominant:
+      s << ":7";
       break;
     case msrHarmony::kMajorSeventh:
       s << ":maj7";
@@ -1471,17 +1471,84 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     case msrHarmony::kMinorSeventh:
       s << ":m7";
       break;
-    case msrHarmony::kMajorNinth:
+    case msrHarmony::kDiminishedSeventh:
+      s << ":dim.7";
+      break;
+    case msrHarmony::kAugmentedSeventh:
+      s << ":aug.7";
+      break;
+    case msrHarmony::kHalfDiminished:
+      s << ":m7.5-";
+      break;
+    case msrHarmony::kMajorMinor:
+      s << ":m:7+";
+      break;
+
+    case msrHarmony::kMajorSixth:
+      s << ":6";
+      break;
+    case msrHarmony::kMinorSixth:
+      s << ":m6";
+      break;
+
+    case msrHarmony::kDominantNinth:
       s << ":9";
       break;
-    case msrHarmony::kMinorNinth:
-      s << ":m9";
+    case msrHarmony::kMajorNinth:
+      s << ":maj7.9";
       break;
+    case msrHarmony::kMinorNinth:
+      s << ":m7.9";
+      break;
+
     case msrHarmony::kDominantEleventh:
       s << ":11";
       break;
-    case msrHarmony::k_NoHarmony:
-      s << ":Harmony???";
+    case msrHarmony::kMajorEleventh:
+      s << ":maj7.11";
+      break;
+    case msrHarmony::kMinorEleventh:
+      s << ":m7.11";
+      break;
+
+    case msrHarmony::kDominantThirteenth:
+      s << ":13";
+      break;
+    case msrHarmony::kMajorThirteenth:
+      s << ":maj7.13";
+      break;
+    case msrHarmony::kMinorThirteenth:
+      s << ":m7.13";
+      break;
+
+    case msrHarmony::kSuspendedSecond:
+      s << ":sus2";
+      break;
+    case msrHarmony::kSuspendedFourth:
+      s << ":sus4";
+      break;
+      
+    case msrHarmony::kNeapolitan:
+      s << ":Neapolitan";
+      break;
+    case msrHarmony::kItalian:
+      s << ":Italian";
+      break;
+    case msrHarmony::kFrench:
+      s << ":French";
+      break;
+    case msrHarmony::kGerman:
+      s << ":German";
+      break;
+
+    case msrHarmony::kPedal:
+      s << ":Pedal";
+      break;
+    case msrHarmony::kPower:
+      s << ":Power";
+      break;
+    case msrHarmony::kTristan:
+      s << ":Tristan";
       break;
   } // switch
 
