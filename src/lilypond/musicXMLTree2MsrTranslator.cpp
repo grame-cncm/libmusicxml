@@ -14142,17 +14142,15 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
   else if (kind == "minor")
     fCurrentHarmonyKind = msrHarmony::kMinor;
     
-  else if (kind == "dominant")
-    fCurrentHarmonyKind = msrHarmony::kDominant;
-    
   else if (kind == "augmented")
     fCurrentHarmonyKind = msrHarmony::kAugmented;
     
   else if (kind == "diminished")
     fCurrentHarmonyKind = msrHarmony::kDiminished;
     
-  else if (kind == "suspended-fourth")
-    fCurrentHarmonyKind = msrHarmony::kSuspendedFourth;
+    
+  else if (kind == "dominant")
+    fCurrentHarmonyKind = msrHarmony::kDominant;
     
   else if (kind == "major-seventh")
     fCurrentHarmonyKind = msrHarmony::kMajorSeventh;
@@ -14160,12 +14158,83 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
   else if (kind == "minor-seventh")
     fCurrentHarmonyKind = msrHarmony::kMinorSeventh;
     
+  else if (kind == "diminished-seventh")
+    fCurrentHarmonyKind = msrHarmony::kDiminishedSeventh;
+    
+  else if (kind == "augmented-seventh")
+    fCurrentHarmonyKind = msrHarmony::kAugmentedSeventh;
+  else if (kind == "half-diminished")
+    fCurrentHarmonyKind = msrHarmony::kHalfDiminished;
+  else if (kind == "major-minor")
+    fCurrentHarmonyKind = msrHarmony::kMajorMinor;
+    
+  else if (kind == "major-sixth")
+    fCurrentHarmonyKind = msrHarmony::kMajorSixth;
+    
+  else if (kind == "minor-sixth")
+    fCurrentHarmonyKind = msrHarmony::kMinorSixth;
+    
+    
+  else if (kind == "dominant-ninth")
+    fCurrentHarmonyKind = msrHarmony::kDominantNinth;
+    
   else if (kind == "major-ninth")
     fCurrentHarmonyKind = msrHarmony::kMajorNinth;
     
   else if (kind == "minor-ninth")
     fCurrentHarmonyKind = msrHarmony::kMinorNinth;
     
+    
+  else if (kind == "dominant-11th")
+    fCurrentHarmonyKind = msrHarmony::kDominantEleventh;
+    
+  else if (kind == "major-11th")
+    fCurrentHarmonyKind = msrHarmony::kMajorEleventh;
+    
+  else if (kind == "minor-11th")
+    fCurrentHarmonyKind = msrHarmony::kMinorEleventh;
+    
+    
+  else if (kind == "dominant-13th")
+    fCurrentHarmonyKind = msrHarmony::kDominantThirteenth;
+    
+  else if (kind == "major-13th")
+    fCurrentHarmonyKind = msrHarmony::kMajorThirteenth;
+    
+  else if (kind == "minor-13th")
+    fCurrentHarmonyKind = msrHarmony::kMinorThirteenth;
+
+    
+  else if (kind == "suspended-second")
+    fCurrentHarmonyKind = msrHarmony::kSuspendedSecond;
+    
+  else if (kind == "suspended-fourth")
+    fCurrentHarmonyKind = msrHarmony::kSuspendedFourth;
+    
+
+  else if (kind == "Neapolitan")
+    fCurrentHarmonyKind = msrHarmony::kNeapolitan;
+    
+  else if (kind == "Italian")
+    fCurrentHarmonyKind = msrHarmony::kItalian;
+    
+  else if (kind == "French")
+    fCurrentHarmonyKind = msrHarmony::kFrench;
+    
+  else if (kind == "German")
+    fCurrentHarmonyKind = msrHarmony::kGerman;
+    
+
+  else if (kind == "pedal")
+    fCurrentHarmonyKind = msrHarmony::kPedal;
+    
+  else if (kind == "power")
+    fCurrentHarmonyKind = msrHarmony::kPower;
+    
+  else if (kind == "Tristan")
+    fCurrentHarmonyKind = msrHarmony::kTristan;
+    
+
   else if (kind == "none") {
     // ad-hoc error recovery
     msrMusicXMLWarning (

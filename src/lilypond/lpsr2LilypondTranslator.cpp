@@ -1462,6 +1462,9 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     case msrHarmony::kSuspendedFourth:
       s << ":sus4";
       break;
+    case msrHarmony::kMajorSixth:
+      s << ":6";
+      break;
     case msrHarmony::kMajorSeventh:
       s << ":maj7";
       break;
@@ -1473,6 +1476,9 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       break;
     case msrHarmony::kMinorNinth:
       s << ":m9";
+      break;
+    case msrHarmony::kDominantEleventh:
+      s << ":11";
       break;
     case msrHarmony::k_NoHarmony:
       s << ":Harmony???";
