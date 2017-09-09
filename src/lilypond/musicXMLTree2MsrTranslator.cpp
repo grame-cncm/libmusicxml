@@ -13633,10 +13633,14 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
 
   if (gGeneralOptions->fTraceRepeats)
     cerr <<
-      idtr << "--> input line " << inputLineNumber <<
-      endl <<
       idtr <<
-      "--> barline, left and forward: repeat start" <<
+        "Handling repeat hooked ending start" <<
+        ", line " << inputLineNumber <<
+        ", measure '" <<
+          barline->getBarlineMeasureNumber () <<
+        "', position " <<
+        barline->getBarlinePositionInMeasure () <<
+        ", [barline, left and forward: repeat start]" <<
       endl;
 
   // set the barline category
@@ -13685,10 +13689,14 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
 
   if (gGeneralOptions->fTraceRepeats) {
     cerr <<
-      idtr << "--> input line " << inputLineNumber <<
-      endl <<
       idtr <<
-      "--> barline, right and backward: repeat end" <<
+        "Handling repeat hooked ending start" <<
+        ", line " << inputLineNumber <<
+        ", measure '" <<
+          barline->getBarlineMeasureNumber () <<
+        "', position " <<
+        barline->getBarlinePositionInMeasure () <<
+        ", [barline, right and backward: repeat end]" <<
       endl;
   }
 
@@ -13779,17 +13787,14 @@ void musicXMLTree2MsrTranslator::handleHookedEndingStart (
 
   if (gGeneralOptions->fTraceRepeats)
     cerr <<
-      idtr << "--> input line " <<
-        inputLineNumber <<
-      endl <<
       idtr <<
-        "--> measure " <<
+        "Handling repeat hooked ending start" <<
+        ", line " << inputLineNumber <<
+        ", measure '" <<
           barline->getBarlineMeasureNumber () <<
-        ", position " <<
-          barline->getBarlinePositionInMeasure () <<
-      endl <<
-      idtr <<
-      "--> barline, left, start and forward: hooked ending start" <<
+        "', position " <<
+        barline->getBarlinePositionInMeasure () <<
+        ", [barline, left, start and forward: hooked ending start]" <<
       endl;
 
   // fetch current voice
@@ -13836,11 +13841,15 @@ void musicXMLTree2MsrTranslator::handleHookedEndingEnd (
 
   if (gGeneralOptions->fTraceRepeats)
     cerr <<
-      idtr << "--> input line " << inputLineNumber <<
-      endl <<
       idtr <<
-      "--> barline right, stop: hooked ending end" <<
-      endl;
+        "Handling repeat hooked ending end" <<
+        ", line " << inputLineNumber <<
+        ", measure '" <<
+          barline->getBarlineMeasureNumber () <<
+        "', position " <<
+        barline->getBarlinePositionInMeasure () <<
+        "', [barline right, stop: hooked ending end]" <<
+        endl;
 
   // fetch current voice
   S_msrVoice
@@ -13882,17 +13891,14 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingStart (
 
   if (gGeneralOptions->fTraceRepeats)
     cerr <<
-      idtr << "--> input line " <<
-        inputLineNumber <<
-      endl <<
       idtr <<
-        "--> measure " <<
+        "Handling repeat hookless ending start" <<
+        ", line " << inputLineNumber <<
+        ", measure '" <<
           barline->getBarlineMeasureNumber () <<
-        ", position " <<
-          barline->getBarlinePositionInMeasure () <<
-      endl <<
-      idtr <<
-      "--> barline, left and start: hookless ending start" <<
+        "', position " <<
+        barline->getBarlinePositionInMeasure () <<
+        ", [barline, left and start: hookless ending start]" <<
       endl;
 
   // fetch current voice
@@ -13934,10 +13940,14 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingEnd (
   
   if (gGeneralOptions->fTraceRepeats)
     cerr <<
-      idtr << "--> input line " << inputLineNumber <<
-      endl <<
       idtr <<
-      "--> barline, right and discontinue: hookless ending end" <<
+        "Handling repeat hookless ending end" <<
+        ", line " << inputLineNumber <<
+        ", measure '" <<
+          barline->getBarlineMeasureNumber () <<
+        "', position " <<
+        barline->getBarlinePositionInMeasure () <<
+        ", [barline, right and discontinue: hookless ending end]" <<
       endl;
 
   // fetch current voice

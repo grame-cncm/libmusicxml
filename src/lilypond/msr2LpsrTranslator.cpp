@@ -3332,8 +3332,19 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
       "--> End visiting msrRepeatEnding" <<
       endl;
 
-  // forget current repeat ending clone
-  fCurrentRepeatEndingClone = 0;
+  // create a repeat ending clone and append it to voice clone
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending a repeat ending clone to voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+
+    fCurrentVoiceClone->
+      appendRepeatEndingToVoice (
+        elt->getInputLineNumber (),
+        elt->getRepeatEndingNumber (),
+        elt->getRepeatEndingKind ());
 }
 
 //________________________________________________________________________
