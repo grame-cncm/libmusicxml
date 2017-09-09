@@ -3316,13 +3316,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
     cerr << idtr <<
       "--> Start visiting msrRepeatEnding" <<
       endl;
-/* JMI
-  // create a repeat ending clone
-  fCurrentRepeatEndingClone =
-    elt->
-      createRepeatEndingNewbornClone (
-        fCurrentRepeatClone);
-        */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)

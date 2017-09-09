@@ -13643,6 +13643,25 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
         ", [barline, left and forward: repeat start]" <<
       endl;
 
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNotYetDone (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // create a new last segment to collect the repeat ending contents
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Creating a new last segment for a repeat ending contents for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+      
+  currentVoice->
+    createNewLastSegmentForVoice (
+      elt->getInputLineNumber ());
+
   // set the barline category
   barline->
     setBarlineCategory (
@@ -13710,7 +13729,8 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kRepeatEndBarline);
+    setBarlineCategory (
+      msrBarline::kRepeatEndBarline);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -13814,14 +13834,27 @@ void musicXMLTree2MsrTranslator::handleHookedEndingStart (
         endl;
   
     fCurrentPart->
-      createRepeatAndAppendItToPart (inputLineNumber);
+      createRepeatAndAppendItToPart (
+        inputLineNumber);
 
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }
 
+  // create a new last segment to collect the repeat ending contents
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Creating a new last segment for a repeat ending contents for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+      
+  currentVoice->
+    createNewLastSegmentForVoice (
+      elt->getInputLineNumber ());
+
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kHookedEndingStartBarline);
+    setBarlineCategory (
+      msrBarline::kHookedEndingStartBarline);
   
   // append the bar line to the current part
   fCurrentPart->
@@ -13861,7 +13894,8 @@ void musicXMLTree2MsrTranslator::handleHookedEndingEnd (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kHookedEndingEndBarline);
+    setBarlineCategory (
+      msrBarline::kHookedEndingEndBarline);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -13911,7 +13945,8 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingStart (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kHooklessEndingStartBarline);
+    setBarlineCategory (
+      msrBarline::kHooklessEndingStartBarline);
   
   // append the bar line to the current part
   fCurrentPart->
@@ -13960,7 +13995,8 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingEnd (
 
   // set the barline category
   barline->
-    setBarlineCategory (msrBarline::kHooklessEndingEndBarline);
+    setBarlineCategory (
+      msrBarline::kHooklessEndingEndBarline);
   
   // append the bar line to the current part
   fCurrentPart->

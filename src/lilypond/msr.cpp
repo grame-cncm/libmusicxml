@@ -31668,7 +31668,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fPoets.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -31682,7 +31682,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fLyricists.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      os << idtr << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
