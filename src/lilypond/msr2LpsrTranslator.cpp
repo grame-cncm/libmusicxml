@@ -3200,6 +3200,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
 
+/* JMI
   // create a repeat clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -3216,8 +3217,9 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
     elt->
       createRepeatNewbornClone (
         fCurrentVoiceClone);
+*/
         
-  fOnGoingRepeat = true;
+  fOnGoingRepeat = true; // JMI
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
@@ -3230,7 +3232,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       "--> End visiting msrRepeat" <<
       ", line " << inputLineNumber <<
       endl;
-
+/* JMI
   // append the repeat clone to the current part clone
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -3244,8 +3246,10 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       fCurrentRepeatClone);
 
   // JMI fRepeatHasBeenCreatedForCurrentPartClone = false;
+*/
 
-  fCurrentPartClone = 0;
+  // forget about current repeat clone // JMI
+// JMI  fCurrentRepeatClone = 0;
   
   fOnGoingRepeat = false;
 }
@@ -3277,7 +3281,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     idtr << "*********** fCurrentPartClone" <<
     endl <<
     endl;
-
+/* JMI
   cerr <<
     endl <<
     idtr << "*********** fCurrentRepeatClone" <<
@@ -3289,15 +3293,20 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     idtr << "*********** fCurrentRepeatClone" <<
     endl <<
     endl;
+*/
 
-  // create a repeat common part clone
-  fCurrentRepeatCommonPartClone =
-    elt->
-      createRepeatCommonPartNewbornClone (
-        fCurrentRepeatClone);
+  // create a repeat common part clone and append it to voice clone
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Appending a repeat clone to voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
 
-  // forget current repeat common part clone // JMI
-  fCurrentRepeatCommonPartClone = 0;
+ // JMI fCurrentRepeatClone =
+    fCurrentVoiceClone->
+      createRepeatAndAppendItToVoice (
+        elt->getInputLineNumber ());
 }
 
 //________________________________________________________________________
@@ -3307,12 +3316,13 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
     cerr << idtr <<
       "--> Start visiting msrRepeatEnding" <<
       endl;
-
+/* JMI
   // create a repeat ending clone
   fCurrentRepeatEndingClone =
     elt->
       createRepeatEndingNewbornClone (
         fCurrentRepeatClone);
+        */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)

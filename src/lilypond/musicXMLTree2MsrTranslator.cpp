@@ -13763,7 +13763,8 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
       endl;
 
   fCurrentPart->
-    createRepeatAndAppendItToPart (inputLineNumber);
+    createRepeatAndAppendItToPart (
+      inputLineNumber);
 
   fRepeatHasBeenCreatedForCurrentPart = true;  
 }
@@ -13800,7 +13801,7 @@ void musicXMLTree2MsrTranslator::handleHookedEndingStart (
         fCurrentVoiceNumber);
 
   if (! fRepeatHasBeenCreatedForCurrentPart) {
-    // append an implicit repeat to cht current part
+    // append an implicit repeat to the current part
     if (gGeneralOptions->fTraceRepeats)
       cerr << idtr <<
         "Appending an implicit repeat to part " <<

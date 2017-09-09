@@ -1554,7 +1554,8 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
 
   msrQuarterTonesPitch
     harmonyBassQuarterTonesPitch =
-      harmony->getHarmonyBassQuarterTonesPitch ();
+      harmony->
+        getHarmonyBassQuarterTonesPitch ();
       
   if (harmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
     s <<
