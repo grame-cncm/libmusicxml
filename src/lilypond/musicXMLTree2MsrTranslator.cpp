@@ -13634,13 +13634,13 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
   if (gGeneralOptions->fTraceRepeats)
     cerr <<
       idtr <<
-        "Handling repeat hooked ending start" <<
+        "Handling repeat start" <<
         ", line " << inputLineNumber <<
         ", measure '" <<
           barline->getBarlineMeasureNumber () <<
         "', position " <<
         barline->getBarlinePositionInMeasure () <<
-        ", [barline, left and forward: repeat start]" <<
+        ", [barline: left and forward: repeat start]" <<
       endl;
 
   // fetch current voice
@@ -13709,13 +13709,13 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
   if (gGeneralOptions->fTraceRepeats) {
     cerr <<
       idtr <<
-        "Handling repeat hooked ending start" <<
+        "Handling repeat end" <<
         ", line " << inputLineNumber <<
         ", measure '" <<
           barline->getBarlineMeasureNumber () <<
         "', position " <<
         barline->getBarlinePositionInMeasure () <<
-        ", [barline, right and backward: repeat end]" <<
+        ", [barline: right and backward: repeat end]" <<
       endl;
   }
 
@@ -13814,7 +13814,7 @@ void musicXMLTree2MsrTranslator::handleHookedEndingStart (
           barline->getBarlineMeasureNumber () <<
         "', position " <<
         barline->getBarlinePositionInMeasure () <<
-        ", [barline, left, start and forward: hooked ending start]" <<
+        ", [barline: left, start and forward: hooked ending start]" <<
       endl;
 
   // fetch current voice
@@ -13881,7 +13881,7 @@ void musicXMLTree2MsrTranslator::handleHookedEndingEnd (
           barline->getBarlineMeasureNumber () <<
         "', position " <<
         barline->getBarlinePositionInMeasure () <<
-        "', [barline right, stop: hooked ending end]" <<
+        "', [barline: right, stop, backward: hooked ending end]" <<
         endl;
 
   // fetch current voice
@@ -13932,7 +13932,7 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingStart (
           barline->getBarlineMeasureNumber () <<
         "', position " <<
         barline->getBarlinePositionInMeasure () <<
-        ", [barline, left and start: hookless ending start]" <<
+        ", [barline: left and start: hookless ending start]" <<
       endl;
 
   // fetch current voice
@@ -13982,7 +13982,7 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingEnd (
           barline->getBarlineMeasureNumber () <<
         "', position " <<
         barline->getBarlinePositionInMeasure () <<
-        ", [barline, right and discontinue: hookless ending end]" <<
+        ", [barline: right and discontinue: hookless ending end]" <<
       endl;
 
   // fetch current voice
