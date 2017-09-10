@@ -4393,6 +4393,9 @@ class EXP msrHarmony : public msrElement
   composed of add elements. The "none" kind is used to
   explicitly encode absence of chords or functional
   harmony.
+
+  Inversion is a number indicating which inversion is used:
+  0 for root position, 1 for first inversion, etc.
 */
     enum msrHarmonyKind {
       k_NoHarmony,
@@ -4419,11 +4422,16 @@ class EXP msrHarmony : public msrElement
 
       kNeapolitan, kItalian, kFrench, kGerman,
 
-      kPedal, kPower, kTristan };
+      kPedal, kPower, kTristan,
+
+      kOther,
+      kNone };
 
     static string harmonyKindAsString (
       msrHarmonyKind harmonyKind);
-      
+
+    #define K_HARMONY_NO_INVERSION -1
+
     enum msrHarmonyDegreeTypeKind {
       kAdd, kAlter, kSubstract};
 
@@ -4439,6 +4447,7 @@ class EXP msrHarmony : public msrElement
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
+      int                  harmonyInversion,
       msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
       rational             harmonySoundingWholeNotes);
     
@@ -4459,6 +4468,7 @@ class EXP msrHarmony : public msrElement
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
+      int                  harmonyInversion,
       msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
       rational             harmonySoundingWholeNotes);
 
@@ -4483,6 +4493,9 @@ class EXP msrHarmony : public msrElement
                 
     string                getHarmonyKindText () const
                               { return fHarmonyKindText; }
+                
+    int                   getHarmonyInversion () const
+                              { return fHarmonyInversion; }
                 
     msrQuarterTonesPitch  getHarmonyBassQuarterTonesPitch () const
                               { return fHarmonyBassQuarterTonesPitch; }
@@ -4520,6 +4533,8 @@ class EXP msrHarmony : public msrElement
     msrHarmonyKind        fHarmonyKind;
     string                fHarmonyKindText;
 
+    int                   fHarmonyInversion;
+    
     msrQuarterTonesPitch  fHarmonyBassQuarterTonesPitch;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;

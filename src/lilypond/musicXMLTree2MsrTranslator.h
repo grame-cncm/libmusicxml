@@ -185,6 +185,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_root_step>,
   public visitor<S_root_alter>,
   public visitor<S_kind>,
+  public visitor<S_inversion>,
   public visitor<S_bass_step>,
   public visitor<S_bass_alter>,
   
@@ -513,6 +514,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_root_step& elt);
     virtual void visitStart ( S_root_alter& elt);
     virtual void visitStart ( S_kind& elt);
+    virtual void visitStart ( S_inversion& elt);
     virtual void visitStart ( S_bass_step& elt);
     virtual void visitStart ( S_bass_alter& elt);
     
@@ -1009,9 +1011,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     msrHarmony::msrHarmonyKind
                               fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
+
+    int                       fCurrentHarmonyInversion;
     
     msrDiatonicPitch          fCurrentHarmonyBassDiatonicPitch;
     msrAlteration             fCurrentHarmonyBassAlteration;
+    msrHarmony::msrHarmonyDegreeTypeKind
+                              fCurrentHarmonyDegreeTypeKind;
+
 
     int                       fCurrentHarmonyDegreeValue;
     msrAlteration             fCurrentHarmonyDegreeAlteration;

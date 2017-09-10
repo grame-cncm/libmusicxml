@@ -12146,6 +12146,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
           
           fCurrentHarmonyKind,
           fCurrentHarmonyKindText,
+
+          fCurrentHarmonyInversion,
           
           fCurrentHarmonyBassQuarterTonesPitch,
           
@@ -14116,6 +14118,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyRootAlteration    = kNatural;
   fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
   fCurrentHarmonyKindText          = "";
+  fCurrentHarmonyInversion         = K_HARMONY_NO_INVERSION;
   fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyBassAlteration    = kNatural;
   fCurrentHarmonyDegreeValue       = -1;
@@ -14276,14 +14279,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
   else if (kind == "Tristan")
     fCurrentHarmonyKind = msrHarmony::kTristan;
     
-
+  else if (kind == "other")
+    fCurrentHarmonyKind = msrHarmony::kOther;
+    
   else if (kind == "none") {
-    // ad-hoc error recovery
-    msrMusicXMLWarning (
-      elt->getInputLineNumber (),
-      "unknown harmony kind \"" + kind + "\", replaced by 'major'");
-
-    fCurrentHarmonyKind = msrHarmony::kMajor; 
+    fCurrentHarmonyKind = msrHarmony::kNone;
   }
     
   else {
@@ -14300,6 +14300,21 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       fCurrentHarmonyKind = msrHarmony::kMajor; 
     }
   }
+}
+
+void musicXMLTree2MsrTranslator::visitStart ( S_inversion& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_bass_step" <<
+      endl;
+
+/*
+  Inversion is a number indicating which inversion is used:
+  0 for root position, 1 for first inversion, etc.
+*/
+
+  fCurrentHarmonyInversion = (int)(*elt);
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_bass_step& elt )
@@ -14344,6 +14359,42 @@ void musicXMLTree2MsrTranslator::visitStart ( S_bass_alter& elt )
       s.str());
   }
 }
+
+/*
+  The degree element is used to add, alter, or subtract
+  individual notes in the chord. The degree-value element
+  is a number indicating the degree of the chord (1 for
+  the root, 3 for third, etc). The degree-alter element
+  is like the alter element in notes: 1 for sharp, -1 for
+  flat, etc. The degree-type element can be add, alter, or
+  subtract. If the degree-type is alter or subtract, the
+  degree-alter is relative to the degree already in the
+  chord based on its kind element. If the degree-type is
+  add, the degree-alter is relative to a dominant chord
+  (major and perfect intervals except for a minor 
+  seventh). The print-object attribute can be used to
+  keep the degree from printing separately when it has
+  already taken into account in the text attribute of
+  the kind element. The plus-minus attribute is used to
+  indicate if plus and minus symbols should be used
+  instead of sharp and flat symbols to display the degree
+  alteration; it is no by default. 
+
+  The degree-value and degree-type text attributes specify
+  how the value and type of the degree should be displayed
+  in a score. The degree-value symbol attribute indicates
+  that a symbol should be used in specifying the degree.
+  If the symbol attribute is present, the value of the text
+  attribute follows the symbol. 
+  
+  A harmony of kind "other" can be spelled explicitly by
+  using a series of degree elements together with a root.
+
+  The "other" kind is used when the harmony is entirely
+  composed of add elements. The "none" kind is used to
+  explicitly encode absence of chords or functional
+  harmony.
+*/
 
 void musicXMLTree2MsrTranslator::visitStart ( S_degree_value& elt )
 {
@@ -14395,13 +14446,13 @@ void musicXMLTree2MsrTranslator::visitStart ( S_degree_type& elt )
 
   // check harmony degree type
   if      (degreeType == "add")
-    degreeTypeKind = msrHarmony::kAdd;
+    fCurrentHarmonyDegreeTypeKind = msrHarmony::kAdd;
     
   else if (degreeType == "alter")
-    degreeTypeKind = msrHarmony::kAlter;
+    fCurrentHarmonyDegreeTypeKind = msrHarmony::kAlter;
     
   else if (degreeType == "substract")
-    degreeTypeKind = msrHarmony::kSubstract;
+    fCurrentHarmonyDegreeTypeKind = msrHarmony::kSubstract;
     
   else {
       msrMusicXMLError (

@@ -1550,6 +1550,13 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     case msrHarmony::kTristan:
       s << ":Tristan";
       break;
+      
+    case msrHarmony::kOther:
+      s << ":Other";
+      break;
+    case msrHarmony::kNone:
+      s << ":None";
+      break;
   } // switch
 
   msrQuarterTonesPitch

@@ -15622,6 +15622,7 @@ S_msrHarmony msrHarmony::create (
   msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
+  int                  harmonyInversion,
   msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
   rational             harmonySoundingWholeNotes)
 {
@@ -15631,6 +15632,7 @@ S_msrHarmony msrHarmony::create (
       harmonyPart,
       harmonyRootQuarterTonesPitch,
       harmonyKind, harmonyKindText,
+      harmonyInversion,
       harmonyBassQuarterTonesPitch,
       harmonySoundingWholeNotes);
   assert(o!=0);
@@ -15644,6 +15646,7 @@ msrHarmony::msrHarmony (
   msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
   string               harmonyKindText,
+  int                  harmonyInversion,
   msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
   rational             harmonySoundingWholeNotes)
     : msrElement (inputLineNumber)
@@ -15663,6 +15666,8 @@ msrHarmony::msrHarmony (
   fHarmonyKind     = harmonyKind;
   fHarmonyKindText = harmonyKindText;
  
+  fHarmonyInversion = harmonyInversion;
+
   fHarmonyBassQuarterTonesPitch =
     harmonyBassQuarterTonesPitch;
  
@@ -15704,6 +15709,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         containingPart,
         fHarmonyRootQuarterTonesPitch,
         fHarmonyKind, fHarmonyKindText,
+        fHarmonyInversion,
         fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingWholeNotes);
         
@@ -15733,6 +15739,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         containingPart,
         fHarmonyRootQuarterTonesPitch,
         fHarmonyKind, fHarmonyKindText,
+        fHarmonyInversion,
         fHarmonyBassQuarterTonesPitch,
         fHarmonySoundingWholeNotes);
         
@@ -15850,6 +15857,13 @@ string msrHarmony::harmonyKindAsString (
     case msrHarmony::kTristan:
       result = "Tristan";
       break;
+      
+    case msrHarmony::kOther:
+      result = "Other";
+      break;
+    case msrHarmony::kNone:
+      result = "None";
+      break;
   } // switch
 
   return result;
@@ -15965,6 +15979,13 @@ string msrHarmony::harmonyKindAsShortString () const
     case msrHarmony::kTristan:
       result = "Tristan";
       break;
+
+    case msrHarmony::kOther:
+      result = "Other";
+      break;
+    case msrHarmony::kNone:
+      result = "None";
+      break;
   } // switch
 
   return result;
@@ -15990,6 +16011,12 @@ string msrHarmony::harmonyAsString () const
     s <<
       " (" <<fHarmonyKindText << ") ";
 
+  s << "inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    s << "none";
+  else
+    s << fHarmonyInversion;
+    
   if (fHarmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
     s <<
       "/" <<
