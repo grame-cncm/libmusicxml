@@ -1472,7 +1472,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s << ":m7";
       break;
     case msrHarmony::kDiminishedSeventh:
-      s << ":dim.7";
+      s << ":dim7";
       break;
     case msrHarmony::kAugmentedSeventh:
       s << ":aug.7";

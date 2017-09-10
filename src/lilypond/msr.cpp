@@ -25003,7 +25003,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
               inputLineNumber,
               this);
 
-
         // set the repeated segment as the measure repeat pattern segment
         measureRepeatPattern->
           setMeasureRepeatPatternSegment (

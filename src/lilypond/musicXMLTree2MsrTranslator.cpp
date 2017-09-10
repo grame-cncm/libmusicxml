@@ -13643,6 +13643,7 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
         ", [barline: left and forward: repeat start]" <<
       endl;
 
+/* JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -13661,23 +13662,12 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
   currentVoice->
     createNewLastSegmentForVoice (
       elt->getInputLineNumber ());
-
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kRepeatStartBarline);
+*/
 
 /* JMI
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
+  // append a pending repeat if needed to current voice
   if (! fRepeatHasBeenCreatedForCurrentPart) {
-    if (gGeneralOptions->fTrace)
+    if (gGeneralOptions->fTraceGeneral)
       cerr << idtr <<
         "Appending a repeat to part " <<
         fCurrentPart->getPartCombinedName () <<
@@ -13689,6 +13679,11 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }
 */
+
+  // set the barline category
+  barline->
+    setBarlineCategory (
+      msrBarline::kRepeatStartBarline);
 
   // append the bar line to the current part
   fCurrentPart->
