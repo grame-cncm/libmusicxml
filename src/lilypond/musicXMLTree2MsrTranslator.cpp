@@ -2390,9 +2390,10 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key_alter& elt )
   float alter = (float)(*elt);
 
   // determine the alteration
-  msrAlteration keyAlteration =
-    msrAlterationFromMusicXMLAlter (
-      alter);
+  msrAlteration
+    keyAlteration =
+      msrAlterationFromMusicXMLAlter (
+        alter);
       
   if (keyAlteration == k_NoAlteration) {
     stringstream s;
@@ -12152,6 +12153,23 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentHarmonyBassQuarterTonesPitch,
           
           fCurrentNoteSoundingWholeNotes);
+
+    // append pending harmony degrees if any to harmony
+    while (! fCurrentHarmonyDegreesList.empty ()) {
+      S_msrHarmonyDegree
+        harmonyDegree =
+          fCurrentHarmonyDegreesList.front ();
+
+      // set harmony degree harmony uplink
+      harmonyDegree->
+        setHarmonyDegreeHarmonyUplink (
+          harmony);
+
+      // append it to harmony's degrees list
+      harmony->
+        appendHarmonyDegreeToList (harmonyDegree);
+      fCurrentHarmonyDegreesList.pop_front ();
+    } // while
   
     // attach the current harmony to the note
     newNote->
@@ -14402,8 +14420,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
         s.str());
       }
   }
-
-
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_inversion& elt )
@@ -14500,6 +14516,14 @@ void musicXMLTree2MsrTranslator::visitStart ( S_bass_alter& elt )
   harmony.
 */
 
+void musicXMLTree2MsrTranslator::visitStart ( S_degree& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_degree" <<
+      endl;
+}
+
 void musicXMLTree2MsrTranslator::visitStart ( S_degree_value& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -14545,24 +14569,45 @@ void musicXMLTree2MsrTranslator::visitStart ( S_degree_type& elt )
 
   string degreeType = elt->getValue ();
 
-  msrHarmony::msrHarmonyDegreeTypeKind
+  msrHarmonyDegree::msrHarmonyDegreeTypeKind
     degreeTypeKind; // JMI
 
   // check harmony degree type
   if      (degreeType == "add")
-    fCurrentHarmonyDegreeTypeKind = msrHarmony::kAdd;
+    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeAddType;
     
   else if (degreeType == "alter")
-    fCurrentHarmonyDegreeTypeKind = msrHarmony::kAlter;
+    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeAlterType;
     
   else if (degreeType == "substract")
-    fCurrentHarmonyDegreeTypeKind = msrHarmony::kSubstract;
+    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeSubstractType;
     
   else {
       msrMusicXMLError (
         elt->getInputLineNumber (),
         "unknown harmony degree type \"" + degreeType + "\"");
   }
+}
+
+void musicXMLTree2MsrTranslator::visitEnd ( S_degree& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_degree" <<
+      endl;
+
+  // create harmony degree
+  S_msrHarmonyDegree
+    harmonyDegree =
+      msrHarmonyDegree::create (
+        elt->getInputLineNumber (),
+        fCurrentHarmonyDegreeValue,
+        fCurrentHarmonyDegreeAlteration,
+        fCurrentHarmonyDegreeTypeKind);
+
+  // register it in current harmony degrees list
+  fCurrentHarmonyDegreesList.push_back (
+    harmonyDegree);
 }
 
 void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )

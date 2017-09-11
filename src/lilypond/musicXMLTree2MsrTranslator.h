@@ -181,6 +181,11 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_elision>,
   public visitor<S_extend>,
   
+  public visitor<S_degree>,
+  public visitor<S_degree_value>,
+  public visitor<S_degree_alter>,
+  public visitor<S_degree_type>,
+
   public visitor<S_harmony>,
   public visitor<S_root_step>,
   public visitor<S_root_alter>,
@@ -194,10 +199,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_prefix>,
   public visitor<S_figure_number>,
   public visitor<S_suffix>,
-
-  public visitor<S_degree_value>,
-  public visitor<S_degree_alter>,
-  public visitor<S_degree_type>,
 
   public visitor<S_measure>,
   public visitor<S_print>,
@@ -509,6 +510,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_elision& elt );
     virtual void visitStart ( S_extend& elt);
 
+    virtual void visitStart ( S_degree& elt);
+    virtual void visitEnd   ( S_degree& elt);
+    virtual void visitStart ( S_degree_value& elt);
+    virtual void visitStart ( S_degree_alter& elt);
+    virtual void visitStart ( S_degree_type& elt);
+
     virtual void visitStart ( S_harmony& elt);
     virtual void visitEnd   ( S_harmony& elt);
     virtual void visitStart ( S_root_step& elt);
@@ -518,10 +525,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_bass_step& elt);
     virtual void visitStart ( S_bass_alter& elt);
     
-    virtual void visitStart ( S_degree_value& elt);
-    virtual void visitStart ( S_degree_alter& elt);
-    virtual void visitStart ( S_degree_type& elt);
-
     virtual void visitStart ( S_figured_bass& elt);
     virtual void visitEnd   ( S_figured_bass& elt);
     virtual void visitStart ( S_figure& elt);
@@ -1018,6 +1021,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     msrAlteration             fCurrentHarmonyBassAlteration;
     msrHarmonyDegree::msrHarmonyDegreeTypeKind
                               fCurrentHarmonyDegreeTypeKind;
+
+    list<S_msrHarmonyDegree>  fCurrentHarmonyDegreesList;
 
 
     int                       fCurrentHarmonyDegreeValue;

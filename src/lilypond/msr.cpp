@@ -15616,6 +15616,313 @@ void msrStanza::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrHarmonyDegree msrHarmonyDegree::create (
+  int                      inputLineNumber,
+  int                      harmonyDegreeValue,
+  msrAlteration            harmonyDegreeAlteration,
+  msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
+{
+  msrHarmonyDegree* o =
+    new msrHarmonyDegree (
+      inputLineNumber,
+      harmonyDegreeValue,
+      harmonyDegreeAlteration,
+      harmonyDegreeTypeKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrHarmonyDegree::msrHarmonyDegree (
+  int                      harmonyDegreeValue,
+  msrAlteration            harmonyDegreeAlteration,
+  msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
+    : msrElement (inputLineNumber)
+{
+  fHarmonyDegreeValue      = harmonyDegreeValue;
+  fHarmonyDegreeAlteration = harmonyDegreeAlteration;
+  fHarmonyDegreeTypeKind   = harmonyDegreeTypeKind;
+
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating harmony degree '" <<
+      harmonyDegreeAsString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrHarmonyDegree::~msrHarmonyDegree()
+{}
+
+void msrHarmonyDegree::setHarmonyDegreeHarmonyUplink (
+  S_msrHarmony harmonyUplink)
+{
+  // sanity check
+  msrAssert(
+    harmonyUplink != 0,
+     "harmonyUplink is null");
+     
+  fHarmonyDegreeHarmonyUplink =
+    harmonyUplink;
+}
+
+S_msrHarmonyDegree msrHarmonyDegree::createHarmonyNewbornClone (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating a newborn clone of harmony degree '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrHarmonyDegree
+    newbornClone =
+      msrHarmonyDegree::create (
+        fInputLineNumber,
+        fHarmonyDegreeValue,
+        fHarmonyDegreeAlteration,
+        fHarmonyDegreeTypeKind);
+        
+  return newbornClone;
+}
+
+S_msrHarmonyDegree msrHarmonyDegree::createHarmonyDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating a deep copy of harmony degree '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrHarmonyDegree
+    harmonyDeepCopy =
+      msrHarmonyDegree::create (
+        fInputLineNumber,
+        fHarmonyDegreeValue,
+        fHarmonyDegreeAlteration,
+        fHarmonyDegreeTypeKind);
+        
+  return harmonyDeepCopy;
+}
+
+string msrHarmonyDegree::harmonyKindAsString (
+  msrHarmonyDegreeTypeKind harmonyTypeKind)
+{
+  string result;
+
+  switch (harmonyTypeKind) {
+    case msrHarmonyDegree::kHarmonyDegreeAddType:
+      result = "HarmonyDegreeAdd";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeAlterType:
+      result = "HarmonyDegreeAlter";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeSubstractType:
+      result = "HarmonyDegreeSubstract";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrHarmonyDegree::harmonyKindAsShortString () const
+{
+  string result;
+  
+  switch (fHarmonyKind) {
+  switch (harmonyTypeKind) {
+    case msrHarmonyDegree::kHarmonyDegreeAddType:
+      result = "Add";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeAlterType:
+      result = "Alter";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeSubstractType:
+      result = "Substract";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrHarmonyDegree::harmonyAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Harmony" <<
+    ":" <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fHarmonyRootQuarterTonesPitch) <<          
+    harmonyKindAsShortString () <<
+    " | " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes);
+
+  if (fHarmonyKindText.size ())
+    s <<
+      " (" <<fHarmonyKindText << ") ";
+
+  s << "inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    s << "none";
+  else
+    s << fHarmonyInversion;
+    
+  if (fHarmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
+    s <<
+      "/" <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fHarmonyBassQuarterTonesPitch);    
+
+  if (fHarmonyDegreesList.size ())
+    list<S_HarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin(),
+      iEnd   = fHarmonyDegreesList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s <<
+        idtr << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+
+  return s.str();
+}
+
+void msrHarmonyDegree::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrHarmonyDegree::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrHarmonyDegree>*
+    p =
+      dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
+        S_msrHarmonyDegree elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrHarmonyDegree::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrHarmonyDegree::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrHarmonyDegree::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrHarmonyDegree>*
+    p =
+      dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
+        S_msrHarmonyDegree elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrHarmonyDegree::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrHarmonyDegree::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrHarmonyDegree::print (ostream& os)
+{  
+  os <<
+    "Harmony" <<
+    ", " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes) <<
+    " (" << fHarmonySoundingWholeNotes << " sounding whole notes)" <<
+     ", line " << fInputLineNumber <<
+    endl;
+    
+  idtr++;
+
+  const int fieldWidth = 15;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "HarmonyRoot" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fHarmonyRootQuarterTonesPitch) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "HarmonyKind" << " = " <<
+      harmonyKindAsString (fHarmonyKind) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "HarmonyKindText" << " = " <<
+      fHarmonyKindText <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "HarmonyBass" << " = " <<
+      msrQuarterTonesPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fHarmonyBassQuarterTonesPitch) <<
+      endl;
+
+  os << "inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    os << "none";
+  else
+    os << fHarmonyInversion;
+
+  if (fHarmonyDegreesList.size ())
+    list<S_HarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin(),
+      iEnd   = fHarmonyDegreesList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os <<
+        idtr << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  }
+
+  idtr--;
+}
+
+//______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
   S_msrPart            harmonyPart,
@@ -16024,6 +16331,19 @@ string msrHarmony::harmonyAsString () const
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       fHarmonyBassQuarterTonesPitch);    
 
+  if (fHarmonyDegreesList.size ())
+    list<S_HarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin(),
+      iEnd   = fHarmonyDegreesList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s <<
+        idtr << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+
   return s.str();
 }
 
@@ -16066,7 +16386,18 @@ void msrHarmony::acceptOut (basevisitor* v) {
 }
 
 void msrHarmony::browseData (basevisitor* v)
-{}
+{
+  // browse harmony degrees if any
+  if (fHarmonyDegreesList.size ())
+    for (
+      list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin();
+      i != fHarmonyDegreesList.end();
+      i++) {
+      // browse the harmony degree
+      msrBrowser<msrHarmonyDegree> browser (v);
+      browser.browse (*(*i));
+    } // for
+}
 
 ostream& operator<< (ostream& os, const S_msrHarmony& elt)
 {
@@ -16115,6 +16446,27 @@ void msrHarmony::print (ostream& os)
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
         fHarmonyBassQuarterTonesPitch) <<
       endl;
+
+  os << "inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    os << "none";
+  else
+    os << fHarmonyInversion;
+
+  // print harmony degrees if any
+  if (fHarmonyDegreesList.size ())
+    list<S_HarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin(),
+      iEnd   = fHarmonyDegreesList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os <<
+        idtr << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  }
 
   idtr--;
 }

@@ -4363,7 +4363,9 @@ Degree elements
 */
 
     enum msrHarmonyDegreeTypeKind {
-      kHarmonyDegreeAdd, kHarmonyDegreeAlter, kHarmonyDegreeSubstract };
+      kHarmonyDegreeAddType,
+      kHarmonyDegreeAlterType,
+      kHarmonyDegreeSubstractType };
 
     static string harmonyDegreeTypeKindAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
@@ -4372,12 +4374,10 @@ Degree elements
     // ------------------------------------------------------
 
     static SMARTP<msrHarmonyDegree> create (
-      int                  inputLineNumber,
-      S_msrHarmony         harmonyDegreeHarmonyUplink,
-      int                  harmonyDegreeValue,
-      float                harmonyDegreeAlter,
-      msrHarmonyDegreeTypeKind
-                          harmonyDegreeTypeKind);
+      int                      inputLineNumber,
+      int                      harmonyDegreeValue,
+      msrAlteration            harmonyDegreeAlteration,
+      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
       
     SMARTP<msrHarmonyDegree> createHarmonyDegreeNewbornClone (
       S_msrPart containingPart);
@@ -4391,12 +4391,10 @@ Degree elements
     // ------------------------------------------------------
 
     msrHarmonyDegree (
-      int                  inputLineNumber,
-      S_msrHarmony         harmonyDegreeHarmonyUplink,
-      int                  harmonyDegreeValue,
-      float                harmonyDegreeAlter,
-      msrHarmonyDegreeTypeKind
-                          harmonyDegreeTypeKind);
+      int                      inputLineNumber,
+      int                      harmonyDegreeValue,
+      msrAlteration            harmonyDegreeAlteration,
+      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
     virtual ~msrHarmonyDegree();
   
@@ -4405,8 +4403,11 @@ Degree elements
     // set and get
     // ------------------------------------------------------
 
+    void                  setHarmonyDegreeHarmonyUplink (
+                            S_msrHarmony harmonyUplink);
+
     S_msrHarmony          getHarmonyDegreeHarmonyUplink () const
-                             { return fHarmonyDegreeHarmonyUplink; }
+                              { return fHarmonyDegreeHarmonyUplink; }
 
     // services
     // ------------------------------------------------------
@@ -4435,7 +4436,7 @@ Degree elements
     S_msrHarmony          fHarmonyDegreeHarmonyUplink;
 
     int                   fHarmonyDegreeValue;
-    float                 fHarmonyDegreeAlter;
+    msrAlteration         fHarmonyDegreeAlteration;
     msrHarmonyDegreeTypeKind
                           fHarmonyDegreeTypeKind;
 };
@@ -4631,6 +4632,10 @@ class EXP msrHarmony : public msrElement
     string                getHarmonyKindText () const
                               { return fHarmonyKindText; }
                 
+    const list<S_msrHarmonyDegree>&
+                          getHarmonyDegreesList ()
+                              { return fHarmonyDegreesList; }
+                
     int                   getHarmonyInversion () const
                               { return fHarmonyInversion; }
                 
@@ -4640,6 +4645,12 @@ class EXP msrHarmony : public msrElement
     // services
     // ------------------------------------------------------
 
+    void                  appendHarmonyDegreeToList ( // JMI
+                            S_msrHarmonyDegree harmonyDegree)
+                              {
+                                fHarmonyDegreesList.push_back (
+                                  harmonyDegree);
+                              }
     string                harmonyKindAsString () const;
     string                harmonyKindAsShortString () const;
     
@@ -4673,6 +4684,9 @@ class EXP msrHarmony : public msrElement
     int                   fHarmonyInversion;
     
     msrQuarterTonesPitch  fHarmonyBassQuarterTonesPitch;
+
+    list<S_msrHarmonyDegree>
+                          fHarmonyDegreesList;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
