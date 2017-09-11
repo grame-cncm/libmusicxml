@@ -14175,6 +14175,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       "--> Start visiting S_kind" <<
       endl;
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // harmony kind
   // ----------------------------------
 
@@ -14292,7 +14295,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
   else {
     if (kind.size ()) {
       msrMusicXMLError (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         "unknown harmony kind \"" + kind + "\"");
     }
     else {

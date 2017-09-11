@@ -1016,7 +1016,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     msrDiatonicPitch          fCurrentHarmonyBassDiatonicPitch;
     msrAlteration             fCurrentHarmonyBassAlteration;
-    msrHarmony::msrHarmonyDegreeTypeKind
+    msrHarmonyDegree::msrHarmonyDegreeTypeKind
                               fCurrentHarmonyDegreeTypeKind;
 
 

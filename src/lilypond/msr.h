@@ -4390,7 +4390,7 @@ Degree elements
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHarmony (
+    msrHarmonyDegree (
       int                  inputLineNumber,
       S_msrHarmony         harmonyDegreeHarmonyUplink,
       int                  harmonyDegreeValue,
@@ -4398,7 +4398,7 @@ Degree elements
       msrHarmonyDegreeTypeKind
                           harmonyDegreeTypeKind);
 
-    virtual ~msrHarmony();
+    virtual ~msrHarmonyDegree();
   
   public:
 
