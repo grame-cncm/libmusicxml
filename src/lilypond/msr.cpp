@@ -15748,7 +15748,7 @@ string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
 {
   string result;
   
-  switch (fHarmonyTypeKind) {
+  switch (fHarmonyDegreeTypeKind) {
     case msrHarmonyDegree::kHarmonyDegreeAddType:
       result = "Add";
       break;
@@ -16242,8 +16242,8 @@ string msrHarmony::harmonyAsString () const
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       fHarmonyBassQuarterTonesPitch);    
 
-  if (fHarmonyDegreesList.size ())
-    list<S_HarmonyDegree>::const_iterator
+  if (fHarmonyDegreesList.size ()) {
+    list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin(),
       iEnd   = fHarmonyDegreesList.end(),
       i      = iBegin;
@@ -16254,6 +16254,7 @@ string msrHarmony::harmonyAsString () const
       if (++i == iEnd) break;
       s << " ";
     } // for
+  }
 
   return s.str();
 }
@@ -16365,8 +16366,8 @@ void msrHarmony::print (ostream& os)
     os << fHarmonyInversion;
 
   // print harmony degrees if any
-  if (fHarmonyDegreesList.size ())
-    list<S_HarmonyDegree>::const_iterator
+  if (fHarmonyDegreesList.size ()) {
+    list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin(),
       iEnd   = fHarmonyDegreesList.end(),
       i      = iBegin;
