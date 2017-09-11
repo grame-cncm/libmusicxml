@@ -4367,7 +4367,7 @@ Degree elements
       kHarmonyDegreeAlterType,
       kHarmonyDegreeSubstractType };
 
-    static string harmonyDegreeTypeKindAsString (
+    static string harmonyDegreeTypeAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
       
     // creation from MusicXML
@@ -4378,12 +4378,14 @@ Degree elements
       int                      harmonyDegreeValue,
       msrAlteration            harmonyDegreeAlteration,
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
-      
+
+    /* JMI
     SMARTP<msrHarmonyDegree> createHarmonyDegreeNewbornClone (
       S_msrPart containingPart);
 
     SMARTP<msrHarmonyDegree> createHarmonyDegreeDeepCopy ( // JMI ???
       S_msrPart containingPart);
+      */
 
   protected:
 
