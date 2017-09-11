@@ -15769,11 +15769,11 @@ string msrHarmonyDegree::harmonyDegreeAsString () const
 
   s <<
     "HarmonyDegree" <<
-    ", HarmonyDegreeValue: " << fHarmonyDegreeValue <<
-    ", HarmonyDegreeAlteration: " <<
+    ", value: " << fHarmonyDegreeValue <<
+    ", alteration: " <<
     msrAlterationAsString (
       fHarmonyDegreeAlteration) <<
-    ", HarmonyDegreeTypeKind: " << harmonyDegreeKindAsShortString () <<
+    ", typeK: " << harmonyDegreeKindAsShortString () <<
     ", line: " << fInputLineNumber;
 
   return s.str();
@@ -16348,8 +16348,9 @@ void msrHarmony::print (ostream& os)
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "HarmonyKindText" << " = " <<
+      "HarmonyKindText" << " = \"" <<
       fHarmonyKindText <<
+      "\"" <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
