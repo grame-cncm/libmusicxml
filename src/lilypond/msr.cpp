@@ -16359,14 +16359,22 @@ void msrHarmony::print (ostream& os)
         fHarmonyBassQuarterTonesPitch) <<
       endl;
 
-  os << "inversion: ";
+  os << idtr <<
+    "inversion: ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
     os << "none";
   else
     os << fHarmonyInversion;
+  os << endl;
 
   // print harmony degrees if any
   if (fHarmonyDegreesList.size ()) {
+    os << idtr <<
+      "Harmony degrees:" <<
+      endl;
+
+    idtr++;
+    
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin(),
       iEnd   = fHarmonyDegreesList.end(),
@@ -16374,10 +16382,13 @@ void msrHarmony::print (ostream& os)
       
     for ( ; ; ) {
       os <<
-        idtr << (*i);
+        idtr << (*i)->harmonyDegreeAsString ();
       if (++i == iEnd) break;
-      os << " ";
+      os << endl;
     } // for
+    os << endl;
+    
+    idtr--;
   }
 
   idtr--;
