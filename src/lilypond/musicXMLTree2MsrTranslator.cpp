@@ -14175,6 +14175,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       "--> Start visiting S_kind" <<
       endl;
 
+  // harmony kind
+  // ----------------------------------
+
   string kind = elt->getValue ();
 
   fCurrentHarmonyKindText =
@@ -14300,6 +14303,104 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       fCurrentHarmonyKind = msrHarmony::kMajor; 
     }
   }
+
+  // harmony use symbols
+  // ----------------------------------
+
+  string kindUseSymbols = elt->getAttributeValue ("use-symbols");
+
+  if      (kindUseSymbols == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+  else if (kindUseSymbols == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    if (kindUseSymbols.size ()) {
+      stringstream s;
+      
+      s <<
+        "kind use symbols " <<
+        kindUseSymbols <<
+        " is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+      }
+  }
+
+  // harmony use stack degrees
+  // ----------------------------------
+  
+  string kindStackDegrees = elt->getAttributeValue ("stack-degrees");
+
+  if      (kindStackDegrees == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+  else if (kindStackDegrees == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    if (kindStackDegrees.size ()) {
+      stringstream s;
+      
+      s <<
+        "kind use symbols " <<
+        kindStackDegrees <<
+        " is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+      }
+  }
+
+  // harmony use parentheses degrees
+  // ----------------------------------
+  
+  string kindParenthesesDegrees = elt->getAttributeValue ("parentheses-degrees");
+
+  if      (kindParenthesesDegrees == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+  else if (kindParenthesesDegrees == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    if (kindParenthesesDegrees.size ()) {
+      stringstream s;
+      
+      s <<
+        "kind use symbols " <<
+        kindParenthesesDegrees <<
+        " is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+      }
+  }
+
+  // harmony use bracket degrees
+  // ------------------
+  
+  string kindBracketDegrees = elt->getAttributeValue ("bracket-degrees");
+
+  if      (kindBracketDegrees == "yes")
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+  else if (kindBracketDegrees == "no")
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
+  else {
+    if (kindBracketDegrees.size ()) {
+      stringstream s;
+      
+      s <<
+        "kind use symbols " <<
+        kindBracketDegrees <<
+        " is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str());
+      }
+  }
+
+
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_inversion& elt )

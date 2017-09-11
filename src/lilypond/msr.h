@@ -4332,6 +4332,122 @@ EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
+class EXP msrHarmonyDegree : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+/*
+Degree elements
+  can then add, subtract, or alter from these
+  starting points.
+
+      <harmony>
+        <root>
+          <root-step>B</root-step>
+        </root>
+        <kind>dominant</kind>
+        <degree>
+          <degree-value>5</degree-value>
+          <degree-alter>1</degree-alter>
+          <degree-type>alter</degree-type>
+        </degree>
+        <degree>
+          <degree-value>9</degree-value>
+          <degree-alter>1</degree-alter>
+          <degree-type>add</degree-type>
+        </degree>
+      </harmony>
+*/
+
+    enum msrHarmonyDegreeTypeKind {
+      kHarmonyDegreeAdd, kHarmonyDegreeAlter, kHarmonyDegreeSubstract };
+
+    static string harmonyDegreeTypeKindAsString (
+      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHarmonyDegree> create (
+      int                  inputLineNumber,
+      S_msrHarmony         harmonyDegreeHarmonyUplink,
+      int                  harmonyDegreeValue,
+      float                harmonyDegreeAlter,
+      msrHarmonyDegreeTypeKind
+                          harmonyDegreeTypeKind);
+      
+    SMARTP<msrHarmonyDegree> createHarmonyDegreeNewbornClone (
+      S_msrPart containingPart);
+
+    SMARTP<msrHarmonyDegree> createHarmonyDegreeDeepCopy ( // JMI ???
+      S_msrPart containingPart);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHarmony (
+      int                  inputLineNumber,
+      S_msrHarmony         harmonyDegreeHarmonyUplink,
+      int                  harmonyDegreeValue,
+      float                harmonyDegreeAlter,
+      msrHarmonyDegreeTypeKind
+                          harmonyDegreeTypeKind);
+
+    virtual ~msrHarmony();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrHarmony          getHarmonyDegreeHarmonyUplink () const
+                             { return fHarmonyDegreeHarmonyUplink; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                harmonyDegreeKindAsString () const;
+    string                harmonyDegreeKindAsShortString () const;
+    
+    string                harmonyDegreeAsString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // uplinks
+    S_msrHarmony          fHarmonyDegreeHarmonyUplink;
+
+    int                   fHarmonyDegreeValue;
+    float                 fHarmonyDegreeAlter;
+    msrHarmonyDegreeTypeKind
+                          fHarmonyDegreeTypeKind;
+};
+typedef SMARTP<msrHarmonyDegree> S_msrHarmonyDegree;
+EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
+
+/*!
+\brief A msr harmony representation.
+
+  A harmony is represented by a list of syllables,
+*/
+//______________________________________________________________________________
 class EXP msrHarmony : public msrElement
 {
   public:
@@ -4340,9 +4456,7 @@ class EXP msrHarmony : public msrElement
     // ------------------------------------------------------
 
 /*
-  Kind indicates the type of chord. Degree elements
-  can then add, subtract, or alter from these
-  starting points. Values include:
+  Kind indicates the type of chord. Values include:
   
   Triads:
       major (major third, perfect fifth)
@@ -4394,6 +4508,35 @@ class EXP msrHarmony : public msrElement
   explicitly encode absence of chords or functional
   harmony.
 
+  For the major-minor kind, only the minor symbol is used when
+  use-symbols is yes. The major symbol is set using the symbol
+  attribute in the degree-value element. The corresponding
+  degree-alter value will usually be 0 in this case.
+
+  The text attribute describes how the kind should be spelled
+  in a score. If use-symbols is yes, the value of the text
+  attribute follows the symbol. The stack-degrees attribute
+  is yes if the degree elements should be stacked above each
+  other. The parentheses-degrees attribute is yes if all the
+  degrees should be in parentheses. The bracket-degrees 
+  attribute is yes if all the degrees should be in a bracket.
+  If not specified, these values are implementation-specific.
+  The alignment attributes are for the entire harmony-chord
+  entity of which this kind element is a part.
+
+
+<!ELEMENT kind (#PCDATA)>
+<!ATTLIST kind
+    use-symbols          %yes-no;   #IMPLIED
+    text                 CDATA      #IMPLIED
+    stack-degrees        %yes-no;   #IMPLIED
+    parentheses-degrees  %yes-no;   #IMPLIED
+    bracket-degrees      %yes-no;   #IMPLIED
+    %print-style;
+    %halign;
+    %valign;
+>
+
   Inversion is a number indicating which inversion is used:
   0 for root position, 1 for first inversion, etc.
 */
@@ -4432,12 +4575,6 @@ class EXP msrHarmony : public msrElement
 
     #define K_HARMONY_NO_INVERSION -1
 
-    enum msrHarmonyDegreeTypeKind {
-      kAdd, kAlter, kSubstract};
-
-    static string harmonyDegreeTypeKindAsString (
-      msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
