@@ -600,7 +600,8 @@ namespace MusicXML2
                 
                 stringstream s;
                 s << "autopos=\"on\"";
-                tag->add (guidoparam::create(s.str(), false));
+                //tag->add (guidoparam::create(s.str(), false));
+            
             }else if (type == "crescendo")
             {
                 // search for wedge STOP in anticipation
@@ -608,7 +609,7 @@ namespace MusicXML2
                 // Add new AutoPos="on"
                 stringstream s;
                 s << "autopos=\"on\"";
-                tag->add (guidoparam::create(s.str(), false));
+                //tag->add (guidoparam::create(s.str(), false));
             }
             
             
