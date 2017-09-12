@@ -15769,11 +15769,11 @@ string msrHarmonyDegree::harmonyDegreeAsString () const
 
   s <<
     "HarmonyDegree" <<
+    ", type: " << harmonyDegreeKindAsShortString () <<
     ", value: " << fHarmonyDegreeValue <<
     ", alteration: " <<
     msrAlterationAsString (
       fHarmonyDegreeAlteration) <<
-    ", typeK: " << harmonyDegreeKindAsShortString () <<
     ", line: " << fInputLineNumber;
 
   return s.str();
