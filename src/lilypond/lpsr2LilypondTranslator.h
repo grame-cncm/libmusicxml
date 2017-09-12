@@ -508,6 +508,9 @@ class lpsr2LilypondTranslator :
     string                harmonyAsLilypondString (
                             S_msrHarmony harmony);
 
+    string                harmonyDegreeAlterationAsLilypondString (
+                            msrAlteration harmonyDegreeAlteration);
+
     // figured bass
     S_msrFiguredBass      fCurrentFiguredBass;
     unsigned int          fCurrentFiguredBassFiguresCounter;

@@ -1425,6 +1425,44 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::harmonyDegreeAlterationAsLilypondString (
+  msrAlteration harmonyDegreeAlteration)
+{
+  string result;
+  
+  switch (harmonyDegreeAlteration) {
+    case msrOrnament::kDoubleFlat:
+      result = "?";
+      break;
+    case msrOrnament::kSesquiFlat:
+      result = "?";
+      break;
+    case msrOrnament::kFlat:
+      result = "-";
+      break;
+    case msrOrnament::kSemiFlat:
+      result = "?";
+      break;
+    case msrOrnament::kNatural:
+      result = "";
+      break;
+    case msrOrnament::kSemiSharp:
+      result = "?";
+      break;
+    case msrOrnament::kSharp:
+      result = "+";
+      break;
+    case msrOrnament::kSesquiSharp:
+      result = "?";
+      break;
+    case msrOrnament::kDoubleSharp:
+      result = "?";
+      break;
+  } // switch
+
+  return result;
+}
+
 string lpsr2LilypondTranslator::harmonyAsLilypondString (
   S_msrHarmony harmony)
 {
@@ -1547,7 +1585,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s << ":Pedal";
       break;
     case msrHarmony::kPower:
-      s << ":Power";
+      s << ":5";
       break;
     case msrHarmony::kTristan:
       s << ":Tristan";
@@ -1606,14 +1644,20 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s <<
         "." <<
         harmonyDegreeValue;
-        
+
       switch (harmonyDegreeTypeKind) {
         case msrHarmonyDegree::kHarmonyDegreeAddType:
-          s << "+";
+          s <<
+            harmonyDegreeAlterationAsLilypondString (
+              harmonyDegreeAlteration) <<
+            "+";
           break;
           
         case msrHarmonyDegree::kHarmonyDegreeAlterType:
-          s << "+";
+          s <<
+            harmonyDegreeAlterationAsLilypondString (
+              harmonyDegreeAlteration) <<
+            "+";
           break;
           
         case msrHarmonyDegree::kHarmonyDegreeSubstractType:
@@ -1656,7 +1700,10 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
             break;
             
           case msrHarmonyDegree::kHarmonyDegreeSubstractType:
-            s << "^";
+            s <<
+              harmonyDegreeAlterationAsLilypondString (
+                harmonyDegreeAlteration) <<
+              "|";
             break;
         } // switch
       } // for
@@ -1665,7 +1712,6 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     
   return s.str();
 }
-// power c:5 LPNR page 404
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
