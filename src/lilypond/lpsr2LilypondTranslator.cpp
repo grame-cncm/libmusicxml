@@ -1518,13 +1518,13 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s << ":dim7";
       break;
     case msrHarmony::kAugmentedSeventh:
-      s << ":aug.7";
+      s << ":aug7";
       break;
     case msrHarmony::kHalfDiminished:
       s << ":m7.5-";
       break;
     case msrHarmony::kMajorMinor:
-      s << ":m:7+";
+      s << ":m7+";
       break;
 
     case msrHarmony::kMajorSixth:
@@ -1572,33 +1572,33 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       break;
       
     case msrHarmony::kNeapolitan:
-      s << ":Neapolitan";
+      s << "%{:Neapolitan%}";
       break;
     case msrHarmony::kItalian:
-      s << ":Italian";
+      s << "%{:Italian%}";
       break;
     case msrHarmony::kFrench:
-      s << ":French";
+      s << "%{:French%}";
       break;
     case msrHarmony::kGerman:
-      s << ":German";
+      s << "%{:German%}";
       break;
 
     case msrHarmony::kPedal:
-      s << ":Pedal";
+      s << "%{:Pedal%}";
       break;
     case msrHarmony::kPower:
       s << ":5";
       break;
     case msrHarmony::kTristan:
-      s << ":Tristan";
+      s << "%{:Tristan%}";
       break;
       
     case msrHarmony::kOther:
-      s << ":Other";
+      s << "%{:Other%}";
       break;
     case msrHarmony::kNone:
-      s << ":None";
+      s << "%{:None%}";
       break;
   } // switch
 
@@ -1646,21 +1646,12 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       // print the harmony degree
       switch (harmonyDegreeTypeKind) {
         case msrHarmonyDegree::kHarmonyDegreeAddType:
-/* JMI
-          if (harmonyDegreeValue == 2) {
-            s <<
-              ":5.2";
-          }
-          if (harmonyDegreeValue == 4) {
-            s <<
-              ":5.4";
-          }
-          else
-          */
-           {
+          {
             s <<
               "." <<
-              harmonyDegreeValue;
+              harmonyDegreeValue <<
+              harmonyDegreeAlterationAsLilypondString (
+                harmonyDegreeAlteration);
           }
           break;
           
@@ -1682,10 +1673,13 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     if (thereAreDegreesToBeRemoved) {
       s << "^";
 
+      int counter = 0;
       for (
         list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin();
         i != harmonyDegreesList.end();
         i++) {
+        counter++;
+        
         S_msrHarmonyDegree harmonyDegree = (*i);
   
         // get harmony degree information
@@ -1702,24 +1696,31 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
             harmonyDegree->getHarmonyDegreeTypeKind ();
                               
         // print the harmony degree
-        s <<
-          "." <<
-          harmonyDegreeValue;
-          
         switch (harmonyDegreeTypeKind) {
           case msrHarmonyDegree::kHarmonyDegreeAddType:
           case msrHarmonyDegree::kHarmonyDegreeAlterType:
             break;
             
           case msrHarmonyDegree::kHarmonyDegreeSubtractType:
+            if (counter > 1)
+              s << ".";
+    
             s <<
-    //          harmonyDegreeAlterationAsLilypondString (
-    //            harmonyDegreeAlteration) <<
-              "|";
+              harmonyDegreeValue <<
+              harmonyDegreeAlterationAsLilypondString (
+                harmonyDegreeAlteration);
             break;
         } // switch
       } // for
     }
+  }
+
+  int harmonyInversion =
+    harmony->getHarmonyInversion ();
+    
+  if ( harmonyInversion!= K_HARMONY_NO_INVERSION) {
+    s <<
+      "%{ inversion: " << harmonyInversion << " %}";
   }
     
   return s.str();
