@@ -1588,7 +1588,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s << "%{:Pedal%}";
       break;
     case msrHarmony::kPower:
-      s << ":5";
+      s << ":5 %{power%}";
       break;
     case msrHarmony::kTristan:
       s << "%{:Tristan%}";
