@@ -1579,47 +1579,93 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     harmonyDegreesList =
       harmony->getHarmonyDegreesList ();
 
-  if (fHarmonyDegreesList.size ())
+  if (harmonyDegreesList.size ()) {
+    bool thereAreDegreesToBeRemoved = false;
+    
+    // print degrees to be added first
     for (
-      list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin();
-      i != fHarmonyDegreesList.end();
+      list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin();
+      i != harmonyDegreesList.end();
       i++) {
       S_msrHarmonyDegree harmonyDegree = (*i);
 
       // get harmony degree information
       int
         harmonyDegreeValue =
-          harmony->getHarmonyDegreeValue ();
+          harmonyDegree->getHarmonyDegreeValue ();
           
       msrAlteration
         harmonyDegreeAlteration =
-          harmony->getHarmonyDegreeAlteration ();
+          harmonyDegree->getHarmonyDegreeAlteration ();
       
-      msrHarmonyDegreeTypeKind
+      msrHarmonyDegree::msrHarmonyDegreeTypeKind
         harmonyDegreeTypeKind =
-          harmony->getHarmonyDegreeTypeKind ();
+          harmonyDegree->getHarmonyDegreeTypeKind ();
                             
       // print the harmony degree
       s <<
         "." <<
         harmonyDegreeValue;
         
-      switch (msrHarmonyDegreeTypeKind) {
+      switch (harmonyDegreeTypeKind) {
         case msrHarmonyDegree::kHarmonyDegreeAddType:
           s << "+";
           break;
+          
         case msrHarmonyDegree::kHarmonyDegreeAlterType:
-          s << "HarmonyDegreeAlter";
+          s << "+";
           break;
+          
         case msrHarmonyDegree::kHarmonyDegreeSubstractType:
-          s << "^";
+          thereAreDegreesToBeRemoved = true;
           break;
       } // switch
     } // for
     
+    // then print degrees to be removed if any
+    if (thereAreDegreesToBeRemoved) {
+      s << "^";
+
+      for (
+        list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin();
+        i != harmonyDegreesList.end();
+        i++) {
+        S_msrHarmonyDegree harmonyDegree = (*i);
+  
+        // get harmony degree information
+        int
+          harmonyDegreeValue =
+            harmonyDegree->getHarmonyDegreeValue ();
+            
+        msrAlteration
+          harmonyDegreeAlteration =
+            harmonyDegree->getHarmonyDegreeAlteration ();
+        
+        msrHarmonyDegree::msrHarmonyDegreeTypeKind
+          harmonyDegreeTypeKind =
+            harmonyDegree->getHarmonyDegreeTypeKind ();
+                              
+        // print the harmony degree
+        s <<
+          "." <<
+          harmonyDegreeValue;
+          
+        switch (harmonyDegreeTypeKind) {
+          case msrHarmonyDegree::kHarmonyDegreeAddType:
+          case msrHarmonyDegree::kHarmonyDegreeAlterType:
+            break;
+            
+          case msrHarmonyDegree::kHarmonyDegreeSubstractType:
+            s << "^";
+            break;
+        } // switch
+      } // for
+    }
+  }
+    
   return s.str();
 }
-power c:5
+// power c:5 LPNR page 404
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
