@@ -1433,6 +1433,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     
   stringstream s;
 
+  // print harmony pitch and duration
   s <<
     msrQuarterTonesPitchAsString (
       gMsrOptions->
@@ -1444,6 +1445,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       harmony->
         getHarmonySoundingWholeNotes ());
     
+  // print harmony kind
   switch (harmony->getHarmonyKind ()) {
     case msrHarmony::k_NoHarmony:
       s << "Harmony???";
@@ -1571,8 +1573,53 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
         harmonyBassQuarterTonesPitch);
 
+
+  // print harmony degrees if any
+  list<S_msrHarmonyDegree>
+    harmonyDegreesList =
+      harmony->getHarmonyDegreesList ();
+
+  if (fHarmonyDegreesList.size ())
+    for (
+      list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin();
+      i != fHarmonyDegreesList.end();
+      i++) {
+      S_msrHarmonyDegree harmonyDegree = (*i);
+
+      // get harmony degree information
+      int
+        harmonyDegreeValue =
+          harmony->getHarmonyDegreeValue ();
+          
+      msrAlteration
+        harmonyDegreeAlteration =
+          harmony->getHarmonyDegreeAlteration ();
+      
+      msrHarmonyDegreeTypeKind
+        harmonyDegreeTypeKind =
+          harmony->getHarmonyDegreeTypeKind ();
+                            
+      // print the harmony degree
+      s <<
+        "." <<
+        harmonyDegreeValue;
+        
+      switch (msrHarmonyDegreeTypeKind) {
+        case msrHarmonyDegree::kHarmonyDegreeAddType:
+          s << "+";
+          break;
+        case msrHarmonyDegree::kHarmonyDegreeAlterType:
+          s << "HarmonyDegreeAlter";
+          break;
+        case msrHarmonyDegree::kHarmonyDegreeSubstractType:
+          s << "^";
+          break;
+      } // switch
+    } // for
+    
   return s.str();
 }
+power c:5
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)

@@ -4411,6 +4411,16 @@ Degree elements
     S_msrHarmony          getHarmonyDegreeHarmonyUplink () const
                               { return fHarmonyDegreeHarmonyUplink; }
 
+    int                   getHarmonyDegreeValue () const
+                              { return fHarmonyDegreeValue; }
+                              
+    msrAlteration         getHarmonyDegreeAlteration () const
+                              { return fHarmonyDegreeAlteration; }
+                              
+    msrHarmonyDegreeTypeKind
+                          getHarmonyDegreeTypeKind () const
+                              { return fHarmonyDegreeTypeKind; }
+
     // services
     // ------------------------------------------------------
 
