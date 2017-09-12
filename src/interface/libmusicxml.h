@@ -93,8 +93,21 @@ EXP xmlErr			musicxmlfd2guido	(FILE* fd, bool generateBars, std::ostream& out);
 	\param out the output stream
 	\return an error code (\c kNoErr when success)
 */
-EXP xmlErr			musicxmlstring2guido(const char *buff, bool generateBars, std::ostream& out);
+EXP xmlErr			musicxmlstring2guido(const char * buffer, bool generateBars, std::ostream& out);
 /*! @} */
+    
+    /*!
+     \brief Converts a MusicXML representation to the Guido format ONLY on asked Part number ID
+     
+     Courtesy of Antescofo
+     
+     \param buff a string containing MusicXML code
+     \param generateBars a boolean to force barlines generation
+     \param out the output stream
+     \return an error code (\c kNoErr when success)
+     */
+    EXP xmlErr			musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, int partFilter, std::ostream& out);
+    /*! @} */
 
 
 /*

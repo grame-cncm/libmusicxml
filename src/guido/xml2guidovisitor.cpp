@@ -31,10 +31,10 @@ namespace MusicXML2
 {
     
     //______________________________________________________________________________
-    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar) :
+    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0)
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum)
     {}
     
     //______________________________________________________________________________
@@ -175,6 +175,16 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_part& elt )
     {
+        // Filter out score-part here
+        if (fPartNum != 0) {
+            std::stringstream s;
+            s << "P"<<fPartNum;
+            std::string thisPart = elt->getAttributeValue("id");
+            if ( thisPart != s.str() ) {
+                return;
+            }
+        }
+        
         partsummary ps;
         xml_tree_browser browser(&ps);
         browser.browse(*elt);

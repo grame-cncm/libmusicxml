@@ -95,6 +95,8 @@ class EXP xml2guidovisitor :
     
     int  fCurrentAccoladeIndex;
     
+    int  fPartNum;  // 0 (default) to parse all score-parts. 1 for "P1" only, etc.
+    
     /// multimap containing <staff-num, position, clef type>
     std::multimap<int, std::pair< rational, string > > staffClefMap;
     
@@ -103,7 +105,7 @@ class EXP xml2guidovisitor :
 
 
     public:
-				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true);
+				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0);
 		virtual ~xml2guidovisitor() {}
 
 		Sguidoelement convert (const Sxmlelement& xml);
