@@ -18,7 +18,10 @@
 #include <sstream>
 #include <stdlib.h>     /* abort, NULL */
 #include <cassert>
+
 #include <vector>
+#include <map>
+
 #include <iomanip>      // setw, ...
 
 #include "rational.h"
@@ -899,6 +902,52 @@ void optionError (string errorMessage)
     
   exit(99);
 }
+
+//______________________________________________________________________________
+
+  /* JMI
+
+*/
+
+void convertHTMLEntitiesToPlainCharacters (string& s)
+{
+  map<string, string> conversionMap;
+  
+  conversionMap ["&"] = "&amp;";
+  //conversionMap ["\""] = "&quot;";
+  conversionMap ["'"] = "&apos;";
+  conversionMap ["<"] = "&lt;";
+  conversionMap [">"] = "&rt;";
+
+  map<string, string>::const_iterator i = conversionMap.begin();
+
+  for (i; i != conversionMap.end(); ++i) {
+    string
+      lookedFor = i->second,
+      ersatz    = i->first;
+    
+    // replace all occurrences of lookedFor by ersatz
+    for ( ; ; ) {
+      size_t found = s.find (lookedFor);
+
+      if (found == std::string::npos)
+        break;
+
+      s.replace (found, lookedFor.size (), ersatz);
+    } // for
+    
+  } // for
+}
+/*
+int main(int argc, char* argv[])
+{
+  std::string s = "gsdf&quot;gsdfg&amp;&amp;fgg";
+  htmlEntitiesDecode(s);
+  
+  return 0;
+}
+
+    */
 
 
 }

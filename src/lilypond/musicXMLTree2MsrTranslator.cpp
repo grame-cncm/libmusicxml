@@ -630,10 +630,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_movement_title& elt )
       "--> Start visiting S_movement_title" <<
       endl;
 
+  string movementTitle = elt->getValue ();
+
+  // remove HTML entities if any
+  convertHTMLEntitiesToPlainCharacters (
+    movementTitle);
+    
   fMsrScore->getIdentification () ->
     setMovementTitle (
       elt->getInputLineNumber (),
-      elt->getValue ());
+      movementTitle);
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_creator& elt )

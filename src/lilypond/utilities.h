@@ -375,6 +375,8 @@ string singularOrPluralWithoutNumber (
 //______________________________________________________________________________
 void optionError (string errorMessage);
 
+//______________________________________________________________________________
+void convertHTMLEntitiesToPlainCharacters (string& s);
 
 } // namespace MusicXML2
 
