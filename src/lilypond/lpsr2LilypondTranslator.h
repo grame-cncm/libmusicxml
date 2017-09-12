@@ -504,6 +504,9 @@ class lpsr2LilypondTranslator :
                             int transposeChromatic);
 
     // harmonies
+
+    bool                  fPowerChordHaveAlreadyBeenGenerated;
+                            // to generate it only once
     
     string                harmonyAsLilypondString (
                             S_msrHarmony harmony);

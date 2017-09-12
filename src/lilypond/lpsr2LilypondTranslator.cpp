@@ -82,6 +82,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // harmonies
   fOnGoingHarmonyVoice = false;
+  fPowerChordHaveAlreadyBeenGenerated = false;
 
   // figured bass
   fOnGoingFiguredBassVoice = false;
@@ -1474,6 +1475,18 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     
   stringstream s;
 
+  // should '\powerChords' be generated?
+  switch (harmony->getHarmonyKind ()) {
+    case msrHarmony::kPower:
+      if (! fPowerChordHaveAlreadyBeenGenerated) {
+        s << "\\powerChords" " ";
+        fPowerChordHaveAlreadyBeenGenerated = true;
+      }
+      break;
+    default:
+      ;
+  } // switch
+  
   // print harmony pitch and duration
   s <<
     msrQuarterTonesPitchAsString (
@@ -1493,7 +1506,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       break;
 
     case msrHarmony::kMajor:
-      s << ":5";
+      s << ":5.3";
       break;
     case msrHarmony::kMinor:
       s << ":m";
