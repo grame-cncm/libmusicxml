@@ -914,10 +914,10 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
   map<string, string> conversionMap;
   
   conversionMap ["&"] = "&amp;";
-  //conversionMap ["\""] = "&quot;";
+  conversionMap ["\""] = "&quot;";
   conversionMap ["'"] = "&apos;";
   conversionMap ["<"] = "&lt;";
-  conversionMap [">"] = "&rt;";
+  conversionMap [">"] = "&gt;";
 
   map<string, string>::const_iterator i = conversionMap.begin();
 

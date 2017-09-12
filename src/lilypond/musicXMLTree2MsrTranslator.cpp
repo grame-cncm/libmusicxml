@@ -632,7 +632,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_movement_title& elt )
 
   string movementTitle = elt->getValue ();
 
-  // remove HTML entities if any
+  // remove HTML entities if any // JMI option for that?
   convertHTMLEntitiesToPlainCharacters (
     movementTitle);
     
