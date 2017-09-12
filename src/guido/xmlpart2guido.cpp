@@ -1974,7 +1974,7 @@ namespace MusicXML2
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
             
             /// check for dx inference from default_x but avoid doing this for Chords as Guido handles this automatically!
-            if (timePos4measure != timePositions.end() ) {
+            if (timePos4measure != timePositions.end() && (isProcessingChord==false)) {
                 auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
                 if (voiceInTimePosition != timePos4measure->second.end()) {
                     auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
@@ -1985,6 +1985,8 @@ namespace MusicXML2
                         s << "dx=" << noteDx ;
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         push(noteFormatTag);
+                        
+                        cout<<"\t ADDED NoteFormat with dx="<<noteDx<<" on measure "<<measureNum<<endl;
                     }else
                         return 0;
                 }else
@@ -2108,7 +2110,8 @@ namespace MusicXML2
         if (chord.size())
         {
             Sguidoelement chord = guidochord::create();
-            pendingPops += checkNoteFormatDx(*this, thisNoteHeadPosition);
+            //// FIXME: The following line removed since it introduced bad behavior on REINE de La NUIT Piano accompaniment!
+            //pendingPops += checkNoteFormatDx(*this, thisNoteHeadPosition);
             push (chord);
             pendingPops++;
             isProcessingChord = true;
