@@ -14579,8 +14579,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_degree_type& elt )
   else if (degreeType == "alter")
     fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeAlterType;
     
-  else if (degreeType == "substract")
-    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeSubstractType;
+  else if (degreeType == "subtract")
+    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeSubtractType;
     
   else {
       msrMusicXMLError (

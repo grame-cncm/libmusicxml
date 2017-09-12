@@ -1672,7 +1672,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
               harmonyDegreeAlteration);
           break;
           
-        case msrHarmonyDegree::kHarmonyDegreeSubstractType:
+        case msrHarmonyDegree::kHarmonyDegreeSubtractType:
           thereAreDegreesToBeRemoved = true;
           break;
       } // switch
@@ -1711,7 +1711,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
           case msrHarmonyDegree::kHarmonyDegreeAlterType:
             break;
             
-          case msrHarmonyDegree::kHarmonyDegreeSubstractType:
+          case msrHarmonyDegree::kHarmonyDegreeSubtractType:
             s <<
     //          harmonyDegreeAlterationAsLilypondString (
     //            harmonyDegreeAlteration) <<

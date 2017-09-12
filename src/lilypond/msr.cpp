@@ -15736,8 +15736,8 @@ string msrHarmonyDegree::harmonyDegreeTypeAsString (
     case msrHarmonyDegree::kHarmonyDegreeAlterType:
       result = "HarmonyDegreeAlter";
       break;
-    case msrHarmonyDegree::kHarmonyDegreeSubstractType:
-      result = "HarmonyDegreeSubstract";
+    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
+      result = "HarmonyDegreeSubtract";
       break;
   } // switch
 
@@ -15755,8 +15755,8 @@ string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
     case msrHarmonyDegree::kHarmonyDegreeAlterType:
       result = "Alter";
       break;
-    case msrHarmonyDegree::kHarmonyDegreeSubstractType:
-      result = "Substract";
+    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
+      result = "Subtract";
       break;
   } // switch
 
