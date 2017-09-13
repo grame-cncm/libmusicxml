@@ -20027,8 +20027,24 @@ void msrSegment::initializeSegment ()
       "% ==> Initializing new segment, gets absolute number '" <<
       fSegmentAbsoluteNumber <<
       "'" <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
       endl;
   }
+
+/* OLD STUFF, NO GOOD JMI
+  // create a first measure // JMI
+  S_msrMeasure
+    measure =
+      msrMeasure::create (
+        fInputLineNumber,
+        "9999",
+        this);
+
+  // append the measure to the segment
+  appendMeasureToSegment (measure);
+*/
 
   // segment's measure number has not been set yet
   fMeasureNumberHasBeenSetInSegment = false;
@@ -21530,13 +21546,13 @@ void msrSegment::print (ostream& os)
 //______________________________________________________________________________
 S_msrRepeatCommonPart msrRepeatCommonPart::create (
   int                 inputLineNumber,
-  S_msrSegment        segment,
+  S_msrSegment        repeatCommonPartSegment,
   S_msrRepeat         repeatUplink)
 {
   msrRepeatCommonPart* o =
     new msrRepeatCommonPart (
       inputLineNumber,
-      segment,
+      repeatCommonPartSegment,
       repeatUplink);
   assert(o!=0);
   return o;
@@ -21544,12 +21560,22 @@ S_msrRepeatCommonPart msrRepeatCommonPart::create (
 
 msrRepeatCommonPart::msrRepeatCommonPart (
   int                 inputLineNumber,
-  S_msrSegment        segment,
+  S_msrSegment        repeatCommonPartSegment,
   S_msrRepeat         repeatUplink)
     : msrElement (inputLineNumber)
 {
-  fRepeatCommonPartSegment = segment;
+  // sanity check
+  msrAssert (
+    repeatCommonPartSegment != 0,
+    "repeatCommonPartSegment is null");
+    
+  fRepeatCommonPartSegment = repeatCommonPartSegment;
   
+  // sanity check
+  msrAssert (
+    repeatUplink != 0,
+    "repeatUplink is null");
+    
   fRepeatCommonPartRepeatUplink = repeatUplink;
 }
 
@@ -22106,8 +22132,14 @@ void msrRepeat::setRepeatCommonSegment (
 }
 */
 
-void msrRepeat::addRepeatEnding (S_msrRepeatEnding repeatEnding)
+void msrRepeat::addRepeatEnding (
+  S_msrRepeatEnding repeatEnding)
 {
+  // sanity check
+  msrAssert(
+    repeatEnding != 0,
+    "repeatEnding is null");
+    
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
       "Adding ending '" <<

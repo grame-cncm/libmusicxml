@@ -13807,7 +13807,7 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
 
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
-      "Appending an implicit repeat to part " <<
+      "Appending a repeat to part " <<
       fCurrentPart->getPartCombinedName () <<
       endl;
 
@@ -14639,6 +14639,16 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )
       inputLineNumber,
       fCurrentHarmonyBassDiatonicPitch,
       fCurrentHarmonyBassAlteration);
+
+  // check data consistency
+  if (
+    fCurrentHarmonyKind == msrHarmony::kOther
+      &&
+    fCurrentHarmonyDegreesList.size () == 0) {
+    msrMusicXMLWarning (
+     inputLineNumber,
+     "harmony kind is 'other' but there are no harmony degrees, this is strange...");
+  }
 
   if (
     fCurrentHarmonyRootQuarterTonesPitch

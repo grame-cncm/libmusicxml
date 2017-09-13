@@ -1583,7 +1583,22 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     case msrHarmony::kSuspendedFourth:
       s << ":sus4";
       break;
-      
+
+/*
+ * kNeapolitan f aes des' in:
+ *
+ * c e g c' -> f f aes des' -> d g d b -> c e g c'
+ 
+they are three different pre-dominant chords that are taught to American undergrads in a sophomore theory course.
+
+in E major:
+Italian = C E A#
+French = C E F# A#
+German = C E G A#
+Tristan = C D# F# A#
+
+in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
+*/      
     case msrHarmony::kNeapolitan:
       s << "%{:Neapolitan%}";
       break;
