@@ -1071,8 +1071,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             chordNamesContext =
               lpsrContext::create (
                 inputLineNumber,
-                lpsrContext::kExistingContext,
-                "ChordNames",
+                lpsrContext::kExistingContextYes,
+                lpsrContext::kChordNames,
                 voiceName);
   
           // append it to the current part block
@@ -1147,8 +1147,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             figuredBassContext =
               lpsrContext::create (
                 inputLineNumber,
-                lpsrContext::kExistingContext,
-                "FiguredBass",
+                lpsrContext::kExistingContextYes,
+                lpsrContext::kFiguredBass,
                 voiceName);
   
           // append it to the current part block

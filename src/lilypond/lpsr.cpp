@@ -1962,26 +1962,28 @@ void lpsrVariableUseCommand::print (ostream& os)
 //______________________________________________________________________________
 S_lpsrContext lpsrContext::create (
   int             inputLineNumber,
-  lpsrContextKind contextKind,
-  string          contextType,
+  lpsrContextExistingKind
+                  contextExistingKind,
+  lpsrContextType contextType,
   string          contextName)
 {
   lpsrContext* o =
     new lpsrContext (
       inputLineNumber,
-      contextKind, contextType, contextName);
+      contextExistingKind, contextType, contextName);
   assert(o!=0);
   return o;
 }
 
 lpsrContext::lpsrContext (
   int             inputLineNumber,
-  lpsrContextKind contextKind,
-  string          contextType,
+  lpsrContextExistingKind
+                  contextExistingKind,
+  lpsrContextType contextType,
   string          contextName)
     : lpsrElement (inputLineNumber)
 {
-  fContextKind = contextKind;
+  fContextExistingKind = contextExistingKind;
   fContextType = contextType;
   fContextName = contextName; 
 }
@@ -2030,24 +2032,56 @@ void lpsrContext::acceptOut (basevisitor* v) {
 void lpsrContext::browseData (basevisitor* v)
 {}
 
-void lpsrContext::print (ostream& os)
-{  
-  os << "Context" ", ";
+string lpsrContext::contextTypeAsString (
+  lpsrContextType contextType)
+{
+  string result;
   
-  switch (fContextKind) {
-    case kExistingContext:
-      os << "existing";
+  switch (contextType) {
+    case kChordNames:
+      result = "ChordNames";
       break;
-      
-    case kNewContext:
-      os << "new";
+    case kFiguredBass:
+      result = "FiguredBass";
       break;
   } // switch
+
+  return result;
+}
   
-  os << ", \"" << fContextType << "\"";
+string lpsrContext::contextExistingKindAsString (
+  lpsrContextExistingKind contextExistingKind)
+{
+  string result;
+  
+  switch (contextExistingKind) {
+    case kExistingContextYes:
+      result = "existing: yes";
+      break;
+      
+    case kExistingContextNo:
+      result = "existing: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+void lpsrContext::print (ostream& os)
+{  
+  os <<
+    "Context, \"" <<
+    contextTypeAsString (
+      fContextType) <<
+    "\"" <<
+    ", existing kind: " <<
+    contextExistingKindAsString (
+      fContextExistingKind);
+    
   if (fContextName.size())
     os << " " << fContextName;
-  os << endl;
+  os <<
+  endl;
   
   idtr++;
 

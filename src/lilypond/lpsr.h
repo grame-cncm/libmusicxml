@@ -1167,19 +1167,26 @@ class EXP lpsrContext : public lpsrElement
     // data types
     // ------------------------------------------------------
 
-    enum lpsrContextKind {
-      kExistingContext, kNewContext};
+    enum lpsrContextType {
+      kChordNames, kFiguredBass };
     
-    static string contextKindAsString (
-      lpsrContextKind contextKind);
+    static string contextTypeAsString (
+      lpsrContextType contextType);
+      
+    enum lpsrContextExistingKind {
+      kExistingContextYes, kExistingContextNo};
+    
+    static string contextExistingKindAsString (
+      lpsrContextExistingKind contextExistingKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<lpsrContext> create (
       int             inputLineNumber,
-      lpsrContextKind contextKind,
-      string          contextType,
+      lpsrContextExistingKind
+                      contextExistingKind,
+      lpsrContextType contextType,
       string          contextName);
     
   protected:
@@ -1189,8 +1196,9 @@ class EXP lpsrContext : public lpsrElement
 
     lpsrContext (
       int             inputLineNumber,
-      lpsrContextKind contextKind,
-      string          contextType,
+      lpsrContextExistingKind
+                      contextExistingKind,
+      lpsrContextType contextType,
       string          contextName);
       
     virtual ~lpsrContext();
@@ -1200,10 +1208,11 @@ class EXP lpsrContext : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    lpsrContextKind       getContextKind () const
-                              { return fContextKind; }
+    lpsrContextExistingKind
+                          getContextExistingKind () const
+                              { return fContextExistingKind; }
 
-    string                getContextType () const
+    lpsrContextType       getContextType () const
                               { return fContextType; }
 
     string                getContextName () const
@@ -1232,9 +1241,10 @@ class EXP lpsrContext : public lpsrElement
 
   private:
   
-    lpsrContextKind   fContextKind;
-    string            fContextType;
-    string            fContextName;
+    lpsrContextExistingKind
+                          fContextExistingKind;
+    lpsrContextType       fContextType;
+    string                fContextName;
 
     vector<S_msrElement> fContextElements;
 };

@@ -2854,7 +2854,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       break;
       
     case msrStaff::kHarmonyStaff:
-      staffContextName = "\\context ChordNames";
+      staffContextName = "\\context ChordNames2";
       voiceContextName = "???"; // JMI
       break;
       
