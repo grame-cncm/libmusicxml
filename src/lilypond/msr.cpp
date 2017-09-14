@@ -20921,6 +20921,13 @@ void msrSegment::bringSegmentToMeasureLength (
   }
 }
 
+string msrSegment::segmentMeasureNumbersAsString () const
+{
+  stringstream s;
+
+  return s.str();
+}
+
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {
   int inputLineNumber =

@@ -3671,6 +3671,8 @@ class EXP msrSegment : public msrElement
   
     // measures
 
+    string                segmentMeasureNumbersAsString () const;
+    
     void                  appendMeasureToSegment (
                             S_msrMeasure measure);
 
