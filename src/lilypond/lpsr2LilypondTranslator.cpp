@@ -3004,21 +3004,49 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
       "% --> Start visiting lpsrContext" <<
       endl;
 
-  string contextName =
-    elt->getContextName ();
+  string
+    contextTypeAsString =
+      elt->getContextTypeAsString (),
+    contextName =
+      elt->getContextName ();
     
   fOstream << idtr <<
-    "\\context" " " << elt->getContextType () <<
+    "\\context" " " << contextTypeAsString <<
     " = \"" << contextName << "\"" <<
     endl;
 
-  idtr++;
+  if (true) { //option JMI
+    fOstream <<
+      idtr <<
+        "\\with {" <<
+        endl;
+
+    idtr++;
+    
+    fOstream <<
+      idtr <<
+        "\\override BarLine.bar-extent = #'(-2 . 2)" <<
+        endl <<
+      idtr <<
+        "\\consists \"Bar_engraver\"" <<
+        endl;
+        
+    idtr--;
+        
+    fOstream <<
+      idtr <<
+        "}" <<
+        endl;
+  }
+        
+// JMI  idtr++;
 
   fOstream << idtr <<
     "\\" << contextName <<
-    endl << endl;
+    endl <<
+    endl;
     
-  idtr--;
+// JMI  idtr--;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrContext& elt)
@@ -3558,10 +3586,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       endl;
 
   if (fOnGoingNote) {
-    fOstream <<
-      "%{ " << elt->harmonyAsString () << " %}" <<
-      endl <<
-      idtr;
+    if (gGeneralOptions->fTraceHarmonies) {
+      fOstream <<
+        "%{ " << elt->harmonyAsString () << " %}" <<
+        endl <<
+        idtr;
+    }
   }
   
   else if (fOnGoingChord) { // JMI

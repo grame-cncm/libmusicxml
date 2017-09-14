@@ -1221,6 +1221,20 @@ class EXP lpsrContext : public lpsrElement
     // services
     // ------------------------------------------------------
 
+    string                getContextTypeAsString () const
+                              {
+                                return
+                                  contextTypeAsString (
+                                    fContextType);
+                              }
+
+    string                getContextExistingKindAsString () const
+                              {
+                                return
+                                  contextExistingKindAsString (
+                                    fContextExistingKind);
+                              }
+
     void                  addElementToContext (S_msrElement elem)
                             {
                               fContextElements.push_back(elem);
