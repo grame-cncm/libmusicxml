@@ -8949,10 +8949,14 @@ class EXP msrVoice : public msrElement
     void                  createNewLastSegmentForVoice (
                             int inputLineNumber);
     
-    void                  createNewLastSegmentWithFirstMeasureForVoice (
+    void                  createNewLastSegmentFromFirstMeasureForVoice (
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure);
 
+    void                  createNewLastSegmentAndANewMeasureForVoice (
+                            int    inputLineNumber,
+                            string measureNumber);
+                            
     // stanzas
 
     S_msrStanza           addStanzaToVoiceByItsNumber (

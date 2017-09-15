@@ -24152,7 +24152,7 @@ void msrVoice::createNewLastSegmentForVoice (
       this);
 }
 
-void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
+void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
   int          inputLineNumber,
   S_msrMeasure firstMeasure)
 {
@@ -24176,6 +24176,48 @@ void msrVoice::createNewLastSegmentWithFirstMeasureForVoice (
   // append firstMeasure to it
   fVoiceLastSegment->
     appendMeasureToSegment (firstMeasure);
+}
+
+void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
+  int    inputLineNumber,
+  string measureNumber)
+{
+/*
+  This method is used for repeats
+  It may lead to several measures having the same number,
+  in case a bar line cuts them apart
+  If this measure remains empty because the end of measure
+  follows the barline, it will be removed upon finalizeMeasure()
+*/
+
+  // create the segment
+  if (gGeneralOptions->fTraceVoices) {
+    cerr << idtr <<
+      "==> Creating a new segment containing a new measure '" <<
+      measureNumber <<
+      "'for voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create the new voice last segment
+  fVoiceLastSegment =
+    msrSegment::create (
+      inputLineNumber,
+      this);
+
+  // create the new measure with number newMeasureMeasureNumber
+  S_msrMeasure
+    newMeasure =
+      msrMeasure::create (
+        inputLineNumber,
+        measureNumber,
+        fVoiceLastSegment);
+  
+  // append new measure to new voice last segment
+  fVoiceLastSegment->
+    appendMeasureToSegment (newMeasure);
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
@@ -25381,7 +25423,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentWithFirstMeasureForVoice (
+        createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           firstReplicaMeasure);
 
@@ -25556,7 +25598,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentWithFirstMeasureForVoice (
+        createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMeasureRepeat);
 
@@ -25661,7 +25703,7 @@ void msrVoice::createMultipleRestInVoice (
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentWithFirstMeasureForVoice (
+        createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           firstRestMeasure);
 
@@ -25839,7 +25881,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentWithFirstMeasureForVoice (
+        createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMultipleRest);
 
