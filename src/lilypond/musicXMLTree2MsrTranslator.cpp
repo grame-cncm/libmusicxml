@@ -5693,7 +5693,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
           msrBarNumberCheck::create (
             inputLineNumber,
             currentVoice->
-              getVoiceMeasureNumber ());
+              getVoiceCurrentMeasureNumber ());
             
       // append it to the voice
 // JMI      S_msrElement bnc = barNumberCheck_;
@@ -5712,7 +5712,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
           msrLineBreak::create (
             inputLineNumber,
             currentVoice->
-              getVoiceMeasureNumber ());
+              getVoiceCurrentMeasureNumber ());
   
       // append it to the voice
       currentVoice->

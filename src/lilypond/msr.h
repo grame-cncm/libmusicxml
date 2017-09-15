@@ -8693,8 +8693,8 @@ class EXP msrVoice : public msrElement
     void                  appendAFirstMeasureToVoiceIfNotYetDone (
                              int inputLineNumber);
                         
-    const string          getVoiceMeasureNumber () const
-                              { return fVoiceMeasureNumber; }
+    const string          getVoiceCurrentMeasureNumber () const
+                              { return fVoiceCurrentMeasureNumber; }
 
     // has music been inserted in the voice?
     
@@ -8954,8 +8954,7 @@ class EXP msrVoice : public msrElement
                             S_msrMeasure firstMeasure);
 
     void                  createNewLastSegmentAndANewMeasureForVoice (
-                            int    inputLineNumber,
-                            string measureNumber);
+                            int    inputLineNumber);
                             
     // stanzas
 
@@ -9033,7 +9032,7 @@ class EXP msrVoice : public msrElement
 
     // measures
     
-    string                fVoiceMeasureNumber;
+    string                fVoiceCurrentMeasureNumber;
     
     // musically empty voices
     

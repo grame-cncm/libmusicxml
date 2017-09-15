@@ -23732,7 +23732,7 @@ void msrVoice::initializeVoice (
   } // switch
   
   // set voice number
-  fVoiceMeasureNumber = // JMI "??";
+  fVoiceCurrentMeasureNumber = // JMI "??";
     fetchVoicePartUplink ()->
       getPartCurrentMeasureNumber ();
 
@@ -23844,8 +23844,8 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
     fVoiceActualHarmoniesCounter;
 
   // measures
-  newbornClone->fVoiceMeasureNumber =
-    fVoiceMeasureNumber;
+  newbornClone->fVoiceCurrentMeasureNumber =
+    fVoiceCurrentMeasureNumber;
 
   // musically empty voices
   newbornClone->fMusicHasBeenInsertedInVoice =
@@ -23946,8 +23946,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fVoiceActualHarmoniesCounter;
 
   // measures
-  voiceDeepCopy->fVoiceMeasureNumber =
-    fVoiceMeasureNumber;
+  voiceDeepCopy->fVoiceCurrentMeasureNumber =
+    fVoiceCurrentMeasureNumber;
 
   // musically empty voices
   voiceDeepCopy->fMusicHasBeenInsertedInVoice =
@@ -24119,7 +24119,7 @@ void msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
   string measureNumber)
 {
-  fVoiceMeasureNumber = measureNumber;
+  fVoiceCurrentMeasureNumber = measureNumber;
 
   if (! fVoiceLastSegment) {
     // create the voice last segment if not yet done // JMI
@@ -24179,8 +24179,7 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
 }
 
 void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
-  int    inputLineNumber,
-  string measureNumber)
+  int    inputLineNumber)
 {
 /*
   This method is used for repeats
@@ -24194,7 +24193,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
   if (gGeneralOptions->fTraceVoices) {
     cerr << idtr <<
       "==> Creating a new segment containing a new measure '" <<
-      measureNumber <<
+      fVoiceCurrentMeasureNumber <<
       "'for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
@@ -24212,7 +24211,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
     newMeasure =
       msrMeasure::create (
         inputLineNumber,
-        measureNumber,
+        fVoiceCurrentMeasureNumber,
         fVoiceLastSegment);
   
   // append new measure to new voice last segment
@@ -25310,14 +25309,14 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
         fVoiceInitialRepeatsAndSegments.push_back (
           repeat);
       
-        // create a new segment for the voice
+        // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "==> Creating a new last segment for voice \"" <<
+            "==> Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentForVoice (
+        createNewLastSegmentAndANewMeasureForVoice (
           inputLineNumber);
       }
       break;
