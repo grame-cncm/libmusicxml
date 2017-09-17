@@ -16255,9 +16255,9 @@ void msrHarmonyDegree::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
-  int                  inputLineNumber,
-  int                  chordItemNumber,
-  msrChordItemInterval chordItemInterval)
+  int         inputLineNumber,
+  int         chordItemNumber,
+  msrInterval chordItemInterval)
 {
   msrChordItem* o =
     new msrChordItem (
@@ -16270,9 +16270,9 @@ S_msrChordItem msrChordItem::create (
 }
 
 msrChordItem::msrChordItem (
-  int                  inputLineNumber,
-  int                  chordItemNumber,
-  msrChordItemInterval chordItemInterval)
+  int         inputLineNumber,
+  int         chordItemNumber,
+  msrInterval chordItemInterval)
     : msrElement (inputLineNumber)
 {
   fChordItemNumber   = chordItemNumber;

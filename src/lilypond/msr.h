@@ -4495,16 +4495,13 @@ class EXP msrChordItem : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrChordItem> create (
-      int                  inputLineNumber,
-      int                  chordItemNumber,
-      msrChordItemInterval chordItemInterval);
+      int         inputLineNumber,
+      int         chordItemNumber,
+      msrInterval chordItemInterval);
 
     /* JMI
     SMARTP<msrChordItem> createChordItemNewbornClone (
@@ -4520,9 +4517,9 @@ class EXP msrChordItem : public msrElement
     // ------------------------------------------------------
 
     msrChordItem (
-      int                  chordItemNumber,
-      int                  inputLineNumber,
-      msrChordItemInterval chordItemInterval);
+      int         inputLineNumber,
+      int         chordItemNumber,
+      msrInterval chordItemInterval);
 
     virtual ~msrChordItem();
   
@@ -4534,7 +4531,7 @@ class EXP msrChordItem : public msrElement
     int                   getChordItemNumber () const
                               { return fChordItemNumber; }
                               
-    msrChordItemInterval  getChordItemInterval () const
+    msrInterval           getChordItemInterval () const
                               { return fChordItemInterval; }
                               
     // services
@@ -4563,7 +4560,7 @@ class EXP msrChordItem : public msrElement
   private:
 
     int                   fChordItemNumber;
-    msrChordItemInterval  fChordItemInterval;
+    msrInterval           fChordItemInterval;
 };
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
