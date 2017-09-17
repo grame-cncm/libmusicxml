@@ -16010,6 +16010,135 @@ msrHarmony::msrHarmony (
 msrHarmony::~msrHarmony()
 {}
 
+void msrHarmony::initializeHarmoniesHarmonyDegreesList ()
+{
+  for (
+    msrHarmonyKind harmonyKind = k_NoHarmony;
+    harmonyKind <= kNone;
+    harmonyKind++) {
+    switch (harmonyKind) {
+      case msrHarmony::k_NoHarmony:
+        break;
+  
+      case msrHarmony::kMajor:
+        
+        gHarmoniesHarmonyDegreesList {harmonyKind}.push_back (
+          msrHarmonyDegree::create (
+          )
+          )
+          harmonyKind;
+
+        result = "Major";
+        break;
+      case msrHarmony::kMinor:
+        result = "Minor";
+        break;
+      case msrHarmony::kAugmented:
+        result = "Augmented";
+        break;
+      case msrHarmony::kDiminished:
+        result = "Diminished";
+        break;
+  
+      case msrHarmony::kDominant:
+        result = "Dominant";
+        break;
+      case msrHarmony::kMajorSeventh:
+        result = "MajorSeventh";
+        break;
+      case msrHarmony::kMinorSeventh:
+        result = "MinorSeventh";
+        break;
+      case msrHarmony::kDiminishedSeventh:
+        result = "DiminishedSeventh";
+        break;
+      case msrHarmony::kAugmentedSeventh:
+        result = "AugmentedSeventh";
+        break;
+      case msrHarmony::kHalfDiminished:
+        result = "HalfDiminished";
+        break;
+      case msrHarmony::kMajorMinor:
+        result = "MajorMinor";
+        break;
+  
+      case msrHarmony::kMajorSixth:
+        result = "MajorSixth";
+        break;
+      case msrHarmony::kMinorSixth:
+        result = "MinorSixth";
+        break;
+  
+      case msrHarmony::kDominantNinth:
+        result = "DominantNinth";
+        break;
+      case msrHarmony::kMajorNinth:
+        result = "MajorNinth";
+        break;
+      case msrHarmony::kMinorNinth:
+        result = "MinorNinth";
+        break;
+  
+      case msrHarmony::kDominantEleventh:
+        result = "DominantEleventh";
+        break;
+      case msrHarmony::kMajorEleventh:
+        result = "MajorEleventh";
+        break;
+      case msrHarmony::kMinorEleventh:
+        result = "MinorEleventh";
+        break;
+  
+      case msrHarmony::kDominantThirteenth:
+        result = "DominantThirteenth";
+        break;
+      case msrHarmony::kMajorThirteenth:
+        result = "MajorThirteenth";
+        break;
+      case msrHarmony::kMinorThirteenth:
+        result = "MinorThirteenth";
+        break;
+  
+      case msrHarmony::kSuspendedSecond:
+        result = "SuspendedSecond";
+        break;
+      case msrHarmony::kSuspendedFourth:
+        result = "SuspendedFourth";
+        break;
+        
+      case msrHarmony::kNeapolitan:
+        result = "Neapolitan";
+        break;
+      case msrHarmony::kItalian:
+        result = "Italian";
+        break;
+      case msrHarmony::kFrench:
+        result = "French";
+        break;
+      case msrHarmony::kGerman:
+        result = "German";
+        break;
+  
+      case msrHarmony::kPedal:
+        result = "Pedal";
+        break;
+      case msrHarmony::kPower:
+        result = "Power";
+        break;
+      case msrHarmony::kTristan:
+        result = "Tristan";
+        break;
+        
+      case msrHarmony::kOther:
+        result = "Other";
+        break;
+      case msrHarmony::kNone:
+        result = "None";
+        break;
+    } // switch
+  } // for
+}
+  
 S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {

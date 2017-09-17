@@ -4465,6 +4465,137 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
+class EXP msrChordItem : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+/*
+Degree elements
+  can then add, subtract, or alter from these
+  starting points.
+
+      <harmony>
+        <root>
+          <root-step>B</root-step>
+        </root>
+        <kind>dominant</kind>
+        <degree>
+          <degree-value>5</degree-value>
+          <degree-alter>1</degree-alter>
+          <degree-type>alter</degree-type>
+        </degree>
+        <degree>
+          <degree-value>9</degree-value>
+          <degree-alter>1</degree-alter>
+          <degree-type>add</degree-type>
+        </degree>
+      </harmony>
+*/
+
+    enum msrChordItemTypeKind {
+      kChordItemAddType,
+      kChordItemAlterType,
+      kChordItemSubtractType };
+
+    static string chordItemTypeAsString (
+      msrChordItemTypeKind chordItemTypeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordItem> create (
+      int                      inputLineNumber,
+      int                      chordItemValue,
+      msrAlteration            chordItemAlteration,
+      msrChordItemTypeKind chordItemTypeKind);
+
+    /* JMI
+    SMARTP<msrChordItem> createChordItemNewbornClone (
+      S_msrPart containingPart);
+
+    SMARTP<msrChordItem> createChordItemDeepCopy ( // JMI ???
+      S_msrPart containingPart);
+      */
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordItem (
+      int                      inputLineNumber,
+      int                      chordItemValue,
+      msrAlteration            chordItemAlteration,
+      msrChordItemTypeKind chordItemTypeKind);
+
+    virtual ~msrChordItem();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setChordItemHarmonyUplink (
+                            S_msrHarmony harmonyUplink);
+
+    S_msrHarmony          getChordItemHarmonyUplink () const
+                              { return fChordItemHarmonyUplink; }
+
+    int                   getChordItemValue () const
+                              { return fChordItemValue; }
+                              
+    msrAlteration         getChordItemAlteration () const
+                              { return fChordItemAlteration; }
+                              
+    msrChordItemTypeKind
+                          getChordItemTypeKind () const
+                              { return fChordItemTypeKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    int                   chordItemAsSemitones () const;
+    
+    string                chordItemKindAsString () const;
+    string                chordItemKindAsShortString () const;
+    
+    string                chordItemAsString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // uplinks
+    S_msrHarmony          fChordItemHarmonyUplink;
+
+    int                   fChordItemValue;
+    msrAlteration         fChordItemAlteration;
+    msrChordItemTypeKind
+                          fChordItemTypeKind;
+};
+typedef SMARTP<msrChordItem> S_msrChordItem;
+EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
+
+/*!
+\brief A msr harmony representation.
+
+  A harmony is represented by a list of syllables,
+*/
+//______________________________________________________________________________
 class EXP msrHarmony : public msrElement
 {
   public:
@@ -4597,6 +4728,8 @@ class EXP msrHarmony : public msrElement
 
     static map<msrHarmonyKind, list <S_msrHarmonyDegree> >
                           gHarmoniesHarmonyDegreesList;
+
+    static void           initializeHarmoniesHarmonyDegreesList ();
 
     // creation from MusicXML
     // ------------------------------------------------------
