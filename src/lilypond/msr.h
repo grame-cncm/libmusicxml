@@ -4770,6 +4770,8 @@ The "other" kind is used when the harmony is entirely composed of add elements. 
 
     static void           initializeHarmoniesChordItemsVector ();
 
+    static void           printHarmoniesChordItemsVector ();
+
     // creation from MusicXML
     // ------------------------------------------------------
 

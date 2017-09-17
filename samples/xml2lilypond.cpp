@@ -3807,7 +3807,9 @@ void printOptions ()
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
- /*
+  msrHarmony::printHarmoniesChordItemsVector ();
+
+  /*
   cerr << "argc = " << argc << endl;
   for (int i = 0; i < argc ; i++ ) {
     cerr << "argv[ " << i << "] = " << argv[i] << endl;
