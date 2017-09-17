@@ -16576,6 +16576,9 @@ void msrChordItem::print (ostream& os)
 }
 
 //______________________________________________________________________________
+map<msrHarmony::msrHarmonyKind, vector <S_msrChordItem>* >
+  msrHarmony::gHarmoniesChordItemsVectorsMap;
+
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
   S_msrPart            harmonyPart,

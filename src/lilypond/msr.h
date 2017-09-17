@@ -347,13 +347,13 @@ enum msrInterval {
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
-static int msrIntervalAsSemiTones (
+int msrIntervalAsSemiTones (
   msrInterval interval);
   
-static string msrIntervalAsString (
+string msrIntervalAsString (
   msrInterval interval);
       
-static string msrIntervalAsShortString (
+string msrIntervalAsShortString (
   msrInterval interval);
       
 // quarter tones pitches
@@ -4549,7 +4549,12 @@ class EXP msrChordItem : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   chordItemAsSemitones () const;
+    int                   chordItemAsSemitones () const
+                              {
+                                return
+                                  msrIntervalAsSemiTones (
+                                    fChordItemInterval);
+                              }
     
     string                chordItemIntervalAsString () const;
     string                chordItemIntervalAsShortString () const;
