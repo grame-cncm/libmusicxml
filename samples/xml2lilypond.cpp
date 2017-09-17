@@ -3807,6 +3807,7 @@ void printOptions ()
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
+  msrHarmony::initializeHarmoniesChordItemsVector (); // JMI
   msrHarmony::printHarmoniesChordItemsVector ();
 
   /*

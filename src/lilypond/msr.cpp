@@ -17777,6 +17777,15 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
               4, // chord item number
               kAugmentedSixth)
             );
+
+          cerr <<
+            "++++++++++++++" <<
+            endl <<
+            msrHarmony::harmonyKindAsString (harmonyKind) <<
+            endl <<
+            chordItemsVector <<
+            "++++++++++++++" <<
+            endl;
             
           gHarmoniesChordItemsVectorsMap [harmonyKind] =
             chordItemsVector;
