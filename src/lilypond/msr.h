@@ -4472,45 +4472,30 @@ class EXP msrChordItem : public msrElement
     // data types
     // ------------------------------------------------------
 
-/*
-Degree elements
-  can then add, subtract, or alter from these
-  starting points.
+    enum msrChordItemInterval {
+      kUnisson,
+      kMinorSecond, kMajorSecond,
+      kMinorThird, kMajorThird,
+      kFourth, kAugmentedFourth,
+      kDiminishedFitth, kFifth, kAugmentedFifth,
+      kSixth,
+      kDiminishedSeventh, kMinorSeventh, kMajorSeventh,
+      kOctave,
+      kMinorNinth, kMajorNinth,
+      kTenth,
+      kEleventh, kAugmentedEleventh,
+      kTwelfth,
+      kThirteenth };
 
-      <harmony>
-        <root>
-          <root-step>B</root-step>
-        </root>
-        <kind>dominant</kind>
-        <degree>
-          <degree-value>5</degree-value>
-          <degree-alter>1</degree-alter>
-          <degree-type>alter</degree-type>
-        </degree>
-        <degree>
-          <degree-value>9</degree-value>
-          <degree-alter>1</degree-alter>
-          <degree-type>add</degree-type>
-        </degree>
-      </harmony>
-*/
-
-    enum msrChordItemTypeKind {
-      kChordItemAddType,
-      kChordItemAlterType,
-      kChordItemSubtractType };
-
-    static string chordItemTypeAsString (
-      msrChordItemTypeKind chordItemTypeKind);
+    static string msrChordItemIntervalAsString (
+      msrChordItemInterval chordItemInterval);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrChordItem> create (
-      int                      inputLineNumber,
-      int                      chordItemValue,
-      msrAlteration            chordItemAlteration,
-      msrChordItemTypeKind chordItemTypeKind);
+      int                  chordItemNumber,
+      msrChordItemInterval chordItemInterval);
 
     /* JMI
     SMARTP<msrChordItem> createChordItemNewbornClone (
@@ -4526,10 +4511,8 @@ Degree elements
     // ------------------------------------------------------
 
     msrChordItem (
-      int                      inputLineNumber,
-      int                      chordItemValue,
-      msrAlteration            chordItemAlteration,
-      msrChordItemTypeKind chordItemTypeKind);
+      int                  chordItemNumber,
+      msrChordItemInterval chordItemInterval);
 
     virtual ~msrChordItem();
   
@@ -4538,29 +4521,19 @@ Degree elements
     // set and get
     // ------------------------------------------------------
 
-    void                  setChordItemHarmonyUplink (
-                            S_msrHarmony harmonyUplink);
-
-    S_msrHarmony          getChordItemHarmonyUplink () const
-                              { return fChordItemHarmonyUplink; }
-
-    int                   getChordItemValue () const
-                              { return fChordItemValue; }
+    int                   getChordItemNumber () const
+                              { return fChordItemNumber; }
                               
-    msrAlteration         getChordItemAlteration () const
-                              { return fChordItemAlteration; }
+    msrChordItemInterval  getChordItemInterval () const
+                              { return fChordItemInterval; }
                               
-    msrChordItemTypeKind
-                          getChordItemTypeKind () const
-                              { return fChordItemTypeKind; }
-
     // services
     // ------------------------------------------------------
 
     int                   chordItemAsSemitones () const;
     
-    string                chordItemKindAsString () const;
-    string                chordItemKindAsShortString () const;
+    string                chordItemIntervalAsString () const;
+    string                chordItemIntervalAsShortString () const;
     
     string                chordItemAsString () const;
    
@@ -4579,13 +4552,8 @@ Degree elements
 
   private:
 
-    // uplinks
-    S_msrHarmony          fChordItemHarmonyUplink;
-
-    int                   fChordItemValue;
-    msrAlteration         fChordItemAlteration;
-    msrChordItemTypeKind
-                          fChordItemTypeKind;
+    int                   fChordItemNumber;
+    msrChordItemInterval  fChordItemInterval;
 };
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
@@ -4726,10 +4694,10 @@ class EXP msrHarmony : public msrElement
     // global variables
     // ------------------------------------------------------
 
-    static map<msrHarmonyKind, list <S_msrHarmonyDegree> >
-                          gHarmoniesHarmonyDegreesList;
+    static map<msrHarmonyKind, vector <S_msrChordItem>* >
+                          gHarmoniesChordItemsVectorsMap;
 
-    static void           initializeHarmoniesHarmonyDegreesList ();
+    static void           initializeHarmoniesChordItemsVector ();
 
     // creation from MusicXML
     // ------------------------------------------------------

@@ -15940,6 +15940,479 @@ void msrHarmonyDegree::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrChordItem msrChordItem::create (
+  int                  chordItemNumber,
+  msrChordItemInterval chordItemInterval)
+{
+  msrChordItem* o =
+    new msrChordItem (
+      chordItemNumber,
+      chordItemInterval);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordItem::msrChordItem (
+  int                  chordItemNumber,
+  msrChordItemInterval chordItemInterval)
+    : msrElement (inputLineNumber)
+{
+  fChordItemNumber   = chordItemNumber;
+  fChordItemInterval = chordItemInterval;
+
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating chord item '" <<
+      chordItemAsString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrChordItem::~msrChordItem()
+{}
+
+/* JMI
+S_msrChordItem msrChordItem::createHarmonyNewbornClone (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating a newborn clone of harmony degree '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrChordItem
+    newbornClone =
+      msrChordItem::create (
+        fInputLineNumber,
+        fChordItemValue,
+        fChordItemAlteration,
+        fChordItemTypeKind);
+        
+  return newbornClone;
+}
+
+S_msrChordItem msrChordItem::createHarmonyDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating a deep copy of harmony degree '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrChordItem
+    harmonyDeepCopy =
+      msrChordItem::create (
+        fInputLineNumber,
+        fChordItemValue,
+        fChordItemAlteration,
+        fChordItemTypeKind);
+        
+  return harmonyDeepCopy;
+}
+*/
+
+int msrChordItem::chordItemAsSemitones () const
+{
+/*
+  Kind indicates the type of chord. Degree elements
+  can then add, subtract, or alter from these
+  starting points.
+*/
+
+  int result = -1;
+
+/*
+  switch (fChordItemAlteration) {
+    case kDoubleFlat:
+      result = "DoubleFlat";
+      break;
+    case kSesquiFlat:
+      result = "SesquiFlat";
+      break;
+    case kFlat:
+      result = "Flat";
+      break;
+    case kSemiFlat:
+      result = "SemiFlat";
+      break;
+    case kNatural:
+      result = "Natural";
+      break;
+    case kSemiSharp:
+      result = "SemiSharp";
+      break;
+    case kSharp:
+      result = "Sharp";
+      break;
+    case kSesquiSharp:
+      result = "SesquiSharp";
+      break;
+    case kDoubleSharp:
+      result = "DoubleSharp";
+      break;
+    case k_NoAlteration:
+      result = "alteration???";
+      break;
+  } // switch
+
+  switch (fChordItemTypeKind) {
+    case msrChordItem::kChordItemAddType:
+      result = "Add";
+      break;
+    case msrChordItem::kChordItemAlterType:
+      result = "Alter";
+      break;
+    case msrChordItem::kChordItemSubtractType:
+      result = "Subtract";
+      break;
+  } // switch
+*/
+
+  // determine the value for an unaltered degree value
+  switch (fChordItemValue) {
+    case 0:
+      result = 0;
+      break;
+    case 1:
+      result = 0;
+      break;
+    case 2:
+      result = 0;
+      break;
+    case 3:
+      result = 0;
+      break;
+    case 4:
+      result = 0;
+      break;
+    case 5:
+      result = 0;
+      break;
+    case 6:
+      result = 0;
+      break;
+    case 7:
+      result = 0;
+      break;
+    case 8:
+      result = 0;
+      break;
+    case 9:
+      result = 0;
+      break;
+    case 10:
+      result = 0;
+      break;
+    case 11:
+      result = 0;
+      break;
+    case 12:
+      result = 0;
+      break;
+    case 13:
+      result = 0;
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrChordItem::msrChordItemIntervalAsString (
+  msrChordItemInterval chordItemInterval)
+{
+  string result;
+
+  switch (chordItemInterval) {
+    case msrChordItem::kUnisson:
+      result = "Unisson";
+      break;
+      
+    case msrChordItem::kMinorSecond:
+      result = "MinorSecond";
+      break;
+    case msrChordItem::kMajorSecond:
+      result = "MajorSecond";
+      break;
+      
+    case msrChordItem::kMinorThird:
+      result = "MinorThird";
+      break;
+    case msrChordItem::kMajorThird:
+      result = "MajorThird";
+      break;
+      
+    case msrChordItem::kFourth:
+      result = "Fourth";
+      break;
+    case msrChordItem::kAugmentedFourth:
+      result = "AugmentedFourth";
+      break;
+      
+    case msrChordItem::kDiminishedFifth:
+      result = "DiminishedFifth";
+      break;
+    case msrChordItem::kFifth:
+      result = "Fifth";
+      break;
+    case msrChordItem::kAugmentedFifth:
+      result = "AugmentedFifth";
+      break;
+
+    case msrChordItem::kMinorSixth:
+      result = "MinorSixth";
+      break;
+    case msrChordItem::kMajorSixth:
+      result = "MajorSixth";
+      break;
+      
+    case msrChordItem::kDiminishedSeventh:
+      result = "DiminishedSeventh";
+      break;
+    case msrChordItem::kMinorSeventh:
+      result = "MinorSeventh";
+      break;
+    case msrChordItem::kMajorSeventh:
+      result = "MajorSeventh";
+      break;
+
+    case msrChordItem::kOctave:
+      result = "Octave";
+      break;
+      
+    case msrChordItem::kMinorNinth:
+      result = "MinorNinth";
+      break;
+    case msrChordItem::kMajorNinth:
+      result = "MajorNinth";
+      break;
+      
+    case msrChordItem::kMinorTenth:
+      result = "MinorTenth";
+      break;
+    case msrChordItem::kMajorTenth:
+      result = "MajorTenth";
+      break;
+      
+    case msrChordItem::kEleventh:
+      result = "Eleventh";
+      break;
+    case msrChordItem::kAugmentedEleventh:
+      result = "AugmentedEleventh";
+      break;
+      
+     case msrChordItem::kDiminishedTwelfth:
+      result = "DiminishedTwelfth";
+      break;
+    case msrChordItem::kTwelfth:
+      result = "Twelfth";
+      break;
+    case msrChordItem::kAugmentedTwelfth:
+      result = "AugmentedTwelfth";
+      break;
+
+    case msrChordItem::kMinorThirteenth:
+      result = "MinorThirteenth";
+      break;
+    case msrChordItem::kMajorThirteenth:
+      result = "MajorThirteenth";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrChordItem::chordItemIntervalAsShortString () const
+{
+  string result;
+  
+  switch (chordItemInterval) {
+    case msrChordItem::kUnisson:
+      result = "u";
+      break;
+      
+    case msrChordItem::kMinorSecond:
+      result = "b2";
+      break;
+    case msrChordItem::kMajorSecond:
+      result = "2";
+      break;
+      
+    case msrChordItem::kMinorThird:
+      result = "b3";
+      break;
+    case msrChordItem::kMajorThird:
+      result = "3";
+      break;
+      
+    case msrChordItem::kFourth:
+      result = "4";
+      break;
+    case msrChordItem::kAugmentedFourth:
+      result = "#4";
+      break;
+      
+    case msrChordItem::kDiminishedFifth:
+      result = "b5";
+      break;
+    case msrChordItem::kFifth:
+      result = "5";
+      break;
+    case msrChordItem::kAugmentedFifth:
+      result = "#4";
+      break;
+
+    case msrChordItem::kMinorSixth:
+      result = "b6";
+      break;
+    case msrChordItem::kMajorSixth:
+      result = "6";
+      break;
+      
+    case msrChordItem::kDiminishedSeventh:
+      result = "b7";
+      break;
+    case msrChordItem::kMinorSeventh:
+      result = "7";
+      break;
+    case msrChordItem::kMajorSeventh:
+      result = "∆7";
+      break;
+
+    case msrChordItem::kOctave:
+      result = "8";
+      break;
+      
+    case msrChordItem::kMinorNinth:
+      result = "b9";
+      break;
+    case msrChordItem::kMajorNinth:
+      result = "9";
+      break;
+      
+    case msrChordItem::kMinorTenth:
+      result = "b10";
+      break;
+    case msrChordItem::kMajorTenth:
+      result = "10";
+      break;
+      
+    case msrChordItem::kEleventh:
+      result = "11";
+      break;
+    case msrChordItem::kAugmentedEleventh:
+      result = "#11";
+      break;
+      
+     case msrChordItem::kDiminishedTwelfth:
+      result = "b12";
+      break;
+    case msrChordItem::kTwelfth:
+      result = "12";
+      break;
+    case msrChordItem::kAugmentedTwelfth:
+      result = "#12";
+      break;
+
+    case msrChordItem::kMinorThirteenth:
+      result = "b13";
+      break;
+    case msrChordItem::kMajorThirteenth:
+      result = "13";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrChordItem::chordItemAsString () const
+{
+  stringstream s;
+
+  s <<
+    "ChordItem" <<
+    ", type: " << chordItemKindAsShortString () <<
+    ", value: " << fChordItemValue <<
+    ", alteration: " <<
+    msrAlterationAsString (
+      fChordItemAlteration) <<
+    ", line: " << fInputLineNumber;
+
+  return s.str();
+}
+
+void msrChordItem::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrChordItem::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrChordItem>*
+    p =
+      dynamic_cast<visitor<S_msrChordItem>*> (v)) {
+        S_msrChordItem elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrChordItem::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrChordItem::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrChordItem::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrChordItem>*
+    p =
+      dynamic_cast<visitor<S_msrChordItem>*> (v)) {
+        S_msrChordItem elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrChordItem::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordItem::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrChordItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrChordItem::print (ostream& os)
+{  
+  os <<
+    chordItemAsString () <<
+    endl;
+}
+
+//______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
   S_msrPart            harmonyPart,
@@ -16010,26 +16483,47 @@ msrHarmony::msrHarmony (
 msrHarmony::~msrHarmony()
 {}
 
-void msrHarmony::initializeHarmoniesHarmonyDegreesList ()
+void msrHarmony::initializeHarmoniesChordItemsVector ()
 {
-  for (
-    msrHarmonyKind harmonyKind = k_NoHarmony;
-    harmonyKind <= kNone;
-    harmonyKind++) {
+  for (int i = k_NoHarmony; i <= kNone; i++) {
+    msrHarmonyKind
+      harmonyKind =
+        msrHarmonyKind (i);
+    
     switch (harmonyKind) {
       case msrHarmony::k_NoHarmony:
         break;
   
       case msrHarmony::kMajor:
-        
-        gHarmoniesHarmonyDegreesList {harmonyKind}.push_back (
-          msrHarmonyDegree::create (
-          )
-          )
-          harmonyKind;
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
 
-        result = "Major";
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              1, // chord item number
+              msrChordItem::kUnisson,
+              k_NoAlteration)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              2, // chord item number
+              msrChordItem::kMajorThird,
+              k_NoAlteration)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              3, // chord item number
+              msrChordItem::kFifth,
+              k_NoAlteration)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
         break;
+      
+      /*
       case msrHarmony::kMinor:
         result = "Minor";
         break;
@@ -16135,6 +16629,7 @@ void msrHarmony::initializeHarmoniesHarmonyDegreesList ()
       case msrHarmony::kNone:
         result = "None";
         break;
+  */
     } // switch
   } // for
 }
