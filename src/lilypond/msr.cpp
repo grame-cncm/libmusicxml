@@ -115,53 +115,80 @@ int msrIntervalAsSemiTones (
       result = 12;
       break;
 
-    case kOctave:
+    case kDiminishedOctave:
+      result = 11;
+      break;
+    case kPerOctave:
       result = 12;
       break;
+    case kAugmentedOctave:
+      result = 13;
+      break;
       
+    case kDiminishedNinth:
+      result = 12;
+      break;
     case kMinorNinth:
       result = 13;
       break;
     case kMajorNinth:
       result = 14;
       break;
+    case kAugmentedNinth:
+      result = 15;
+      break;
       
+    case kDiminishedTenth:
+      result = 14;
+      break;
     case kMinorTenth:
       result = 15;
       break;
     case kMajorTenth:
       result = 16;
       break;
+    case kAugmentedTenth:
+      result = 17;
+      break;
       
-    case kEleventh:
+    case kDiminishedEleventh:
+      result = 16;
+      break;
+    case kPerEleventh:
       result = 17;
       break;
     case kAugmentedEleventh:
       result = 18;
       break;
       
-     case kDiminishedTwelfth:
+    case kDiminishedTwelfth:
       result = 18;
       break;
-    case kTwelfth:
+    case kPerTwelfth:
       result = 19;
       break;
     case kAugmentedTwelfth:
       result = 20;
       break;
 
+    case kDiminishedThirteenth:
+      result = 19;
+      break;
     case kMinorThirteenth:
       result = 20;
       break;
     case kMajorThirteenth:
       result = 21;
       break;
+    case kAugmentedThirteenth:
+      result = 22;
+      break;
   } // switch
 
   return result;
 }
 
-string msrChordItemIntervalAsString ( (
+string msrIntervalAsString (
   msrInterval interval)
 {
   string result;
@@ -246,53 +273,80 @@ string msrChordItemIntervalAsString ( (
       result = "AugmentedSeventh";
       break;
 
-    case kOctave:
-      result = "Octave";
+    case kDiminishedOctave:
+      result = "DiminishedOctave";
+      break;
+    case kPerOctave:
+      result = "PerOctave";
+      break;
+    case kAugmentedOctave:
+      result = "AugmentedOctave";
       break;
       
+    case kDiminishedNinth:
+      result = "DiminishedNinth";
+      break;
     case kMinorNinth:
       result = "MinorNinth";
       break;
     case kMajorNinth:
       result = "MajorNinth";
       break;
+    case kAugmentedNinth:
+      result = "AugmentedNinth";
+      break;
       
+    case kDiminishedTenth:
+      result = "DiminishedTenth";
+      break;
     case kMinorTenth:
       result = "MinorTenth";
       break;
     case kMajorTenth:
       result = "MajorTenth";
       break;
+    case kAugmentedTenth:
+      result = "AugmentedTenth";
+      break;
       
-    case kEleventh:
-      result = "Eleventh";
+    case kDiminishedEleventh:
+      result = "DiminishedEleventh";
+      break;
+    case kPerEleventh:
+      result = "PerEleventh";
       break;
     case kAugmentedEleventh:
       result = "AugmentedEleventh";
       break;
       
-     case kDiminishedTwelfth:
+    case kDiminishedTwelfth:
       result = "DiminishedTwelfth";
       break;
-    case kTwelfth:
-      result = "Twelfth";
+    case kPerTwelfth:
+      result = "kPerTwelfth";
       break;
     case kAugmentedTwelfth:
       result = "AugmentedTwelfth";
       break;
 
+    case kDiminishedThirteenth:
+      result = "DiminishedThirteenth";
+      break;
     case kMinorThirteenth:
       result = "MinorThirteenth";
       break;
     case kMajorThirteenth:
       result = "MajorThirteenth";
       break;
+    case kAugmentedThirteenth:
+      result = "AugmentedThirteenth";
+      break;
   } // switch
 
   return result;
 }
 
-string chordItemIntervalAsShortString ( (
+string msrIntervalAsShortString (
   msrInterval interval)
 {
   string result;
@@ -377,46 +431,73 @@ string chordItemIntervalAsShortString ( (
       result = "∆∆7";
       break;
 
-    case kOctave:
+    case kDiminishedOctave:
+      result = "b8";
+      break;
+    case kPerOctave:
       result = "8";
       break;
+    case kAugmentedOctave:
+      result = "#8";
+      break;
       
+    case kDiminishedNinth:
+      result = "bb9";
+      break;
     case kMinorNinth:
       result = "b9";
       break;
     case kMajorNinth:
       result = "9";
       break;
+    case kAugmentedNinth:
+      result = "#9";
+      break;
       
+    case kDiminishedTenth:
+      result = "bb10";
+      break;
     case kMinorTenth:
       result = "b10";
       break;
     case kMajorTenth:
       result = "10";
       break;
+    case kAugmentedTenth:
+      result = "#10";
+      break;
       
-    case kEleventh:
+    case kDiminishedEleventh:
+      result = "b11";
+      break;
+    case kPerEleventh:
       result = "11";
       break;
     case kAugmentedEleventh:
       result = "#11";
       break;
       
-     case kDiminishedTwelfth:
+    case kDiminishedTwelfth:
       result = "b12";
       break;
-    case kTwelfth:
+    case kPerTwelfth:
       result = "12";
       break;
     case kAugmentedTwelfth:
       result = "#12";
       break;
 
+    case kDiminishedThirteenth:
+      result = "bb13";
+      break;
     case kMinorThirteenth:
       result = "b13";
       break;
     case kMajorThirteenth:
       result = "13";
+      break;
+    case kAugmentedThirteenth:
+      result = "#13";
       break;
   } // switch
 
@@ -16433,11 +16514,8 @@ string msrChordItem::chordItemAsString () const
 
   s <<
     "ChordItem" <<
-    ", type: " << chordItemKindAsShortString () <<
-    ", value: " << fChordItemValue <<
-    ", alteration: " <<
-    msrAlterationAsString (
-      fChordItemAlteration) <<
+    ", number: " << fChordItemNumber <<
+    ", interval: " << msrIntervalAsString (fChordItemInterval) <<
     ", line: " << fInputLineNumber;
 
   return s.str();
@@ -16586,21 +16664,108 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
 
           chordItemsVector->push_back (
             msrChordItem::create (
+              0, // input line number
               1, // chord item number
-              msrChordItem::kUnisson,
-              k_NoAlteration)
+              kUnisson)
             );
           chordItemsVector->push_back (
             msrChordItem::create (
+              0, // input line number
               2, // chord item number
-              msrChordItem::kMajorThird,
-              k_NoAlteration)
+              kMajorThird)
             );
           chordItemsVector->push_back (
             msrChordItem::create (
+              0, // input line number
               3, // chord item number
-              msrChordItem::kPerFifth,
-              k_NoAlteration)
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMinor:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kAugmented:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDiminished:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kDiminishedFifth)
             );
             
           gHarmoniesChordItemsVectorsMap [harmonyKind] =
@@ -16609,13 +16774,13 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
         break;
       
       /*
-      case msrHarmony::kMinor:
+      case msrHarmony:::
         result = "Minor";
         break;
-      case msrHarmony::kAugmented:
+      case msrHarmony:::
         result = "Augmented";
         break;
-      case msrHarmony::kDiminished:
+      case msrHarmony:::
         result = "Diminished";
         break;
   

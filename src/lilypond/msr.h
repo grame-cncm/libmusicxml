@@ -337,7 +337,7 @@ enum msrInterval {
   
   kDiminishedOctave, kPerOctave, kAugmentedOctave,
   
-  kMinorNinth, kMajorNinth, kAugmentedNinth,
+  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
   
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
   
@@ -353,7 +353,7 @@ static int msrIntervalAsSemiTones (
 static string msrIntervalAsString (
   msrInterval interval);
       
-static string chordItemIntervalAsShortString (
+static string msrIntervalAsShortString (
   msrInterval interval);
       
 // quarter tones pitches
