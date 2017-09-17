@@ -321,19 +321,31 @@ string msrAlterationAsString (
 // intervals
 //______________________________________________________________________________
 enum msrInterval {
-  kUnisson,
-  kMinorSecond, kMajorSecond,
-  kMinorThird, kMajorThird,
-  kFourth, kAugmentedFourth,
-  kDiminishedFitth, kFifth, kAugmentedFifth,
-  kSixth,
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh,
-  kOctave,
-  kMinorNinth, kMajorNinth,
-  kTenth,
-  kEleventh, kAugmentedEleventh,
-  kTwelfth,
-  kThirteenth };
+  kUnisson, kAugmentedUnison,
+  
+  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
+  
+  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
+  
+  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  
+  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  
+  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
+  
+  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
+  
+  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  
+  kMinorNinth, kMajorNinth, kAugmentedNinth,
+  
+  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
+  
+  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  
+  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  
+  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
 static int msrIntervalAsSemiTones (
   msrInterval interval);

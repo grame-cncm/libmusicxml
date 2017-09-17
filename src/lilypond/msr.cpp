@@ -39,22 +39,40 @@ int msrIntervalAsSemiTones (
     case kUnisson:
       result = 0;
       break;
+    case kAugmentedUnison:
+      result = 1;
+      break;
       
+    case kDiminishedSecond:
+      result = 0;
+      break;
     case kMinorSecond:
       result = 1;
       break;
     case kMajorSecond:
       result = 2;
       break;
+    case kAugmentedSecond:
+      result = 4;
+      break;
       
+    case kDiminishedThird:
+      result = 2;
+      break;
     case kMinorThird:
       result = 3;
       break;
     case kMajorThird:
-      result = 3;
+      result = 4;
+      break;
+    case kAugmentedThird:
+      result = 5;
       break;
       
-    case kFourth:
+    case kDiminishedFourth:
+      result = 4;
+      break;
+    case kPerFourth:
       result = 5;
       break;
     case kAugmentedFourth:
@@ -64,18 +82,24 @@ int msrIntervalAsSemiTones (
     case kDiminishedFifth:
       result = 6;
       break;
-    case kFifth:
+    case kPerFifth:
       result = 7;
       break;
     case kAugmentedFifth:
       result = 8;
       break;
 
+    case kDiminishedSixth:
+      result = 7;
+      break;
     case kMinorSixth:
       result = 8;
       break;
     case kMajorSixth:
       result = 9;
+      break;
+    case kAugmentedSixth:
+      result = 10;
       break;
       
     case kDiminishedSeventh:
@@ -86,6 +110,9 @@ int msrIntervalAsSemiTones (
       break;
     case kMajorSeventh:
       result = 11;
+      break;
+    case kAugmentedSeventh:
+      result = 12;
       break;
 
     case kOctave:
@@ -143,23 +170,41 @@ string msrChordItemIntervalAsString ( (
     case kUnisson:
       result = "Unisson";
       break;
+    case kAugmentedUnison:
+      result = "AugmentedUnison";
+      break;
       
+    case kDiminishedSecond:
+      result = "DiminishedSecond";
+      break;
     case kMinorSecond:
       result = "MinorSecond";
       break;
     case kMajorSecond:
       result = "MajorSecond";
       break;
+    case kAugmentedSecond:
+      result = "AugmentedSecond";
+      break;
       
+    case kDiminishedThird:
+      result = "DiminishedThird";
+      break;
     case kMinorThird:
       result = "MinorThird";
       break;
     case kMajorThird:
       result = "MajorThird";
       break;
+    case kAugmentedThird:
+      result = "AugmentedThird";
+      break;
       
-    case kFourth:
-      result = "Fourth";
+    case kDiminishedFourth:
+      result = "DiminishedFourth";
+      break;
+    case kPerFourth:
+      result = "PerFourth";
       break;
     case kAugmentedFourth:
       result = "AugmentedFourth";
@@ -168,18 +213,24 @@ string msrChordItemIntervalAsString ( (
     case kDiminishedFifth:
       result = "DiminishedFifth";
       break;
-    case kFifth:
+    case kPerFifth:
       result = "Fifth";
       break;
     case kAugmentedFifth:
       result = "AugmentedFifth";
       break;
 
+    case kDiminishedSixth:
+      result = "DiminishedSixth";
+      break;
     case kMinorSixth:
       result = "MinorSixth";
       break;
     case kMajorSixth:
       result = "MajorSixth";
+      break;
+    case kAugmentedSixth:
+      result = "AugmentedSixth";
       break;
       
     case kDiminishedSeventh:
@@ -190,6 +241,9 @@ string msrChordItemIntervalAsString ( (
       break;
     case kMajorSeventh:
       result = "MajorSeventh";
+      break;
+    case kAugmentedSeventh:
+      result = "AugmentedSeventh";
       break;
 
     case kOctave:
@@ -247,22 +301,40 @@ string chordItemIntervalAsShortString ( (
     case kUnisson:
       result = "u";
       break;
+    case kAugmentedUnison:
+      result = "#u";
+      break;
       
+    case kDiminishedSecond:
+      result = "bb2";
+      break;
     case kMinorSecond:
       result = "b2";
       break;
     case kMajorSecond:
       result = "2";
       break;
+    case kAugmentedSecond:
+      result = "#2";
+      break;
       
+    case kDiminishedThird:
+      result = "bb3";
+      break;
     case kMinorThird:
       result = "b3";
       break;
     case kMajorThird:
       result = "3";
       break;
+    case kAugmentedThird:
+      result = "#3";
+      break;
       
-    case kFourth:
+    case kDiminishedFourth:
+      result = "b4";
+      break;
+    case kPerFourth:
       result = "4";
       break;
     case kAugmentedFourth:
@@ -272,18 +344,24 @@ string chordItemIntervalAsShortString ( (
     case kDiminishedFifth:
       result = "b5";
       break;
-    case kFifth:
+    case kPerFifth:
       result = "5";
       break;
     case kAugmentedFifth:
       result = "#4";
       break;
 
+    case kDiminishedSixth:
+      result = "bb6";
+      break;
     case kMinorSixth:
       result = "b6";
       break;
     case kMajorSixth:
       result = "6";
+      break;
+    case kAugmentedSixth:
+      result = "#6";
       break;
       
     case kDiminishedSeventh:
@@ -294,6 +372,9 @@ string chordItemIntervalAsShortString ( (
       break;
     case kMajorSeventh:
       result = "∆7";
+      break;
+    case kAugmentedSeventh:
+      result = "∆∆7";
       break;
 
     case kOctave:
@@ -16518,7 +16599,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
           chordItemsVector->push_back (
             msrChordItem::create (
               3, // chord item number
-              msrChordItem::kFifth,
+              msrChordItem::kPerFifth,
               k_NoAlteration)
             );
             
