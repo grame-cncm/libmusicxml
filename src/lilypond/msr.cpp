@@ -16658,6 +16658,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
     
     switch (harmonyKind) {
       case msrHarmony::k_NoHarmony:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
         break;
   
       case msrHarmony::kMajor:
@@ -17717,6 +17718,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
         break;
       
       case msrHarmony::kPedal:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
         break;
         
       case msrHarmony::kPower:
@@ -17778,8 +17780,11 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
         break;
       
       case msrHarmony::kOther:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
         break;
+        
       case msrHarmony::kNone:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
         break;
     } // switch
   } // for
@@ -17788,12 +17793,15 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 void msrHarmony::printHarmoniesChordItemsVector ()
 {
   cerr << idtr <<
-    "Harmonies chord item:" <<
+    "Harmonies chord items:" <<
     endl;
 
   idtr++;
-  
+
   for (int i = k_NoHarmony; i <= kNone; i++) {
+    cerr << idtr <<
+      "i:" << i << " ";
+      
     msrHarmonyKind
       harmonyKind =
         msrHarmonyKind (i);
@@ -17801,11 +17809,17 @@ void msrHarmony::printHarmoniesChordItemsVector ()
     vector<S_msrChordItem>* chordItemsVector =
       gHarmoniesChordItemsVectorsMap [harmonyKind];
 
-    for (int i = 1; i < chordItemsVector->size (); i++) {
-      cerr << idtr <<
-        (*chordItemsVector) [i]->chordItemAsString () <<
-        endl;
-    } // for
+    if (chordItemsVector) {
+      for (int i = 1; i < (*chordItemsVector).size (); i++) {
+        S_msrChordItem
+          chordItem =
+            (*chordItemsVector) [i];
+  
+           cerr << idtr <<
+            chordItem->chordItemAsString () <<
+            endl;
+        }
+      } // for
   } // for
 
   idtr--;
