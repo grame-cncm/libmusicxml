@@ -15724,6 +15724,112 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyDeepCopy (
 }
 */
 
+int msrHarmonyDegree::harmonyDegreeAsSemitones () const
+{
+/*
+  Kind indicates the type of chord. Degree elements
+  can then add, subtract, or alter from these
+  starting points.
+*/
+
+  int result = -1;
+
+/*
+  switch (fHarmonyDegreeAlteration) {
+    case kDoubleFlat:
+      result = "DoubleFlat";
+      break;
+    case kSesquiFlat:
+      result = "SesquiFlat";
+      break;
+    case kFlat:
+      result = "Flat";
+      break;
+    case kSemiFlat:
+      result = "SemiFlat";
+      break;
+    case kNatural:
+      result = "Natural";
+      break;
+    case kSemiSharp:
+      result = "SemiSharp";
+      break;
+    case kSharp:
+      result = "Sharp";
+      break;
+    case kSesquiSharp:
+      result = "SesquiSharp";
+      break;
+    case kDoubleSharp:
+      result = "DoubleSharp";
+      break;
+    case k_NoAlteration:
+      result = "alteration???";
+      break;
+  } // switch
+
+  switch (fHarmonyDegreeTypeKind) {
+    case msrHarmonyDegree::kHarmonyDegreeAddType:
+      result = "Add";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeAlterType:
+      result = "Alter";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
+      result = "Subtract";
+      break;
+  } // switch
+*/
+
+  // determine the value for an unaltered degree value
+  switch (fHarmonyDegreeValue) {
+    case 0:
+      result = 0;
+      break;
+    case 1:
+      result = 0;
+      break;
+    case 2:
+      result = 0;
+      break;
+    case 3:
+      result = 0;
+      break;
+    case 4:
+      result = 0;
+      break;
+    case 5:
+      result = 0;
+      break;
+    case 6:
+      result = 0;
+      break;
+    case 7:
+      result = 0;
+      break;
+    case 8:
+      result = 0;
+      break;
+    case 9:
+      result = 0;
+      break;
+    case 10:
+      result = 0;
+      break;
+    case 11:
+      result = 0;
+      break;
+    case 12:
+      result = 0;
+      break;
+    case 13:
+      result = 0;
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrHarmonyDegree::harmonyDegreeTypeAsString (
   msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
 {
@@ -26100,15 +26206,15 @@ void msrVoice::appendRepeatEndingToVoice (
         fVoiceCurrentRepeat->
           addRepeatEnding (repeatEnding);
       
-        // create a new segment for the voice
+      
+        // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
-            "==> Creating a new last segment for voice \"" <<
-            fVoiceName <<
-            "\"" <<
+            "==> Creating a new last segment containing a new measure for voice \"" <<
+            fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentForVoice (
+        createNewLastSegmentAndANewMeasureForVoice (
           inputLineNumber);
       }
       break;

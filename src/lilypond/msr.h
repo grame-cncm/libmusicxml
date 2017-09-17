@@ -4426,6 +4426,8 @@ Degree elements
     // services
     // ------------------------------------------------------
 
+    int                   harmonyDegreeAsSemitones () const;
+    
     string                harmonyDegreeKindAsString () const;
     string                harmonyDegreeKindAsShortString () const;
     
@@ -4466,9 +4468,6 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
 class EXP msrHarmony : public msrElement
 {
   public:
-
-    // data types
-    // ------------------------------------------------------
 
 /*
   Kind indicates the type of chord. Values include:
@@ -4555,6 +4554,9 @@ class EXP msrHarmony : public msrElement
   Inversion is a number indicating which inversion is used:
   0 for root position, 1 for first inversion, etc.
 */
+    // data types
+    // ------------------------------------------------------
+
     enum msrHarmonyKind {
       k_NoHarmony,
       
@@ -4589,6 +4591,12 @@ class EXP msrHarmony : public msrElement
       msrHarmonyKind harmonyKind);
 
     #define K_HARMONY_NO_INVERSION -1
+
+    // global variables
+    // ------------------------------------------------------
+
+    static map<msrHarmonyKind, list <S_msrHarmonyDegree> >
+                          gHarmoniesHarmonyDegreesList;
 
     // creation from MusicXML
     // ------------------------------------------------------
