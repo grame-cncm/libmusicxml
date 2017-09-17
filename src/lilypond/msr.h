@@ -4682,7 +4682,7 @@ class EXP msrHarmony : public msrElement
       kAugmented, kDiminished,
 
       kDominant,
-      kMajorSeventh,kMinorSeventh,
+      kMajorSeventh, kMinorSeventh,
       kDiminishedSeventh, kAugmentedSeventh,
       kHalfDiminished,
       kMajorMinor,

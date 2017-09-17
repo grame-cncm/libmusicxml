@@ -16773,18 +16773,44 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
         }
         break;
       
-      /*
-      case msrHarmony:::
-        result = "Minor";
-        break;
-      case msrHarmony:::
-        result = "Augmented";
-        break;
-      case msrHarmony:::
-        result = "Diminished";
-        break;
-  
       case msrHarmony::kDominant:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      /*
+  
+      case msrHarmony:::
         result = "Dominant";
         break;
       case msrHarmony::kMajorSeventh:
@@ -16880,6 +16906,209 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
         result = "None";
         break;
   */
+
+/*
+ * kNeapolitan f aes des' in:
+ *
+ * c e g c' -> f f aes des' -> d g d b -> c e g c'
+ 
+they are three different pre-dominant chords that are taught to American undergrads in a sophomore theory course.
+
+in E major:
+Italian = C E A#
+French = C E F# A#
+German = C E G A#
+Tristan = C D# F# A#
+
+in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
+*/      
+
+      case msrHarmony::kNeapolitan:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kDiminishedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kItalian:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kFrench:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFourth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kGerman:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kPower:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kTristan:
+        {
+          vector<S_msrChordItem>*  chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kAugmentedSecond)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFourth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
     } // switch
   } // for
 }
