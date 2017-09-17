@@ -13935,8 +13935,10 @@ msrTime::msrTime (
 
 bool msrTime::isEqualTo (S_msrTime otherTime) const // JMI
 {
+  bool result = false;
+  
   if (fTimeSymbolKind != otherTime->fTimeSymbolKind)
-    return false;
+    result = false;
     
     /* JMI
   switch (fTimeSymbolKind) {
@@ -13968,6 +13970,8 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const // JMI
       return false;
   } // switch
   */
+
+  return result;
 }
 
 S_msrTime msrTime::createFourQuartersTime (
@@ -17799,18 +17803,19 @@ void msrHarmony::printHarmoniesChordItemsVector ()
   idtr++;
 
   for (int i = k_NoHarmony; i <= kNone; i++) {
-    cerr << idtr <<
-      "i:" << i << " ";
-      
     msrHarmonyKind
       harmonyKind =
         msrHarmonyKind (i);
 
+    cerr << idtr <<
+      "i:" << i << " " <<
+      msrHarmony::harmonyKindAsString (harmonyKind) << " ";
+      
     vector<S_msrChordItem>* chordItemsVector =
       gHarmoniesChordItemsVectorsMap [harmonyKind];
 
     if (chordItemsVector) {
-      for (int i = 1; i < (*chordItemsVector).size (); i++) {
+      for (unsigned int i = 1; i < (*chordItemsVector).size (); i++) {
         S_msrChordItem
           chordItem =
             (*chordItemsVector) [i];
@@ -17818,8 +17823,14 @@ void msrHarmony::printHarmoniesChordItemsVector ()
            cerr << idtr <<
             chordItem->chordItemAsString () <<
             endl;
-        }
       } // for
+    }
+    else {
+      cerr << "none";
+    }
+
+    cerr <<
+      endl;
   } // for
 
   idtr--;
