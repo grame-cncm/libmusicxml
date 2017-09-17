@@ -318,6 +318,32 @@ msrAlteration msrAlterationFromMusicXMLAlter (
 string msrAlterationAsString (
   msrAlteration alteration);
 
+// intervals
+//______________________________________________________________________________
+enum msrInterval {
+  kUnisson,
+  kMinorSecond, kMajorSecond,
+  kMinorThird, kMajorThird,
+  kFourth, kAugmentedFourth,
+  kDiminishedFitth, kFifth, kAugmentedFifth,
+  kSixth,
+  kDiminishedSeventh, kMinorSeventh, kMajorSeventh,
+  kOctave,
+  kMinorNinth, kMajorNinth,
+  kTenth,
+  kEleventh, kAugmentedEleventh,
+  kTwelfth,
+  kThirteenth };
+
+static int msrIntervalAsSemiTones (
+  msrInterval interval);
+  
+static string msrIntervalAsString (
+  msrInterval interval);
+      
+static string chordItemIntervalAsShortString (
+  msrInterval interval);
+      
 // quarter tones pitches
 //______________________________________________________________________________
 enum msrQuarterTonesPitch {
@@ -4472,28 +4498,11 @@ class EXP msrChordItem : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrChordItemInterval {
-      kUnisson,
-      kMinorSecond, kMajorSecond,
-      kMinorThird, kMajorThird,
-      kFourth, kAugmentedFourth,
-      kDiminishedFitth, kFifth, kAugmentedFifth,
-      kSixth,
-      kDiminishedSeventh, kMinorSeventh, kMajorSeventh,
-      kOctave,
-      kMinorNinth, kMajorNinth,
-      kTenth,
-      kEleventh, kAugmentedEleventh,
-      kTwelfth,
-      kThirteenth };
-
-    static string msrChordItemIntervalAsString (
-      msrChordItemInterval chordItemInterval);
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrChordItem> create (
+      int                  inputLineNumber,
       int                  chordItemNumber,
       msrChordItemInterval chordItemInterval);
 
@@ -4512,6 +4521,7 @@ class EXP msrChordItem : public msrElement
 
     msrChordItem (
       int                  chordItemNumber,
+      int                  inputLineNumber,
       msrChordItemInterval chordItemInterval);
 
     virtual ~msrChordItem();

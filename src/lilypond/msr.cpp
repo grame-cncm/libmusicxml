@@ -28,6 +28,320 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
+// intervals
+//______________________________________________________________________________
+int msrIntervalAsSemiTones (
+  msrInterval interval)
+{
+  int result = -1;
+
+  switch (interval) {
+    case kUnisson:
+      result = 0;
+      break;
+      
+    case kMinorSecond:
+      result = 1;
+      break;
+    case kMajorSecond:
+      result = 2;
+      break;
+      
+    case kMinorThird:
+      result = 3;
+      break;
+    case kMajorThird:
+      result = 3;
+      break;
+      
+    case kFourth:
+      result = 5;
+      break;
+    case kAugmentedFourth:
+      result = 6;
+      break;
+      
+    case kDiminishedFifth:
+      result = 6;
+      break;
+    case kFifth:
+      result = 7;
+      break;
+    case kAugmentedFifth:
+      result = 8;
+      break;
+
+    case kMinorSixth:
+      result = 8;
+      break;
+    case kMajorSixth:
+      result = 9;
+      break;
+      
+    case kDiminishedSeventh:
+      result = 9;
+      break;
+    case kMinorSeventh:
+      result = 10;
+      break;
+    case kMajorSeventh:
+      result = 11;
+      break;
+
+    case kOctave:
+      result = 12;
+      break;
+      
+    case kMinorNinth:
+      result = 13;
+      break;
+    case kMajorNinth:
+      result = 14;
+      break;
+      
+    case kMinorTenth:
+      result = 15;
+      break;
+    case kMajorTenth:
+      result = 16;
+      break;
+      
+    case kEleventh:
+      result = 17;
+      break;
+    case kAugmentedEleventh:
+      result = 18;
+      break;
+      
+     case kDiminishedTwelfth:
+      result = 18;
+      break;
+    case kTwelfth:
+      result = 19;
+      break;
+    case kAugmentedTwelfth:
+      result = 20;
+      break;
+
+    case kMinorThirteenth:
+      result = 20;
+      break;
+    case kMajorThirteenth:
+      result = 21;
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrChordItemIntervalAsString ( (
+  msrInterval interval)
+{
+  string result;
+
+  switch (interval) {
+    case kUnisson:
+      result = "Unisson";
+      break;
+      
+    case kMinorSecond:
+      result = "MinorSecond";
+      break;
+    case kMajorSecond:
+      result = "MajorSecond";
+      break;
+      
+    case kMinorThird:
+      result = "MinorThird";
+      break;
+    case kMajorThird:
+      result = "MajorThird";
+      break;
+      
+    case kFourth:
+      result = "Fourth";
+      break;
+    case kAugmentedFourth:
+      result = "AugmentedFourth";
+      break;
+      
+    case kDiminishedFifth:
+      result = "DiminishedFifth";
+      break;
+    case kFifth:
+      result = "Fifth";
+      break;
+    case kAugmentedFifth:
+      result = "AugmentedFifth";
+      break;
+
+    case kMinorSixth:
+      result = "MinorSixth";
+      break;
+    case kMajorSixth:
+      result = "MajorSixth";
+      break;
+      
+    case kDiminishedSeventh:
+      result = "DiminishedSeventh";
+      break;
+    case kMinorSeventh:
+      result = "MinorSeventh";
+      break;
+    case kMajorSeventh:
+      result = "MajorSeventh";
+      break;
+
+    case kOctave:
+      result = "Octave";
+      break;
+      
+    case kMinorNinth:
+      result = "MinorNinth";
+      break;
+    case kMajorNinth:
+      result = "MajorNinth";
+      break;
+      
+    case kMinorTenth:
+      result = "MinorTenth";
+      break;
+    case kMajorTenth:
+      result = "MajorTenth";
+      break;
+      
+    case kEleventh:
+      result = "Eleventh";
+      break;
+    case kAugmentedEleventh:
+      result = "AugmentedEleventh";
+      break;
+      
+     case kDiminishedTwelfth:
+      result = "DiminishedTwelfth";
+      break;
+    case kTwelfth:
+      result = "Twelfth";
+      break;
+    case kAugmentedTwelfth:
+      result = "AugmentedTwelfth";
+      break;
+
+    case kMinorThirteenth:
+      result = "MinorThirteenth";
+      break;
+    case kMajorThirteenth:
+      result = "MajorThirteenth";
+      break;
+  } // switch
+
+  return result;
+}
+
+string chordItemIntervalAsShortString ( (
+  msrInterval interval)
+{
+  string result;
+  
+  switch (interval) {
+    case kUnisson:
+      result = "u";
+      break;
+      
+    case kMinorSecond:
+      result = "b2";
+      break;
+    case kMajorSecond:
+      result = "2";
+      break;
+      
+    case kMinorThird:
+      result = "b3";
+      break;
+    case kMajorThird:
+      result = "3";
+      break;
+      
+    case kFourth:
+      result = "4";
+      break;
+    case kAugmentedFourth:
+      result = "#4";
+      break;
+      
+    case kDiminishedFifth:
+      result = "b5";
+      break;
+    case kFifth:
+      result = "5";
+      break;
+    case kAugmentedFifth:
+      result = "#4";
+      break;
+
+    case kMinorSixth:
+      result = "b6";
+      break;
+    case kMajorSixth:
+      result = "6";
+      break;
+      
+    case kDiminishedSeventh:
+      result = "b7";
+      break;
+    case kMinorSeventh:
+      result = "7";
+      break;
+    case kMajorSeventh:
+      result = "∆7";
+      break;
+
+    case kOctave:
+      result = "8";
+      break;
+      
+    case kMinorNinth:
+      result = "b9";
+      break;
+    case kMajorNinth:
+      result = "9";
+      break;
+      
+    case kMinorTenth:
+      result = "b10";
+      break;
+    case kMajorTenth:
+      result = "10";
+      break;
+      
+    case kEleventh:
+      result = "11";
+      break;
+    case kAugmentedEleventh:
+      result = "#11";
+      break;
+      
+     case kDiminishedTwelfth:
+      result = "b12";
+      break;
+    case kTwelfth:
+      result = "12";
+      break;
+    case kAugmentedTwelfth:
+      result = "#12";
+      break;
+
+    case kMinorThirteenth:
+      result = "b13";
+      break;
+    case kMajorThirteenth:
+      result = "13";
+      break;
+  } // switch
+
+  return result;
+}
+
 // notes names languages
 // ------------------------------------------------------
 
@@ -15941,11 +16255,13 @@ void msrHarmonyDegree::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
+  int                  inputLineNumber,
   int                  chordItemNumber,
   msrChordItemInterval chordItemInterval)
 {
   msrChordItem* o =
     new msrChordItem (
+      inputLineNumber,
       chordItemNumber,
       chordItemInterval);
   assert(o!=0);
@@ -15954,6 +16270,7 @@ S_msrChordItem msrChordItem::create (
 }
 
 msrChordItem::msrChordItem (
+  int                  inputLineNumber,
   int                  chordItemNumber,
   msrChordItemInterval chordItemInterval)
     : msrElement (inputLineNumber)
@@ -16028,319 +16345,6 @@ S_msrChordItem msrChordItem::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 */
-
-int msrChordItem::chordItemAsSemitones () const
-{
-/*
-  Kind indicates the type of chord. Degree elements
-  can then add, subtract, or alter from these
-  starting points.
-*/
-
-  int result = -1;
-
-/*
-  switch (fChordItemAlteration) {
-    case kDoubleFlat:
-      result = "DoubleFlat";
-      break;
-    case kSesquiFlat:
-      result = "SesquiFlat";
-      break;
-    case kFlat:
-      result = "Flat";
-      break;
-    case kSemiFlat:
-      result = "SemiFlat";
-      break;
-    case kNatural:
-      result = "Natural";
-      break;
-    case kSemiSharp:
-      result = "SemiSharp";
-      break;
-    case kSharp:
-      result = "Sharp";
-      break;
-    case kSesquiSharp:
-      result = "SesquiSharp";
-      break;
-    case kDoubleSharp:
-      result = "DoubleSharp";
-      break;
-    case k_NoAlteration:
-      result = "alteration???";
-      break;
-  } // switch
-
-  switch (fChordItemTypeKind) {
-    case msrChordItem::kChordItemAddType:
-      result = "Add";
-      break;
-    case msrChordItem::kChordItemAlterType:
-      result = "Alter";
-      break;
-    case msrChordItem::kChordItemSubtractType:
-      result = "Subtract";
-      break;
-  } // switch
-*/
-
-  // determine the value for an unaltered degree value
-  switch (fChordItemValue) {
-    case 0:
-      result = 0;
-      break;
-    case 1:
-      result = 0;
-      break;
-    case 2:
-      result = 0;
-      break;
-    case 3:
-      result = 0;
-      break;
-    case 4:
-      result = 0;
-      break;
-    case 5:
-      result = 0;
-      break;
-    case 6:
-      result = 0;
-      break;
-    case 7:
-      result = 0;
-      break;
-    case 8:
-      result = 0;
-      break;
-    case 9:
-      result = 0;
-      break;
-    case 10:
-      result = 0;
-      break;
-    case 11:
-      result = 0;
-      break;
-    case 12:
-      result = 0;
-      break;
-    case 13:
-      result = 0;
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrChordItem::msrChordItemIntervalAsString (
-  msrChordItemInterval chordItemInterval)
-{
-  string result;
-
-  switch (chordItemInterval) {
-    case msrChordItem::kUnisson:
-      result = "Unisson";
-      break;
-      
-    case msrChordItem::kMinorSecond:
-      result = "MinorSecond";
-      break;
-    case msrChordItem::kMajorSecond:
-      result = "MajorSecond";
-      break;
-      
-    case msrChordItem::kMinorThird:
-      result = "MinorThird";
-      break;
-    case msrChordItem::kMajorThird:
-      result = "MajorThird";
-      break;
-      
-    case msrChordItem::kFourth:
-      result = "Fourth";
-      break;
-    case msrChordItem::kAugmentedFourth:
-      result = "AugmentedFourth";
-      break;
-      
-    case msrChordItem::kDiminishedFifth:
-      result = "DiminishedFifth";
-      break;
-    case msrChordItem::kFifth:
-      result = "Fifth";
-      break;
-    case msrChordItem::kAugmentedFifth:
-      result = "AugmentedFifth";
-      break;
-
-    case msrChordItem::kMinorSixth:
-      result = "MinorSixth";
-      break;
-    case msrChordItem::kMajorSixth:
-      result = "MajorSixth";
-      break;
-      
-    case msrChordItem::kDiminishedSeventh:
-      result = "DiminishedSeventh";
-      break;
-    case msrChordItem::kMinorSeventh:
-      result = "MinorSeventh";
-      break;
-    case msrChordItem::kMajorSeventh:
-      result = "MajorSeventh";
-      break;
-
-    case msrChordItem::kOctave:
-      result = "Octave";
-      break;
-      
-    case msrChordItem::kMinorNinth:
-      result = "MinorNinth";
-      break;
-    case msrChordItem::kMajorNinth:
-      result = "MajorNinth";
-      break;
-      
-    case msrChordItem::kMinorTenth:
-      result = "MinorTenth";
-      break;
-    case msrChordItem::kMajorTenth:
-      result = "MajorTenth";
-      break;
-      
-    case msrChordItem::kEleventh:
-      result = "Eleventh";
-      break;
-    case msrChordItem::kAugmentedEleventh:
-      result = "AugmentedEleventh";
-      break;
-      
-     case msrChordItem::kDiminishedTwelfth:
-      result = "DiminishedTwelfth";
-      break;
-    case msrChordItem::kTwelfth:
-      result = "Twelfth";
-      break;
-    case msrChordItem::kAugmentedTwelfth:
-      result = "AugmentedTwelfth";
-      break;
-
-    case msrChordItem::kMinorThirteenth:
-      result = "MinorThirteenth";
-      break;
-    case msrChordItem::kMajorThirteenth:
-      result = "MajorThirteenth";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrChordItem::chordItemIntervalAsShortString () const
-{
-  string result;
-  
-  switch (chordItemInterval) {
-    case msrChordItem::kUnisson:
-      result = "u";
-      break;
-      
-    case msrChordItem::kMinorSecond:
-      result = "b2";
-      break;
-    case msrChordItem::kMajorSecond:
-      result = "2";
-      break;
-      
-    case msrChordItem::kMinorThird:
-      result = "b3";
-      break;
-    case msrChordItem::kMajorThird:
-      result = "3";
-      break;
-      
-    case msrChordItem::kFourth:
-      result = "4";
-      break;
-    case msrChordItem::kAugmentedFourth:
-      result = "#4";
-      break;
-      
-    case msrChordItem::kDiminishedFifth:
-      result = "b5";
-      break;
-    case msrChordItem::kFifth:
-      result = "5";
-      break;
-    case msrChordItem::kAugmentedFifth:
-      result = "#4";
-      break;
-
-    case msrChordItem::kMinorSixth:
-      result = "b6";
-      break;
-    case msrChordItem::kMajorSixth:
-      result = "6";
-      break;
-      
-    case msrChordItem::kDiminishedSeventh:
-      result = "b7";
-      break;
-    case msrChordItem::kMinorSeventh:
-      result = "7";
-      break;
-    case msrChordItem::kMajorSeventh:
-      result = "∆7";
-      break;
-
-    case msrChordItem::kOctave:
-      result = "8";
-      break;
-      
-    case msrChordItem::kMinorNinth:
-      result = "b9";
-      break;
-    case msrChordItem::kMajorNinth:
-      result = "9";
-      break;
-      
-    case msrChordItem::kMinorTenth:
-      result = "b10";
-      break;
-    case msrChordItem::kMajorTenth:
-      result = "10";
-      break;
-      
-    case msrChordItem::kEleventh:
-      result = "11";
-      break;
-    case msrChordItem::kAugmentedEleventh:
-      result = "#11";
-      break;
-      
-     case msrChordItem::kDiminishedTwelfth:
-      result = "b12";
-      break;
-    case msrChordItem::kTwelfth:
-      result = "12";
-      break;
-    case msrChordItem::kAugmentedTwelfth:
-      result = "#12";
-      break;
-
-    case msrChordItem::kMinorThirteenth:
-      result = "b13";
-      break;
-    case msrChordItem::kMajorThirteenth:
-      result = "13";
-      break;
-  } // switch
-
-  return result;
-}
 
 string msrChordItem::chordItemAsString () const
 {
