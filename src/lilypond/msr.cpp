@@ -16662,7 +16662,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
   
       case msrHarmony::kMajor:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16691,7 +16691,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMinor:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16720,7 +16720,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kAugmented:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16749,7 +16749,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kDiminished:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16778,7 +16778,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kDominant:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16813,7 +16813,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMajorSeventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16848,7 +16848,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
        case msrHarmony::kMinorSeventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16883,7 +16883,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kDiminishedSeventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16918,7 +16918,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kAugmentedSeventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16953,7 +16953,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kHalfDiminished:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -16988,7 +16988,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
        case msrHarmony::kMajorMinor:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17023,7 +17023,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMajorSixth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17058,7 +17058,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMinorSixth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17093,7 +17093,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kDominantNinth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17134,7 +17134,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
 
       case msrHarmony::kMajorNinth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17175,7 +17175,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMinorNinth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17216,7 +17216,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kDominantEleventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17263,7 +17263,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
 
       case msrHarmony::kMajorEleventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17310,7 +17310,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMinorEleventh:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17357,7 +17357,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kDominantThirteenth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17410,7 +17410,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
 
       case msrHarmony::kMajorThirteenth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17463,7 +17463,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kMinorThirteenth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17516,7 +17516,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kSuspendedSecond:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17545,7 +17545,7 @@ void msrHarmony::initializeHarmoniesChordItemsVector ()
       
       case msrHarmony::kSuspendedFourth:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17590,7 +17590,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
       case msrHarmony::kNeapolitan:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17619,7 +17619,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       
       case msrHarmony::kItalian:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17648,7 +17648,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       
       case msrHarmony::kFrench:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17683,7 +17683,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       
       case msrHarmony::kGerman:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17721,7 +17721,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
         
       case msrHarmony::kPower:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17744,7 +17744,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       
       case msrHarmony::kTristan:
         {
-          vector<S_msrChordItem>*  chordItemsVector =
+          vector<S_msrChordItem>* chordItemsVector =
             new vector<S_msrChordItem>;
 
           chordItemsVector->push_back (
@@ -17798,9 +17798,14 @@ void msrHarmony::printHarmoniesChordItemsVector ()
       harmonyKind =
         msrHarmonyKind (i);
 
-    cerr << idtr <<
-      gHarmoniesChordItemsVectorsMap [harmonyKind] <<
-      endl;
+    vector<S_msrChordItem>* chordItemsVector =
+      gHarmoniesChordItemsVectorsMap [harmonyKind];
+
+    for (int i = 1; i < chordItemsVector->size (); i++) {
+      cerr << idtr <<
+        (*chordItemsVector) [i]->chordItemAsString () <<
+        endl;
+    } // for
   } // for
 
   idtr--;
