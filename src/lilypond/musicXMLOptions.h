@@ -141,17 +141,17 @@ struct option {
 typedef SMARTP<msrSingleOption> S_msrSingleOption;
 
 //______________________________________________________________________________
-class EXP msrOptionsGroup : public smartable
+class EXP msrOptionsGroupPP : public smartable
 {    
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsGroup> create (
+    static SMARTP<msrOptionsGroupPP> create (
       string optionGroupNName);
         
-    SMARTP<msrOptionsGroup> createCloneWithDetailedTrace ();
+    SMARTP<msrOptionsGroupPP> createCloneWithDetailedTrace ();
 
   private:
 
@@ -166,10 +166,10 @@ class EXP msrOptionsGroup : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsGroup(
+    msrOptionsGroupPP(
       string optionGroupNName);
   
-    virtual ~msrOptionsGroup();
+    virtual ~msrOptionsGroupPP();
  
   public:
 
@@ -208,7 +208,7 @@ class EXP msrOptionsGroup : public smartable
                           fOptionGroupSingleOptionsList;
 
 };
-typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
+typedef SMARTP<msrOptionsGroupPP> S_msrOptionsGroupPP;
 
 //______________________________________________________________________________
 // MusicXML options

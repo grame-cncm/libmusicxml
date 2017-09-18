@@ -73,7 +73,7 @@ msrOptionsItem::msrOptionsItem (
 msrOptionsItem::~msrOptionsItem()
 {}
 
-string optionsItemKindAsString (
+string msrOptionsItem::optionsItemKindAsString (
   msrOptionsItem::msrOptionsItemKind optionsItemKind)
 {
   string result;
@@ -305,6 +305,9 @@ msrOptionsStringItem::msrOptionsStringItem (
     fOptionsStringItemVariable (optionsStringItemVariable)
 {}
 
+msrOptionsStringItem::~msrOptionsStringItem()
+{}
+
 void msrOptionsStringItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
@@ -341,6 +344,59 @@ ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
 }
 
 //______________________________________________________________________________
+msrOptionsRationalItem::msrOptionsRationalItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  rational&          optionsRationalItemVariable,
+  msrOptionsItemKind optionsItemKind)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsItemKind),
+    fOptionsRationalItemVariable (optionsRationalItemVariable)
+{}
+
+msrOptionsRationalItem::~msrOptionsRationalItem()
+{}
+
+void msrOptionsRationalItem::print (ostream& os) const
+{
+  const int fieldWidth = 19;
+  
+  os <<
+    "OptionsRationalItem:" <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsItemHasBeenSelected" << " : " <<
+    booleanAsString (
+      fOptionsItemHasBeenSelected) <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsRationalItemVariable" << " : " << fOptionsRationalItemVariable <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt)
+{
+  os <<
+    "OptionsRationalItem:" <<
+    endl;
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
@@ -349,6 +405,9 @@ msrOptionsSubGroup::msrOptionsSubGroup (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
+{}
+
+msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
 
 void msrOptionsSubGroup::print (ostream& os) const
@@ -378,12 +437,12 @@ void msrOptionsSubGroup::print (ostream& os) const
   } // for
 }
 
-ostream& operator<< (ostream& os, const msrOptionsSubGroup& elt)
+ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
 {
   os <<
     "OptionsSubGroup:" <<
     endl;
-  elt.print (os);
+  elt->print (os);
   return os;
 }
 
@@ -396,6 +455,9 @@ msrOptionsGroup::msrOptionsGroup (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
+{}
+
+msrOptionsGroup::~msrOptionsGroup()
 {}
 
 void msrOptionsGroup::print (ostream& os) const
@@ -443,6 +505,9 @@ msrOptionsGroupsList::msrOptionsGroupsList (
       optionGroupsListShortName,
       optionGroupsListLongName,
       optionGroupsListDescription)
+{}
+
+msrOptionsGroupsList::~msrOptionsGroupsList()
 {}
 
 void msrOptionsGroupsList::print (ostream& os) const

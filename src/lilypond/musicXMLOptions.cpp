@@ -140,16 +140,16 @@ void msrSingleOption::printSingleOptionValue (int fieldWidth)
 }
 
 //_______________________________________________________________________________
-S_msrOptionsGroup msrOptionsGroup::create (
+S_msrOptionsGroupPP msrOptionsGroupPP::create (
   string optionGroupNName)
 {
-  msrOptionsGroup* o = new msrOptionsGroup(
+  msrOptionsGroupPP* o = new msrOptionsGroupPP(
     optionGroupNName);
   assert(o!=0);
   return o;
 }
 
-msrOptionsGroup::msrOptionsGroup (
+msrOptionsGroupPP::msrOptionsGroupPP (
   string optionGroupNName)
 {
   fOptionGroupNName = optionGroupNName;
@@ -157,10 +157,10 @@ msrOptionsGroup::msrOptionsGroup (
   initializeOptionsGroup (false);
 }
 
-msrOptionsGroup::~msrOptionsGroup ()
+msrOptionsGroupPP::~msrOptionsGroupPP ()
 {}
 
-void msrOptionsGroup::initializeOptionsGroup (
+void msrOptionsGroupPP::initializeOptionsGroup (
   bool boolOptionsInitialValue)
 {
   for (
@@ -174,11 +174,11 @@ void msrOptionsGroup::initializeOptionsGroup (
   } // for
 }
 
-S_msrOptionsGroup msrOptionsGroup::createCloneWithDetailedTrace ()
+S_msrOptionsGroupPP msrOptionsGroupPP::createCloneWithDetailedTrace ()
 {
-  S_msrOptionsGroup
+  S_msrOptionsGroupPP
     clone =
-      msrOptionsGroup::create (
+      msrOptionsGroupPP::create (
         fOptionGroupNName);
 
   for (
@@ -194,7 +194,7 @@ S_msrOptionsGroup msrOptionsGroup::createCloneWithDetailedTrace ()
   return clone;
 }  
 
-void msrOptionsGroup::printOptionsGroupHelp ()
+void msrOptionsGroupPP::printOptionsGroupHelp ()
 {
   cerr << idtr <<
     fOptionGroupNName <<
@@ -214,7 +214,7 @@ void msrOptionsGroup::printOptionsGroupHelp ()
   idtr--;
 }
 
-void msrOptionsGroup::printOptionsGroupValue (int fieldWidth)
+void msrOptionsGroupPP::printOptionsGroupValue (int fieldWidth)
 {  
   cerr << idtr <<
     fOptionGroupNName <<

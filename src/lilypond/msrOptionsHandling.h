@@ -230,6 +230,33 @@ class EXP msrOptionsStringItem : public msrOptionsItem
 typedef SMARTP<msrOptionsStringItem> S_msrOptionsStringItem;
 ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt);
 
+//______________________________________________________________________________
+class EXP msrOptionsRationalItem : public msrOptionsItem
+{
+  public:
+  
+    msrOptionsRationalItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      rational&          optionsRationalItemVariable,
+      msrOptionsItemKind optionsItemKind);
+      
+  protected:
+
+    virtual ~msrOptionsRationalItem();
+
+  public:
+  
+    void                  print (ostream& os) const;
+
+  private:
+  
+    rational&             fOptionsRationalItemVariable;
+};
+typedef SMARTP<msrOptionsRationalItem> S_msrOptionsRationalItem;
+ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt);
+
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
 {

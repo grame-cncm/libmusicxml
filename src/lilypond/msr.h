@@ -4851,9 +4851,9 @@ extern map<msrHarmonyKind, S_msrChordIntervals>
   gChordIntervalsMap;
 
 // tools
-static void initializeChordIntervalsMap ();
+extern void initializeChordIntervalsMap ();
 
-static void printChordIntervalsMap ();
+extern void printChordIntervalsMap ();
 
 /*!
 \brief A msr harmony representation.
