@@ -752,7 +752,7 @@ string harmonyKindAsShortString (
   return result;
 }
 
-void initializeHarmoniesChordItemsVector ()
+void initializeChordIntervalsMap ()
 {
   for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
     msrHarmonyKind
@@ -820,10 +820,20 @@ void initializeHarmoniesChordItemsVector ()
                 3, // chord item number
                 kPerFifth)
               );
-              
+    /* JMI
+          cerr <<
+            "++++++++++++++" <<
+            endl <<
+            harmonyKindAsString (harmonyKind) <<
+            endl <<
+            chordIntervals <<
+            "++++++++++++++" <<
+            endl;
+*/
+
           // register chord intervals in map
           gChordIntervalsMap [harmonyKind] =
-            chordItemsVector;
+            chordIntervals;
         }
         break;
       
@@ -1937,7 +1947,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   } // for
 }
 
-void printHarmoniesChordItemsVector ()
+void printChordIntervalsMap ()
 {
   cerr << idtr <<
     "Harmonies chord items:" <<
@@ -34836,8 +34846,8 @@ void initializeMSR ()
   // harmony handling
   // ------------------------------------------------------
 
-  initializeHarmoniesChordItemsVector (); // JMI
-  printHarmoniesChordItemsVector ();
+  initializeChordIntervalsMap (); // JMI
+  printChordIntervalsMap ();
 }
 
 

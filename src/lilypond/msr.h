@@ -4847,9 +4847,9 @@ extern map<msrHarmonyKind, vector <S_msrChordItem>* >
   gHarmoniesChordItemsVectorsMap;
 
 // tools
-static void initializeHarmoniesChordItemsVector ();
+static void initializeChordIntervalsMap ();
 
-static void printHarmoniesChordItemsVector ();
+static void printChordIntervalsMap ();
 
 /*!
 \brief A msr harmony representation.
