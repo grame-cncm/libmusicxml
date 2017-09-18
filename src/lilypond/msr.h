@@ -4850,9 +4850,6 @@ EXP ostream& operator<< (ostream& os, const S_msrChordIntervals& elt);
 extern map<msrHarmonyKind, S_msrChordIntervals>
   gChordIntervalsMap;
 
-extern map<msrHarmonyKind, vector <S_msrChordItem>* >
-  gHarmoniesChordItemsVectorsMap;
-
 // tools
 static void initializeChordIntervalsMap ();
 
