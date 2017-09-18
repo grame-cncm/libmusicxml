@@ -34,6 +34,9 @@ class EXP msrOptionsElement : public smartable
 
   protected:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsElement (
       string optionsElementShortName,
       string optionsElementLongName,
@@ -93,16 +96,19 @@ class EXP msrOptionsItem : public msrOptionsElement
 
   protected:
 
-    virtual ~msrOptionsItem();
+    // constructors/destructor
+    // ------------------------------------------------------
 
-  public:
-  
     msrOptionsItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       msrOptionsItemKind optionsItemKind);
 
+    virtual ~msrOptionsItem();
+
+  public:
+  
     msrOptionsItemKind    getOptionsItemKind () const
                               { return fOptionsItemKind; }
   
@@ -128,14 +134,17 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsBoolItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
       bool&  optionsBoolItemVariable);
       
-  protected:
-
     virtual ~msrOptionsBoolItem();
 
   public:
@@ -154,6 +163,11 @@ class EXP msrOptionsIntItem : public msrOptionsItem
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsIntItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
@@ -161,8 +175,6 @@ class EXP msrOptionsIntItem : public msrOptionsItem
       int&               optionsIntItemVariable,
       msrOptionsItemKind optionsItemKind);
       
-  protected:
-
     virtual ~msrOptionsIntItem();
 
   public:
@@ -181,6 +193,11 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsFloatItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
@@ -188,8 +205,6 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       float&             optionsFloatItemVariable,
       msrOptionsItemKind optionsItemKind);
       
-  protected:
-
     virtual ~msrOptionsFloatItem();
 
   public:
@@ -208,6 +223,11 @@ class EXP msrOptionsStringItem : public msrOptionsItem
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsStringItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
@@ -215,8 +235,6 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string&            optionsStringItemVariable,
       msrOptionsItemKind optionsItemKind);
       
-  protected:
-
     virtual ~msrOptionsStringItem();
 
   public:
@@ -235,6 +253,11 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsRationalItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
@@ -242,8 +265,6 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       rational&          optionsRationalItemVariable,
       msrOptionsItemKind optionsItemKind);
       
-  protected:
-
     virtual ~msrOptionsRationalItem();
 
   public:
@@ -262,13 +283,16 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsSubGroup (
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription);
     
-  protected:
-
     virtual ~msrOptionsSubGroup();
 
   public:
@@ -295,13 +319,16 @@ class EXP msrOptionsGroup : public msrOptionsElement
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsGroup (
       string optionGroupShortName,
       string optionGroupLongName,
       string optionGroupDescription);
       
-  protected:
-
     virtual ~msrOptionsGroup();
 
   public:
@@ -328,13 +355,16 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
 {
   public:
   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrOptionsGroupsList (
       string optionGroupsListShortName,
       string optionGroupsListLongName,
       string optionGroupsListDescription);
       
-  protected:
-
     virtual ~msrOptionsGroupsList();
 
   public:

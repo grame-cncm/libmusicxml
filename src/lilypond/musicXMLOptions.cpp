@@ -248,6 +248,9 @@ S_msrMusicXMLOptions msrMusicXMLOptions::create ()
 }
 
 msrMusicXMLOptions::msrMusicXMLOptions ()
+  : msrOptionsGroup (
+    "hmxml", "helpMusicXML",
+    "Options to control the handling of MusicXML input")
 {
   initializeMusicXMLOptions (false);
 }

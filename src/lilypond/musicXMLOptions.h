@@ -13,7 +13,7 @@
 #ifndef __musicXMLOptions__
 #define __musicXMLOptions__
 
-#include "smartpointer.h"
+#include "msrOptionsHandling.h"
 
 
 namespace MusicXML2 
@@ -230,7 +230,7 @@ typedef SMARTP<msrOptionsGroupPP> S_msrOptionsGroupPP;
 #define _LOOP_TO_MUSICXML_SHORT_NAME_ "loop"
 
 //______________________________________________________________________________
-class EXP msrMusicXMLOptions : public smartable
+class EXP msrMusicXMLOptions : public msrOptionsGroup
 {
   public:
 
