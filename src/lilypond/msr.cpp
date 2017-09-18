@@ -512,116 +512,116 @@ string harmonyKindAsString (
   string result;
   
   switch (harmonyKind) {
-    case msrHarmony::k_NoHarmony:
+    case k_NoHarmony:
       result = "Harmony???";
       break;
 
-    case msrHarmony::kMajor:
+    case kMajorHarmony:
       result = "Major";
       break;
-    case msrHarmony::kMinor:
+    case kMinorHarmony:
       result = "Minor";
       break;
-    case msrHarmony::kAugmented:
+    case kAugmentedHarmony:
       result = "Augmented";
       break;
-    case msrHarmony::kDiminished:
+    case kDiminishedHarmony:
       result = "Diminished";
       break;
 
-    case msrHarmony::kDominant:
+    case kDominantHarmony:
       result = "Dominant";
       break;
-    case msrHarmony::kMajorSeventh:
+    case kMajorSeventhHarmony:
       result = "MajorSeventh";
       break;
-    case msrHarmony::kMinorSeventh:
+    case kMinorSeventhHarmony:
       result = "MinorSeventh";
       break;
-    case msrHarmony::kDiminishedSeventh:
+    case kDiminishedSeventhHarmony:
       result = "DiminishedSeventh";
       break;
-    case msrHarmony::kAugmentedSeventh:
+    case kAugmentedSeventhHarmony:
       result = "AugmentedSeventh";
       break;
-    case msrHarmony::kHalfDiminished:
+    case kHalfDiminishedHarmony:
       result = "HalfDiminished";
       break;
-    case msrHarmony::kMajorMinor:
+    case kMajorMinorHarmony:
       result = "MajorMinor";
       break;
 
-    case msrHarmony::kMajorSixth:
+    case kMajorSixthHarmony:
       result = "MajorSixth";
       break;
-    case msrHarmony::kMinorSixth:
+    case kMinorSixthHarmony:
       result = "MinorSixth";
       break;
 
-    case msrHarmony::kDominantNinth:
+    case kDominantNinthHarmony:
       result = "DominantNinth";
       break;
-    case msrHarmony::kMajorNinth:
+    case kMajorNinthHarmony:
       result = "MajorNinth";
       break;
-    case msrHarmony::kMinorNinth:
+    case kMinorNinthHarmony:
       result = "MinorNinth";
       break;
 
-    case msrHarmony::kDominantEleventh:
+    case kDominantEleventhHarmony:
       result = "DominantEleventh";
       break;
-    case msrHarmony::kMajorEleventh:
+    case kMajorEleventhHarmony:
       result = "MajorEleventh";
       break;
-    case msrHarmony::kMinorEleventh:
+    case kMinorEleventhHarmony:
       result = "MinorEleventh";
       break;
 
-    case msrHarmony::kDominantThirteenth:
+    case kDominantThirteenthHarmony:
       result = "DominantThirteenth";
       break;
-    case msrHarmony::kMajorThirteenth:
+    case kMajorThirteenthHarmony:
       result = "MajorThirteenth";
       break;
-    case msrHarmony::kMinorThirteenth:
+    case kMinorThirteenthHarmony:
       result = "MinorThirteenth";
       break;
 
-    case msrHarmony::kSuspendedSecond:
+    case kSuspendedSecondHarmony:
       result = "SuspendedSecond";
       break;
-    case msrHarmony::kSuspendedFourth:
+    case kSuspendedFourthHarmony:
       result = "SuspendedFourth";
       break;
       
-    case msrHarmony::kNeapolitan:
+    case kNeapolitanHarmony:
       result = "Neapolitan";
       break;
-    case msrHarmony::kItalian:
+    case kItalianHarmony:
       result = "Italian";
       break;
-    case msrHarmony::kFrench:
+    case kFrenchHarmony:
       result = "French";
       break;
-    case msrHarmony::kGerman:
+    case kGermanHarmony:
       result = "German";
       break;
 
-    case msrHarmony::kPedal:
+    case kPedalHarmony:
       result = "Pedal";
       break;
-    case msrHarmony::kPower:
+    case kPowerHarmony:
       result = "Power";
       break;
-    case msrHarmony::kTristan:
+    case kTristanHarmony:
       result = "Tristan";
       break;
       
-    case msrHarmony::kOther:
+    case kOtherHarmony:
       result = "Other";
       break;
-    case msrHarmony::kNone:
+    case kNoneHarmony:
       result = "None";
       break;
   } // switch
@@ -635,121 +635,1323 @@ string harmonyKindAsShortString (
   string result;
   
   switch (harmonyKind) {
-    case msrHarmony::k_NoHarmony:
+    case k_NoHarmony:
       result = "Harmony???";
       break;
 
-    case msrHarmony::kMajor:
+    case kMajorHarmony:
       result = "";
       break;
-    case msrHarmony::kMinor:
+    case kMinorHarmony:
       result = "m";
       break;
-    case msrHarmony::kAugmented:
+    case kAugmentedHarmony:
       result = "+";
       break;
-    case msrHarmony::kDiminished:
+    case kDiminishedHarmony:
       result = "dim";
       break;
 
-    case msrHarmony::kDominant:
+    case kDominantHarmony:
       result = "7";
       break;
-    case msrHarmony::kMajorSeventh:
+    case kMajorSeventhHarmony:
       result = "∆7";
       break;
-    case msrHarmony::kMinorSeventh:
+    case kMinorSeventhHarmony:
       result = "m7";
       break;
-    case msrHarmony::kDiminishedSeventh:
+    case kDiminishedSeventhHarmony:
       result = "7/5-";
       break;
-    case msrHarmony::kAugmentedSeventh:
+    case kAugmentedSeventhHarmony:
       result = "7/5+";
       break;
-    case msrHarmony::kHalfDiminished:
+    case kHalfDiminishedHarmony:
       result = "ø7";
       break;
-    case msrHarmony::kMajorMinor:
+    case kMajorMinorHarmony:
       result = "m∆7";
       break;
 
-    case msrHarmony::kMajorSixth:
+    case kMajorSixthHarmony:
       result = "6";
       break;
-    case msrHarmony::kMinorSixth:
+    case kMinorSixthHarmony:
       result = "m6";
       break;
 
-    case msrHarmony::kDominantNinth:
+    case kDominantNinthHarmony:
       result = "9";
       break;
-    case msrHarmony::kMajorNinth:
+    case kMajorNinthHarmony:
       result = "∆7/9";
       break;
-    case msrHarmony::kMinorNinth:
+    case kMinorNinthHarmony:
       result = "m∆7/9";
       break;
 
-    case msrHarmony::kDominantEleventh:
+    case kDominantEleventhHarmony:
       result = "11";
       break;
-    case msrHarmony::kMajorEleventh:
+    case kMajorEleventhHarmony:
       result = "∆7/9/11";
       break;
-    case msrHarmony::kMinorEleventh:
+    case kMinorEleventhHarmony:
       result = "m∆7/9/11";
       break;
 
-    case msrHarmony::kDominantThirteenth:
+    case kDominantThirteenthHarmony:
       result = "13";
       break;
-    case msrHarmony::kMajorThirteenth:
+    case kMajorThirteenthHarmony:
       result = "∆7/9/11/13";
       break;
-    case msrHarmony::kMinorThirteenth:
+    case kMinorThirteenthHarmony:
       result = "m∆7/9/11/13";
       break;
 
-    case msrHarmony::kSuspendedSecond:
+    case kSuspendedSecondHarmony:
       result = "sus2";
       break;
-    case msrHarmony::kSuspendedFourth:
+    case kSuspendedFourthHarmony:
       result = "sus4";
       break;
       
-    case msrHarmony::kNeapolitan:
+    case kNeapolitanHarmony:
       result = "Neapolitan";
       break;
-    case msrHarmony::kItalian:
+    case kItalianHarmony:
       result = "Italian";
       break;
-    case msrHarmony::kFrench:
+    case kFrenchHarmony:
       result = "French";
       break;
-    case msrHarmony::kGerman:
+    case kGermanHarmony:
       result = "German";
       break;
 
-    case msrHarmony::kPedal:
+    case kPedalHarmony:
       result = "Pedal";
       break;
-    case msrHarmony::kPower:
+    case kPowerHarmony:
       result = "Power";
       break;
-    case msrHarmony::kTristan:
+    case kTristanHarmony:
       result = "Tristan";
       break;
 
-    case msrHarmony::kOther:
+    case kOtherHarmony:
       result = "Other";
       break;
-    case msrHarmony::kNone:
+    case kNoneHarmony:
       result = "None";
       break;
   } // switch
 
   return result;
+}
+
+void initializeHarmoniesChordItemsVector ()
+{
+  for (int i = k_NoHarmony; i <= kNone; i++) {
+    msrHarmonyKind
+      harmonyKind =
+        msrHarmonyKind (i);
+    
+    switch (harmonyKind) {
+      case msrHarmony::k_NoHarmony:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
+        break;
+  
+      case msrHarmony::kMajor:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMinor:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kAugmented:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDiminished:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kDiminishedFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDominant:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMajorSeventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+       case msrHarmony::kMinorSeventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDiminishedSeventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kDiminishedFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kDiminishedSeventh)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kAugmentedSeventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kHalfDiminished:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kDiminishedFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+       case msrHarmony::kMajorMinor:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMajorSixth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSixth) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMinorSixth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSixth) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDominantNinth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+
+      case msrHarmony::kMajorNinth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorNinth) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMinorNinth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorNinth) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDominantEleventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              6, // chord item number
+              MusicXML2::kPerEleventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+
+      case msrHarmony::kMajorEleventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorNinth) // JMI
+            );
+           chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              6, // chord item number
+              MusicXML2::kPerEleventh) // JMI
+            );
+           
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMinorEleventh:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorNinth) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              6, // chord item number
+              MusicXML2::kPerEleventh) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kDominantThirteenth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              6, // chord item number
+              MusicXML2::kPerEleventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              7, // chord item number
+              MusicXML2::kMajorThirteenth) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+
+      case msrHarmony::kMajorThirteenth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMajorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorNinth) // JMI
+            );
+           chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              6, // chord item number
+              MusicXML2::kPerEleventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              7, // chord item number
+              MusicXML2::kMajorThirteenth) // JMI
+            );
+           
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kMinorThirteenth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              MusicXML2::kMinorSeventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              5, // chord item number
+              MusicXML2::kMajorNinth) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              6, // chord item number
+              MusicXML2::kPerEleventh) // JMI
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              7, // chord item number
+              MusicXML2::kMajorThirteenth) // JMI
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kSuspendedSecond:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorSecond)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kSuspendedFourth:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kPerFourth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+
+/*
+ * kNeapolitan f aes des' in:
+ *
+ * c e g c' -> f f aes des' -> d g d b -> c e g c'
+ 
+they are three different pre-dominant chords that are taught to American undergrads in a sophomore theory course.
+
+in E major:
+Italian = C E A#
+French = C E F# A#
+German = C E G A#
+Tristan = C D# F# A#
+
+in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
+*/      
+
+      case msrHarmony::kNeapolitan:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMinorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kDiminishedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kItalian:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kFrench:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFourth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kGerman:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kMajorThird)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kPerFifth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              kAugmentedSixth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kPedal:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
+        break;
+        
+      case msrHarmony::kPower:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kPerFifth)
+            );
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kTristan:
+        {
+          vector<S_msrChordItem>* chordItemsVector =
+            new vector<S_msrChordItem>;
+
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              1, // chord item number
+              kUnisson)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              2, // chord item number
+              kAugmentedSecond)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              3, // chord item number
+              kAugmentedFourth)
+            );
+          chordItemsVector->push_back (
+            msrChordItem::create (
+              0, // input line number
+              4, // chord item number
+              kAugmentedSixth)
+            );
+
+          cerr <<
+            "++++++++++++++" <<
+            endl <<
+            msrHarmony::harmonyKindAsString (harmonyKind) <<
+            endl <<
+            chordItemsVector <<
+            "++++++++++++++" <<
+            endl;
+            
+          gHarmoniesChordItemsVectorsMap [harmonyKind] =
+            chordItemsVector;
+        }
+        break;
+      
+      case msrHarmony::kOther:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
+        break;
+        
+      case msrHarmony::kNone:
+        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
+        break;
+    } // switch
+  } // for
+}
+
+void msrHarmony::printHarmoniesChordItemsVector ()
+{
+  cerr << idtr <<
+    "Harmonies chord items:" <<
+    endl;
+
+  idtr++;
+
+  for (int i = k_NoHarmony; i <= kNone; i++) {
+    msrHarmonyKind
+      harmonyKind =
+        msrHarmonyKind (i);
+
+    cerr << idtr <<
+// JMI      "i:" << i << " " <<
+      msrHarmony::harmonyKindAsString (harmonyKind) << ":" <<
+      endl;
+
+    idtr++;
+    
+    vector<S_msrChordItem>* chordItemsVector =
+      gHarmoniesChordItemsVectorsMap [harmonyKind];
+
+    if (chordItemsVector) {
+      for (unsigned int i = 0; i < (*chordItemsVector).size (); i++) {
+        S_msrChordItem
+          chordItem =
+            (*chordItemsVector) [i];
+  
+           cerr << idtr <<
+            chordItem->chordItemAsString () <<
+            endl;
+      } // for
+    }
+    else {
+      cerr << idtr <<
+        "none" <<
+        endl;
+    }
+
+    idtr--;
+    
+    cerr <<
+      endl;
+  } // for
+
+  idtr--;
+
+  cerr <<
+    endl;
 }
 
 // notes names languages
@@ -16832,9 +18034,10 @@ void msrChordItem::print (ostream& os)
 }
 
 //______________________________________________________________________________
-map<msrHarmony::msrHarmonyKind, vector <S_msrChordItem>* >
-  msrHarmony::gHarmoniesChordItemsVectorsMap;
+map<msrHarmonyKind, vector <S_msrChordItem>* >
+  gHarmoniesChordItemsVectorsMap;
 
+//______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
   S_msrPart            harmonyPart,
@@ -16904,1208 +18107,6 @@ msrHarmony::msrHarmony (
 
 msrHarmony::~msrHarmony()
 {}
-
-void msrHarmony::initializeHarmoniesChordItemsVector ()
-{
-  for (int i = k_NoHarmony; i <= kNone; i++) {
-    msrHarmonyKind
-      harmonyKind =
-        msrHarmonyKind (i);
-    
-    switch (harmonyKind) {
-      case msrHarmony::k_NoHarmony:
-        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
-        break;
-  
-      case msrHarmony::kMajor:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMinor:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kAugmented:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kAugmentedFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kDiminished:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kDiminishedFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kDominant:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMajorSeventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-       case msrHarmony::kMinorSeventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kDiminishedSeventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kDiminishedFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kDiminishedSeventh)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kAugmentedSeventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kAugmentedFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kHalfDiminished:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kDiminishedFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-       case msrHarmony::kMajorMinor:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMajorSixth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSixth) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMinorSixth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSixth) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kDominantNinth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-
-      case msrHarmony::kMajorNinth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorNinth) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMinorNinth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorNinth) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kDominantEleventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              6, // chord item number
-              MusicXML2::kPerEleventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-
-      case msrHarmony::kMajorEleventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorNinth) // JMI
-            );
-           chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              6, // chord item number
-              MusicXML2::kPerEleventh) // JMI
-            );
-           
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMinorEleventh:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorNinth) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              6, // chord item number
-              MusicXML2::kPerEleventh) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kDominantThirteenth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              6, // chord item number
-              MusicXML2::kPerEleventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              7, // chord item number
-              MusicXML2::kMajorThirteenth) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-
-      case msrHarmony::kMajorThirteenth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMajorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorNinth) // JMI
-            );
-           chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              6, // chord item number
-              MusicXML2::kPerEleventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              7, // chord item number
-              MusicXML2::kMajorThirteenth) // JMI
-            );
-           
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kMinorThirteenth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              MusicXML2::kMinorSeventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              5, // chord item number
-              MusicXML2::kMajorNinth) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              6, // chord item number
-              MusicXML2::kPerEleventh) // JMI
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              7, // chord item number
-              MusicXML2::kMajorThirteenth) // JMI
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kSuspendedSecond:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorSecond)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kSuspendedFourth:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kPerFourth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-
-/*
- * kNeapolitan f aes des' in:
- *
- * c e g c' -> f f aes des' -> d g d b -> c e g c'
- 
-they are three different pre-dominant chords that are taught to American undergrads in a sophomore theory course.
-
-in E major:
-Italian = C E A#
-French = C E F# A#
-German = C E G A#
-Tristan = C D# F# A#
-
-in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
-*/      
-
-      case msrHarmony::kNeapolitan:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMinorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kDiminishedSixth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kItalian:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kAugmentedSixth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kFrench:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kAugmentedFourth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              kAugmentedSixth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kGerman:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kMajorThird)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kPerFifth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              kAugmentedSixth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kPedal:
-        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
-        break;
-        
-      case msrHarmony::kPower:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kPerFifth)
-            );
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kTristan:
-        {
-          vector<S_msrChordItem>* chordItemsVector =
-            new vector<S_msrChordItem>;
-
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              1, // chord item number
-              kUnisson)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              2, // chord item number
-              kAugmentedSecond)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              3, // chord item number
-              kAugmentedFourth)
-            );
-          chordItemsVector->push_back (
-            msrChordItem::create (
-              0, // input line number
-              4, // chord item number
-              kAugmentedSixth)
-            );
-
-          cerr <<
-            "++++++++++++++" <<
-            endl <<
-            msrHarmony::harmonyKindAsString (harmonyKind) <<
-            endl <<
-            chordItemsVector <<
-            "++++++++++++++" <<
-            endl;
-            
-          gHarmoniesChordItemsVectorsMap [harmonyKind] =
-            chordItemsVector;
-        }
-        break;
-      
-      case msrHarmony::kOther:
-        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
-        break;
-        
-      case msrHarmony::kNone:
-        gHarmoniesChordItemsVectorsMap [harmonyKind] = 0;
-        break;
-    } // switch
-  } // for
-}
-
-void msrHarmony::printHarmoniesChordItemsVector ()
-{
-  cerr << idtr <<
-    "Harmonies chord items:" <<
-    endl;
-
-  idtr++;
-
-  for (int i = k_NoHarmony; i <= kNone; i++) {
-    msrHarmonyKind
-      harmonyKind =
-        msrHarmonyKind (i);
-
-    cerr << idtr <<
-// JMI      "i:" << i << " " <<
-      msrHarmony::harmonyKindAsString (harmonyKind) << ":" <<
-      endl;
-
-    idtr++;
-    
-    vector<S_msrChordItem>* chordItemsVector =
-      gHarmoniesChordItemsVectorsMap [harmonyKind];
-
-    if (chordItemsVector) {
-      for (unsigned int i = 0; i < (*chordItemsVector).size (); i++) {
-        S_msrChordItem
-          chordItem =
-            (*chordItemsVector) [i];
-  
-           cerr << idtr <<
-            chordItem->chordItemAsString () <<
-            endl;
-      } // for
-    }
-    else {
-      cerr << idtr <<
-        "none" <<
-        endl;
-    }
-
-    idtr--;
-    
-    cerr <<
-      endl;
-  } // for
-
-  idtr--;
-
-  cerr <<
-    endl;
-}
 
 S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrPart containingPart)

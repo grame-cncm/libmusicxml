@@ -358,6 +358,139 @@ string msrIntervalAsShortString (
 
 // harmonies
 //______________________________________________________________________________
+/*
+ kind-value indicates the type of chord. Degree elements can then add, subtract, or alter from these starting points. Values include:
+  
+Triads:
+  major (major third, perfect fifth)
+  minor (minor third, perfect fifth)
+  augmented (major third, augmented fifth)
+  diminished (minor third, diminished fifth)
+Sevenths:
+  dominant (major triad, minor seventh)
+  major-seventh (major triad, major seventh)
+  minor-seventh (minor triad, minor seventh)
+  diminished-seventh (diminished triad, diminished seventh)
+  augmented-seventh (augmented triad, minor seventh)
+  half-diminished (diminished triad, minor seventh)
+  major-minor (minor triad, major seventh)
+Sixths:
+  major-sixth (major triad, added sixth)
+  minor-sixth (minor triad, added sixth)
+Ninths:
+  dominant-ninth (dominant-seventh, major ninth)
+  major-ninth (major-seventh, major ninth)
+  minor-ninth (minor-seventh, major ninth)
+11ths (usually as the basis for alteration):
+  dominant-11th (dominant-ninth, perfect 11th)
+  major-11th (major-ninth, perfect 11th)
+  minor-11th (minor-ninth, perfect 11th)
+13ths (usually as the basis for alteration):
+  dominant-13th (dominant-11th, major 13th)
+  major-13th (major-11th, major 13th)
+  minor-13th (minor-11th, major 13th)
+Suspended:
+  suspended-second (major second, perfect fifth)
+  suspended-fourth (perfect fourth, perfect fifth)
+Functional sixths:
+  Neapolitan
+  Italian
+  French
+  German
+Other:
+  pedal (pedal-point bass)
+  power (perfect fifth)
+  Tristan
+  
+The "other" kind is used when the harmony is entirely composed of add elements. The "none" kind is used to explicitly encode absence of chords or functional harmony.
+*
+*
+*
+*   Kind indicates the type of chord. Values include:
+  
+  Triads:
+      major (major third, perfect fifth)
+      minor (minor third, perfect fifth)
+      augmented (major third, augmented fifth)
+      diminished (minor third, diminished fifth)
+  Sevenths:
+      dominant (major triad, minor seventh)
+      major-seventh (major triad, major seventh)
+      minor-seventh (minor triad, minor seventh)
+      diminished-seventh
+          (diminished triad, diminished seventh)
+      augmented-seventh
+          (augmented triad, minor seventh)
+      half-diminished
+          (diminished triad, minor seventh)
+      major-minor
+          (minor triad, major seventh)
+  Sixths:
+      major-sixth (major triad, added sixth)
+      minor-sixth (minor triad, added sixth)
+  Ninths:
+      dominant-ninth (dominant-seventh, major ninth)
+      major-ninth (major-seventh, major ninth)
+      minor-ninth (minor-seventh, major ninth)
+  11ths (usually as the basis for alteration):
+      dominant-11th (dominant-ninth, perfect 11th)
+      major-11th (major-ninth, perfect 11th)
+      minor-11th (minor-ninth, perfect 11th)
+  13ths (usually as the basis for alteration):
+      dominant-13th (dominant-11th, major 13th)
+      major-13th (major-11th, major 13th)
+      minor-13th (minor-11th, major 13th)
+  Suspended:
+      suspended-second (major second, perfect fifth)
+      suspended-fourth (perfect fourth, perfect fifth)
+  Functional sixths:
+      Neapolitan
+      Italian
+      French
+      German
+  Other:
+      pedal (pedal-point bass)
+      power (perfect fifth)
+      Tristan
+  
+  The "other" kind is used when the harmony is entirely
+  composed of add elements. The "none" kind is used to
+  explicitly encode absence of chords or functional
+  harmony.
+
+  For the major-minor kind, only the minor symbol is used when
+  use-symbols is yes. The major symbol is set using the symbol
+  attribute in the degree-value element. The corresponding
+  degree-alter value will usually be 0 in this case.
+
+  The text attribute describes how the kind should be spelled
+  in a score. If use-symbols is yes, the value of the text
+  attribute follows the symbol. The stack-degrees attribute
+  is yes if the degree elements should be stacked above each
+  other. The parentheses-degrees attribute is yes if all the
+  degrees should be in parentheses. The bracket-degrees 
+  attribute is yes if all the degrees should be in a bracket.
+  If not specified, these values are implementation-specific.
+  The alignment attributes are for the entire harmony-chord
+  entity of which this kind element is a part.
+
+
+<!ELEMENT kind (#PCDATA)>
+<!ATTLIST kind
+    use-symbols          %yes-no;   #IMPLIED
+    text                 CDATA      #IMPLIED
+    stack-degrees        %yes-no;   #IMPLIED
+    parentheses-degrees  %yes-no;   #IMPLIED
+    bracket-degrees      %yes-no;   #IMPLIED
+    %print-style;
+    %halign;
+    %valign;
+>
+
+  Inversion is a number indicating which inversion is used:
+  0 for root position, 1 for first inversion, etc.
+*/
+
 enum msrHarmonyKind {
   k_NoHarmony,
   
@@ -393,6 +526,9 @@ string harmonyKindAsString (
 
 string harmonyKindAsShortString (
   msrHarmonyKind harmonyKind);
+
+// constant
+#define K_HARMONY_NO_INVERSION -1
 
 // quarter tones pitches
 //______________________________________________________________________________
@@ -4620,6 +4756,16 @@ class EXP msrChordItem : public msrElement
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
 
+//______________________________________________________________________________
+// global variable
+extern map<msrHarmonyKind, vector <S_msrChordItem>* >
+  gHarmoniesChordItemsVectorsMap;
+
+// tools
+static void initializeHarmoniesChordItemsVector ();
+
+static void printHarmoniesChordItemsVector ();
+
 /*!
 \brief A msr harmony representation.
 
@@ -4629,185 +4775,6 @@ EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
 class EXP msrHarmony : public msrElement
 {
   public:
-
-/*
- kind-value indicates the type of chord. Degree elements can then add, subtract, or alter from these starting points. Values include:
-  
-Triads:
-  major (major third, perfect fifth)
-  minor (minor third, perfect fifth)
-  augmented (major third, augmented fifth)
-  diminished (minor third, diminished fifth)
-Sevenths:
-  dominant (major triad, minor seventh)
-  major-seventh (major triad, major seventh)
-  minor-seventh (minor triad, minor seventh)
-  diminished-seventh (diminished triad, diminished seventh)
-  augmented-seventh (augmented triad, minor seventh)
-  half-diminished (diminished triad, minor seventh)
-  major-minor (minor triad, major seventh)
-Sixths:
-  major-sixth (major triad, added sixth)
-  minor-sixth (minor triad, added sixth)
-Ninths:
-  dominant-ninth (dominant-seventh, major ninth)
-  major-ninth (major-seventh, major ninth)
-  minor-ninth (minor-seventh, major ninth)
-11ths (usually as the basis for alteration):
-  dominant-11th (dominant-ninth, perfect 11th)
-  major-11th (major-ninth, perfect 11th)
-  minor-11th (minor-ninth, perfect 11th)
-13ths (usually as the basis for alteration):
-  dominant-13th (dominant-11th, major 13th)
-  major-13th (major-11th, major 13th)
-  minor-13th (minor-11th, major 13th)
-Suspended:
-  suspended-second (major second, perfect fifth)
-  suspended-fourth (perfect fourth, perfect fifth)
-Functional sixths:
-  Neapolitan
-  Italian
-  French
-  German
-Other:
-  pedal (pedal-point bass)
-  power (perfect fifth)
-  Tristan
-  
-The "other" kind is used when the harmony is entirely composed of add elements. The "none" kind is used to explicitly encode absence of chords or functional harmony.
-*
-*
-*
-*   Kind indicates the type of chord. Values include:
-  
-  Triads:
-      major (major third, perfect fifth)
-      minor (minor third, perfect fifth)
-      augmented (major third, augmented fifth)
-      diminished (minor third, diminished fifth)
-  Sevenths:
-      dominant (major triad, minor seventh)
-      major-seventh (major triad, major seventh)
-      minor-seventh (minor triad, minor seventh)
-      diminished-seventh
-          (diminished triad, diminished seventh)
-      augmented-seventh
-          (augmented triad, minor seventh)
-      half-diminished
-          (diminished triad, minor seventh)
-      major-minor
-          (minor triad, major seventh)
-  Sixths:
-      major-sixth (major triad, added sixth)
-      minor-sixth (minor triad, added sixth)
-  Ninths:
-      dominant-ninth (dominant-seventh, major ninth)
-      major-ninth (major-seventh, major ninth)
-      minor-ninth (minor-seventh, major ninth)
-  11ths (usually as the basis for alteration):
-      dominant-11th (dominant-ninth, perfect 11th)
-      major-11th (major-ninth, perfect 11th)
-      minor-11th (minor-ninth, perfect 11th)
-  13ths (usually as the basis for alteration):
-      dominant-13th (dominant-11th, major 13th)
-      major-13th (major-11th, major 13th)
-      minor-13th (minor-11th, major 13th)
-  Suspended:
-      suspended-second (major second, perfect fifth)
-      suspended-fourth (perfect fourth, perfect fifth)
-  Functional sixths:
-      Neapolitan
-      Italian
-      French
-      German
-  Other:
-      pedal (pedal-point bass)
-      power (perfect fifth)
-      Tristan
-  
-  The "other" kind is used when the harmony is entirely
-  composed of add elements. The "none" kind is used to
-  explicitly encode absence of chords or functional
-  harmony.
-
-  For the major-minor kind, only the minor symbol is used when
-  use-symbols is yes. The major symbol is set using the symbol
-  attribute in the degree-value element. The corresponding
-  degree-alter value will usually be 0 in this case.
-
-  The text attribute describes how the kind should be spelled
-  in a score. If use-symbols is yes, the value of the text
-  attribute follows the symbol. The stack-degrees attribute
-  is yes if the degree elements should be stacked above each
-  other. The parentheses-degrees attribute is yes if all the
-  degrees should be in parentheses. The bracket-degrees 
-  attribute is yes if all the degrees should be in a bracket.
-  If not specified, these values are implementation-specific.
-  The alignment attributes are for the entire harmony-chord
-  entity of which this kind element is a part.
-
-
-<!ELEMENT kind (#PCDATA)>
-<!ATTLIST kind
-    use-symbols          %yes-no;   #IMPLIED
-    text                 CDATA      #IMPLIED
-    stack-degrees        %yes-no;   #IMPLIED
-    parentheses-degrees  %yes-no;   #IMPLIED
-    bracket-degrees      %yes-no;   #IMPLIED
-    %print-style;
-    %halign;
-    %valign;
->
-
-  Inversion is a number indicating which inversion is used:
-  0 for root position, 1 for first inversion, etc.
-*/
-    // data types
-    // ------------------------------------------------------
-/*
-    enum msrHarmonyKind {
-      k_NoHarmony,
-      
-      kMajor, kMinor, 
-      kAugmented, kDiminished,
-
-      kDominant,
-      kMajorSeventh, kMinorSeventh,
-      kDiminishedSeventh, kAugmentedSeventh,
-      kHalfDiminished,
-      kMajorMinor,
-
-      kMajorSixth, kMinorSixth,
-
-      kDominantNinth,
-      kMajorNinth, kMinorNinth,
-
-      kDominantEleventh, kMajorEleventh, kMinorEleventh,
-
-      kDominantThirteenth, kMajorThirteenth, kMinorThirteenth,
-
-      kSuspendedSecond, kSuspendedFourth,
-
-      kNeapolitan, kItalian, kFrench, kGerman,
-
-      kPedal, kPower, kTristan,
-
-      kOther,
-      kNone };
-
-*/
-
-    #define K_HARMONY_NO_INVERSION -1
-
-    // global variables
-    // ------------------------------------------------------
-
-    static map<msrHarmonyKind, vector <S_msrChordItem>* >
-                          gHarmoniesChordItemsVectorsMap;
-
-    static void           initializeHarmoniesChordItemsVector ();
-
-    static void           printHarmoniesChordItemsVector ();
 
     // creation from MusicXML
     // ------------------------------------------------------
