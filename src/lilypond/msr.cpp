@@ -1903,7 +1903,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   } // for
 }
 
-void msrHarmony::printHarmoniesChordItemsVector ()
+void printHarmoniesChordItemsVector ()
 {
   cerr << idtr <<
     "Harmonies chord items:" <<
@@ -1911,14 +1911,14 @@ void msrHarmony::printHarmoniesChordItemsVector ()
 
   idtr++;
 
-  for (int i = k_NoHarmony; i <= kNone; i++) {
+  for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
     msrHarmonyKind
       harmonyKind =
         msrHarmonyKind (i);
 
     cerr << idtr <<
 // JMI      "i:" << i << " " <<
-      msrHarmony::harmonyKindAsString (harmonyKind) << ":" <<
+      harmonyKindAsString (harmonyKind) << ":" <<
       endl;
 
     idtr++;
@@ -18115,7 +18115,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "==> Creating a newborn clone of harmony '" <<
-      harmonyKindAsShortString () <<
+      harmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
       endl;
   }
@@ -18145,7 +18145,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   if (gGeneralOptions->fTraceHarmonies) {
     cerr << idtr <<
       "==> Creating a deep copy of harmony '" <<
-      harmonyKindAsShortString () <<
+      harmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
       endl;
   }
@@ -18179,7 +18179,7 @@ string msrHarmony::harmonyAsString () const
     msrQuarterTonesPitchAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguage,
       fHarmonyRootQuarterTonesPitch) <<          
-    harmonyKindAsShortString () <<
+    harmonyKindAsShortString (fHarmonyKind) <<
     " | " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
@@ -34575,8 +34575,8 @@ void initializeMSR ()
   // harmony handling
   // ------------------------------------------------------
 
-  msrHarmony::initializeHarmoniesChordItemsVector (); // JMI
-  msrHarmony::printHarmoniesChordItemsVector ();
+  initializeHarmoniesChordItemsVector (); // JMI
+  printHarmoniesChordItemsVector ();
 }
 
 
