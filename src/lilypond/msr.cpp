@@ -1932,9 +1932,9 @@ void printHarmoniesChordItemsVector ()
           chordItem =
             (*chordItemsVector) [i];
   
-           cerr << idtr <<
-            chordItem->chordItemAsString () <<
-            endl;
+        cerr << idtr <<
+          chordItem->chordItemAsString () <<
+          endl;
       } // for
     }
     else {
@@ -18035,7 +18035,189 @@ void msrChordItem::print (ostream& os)
 }
 
 //______________________________________________________________________________
-map<msrHarmonyKind, vector <S_msrChordItem>* >
+S_msrChordIntervals msrChordIntervals::create (
+  int            inputLineNumber,
+  msrHarmonyKind chordIntervalsHarmonyKind)
+{
+  msrChordIntervals* o =
+    new msrChordIntervals (
+      inputLineNumber,
+      chordIntervalsHarmonyKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordIntervals::msrChordIntervals (
+  int            inputLineNumber,
+  msrHarmonyKind chordIntervalsHarmonyKind)
+    : msrElement (inputLineNumber)
+{
+  fChordIntervalsHarmonyKind = chordIntervalsHarmonyKind;
+
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating chord intervals '" <<
+      chordIntervalsAsString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrChordIntervals::~msrChordIntervals()
+{}
+
+/* JMI
+S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating a newborn clone of harmony degree '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrChordIntervals
+    newbornClone =
+      msrChordIntervals::create (
+        fInputLineNumber,
+        fChordIntervalsValue,
+        fChordIntervalsAlteration,
+        fChordIntervalsTypeKind);
+        
+  return newbornClone;
+}
+
+S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
+  S_msrPart containingPart)
+{
+  if (gGeneralOptions->fTraceHarmonies) {
+    cerr << idtr <<
+      "==> Creating a deep copy of harmony degree '" <<
+      harmonyKindAsShortString () <<
+      "'" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingPart != 0,
+    "containingPart is null");
+    
+  S_msrChordIntervals
+    harmonyDeepCopy =
+      msrChordIntervals::create (
+        fInputLineNumber,
+        fChordIntervalsValue,
+        fChordIntervalsAlteration,
+        fChordIntervalsTypeKind);
+        
+  return harmonyDeepCopy;
+}
+*/
+
+string msrChordIntervals::chordIntervalsAsString () const
+{
+  stringstream s;
+
+  s <<
+    "ChordIntervals" <<
+    ", " <<
+    harmonyKindAsString (fChordIntervalsHarmonyKind) <<
+    ", " <<
+    singularOrPlural (
+      fChordIntervalsItems.size (), "item", "items");
+
+  return s.str();
+}
+
+void msrChordIntervals::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrChordIntervals::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrChordIntervals>*
+    p =
+      dynamic_cast<visitor<S_msrChordIntervals>*> (v)) {
+        S_msrChordIntervals elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrChordIntervals::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrChordIntervals::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrChordIntervals::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrChordIntervals>*
+    p =
+      dynamic_cast<visitor<S_msrChordIntervals>*> (v)) {
+        S_msrChordIntervals elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrChordIntervals::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordIntervals::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrChordIntervals& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrChordIntervals::print (ostream& os)
+{  
+  os <<
+    "ChordIntervals" <<
+    ", harmonyKind: " <<
+    harmonyKindAsString (fChordIntervalsHarmonyKind) <<
+  /* JMI
+    ", line: " << fInputLineNumber <<
+    */
+    endl;
+
+  if (fChordIntervalsItems.size ()) {
+    for (unsigned int i = 0; i < fChordIntervalsItems.size (); i++) {
+      S_msrChordItem
+        chordItem =
+          fChordIntervalsItems [i];
+
+      cerr << idtr <<
+        chordItem->chordItemAsString () <<
+        endl;
+    } // for
+  }
+  else {
+    cerr << idtr <<
+      "no intervals" <<
+      endl;
+  }
+}
+
+extern map<msrHarmonyKind, S_msrChordIntervals>
+  gChordIntervalsMap;
+
+extern map<msrHarmonyKind, vector <S_msrChordItem>* >
   gHarmoniesChordItemsVectorsMap;
 
 //______________________________________________________________________________

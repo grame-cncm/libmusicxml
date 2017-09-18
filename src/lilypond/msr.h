@@ -4756,8 +4756,93 @@ class EXP msrChordItem : public msrElement
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
 
+/*!
+\brief A msr harmony representation.
+
+  A harmony is represented by a list of syllables,
+*/
 //______________________________________________________________________________
-// global variable
+class EXP msrChordIntervals : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordIntervals> create (
+      int            inputLineNumber,
+      msrHarmonyKind chordIntervalsHarmonyKind);
+
+    /* JMI
+    SMARTP<msrChordIntervals> createChordIntervalsNewbornClone (
+      S_msrPart containingPart);
+
+    SMARTP<msrChordIntervals> createChordIntervalsDeepCopy ( // JMI ???
+      S_msrPart containingPart);
+      */
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordIntervals (
+      int            inputLineNumber,
+      msrHarmonyKind chordIntervalsHarmonyKind);
+
+    virtual ~msrChordIntervals();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrHarmonyKind        getChordIntervalsHarmonyKind () const
+                              { return fChordIntervalsHarmonyKind; }
+                              
+    const vector <S_msrChordItem>&
+                          getChordIntervalsItems () const
+                              { return fChordIntervalsItems; }
+                              
+    // services
+    // ------------------------------------------------------
+
+    void                  appendChordItemToChordIntervals (
+                            S_msrChordItem chordItem)
+                              {
+                                fChordIntervalsItems.push_back (
+                                  chordItem);
+                              }
+        
+    string                chordIntervalsAsString () const;
+    string                chordIntervalsAsShortString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    msrHarmonyKind        fChordIntervalsHarmonyKind;
+    vector <S_msrChordItem>
+                          fChordIntervalsItems;
+};
+typedef SMARTP<msrChordIntervals> S_msrChordIntervals;
+EXP ostream& operator<< (ostream& os, const S_msrChordIntervals& elt);
+
+// global variable 
+extern map<msrHarmonyKind, S_msrChordIntervals>
+  gChordIntervalsMap;
+
 extern map<msrHarmonyKind, vector <S_msrChordItem>* >
   gHarmoniesChordItemsVectorsMap;
 
