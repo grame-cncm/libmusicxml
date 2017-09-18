@@ -355,7 +355,39 @@ string msrIntervalAsString (
       
 string msrIntervalAsShortString (
   msrInterval interval);
-      
+
+// harmonies
+//______________________________________________________________________________
+enum msrHarmonyKind {
+  k_NoHarmony,
+  
+  kMajorHarmony, kMinorHarmony, 
+  kAugmentedHarmony, kDiminishedHarmony,
+
+  kDominantHarmony,
+  kMajorSeventhHarmony, kMinorSeventhHarmony,
+  kDiminishedSeventhHarmony, kAugmentedSeventhHarmony,
+  kHalfDiminishedHarmony,
+  kMajorMinorHarmony,
+
+  kMajorSixthHarmony, kMinorSixthHarmony,
+
+  kDominantNinthHarmony,
+  kMajorNinthHarmony, kMinorNinthHarmony,
+
+  kDominantEleventhHarmony, kMajorEleventhHarmony, kMinorEleventhHarmony,
+
+  kDominantThirteenthHarmony, kMajorThirteenthHarmony, kMinorThirteenthHarmony,
+
+  kSuspendedSecondHarmony, kSuspendedFourthHarmony,
+
+  kNeapolitanHarmony, kItalianHarmony, kFrenchHarmony, kGermanHarmony,
+
+  kPedalHarmony, kPowerHarmony, kTristanHarmony,
+
+  kOtherHarmony,
+  kNoneHarmony };
+
 // quarter tones pitches
 //______________________________________________________________________________
 enum msrQuarterTonesPitch {
@@ -10818,6 +10850,13 @@ class EXP msrMidi : public msrElement
 typedef SMARTP<msrMidi> S_msrMidi;
 EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
 
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+void initializeMSR ();
 
 /*! @} */
 

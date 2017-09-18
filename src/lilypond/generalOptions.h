@@ -349,6 +349,13 @@ extern S_msrGeneralOptions gGeneralOptions;
 extern S_msrGeneralOptions gGeneralOptionsUserChoices;
 extern S_msrGeneralOptions gGeneralOptionsWithDetailedTrace;
 
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+void initializeGeneralOptions ();
 
 /*! @} */
 

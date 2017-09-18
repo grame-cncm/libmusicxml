@@ -1052,5 +1052,19 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
 }
 
+//______________________________________________________________________________
+void initializeGeneralOptions ()
+{  
+  gGeneralOptionsUserChoices = msrGeneralOptions::create ();
+  assert(gGeneralOptionsUserChoices != 0);
+
+  gGeneralOptions =
+    gGeneralOptionsUserChoices;
+
+  gGeneralOptionsWithDetailedTrace =
+    gGeneralOptions->
+      createCloneWithDetailedTrace ();
+}
+
 
 }

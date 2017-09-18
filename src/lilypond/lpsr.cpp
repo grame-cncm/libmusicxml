@@ -4609,5 +4609,47 @@ void lpsrScore::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+void initializeLPSR ()
+{
+  // languages handling
+  // ------------------------------------------------------
+
+  initializeLpsrChordsLanguages ();
+
+  initializePitchesLanguages ();
+
+  // create the options variables
+  // ------------------------------------------------------
+
+  // LPSR options
+  
+  gLpsrOptionsUserChoices = lpsrOptions::create();
+  assert(gLpsrOptionsUserChoices != 0);
+  
+  gLpsrOptions =
+    gLpsrOptionsUserChoices;
+
+  // LilyPond options
+  
+  gLilypondOptionsUserChoices = lilypondOptions::create();
+  assert(gLilypondOptionsUserChoices != 0);
+  
+  gLilypondOptions =
+    gLilypondOptionsUserChoices;
+
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
+
+  gLpsrOptionsWithDetailedTrace =
+    gLpsrOptions->
+      createCloneWithDetailedTrace ();
+
+  gLilypondOptionsWithDetailedTrace =
+    gLilypondOptions->
+      createCloneWithDetailedTrace ();
+
+}
+
 
 }

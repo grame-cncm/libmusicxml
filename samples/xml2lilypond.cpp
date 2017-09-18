@@ -3807,9 +3807,10 @@ void printOptions ()
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
-  msrHarmony::initializeHarmoniesChordItemsVector (); // JMI
-  msrHarmony::printHarmoniesChordItemsVector ();
-
+  // initialize the components of MSR that we'll use
+  initializeMSR ();
+  initializeLPSR ();
+  
   /*
   cerr << "argc = " << argc << endl;
   for (int i = 0; i < argc ; i++ ) {
@@ -3829,9 +3830,6 @@ int main (int argc, char *argv[])
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
-  initializePitchesLanguages ();
-  initializeLpsrChordsLanguages ();
-
   if (false) {
     cerr <<
       "7/16: " << wholeNotesAsMsrString (1, rational (7, 16)) <<
@@ -3845,49 +3843,6 @@ int main (int argc, char *argv[])
     exit (0);
   }
   
-  // create the options variables
-  // ------------------------------------------------------
-
-  // MusicXML options
-  
-  gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
-  assert(gMusicXMLOptionsUserChoices != 0);
-
-  gMusicXMLOptions =
-    gMusicXMLOptionsUserChoices;
-
-  // general options
-  
-  gGeneralOptionsUserChoices = msrGeneralOptions::create ();
-  assert(gGeneralOptionsUserChoices != 0);
-
-  gGeneralOptions =
-    gGeneralOptionsUserChoices;
-
-  // MSR options
-  
-  gMsrOptionsUserChoices = msrOptions::create ();
-  assert(gMsrOptionsUserChoices != 0);
-
-  gMsrOptions =
-    gMsrOptionsUserChoices;
-
-  // LPSR options
-  
-  gLpsrOptionsUserChoices = lpsrOptions::create();
-  assert(gLpsrOptionsUserChoices != 0);
-  
-  gLpsrOptions =
-    gLpsrOptionsUserChoices;
-
-  // LilyPond options
-  
-  gLilypondOptionsUserChoices = lilypondOptions::create();
-  assert(gLilypondOptionsUserChoices != 0);
-  
-  gLilypondOptions =
-    gLilypondOptionsUserChoices;
-
   // analyze the command line options
   // ------------------------------------------------------
 
@@ -3920,29 +3875,6 @@ int main (int argc, char *argv[])
 
   strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
   gGeneralOptions->fTranslationDate = buffer;
-
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-
-  gMusicXMLOptionsWithDetailedTrace =
-    gMusicXMLOptions->
-      createCloneWithDetailedTrace ();
-
-  gGeneralOptionsWithDetailedTrace =
-    gGeneralOptions->
-      createCloneWithDetailedTrace ();
-
-  gMsrOptionsWithDetailedTrace =
-    gMsrOptions->
-      createCloneWithDetailedTrace ();
-
-  gLpsrOptionsWithDetailedTrace =
-    gLpsrOptions->
-      createCloneWithDetailedTrace ();
-
-  gLilypondOptionsWithDetailedTrace =
-    gLilypondOptions->
-      createCloneWithDetailedTrace ();
 
   // welcome message
   // ------------------------------------------------------

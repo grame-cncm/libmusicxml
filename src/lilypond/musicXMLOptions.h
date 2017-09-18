@@ -287,6 +287,13 @@ extern S_msrMusicXMLOptions gMusicXMLOptions;
 extern S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
 extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+void initializeMusicXMLOptions ();
 
 /*! @} */
 

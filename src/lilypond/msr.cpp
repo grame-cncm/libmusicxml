@@ -34449,11 +34449,7 @@ void msrMidi::print (ostream& os)
     endl;
       
   idtr--;
-}
-
-
-}
-    
+}    
 
 
 /* JMI
@@ -34529,3 +34525,39 @@ void msrMeasure::appendDivisionsToMeasure (
 }
 */
 
+//______________________________________________________________________________
+void initializeMSR ()
+{
+  // initialize options handling
+  // ------------------------------------------------------
+
+  initializeGeneralOptions ();
+  initializeMusicXMLOptions ();
+
+  // create the options variables
+  // ------------------------------------------------------
+
+  // MSR options
+  
+  gMsrOptionsUserChoices = msrOptions::create ();
+  assert(gMsrOptionsUserChoices != 0);
+
+  gMsrOptions =
+    gMsrOptionsUserChoices;
+
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
+
+  gMsrOptionsWithDetailedTrace =
+    gMsrOptions->
+      createCloneWithDetailedTrace ();
+
+  // harmony handling
+  // ------------------------------------------------------
+
+  msrHarmony::initializeHarmoniesChordItemsVector (); // JMI
+  msrHarmony::printHarmoniesChordItemsVector ();
+}
+
+
+}

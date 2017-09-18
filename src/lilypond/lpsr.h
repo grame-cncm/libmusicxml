@@ -2439,6 +2439,9 @@ class EXP lpsrScore : public lpsrElement
 typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);
 
+//______________________________________________________________________________
+void initializeLPSR ();
+
 
 /*! @} */
 

@@ -416,5 +416,24 @@ void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   idtr--;
 }
 
+//______________________________________________________________________________
+void initializeMusicXMLOptions ()
+{
+  // MusicXML options
+  
+  gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
+  assert(gMusicXMLOptionsUserChoices != 0);
+
+  gMusicXMLOptions =
+    gMusicXMLOptionsUserChoices;
+
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
+
+  gMusicXMLOptionsWithDetailedTrace =
+    gMusicXMLOptions->
+      createCloneWithDetailedTrace ();
+}
+
 
 }
