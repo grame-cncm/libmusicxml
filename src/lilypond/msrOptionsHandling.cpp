@@ -165,6 +165,16 @@ void msrOptionsBoolItem::print (ostream& os) const
     endl;
 }
 
+ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt)
+{
+  os <<
+    "OptionsBoolItem:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 msrOptionsIntItem::msrOptionsIntItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -203,6 +213,15 @@ void msrOptionsIntItemprint (ostream& os) const
     setw(fieldWidth) <<
     "fOptionsIntItemVariable" << " : " << fOptionsIntItemVariable <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt)
+{
+  os <<
+    "OptionsIntItem:" <<
+    endl;
+  elt.print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -246,6 +265,15 @@ void msrOptionsFloatItem::print (ostream& os) const
     endl;
 }
 
+ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt)
+{
+  os <<
+    "OptionsFloatItem:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 msrOptionsStringItem::msrOptionsStringItem (
   string             optionsItemShortName,
@@ -287,7 +315,61 @@ void msrOptionsStringItem::print (ostream& os) const
     endl;
 }
 
+ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
+{
+  os <<
+    "OptionsStringItem:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
+
 //______________________________________________________________________________
+msrOptionsSubGroup::msrOptionsSubGroup (
+  string optionsSubGroupShortName,
+  string optionsSubGroupLongName,
+  string optionsSubGroupDescription)
+  : msrOptionsElement (
+      optionsSubGroupShortName,
+      optionsSubGroupLongName,
+      optionsSubGroupDescription)
+{}
+
+void msrOptionsSubGroup::print (ostream& os) const
+{
+  const int fieldWidth = 19;
+  
+  os <<
+    "OptionsSubGroup:" <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+    endl;
+
+  for (
+    list<S_msrOptionsItem>::const_iterator
+      i = fOptionsSubGroupItemsList.begin();
+    i != fOptionsSubGroupItemsList.end();
+    i++) {
+    // print the element
+    os << (*i);
+  } // for
+}
+
+ostream& operator<< (ostream& os, const msrOptionsSubGroup& elt)
+{
+  os <<
+    "OptionsSubGroup:" <<
+    endl;
+  elt.print (os);
+  return os;
+}
 
 //______________________________________________________________________________
 

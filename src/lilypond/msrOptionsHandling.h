@@ -114,7 +114,6 @@ class EXP msrOptionsItem : public msrOptionsElement
     
     bool                  fOptionsItemHasBeenSelected;
 };
-typedef * ;
 typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
 
@@ -135,16 +134,8 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
   
     bool&                 fOptionsBoolItemVariable;
 };
-typedef msrOptionsBoolItem* S_msrOptionsBoolItem;
-
-ostream& operator<< (ostream& os, const msrOptionsBoolItem& elt)
-{
-  os <<
-    "OptionsBoolItem:" <<
-    endl;
-  elt.print (os);
-  return os;
-}
+typedef SMARTP<msrOptionsBoolItem> S_msrOptionsBoolItem;
+ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt);
 
 //______________________________________________________________________________
 class EXP msrOptionsIntItem : public msrOptionsItem
@@ -164,16 +155,8 @@ class EXP msrOptionsIntItem : public msrOptionsItem
   
     int&                  fOptionsIntItemVariable;
 };
-typedef msrOptionsIntItem* S_msrOptionsIntItem;
-
-ostream& operator<< (ostream& os, const msrOptionsIntItem& elt)
-{
-  os <<
-    "OptionsIntItem:" <<
-    endl;
-  elt.print (os);
-  return os;
-}
+typedef SMARTP<msrOptionsIntItem> S_msrOptionsIntItem;
+ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt);
 
 //______________________________________________________________________________
 class EXP msrOptionsFloatItem : public msrOptionsItem
@@ -193,16 +176,8 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
   
     float&                fOptionsFloatItemVariable;
 };
-typedef msrOptionsFloatItem* S_msrOptionsFloatItem;
-
-ostream& operator<< (ostream& os, const msrOptionsFloatItem& elt)
-{
-  os <<
-    "OptionsFloatItem:" <<
-    endl;
-  elt.print (os);
-  return os;
-}
+typedef SMARTP<msrOptionsFloatItem> S_msrOptionsFloatItem;
+ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt);
 
 //______________________________________________________________________________
 class EXP msrOptionsStringItem : public msrOptionsItem
@@ -222,16 +197,8 @@ class EXP msrOptionsStringItem : public msrOptionsItem
   
     string&                  fOptionsStringItemVariable;
 };
-typedef msrOptionsStringItem* S_msrOptionsStringItem;
-
-ostream& operator<< (ostream& os, const msrOptionsStringItem& elt)
-{
-  os <<
-    "OptionsStringItem:" <<
-    endl;
-  elt.print (os);
-  return os;
-}
+typedef SMARTP<msrOptionsStringItem> S_msrOptionsStringItem;
+ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt);
 
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
@@ -241,46 +208,16 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     msrOptionsSubGroup (
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
-      string optionsSubGroupDescription)
-      : msrOptionsElement (
-          optionsSubGroupShortName,
-          optionsSubGroupLongName,
-          optionsSubGroupDescription)
-      {}
+      string optionsSubGroupDescription);
     
     void                  appendOptionsItem (
                             S_msrOptionsItem optionsItem)
-      {
-        fOptionsSubGroupItemsList.push_back (
-          optionsItem);
-      }
+                              {
+                                fOptionsSubGroupItemsList.push_back (
+                                  optionsItem);
+                              }
 
-    void                  print (ostream& os) const
-      {
-        const int fieldWidth = 19;
-        
-        os <<
-          "OptionsSubGroup:" <<
-          endl <<
-          setw(fieldWidth) <<
-          "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-          endl <<
-          setw(fieldWidth) <<
-          "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-          endl <<
-          setw(fieldWidth) <<
-          "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-          endl;
-  
-        for (
-          list<S_msrOptionsItem>::const_iterator
-            i = fOptionsSubGroupItemsList.begin();
-          i != fOptionsSubGroupItemsList.end();
-          i++) {
-          // print the element
-          os << (*i);
-        } // for
-      }
+    void                  print (ostream& os) const;
 
   private:
   
@@ -288,15 +225,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
                           fOptionsSubGroupItemsList;
 };
 typedef msrOptionsSubGroup* S_msrOptionsSubGroup;
-
-ostream& operator<< (ostream& os, const msrOptionsSubGroup& elt)
-{
-  os <<
-    "OptionsSubGroup:" <<
-    endl;
-  elt.print (os);
-  return os;
-}
+typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 
 //_______________________________________________________________________________
 class EXP msrOptionsGroup : public msrOptionsElement
@@ -353,6 +282,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
                           fOptionsGroupSubGroupsList;
 };
 typedef msrOptionsGroup* S_msrOptionsGroup;
+typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 
 ostream& operator<< (ostream& os, const msrOptionsGroup& elt)
 {
@@ -418,6 +348,7 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
                           fOptionsGroupGroupsList;
 };
 typedef msrOptionsGroupsList* S_msrOptionsGroupsList;
+typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 
 ostream& operator<< (ostream& os, const msrOptionsGroupsList& elt)
 {
