@@ -1011,8 +1011,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     msrDiatonicPitch          fCurrentHarmonyRootDiatonicPitch;
     msrAlteration             fCurrentHarmonyRootAlteration;
     
-    msrHarmony::msrHarmonyKind
-                              fCurrentHarmonyKind;
+    msrHarmonyKind            fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
 
     int                       fCurrentHarmonyInversion;

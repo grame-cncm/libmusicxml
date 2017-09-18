@@ -1477,7 +1477,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
 
   // should '\powerChords' be generated?
   switch (harmony->getHarmonyKind ()) {
-    case msrHarmony::kPower:
+    case kPowerHarmony:
       if (! fPowerChordHaveAlreadyBeenGenerated) {
         s << "\\powerChords" " ";
         fPowerChordHaveAlreadyBeenGenerated = true;
@@ -1501,86 +1501,86 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     
   // print harmony kind
   switch (harmony->getHarmonyKind ()) {
-    case msrHarmony::k_NoHarmony:
+    case k_NoHarmony:
       s << "Harmony???";
       break;
 
-    case msrHarmony::kMajor:
+    case kMajorHarmony:
       s << ":5.3";
       break;
-    case msrHarmony::kMinor:
+    case kMinorHarmony:
       s << ":m";
       break;
-    case msrHarmony::kAugmented:
+    case kAugmentedHarmony:
       s << ":aug";
       break;
-    case msrHarmony::kDiminished:
+    case kDiminishedHarmony:
       s << ":dim";
       break;
 
-    case msrHarmony::kDominant:
+    case kDominantHarmony:
       s << ":7";
       break;
-    case msrHarmony::kMajorSeventh:
+    case kMajorSeventhHarmony:
       s << ":maj7";
       break;
-    case msrHarmony::kMinorSeventh:
+    case kMinorSeventhHarmony:
       s << ":m7";
       break;
-    case msrHarmony::kDiminishedSeventh:
+    case kDiminishedSeventhHarmony:
       s << ":dim7";
       break;
-    case msrHarmony::kAugmentedSeventh:
+    case kAugmentedSeventhHarmony:
       s << ":aug7";
       break;
-    case msrHarmony::kHalfDiminished:
+    case kHalfDiminishedHarmony:
       s << ":m7.5-";
       break;
-    case msrHarmony::kMajorMinor:
+    case kMajorMinorHarmony:
       s << ":m7+";
       break;
 
-    case msrHarmony::kMajorSixth:
+    case kMajorSixthHarmony:
       s << ":6";
       break;
-    case msrHarmony::kMinorSixth:
+    case kMinorSixthHarmony:
       s << ":m6";
       break;
 
-    case msrHarmony::kDominantNinth:
+    case kDominantNinthHarmony:
       s << ":9";
       break;
-    case msrHarmony::kMajorNinth:
+    case kMajorNinthHarmony:
       s << ":maj7.9";
       break;
-    case msrHarmony::kMinorNinth:
+    case kMinorNinthHarmony:
       s << ":m7.9";
       break;
 
-    case msrHarmony::kDominantEleventh:
+    case kDominantEleventhHarmony:
       s << ":11";
       break;
-    case msrHarmony::kMajorEleventh:
+    case kMajorEleventhHarmony:
       s << ":maj7.11";
       break;
-    case msrHarmony::kMinorEleventh:
+    case kMinorEleventhHarmony:
       s << ":m7.11";
       break;
 
-    case msrHarmony::kDominantThirteenth:
+    case kDominantThirteenthHarmony:
       s << ":13";
       break;
-    case msrHarmony::kMajorThirteenth:
+    case kMajorThirteenthHarmony:
       s << ":maj7.13";
       break;
-    case msrHarmony::kMinorThirteenth:
+    case kMinorThirteenthHarmony:
       s << ":m7.13";
       break;
 
-    case msrHarmony::kSuspendedSecond:
+    case kSuspendedSecondHarmony:
       s << ":sus2";
       break;
-    case msrHarmony::kSuspendedFourth:
+    case kSuspendedFourthHarmony:
       s << ":sus4";
       break;
 
@@ -1599,33 +1599,33 @@ Tristan = C D# F# A#
 
 in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
 */      
-    case msrHarmony::kNeapolitan:
+    case kNeapolitanHarmony:
       s << "%{:Neapolitan%}";
       break;
-    case msrHarmony::kItalian:
+    case kItalianHarmony:
       s << "%{:Italian%}";
       break;
-    case msrHarmony::kFrench:
+    case kFrenchHarmony:
       s << "%{:French%}";
       break;
-    case msrHarmony::kGerman:
+    case kGermanHarmony:
       s << "%{:German%}";
       break;
 
-    case msrHarmony::kPedal:
+    case kPedalHarmony:
       s << "%{:Pedal%}";
       break;
-    case msrHarmony::kPower:
+    case kPowerHarmony:
       s << ":5 %{power%}";
       break;
-    case msrHarmony::kTristan:
+    case kTristanHarmony:
       s << "%{:Tristan%}";
       break;
       
-    case msrHarmony::kOther:
+    case kOtherHarmony:
       s << "%{:Other%}";
       break;
-    case msrHarmony::kNone:
+    case kNoneHarmony:
       s << "%{:None%}";
       break;
   } // switch

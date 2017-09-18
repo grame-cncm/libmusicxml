@@ -4758,7 +4758,7 @@ The "other" kind is used when the harmony is entirely composed of add elements. 
 */
     // data types
     // ------------------------------------------------------
-
+/*
     enum msrHarmonyKind {
       k_NoHarmony,
       
@@ -4791,6 +4791,7 @@ The "other" kind is used when the harmony is entirely composed of add elements. 
 
     static string harmonyKindAsString (
       msrHarmonyKind harmonyKind);
+*/
 
     #define K_HARMONY_NO_INVERSION -1
 
