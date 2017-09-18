@@ -477,7 +477,7 @@ string existingQuarterTonesPitchesLanguages ();
 
 // initialization
 //______________________________________________________________________________
-void initializePitchesLanguages ();
+void initializeQuarterTonesPitchesLanguages ();
 
 // durations
 //______________________________________________________________________________

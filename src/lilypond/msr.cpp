@@ -523,7 +523,7 @@ map<msrQuarterTonesPitch, string> gSuomiPitchName;
 map<msrQuarterTonesPitch, string> gSvenskaPitchName;
 map<msrQuarterTonesPitch, string> gVlaamsPitchName;
 
-void initializePitchesLanguages ()
+void initializeQuarterTonesPitchesLanguages ()
 {
   gQuarterTonesPitchesLanguagesMap ["nederlands"] = kNederlands;
   gQuarterTonesPitchesLanguagesMap ["catalan"]    = kCatalan;
@@ -16518,9 +16518,8 @@ string msrChordItem::chordItemAsString () const
 
   s <<
     "ChordItem" <<
-    ", number: " << fChordItemNumber <<
-    ", interval: " << msrIntervalAsString (fChordItemInterval) <<
-    ", line: " << fInputLineNumber;
+    " " << fChordItemNumber <<
+    ": " << msrIntervalAsString (fChordItemInterval);
 
   return s.str();
 }
@@ -16575,7 +16574,12 @@ ostream& operator<< (ostream& os, const S_msrChordItem& elt)
 void msrChordItem::print (ostream& os)
 {  
   os <<
-    chordItemAsString () <<
+    "ChordItem" <<
+    ", number: " << fChordItemNumber <<
+    ", interval: " << msrIntervalAsString (fChordItemInterval) <<
+  /* JMI
+    ", line: " << fInputLineNumber <<
+    */
     endl;
 }
 
@@ -17817,14 +17821,17 @@ void msrHarmony::printHarmoniesChordItemsVector ()
         msrHarmonyKind (i);
 
     cerr << idtr <<
-      "i:" << i << " " <<
-      msrHarmony::harmonyKindAsString (harmonyKind) << " ";
-      
+// JMI      "i:" << i << " " <<
+      msrHarmony::harmonyKindAsString (harmonyKind) << ":" <<
+      endl;
+
+    idtr++;
+    
     vector<S_msrChordItem>* chordItemsVector =
       gHarmoniesChordItemsVectorsMap [harmonyKind];
 
     if (chordItemsVector) {
-      for (unsigned int i = 1; i < (*chordItemsVector).size (); i++) {
+      for (unsigned int i = 0; i < (*chordItemsVector).size (); i++) {
         S_msrChordItem
           chordItem =
             (*chordItemsVector) [i];
@@ -17835,9 +17842,13 @@ void msrHarmony::printHarmoniesChordItemsVector ()
       } // for
     }
     else {
-      cerr << "none";
+      cerr << idtr <<
+        "none" <<
+        endl;
     }
 
+    idtr--;
+    
     cerr <<
       endl;
   } // for
@@ -34528,7 +34539,12 @@ void msrMeasure::appendDivisionsToMeasure (
 //______________________________________________________________________________
 void initializeMSR ()
 {
-  // initialize options handling
+  // languages handling
+  // ------------------------------------------------------
+
+  initializeQuarterTonesPitchesLanguages ();
+  
+  // options handling
   // ------------------------------------------------------
 
   initializeGeneralOptions ();
@@ -34546,7 +34562,6 @@ void initializeMSR ()
     gMsrOptionsUserChoices;
 
   // prepare for measure detailed trace
-  // ------------------------------------------------------
 
   gMsrOptionsWithDetailedTrace =
     gMsrOptions->

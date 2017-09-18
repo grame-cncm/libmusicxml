@@ -4617,8 +4617,6 @@ void initializeLPSR ()
 
   initializeLpsrChordsLanguages ();
 
-  initializePitchesLanguages ();
-
   // create the options variables
   // ------------------------------------------------------
 
