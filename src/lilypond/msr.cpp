@@ -18276,7 +18276,7 @@ ostream& operator<< (ostream& os, const S_msrChordIntervals& elt)
 
 void msrChordIntervals::print (ostream& os)
 {  
-  os <<
+  os << idtr <<
     "ChordIntervals" <<
     ", harmonyKind: " <<
     harmonyKindAsString (fChordIntervalsHarmonyKind) <<
