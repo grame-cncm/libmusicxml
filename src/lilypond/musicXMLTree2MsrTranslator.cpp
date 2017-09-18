@@ -226,7 +226,7 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   fPendingHarmony                  = false;
   fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = k_NoAlteration;
-  fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
+  fCurrentHarmonyKind              = k_NoHarmony;
   fCurrentHarmonyKindText          = "";
   fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyBassAlteration    = k_NoAlteration;
@@ -12121,7 +12121,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
           endl <<
         idtr <<
           setw(fieldWidth) << "fCurrentHarmonyKind" << " = " <<
-          msrHarmony::harmonyKindAsString (
+          harmonyKindAsString (
             fCurrentHarmonyKind) <<
           endl <<
         idtr <<
@@ -12173,7 +12173,10 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
       // append it to harmony's degrees list
       harmony->
-        appendHarmonyDegreeToList (harmonyDegree);
+        appendHarmonyDegreeToHarmony (
+          harmonyDegree);
+
+      // remove it from list
       fCurrentHarmonyDegreesList.pop_front ();
     } // while
   
@@ -14140,7 +14143,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyInputLineNumber   = elt->getInputLineNumber ();
   fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlteration    = kNatural;
-  fCurrentHarmonyKind              = msrHarmony::k_NoHarmony;
+  fCurrentHarmonyKind              = k_NoHarmony;
   fCurrentHarmonyKindText          = "";
   fCurrentHarmonyInversion         = K_HARMONY_NO_INVERSION;
   fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
@@ -14212,108 +14215,108 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
 
   // check harmony kind
   if      (kind == "major")
-    fCurrentHarmonyKind = msrHarmony::kMajor;
+    fCurrentHarmonyKind = kMajorHarmony;
     
   else if (kind == "minor")
-    fCurrentHarmonyKind = msrHarmony::kMinor;
+    fCurrentHarmonyKind = kMinorHarmony;
     
   else if (kind == "augmented")
-    fCurrentHarmonyKind = msrHarmony::kAugmented;
+    fCurrentHarmonyKind = kAugmentedHarmony;
     
   else if (kind == "diminished")
-    fCurrentHarmonyKind = msrHarmony::kDiminished;
+    fCurrentHarmonyKind = kDiminishedHarmony;
     
     
   else if (kind == "dominant")
-    fCurrentHarmonyKind = msrHarmony::kDominant;
+    fCurrentHarmonyKind = kDominantHarmony;
     
   else if (kind == "major-seventh")
-    fCurrentHarmonyKind = msrHarmony::kMajorSeventh;
+    fCurrentHarmonyKind = kMajorSeventhHarmony;
     
   else if (kind == "minor-seventh")
-    fCurrentHarmonyKind = msrHarmony::kMinorSeventh;
+    fCurrentHarmonyKind = kMinorSeventhHarmony;
     
   else if (kind == "diminished-seventh")
-    fCurrentHarmonyKind = msrHarmony::kDiminishedSeventh;
+    fCurrentHarmonyKind = kDiminishedSeventhHarmony;
     
   else if (kind == "augmented-seventh")
-    fCurrentHarmonyKind = msrHarmony::kAugmentedSeventh;
+    fCurrentHarmonyKind = kAugmentedSeventhHarmony;
   else if (kind == "half-diminished")
-    fCurrentHarmonyKind = msrHarmony::kHalfDiminished;
+    fCurrentHarmonyKind = kHalfDiminishedHarmony;
   else if (kind == "major-minor")
-    fCurrentHarmonyKind = msrHarmony::kMajorMinor;
+    fCurrentHarmonyKind = kMajorMinorHarmony;
     
   else if (kind == "major-sixth")
-    fCurrentHarmonyKind = msrHarmony::kMajorSixth;
+    fCurrentHarmonyKind = kMajorSixthHarmony;
     
   else if (kind == "minor-sixth")
-    fCurrentHarmonyKind = msrHarmony::kMinorSixth;
+    fCurrentHarmonyKind = kMinorSixthHarmony;
     
     
   else if (kind == "dominant-ninth")
-    fCurrentHarmonyKind = msrHarmony::kDominantNinth;
+    fCurrentHarmonyKind = kDominantNinthHarmony;
     
   else if (kind == "major-ninth")
-    fCurrentHarmonyKind = msrHarmony::kMajorNinth;
+    fCurrentHarmonyKind = kMajorNinthHarmony;
     
   else if (kind == "minor-ninth")
-    fCurrentHarmonyKind = msrHarmony::kMinorNinth;
+    fCurrentHarmonyKind = kMinorNinthHarmony;
     
     
   else if (kind == "dominant-11th")
-    fCurrentHarmonyKind = msrHarmony::kDominantEleventh;
+    fCurrentHarmonyKind = kDominantEleventhHarmony;
     
   else if (kind == "major-11th")
-    fCurrentHarmonyKind = msrHarmony::kMajorEleventh;
+    fCurrentHarmonyKind = kMajorEleventhHarmony;
     
   else if (kind == "minor-11th")
-    fCurrentHarmonyKind = msrHarmony::kMinorEleventh;
+    fCurrentHarmonyKind = kMinorEleventhHarmony;
     
     
   else if (kind == "dominant-13th")
-    fCurrentHarmonyKind = msrHarmony::kDominantThirteenth;
+    fCurrentHarmonyKind = kDominantThirteenthHarmony;
     
   else if (kind == "major-13th")
-    fCurrentHarmonyKind = msrHarmony::kMajorThirteenth;
+    fCurrentHarmonyKind = kMajorThirteenthHarmony;
     
   else if (kind == "minor-13th")
-    fCurrentHarmonyKind = msrHarmony::kMinorThirteenth;
+    fCurrentHarmonyKind = kMinorThirteenthHarmony;
 
     
   else if (kind == "suspended-second")
-    fCurrentHarmonyKind = msrHarmony::kSuspendedSecond;
+    fCurrentHarmonyKind = kSuspendedSecondHarmony;
     
   else if (kind == "suspended-fourth")
-    fCurrentHarmonyKind = msrHarmony::kSuspendedFourth;
+    fCurrentHarmonyKind = kSuspendedFourthHarmony;
     
 
   else if (kind == "Neapolitan")
-    fCurrentHarmonyKind = msrHarmony::kNeapolitan;
+    fCurrentHarmonyKind = kNeapolitanHarmony;
     
   else if (kind == "Italian")
-    fCurrentHarmonyKind = msrHarmony::kItalian;
+    fCurrentHarmonyKind = kItalianHarmony;
     
   else if (kind == "French")
-    fCurrentHarmonyKind = msrHarmony::kFrench;
+    fCurrentHarmonyKind = kFrenchHarmony;
     
   else if (kind == "German")
-    fCurrentHarmonyKind = msrHarmony::kGerman;
+    fCurrentHarmonyKind = kGermanHarmony;
     
 
   else if (kind == "pedal")
-    fCurrentHarmonyKind = msrHarmony::kPedal;
+    fCurrentHarmonyKind = kPedalHarmony;
     
   else if (kind == "power")
-    fCurrentHarmonyKind = msrHarmony::kPower;
+    fCurrentHarmonyKind = kPowerHarmony;
     
   else if (kind == "Tristan")
-    fCurrentHarmonyKind = msrHarmony::kTristan;
+    fCurrentHarmonyKind = kTristanHarmony;
     
   else if (kind == "other")
-    fCurrentHarmonyKind = msrHarmony::kOther;
+    fCurrentHarmonyKind = kOtherHarmony;
     
   else if (kind == "none") {
-    fCurrentHarmonyKind = msrHarmony::kNone;
+    fCurrentHarmonyKind = kNoneHarmony;
   }
     
   else {
@@ -14327,7 +14330,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
         elt->getInputLineNumber (),
         "empty harmony kind, replaced by 'major'");
 
-      fCurrentHarmonyKind = msrHarmony::kMajor; 
+      fCurrentHarmonyKind = kMajorHarmony; 
     }
   }
 
@@ -14642,12 +14645,12 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
   // check data consistency
   if (
-    fCurrentHarmonyKind == msrHarmony::kOther
+    fCurrentHarmonyKind == kOtherHarmony
       &&
     fCurrentHarmonyDegreesList.size () == 0) {
     msrMusicXMLWarning (
-     inputLineNumber,
-     "harmony kind is 'other' but there are no harmony degrees, this is strange...");
+      inputLineNumber,
+      "harmony kind is 'other' but there are no harmony degrees, this is strange...");
   }
 
   if (

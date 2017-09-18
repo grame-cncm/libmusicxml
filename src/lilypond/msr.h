@@ -388,6 +388,12 @@ enum msrHarmonyKind {
   kOtherHarmony,
   kNoneHarmony };
 
+string harmonyKindAsString (
+  msrHarmonyKind harmonyKind);
+
+string harmonyKindAsShortString (
+  msrHarmonyKind harmonyKind);
+
 // quarter tones pitches
 //______________________________________________________________________________
 enum msrQuarterTonesPitch {
@@ -4789,8 +4795,6 @@ The "other" kind is used when the harmony is entirely composed of add elements. 
       kOther,
       kNone };
 
-    static string harmonyKindAsString (
-      msrHarmonyKind harmonyKind);
 */
 
     #define K_HARMONY_NO_INVERSION -1
@@ -4874,14 +4878,12 @@ The "other" kind is used when the harmony is entirely composed of add elements. 
     // services
     // ------------------------------------------------------
 
-    void                  appendHarmonyDegreeToList ( // JMI
+    void                  appendHarmonyDegreeToHarmony (
                             S_msrHarmonyDegree harmonyDegree)
                               {
                                 fHarmonyDegreesList.push_back (
                                   harmonyDegree);
                               }
-    string                harmonyKindAsString () const;
-    string                harmonyKindAsShortString () const;
     
     string                harmonyAsString () const;
    

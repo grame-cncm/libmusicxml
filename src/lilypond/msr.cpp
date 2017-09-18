@@ -504,6 +504,254 @@ string msrIntervalAsShortString (
   return result;
 }
 
+// intervals
+//______________________________________________________________________________
+string harmonyKindAsString (
+  msrHarmonyKind harmonyKind)
+{
+  string result;
+  
+  switch (harmonyKind) {
+    case msrHarmony::k_NoHarmony:
+      result = "Harmony???";
+      break;
+
+    case msrHarmony::kMajor:
+      result = "Major";
+      break;
+    case msrHarmony::kMinor:
+      result = "Minor";
+      break;
+    case msrHarmony::kAugmented:
+      result = "Augmented";
+      break;
+    case msrHarmony::kDiminished:
+      result = "Diminished";
+      break;
+
+    case msrHarmony::kDominant:
+      result = "Dominant";
+      break;
+    case msrHarmony::kMajorSeventh:
+      result = "MajorSeventh";
+      break;
+    case msrHarmony::kMinorSeventh:
+      result = "MinorSeventh";
+      break;
+    case msrHarmony::kDiminishedSeventh:
+      result = "DiminishedSeventh";
+      break;
+    case msrHarmony::kAugmentedSeventh:
+      result = "AugmentedSeventh";
+      break;
+    case msrHarmony::kHalfDiminished:
+      result = "HalfDiminished";
+      break;
+    case msrHarmony::kMajorMinor:
+      result = "MajorMinor";
+      break;
+
+    case msrHarmony::kMajorSixth:
+      result = "MajorSixth";
+      break;
+    case msrHarmony::kMinorSixth:
+      result = "MinorSixth";
+      break;
+
+    case msrHarmony::kDominantNinth:
+      result = "DominantNinth";
+      break;
+    case msrHarmony::kMajorNinth:
+      result = "MajorNinth";
+      break;
+    case msrHarmony::kMinorNinth:
+      result = "MinorNinth";
+      break;
+
+    case msrHarmony::kDominantEleventh:
+      result = "DominantEleventh";
+      break;
+    case msrHarmony::kMajorEleventh:
+      result = "MajorEleventh";
+      break;
+    case msrHarmony::kMinorEleventh:
+      result = "MinorEleventh";
+      break;
+
+    case msrHarmony::kDominantThirteenth:
+      result = "DominantThirteenth";
+      break;
+    case msrHarmony::kMajorThirteenth:
+      result = "MajorThirteenth";
+      break;
+    case msrHarmony::kMinorThirteenth:
+      result = "MinorThirteenth";
+      break;
+
+    case msrHarmony::kSuspendedSecond:
+      result = "SuspendedSecond";
+      break;
+    case msrHarmony::kSuspendedFourth:
+      result = "SuspendedFourth";
+      break;
+      
+    case msrHarmony::kNeapolitan:
+      result = "Neapolitan";
+      break;
+    case msrHarmony::kItalian:
+      result = "Italian";
+      break;
+    case msrHarmony::kFrench:
+      result = "French";
+      break;
+    case msrHarmony::kGerman:
+      result = "German";
+      break;
+
+    case msrHarmony::kPedal:
+      result = "Pedal";
+      break;
+    case msrHarmony::kPower:
+      result = "Power";
+      break;
+    case msrHarmony::kTristan:
+      result = "Tristan";
+      break;
+      
+    case msrHarmony::kOther:
+      result = "Other";
+      break;
+    case msrHarmony::kNone:
+      result = "None";
+      break;
+  } // switch
+
+  return result;
+}
+
+string harmonyKindAsShortString (
+  msrHarmonyKind harmonyKind)
+{
+  string result;
+  
+  switch (harmonyKind) {
+    case msrHarmony::k_NoHarmony:
+      result = "Harmony???";
+      break;
+
+    case msrHarmony::kMajor:
+      result = "";
+      break;
+    case msrHarmony::kMinor:
+      result = "m";
+      break;
+    case msrHarmony::kAugmented:
+      result = "+";
+      break;
+    case msrHarmony::kDiminished:
+      result = "dim";
+      break;
+
+    case msrHarmony::kDominant:
+      result = "7";
+      break;
+    case msrHarmony::kMajorSeventh:
+      result = "∆7";
+      break;
+    case msrHarmony::kMinorSeventh:
+      result = "m7";
+      break;
+    case msrHarmony::kDiminishedSeventh:
+      result = "7/5-";
+      break;
+    case msrHarmony::kAugmentedSeventh:
+      result = "7/5+";
+      break;
+    case msrHarmony::kHalfDiminished:
+      result = "ø7";
+      break;
+    case msrHarmony::kMajorMinor:
+      result = "m∆7";
+      break;
+
+    case msrHarmony::kMajorSixth:
+      result = "6";
+      break;
+    case msrHarmony::kMinorSixth:
+      result = "m6";
+      break;
+
+    case msrHarmony::kDominantNinth:
+      result = "9";
+      break;
+    case msrHarmony::kMajorNinth:
+      result = "∆7/9";
+      break;
+    case msrHarmony::kMinorNinth:
+      result = "m∆7/9";
+      break;
+
+    case msrHarmony::kDominantEleventh:
+      result = "11";
+      break;
+    case msrHarmony::kMajorEleventh:
+      result = "∆7/9/11";
+      break;
+    case msrHarmony::kMinorEleventh:
+      result = "m∆7/9/11";
+      break;
+
+    case msrHarmony::kDominantThirteenth:
+      result = "13";
+      break;
+    case msrHarmony::kMajorThirteenth:
+      result = "∆7/9/11/13";
+      break;
+    case msrHarmony::kMinorThirteenth:
+      result = "m∆7/9/11/13";
+      break;
+
+    case msrHarmony::kSuspendedSecond:
+      result = "sus2";
+      break;
+    case msrHarmony::kSuspendedFourth:
+      result = "sus4";
+      break;
+      
+    case msrHarmony::kNeapolitan:
+      result = "Neapolitan";
+      break;
+    case msrHarmony::kItalian:
+      result = "Italian";
+      break;
+    case msrHarmony::kFrench:
+      result = "French";
+      break;
+    case msrHarmony::kGerman:
+      result = "German";
+      break;
+
+    case msrHarmony::kPedal:
+      result = "Pedal";
+      break;
+    case msrHarmony::kPower:
+      result = "Power";
+      break;
+    case msrHarmony::kTristan:
+      result = "Tristan";
+      break;
+
+    case msrHarmony::kOther:
+      result = "Other";
+      break;
+    case msrHarmony::kNone:
+      result = "None";
+      break;
+  } // switch
+
+  return result;
+}
+
 // notes names languages
 // ------------------------------------------------------
 
@@ -17917,251 +18165,6 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonySoundingWholeNotes);
         
   return harmonyDeepCopy;
-}
-
-string msrHarmony::harmonyKindAsString (
-  msrHarmonyKind harmonyKind)
-{
-  string result;
-  
-  switch (harmonyKind) {
-    case msrHarmony::k_NoHarmony:
-      result = "Harmony???";
-      break;
-
-    case msrHarmony::kMajor:
-      result = "Major";
-      break;
-    case msrHarmony::kMinor:
-      result = "Minor";
-      break;
-    case msrHarmony::kAugmented:
-      result = "Augmented";
-      break;
-    case msrHarmony::kDiminished:
-      result = "Diminished";
-      break;
-
-    case msrHarmony::kDominant:
-      result = "Dominant";
-      break;
-    case msrHarmony::kMajorSeventh:
-      result = "MajorSeventh";
-      break;
-    case msrHarmony::kMinorSeventh:
-      result = "MinorSeventh";
-      break;
-    case msrHarmony::kDiminishedSeventh:
-      result = "DiminishedSeventh";
-      break;
-    case msrHarmony::kAugmentedSeventh:
-      result = "AugmentedSeventh";
-      break;
-    case msrHarmony::kHalfDiminished:
-      result = "HalfDiminished";
-      break;
-    case msrHarmony::kMajorMinor:
-      result = "MajorMinor";
-      break;
-
-    case msrHarmony::kMajorSixth:
-      result = "MajorSixth";
-      break;
-    case msrHarmony::kMinorSixth:
-      result = "MinorSixth";
-      break;
-
-    case msrHarmony::kDominantNinth:
-      result = "DominantNinth";
-      break;
-    case msrHarmony::kMajorNinth:
-      result = "MajorNinth";
-      break;
-    case msrHarmony::kMinorNinth:
-      result = "MinorNinth";
-      break;
-
-    case msrHarmony::kDominantEleventh:
-      result = "DominantEleventh";
-      break;
-    case msrHarmony::kMajorEleventh:
-      result = "MajorEleventh";
-      break;
-    case msrHarmony::kMinorEleventh:
-      result = "MinorEleventh";
-      break;
-
-    case msrHarmony::kDominantThirteenth:
-      result = "DominantThirteenth";
-      break;
-    case msrHarmony::kMajorThirteenth:
-      result = "MajorThirteenth";
-      break;
-    case msrHarmony::kMinorThirteenth:
-      result = "MinorThirteenth";
-      break;
-
-    case msrHarmony::kSuspendedSecond:
-      result = "SuspendedSecond";
-      break;
-    case msrHarmony::kSuspendedFourth:
-      result = "SuspendedFourth";
-      break;
-      
-    case msrHarmony::kNeapolitan:
-      result = "Neapolitan";
-      break;
-    case msrHarmony::kItalian:
-      result = "Italian";
-      break;
-    case msrHarmony::kFrench:
-      result = "French";
-      break;
-    case msrHarmony::kGerman:
-      result = "German";
-      break;
-
-    case msrHarmony::kPedal:
-      result = "Pedal";
-      break;
-    case msrHarmony::kPower:
-      result = "Power";
-      break;
-    case msrHarmony::kTristan:
-      result = "Tristan";
-      break;
-      
-    case msrHarmony::kOther:
-      result = "Other";
-      break;
-    case msrHarmony::kNone:
-      result = "None";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrHarmony::harmonyKindAsShortString () const
-{
-  string result;
-  
-  switch (fHarmonyKind) {
-    case msrHarmony::k_NoHarmony:
-      result = "Harmony???";
-      break;
-
-    case msrHarmony::kMajor:
-      result = "";
-      break;
-    case msrHarmony::kMinor:
-      result = "m";
-      break;
-    case msrHarmony::kAugmented:
-      result = "+";
-      break;
-    case msrHarmony::kDiminished:
-      result = "dim";
-      break;
-
-    case msrHarmony::kDominant:
-      result = "7";
-      break;
-    case msrHarmony::kMajorSeventh:
-      result = "∆7";
-      break;
-    case msrHarmony::kMinorSeventh:
-      result = "m7";
-      break;
-    case msrHarmony::kDiminishedSeventh:
-      result = "7/5-";
-      break;
-    case msrHarmony::kAugmentedSeventh:
-      result = "7/5+";
-      break;
-    case msrHarmony::kHalfDiminished:
-      result = "ø7";
-      break;
-    case msrHarmony::kMajorMinor:
-      result = "m∆7";
-      break;
-
-    case msrHarmony::kMajorSixth:
-      result = "6";
-      break;
-    case msrHarmony::kMinorSixth:
-      result = "m6";
-      break;
-
-    case msrHarmony::kDominantNinth:
-      result = "9";
-      break;
-    case msrHarmony::kMajorNinth:
-      result = "∆7/9";
-      break;
-    case msrHarmony::kMinorNinth:
-      result = "m∆7/9";
-      break;
-
-    case msrHarmony::kDominantEleventh:
-      result = "11";
-      break;
-    case msrHarmony::kMajorEleventh:
-      result = "∆7/9/11";
-      break;
-    case msrHarmony::kMinorEleventh:
-      result = "m∆7/9/11";
-      break;
-
-    case msrHarmony::kDominantThirteenth:
-      result = "13";
-      break;
-    case msrHarmony::kMajorThirteenth:
-      result = "∆7/9/11/13";
-      break;
-    case msrHarmony::kMinorThirteenth:
-      result = "m∆7/9/11/13";
-      break;
-
-    case msrHarmony::kSuspendedSecond:
-      result = "sus2";
-      break;
-    case msrHarmony::kSuspendedFourth:
-      result = "sus4";
-      break;
-      
-    case msrHarmony::kNeapolitan:
-      result = "Neapolitan";
-      break;
-    case msrHarmony::kItalian:
-      result = "Italian";
-      break;
-    case msrHarmony::kFrench:
-      result = "French";
-      break;
-    case msrHarmony::kGerman:
-      result = "German";
-      break;
-
-    case msrHarmony::kPedal:
-      result = "Pedal";
-      break;
-    case msrHarmony::kPower:
-      result = "Power";
-      break;
-    case msrHarmony::kTristan:
-      result = "Tristan";
-      break;
-
-    case msrHarmony::kOther:
-      result = "Other";
-      break;
-    case msrHarmony::kNone:
-      result = "None";
-      break;
-  } // switch
-
-  return result;
 }
 
 string msrHarmony::harmonyAsString () const
