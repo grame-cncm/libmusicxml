@@ -1987,6 +1987,51 @@ void printHarmoniesChordItemsVector ()
 
   cerr <<
     endl;
+
+
+  cerr << idtr <<
+    "Harmonies chord items:" <<
+    endl;
+
+  idtr++;
+
+  for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
+    msrHarmonyKind
+      harmonyKind =
+        msrHarmonyKind (i);
+
+    cerr << idtr <<
+// JMI      "i:" << i << " " <<
+      harmonyKindAsString (harmonyKind) << ":" <<
+      endl;
+
+    idtr++;
+    
+    S_msrChordIntervals
+      chordIntervals =
+        gChordIntervalsMap [harmonyKind];
+
+    if (chordIntervals) {
+      cerr <<
+        chordIntervals <<
+        endl;
+    }
+    else {
+      cerr << idtr <<
+        "no intervals" <<
+        endl;
+    }
+
+    idtr--;
+    
+    cerr <<
+      endl;
+  } // for
+
+  idtr--;
+
+  cerr <<
+    endl;
 }
 
 // notes names languages
