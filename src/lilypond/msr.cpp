@@ -790,50 +790,6 @@ void initializeChordIntervalsMap ()
             
           gHarmoniesChordItemsVectorsMap [harmonyKind] =
             chordItemsVector;
-
-          // create the chord intervals
-          S_msrChordIntervals
-            chordIntervals =
-              msrChordIntervals::create (
-                0, // input line number
-                harmonyKind);
-
-          // append chord items to chord intervals
-          chordIntervals->
-            appendChordItemToChordIntervals (
-              msrChordItem::create (
-                0, // input line number
-                1, // chord item number
-                kUnisson)
-              );
-          chordIntervals->
-            appendChordItemToChordIntervals (
-              msrChordItem::create (
-                0, // input line number
-                2, // chord item number
-                kMajorThird)
-              );
-          chordIntervals->
-            appendChordItemToChordIntervals (
-              msrChordItem::create (
-                0, // input line number
-                3, // chord item number
-                kPerFifth)
-              );
-    /* JMI
-          cerr <<
-            "++++++++++++++" <<
-            endl <<
-            harmonyKindAsString (harmonyKind) <<
-            endl <<
-            chordIntervals <<
-            "++++++++++++++" <<
-            endl;
-*/
-
-          // register chord intervals in map
-          gChordIntervalsMap [harmonyKind] =
-            chordIntervals;
         }
         break;
       
@@ -18151,6 +18107,961 @@ msrChordIntervals::msrChordIntervals (
       "'" <<
       endl;
   }
+}
+
+void msrChordIntervals::initializeChordIntervals ()
+{
+  // append chord items to chord intervals
+  switch (fChordIntervalsHarmonyKind) {
+    case k_NoHarmony:
+      break;
+
+    case kMajorHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+      }
+      break;
+    
+    case kMinorHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+      }
+      break;
+    
+    case kAugmentedHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kAugmentedFifth)
+          );
+      }
+      break;
+    
+    case kDiminishedHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kDiminishedFifth)
+          );
+      }
+      break;
+    
+    case kDominantHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+      }
+      break;
+    
+    case kMajorSeventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSeventh)
+          );
+      }
+      break;
+    
+     case kMinorSeventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+      }
+      break;
+    
+    case kDiminishedSeventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kDiminishedFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kDiminishedSeventh)
+          );
+      }
+      break;
+    
+    case kAugmentedSeventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kAugmentedFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+      }
+      break;
+    
+    case kHalfDiminishedHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kDiminishedFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+      }
+      break;
+    
+     case kMajorMinorHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSeventh)
+          );
+      }
+      break;
+    
+    case kMajorSixthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSixth)
+          );
+      }
+      break;
+    
+    case kMinorSixthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSixth)
+          );
+      }
+      break;
+    
+    case kDominantNinthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorSeventh)
+          );
+      }
+      break;
+
+    case kMajorNinthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorNinth)
+          );
+      }
+      break;
+    
+    case kMinorNinthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorNinth)
+          );
+      }
+      break;
+    
+    case kDominantEleventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            6, // chord item number
+            kPerEleventh)
+          );
+      }
+      break;
+
+    case kMajorEleventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorNinth)
+          );
+         appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            6, // chord item number
+            kPerEleventh)
+          );
+      }
+      break;
+    
+    case kMinorEleventhHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorNinth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            6, // chord item number
+            kPerEleventh)
+          );
+      }
+      break;
+    
+    case kDominantThirteenthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            6, // chord item number
+            kPerEleventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            7, // chord item number
+            kMajorThirteenth)
+          );
+      }
+      break;
+
+    case kMajorThirteenthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMajorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorNinth)
+          );
+         appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            6, // chord item number
+            kPerEleventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            7, // chord item number
+            kMajorThirteenth)
+          );
+      }
+      break;
+    
+    case kMinorThirteenthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kMinorSeventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            5, // chord item number
+            kMajorNinth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            6, // chord item number
+            kPerEleventh)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            7, // chord item number
+            kMajorThirteenth)
+          );
+      }
+      break;
+    
+    case kSuspendedSecondHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorSecond)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+      }
+      break;
+    
+    case kSuspendedFourthHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kPerFourth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+      }
+      break;
+
+/*
+* kNeapolitan f aes des' in:
+*
+* c e g c' -> f f aes des' -> d g d b -> c e g c'
+
+they are three different pre-dominant chords that are taught to American undergrads in a sophomore theory course.
+
+in E major:
+Italian = C E A#
+French = C E F# A#
+German = C E G A#
+Tristan = C D# F# A#
+
+in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
+*/      
+
+    case kNeapolitanHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMinorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kDiminishedSixth)
+          );
+      }
+      break;
+    
+    case kItalianHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kAugmentedSixth)
+          );
+      }
+      break;
+    
+    case kFrenchHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kAugmentedFourth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kAugmentedSixth)
+          );
+      }
+      break;
+    
+    case kGermanHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kMajorThird)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kPerFifth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kAugmentedSixth)
+          );
+      }
+      break;
+    
+    case kPedalHarmony:
+      break;
+      
+    case kPowerHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kPerFifth)
+          );
+      }
+      break;
+    
+    case kTristanHarmony:
+      {
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            1, // chord item number
+            kUnisson)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            2, // chord item number
+            kAugmentedSecond)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            3, // chord item number
+            kAugmentedFourth)
+          );
+        appendChordItemToChordIntervals (
+          msrChordItem::create (
+            0, // input line number
+            4, // chord item number
+            kAugmentedSixth)
+          );
+      }
+      break;
+    
+    case kOtherHarmony:
+      break;
+      
+    case kNoneHarmony:
+      break;
+  } // switch
+
+  // register chord intervals in map
+  gChordIntervalsMap [fChordIntervalsHarmonyKind] = this;
 }
 
 msrChordIntervals::~msrChordIntervals()

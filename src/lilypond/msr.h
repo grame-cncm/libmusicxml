@@ -4792,6 +4792,13 @@ class EXP msrChordIntervals : public msrElement
 
     virtual ~msrChordIntervals();
   
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  initializeChordIntervals ();
+
   public:
 
     // set and get
