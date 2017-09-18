@@ -264,6 +264,55 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
   // trace and display
   // --------------------------------------
 
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    new msrOptionsSubGroup (
+    "hmxmltd", "helpMusicXMLTraceAndDisplay",
+    "help for trace and display");
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      new msrOptionsBoolItem (
+        "tmxtvisits", "traceMusicXMLTreeVisitors",
+        "Write a trace of the MusicXML tree visiting activity to standard error.",
+        fTraceMusicXMLTreeVisitors));
+
+  // other
+  // --------------------------------------
+
+  S_msrOptionsSubGroup otherSubGroup =
+    new msrOptionsSubGroup (
+    "hmxmlo", "helpMusicXMLOther",
+    "other");
+
+  appendOptionsSubGroup (otherSubGroup);
+
+  otherSubGroup->
+    appendOptionsItem (
+      new msrOptionsBoolItem (
+        "ime", "ingoreMusicXMLErrors",
+        R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
+        fIgnoreMusicXMLErrors));
+
+  otherSubGroup->
+    appendOptionsItem (
+      new msrOptionsBoolItem (
+        "loop", "loopToMusicXML",
+        R"(Close the loop, generating a MusicXML file from the MSR. 
+        The file name receives a '_loop' suffix. Currently under development.)",
+        fLoopToMusicXML));
+
+
+  /* JMI
+  S_msrOptionsGroupsList optionsGroupsList =
+    new msrOptionsGroupsList (
+    "h", "help", " help for OptionsGroupsList");
+*/
+    
+  // trace and display
+  // --------------------------------------
+
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
   // other

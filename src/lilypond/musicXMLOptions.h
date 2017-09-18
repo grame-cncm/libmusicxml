@@ -161,7 +161,7 @@ class EXP msrOptionsGroupPP : public smartable
     void                  initializeOptionsGroup (
                             bool boolOptionsInitialValue);
 
-  protected:
+  public:
   
     // constructors/destructor
     // ------------------------------------------------------
@@ -169,6 +169,8 @@ class EXP msrOptionsGroupPP : public smartable
     msrOptionsGroupPP(
       string optionGroupNName);
   
+  protected:
+
     virtual ~msrOptionsGroupPP();
  
   public:
