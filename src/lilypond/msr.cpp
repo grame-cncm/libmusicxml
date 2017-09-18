@@ -241,7 +241,7 @@ string msrIntervalAsString (
       result = "DiminishedFifth";
       break;
     case kPerFifth:
-      result = "Fifth";
+      result = "PerFifth";
       break;
     case kAugmentedFifth:
       result = "AugmentedFifth";
@@ -323,7 +323,7 @@ string msrIntervalAsString (
       result = "DiminishedTwelfth";
       break;
     case kPerTwelfth:
-      result = "kPerTwelfth";
+      result = "PerTwelfth";
       break;
     case kAugmentedTwelfth:
       result = "AugmentedTwelfth";
@@ -34587,8 +34587,8 @@ void initializeMSR ()
   // harmony handling
   // ------------------------------------------------------
 
-  initializeChordIntervalsMap (); // JMI
-  printChordIntervalsMap ();
+  initializeChordIntervalsMap ();
+  // JMI printChordIntervalsMap ();
 }
 
 
