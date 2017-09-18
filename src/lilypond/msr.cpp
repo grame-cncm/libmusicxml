@@ -790,6 +790,40 @@ void initializeHarmoniesChordItemsVector ()
             
           gHarmoniesChordItemsVectorsMap [harmonyKind] =
             chordItemsVector;
+
+          // create the chord intervals
+          S_msrChordIntervals
+            chordIntervals =
+              msrChordIntervals::create (
+                0, // input line number
+                harmonyKind);
+
+          // append chord items to chord intervals
+          chordIntervals->
+            appendChordItemToChordIntervals (
+              msrChordItem::create (
+                0, // input line number
+                1, // chord item number
+                kUnisson)
+              );
+          chordIntervals->
+            appendChordItemToChordIntervals (
+              msrChordItem::create (
+                0, // input line number
+                2, // chord item number
+                kMajorThird)
+              );
+          chordIntervals->
+            appendChordItemToChordIntervals (
+              msrChordItem::create (
+                0, // input line number
+                3, // chord item number
+                kPerFifth)
+              );
+              
+          // register chord intervals in map
+          gChordIntervalsMap [harmonyKind] =
+            chordItemsVector;
         }
         break;
       
@@ -18214,10 +18248,10 @@ void msrChordIntervals::print (ostream& os)
   }
 }
 
-extern map<msrHarmonyKind, S_msrChordIntervals>
+map<msrHarmonyKind, S_msrChordIntervals>
   gChordIntervalsMap;
 
-extern map<msrHarmonyKind, vector <S_msrChordItem>* >
+map<msrHarmonyKind, vector <S_msrChordItem>* >
   gHarmoniesChordItemsVectorsMap;
 
 //______________________________________________________________________________
