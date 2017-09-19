@@ -162,8 +162,10 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsBoolItem> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      bool&  optionsBoolItemVariable);
      
   protected:
 
@@ -207,8 +209,11 @@ class EXP msrOptionsIntItem : public msrOptionsItem
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsIntItem> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      int&               optionsIntItemVariable,
+      msrOptionsItemKind optionsItemKind);
      
   protected:
 
@@ -256,8 +261,11 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsFloatItem> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      float&             optionsFloatItemVariable,
+      msrOptionsItemKind optionsItemKind);
      
   protected:
 
@@ -302,8 +310,11 @@ class EXP msrOptionsStringItem : public msrOptionsItem
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsStringItem> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string&            optionsStringItemVariable,
+      msrOptionsItemKind optionsItemKind);
      
   protected:
 
@@ -348,8 +359,11 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsRationalItem> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      rational&          optionsRationalItemVariable,
+      msrOptionsItemKind optionsItemKind);
      
   protected:
 
@@ -394,8 +408,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsSubGroup> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string optionsSubGroupShortName,
+      string optionsSubGroupLongName,
+      string optionsSubGroupDescription);
      
   protected:
 
@@ -446,8 +461,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsGroup> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string optionGroupShortName,
+      string optionGroupLongName,
+      string optionGroupDescription);
      
   protected:
 
@@ -498,8 +514,9 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsGroupsList> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string optionGroupsListShortName,
+      string optionGroupsListLongName,
+      string optionGroupsListDescription);
      
   protected:
 
