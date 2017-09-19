@@ -584,6 +584,11 @@ class EXP msrOptionsHandler : public msrOptionsElement
     virtual ~msrOptionsHandler();
 
   public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
   
     // services
     // ------------------------------------------------------
