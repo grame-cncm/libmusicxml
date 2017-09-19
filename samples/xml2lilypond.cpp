@@ -212,58 +212,6 @@ void checkOptionUniqueness (
 //_______________________________________________________________________________
 #define HEAVY 0
 
-//_______________________________________________________________________________
-class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
-{
-  public:
-  
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2lilypondOptionsHandler> create (
-      string optionHandlerShortName,
-      string optionHandlerLongName,
-      string optionHandlerDescription);
-     
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2lilypondOptionsHandler (
-      string optionHandlerShortName,
-      string optionHandlerLongName,
-      string optionHandlerDescription);
-      
-    virtual ~msrOptionsHandler();
-
-  private:
-
-    // initialization
-    // ------------------------------------------------------
-
-    void                  initializexml2lilypondOptionsHandler ();
-
-  public:
-  
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-  private:
-
-    list<S_msrOptionsGroup>
-                          fOptionsGroupHandler;
-
-    map<string, string>   fOptionShortNames;
-};
-typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
-ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);
-
 void analyzeOptions (
   int            argc,
   char*          argv[],

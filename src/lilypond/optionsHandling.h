@@ -583,6 +583,13 @@ class EXP msrOptionsHandler : public msrOptionsElement
       
     virtual ~msrOptionsHandler();
 
+  private:
+
+    // initialization
+    // ------------------------------------------------------
+
+    virtual void          initializeOptionsHandler ();
+
   public:
 
     // set and get
