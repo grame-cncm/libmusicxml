@@ -567,8 +567,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsHandler> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+      string optionHandlerShortName,
+      string optionHandlerLongName,
+      string optionHandlerDescription);
      
   protected:
 

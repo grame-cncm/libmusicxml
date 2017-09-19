@@ -265,7 +265,7 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
   // --------------------------------------
 
   S_msrOptionsSubGroup traceAndDisplaySubGroup =
-    new msrOptionsSubGroup (
+    msrOptionsSubGroup::create (
     "hmxmltd", "helpMusicXMLTraceAndDisplay",
     "help for trace and display");
 
@@ -273,7 +273,7 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
       
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      new msrOptionsBoolItem (
+      msrOptionsBoolItem::create (
         "tmxtvisits", "traceMusicXMLTreeVisitors",
         "Write a trace of the MusicXML tree visiting activity to standard error.",
         fTraceMusicXMLTreeVisitors));
@@ -282,7 +282,7 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
   // --------------------------------------
 
   S_msrOptionsSubGroup otherSubGroup =
-    new msrOptionsSubGroup (
+    msrOptionsSubGroup::create (
     "hmxmlo", "helpMusicXMLOther",
     "other");
 
@@ -290,14 +290,14 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
 
   otherSubGroup->
     appendOptionsItem (
-      new msrOptionsBoolItem (
+      msrOptionsBoolItem::create (
         "ime", "ingoreMusicXMLErrors",
         R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
         fIgnoreMusicXMLErrors));
 
   otherSubGroup->
     appendOptionsItem (
-      new msrOptionsBoolItem (
+      msrOptionsBoolItem::create (
         "loop", "loopToMusicXML",
         R"(Close the loop, generating a MusicXML file from the MSR. 
         The file name receives a '_loop' suffix. Currently under development.)",

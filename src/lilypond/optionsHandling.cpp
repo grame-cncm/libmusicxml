@@ -15,7 +15,7 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
-#include "msrOptionsHandling.h"
+#include "optionsHandling.h"
 
 #include "utilities.h"
 
@@ -69,14 +69,15 @@ void msrOptionsElement::print (ostream& os) const
 }
 
 //______________________________________________________________________________
-S_msrOptionsElement msrOptionsElement::create (
+S_msrOptionsItem msrOptionsItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  msrOptionsItemKind optionsItemKind)
+  msrOptionsItemKind
+                     optionsItemKind)
 {
-  msrOptionsElement* o = new
-    msrOptionsElement (
+  msrOptionsItem* o = new
+    msrOptionsItem (
       optionsItemShortName,
       optionsItemDescription,
       optionsItemDescription,
@@ -89,7 +90,8 @@ msrOptionsItem::msrOptionsItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  msrOptionsItemKind optionsItemKind)
+  msrOptionsItem::msrOptionsItemKind
+                     optionsItemKind)
   : msrOptionsElement (
       optionsItemShortName,
       optionsItemLongName,
@@ -242,7 +244,7 @@ S_msrOptionsIntItem msrOptionsIntItem::create (
     msrOptionsIntItem (
       optionsItemShortName,
       optionsItemDescription,
-      optionsItemDescription
+      optionsItemDescription,
       optionsIntItemVariable,
       optionsItemKind);
   assert(o!=0);
@@ -533,7 +535,7 @@ msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription)
-  : msrOptionsSubGroup (
+  : msrOptionsElement (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
@@ -597,7 +599,7 @@ msrOptionsGroup::msrOptionsGroup (
   string optionGroupShortName,
   string optionGroupLongName,
   string optionGroupDescription)
-  : msrOptionsGroup (
+  : msrOptionsElement (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
@@ -661,7 +663,7 @@ msrOptionsGroupsList::msrOptionsGroupsList (
   string optionGroupsListShortName,
   string optionGroupsListLongName,
   string optionGroupsListDescription)
-  : msrOptionsGroupsList (
+  : msrOptionsElement (
       optionGroupsListShortName,
       optionGroupsListLongName,
       optionGroupsListDescription)
@@ -708,16 +710,15 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroupsList& elt)
 
 //______________________________________________________________________________
 S_msrOptionsHandler msrOptionsHandler::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  msrOptionsItemKind optionsItemKind)
+  string optionHandlerShortName,
+  string optionHandlerLongName,
+  string optionHandlerDescription)
 {
   msrOptionsHandler* o = new
     msrOptionsHandler (
-      optionsItemShortName,
-      optionsItemDescription,
-      optionsItemDescription);
+      optionHandlerShortName,
+      optionHandlerLongName,
+      optionHandlerDescription);
   assert(o!=0);
   return o;
 }
@@ -726,7 +727,7 @@ msrOptionsHandler::msrOptionsHandler (
   string optionHandlerShortName,
   string optionHandlerLongName,
   string optionHandlerDescription)
-  : msrOptionsHandler (
+  : msrOptionsElement (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)
