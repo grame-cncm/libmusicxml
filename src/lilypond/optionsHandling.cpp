@@ -30,6 +30,20 @@ namespace MusicXML2
 #define tab  indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
+S_msrOptionsElement msrOptionsElement::create (
+  string optionsElementShortName,
+  string optionsElementLongName,
+  string optionsElementDescription)
+{
+  msrOptionsElement* o = new
+    msrOptionsElement (
+      optionsElementShortName,
+      optionsElementLongName,
+      optionsElementDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsElement::msrOptionsElement (
   string optionsElementShortName,
   string optionsElementLongName,
@@ -55,6 +69,22 @@ void msrOptionsElement::print (ostream& os) const
 }
 
 //______________________________________________________________________________
+S_msrOptionsElement msrOptionsElement::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsElement* o = new
+    msrOptionsElement (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription,
+      optionsItemKind);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsItem::msrOptionsItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -131,6 +161,21 @@ ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsBoolItem msrOptionsBoolItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsBoolItem* o = new
+    msrOptionsBoolItem (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsBoolItem::msrOptionsBoolItem (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -185,6 +230,21 @@ ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsIntItem msrOptionsIntItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsIntItem* o = new
+    msrOptionsIntItem (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsIntItem::msrOptionsIntItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -238,6 +298,21 @@ ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsFloatItem msrOptionsFloatItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsFloatItem* o = new
+    msrOptionsFloatItem (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsFloatItem::msrOptionsFloatItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -291,6 +366,21 @@ ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsStringItem msrOptionsStringItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsStringItem* o = new
+    msrOptionsStringItem (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsStringItem::msrOptionsStringItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -344,6 +434,21 @@ ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsRationalItem msrOptionsRationalItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsRationalItem* o = new
+    msrOptionsRationalItem (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsRationalItem::msrOptionsRationalItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -397,11 +502,26 @@ ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsSubGroup msrOptionsSubGroup::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsSubGroup* o = new
+    msrOptionsSubGroup (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription)
-  : msrOptionsElement (
+  : msrOptionsSubGroup (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
@@ -447,11 +567,26 @@ ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsGroup msrOptionsGroup::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsGroup* o = new
+    msrOptionsGroup (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsGroup::msrOptionsGroup (
   string optionGroupShortName,
   string optionGroupLongName,
   string optionGroupDescription)
-  : msrOptionsElement (
+  : msrOptionsGroup (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
@@ -497,11 +632,26 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsGroupsList msrOptionsGroupsList::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsGroupsList* o = new
+    msrOptionsGroupsList (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsGroupsList::msrOptionsGroupsList (
   string optionGroupsListShortName,
   string optionGroupsListLongName,
   string optionGroupsListDescription)
-  : msrOptionsElement (
+  : msrOptionsGroupsList (
       optionGroupsListShortName,
       optionGroupsListLongName,
       optionGroupsListDescription)
@@ -547,11 +697,26 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroupsList& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsHandler msrOptionsHandler::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  msrOptionsItemKind optionsItemKind)
+{
+  msrOptionsHandler* o = new
+    msrOptionsHandler (
+      optionsItemShortName,
+      optionsItemDescription,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
 msrOptionsHandler::msrOptionsHandler (
   string optionHandlerShortName,
   string optionHandlerLongName,
   string optionHandlerDescription)
-  : msrOptionsElement (
+  : msrOptionsHandler (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)

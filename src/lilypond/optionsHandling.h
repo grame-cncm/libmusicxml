@@ -30,9 +30,13 @@ class EXP msrOptionsElement : public smartable
 {
   public:
 
-    static SMARTP<lpsrScore> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsElement> create (
+      string optionsElementShortName,
+      string optionsElementLongName,
+      string optionsElementDescription);
      
   protected:
 
@@ -96,9 +100,14 @@ class EXP msrOptionsItem : public msrOptionsElement
     static string optionsItemKindAsString (
       msrOptionsItemKind optionsItemKind);
 
-    static SMARTP<lpsrScore> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      msrOptionsItemKind optionsItemKind);
      
   protected:
 
@@ -149,7 +158,10 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsBoolItem> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -191,7 +203,10 @@ class EXP msrOptionsIntItem : public msrOptionsItem
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsIntItem> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -206,10 +221,7 @@ class EXP msrOptionsIntItem : public msrOptionsItem
       string             optionsItemDescription,
       int&               optionsIntItemVariable,
       msrOptionsItemKind optionsItemKind);
-          static SMARTP<lpsrScore> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
-     
+           
   protected:
 
 
@@ -240,7 +252,10 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsFloatItem> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -283,7 +298,10 @@ class EXP msrOptionsStringItem : public msrOptionsItem
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsStringItem> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -326,7 +344,10 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsRationalItem> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -369,7 +390,10 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsSubGroup> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -418,7 +442,10 @@ class EXP msrOptionsGroup : public msrOptionsElement
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsGroup> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -467,7 +494,10 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsGroupsList> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
@@ -516,7 +546,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
 {
   public:
   
-    static SMARTP<lpsrScore> create (
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsHandler> create (
       int            inputLineNumber,
       S_msrScore     mScore);
      
