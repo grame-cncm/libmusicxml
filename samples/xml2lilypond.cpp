@@ -210,7 +210,23 @@ void checkOptionUniqueness (
 }
 
 //_______________________________________________________________________________
+#define HEAVY 0
+
 void analyzeOptions (
+  int            argc,
+  char*          argv[],
+  string&        inputFileName,
+  string&        outputFileName)
+{
+  S_msrOptionsHandler
+    optionsHandler =
+      msrOptionsHandler::create (
+        "h", "help",
+        R"(FOO)");
+}
+
+//_______________________________________________________________________________
+void analyzeOptions_HEAVY (
   int            argc,
   char*          argv[],
   string&        inputFileName,
@@ -3849,7 +3865,12 @@ int main (int argc, char *argv[])
 
   string    inputFileName;
   string    outputFileName;
-  
+
+  if (HEAVY)
+  analyzeOptions_HEAVY (
+    argc, argv,
+    inputFileName, outputFileName);
+  else
   analyzeOptions (
     argc, argv,
     inputFileName, outputFileName);
