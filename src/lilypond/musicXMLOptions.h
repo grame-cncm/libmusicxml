@@ -13,7 +13,7 @@
 #ifndef __musicXMLOptions__
 #define __musicXMLOptions__
 
-#include "msrOptionsHandling.h"
+#include "optionsHandling.h"
 
 
 namespace MusicXML2 
