@@ -26,7 +26,8 @@
 
 #include "version.h"
 #include "utilities.h"
-#include "optionsHandling.h"
+
+#include "xml2lilypondOptionsHandling.h"
 
 #include "musicXMLTree2MsrInterface.h"
 
@@ -212,7 +213,7 @@ void checkOptionUniqueness (
 //_______________________________________________________________________________
 #define HEAVY 0
 
-void analyzeOptions (
+void analyzeOptionsAndArguments (
   int            argc,
   char*          argv[],
   string&        inputFileName,
@@ -220,17 +221,71 @@ void analyzeOptions (
 {
   cerr << "FOO" << endl;
   
-  S_msrOptionsHandler
+  S_xml2lilypondOptionsHandler
     optionsHandler =
-      msrOptionsHandler::create (
+      xml2lilypondOptionsHandler::create (
         "h", "help",
         R"(FOO)");
 
   optionsHandler->
     print (cerr);
+
+  vector<string>
+    argumentsVector =
+      optionsHandler->
+        analyzeOptions (argc, argv);
+
+  int nonOptionArgsNumber = argc-optind;
+
+  switch (nonOptionArgsNumber)
+    {
+    case 1 :
+      inputFileName = argv [optind];
+      break;
+
+    default:
+      printUsage (kAllHelp, 1);
+      break;
+    } //  switch
+
+  // handle auto output file option
+  if (gGeneralOptions->fAutoOutputFile) {
+    if (outputFileName.size ()) {
+      stringstream s;
+  
+      s <<
+        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
+        endl <<
+        "cannot be used simultaneously";
+        
+      optionError (s.str ());
+    }
+  
+    else if (inputFileName == "-") {
+      stringstream s;
+  
+      s <<
+        "option '--aof, --autoOutputFile'"  <<
+        endl <<
+        "cannot be used when reading from standard input";
+        
+      optionError (s.str ());
+    }
+
+    // build output file name
+    string
+      inputFileBasename = basename (inputFileName.c_str());
     
-  optionsHandler->
-    analyzeOptions (argc, argv);
+    outputFileName =
+      inputFileBasename;
+    
+    size_t posInString =
+      outputFileName.rfind ('.');
+      
+    if (posInString != string::npos)
+      outputFileName.replace (
+        posInString, outputFileName.size () - posInString, ".ly");
+  }
 }
 
 //_______________________________________________________________________________
@@ -3882,7 +3937,7 @@ int main (int argc, char *argv[])
   }
   else {
     cerr << "FEE" << endl;
-  analyzeOptions (
+  analyzeOptionsAndArguments (
     argc, argv,
     inputFileName, outputFileName);
   }

@@ -10,15 +10,10 @@
   research@grame.fr
 */
 
-#ifndef __msrOptionsHandling__
-#define __msrOptionsHandling__
+#ifndef __xml2lilypondOptionsHandler__
+#define __xml2lilypondOptionsHandler__
 
-#include "list"
-#include "map"
-
-#include "smartpointer.h"
-#include "rational.h"
-
+#include "optionsHandling.h"
 
 using namespace std;
 
@@ -48,7 +43,7 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
       string optionHandlerLongName,
       string optionHandlerDescription);
       
-    virtual ~msrOptionsHandler();
+    virtual ~xml2lilypondOptionsHandler();
 
   private:
 
@@ -69,8 +64,8 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
 
   private:
 };
-typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
-ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);
+typedef SMARTP<xml2lilypondOptionsHandler> S_xml2lilypondOptionsHandler;
+ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt);
 
 
 /*! @} */

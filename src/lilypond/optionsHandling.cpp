@@ -709,6 +709,7 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroupsList& elt)
 }
 
 //______________________________________________________________________________
+/* JMI
 S_msrOptionsHandler msrOptionsHandler::create (
   string optionHandlerShortName,
   string optionHandlerLongName,
@@ -722,6 +723,7 @@ S_msrOptionsHandler msrOptionsHandler::create (
   assert(o!=0);
   return o;
 }
+*/
 
 msrOptionsHandler::msrOptionsHandler (
   string optionHandlerShortName,
@@ -736,7 +738,7 @@ msrOptionsHandler::msrOptionsHandler (
 msrOptionsHandler::~msrOptionsHandler()
 {}
 
-void msrOptionsHandler::checkOptionUniqueness (
+void msrOptionsHandler::registerOption (
   string optionLongName,
   string optionShortName)
 {
@@ -751,8 +753,8 @@ void msrOptionsHandler::checkOptionUniqueness (
   }
   
   for (
-    map<string, string>::iterator i = fOptionShortNames.begin();
-    i != fOptionShortNames.end();
+    map<string, string>::iterator i = fOptionsShortNames.begin();
+    i != fOptionsShortNames.end();
     i++) {
       
     // is optionLongName in the options names map?
@@ -782,7 +784,7 @@ void msrOptionsHandler::checkOptionUniqueness (
   } // for
 
   // everything OK, register the option names
-  fOptionShortNames [optionLongName] = optionShortName;
+  fOptionsShortNames [optionLongName] = optionShortName;
 }
 
 void msrOptionsHandler::print (ostream& os) const
@@ -834,10 +836,12 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
     endl;
     */
 
-void msrOptionsHandler::analyzeOptions (
+const vector<string>& msrOptionsHandler::analyzeOptions (
   int   argc,
   char* argv[])
 {
+  vector<string> argumentsVector;
+  
   int   n = 0;
 
   while (true) { 
@@ -894,11 +898,8 @@ void msrOptionsHandler::analyzeOptions (
     // next please
     n++;
   } // while
-}
 
-//______________________________________________________________________________
-void initializeOptionsHandling ()
-{
+  return argumentsVector;
 }
 
 

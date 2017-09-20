@@ -15,7 +15,7 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
-#include "optionsHandling.h"
+#include "xml2lilypondOptionsHandling.h"
 
 #include "utilities.h"
 
@@ -48,7 +48,7 @@ xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
   string optionHandlerShortName,
   string optionHandlerLongName,
   string optionHandlerDescription)
-  : msrOptionsElement (
+  : msrOptionsHandler (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)
@@ -57,9 +57,44 @@ xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
 xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler()
 {}
 
-
 void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 {
+}
+
+void xml2lilypondOptionsHandler::print (ostream& os) const
+{
+  const int fieldWidth = 19;
+  
+  os <<
+    "xml2lilypondOptionsHandler:" <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+    endl <<
+    setw(fieldWidth) <<
+    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+    endl;
+
+  for (
+    list<S_msrOptionsGroup>::const_iterator
+      i = fOptionsGroupHandler.begin();
+    i != fOptionsGroupHandler.end();
+    i++) {
+    // print the element
+    os << (*i);
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt)
+{
+  os <<
+    "xml2lilypondOptionsHandler:" <<
+    endl;
+  elt->print (os);
+  return os;
 }
 
 

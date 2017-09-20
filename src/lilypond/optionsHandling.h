@@ -14,6 +14,7 @@
 #define __msrOptionsHandling__
 
 #include "list"
+#include "vector"
 #include "map"
 
 #include "smartpointer.h"
@@ -565,12 +566,12 @@ class EXP msrOptionsHandler : public msrOptionsElement
   
     // creation
     // ------------------------------------------------------
-
+/* JMI
     static SMARTP<msrOptionsHandler> create (
       string optionHandlerShortName,
       string optionHandlerLongName,
       string optionHandlerDescription);
-     
+     */
   protected:
 
     // constructors/destructor
@@ -588,7 +589,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // initialization
     // ------------------------------------------------------
 
-    virtual void          initializeOptionsHandler ();
+    virtual void          initializeOptionsHandler () = 0;
 
   public:
 
@@ -600,7 +601,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    void                  checkOptionUniqueness (
+    void                  registerOption (
                             string optionLongName,
                             string optionShortName);
 
@@ -611,7 +612,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
                                   optionsGroup);
                               }
         
-    void                  analyzeOptions (
+    const vector<string>& analyzeOptions (
                             int   argc,
                             char* argv[]);
 
@@ -620,18 +621,15 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  print (ostream& os) const;
 
-  private:
+  protected:
 
     list<S_msrOptionsGroup>
                           fOptionsGroupHandler;
 
-    map<string, string>   fOptionShortNames;
+    map<string, string>   fOptionsShortNames;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);
-
-//______________________________________________________________________________
-void initializeOptionsHandling ();
 
 
 /*! @} */
