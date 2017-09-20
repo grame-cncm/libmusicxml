@@ -265,11 +265,18 @@ void msrOptionsBoolItem::print (ostream& os) const
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementDescription" << " :" <<
-      endl <<
-    idtr << tab <<
-      fOptionsElementDescription <<
-      endl <<
+      endl;
+
+  idtr++;
+  os << left <<
     idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl; // no endl here
+  idtr--;
+
+  os << left <<
+  // no idtr here  idtr <<
       setw(fieldWidth) <<
       "fOptionsItemHasBeenSelected" << " : " <<
       booleanAsString (

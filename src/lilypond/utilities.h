@@ -126,8 +126,11 @@ class indenter
     string                getSpacer () const
                               { return fSpacer; }
 
+    // indent a multiline 'R"(...)"' string
+    string                indentMultiLineString (string value);
+    
     // global variable for general use
-    static indenter gIndenter; 
+    static indenter       gIndenter; 
 
   private:
 

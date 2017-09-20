@@ -231,6 +231,33 @@ indenter& indenter::operator-- (const int value)
   return *this;
 }
 
+string indenter::indentMultiLineString (string value)
+{
+  stringstream  s;
+  
+  // add indentation before all end of lines inside 'value'
+  istringstream ss (value);
+  string        line;
+  
+  while (getline (ss, line)) {
+// JMI   if (line.size ()) {
+      s <<
+        line;
+
+    if (ss.eof()) break;
+
+    s<<
+        endl;
+ //   }
+    
+    int i = fIndent;
+    while (i-- > 0)
+      s << fSpacer;
+  } // while
+
+  return s.str();
+}
+
 ostream& operator<< (ostream& os, const indenter& idtr) {
   idtr.print(os);
   return os;
