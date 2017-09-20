@@ -842,7 +842,7 @@ const vector<string>& msrOptionsHandler::analyzeOptions (
 {
   vector<string> argumentsVector;
   
-  int   n = 0;
+  int n = 0;
 
   while (true) { 
     if (argv [n] == 0)
@@ -857,41 +857,53 @@ const vector<string>& msrOptionsHandler::analyzeOptions (
 
     // handle current element
     if (currentElement [0] == '-') {
-      // this is an option
-      string elementTrailer =
-        currentElement.substr (1, string::npos);
-
-      /* JMI
-      cout <<
-        "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
-        endl;
-      */
-
-      if (elementTrailer.size ()) {
-        if (elementTrailer [0] == '-') {
-          // it is a double-dashed option
-          string currentDoubleDashedOption =
-            elementTrailer.substr (1, string::npos);
-          
+      if (currentElement.size () == 1) {
+        // this is 
           cout <<
-            "'" << currentDoubleDashedOption << "' is a double-dashed option" <<
+            "'" << currentElement << "' is the '-' stdin indicator" <<
             endl;
-        }
-        else {
-          // it is a single-dashed option
-          string currentSingleDashedOption =
-            elementTrailer; //.substr (1, string::npos);
-          
-          cout <<
-            "'" << currentSingleDashedOption << "' is a single-dashed option" <<
-            endl;
-        }
+        argumentsVector.push_back (currentElement);
       }
       
-      else {
+      e[se {
+        // this is an option
+        string elementTrailer =
+          currentElement.substr (1, string::npos);
+  
+        /* JMI
         cout <<
-          "'-' is the minimal single-dashed option" <<
+          "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
           endl;
+        */
+  
+        if (elementTrailer.size ()) {
+          if (elementTrailer [0] == '-') {
+            // it is a double-dashed option
+            string currentDoubleDashedOption =
+              elementTrailer.substr (1, string::npos);
+            
+            cout <<
+              "'" << currentDoubleDashedOption << "' is a double-dashed option" <<
+              endl;
+          }
+          else {
+            // it is a single-dashed option
+            string currentSingleDashedOption =
+              elementTrailer; //.substr (1, string::npos);
+            
+            cout <<
+              "'" << currentSingleDashedOption << "' is a single-dashed option" <<
+              endl;
+          }
+        }
+        
+        else {
+          cout <<
+            "'-' is the minimal single-dashed option" <<
+            endl;
+        }
+
+      // is the option known?
       }
     }
 
