@@ -85,6 +85,8 @@ class EXP msrOptionsElement : public smartable
 
     virtual void          print (ostream& os) const;
     
+    virtual void          printHelp (ostream& os) const;
+    
   protected:
      
     string                fOptionsElementShortName;
@@ -195,6 +197,12 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    void                  setBoolItemVariableValue (
+                            bool value)
+                              {
+                                fOptionsBoolItemVariable = value;
+                              }
+
     // services
     // ------------------------------------------------------
 
@@ -247,6 +255,12 @@ class EXP msrOptionsIntItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    void                  setIntItemVariableValue (
+                            int value)
+                              {
+                                fOptionsIntItemVariable = value;
+                              }
+
     // services
     // ------------------------------------------------------
 
@@ -295,6 +309,12 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
   
     // set and get
     // ------------------------------------------------------
+
+    void                  setFloatItemVariableValue (
+                            float value)
+                              {
+                                fOptionsFloatItemVariable = value;
+                              }
 
     // services
     // ------------------------------------------------------
@@ -345,6 +365,12 @@ class EXP msrOptionsStringItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    void                  setStringItemVariableValue (
+                            string value)
+                              {
+                                fOptionsStringItemVariable = value;
+                              }
+
     // services
     // ------------------------------------------------------
 
@@ -393,6 +419,12 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
   
     // set and get
     // ------------------------------------------------------
+
+    void                  setRationalItemVariableValue (
+                            rational value)
+                              {
+                                fOptionsRationalItemVariable = value;
+                              }
 
     // services
     // ------------------------------------------------------
@@ -619,9 +651,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    void                  registerOption (
-                            string optionLongName,
-                            string optionShortName);
+    void                  registerOptionsElement ( // protected ???
+                            S_msrOptionsElement optionsElement);
 
     void                  appendOptionsGroup (
                             S_msrOptionsGroup optionsGroup)
@@ -647,7 +678,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     list<S_msrOptionsGroup>
                           fOptionsGroupHandler;
 
-    map<string, string>   fOptionsShortNames;
+    map<string, S_msrOptionsElement>
+                          fOptionsElementsMap;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);

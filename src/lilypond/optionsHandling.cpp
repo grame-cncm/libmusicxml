@@ -77,6 +77,31 @@ void msrOptionsElement::print (ostream& os) const
   os << "??? msrOptionsElement ???" << endl;
 }
 
+void msrOptionsElement::printHelp (ostream& os) const
+{
+  if (fOptionsElementShortName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementShortName << " ";
+  }
+  
+  if (fOptionsElementLongName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementLongName << " ";
+  }
+
+  os << endl;
+
+  idtr++;
+  
+  os << idtr <<
+    fOptionsElementDescription <<
+    endl;
+
+  idtr--;
+}
+
 ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
 {
   elt->print (os);
@@ -795,37 +820,56 @@ msrOptionsHandler::msrOptionsHandler (
 msrOptionsHandler::~msrOptionsHandler()
 {}
 
-void msrOptionsHandler::registerOption (
-  string optionLongName,
-  string optionShortName)
+void msrOptionsHandler::registerOptionsElement (
+  S_msrOptionsElement optionsElement)
 {
+  string
+    optionLongName =
+      optionsElement->getOptionsElementLongName (),
+    optionShortName =
+      optionsElement->getOptionsElementLongName ();
+
+  if (
+    optionShortName.size () == 0
+      &&
+    optionLongName.size () == 0) {
+    stringstream s;
+
+    s <<
+      "option long name and short name are both empty";
+      
+    optionError (s.str());
+  }
+  
   if (optionShortName == optionLongName) {
     stringstream s;
 
     s <<
       "option long name '" << optionLongName << "'" <<
-      " is also used as short name";
+      " is the same as the short name";
       
     optionError (s.str());
   }
   
   for (
-    map<string, string>::iterator i = fOptionsShortNames.begin();
-    i != fOptionsShortNames.end();
+    map<string, S_msrOptionsElement>::iterator i =
+      fOptionsElementsMap.begin();
+    i != fOptionsElementsMap.end();
     i++) {
       
-    // is optionLongName in the options names map?
+    // is optionLongName already in the options names map?
     if ((*i).first == optionLongName) {
       stringstream s;
   
       s <<
         "option long name '" << optionLongName << "'" <<
+          " for option short name '" << optionShortName << "'" <<
         " is specified more that once";
         
       optionError (s.str());
     }
 
-    // is optionShortName in the options names map?
+    // is optionShortName already in the options names map?
     if ((*i).second == optionShortName) {
       if (optionShortName.size ()) {
         stringstream s;
@@ -840,8 +884,11 @@ void msrOptionsHandler::registerOption (
     }
   } // for
 
-  // everything OK, register the option names
-  fOptionsShortNames [optionLongName] = optionShortName;
+  // everything OK, register optionsElement in the options element map
+  if (optionLongName.size ())
+    fOptionsElementsMap [optionLongName] = optionsElement;
+  if (optionShortName.size ())
+    fOptionsElementsMap [optionShortName] = optionsElement;
 }
 
 void msrOptionsHandler::print (ostream& os) const
@@ -983,10 +1030,97 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             endl;
         }
 
-      // is the option known?
-      S_msrOptionsElement
-        optionsElement =
-          fOptionsShortNames [currentOptionName];
+      // is currentOptionName known in options elements map?
+      map<string, S_msrOptionsElement>::const_iterator
+        it =
+          fOptionsElementsMap.find (currentOptionName);
+            
+      if (it == fOptionsElementsMap.end ()) {
+        // no, currentOptionName is unknown in the map    
+        stringstream s;
+    
+        s <<
+          "option name '" << currentOptionName <<
+          "' is unknown";
+          
+        optionError (s.str());
+      }
+      
+      else {
+        // currentOptionName is known, let's handle it
+        S_msrOptionsElement
+          optionsElement = (*it).second;
+
+        if (
+          S_msrOptionsGroup
+            optionsGroup =
+              dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+          ) {    
+          optionsGroup->printHelp (cerr);
+        }
+        
+        else if (
+          S_msrOptionsSubGroup
+            optionsSubGroup =
+              dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+          ) {    
+          optionSubGroup->printHelp (cerr);
+        }
+        
+        else if (
+          S_msrOptionsBoolItem
+            optionsBoolItem =
+              dynamic_cast<msrOptionsBoolItem*>(&(*optionsElement))
+          ) {
+          optionsBoolItem->
+            setBoolItemVariableValue (true);
+        }
+        
+        else if (
+          S_msrOptionsIntItem
+            optionsIntItem =
+              dynamic_cast<msrOptionsIntItem*>(&(*optionsElement))
+          ) {
+          optionsIntItem->
+            setIntItemVariableValue (true);
+        }
+        
+        else if (
+          S_msrOptionsFloatItem
+            optionsFloatItem =
+              dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+          ) {
+          optionsFloatItem->
+            setFloatItemVariableValue (true);
+        }
+        
+        else if (
+          S_msrOptionsStringItem
+            optionsStringItem =
+              dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+          ) {
+          optionsStringItem->
+            setStringItemVariableValue (true);
+        }
+        
+        else if (
+          S_msrOptionsRationalItem
+            optionsRationalItem =
+              dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+          ) {
+          optionsRationalItem->
+            setRationalItemVariableValue (true);
+        }
+        
+        else {
+          stringstream s;
+      
+          s <<
+            "option name '" << currentOptionName <<
+            "' is known but cannot be handled";
+            
+          optionError (s.str());
+        }
       }
     }
 
@@ -994,6 +1128,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
+  // print the arguments vector
   cerr << idtr <<
     "Arguments vector (" <<
     argumentsVector.size () <<
