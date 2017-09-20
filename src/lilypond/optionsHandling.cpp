@@ -1150,6 +1150,24 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
+  // print the options elements map  
+  cerr << idtr <<
+    "Options elements map (" <<
+    fOptionsElementsMap.size () <<
+    " elements):" <<
+    endl;
+  idtr++;
+  map<string, S_msrOptionsElement>::const_iterator
+    iBegin = fOptionsElementsMap.begin(),
+    iEnd   = fOptionsElementsMap.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    cerr << (*i).second;
+    if (++i == iEnd) break;
+    cerr << endl;
+  } // for
+  idtr--;
+  
   // print the arguments vector
   cerr << idtr <<
     "Arguments vector (" <<
