@@ -57,15 +57,30 @@ msrOptionsElement::msrOptionsElement (
 msrOptionsElement::~msrOptionsElement()
 {}
 
-ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
+S_msrOptionElement msrOptionsElement::fetchOptionElement (
+  string optiontElementName)
 {
-  elt->print (os);
-  return os;
+  S_msrOptionElement result;
+
+  if (
+    optiontElementName == fOptionsElementShortName
+     ||
+    optiontElementName == fOptionsElementLongName) {
+    result = this;
+  }
+  
+  return result;
 }
 
 void msrOptionsElement::print (ostream& os) const
 {
   os << "??? msrOptionsElement ???" << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -544,6 +559,27 @@ msrOptionsSubGroup::msrOptionsSubGroup (
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
 
+S_msrOptionElement msrOptionsSubGroup::fetchOptionElement (
+  string optiontElementName)
+{
+  S_msrOptionElement result;
+  
+  for (
+    list<S_msrOptionsItem>::const_iterator
+      i = fOptionsSubGroupItemsList.begin();
+    i != fOptionsSubGroupItemsList.end();
+    i++) {
+    // search optiontElementName in the options group
+    result =
+      (*i)->fetchOptionElement (optiontElementName);
+      
+    if (result != 0)
+      break;
+  } // for
+
+  return result;
+}
+
 void msrOptionsSubGroup::print (ostream& os) const
 {
   const int fieldWidth = 19;
@@ -607,6 +643,27 @@ msrOptionsGroup::msrOptionsGroup (
 
 msrOptionsGroup::~msrOptionsGroup()
 {}
+
+S_msrOptionElement msrOptionsGroup::fetchOptionElement (
+  string optiontElementName)
+{
+  S_msrOptionElement result;
+  
+  for (
+    list<S_msrOptionsSubGroup>::const_iterator
+      i = fOptionsGroupSubGroupsList.begin();
+    i != fOptionsGroupSubGroupsList.end();
+    i++) {
+    // search optiontElementName in the options group
+    result =
+      (*i)->fetchOptionElement (optiontElementName);
+      
+    if (result != 0)
+      break;
+  } // for
+
+  return result;
+}
 
 void msrOptionsGroup::print (ostream& os) const
 {
@@ -836,7 +893,28 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
     endl;
     */
 
-const vector<string>& msrOptionsHandler::analyzeOptions (
+S_msrOptionElement msrOptionsHandler::fetchOptionElement (
+  string optiontElementName)
+{
+  S_msrOptionElement result;
+  
+  for (
+    list<S_msrOptionsGroup>::const_iterator
+      i = fOptionsGroupHandler.begin();
+    i != fOptionsGroupHandler.end();
+    i++) {
+    // search optiontElementName in the options group
+    result =
+      (*i)->fetchOptionElement (optiontElementName);
+      
+    if (result != 0)
+      break;
+  } // for
+
+  return result;
+}
+
+const vector<string> msrOptionsHandler::analyzeOptions (
   int   argc,
   char* argv[])
 {
@@ -865,7 +943,7 @@ const vector<string>& msrOptionsHandler::analyzeOptions (
         argumentsVector.push_back (currentElement);
       }
       
-      e[se {
+      else {
         // this is an option
         string elementTrailer =
           currentElement.substr (1, string::npos);
@@ -911,6 +989,19 @@ const vector<string>& msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
+  cerr << idtr <<
+    "Arguments vector (" <<
+    argumentsVector.size () <<
+    " elements):" <<
+    endl;
+  idtr++;
+  for (unsigned int i = 0; i < argumentsVector.size (); i++) {
+    cerr << idtr <<
+      argumentsVector [i] <<
+      endl;
+  } // for
+  idtr--;
+  
   return argumentsVector;
 }
 

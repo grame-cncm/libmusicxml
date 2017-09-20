@@ -235,12 +235,12 @@ void analyzeOptionsAndArguments (
       optionsHandler->
         analyzeOptions (argc, argv);
 
-  int nonOptionArgsNumber = argc-optind;
+  int nonOptionArgsNumber = argumentsVector.size ();
 
   switch (nonOptionArgsNumber)
     {
     case 1 :
-      inputFileName = argv [optind];
+      inputFileName = argumentsVector [0];
       break;
 
     default:

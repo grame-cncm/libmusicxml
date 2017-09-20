@@ -71,6 +71,9 @@ class EXP msrOptionsElement : public smartable
     string                operator() () const
                               { return fOptionsElementDescription; }
   
+    S_msrOptionElement    fetchOptionElement (
+                            string optiontElementName);
+                            
     // print
     // ------------------------------------------------------
 
@@ -440,6 +443,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
                                   optionsItem);
                               }
 
+    S_msrOptionElement    fetchOptionElement (
+                            string optiontElementName);
+                            
     // print
     // ------------------------------------------------------
 
@@ -493,6 +499,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
                                   optionsSubGroup);
                               }
         
+    S_msrOptionElement    fetchOptionElement (
+                            string optiontElementName);
+                            
     // print
     // ------------------------------------------------------
 
@@ -546,6 +555,9 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
                                   optionsGroup);
                               }
         
+    S_msrOptionElement    fetchOptionElement (
+                            string optiontElementName);
+                            
     // print
     // ------------------------------------------------------
 
@@ -611,8 +623,11 @@ class EXP msrOptionsHandler : public msrOptionsElement
                                 fOptionsGroupHandler.push_back (
                                   optionsGroup);
                               }
-        
-    const vector<string>& analyzeOptions (
+
+    S_msrOptionElement    fetchOptionElement (
+                            string optiontElementName);
+                            
+    const vector<string>  analyzeOptions (
                             int   argc,
                             char* argv[]);
 
