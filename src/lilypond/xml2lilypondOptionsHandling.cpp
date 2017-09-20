@@ -17,6 +17,8 @@
 
 #include "xml2lilypondOptionsHandling.h"
 
+#include "musicXMLOptions.h"
+
 #include "utilities.h"
 
 
@@ -59,6 +61,12 @@ xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler()
 
 void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 {
+  // MusicXML options
+  S_msrMusicXMLOptions
+    musicXMLOptions =
+      msrMusicXMLOptions::create ();
+
+  appendOptionsGroup (musicXMLOptions);
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const
