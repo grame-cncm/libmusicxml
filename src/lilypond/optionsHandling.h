@@ -27,6 +27,12 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// PRE-declarations for class dependencies
+
+class msrOptionsElement;
+typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
+
+//______________________________________________________________________________
 class EXP msrOptionsElement : public smartable
 {
   public:

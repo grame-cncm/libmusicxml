@@ -945,6 +945,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
       
       else {
         // this is an option
+        string currentOptionName;
+
         string elementTrailer =
           currentElement.substr (1, string::npos);
   
@@ -957,20 +959,20 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         if (elementTrailer.size ()) {
           if (elementTrailer [0] == '-') {
             // it is a double-dashed option
-            string currentDoubleDashedOption =
+            currentOptionName =
               elementTrailer.substr (1, string::npos);
             
             cout <<
-              "'" << currentDoubleDashedOption << "' is a double-dashed option" <<
+              "'" << currentOptionName << "' is a double-dashed option" <<
               endl;
           }
           else {
             // it is a single-dashed option
-            string currentSingleDashedOption =
+            currentOptionName =
               elementTrailer; //.substr (1, string::npos);
             
             cout <<
-              "'" << currentSingleDashedOption << "' is a single-dashed option" <<
+              "'" << currentOptionName << "' is a single-dashed option" <<
               endl;
           }
         }
@@ -982,6 +984,9 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         }
 
       // is the option known?
+      S_msrOptionsElement
+        optionsElement =
+          fOptionsShortNames [currentOptionName];
       }
     }
 
