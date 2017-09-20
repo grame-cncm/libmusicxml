@@ -664,7 +664,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
   protected:
 
     list<S_msrOptionsGroup>
-                          fOptionsGroupHandler;
+                          fOptionsHandlerOptionsGroupsList;
 
     map<string, S_msrOptionsElement>
                           fOptionsElementsMap;

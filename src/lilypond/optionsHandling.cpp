@@ -219,7 +219,7 @@ S_msrOptionsBoolItem msrOptionsBoolItem::create (
   msrOptionsBoolItem* o = new
     msrOptionsBoolItem (
       optionsItemShortName,
-      optionsItemDescription,
+      optionsItemLongName,
       optionsItemDescription,
       optionsBoolItemVariable);
   assert(o!=0);
@@ -244,7 +244,7 @@ msrOptionsBoolItem::~msrOptionsBoolItem()
 
 void msrOptionsBoolItem::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 28;
   
   os <<
     idtr <<
@@ -264,7 +264,10 @@ void msrOptionsBoolItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      "fOptionsElementDescription" << " :" <<
+      endl <<
+    idtr << tab <<
+      fOptionsElementDescription <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -326,7 +329,7 @@ msrOptionsIntItem::~msrOptionsIntItem()
 
 void msrOptionsIntItem::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 28;
   
   os <<
     idtr <<
@@ -406,7 +409,7 @@ msrOptionsFloatItem::~msrOptionsFloatItem()
 
 void msrOptionsFloatItem::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 28;
   
   os <<
     idtr <<
@@ -679,18 +682,38 @@ void msrOptionsSubGroup::print (ostream& os) const
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-      endl;
+      endl <<
+    endl;
 
-  for (
+  os << idtr <<
+    "Options items (" <<
+    singularOrPlural (
+      fOptionsSubGroupItemsList.size (), "element",  "elements") <<
+    "):" <<
+    endl;
+
+  if (fOptionsSubGroupItemsList.size ()) {
+    os << endl;
+    
+    idtr++;
+    
     list<S_msrOptionsItem>::const_iterator
-      i = fOptionsSubGroupItemsList.begin();
-    i != fOptionsSubGroupItemsList.end();
-    i++) {
-    // print the element
-    os << (*i);
-  } // for
+      iBegin = fOptionsSubGroupItemsList.begin(),
+      iEnd   = fOptionsSubGroupItemsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the item
+      os << (*i);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
 
   idtr--;
+  
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
@@ -778,16 +801,38 @@ void msrOptionsGroup::print (ostream& os) const
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-      endl;
+      endl <<
+    endl;
 
-  for (
+  os << idtr <<
+    "Options subgroups (" <<
+    singularOrPlural (
+      fOptionsGroupSubGroupsList.size (), "element",  "elements") <<
+    "):" <<
+    endl;
+
+  if (fOptionsGroupSubGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+    
     list<S_msrOptionsSubGroup>::const_iterator
-      i = fOptionsGroupSubGroupsList.begin();
-    i != fOptionsGroupSubGroupsList.end();
-    i++) {
-    // print the element
-    os << (*i);
-  } // for
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the subgroup
+      os << (*i);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+
+  idtr--;
+  
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
@@ -971,7 +1016,7 @@ void msrOptionsHandler::registerOptionsElement (
 
 void msrOptionsHandler::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 27;
   
   os <<
     idtr <<
@@ -996,8 +1041,8 @@ void msrOptionsHandler::print (ostream& os) const
 
   for (
     list<S_msrOptionsGroup>::const_iterator
-      i = fOptionsGroupHandler.begin();
-    i != fOptionsGroupHandler.end();
+      i = fOptionsHandlerOptionsGroupsList.begin();
+    i != fOptionsHandlerOptionsGroupsList.end();
     i++) {
     // print the element
     os << (*i);
@@ -1031,7 +1076,7 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
 void msrOptionsHandler::appendOptionsGroup (
   S_msrOptionsGroup optionsGroup)
 {
-  fOptionsGroupHandler.push_back (
+  fOptionsHandlerOptionsGroupsList.push_back (
     optionsGroup);
 }
 
@@ -1042,8 +1087,8 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   
   for (
     list<S_msrOptionsGroup>::const_iterator
-      i = fOptionsGroupHandler.begin();
-    i != fOptionsGroupHandler.end();
+      i = fOptionsHandlerOptionsGroupsList.begin();
+    i != fOptionsHandlerOptionsGroupsList.end();
     i++) {
     // search optiontElementName in the options group
     result =

@@ -111,18 +111,20 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
     endl;
 
   os << idtr <<
-    "Options groups: (" <<
+    "Options groups (" <<
     singularOrPlural (
-      fOptionsGroupHandler.size (), "element",  "elements") <<
-    ")" <<
+      fOptionsHandlerOptionsGroupsList.size (), "element",  "elements") <<
+    "):" <<
     endl;
 
-  if (fOptionsGroupHandler.size ()) {
-    idtr++;
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+    os << endl;
     
+    idtr++;
+
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsGroupHandler.begin(),
-      iEnd   = fOptionsGroupHandler.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
       i      = iBegin;
     for ( ; ; ) {
       // print the element
