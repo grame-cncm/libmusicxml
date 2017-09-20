@@ -170,34 +170,41 @@ void msrOptionsItem::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
-    "OptionsItem ???:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemKind" << " : " <<
-      optionsItemKindAsString (
-        fOptionsItemKind) <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemHasBeenSelected" << " : " <<
-    booleanAsString (
-      fOptionsItemHasBeenSelected) <<
-    endl;
+    idtr <<
+      "OptionsItem ???:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemKind" << " : " <<
+        optionsItemKindAsString (
+          fOptionsItemKind) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemHasBeenSelected" << " : " <<
+      booleanAsString (
+        fOptionsItemHasBeenSelected) <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
 {
-  os <<
-    "OptionsItem ???:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -240,34 +247,43 @@ void msrOptionsBoolItem::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
-    "OptionsBoolItem:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemHasBeenSelected" << " : " <<
-    booleanAsString (
-      fOptionsItemHasBeenSelected) <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsBoolItemVariable" << " : " <<
-    booleanAsString (
-      fOptionsBoolItemVariable) <<
-    endl;
+    idtr <<
+      "OptionsBoolItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemHasBeenSelected" << " : " <<
+      booleanAsString (
+        fOptionsItemHasBeenSelected) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsBoolItemVariable" << " : " <<
+      booleanAsString (
+        fOptionsBoolItemVariable) <<
+      endl;
+
+  idtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt)
 {
-  os <<
-    "OptionsBoolItem:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -313,32 +329,41 @@ void msrOptionsIntItem::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
-    "OptionsIntItem:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemHasBeenSelected" << " : " <<
-    booleanAsString (
-      fOptionsItemHasBeenSelected) <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsIntItemVariable" << " : " << fOptionsIntItemVariable <<
-    endl;
+    idtr <<
+      "OptionsIntItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemHasBeenSelected" << " : " <<
+      booleanAsString (
+        fOptionsItemHasBeenSelected) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsIntItemVariable" << " : " << fOptionsIntItemVariable <<
+      endl;
+
+  idtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt)
 {
-  os <<
-    "OptionsIntItem:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -384,32 +409,41 @@ void msrOptionsFloatItem::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
-    "OptionsFloatItem:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemHasBeenSelected" << " : " <<
-    booleanAsString (
-      fOptionsItemHasBeenSelected) <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsFloatItemVariable" << " : " << fOptionsFloatItemVariable <<
-    endl;
+    idtr <<
+      "OptionsFloatItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemHasBeenSelected" << " : " <<
+      booleanAsString (
+        fOptionsItemHasBeenSelected) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsFloatItemVariable" << " : " << fOptionsFloatItemVariable <<
+      endl;
+
+  idtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt)
 {
-  os <<
-    "OptionsFloatItem:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -452,28 +486,38 @@ msrOptionsStringItem::~msrOptionsStringItem()
 
 void msrOptionsStringItem::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 28;
   
   os <<
-    "OptionsStringItem:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemHasBeenSelected" << " : " <<
-    booleanAsString (
-      fOptionsItemHasBeenSelected) <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsStringItemVariable" << " : " << fOptionsStringItemVariable <<
-    endl;
+    idtr <<
+      "OptionsStringItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemHasBeenSelected" << " : " <<
+      booleanAsString (
+        fOptionsItemHasBeenSelected) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsStringItemVariable" << " : " << fOptionsStringItemVariable <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
@@ -523,35 +567,42 @@ msrOptionsRationalItem::~msrOptionsRationalItem()
 
 void msrOptionsRationalItem::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 28;
   
   os <<
-    "OptionsRationalItem:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsItemHasBeenSelected" << " : " <<
-    booleanAsString (
-      fOptionsItemHasBeenSelected) <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsRationalItemVariable" << " : " << fOptionsRationalItemVariable <<
-    endl;
+    idtr <<
+      "OptionsRationalItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemHasBeenSelected" << " : " <<
+      booleanAsString (
+        fOptionsItemHasBeenSelected) <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsRationalItemVariable" << " : " << fOptionsRationalItemVariable <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt)
 {
-  os <<
-    "OptionsRationalItem:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -607,20 +658,28 @@ S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
 
 void msrOptionsSubGroup::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 27;
   
   os <<
-    "OptionsSubGroup:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl;
+      idtr <<
+     "OptionsSubGroup:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl;
 
   for (
     list<S_msrOptionsItem>::const_iterator
@@ -630,13 +689,12 @@ void msrOptionsSubGroup::print (ostream& os) const
     // print the element
     os << (*i);
   } // for
+
+  idtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
 {
-  os <<
-    "OptionsSubGroup:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -699,20 +757,28 @@ S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
 
 void msrOptionsGroup::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 27;
   
   os <<
-    "OptionsGroup:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl;
+    idtr <<
+      "OptionsGroup:" <<
+      endl;
+
+  idtr++;
+
+  os <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl;
 
   for (
     list<S_msrOptionsSubGroup>::const_iterator
@@ -726,9 +792,6 @@ void msrOptionsGroup::print (ostream& os) const
 
 ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 {
-  os <<
-    "OptionsGroup:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -773,6 +836,7 @@ void msrOptionsGroupsList::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
+    idtr <<
     "OptionsGroupsList:" <<
     endl <<
     setw(fieldWidth) <<
@@ -910,17 +974,25 @@ void msrOptionsHandler::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
+    idtr <<
     "OptionsHandler:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
     endl;
+
+  idtr++;
+  
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl;
 
   for (
     list<S_msrOptionsGroup>::const_iterator
@@ -930,6 +1002,8 @@ void msrOptionsHandler::print (ostream& os) const
     // print the element
     os << (*i);
   } // for
+
+  idtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
@@ -986,6 +1060,27 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   int   argc,
   char* argv[])
 {
+  // print the options elements map  
+  cerr << idtr <<
+    "Options elements map (" <<
+    fOptionsElementsMap.size () <<
+    " elements):" <<
+    endl;
+  if (fOptionsElementsMap.size ()) {
+    idtr++;
+    map<string, S_msrOptionsElement>::const_iterator
+      iBegin = fOptionsElementsMap.begin(),
+      iEnd   = fOptionsElementsMap.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      cerr << (*i).second;
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+    idtr--;
+  }
+  cerr << endl;
+  
   vector<string> argumentsVector;
   
   int n = 0;
@@ -998,7 +1093,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     
     // print current element
     cout <<
-      n << ":" << currentElement <<
+      "Command line elemnt " << n <<
+      ": " <<currentElement << " "<<
       endl;
 
     // handle current element
@@ -1052,6 +1148,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         }
 
       // is currentOptionName known in options elements map?
+      /*
       map<string, S_msrOptionsElement>::const_iterator
         it =
           fOptionsElementsMap.find (currentOptionName);
@@ -1066,12 +1163,29 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           
         optionError (s.str());
       }
+      */
+
+      S_msrOptionsElement
+        optionsElement =
+          fetchOptionElement (currentOptionName);
+
+      if (! optionsElement) {
+        // currentOptionName is unknown to this options handler 
+        stringstream s;
+    
+        s <<
+          "option name '" << currentOptionName <<
+          "' is unknown";
+          
+        optionError (s.str());
+      }
       
       else {
         // currentOptionName is known, let's handle it
+/*
         S_msrOptionsElement
           optionsElement = (*it).second;
-
+*/
         if (
           S_msrOptionsGroup
             optionsGroup =
@@ -1150,37 +1264,22 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
-  // print the options elements map  
-  cerr << idtr <<
-    "Options elements map (" <<
-    fOptionsElementsMap.size () <<
-    " elements):" <<
-    endl;
-  idtr++;
-  map<string, S_msrOptionsElement>::const_iterator
-    iBegin = fOptionsElementsMap.begin(),
-    iEnd   = fOptionsElementsMap.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    cerr << (*i).second;
-    if (++i == iEnd) break;
-    cerr << endl;
-  } // for
-  idtr--;
-  
   // print the arguments vector
   cerr << idtr <<
     "Arguments vector (" <<
     argumentsVector.size () <<
     " elements):" <<
     endl;
-  idtr++;
-  for (unsigned int i = 0; i < argumentsVector.size (); i++) {
-    cerr << idtr <<
-      argumentsVector [i] <<
-      endl;
-  } // for
-  idtr--;
+
+  if (argumentsVector.size ()) {
+    idtr++;
+    for (unsigned int i = 0; i < argumentsVector.size (); i++) {
+      cerr << idtr <<
+        argumentsVector [i] <<
+        endl;
+    } // for
+    idtr--;
+  }
   
   return argumentsVector;
 }

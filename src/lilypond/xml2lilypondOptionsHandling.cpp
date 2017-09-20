@@ -54,7 +54,9 @@ xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)
-{}
+{
+  initializeOptionsHandler ();
+}
 
 xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler()
 {}
@@ -67,24 +69,45 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
       msrMusicXMLOptions::create ();
 
   appendOptionsGroup (musicXMLOptions);
+
+  // print the options handler initial state
+  cerr << idtr <<
+    "xml2lilypondOptionsHandler has been initialized as:" <<
+    endl;
+
+  idtr++;
+
+  print (cerr);
+  cerr <<
+    endl <<
+    endl;
+  
+  idtr--;
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const int fieldWidth = 27;
   
-  os <<
+  os << idtr <<
     "xml2lilypondOptionsHandler:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
     endl;
+
+  idtr++;
+
+  os <<
+    idtr << left <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl;
 
   for (
     list<S_msrOptionsGroup>::const_iterator
@@ -94,13 +117,14 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
     // print the element
     os << (*i);
   } // for
+
+  idtr--;
+  
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt)
 {
-  os <<
-    "xml2lilypondOptionsHandler:" <<
-    endl;
   elt->print (os);
   return os;
 }

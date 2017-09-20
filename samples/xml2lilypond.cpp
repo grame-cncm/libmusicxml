@@ -219,22 +219,23 @@ void analyzeOptionsAndArguments (
   string&        inputFileName,
   string&        outputFileName)
 {
-  cerr << "FOO" << endl;
-  
+  // create the options handler
   S_xml2lilypondOptionsHandler
     optionsHandler =
       xml2lilypondOptionsHandler::create (
         "h", "help",
-        R"(FOO)");
+        R"(Welcome to xml2lilypond)");
 
   optionsHandler->
     print (cerr);
 
+  // analyse the options
   vector<string>
     argumentsVector =
       optionsHandler->
         analyzeOptions (argc, argv);
 
+  // handle the arguments 
   int nonOptionArgsNumber = argumentsVector.size ();
 
   switch (nonOptionArgsNumber)
@@ -3930,13 +3931,11 @@ int main (int argc, char *argv[])
   string    outputFileName;
 
   if (HEAVY) {
-    cerr << "FAA" << endl;
   analyzeOptions_HEAVY (
     argc, argv,
     inputFileName, outputFileName);
   }
   else {
-    cerr << "FEE" << endl;
   analyzeOptionsAndArguments (
     argc, argv,
     inputFileName, outputFileName);
