@@ -240,19 +240,12 @@ string indenter::indentMultiLineString (string value)
   string        line;
   
   while (getline (ss, line)) {
-// JMI   if (line.size ()) {
-      s <<
-        line;
+    s <<  line;
 
     if (ss.eof()) break;
 
-    s<<
-        endl;
- //   }
-    
-    int i = fIndent;
-    while (i-- > 0)
-      s << fSpacer;
+    s << endl;
+    this->print (s);
   } // while
 
   return s.str();
