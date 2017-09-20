@@ -870,7 +870,7 @@ void msrOptionsHandler::registerOptionsElement (
     }
 
     // is optionShortName already in the options names map?
-    if ((*i).second == optionShortName) {
+    if ((*i).first == optionShortName) {
       if (optionShortName.size ()) {
         stringstream s;
     
@@ -1062,9 +1062,9 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         else if (
           S_msrOptionsSubGroup
             optionsSubGroup =
-              dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+              dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
           ) {    
-          optionSubGroup->printHelp (cerr);
+          optionsSubGroup->printHelp (cerr);
         }
         
         else if (
@@ -1082,7 +1082,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
               dynamic_cast<msrOptionsIntItem*>(&(*optionsElement))
           ) {
           optionsIntItem->
-            setIntItemVariableValue (true);
+            setIntItemVariableValue (1999);
         }
         
         else if (
@@ -1091,7 +1091,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
               dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
           ) {
           optionsFloatItem->
-            setFloatItemVariableValue (true);
+            setFloatItemVariableValue (2017.9);
         }
         
         else if (
@@ -1100,7 +1100,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
               dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
           ) {
           optionsStringItem->
-            setStringItemVariableValue (true);
+            setStringItemVariableValue ("september");
         }
         
         else if (
@@ -1109,7 +1109,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
               dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
           ) {
           optionsRationalItem->
-            setRationalItemVariableValue (true);
+            setRationalItemVariableValue (rational (3, 4));
         }
         
         else {
@@ -1123,6 +1123,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         }
       }
     }
+  } // JMI ???
 
     // next please
     n++;
