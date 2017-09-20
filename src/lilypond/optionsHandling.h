@@ -531,11 +531,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  appendOptionsSubGroup (
-                            S_msrOptionsSubGroup optionsSubGroup)
-                              {
-                                fOptionsGroupSubGroupsList.push_back (
-                                  optionsSubGroup);
-                              }
+                            S_msrOptionsSubGroup optionsSubGroup);
         
     S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
@@ -587,11 +583,7 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  appendOptionsGroup (
-                            S_msrOptionsGroup optionsGroup)
-                              {
-                                fOptionsGroupGroupsList.push_back (
-                                  optionsGroup);
-                              }
+                            S_msrOptionsGroup optionsGroup);
         
     S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
@@ -655,11 +647,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
                             S_msrOptionsElement optionsElement);
 
     void                  appendOptionsGroup (
-                            S_msrOptionsGroup optionsGroup)
-                              {
-                                fOptionsGroupHandler.push_back (
-                                  optionsGroup);
-                              }
+                            S_msrOptionsGroup optionsGroup);
 
     S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);

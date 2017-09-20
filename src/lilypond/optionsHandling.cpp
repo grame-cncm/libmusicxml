@@ -669,6 +669,13 @@ msrOptionsGroup::msrOptionsGroup (
 msrOptionsGroup::~msrOptionsGroup()
 {}
 
+void  msrOptionsGroup::appendOptionsSubGroup (
+  S_msrOptionsSubGroup optionsSubGroup)
+{
+  fOptionsGroupSubGroupsList.push_back (
+    optionsSubGroup);
+}
+
 S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
   string optiontElementName)
 {
@@ -753,6 +760,13 @@ msrOptionsGroupsList::msrOptionsGroupsList (
 
 msrOptionsGroupsList::~msrOptionsGroupsList()
 {}
+
+void msrOptionsGroupsList::appendOptionsGroup (
+  S_msrOptionsGroup optionsGroup)
+{
+  fOptionsGroupGroupsList.push_back (
+    optionsGroup);
+}
 
 void msrOptionsGroupsList::print (ostream& os) const
 {
@@ -939,6 +953,13 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
     optionsGroupsList <<
     endl;
     */
+
+void msrOptionsHandler::appendOptionsGroup (
+  S_msrOptionsGroup optionsGroup)
+{
+  fOptionsGroupHandler.push_back (
+    optionsGroup);
+}
 
 S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   string optiontElementName)
