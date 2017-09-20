@@ -57,10 +57,10 @@ msrOptionsElement::msrOptionsElement (
 msrOptionsElement::~msrOptionsElement()
 {}
 
-S_msrOptionElement msrOptionsElement::fetchOptionElement (
+S_msrOptionsElement msrOptionsElement::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionElement result;
+  S_msrOptionsElement result;
 
   if (
     optiontElementName == fOptionsElementShortName
@@ -559,10 +559,10 @@ msrOptionsSubGroup::msrOptionsSubGroup (
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
 
-S_msrOptionElement msrOptionsSubGroup::fetchOptionElement (
+S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionElement result;
+  S_msrOptionsElement result;
   
   for (
     list<S_msrOptionsItem>::const_iterator
@@ -644,10 +644,10 @@ msrOptionsGroup::msrOptionsGroup (
 msrOptionsGroup::~msrOptionsGroup()
 {}
 
-S_msrOptionElement msrOptionsGroup::fetchOptionElement (
+S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionElement result;
+  S_msrOptionsElement result;
   
   for (
     list<S_msrOptionsSubGroup>::const_iterator
@@ -893,10 +893,10 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
     endl;
     */
 
-S_msrOptionElement msrOptionsHandler::fetchOptionElement (
+S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionElement result;
+  S_msrOptionsElement result;
   
   for (
     list<S_msrOptionsGroup>::const_iterator

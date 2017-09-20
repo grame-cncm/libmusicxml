@@ -71,7 +71,7 @@ class EXP msrOptionsElement : public smartable
     string                operator() () const
                               { return fOptionsElementDescription; }
   
-    S_msrOptionElement    fetchOptionElement (
+    S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
     // print
@@ -443,7 +443,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
                                   optionsItem);
                               }
 
-    S_msrOptionElement    fetchOptionElement (
+    S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
     // print
@@ -499,7 +499,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
                                   optionsSubGroup);
                               }
         
-    S_msrOptionElement    fetchOptionElement (
+    S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
     // print
@@ -555,7 +555,7 @@ class EXP msrOptionsGroupsList : public msrOptionsElement
                                   optionsGroup);
                               }
         
-    S_msrOptionElement    fetchOptionElement (
+    S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
     // print
@@ -624,7 +624,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
                                   optionsGroup);
                               }
 
-    S_msrOptionElement    fetchOptionElement (
+    S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
     const vector<string>  analyzeOptions (
