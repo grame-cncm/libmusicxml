@@ -1068,6 +1068,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     endl;
   if (fOptionsElementsMap.size ()) {
     idtr++;
+    
     map<string, S_msrOptionsElement>::const_iterator
       iBegin = fOptionsElementsMap.begin(),
       iEnd   = fOptionsElementsMap.end(),
@@ -1077,6 +1078,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
       if (++i == iEnd) break;
       cerr << endl;
     } // for
+    
     idtr--;
   }
   cerr << endl;
