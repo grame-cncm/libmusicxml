@@ -29,7 +29,7 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
 S_msrOptionsElement msrOptionsElement::create (
@@ -74,6 +74,27 @@ S_msrOptionsElement msrOptionsElement::fetchOptionElement (
   return result;
 }
 
+void msrOptionsElement::printHeader (ostream& os) const
+{
+  os <<
+    idtr <<
+      "-" << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      "-" << fOptionsElementLongName <<
+      endl;
+
+  idtr++; idtr++; idtr++;
+  
+  os <<
+    idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+
+  idtr--; idtr--; idtr--;
+}
+
 void msrOptionsElement::print (ostream& os) const
 {
   os << "??? msrOptionsElement ???" << endl;
@@ -81,27 +102,40 @@ void msrOptionsElement::print (ostream& os) const
 
 void msrOptionsElement::printHelp (ostream& os) const
 {
-  if (fOptionsElementShortName.size ()) {
-    os <<
-      idtr <<
-       fOptionsElementShortName << " ";
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os << idtr <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName;
   }
   
-  if (fOptionsElementLongName.size ()) {
-    os <<
-      idtr <<
-       fOptionsElementLongName << " ";
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os << idtr <<
+      "-" << fOptionsElementShortName;
+    }
+    if (fOptionsElementLongName.size ()) {
+      os << idtr <<
+      "-" << fOptionsElementLongName;
+    }
   }
 
-  os << endl;
-
-  idtr++;
-  
-  os << idtr <<
-    fOptionsElementDescription <<
+  os <<
     endl;
 
-  idtr--;
+  // indent a bit more for readability
+  idtr++; idtr++; idtr++;
+  
+  os << idtr <<
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+
+  idtr--; idtr--; idtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
@@ -707,15 +741,15 @@ void msrOptionsSubGroup::print (ostream& os) const
   os << left <<
     idtr <<
       setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
     endl;
 
@@ -746,14 +780,10 @@ void msrOptionsSubGroup::print (ostream& os) const
   }
 
   idtr--;
-  
-  os << endl;
 }
 
 void msrOptionsSubGroup::printHelp (ostream& os) const
 {
-  const int fieldWidth = 27;
-
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription;
@@ -787,6 +817,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   }
 
   os <<
+    ":" <<
     endl;
 
   if (fOptionsSubGroupItemsList.size ()) {
@@ -807,9 +838,6 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
 
     idtr--;
   }
-  
-  os <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
@@ -906,15 +934,15 @@ void msrOptionsGroup::print (ostream& os) const
   os <<
     idtr <<
       setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
     endl;
 
@@ -935,7 +963,7 @@ void msrOptionsGroup::print (ostream& os) const
       iEnd   = fOptionsGroupSubGroupsList.end(),
       i      = iBegin;
     for ( ; ; ) {
-      // print the subgroup
+      // print the options subgroup
       os << (*i);
       if (++i == iEnd) break;
       cerr << endl;
@@ -945,14 +973,10 @@ void msrOptionsGroup::print (ostream& os) const
   }
 
   idtr--;
-  
-  os << endl;
 }
 
 void msrOptionsGroup::printHelp (ostream& os) const
 {
-  const int fieldWidth = 27;
-
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription;
@@ -986,6 +1010,16 @@ void msrOptionsGroup::printHelp (ostream& os) const
   }
 
   os <<
+    ":" <<
+    endl;
+
+  // underline the options group header
+  os <<
+    idtr;
+  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
+    os << "-";
+  } // for
+  os <<
     endl;
 
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -1006,9 +1040,6 @@ void msrOptionsGroup::printHelp (ostream& os) const
 
     idtr--;
   }
-  
-  os <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
@@ -1148,33 +1179,41 @@ void msrOptionsHandler::print (ostream& os) const
   os << left <<
     idtr <<
       setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl;
 
-  for (
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+    
     list<S_msrOptionsGroup>::const_iterator
-      i = fOptionsHandlerOptionsGroupsList.begin();
-    i != fOptionsHandlerOptionsGroupsList.end();
-    i++) {
-    // print the element
-    os << (*i);
-  } // for
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group
+      os << (*i);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
 
   idtr--;
 }
 
 void msrOptionsHandler::printHelp (ostream& os) const
 {
-  const int fieldWidth = 27;
-
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription;
@@ -1208,6 +1247,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
   }
 
   os <<
+    ":" <<
     endl;
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
@@ -1271,7 +1311,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   int   argc,
   char* argv[])
 {
-  if (TRACE_OPTIONS) {
+  if (true || TRACE_OPTIONS) {
     // print the options elements map  
     cerr << idtr <<
       "Options elements map (" <<
@@ -1286,14 +1326,15 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         iEnd   = fOptionsElementsMap.end(),
         i      = iBegin;
       for ( ; ; ) {
-        cerr << (*i).second;
+        (*i).second->printHeader (cerr);
         if (++i == iEnd) break;
         cerr << endl;
       } // for
       
       idtr--;
     }
-    cerr << endl;
+    cerr <<
+      endl;
   }
   
   vector<string> argumentsVector;

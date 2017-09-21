@@ -31,7 +31,7 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
 S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
@@ -92,7 +92,7 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   this->
     registerOptionsHandlerInSelf ();
 
-  if (TRACE_OPTIONS) {
+  if (true || TRACE_OPTIONS) { // JMI
     cerr << idtr <<
       "xml2lilypondOptionsHandler help:" <<
       endl;

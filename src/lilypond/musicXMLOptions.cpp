@@ -60,7 +60,7 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
   S_msrOptionsSubGroup traceAndDisplaySubGroup =
     msrOptionsSubGroup::create (
     "hmxmltd", "helpMusicXMLTraceAndDisplay",
-R"(help for trace and display)"
+R"(Trace and display)"
     );
 
   appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -78,7 +78,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
   S_msrOptionsSubGroup otherSubGroup =
     msrOptionsSubGroup::create (
     "hmxmlo", "helpMusicXMLOther",
-R"(other)"
+R"(Other)"
     );
 
   appendOptionsSubGroup (otherSubGroup);
@@ -86,8 +86,8 @@ R"(other)"
   otherSubGroup->
     appendOptionsItem (
       msrOptionsBoolItem::create (
-        "ime", "ingoreMusicXMLErrors",
-R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
+        "ime", "ignoreMusicXMLErrors",
+R"(Don't stop the translation after issuing a MusicXML error message.)",
         fIgnoreMusicXMLErrors));
 
   otherSubGroup->

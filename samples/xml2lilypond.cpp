@@ -224,10 +224,7 @@ void analyzeOptionsAndArguments (
     optionsHandler =
       xml2lilypondOptionsHandler::create (
         "h", "help",
-        R"(Welcome to xml2lilypond)");
-
-  optionsHandler->
-    print (cerr);
+        R"(All options)");
 
   // analyse the options
   vector<string>

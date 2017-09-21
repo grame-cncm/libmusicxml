@@ -920,7 +920,7 @@ void optionError (string errorMessage)
     endl <<
     endl;
     
-  exit(99);
+  abort(); // JMI
 }
 
 //______________________________________________________________________________
