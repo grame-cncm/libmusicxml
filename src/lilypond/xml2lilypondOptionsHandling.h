@@ -62,8 +62,6 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
 
     void                  print (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
-
   private:
 };
 typedef SMARTP<xml2lilypondOptionsHandler> S_xml2lilypondOptionsHandler;

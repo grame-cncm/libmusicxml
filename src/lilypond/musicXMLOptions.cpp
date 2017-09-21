@@ -42,7 +42,7 @@ S_msrMusicXMLOptions msrMusicXMLOptions::create ()
 msrMusicXMLOptions::msrMusicXMLOptions ()
   : msrOptionsGroup (
     "hmxml", "helpMusicXML",
-R"(Options to control the handling of MusicXML input)"
+R"(MusicXML)"
     )
 {
   initializeMusicXMLOptions (false);
