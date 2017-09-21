@@ -246,6 +246,14 @@ void msrOptionsItem::print (ostream& os) const
       endl;
 }
 
+void msrOptionsItem::printOptionsValues (ostream& os) const
+{  
+  os <<
+    idtr <<
+      "OptionsItem values ???:" <<
+      endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
 {
   elt->print (os);
@@ -340,6 +348,48 @@ void msrOptionsBoolItem::print (ostream& os) const
   idtr--;
 }
 
+void msrOptionsBoolItem::printOptionsValues (ostream& os) const
+{
+  const int fieldWidth = 40;
+  
+  os << left <<
+  /* JMI
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " :" <<
+      endl;
+
+  idtr++;
+  os <<
+    idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+  idtr--;
+
+  os << left <<
+  */
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsBoolItemVariableDisplayName" << " : " <<
+      fOptionsBoolItemVariableDisplayName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsBoolItemVariable" << " : " <<
+      booleanAsString (
+        fOptionsBoolItemVariable) <<
+      endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt)
 {
   elt->print (os);
@@ -423,6 +473,36 @@ void msrOptionsIntItem::print (ostream& os) const
       endl;
 
   idtr--;
+}
+
+void msrOptionsIntItem::printOptionsValues (ostream& os) const
+{
+  const int fieldWidth = 40;
+  
+  os << left <<
+  /* JMI
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+      */
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsIntItemVariableDisplayName" << " : " <<
+      fOptionsIntItemVariableDisplayName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsIntItemVariable" << " : " << fOptionsIntItemVariable <<
+      endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt)
@@ -510,6 +590,36 @@ void msrOptionsFloatItem::print (ostream& os) const
   idtr--;
 }
 
+void msrOptionsFloatItem::printOptionsValues (ostream& os) const
+{
+  const int fieldWidth = 40;
+  
+  os << left <<
+    idtr <<
+    /* JMI
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+      */
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsFloatItemVariableDisplayName" << " : " <<
+      fOptionsFloatItemVariableDisplayName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsFloatItemVariable" << " : " << fOptionsFloatItemVariable <<
+      endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt)
 {
   elt->print (os);
@@ -582,6 +692,36 @@ void msrOptionsStringItem::print (ostream& os) const
       setw(fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsStringItemVariableDisplayName" << " : " <<
+      fOptionsStringItemVariableDisplayName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsStringItemVariable" << " : " << fOptionsStringItemVariable <<
+      endl;
+}
+
+void msrOptionsStringItem::printOptionsValues (ostream& os) const
+{
+  const int fieldWidth = 40;
+  
+  os << left <<
+  /* JMI
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+      */
     idtr <<
       setw(fieldWidth) <<
       "fOptionsStringItemVariableDisplayName" << " : " <<
@@ -668,6 +808,36 @@ void msrOptionsRationalItem::print (ostream& os) const
       setw(fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsRationalItemVariableDisplayName" << " : " <<
+      fOptionsRationalItemVariableDisplayName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsRationalItemVariable" << " : " << fOptionsRationalItemVariable <<
+      endl;
+}
+
+void msrOptionsRationalItem::printOptionsValues (ostream& os) const
+{
+  const int fieldWidth = 40;
+  
+  os << left <<
+  /* JMI
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+      */
     idtr <<
       setw(fieldWidth) <<
       "fOptionsRationalItemVariableDisplayName" << " : " <<
@@ -857,6 +1027,64 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
     for ( ; ; ) {
       // print the options item help
       (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+}
+
+void msrOptionsSubGroup::printOptionsValues (ostream& os) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+
+  os <<
+    ":" <<
+    endl;
+
+  if (fOptionsSubGroupItemsList.size ()) {
+    os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsSubGroupItemsList.begin(),
+      iEnd   = fOptionsSubGroupItemsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options item values
+      (*i)->printOptionsValues (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -1059,6 +1287,73 @@ void msrOptionsGroup::printHelp (ostream& os) const
     for ( ; ; ) {
       // print the options subgroup help
       (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+}
+
+void msrOptionsGroup::printOptionsValues (ostream& os) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+
+  os <<
+    ":" <<
+    endl;
+
+  // underline the options group header
+  os <<
+    idtr;
+  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
+    os << "-";
+  } // for
+  os <<
+    endl;
+
+  if (fOptionsGroupSubGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsSubGroup>::const_iterator
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup values
+      (*i)->printOptionsValues (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -1298,6 +1593,67 @@ void msrOptionsHandler::printHelp (ostream& os) const
     endl;
 }
 
+void msrOptionsHandler::printOptionsValues (ostream& os) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+
+  os <<
+    ":" <<
+    endl;
+
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsGroup>::const_iterator
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group values
+      (*i)->printOptionsValues (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+  
+  os <<
+    endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
 {
   elt->print (os);
@@ -1447,130 +1803,145 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           }
         }
 
-      // is currentOptionName known in options elements map?
-      map<string, S_msrOptionsElement>::const_iterator
-        it =
-          fOptionsElementsMap.find (currentOptionName);
-            
-      if (it == fOptionsElementsMap.end ()) {
-        // no, currentOptionName is unknown in the map    
-        stringstream s;
-    
-        s <<
-          "option name '" << currentOptionName <<
-          "' is unknown";
-          
-        optionError (s.str());
-      }
-
-      S_msrOptionsElement
-        optionsElement = (*it).second;
-        
-   // JMI       fetchOptionElement (currentOptionName);
-
-      if (! optionsElement) {
-        // currentOptionName is unknown to this options handler 
-        stringstream s;
-    
-        s <<
-          "option name '" << currentOptionName <<
-          "' is unknown";
-          
-        optionError (s.str());
-      }
-      
-      else {
-        // currentOptionName is known, let's handle it
-/*
-        S_msrOptionsElement
-          optionsElement = (*it).second;
-*/
-        if (
-          S_msrOptionsHandler
-            optionsHandler =
-              dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
-          ) {    
-          optionsHandler->printHelp (cerr);
-        }
-        
-        else if (
-          S_msrOptionsGroup
-            optionsGroup =
-              dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
-          ) {    
-          optionsGroup->printHelp (cerr);
-        }
-        
-        else if (
-          S_msrOptionsSubGroup
-            optionsSubGroup =
-              dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
-          ) {    
-          optionsSubGroup->printHelp (cerr);
-        }
-        
-        else if (
-          S_msrOptionsBoolItem
-            optionsBoolItem =
-              dynamic_cast<msrOptionsBoolItem*>(&(*optionsElement))
-          ) {
-          optionsBoolItem->
-            setBoolItemVariableValue (true);
-        }
-        
-        else if (
-          S_msrOptionsIntItem
-            optionsIntItem =
-              dynamic_cast<msrOptionsIntItem*>(&(*optionsElement))
-          ) {
-          optionsIntItem->
-            setIntItemVariableValue (1999);
-        }
-        
-        else if (
-          S_msrOptionsFloatItem
-            optionsFloatItem =
-              dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
-          ) {
-          optionsFloatItem->
-            setFloatItemVariableValue (2017.9);
-        }
-        
-        else if (
-          S_msrOptionsStringItem
-            optionsStringItem =
-              dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
-          ) {
-          optionsStringItem->
-            setStringItemVariableValue ("september");
-        }
-        
-        else if (
-          S_msrOptionsRationalItem
-            optionsRationalItem =
-              dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
-          ) {
-          optionsRationalItem->
-            setRationalItemVariableValue (rational (3, 4));
-        }
-        
-        else {
+        // is currentOptionName known in options elements map?
+        map<string, S_msrOptionsElement>::const_iterator
+          it =
+            fOptionsElementsMap.find (currentOptionName);
+              
+        if (it == fOptionsElementsMap.end ()) {
+          // no, currentOptionName is unknown in the map    
           stringstream s;
       
           s <<
             "option name '" << currentOptionName <<
-            "' is known but cannot be handled";
+            "' is unknown";
             
           optionError (s.str());
         }
+  
+        S_msrOptionsElement
+          optionsElement = (*it).second;
+          
+     // JMI       fetchOptionElement (currentOptionName);
+  
+        if (! optionsElement) {
+          // currentOptionName is unknown to this options handler 
+          stringstream s;
+      
+          s <<
+            "option name '" << currentOptionName <<
+            "' is unknown";
+            
+          optionError (s.str());
+        }
+        
+        else {
+          // currentOptionName is known, let's handle it
+  /*
+          S_msrOptionsElement
+            optionsElement = (*it).second;
+  */
+          if (
+            S_msrOptionsHandler
+              optionsHandler =
+                dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
+            ) {    
+            optionsHandler->printHelp (cerr);
+          }
+          
+          else if (
+            S_msrOptionsGroup
+              optionsGroup =
+                dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+            ) {    
+            optionsGroup->printHelp (cerr);
+          }
+          
+          else if (
+            S_msrOptionsSubGroup
+              optionsSubGroup =
+                dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+            ) {    
+            optionsSubGroup->printHelp (cerr);
+          }
+          
+          else if (
+            S_msrOptionsBoolItem
+              optionsBoolItem =
+                dynamic_cast<msrOptionsBoolItem*>(&(*optionsElement))
+            ) {
+            optionsBoolItem->
+              setBoolItemVariableValue (true);
+          }
+          
+          else if (
+            S_msrOptionsIntItem
+              optionsIntItem =
+                dynamic_cast<msrOptionsIntItem*>(&(*optionsElement))
+            ) {
+            optionsIntItem->
+              setIntItemVariableValue (1999);
+          }
+          
+          else if (
+            S_msrOptionsFloatItem
+              optionsFloatItem =
+                dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+            ) {
+            optionsFloatItem->
+              setFloatItemVariableValue (2017.9);
+          }
+          
+          else if (
+            S_msrOptionsStringItem
+              optionsStringItem =
+                dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+            ) {
+            optionsStringItem->
+              setStringItemVariableValue ("september");
+          }
+          
+          else if (
+            S_msrOptionsRationalItem
+              optionsRationalItem =
+                dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+            ) {
+            optionsRationalItem->
+              setRationalItemVariableValue (rational (3, 4));
+          }
+          
+          else {
+            stringstream s;
+        
+            s <<
+              "option name '" << currentOptionName <<
+              "' is known but cannot be handled";
+              
+            optionError (s.str());
+          }
+        }
       }
     }
-  }
 
     // next please
     n++;
   } // while
 
+  if (true || TRACE_OPTIONS) {
+    // print the options values
+    cerr <<
+      "Options values:";
+
+    idtr++;
+    
+    this->
+      printOptionsValues (cerr);
+    cerr <<
+      endl;
+
+    idtr--;
+  }
+  
   if (TRACE_OPTIONS) {
     // print the arguments vector
     cerr << idtr <<
