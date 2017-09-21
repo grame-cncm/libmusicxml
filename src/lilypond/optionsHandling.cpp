@@ -276,7 +276,6 @@ msrOptionsBoolItem::msrOptionsBoolItem (
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsBoolItemVariableDisplayName,
-  string optionsBoolItemVariableDisplayName,
   bool&  optionsBoolItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
@@ -353,8 +352,8 @@ S_msrOptionsIntItem msrOptionsIntItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  int&               optionsIntItemVariable,
   string             optionsIntItemVariableDisplayName,
+  int&               optionsIntItemVariable,
   msrOptionsItemKind optionsItemKind)
 {
   msrOptionsIntItem* o = new
@@ -382,7 +381,7 @@ msrOptionsIntItem::msrOptionsIntItem (
       optionsItemDescription,
       optionsItemKind),
     fOptionsIntItemVariable (
-      optionsIntItemVariable)
+      optionsIntItemVariable),
     fOptionsIntItemVariableDisplayName (
       optionsIntItemVariableDisplayName)
 {}
@@ -468,7 +467,7 @@ msrOptionsFloatItem::msrOptionsFloatItem (
       optionsItemDescription,
       optionsItemKind),
     fOptionsFloatItemVariableDisplayName (
-      optionsFloatItemVariableDisplayName)
+      optionsFloatItemVariableDisplayName),
     fOptionsFloatItemVariable (
       optionsFloatItemVariable)
 {}
@@ -554,7 +553,7 @@ msrOptionsStringItem::msrOptionsStringItem (
       optionsItemDescription,
       optionsItemKind),
     fOptionsStringItemVariableDisplayName (
-      optionsStringItemVariableDisplayName)
+      optionsStringItemVariableDisplayName),
     fOptionsStringItemVariable (
       optionsStringItemVariable)
 {}
@@ -641,7 +640,7 @@ msrOptionsRationalItem::msrOptionsRationalItem (
       optionsItemDescription,
       optionsItemKind),
     fOptionsRationalItemVariableDisplayName (
-      optionsRationalItemVariableDisplayName)
+      optionsRationalItemVariableDisplayName),
     fOptionsRationalItemVariable (
       optionsRationalItemVariable)
 {}

@@ -229,7 +229,7 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
 
   private:
   
-    string                fOptionsBoolItemVariableDisplayName,
+    string                fOptionsBoolItemVariableDisplayName;
     bool&                 fOptionsBoolItemVariable;
 };
 typedef SMARTP<msrOptionsBoolItem> S_msrOptionsBoolItem;
@@ -296,7 +296,7 @@ class EXP msrOptionsIntItem : public msrOptionsItem
 
   private:
   
-    string                fOptionsIntItemVariableDisplayName,
+    string                fOptionsIntItemVariableDisplayName;
     int&                  fOptionsIntItemVariable;
 };
 typedef SMARTP<msrOptionsIntItem> S_msrOptionsIntItem;
@@ -360,7 +360,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
 
   private:
   
-    string                fOptionsFloatItemVariableDisplayName,
+    string                fOptionsFloatItemVariableDisplayName;
     float&                fOptionsFloatItemVariable;
 };
 typedef SMARTP<msrOptionsFloatItem> S_msrOptionsFloatItem;
@@ -424,7 +424,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
 
   private:
   
-    string                fOptionsStringItemVariableDisplayName,
+    string                fOptionsStringItemVariableDisplayName;
     string&               fOptionsStringItemVariable;
 };
 typedef SMARTP<msrOptionsStringItem> S_msrOptionsStringItem;
@@ -488,7 +488,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
 
   private:
   
-    string                fOptionsRationalItemVariableDisplayName,
+    string                fOptionsRationalItemVariableDisplayName;
     rational&             fOptionsRationalItemVariable;
 };
 typedef SMARTP<msrOptionsRationalItem> S_msrOptionsRationalItem;
