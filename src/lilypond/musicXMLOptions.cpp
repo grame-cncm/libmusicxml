@@ -70,7 +70,7 @@ R"(Trace and display)"
       msrOptionsBoolItem::create (
         "tmxtvisits", "traceMusicXMLTreeVisitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
-        "fTraceMusicXMLTreeVisitors",
+        "traceMusicXMLTreeVisitors",
         fTraceMusicXMLTreeVisitors));
 
   // other
@@ -89,7 +89,7 @@ R"(Other)"
       msrOptionsBoolItem::create (
         "ime", "ignoreMusicXMLErrors",
 R"(Don't stop the translation after issuing a MusicXML error message.)",
-        "fIgnoreMusicXMLErrors",
+        "ignoreMusicXMLErrors",
         fIgnoreMusicXMLErrors));
 
   otherSubGroup->
@@ -98,7 +98,7 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
         "loop", "loopToMusicXML",
 R"(Close the loop, generating a MusicXML file from the MSR. 
 The file name receives a '_loop' suffix. Currently under development.)",
-        "fLoopToMusicXML",
+        "loopToMusicXML",
         fLoopToMusicXML));
 
   // trace and display

@@ -949,6 +949,7 @@ void msrOptionsSubGroup::printOptionsValues (
   os << idtr <<
     fOptionsElementDescription;
 
+/* JMI
   if (
     fOptionsElementShortName.size ()
         &&
@@ -976,13 +977,14 @@ void msrOptionsSubGroup::printOptionsValues (
       ")";
     }
   }
+  */
 
   os <<
     ":" <<
     endl;
 
   if (fOptionsSubGroupItemsList.size ()) {
-    os << endl;
+  // JMI  os << endl;
     
     idtr++;
 
@@ -996,7 +998,7 @@ void msrOptionsSubGroup::printOptionsValues (
         printOptionsValues (
           os, valueFieldWidth);
       if (++i == iEnd) break;
-      cerr << endl;
+  //    cerr << endl;
     } // for
 
     idtr--;
@@ -1213,6 +1215,7 @@ void msrOptionsGroup::printOptionsValues (
   os << idtr <<
     fOptionsElementDescription;
 
+/* JMI
   if (
     fOptionsElementShortName.size ()
         &&
@@ -1240,11 +1243,12 @@ void msrOptionsGroup::printOptionsValues (
       ")";
     }
   }
-
+*/
   os <<
     ":" <<
     endl;
 
+/* JMI
   // underline the options group header
   os <<
     idtr;
@@ -1253,9 +1257,10 @@ void msrOptionsGroup::printOptionsValues (
   } // for
   os <<
     endl;
+*/
 
   if (fOptionsGroupSubGroupsList.size ()) {
-    os << endl;
+ // JMI   os << endl;
     
     idtr++;
 
@@ -1269,7 +1274,7 @@ void msrOptionsGroup::printOptionsValues (
         printOptionsValues (
           os, valueFieldWidth);
       if (++i == iEnd) break;
-      cerr << endl;
+// JMI      cerr << endl;
     } // for
 
     idtr--;
@@ -1485,7 +1490,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
     endl;
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
-    os << endl;
+  // JMI  os << endl;
     
     idtr++;
 
@@ -1515,6 +1520,7 @@ void msrOptionsHandler::printOptionsValues (
   os << idtr <<
     fOptionsElementDescription;
 
+/* JMI
   if (
     fOptionsElementShortName.size ()
         &&
@@ -1542,7 +1548,7 @@ void msrOptionsHandler::printOptionsValues (
       ")";
     }
   }
-
+*/
   os <<
     ":" <<
     endl;
@@ -1848,7 +1854,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   if (true || TRACE_OPTIONS) {
     // print the options values
     cerr <<
-      "Options values:";
+      "Options values:" <<
+      endl;
 
     idtr++;
     
