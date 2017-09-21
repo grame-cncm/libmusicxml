@@ -752,25 +752,48 @@ void msrOptionsSubGroup::print (ostream& os) const
 
 void msrOptionsSubGroup::printHelp (ostream& os) const
 {
-  if (fOptionsElementShortName.size ()) {
-    os <<
-      idtr <<
-       fOptionsElementShortName << " ";
+  const int fieldWidth = 27;
+
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
   }
   
-  if (fOptionsElementLongName.size ()) {
-    os <<
-      idtr <<
-       fOptionsElementLongName << " ";
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
   }
 
-  os << endl;
+  os <<
+    endl;
 
   if (fOptionsSubGroupItemsList.size ()) {
     os << endl;
     
     idtr++;
-  
+
     list<S_msrOptionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin(),
       iEnd   = fOptionsSubGroupItemsList.end(),
@@ -784,10 +807,9 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
 
     idtr--;
   }
-
-  idtr--;
-
-  os << endl;
+  
+  os <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
