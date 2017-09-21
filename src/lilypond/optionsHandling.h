@@ -164,7 +164,9 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     void                  print (ostream& os) const;
 
-    virtual void          printOptionsValues (ostream& os) const;
+    virtual void          printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   protected:
 
@@ -229,7 +231,9 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   private:
   
@@ -298,8 +302,9 @@ class EXP msrOptionsIntItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
-
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
   private:
   
     string                fOptionsIntItemVariableDisplayName;
@@ -364,7 +369,9 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   private:
   
@@ -430,7 +437,9 @@ class EXP msrOptionsStringItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   private:
   
@@ -496,7 +505,9 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   private:
   
@@ -559,7 +570,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   private:
   
@@ -618,7 +631,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   private:
 
@@ -692,7 +707,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printOptionsValues (ostream& os) const;
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   protected:
 
