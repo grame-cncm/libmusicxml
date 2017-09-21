@@ -154,6 +154,9 @@ class EXP msrOptionsItem : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
+    void                  registerOptionsItemInHandler (
+                            S_msrOptionsHandler optionsHandler);
+
     // print
     // ------------------------------------------------------
 
@@ -477,6 +480,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
+    void                  registerOptionsSubGroupInHandler (
+                            S_msrOptionsHandler optionsHandler);
+
     void                  appendOptionsItem (
                             S_msrOptionsItem optionsItem)
                               {
@@ -532,6 +538,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     // services
     // ------------------------------------------------------
+
+    void                  registerOptionsGroupInHandler (
+                            S_msrOptionsHandler optionsHandler);
 
     void                  appendOptionsSubGroup (
                             S_msrOptionsSubGroup optionsSubGroup);
@@ -594,9 +603,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    void                  registerOptionsElementInHandler ( // protected ???
-                            S_msrOptionsElement optionsElement,
-                            S_msrOptionsHandler optionsHandler);
+    void                  registerOptionsHandlerInSelf ();
+
+    void                  registerOptionsElementNamesInHandler (
+                            S_msrOptionsElement optionsElement);
 
     void                  appendOptionsGroup (
                             S_msrOptionsGroup optionsGroup);

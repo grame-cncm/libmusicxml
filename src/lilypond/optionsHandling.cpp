@@ -167,6 +167,13 @@ string msrOptionsItem::optionsItemKindAsString (
   return result;
 }  
 
+void msrOptionsItem::registerOptionsItemInHandler (
+  S_msrOptionsHandler optionsHandler)
+{
+  optionsHandler->
+    registerOptionsElementNamesInHandler (this);
+}
+
 void msrOptionsItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
@@ -647,6 +654,24 @@ msrOptionsSubGroup::msrOptionsSubGroup (
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
 
+void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
+  S_msrOptionsHandler optionsHandler)
+{
+  optionsHandler->
+    registerOptionsElementNamesInHandler (this);
+
+  for (
+    list<S_msrOptionsItem>::const_iterator
+      i = fOptionsSubGroupItemsList.begin();
+    i != fOptionsSubGroupItemsList.end();
+    i++) {
+    // register the options sub group
+    (*i)->
+      registerOptionsItemInHandler (
+        optionsHandler);
+  } // for
+}
+
 S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
   string optiontElementName)
 {
@@ -758,6 +783,24 @@ msrOptionsGroup::msrOptionsGroup (
 
 msrOptionsGroup::~msrOptionsGroup()
 {}
+
+void msrOptionsGroup::registerOptionsGroupInHandler (
+  S_msrOptionsHandler optionsHandler)
+{
+  optionsHandler->
+    registerOptionsElementNamesInHandler (this);
+
+  for (
+    list<S_msrOptionsSubGroup>::const_iterator
+      i = fOptionsGroupSubGroupsList.begin();
+    i != fOptionsGroupSubGroupsList.end();
+    i++) {
+    // register the options sub group
+    (*i)->
+      registerOptionsSubGroupInHandler (
+        optionsHandler);
+  } // for
+}
 
 void  msrOptionsGroup::appendOptionsSubGroup (
   S_msrOptionsSubGroup optionsSubGroup)
@@ -880,9 +923,25 @@ msrOptionsHandler::msrOptionsHandler (
 msrOptionsHandler::~msrOptionsHandler()
 {}
 
-void msrOptionsHandler::registerOptionsElementInHandler (
-  S_msrOptionsElement optionsElement,
-  S_msrOptionsHandler optionsHandler)
+void msrOptionsHandler::registerOptionsHandlerInSelf ()
+{
+  this->
+    registerOptionsElementNamesInHandler (this);
+
+  for (
+    list<S_msrOptionsGroup>::const_iterator
+      i = fOptionsHandlerOptionsGroupsList.begin();
+    i != fOptionsHandlerOptionsGroupsList.end();
+    i++) {
+    // register the options group
+    (*i)->
+      registerOptionsGroupInHandler (
+        this);
+  } // for
+}
+
+void msrOptionsHandler::registerOptionsElementNamesInHandler (
+  S_msrOptionsElement optionsElement)
 {
   string
     optionLongName =
@@ -911,7 +970,6 @@ void msrOptionsHandler::registerOptionsElementInHandler (
       
     optionError (s.str());
   }
-  
   for (
     map<string, S_msrOptionsElement>::iterator i =
       fOptionsElementsMap.begin();
