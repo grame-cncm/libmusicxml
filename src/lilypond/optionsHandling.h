@@ -498,6 +498,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  print (ostream& os) const;
 
+    void                  printHelp (ostream& os) const;
+
   private:
   
     list<S_msrOptionsItem>
@@ -552,6 +554,8 @@ class EXP msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os) const;
 
   private:
 
@@ -622,6 +626,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os) const;
 
   protected:
 

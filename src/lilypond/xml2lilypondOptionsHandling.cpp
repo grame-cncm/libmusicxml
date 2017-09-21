@@ -31,6 +31,8 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
+#define TRACE_OPTIONS 1
+
 //______________________________________________________________________________
 S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
   string optionHandlerShortName,
@@ -70,23 +72,34 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
   appendOptionsGroup (musicXMLOptions);
 
-  // print the options handler initial state
-  cerr << idtr <<
-    "xml2lilypondOptionsHandler has been initialized as:" <<
-    endl;
-
-  idtr++;
-
-  print (cerr);
-  cerr <<
-    endl <<
-    endl;
+  if (TRACE_OPTIONS) {
+    // print the options handler initial state
+    cerr << idtr <<
+      "xml2lilypondOptionsHandler has been initialized as:" <<
+      endl;
   
-  idtr--;
+    idtr++;
+  
+    print (cerr);
+    cerr <<
+      endl <<
+      endl;
+    
+    idtr--;
+  }
 
   // register options handler in itself
   this->
     registerOptionsHandlerInSelf ();
+
+  if (TRACE_OPTIONS) {
+    cerr << idtr <<
+      "xml2lilypondOptionsHandler help:" <<
+      endl;
+
+    this->
+      printHelp (cerr);
+  }
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const

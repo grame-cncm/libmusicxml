@@ -736,7 +736,7 @@ void msrOptionsSubGroup::print (ostream& os) const
       iEnd   = fOptionsSubGroupItemsList.end(),
       i      = iBegin;
     for ( ; ; ) {
-      // print the item
+      // print the options item
       os << (*i);
       if (++i == iEnd) break;
       cerr << endl;
@@ -747,6 +747,46 @@ void msrOptionsSubGroup::print (ostream& os) const
 
   idtr--;
   
+  os << endl;
+}
+
+void msrOptionsSubGroup::printHelp (ostream& os) const
+{
+  if (fOptionsElementShortName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementShortName << " ";
+  }
+  
+  if (fOptionsElementLongName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementLongName << " ";
+  }
+
+  os << endl;
+
+  if (fOptionsSubGroupItemsList.size ()) {
+    os << endl;
+    
+    idtr++;
+  
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsSubGroupItemsList.begin(),
+      iEnd   = fOptionsSubGroupItemsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options item help
+      (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+
+  idtr--;
+
   os << endl;
 }
 
@@ -884,6 +924,46 @@ void msrOptionsGroup::print (ostream& os) const
 
   idtr--;
   
+  os << endl;
+}
+
+void msrOptionsGroup::printHelp (ostream& os) const
+{
+  if (fOptionsElementShortName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementShortName << " ";
+  }
+  
+  if (fOptionsElementLongName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementLongName << " ";
+  }
+
+  os << endl;
+
+  if (fOptionsGroupSubGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+  
+    list<S_msrOptionsSubGroup>::const_iterator
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup help
+      (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+
+  idtr--;
+
   os << endl;
 }
 
@@ -1045,6 +1125,46 @@ void msrOptionsHandler::print (ostream& os) const
   } // for
 
   idtr--;
+}
+
+void msrOptionsHandler::printHelp (ostream& os) const
+{
+  if (fOptionsElementShortName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementShortName << " ";
+  }
+  
+  if (fOptionsElementLongName.size ()) {
+    os <<
+      idtr <<
+       fOptionsElementLongName << " ";
+  }
+
+  os << endl;
+
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+  
+    list<S_msrOptionsGroup>::const_iterator
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group help
+      (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+
+  idtr--;
+
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
