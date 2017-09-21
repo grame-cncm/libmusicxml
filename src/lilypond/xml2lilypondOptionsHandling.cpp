@@ -83,6 +83,10 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
     endl;
   
   idtr--;
+
+  // register options handler in itself
+  registerOptionsElementInHandler (
+    this, this);
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const

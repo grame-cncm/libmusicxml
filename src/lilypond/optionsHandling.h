@@ -32,6 +32,9 @@ namespace MusicXML2
 class msrOptionsElement;
 typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
 
+class msrOptionsHandler;
+typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
+
 //______________________________________________________________________________
 class EXP msrOptionsElement : public smartable
 {
@@ -643,8 +646,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    void                  registerOptionsElement ( // protected ???
-                            S_msrOptionsElement optionsElement);
+    void                  registerOptionsElementInHandler ( // protected ???
+                            S_msrOptionsElement optionsElement,
+                            S_msrOptionsHandler optionsHandler);
 
     void                  appendOptionsGroup (
                             S_msrOptionsGroup optionsGroup);

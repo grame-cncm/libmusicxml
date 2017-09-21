@@ -29,6 +29,8 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
+#define TRACE_OPTIONS 1
+
 //______________________________________________________________________________
 S_msrOptionsElement msrOptionsElement::create (
   string optionsElementShortName,
@@ -951,7 +953,8 @@ msrOptionsHandler::~msrOptionsHandler()
 {}
 
 void msrOptionsHandler::registerOptionsElement (
-  S_msrOptionsElement optionsElement)
+  S_msrOptionsElement optionsElement,
+  S_msrOptionsHandler optionsHandler)
 {
   string
     optionLongName =
@@ -1112,28 +1115,30 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   int   argc,
   char* argv[])
 {
-  // print the options elements map  
-  cerr << idtr <<
-    "Options elements map (" <<
-    fOptionsElementsMap.size () <<
-    " elements):" <<
-    endl;
-  if (fOptionsElementsMap.size ()) {
-    idtr++;
-    
-    map<string, S_msrOptionsElement>::const_iterator
-      iBegin = fOptionsElementsMap.begin(),
-      iEnd   = fOptionsElementsMap.end(),
-      i      = iBegin;
-    for ( ; ; ) {
-      cerr << (*i).second;
-      if (++i == iEnd) break;
-      cerr << endl;
-    } // for
-    
-    idtr--;
+  if (TRACE_OPTIONS) {
+    // print the options elements map  
+    cerr << idtr <<
+      "Options elements map (" <<
+      fOptionsElementsMap.size () <<
+      " elements):" <<
+      endl;
+    if (fOptionsElementsMap.size ()) {
+      idtr++;
+      
+      map<string, S_msrOptionsElement>::const_iterator
+        iBegin = fOptionsElementsMap.begin(),
+        iEnd   = fOptionsElementsMap.end(),
+        i      = iBegin;
+      for ( ; ; ) {
+        cerr << (*i).second;
+        if (++i == iEnd) break;
+        cerr << endl;
+      } // for
+      
+      idtr--;
+    }
+    cerr << endl;
   }
-  cerr << endl;
   
   vector<string> argumentsVector;
   
@@ -1145,19 +1150,24 @@ const vector<string> msrOptionsHandler::analyzeOptions (
 
     string currentElement = string (argv [n]);
     
-    // print current element
-    cout <<
-      "Command line elemnt " << n <<
-      ": " <<currentElement << " "<<
-      endl;
+    if (TRACE_OPTIONS) {
+      // print current element
+      cerr <<
+        "Command line elemnt " << n <<
+        ": " <<currentElement << " "<<
+        endl;
+    }
 
     // handle current element
     if (currentElement [0] == '-') {
       if (currentElement.size () == 1) {
-        // this is 
-          cout <<
+        // this is the stdin indicator
+        if (TRACE_OPTIONS) {
+          cerr <<
             "'" << currentElement << "' is the '-' stdin indicator" <<
             endl;
+        }
+        
         argumentsVector.push_back (currentElement);
       }
       
@@ -1169,7 +1179,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           currentElement.substr (1, string::npos);
   
         /* JMI
-        cout <<
+        cerr <<
           "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
           endl;
         */
@@ -1180,25 +1190,31 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             currentOptionName =
               elementTrailer.substr (1, string::npos);
             
-            cout <<
-              "'" << currentOptionName << "' is a double-dashed option" <<
-              endl;
+            if (TRACE_OPTIONS) {
+              cerr <<
+                "'" << currentOptionName << "' is a double-dashed option" <<
+                endl;
+            }
           }
           else {
             // it is a single-dashed option
             currentOptionName =
               elementTrailer; //.substr (1, string::npos);
             
-            cout <<
-              "'" << currentOptionName << "' is a single-dashed option" <<
-              endl;
+            if (TRACE_OPTIONS) {
+              cerr <<
+                "'" << currentOptionName << "' is a single-dashed option" <<
+                endl;
+            }
           }
         }
         
         else {
-          cout <<
-            "'-' is the minimal single-dashed option" <<
-            endl;
+          if (TRACE_OPTIONS) {
+            cerr <<
+              "'-' is the minimal single-dashed option" <<
+              endl;
+          }
         }
 
       // is currentOptionName known in options elements map?
@@ -1326,21 +1342,23 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
-  // print the arguments vector
-  cerr << idtr <<
-    "Arguments vector (" <<
-    argumentsVector.size () <<
-    " elements):" <<
-    endl;
-
-  if (argumentsVector.size ()) {
-    idtr++;
-    for (unsigned int i = 0; i < argumentsVector.size (); i++) {
-      cerr << idtr <<
-        argumentsVector [i] <<
-        endl;
-    } // for
-    idtr--;
+  if (TRACE_OPTIONS) {
+    // print the arguments vector
+    cerr << idtr <<
+      "Arguments vector (" <<
+      argumentsVector.size () <<
+      " elements):" <<
+      endl;
+  
+    if (argumentsVector.size ()) {
+      idtr++;
+      for (unsigned int i = 0; i < argumentsVector.size (); i++) {
+        cerr << idtr <<
+          argumentsVector [i] <<
+          endl;
+      } // for
+      idtr--;
+    }
   }
   
   return argumentsVector;
