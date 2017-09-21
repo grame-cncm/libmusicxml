@@ -851,78 +851,6 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 }
 
 //______________________________________________________________________________
-S_msrOptionsGroupsList msrOptionsGroupsList::create (
-  string optionGroupsListShortName,
-  string optionGroupsListLongName,
-  string optionGroupsListDescription)
-{
-  msrOptionsGroupsList* o = new
-    msrOptionsGroupsList (
-      optionGroupsListShortName,
-      optionGroupsListLongName,
-      optionGroupsListDescription);
-  assert(o!=0);
-  return o;
-}
-
-msrOptionsGroupsList::msrOptionsGroupsList (
-  string optionGroupsListShortName,
-  string optionGroupsListLongName,
-  string optionGroupsListDescription)
-  : msrOptionsElement (
-      optionGroupsListShortName,
-      optionGroupsListLongName,
-      optionGroupsListDescription)
-{}
-
-msrOptionsGroupsList::~msrOptionsGroupsList()
-{}
-
-void msrOptionsGroupsList::appendOptionsGroup (
-  S_msrOptionsGroup optionsGroup)
-{
-  fOptionsGroupGroupsList.push_back (
-    optionsGroup);
-}
-
-void msrOptionsGroupsList::print (ostream& os) const
-{
-  const int fieldWidth = 19;
-  
-  os <<
-    idtr <<
-    "OptionsGroupsList:" <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-    endl <<
-    setw(fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-    endl;
-
-  for (
-    list<S_msrOptionsGroup>::const_iterator
-      i = fOptionsGroupGroupsList.begin();
-    i != fOptionsGroupGroupsList.end();
-    i++) {
-    // print the element
-    os << (*i);
-  } // for
-}
-
-ostream& operator<< (ostream& os, const S_msrOptionsGroupsList& elt)
-{
-  os <<
-    "OptionsGroupsList:" <<
-    endl;
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
 /* JMI
 S_msrOptionsHandler msrOptionsHandler::create (
   string optionHandlerShortName,
@@ -1069,19 +997,6 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
   elt->print (os);
   return os;
 }
-
-/* JMI
-  S_msrOptionsGroupsList optionsGroupsList =
-    new msrOptionsGroupsList (
-    "h", "help", " help for OptionsGroupsList");
-
-  optionsGroupsList->
-    appendOptionsGroup (optionsGroup);
-    
-  cerr <<
-    optionsGroupsList <<
-    endl;
-    */
 
 void msrOptionsHandler::appendOptionsGroup (
   S_msrOptionsGroup optionsGroup)

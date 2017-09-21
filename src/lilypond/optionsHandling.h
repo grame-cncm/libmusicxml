@@ -553,58 +553,6 @@ typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
 ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt);
 
 //_______________________________________________________________________________
-class EXP msrOptionsGroupsList : public msrOptionsElement
-{
-  public:
-  
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<msrOptionsGroupsList> create (
-      string optionGroupsListShortName,
-      string optionGroupsListLongName,
-      string optionGroupsListDescription);
-     
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrOptionsGroupsList (
-      string optionGroupsListShortName,
-      string optionGroupsListLongName,
-      string optionGroupsListDescription);
-      
-    virtual ~msrOptionsGroupsList();
-
-  public:
-  
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-    void                  appendOptionsGroup (
-                            S_msrOptionsGroup optionsGroup);
-        
-    S_msrOptionsElement   fetchOptionElement (
-                            string optiontElementName);
-                            
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-  private:
-
-    list<S_msrOptionsGroup>
-                          fOptionsGroupGroupsList;
-};
-typedef SMARTP<msrOptionsGroupsList> S_msrOptionsGroupsList;
-ostream& operator<< (ostream& os, const S_msrOptionsGroupsList& elt);
-
-//_______________________________________________________________________________
 class EXP msrOptionsHandler : public msrOptionsElement
 {
   public:

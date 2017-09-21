@@ -98,13 +98,6 @@ R"(Close the loop, generating a MusicXML file from the MSR.
 The file name receives a '_loop' suffix. Currently under development.)",
         fLoopToMusicXML));
 
-
-  /* JMI
-  S_msrOptionsGroupsList optionsGroupsList =
-    new msrOptionsGroupsList (
-    "h", "help", " help for OptionsGroupsList");
-*/
-    
   // trace and display
   // --------------------------------------
 
