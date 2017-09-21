@@ -141,6 +141,76 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
   os << endl;
 }
 
+void xml2lilypondOptionsHandler::printHelp (ostream& os) const
+{
+  const int fieldWidth = 27;
+  
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+
+  os <<
+    endl;
+
+  idtr++;
+
+  os <<
+    idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsGroup>::const_iterator
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the element
+      (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+
+  idtr--;
+  
+  os << endl;
+}
+
 ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt)
 {
   elt->print (os);

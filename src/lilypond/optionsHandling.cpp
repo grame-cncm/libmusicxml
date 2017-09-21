@@ -268,7 +268,7 @@ void msrOptionsBoolItem::print (ostream& os) const
       endl;
 
   idtr++;
-  os << left <<
+  os <<
     idtr <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
@@ -1241,6 +1241,14 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           optionsElement = (*it).second;
 */
         if (
+          S_msrOptionsHandler
+            optionsHandler =
+              dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
+          ) {    
+          optionsHandler->printHelp (cerr);
+        }
+        
+        else if (
           S_msrOptionsGroup
             optionsGroup =
               dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
