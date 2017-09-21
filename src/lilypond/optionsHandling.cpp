@@ -293,7 +293,7 @@ msrOptionsBoolItem::~msrOptionsBoolItem()
 
 void msrOptionsBoolItem::print (ostream& os) const
 {
-  const int fieldWidth = 28;
+  const int fieldWidth = 40;
   
   os <<
     idtr <<
@@ -327,9 +327,8 @@ void msrOptionsBoolItem::print (ostream& os) const
   os << left <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsItemHasBeenSelected" << " : " <<
-      booleanAsString (
-        fOptionsItemHasBeenSelected) <<
+      "fOptionsBoolItemVariableDisplayName" << " : " <<
+      fOptionsBoolItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -391,7 +390,7 @@ msrOptionsIntItem::~msrOptionsIntItem()
 
 void msrOptionsIntItem::print (ostream& os) const
 {
-  const int fieldWidth = 28;
+  const int fieldWidth = 40;
   
   os <<
     idtr <<
@@ -415,9 +414,8 @@ void msrOptionsIntItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsItemHasBeenSelected" << " : " <<
-      booleanAsString (
-        fOptionsItemHasBeenSelected) <<
+      "fOptionsIntItemVariableDisplayName" << " : " <<
+      fOptionsIntItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -477,7 +475,7 @@ msrOptionsFloatItem::~msrOptionsFloatItem()
 
 void msrOptionsFloatItem::print (ostream& os) const
 {
-  const int fieldWidth = 28;
+  const int fieldWidth = 40;
   
   os <<
     idtr <<
@@ -501,9 +499,8 @@ void msrOptionsFloatItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsItemHasBeenSelected" << " : " <<
-      booleanAsString (
-        fOptionsItemHasBeenSelected) <<
+      "fOptionsFloatItemVariableDisplayName" << " : " <<
+      fOptionsFloatItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -563,7 +560,7 @@ msrOptionsStringItem::~msrOptionsStringItem()
 
 void msrOptionsStringItem::print (ostream& os) const
 {
-  const int fieldWidth = 28;
+  const int fieldWidth = 40;
   
   os <<
     idtr <<
@@ -587,9 +584,8 @@ void msrOptionsStringItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsItemHasBeenSelected" << " : " <<
-      booleanAsString (
-        fOptionsItemHasBeenSelected) <<
+      "fOptionsStringItemVariableDisplayName" << " : " <<
+      fOptionsStringItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -650,7 +646,7 @@ msrOptionsRationalItem::~msrOptionsRationalItem()
 
 void msrOptionsRationalItem::print (ostream& os) const
 {
-  const int fieldWidth = 28;
+  const int fieldWidth = 40;
   
   os <<
     idtr <<
@@ -674,9 +670,8 @@ void msrOptionsRationalItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsItemHasBeenSelected" << " : " <<
-      booleanAsString (
-        fOptionsItemHasBeenSelected) <<
+      "fOptionsRationalItemVariableDisplayName" << " : " <<
+      fOptionsRationalItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<

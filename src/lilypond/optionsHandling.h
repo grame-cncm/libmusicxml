@@ -168,7 +168,7 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     msrOptionsItemKind    fOptionsItemKind;
     
-    bool                  fOptionsItemHasBeenSelected;
+    bool                  fOptionsItemHasBeenSelected; // JMI
 };
 typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
