@@ -952,7 +952,7 @@ msrOptionsHandler::msrOptionsHandler (
 msrOptionsHandler::~msrOptionsHandler()
 {}
 
-void msrOptionsHandler::registerOptionsElement (
+void msrOptionsHandler::registerOptionsElementInHandler (
   S_msrOptionsElement optionsElement,
   S_msrOptionsHandler optionsHandler)
 {
@@ -960,7 +960,7 @@ void msrOptionsHandler::registerOptionsElement (
     optionLongName =
       optionsElement->getOptionsElementLongName (),
     optionShortName =
-      optionsElement->getOptionsElementLongName ();
+      optionsElement->getOptionsElementShortName ();
 
   if (
     optionShortName.size () == 0
@@ -979,7 +979,7 @@ void msrOptionsHandler::registerOptionsElement (
 
     s <<
       "option long name '" << optionLongName << "'" <<
-      " is the same as the short name";
+      " is the same as the short name for the same";
       
     optionError (s.str());
   }
