@@ -185,6 +185,7 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
+      string optionsBoolItemVariableDisplayName,
       bool&  optionsBoolItemVariable);
      
   protected:
@@ -196,6 +197,7 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
+      string optionsBoolItemVariableDisplayName,
       bool&  optionsBoolItemVariable);
       
     virtual ~msrOptionsBoolItem();
@@ -205,6 +207,12 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    string                getOptionsBoolItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsBoolItemVariableDisplayName;
+                              }
+                              
     void                  setBoolItemVariableValue (
                             bool value)
                               {
@@ -221,6 +229,7 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
 
   private:
   
+    string                fOptionsBoolItemVariableDisplayName,
     bool&                 fOptionsBoolItemVariable;
 };
 typedef SMARTP<msrOptionsBoolItem> S_msrOptionsBoolItem;
@@ -238,6 +247,7 @@ class EXP msrOptionsIntItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsIntItemVariableDisplayName,
       int&               optionsIntItemVariable,
       msrOptionsItemKind optionsItemKind);
      
@@ -250,6 +260,7 @@ class EXP msrOptionsIntItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsIntItemVariableDisplayName,
       int&               optionsIntItemVariable,
       msrOptionsItemKind optionsItemKind);
            
@@ -263,6 +274,12 @@ class EXP msrOptionsIntItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    string                getOptionsIntItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsIntItemVariableDisplayName;
+                              }
+                              
     void                  setIntItemVariableValue (
                             int value)
                               {
@@ -279,6 +296,7 @@ class EXP msrOptionsIntItem : public msrOptionsItem
 
   private:
   
+    string                fOptionsIntItemVariableDisplayName,
     int&                  fOptionsIntItemVariable;
 };
 typedef SMARTP<msrOptionsIntItem> S_msrOptionsIntItem;
@@ -296,6 +314,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable,
       msrOptionsItemKind optionsItemKind);
      
@@ -308,6 +327,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable,
       msrOptionsItemKind optionsItemKind);
       
@@ -318,6 +338,12 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    string                getOptionsFloatItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsFloatItemVariableDisplayName;
+                              }
+                              
     void                  setFloatItemVariableValue (
                             float value)
                               {
@@ -334,6 +360,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
 
   private:
   
+    string                fOptionsFloatItemVariableDisplayName,
     float&                fOptionsFloatItemVariable;
 };
 typedef SMARTP<msrOptionsFloatItem> S_msrOptionsFloatItem;
@@ -351,6 +378,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable,
       msrOptionsItemKind optionsItemKind);
      
@@ -363,6 +391,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable,
       msrOptionsItemKind optionsItemKind);
       
@@ -373,6 +402,12 @@ class EXP msrOptionsStringItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    string                getOptionsStringItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsStringItemVariableDisplayName;
+                              }
+                              
     void                  setStringItemVariableValue (
                             string value)
                               {
@@ -389,6 +424,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
 
   private:
   
+    string                fOptionsStringItemVariableDisplayName,
     string&               fOptionsStringItemVariable;
 };
 typedef SMARTP<msrOptionsStringItem> S_msrOptionsStringItem;
@@ -406,6 +442,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable,
       msrOptionsItemKind optionsItemKind);
      
@@ -418,6 +455,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable,
       msrOptionsItemKind optionsItemKind);
       
@@ -428,6 +466,12 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
+    string                getOptionsRationalItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsRationalItemVariableDisplayName;
+                              }
+                              
     void                  setRationalItemVariableValue (
                             rational value)
                               {
@@ -444,6 +488,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
 
   private:
   
+    string                fOptionsRationalItemVariableDisplayName,
     rational&             fOptionsRationalItemVariable;
 };
 typedef SMARTP<msrOptionsRationalItem> S_msrOptionsRationalItem;
