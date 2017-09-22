@@ -11,12 +11,7 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <getopt.h>
-
-//#include <libgen.h>       // pour basename
-//#include <string>       // pour basename
 
 #include <iomanip>      // setw, set::precision, ...
 
@@ -24,18 +19,19 @@
 
 #include <regex>
 
+#include "libmusicxml.h"
 #include "version.h"
+
 #include "utilities.h"
+
+#include "musicXMLOptions.h"
+#include "lilypondOptions.h"
 
 #include "xml2lilypondOptionsHandling.h"
 
 #include "musicXMLTree2MsrInterface.h"
-
 #include "msr2LpsrInterface.h"
-
 #include "lpsr2LilypondInterface.h"
-
-#include "lilypondOptions.h"
 
 
 using namespace std;
