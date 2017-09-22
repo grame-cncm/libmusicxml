@@ -57,6 +57,12 @@ void msrMusicXMLOptions::initializeMusicXMLOptions (
   // trace and display
   // --------------------------------------
 
+  // variables
+  
+  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
+
+  // options
+
   S_msrOptionsSubGroup traceAndDisplaySubGroup =
     msrOptionsSubGroup::create (
     "hmxmltd", "helpMusicXMLTraceAndDisplay",
@@ -75,6 +81,13 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 
   // other
   // --------------------------------------
+
+  // variables
+  
+  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
+  fLoopToMusicXML = boolOptionsInitialValue;
+
+  // options
 
   S_msrOptionsSubGroup otherSubGroup =
     msrOptionsSubGroup::create (
@@ -100,17 +113,6 @@ R"(Close the loop, generating a MusicXML file from the MSR.
 The file name receives a '_loop' suffix. Currently under development.)",
         "loopToMusicXML",
         fLoopToMusicXML));
-
-  // trace and display
-  // --------------------------------------
-
-  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-
-  // other
-  // --------------------------------------
-
-  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
-  fLoopToMusicXML = boolOptionsInitialValue;
 }
 
 S_msrMusicXMLOptions msrMusicXMLOptions::createCloneWithDetailedTrace ()
