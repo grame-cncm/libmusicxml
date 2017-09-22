@@ -13,6 +13,8 @@
 #ifndef __lilypondOptions__
 #define __lilypondOptions__
 
+#include <set>
+
 #include "optionsHandling.h"
 
 

@@ -19,7 +19,7 @@
 //#include "msrOptions.h"
 //#include "lpsrOptions.h"
 
-#include "generalOptions.h"
+//#include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "lilypondOptions.h"
 
