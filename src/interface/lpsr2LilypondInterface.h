@@ -18,9 +18,6 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include "msrOptions.h"
-#include "lpsrOptions.h"
-
 #include "lpsr.h"
 
 

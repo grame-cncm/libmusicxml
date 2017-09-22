@@ -13,6 +13,9 @@
 #ifndef __lpsr2LilypondTranslator__
 #define __lpsr2LilypondTranslator__
 
+#include "msrOptions.h"
+#include "lpsrOptions.h"
+
 #include "lpsr.h"
 
 
@@ -226,7 +229,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrStaffBlock& elt);
     virtual void visitEnd   (S_lpsrStaffBlock& elt);
 
-//    virtual void visitStart (S_lpsrNewStaffgroupBlock& elt);
+//    virtual void visitStart (S_lpsrNewStaffgroupBlock& elt); JMI
 //    virtual void visitEnd   (S_lpsrNewStaffgroupBlock& elt);
     
 //    virtual void visitStart (S_lpsrNewStaffBlock& elt);
@@ -493,6 +496,7 @@ class lpsr2LilypondTranslator :
                             S_msrSingleTremolo singleTremolo);
 
     // transpose
+    
     void                  transposeDiatonicError (
                             int inputLineNumber,
                             int transposeDiatonic,
@@ -510,6 +514,7 @@ class lpsr2LilypondTranslator :
                             msrAlteration harmonyDegreeAlteration);
 
     // figured bass
+    
     S_msrFiguredBass      fCurrentFiguredBass;
     unsigned int          fCurrentFiguredBassFiguresCounter;
 

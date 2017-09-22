@@ -18,13 +18,14 @@
 #include <string>
 #include <list>
 
-/*
-#include "smartpointer.h"
-#include "rational.h"
+
+//#include "smartpointer.h"
+//#include "rational.h"
 #include "exports.h"
 #include "typedefs.h"
-*/
+
 #include "msrBasicTypes.h"
+
 #include "msr.h"
 
 namespace MusicXML2 

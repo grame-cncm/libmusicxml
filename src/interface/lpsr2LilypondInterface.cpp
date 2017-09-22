@@ -14,11 +14,12 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include "generalOptions.h"
+//#include "generalOptions.h"
+
+#include "lpsr2LilypondTranslator.h"
 
 #include "lpsr2LilypondInterface.h"
 
-#include "lpsr2LilypondTranslator.h"
 
 using namespace std;
 
