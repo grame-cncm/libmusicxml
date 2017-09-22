@@ -15,6 +15,8 @@
 
 #include "smartpointer.h"
 
+#include "optionsHandling.h"
+
 
 namespace MusicXML2 
 {
