@@ -32,6 +32,7 @@
 
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
+#include "msrOptions.h"
 
 
 namespace MusicXML2 
