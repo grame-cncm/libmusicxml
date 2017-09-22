@@ -39,6 +39,10 @@ S_msrGeneralOptions msrGeneralOptions::create ()
 }
 
 msrGeneralOptions::msrGeneralOptions ()
+  : msrOptionsGroup (
+    "hg", "helpGeneral",
+R"(General)"
+    )
 {
   initializeGeneralOptions (false);
 }
@@ -52,22 +56,63 @@ void msrGeneralOptions::initializeGeneralOptions (
   // output file
   // --------------------------------------
 
+  // variables  
+
   fAutoOutputFile = false;
   
+  // options
+
+  S_msrOptionsSubGroup outputFileSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrOutputFile",
+R"(Output file)"
+    );
+
+  appendOptionsSubGroup (outputFileSubGroup);
+      
+
   // trace and display
   // --------------------------------------
+
+  // variables  
 
   fTraceGeneral = boolOptionsInitialValue;
 
   fTraceDetailed = false;
+
+  // options
+
+  S_msrOptionsSubGroup traceDansDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceDansDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceDansDisplaySubGroup);
+      
 
   // CPU usage
   // --------------------------------------
 
   fDisplayCPUusage = boolOptionsInitialValue;
     
+  // variables  
+
+  // options
+
+  S_msrOptionsSubGroup CPUUsageSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrCPUUsage",
+R"(CPU usage)"
+    );
+
+  appendOptionsSubGroup (CPUUsageSubGroup);
+      
+
   // specific trace    
   // --------------------------------------
+
+  // variables  
 
   // divisions
   fTraceDivisions = boolOptionsInitialValue;
@@ -146,6 +191,18 @@ void msrGeneralOptions::initializeGeneralOptions (
   // credits
   fTraceCredits = boolOptionsInitialValue;
     
+  // options
+
+  S_msrOptionsSubGroup specificTraceSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrSpecificTrace",
+R"(Specific trace)"
+    );
+
+  appendOptionsSubGroup (specificTraceSubGroup);
+
+
+      
 
   /* STUFF not yet handled JMI */
 

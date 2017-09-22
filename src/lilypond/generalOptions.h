@@ -184,7 +184,7 @@ namespace MusicXML2
 #define _TRACE_CREDITS_SHORT_NAME_ "tcredits"
 
 
-class EXP msrGeneralOptions : public smartable
+class EXP msrGeneralOptions : public msrOptionsGroup
 {
   public:
 

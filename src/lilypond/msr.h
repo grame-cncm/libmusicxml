@@ -290,6 +290,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   The type element is used to indicate the symbolic note type, such as quarter, eighth, or 16th. MusicXML symbolic note types range from 256th notes to long notes: 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, and long. The type element may be followed by one or more empty dot elements to indicate dotted notes.
 */
 
+/* JMI
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitch {
@@ -358,7 +359,7 @@ string msrIntervalAsShortString (
 
 // harmonies
 //______________________________________________________________________________
-/*
+/ *
  kind-value indicates the type of chord. Degree elements can then add, subtract, or alter from these starting points. Values include:
   
 Triads:
@@ -489,7 +490,7 @@ The "other" kind is used when the harmony is entirely composed of add elements. 
 
   Inversion is a number indicating which inversion is used:
   0 for root position, 1 for first inversion, etc.
-*/
+* /
 
 enum msrHarmonyKind {
   k_NoHarmony,
@@ -644,6 +645,8 @@ string wholeNotesAsMsrString (
 string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
+
+*/
 
 //______________________________________________________________________________
 /*!

@@ -3132,7 +3132,7 @@ void msrOptions::initializeMsrOptions (
 
   S_msrOptionsSubGroup traceAndDisplaySubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
+    "hmsrtd", "helpMsrTraceAndDisplay",
 R"(Trace and display)"
     );
 
@@ -3170,7 +3170,7 @@ R"(Trace and display)"
 
   S_msrOptionsSubGroup languagesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrLanguages",
+    "hmsrtd", "helpMsrLanguages",
 R"(Languages)"
     );
 
@@ -3186,7 +3186,7 @@ R"(Languages)"
 
   S_msrOptionsSubGroup partsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrParts",
+    "hmsrtd", "helpMsrParts",
 R"(Parts)"
     );
 
@@ -3207,7 +3207,7 @@ R"(Parts)"
 
   S_msrOptionsSubGroup voicesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrVoices",
+    "hmsrtd", "helpMsrVoices",
 R"(Voices)"
     );
 
@@ -3229,7 +3229,7 @@ R"(Voices)"
 
   S_msrOptionsSubGroup notesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrNotes",
+    "hmsrtd", "helpMsrNotes",
 R"(Notes)"
     );
 
@@ -3248,7 +3248,7 @@ R"(Notes)"
 
   S_msrOptionsSubGroup lyricsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrLyrics",
+    "hmsrtd", "helpMsrLyrics",
 R"(Lyrics)"
     );
 
@@ -3267,7 +3267,7 @@ R"(Lyrics)"
 
   S_msrOptionsSubGroup harmoniesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrHarmonies",
+    "hmsrtd", "helpMsrHarmonies",
 R"(Harmonies)"
     );
 
@@ -3286,7 +3286,7 @@ R"(Harmonies)"
 
   S_msrOptionsSubGroup figuredBassSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrFiguredBass",
+    "hmsrtd", "helpMsrFiguredBass",
 R"(Figured bass)"
     );
 
