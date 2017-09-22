@@ -18,11 +18,12 @@
 #include <string>
 #include <list>
 
+/*
 #include "smartpointer.h"
 #include "rational.h"
 #include "exports.h"
 #include "typedefs.h"
-
+*/
 #include "msrBasicTypes.h"
 #include "msr.h"
 
@@ -124,9 +125,11 @@ string wholeNotesAsLilypondString (
 
 // notes
 //______________________________________________________________________________
+  /* JMI
 void writeNoteAsLilypondString (
   S_msrNote note,
   ostream&  os);
+*/
 
 // texts lists
 //______________________________________________________________________________

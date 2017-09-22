@@ -236,11 +236,11 @@ string wholeNotesAsLilypondString (
 }
 
 //_______________________________________________________________________________
+  /* JMI
 void writeNoteAsLilypondString (
   S_msrNote note,
   ostream&  os)
 {
-  /* JMI
   // print the note ligatures if any
   list<S_msrLigature>
     noteLigatures =
@@ -625,8 +625,8 @@ void writeNoteAsLilypondString (
         break;
     } // switch
   }
-  */
 }
+  */
 
 //_______________________________________________________________________________
 void writeTextsListAsLilypondString (

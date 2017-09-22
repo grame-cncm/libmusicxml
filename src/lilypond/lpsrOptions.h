@@ -13,7 +13,7 @@
 #ifndef __lpsrOptions__
 #define __lpsrOptions__
 
-#include "lpsr.h"
+#include "optionsHandling.h"
 
 
 using namespace std;

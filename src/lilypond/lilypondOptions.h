@@ -13,7 +13,7 @@
 #ifndef __lilypondOptions__
 #define __lilypondOptions__
 
-#include "lpsr.h"
+#include "optionsHandling.h"
 
 
 using namespace std;

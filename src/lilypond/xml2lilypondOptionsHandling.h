@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __xml2lilypondOptionsHandler__
-#define __xml2lilypondOptionsHandler__
+#ifndef __xml2lilypondOptionsHandling__
+#define __xml2lilypondOptionsHandling__
 
 #include "optionsHandling.h"
 

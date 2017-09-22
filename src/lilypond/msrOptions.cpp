@@ -13,7 +13,7 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
-#include "lpsrOptions.h"
+#include "msrOptions.h"
 
 
 using namespace std;

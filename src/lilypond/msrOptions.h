@@ -10,10 +10,12 @@
   research@grame.fr
 */
 
-#ifndef __lpsrOptions__
-#define __lpsrOptions__
+#ifndef __msrOptions__
+#define __msrOptions__
 
-#include "lpsr.h"
+#include "msrBasicTypes.h"
+
+#include "optionsHandling.h"
 
 
 using namespace std;

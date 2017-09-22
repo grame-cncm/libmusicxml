@@ -13,7 +13,7 @@
 #ifndef __generalOptions__
 #define __generalOptions__
 
-#include "smartpointer.h"
+#include <set>
 
 #include "optionsHandling.h"
 

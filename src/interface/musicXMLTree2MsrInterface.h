@@ -22,8 +22,11 @@
 #include <map>
 
 #include "smartpointer.h"
+#include "rational.h"
 
-#include "libmusicxml.h"
+// #include "libmusicxml.h"
+
+#include "msrOptions.h"
 
 #include "msr.h"
 

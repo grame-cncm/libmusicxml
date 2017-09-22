@@ -23,9 +23,10 @@
 
 #include "smartpointer.h"
 
-#include "lpsr.h"
-
+#include "msrOptions.h"
 #include "lpsrOptions.h"
+
+#include "lpsr.h"
 
 
 namespace MusicXML2 
