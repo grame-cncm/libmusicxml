@@ -10,10 +10,10 @@
   research@grame.fr
 */
 
-#ifndef __lpsrOptions__
-#define __lpsrOptions__
+#ifndef __msrMessages__
+#define __msrMessages__
 
-#include "lpsr.h"
+//#include "lpsr.h"
 
 
 using namespace std;

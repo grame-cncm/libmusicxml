@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __musicxml2Msr__
-#define __musicxml2Msr__
+#ifndef __musicxml2MsrInterface__
+#define __musicxml2MsrInterface__
 
 
 #ifdef VC6
@@ -23,8 +23,6 @@
 
 #include "smartpointer.h"
 #include "rational.h"
-
-// #include "libmusicxml.h"
 
 #include "msrOptions.h"
 

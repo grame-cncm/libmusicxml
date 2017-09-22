@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrOptionsHandling__
-#define __msrOptionsHandling__
+#ifndef __optionsHandling__
+#define __optionsHandling__
 
 #include "list"
 #include "vector"

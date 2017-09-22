@@ -14,14 +14,7 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <iostream>
-
-/*
-#include "xml.h"
-#include "xmlfile.h"
-#include "xmlreader.h"
-*/
-#include "versions.h"
+#include "generalOptions.h"
 
 #include "lpsr2LilypondInterface.h"
 

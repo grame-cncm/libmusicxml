@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#include <climits>      /* INT_MIN, INT_MAX */
-#include <iomanip>      // setw, set::precision, ...
+//#include <climits>      /* INT_MIN, INT_MAX */
+//#include <iomanip>      // setw, set::precision, ...
 
 #include "lpsrOptions.h"
 

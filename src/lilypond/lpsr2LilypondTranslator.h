@@ -13,12 +13,7 @@
 #ifndef __lpsr2LilypondTranslator__
 #define __lpsr2LilypondTranslator__
 
-#include <map>
-#include <vector>
-
 #include "lpsr.h"
-
-#include "lpsrOptions.h"
 
 
 namespace MusicXML2
@@ -48,7 +43,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrPartGroupBlock>,
   public visitor<S_lpsrPartBlock>,
   public visitor<S_lpsrStaffBlock>,
-//  public visitor<S_lpsrNewStaffBlock>,
+//  public visitor<S_lpsrNewStaffBlock>, JMI
 //  public visitor<S_lpsrNewStaffgroupBlock>,
   public visitor<S_lpsrUseVoiceCommand>,
   public visitor<S_lpsrNewLyricsBlock>,

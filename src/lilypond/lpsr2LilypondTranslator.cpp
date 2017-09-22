@@ -14,17 +14,16 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <sstream>
-#include <stdlib.h>     /* abort, NULL */
-#include <climits>      /* INT_MIN */
-#include <algorithm>    /* for_each */
-#include <iomanip>      // setw, set::precision, ...
+//#include <iomanip>      // setw, set::precision, ...
 
-#include "conversions.h"
+//#include "msrOptions.h"
+//#include "lpsrOptions.h"
+
+#include "generalOptions.h"
+#include "musicXMLOptions.h"
+#include "lilypondOptions.h"
 
 #include "lpsr2LilypondTranslator.h"
-
-#include "lilypondOptions.h"
 
 
 using namespace std;

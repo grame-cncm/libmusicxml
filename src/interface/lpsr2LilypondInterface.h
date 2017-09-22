@@ -10,18 +10,13 @@
   research@grame.fr
 */
 
-#ifndef __lpsr2Lilypond__
-#define __lpsr2Lilypond__
+#ifndef __lpsr2LilypondInterfact__
+#define __lpsr2LilypondInterfact__
 
 
 #ifdef VC6
 # pragma warning (disable : 4786)
 #endif
-
-#include <iostream>
-#include <map>
-
-#include "smartpointer.h"
 
 #include "msrOptions.h"
 #include "lpsrOptions.h"

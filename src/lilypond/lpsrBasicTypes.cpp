@@ -14,9 +14,10 @@
 # pragma warning (disable : 4786)
 #endif
 
+/*
 #include <iostream>
 #include <sstream>
-#include <stdlib.h>     /* abort, NULL */
+#include <stdlib.h>     / * abort, NULL * /
 #include <cassert>
 
 #include <vector>
@@ -27,8 +28,9 @@
 #include "rational.h"
 
 #include "utilities.h"
+*/
 
-#include "msrBasicTypes.h"
+#include "lpsrBasicTypes.h"
 
 
 using namespace std;

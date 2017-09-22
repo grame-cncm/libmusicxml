@@ -14,6 +14,7 @@
 #define __msrBasicTypes__
 
 #include <vector>
+#include <map>
 
 #include "smartpointer.h"
 

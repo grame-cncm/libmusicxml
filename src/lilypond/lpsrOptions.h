@@ -13,6 +13,8 @@
 #ifndef __lpsrOptions__
 #define __lpsrOptions__
 
+#include "lpsrBasicTypes.h"
+
 #include "optionsHandling.h"
 
 

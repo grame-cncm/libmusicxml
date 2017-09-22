@@ -13,6 +13,7 @@
 #ifndef __msr__
 #define __msr__
 
+/*
 #include <sstream>
 #include <vector>
 #include <string>
@@ -23,12 +24,13 @@
 #include "rational.h"
 #include "exports.h"
 #include "typedefs.h"
-
+*/
 #include "tree_browser.h"
 
 #include "utilities.h"
 
-#include "msrBasicTypes.h"
+//#include "msrBasicTypes.h"
+#include "generalOptions.h"
 
 /*
 #include "generalOptions.h"

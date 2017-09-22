@@ -96,47 +96,6 @@ namespace MusicXML2
   assert(false); \
 }
 
-// chords languages
-//______________________________________________________________________________
-enum lpsrChordsLanguage {
-  k_IgnatzekChords, // LilyPond default
-  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
-  
-string lpsrChordsLanguageAsString (
-  lpsrChordsLanguage language);
-
-extern map<string, lpsrChordsLanguage>
-  gLpsrChordsLanguagesMap;
-
-string existingLpsrChordsLanguages ();
-
-void initializeLpsrChordsLanguages ();
-
-// whole notes
-//______________________________________________________________________________
-string wholeNotesAsLilypondString (
-  int      inputLineNumber,
-  rational wholeNotes,
-  int&     dotsNumber);
-
-string wholeNotesAsLilypondString (
-  int      inputLineNumber,
-  rational wholeNotes);
-
-// notes
-//______________________________________________________________________________
-  /* JMI
-void writeNoteAsLilypondString (
-  S_msrNote note,
-  ostream&  os);
-*/
-
-// texts lists
-//______________________________________________________________________________
-void writeTextsListAsLilypondString (
-  const list<string>& textsList,
-  ostream&            os);
-
 /*!
 \brief A generic msr element representation.
 

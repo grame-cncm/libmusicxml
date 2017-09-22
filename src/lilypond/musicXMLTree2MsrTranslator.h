@@ -13,12 +13,9 @@
 #ifndef __musicXMLTree2MsrTranslator__
 #define __musicXMLTree2MsrTranslator__
 
-#include <map>
-#include <vector>
+#include "typedefs.h"
 
-#include "msr.h"
-
-#include "musicXMLTree2MsrInterface.h"
+//#include "musicXMLTree2MsrInterface.h"
 
 
 namespace MusicXML2

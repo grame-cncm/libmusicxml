@@ -10,22 +10,19 @@
   research@grame.fr
 */
 
-#ifndef __msr2Lpsr__
-#define __msr2Lpsr__
+#ifndef __msr2LpsrInterface__
+#define __msr2LpsrInterface__
 
 
 #ifdef VC6
 # pragma warning (disable : 4786)
 #endif
 
-#include <iostream>
-#include <map>
-
-#include "smartpointer.h"
+#include "generalOptions.h"
+#include "msrOptions.h"
+#include "lpsrOptions.h"
 
 #include "lpsr.h"
-
-#include "lpsrOptions.h"
 
 
 namespace MusicXML2 
