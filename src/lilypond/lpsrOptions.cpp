@@ -53,69 +53,67 @@ void lpsrOptions::initializeLpsrOptions (
   bool boolOptionsInitialValue)
 {
 
-/*
-  LPSR:
-  ----
-
-    Trace and display:
-
-      --tlpsr, --traceLpsr
-            Write a trace of the LPSR graphs visiting activity to standard error.
-
-      --ttlpvisits, --traceLpsrVisitors
-            Write a trace of the LPSR graphs visiting activity to standard error.
-
-      --lpsr, --displayLpsr
-            Write the contents of the LPSR data to standard error.
-
-      --tscheme, --traceSchemeFunctions
-            Write a trace of the activity regarding Scheme functions to standard error.
-
-    Languages:
-
-      --lppl, --lpsrPitchesLanguage language
-            Use 'language' to display note pitches in the LPSR logs and views,
-            as well as in the generated LilyPond code.
-            The 12 LilyPond pitches languages are available:
-            nederlands, catalan, deutsch, english, espanol, français, 
-            italiano, norsk, portugues, suomi, svenska and vlaams.
-            The default is to use 'nederlands'.
-
-      --lpcl , --lpsrChordsLanguage language
-            Use 'language' to display chord names, their root and bass notes,
-            in the LPSR logs and views and the generated LilyPond code.
-            The 4 LilyPond chords languages are available:
-            german, semiGerman, italian and french.
-            The default used by LilyPond is Ignatzek's jazz-like, english naming.
- */
-
-
-
-
   // trace and display
   // --------------------------------------
   
   // variables
+  
   fTraceLpsr         = boolOptionsInitialValue;
   
   fTraceLpsrVisitors = boolOptionsInitialValue;
 
   fDisplayLpsr       = boolOptionsInitialValue;
   
-  // options
-
-  // Scheme functions
-   // --------------------------------------
-
-  // variables
  fTraceSchemeFunctions = boolOptionsInitialValue;
 
   // options
+
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      msrOptionsBoolItem::create (
+        "tlpsr", "traceLpsr",
+R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
+        "traceLpsr",
+        fTraceLpsr));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      msrOptionsBoolItem::create (
+        "ttlpvisits", "traceLpsrVisitors",
+R"(Write a trace of the LPSR tree visiting activity to standard error.)",
+        "traceLpsrVisitors",
+        fTraceLpsrVisitors));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      msrOptionsBoolItem::create (
+        "lpsr", "displayLpsr",
+R"(Write the contents of the LPSR data to standard error.)",
+        "displayLpsr",
+        fDisplayLpsr));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      msrOptionsBoolItem::create (
+        "tscheme", "traceSchemeFunctions",
+R"(Write a trace of the activity regarding Scheme functions to standard error.)",
+        "traceSchemeFunctions",
+        fTraceSchemeFunctions));
+
 
   // languages
   // --------------------------------------
   
   // variables
+  
   if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
 
@@ -139,6 +137,43 @@ void lpsrOptions::initializeLpsrOptions (
   }
 
   // options
+  
+  S_msrOptionsSubGroup languagesSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrl", "helpLpsrlanguages",
+R"(Languages)"
+    );
+
+  appendOptionsSubGroup (languagesSubGroup);
+
+  bool foo; // JMI
+  
+  languagesSubGroup->
+    appendOptionsItem (
+      msrOptionsBoolItem::create (
+        "lppl", "lpsrPitchesLanguage",
+R"(Use 'language' to display note pitches in the LPSR logs and views,
+as well as in the generated LilyPond code.
+The 12 LilyPond pitches languages are available:
+nederlands, catalan, deutsch, english, espanol, français, 
+italiano, norsk, portugues, suomi, svenska and vlaams.
+The default is to use 'nederlands'.)",
+        "lpsrPitchesLanguage",
+        foo));
+       // fLpsrQuarterTonesPitchesLanguage));
+
+  languagesSubGroup->
+    appendOptionsItem (
+      msrOptionsBoolItem::create (
+        "lpcl", "lpsrChordsLanguage",
+R"(Use 'language' to display chord names, their root and bass notes,
+in the LPSR logs and views and the generated LilyPond code.
+The 4 LilyPond chords languages are available:
+german, semiGerman, italian and french.
+The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
+        "lpsrChordsLanguage",
+        foo));
+    //    fLpsrChordsLanguage));
 }
 
 S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
