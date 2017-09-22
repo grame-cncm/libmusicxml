@@ -245,6 +245,17 @@ R"(Ornaments)"
   fNoLilypondLyrics    = boolOptionsInitialValue;
   
   fLilypondCompileDate = boolOptionsInitialValue;
+
+  // options
+
+  S_msrOptionsSubGroup codeGenerationSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrCodeGeneration",
+R"(Code generation)"
+    );
+
+  appendOptionsSubGroup (codeGenerationSubGroup);
+      
     
   // score notation
   // --------------------------------------
@@ -256,13 +267,13 @@ R"(Ornaments)"
   
   // options
 
-  S_msrOptionsSubGroup codeGenerationSubGroup =
+  S_msrOptionsSubGroup scoreNotationSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrCodeGeneration",
-R"(CodeGeneration)"
+    "hlpsrtd", "helpLpsrScoreNotation",
+R"(Score notation)"
     );
 
-  appendOptionsSubGroup (codeGenerationSubGroup);
+  appendOptionsSubGroup (scoreNotationSubGroup);
       
 
   // midi

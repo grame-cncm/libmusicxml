@@ -730,7 +730,7 @@ string wholeNotesAsMsrString (
 #define _KEEP_EMPTY_FIGURED_BASS_VOICE_SHORT_NAME_ "kefbv"
 
 
-class EXP msrOptions : public smartable
+class EXP msrOptions : public msrOptionsGroup
 {
   public:
 

@@ -3101,6 +3101,10 @@ S_msrOptions msrOptions::create ()
 }
 
 msrOptions::msrOptions ()
+  : msrOptionsGroup (
+    "hmsr", "helpMSR",
+R"(MSR)"
+    )
 {
   initializeMsrOptions (false);
 }
@@ -3112,6 +3116,9 @@ void msrOptions::initializeMsrOptions (
   bool boolOptionsInitialValue)
 {
   // trace and display
+  // --------------------------------------
+  
+  // variables
 
   fTraceMsr          = boolOptionsInitialValue;
   
@@ -3121,7 +3128,11 @@ void msrOptions::initializeMsrOptions (
 
   fDisplayMsrSummary = boolOptionsInitialValue;
 
+
   // languages
+  // --------------------------------------
+  
+  // variables
   
   if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -3145,37 +3156,132 @@ void msrOptions::initializeMsrOptions (
     optionError (s.str());
   }
   
+  // options
+
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+
   // parts
+  // --------------------------------------
+  
+  // variables
+  
+  // options
+
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
 
   // voices
-
+  // --------------------------------------
+  
+  // variables
+  
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
   
   fShowSilentVoices = boolOptionsInitialValue;
   fKeepSilentVoices = boolOptionsInitialValue;
 
-  // notes
+  // options
 
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+
+  // notes
+  // --------------------------------------
+  
+  // variables
+  
   fDelayRestsDynamics  = boolOptionsInitialValue;
   fDelayRestsWords     = boolOptionsInitialValue; // JMI
   fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
   fDelayRestsLigatures = boolOptionsInitialValue; // JMI
   fDelayRestsWedges    = boolOptionsInitialValue; // JMI
 
-  // lyrics
+  // options
 
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+
+  // lyrics
+  // --------------------------------------
+  
+  // variables
+  
   fShowMsrStanzas  = boolOptionsInitialValue;
   fKeepMuteStanzas = boolOptionsInitialValue;
 
-  // harmonies
+  // options
 
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+
+  // harmonies
+  // --------------------------------------
+  
+  // variables
+  
   fShowHarmonyVoices      = boolOptionsInitialValue;  
   fKeepEmptyHarmonyVoices = boolOptionsInitialValue;
 
+  // options
+
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
+
   // figured bass
+  // --------------------------------------
+  
+  // variables  
   
   fShowFiguredBassVoices      = boolOptionsInitialValue;
   fKeepEmptyFiguredBassVoices = boolOptionsInitialValue;
+
+  // options
+
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
 }
 
 S_msrOptions msrOptions::createCloneWithDetailedTrace ()
