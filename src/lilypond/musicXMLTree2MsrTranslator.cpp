@@ -24,6 +24,13 @@
 
 #include "conversions.h"
 
+#include "utilities.h"
+
+#include "musicXMLOptions.h"
+#include "msrOptions.h"
+
+#include "msr.h"
+
 #include "musicXMLTree2MsrTranslator.h"
 
 

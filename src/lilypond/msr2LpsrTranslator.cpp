@@ -21,6 +21,8 @@
 
 #include "conversions.h"
 
+#include "msrOptions.h"
+
 #include "msr2LpsrTranslator.h"
 
 

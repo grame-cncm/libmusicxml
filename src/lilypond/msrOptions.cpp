@@ -12,6 +12,9 @@
 
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
+#include <sstream>
+
+#include "utilities.h"
 
 #include "msrOptions.h"
 
