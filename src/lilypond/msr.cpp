@@ -11,10 +11,11 @@
 */
 
 #include <climits>      /* INT_MIN, INT_MAX */
-#include <iostream>
-#include <list>
-#include <algorithm>
+#include <sstream>
 #include <iomanip>      // setw, set::precision, ...
+
+#include "msrOptions.h"
+#include "musicXMLOptions.h"
 
 #include "msr.h"
 

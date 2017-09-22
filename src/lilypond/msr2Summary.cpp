@@ -16,6 +16,8 @@
 
 #include <iomanip>      // setw, set::precision, ...
 
+#include "msrOptions.h"
+
 #include "msr2Summary.h"
 
 

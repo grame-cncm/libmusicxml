@@ -13,6 +13,8 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
+#include "utilities.h"
+
 #include "lilypondOptions.h"
 
 

@@ -23,17 +23,18 @@
 #include "smartpointer.h"
 #include "rational.h"
 #include "exports.h"
-#include "typedefs.h"
 */
+#include "typedefs.h"
+
 #include "tree_browser.h"
 
 #include "utilities.h"
 
-//#include "msrBasicTypes.h"
+#include "msrBasicTypes.h"
+
 #include "generalOptions.h"
 
 /*
-#include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 */
