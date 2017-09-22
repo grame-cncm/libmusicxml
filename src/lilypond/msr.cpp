@@ -3128,6 +3128,16 @@ void msrOptions::initializeMsrOptions (
 
   fDisplayMsrSummary = boolOptionsInitialValue;
 
+  // options
+
+  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"(Trace and display)"
+    );
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      
 
   // languages
   // --------------------------------------
@@ -3158,13 +3168,13 @@ void msrOptions::initializeMsrOptions (
   
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup languagesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrLanguages",
+R"(Languages)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (languagesSubGroup);
       
 
   // parts
@@ -3174,13 +3184,13 @@ R"(Trace and display)"
   
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup partsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrParts",
+R"(Parts)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (partsSubGroup);
       
 
   // voices
@@ -3195,13 +3205,13 @@ R"(Trace and display)"
 
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup voicesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrVoices",
+R"(Voices)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (voicesSubGroup);
       
 
   // notes
@@ -3217,13 +3227,13 @@ R"(Trace and display)"
 
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup notesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrNotes",
+R"(Notes)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (notesSubGroup);
       
 
   // lyrics
@@ -3236,13 +3246,13 @@ R"(Trace and display)"
 
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup lyricsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrLyrics",
+R"(Lyrics)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (lyricsSubGroup);
       
 
   // harmonies
@@ -3255,13 +3265,13 @@ R"(Trace and display)"
 
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup harmoniesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrHarmonies",
+R"(Harmonies)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (harmoniesSubGroup);
       
 
   // figured bass
@@ -3274,13 +3284,13 @@ R"(Trace and display)"
 
   // options
 
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
+  S_msrOptionsSubGroup figuredBassSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+    "hlpsrtd", "helpLpsrFiguredBass",
+R"(Figured bass)"
     );
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (figuredBassSubGroup);
       
 }
 
