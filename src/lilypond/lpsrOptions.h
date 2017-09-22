@@ -48,7 +48,8 @@ namespace MusicXML2
 #define _LPSR_CHORDS_LANGUAGE_LONG_NAME_  "lpsrChordsLanguage"
 #define _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ "lpcl"
 
-class EXP lpsrOptions : public msrOptionsGroup {
+class EXP lpsrOptions : public msrOptionsGroup
+{
   public:
 
     static SMARTP<lpsrOptions> create ();

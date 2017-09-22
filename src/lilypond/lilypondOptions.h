@@ -154,7 +154,7 @@ namespace MusicXML2
 #define _NO_MIDI_SHORT_NAME_ ""
 
 
-class EXP lilypondOptions : public smartable
+class EXP lilypondOptions : public msrOptionsGroup
 {
   public:
 

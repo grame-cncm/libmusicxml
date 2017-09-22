@@ -38,6 +38,10 @@ S_lilypondOptions lilypondOptions::create ()
 }
 
 lilypondOptions::lilypondOptions()
+  : msrOptionsGroup (
+    "hlp", "helpLilypond",
+R"(LilyPond)"
+    )
 {
   initializeLilypondOptions (false);
 }
@@ -49,11 +53,26 @@ void lilypondOptions::initializeLilypondOptions (
   bool boolOptionsInitialValue)
 {
   // time
+  // --------------------------------------
+  
+  // variables
   
   fNumericalTime = boolOptionsInitialValue;
 
+  S_msrOptionsSubGroup timeSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrtime",
+R"(Time)"
+    );
+
+  appendOptionsSubGroup (timeSubGroup);
+
+      
   // notes
+  // --------------------------------------
   
+  // variables
+    
   fAbsoluteOctaves  = boolOptionsInitialValue;
   
   fAllDurations  = boolOptionsInitialValue;
@@ -70,12 +89,38 @@ void lilypondOptions::initializeLilypondOptions (
 
   fInputLineNumbers = boolOptionsInitialValue;
 
+  S_msrOptionsSubGroup notesSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrNotes",
+R"(Notes)"
+    );
+
+  appendOptionsSubGroup (notesSubGroup);
+
+      
   // bars
+  // --------------------------------------
   
+  // variables
+    
   fShowAllBarNumbers = boolOptionsInitialValue;
 
+  // options
+
+  S_msrOptionsSubGroup barsSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrBars",
+R"(Bars)"
+    );
+
+  appendOptionsSubGroup (barsSubGroup);
+      
+
   // line breaks
+  // --------------------------------------
   
+  // variables
+    
   fDontKeepLineBreaks                  = boolOptionsInitialValue;
 
   fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
@@ -83,28 +128,111 @@ void lilypondOptions::initializeLilypondOptions (
   fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
   fSeparatorLineEveryNMeasuresValue    = INT_MAX;
   
+  // options
+
+  S_msrOptionsSubGroup lineBreaksSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrLineBreaks",
+R"(Line breaks)"
+    );
+
+  appendOptionsSubGroup (lineBreaksSubGroup);
+      
+
   // page breaks
+  // --------------------------------------
   
+  // variables  
+ 
   fDontKeepPageBreaks                  = boolOptionsInitialValue;
 
+  // options
+
+  S_msrOptionsSubGroup pageBreaksSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrPageBreaks",
+R"(Page breaks)"
+    );
+
+  appendOptionsSubGroup (pageBreaksSubGroup);
+      
+
   // staves
+  // --------------------------------------
+  
+  // variables  
   
   fModernTab = boolOptionsInitialValue;
 
+  // options
+
+  S_msrOptionsSubGroup stavesSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrStaves",
+R"(Staves)"
+    );
+
+  appendOptionsSubGroup (stavesSubGroup);
+      
+
   // tuplets
+  // --------------------------------------
   
+  // variables  
+
   fTupletsOnALine = boolOptionsInitialValue;
   
+  // options
+
+  S_msrOptionsSubGroup tupletsSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrTuplets",
+R"(Tuplets)"
+    );
+
+  appendOptionsSubGroup (tupletsSubGroup);
+      
+
   // repeats
+  // --------------------------------------
+  
+  // variables
   
   fRepeatBrackets = boolOptionsInitialValue;
 
+  // options
+
+  S_msrOptionsSubGroup repeatsSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrRepeats",
+R"(Repeats)"
+    );
+
+  appendOptionsSubGroup (repeatsSubGroup);
+      
   // ornaments
+  // --------------------------------------
+  
+  // variables
   
   fDelayedOrnamentFractionNumerator   = 2;
   fDelayedOrnamentFractionDenominator = 3;
 
+  // options
+
+  S_msrOptionsSubGroup ornamentsSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrOrnaments",
+R"(Ornaments)"
+    );
+
+  appendOptionsSubGroup (ornamentsSubGroup);
+      
+
   // code generation
+  // --------------------------------------
+  
+  // variables  
 
   fComments            = boolOptionsInitialValue;
 
@@ -119,17 +247,45 @@ void lilypondOptions::initializeLilypondOptions (
   fLilypondCompileDate = boolOptionsInitialValue;
     
   // score notation
+  // --------------------------------------
+
+  // variables  
 
   fScoreNotationKind =  lilypondOptions::kWesternNotation;
     // default value
   
-  // midi
+  // options
 
+  S_msrOptionsSubGroup codeGenerationSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrCodeGeneration",
+R"(CodeGeneration)"
+    );
+
+  appendOptionsSubGroup (codeGenerationSubGroup);
+      
+
+  // midi
+  // --------------------------------------
+  
+  // variables
+  
   fMidiTempoDuration  = "4";
   fMidiTempoPerSecond = 100;
   
   fNoMidiCommand = boolOptionsInitialValue;
   
+  // options
+
+  S_msrOptionsSubGroup midiSubGroup =
+    msrOptionsSubGroup::create (
+    "hlpsrtd", "helpLpsrMidi",
+R"(Midi)"
+    );
+
+  appendOptionsSubGroup (midiSubGroup);
+      
+
   
   // JMI ???
 
@@ -139,6 +295,7 @@ void lilypondOptions::initializeLilypondOptions (
 
 
   // register the LilyPond accidental styles
+  // --------------------------------------
   
   fLilypondAccidentalStyles.insert ("voice");
   fLilypondAccidentalStyles.insert ("modern");

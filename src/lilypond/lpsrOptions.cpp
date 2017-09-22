@@ -64,7 +64,7 @@ void lpsrOptions::initializeLpsrOptions (
 
   fDisplayLpsr       = boolOptionsInitialValue;
   
- fTraceSchemeFunctions = boolOptionsInitialValue;
+  fTraceSchemeFunctions = boolOptionsInitialValue;
 
   // options
 
