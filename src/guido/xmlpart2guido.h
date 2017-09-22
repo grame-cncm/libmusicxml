@@ -208,6 +208,9 @@ class EXP xmlpart2guido :
     
     std::map<int, float> fStaffDistance;
     
+    int checkDynamics(rational posInMeasure);
+    S_dynamics fDynamics;
+    
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}

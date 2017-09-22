@@ -42,6 +42,7 @@ namespace MusicXML2
         fGenerateTempo = false;
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
+        fDynamics= (void*)0;
     }
     
     //______________________________________________________________________________
@@ -62,6 +63,7 @@ namespace MusicXML2
         directionWord = false;
         fGenerateTempo = false;
         fTextTagOpen = 0;
+        fDynamics= (void*)0;
     }
     
     //______________________________________________________________________________
@@ -75,6 +77,7 @@ namespace MusicXML2
         fCurrentStaffIndex = guidostaff;		// the current guido staff index
         fHasLyrics = false;
         fLyricsManualSpacing = false;
+        fDynamics= (void*)0;
         start (seq);
     }
     
@@ -574,15 +577,19 @@ namespace MusicXML2
     {
         if (fSkipDirection) return;
         
+        bool wedgeStart = false;
+        
         string type = elt->getAttributeValue("type");
         Sguidoelement tag;
         if (type == "crescendo") {
             tag = guidotag::create("crescBegin");
             fCrescPending = true;
+            wedgeStart = true;
         }
         else if (type == "diminuendo") {
             tag = guidotag::create("dimBegin");
             fCrescPending = false;
+            wedgeStart = true;
         }
         else if (type == "stop") {
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
@@ -598,24 +605,44 @@ namespace MusicXML2
                     tag->add (guidoparam::create(s.str(), false));
                 }
                 
-                stringstream s;
-                s << "autopos=\"on\"";
+                //stringstream s;
+                //s << "autopos=\"on\"";
                 //tag->add (guidoparam::create(s.str(), false));
             
             }else if (type == "crescendo")
             {
-                // search for wedge STOP in anticipation
+                // TODO: search for wedge STOP in anticipation and assign spread
                 
                 // Add new AutoPos="on"
-                stringstream s;
-                s << "autopos=\"on\"";
+                //stringstream s;
+                //s << "autopos=\"on\"";
                 //tag->add (guidoparam::create(s.str(), false));
             }
             
             
             xml2guidovisitor::addPosY(elt, tag, 12, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
-            if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-            else add (tag);
+            
+            // add only RELATIVE-X since it doesn't depend on TimePosition
+            float posx = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
+            if (posx && wedgeStart) {
+                posx = (posx / 10) * 2;   // convert to half spaces
+                
+                /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
+                if (fCurrentOffset>0)
+                    posx +=3;
+                
+                stringstream s;
+                s << "dx1=" << posx << "hs";
+                tag->add (guidoparam::create(s.str(), false));
+            }
+            
+            
+            if (fCurrentOffset) {
+                addDelayed(tag, fCurrentOffset);
+            }
+            else {
+                add (tag);
+            }
         }
         
     }
@@ -647,6 +674,76 @@ namespace MusicXML2
         fGenerateTempo = true;
     }
     
+    int xmlpart2guido::checkDynamics(rational posInMeasure )
+    {
+        ctree<xmlelement>::literator iter;
+        
+        if (fDynamics) {
+            
+            int tagCounter=0;
+            
+            for (iter = fDynamics->lbegin(); iter != fDynamics->lend(); iter++) {
+                if ((*iter)->getType() != k_other_dynamics) {
+                    Sguidoelement tag = guidotag::create("intens");
+                    tag->add (guidoparam::create((*iter)->getName()));
+                    if (fGeneratePositions) xml2guidovisitor::addPosY(fDynamics, tag, 12, 1);
+                    //if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);  // Avoid using default-x since it is measured from the beginning of the measure for S_direction!
+                    /// Infer X-Position from TimePosition
+                    
+                    int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
+                    auto timePos4measure = timePositions.find(measureNum);
+                    float intens_default_x =fDynamics->getAttributeFloatValue("default-x", 0);
+                    float intens_relative_x =fDynamics->getAttributeFloatValue("relative-x", 0);
+                    float intens_xpos = intens_default_x + intens_relative_x;
+                    //cout<<"Measure: "<<fMeasNum <<": Got to Intens "<< (*iter)->getName()<<" with default-x="<< intens_default_x<< " relative-x="<<intens_relative_x ;
+                    
+                    if ((intens_xpos!=0)&&(timePos4measure != timePositions.end())) {
+                        auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
+                        if (voiceInTimePosition != timePos4measure->second.end()) {
+                            auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
+                            //cout<<" TimePosition is="<< *minXPos;
+                            if (intens_xpos != *minXPos) {
+                                int intensDx = (intens_relative_x/10)*2;
+                                // apply default-x ONLY if it exists
+                                if (intens_default_x!=0)
+                                    intensDx = ( (intens_xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
+                                
+                                /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
+                                if (fCurrentOffset>0)
+                                    intensDx +=3;
+                                
+                                stringstream s;
+                                s << "dx=" << intensDx ;
+                                tag->add (guidoparam::create(s.str(), false));
+                                //cout << " Dx="<<intensDx<<endl;
+                            }
+                        }else {
+                            cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
+                        }
+                    }
+                    
+                    ///
+                    
+                    if (fCurrentOffset)
+                        addDelayed(tag, fCurrentOffset);
+                    else {
+                        push (tag);
+                        tagCounter++;
+                    }
+                }
+            }
+            
+            fDynamics = (void*)0;
+            return tagCounter;
+            
+        }else {
+            return 0;
+        }
+        
+        fDynamics = (void*)0;
+        return 0;
+    }
+    
     //______________________________________________________________________________
     void xmlpart2guido::visitStart( S_dynamics& elt)
     {
@@ -654,18 +751,11 @@ namespace MusicXML2
         
         /// MusicXML Note for default-x in S_direction: For these elements, the default-x attribute is measured from the start of the current measure.
         ///         For other elements, it is measured from the left-hand side of the note or the musical position within the bar.)
+        /// So in order to infer Dx out of default-x for S_dynamics, we should generate it once TimePosition has been advanced!
         
-        ctree<xmlelement>::literator iter;
-        for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
-            if ((*iter)->getType() != k_other_dynamics) {
-                Sguidoelement tag = guidotag::create("intens");
-                tag->add (guidoparam::create((*iter)->getName()));
-                if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
-                //if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);  // Avoid using default-x since it is measured from the beginning of the measure for S_direction!
-                if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-                else add (tag);
-            }
-        }
+        fDynamics = elt;
+        
+        return;
     }
     
     //______________________________________________________________________________
@@ -2051,6 +2141,8 @@ namespace MusicXML2
         
         rational thisNoteHeadPosition = fCurrentVoicePosition;
         
+        int pendingPops = 0;
+        
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
             //////// Track all voice default-x parameters, as positions in measures
@@ -2074,6 +2166,7 @@ namespace MusicXML2
                 timePositions.insert(std::make_pair(measureNum, inner));
             }
             //////////
+            //cout<<"\t Measure "<< measureNum<<"TimePosition moved to "<<fCurrentVoicePosition.toString()<<" with default-x="<<elt->getAttributeIntValue("default-x", 0)<<endl;
             
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
@@ -2087,16 +2180,22 @@ namespace MusicXML2
         checkCue(*this);
         if (notevisitor::getType() != notevisitor::kRest)
             checkStem (notevisitor::fStem);
+        
         checkGrace(*this);
+        
         checkSlurBegin (notevisitor::getSlur());
+        
         checkTupletBegin(notevisitor::getTuplet(), *this, elt);
+        
         checkBeamBegin (notevisitor::getBeam());
+        
         checkLyricBegin (notevisitor::getLyric());
         
         checkWavyTrillBegin(*this);
         
-        int pendingPops  = checkFermata(*this);
+        pendingPops += checkFermata(*this);
         pendingPops += checkArticulation(*this);
+        pendingPops += checkDynamics(thisNoteHeadPosition);
         
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
