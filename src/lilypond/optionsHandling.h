@@ -171,7 +171,7 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     msrOptionsItemKind    fOptionsItemKind;
 
-  int                     fOptionsItemValuesNumber);
+  int                     fOptionsItemValuesNumber;
 };
 typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
@@ -719,6 +719,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     const vector<string>  analyzeOptions (
                             int   argc,
                             char* argv[]);
+
+    void                  handleOptionsName (string optionName);
 
     // print
     // ------------------------------------------------------

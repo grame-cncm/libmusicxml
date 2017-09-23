@@ -154,7 +154,7 @@ S_msrOptionsItem msrOptionsItem::create (
   string             optionsItemDescription,
   msrOptionsItemKind
                      optionsItemKind,
-  int                optionsItemValuesNumber);
+  int                optionsItemValuesNumber)
 {
   msrOptionsItem* o = new
     msrOptionsItem (
@@ -1794,7 +1794,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   vector<string> argumentsVector;
   int            n = 1;
 
-  S_msrOptionsItem currentOptionsItem;
+  S_msrOptionsItem pendingOptionsItem;
   int              expectedValuesNumber = 0;
   
   bool pureHelpRun = true;
@@ -1879,262 +1879,24 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           }
         }
 
-        // is currentOptionName known in options elements map?
-        map<string, S_msrOptionsElement>::const_iterator
-          it =
-            fOptionsElementsMap.find (currentOptionName);
-              
-        if (it == fOptionsElementsMap.end ()) {
-          // no, currentOptionName is unknown in the map    
-          stringstream s;
-      
-          s <<
-            "option name '" << currentOptionName <<
-            "' is unknown";
-            
-          optionError (s.str());
-          cerr <<
-            fOptionsHandlerHelpHeader <<
-            endl;
-          printHelpSummary (cerr);
-          exit (2);
-        }
-  
-        S_msrOptionsElement
-          optionsElement = (*it).second;
-            
-        if (! optionsElement) {
-          // currentOptionName is is not well handled by this options handler
-          stringstream s;
-      
-          s <<
-            "option name '" << currentOptionName <<
-            "' is not well handled";
-            
-          optionError (s.str());
-          abort ();
-        }
-        
-        else {
-          // currentOptionName is known, let's handle it
-          fCommandOptionsElements.push_back (
-            optionsElement);
+        handleOptionsName (currentOptionName);
 
-          // determine option element names to be used,
-          // in case one of them (short or long) is empty
-          string
-            shortName =
-              optionsElement->getOptionsElementShortName (),
-            longName =
-              optionsElement->getOptionsElementLongName ();
-
-          string
-            shortNameToBeUsed = shortName,
-            longNameToBeUsed = longName;
-
-          // replace empty option element name if any by the other one,
-          // since they can't both be empty
-          if (! shortNameToBeUsed.size ())
-            shortNameToBeUsed = longNameToBeUsed;
-          if (! longNameToBeUsed.size ())
-            longNameToBeUsed = shortNameToBeUsed;
-
-          // register option element names in command line strings
-          fCommandLineWithShortOptions +=
-            " " + shortNameToBeUsed;
-          fCommandLineWithLongOptions +=
-            " " + longNameToBeUsed;
-
-          // handle the option element
-          if (
-            S_msrOptionsHandler
-              optionsHandler =
-                dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
-            ) {
-            // print the help header
-            cerr <<
-              getOptionsHandlerHelpHeader () <<
-              endl;
-              
-            // print versions history
-            printVersionsHistory (cerr);
-
-            // print the help
-            optionsHandler->printHelp (cerr);
-            cerr <<
-              endl;
-          }
-          
-          else if (
-            S_msrOptionsGroup
-              optionsGroup =
-                dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
-            ) {    
-            optionsGroup->printHelp (cerr);
-            cerr <<
-              endl;
-          }
-          
-          else if (
-            S_msrOptionsSubGroup
-              optionsSubGroup =
-                dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
-            ) {    
-            optionsSubGroup->printHelp (cerr);
-            cerr <<
-              endl;
-          }
-          
-          else {
-            // this is an options item element
-            if (
-              S_msrOptionsBooleanItem
-                optionsBooleanItem =
-                  dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
-              ) {
-              currentOptionsItem = optionsBooleanItem;
-            }
-            
-            else if (
-              S_msrOptionsIntegerItem
-                optionsIntegerItem =
-                  dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
-              ) {
-              expectedValuesNumber =
-                optionsIntegerItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsIntegerItem;
-              }
-            
-            else if (
-              S_msrOptionsFloatItem
-                optionsFloatItem =
-                  dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
-              ) {              
-              expectedValuesNumber =
-                optionsFloatItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsFloatItem;
-            }
-            
-            else if (
-              S_msrOptionsStringItem
-                optionsStringItem =
-                  dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
-              ) {
-              expectedValuesNumber =
-                optionsStringItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsStringItem;
-            }
-            
-            else if (
-              S_msrOptionsRationalItem
-                optionsRationalItem =
-                  dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
-              ) {
-              expectedValuesNumber =
-                optionsRationalItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsRationalItem;
-            }
-            
-            else {
-              stringstream s;
-          
-              s <<
-                "option name '" << currentOptionName <<
-                "' is known but cannot be handled";
-                
-              optionError (s.str());
-              abort ();
-            }
-          }
-  
-          expectedValuesNumber =
-            currentOptionsItem->
-              getOptionsItemValuesNumber ();
-  
-          if (expectedValuesNumber == 0) {
-            // handle the current options item now
-            if (
-              S_msrOptionsBooleanItem
-                optionsBooleanItem =
-                  dynamic_cast<msrOptionsBooleanItem*>(&(*currentOptionsItem))
-              ) {
-              expectedValuesNumber =
-                optionsBooleanItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsBooleanItem;
-              optionsBooleanItem->
-                setBooleanItemVariableValue (true);              
-            }
-            
-            else if (
-              S_msrOptionsIntegerItem
-                optionsIntegerItem =
-                  dynamic_cast<msrOptionsIntegerItem*>(&(*currentOptionsItem))
-              ) {
-              expectedValuesNumber =
-                optionsBooleanItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsIntegerItem;
-              optionsIntegerItem->
-                setIntegerItemVariableValue (1999);
-              }
-            
-            else if (
-              S_msrOptionsFloatItem
-                optionsFloatItem =
-                  dynamic_cast<msrOptionsFloatItem*>(&(*currentOptionsItem))
-              ) {              
-              expectedValuesNumber =
-                optionsBooleanItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsBooleanItem;
-              optionsFloatItem->
-                setFloatItemVariableValue (2017.9);
-            }
-            
-            else if (
-              S_msrOptionsStringItem
-                optionsStringItem =
-                  dynamic_cast<msrOptionsStringItem*>(&(*currentOptionsItem))
-              ) {
-              expectedValuesNumber =
-                optionsBooleanItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsBooleanItem;
-              optionsStringItem->
-                setStringItemVariableValue ("september");
-            }
-            
-            else if (
-              S_msrOptionsRationalItem
-                optionsRationalItem =
-                  dynamic_cast<msrOptionsRationalItem*>(&(*currentOptionsItem))
-              ) {
-              expectedValuesNumber =
-                optionsBooleanItem->
-                  getOptionsItemValuesNumber ();
-  
-              currentOptionsItem = optionsBooleanItem;
-              optionsRationalItem->
-                setRationalItemVariableValue (rational (3, 4));
-            }
-          }
-        }
       }
     }
 
+    else {
+      // currentElement is no options item
+      
+
+      if (pendingOptionsItem) {
+        // currentElement is the value for the pending options item
+      }
+
+      else {
+        // currentElement is an argument
+      }
+    }
+    
     // next please
     n++;
   } // while
@@ -2180,6 +1942,331 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   }
     
   return argumentsVector;
+}
+
+void msrOptionsHandler::handleOptionsName (string optionName)
+{
+  // is currentOptionName known in options elements map?
+  map<string, S_msrOptionsElement>::const_iterator
+    it =
+      fOptionsElementsMap.find (optionName);
+        
+  if (it == fOptionsElementsMap.end ()) {
+    // no, optionName is unknown in the map    
+    stringstream s;
+
+    s <<
+      "option name '" << optionName <<
+      "' is unknown";
+      
+    optionError (s.str());
+    cerr <<
+      fOptionsHandlerHelpHeader <<
+      endl;
+    printHelpSummary (cerr);
+    exit (2);
+  }
+
+  S_msrOptionsElement
+    optionsElement = (*it).second;
+      
+  if (! optionsElement) {
+    // optionName is is not well handled by this options handler
+    stringstream s;
+
+    s <<
+      "option name '" << optionName <<
+      "' is not well handled";
+      
+    optionError (s.str());
+    abort ();
+  }
+  
+  else {
+    // optionName is known, let's handle it
+    fCommandOptionsElements.push_back (
+      optionsElement);
+
+    // determine option element names to be used,
+    // in case one of them (short or long) is empty
+    string
+      shortName =
+        optionsElement->getOptionsElementShortName (),
+      longName =
+        optionsElement->getOptionsElementLongName ();
+
+    string
+      shortNameToBeUsed = shortName,
+      longNameToBeUsed = longName;
+
+    // replace empty option element name if any by the other one,
+    // since they can't both be empty
+    if (! shortNameToBeUsed.size ())
+      shortNameToBeUsed = longNameToBeUsed;
+    if (! longNameToBeUsed.size ())
+      longNameToBeUsed = shortNameToBeUsed;
+
+    // register option element names in command line strings
+    fCommandLineWithShortOptions +=
+      " " + shortNameToBeUsed;
+    fCommandLineWithLongOptions +=
+      " " + longNameToBeUsed;
+
+    // handle the option element
+    if (
+      S_msrOptionsHandler
+        optionsHandler =
+          dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
+      ) {
+      // print the help header
+      cerr <<
+        getOptionsHandlerHelpHeader () <<
+        endl;
+        
+      // print versions history
+      printVersionsHistory (cerr);
+
+      // print the help
+      optionsHandler->printHelp (cerr);
+      cerr <<
+        endl;
+    }
+    
+    else if (
+      // options group?
+      S_msrOptionsGroup
+        optionsGroup =
+          dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+      ) {    
+      optionsGroup->printHelp (cerr);
+      cerr <<
+        endl;
+    }
+    
+    else if (
+      // options subgroup?
+      S_msrOptionsSubGroup
+        optionsSubGroup =
+          dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+      ) {    
+      optionsSubGroup->printHelp (cerr);
+      cerr <<
+        endl;
+    }
+    
+    else {
+      // this is an options item, handle it
+      if (
+        // boolean item?
+        S_msrOptionsBooleanItem
+          optionsBooleanItem =
+            dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber = 0;
+
+        optionsBooleanItem->
+          setBooleanItemVariableValue (true);              
+      }
+      
+      else if (
+        // integer item?
+        S_msrOptionsIntegerItem
+          optionsIntegerItem =
+            dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber = 1;
+
+        pendingOptionsItem = optionsIntegerItem;
+        optionsIntegerItem->
+          setIntegerItemVariableValue (1999);
+        }
+      
+      else if (
+        // float item?
+        S_msrOptionsFloatItem
+          optionsFloatItem =
+            dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+        ) {              
+        expectedValuesNumber = 1;
+
+        pendingOptionsItem = optionsFloatItem;
+        optionsFloatItem->
+          setFloatItemVariableValue (2017.9);
+      }
+      
+      else if (
+        // string item?
+        S_msrOptionsStringItem
+          optionsStringItem =
+            dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber = 1;
+
+        pendingOptionsItem = optionsStringItem;
+        optionsStringItem->
+          setStringItemVariableValue ("september");
+      }
+      
+      else if (
+        // rational item?
+        S_msrOptionsRationalItem
+          optionsRationalItem =
+            dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber = 1;
+
+        pendingOptionsItem = optionsRationalItem;
+        optionsRationalItem->
+          setRationalItemVariableValue (rational (3, 4));
+      }
+
+/* JMI
+      if (
+        S_msrOptionsBooleanItem
+          optionsBooleanItem =
+            dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
+        ) {
+        currentOptionsItem = optionsBooleanItem;
+      }
+      
+      else if (
+        S_msrOptionsIntegerItem
+          optionsIntegerItem =
+            dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber =
+          optionsIntegerItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsIntegerItem;
+        }
+      
+      else if (
+        S_msrOptionsFloatItem
+          optionsFloatItem =
+            dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+        ) {              
+        expectedValuesNumber =
+          optionsFloatItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsFloatItem;
+      }
+      
+      else if (
+        S_msrOptionsStringItem
+          optionsStringItem =
+            dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber =
+          optionsStringItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsStringItem;
+      }
+      
+      else if (
+        S_msrOptionsRationalItem
+          optionsRationalItem =
+            dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+        ) {
+        expectedValuesNumber =
+          optionsRationalItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsRationalItem;
+      }
+      
+      else {
+        stringstream s;
+    
+        s <<
+          "option name '" << optionName <<
+          "' is known but cannot be handled";
+          
+        optionError (s.str());
+        abort ();
+      }
+    }
+
+    expectedValuesNumber =
+      currentOptionsItem->
+        getOptionsItemValuesNumber ();
+
+    if (expectedValuesNumber == 0) {
+      // handle the current options item now
+      if (
+        S_msrOptionsBooleanItem
+          optionsBooleanItem =
+            dynamic_cast<msrOptionsBooleanItem*>(&(*currentOptionsItem))
+        ) {
+        expectedValuesNumber =
+          optionsBooleanItem->
+            getOptionsItemValuesNumber ();
+
+        optionsBooleanItem->
+          setBooleanItemVariableValue (true);              
+      }
+      
+      else if (
+        S_msrOptionsIntegerItem
+          optionsIntegerItem =
+            dynamic_cast<msrOptionsIntegerItem*>(&(*currentOptionsItem))
+        ) {
+        expectedValuesNumber =
+          optionsBooleanItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsIntegerItem;
+        optionsIntegerItem->
+          setIntegerItemVariableValue (1999);
+        }
+      
+      else if (
+        S_msrOptionsFloatItem
+          optionsFloatItem =
+            dynamic_cast<msrOptionsFloatItem*>(&(*currentOptionsItem))
+        ) {              
+        expectedValuesNumber =
+          optionsBooleanItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsBooleanItem;
+        optionsFloatItem->
+          setFloatItemVariableValue (2017.9);
+      }
+      
+      else if (
+        S_msrOptionsStringItem
+          optionsStringItem =
+            dynamic_cast<msrOptionsStringItem*>(&(*currentOptionsItem))
+        ) {
+        expectedValuesNumber =
+          optionsBooleanItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsBooleanItem;
+        optionsStringItem->
+          setStringItemVariableValue ("september");
+      }
+      
+      else if (
+        S_msrOptionsRationalItem
+          optionsRationalItem =
+            dynamic_cast<msrOptionsRationalItem*>(&(*currentOptionsItem))
+        ) {
+        expectedValuesNumber =
+          optionsBooleanItem->
+            getOptionsItemValuesNumber ();
+
+        currentOptionsItem = optionsBooleanItem;
+        optionsRationalItem->
+          setRationalItemVariableValue (rational (3, 4));
+      }
+    }
+    */
+    }
+  }
 }
 
 
