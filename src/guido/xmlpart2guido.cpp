@@ -2185,9 +2185,9 @@ namespace MusicXML2
         
         checkSlurBegin (notevisitor::getSlur());
         
-        checkTupletBegin(notevisitor::getTuplet(), *this, elt);
-        
         checkBeamBegin (notevisitor::getBeam());
+        
+        checkTupletBegin(notevisitor::getTuplet(), *this, elt);
         
         checkLyricBegin (notevisitor::getLyric());
         
@@ -2235,7 +2235,8 @@ namespace MusicXML2
         while (pendingPops--) pop();
         
         checkWavyTrillEnd(*this);
-        
+        checkLyricEnd (notevisitor::getLyric());
+
         checkTupletEnd(notevisitor::getTuplet());
         checkBeamEnd (notevisitor::getBeam());
         checkSlurEnd (notevisitor::getSlur());
@@ -2244,7 +2245,6 @@ namespace MusicXML2
             add(tag);
         }
         
-        checkLyricEnd (notevisitor::getLyric());
         
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
         
