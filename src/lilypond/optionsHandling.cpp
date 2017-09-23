@@ -153,14 +153,16 @@ S_msrOptionsItem msrOptionsItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   msrOptionsItemKind
-                     optionsItemKind)
+                     optionsItemKind,
+  int                optionsItemValuesNumber);
 {
   msrOptionsItem* o = new
     msrOptionsItem (
       optionsItemShortName,
       optionsItemDescription,
       optionsItemDescription,
-      optionsItemKind);
+      optionsItemKind,
+      optionsItemValuesNumber);
   assert(o!=0);
   return o;
 }
@@ -170,13 +172,16 @@ msrOptionsItem::msrOptionsItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   msrOptionsItem::msrOptionsItemKind
-                     optionsItemKind)
+                     optionsItemKind,
+  int                optionsItemValuesNumber)
   : msrOptionsElement (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {
   fOptionsItemKind = optionsItemKind;
+
+  fOptionsItemValuesNumber = optionsItemValuesNumber;
 }
     
 msrOptionsItem::~msrOptionsItem()
@@ -286,7 +291,8 @@ msrOptionsBooleanItem::msrOptionsBooleanItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      msrOptionsItem::kOptionsItemHasNoArgument),
+      msrOptionsItem::kOptionsItemHasNoArgument,
+      0),
     fOptionsBooleanItemVariableDisplayName (
       optionsBooleanItemVariableDisplayName),
     fOptionsBooleanItemVariable (
@@ -397,7 +403,8 @@ msrOptionsIntegerItem::msrOptionsIntegerItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind),
+      optionsItemKind,
+      1),
     fOptionsIntegerItemVariable (
       optionsIntegerItemVariable),
     fOptionsIntegerItemVariableDisplayName (
@@ -495,7 +502,8 @@ msrOptionsFloatItem::msrOptionsFloatItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind),
+      optionsItemKind,
+      1),
     fOptionsFloatItemVariableDisplayName (
       optionsFloatItemVariableDisplayName),
     fOptionsFloatItemVariable (
@@ -593,7 +601,8 @@ msrOptionsStringItem::msrOptionsStringItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind),
+      optionsItemKind,
+      1),
     fOptionsStringItemVariableDisplayName (
       optionsStringItemVariableDisplayName),
     fOptionsStringItemVariable (
@@ -692,7 +701,8 @@ msrOptionsRationalItem::msrOptionsRationalItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind),
+      optionsItemKind,
+      1),
     fOptionsRationalItemVariableDisplayName (
       optionsRationalItemVariableDisplayName),
     fOptionsRationalItemVariable (
@@ -1782,7 +1792,10 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   
   // decipher the command options and arguments
   vector<string> argumentsVector;
-  int             n = 1;
+  int            n = 1;
+
+  S_msrOptionsItem currentOptionsItem;
+  int              expectedValuesNumber = 0;
   
   bool pureHelpRun = true;
 
@@ -1972,60 +1985,151 @@ const vector<string> msrOptionsHandler::analyzeOptions (
               endl;
           }
           
-          else if (
-            S_msrOptionsBooleanItem
-              optionsBooleanItem =
-                dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
-            ) {
-            optionsBooleanItem->
-              setBooleanItemVariableValue (true);
-          }
-          
-          else if (
-            S_msrOptionsIntegerItem
-              optionsIntegerItem =
-                dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
-            ) {
-            optionsIntegerItem->
-              setIntegerItemVariableValue (1999);
-          }
-          
-          else if (
-            S_msrOptionsFloatItem
-              optionsFloatItem =
-                dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
-            ) {
-            optionsFloatItem->
-              setFloatItemVariableValue (2017.9);
-          }
-          
-          else if (
-            S_msrOptionsStringItem
-              optionsStringItem =
-                dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
-            ) {
-            optionsStringItem->
-              setStringItemVariableValue ("september");
-          }
-          
-          else if (
-            S_msrOptionsRationalItem
-              optionsRationalItem =
-                dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
-            ) {
-            optionsRationalItem->
-              setRationalItemVariableValue (rational (3, 4));
-          }
-          
           else {
-            stringstream s;
-        
-            s <<
-              "option name '" << currentOptionName <<
-              "' is known but cannot be handled";
-              
-            optionError (s.str());
-            abort ();
+            // this is an options item element
+            if (
+              S_msrOptionsBooleanItem
+                optionsBooleanItem =
+                  dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
+              ) {
+              currentOptionsItem = optionsBooleanItem;
+            }
+            
+            else if (
+              S_msrOptionsIntegerItem
+                optionsIntegerItem =
+                  dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
+              ) {
+              expectedValuesNumber =
+                optionsIntegerItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsIntegerItem;
+              }
+            
+            else if (
+              S_msrOptionsFloatItem
+                optionsFloatItem =
+                  dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+              ) {              
+              expectedValuesNumber =
+                optionsFloatItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsFloatItem;
+            }
+            
+            else if (
+              S_msrOptionsStringItem
+                optionsStringItem =
+                  dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+              ) {
+              expectedValuesNumber =
+                optionsStringItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsStringItem;
+            }
+            
+            else if (
+              S_msrOptionsRationalItem
+                optionsRationalItem =
+                  dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+              ) {
+              expectedValuesNumber =
+                optionsRationalItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsRationalItem;
+            }
+            
+            else {
+              stringstream s;
+          
+              s <<
+                "option name '" << currentOptionName <<
+                "' is known but cannot be handled";
+                
+              optionError (s.str());
+              abort ();
+            }
+          }
+  
+          expectedValuesNumber =
+            currentOptionsItem->
+              getOptionsItemValuesNumber ();
+  
+          if (expectedValuesNumber == 0) {
+            // handle the current options item now
+            if (
+              S_msrOptionsBooleanItem
+                optionsBooleanItem =
+                  dynamic_cast<msrOptionsBooleanItem*>(&(*currentOptionsItem))
+              ) {
+              expectedValuesNumber =
+                optionsBooleanItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsBooleanItem;
+              optionsBooleanItem->
+                setBooleanItemVariableValue (true);              
+            }
+            
+            else if (
+              S_msrOptionsIntegerItem
+                optionsIntegerItem =
+                  dynamic_cast<msrOptionsIntegerItem*>(&(*currentOptionsItem))
+              ) {
+              expectedValuesNumber =
+                optionsBooleanItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsIntegerItem;
+              optionsIntegerItem->
+                setIntegerItemVariableValue (1999);
+              }
+            
+            else if (
+              S_msrOptionsFloatItem
+                optionsFloatItem =
+                  dynamic_cast<msrOptionsFloatItem*>(&(*currentOptionsItem))
+              ) {              
+              expectedValuesNumber =
+                optionsBooleanItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsBooleanItem;
+              optionsFloatItem->
+                setFloatItemVariableValue (2017.9);
+            }
+            
+            else if (
+              S_msrOptionsStringItem
+                optionsStringItem =
+                  dynamic_cast<msrOptionsStringItem*>(&(*currentOptionsItem))
+              ) {
+              expectedValuesNumber =
+                optionsBooleanItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsBooleanItem;
+              optionsStringItem->
+                setStringItemVariableValue ("september");
+            }
+            
+            else if (
+              S_msrOptionsRationalItem
+                optionsRationalItem =
+                  dynamic_cast<msrOptionsRationalItem*>(&(*currentOptionsItem))
+              ) {
+              expectedValuesNumber =
+                optionsBooleanItem->
+                  getOptionsItemValuesNumber ();
+  
+              currentOptionsItem = optionsBooleanItem;
+              optionsRationalItem->
+                setRationalItemVariableValue (rational (3, 4));
+            }
           }
         }
       }

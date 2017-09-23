@@ -124,7 +124,8 @@ class EXP msrOptionsItem : public msrOptionsElement
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      msrOptionsItemKind optionsItemKind);
+      msrOptionsItemKind optionsItemKind, // JMI
+      int                optionsItemValuesNumber);
      
   protected:
 
@@ -135,7 +136,8 @@ class EXP msrOptionsItem : public msrOptionsElement
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      msrOptionsItemKind optionsItemKind);
+      msrOptionsItemKind optionsItemKind, // JMI
+      int                optionsItemValuesNumber);
   
     virtual ~msrOptionsItem();
 
@@ -146,6 +148,9 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     msrOptionsItemKind    getOptionsItemKind () const
                               { return fOptionsItemKind; }
+    
+    int                   getOptionsItemValuesNumber () const
+                              { return fOptionsItemValuesNumber; }
     
     // services
     // ------------------------------------------------------
@@ -165,6 +170,8 @@ class EXP msrOptionsItem : public msrOptionsElement
   protected:
 
     msrOptionsItemKind    fOptionsItemKind;
+
+  int                     fOptionsItemValuesNumber);
 };
 typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
