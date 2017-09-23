@@ -210,18 +210,13 @@ void checkOptionUniqueness (
 #define HEAVY 0
 
 void analyzeOptionsAndArguments (
+S_xml2lilypondOptionsHandler
+                 optionsHandler,
   int            argc,
   char*          argv[],
   string&        inputFileName,
   string&        outputFileName)
 {
-  // create the options handler
-  S_xml2lilypondOptionsHandler
-    optionsHandler =
-      xml2lilypondOptionsHandler::create (
-        "h", "help",
-        R"(All options)");
-
   // analyse the options
   vector<string>
     argumentsVector =
@@ -3917,7 +3912,16 @@ int main (int argc, char *argv[])
     exit (0);
   }
   
-  // analyze the command line options
+  // create the options handler
+  // ------------------------------------------------------
+
+  S_xml2lilypondOptionsHandler
+    optionsHandler =
+      xml2lilypondOptionsHandler::create (
+        "h", "help",
+        R"(All options)");
+
+  // analyze the command line options and arguments
   // ------------------------------------------------------
 
   string    inputFileName;
@@ -3930,6 +3934,7 @@ int main (int argc, char *argv[])
   }
   else {
   analyzeOptionsAndArguments (
+    optionsHandler,
     argc, argv,
     inputFileName, outputFileName);
   }
@@ -3988,10 +3993,49 @@ int main (int argc, char *argv[])
       cerr << outputFileName;
     else
       cerr << "standard output";
-    cerr << endl;
+    cerr <<
+      endl <<
+      endl;
     
-    printOptions ();
+    cerr << idtr <<
+      "The command line is:" <<
+      endl;
+
+    idtr++;
+    
+    cerr <<
+      idtr <<
+        optionsHandler->getCommandLineWithLongOptions () <<
+        endl <<
+      idtr <<
+        "or:" <<
+        endl <<
+      idtr <<
+        optionsHandler->getCommandLineWithShortOptions () <<
+        endl <<
+      endl;
+
+    idtr--;
   }
+
+  // print the chosen LilyPond options
+  // ------------------------------------------------------
+
+  optionsHandler->
+    printOptionsValues (
+     cerr, 40); // JMI
+  cerr <<
+    endl;
+
+  // acknoledge end of command line analysis
+  // ------------------------------------------------------
+
+  if (gGeneralOptions->fTraceGeneral)
+    cerr <<
+      endl <<
+      idtr <<
+        "The command line options and arguments have been analyzed" <<
+        endl;
 
   // open output file if need be
   // ------------------------------------------------------
