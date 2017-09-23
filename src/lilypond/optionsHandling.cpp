@@ -935,6 +935,41 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   }
 }
 
+void msrOptionsSubGroup::printHelpSummary (ostream& os) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+}
+
 void msrOptionsSubGroup::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
@@ -1259,7 +1294,8 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup description
-      os << (*i)->getOptionsElementDescription ();
+      os << idtr;
+      (*i)->printHelpSummary ();
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -1617,6 +1653,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       i      = iBegin;
     for ( ; ; ) {
       // print the options group summary
+      os << idtr;
       (*i)->printHelpSummary (os);
       if (++i == iEnd) break;
       cerr << endl;
@@ -1838,6 +1875,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             "' is unknown";
             
           optionError (s.str());
+          printHelpSummary (cerr);
           exit (2);
         }
   
@@ -1845,24 +1883,18 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           optionsElement = (*it).second;
             
         if (! optionsElement) {
-          
-          // currentOptionName is unknown to this options handler
-          
+          // currentOptionName is is not well handled by this options handler
           stringstream s;
       
           s <<
             "option name '" << currentOptionName <<
-            "' is unknown";
+            "' is not well handled";
             
           optionError (s.str());
-
-          printHelpSummary (cerr);
-
-          exit (2); // JMI
+          abort ();
         }
         
         else {
-          
           // currentOptionName is known, let's handle it
           fCommandOptionsElements.push_back (
             optionsElement);
