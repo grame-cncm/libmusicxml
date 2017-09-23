@@ -658,6 +658,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 
     msrOptionsHandler (
+      string optionsHandlerHelpHeader,
       string optionHandlerShortName,
       string optionHandlerLongName,
       string optionHandlerDescription);
@@ -676,6 +677,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // set and get
     // ------------------------------------------------------
 
+    string                getOptionsHandlerHelpHeader () const
+                              { return fOptionsHandlerHelpHeader; }
+                              
     string                getCommandName () const
                               { return fCommandName; }
                               
@@ -723,6 +727,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
   protected:
 
+    string                fOptionsHandlerHelpHeader;
+    
     list<S_msrOptionsGroup>
                           fOptionsHandlerOptionsGroupsList;
 

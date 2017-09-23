@@ -53,6 +53,35 @@ xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
   string optionHandlerLongName,
   string optionHandlerDescription)
   : msrOptionsHandler (
+R"(
+                Welcome to xml2lilypond v0.1.0, 
+              the MusicXML to LilyPond translator
+          delivered as part of the libmusicxml2 library.
+      https://github.com/grame-cncm/libmusicxml/tree/lilypond
+
+Usage:
+
+    xml2lilypond [options] [MusicXMLFile|-]
+
+What it does:
+
+    This multi-pass translator basically performs 4 passes:
+        Pass 1: reads the contents of MusicXMLFile or stdin ('-')
+                and converts it to a MusicXML tree;
+        Pass 2: converts that tree to a Music Score Representation (MSR);
+        Pass 3: converts the MSR to a LilyPond Score Representation (LPSR);
+        Pass 4: converts the LPSR to LilyPond source code 
+                and writes it to standard output.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    There are various options to fine tune the generated LilyPond code
+    and limit the need for manually editing the latter.
+
+    The activity log and warning/error messages go to standard error.
+)"
+      ,
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)

@@ -15,9 +15,10 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
-#include "optionsHandling.h"
-
+#include "version.h"
 #include "utilities.h"
+
+#include "optionsHandling.h"
 
 
 using namespace std;
@@ -1295,7 +1296,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
     for ( ; ; ) {
       // print the options subgroup description
       os << idtr;
-      (*i)->printHelpSummary ();
+      (*i)->printHelpSummary (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -1358,6 +1359,7 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 //______________________________________________________________________________
 /* JMI
 S_msrOptionsHandler msrOptionsHandler::create (
+  string optionsHandlerHelpHeader,
   string optionHandlerShortName,
   string optionHandlerLongName,
   string optionHandlerDescription)
@@ -1373,6 +1375,7 @@ S_msrOptionsHandler msrOptionsHandler::create (
 */
 
 msrOptionsHandler::msrOptionsHandler (
+  string optionsHandlerHelpHeader,
   string optionHandlerShortName,
   string optionHandlerLongName,
   string optionHandlerDescription)
@@ -1381,6 +1384,8 @@ msrOptionsHandler::msrOptionsHandler (
       optionHandlerLongName,
       optionHandlerDescription)
 {
+  fOptionsHandlerHelpHeader = optionsHandlerHelpHeader;
+  
   fMaximumDisplayNameWidth = 1;
 }
 
@@ -1875,6 +1880,9 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             "' is unknown";
             
           optionError (s.str());
+          cerr <<
+            fOptionsHandlerHelpHeader <<
+            endl;
           printHelpSummary (cerr);
           exit (2);
         }
@@ -1929,7 +1937,16 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             S_msrOptionsHandler
               optionsHandler =
                 dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
-            ) {    
+            ) {
+            // print the help header
+            cerr <<
+              getOptionsHandlerHelpHeader () <<
+              endl;
+              
+            // print versions history
+            printVersionsHistory (cerr);
+
+            // print the help
             optionsHandler->printHelp (cerr);
             cerr <<
               endl;
