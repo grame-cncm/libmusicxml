@@ -31,6 +31,8 @@ namespace MusicXML2
 
 #define TRACE_OPTIONS 0
 
+#define FIELD_WIDTH 40
+
 //______________________________________________________________________________
 S_msrOptionsElement msrOptionsElement::create (
   string optionsElementShortName,
@@ -295,7 +297,7 @@ msrOptionsBooleanItem::~msrOptionsBooleanItem()
 
 void msrOptionsBooleanItem::print (ostream& os) const
 {
-  const int fieldWidth = 40;
+  const int fieldWidth = FIELD_WIDTH;
   
   os <<
     idtr <<
@@ -406,7 +408,7 @@ msrOptionsIntegerItem::~msrOptionsIntegerItem()
 
 void msrOptionsIntegerItem::print (ostream& os) const
 {
-  const int fieldWidth = 40;
+  const int fieldWidth = FIELD_WIDTH;
   
   os <<
     idtr <<
@@ -504,7 +506,7 @@ msrOptionsFloatItem::~msrOptionsFloatItem()
 
 void msrOptionsFloatItem::print (ostream& os) const
 {
-  const int fieldWidth = 40;
+  const int fieldWidth = FIELD_WIDTH;
   
   os <<
     idtr <<
@@ -602,7 +604,7 @@ msrOptionsStringItem::~msrOptionsStringItem()
 
 void msrOptionsStringItem::print (ostream& os) const
 {
-  const int fieldWidth = 40;
+  const int fieldWidth = FIELD_WIDTH;
   
   os <<
     idtr <<
@@ -701,7 +703,7 @@ msrOptionsRationalItem::~msrOptionsRationalItem()
 
 void msrOptionsRationalItem::print (ostream& os) const
 {
-  const int fieldWidth = 40;
+  const int fieldWidth = FIELD_WIDTH;
   
   os <<
     idtr <<
@@ -1304,7 +1306,9 @@ msrOptionsHandler::msrOptionsHandler (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)
-{}
+{
+  fMaximumDisplayNameWidth = 1;
+}
 
 msrOptionsHandler::~msrOptionsHandler()
 {}
@@ -1335,10 +1339,16 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
     optionShortName =
       optionsElement->getOptionsElementShortName ();
 
+  int
+    optionLongNameSize =
+      optionLongName.size (),
+    optionShortNameSize =
+      optionShortName.size ();
+
   if (
-    optionShortName.size () == 0
+    optionShortNameSize == 0
       &&
-    optionLongName.size () == 0) {
+    optionLongNameSize == 0) {
     stringstream s;
 
     s <<
@@ -1356,6 +1366,7 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
       
     optionError (s.str());
   }
+  
   for (
     map<string, S_msrOptionsElement>::iterator i =
       fOptionsElementsMap.begin();
@@ -1390,10 +1401,21 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
   } // for
 
   // everything OK, register optionsElement in the options element map
-  if (optionLongName.size ())
-    fOptionsElementsMap [optionLongName] = optionsElement;
-  if (optionShortName.size ())
-    fOptionsElementsMap [optionShortName] = optionsElement;
+  if (optionLongNameSize) {
+    fOptionsElementsMap [optionLongName] =
+      optionsElement;
+    
+    if (optionLongNameSize > fMaximumDisplayNameWidth)
+      fMaximumDisplayNameWidth = optionLongNameSize;
+  }
+  
+  if (optionShortNameSize) {
+    fOptionsElementsMap [optionShortName] =
+      optionsElement;
+    
+    if (optionShortNameSize > fMaximumDisplayNameWidth)
+      fMaximumDisplayNameWidth = optionShortNameSize;
+  }
 }
 
 void msrOptionsHandler::print (ostream& os) const
@@ -1505,43 +1527,11 @@ void msrOptionsHandler::printHelp (ostream& os) const
 }
 
 void msrOptionsHandler::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-/* JMI
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-*/
-  os <<
+    fOptionsElementDescription <<
     ":" <<
     endl;
 
@@ -1558,7 +1548,7 @@ void msrOptionsHandler::printOptionsValues (
       // print the options group values
       (*i)->
         printOptionsValues (
-          os, valueFieldWidth);
+          os, fMaximumDisplayNameWidth);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -1890,8 +1880,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     idtr++;
     
     this->
-      printOptionsValues (
-        cerr, 40); // JMI
+      printOptionsValues (cerr);
         
     cerr <<
       endl;

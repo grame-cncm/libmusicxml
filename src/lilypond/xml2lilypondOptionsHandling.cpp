@@ -88,11 +88,12 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
     idtr--;
   }
 
-  // register options handler in itself
+  // register options handler in itself,
+  // so that the 'global' help options can be handled
   this->
     registerOptionsHandlerInSelf ();
 
-  if (true || TRACE_OPTIONS) { // JMI
+  if (TRACE_OPTIONS) {
     cerr << idtr <<
       "xml2lilypondOptionsHandler help:" <<
       endl;

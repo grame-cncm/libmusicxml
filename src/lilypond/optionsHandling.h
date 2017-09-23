@@ -713,8 +713,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     void                  printHelp (ostream& os) const;
 
     void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream& os) const;
 
   protected:
 
@@ -728,8 +727,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
     list<S_msrOptionsElement>
                           fCommandOptionsElements;
 
-    string                 fCommandLineWithShortOptions;
-    string                 fCommandLineWithLongOptions;
+    string                fCommandLineWithShortOptions;
+    string                fCommandLineWithLongOptions;
+    int                   fMaximumDisplayNameWidth;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);

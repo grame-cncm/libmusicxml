@@ -4022,8 +4022,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   optionsHandler->
-    printOptionsValues (
-     cerr, 40); // JMI
+    printOptionsValues (cerr);
   cerr <<
     endl;
 
