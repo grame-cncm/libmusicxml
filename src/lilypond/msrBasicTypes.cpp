@@ -39,6 +39,8 @@ namespace MusicXML2 {
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
+#define TRACE_MSR_BASIC_TYPES 0
+
 // intervals
 //______________________________________________________________________________
 int msrIntervalAsSemiTones (
@@ -3124,13 +3126,13 @@ msrChordItem::msrChordItem (
   fChordItemNumber   = chordItemNumber;
   fChordItemInterval = chordItemInterval;
 
-// JMI  if (gGeneralOptions->fTraceHarmonies) {
+  if (TRACE_MSR_BASIC_TYPES) {
     cerr << idtr <<
       "==> Creating chord item '" <<
       chordItemAsString () <<
       "'" <<
       endl;
- // }
+  }
 }
 
 msrChordItem::~msrChordItem()
@@ -3288,13 +3290,13 @@ msrChordIntervals::msrChordIntervals (
 {
   fChordIntervalsHarmonyKind = chordIntervalsHarmonyKind;
 
-// JMI  if (gGeneralOptions->fTraceHarmonies) {
+  if (TRACE_MSR_BASIC_TYPES) {
     cerr << idtr <<
       "==> Creating chord intervals '" <<
       chordIntervalsAsString () <<
       "'" <<
       endl;
-//  }
+  }
 
   initializeChordIntervals ();
 }

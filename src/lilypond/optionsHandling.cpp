@@ -1201,15 +1201,12 @@ void msrOptionsGroup::printHelp (ostream& os) const
   }
 }
 
-void msrOptionsGroup::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+void msrOptionsGroup::printHelpSummary (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription;
 
-/* JMI
   if (
     fOptionsElementShortName.size ()
         &&
@@ -1237,7 +1234,48 @@ void msrOptionsGroup::printOptionsValues (
       ")";
     }
   }
-*/
+
+  os <<
+    ":" <<
+    endl;
+
+  // underline the options group header
+  os <<
+    idtr;
+  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
+    os << "-";
+  } // for
+  os <<
+    endl;
+
+  if (fOptionsGroupSubGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsSubGroup>::const_iterator
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup description
+      os << (*i)->getOptionsElementDescription ();
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+}
+
+void msrOptionsGroup::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
   os <<
     ":" <<
     endl;
@@ -1526,6 +1564,67 @@ void msrOptionsHandler::printHelp (ostream& os) const
     endl;
 }
 
+void msrOptionsHandler::printHelpSummary (ostream& os) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription;
+
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+
+  os <<
+    ":" <<
+    endl;
+
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+  // JMI  os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsGroup>::const_iterator
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group summary
+      (*i)->printHelpSummary (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+  
+  os <<
+    endl;
+}
+
 void msrOptionsHandler::printOptionsValues (
   ostream& os) const
 {
@@ -1598,7 +1697,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   int   argc,
   char* argv[])
 {
-  if (true || TRACE_OPTIONS) {
+  if (TRACE_OPTIONS) {
     // print the options elements map  
     cerr << idtr <<
       "Options elements map (" <<

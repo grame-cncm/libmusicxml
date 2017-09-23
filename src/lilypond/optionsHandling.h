@@ -623,6 +623,8 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
+    void                  printHelpSummary (ostream& os) const;
+    
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
@@ -712,6 +714,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
+    void                  printHelpSummary (ostream& os) const;
+    
     void                  printOptionsValues (
                             ostream& os) const;
 

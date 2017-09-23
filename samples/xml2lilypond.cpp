@@ -233,7 +233,7 @@ S_xml2lilypondOptionsHandler
       break;
 
     default:
-      printUsage (kAllHelp, 1);
+      optionsHandler->printHelpSummary (cerr);
       break;
     } //  switch
 
