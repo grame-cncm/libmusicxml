@@ -255,51 +255,51 @@ ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
 }
 
 //______________________________________________________________________________
-S_msrOptionsBoolItem msrOptionsBoolItem::create (
+S_msrOptionsBooleanItem msrOptionsBooleanItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
-  string optionsBoolItemVariableDisplayName,
-  bool&  optionsBoolItemVariable)
+  string optionsBooleanItemVariableDisplayName,
+  bool&  optionsBooleanItemVariable)
 {
-  msrOptionsBoolItem* o = new
-    msrOptionsBoolItem (
+  msrOptionsBooleanItem* o = new
+    msrOptionsBooleanItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsBoolItemVariableDisplayName,
-      optionsBoolItemVariable);
+      optionsBooleanItemVariableDisplayName,
+      optionsBooleanItemVariable);
   assert(o!=0);
   return o;
 }
 
-msrOptionsBoolItem::msrOptionsBoolItem (
+msrOptionsBooleanItem::msrOptionsBooleanItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
-  string optionsBoolItemVariableDisplayName,
-  bool&  optionsBoolItemVariable)
+  string optionsBooleanItemVariableDisplayName,
+  bool&  optionsBooleanItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       msrOptionsItem::kOptionsItemHasNoArgument),
-    fOptionsBoolItemVariableDisplayName (
-      optionsBoolItemVariableDisplayName),
-    fOptionsBoolItemVariable (
-      optionsBoolItemVariable)
+    fOptionsBooleanItemVariableDisplayName (
+      optionsBooleanItemVariableDisplayName),
+    fOptionsBooleanItemVariable (
+      optionsBooleanItemVariable)
 {}
 
-msrOptionsBoolItem::~msrOptionsBoolItem()
+msrOptionsBooleanItem::~msrOptionsBooleanItem()
 {}
 
-void msrOptionsBoolItem::print (ostream& os) const
+void msrOptionsBooleanItem::print (ostream& os) const
 {
   const int fieldWidth = 40;
   
   os <<
     idtr <<
-      "OptionsBoolItem:" <<
+      "OptionsBooleanItem:" <<
       endl;
 
   idtr++;
@@ -329,88 +329,88 @@ void msrOptionsBoolItem::print (ostream& os) const
   os << left <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsBoolItemVariableDisplayName" << " : " <<
-      fOptionsBoolItemVariableDisplayName <<
+      "fOptionsBooleanItemVariableDisplayName" << " : " <<
+      fOptionsBooleanItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsBoolItemVariable" << " : " <<
+      "fOptionsBooleanItemVariable" << " : " <<
       booleanAsString (
-        fOptionsBoolItemVariable) <<
+        fOptionsBooleanItemVariable) <<
       endl;
 
   idtr--;
 }
 
-void msrOptionsBoolItem::printOptionsValues (
+void msrOptionsBooleanItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
   os << left <<
     idtr <<
       setw(valueFieldWidth) <<
-      fOptionsBoolItemVariableDisplayName <<
+      fOptionsBooleanItemVariableDisplayName <<
       " : " <<
       booleanAsString (
-        fOptionsBoolItemVariable) <<
+        fOptionsBooleanItemVariable) <<
       endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt)
+ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsIntItem msrOptionsIntItem::create (
+S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  string             optionsIntItemVariableDisplayName,
-  int&               optionsIntItemVariable,
+  string             optionsIntegerItemVariableDisplayName,
+  int&               optionsIntegerItemVariable,
   msrOptionsItemKind optionsItemKind)
 {
-  msrOptionsIntItem* o = new
-    msrOptionsIntItem (
+  msrOptionsIntegerItem* o = new
+    msrOptionsIntegerItem (
       optionsItemShortName,
       optionsItemDescription,
       optionsItemDescription,
-      optionsIntItemVariableDisplayName,
-      optionsIntItemVariable,
+      optionsIntegerItemVariableDisplayName,
+      optionsIntegerItemVariable,
       optionsItemKind);
   assert(o!=0);
   return o;
 }
 
-msrOptionsIntItem::msrOptionsIntItem (
+msrOptionsIntegerItem::msrOptionsIntegerItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  string             optionsIntItemVariableDisplayName,
-  int&               optionsIntItemVariable,
+  string             optionsIntegerItemVariableDisplayName,
+  int&               optionsIntegerItemVariable,
   msrOptionsItemKind optionsItemKind)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsItemKind),
-    fOptionsIntItemVariable (
-      optionsIntItemVariable),
-    fOptionsIntItemVariableDisplayName (
-      optionsIntItemVariableDisplayName)
+    fOptionsIntegerItemVariable (
+      optionsIntegerItemVariable),
+    fOptionsIntegerItemVariableDisplayName (
+      optionsIntegerItemVariableDisplayName)
 {}
 
-msrOptionsIntItem::~msrOptionsIntItem()
+msrOptionsIntegerItem::~msrOptionsIntegerItem()
 {}
 
-void msrOptionsIntItem::print (ostream& os) const
+void msrOptionsIntegerItem::print (ostream& os) const
 {
   const int fieldWidth = 40;
   
   os <<
     idtr <<
-      "OptionsIntItem:" <<
+      "OptionsIntegerItem:" <<
       endl;
 
   idtr++;
@@ -430,31 +430,31 @@ void msrOptionsIntItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsIntItemVariableDisplayName" << " : " <<
-      fOptionsIntItemVariableDisplayName <<
+      "fOptionsIntegerItemVariableDisplayName" << " : " <<
+      fOptionsIntegerItemVariableDisplayName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsIntItemVariable" << " : " << fOptionsIntItemVariable <<
+      "fOptionsIntegerItemVariable" << " : " << fOptionsIntegerItemVariable <<
       endl;
 
   idtr--;
 }
 
-void msrOptionsIntItem::printOptionsValues (
+void msrOptionsIntegerItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
   os << left <<
     idtr <<
       setw(valueFieldWidth) <<
-      fOptionsIntItemVariableDisplayName <<
+      fOptionsIntegerItemVariableDisplayName <<
       " : " <<
-      fOptionsIntItemVariable <<
+      fOptionsIntegerItemVariable <<
       endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt)
+ostream& operator<< (ostream& os, const S_msrOptionsIntegerItem& elt)
 {
   elt->print (os);
   return os;
@@ -1638,10 +1638,16 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     cerr <<
       endl;
   }
+
+  // fetch command name
+  fCommandName = string (argv [0]);
   
+  fCommandLineWithShortOptions = fCommandName;
+  fCommandLineWithLongOptions  = fCommandName;
+  
+  // decipher the command options and arguments
   vector<string> argumentsVector;
-  
-  int n = 0;
+  int             n = 1;
   
   bool pureHelpRun = true;
 
@@ -1670,6 +1676,12 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         }
         
         argumentsVector.push_back (currentElement);
+
+        fCommandLineWithShortOptions +=
+          " " + currentElement;
+        fCommandLineWithLongOptions +=
+          " " + currentElement;
+        
         pureHelpRun = false;
       }
       
@@ -1737,11 +1749,11 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   
         S_msrOptionsElement
           optionsElement = (*it).second;
-          
-     // JMI       fetchOptionElement (currentOptionName);
-  
+            
         if (! optionsElement) {
-          // currentOptionName is unknown to this options handler 
+          
+          // currentOptionName is unknown to this options handler
+          
           stringstream s;
       
           s <<
@@ -1752,11 +1764,37 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         }
         
         else {
+          
           // currentOptionName is known, let's handle it
-  /*
-          S_msrOptionsElement
-            optionsElement = (*it).second;
-  */
+          fCommandOptionsElements.push_back (
+            optionsElement);
+
+          // determine option element names to be used,
+          // in case one of them (short or long) is empty
+          string
+            shortName =
+              optionsElement->getOptionsElementShortName (),
+            longName =
+              optionsElement->getOptionsElementLongName ();
+
+          string
+            shortNameToBeUsed = shortName,
+            longNameToBeUsed = longName;
+
+          // replace empty option element name if any by the other one,
+          // since they can't both be empty
+          if (! shortNameToBeUsed.size ())
+            shortNameToBeUsed = longNameToBeUsed;
+          if (! longNameToBeUsed.size ())
+            longNameToBeUsed = shortNameToBeUsed;
+
+          // register option element names in command line strings
+          fCommandLineWithShortOptions +=
+            " " + shortNameToBeUsed;
+          fCommandLineWithLongOptions +=
+            " " + longNameToBeUsed;
+
+          // handle the option element
           if (
             S_msrOptionsHandler
               optionsHandler =
@@ -1782,21 +1820,21 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           }
           
           else if (
-            S_msrOptionsBoolItem
-              optionsBoolItem =
-                dynamic_cast<msrOptionsBoolItem*>(&(*optionsElement))
+            S_msrOptionsBooleanItem
+              optionsBooleanItem =
+                dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
             ) {
-            optionsBoolItem->
-              setBoolItemVariableValue (true);
+            optionsBooleanItem->
+              setBooleanItemVariableValue (true);
           }
           
           else if (
-            S_msrOptionsIntItem
-              optionsIntItem =
-                dynamic_cast<msrOptionsIntItem*>(&(*optionsElement))
+            S_msrOptionsIntegerItem
+              optionsIntegerItem =
+                dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
             ) {
-            optionsIntItem->
-              setIntItemVariableValue (1999);
+            optionsIntegerItem->
+              setIntegerItemVariableValue (1999);
           }
           
           else if (

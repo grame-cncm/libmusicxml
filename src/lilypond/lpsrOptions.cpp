@@ -80,7 +80,7 @@ R"(Trace and display)"
       
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "tlpsr", "traceLpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLpsr",
@@ -88,7 +88,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "ttlpvisits", "traceLpsrVisitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
         "traceLpsrVisitors",
@@ -96,7 +96,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "lpsr", "displayLpsr",
 R"(Write the contents of the LPSR data to standard error.)",
         "displayLpsr",
@@ -104,7 +104,7 @@ R"(Write the contents of the LPSR data to standard error.)",
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "tscheme", "traceSchemeFunctions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
         "traceSchemeFunctions",
@@ -152,7 +152,7 @@ R"(Languages)"
   
   languagesSubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "lppl", "lpsrPitchesLanguage",
 R"(Use 'language' to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
@@ -166,7 +166,7 @@ The default is to use 'nederlands'.)",
 
   languagesSubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "lpcl", "lpsrChordsLanguage",
 R"(Use 'language' to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.

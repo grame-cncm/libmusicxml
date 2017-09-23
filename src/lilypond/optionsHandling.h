@@ -80,7 +80,7 @@ class EXP msrOptionsElement : public smartable
     string                operator() () const
                               { return fOptionsElementDescription; }
   
-    S_msrOptionsElement   fetchOptionElement (
+    S_msrOptionsElement   fetchOptionElement ( // JMI
                             string optiontElementName);
                             
     // print
@@ -170,49 +170,49 @@ typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsBoolItem : public msrOptionsItem
+class EXP msrOptionsBooleanItem : public msrOptionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsBoolItem> create (
+    static SMARTP<msrOptionsBooleanItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
-      string optionsBoolItemVariableDisplayName,
-      bool&  optionsBoolItemVariable);
+      string optionsBooleanItemVariableDisplayName,
+      bool&  optionsBooleanItemVariable);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsBoolItem (
+    msrOptionsBooleanItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
-      string optionsBoolItemVariableDisplayName,
-      bool&  optionsBoolItemVariable);
+      string optionsBooleanItemVariableDisplayName,
+      bool&  optionsBooleanItemVariable);
       
-    virtual ~msrOptionsBoolItem();
+    virtual ~msrOptionsBooleanItem();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsBoolItemVariableDisplayName () const
+    string                getOptionsBooleanItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsBoolItemVariableDisplayName;
+                                  fOptionsBooleanItemVariableDisplayName;
                               }
                               
-    void                  setBoolItemVariableValue (
+    void                  setBooleanItemVariableValue (
                             bool value)
                               {
-                                fOptionsBoolItemVariable = value;
+                                fOptionsBooleanItemVariable = value;
                               }
 
     // services
@@ -229,26 +229,26 @@ class EXP msrOptionsBoolItem : public msrOptionsItem
 
   private:
   
-    string                fOptionsBoolItemVariableDisplayName;
-    bool&                 fOptionsBoolItemVariable;
+    string                fOptionsBooleanItemVariableDisplayName;
+    bool&                 fOptionsBooleanItemVariable;
 };
-typedef SMARTP<msrOptionsBoolItem> S_msrOptionsBoolItem;
-ostream& operator<< (ostream& os, const S_msrOptionsBoolItem& elt);
+typedef SMARTP<msrOptionsBooleanItem> S_msrOptionsBooleanItem;
+ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsIntItem : public msrOptionsItem
+class EXP msrOptionsIntegerItem : public msrOptionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsIntItem> create (
+    static SMARTP<msrOptionsIntegerItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      string             optionsIntItemVariableDisplayName,
-      int&               optionsIntItemVariable,
+      string             optionsIntegerItemVariableDisplayName,
+      int&               optionsIntegerItemVariable,
       msrOptionsItemKind optionsItemKind);
      
   protected:
@@ -256,34 +256,34 @@ class EXP msrOptionsIntItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsIntItem (
+    msrOptionsIntegerItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      string             optionsIntItemVariableDisplayName,
-      int&               optionsIntItemVariable,
+      string             optionsIntegerItemVariableDisplayName,
+      int&               optionsIntegerItemVariable,
       msrOptionsItemKind optionsItemKind);
            
   protected:
 
 
-    virtual ~msrOptionsIntItem();
+    virtual ~msrOptionsIntegerItem();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsIntItemVariableDisplayName () const
+    string                getOptionsIntegerItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsIntItemVariableDisplayName;
+                                  fOptionsIntegerItemVariableDisplayName;
                               }
                               
-    void                  setIntItemVariableValue (
+    void                  setIntegerItemVariableValue (
                             int value)
                               {
-                                fOptionsIntItemVariable = value;
+                                fOptionsIntegerItemVariable = value;
                               }
 
     // services
@@ -299,11 +299,11 @@ class EXP msrOptionsIntItem : public msrOptionsItem
                             int      valueFieldWidth) const;
   private:
   
-    string                fOptionsIntItemVariableDisplayName;
-    int&                  fOptionsIntItemVariable;
+    string                fOptionsIntegerItemVariableDisplayName;
+    int&                  fOptionsIntegerItemVariable;
 };
-typedef SMARTP<msrOptionsIntItem> S_msrOptionsIntItem;
-ostream& operator<< (ostream& os, const S_msrOptionsIntItem& elt);
+typedef SMARTP<msrOptionsIntegerItem> S_msrOptionsIntegerItem;
+ostream& operator<< (ostream& os, const S_msrOptionsIntegerItem& elt);
 
 //______________________________________________________________________________
 class EXP msrOptionsFloatItem : public msrOptionsItem
@@ -672,6 +672,19 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // set and get
     // ------------------------------------------------------
 
+    string                getCommandName () const
+                              { return fCommandName; }
+                              
+    const list<S_msrOptionsElement>&
+                          getCommandOptionsElements () const
+                              { return fCommandOptionsElements; }
+                              
+    string                getCommandLineWithShortOptions () const
+                              { return fCommandLineWithShortOptions; }
+                              
+    string                getCommandLineWithLongOptions () const
+                              { return fCommandLineWithLongOptions; }
+                              
   public:
   
     // services
@@ -710,6 +723,13 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     map<string, S_msrOptionsElement>
                           fOptionsElementsMap;
+
+    string                fCommandName;
+    list<S_msrOptionsElement>
+                          fCommandOptionsElements;
+
+    string                 fCommandLineWithShortOptions;
+    string                 fCommandLineWithLongOptions;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);

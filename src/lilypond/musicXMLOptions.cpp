@@ -73,7 +73,7 @@ R"(Trace and display)"
       
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "tmxtvisits", "traceMusicXMLTreeVisitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
         "traceMusicXMLTreeVisitors",
@@ -99,7 +99,7 @@ R"(Other)"
 
   otherSubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "ime", "ignoreMusicXMLErrors",
 R"(Don't stop the translation after issuing a MusicXML error message.)",
         "ignoreMusicXMLErrors",
@@ -107,7 +107,7 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
 
   otherSubGroup->
     appendOptionsItem (
-      msrOptionsBoolItem::create (
+      msrOptionsBooleanItem::create (
         "loop", "loopToMusicXML",
 R"(Close the loop, generating a MusicXML file from the MSR. 
 The file name receives a '_loop' suffix. Currently under development.)",
