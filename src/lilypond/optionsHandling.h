@@ -146,13 +146,7 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     msrOptionsItemKind    getOptionsItemKind () const
                               { return fOptionsItemKind; }
-  
-    void                  setOptionsItemHasBeenSelected ()
-                              { fOptionsItemHasBeenSelected = true; }
-  
-    bool                  getOptionsItemHasBeenSelected () const
-                              { return fOptionsItemHasBeenSelected; }
-  
+    
     // services
     // ------------------------------------------------------
 
@@ -171,8 +165,6 @@ class EXP msrOptionsItem : public msrOptionsElement
   protected:
 
     msrOptionsItemKind    fOptionsItemKind;
-    
-    bool                  fOptionsItemHasBeenSelected; // JMI
 };
 typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);

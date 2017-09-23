@@ -174,8 +174,6 @@ msrOptionsItem::msrOptionsItem (
       optionsItemDescription)
 {
   fOptionsItemKind = optionsItemKind;
-  
-  fOptionsItemHasBeenSelected = false;
 }
     
 msrOptionsItem::~msrOptionsItem()
@@ -237,12 +235,6 @@ void msrOptionsItem::print (ostream& os) const
       "fOptionsItemKind" << " : " <<
         optionsItemKindAsString (
           fOptionsItemKind) <<
-      endl <<
-    idtr <<
-      setw(fieldWidth) <<
-      "fOptionsItemHasBeenSelected" << " : " <<
-      booleanAsString (
-        fOptionsItemHasBeenSelected) <<
       endl;
 }
 
