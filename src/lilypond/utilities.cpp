@@ -919,8 +919,6 @@ void optionError (string errorMessage)
     errorMessage <<
     endl <<
     endl;
-    
-  abort(); // JMI
 }
 
 //______________________________________________________________________________

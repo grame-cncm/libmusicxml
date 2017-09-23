@@ -1393,6 +1393,7 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
       "option long name and short name are both empty";
       
     optionError (s.str());
+    abort ();
   }
   
   if (optionShortName == optionLongName) {
@@ -1403,6 +1404,7 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
       " is the same as the short name for the same";
       
     optionError (s.str());
+    abort ();
   }
   
   for (
@@ -1421,6 +1423,7 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
         " is specified more that once";
         
       optionError (s.str());
+      abort ();
     }
 
     // is optionShortName already in the options names map?
@@ -1434,6 +1437,7 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
           " is specified more that once";
           
         optionError (s.str());
+        abort ();
       }
     }
   } // for
@@ -1834,6 +1838,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             "' is unknown";
             
           optionError (s.str());
+          exit (2);
         }
   
         S_msrOptionsElement
@@ -1850,6 +1855,10 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             "' is unknown";
             
           optionError (s.str());
+
+          printHelpSummary (cerr);
+
+          exit (2); // JMI
         }
         
         else {
@@ -1890,6 +1899,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
                 dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
             ) {    
             optionsHandler->printHelp (cerr);
+            cerr <<
+              endl;
           }
           
           else if (
@@ -1898,6 +1909,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
                 dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
             ) {    
             optionsGroup->printHelp (cerr);
+            cerr <<
+              endl;
           }
           
           else if (
@@ -1906,6 +1919,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
                 dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
             ) {    
             optionsSubGroup->printHelp (cerr);
+            cerr <<
+              endl;
           }
           
           else if (
@@ -1961,6 +1976,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
               "' is known but cannot be handled";
               
             optionError (s.str());
+            abort ();
           }
         }
       }
