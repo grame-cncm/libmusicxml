@@ -720,7 +720,11 @@ class EXP msrOptionsHandler : public msrOptionsElement
                             int   argc,
                             char* argv[]);
 
-    void                  handleOptionsName (string optionName);
+    void                  handleOptionsItemName (
+                            string optionsItemName);
+
+    void                  handleOptionsItemValueOrArgument (
+                            string theString);
 
     // print
     // ------------------------------------------------------
@@ -737,6 +741,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
   protected:
 
     string                fOptionsHandlerHelpHeader;
+
+    S_msrOptionsItem      fPendingOptionsItem;
+    vector<string>        fArgumentsVector;
     
     list<S_msrOptionsGroup>
                           fOptionsHandlerOptionsGroupsList;

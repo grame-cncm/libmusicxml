@@ -1791,10 +1791,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   fCommandLineWithLongOptions  = fCommandName;
   
   // decipher the command options and arguments
-  vector<string> argumentsVector;
   int            n = 1;
 
-  S_msrOptionsItem pendingOptionsItem;
   int              expectedValuesNumber = 0;
   
   bool pureHelpRun = true;
@@ -1815,6 +1813,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
 
     // handle current element
     if (currentElement [0] == '-') {
+      // stdin or options element?
+      
       if (currentElement.size () == 1) {
         // this is the stdin indicator
         if (TRACE_OPTIONS) {
@@ -1823,7 +1823,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
             endl;
         }
         
-        argumentsVector.push_back (currentElement);
+        fArgumentsVector.push_back (currentElement);
 
         fCommandLineWithShortOptions +=
           " " + currentElement;
@@ -1879,22 +1879,15 @@ const vector<string> msrOptionsHandler::analyzeOptions (
           }
         }
 
-        handleOptionsName (currentOptionName);
-
+        // handle the options item name
+        handleOptionsItemName (currentOptionName);
       }
     }
 
     else {
-      // currentElement is no options item
-      
-
-      if (pendingOptionsItem) {
-        // currentElement is the value for the pending options item
-      }
-
-      else {
-        // currentElement is an argument
-      }
+      // currentElement is no options item,
+      // i.e. it is an item value or an argument
+      handleOptionsItemValueOrArgument (currentElement);
     }
     
     // next please
@@ -1920,43 +1913,49 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   
   if (TRACE_OPTIONS) {
     // print the arguments vector
+    int argumentsVectorSize =
+      ;
+      
     cerr << idtr <<
       "Arguments vector (" <<
-      argumentsVector.size () <<
+      argumentsVectorSize <<
       " elements):" <<
       endl;
   
-    if (argumentsVector.size ()) {
+    if (argumentsVectorSize) {
       idtr++;
-      for (unsigned int i = 0; i < argumentsVector.size (); i++) {
+      for (unsigned int i = 0; i < argumentsVectorSize; i++) {
         cerr << idtr <<
-          argumentsVector [i] <<
+          fArgumentsVector [i] <<
           endl;
       } // for
       idtr--;
     }
   }
 
+  // exit if this is a pure help run
   if (pureHelpRun) {
     exit (1);
   }
-    
-  return argumentsVector;
+
+  // return arguements vector for handling by caller
+  return fArgumentsVector;
 }
 
-void msrOptionsHandler::handleOptionsName (string optionName)
+void msrOptionsHandler::handleOptionsItemName (
+  string optionsItemName)
 {
-  // is currentOptionName known in options elements map?
+  // is optionsItemName known in options elements map?
   map<string, S_msrOptionsElement>::const_iterator
     it =
-      fOptionsElementsMap.find (optionName);
+      fOptionsElementsMap.find (optionsItemName);
         
   if (it == fOptionsElementsMap.end ()) {
-    // no, optionName is unknown in the map    
+    // no, optionsItemName is unknown in the map    
     stringstream s;
 
     s <<
-      "option name '" << optionName <<
+      "option name '" << optionsItemName <<
       "' is unknown";
       
     optionError (s.str());
@@ -1971,11 +1970,11 @@ void msrOptionsHandler::handleOptionsName (string optionName)
     optionsElement = (*it).second;
       
   if (! optionsElement) {
-    // optionName is is not well handled by this options handler
+    // optionsItemName is is not well handled by this options handler
     stringstream s;
 
     s <<
-      "option name '" << optionName <<
+      "option name '" << optionsItemName <<
       "' is not well handled";
       
     optionError (s.str());
@@ -1983,7 +1982,7 @@ void msrOptionsHandler::handleOptionsName (string optionName)
   }
   
   else {
-    // optionName is known, let's handle it
+    // optionsItemName is known, let's handle it
     fCommandOptionsElements.push_back (
       optionsElement);
 
@@ -2056,14 +2055,13 @@ void msrOptionsHandler::handleOptionsName (string optionName)
     
     else {
       // this is an options item, handle it
+      
       if (
         // boolean item?
         S_msrOptionsBooleanItem
           optionsBooleanItem =
             dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber = 0;
-
         optionsBooleanItem->
           setBooleanItemVariableValue (true);              
       }
@@ -2076,7 +2074,7 @@ void msrOptionsHandler::handleOptionsName (string optionName)
         ) {
         expectedValuesNumber = 1;
 
-        pendingOptionsItem = optionsIntegerItem;
+        fPendingOptionsItem = optionsIntegerItem;
         optionsIntegerItem->
           setIntegerItemVariableValue (1999);
         }
@@ -2089,7 +2087,7 @@ void msrOptionsHandler::handleOptionsName (string optionName)
         ) {              
         expectedValuesNumber = 1;
 
-        pendingOptionsItem = optionsFloatItem;
+        fPendingOptionsItem = optionsFloatItem;
         optionsFloatItem->
           setFloatItemVariableValue (2017.9);
       }
@@ -2102,7 +2100,7 @@ void msrOptionsHandler::handleOptionsName (string optionName)
         ) {
         expectedValuesNumber = 1;
 
-        pendingOptionsItem = optionsStringItem;
+        fPendingOptionsItem = optionsStringItem;
         optionsStringItem->
           setStringItemVariableValue ("september");
       }
@@ -2115,7 +2113,7 @@ void msrOptionsHandler::handleOptionsName (string optionName)
         ) {
         expectedValuesNumber = 1;
 
-        pendingOptionsItem = optionsRationalItem;
+        ffPendingOptionsItem = optionsRationalItem;
         optionsRationalItem->
           setRationalItemVariableValue (rational (3, 4));
       }
@@ -2181,7 +2179,7 @@ void msrOptionsHandler::handleOptionsName (string optionName)
         stringstream s;
     
         s <<
-          "option name '" << optionName <<
+          "option name '" << optionsItemName <<
           "' is known but cannot be handled";
           
         optionError (s.str());
@@ -2269,5 +2267,16 @@ void msrOptionsHandler::handleOptionsName (string optionName)
   }
 }
 
+void msrOptionsHandler::handleOptionsItemValueOrArgument (
+  string theString)
+{
+  if (fPendingOptionsItem) {
+    // theString is the value for the pending options item
+  }
+
+  else {
+    // theString is an argument
+  }
+}
 
 }
