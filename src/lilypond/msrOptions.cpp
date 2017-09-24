@@ -231,7 +231,8 @@ which may be global to the score.)",
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "ssv", "showSilentVoices",
-R"(Show the staves silent voices used internally even when they are empty.)",
+R"(Show the staves silent voices used internally
+even when they are empty.)",
           "showSilentVoices",
           fShowSilentVoices));
 
@@ -239,7 +240,8 @@ R"(Show the staves silent voices used internally even when they are empty.)",
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "ksv", "keepSilentVoices",
-R"(Keep the silent voices used internally. By default, there are removed after usage.)",
+R"(Keep the silent voices used internally.
+By default, there are removed after usage.)",
           "keepSilentVoices",
           fKeepSilentVoices));
   }
@@ -326,7 +328,7 @@ R"(Lyrics)"
   
     appendOptionsSubGroup (lyricsSubGroup);
 
-    notesSubGroup->
+    lyricsSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "sms", "showMsrStanzas",
@@ -334,7 +336,7 @@ R"(Show MSR stanzas even when they're empty.)",
           "showMsrStanzas",
           fShowMsrStanzas));
 
-    notesSubGroup->
+    lyricsSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "kms", "keepMuteStanzas",
@@ -362,6 +364,25 @@ R"(Harmonies)"
       );
   
     appendOptionsSubGroup (harmoniesSubGroup);
+
+    harmoniesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "shv", "showHarmonyVoices",
+R"(Show the parts harmony voices in the MSR data
+even though it does not contain music.)",
+          "showHarmonyVoices",
+          fShowHarmonyVoices));
+
+    harmoniesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "kehv", "keepEmptyHarmonyVoices",
+R"(Keep the harmonies voice in the MSR data
+even though it does not contain music.
+It is thrown away in such a case by default.)",
+          "keepEmptyHarmonyVoices",
+          fKeepEmptyHarmonyVoices));
   }
 
   // figured bass
@@ -383,6 +404,24 @@ R"(Harmonies)"
   
     appendOptionsSubGroup (figuredBassSubGroup);
 
+    figuredBassSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "sfbv", "showFiguredBassVoices",
+R"(Show the figured bass harmony voices in the MSR data
+even though they do not contain music.)",
+          "showFiguredBassVoices",
+          fShowFiguredBassVoices));
+
+    figuredBassSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "kefbv", "keepEmptyFiguredBassVoices",
+R"(Keep the figured bass voices in the MSR data
+even though they do not contain music.
+They are thrown away in such a case by default.)",
+          "keepEmptyFiguredBassVoices",
+          fKeepEmptyFiguredBassVoices));
   }
 }
 
