@@ -60,11 +60,11 @@ void lpsrOptions::initializeLpsrOptions (
   
   // variables
   
-  fTraceLpsr         = boolOptionsInitialValue;
+  fTraceLpsr            = boolOptionsInitialValue;
   
-  fTraceLpsrVisitors = boolOptionsInitialValue;
+  fTraceLpsrVisitors    = boolOptionsInitialValue;
 
-  fDisplayLpsr       = boolOptionsInitialValue;
+  fDisplayLpsr          = boolOptionsInitialValue;
   
   fTraceSchemeFunctions = boolOptionsInitialValue;
 

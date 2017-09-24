@@ -64,7 +64,7 @@ void generalOptions::initializeGeneralOptions (
 
   S_msrOptionsSubGroup outputFileSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrOutputFile",
+    "hgof", "helpGeneralOutputFile",
 R"(Output file)"
     );
 
@@ -84,7 +84,7 @@ R"(Output file)"
 
   S_msrOptionsSubGroup traceDansDisplaySubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceDansDisplay",
+    "hgtd", "helpGeneralTraceDansDisplay",
 R"(Trace and display)"
     );
 
@@ -102,7 +102,7 @@ R"(Trace and display)"
 
   S_msrOptionsSubGroup CPUUsageSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrCPUUsage",
+    "hgcu", "helpGeneralCPUUsage",
 R"(CPU usage)"
     );
 
@@ -195,7 +195,7 @@ R"(CPU usage)"
 
   S_msrOptionsSubGroup specificTraceSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrSpecificTrace",
+    "hgst", "helpGeneralSpecificTrace",
 R"(Specific trace)"
     );
 

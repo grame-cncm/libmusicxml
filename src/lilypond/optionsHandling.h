@@ -87,6 +87,7 @@ class EXP msrOptionsElement : public smartable
     // ------------------------------------------------------
 
     virtual void          printHeader (ostream& os) const;
+    virtual void          underlineHeader (ostream& os) const;
     
     virtual void          print (ostream& os) const;
     

@@ -98,6 +98,17 @@ void msrOptionsElement::printHeader (ostream& os) const
   idtr--; idtr--; idtr--;
 }
 
+void msrOptionsElement::underlineHeader (ostream& os) const
+{
+  os <<
+    idtr;
+  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
+    os << "-";
+  } // for
+  os <<
+    endl;
+}
+
 void msrOptionsElement::print (ostream& os) const
 {
   os << "??? msrOptionsElement ???" << endl;
@@ -979,6 +990,9 @@ void msrOptionsSubGroup::printHelpSummary (ostream& os) const
       ")";
     }
   }
+
+  // underline the options subgroup header
+  underlineHeader (os);
 }
 
 void msrOptionsSubGroup::printOptionsValues (
@@ -1219,14 +1233,9 @@ void msrOptionsGroup::printHelp (ostream& os) const
     endl;
 
   // underline the options group header
-  os <<
-    idtr;
-  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
-    os << "-";
-  } // for
-  os <<
-    endl;
+  underlineHeader (os);
 
+  // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {
     os << endl;
     
@@ -1286,14 +1295,9 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
     endl;
 
   // underline the options group header
-  os <<
-    idtr;
-  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
-    os << "-";
-  } // for
-  os <<
-    endl;
+  underlineHeader (os);
 
+  // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {
     os << endl;
     
@@ -1327,16 +1331,7 @@ void msrOptionsGroup::printOptionsValues (
     ":" <<
     endl;
 
-/* JMI
-  // underline the options group header
-  os <<
-    idtr;
-  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
-    os << "-";
-  } // for
-  os <<
-    endl;
-*/
+// JMI  underlineHeader (os);
 
   if (fOptionsGroupSubGroupsList.size ()) {
  // JMI   os << endl;

@@ -63,7 +63,7 @@ void lilypondOptions::initializeLilypondOptions (
 
   S_msrOptionsSubGroup timeSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrtime",
+    "hlilyti", "helpLilypondtime",
 R"(Time)"
     );
 
@@ -93,7 +93,7 @@ R"(Time)"
 
   S_msrOptionsSubGroup notesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrNotes",
+    "hlilyn", "helpLilypondNotes",
 R"(Notes)"
     );
 
@@ -111,7 +111,7 @@ R"(Notes)"
 
   S_msrOptionsSubGroup barsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrBars",
+    "hlilyb", "helpLilypondBars",
 R"(Bars)"
     );
 
@@ -134,7 +134,7 @@ R"(Bars)"
 
   S_msrOptionsSubGroup lineBreaksSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrLineBreaks",
+    "hlilylb", "helpLilypondLineBreaks",
 R"(Line breaks)"
     );
 
@@ -152,7 +152,7 @@ R"(Line breaks)"
 
   S_msrOptionsSubGroup pageBreaksSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrPageBreaks",
+    "hlilypb", "helpLilypondPageBreaks",
 R"(Page breaks)"
     );
 
@@ -170,7 +170,7 @@ R"(Page breaks)"
 
   S_msrOptionsSubGroup stavesSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrStaves",
+    "hlilys", "helpLilypondStaves",
 R"(Staves)"
     );
 
@@ -188,7 +188,7 @@ R"(Staves)"
 
   S_msrOptionsSubGroup tupletsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTuplets",
+    "hlilytu", "helpLilypondTuplets",
 R"(Tuplets)"
     );
 
@@ -206,7 +206,7 @@ R"(Tuplets)"
 
   S_msrOptionsSubGroup repeatsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrRepeats",
+    "hlilyr", "helpLilypondRepeats",
 R"(Repeats)"
     );
 
@@ -224,7 +224,7 @@ R"(Repeats)"
 
   S_msrOptionsSubGroup ornamentsSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrOrnaments",
+    "hlilyo", "helpLilypondOrnaments",
 R"(Ornaments)"
     );
 
@@ -252,7 +252,7 @@ R"(Ornaments)"
 
   S_msrOptionsSubGroup codeGenerationSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrCodeGeneration",
+    "hlilycg", "helpLilypondCodeGeneration",
 R"(Code generation)"
     );
 
@@ -271,7 +271,7 @@ R"(Code generation)"
 
   S_msrOptionsSubGroup scoreNotationSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrScoreNotation",
+    "hlilysn", "helpLilypondScoreNotation",
 R"(Score notation)"
     );
 
@@ -292,7 +292,7 @@ R"(Score notation)"
 
   S_msrOptionsSubGroup midiSubGroup =
     msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrMidi",
+    "hlilym", "helpLilypondMidi",
 R"(Midi)"
     );
 
