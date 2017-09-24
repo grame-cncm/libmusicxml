@@ -57,181 +57,228 @@ void msrOptions::initializeMsrOptions (
 {
   // trace and display
   // --------------------------------------
+
+  {
+    // variables
   
-  // variables
-
-  fTraceMsr          = boolOptionsInitialValue;
+    fTraceMsr          = boolOptionsInitialValue;
+    
+    fTraceMsrVisitors  = boolOptionsInitialValue;
   
-  fTraceMsrVisitors  = boolOptionsInitialValue;
-
-  fDisplayMsr        = boolOptionsInitialValue;
-
-  fDisplayMsrSummary = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrtd", "helpMsrTraceAndDisplay",
+    fDisplayMsr        = boolOptionsInitialValue;
+  
+    fDisplayMsrSummary = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup traceAndDisplaySubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrtd", "helpMsrTraceAndDisplay",
 R"(Trace and display)"
-    );
-
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+      );
+  
+    appendOptionsSubGroup (traceAndDisplaySubGroup);
       
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tmsr", "traceMsr",
+R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
+          "traceMsr",
+          fTraceMsr));
+          
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tmvisits", "traceMsrVisitors",
+R"(Write a trace of the MSR graphs visiting activity to standard error.)",
+          "traceMsrVisitors",
+          fTraceMsrVisitors));
+          
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "msr", "displayMsr",
+R"(Write the contents of the MSR data to standard error.)",
+          "displayMsr",
+          fDisplayMsr));
+          
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "sum", "displayMsrSummary", // JMI
+R"(Only write a summary of the MSR to standard error.
+This implies that no LilyPond code is generated.)",
+          "displayMsrSummary",
+          fDisplayMsrSummary));
+  }
 
+  
   // languages
   // --------------------------------------
+
+  {
+    // variables
+    
+    if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
+      stringstream s;
   
-  // variables
+      s <<
+        "INTERNAL INITIALIZATION ERROR: "
+        "MSR pitches language 'nederlands' is unknown" <<
+        endl <<
+        "The " <<
+        gQuarterTonesPitchesLanguagesMap.size () <<
+        " known MSR pitches languages are:" <<
+        endl;
   
-  if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
-    stringstream s;
-
-    s <<
-      "INTERNAL INITIALIZATION ERROR: "
-      "MSR pitches language 'nederlands' is unknown" <<
-      endl <<
-      "The " <<
-      gQuarterTonesPitchesLanguagesMap.size () <<
-      " known MSR pitches languages are:" <<
-      endl;
-
-    idtr++;
+      idtr++;
+    
+      s <<
+        existingQuarterTonesPitchesLanguages ();
   
-    s <<
-      existingQuarterTonesPitchesLanguages ();
-
-    idtr--;
-
-    optionError (s.str());
-  }
+      idtr--;
   
-  // options
-
-  S_msrOptionsSubGroup languagesSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrlang", "helpMsrLanguages",
+      optionError (s.str());
+    }
+    
+    // options
+  
+    S_msrOptionsSubGroup languagesSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrlang", "helpMsrLanguages",
 R"(Languages)"
-    );
-
-  appendOptionsSubGroup (languagesSubGroup);
+      );
+  
+    appendOptionsSubGroup (languagesSubGroup);
       
+  }
 
+  
   // parts
   // --------------------------------------
-  
-  // variables
-  
-  // options
 
-  S_msrOptionsSubGroup partsSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrp", "helpMsrParts",
+  {
+    // variables
+    
+    // options
+  
+    S_msrOptionsSubGroup partsSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrp", "helpMsrParts",
 R"(Parts)"
-    );
-
-  appendOptionsSubGroup (partsSubGroup);
+      );
+  
+    appendOptionsSubGroup (partsSubGroup);
+  }
       
 
   // voices
   // --------------------------------------
-  
-  // variables
-  
-  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-  
-  fShowSilentVoices = boolOptionsInitialValue;
-  fKeepSilentVoices = boolOptionsInitialValue;
 
-  // options
-
-  S_msrOptionsSubGroup voicesSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrv", "helpMsrVoices",
+  {
+    // variables
+    
+    fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
+    
+    fShowSilentVoices = boolOptionsInitialValue;
+    fKeepSilentVoices = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup voicesSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrv", "helpMsrVoices",
 R"(Voices)"
-    );
+      );
+  
+    appendOptionsSubGroup (voicesSubGroup);
 
-  appendOptionsSubGroup (voicesSubGroup);
-      
+  }
 
   // notes
   // --------------------------------------
-  
-  // variables
-  
-  fDelayRestsDynamics  = boolOptionsInitialValue;
-  fDelayRestsWords     = boolOptionsInitialValue; // JMI
-  fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
-  fDelayRestsLigatures = boolOptionsInitialValue; // JMI
-  fDelayRestsWedges    = boolOptionsInitialValue; // JMI
 
-  // options
-
-  S_msrOptionsSubGroup notesSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrn", "helpMsrNotes",
+  {
+    // variables
+    
+    fDelayRestsDynamics  = boolOptionsInitialValue;
+    fDelayRestsWords     = boolOptionsInitialValue; // JMI
+    fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
+    fDelayRestsLigatures = boolOptionsInitialValue; // JMI
+    fDelayRestsWedges    = boolOptionsInitialValue; // JMI
+  
+    // options
+  
+    S_msrOptionsSubGroup notesSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrn", "helpMsrNotes",
 R"(Notes)"
-    );
-
-  appendOptionsSubGroup (notesSubGroup);
-      
+      );
+  
+    appendOptionsSubGroup (notesSubGroup);
+  }
 
   // lyrics
   // --------------------------------------
-  
-  // variables
-  
-  fShowMsrStanzas  = boolOptionsInitialValue;
-  fKeepMuteStanzas = boolOptionsInitialValue;
 
-  // options
-
-  S_msrOptionsSubGroup lyricsSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrlyrd", "helpMsrLyrics",
+  {
+    // variables
+    
+    fShowMsrStanzas  = boolOptionsInitialValue;
+    fKeepMuteStanzas = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup lyricsSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrlyrd", "helpMsrLyrics",
 R"(Lyrics)"
-    );
-
-  appendOptionsSubGroup (lyricsSubGroup);
-      
+      );
+  
+    appendOptionsSubGroup (lyricsSubGroup);
+  }     
 
   // harmonies
   // --------------------------------------
-  
-  // variables
-  
-  fShowHarmonyVoices      = boolOptionsInitialValue;  
-  fKeepEmptyHarmonyVoices = boolOptionsInitialValue;
 
-  // options
-
-  S_msrOptionsSubGroup harmoniesSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrh", "helpMsrHarmonies",
+  {
+    // variables
+    
+    fShowHarmonyVoices      = boolOptionsInitialValue;  
+    fKeepEmptyHarmonyVoices = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup harmoniesSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrh", "helpMsrHarmonies",
 R"(Harmonies)"
-    );
-
-  appendOptionsSubGroup (harmoniesSubGroup);
-      
+      );
+  
+    appendOptionsSubGroup (harmoniesSubGroup);
+  }
 
   // figured bass
   // --------------------------------------
+
+  {
+    // variables  
+    
+    fShowFiguredBassVoices      = boolOptionsInitialValue;
+    fKeepEmptyFiguredBassVoices = boolOptionsInitialValue;
   
-  // variables  
+    // options
   
-  fShowFiguredBassVoices      = boolOptionsInitialValue;
-  fKeepEmptyFiguredBassVoices = boolOptionsInitialValue;
+    S_msrOptionsSubGroup figuredBassSubGroup =
+      msrOptionsSubGroup::create (
+      "hmsrfb", "helpMsrFiguredBass",
+  R"(Figured bass)"
+      );
+  
+    appendOptionsSubGroup (figuredBassSubGroup);
 
-  // options
-
-  S_msrOptionsSubGroup figuredBassSubGroup =
-    msrOptionsSubGroup::create (
-    "hmsrfb", "helpMsrFiguredBass",
-R"(Figured bass)"
-    );
-
-  appendOptionsSubGroup (figuredBassSubGroup);
-      
+  }
 }
 
 S_msrOptions msrOptions::createCloneWithDetailedTrace ()
