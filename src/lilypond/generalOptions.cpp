@@ -172,10 +172,10 @@ debugging information to standard error for the specified measures.)",
     CPUUsageSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "t", "traceGeneral",
+          "dCPU", "displayCPUusage",
   R"(Write a trace of the general activity to standard error.)",
-          "traceGeneral",
-          fTraceGeneral));
+          "displayCPUusage",
+          fDisplayCPUusage));
   }
 
   // specific trace    
