@@ -7916,7 +7916,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
       "% --> Start visiting msrMidi" <<
       endl;
 
-  if (gLilypondOptions->fNoMidiCommand) {
+  if (gLilypondOptions->fNoMidi) {
     fOstream <<
       idtr <<
       "%{" <<
@@ -7933,7 +7933,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
   
   fOstream << idtr;
 
-  if (gLilypondOptions->fNoMidiCommand)
+  if (gLilypondOptions->fNoMidi)
     fOstream <<
       "% ";
   
@@ -7950,7 +7950,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
     "}" <<
     endl;
 
-  if (gLilypondOptions->fNoMidiCommand) {
+  if (gLilypondOptions->fNoMidi) {
     idtr--;
 
     fOstream <<

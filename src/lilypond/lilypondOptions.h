@@ -303,7 +303,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     string                fMidiTempoDuration;
     int                   fMidiTempoPerSecond;
     
-    bool                  fNoMidiCommand;
+    bool                  fNoMidi;
 
 
 // JMI ???

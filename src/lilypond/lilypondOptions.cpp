@@ -481,6 +481,59 @@ This font should be installed so that LilyPond can use it.)",
       );
   
     appendOptionsSubGroup (codeGenerationSubGroup);
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "com", "comments",
+R"(Generate comments showing the structure of the score
+such as '% part P_POne (P1).)",
+          "comments",
+          fComments));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "global", "",
+R"(Generate a 'global' empty variable and place a use of it
+at the beginning of all voices.)",
+          "global",
+          fGlobal));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "dm", "displayMusic",
+R"(Place the contents of all voices inside a '\displayMusic' block,
+for LilyPond to show its internal representation of the music.)",
+          "displayMusic",
+          fDisplayMusic));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "nolpc", "noLilypondCode",
+R"(Don't generate any LilyPond code.
+That can be useful if only a summary of the score is needed.)",
+          "noLilypondCode",
+          fNoLilypondCode));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "nolpl", "noLilypondLyrics",
+R"(Don't generate any lyrics in the LilyPond code.)",
+          "noLilypondLyrics",
+          fNoLilypondLyrics));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "lpcd", "lilypondCompileDate",
+R"(Generate code to include the compilation date
+when LilyPond creates the score.)",
+          "lilypondCompileDate",
+          fLilypondCompileDate));
   } 
       
     
@@ -498,10 +551,22 @@ This font should be installed so that LilyPond can use it.)",
     S_msrOptionsSubGroup scoreNotationSubGroup =
       msrOptionsSubGroup::create (
       "hlilysn", "helpLilypondScoreNotation",
-  R"(Score notation)"
+R"(Score notation)"
       );
   
     appendOptionsSubGroup (scoreNotationSubGroup);
+/*
+    scoreNotationSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "jianpu", "",
+R"(Generate the score using jianpu (numbered) notation i
+nstead of the default western notation.
+That option needs lilypond-Jianpu to be accessible to LilyPond
+(https://github.com/nybbs2003/lilypond-Jianpu/blob/master/jianpu10a.ly).)",
+          "jianpu",
+          fScoreNotationKind));
+          */
   } 
       
 
@@ -514,17 +579,37 @@ This font should be installed so that LilyPond can use it.)",
     fMidiTempoDuration  = "4";
     fMidiTempoPerSecond = 100;
     
-    fNoMidiCommand = boolOptionsInitialValue;
+    fNoMidi = boolOptionsInitialValue;
     
     // options
   
     S_msrOptionsSubGroup midiSubGroup =
       msrOptionsSubGroup::create (
       "hlilym", "helpLilypondMidi",
-  R"(Midi)"
+R"(Midi)"
       );
   
     appendOptionsSubGroup (midiSubGroup);
+/*
+    midiSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "midiTempo", "",
+R"(Generate a '\tempo duration = perSecond' command in the \midi block.
+'duration' is a string such as '8.', and 'perSecond' is an integer,
+and spaces can be used frely in the argument.
+The default is '4 = 100'.)",
+          "midiTempo",
+          fMidiTempoDuration)); // per second JMI
+          */
+
+    midiSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "noMidi", "",
+R"(Generate the '\midi' block as a comment instead of active code.)",
+          "noMidi",
+          fNoMidi)); // per second JMI
   } 
 
   
@@ -683,8 +768,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fMidiTempoPerSecond =
     fMidiTempoPerSecond;
     
-  clone->fNoMidiCommand =
-    fNoMidiCommand;
+  clone->fNoMidi =
+    fNoMidi;
     
 // JMI ???
 
@@ -1541,7 +1626,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl <<
 
     idtr << setw(fieldWidth) << "noMidiCommand" << " : " <<
-      booleanAsString (fNoMidiCommand) <<
+      booleanAsString (fNoMidi) <<
       endl;
 
   idtr--;

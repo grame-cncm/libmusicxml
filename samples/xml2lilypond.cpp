@@ -3703,7 +3703,7 @@ R"(
             }
     
             if (noMidiCommandPresent) {
-              gLilypondOptions->fNoMidiCommand = true;
+              gLilypondOptions->fNoMidi = true;
     
               gGeneralOptions->fCommandLineLongOptions +=
                 "--" _NO_MIDI_LONG_NAME_ " ";
