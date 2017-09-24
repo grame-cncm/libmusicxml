@@ -53,6 +53,32 @@ generalOptions::~generalOptions ()
 void generalOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
+  // version
+  // --------------------------------------
+
+  // variables  
+
+  fVersion = false;
+
+  // options
+
+  S_msrOptionsSubGroup versionSubGroup =
+    msrOptionsSubGroup::create (
+    "hgb", "helpGeneralVersion",
+R"(Version)"
+    );
+
+  appendOptionsSubGroup (versionSubGroup);
+
+  versionSubGroup->
+    appendOptionsItem (
+      msrOptionsBooleanItem::create (
+        "v", "version",
+R"(Display xml2lilypond's version number and exit.)",
+        "version",
+        fVersion));
+
+
   // output file
   // --------------------------------------
 
@@ -67,9 +93,17 @@ void generalOptions::initializeGeneralOptions (
     "hgof", "helpGeneralOutputFile",
 R"(Output file)"
     );
-
+          
   appendOptionsSubGroup (outputFileSubGroup);
-      
+/* JMI
+  outputFileSubGroup->
+    appendOptionsItem (
+      msrOptionsBooleanItem::create (
+        "of", "outputFile",
+R"(Write LilyPond code to file 'fileName' instead of standard output.)",
+        "outputFile",
+        fOutputFileName));
+*/
 
   // trace and display
   // --------------------------------------
@@ -226,8 +260,8 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
     clone =
       generalOptions::create ();
 
-    // command line
-    // --------------------------------------
+  // command line
+  // --------------------------------------
 
   clone->fProgramName =
     fProgramName;
@@ -237,15 +271,21 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   clone->fCommandLineShortOptions =
     fCommandLineShortOptions;
   
-    // input
-    // --------------------------------------
+  // input
+  // --------------------------------------
 
   clone->fInputSourceName =
     fInputSourceName;
       
   clone->fTranslationDate =
     fTranslationDate;
-  
+
+  // version
+  // --------------------------------------
+
+  clone->fVersion =
+    fVersion;
+
   // output file
   // --------------------------------------
 

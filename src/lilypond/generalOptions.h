@@ -224,6 +224,7 @@ class EXP generalOptions : public msrOptionsGroup
     string                fCommandLineLongOptions;
     string                fCommandLineShortOptions;
 
+
     // input
     // --------------------------------------
 
@@ -231,11 +232,19 @@ class EXP generalOptions : public msrOptionsGroup
     
     string                fTranslationDate;
 
+  
+    // version
+    // --------------------------------------
+  
+    bool                  fVersion;
+
+
     // output file
     // --------------------------------------
 
     string                fOutputFileName;
     bool                  fAutoOutputFile;
+
     
     // trace and display
     // --------------------------------------
@@ -245,88 +254,116 @@ class EXP generalOptions : public msrOptionsGroup
     bool                  fTraceDetailed;
     set<int>              fTraceDetailedMeasureNumbersSet;
 
+
     // CPU usage
     // --------------------------------------
   
     bool                  fDisplayCPUusage;
 
+
     // specific trace
     // --------------------------------------
+
     
     // divisions
     bool                  fTraceDivisions;
 
+
     // geometry
     bool                  fTraceGeometry;
+
 
     // part groups
     bool                  fTracePartGroups;
     
+
     // parts
     bool                  fTraceParts;
     
+
     // staves
     bool                  fTraceStaves;
     
+
     // voices
     bool                  fTraceVoices;
     bool                  fTraceVoicesDetails;
 
+
     // clefs
     bool                  fTraceClefs;
+
     // keys
     bool                  fTraceKeys;
+
     // times
     bool                  fTraceTimes;
+
 
     //transpositions
     bool                  fTraceTranspositions;
 
+
     // segments
     bool                  fTraceSegments;
+
 
     // repeats
     bool                  fTraceRepeats;
 
+
     // measures
     bool                  fTraceMeasures;
+
 
     // notes
     bool                  fTraceNotes;
     bool                  fTraceNotesDetails;
 
+
     // beams
     bool                  fTraceBeams;
+
     
     // technicals
     bool                  fTraceTechnicals;
 
+
     // words
     bool                  fTraceWords;
+
 
     // tremolos
     bool                  fTraceTremolos;
 
+
     // chords
     bool                  fTraceChords;
+
     
     // tuplets
     bool                  fTraceTuplets;
+
     
     // grace notes
     bool                  fTraceGraceNotes;
+
     
     // lyrics
     bool                  fTraceLyrics;
 
+
     // harmonies
     bool                  fTraceHarmonies;
 
+
     // figured bass
     bool                  fTraceFiguredBass;
+
     
     // credits
     bool                  fTraceCredits;
+
     
     /* STUFF not yet handled JMI */
 
