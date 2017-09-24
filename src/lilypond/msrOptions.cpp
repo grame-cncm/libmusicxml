@@ -151,7 +151,19 @@ R"(Languages)"
       );
   
     appendOptionsSubGroup (languagesSubGroup);
-      
+      /* JMI
+    languagesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "mpl", "msrPitchesLanguage", // JMI
+R"(Use 'language' to display note pitches in the MSR logs and text views.
+The 12 LilyPond pitches languages are available:
+nederlands, catalan, deutsch, english, espanol, français, 
+italiano, norsk, portugues, suomi, svenska and vlaams.
+The default is to use 'nederlands'.)",
+          "msrPitchesLanguage",
+          fMsrQuarterTonesPitchesLanguage));
+          */
   }
 
   
@@ -170,6 +182,17 @@ R"(Parts)"
       );
   
     appendOptionsSubGroup (partsSubGroup);
+/* JMI
+    partsSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "mpr", "msrPartRename", // JMI
+R"(Rename part 'original' to 'newName', for example after 
+displaying a summary of the score in a first xml2lilypond run.
+There can be several occurrences of this option.)",
+          "partRename",
+          fPartsRenaming));
+          */
   }
       
 
@@ -194,6 +217,31 @@ R"(Voices)"
   
     appendOptionsSubGroup (voicesSubGroup);
 
+    voicesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "cvsrvn", "createVoicesStaffRelativeNumbers",
+R"(Generate voices names with numbers relative to their staff.
+By default, the voice numbers found are used, 
+which may be global to the score.)",
+          "createVoicesStaffRelativeNumbers",
+          fCreateVoicesStaffRelativeNumbers));
+
+    voicesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ssv", "showSilentVoices",
+R"(Show the staves silent voices used internally even when they are empty.)",
+          "showSilentVoices",
+          fShowSilentVoices));
+
+    voicesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ksv", "keepSilentVoices",
+R"(Keep the silent voices used internally. By default, there are removed after usage.)",
+          "keepSilentVoices",
+          fKeepSilentVoices));
   }
 
   // notes
