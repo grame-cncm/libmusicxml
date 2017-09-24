@@ -56,248 +56,287 @@ void lilypondOptions::initializeLilypondOptions (
 {
   // time
   // --------------------------------------
-  
-  // variables
-  
-  fNumericalTime = boolOptionsInitialValue;
 
-  S_msrOptionsSubGroup timeSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilyti", "helpLilypondtime",
+  {
+    // variables
+    
+    fNumericalTime = boolOptionsInitialValue;
+  
+    S_msrOptionsSubGroup timeSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilyti", "helpLilypondtime",
 R"(Time)"
-    );
+      );
+  
+    appendOptionsSubGroup (timeSubGroup);
 
-  appendOptionsSubGroup (timeSubGroup);
+    timeSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "numt", "numericalTime",
+R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
+          "numericalTime",
+          fNumericalTime));
+  }
 
-      
+
   // notes
   // --------------------------------------
-  
-  // variables
-    
-  fAbsoluteOctaves  = boolOptionsInitialValue;
-  
-  fAllDurations  = boolOptionsInitialValue;
 
-  fStems          = boolOptionsInitialValue;
-  fNoAutoBeaming  = boolOptionsInitialValue;
-  
-  fRomanStringNumbers = boolOptionsInitialValue;
-  fAvoidOpenString    = boolOptionsInitialValue;
-  
-  fAccidentalStyle = "";
-
-  fCompressMultiMeasureRests = boolOptionsInitialValue;
-
-  fInputLineNumbers = boolOptionsInitialValue;
-
-  S_msrOptionsSubGroup notesSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilyn", "helpLilypondNotes",
-R"(Notes)"
-    );
-
-  appendOptionsSubGroup (notesSubGroup);
-
+  {
+    // variables
       
+    fAbsoluteOctaves  = boolOptionsInitialValue;
+    
+    fAllDurations  = boolOptionsInitialValue;
+  
+    fStems          = boolOptionsInitialValue;
+    fNoAutoBeaming  = boolOptionsInitialValue;
+    
+    fRomanStringNumbers = boolOptionsInitialValue;
+    fAvoidOpenString    = boolOptionsInitialValue;
+    
+    fAccidentalStyle = "";
+  
+    fCompressMultiMeasureRests = boolOptionsInitialValue;
+  
+    fInputLineNumbers = boolOptionsInitialValue;
+  
+    S_msrOptionsSubGroup notesSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilyn", "helpLilypondNotes",
+R"(Notes)"
+      );
+  
+    appendOptionsSubGroup (notesSubGroup);
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "numt", "numericalTime",
+R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
+          "numericalTime",
+          fNumericalTime));
+  }
+
+  
   // bars
   // --------------------------------------
-  
-  // variables
-    
-  fShowAllBarNumbers = boolOptionsInitialValue;
 
-  // options
-
-  S_msrOptionsSubGroup barsSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilyb", "helpLilypondBars",
-R"(Bars)"
-    );
-
-  appendOptionsSubGroup (barsSubGroup);
+  {
+    // variables
       
+    fShowAllBarNumbers = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup barsSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilyb", "helpLilypondBars",
+R"(Bars)"
+      );
+  
+    appendOptionsSubGroup (barsSubGroup);
+  }   
+
 
   // line breaks
   // --------------------------------------
-  
-  // variables
-    
-  fDontKeepLineBreaks                  = boolOptionsInitialValue;
 
-  fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
-  
-  fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
-  fSeparatorLineEveryNMeasuresValue    = INT_MAX;
-  
-  // options
-
-  S_msrOptionsSubGroup lineBreaksSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilylb", "helpLilypondLineBreaks",
-R"(Line breaks)"
-    );
-
-  appendOptionsSubGroup (lineBreaksSubGroup);
+  {
+    // variables
       
+    fDontKeepLineBreaks                  = boolOptionsInitialValue;
+  
+    fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
+    
+    fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
+    fSeparatorLineEveryNMeasuresValue    = INT_MAX;
+    
+    // options
+  
+    S_msrOptionsSubGroup lineBreaksSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilylb", "helpLilypondLineBreaks",
+R"(Line breaks)"
+      );
+  
+    appendOptionsSubGroup (lineBreaksSubGroup);
+  }
+  
 
   // page breaks
   // --------------------------------------
+
+  {
+    // variables  
+   
+    fDontKeepPageBreaks                  = boolOptionsInitialValue;
   
-  // variables  
- 
-  fDontKeepPageBreaks                  = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup pageBreaksSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilypb", "helpLilypondPageBreaks",
+    // options
+  
+    S_msrOptionsSubGroup pageBreaksSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilypb", "helpLilypondPageBreaks",
 R"(Page breaks)"
-    );
-
-  appendOptionsSubGroup (pageBreaksSubGroup);
-      
+      );
+  
+    appendOptionsSubGroup (pageBreaksSubGroup);
+  }
+    
 
   // staves
   // --------------------------------------
-  
-  // variables  
-  
-  fModernTab = boolOptionsInitialValue;
 
-  // options
-
-  S_msrOptionsSubGroup stavesSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilys", "helpLilypondStaves",
+  {
+    // variables  
+    
+    fModernTab = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup stavesSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilys", "helpLilypondStaves",
 R"(Staves)"
-    );
-
-  appendOptionsSubGroup (stavesSubGroup);
-      
+      );
+  
+    appendOptionsSubGroup (stavesSubGroup);
+  }
+  
 
   // tuplets
   // --------------------------------------
+
+  {
+    // variables  
   
-  // variables  
-
-  fTupletsOnALine = boolOptionsInitialValue;
+    fTupletsOnALine = boolOptionsInitialValue;
+    
+    // options
   
-  // options
-
-  S_msrOptionsSubGroup tupletsSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilytu", "helpLilypondTuplets",
-R"(Tuplets)"
-    );
-
-  appendOptionsSubGroup (tupletsSubGroup);
+    S_msrOptionsSubGroup tupletsSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilytu", "helpLilypondTuplets",
+  R"(Tuplets)"
+      );
+  
+    appendOptionsSubGroup (tupletsSubGroup);
+  }
       
 
   // repeats
   // --------------------------------------
   
-  // variables
+  {
+    // variables
+    
+    fRepeatBrackets = boolOptionsInitialValue;
   
-  fRepeatBrackets = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup repeatsSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilyr", "helpLilypondRepeats",
-R"(Repeats)"
-    );
-
-  appendOptionsSubGroup (repeatsSubGroup);
+    // options
+  
+    S_msrOptionsSubGroup repeatsSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilyr", "helpLilypondRepeats",
+  R"(Repeats)"
+      );
+  
+    appendOptionsSubGroup (repeatsSubGroup);
+  }
       
   // ornaments
   // --------------------------------------
   
-  // variables
+  {
+    // variables
+    
+    fDelayedOrnamentFractionNumerator   = 2;
+    fDelayedOrnamentFractionDenominator = 3;
   
-  fDelayedOrnamentFractionNumerator   = 2;
-  fDelayedOrnamentFractionDenominator = 3;
-
-  // options
-
-  S_msrOptionsSubGroup ornamentsSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilyo", "helpLilypondOrnaments",
-R"(Ornaments)"
-    );
-
-  appendOptionsSubGroup (ornamentsSubGroup);
+    // options
+  
+    S_msrOptionsSubGroup ornamentsSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilyo", "helpLilypondOrnaments",
+  R"(Ornaments)"
+      );
+  
+    appendOptionsSubGroup (ornamentsSubGroup);
+  }
       
 
   // code generation
   // --------------------------------------
   
-  // variables  
-
-  fComments            = boolOptionsInitialValue;
-
-  fGlobal              = boolOptionsInitialValue;
+  {
+    // variables  
   
-  fDisplayMusic        = boolOptionsInitialValue;
+    fComments            = boolOptionsInitialValue;
+  
+    fGlobal              = boolOptionsInitialValue;
     
-  fNoLilypondCode      = boolOptionsInitialValue;
+    fDisplayMusic        = boolOptionsInitialValue;
+      
+    fNoLilypondCode      = boolOptionsInitialValue;
+    
+    fNoLilypondLyrics    = boolOptionsInitialValue;
+    
+    fLilypondCompileDate = boolOptionsInitialValue;
   
-  fNoLilypondLyrics    = boolOptionsInitialValue;
+    // options
   
-  fLilypondCompileDate = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup codeGenerationSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilycg", "helpLilypondCodeGeneration",
-R"(Code generation)"
-    );
-
-  appendOptionsSubGroup (codeGenerationSubGroup);
+    S_msrOptionsSubGroup codeGenerationSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilycg", "helpLilypondCodeGeneration",
+  R"(Code generation)"
+      );
+  
+    appendOptionsSubGroup (codeGenerationSubGroup);
+  } 
       
     
   // score notation
   // --------------------------------------
 
-  // variables  
-
-  fScoreNotationKind =  lilypondOptions::kWesternNotation;
-    // default value
+  {
+    // variables  
   
-  // options
-
-  S_msrOptionsSubGroup scoreNotationSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilysn", "helpLilypondScoreNotation",
-R"(Score notation)"
-    );
-
-  appendOptionsSubGroup (scoreNotationSubGroup);
+    fScoreNotationKind =  lilypondOptions::kWesternNotation;
+      // default value
+    
+    // options
+  
+    S_msrOptionsSubGroup scoreNotationSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilysn", "helpLilypondScoreNotation",
+  R"(Score notation)"
+      );
+  
+    appendOptionsSubGroup (scoreNotationSubGroup);
+  } 
       
 
   // midi
   // --------------------------------------
   
-  // variables
+  {
+    // variables
+    
+    fMidiTempoDuration  = "4";
+    fMidiTempoPerSecond = 100;
+    
+    fNoMidiCommand = boolOptionsInitialValue;
+    
+    // options
   
-  fMidiTempoDuration  = "4";
-  fMidiTempoPerSecond = 100;
+    S_msrOptionsSubGroup midiSubGroup =
+      msrOptionsSubGroup::create (
+      "hlilym", "helpLilypondMidi",
+  R"(Midi)"
+      );
   
-  fNoMidiCommand = boolOptionsInitialValue;
-  
-  // options
-
-  S_msrOptionsSubGroup midiSubGroup =
-    msrOptionsSubGroup::create (
-    "hlilym", "helpLilypondMidi",
-R"(Midi)"
-    );
-
-  appendOptionsSubGroup (midiSubGroup);
-      
+    appendOptionsSubGroup (midiSubGroup);
+  } 
 
   
   // JMI ???

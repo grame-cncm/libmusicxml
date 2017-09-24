@@ -57,125 +57,128 @@ void lpsrOptions::initializeLpsrOptions (
 
   // trace and display
   // --------------------------------------
-  
-  // variables
-  
-  fTraceLpsr            = boolOptionsInitialValue;
-  
-  fTraceLpsrVisitors    = boolOptionsInitialValue;
 
-  fDisplayLpsr          = boolOptionsInitialValue;
+  {
+    // variables
+    
+    fTraceLpsr            = boolOptionsInitialValue;
+    
+    fTraceLpsrVisitors    = boolOptionsInitialValue;
   
-  fTraceSchemeFunctions = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
-    msrOptionsSubGroup::create (
-    "hlpsrtd", "helpLpsrTraceAndDisplay",
+    fDisplayLpsr          = boolOptionsInitialValue;
+    
+    fTraceSchemeFunctions = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup traceAndDisplaySubGroup =
+      msrOptionsSubGroup::create (
+      "hlpsrtd", "helpLpsrTraceAndDisplay",
 R"(Trace and display)"
-    );
-
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
-      
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "tlpsr", "traceLpsr",
+      );
+  
+    appendOptionsSubGroup (traceAndDisplaySubGroup);
+        
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tlpsr", "traceLpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
-        "traceLpsr",
-        fTraceLpsr));
-
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "ttlpvisits", "traceLpsrVisitors",
+          "traceLpsr",
+          fTraceLpsr));
+  
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ttlpvisits", "traceLpsrVisitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
-        "traceLpsrVisitors",
-        fTraceLpsrVisitors));
-
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "lpsr", "displayLpsr",
+          "traceLpsrVisitors",
+          fTraceLpsrVisitors));
+  
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "lpsr", "displayLpsr",
 R"(Write the contents of the LPSR data to standard error.)",
-        "displayLpsr",
-        fDisplayLpsr));
-
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "tscheme", "traceSchemeFunctions",
+          "displayLpsr",
+          fDisplayLpsr));
+  
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tscheme", "traceSchemeFunctions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
-        "traceSchemeFunctions",
-        fTraceSchemeFunctions));
-
+          "traceSchemeFunctions",
+          fTraceSchemeFunctions));
+  }
 
   // languages
   // --------------------------------------
+
+  {
+    // variables
+    
+    if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
+      stringstream s;
   
-  // variables
+      s <<
+        "INTERNAL INITIALIZATION ERROR: "
+        "LPSR pitches language 'nederlands' is unknown" <<
+        endl <<
+        "The " <<
+        gQuarterTonesPitchesLanguagesMap.size () <<
+        " known LPSR pitches languages are:" <<
+        endl;
   
-  if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
-    stringstream s;
-
-    s <<
-      "INTERNAL INITIALIZATION ERROR: "
-      "LPSR pitches language 'nederlands' is unknown" <<
-      endl <<
-      "The " <<
-      gQuarterTonesPitchesLanguagesMap.size () <<
-      " known LPSR pitches languages are:" <<
-      endl;
-
-    idtr++;
+      idtr++;
+    
+      s <<
+        existingQuarterTonesPitchesLanguages ();
   
-    s <<
-      existingQuarterTonesPitchesLanguages ();
-
-    idtr--;
-
-    optionError (s.str());
-  }
-
-  // options
+      idtr--;
   
-  S_msrOptionsSubGroup languagesSubGroup =
-    msrOptionsSubGroup::create (
-    "hlpsrl", "helpLpsrlanguages",
+      optionError (s.str());
+    }
+  
+    // options
+    
+    S_msrOptionsSubGroup languagesSubGroup =
+      msrOptionsSubGroup::create (
+      "hlpsrl", "helpLpsrlanguages",
 R"(Languages)"
-    );
-
-  appendOptionsSubGroup (languagesSubGroup);
-
-  bool foo; // JMI
+      );
   
-  languagesSubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "lppl", "lpsrPitchesLanguage",
+    appendOptionsSubGroup (languagesSubGroup);
+  
+    bool foo; // JMI
+    
+    languagesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "lppl", "lpsrPitchesLanguage",
 R"(Use 'language' to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The 12 LilyPond pitches languages are available:
 nederlands, catalan, deutsch, english, espanol, français, 
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
-        "lpsrPitchesLanguage",
-        foo));
-       // fLpsrQuarterTonesPitchesLanguage));
-
-  languagesSubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "lpcl", "lpsrChordsLanguage",
+          "lpsrPitchesLanguage",
+          foo));
+         // fLpsrQuarterTonesPitchesLanguage));
+  
+    languagesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "lpcl", "lpsrChordsLanguage",
 R"(Use 'language' to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
 The 4 LilyPond chords languages are available:
 german, semiGerman, italian and french.
 The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
-        "lpsrChordsLanguage",
-        foo));
+          "lpsrChordsLanguage",
+          foo));
     //    fLpsrChordsLanguage));
+  }
 }
 
 S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
