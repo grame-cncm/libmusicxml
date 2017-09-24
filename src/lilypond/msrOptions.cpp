@@ -265,6 +265,46 @@ R"(Notes)"
       );
   
     appendOptionsSubGroup (notesSubGroup);
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "drdyns", "delayRestsDynamics",
+R"(dynamics)",
+          "delayRestsDynamics",
+          fDelayRestsDynamics));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "drwords", "delayRestsWords",
+R"(words)",
+          "delayRestsWords",
+          fDelayRestsWords));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "drslurs", "delayRestsSlurs",
+R"(slurs)",
+          "delayRestsSlurs",
+          fDelayRestsSlurs));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "drligs", "delayRestsLigatures",
+R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
+          "delayRestsLigatures",
+          fDelayRestsLigatures));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "drwedges", "delayRestsWedges",
+R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
+          "delayRestsWedges",
+          fDelayRestsWedges));
   }
 
   // lyrics
@@ -285,6 +325,23 @@ R"(Lyrics)"
       );
   
     appendOptionsSubGroup (lyricsSubGroup);
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "sms", "showMsrStanzas",
+R"(Show MSR stanzas even when they're empty.)",
+          "showMsrStanzas",
+          fShowMsrStanzas));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "kms", "keepMuteStanzas",
+R"(Keep the mute stanzas used intertally.
+By default, there are removed after usage.)",
+          "keepMuteStanzas",
+          fKeepMuteStanzas));
   }     
 
   // harmonies
