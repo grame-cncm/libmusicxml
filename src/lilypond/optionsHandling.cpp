@@ -1892,6 +1892,8 @@ const vector<string> msrOptionsHandler::analyzeOptions (
       // currentElement is no options item,
       // i.e. it is an item value or an argument
       handleOptionsItemValueOrArgument (currentElement);
+
+      pureHelpRun = false;
     }
     
     // next please
@@ -1922,6 +1924,10 @@ const vector<string> msrOptionsHandler::analyzeOptions (
 
   // exit if this is a pure help run
   if (pureHelpRun) {
+    cerr << idtr <<
+      "This is a pure help run, exiting." <<
+      endl;
+
     exit (1);
   }
 

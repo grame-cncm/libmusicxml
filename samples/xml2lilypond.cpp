@@ -209,7 +209,7 @@ void checkOptionUniqueness (
 //_______________________________________________________________________________
 #define HEAVY 0
 
-void analyzeOptionsAndArguments (
+vector<string> analyzeOptionsAndArguments (
 S_xml2lilypondOptionsHandler
                  optionsHandler,
   int            argc,
@@ -243,6 +243,13 @@ S_xml2lilypondOptionsHandler
   // handle the arguments 
   int nonOptionArgsNumber = argumentsVector.size ();
 
+  if (gGeneralOptions->fTraceGeneral) {
+    cerr <<
+      "There are " << nonOptionArgsNumber << " arguments" <<
+      endl;
+  }
+
+  // handle the arguments 
   switch (nonOptionArgsNumber)
     {
     case 1 :
@@ -292,6 +299,8 @@ S_xml2lilypondOptionsHandler
       outputFileName.replace (
         posInString, outputFileName.size () - posInString, ".ly");
   }
+
+  return argumentsVector;
 }
 
 //_______________________________________________________________________________
@@ -3950,21 +3959,25 @@ int main (int argc, char *argv[])
     inputFileName, outputFileName);
   }
   else {
-  analyzeOptionsAndArguments (
-    optionsHandler,
-    argc, argv,
-    inputFileName, outputFileName);
   }
+  vector<string>
+    argumentsVector =
+    analyzeOptionsAndArguments (
+      optionsHandler,
+      argc, argv,
+      inputFileName, outputFileName);
 
   // program name
   // ------------------------------------------------------
   
-  gGeneralOptions->fProgramName = argv [0];
+  gGeneralOptions->fProgramName =
+    argumentsVector [0]; //argv [0]; // JMI
   
   // input source name
   // ------------------------------------------------------
 
-  gGeneralOptions->fInputSourceName = inputFileName;
+  gGeneralOptions->fInputSourceName =
+    argumentsVector [1]; // inputFileName; // JMI
   
   // translation date
   // ------------------------------------------------------
