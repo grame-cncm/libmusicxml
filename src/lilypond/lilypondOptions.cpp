@@ -399,8 +399,7 @@ R"(Generate repeats with brackets instead of regular bar lines)",
   {
     // variables
     
-    fDelayedOrnamentFractionNumerator   = 2;
-    fDelayedOrnamentFractionDenominator = 3;
+    fDelayedOrnamentsFraction = rational (2, 3);
   
     // options
   
@@ -411,7 +410,7 @@ R"(Ornaments)"
       );
   
     appendOptionsSubGroup (ornamentsSubGroup);
-/*
+
     ornamentsSubGroup->
       appendOptionsItem (
         msrOptionsRationalItem::create (
@@ -420,11 +419,11 @@ R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
 The default fraction is '2/3'.)",
           "delayedOrnamentsFraction",
-          fDelayedOrnamentsFraction));
-          */
+          fDelayedOrnamentsFraction,
+          msrOptionsItem::kOptionsItemHasAnOptionsArgument));
   }
-      
 
+      
   // fonts
   // --------------------------------------
 
@@ -731,10 +730,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   
   // ornaments
   
-  clone->fDelayedOrnamentFractionNumerator =
-    fDelayedOrnamentFractionNumerator;
-  clone->fDelayedOrnamentFractionDenominator =
-    fDelayedOrnamentFractionDenominator;
+  clone->fDelayedOrnamentsFraction =
+    fDelayedOrnamentsFraction;
   
   // code generation
 
@@ -1533,12 +1530,8 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "delayedOrnamentFractionNumerator" << " : " <<
-      fDelayedOrnamentFractionNumerator <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "delayedOrnamentFractionDenominator" << " : " <<
-      fDelayedOrnamentFractionDenominator <<
+    idtr << setw(fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
+      fDelayedOrnamentsFraction <<
       endl;
 
   idtr--;

@@ -593,9 +593,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         // c2*2/3 ( s2*1/3\turn JMI
         fOstream <<
           "*" <<
-          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
-          "/" <<
-          gLilypondOptions->fDelayedOrnamentFractionDenominator;
+          gLilypondOptions->
+            fDelayedOrnamentsFraction;
       
       // print the tie if any
       {
@@ -626,9 +625,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         // c2*2/3 ( s2*1/3\turn JMI
         fOstream <<
           "*" <<
-          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
-          "/" <<
-          gLilypondOptions->fDelayedOrnamentFractionDenominator;
+          gLilypondOptions->fDelayedOrnamentsFraction;
       
       // print the tie if any
       {
@@ -1276,17 +1273,27 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
     case msrOrnament::kDelayedTurn:
       {
         // c2*2/3 ( s2*1/3\turn
+        int
+          numerator =
+            gLilypondOptions->
+              fDelayedOrnamentsFraction.
+                getDenominator (),
+          denominator =
+            gLilypondOptions->
+              fDelayedOrnamentsFraction.
+                getDenominator ();
+              
         stringstream s;
 
         s <<
           "s" <<
           noteUplinkDuration <<
           "*" <<
-          gLilypondOptions->fDelayedOrnamentFractionDenominator
+            denominator
             -
-          gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+            numerator <<
           "/" <<
-          gLilypondOptions->fDelayedOrnamentFractionDenominator <<
+            denominator <<
           "\\turn";
           
         result = s.str ();

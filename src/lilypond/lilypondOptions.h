@@ -269,8 +269,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     // ornaments
     // --------------------------------------
 
-    int                   fDelayedOrnamentFractionNumerator;
-    int                   fDelayedOrnamentFractionDenominator;
+    rational              fDelayedOrnamentsFraction;
 
     // fonts
     // --------------------------------------

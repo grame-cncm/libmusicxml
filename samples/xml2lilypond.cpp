@@ -3520,21 +3520,21 @@ R"(
               {
                 stringstream s;
                 s << sm [1];
-                s >> gLilypondOptions->fDelayedOrnamentFractionNumerator;
+       // JMI         s >> gLilypondOptions->fDelayedOrnamentsFraction;
               }
               {
                 stringstream s;
                 s << sm [2];
-                s >> gLilypondOptions->fDelayedOrnamentFractionDenominator;
+            // JMI    s >> gLilypondOptions->fDelayedOrnamentsFraction;
               }
 
               if (false) {
                 cerr << // JMI
-                  "gLilypondOptions->fDelayedOrnamentFractionNumerator = " <<
-                  gLilypondOptions->fDelayedOrnamentFractionNumerator <<
+                  "gLilypondOptions->fDelayedOrnamentsFraction = " <<
+                  gLilypondOptions->fDelayedOrnamentsFraction <<
                   endl <<
-                  "gLilypondOptions->fDelayedOrnamentFractionDenominator = " <<
-                  gLilypondOptions->fDelayedOrnamentFractionDenominator <<
+                  "gLilypondOptions->fDelayedOrnamentsFraction = " <<
+                  gLilypondOptions->fDelayedOrnamentsFraction <<
                   endl;
               }
     
