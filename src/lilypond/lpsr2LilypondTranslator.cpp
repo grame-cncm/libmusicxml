@@ -119,7 +119,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fStanzaOlec.setMaxElementsPerLine (10);
   
   fMusicOlec.setMaxElementsPerLine (
-    gLilypondOptions->fInputLineNumbers
+    gLilypondOptions->fNoteInputLineNumbers
       ?  5
       : 10);
 };
@@ -3611,7 +3611,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       harmonyAsLilypondString (elt) <<
       " ";
       
-    if (gLilypondOptions->fInputLineNumbers)
+    if (gLilypondOptions->fNoteInputLineNumbers)
       // print the harmony line number as a comment
       fOstream <<
         "%{ " << elt->getInputLineNumber () << " %} ";  
@@ -3661,7 +3661,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
     fOstream <<
       "<";
       
-    if (gLilypondOptions->fInputLineNumbers)
+    if (gLilypondOptions->fNoteInputLineNumbers)
       // print the figured bass line number as a comment
       fOstream <<
         "%{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";  
@@ -4465,7 +4465,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
       
-      if (gLilypondOptions->fInputLineNumbers)
+      if (gLilypondOptions->fNoteInputLineNumbers)
         // print the note line number as a comment
         fOstream <<
           "%{ " << elt->getInputLineNumber () << " %} ";  
@@ -5899,7 +5899,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       idtr;
   }
   
-  if (gLilypondOptions->fInputLineNumbers)
+  if (gLilypondOptions->fNoteInputLineNumbers)
     // print the note line number as a comment
     fOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
@@ -7138,7 +7138,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         fOstream <<
           "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
 
-      if (gLilypondOptions->fInputLineNumbers)
+      if (gLilypondOptions->fNoteInputLineNumbers)
         // print the barline line number as a comment
         fOstream <<
           "%{ " << elt->getInputLineNumber () << " %} ";
@@ -7832,7 +7832,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     idtr <<
     "R1";
 
-  if (gLilypondOptions->fInputLineNumbers)
+  if (gLilypondOptions->fNoteInputLineNumbers)
     // print the multiple rest line number as a comment
     fOstream <<
       " %{ " << inputLineNumber << " %} ";  

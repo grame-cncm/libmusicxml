@@ -94,13 +94,13 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
     fNoAutoBeaming  = boolOptionsInitialValue;
     
     fRomanStringNumbers = boolOptionsInitialValue;
-    fAvoidOpenString    = boolOptionsInitialValue;
+    fAvoidOpenStrings    = boolOptionsInitialValue;
     
     fAccidentalStyle = "";
   
     fCompressMultiMeasureRests = boolOptionsInitialValue;
   
-    fInputLineNumbers = boolOptionsInitialValue;
+    fNoteInputLineNumbers = boolOptionsInitialValue;
   
     S_msrOptionsSubGroup notesSubGroup =
       msrOptionsSubGroup::create (
@@ -113,10 +113,90 @@ R"(Notes)"
     notesSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "numt", "numericalTime",
-R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
-          "numericalTime",
-          fNumericalTime));
+          "abs", "absolute",
+R"(Generate LilyPond absolute note octaves. 
+By default, relative octaves are generated.)",
+          "absoluteOctaves",
+          fAbsoluteOctaves));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "alldurs", "allDurations",
+R"(Generate all LilyPond durations. 
+By default, a duration equal to preceding one met in the current voice
+is omitted for code conciseness.)",
+          "allDurations",
+          fAllDurations));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "stems", "",
+R"(Generate \stemUp and \stemDown LilyPond commands.
+By default, LilyPond will take care of that by itself.)",
+          "stems",
+          fStems));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "noab", "noAutoBeaming",
+R"(Generate '\set Voice.autoBeaming = ##f' in each voice 
+to prevent LilyPond from handling beams automatically.)",
+          "noAutoBeaming",
+          fNoAutoBeaming));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "rsn", "romanStringNumbers",
+R"(Generate '\romanStringNumbers' in each voice 
+for LilyPond to generate roman instead of arabic string numbers.)",
+          "romanStringNumbers",
+          fRomanStringNumbers));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "aos", "avoidOpenStrings",
+R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice 
+to prevent LilyPond from using open strings.)",
+          "avoidOpenStrings",
+          fAvoidOpenStrings));
+/* JMI
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "as", "accidentalStyle", // JMI
+R"(Choose the LilyPond accidental styles among: 
+  voice, modern, modern-cautionary, modern-voice, 
+  modern-voice-cautionary, piano, piano-cautionary, 
+  neo-modern, neo-modern-cautionary, neo-modern-voice,
+  neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat,
+  dodecaphonic-first, teaching, no-reset, forget.
+The default is... 'default'.)",
+          "accidentalStyle",
+          fAccidentalStyle));
+          */
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "cmmr", "compressMultiMeasureRests",
+R"(Generate '\compressMMRests' at the beginning of voices.
+By default, this command is commented.)",
+          "compressMultiMeasureRests",
+          fCompressMultiMeasureRests));
+
+    notesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "niln", "noteInputLineNumbers",
+R"(Generate after each note and barline a comment containing
+its MusicXML input line number.)",
+          "noteInputLineNumbers",
+          fNoteInputLineNumbers));
   }
 
   
@@ -405,8 +485,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fRomanStringNumbers =
     fRomanStringNumbers;
 
-  clone->fAvoidOpenString =
-    fAvoidOpenString;
+  clone->fAvoidOpenStrings =
+    fAvoidOpenStrings;
 
   clone->fAccidentalStyle =
     fAccidentalStyle;
@@ -414,7 +494,7 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fCompressMultiMeasureRests =
     fCompressMultiMeasureRests;
 
-  clone->fInputLineNumbers =
+  clone->fNoteInputLineNumbers =
     true;
 
   // bars
@@ -1128,7 +1208,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl <<
       
     idtr << setw(fieldWidth) << "avoidOpenString" << " : " <<
-      booleanAsString (fAvoidOpenString) <<
+      booleanAsString (fAvoidOpenStrings) <<
       endl <<
 
     idtr << setw(fieldWidth) << "accidentalStyle" << " : " <<
@@ -1140,7 +1220,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl <<
 
     idtr << setw(fieldWidth) << "inputLineNumbers" << " : " <<
-      booleanAsString (fInputLineNumbers) <<
+      booleanAsString (fNoteInputLineNumbers) <<
       endl;
 
   idtr--;

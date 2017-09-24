@@ -223,13 +223,13 @@ class EXP lilypondOptions : public msrOptionsGroup
     bool                  fNoAutoBeaming;
     
     bool                  fRomanStringNumbers;
-    bool                  fAvoidOpenString;
+    bool                  fAvoidOpenStrings;
     
     string                fAccidentalStyle;
     
     bool                  fCompressMultiMeasureRests;
 
-    bool                  fInputLineNumbers;
+    bool                  fNoteInputLineNumbers;
 
     // bars
     // --------------------------------------

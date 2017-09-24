@@ -3241,7 +3241,7 @@ R"(
             }
     
             if (avoidOpenStringPresent) {
-              gLilypondOptions->fAvoidOpenString = true;
+              gLilypondOptions->fAvoidOpenStrings = true;
     
               gGeneralOptions->fCommandLineLongOptions +=
                 "--" _AVOID_OPEN_STRINGS_LONG_NAME_ " ";
@@ -3289,7 +3289,7 @@ R"(
             }
     
             if (noteInputLineNumbersPresent) {
-              gLilypondOptions->fInputLineNumbers = true;
+              gLilypondOptions->fNoteInputLineNumbers = true;
     
               gGeneralOptions->fCommandLineLongOptions +=
                 "--" _NOTE_INPUT_LINE_NUMBERS_LONG_NAME_ " ";
