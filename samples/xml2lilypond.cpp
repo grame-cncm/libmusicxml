@@ -223,6 +223,23 @@ S_xml2lilypondOptionsHandler
       optionsHandler->
         analyzeOptions (argc, argv);
 
+  if (gGeneralOptions->fTraceGeneral) {
+    // print the options values
+    cerr <<
+      "Options values:" <<
+      endl;
+
+    idtr++;
+    
+    optionsHandler->
+      printOptionsValues (cerr);
+        
+    cerr <<
+      endl;
+
+    idtr--;
+  }
+  
   // handle the arguments 
   int nonOptionArgsNumber = argumentsVector.size ();
 

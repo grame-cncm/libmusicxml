@@ -1898,23 +1898,6 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
-  if (true || TRACE_OPTIONS) {
-    // print the options values
-    cerr <<
-      "Options values:" <<
-      endl;
-
-    idtr++;
-    
-    this->
-      printOptionsValues (cerr);
-        
-    cerr <<
-      endl;
-
-    idtr--;
-  }
-  
   if (TRACE_OPTIONS) {
     // print the arguments vector
     int argumentsVectorSize =
