@@ -29,18 +29,18 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_msrMusicXMLOptions gMusicXMLOptions;
-S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
-S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
+S_musicXMLOptions gMusicXMLOptions;
+S_musicXMLOptions gMusicXMLOptionsUserChoices;
+S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
-S_msrMusicXMLOptions msrMusicXMLOptions::create ()
+S_musicXMLOptions musicXMLOptions::create ()
 {
-  msrMusicXMLOptions* o = new msrMusicXMLOptions();
+  musicXMLOptions* o = new musicXMLOptions();
   assert(o!=0);
   return o;
 }
 
-msrMusicXMLOptions::msrMusicXMLOptions ()
+musicXMLOptions::musicXMLOptions ()
   : msrOptionsGroup (
     "hmxml", "helpMusicXML",
 R"(MusicXML)"
@@ -49,10 +49,10 @@ R"(MusicXML)"
   initializeMusicXMLOptions (false);
 }
 
-msrMusicXMLOptions::~msrMusicXMLOptions ()
+musicXMLOptions::~musicXMLOptions ()
 {}
 
-void msrMusicXMLOptions::initializeMusicXMLOptions (
+void musicXMLOptions::initializeMusicXMLOptions (
   bool boolOptionsInitialValue)
 {
   // trace and display
@@ -116,11 +116,11 @@ The file name receives a '_loop' suffix. Currently under development.)",
         fLoopToMusicXML));
 }
 
-S_msrMusicXMLOptions msrMusicXMLOptions::createCloneWithDetailedTrace ()
+S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 {
-  S_msrMusicXMLOptions
+  S_musicXMLOptions
     clone =
-      msrMusicXMLOptions::create ();
+      musicXMLOptions::create ();
 
   // trace and display
   // --------------------------------------
@@ -140,7 +140,7 @@ S_msrMusicXMLOptions msrMusicXMLOptions::createCloneWithDetailedTrace ()
   return clone;
 }  
 
-void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
+void musicXMLOptions::printMusicXMLOptionsHelp ()
 {
   idtr++;
 
@@ -211,7 +211,7 @@ void msrMusicXMLOptions::printMusicXMLOptionsHelp ()
   idtr--;
 }
 
-void msrMusicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
+void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {  
   cerr << idtr <<
     "The MusicXML options are:" <<
@@ -267,7 +267,7 @@ void initializeMusicXMLOptions ()
 {
   // MusicXML options
   
-  gMusicXMLOptionsUserChoices = msrMusicXMLOptions::create ();
+  gMusicXMLOptionsUserChoices = musicXMLOptions::create ();
   assert(gMusicXMLOptionsUserChoices != 0);
 
   gMusicXMLOptions =

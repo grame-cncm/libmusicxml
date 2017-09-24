@@ -17,7 +17,11 @@
 
 #include "xml2lilypondOptionsHandling.h"
 
+#include "generalOptions.h"
 #include "musicXMLOptions.h"
+#include "msrOptions.h"
+#include "lpsrOptions.h"
+#include "lilypondOptions.h"
 
 #include "utilities.h"
 
@@ -94,12 +98,22 @@ xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler()
 
 void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 {
-  // MusicXML options
-  S_msrMusicXMLOptions
-    musicXMLOptions =
-      msrMusicXMLOptions::create ();
-
-  appendOptionsGroup (musicXMLOptions);
+  // append the various options groups
+  appendOptionsGroup (
+    generalOptions::create ()
+  );
+  appendOptionsGroup (
+    musicXMLOptions::create ()
+  );
+  appendOptionsGroup (
+    msrOptions::create ()
+  );
+  appendOptionsGroup (
+    lpsrOptions::create ()
+  );
+  appendOptionsGroup (
+    lilypondOptions::create ()
+  );
 
   if (TRACE_OPTIONS) {
     // print the options handler initial state

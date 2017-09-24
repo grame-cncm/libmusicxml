@@ -27,18 +27,18 @@ namespace MusicXML2
 #define tab  indenter::gIndenter.getSpacer ()
 
 //_______________________________________________________________________________
-S_msrGeneralOptions gGeneralOptions;
-S_msrGeneralOptions gGeneralOptionsUserChoices;
-S_msrGeneralOptions gGeneralOptionsWithDetailedTrace;
+S_generalOptions gGeneralOptions;
+S_generalOptions gGeneralOptionsUserChoices;
+S_generalOptions gGeneralOptionsWithDetailedTrace;
 
-S_msrGeneralOptions msrGeneralOptions::create ()
+S_generalOptions generalOptions::create ()
 {
-  msrGeneralOptions* o = new msrGeneralOptions();
+  generalOptions* o = new generalOptions();
   assert(o!=0);
   return o;
 }
 
-msrGeneralOptions::msrGeneralOptions ()
+generalOptions::generalOptions ()
   : msrOptionsGroup (
     "hg", "helpGeneral",
 R"(General)"
@@ -47,10 +47,10 @@ R"(General)"
   initializeGeneralOptions (false);
 }
 
-msrGeneralOptions::~msrGeneralOptions ()
+generalOptions::~generalOptions ()
 {}
 
-void msrGeneralOptions::initializeGeneralOptions (
+void generalOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
   // output file
@@ -220,11 +220,11 @@ R"(Specific trace)"
   fTraceMidi = boolOptionsInitialValue;
 }
 
-S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
+S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 {
-  S_msrGeneralOptions
+  S_generalOptions
     clone =
-      msrGeneralOptions::create ();
+      generalOptions::create ();
 
     // command line
     // --------------------------------------
@@ -369,7 +369,7 @@ S_msrGeneralOptions msrGeneralOptions::createCloneWithDetailedTrace ()
   return clone;
 }
 
-void msrGeneralOptions::printGeneralOptionsHelp ()
+void generalOptions::printGeneralOptionsHelp ()
 {
   idtr++;
 
@@ -811,7 +811,7 @@ void msrGeneralOptions::printGeneralOptionsHelp ()
   idtr--;
 }
 
-void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
+void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {  
   cerr << idtr <<
     "The general options are:" <<
@@ -1112,7 +1112,7 @@ void msrGeneralOptions::printGeneralOptionsValues (int fieldWidth)
 //______________________________________________________________________________
 void initializeGeneralOptions ()
 {  
-  gGeneralOptionsUserChoices = msrGeneralOptions::create ();
+  gGeneralOptionsUserChoices = generalOptions::create ();
   assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =

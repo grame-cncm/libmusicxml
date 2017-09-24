@@ -39,16 +39,16 @@ namespace MusicXML2
 #define _LOOP_TO_MUSICXML_SHORT_NAME_ "loop"
 
 //______________________________________________________________________________
-class EXP msrMusicXMLOptions : public msrOptionsGroup
+class EXP musicXMLOptions : public msrOptionsGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrMusicXMLOptions> create ();
+    static SMARTP<musicXMLOptions> create ();
     
-    SMARTP<msrMusicXMLOptions>        createCloneWithDetailedTrace ();
+    SMARTP<musicXMLOptions>        createCloneWithDetailedTrace ();
     
   private:
 
@@ -63,9 +63,9 @@ class EXP msrMusicXMLOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMusicXMLOptions();
+    musicXMLOptions();
   
-    virtual ~msrMusicXMLOptions();
+    virtual ~musicXMLOptions();
  
   public:
 
@@ -90,11 +90,11 @@ class EXP msrMusicXMLOptions : public msrOptionsGroup
     
     bool                  fLoopToMusicXML;
 };
-typedef SMARTP<msrMusicXMLOptions> S_msrMusicXMLOptions;
+typedef SMARTP<musicXMLOptions> S_musicXMLOptions;
 
-extern S_msrMusicXMLOptions gMusicXMLOptions;
-extern S_msrMusicXMLOptions gMusicXMLOptionsUserChoices;
-extern S_msrMusicXMLOptions gMusicXMLOptionsWithDetailedTrace;
+extern S_musicXMLOptions gMusicXMLOptions;
+extern S_musicXMLOptions gMusicXMLOptionsUserChoices;
+extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 /*!
 \brief A msr midi representation.

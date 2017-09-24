@@ -186,13 +186,13 @@ namespace MusicXML2
 #define _TRACE_CREDITS_SHORT_NAME_ "tcredits"
 
 
-class EXP msrGeneralOptions : public msrOptionsGroup
+class EXP generalOptions : public msrOptionsGroup
 {
   public:
 
-    static SMARTP<msrGeneralOptions> create ();
+    static SMARTP<generalOptions> create ();
     
-    SMARTP<msrGeneralOptions>        createCloneWithDetailedTrace ();
+    SMARTP<generalOptions>        createCloneWithDetailedTrace ();
   public:
 
     // initialisation
@@ -210,9 +210,9 @@ class EXP msrGeneralOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGeneralOptions();
+    generalOptions();
   
-    virtual ~msrGeneralOptions();
+    virtual ~generalOptions();
  
   public:
 
@@ -345,11 +345,11 @@ class EXP msrGeneralOptions : public msrOptionsGroup
     
     bool                  fTraceMidi;
 };
-typedef SMARTP<msrGeneralOptions> S_msrGeneralOptions;
+typedef SMARTP<generalOptions> S_generalOptions;
 
-extern S_msrGeneralOptions gGeneralOptions;
-extern S_msrGeneralOptions gGeneralOptionsUserChoices;
-extern S_msrGeneralOptions gGeneralOptionsWithDetailedTrace;
+extern S_generalOptions gGeneralOptions;
+extern S_generalOptions gGeneralOptionsUserChoices;
+extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 
 /*!
 \brief A msr midi representation.

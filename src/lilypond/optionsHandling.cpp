@@ -1395,6 +1395,8 @@ msrOptionsHandler::msrOptionsHandler (
       optionHandlerDescription)
 {
   fOptionsHandlerHelpHeader = optionsHandlerHelpHeader;
+
+  fExpectedValuesNumber = 0;
   
   fMaximumDisplayNameWidth = 1;
 }
@@ -1791,9 +1793,9 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   fCommandLineWithLongOptions  = fCommandName;
   
   // decipher the command options and arguments
-  int            n = 1;
+  int n = 1;
 
-  int              expectedValuesNumber = 0;
+  fExpectedValuesNumber = 0;
   
   bool pureHelpRun = true;
 
@@ -1914,7 +1916,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   if (TRACE_OPTIONS) {
     // print the arguments vector
     int argumentsVectorSize =
-      ;
+      fArgumentsVector.size ();
       
     cerr << idtr <<
       "Arguments vector (" <<
@@ -2072,7 +2074,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsIntegerItem =
             dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber = 1;
+        fExpectedValuesNumber = 1;
 
         fPendingOptionsItem = optionsIntegerItem;
         optionsIntegerItem->
@@ -2085,7 +2087,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsFloatItem =
             dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
         ) {              
-        expectedValuesNumber = 1;
+        fExpectedValuesNumber = 1;
 
         fPendingOptionsItem = optionsFloatItem;
         optionsFloatItem->
@@ -2098,7 +2100,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsStringItem =
             dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber = 1;
+        fExpectedValuesNumber = 1;
 
         fPendingOptionsItem = optionsStringItem;
         optionsStringItem->
@@ -2111,9 +2113,9 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsRationalItem =
             dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber = 1;
+        fExpectedValuesNumber = 1;
 
-        ffPendingOptionsItem = optionsRationalItem;
+        fPendingOptionsItem = optionsRationalItem;
         optionsRationalItem->
           setRationalItemVariableValue (rational (3, 4));
       }
@@ -2132,7 +2134,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsIntegerItem =
             dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsIntegerItem->
             getOptionsItemValuesNumber ();
 
@@ -2144,7 +2146,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsFloatItem =
             dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
         ) {              
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsFloatItem->
             getOptionsItemValuesNumber ();
 
@@ -2156,7 +2158,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsStringItem =
             dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsStringItem->
             getOptionsItemValuesNumber ();
 
@@ -2168,7 +2170,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsRationalItem =
             dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsRationalItem->
             getOptionsItemValuesNumber ();
 
@@ -2187,18 +2189,18 @@ void msrOptionsHandler::handleOptionsItemName (
       }
     }
 
-    expectedValuesNumber =
+    fExpectedValuesNumber =
       currentOptionsItem->
         getOptionsItemValuesNumber ();
 
-    if (expectedValuesNumber == 0) {
+    if (fExpectedValuesNumber == 0) {
       // handle the current options item now
       if (
         S_msrOptionsBooleanItem
           optionsBooleanItem =
             dynamic_cast<msrOptionsBooleanItem*>(&(*currentOptionsItem))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsBooleanItem->
             getOptionsItemValuesNumber ();
 
@@ -2211,7 +2213,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsIntegerItem =
             dynamic_cast<msrOptionsIntegerItem*>(&(*currentOptionsItem))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsBooleanItem->
             getOptionsItemValuesNumber ();
 
@@ -2225,7 +2227,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsFloatItem =
             dynamic_cast<msrOptionsFloatItem*>(&(*currentOptionsItem))
         ) {              
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsBooleanItem->
             getOptionsItemValuesNumber ();
 
@@ -2239,7 +2241,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsStringItem =
             dynamic_cast<msrOptionsStringItem*>(&(*currentOptionsItem))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsBooleanItem->
             getOptionsItemValuesNumber ();
 
@@ -2253,7 +2255,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsRationalItem =
             dynamic_cast<msrOptionsRationalItem*>(&(*currentOptionsItem))
         ) {
-        expectedValuesNumber =
+        fExpectedValuesNumber =
           optionsBooleanItem->
             getOptionsItemValuesNumber ();
 

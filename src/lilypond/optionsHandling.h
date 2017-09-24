@@ -743,6 +743,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                fOptionsHandlerHelpHeader;
 
     S_msrOptionsItem      fPendingOptionsItem;
+    int                   fExpectedValuesNumber;
     vector<string>        fArgumentsVector;
     
     list<S_msrOptionsGroup>
