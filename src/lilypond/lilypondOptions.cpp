@@ -217,6 +217,14 @@ R"(Bars)"
       );
   
     appendOptionsSubGroup (barsSubGroup);
+
+    barsSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "sabn", "showAllBarNumbers",
+R"(Generate LilyPond code to show all bar numbers.)",
+          "showAllBarNumbers",
+          fShowAllBarNumbers));
   }   
 
 
@@ -242,6 +250,33 @@ R"(Line breaks)"
       );
   
     appendOptionsSubGroup (lineBreaksSubGroup);
+
+    lineBreaksSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "noBreaks", "dontKeepLineBreaks",
+R"(Don't keep the line breaks from the MusicXML input
+and let LilyPond decide about them.)",
+          "dontKeepLineBreaks",
+          fDontKeepLineBreaks));
+
+    lineBreaksSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "blairm", "breakLinesAtIncompleteRightMeasures",
+R"(Generate a '\break' command at the end incomplete right measures
+which is handy in popular folk dances and tuness.)",
+          "breakLinesAtIncompleteRightMeasures",
+          fBreakLinesAtIncompleteRightMeasures));
+
+    lineBreaksSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "slenm", "separatorLineEveryNMeasures",
+R"(Generate an additional separator line for readability every 'n' measures,
+            where 'n' is a positive integer.)",
+          "separatorLineEveryNMeasures",
+          fSeparatorLineEveryNMeasures));
   }
   
 
