@@ -56,186 +56,229 @@ void generalOptions::initializeGeneralOptions (
   // version
   // --------------------------------------
 
-  // variables  
-
-  fVersion = false;
-
-  // options
-
-  S_msrOptionsSubGroup versionSubGroup =
-    msrOptionsSubGroup::create (
-    "hgb", "helpGeneralVersion",
-R"(Version)"
-    );
-
-  appendOptionsSubGroup (versionSubGroup);
-
-  versionSubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "v", "version",
-R"(Display xml2lilypond's version number and exit.)",
-        "version",
-        fVersion));
-
+  {
+    // variables  
+  
+    fVersion = false;
+  
+    // options
+  
+    S_msrOptionsSubGroup versionSubGroup =
+      msrOptionsSubGroup::create (
+      "hgb", "helpGeneralVersion",
+  R"(Version)"
+      );
+  
+    appendOptionsSubGroup (versionSubGroup);
+  
+    versionSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "v", "version",
+  R"(Display xml2lilypond's version number and exit.)",
+          "version",
+          fVersion));
+  }
 
   // output file
   // --------------------------------------
 
-  // variables  
-
-  fAutoOutputFile = false;
+  {
+    // variables  
   
-  // options
-
-  S_msrOptionsSubGroup outputFileSubGroup =
-    msrOptionsSubGroup::create (
-    "hgof", "helpGeneralOutputFile",
+    fAutoOutputFile = false;
+    
+    // options
+  
+    S_msrOptionsSubGroup outputFileSubGroup =
+      msrOptionsSubGroup::create (
+      "hgof", "helpGeneralOutputFile",
 R"(Output file)"
-    );
-          
-  appendOptionsSubGroup (outputFileSubGroup);
-/* JMI
-  outputFileSubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "of", "outputFile",
-R"(Write LilyPond code to file 'fileName' instead of standard output.)",
-        "outputFile",
-        fOutputFileName));
-*/
-
+      );
+            
+    appendOptionsSubGroup (outputFileSubGroup);
+  /* JMI
+    outputFileSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "of", "outputFile",
+  R"(Write LilyPond code to file 'fileName' instead of standard output.)",
+          "outputFile",
+          fOutputFileName));
+  */
+  }
+  
   // trace and display
   // --------------------------------------
 
-  // variables  
-
-  fTraceGeneral = boolOptionsInitialValue;
-
-  fTraceDetailed = false;
-
-  // options
-
-  S_msrOptionsSubGroup traceDansDisplaySubGroup =
-    msrOptionsSubGroup::create (
-    "hgtd", "helpGeneralTraceDansDisplay",
+  {
+    // variables  
+    
+    fTraceGeneral = boolOptionsInitialValue;
+    
+    fTraceDetailed = false;
+    
+    // options
+    
+      S_msrOptionsSubGroup traceAndDisplaySubGroup =
+        msrOptionsSubGroup::create (
+        "hgtd", "helpGeneralTraceDansDisplay",
 R"(Trace and display)"
-    );
-
-  appendOptionsSubGroup (traceDansDisplaySubGroup);
-      
+        );
+    
+      appendOptionsSubGroup (traceAndDisplaySubGroup);
+          
+      traceAndDisplaySubGroup->
+        appendOptionsItem (
+          msrOptionsBooleanItem::create (
+            "t", "traceGeneral",
+R"(Write a trace of the general activity to standard error.)",
+            "traceGeneral",
+            fTraceGeneral));
+    
+      traceAndDisplaySubGroup->
+        appendOptionsItem (
+          msrOptionsBooleanItem::create (
+            "tdetail", "traceDetailed",
+R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
+where '^' excludes the corresponding numbers interval
+and 0 applies to the '<part-list>' and anacrusis if present.
+The measure numbers should be those of the produced score, 
+since MusicXML measure numbers are arbitrary strings.
+Generate a detailed trace of the activity and print additional
+debugging information to standard error for the specified measures.)",
+            "traceDetailed",
+            fTraceDetailed));
+  }
 
   // CPU usage
   // --------------------------------------
 
-  fDisplayCPUusage = boolOptionsInitialValue;
-    
-  // variables  
-
-  // options
-
-  S_msrOptionsSubGroup CPUUsageSubGroup =
-    msrOptionsSubGroup::create (
-    "hgcu", "helpGeneralCPUUsage",
-R"(CPU usage)"
-    );
-
-  appendOptionsSubGroup (CPUUsageSubGroup);
+  {
+    // variables  
+  
+    fDisplayCPUusage = boolOptionsInitialValue;
       
+    // options
+  
+    S_msrOptionsSubGroup CPUUsageSubGroup =
+      msrOptionsSubGroup::create (
+      "hgcu", "helpGeneralCPUUsage",
+  R"(CPU usage)"
+      );
+  
+    appendOptionsSubGroup (CPUUsageSubGroup);
+        
+    CPUUsageSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "t", "traceGeneral",
+  R"(Write a trace of the general activity to standard error.)",
+          "traceGeneral",
+          fTraceGeneral));
+  }
 
   // specific trace    
   // --------------------------------------
 
-  // variables  
-
-  // divisions
-  fTraceDivisions = boolOptionsInitialValue;
-
-  // geometry
-  fTraceGeometry = boolOptionsInitialValue;
-
-  // part groups
-  fTracePartGroups = boolOptionsInitialValue;
+  {
+    // variables  
   
-  // parts
-  fTraceParts = boolOptionsInitialValue;
+    // divisions
+    fTraceDivisions = boolOptionsInitialValue;
   
-  // staves
-  fTraceStaves = boolOptionsInitialValue;
+    // geometry
+    fTraceGeometry = boolOptionsInitialValue;
   
-  // voices
-  fTraceVoices = boolOptionsInitialValue;
-  fTraceVoicesDetails = boolOptionsInitialValue;
-
-  // clefs
-  fTraceClefs = boolOptionsInitialValue;
-  
-  // keys
-  fTraceKeys  = boolOptionsInitialValue;
-  
-  // times
-  fTraceTimes = boolOptionsInitialValue;
-
-  // transpositions
-  fTraceTranspositions = boolOptionsInitialValue;
-
-  // segments
-  fTraceSegments = boolOptionsInitialValue;
-  
-  // repeats
-  fTraceRepeats = boolOptionsInitialValue;
-
-  // measures
-  fTraceMeasures = boolOptionsInitialValue;
-
-  // notes
-  fTraceNotes = boolOptionsInitialValue;
-  fTraceNotesDetails = boolOptionsInitialValue;
-  
-  // beams
-  fTraceBeams = boolOptionsInitialValue;
-  
-  // technicals
-  fTraceTechnicals = boolOptionsInitialValue;
-  
-  // words
-  fTraceWords = boolOptionsInitialValue;
-  
-  // tremolos
-  fTraceTremolos = boolOptionsInitialValue;
-  
-  // chords
-  fTraceChords = boolOptionsInitialValue;
-  
-  // tuplets
-  fTraceTuplets = boolOptionsInitialValue;
-  
-  // grace notes
-  fTraceGraceNotes = boolOptionsInitialValue;
-
-  // lyrics
-  fTraceLyrics = boolOptionsInitialValue;
-
-  // harmonies
-  fTraceHarmonies = boolOptionsInitialValue;
-
-  // figured bass
-  fTraceFiguredBass = boolOptionsInitialValue;
+    // part groups
+    fTracePartGroups = boolOptionsInitialValue;
     
-  // credits
-  fTraceCredits = boolOptionsInitialValue;
+    // parts
+    fTraceParts = boolOptionsInitialValue;
     
-  // options
+    // staves
+    fTraceStaves = boolOptionsInitialValue;
+    
+    // voices
+    fTraceVoices = boolOptionsInitialValue;
+    fTraceVoicesDetails = boolOptionsInitialValue;
+  
+    // clefs
+    fTraceClefs = boolOptionsInitialValue;
+    
+    // keys
+    fTraceKeys  = boolOptionsInitialValue;
+    
+    // times
+    fTraceTimes = boolOptionsInitialValue;
+  
+    // transpositions
+    fTraceTranspositions = boolOptionsInitialValue;
+  
+    // segments
+    fTraceSegments = boolOptionsInitialValue;
+    
+    // repeats
+    fTraceRepeats = boolOptionsInitialValue;
+  
+    // measures
+    fTraceMeasures = boolOptionsInitialValue;
+  
+    // notes
+    fTraceNotes = boolOptionsInitialValue;
+    fTraceNotesDetails = boolOptionsInitialValue;
+    
+    // beams
+    fTraceBeams = boolOptionsInitialValue;
+    
+    // technicals
+    fTraceTechnicals = boolOptionsInitialValue;
+    
+    // words
+    fTraceWords = boolOptionsInitialValue;
+    
+    // tremolos
+    fTraceTremolos = boolOptionsInitialValue;
+    
+    // chords
+    fTraceChords = boolOptionsInitialValue;
+    
+    // tuplets
+    fTraceTuplets = boolOptionsInitialValue;
+    
+    // grace notes
+    fTraceGraceNotes = boolOptionsInitialValue;
+  
+    // lyrics
+    fTraceLyrics = boolOptionsInitialValue;
+  
+    // harmonies
+    fTraceHarmonies = boolOptionsInitialValue;
+  
+    // figured bass
+    fTraceFiguredBass = boolOptionsInitialValue;
+      
+    // credits
+    fTraceCredits = boolOptionsInitialValue;
+      
+    // options
+  
+    S_msrOptionsSubGroup specificTraceSubGroup =
+      msrOptionsSubGroup::create (
+      "hgst", "helpGeneralSpecificTrace",
+R"(Specific trace about elements)"
+      );
+  
+    appendOptionsSubGroup (specificTraceSubGroup);
 
-  S_msrOptionsSubGroup specificTraceSubGroup =
-    msrOptionsSubGroup::create (
-    "hgst", "helpGeneralSpecificTrace",
-R"(Specific trace)"
-    );
-
-  appendOptionsSubGroup (specificTraceSubGroup);
-
-
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tdivs", "traceDivisions",
+R"(divisions)",
+          "traceDivisions",
+          fTraceDivisions));
+  }
       
 
   /* STUFF not yet handled JMI */
