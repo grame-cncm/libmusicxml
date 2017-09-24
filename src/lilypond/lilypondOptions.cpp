@@ -274,7 +274,7 @@ which is handy in popular folk dances and tuness.)",
         msrOptionsBooleanItem::create (
           "slenm", "separatorLineEveryNMeasures",
 R"(Generate an additional separator line for readability every 'n' measures,
-            where 'n' is a positive integer.)",
+where 'n' is a positive integer.)",
           "separatorLineEveryNMeasures",
           fSeparatorLineEveryNMeasures));
   }
@@ -297,6 +297,15 @@ R"(Page breaks)"
       );
   
     appendOptionsSubGroup (pageBreaksSubGroup);
+
+    pageBreaksSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "noPageBreaks", "dontKeepPageBreaks",
+R"(Don't keep the page breaks from the MusicXML input
+and let LilyPond decide about them.)",
+          "dontKeepPageBreaks",
+          fDontKeepPageBreaks));
   }
     
 
@@ -317,6 +326,14 @@ R"(Staves)"
       );
   
     appendOptionsSubGroup (stavesSubGroup);
+
+    stavesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "mtab", "modernTab",
+R"(Generate '\moderntab' instead of the default '\tab'.)",
+          "modernTab",
+          fModernTab));
   }
   
 
@@ -333,10 +350,19 @@ R"(Staves)"
     S_msrOptionsSubGroup tupletsSubGroup =
       msrOptionsSubGroup::create (
       "hlilytu", "helpLilypondTuplets",
-  R"(Tuplets)"
+R"(Tuplets)"
       );
   
     appendOptionsSubGroup (tupletsSubGroup);
+
+    tupletsSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "toal", "tupletsOnALine",
+R"(Keep tuplets notes on the same line, instead of
+'having \tuplet {' and '}' on separate lines.)",
+          "tupletsOnALine",
+          fTupletsOnALine));
   }
       
 
@@ -353,10 +379,18 @@ R"(Staves)"
     S_msrOptionsSubGroup repeatsSubGroup =
       msrOptionsSubGroup::create (
       "hlilyr", "helpLilypondRepeats",
-  R"(Repeats)"
+R"(Repeats)"
       );
   
     appendOptionsSubGroup (repeatsSubGroup);
+
+    repeatsSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "rbracks", "repeatBrackets",
+R"(Generate repeats with brackets instead of regular bar lines)",
+          "repeatBrackets",
+          fRepeatBrackets));
   }
       
   // ornaments
@@ -373,12 +407,52 @@ R"(Staves)"
     S_msrOptionsSubGroup ornamentsSubGroup =
       msrOptionsSubGroup::create (
       "hlilyo", "helpLilypondOrnaments",
-  R"(Ornaments)"
+R"(Ornaments)"
       );
   
     appendOptionsSubGroup (ornamentsSubGroup);
+/*
+    ornamentsSubGroup->
+      appendOptionsItem (
+        msrOptionsRationalItem::create (
+          "dof", "delayedOrnamentsFraction",
+R"(Place the delayed turn/reverseturn at the given fraction
+between the ornemented note and the next one.
+The default fraction is '2/3'.)",
+          "delayedOrnamentsFraction",
+          fDelayedOrnamentsFraction));
+          */
   }
       
+
+  // fonts
+  // --------------------------------------
+
+  {
+    // variables
+    
+    fJazzFonts   = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup fontsSubGroup =
+      msrOptionsSubGroup::create (
+      "hfonts", "helpFonts",
+R"(Fonts)"
+      );
+  
+    appendOptionsSubGroup (fontsSubGroup);
+
+    fontsSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "jazz", "jazzFonts",
+R"(Use the LilyJazz font for notes, braces, text and chords.
+This font should be installed so that LilyPond can use it.)",
+          "jazzFonts",
+          fJazzFonts));
+  }
+
 
   // code generation
   // --------------------------------------
