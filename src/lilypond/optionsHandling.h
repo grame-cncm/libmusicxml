@@ -307,6 +307,8 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
+    void                  printHelp (ostream& os) const;
+
     virtual void          printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;

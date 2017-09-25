@@ -474,6 +474,48 @@ void msrOptionsValuedItem::print (ostream& os) const
       endl;
 }
 
+void msrOptionsValuedItem::printHelp (ostream& os) const
+{
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os << idtr <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName;
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os << idtr <<
+      "-" << fOptionsElementShortName;
+    }
+    if (fOptionsElementLongName.size ()) {
+      os << idtr <<
+      "-" << fOptionsElementLongName;
+    }
+  }
+
+  os <<
+    " " <<
+    fOptionsValueSpecification;
+
+  os <<
+    endl;
+
+  // indent a bit more for readability
+  idtr++; idtr++; idtr++;
+  
+  os << idtr <<
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+
+  idtr--; idtr--; idtr--;
+}
+
 void msrOptionsValuedItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
@@ -745,15 +787,23 @@ void msrOptionsStringItem::print (ostream& os) const
   os << left <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsValueSpecification" << " : " <<
+      fOptionsValueSpecification <<
       endl <<
     idtr <<
       setw(fieldWidth) <<
@@ -762,7 +812,8 @@ void msrOptionsStringItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsStringItemVariable" << " : " << fOptionsStringItemVariable <<
+      "fOptionsStringItemVariable" << " : " <<
+      fOptionsStringItemVariable <<
       endl;
 }
 
