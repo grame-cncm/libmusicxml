@@ -1948,11 +1948,11 @@ const vector<string> msrOptionsHandler::analyzeOptions (
       endl;
   }
 
-  // fetch command name
-  fCommandName = string (argv [0]);
+  // fetch program name
+  fProgramName = string (argv [0]);
   
-  fCommandLineWithShortOptions = fCommandName;
-  fCommandLineWithLongOptions  = fCommandName;
+  fCommandLineWithShortOptions = fProgramName;
+  fCommandLineWithLongOptions  = fProgramName;
   
   // decipher the command options and arguments
   int n = 1;

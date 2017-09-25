@@ -770,8 +770,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                getOptionsHandlerHelpHeader () const
                               { return fOptionsHandlerHelpHeader; }
                               
-    string                getCommandName () const
-                              { return fCommandName; }
+    string                getProgramName () const
+                              { return fProgramName; }
                               
     const list<S_msrOptionsElement>&
                           getCommandOptionsElements () const
@@ -835,7 +835,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     map<string, S_msrOptionsElement>
                           fOptionsElementsMap;
 
-    string                fCommandName;
+    string                fProgramName;
     list<S_msrOptionsElement>
                           fCommandOptionsElements;
 

@@ -3988,13 +3988,23 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
   
   gGeneralOptions->fProgramName =
-    argumentsVector [0]; //argv [0]; // JMI
+    optionsHandler->getProgramName (); //argv [0]; // JMI
   
   // input source name
   // ------------------------------------------------------
 
-  gGeneralOptions->fInputSourceName =
-    argumentsVector [0]; // inputFileName; // JMI
+  switch (argumentsVector.size ()) {
+    case 1:
+      gGeneralOptions->fInputSourceName =
+        argumentsVector [0]; // inputFileName; // JMI
+    default:
+      {
+        cerr <<
+          "Input file name or '-' for standard input expected" <<
+          endl;
+        exit (3);
+      }
+  } // switch
   
   // translation date
   // ------------------------------------------------------
