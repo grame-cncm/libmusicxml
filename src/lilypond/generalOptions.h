@@ -251,7 +251,6 @@ class EXP generalOptions : public msrOptionsGroup
   
     bool                  fTraceGeneral;
     
-    bool                  fTraceDetailed;
     set<int>              fTraceDetailedMeasureNumbersSet;
 
 

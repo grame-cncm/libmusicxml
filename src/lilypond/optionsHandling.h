@@ -16,6 +16,7 @@
 #include "list"
 #include "vector"
 #include "map"
+#include "set"
 
 #include "smartpointer.h"
 #include "rational.h"
@@ -598,6 +599,74 @@ class EXP msrOptionsRationalItem : public msrOptionsValuedItem
 };
 typedef SMARTP<msrOptionsRationalItem> S_msrOptionsRationalItem;
 ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt);
+
+//______________________________________________________________________________
+class EXP msrOptionsNumbersSetItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsNumbersSetItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsNumbersSetItemVariableDisplayName,
+      set<int>&          optionsNumbersSetItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsNumbersSetItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsNumbersSetItemVariableDisplayName,
+      set<int>&          optionsNumbersSetItemVariable);
+      
+    virtual ~msrOptionsNumbersSetItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsNumbersSetItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsNumbersSetItemVariableDisplayName;
+                              }
+                              
+    void                  setNumbersSetItemVariableValue (
+                            set<int> value)
+                              {
+                                fOptionsNumbersSetItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    string                fOptionsNumbersSetItemVariableDisplayName;
+    set<int>&             fOptionsNumbersSetItemVariable;
+};
+typedef SMARTP<msrOptionsNumbersSetItem> S_msrOptionsNumbersSetItem;
+ostream& operator<< (ostream& os, const S_msrOptionsNumbersSetItem& elt);
 
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement

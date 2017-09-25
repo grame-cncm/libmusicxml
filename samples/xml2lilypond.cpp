@@ -2319,7 +2319,6 @@ R"(
             if (traceDetailedPresent) {
               // optarg contains the measure numbers set specification
               gGeneralOptions->fTraceGeneral = true;
-              gGeneralOptions->fTraceDetailed = true;
     
               char*        measuresSpec = optarg;
     

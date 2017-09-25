@@ -115,7 +115,7 @@ R"(Output file)"
     
     fTraceGeneral = boolOptionsInitialValue;
     
-    fTraceDetailed = false;
+    // fTraceDetailedMeasureNumbersSet is empty
     
     // options
     
@@ -137,7 +137,7 @@ R"(Write a trace of the general activity to standard error.)",
     
       traceAndDisplaySubGroup->
         appendOptionsItem (
-          msrOptionsBooleanItem::create (
+          msrOptionsNumbersSetItem::create (
             "tdetail", "traceDetailed",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval
@@ -146,8 +146,9 @@ The measure numbers should be those of the produced score,
 since MusicXML measure numbers are arbitrary strings.
 Generate a detailed trace of the activity and print additional
 debugging information to standard error for the specified measures.)",
+            "measureNumbersSet",
             "traceDetailed",
-            fTraceDetailed));
+            fTraceDetailedMeasureNumbersSet));
   }
 
   // CPU usage
@@ -339,8 +340,6 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 
   clone->fTraceGeneral = true;
     
-  clone->fTraceDetailed = true;
-
   clone->fTraceDetailedMeasureNumbersSet =
     fTraceDetailedMeasureNumbersSet;
 
@@ -962,42 +961,33 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
       setw(fieldWidth) << "traceGeneral" << " : " <<
       booleanAsString (fTraceGeneral) <<
        endl <<
-       
     idtr <<
-      setw(fieldWidth) << "traceDetailed" << " : " <<
-      booleanAsString (fTraceDetailed) <<
-     endl;
+      setw(fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
         
-    if (fTraceDetailed) {
-      cerr <<
-        idtr <<
-          setw(fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
-        
-      if (fTraceDetailedMeasureNumbersSet.empty ())
-        cerr << "none";
-        
-      else {
-        cerr <<
-          "'";
-          
-        set<int>::const_iterator
-          iBegin = fTraceDetailedMeasureNumbersSet.begin(),
-          iEnd   = fTraceDetailedMeasureNumbersSet.end(),
-          i      = iBegin;
-          
-        for ( ; ; ) {
-          cerr << (*i);
-          if (++i == iEnd) break;
-          cerr << " ";
-        } // for
+    if (fTraceDetailedMeasureNumbersSet.empty ())
+      cerr << "none";
       
-        cerr <<
-          "'";
-      }
-      
+    else {
       cerr <<
-        endl;
+        "'";
+        
+      set<int>::const_iterator
+        iBegin = fTraceDetailedMeasureNumbersSet.begin(),
+        iEnd   = fTraceDetailedMeasureNumbersSet.end(),
+        i      = iBegin;
+        
+      for ( ; ; ) {
+        cerr << (*i);
+        if (++i == iEnd) break;
+        cerr << " ";
+      } // for
+    
+      cerr <<
+        "'";
     }
+      
+    cerr <<
+      endl;
 
   idtr--;
 
