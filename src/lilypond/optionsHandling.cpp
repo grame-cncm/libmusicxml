@@ -2312,8 +2312,16 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           dynamic_cast<msrOptionsIntegerItem*>(&(*fPendingOptionsItem))
       ) {
       // handle the option item
+
+      int integerValue;
+      {
+        stringstream s;
+        s << theString;
+        s >> integerValue;
+      }
       optionsIntegerItem->
-        setIntegerItemVariableValue (1999);
+        setIntegerItemVariableValue (
+          integerValue);
 
       fPendingOptionsItem = 0;
       fExpectedValuesNumber = 0;
@@ -2327,8 +2335,15 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           dynamic_cast<msrOptionsFloatItem*>(&(*fPendingOptionsItem))
       ) {              
       // handle the option item
+      float floatValue;
+      {
+        stringstream s;
+        s << theString;
+        s >> floatValue;
+      }
       optionsFloatItem->
-        setFloatItemVariableValue (2017.9);
+        setFloatItemVariableValue (
+          floatValue);
 
       fPendingOptionsItem = 0;
       fExpectedValuesNumber = 0;
@@ -2342,7 +2357,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       ) {
       // handle the option item
       optionsStringItem->
-        setStringItemVariableValue ("september");
+        setStringItemVariableValue (
+          theString);
 
       fPendingOptionsItem = 0;
       fExpectedValuesNumber = 0;
@@ -2367,22 +2383,22 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       regex_match (theString, sm, e);
 
-      if (true) {
+      if (TRACE_OPTIONS) {
         cout <<
           "There are " << sm.size() << " matches" <<
           " for string '" << theString <<
           "' with regex '" << regularExpression <<
           "'" <<
           endl;
+     
+        if (sm.size ()) {
+          for (unsigned i = 0; i < sm.size (); ++i) {
+            cout << "[" << sm [i] << "] ";
+          } // for
+          cout << endl;
+        }
       }
-    
-      if (sm.size ()) {
-        for (unsigned i = 0; i < sm.size (); ++i) {
-          cout << "[" << sm [i] << "] ";
-        } // for
-        cout << endl;
-      }
-      
+     
       else {
         stringstream s;
 
@@ -2412,7 +2428,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         rationalValue =
           rational (numerator, denominator);     
 
-      if (true) {
+      if (TRACE_OPTIONS) {
         cerr << // JMI
           "rationalValue = " <<
           rationalValue <<
