@@ -14,6 +14,8 @@
 #include <sstream>
 #include <iomanip>      // setw, set::precision, ...
 
+#include "version.h"
+
 #include "msrOptions.h"
 #include "musicXMLOptions.h"
 
@@ -29478,6 +29480,17 @@ void msrMeasure::appendDivisionsToMeasure (
 //______________________________________________________________________________
 void initializeMSR ()
 {
+  // enlist versions information
+  // ------------------------------------------------------
+
+  enlistVersion (
+    "0.0.0", "somewhere in 2016",
+    "Start as a clone of xml2guido");
+    
+  enlistVersion (
+    "0.1.0", "01-APR-2017",
+    "Tentative version");
+  
   // languages handling
   // ------------------------------------------------------
 

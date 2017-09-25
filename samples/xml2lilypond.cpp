@@ -247,6 +247,14 @@ S_xml2lilypondOptionsHandler
     cerr <<
       "There are " << nonOptionArgsNumber << " arguments" <<
       endl;
+
+    if (nonOptionArgsNumber > 0) {
+      for (unsigned int i = 0; i < nonOptionArgsNumber; i++) {
+        cerr <<
+          i << " : " << argumentsVector [i] <<
+            endl;
+      } // for
+    }
   }
 
   // handle the arguments 
@@ -3913,15 +3921,6 @@ int main (int argc, char *argv[])
   }
   */
 
-  // enlist versions information
-  enlistVersion (
-    "0.0.0", "somewhere in 2016",
-    "Start as a clone of xml2guido");
-    
-  enlistVersion (
-    "0.1.0", "01-APR-2017",
-    "Tentative version");
-  
   // analyze the pitches and chords languages variables
   // ------------------------------------------------------
 
@@ -3962,10 +3961,10 @@ int main (int argc, char *argv[])
   }
   vector<string>
     argumentsVector =
-    analyzeOptionsAndArguments (
-      optionsHandler,
-      argc, argv,
-      inputFileName, outputFileName);
+      analyzeOptionsAndArguments (
+        optionsHandler,
+        argc, argv,
+        inputFileName, outputFileName);
 
   // program name
   // ------------------------------------------------------
