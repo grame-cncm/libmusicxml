@@ -2945,8 +2945,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gLpsrChordsLanguagesMap.size () <<
-          " known LPSR chords languages are:" <<
+          gLpsrChordsLanguagesMap.size () /* JMI ??? */ -1 <<
+          " known LPSR chords languages apart from the default Ignatzek are:" <<
           endl;
     
         idtr++;
