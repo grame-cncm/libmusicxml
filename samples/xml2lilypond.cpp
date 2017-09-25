@@ -243,17 +243,36 @@ S_xml2lilypondOptionsHandler
   // handle the arguments 
   int nonOptionArgsNumber = argumentsVector.size ();
 
-  if (gGeneralOptions->fTraceGeneral) {
-    cerr <<
-      "There are " << nonOptionArgsNumber << " arguments" <<
-      endl;
-
+  if (true || gGeneralOptions->fTraceGeneral) {    
     if (nonOptionArgsNumber > 0) {
+      cerr << idtr <<
+        singularOrPluralWithoutNumber (
+          nonOptionArgsNumber, "There is", "There are") <<
+        " " <<
+        nonOptionArgsNumber <<
+        " " <<
+        singularOrPluralWithoutNumber (
+          nonOptionArgsNumber, "argument", "arguments") <<
+        ":" <<
+        endl;
+
+      idtr++;
+      
       for (unsigned int i = 0; i < nonOptionArgsNumber; i++) {
-        cerr <<
+        cerr << idtr <<
           i << " : " << argumentsVector [i] <<
             endl;
       } // for
+
+      cerr <<
+        endl;
+
+      idtr--;
+    }
+    else {
+      cerr << idtr <<
+        "There are no arguments" <<
+        endl;
     }
   }
 
@@ -3976,7 +3995,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   gGeneralOptions->fInputSourceName =
-    argumentsVector [1]; // inputFileName; // JMI
+    argumentsVector [0]; // inputFileName; // JMI
   
   // translation date
   // ------------------------------------------------------

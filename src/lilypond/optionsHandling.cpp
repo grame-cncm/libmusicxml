@@ -369,8 +369,10 @@ void msrOptionsBooleanItem::printOptionsValues (
   os << left <<
     idtr <<
       setw(valueFieldWidth) <<
+      "|" <<
       fOptionsBooleanItemVariableDisplayName <<
       " : " <<
+      "|" <<
       booleanAsString (
         fOptionsBooleanItemVariable) <<
       endl;
