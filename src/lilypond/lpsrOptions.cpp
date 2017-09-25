@@ -163,21 +163,19 @@ The default is to use 'nederlands'.)",
           "language",
           "lpsrPitchesLanguage",
           fLpsrQuarterTonesPitchesLanguage));
-
-  bool foo;
   
     languagesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsChordsLanguageItem::create (
           "lpcl", "lpsrChordsLanguage",
 R"(Use 'language' to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
 The 4 LilyPond chords languages are available:
 german, semiGerman, italian and french.
 The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
+          "language",
           "lpsrChordsLanguage",
-          foo));
-    //    fLpsrChordsLanguage));
+          fLpsrChordsLanguage));
   }
 }
 

@@ -1217,6 +1217,112 @@ ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsChordsLanguageItemVariableDisplayName,
+  lpsrChordsLanguage&
+                     optionsChordsLanguageItemVariable)
+{
+  msrOptionsChordsLanguageItem* o = new
+    msrOptionsChordsLanguageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsChordsLanguageItemVariableDisplayName,
+      optionsChordsLanguageItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsChordsLanguageItem::msrOptionsChordsLanguageItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsChordsLanguageItemVariableDisplayName,
+  lpsrChordsLanguage&
+                     optionsChordsLanguageItemVariable)
+  : msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      1),
+    fOptionsChordsLanguageItemVariableDisplayName (
+      optionsChordsLanguageItemVariableDisplayName),
+    fOptionsChordsLanguageItemVariable (
+      optionsChordsLanguageItemVariable)
+{}
+
+msrOptionsChordsLanguageItem::~msrOptionsChordsLanguageItem()
+{}
+
+void msrOptionsChordsLanguageItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsChordsLanguageItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsChordsLanguageItemVariableDisplayName" << " : " <<
+      fOptionsChordsLanguageItemVariableDisplayName <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsChordsLanguageItemVariable" << " : \"" <<
+      lpsrChordsLanguageAsString (
+        fOptionsChordsLanguageItemVariable) <<
+        "\"" <<
+      endl;
+}
+
+void msrOptionsChordsLanguageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    idtr <<
+      setw(valueFieldWidth) <<
+      fOptionsChordsLanguageItemVariableDisplayName <<
+      " : \"" <<
+      lpsrChordsLanguageAsString (
+        fOptionsChordsLanguageItemVariable) <<
+      "\"" <<
+      endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
@@ -2575,7 +2681,6 @@ void msrOptionsHandler::handleOptionsItemName (
         fExpectedValuesNumber = 1;
       }
 
-
       else if (
         // pitches language item?
         S_msrOptionsPitchesLanguageItem
@@ -2584,6 +2689,17 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsPitchesLanguageItem;
+        fExpectedValuesNumber = 1;
+      }
+
+      else if (
+        // chords language item?
+        S_msrOptionsChordsLanguageItem
+          optionsChordsLanguageItem =
+            dynamic_cast<msrOptionsChordsLanguageItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsChordsLanguageItem;
         fExpectedValuesNumber = 1;
       }
 
@@ -2802,6 +2918,49 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       optionsPitchesLanguageItem->
         setPitchesLanguageItemVariableValue (
+          (*it).second);
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+    }
+    
+    else if (
+      // chords language item?
+      S_msrOptionsChordsLanguageItem
+        optionsChordsLanguageItem =
+          dynamic_cast<msrOptionsChordsLanguageItem*>(&(*fPendingOptionsItem))
+      ) {
+      // theString contains the language name:     
+      // is it in the chords languages map?
+      map<string, lpsrChordsLanguage>::const_iterator
+        it =
+          gLpsrChordsLanguagesMap.find (theString);
+            
+      if (it == gLpsrChordsLanguagesMap.end ()) {
+        // no, language is unknown in the map    
+        stringstream s;
+    
+        s <<
+          "LPSR chords language " << theString <<
+          " is unknown" <<
+          endl <<
+          "The " <<
+          gLpsrChordsLanguagesMap.size () <<
+          " known LPSR chords languages are:" <<
+          endl;
+    
+        idtr++;
+      
+        s <<
+          existingLpsrChordsLanguages ();
+    
+        idtr--;
+    
+        optionError (s.str());
+      }
+    
+      optionsChordsLanguageItem->
+        setChordsLanguageItemVariableValue (
           (*it).second);
 
       fPendingOptionsItem = 0;

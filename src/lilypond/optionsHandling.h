@@ -22,6 +22,7 @@
 #include "rational.h"
 
 #include "msrBasicTypes.h"
+#include "lpsrBasicTypes.h"
 
 
 using namespace std;
@@ -740,6 +741,76 @@ class EXP msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
 };
 typedef SMARTP<msrOptionsPitchesLanguageItem> S_msrOptionsPitchesLanguageItem;
 ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt);
+
+//______________________________________________________________________________
+class EXP msrOptionsChordsLanguageItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsChordsLanguageItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsChordsLanguageItemVariableDisplayName,
+      lpsrChordsLanguage&
+                         optionsChordsLanguageItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsChordsLanguageItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsChordsLanguageItemVariableDisplayName,
+      lpsrChordsLanguage&
+                         optionsChordsLanguageItemVariable);
+      
+    virtual ~msrOptionsChordsLanguageItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsChordsLanguageItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsChordsLanguageItemVariableDisplayName;
+                              }
+                              
+    void                  setChordsLanguageItemVariableValue (
+                            lpsrChordsLanguage value)
+                              {
+                                fOptionsChordsLanguageItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    string                fOptionsChordsLanguageItemVariableDisplayName;
+    lpsrChordsLanguage&   fOptionsChordsLanguageItemVariable;
+};
+typedef SMARTP<msrOptionsChordsLanguageItem> S_msrOptionsChordsLanguageItem;
+ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt);
 
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
