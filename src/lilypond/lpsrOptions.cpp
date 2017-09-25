@@ -149,12 +149,10 @@ R"(Languages)"
       );
   
     appendOptionsSubGroup (languagesSubGroup);
-  
-    bool foo; // JMI
-    
+      
     languagesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsPitchesLanguageItem::create (
           "lppl", "lpsrPitchesLanguage",
 R"(Use 'language' to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
@@ -162,9 +160,11 @@ The 12 LilyPond pitches languages are available:
 nederlands, catalan, deutsch, english, espanol, français, 
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
+          "language",
           "lpsrPitchesLanguage",
-          foo));
-         // fLpsrQuarterTonesPitchesLanguage));
+          fLpsrQuarterTonesPitchesLanguage));
+
+  bool foo;
   
     languagesSubGroup->
       appendOptionsItem (
