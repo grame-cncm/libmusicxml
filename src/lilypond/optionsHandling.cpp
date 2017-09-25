@@ -2029,7 +2029,8 @@ void msrOptionsHandler::handleOptionsItemName (
       S_msrOptionsGroup
         optionsGroup =
           dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
-      ) {    
+      ) {
+      // print the help
       optionsGroup->printHelp (cerr);
       cerr <<
         endl;
@@ -2041,6 +2042,7 @@ void msrOptionsHandler::handleOptionsItemName (
         optionsSubGroup =
           dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
       ) {    
+      // print the help
       optionsSubGroup->printHelp (cerr);
       cerr <<
         endl;
@@ -2055,6 +2057,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsBooleanItem =
             dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
         ) {
+        // handle it at once
         optionsBooleanItem->
           setBooleanItemVariableValue (true);              
       }
@@ -2065,12 +2068,10 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsIntegerItem =
             dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
         ) {
-        fExpectedValuesNumber = 1;
-
+        // wait until the value is met
         fPendingOptionsItem = optionsIntegerItem;
-        optionsIntegerItem->
-          setIntegerItemVariableValue (1999);
-        }
+        fExpectedValuesNumber = 1;
+      }
       
       else if (
         // float item?
@@ -2078,11 +2079,9 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsFloatItem =
             dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
         ) {              
-        fExpectedValuesNumber = 1;
-
+        // wait until the value is met
         fPendingOptionsItem = optionsFloatItem;
-        optionsFloatItem->
-          setFloatItemVariableValue (2017.9);
+        fExpectedValuesNumber = 1;
       }
       
       else if (
@@ -2091,11 +2090,9 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsStringItem =
             dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
         ) {
-        fExpectedValuesNumber = 1;
-
+        // wait until the value is met
         fPendingOptionsItem = optionsStringItem;
-        optionsStringItem->
-          setStringItemVariableValue ("september");
+        fExpectedValuesNumber = 1;
       }
       
       else if (
@@ -2104,158 +2101,20 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsRationalItem =
             dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
         ) {
-        fExpectedValuesNumber = 1;
-
+        // wait until the value is met
         fPendingOptionsItem = optionsRationalItem;
-        optionsRationalItem->
-          setRationalItemVariableValue (rational (3, 4));
+        fExpectedValuesNumber = 1;
       }
 
-/* JMI
-      if (
-        S_msrOptionsBooleanItem
-          optionsBooleanItem =
-            dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
-        ) {
-        currentOptionsItem = optionsBooleanItem;
-      }
-      
-      else if (
-        S_msrOptionsIntegerItem
-          optionsIntegerItem =
-            dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
-        ) {
-        fExpectedValuesNumber =
-          optionsIntegerItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsIntegerItem;
-        }
-      
-      else if (
-        S_msrOptionsFloatItem
-          optionsFloatItem =
-            dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
-        ) {              
-        fExpectedValuesNumber =
-          optionsFloatItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsFloatItem;
-      }
-      
-      else if (
-        S_msrOptionsStringItem
-          optionsStringItem =
-            dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
-        ) {
-        fExpectedValuesNumber =
-          optionsStringItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsStringItem;
-      }
-      
-      else if (
-        S_msrOptionsRationalItem
-          optionsRationalItem =
-            dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
-        ) {
-        fExpectedValuesNumber =
-          optionsRationalItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsRationalItem;
-      }
-      
       else {
         stringstream s;
     
         s <<
-          "option name '" << optionsItemName <<
-          "' is known but cannot be handled";
+          "option item type is unknown";
           
         optionError (s.str());
         abort ();
       }
-    }
-
-    fExpectedValuesNumber =
-      currentOptionsItem->
-        getOptionsItemValuesNumber ();
-
-    if (fExpectedValuesNumber == 0) {
-      // handle the current options item now
-      if (
-        S_msrOptionsBooleanItem
-          optionsBooleanItem =
-            dynamic_cast<msrOptionsBooleanItem*>(&(*currentOptionsItem))
-        ) {
-        fExpectedValuesNumber =
-          optionsBooleanItem->
-            getOptionsItemValuesNumber ();
-
-        optionsBooleanItem->
-          setBooleanItemVariableValue (true);              
-      }
-      
-      else if (
-        S_msrOptionsIntegerItem
-          optionsIntegerItem =
-            dynamic_cast<msrOptionsIntegerItem*>(&(*currentOptionsItem))
-        ) {
-        fExpectedValuesNumber =
-          optionsBooleanItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsIntegerItem;
-        optionsIntegerItem->
-          setIntegerItemVariableValue (1999);
-        }
-      
-      else if (
-        S_msrOptionsFloatItem
-          optionsFloatItem =
-            dynamic_cast<msrOptionsFloatItem*>(&(*currentOptionsItem))
-        ) {              
-        fExpectedValuesNumber =
-          optionsBooleanItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsBooleanItem;
-        optionsFloatItem->
-          setFloatItemVariableValue (2017.9);
-      }
-      
-      else if (
-        S_msrOptionsStringItem
-          optionsStringItem =
-            dynamic_cast<msrOptionsStringItem*>(&(*currentOptionsItem))
-        ) {
-        fExpectedValuesNumber =
-          optionsBooleanItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsBooleanItem;
-        optionsStringItem->
-          setStringItemVariableValue ("september");
-      }
-      
-      else if (
-        S_msrOptionsRationalItem
-          optionsRationalItem =
-            dynamic_cast<msrOptionsRationalItem*>(&(*currentOptionsItem))
-        ) {
-        fExpectedValuesNumber =
-          optionsBooleanItem->
-            getOptionsItemValuesNumber ();
-
-        currentOptionsItem = optionsBooleanItem;
-        optionsRationalItem->
-          setRationalItemVariableValue (rational (3, 4));
-      }
-    }
-    */
     }
   }
 }
@@ -2265,10 +2124,68 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 {
   if (fPendingOptionsItem) {
     // theString is the value for the pending options item
+
+    if (
+      // integer item?
+      S_msrOptionsIntegerItem
+        optionsIntegerItem =
+          dynamic_cast<msrOptionsIntegerItem*>(&(*fPendingOptionsItem))
+      ) {
+      // handle the option item
+      optionsIntegerItem->
+        setIntegerItemVariableValue (1999);
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+
+      }
+    
+    else if (
+      // float item?
+      S_msrOptionsFloatItem
+        optionsFloatItem =
+          dynamic_cast<msrOptionsFloatItem*>(&(*fPendingOptionsItem))
+      ) {              
+      // handle the option item
+      optionsFloatItem->
+        setFloatItemVariableValue (2017.9);
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+    }
+    
+    else if (
+      // string item?
+      S_msrOptionsStringItem
+        optionsStringItem =
+          dynamic_cast<msrOptionsStringItem*>(&(*fPendingOptionsItem))
+      ) {
+      // handle the option item
+      optionsStringItem->
+        setStringItemVariableValue ("september");
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+    }
+    
+    else if (
+      // rational item?
+      S_msrOptionsRationalItem
+        optionsRationalItem =
+          dynamic_cast<msrOptionsRationalItem*>(&(*fPendingOptionsItem))
+      ) {
+      // handle the option item
+      optionsRationalItem->
+        setRationalItemVariableValue (rational (3, 4));
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+    }
   }
 
   else {
     // theString is an argument
+    fArgumentsVector.push_back (theString);
   }
 }
 
