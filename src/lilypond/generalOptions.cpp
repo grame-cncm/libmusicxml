@@ -97,15 +97,13 @@ R"(Output file)"
       );
             
     appendOptionsSubGroup (outputFileSubGroup);
-  /* JMI
     outputFileSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsStringItem::create (
           "of", "outputFile",
   R"(Write LilyPond code to file 'fileName' instead of standard output.)",
           "outputFile",
           fOutputFileName));
-  */
   }
   
   // trace and display

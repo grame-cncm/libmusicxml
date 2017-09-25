@@ -417,10 +417,9 @@ R"(Ornaments)"
           "dof", "delayedOrnamentsFraction",
 R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
-The default fraction is '2/3'.)",
+The default value is '2/3'.)",
           "delayedOrnamentsFraction",
-          fDelayedOrnamentsFraction,
-          msrOptionsItem::kOptionsItemHasAnOptionsArgument));
+          fDelayedOrnamentsFraction));
   }
 
       

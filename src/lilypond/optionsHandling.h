@@ -125,7 +125,6 @@ class EXP msrOptionsItem : public msrOptionsElement
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      msrOptionsItemKind optionsItemKind, // JMI
       int                optionsItemValuesNumber);
      
   protected:
@@ -137,7 +136,6 @@ class EXP msrOptionsItem : public msrOptionsElement
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      msrOptionsItemKind optionsItemKind, // JMI
       int                optionsItemValuesNumber);
   
     virtual ~msrOptionsItem();
@@ -256,8 +254,7 @@ class EXP msrOptionsIntegerItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsIntegerItemVariableDisplayName,
-      int&               optionsIntegerItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      int&               optionsIntegerItemVariable);
      
   protected:
 
@@ -269,8 +266,7 @@ class EXP msrOptionsIntegerItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsIntegerItemVariableDisplayName,
-      int&               optionsIntegerItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      int&               optionsIntegerItemVariable);
            
   protected:
 
@@ -326,8 +322,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsFloatItemVariableDisplayName,
-      float&             optionsFloatItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      float&             optionsFloatItemVariable);
      
   protected:
 
@@ -339,8 +334,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsFloatItemVariableDisplayName,
-      float&             optionsFloatItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      float&             optionsFloatItemVariable);
       
     virtual ~msrOptionsFloatItem();
 
@@ -394,8 +388,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsStringItemVariableDisplayName,
-      string&            optionsStringItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      string&            optionsStringItemVariable);
      
   protected:
 
@@ -407,8 +400,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsStringItemVariableDisplayName,
-      string&            optionsStringItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      string&            optionsStringItemVariable);
       
     virtual ~msrOptionsStringItem();
 
@@ -462,8 +454,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsRationalItemVariableDisplayName,
-      rational&          optionsRationalItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      rational&          optionsRationalItemVariable);
      
   protected:
 
@@ -475,8 +466,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsRationalItemVariableDisplayName,
-      rational&          optionsRationalItemVariable,
-      msrOptionsItemKind optionsItemKind);
+      rational&          optionsRationalItemVariable);
       
     virtual ~msrOptionsRationalItem();
 

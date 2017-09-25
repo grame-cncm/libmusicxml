@@ -163,8 +163,6 @@ S_msrOptionsItem msrOptionsItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  msrOptionsItemKind
-                     optionsItemKind,
   int                optionsItemValuesNumber)
 {
   msrOptionsItem* o = new
@@ -172,7 +170,6 @@ S_msrOptionsItem msrOptionsItem::create (
       optionsItemShortName,
       optionsItemDescription,
       optionsItemDescription,
-      optionsItemKind,
       optionsItemValuesNumber);
   assert(o!=0);
   return o;
@@ -182,16 +179,12 @@ msrOptionsItem::msrOptionsItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  msrOptionsItem::msrOptionsItemKind
-                     optionsItemKind,
   int                optionsItemValuesNumber)
   : msrOptionsElement (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {
-  fOptionsItemKind = optionsItemKind;
-
   fOptionsItemValuesNumber = optionsItemValuesNumber;
 }
     
@@ -251,9 +244,7 @@ void msrOptionsItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsItemKind" << " : " <<
-        optionsItemKindAsString (
-          fOptionsItemKind) <<
+      "fOptionsItemValuesNumber" << " : " << fOptionsItemValuesNumber <<
       endl;
 }
 
@@ -302,7 +293,6 @@ msrOptionsBooleanItem::msrOptionsBooleanItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      msrOptionsItem::kOptionsItemHasNoArgument,
       0),
     fOptionsBooleanItemVariableDisplayName (
       optionsBooleanItemVariableDisplayName),
@@ -390,8 +380,7 @@ S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsIntegerItemVariableDisplayName,
-  int&               optionsIntegerItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  int&               optionsIntegerItemVariable)
 {
   msrOptionsIntegerItem* o = new
     msrOptionsIntegerItem (
@@ -399,8 +388,7 @@ S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
       optionsItemDescription,
       optionsItemDescription,
       optionsIntegerItemVariableDisplayName,
-      optionsIntegerItemVariable,
-      optionsItemKind);
+      optionsIntegerItemVariable);
   assert(o!=0);
   return o;
 }
@@ -410,13 +398,11 @@ msrOptionsIntegerItem::msrOptionsIntegerItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsIntegerItemVariableDisplayName,
-  int&               optionsIntegerItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  int&               optionsIntegerItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind,
       1),
     fOptionsIntegerItemVariable (
       optionsIntegerItemVariable),
@@ -489,8 +475,7 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsFloatItemVariableDisplayName,
-  float&             optionsFloatItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  float&             optionsFloatItemVariable)
 {
   msrOptionsFloatItem* o = new
     msrOptionsFloatItem (
@@ -498,8 +483,7 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
       optionsItemDescription,
       optionsItemDescription,
       optionsFloatItemVariableDisplayName,
-      optionsFloatItemVariable,
-      optionsItemKind);
+      optionsFloatItemVariable);
   assert(o!=0);
   return o;
 }
@@ -509,13 +493,11 @@ msrOptionsFloatItem::msrOptionsFloatItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsFloatItemVariableDisplayName,
-  float&             optionsFloatItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  float&             optionsFloatItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind,
       1),
     fOptionsFloatItemVariableDisplayName (
       optionsFloatItemVariableDisplayName),
@@ -588,8 +570,7 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsStringItemVariableDisplayName,
-  string&            optionsStringItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  string&            optionsStringItemVariable)
 {
   msrOptionsStringItem* o = new
     msrOptionsStringItem (
@@ -597,8 +578,7 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
       optionsItemDescription,
       optionsItemDescription,
       optionsStringItemVariableDisplayName,
-      optionsStringItemVariable,
-      optionsItemKind);
+      optionsStringItemVariable);
   assert(o!=0);
   return o;
 }
@@ -608,13 +588,11 @@ msrOptionsStringItem::msrOptionsStringItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsStringItemVariableDisplayName,
-  string&            optionsStringItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  string&            optionsStringItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind,
       1),
     fOptionsStringItemVariableDisplayName (
       optionsStringItemVariableDisplayName),
@@ -688,8 +666,7 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsRationalItemVariableDisplayName,
-  rational&          optionsRationalItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  rational&          optionsRationalItemVariable)
 {
   msrOptionsRationalItem* o = new
     msrOptionsRationalItem (
@@ -697,8 +674,7 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
       optionsItemDescription,
       optionsItemDescription,
       optionsRationalItemVariableDisplayName,
-      optionsRationalItemVariable,
-      optionsItemKind);
+      optionsRationalItemVariable);
   assert(o!=0);
   return o;
 }
@@ -708,13 +684,11 @@ msrOptionsRationalItem::msrOptionsRationalItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsRationalItemVariableDisplayName,
-  rational&          optionsRationalItemVariable,
-  msrOptionsItemKind optionsItemKind)
+  rational&          optionsRationalItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsItemKind,
       1),
     fOptionsRationalItemVariableDisplayName (
       optionsRationalItemVariableDisplayName),
