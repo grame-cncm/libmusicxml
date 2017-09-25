@@ -15,6 +15,8 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
+#include <regex>
+
 #include "version.h"
 #include "utilities.h"
 
@@ -2352,9 +2354,74 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionsRationalItem =
           dynamic_cast<msrOptionsRationalItem*>(&(*fPendingOptionsItem))
       ) {
-      // handle the option item
+      // theString contains the fraction:
+      // decipher it to extract numerator and denominator values
+      
+      string regularExpression (
+        "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+        "/"
+        "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+        
+      regex  e (regularExpression);
+      smatch sm;
+
+      regex_match (theString, sm, e);
+
+      if (true) {
+        cout <<
+          "There are " << sm.size() << " matches" <<
+          " for string '" << theString <<
+          "' with regex '" << regularExpression <<
+          "'" <<
+          endl;
+      }
+    
+      if (sm.size ()) {
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          cout << "[" << sm [i] << "] ";
+        } // for
+        cout << endl;
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "--delayedOrnamentFraction argument '" << theString <<
+          "' is ill-formed";
+          
+        optionError (s.str());
+      }
+
+      int
+        numerator,
+        denominator;
+        
+      {
+        stringstream s;
+        s << sm [1];
+        s >> numerator;
+      }
+      {
+        stringstream s;
+        s << sm [2];
+        s >> denominator;
+      }
+
+      rational
+        rationalValue =
+          rational (numerator, denominator);     
+
+      if (true) {
+        cerr << // JMI
+          "rationalValue = " <<
+          rationalValue <<
+          endl;
+      }
+
       optionsRationalItem->
-        setRationalItemVariableValue (rational (3, 4));
+        setRationalItemVariableValue (
+          rationalValue);
 
       fPendingOptionsItem = 0;
       fExpectedValuesNumber = 0;

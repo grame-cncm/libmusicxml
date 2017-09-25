@@ -17,7 +17,7 @@
 
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
-#include <regex>
+#include <regex> //JMI
 
 #include "libmusicxml.h"
 #include "version.h"
@@ -3997,6 +3997,8 @@ int main (int argc, char *argv[])
     case 1:
       gGeneralOptions->fInputSourceName =
         argumentsVector [0]; // inputFileName; // JMI
+      break;
+      
     default:
       {
         cerr <<
