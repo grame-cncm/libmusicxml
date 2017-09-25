@@ -4192,11 +4192,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     }
   }
 
-  if (gLilypondOptions->fSeparatorLineEveryNMeasures) {
+  if (gLilypondOptions->fSeparatorLineEveryNMeasures > 0) {
     if (
       fMeasuresCounter
         %
-      gLilypondOptions->fSeparatorLineEveryNMeasuresValue
+      gLilypondOptions->fSeparatorLineEveryNMeasures
         ==
       0)
       fOstream <<

@@ -238,8 +238,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
   
     fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
     
-    fSeparatorLineEveryNMeasures         = boolOptionsInitialValue;
-    fSeparatorLineEveryNMeasuresValue    = INT_MAX;
+    fSeparatorLineEveryNMeasures         = -1;
     
     // options
   
@@ -271,10 +270,11 @@ which is handy in popular folk dances and tuness.)",
 
     lineBreaksSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsIntegerItem::create (
           "slenm", "separatorLineEveryNMeasures",
 R"(Generate an additional separator line for readability every 'n' measures,
 where 'n' is a positive integer.)",
+          "n",
           "separatorLineEveryNMeasures",
           fSeparatorLineEveryNMeasures));
   }
@@ -705,8 +705,6 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   clone->fSeparatorLineEveryNMeasures =
     fSeparatorLineEveryNMeasures;
-  clone->fSeparatorLineEveryNMeasuresValue =
-    fSeparatorLineEveryNMeasuresValue;
 
   // page breaks
 
@@ -1450,10 +1448,6 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     
     idtr << setw(fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
       booleanAsString (fSeparatorLineEveryNMeasures) <<
-      endl <<
-
-    idtr << setw(fieldWidth) << "separatorLineEveryNMeasuresValue" << " : " <<
-      fSeparatorLineEveryNMeasuresValue <<
       endl;
 
   idtr--;

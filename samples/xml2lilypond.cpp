@@ -3403,8 +3403,7 @@ R"(
             }
     
             if (separatorLineEveryNMeasuresPresent) {
-              gLilypondOptions->fSeparatorLineEveryNMeasures = true;
-              gLilypondOptions->fSeparatorLineEveryNMeasuresValue =
+              gLilypondOptions->fSeparatorLineEveryNMeasures =
                 atoi (optarg);
     
               {

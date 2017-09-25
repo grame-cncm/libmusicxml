@@ -243,8 +243,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     
     bool                  fBreakLinesAtIncompleteRightMeasures;
     
-    bool                  fSeparatorLineEveryNMeasures;
-    int                   fSeparatorLineEveryNMeasuresValue;
+    int                   fSeparatorLineEveryNMeasures;
 
     // page breaks
     // --------------------------------------
