@@ -273,7 +273,8 @@ which is handy in popular folk dances and tuness.)",
         msrOptionsIntegerItem::create (
           "slenm", "separatorLineEveryNMeasures",
 R"(Generate an additional separator line for readability every 'n' measures,
-where 'n' is a positive integer.)",
+where 'n' is a positive integer.
+Nothing special is done by default.)",
           "n",
           "separatorLineEveryNMeasures",
           fSeparatorLineEveryNMeasures));

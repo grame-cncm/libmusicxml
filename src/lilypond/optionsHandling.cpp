@@ -1060,6 +1060,7 @@ void msrOptionsSubGroup::print (ostream& os) const
 
 void msrOptionsSubGroup::printHelp (ostream& os) const
 {
+  
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription;
@@ -2190,7 +2191,16 @@ void msrOptionsHandler::handleOptionsItemName (
           dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
       ) {
       // print the help
+      cerr << idtr <<
+        "--- Help for group \"" <<
+        optionsElement->
+          getOptionsElementDescription () <<
+        "\" ---" <<
+        endl <<
+        endl;
+        
       optionsGroup->printHelp (cerr);
+      
       cerr <<
         endl;
     }
@@ -2202,7 +2212,16 @@ void msrOptionsHandler::handleOptionsItemName (
           dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
       ) {    
       // print the help
+      cerr << idtr <<
+        "--- Help for subgroup \"" <<
+        optionsElement->
+          getOptionsElementDescription () <<
+        "\" ---" <<
+        endl <<
+        endl;
+        
       optionsSubGroup->printHelp (cerr);
+
       cerr <<
         endl;
     }
