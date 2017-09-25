@@ -168,7 +168,7 @@ S_msrOptionsItem msrOptionsItem::create (
   msrOptionsItem* o = new
     msrOptionsItem (
       optionsItemShortName,
-      optionsItemDescription,
+      optionsItemLongName,
       optionsItemDescription,
       optionsItemValuesNumber);
   assert(o!=0);
@@ -385,7 +385,7 @@ S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
   msrOptionsIntegerItem* o = new
     msrOptionsIntegerItem (
       optionsItemShortName,
-      optionsItemDescription,
+      optionsItemLongName,
       optionsItemDescription,
       optionsIntegerItemVariableDisplayName,
       optionsIntegerItemVariable);
@@ -480,7 +480,7 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
   msrOptionsFloatItem* o = new
     msrOptionsFloatItem (
       optionsItemShortName,
-      optionsItemDescription,
+      optionsItemLongName,
       optionsItemDescription,
       optionsFloatItemVariableDisplayName,
       optionsFloatItemVariable);
@@ -575,7 +575,7 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
   msrOptionsStringItem* o = new
     msrOptionsStringItem (
       optionsItemShortName,
-      optionsItemDescription,
+      optionsItemLongName,
       optionsItemDescription,
       optionsStringItemVariableDisplayName,
       optionsStringItemVariable);
@@ -671,7 +671,7 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
   msrOptionsRationalItem* o = new
     msrOptionsRationalItem (
       optionsItemShortName,
-      optionsItemDescription,
+      optionsItemLongName,
       optionsItemDescription,
       optionsRationalItemVariableDisplayName,
       optionsRationalItemVariable);
