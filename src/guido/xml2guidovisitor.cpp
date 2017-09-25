@@ -34,7 +34,7 @@ namespace MusicXML2
     xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum)
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0)
     {}
     
     //______________________________________________________________________________
@@ -166,6 +166,24 @@ namespace MusicXML2
         start(chord);
     }
     
+    void xml2guidovisitor::visitStart( S_defaults& elt)
+    {
+        defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
+        
+        // Convert to HS
+        /// Guido's default staff-distance seems to be 10HS or 50 tenths
+        if (defaultStaffDistance > 0) {
+            float xmlDistance = defaultStaffDistance - 50.0;
+            float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+            if (HalfSpaceDistance < 0.0) {
+                defaultGuidoStaffDistance = HalfSpaceDistance;
+            }else
+                defaultGuidoStaffDistance = 0;
+        }else {
+            defaultGuidoStaffDistance = 0;
+        }
+    }
+    
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_movement_title& elt )		{ fHeader.fTitle = elt; }
     void xml2guidovisitor::visitStart ( S_creator& elt )			{ fHeader.fCreators.push_back(elt); }
@@ -221,12 +239,16 @@ namespace MusicXML2
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
             int stafflines = elt->getIntValue(k_staff_lines, 0);
             
-            if ((previousStaffHasLyrics)||stafflines)
+            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
                 if (previousStaffHasLyrics)
                 {
                     tag2->add (guidoparam::create("dy=-5", false));
+                }else if (defaultGuidoStaffDistance) {
+                    stringstream s;
+                    s << "dy="<< defaultGuidoStaffDistance;
+                    tag2->add (guidoparam::create(s.str().c_str(), false));
                 }
                 
                 if (stafflines>0)
