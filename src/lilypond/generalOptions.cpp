@@ -102,6 +102,7 @@ R"(Output file)"
         msrOptionsStringItem::create (
           "of", "outputFile",
   R"(Write LilyPond code to file 'fileName' instead of standard output.)",
+          "fileName",
           "outputFile",
           fOutputFileName));
   }

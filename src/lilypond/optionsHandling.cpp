@@ -375,10 +375,127 @@ ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsValuedItem msrOptionsValuedItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  int                optionsItemValuesNumber)
+{
+  msrOptionsValuedItem* o = new
+    msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsItemValuesNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsValuedItem::msrOptionsValuedItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  int                optionsItemValuesNumber)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsItemValuesNumber)
+{
+  fOptionsValueSpecification = optionsValueSpecification;
+  
+  fOptionsItemValuesNumber = optionsItemValuesNumber;
+}
+    
+msrOptionsValuedItem::~msrOptionsValuedItem()
+{}
+
+string msrOptionsValuedItem::optionsItemKindAsString (
+  msrOptionsValuedItem::msrOptionsValuedItemKind optionsItemKind)
+{
+  string result;
+  
+  switch (optionsItemKind) {
+    case msrOptionsValuedItem::kOptionsItemHasNoArgument:
+      result = "OptionsItemHasNoArgument";
+      break;
+    case msrOptionsValuedItem::kOptionsItemHasARequiredArgument:
+      result = "OptionsItemHasARequiredArgument";
+      break;
+    case msrOptionsValuedItem::kOptionsItemHasAnOptionsArgument:
+      result = "OptionsItemHasAnOptionsArgument";
+      break;
+  } // switch
+
+  return result;
+}  
+
+void msrOptionsValuedItem::registerOptionsItemInHandler (
+  S_msrOptionsHandler optionsHandler)
+{
+  optionsHandler->
+    registerOptionsElementNamesInHandler (this);
+}
+
+void msrOptionsValuedItem::print (ostream& os) const
+{
+  const int fieldWidth = 19;
+  
+  os <<
+    idtr <<
+      "OptionsValuedItem ???:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsValueSpecification" << " : " << fOptionsValueSpecification <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsItemValuesNumber" << " : " << fOptionsItemValuesNumber <<
+      endl;
+}
+
+void msrOptionsValuedItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os <<
+    idtr <<
+      "OptionsItem values ???:" <<
+      endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsIntegerItemVariableDisplayName,
   int&               optionsIntegerItemVariable)
 {
@@ -387,6 +504,7 @@ S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       optionsIntegerItemVariableDisplayName,
       optionsIntegerItemVariable);
   assert(o!=0);
@@ -397,17 +515,19 @@ msrOptionsIntegerItem::msrOptionsIntegerItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsIntegerItemVariableDisplayName,
   int&               optionsIntegerItemVariable)
-  : msrOptionsItem (
+  : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       1),
-    fOptionsIntegerItemVariable (
-      optionsIntegerItemVariable),
     fOptionsIntegerItemVariableDisplayName (
-      optionsIntegerItemVariableDisplayName)
+      optionsIntegerItemVariableDisplayName),
+    fOptionsIntegerItemVariable (
+      optionsIntegerItemVariable)
 {}
 
 msrOptionsIntegerItem::~msrOptionsIntegerItem()
@@ -474,6 +594,7 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsFloatItemVariableDisplayName,
   float&             optionsFloatItemVariable)
 {
@@ -482,6 +603,7 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       optionsFloatItemVariableDisplayName,
       optionsFloatItemVariable);
   assert(o!=0);
@@ -492,12 +614,14 @@ msrOptionsFloatItem::msrOptionsFloatItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsFloatItemVariableDisplayName,
   float&             optionsFloatItemVariable)
-  : msrOptionsItem (
+  : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       1),
     fOptionsFloatItemVariableDisplayName (
       optionsFloatItemVariableDisplayName),
@@ -569,6 +693,7 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsStringItemVariableDisplayName,
   string&            optionsStringItemVariable)
 {
@@ -577,6 +702,7 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       optionsStringItemVariableDisplayName,
       optionsStringItemVariable);
   assert(o!=0);
@@ -587,12 +713,14 @@ msrOptionsStringItem::msrOptionsStringItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsStringItemVariableDisplayName,
   string&            optionsStringItemVariable)
-  : msrOptionsItem (
+  : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       1),
     fOptionsStringItemVariableDisplayName (
       optionsStringItemVariableDisplayName),
@@ -665,6 +793,7 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsRationalItemVariableDisplayName,
   rational&          optionsRationalItemVariable)
 {
@@ -673,6 +802,7 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       optionsRationalItemVariableDisplayName,
       optionsRationalItemVariable);
   assert(o!=0);
@@ -683,12 +813,14 @@ msrOptionsRationalItem::msrOptionsRationalItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
+  string             optionsValueSpecification,
   string             optionsRationalItemVariableDisplayName,
   rational&          optionsRationalItemVariable)
-  : msrOptionsItem (
+  : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
+      optionsValueSpecification,
       1),
     fOptionsRationalItemVariableDisplayName (
       optionsRationalItemVariableDisplayName),

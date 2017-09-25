@@ -242,7 +242,89 @@ typedef SMARTP<msrOptionsBooleanItem> S_msrOptionsBooleanItem;
 ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsIntegerItem : public msrOptionsItem
+class EXP msrOptionsValuedItem : public msrOptionsItem
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrOptionsValuedItemKind {
+      kOptionsItemHasNoArgument,
+      kOptionsItemHasARequiredArgument,
+      kOptionsItemHasAnOptionsArgument };
+          
+    static string optionsItemKindAsString (
+      msrOptionsValuedItemKind optionsItemKind);
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsValuedItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      int                optionsItemValuesNumber);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsValuedItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      int                optionsItemValuesNumber);
+  
+    virtual ~msrOptionsValuedItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    msrOptionsValuedItemKind
+                          getOptionsItemKind () const
+                              { return fOptionsItemKind; }
+    
+    string                getOptionsValueSpecification () const
+                              { return fOptionsValueSpecification; }
+    
+    int                   getOptionsItemValuesNumber () const
+                              { return fOptionsItemValuesNumber; }
+    
+    // services
+    // ------------------------------------------------------
+
+    void                  registerOptionsItemInHandler (
+                            S_msrOptionsHandler optionsHandler);
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    virtual void          printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  protected:
+
+    msrOptionsValuedItemKind
+                          fOptionsItemKind;
+
+    string                fOptionsValueSpecification;
+    
+  int                     fOptionsItemValuesNumber;
+};
+typedef SMARTP<msrOptionsValuedItem> S_msrOptionsValuedItem;
+EXP ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt);
+
+//______________________________________________________________________________
+class EXP msrOptionsIntegerItem : public msrOptionsValuedItem
 {
   public:
   
@@ -253,6 +335,7 @@ class EXP msrOptionsIntegerItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsIntegerItemVariableDisplayName,
       int&               optionsIntegerItemVariable);
      
@@ -265,6 +348,7 @@ class EXP msrOptionsIntegerItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsIntegerItemVariableDisplayName,
       int&               optionsIntegerItemVariable);
            
@@ -310,7 +394,7 @@ typedef SMARTP<msrOptionsIntegerItem> S_msrOptionsIntegerItem;
 ostream& operator<< (ostream& os, const S_msrOptionsIntegerItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsFloatItem : public msrOptionsItem
+class EXP msrOptionsFloatItem : public msrOptionsValuedItem
 {
   public:
   
@@ -321,6 +405,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable);
      
@@ -333,6 +418,7 @@ class EXP msrOptionsFloatItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable);
       
@@ -376,7 +462,7 @@ typedef SMARTP<msrOptionsFloatItem> S_msrOptionsFloatItem;
 ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsStringItem : public msrOptionsItem
+class EXP msrOptionsStringItem : public msrOptionsValuedItem
 {
   public:
   
@@ -387,6 +473,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable);
      
@@ -399,6 +486,7 @@ class EXP msrOptionsStringItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable);
       
@@ -442,7 +530,7 @@ typedef SMARTP<msrOptionsStringItem> S_msrOptionsStringItem;
 ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsRationalItem : public msrOptionsItem
+class EXP msrOptionsRationalItem : public msrOptionsValuedItem
 {
   public:
   
@@ -453,6 +541,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable);
      
@@ -465,6 +554,7 @@ class EXP msrOptionsRationalItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
+      string             optionsValueSpecification,
       string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable);
       

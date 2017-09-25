@@ -418,6 +418,7 @@ R"(Ornaments)"
 R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
 The default value is '2/3'.)",
+          "num/denom",
           "delayedOrnamentsFraction",
           fDelayedOrnamentsFraction));
   }
