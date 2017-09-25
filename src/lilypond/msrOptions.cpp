@@ -151,19 +151,19 @@ R"(Languages)"
       );
   
     appendOptionsSubGroup (languagesSubGroup);
-      /* JMI
+
     languagesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
-          "mpl", "msrPitchesLanguage", // JMI
+        msrOptionsPitchesLanguageItem::create (
+          "mpl", "msrPitchesLanguage",
 R"(Use 'language' to display note pitches in the MSR logs and text views.
 The 12 LilyPond pitches languages are available:
 nederlands, catalan, deutsch, english, espanol, français, 
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
+          "language",
           "msrPitchesLanguage",
           fMsrQuarterTonesPitchesLanguage));
-          */
   }
 
   

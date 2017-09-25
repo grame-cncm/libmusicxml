@@ -1111,6 +1111,112 @@ ostream& operator<< (ostream& os, const S_msrOptionsNumbersSetItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsPitchesLanguageItem msrOptionsPitchesLanguageItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPitchesLanguageItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguage&
+                     optionsPitchesLanguageItemVariable)
+{
+  msrOptionsPitchesLanguageItem* o = new
+    msrOptionsPitchesLanguageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsPitchesLanguageItemVariableDisplayName,
+      optionsPitchesLanguageItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsPitchesLanguageItem::msrOptionsPitchesLanguageItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPitchesLanguageItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguage&
+                     optionsPitchesLanguageItemVariable)
+  : msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      1),
+    fOptionsPitchesLanguageItemVariableDisplayName (
+      optionsPitchesLanguageItemVariableDisplayName),
+    fOptionsPitchesLanguageItemVariable (
+      optionsPitchesLanguageItemVariable)
+{}
+
+msrOptionsPitchesLanguageItem::~msrOptionsPitchesLanguageItem()
+{}
+
+void msrOptionsPitchesLanguageItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsPitchesLanguageItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsPitchesLanguageItemVariableDisplayName" << " : " <<
+      fOptionsPitchesLanguageItemVariableDisplayName <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsPitchesLanguageItemVariable" << " : \"" <<
+      msrQuarterTonesPitchesLanguageAsString (
+        fOptionsPitchesLanguageItemVariable) <<
+        "\"" <<
+      endl;
+}
+
+void msrOptionsPitchesLanguageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    idtr <<
+      setw(valueFieldWidth) <<
+      fOptionsPitchesLanguageItemVariableDisplayName <<
+      " : \"" <<
+      msrQuarterTonesPitchesLanguageAsString (
+        fOptionsPitchesLanguageItemVariable) <<
+      "\"" <<
+      endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
@@ -2469,6 +2575,18 @@ void msrOptionsHandler::handleOptionsItemName (
         fExpectedValuesNumber = 1;
       }
 
+
+      else if (
+        // pitches language item?
+        S_msrOptionsPitchesLanguageItem
+          optionsPitchesLanguageItem =
+            dynamic_cast<msrOptionsPitchesLanguageItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsPitchesLanguageItem;
+        fExpectedValuesNumber = 1;
+      }
+
       else {
         stringstream s;
     
@@ -2641,6 +2759,50 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           decipherNumbersSetSpecification (
             theString, false) // 'true' to debug it
           );
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+    }
+    
+    else if (
+      // pitches language item?
+      S_msrOptionsPitchesLanguageItem
+        optionsPitchesLanguageItem =
+          dynamic_cast<msrOptionsPitchesLanguageItem*>(&(*fPendingOptionsItem))
+      ) {
+      // theString contains the language name:     
+      // is it in the pitches languages map?
+      map<string, msrQuarterTonesPitchesLanguage>::const_iterator
+        it =
+          gQuarterTonesPitchesLanguagesMap.find (
+            theString);
+            
+      if (it == gQuarterTonesPitchesLanguagesMap.end ()) {
+        // no, language is unknown in the map
+        stringstream s;
+    
+        s <<
+          "MSR pitches language " << theString <<
+          " is unknown" <<
+          endl <<
+          "The " <<
+          gQuarterTonesPitchesLanguagesMap.size () <<
+          " known MSR pitches languages are:" <<
+          endl;
+    
+        idtr++;
+      
+        s <<
+          existingQuarterTonesPitchesLanguages ();
+    
+        idtr--;
+    
+        optionError (s.str());
+      }
+    
+      optionsPitchesLanguageItem->
+        setPitchesLanguageItemVariableValue (
+          (*it).second);
 
       fPendingOptionsItem = 0;
       fExpectedValuesNumber = 0;

@@ -21,6 +21,8 @@
 #include "smartpointer.h"
 #include "rational.h"
 
+#include "msrBasicTypes.h"
+
 
 using namespace std;
 
@@ -667,6 +669,77 @@ class EXP msrOptionsNumbersSetItem : public msrOptionsValuedItem
 };
 typedef SMARTP<msrOptionsNumbersSetItem> S_msrOptionsNumbersSetItem;
 ostream& operator<< (ostream& os, const S_msrOptionsNumbersSetItem& elt);
+
+//______________________________________________________________________________
+class EXP msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsPitchesLanguageItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPitchesLanguageItemVariableDisplayName,
+      msrQuarterTonesPitchesLanguage&
+                         optionsPitchesLanguageItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsPitchesLanguageItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPitchesLanguageItemVariableDisplayName,
+      msrQuarterTonesPitchesLanguage&
+                         optionsPitchesLanguageItemVariable);
+      
+    virtual ~msrOptionsPitchesLanguageItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsPitchesLanguageItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsPitchesLanguageItemVariableDisplayName;
+                              }
+                              
+    void                  setPitchesLanguageItemVariableValue (
+                            msrQuarterTonesPitchesLanguage value)
+                              {
+                                fOptionsPitchesLanguageItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    string                fOptionsPitchesLanguageItemVariableDisplayName;
+    msrQuarterTonesPitchesLanguage&
+                          fOptionsPitchesLanguageItemVariable;
+};
+typedef SMARTP<msrOptionsPitchesLanguageItem> S_msrOptionsPitchesLanguageItem;
+ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt);
 
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
