@@ -812,6 +812,76 @@ class EXP msrOptionsChordsLanguageItem : public msrOptionsValuedItem
 typedef SMARTP<msrOptionsChordsLanguageItem> S_msrOptionsChordsLanguageItem;
 ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt);
 
+//______________________________________________________________________________
+class EXP msrOptionsStringsMapItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsStringsMapItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsStringsMapItemVariableDisplayName,
+      map<string, string>&
+                         optionsStringsMapItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsStringsMapItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsStringsMapItemVariableDisplayName,
+      map<string, string>&
+                         optionsStringsMapItemVariable);
+      
+    virtual ~msrOptionsStringsMapItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsStringsMapItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsStringsMapItemVariableDisplayName;
+                              }
+                              
+    void                  setStringsMapItemVariableValue (
+                            map<string, string> value)
+                              {
+                                fOptionsStringsMapItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    string                fOptionsStringsMapItemVariableDisplayName;
+    map<string, string>&  fOptionsStringsMapItemVariable;
+};
+typedef SMARTP<msrOptionsStringsMapItem> S_msrOptionsStringsMapItem;
+ostream& operator<< (ostream& os, const S_msrOptionsStringsMapItem& elt);
+
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
 {

@@ -1323,6 +1323,112 @@ ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsStringsMapItem msrOptionsStringsMapItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsStringsMapItemVariableDisplayName,
+  map<string, string>&
+                     optionsStringsMapItemVariable)
+{
+  msrOptionsStringsMapItem* o = new
+    msrOptionsStringsMapItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsStringsMapItemVariableDisplayName,
+      optionsStringsMapItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsStringsMapItem::msrOptionsStringsMapItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsStringsMapItemVariableDisplayName,
+  map<string, string>&
+                     optionsStringsMapItemVariable)
+  : msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      1),
+    fOptionsStringsMapItemVariableDisplayName (
+      optionsStringsMapItemVariableDisplayName),
+    fOptionsStringsMapItemVariable (
+      optionsStringsMapItemVariable)
+{}
+
+msrOptionsStringsMapItem::~msrOptionsStringsMapItem()
+{}
+
+void msrOptionsStringsMapItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsStringsMapItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsStringsMapItemVariableDisplayName" << " : " <<
+      fOptionsStringsMapItemVariableDisplayName <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsStringsMapItemVariable" << " : \"" <<
+      map<string, string>AsString (
+        fOptionsStringsMapItemVariable) <<
+        "\"" <<
+      endl;
+}
+
+void msrOptionsStringsMapItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    idtr <<
+      setw(valueFieldWidth) <<
+      fOptionsStringsMapItemVariableDisplayName <<
+      " : \"" <<
+      map<string, string>AsString (
+        fOptionsStringsMapItemVariable) <<
+      "\"" <<
+      endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsStringsMapItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
