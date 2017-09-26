@@ -93,7 +93,8 @@ class EXP xmlpart2guido :
     
     bool isProcessingChord;
 	
-	S_measure	fCurrentMeasure;  
+	S_measure	fCurrentMeasure;
+    S_part      fCurrentPart;
 
 	bool	fNotesOnly;				// a flag to generate notes only (used for several voices on the same staff)
 	bool	fSkipDirection;			// a flag to skip direction elements (for notes only mode or due to different staff)
@@ -211,6 +212,8 @@ class EXP xmlpart2guido :
     int checkDynamics(rational posInMeasure);
     S_dynamics fDynamics;
     
+    bool fIgnoreWedgeWithOffset;
+    
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}
@@ -221,9 +224,10 @@ class EXP xmlpart2guido :
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
         bool fHasLyrics;
         bool hasLyrics() const {return fHasLyrics;}
-    std::multimap<int, std::pair< rational, string > > staffClefMap;
-    
-    std::string getClef(int staffIndex, rational pos);
+//    std::multimap<int, std::pair< rational, string > > staffClefMap;
+    std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
+
+    std::string getClef(int staffIndex, rational pos, int measureNum);
 
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;

@@ -434,7 +434,10 @@ void notevisitor::visitEnd ( S_note& elt )
                     switch (display_octave) {
                         // G clef:
                         case 4:
-                            restFormatDy = -2.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -2.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 10.0;
                             break;
                         case 5:
                             restFormatDy = 5.0;

@@ -100,9 +100,10 @@ class EXP xml2guidovisitor :
     int defaultStaffDistance;   // xml staff-distance value in defaults
     int defaultGuidoStaffDistance;  // the above converted to Guido value
     
-    /// multimap containing <staff-num, position, clef type>
-    std::multimap<int, std::pair< rational, string > > staffClefMap;
-    
+    /// multimap containing <staff-num, measureNum, position, clef type>
+    //std::multimap<int, std::pair< rational, string > > staffClefMap;
+    std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
+
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
 

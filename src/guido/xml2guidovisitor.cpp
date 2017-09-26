@@ -35,7 +35,9 @@ namespace MusicXML2
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
     fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0)
-    {}
+    {
+        timePositions.clear();
+    }
     
     //______________________________________________________________________________
     Sguidoelement xml2guidovisitor::convert (const Sxmlelement& xml)
@@ -213,7 +215,7 @@ namespace MusicXML2
         rational currentTimeSign (0,1);
         
         staffClefMap.clear();
-        timePositions.clear();
+        //timePositions.clear();
         
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {

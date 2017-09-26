@@ -14,6 +14,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cmath>
+
 
 #include "conversions.h"
 #include "partsummary.h"
@@ -43,6 +45,7 @@ namespace MusicXML2
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
         fDynamics= (void*)0;
+        fIgnoreWedgeWithOffset = false;
     }
     
     //______________________________________________________________________________
@@ -64,6 +67,7 @@ namespace MusicXML2
         fGenerateTempo = false;
         fTextTagOpen = 0;
         fDynamics= (void*)0;
+        fIgnoreWedgeWithOffset = false;
     }
     
     //______________________________________________________________________________
@@ -78,6 +82,7 @@ namespace MusicXML2
         fHasLyrics = false;
         fLyricsManualSpacing = false;
         fDynamics= (void*)0;
+        fIgnoreWedgeWithOffset = false;
         start (seq);
     }
     
@@ -248,6 +253,7 @@ namespace MusicXML2
             Sguidoelement seq = guidoseq::create();
             start (seq);
         }
+        fCurrentPart = elt;
     }
     
     
@@ -592,8 +598,14 @@ namespace MusicXML2
             wedgeStart = true;
         }
         else if (type == "stop") {
+            if (fIgnoreWedgeWithOffset) {
+                fIgnoreWedgeWithOffset = false;
+                return; // FIXME: Ignore Offset Wedge à la Verovio
+            }
+
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
         }
+        
         if (tag) {
             //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
             //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
@@ -605,36 +617,122 @@ namespace MusicXML2
                     tag->add (guidoparam::create(s.str(), false));
                 }
                 
-                //stringstream s;
-                //s << "autopos=\"on\"";
-                //tag->add (guidoparam::create(s.str(), false));
+                /*stringstream s;
+                s << "autopos=\"on\"";
+                tag->add (guidoparam::create(s.str(), false));*/
             
             }else if (type == "crescendo")
             {
-                // TODO: search for wedge STOP in anticipation and assign spread
+                ctree<xmlelement>::iterator nextevent = find(fCurrentPart->begin(), fCurrentPart->end(), elt);
+                int crescendoNumber = elt->getAttributeIntValue("number", 1);   // default is 1 for wedge!
+                
+                nextevent++;    // advance one step
+                
+                // find next S_direction in measure
+                ctree<xmlelement>::iterator nextWedge = fCurrentMeasure->find(k_wedge, nextevent);
+                
+                while ( ( nextWedge->getAttributeIntValue("number", 1) != crescendoNumber)
+                       &&
+                       (nextWedge->getAttributeValue("type")!="stop") )
+                {
+                    nextWedge = fCurrentMeasure->find(k_wedge, nextevent++);
+                }
+                
+                /// fetch dx1 and dx2 value based on ending
+                float posx2 = nextWedge->getAttributeFloatValue("relative-x", 0);
+                float posx1 = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
+
+                if (fCurrentOffset) {
+                    /*rational offsetDur(fCurrentOffset, fCurrentDivision);
+                    offsetDur.rationalise();
+                    
+                    rational offsetPosition = fCurrentMeasurePosition + offsetDur;
+                    
+                    int measureJump = int(floor(offsetPosition.toFloat()+0.5f));    //((int)floor(x + 0.5f))
+                    rational measureJumpRat(measureJump, 1);
+                    offsetPosition -= measureJumpRat;
+                    
+                    auto timePos4measure = timePositions.find(fMeasNum+measureJump);
+
+                    cout<<"Crescendo Begin at "<< fMeasNum<< " default-x="<< elt->getAttributeIntValue("default-x", 0)<< " relative-x="<<elt->getAttributeIntValue("relative-x", 0)<<" Offset="<<fCurrentOffset<<" ENDING: default-x="<< nextWedge->getAttributeIntValue("default-x", 0) << " relative-x="<<nextWedge->getAttributeIntValue("relative-x", 0)<<endl;
+
+                    cout<<"-----Dealing with offset "<< fCurrentOffset<< " with Division "<< fCurrentDivision<<" measure jump: "<<measureJump<<endl;
+
+                    
+                    if (timePos4measure != timePositions.end()) {
+                        auto voiceInTimePosition = timePos4measure->second.find(offsetPosition);
+                        if (voiceInTimePosition != timePos4measure->second.end()) {
+                            auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
+                            posx1 = posx1 + *minXPos;
+                            cout<<"\tOFFSET TimePosition is="<< *minXPos <<" "<<posx1<<endl;;
+                            //posx2 = posx2 + *minXPos;
+                        }else {
+                            cerr<<"\tERROR: NO TIME POS FOR VOICE POSITION "<<offsetPosition.toString()<<" TO INFER WEDGE OFFSET!"<<endl;
+                        }
+                    }else
+                    {
+                        cerr<<"\tNO TIMEPOS for measure "<<fMeasNum<<" timePositions size="<<timePositions.size()<<endl;
+                    }*/
+                    
+                    // FIXME: Impossible for now to handle Wedges with Direction Offset! Ignoring... .
+                    fIgnoreWedgeWithOffset = true;
+
+
+                }
+                if (fIgnoreWedgeWithOffset)
+                {
+                    cout<<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
+                    return;         // FIXME: Ignoring Offset wedges à la Verovio
+                }
+
+                
+                //// Add dx1 and dx2 parameters
+                if (posx1!=0.0) {
+                    posx1 = (posx1 / 10) * 2;   // convert to half spaces
+                    
+                    stringstream s;
+                    s << "dx1=" << posx1 << "hs";
+                    tag->add (guidoparam::create(s.str(), false));
+                }
+                if (posx2!=0.0) {
+                    posx2 = (posx2 / 10) * 2;   // convert to half spaces
+                    
+                    stringstream s;
+                    s << "dx2=" << posx2 << "hs";
+                    tag->add (guidoparam::create(s.str(), false));
+                }
+                
+                //// Add spreadvalue from the Crescendo Ending
+                float spreadValue = nextWedge->getAttributeFloatValue("spread", 15.0);
+                if (spreadValue != 15.0) {
+                    stringstream s;
+                    s << "deltaY=" << (spreadValue/10)*2 << "hs";
+                    tag->add (guidoparam::create(s.str(), false));
+                }
+                
                 
                 // Add new AutoPos="on"
-                //stringstream s;
-                //s << "autopos=\"on\"";
-                //tag->add (guidoparam::create(s.str(), false));
+                /*stringstream s;
+                s << "autopos=\"on\"";
+                tag->add (guidoparam::create(s.str(), false));*/
             }
             
             
             xml2guidovisitor::addPosY(elt, tag, 12, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
             
             // add only RELATIVE-X since it doesn't depend on TimePosition
-            float posx = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
-            if (posx && wedgeStart) {
+            /*float posx = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
+            if (posx && wedgeStart && (type != "diminuendo")) {
                 posx = (posx / 10) * 2;   // convert to half spaces
                 
                 /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
-                if (fCurrentOffset>0)
-                    posx +=3;
+                //if (fCurrentOffset>0)
+                //    posx +=3;
                 
                 stringstream s;
                 s << "dx1=" << posx << "hs";
                 tag->add (guidoparam::create(s.str(), false));
-            }
+            }*/
             
             
             if (fCurrentOffset) {
@@ -1009,7 +1107,9 @@ namespace MusicXML2
             //tag->print(cout);
             add(tag);
             
-            staffClefMap.insert(std::pair<int, std::pair<rational, std::string> >(fCurrentStaffIndex,std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign)) );
+            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign);
+            staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
+
             //cout<<"\t\tCreated clef "<<param <<" fCurrentStaffIndex="<<fCurrentStaffIndex<<" fCurrentVoicePosition="<<fCurrentVoicePosition.toString()<<" "<<staffClefMap.size()<<endl;
             
             /// Search again for other clefs:
@@ -2093,8 +2193,8 @@ namespace MusicXML2
         if (nv.getStep().size())
         {
             // Check out clef for position and voice
-            std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition);
-            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" staff="<<fCurrentStaffIndex<<" clef: "<< thisClef<< " "<<staffClefMap.size()<<endl;
+            std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" VoicePosition="<<fCurrentVoicePosition.toString()<<" staff="<<fCurrentStaffIndex<<" clef: "<< thisClef<< " "<<staffClefMap.size()<<endl;
             
             float restformatDy = nv.getRestFormatDy(thisClef);
             //cout<<"\tcheckRestFormat with display-step:"<<nv.getStep()<<" octave:"<<nv.getOctave()<<" with current clef "<<clefvisitor::fSign<<" dy="<<restformatDy<<endl;
@@ -2114,15 +2214,17 @@ namespace MusicXML2
         return 0;
     }
     
-    std::string xmlpart2guido::getClef(int staffIndex, rational pos) {
+    std::string xmlpart2guido::getClef(int staffIndex, rational pos, int measureNum) {
+        //     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
         std::string thisClef = "g";
         if (staffClefMap.size()>0) {
-            auto eqRange = staffClefMap.equal_range(staffIndex);
-            
-            for (auto i = eqRange.first ; i != eqRange.second; i++ ) {
-                if ( (i->second).first <= pos )
-                {
-                    thisClef = (i->second).second;
+            auto staffRange = staffClefMap.equal_range(staffIndex);
+
+            for (auto i = staffRange.first ; i != staffRange.second; i++ )
+            {
+                // Get the measure number
+                if (((i->second).first <= measureNum) && ((i->second).second.first <= pos )){
+                    thisClef = (i->second).second.second;
                 }else
                     break;
             }
