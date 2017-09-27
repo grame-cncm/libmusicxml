@@ -39,7 +39,7 @@ namespace MusicXML2
 // a macro to abort with code source line information,
 // as assert() itself
 //______________________________________________________________________________
-#define basicAssert( condition, messageIfFalse ) \
+#define basicMsrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
     cerr << \
@@ -56,7 +56,7 @@ namespace MusicXML2
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-#define basicMusicXMLWarning( inputLineNumber, message ) \
+#define basicMsrMusicXMLWarning( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \
@@ -75,7 +75,7 @@ namespace MusicXML2
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
-#define basicMusicXMLError( inputLineNumber, message ) \
+#define basicMsrMusicXMLError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \
@@ -98,7 +98,7 @@ namespace MusicXML2
 \brief A macro to emit error messages regarding MSR and exit
 */
 //______________________________________________________________________________
-#define basicInternalError( inputLineNumber, message ) \
+#define basicMsrInternalError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \
@@ -120,7 +120,7 @@ namespace MusicXML2
 \brief A macro to emit error messages regarding MSR
 */
 //______________________________________________________________________________
-#define basicInternalWarning( inputLineNumber, message ) \
+#define basicMsrInternalWarning( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
 \

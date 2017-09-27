@@ -28,6 +28,47 @@ using namespace std;
 namespace MusicXML2 
 {
 
+/*!
+\internal
+\brief A macro to exit when a condition if false
+*/
+// a macro to abort with code source line information,
+// as assert() itself
+//______________________________________________________________________________
+#define basicLpsrAssert( condition, messageIfFalse ) \
+{ \
+  if (! condition) { \
+    cerr << \
+      endl << \
+      "#### " << messageIfFalse << \
+      endl << endl << \
+      flush; \
+    assert(condition); \
+  } \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR and exit
+*/
+//______________________________________________________________________________
+#define basicLpsrInternalError( inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "[[[ basic INTERNAL ERROR ]]], " << \
+ /* JMI   gGeneralOptions->fInputSourceName << */ \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl << \
+    idtr; \
+\
+  assert(false); \
+}
+
 // chords languages
 //______________________________________________________________________________
 enum lpsrChordsLanguage {

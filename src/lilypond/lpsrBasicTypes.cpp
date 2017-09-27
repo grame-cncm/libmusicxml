@@ -15,8 +15,6 @@
 #endif
 
 /*
-#include <iostream>
-#include <sstream>
 #include <stdlib.h>     / * abort, NULL * /
 #include <cassert>
 
@@ -27,8 +25,12 @@
 
 #include "rational.h"
 
-#include "utilities.h"
 */
+
+#include <iostream>
+#include <sstream>
+
+#include "utilities.h"
 
 #include "lpsrBasicTypes.h"
 
@@ -132,7 +134,7 @@ string wholeNotesAsLilypondString (
               numerator << "/" << denominator <<
               " whole notes cannot be represented as an MSR string";
   
-            msrInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
         } // switch
@@ -2890,7 +2892,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'A' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -2935,7 +2937,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'B' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -2982,7 +2984,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'C' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -3027,7 +3029,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'D' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -3072,7 +3074,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'E' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -3117,7 +3119,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'F' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -3162,7 +3164,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'G' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
           }
@@ -3180,7 +3182,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
           "cannot convert k_NoDiatonicPitch to a quarter tones pitch"
           ", line = " << inputLineNumber;
 
-        basicInternalError (
+        basicLpsrInternalError (
           inputLineNumber,
           s.str());
           */
@@ -3290,7 +3292,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
           "cannot get the diatonic pitch of a rest"
           ", line = " << inputLineNumber;
 
-        basicInternalError (
+        basicLpsrInternalError (
           inputLineNumber,
           s.str());
       }
@@ -3306,7 +3308,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
           "cannot get the diatonic pitch of a k_NoQuarterTonesPitch"
           ", line = " << inputLineNumber;
 
-        basicInternalError (
+        basicLpsrInternalError (
           inputLineNumber,
           s.str());
           */
@@ -3530,7 +3532,7 @@ string wholeNotesAsMsrString (
 #endif
 
   // sanity check
-  basicAssert (
+  basicLpsrAssert (
     numerator != 0,
     "numerator is 0");
     
@@ -3611,7 +3613,7 @@ string wholeNotesAsMsrString (
               numerator << "/" << denominator <<
               " whole notes cannot be represented as an MSR string";
   
-            basicInternalError (
+            basicLpsrInternalError (
               inputLineNumber,
               s.str());
         } // switch
@@ -3714,7 +3716,7 @@ S_msrChordItem msrChordItem::createHarmonyNewbornClone (
   }
 
   // sanity check
-  basicAssert(
+  basicLpsrAssert(
     containingPart != 0,
     "containingPart is null");
     
@@ -3741,7 +3743,7 @@ S_msrChordItem msrChordItem::createHarmonyDeepCopy (
   }
 
   // sanity check
-  basicAssert(
+  basicLpsrAssert(
     containingPart != 0,
     "containingPart is null");
     
@@ -4849,7 +4851,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
   }
 
   // sanity check
-  basicAssert(
+  basicLpsrAssert(
     containingPart != 0,
     "containingPart is null");
     
@@ -4876,7 +4878,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
   }
 
   // sanity check
-  basicAssert(
+  basicLpsrAssert(
     containingPart != 0,
     "containingPart is null");
     
