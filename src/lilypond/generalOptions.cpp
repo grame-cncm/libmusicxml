@@ -280,6 +280,96 @@ R"(divisions)",
           fTraceDivisions));
   }
       
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tpgrps", "tracePartGroups",
+R"(part groups)",
+          "tracePartGroups",
+          fTracePartGroups));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tparts", "traceParts",
+R"(parts)",
+          "traceParts",
+          fTraceParts));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tstaves", "traceStaves",
+R"(staves)",
+          "traceStaves",
+          fTraceStaves));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tclefs", "traceClefs",
+R"(clefs)",
+          "traceClefs",
+          fTraceClefs));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tkeys", "traceKeys",
+R"(keys)",
+          "traceKeys",
+          fTraceKeys));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ttimes", "traceTimes",
+R"(times)",
+          "traceTimes",
+          fTraceTimes));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ttransps", "traceTranspositions",
+R"(transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
+          "traceTranspositions",
+          fTraceTranspositions));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tsegs", "traceSegments",
+R"(voices segments)",
+          "traceSegments",
+          fTraceSegments));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "treps", "traceRepeats",
+R"(repeats)",
+          "traceRepeats",
+          fTraceRepeats));
+  }
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tmeas", "traceMeasures",
+R"(measures)",
+          "traceMeasures",
+          fTraceMeasures));
+  }
+      
 
   /* STUFF not yet handled JMI */
 
