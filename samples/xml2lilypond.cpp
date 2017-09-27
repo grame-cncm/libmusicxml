@@ -209,7 +209,7 @@ void checkOptionUniqueness (
 }
 
 //_______________________________________________________________________________
-#define HEAVY 0
+#define HEAVY 1
 
 vector<string> analyzeOptionsAndArguments (
 S_xml2lilypondOptionsHandler
