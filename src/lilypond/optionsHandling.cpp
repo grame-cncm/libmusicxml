@@ -1722,7 +1722,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
     fOptionsElementDescription;
 
   printOptionsElementNamesBetweenParentheses (os);
-  
+  /* JMI
   if (
     fOptionsElementShortName.size ()
         &&
@@ -1750,7 +1750,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       ")";
     }
   }
-
+*/
   os <<
     ":" <<
     endl;
