@@ -90,6 +90,13 @@ class EXP lpsrOptions : public msrOptionsGroup
  
   public:
 
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkLpsrOptionsConsistency () const;
+
+  public:
+
     // trace and display
     // --------------------------------------
     

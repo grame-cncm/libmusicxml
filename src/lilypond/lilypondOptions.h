@@ -207,6 +207,13 @@ class EXP lilypondOptions : public msrOptionsGroup
  
   public:
 
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkLilypondOptionsConsistency () const;
+
+  public:
+
     // time
     // --------------------------------------
     

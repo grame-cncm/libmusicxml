@@ -213,7 +213,14 @@ class EXP generalOptions : public msrOptionsGroup
     generalOptions();
   
     virtual ~generalOptions();
- 
+
+  public:
+
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkGeneralOptionsConsistency () const;
+
   public:
 
     // command line
@@ -395,6 +402,7 @@ extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 */
 //______________________________________________________________________________
 void initializeGeneralOptions ();
+
 
 /*! @} */
 

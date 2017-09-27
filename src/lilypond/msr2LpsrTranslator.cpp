@@ -1631,7 +1631,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     fLastBarCheck =
       msrBarCheck::create (
         inputLineNumber);
-              
+
+           /* JMI   
   cerr <<
     endl <<
     idtr << "***********" <<
@@ -1643,6 +1644,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     idtr << "***********" <<
     endl <<
     endl;
+    */
 /* JMI
     // append it to the current voice clone
     fCurrentVoiceClone->
@@ -3272,6 +3274,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       "--> End visiting msrRepeatCommonPart" <<
       endl;
 
+           /* JMI   
   cerr <<
     endl <<
     idtr << "*********** fCurrentPartClone" <<
@@ -3283,6 +3286,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     idtr << "*********** fCurrentPartClone" <<
     endl <<
     endl;
+    */
 /* JMI
   cerr <<
     endl <<
@@ -3613,7 +3617,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       ", line " << inputLineNumber <<
       endl;
 
-
+           /* JMI   
   cerr <<
     endl <<
     idtr << "***********" <<
@@ -3625,6 +3629,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     idtr << "***********" <<
     endl <<
     endl;
+*/
 
   switch (elt->getBarlineCategory ()) {
     

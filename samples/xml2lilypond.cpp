@@ -209,7 +209,7 @@ void checkOptionUniqueness (
 }
 
 //_______________________________________________________________________________
-#define HEAVY 1
+#define HEAVY 0
 
 vector<string> analyzeOptionsAndArguments (
 S_xml2lilypondOptionsHandler
@@ -245,7 +245,7 @@ S_xml2lilypondOptionsHandler
   // handle the arguments 
   unsigned int nonOptionArgsNumber = argumentsVector.size ();
 
-  if (true || gGeneralOptions->fTraceGeneral) {    
+  if (gGeneralOptions->fTraceGeneral) {    
     if (nonOptionArgsNumber > 0) {
       cerr << idtr <<
         singularOrPluralWithoutNumber (
@@ -286,7 +286,8 @@ S_xml2lilypondOptionsHandler
       break;
 
     default:
-      optionsHandler->printHelpSummary (cerr);
+      optionsHandler->
+        printHelpSummary (cerr);
       break;
     } //  switch
 

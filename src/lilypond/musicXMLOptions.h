@@ -69,6 +69,13 @@ class EXP musicXMLOptions : public msrOptionsGroup
  
   public:
 
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkMusicXMLOptionsConsistency () const;
+
+  public:
+
     // print
     // ------------------------------------------------------
 

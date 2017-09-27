@@ -144,6 +144,13 @@ class EXP msrOptions : public msrOptionsGroup
  
   public:
 
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkMsrOptionsConsistency () const;
+
+  public:
+
     // trace and display
     // --------------------------------------
     

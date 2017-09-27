@@ -824,8 +824,9 @@ void msrOptionsStringItem::printOptionsValues (
     idtr <<
       setw(valueFieldWidth) <<
       fOptionsStringItemVariableDisplayName <<
-      " : " <<
+      " : \"" <<
       fOptionsStringItemVariable <<
+      "\"" <<
       endl;
 }
 
@@ -1408,13 +1409,16 @@ void msrOptionsPartRenameItem::printOptionsValues (
     idtr <<
       setw(valueFieldWidth) <<
       fOptionsPartRenameItemVariableDisplayName <<
-      " : " <<
-      endl;
+      " : ";
       
   if (! fOptionsPartRenameItemVariable.size ()) {
     os << "none";
   }
   else {
+    os <<
+      endl <<
+      idtr;
+      
     map<string, string>::const_iterator
       iBegin = fOptionsPartRenameItemVariable.begin(),
       iEnd   = fOptionsPartRenameItemVariable.end(),
@@ -1588,6 +1592,17 @@ void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
       registerOptionsItemInHandler (
         optionsHandler);
   } // for
+}
+
+void msrOptionsSubGroup::appendOptionsItem (
+  S_msrOptionsItem optionsItem)
+{
+  fOptionsSubGroupItemsList.push_back (
+    optionsItem);
+
+  // set options item subgroup uplink
+  optionsItem->
+    setOptionsSubGroupUplink (this);
 }
 
 S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
@@ -1888,6 +1903,10 @@ void  msrOptionsGroup::appendOptionsSubGroup (
 {
   fOptionsGroupSubGroupsList.push_back (
     optionsSubGroup);
+
+  // set options subgroup group uplink
+  optionsSubGroup->
+    setOptionsGroupUplink (this);
 }
 
 S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
@@ -2670,7 +2689,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
 
   if (TRACE_OPTIONS) {
     // print the arguments vector
-    int argumentsVectorSize =
+    unsigned int argumentsVectorSize =
       fArgumentsVector.size ();
       
     cerr << idtr <<
@@ -3288,7 +3307,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       regex_match (theString, sm, e);
 
-      if (false) {
+      if (TRACE_OPTIONS) {
         cerr <<
           "There are " << sm.size() << " matches" <<
           " for string '" << theString <<

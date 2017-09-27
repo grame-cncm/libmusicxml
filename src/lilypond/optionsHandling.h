@@ -1015,11 +1015,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
                             S_msrOptionsHandler optionsHandler);
 
     void                  appendOptionsItem (
-                            S_msrOptionsItem optionsItem)
-                              {
-                                fOptionsSubGroupItemsList.push_back (
-                                  optionsItem);
-                              }
+                            S_msrOptionsItem optionsItem);
 
     S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
