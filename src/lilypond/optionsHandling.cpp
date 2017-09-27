@@ -79,6 +79,39 @@ S_msrOptionsElement msrOptionsElement::fetchOptionElement (
   return result;
 }
 
+void msrOptionsElement::printOptionsElementNamesBetweenParentheses (
+  ostream& os) const
+{
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      os <<
+        " (" <<
+        "-" << fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName <<
+        ")";
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementShortName <<
+      ")";
+    }
+    if (fOptionsElementLongName.size ()) {
+      os <<
+      " (" <<
+      "-" << fOptionsElementLongName <<
+      ")";
+    }
+  }
+}
+
+
 void msrOptionsElement::printHeader (ostream& os) const
 {
   os <<
@@ -1688,6 +1721,8 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   os << idtr <<
     fOptionsElementDescription;
 
+  printOptionsElementNamesBetweenParentheses (os);
+  
   if (
     fOptionsElementShortName.size ()
         &&
@@ -1941,7 +1976,7 @@ void msrOptionsGroup::print (ostream& os) const
 
   idtr++;
 
-  os <<
+  os << left <<
     idtr <<
       setw(fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
