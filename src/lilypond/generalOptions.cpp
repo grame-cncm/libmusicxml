@@ -278,7 +278,6 @@ R"(Specific trace about elements)"
 R"(divisions)",
           "traceDivisions",
           fTraceDivisions));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -287,7 +286,6 @@ R"(divisions)",
 R"(part groups)",
           "tracePartGroups",
           fTracePartGroups));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -296,7 +294,6 @@ R"(part groups)",
 R"(parts)",
           "traceParts",
           fTraceParts));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -305,7 +302,6 @@ R"(parts)",
 R"(staves)",
           "traceStaves",
           fTraceStaves));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -314,7 +310,6 @@ R"(staves)",
 R"(clefs)",
           "traceClefs",
           fTraceClefs));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -323,7 +318,6 @@ R"(clefs)",
 R"(keys)",
           "traceKeys",
           fTraceKeys));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -332,7 +326,6 @@ R"(keys)",
 R"(times)",
           "traceTimes",
           fTraceTimes));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -341,7 +334,6 @@ R"(times)",
 R"(transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
           "traceTranspositions",
           fTraceTranspositions));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -350,7 +342,6 @@ R"(transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
 R"(voices segments)",
           "traceSegments",
           fTraceSegments));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -359,7 +350,6 @@ R"(voices segments)",
 R"(repeats)",
           "traceRepeats",
           fTraceRepeats));
-  }
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -368,6 +358,110 @@ R"(repeats)",
 R"(measures)",
           "traceMeasures",
           fTraceMeasures));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tnotes", "traceNotes",
+R"(notes)",
+          "traceNotes",
+          fTraceNotes));
+          
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tndetails", "traceNotesDetails",
+R"(notes with more details, including divisions handling (quite verbose))",
+          "traceNotesDetails",
+          fTraceNotesDetails));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tbeams", "traceBeams",
+R"(beams)",
+          "traceBeams",
+          fTraceBeams));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ttechs", "traceTechnicals",
+R"(technicals)",
+          "traceTechnicals",
+          fTraceTechnicals));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "twords", "traceWords",
+R"(words)",
+          "traceWords",
+          fTraceWords));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ttrems", "traceTremolos",
+R"(tremolos)",
+          "traceTremolos",
+          fTraceTremolos));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tchords", "traceChords",
+R"(chords)",
+          "traceChords",
+          fTraceChords));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ttups", "traceTuplets",
+R"(tuplets)",
+          "traceTuplets",
+          fTraceTuplets));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tgraces", "traceGraceNotes",
+R"(grace notes)",
+          "traceGraceNotes",
+          fTraceGraceNotes));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tlyrics", "traceLyrics",
+R"(lyrics in MusicXML, stanzas in MSR)",
+          "traceLyrics",
+          fTraceLyrics));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tharms", "traceHarmonies",
+R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
+          "traceHarmonies",
+          fTraceHarmonies));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tfigbass", "traceFiguredBass",
+R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
+          "traceFiguredBass",
+          fTraceFiguredBass));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tcredits", "traceCredits",
+R"(credits)",
+          "traceCredits",
+          fTraceCredits));
   }
       
 
